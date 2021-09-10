@@ -716,169 +716,156 @@ void RefreshTrashThread::runDetail()
     }
 }
 
-ImageEngineThread::ImageEngineThread()
-{
-    m_imgobject.clear();
-    setAutoDelete(false);
-}
+//ImageEngineThread::ImageEngineThread()
+//{
+//    m_imgobject.clear();
+//    setAutoDelete(false);
+//}
 
-ImageEngineThread::~ImageEngineThread()
-{
-}
+//ImageEngineThread::~ImageEngineThread()
+//{
+//}
 
-void ImageEngineThread::setData(QString &path, ImageEngineObject *imgobject, ImageDataSt &data, bool needcache)
-{
-    m_path = path;
-    m_imgobject << imgobject;
-    m_data = data;
-    bneedcache = needcache;
-}
+//void ImageEngineThread::setData(QString &path, ImageEngineObject *imgobject, ImageDataSt &data, bool needcache)
+//{
+//    m_path = path;
+//    m_imgobject << imgobject;
+//    m_data = data;
+//    bneedcache = needcache;
+//}
 
-bool ImageEngineThread::ifCanStopThread(void *imgobject)
-{
-    if (nullptr != imgobject && ImageEngineApi::instance()->ifObjectExist(imgobject))
-        static_cast<ImageEngineObject *>(imgobject)->removeThread(this);
-    m_imgobject.removeOne(static_cast<ImageEngineObject *>(imgobject));
-    if (m_imgobject.size() < 1) {
-        bneedstop = true;
-        return true;
-    }
-    return false;
-}
+//bool ImageEngineThread::ifCanStopThread(void *imgobject)
+//{
+//    if (nullptr != imgobject && ImageEngineApi::instance()->ifObjectExist(imgobject))
+//        static_cast<ImageEngineObject *>(imgobject)->removeThread(this);
+//    m_imgobject.removeOne(static_cast<ImageEngineObject *>(imgobject));
+//    if (m_imgobject.size() < 1) {
+//        bneedstop = true;
+//        return true;
+//    }
+//    return false;
+//}
 
-bool ImageEngineThread::getNeedStop()
-{
-    return bneedstop;
-//    if (!bneedstop) {
+//bool ImageEngineThread::getNeedStop()
+//{
+//    return bneedstop;
+//}
+
+//bool ImageEngineThread::addObject(ImageEngineObject *imgobject)
+//{
+//    if (baborted) {
+//        baborted = false;
+//        QMutexLocker mutex(&m_mutex);
+//        m_imgobject << imgobject;
 //        return false;
 //    }
-//    baborted = true;
-//    bneedstop = false;
-//    emit sigAborted(m_path);
-//    while (!bneedstop) {
-//        QThread::msleep(50);
-//    }
-//    if (!baborted) {
+//    if (bneedstop) {
 //        bneedstop = false;
-//        return false;
+//    }
+//    if (!bwaitstop) {
+//        QMutexLocker mutex(&m_mutex);
+//        m_imgobject << imgobject;
+//    } else {
+//        imgobject->removeThread(this);
+//        emit sigImageLoaded(imgobject, m_path, m_data);
 //    }
 //    return true;
-}
-
-bool ImageEngineThread::addObject(ImageEngineObject *imgobject)
-{
-    if (baborted) {
-        baborted = false;
-        QMutexLocker mutex(&m_mutex);
-        m_imgobject << imgobject;
-        return false;
-    }
-    if (bneedstop) {
-        bneedstop = false;
-    }
-    if (!bwaitstop) {
-        QMutexLocker mutex(&m_mutex);
-        m_imgobject << imgobject;
-    } else {
-        imgobject->removeThread(this);
-        emit sigImageLoaded(imgobject, m_path, m_data);
-    }
-    return true;
-}
+//}
 
 //载入QPixmap
-void ImageEngineThread::runDetail()
-{
-    if (getNeedStop())
-        return;
-    if (!QFileInfo(m_path).exists()) {
-        emit sigAborted(m_path);
-        return;
-    }
-
-    using namespace UnionImage_NameSpace;
-    QImage tImg;
-    QString path = m_path;
-    QFileInfo file(albumGlobal::CACHE_PATH + m_path);
-    QString errMsg;
-    QString dimension;
-    QFileInfo srcfi(m_path);
-    if (m_data.imgpixmap.isNull()) {
-        bool cache_exist = false;
-        if (file.exists()) {
-            QDateTime cachetime = file.metadataChangeTime();    //缓存修改时间
-            QDateTime srctime = srcfi.metadataChangeTime();     //源数据修改时间
-            if (srctime.toTime_t() > cachetime.toTime_t()) {  //源文件近期修改过，重新生成缓存文件
-                cache_exist = false;
-                breloadCache = true;
-                path = m_path;
-                if (!loadStaticImageFromFile(path, tImg, errMsg)) {
-                    qDebug() << errMsg;
-                }
-                dimension = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
-            } else {
-                cache_exist = true;
-                path = albumGlobal::CACHE_PATH + m_path;
-                if (!loadStaticImageFromFile(path, tImg, errMsg, "PNG")) {
-                    qDebug() << errMsg;
-                }
-            }
-        } else {
-            if (!loadStaticImageFromFile(path, tImg, errMsg)) {
-                qDebug() << errMsg;
-            }
-            dimension = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
-        }
-        if (getNeedStop())
-            return;
-
-        if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
-            if (tImg.height() != 140 && tImg.width() != 140) {
-                if (tImg.height() >= tImg.width()) {
-                    cache_exist = true;
-                    tImg = tImg.scaledToWidth(140,  Qt::FastTransformation);
-                } else if (tImg.height() <= tImg.width()) {
-                    cache_exist = true;
-                    tImg = tImg.scaledToHeight(140,  Qt::FastTransformation);
-                }
-            }
-            if (!cache_exist) {
-                if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
-                    tImg = tImg.scaledToWidth(140,  Qt::FastTransformation);
-                } else {
-                    tImg = tImg.scaledToHeight(140,  Qt::FastTransformation);
-                }
-            }
-        }
-        if (breloadCache) { //更新缓存文件
-            QString spath = albumGlobal::CACHE_PATH + m_path;
-            utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
-            tImg.save(spath, "PNG");
-        }
-
-        QPixmap pixmap = QPixmap::fromImage(tImg);
-        m_data.imgpixmap = pixmap;
-    }
-    DBImgInfo dbi = getDBInfo(m_path);
-    if (!dimension.isEmpty()) {
-        dbi.albumSize = dimension;
-    }
-    m_data.dbi = dbi;
-    m_data.loaded = ImageLoadStatu_Loaded;
-    if (getNeedStop()) {
-        return;
-    }
-    bwaitstop = true;
-    QMutexLocker mutex(&m_mutex);
-    for (ImageEngineObject *imgobject : m_imgobject) {
-        imgobject->removeThread(this);
-        emit sigImageLoaded(imgobject, m_path, m_data);
-    }
-    //这个代码不可注释，是线程池线程自我释放的检测，调小检测时间可以提高执行速度
-//    while (!bneedstop && !ImageEngineApi::instance()->closeFg()) {
-//        QThread::msleep(100);
+//void ImageEngineThread::runDetail()
+//{
+//    if (getNeedStop())
+//        return;
+//    if (!QFileInfo(m_path).exists()) {
+//        emit sigAborted(m_path);
+//        return;
 //    }
-}
+
+//    using namespace UnionImage_NameSpace;
+//    QImage tImg;
+//    QString path = m_path;
+//    QFileInfo file(albumGlobal::CACHE_PATH + m_path);
+//    QString errMsg;
+//    QString dimension;
+//    QFileInfo srcfi(m_path);
+//    if (m_data.imgpixmap.isNull()) {
+//        bool cache_exist = false;
+//        if (file.exists()) {
+//            QDateTime cachetime = file.metadataChangeTime();    //缓存修改时间
+//            QDateTime srctime = srcfi.metadataChangeTime();     //源数据修改时间
+//            if (srctime.toTime_t() > cachetime.toTime_t()) {  //源文件近期修改过，重新生成缓存文件
+//                cache_exist = false;
+//                breloadCache = true;
+//                path = m_path;
+//                if (!loadStaticImageFromFile(path, tImg, errMsg)) {
+//                    qDebug() << errMsg;
+//                }
+//                dimension = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
+//            } else {
+//                cache_exist = true;
+//                path = albumGlobal::CACHE_PATH + m_path;
+//                if (!loadStaticImageFromFile(path, tImg, errMsg, "PNG")) {
+//                    qDebug() << errMsg;
+//                }
+//            }
+//        } else {
+//            if (!loadStaticImageFromFile(path, tImg, errMsg)) {
+//                qDebug() << errMsg;
+//            }
+//            dimension = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
+//        }
+//        if (getNeedStop())
+//            return;
+
+//        if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
+//            if (tImg.height() != 140 && tImg.width() != 140) {
+//                if (tImg.height() >= tImg.width()) {
+//                    cache_exist = true;
+//                    tImg = tImg.scaledToWidth(140,  Qt::FastTransformation);
+//                } else if (tImg.height() <= tImg.width()) {
+//                    cache_exist = true;
+//                    tImg = tImg.scaledToHeight(140,  Qt::FastTransformation);
+//                }
+//            }
+//            if (!cache_exist) {
+//                if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
+//                    tImg = tImg.scaledToWidth(140,  Qt::FastTransformation);
+//                } else {
+//                    tImg = tImg.scaledToHeight(140,  Qt::FastTransformation);
+//                }
+//            }
+//        }
+//        if (breloadCache) { //更新缓存文件
+//            QString spath = albumGlobal::CACHE_PATH + m_path;
+//            utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
+//            tImg.save(spath, "PNG");
+//        }
+
+////        QPixmap pixmap = QPixmap::fromImage(tImg);
+////        m_data.imgpixmap = pixmap;
+//        ImageDataService::instance()->addImage(m_path, tImg);
+//    }
+//    DBImgInfo dbi = getDBInfo(m_path);
+//    if (!dimension.isEmpty()) {
+//        dbi.albumSize = dimension;
+//    }
+//    m_data.dbi = dbi;
+////    m_data.loaded = ImageLoadStatu_Loaded;
+//    if (getNeedStop()) {
+//        return;
+//    }
+//    bwaitstop = true;
+//    QMutexLocker mutex(&m_mutex);
+//    for (ImageEngineObject *imgobject : m_imgobject) {
+//        imgobject->removeThread(this);
+//        emit sigImageLoaded(imgobject, m_path, m_data);
+//    }
+//    //这个代码不可注释，是线程池线程自我释放的检测，调小检测时间可以提高执行速度
+////    while (!bneedstop && !ImageEngineApi::instance()->closeFg()) {
+////        QThread::msleep(100);
+////    }
+//}
 
 ImageFromNewAppThread::ImageFromNewAppThread()
 {
@@ -1075,12 +1062,10 @@ void ImageEngineBackThread::runDetail()
             }
         }
 
-        QPixmap pixmap = QPixmap::fromImage(tImg);
-        m_data.imgpixmap = pixmap;
+        ImageDataService::instance()->addImage(path, tImg);
         if (bbackstop || ImageEngineApi::instance()->closeFg())
             return;
         m_data.dbi = getDBInfo(temppath);
-        m_data.loaded = ImageLoadStatu_Loaded;
 
         if (bbackstop || ImageEngineApi::instance()->closeFg()) {
             return;

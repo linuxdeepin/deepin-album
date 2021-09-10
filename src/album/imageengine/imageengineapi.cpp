@@ -140,8 +140,6 @@ bool ImageEngineApi::insertImage(const QString &imagepath, const QString &remain
         data = m_AllImageData[imagepath];
     }
 
-    if (!remainDay.isEmpty())
-        data.remainDays = remainDay;
     if (reLoadIsvideo) {
         bool isVideo = utils::base::isVideo(imagepath);
         if (isVideo) {
@@ -154,18 +152,10 @@ bool ImageEngineApi::insertImage(const QString &imagepath, const QString &remain
     return true;
 }
 
-void ImageEngineApi::sltInsert(const QStringList &imagepaths, const QString &remainDay)
-{
-    foreach (QString path, imagepaths) {
-        insertImage(path, remainDay);
-    }
-}
-
 bool ImageEngineApi::updateImageDataPixmap(QString imagepath, QPixmap &pix)
 {
     ImageDataSt data;
     if (getImageData(imagepath, data)) {
-        data.imgpixmap = pix;
         addImageData(imagepath, data);
 
         QFileInfo file(albumGlobal::CACHE_PATH + imagepath);

@@ -169,34 +169,34 @@ private:
     DBImgInfoList m_fileinfolist;
 };
 
-class ImageEngineThread : public ImageEngineThreadObject
-{
-    Q_OBJECT
-public:
-    ImageEngineThread();
-    ~ImageEngineThread() override;
-    void setData(QString &path, ImageEngineObject *imgobject, ImageDataSt &data, bool needcache = true);
-    bool addObject(ImageEngineObject *imgobject);
+//class ImageEngineThread : public ImageEngineThreadObject
+//{
+//    Q_OBJECT
+//public:
+//    ImageEngineThread();
+//    ~ImageEngineThread() override;
+//    void setData(QString &path, ImageEngineObject *imgobject, ImageDataSt &data, bool needcache = true);
+//    bool addObject(ImageEngineObject *imgobject);
 
-protected:
-    bool ifCanStopThread(void *imgobject) override;
-    void runDetail() override;
+//protected:
+//    bool ifCanStopThread(void *imgobject) override;
+//    void runDetail() override;
 
-signals:
-    void sigImageLoaded(void *imgobject, QString path, ImageDataSt &data);
-    void sigAborted(const QString &path);
-private:
-    bool getNeedStop();
-    QString m_path = "";
-    QList<ImageEngineObject *>m_imgobject;
-    ImageDataSt m_data;
-    QMutex m_mutex;
-    bool bwaitstop = false;
-    bool bneedcache = true;
-    bool baborted = false;
+//signals:
+//    void sigImageLoaded(void *imgobject, QString path, ImageDataSt &data);
+//    void sigAborted(const QString &path);
+//private:
+//    bool getNeedStop();
+//    QString m_path = "";
+//    QList<ImageEngineObject *>m_imgobject;
+//    ImageDataSt m_data;
+//    QMutex m_mutex;
+//    bool bwaitstop = false;
+//    bool bneedcache = true;
+//    bool baborted = false;
 
-    bool breloadCache = false;      //重新生成缓存
-};
+//    bool breloadCache = false;      //重新生成缓存
+//};
 
 //通过参数启动载入图像的线程
 class ImageFromNewAppThread : public ImageEngineThreadObject

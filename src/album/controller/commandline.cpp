@@ -190,9 +190,7 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
         }
         QPixmap pixmap = QPixmap::fromImage(tImg);
         ImageDataSt pdata;
-        pdata.imgpixmap = pixmap;
         pdata.dbi = getDBInfo(path, utils::base::isVideo(path));
-        pdata.loaded = ImageLoadStatu_Loaded;
         if (breloadCache) { //更新缓存文件
             QString spath = albumGlobal::CACHE_PATH + path;
             utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));

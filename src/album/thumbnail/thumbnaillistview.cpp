@@ -441,38 +441,6 @@ void ThumbnailListView::initConnections()
             this, &ThumbnailListView::sltReloadAfterFilterEnd);
 }
 
-void ThumbnailListView::updateThumbnailView(QString updatePath)
-{
-    for (int i = 0; i < m_model->rowCount(); i++) {
-        QModelIndex index = m_model->index(i, 0);
-        DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
-        if (info.filePath == updatePath) {  //需要旋转的图片
-            ImageDataSt data;
-            ImageEngineApi::instance()->getImageData(updatePath, data);
-            if (data.imgpixmap.isNull()) {
-                info.bNotSupportedOrDamaged = true;
-                info.damagedPixmap = getDamagedPixmap();
-            }
-            info.fileName = data.dbi.fileName;
-            info.filePath = data.dbi.filePath;
-            info.image = data.imgpixmap;
-            info.remainDays = data.remainDays;
-            info.itemType = data.dbi.itemType;
-            info.videoDuration = data.dbi.videoDuration;
-
-            QVariant infoVariant;
-            infoVariant.setValue(info);
-
-            m_model->setData(index, infoVariant, Qt::DisplayRole);
-            m_model->setData(index, QVariant(QSize(info.imgWidth, info.imgWidth)), Qt::SizeHintRole);
-            QStringList albumNames = ImageEngineApi::instance()->getImgPathAndAlbumNames().values(info.filePath);
-            m_model->setData(index, QVariant(albumNames), Qt::UserRole + 2);
-            break;//更新完数据以后，应跳出循环
-        }
-    }
-    this->setSpacing(ITEM_SPACING);
-}
-
 void ThumbnailListView::insertThumbnail(const DBImgInfo &dBImgInfo)
 {
     DBImgInfo info = dBImgInfo;
@@ -1103,7 +1071,6 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
     DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, str, AlbumDBType::Favourite);
     emit dApp->signalM->updateFavoriteNum();
     m_model->removeRow(index.row());
-    updateThumbnailView();
 }
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
@@ -1616,11 +1583,15 @@ void ThumbnailListView::resetBlankItemHeight(int height)
 
 void ThumbnailListView::insertThumbnailByImgInfos(DBImgInfoList infoList)
 {
+    QDateTime currentTime = QDateTime::currentDateTime();
     for (int i = 0; i < infoList.size(); ++i) {
         DBImgInfo imgData = infoList.at(i);
         DBImgInfo info = imgData;
         info.imgWidth = m_onePicWidth;
         info.imgHeight = m_onePicWidth;
+        if (m_delegatetype == ThumbnailDelegate::AlbumViewTrashType) {
+            info.remainDays = QString::number(30 - utils::base::daysDifferenceBetweenTime(info.importTime, currentTime)) + tr("days");
+        }
         insertThumbnail(info);
     }
     //如果不是显示全部，则重新过滤显示
@@ -1917,13 +1888,6 @@ void ThumbnailListView::slotLoadFirstPageThumbnailsFinish()
     for (int i = 0; i < ImageEngineApi::instance()->m_FirstPageScreen && i < size; i++) {
         ImageDataSt data = ImageEngineApi::instance()->m_AllImageDataVector[i];
         DBImgInfo info = data.dbi;
-        if (data.imgpixmap.isNull()) {
-            info.bNotSupportedOrDamaged = true;
-            info.damagedPixmap = getDamagedPixmap();
-        }
-        info.image = data.imgpixmap;
-//        ImageEngineApi::instance()->m_AllImageData[info.filePath].imgpixmap = info.image;
-        info.remainDays = data.remainDays;
         info.imgWidth = m_onePicWidth;
         info.imgHeight = m_onePicWidth;
         info.itemType = data.dbi.itemType;

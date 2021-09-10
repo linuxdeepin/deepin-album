@@ -54,6 +54,8 @@
 #include <DRecentManager>
 #include <DWidgetUtil>
 
+#include "imagedataservice.h"
+
 using namespace Dtk::Core;
 using namespace Dtk::Widget;
 
@@ -464,8 +466,8 @@ void ViewPanel::onFileDelete()
     m_viewB->setImage(m_currentpath);    //设置当前显示图片
     if (!QFileInfo(m_currentpath).exists()) {
         ImageDataSt data;
-        if (ImageEngineApi::instance()->getImageData(m_currentpath, data))
-            m_emptyWidget->setThumbnailImage(/*dApp->m_imagemap.value(path)*/data.imgpixmap);
+        QImage img = ImageDataService::instance()->getThumnailImageByPath(m_currentpath);
+        m_emptyWidget->setThumbnailImage(QPixmap::fromImage(img));
         m_stack->setCurrentIndex(1);
     }
 }
@@ -681,10 +683,9 @@ void ViewPanel::openImage(const QString &path, bool bjudge)
     //m_ttbc->setButtonDisabled(!QFileInfo(path).exists());
     updateMenuContent();
     if (!QFileInfo(path).exists()) {
-//        m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
         ImageDataSt data;
-        if (ImageEngineApi::instance()->getImageData(path, data))
-            m_emptyWidget->setThumbnailImage(/*dApp->m_imagemap.value(path)*/data.imgpixmap);
+        QImage img = ImageDataService::instance()->getThumnailImageByPath(path);
+        m_emptyWidget->setThumbnailImage(QPixmap::fromImage(img));
         m_stack->setCurrentIndex(1);
     } else if (!QFileInfo(path).isReadable()) {
         m_stack->setCurrentIndex(2);

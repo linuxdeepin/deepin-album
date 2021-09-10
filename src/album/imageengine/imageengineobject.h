@@ -31,24 +31,8 @@
 
 class ImageEngineThreadObject;
 
-enum ImageLoadStatu {
-    ImageLoadStatu_False,
-    ImageLoadStatu_BeLoading,
-    ImageLoadStatu_Loaded,
-    ImageLoadStatu_PreLoaded
-};
-
 struct ImageDataSt {
-    QPixmap imgpixmap;
     DBImgInfo dbi;
-    ImageLoadStatu loaded;
-    ImageEngineThreadObject *thread;
-    QString remainDays = "30天";
-    ImageDataSt()
-    {
-        loaded = ImageLoadStatu_False;
-        thread = nullptr;
-    }
 };
 
 //这里将QRunnable继承转移到这里，方便将run函数的实现也转移过来

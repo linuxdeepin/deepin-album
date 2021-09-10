@@ -224,7 +224,6 @@ public slots:
     //设置所有选择按钮是否可见
     void slotChangeAllSelectBtnVisible(bool visible);//1050
 public:
-    void updateThumbnailView(QString updatePath = "");
     // zy 新算法
     void cutPixmap(DBImgInfo &DBImgInfo);
     // 响应时间线悬浮栏的按钮选中操作
