@@ -582,6 +582,58 @@ TEST(MainWindow, allpicture)
     ASSERT_TRUE(w != nullptr);
 }
 
+TEST(MainWindow, videoInfo)
+{
+    TEST_CASE_NAME("load")
+    MainWindow *w = dApp->getMainWindow();
+
+    AllPicView *allpicview = w->m_pAllPicView;
+
+    QTestEventList event;
+    event.addMouseClick(Qt::MouseButton::LeftButton);
+    event.simulate(w->getButG()->button(0));
+    event.clear();
+    QTest::qWait(300);
+
+    QModelIndex index;
+    for (int i = 0; i < allpicview->getThumbnailListView()->m_model->rowCount(); i++) {
+        index = allpicview->getThumbnailListView()->m_model->index(i, 0);
+        DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+        if (data.itemType == ItemType::ItemTypeVideo) {
+            qDebug() << __FUNCTION__ << "---1111111111";
+            break;
+        }
+    }
+    QRect videoItem = allpicview->getThumbnailListView()->visualRect(index);
+
+    QTest::qWait(200);
+    QPoint p1(videoItem.x() + 10, videoItem.y() + 10);
+    event.addMouseMove(p1);
+    event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
+    event.simulate(allpicview->m_pThumbnailListView->viewport());
+    QTest::qWait(1000);
+    event.clear();
+
+    //------右键菜单start---------
+    QTestEventList e;
+    auto menu = runContextMenu(allpicview->m_pThumbnailListView->viewport(), p1);
+    using TR_SUBORDINATE_t = PointerTypeGetter < decltype(allpicview->m_pThumbnailListView) >::type;
+
+    //照片信息14
+    runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Video info"));
+
+    QList<QWidget *> lis =  dApp->getDAppNew()->topLevelWidgets();
+    auto iter = lis.cbegin();
+    while (iter != lis.cend()) {
+        if ((*iter)->objectName() == "VideoInfoDialog") {
+            (*iter)->hide();
+            break;
+        }
+        ++iter;
+    }
+    //------右键菜单end---------
+}
+
 TEST(MainWindow, viewpanelmenu)
 {
     TEST_CASE_NAME("viewpanelmenu")
@@ -637,12 +689,7 @@ TEST(MainWindow, viewpanelmenu)
 
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Copy"));
 
-    runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Unfavorite"));
-    //收藏
-    e.addKeyClick(Qt::Key_Period, Qt::NoModifier, 50);
-    e.simulate(wid->m_viewPanel->m_viewB->viewport());
-    e.clear();
-    QTest::qWait(400);
+//    runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Unfavorite"));
 
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Rotate clockwise"));
     QTest::qWait(1500);
@@ -864,7 +911,7 @@ TEST(MainWindow, timelineview)
 
 TEST(MainWindow, AlbumView)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("AlbumView")
     MainWindow *w = dApp->getMainWindow();
     AlbumView *albumview = w->m_pAlbumview;
 
