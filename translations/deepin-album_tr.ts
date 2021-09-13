@@ -254,13 +254,6 @@
     </message>
 </context>
 <context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation>gün</translation>
-    </message>
-</context>
-<context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
@@ -976,7 +969,11 @@
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation>Video bilgisi</translation>
+    </message>
+    <message>
+        <source>days</source>
+        <translation>gün</translation>
     </message>
 </context>
 <context>
@@ -1021,59 +1018,59 @@
     </message>
     <message>
         <source>Codec info</source>
-        <translation type="unfinished"/>
+        <translation>Codec bilgisi</translation>
     </message>
     <message>
         <source>Audio info</source>
-        <translation type="unfinished"/>
+        <translation>Ses bilgisi</translation>
     </message>
     <message>
         <source>Video CodecID</source>
-        <translation type="unfinished"/>
+        <translation>Video Kodek Kimliği</translation>
     </message>
     <message>
         <source>Video CodeRate</source>
-        <translation type="unfinished"/>
+        <translation>Video Kodu Oranı</translation>
     </message>
     <message>
         <source>FPS</source>
-        <translation type="unfinished"/>
+        <translation>FPS</translation>
     </message>
     <message>
         <source>Proportion</source>
-        <translation type="unfinished"/>
+        <translation>Oran</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished"/>
+        <translation>Çözünürlük</translation>
     </message>
     <message>
         <source>Audio CodecID</source>
-        <translation type="unfinished"/>
+        <translation>Ses Kodek Kimliği</translation>
     </message>
     <message>
         <source>Audio CodeRate</source>
-        <translation type="unfinished"/>
+        <translation>Ses Kodu Oranı</translation>
     </message>
     <message>
         <source>Audio digit</source>
-        <translation type="unfinished"/>
+        <translation>Ses basamağı</translation>
     </message>
     <message>
         <source>Channels</source>
-        <translation type="unfinished"/>
+        <translation>Kanallar</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="unfinished"/>
+        <translation>Kanal</translation>
     </message>
     <message>
         <source>Sampling</source>
-        <translation type="unfinished"/>
+        <translation>Örnekleme</translation>
     </message>
     <message>
         <source>Video name</source>
-        <translation type="unfinished"/>
+        <translation>Viideo adı</translation>
     </message>
     <message>
         <source>Date modified</source>
@@ -1089,15 +1086,15 @@
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"/>
+        <translation>Süre</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"/>
+        <translation>Yol</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation>Video bilgisi</translation>
     </message>
     <message>
         <source>Date captured</source>

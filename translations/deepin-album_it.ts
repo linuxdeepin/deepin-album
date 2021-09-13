@@ -254,13 +254,6 @@
     </message>
 </context>
 <context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation>giorni</translation>
-    </message>
-</context>
-<context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
@@ -977,7 +970,11 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation>Video info</translation>
+    </message>
+    <message>
+        <source>days</source>
+        <translation>giorni</translation>
     </message>
 </context>
 <context>
@@ -1022,59 +1019,59 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     </message>
     <message>
         <source>Codec info</source>
-        <translation type="unfinished"/>
+        <translation>Codec info</translation>
     </message>
     <message>
         <source>Audio info</source>
-        <translation type="unfinished"/>
+        <translation>Audio info</translation>
     </message>
     <message>
         <source>Video CodecID</source>
-        <translation type="unfinished"/>
+        <translation>Video CodecID</translation>
     </message>
     <message>
         <source>Video CodeRate</source>
-        <translation type="unfinished"/>
+        <translation>Video CodeRate</translation>
     </message>
     <message>
         <source>FPS</source>
-        <translation type="unfinished"/>
+        <translation>FPS</translation>
     </message>
     <message>
         <source>Proportion</source>
-        <translation type="unfinished"/>
+        <translation>Proporzione</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished"/>
+        <translation>Risoluzione</translation>
     </message>
     <message>
         <source>Audio CodecID</source>
-        <translation type="unfinished"/>
+        <translation>Audio CodecID</translation>
     </message>
     <message>
         <source>Audio CodeRate</source>
-        <translation type="unfinished"/>
+        <translation>Audio CodeRate</translation>
     </message>
     <message>
         <source>Audio digit</source>
-        <translation type="unfinished"/>
+        <translation>Audio digit</translation>
     </message>
     <message>
         <source>Channels</source>
-        <translation type="unfinished"/>
+        <translation>Canali</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="unfinished"/>
+        <translation>Canale</translation>
     </message>
     <message>
         <source>Sampling</source>
-        <translation type="unfinished"/>
+        <translation>Campionamento</translation>
     </message>
     <message>
         <source>Video name</source>
-        <translation type="unfinished"/>
+        <translation>Nome video</translation>
     </message>
     <message>
         <source>Date modified</source>
@@ -1090,15 +1087,15 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"/>
+        <translation>Durata</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"/>
+        <translation>Percorso</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation>Video info</translation>
     </message>
     <message>
         <source>Date captured</source>

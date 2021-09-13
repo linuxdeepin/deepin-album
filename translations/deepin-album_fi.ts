@@ -254,13 +254,6 @@
     </message>
 </context>
 <context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation>päivää</translation>
-    </message>
-</context>
-<context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
@@ -976,7 +969,11 @@
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation>Videon tiedot</translation>
+    </message>
+    <message>
+        <source>days</source>
+        <translation>päivää</translation>
     </message>
 </context>
 <context>
@@ -1021,59 +1018,59 @@
     </message>
     <message>
         <source>Codec info</source>
-        <translation type="unfinished"/>
+        <translation>Koodekin tiedot</translation>
     </message>
     <message>
         <source>Audio info</source>
-        <translation type="unfinished"/>
+        <translation>Äänen tiedot</translation>
     </message>
     <message>
         <source>Video CodecID</source>
-        <translation type="unfinished"/>
+        <translation>Videokoodekin tunnus</translation>
     </message>
     <message>
         <source>Video CodeRate</source>
-        <translation type="unfinished"/>
+        <translation>Videokoodekin nopeus</translation>
     </message>
     <message>
         <source>FPS</source>
-        <translation type="unfinished"/>
+        <translation>FPS</translation>
     </message>
     <message>
         <source>Proportion</source>
-        <translation type="unfinished"/>
+        <translation>Mittasuhde</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished"/>
+        <translation>Resoluutio</translation>
     </message>
     <message>
         <source>Audio CodecID</source>
-        <translation type="unfinished"/>
+        <translation>Äänikoodekin tunnus</translation>
     </message>
     <message>
         <source>Audio CodeRate</source>
-        <translation type="unfinished"/>
+        <translation>Äänikoodekin nopeus</translation>
     </message>
     <message>
         <source>Audio digit</source>
-        <translation type="unfinished"/>
+        <translation>Ääni nro</translation>
     </message>
     <message>
         <source>Channels</source>
-        <translation type="unfinished"/>
+        <translation>Kanavat</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="unfinished"/>
+        <translation>Kanava</translation>
     </message>
     <message>
         <source>Sampling</source>
-        <translation type="unfinished"/>
+        <translation>Näytteenotto</translation>
     </message>
     <message>
         <source>Video name</source>
-        <translation type="unfinished"/>
+        <translation>Videon nimi</translation>
     </message>
     <message>
         <source>Date modified</source>
@@ -1089,15 +1086,15 @@
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"/>
+        <translation>Kesto</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"/>
+        <translation>Polku</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation>Videon tiedot</translation>
     </message>
     <message>
         <source>Date captured</source>

@@ -259,7 +259,7 @@
     <name>ImageLoadFromLocalThread</name>
     <message>
         <source>days</source>
-        <translation>الأيام</translation>
+        <translation type="vanished">الأيام</translation>
     </message>
 </context>
 <context>
@@ -1057,6 +1057,10 @@
     <message>
         <source>Video info</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>days</source>
+        <translation type="unfinished">الأيام</translation>
     </message>
 </context>
 <context>

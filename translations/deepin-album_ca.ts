@@ -254,13 +254,6 @@
     </message>
 </context>
 <context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation>dies</translation>
-    </message>
-</context>
-<context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
@@ -977,6 +970,10 @@
     <message>
         <source>Video info</source>
         <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>days</source>
+        <translation>dies</translation>
     </message>
 </context>
 <context>

@@ -254,13 +254,6 @@
     </message>
 </context>
 <context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation>ditë</translation>
-    </message>
-</context>
-<context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
@@ -976,7 +969,11 @@
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation>Hollësi videoje</translation>
+    </message>
+    <message>
+        <source>days</source>
+        <translation>ditë</translation>
     </message>
 </context>
 <context>
@@ -1021,39 +1018,39 @@
     </message>
     <message>
         <source>Codec info</source>
-        <translation type="unfinished"/>
+        <translation>Hollësi kodeku</translation>
     </message>
     <message>
         <source>Audio info</source>
-        <translation type="unfinished"/>
+        <translation>Hollësi audioje</translation>
     </message>
     <message>
         <source>Video CodecID</source>
-        <translation type="unfinished"/>
+        <translation>CodecID Videoje</translation>
     </message>
     <message>
         <source>Video CodeRate</source>
-        <translation type="unfinished"/>
+        <translation>CodeRate Videoje</translation>
     </message>
     <message>
         <source>FPS</source>
-        <translation type="unfinished"/>
+        <translation>KPS</translation>
     </message>
     <message>
         <source>Proportion</source>
-        <translation type="unfinished"/>
+        <translation>Përpjestim</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished"/>
+        <translation>Qartësi</translation>
     </message>
     <message>
         <source>Audio CodecID</source>
-        <translation type="unfinished"/>
+        <translation>CodecID Audioje</translation>
     </message>
     <message>
         <source>Audio CodeRate</source>
-        <translation type="unfinished"/>
+        <translation>CodeRate Audioje</translation>
     </message>
     <message>
         <source>Audio digit</source>
@@ -1061,11 +1058,11 @@
     </message>
     <message>
         <source>Channels</source>
-        <translation type="unfinished"/>
+        <translation>Kanale</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="unfinished"/>
+        <translation>Kanal</translation>
     </message>
     <message>
         <source>Sampling</source>
@@ -1073,7 +1070,7 @@
     </message>
     <message>
         <source>Video name</source>
-        <translation type="unfinished"/>
+        <translation>Emër videoje</translation>
     </message>
     <message>
         <source>Date modified</source>
@@ -1089,15 +1086,15 @@
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"/>
+        <translation>Kohëzgjatje</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"/>
+        <translation>Shteg</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation>Hollësi videoje</translation>
     </message>
     <message>
         <source>Date captured</source>

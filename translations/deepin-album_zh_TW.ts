@@ -254,13 +254,6 @@
     </message>
 </context>
 <context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation>天</translation>
-    </message>
-</context>
-<context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
@@ -564,7 +557,7 @@
     </message>
     <message>
         <source>Type</source>
-        <translation>類型</translation>
+        <translation>文件類型</translation>
     </message>
     <message>
         <source>File size</source>
@@ -978,6 +971,10 @@
         <source>Video info</source>
         <translation>影片訊息</translation>
     </message>
+    <message>
+        <source>days</source>
+        <translation>天</translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
@@ -1081,7 +1078,7 @@
     </message>
     <message>
         <source>Type</source>
-        <translation>類型</translation>
+        <translation>文件類型</translation>
     </message>
     <message>
         <source>File size</source>
