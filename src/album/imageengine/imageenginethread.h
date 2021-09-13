@@ -253,12 +253,12 @@ protected:
     void runDetail() override;
 
 signals:
-    void sigImageBackLoaded(QString path, const ImageDataSt &data);
+    void sigImageBackLoaded(QString path, const DBImgInfo &data);
 private slots:
     void onStartOrPause(bool pause);
 private:
     QStringList m_pathlist;
-    ImageDataSt m_data;
+    DBImgInfo m_data;
     QString m_devName;
 
     QWaitCondition  m_WatiCondition;

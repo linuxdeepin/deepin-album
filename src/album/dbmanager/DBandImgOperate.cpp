@@ -203,14 +203,14 @@ void DBandImgOperate::rotateImageFile(int angel, const QString &path)
     loadOneImgForce(path, true);
 }
 
-void DBandImgOperate::sltLoadThumbnailByNum(QVector<ImageDataSt> infos, int num)
+void DBandImgOperate::sltLoadThumbnailByNum(QVector<DBImgInfo> infos, int num)
 {
     // 从硬盘上加载图片到缓存中
     int size = infos.size();
     QStringList list;
     for (int i = 0; i < num; i++) {
         if (i < size) {
-            DBImgInfo dbInfo = infos[i].dbi;
+            DBImgInfo dbInfo = infos[i];
 
             list << dbInfo.filePath;
 //            if (dbInfo.fileType == DbFileTypePic) {

@@ -274,9 +274,9 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
         if (i->key.contains("Dimension")) {
             value = infos.value("Dimension");
             if (value == "0x0") {
-                ImageDataSt st;
+                DBImgInfo st;
                 ImageEngineApi::instance()->getImageData(m_path, st);
-                value = st.dbi.albumSize;
+                value = st.albumSize;
                 if (value.isEmpty()) {
                     QImage tImg;
                     QString errMsg;

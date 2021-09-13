@@ -189,34 +189,30 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
             }
         }
         QPixmap pixmap = QPixmap::fromImage(tImg);
-        ImageDataSt pdata;
-        pdata.dbi = getDBInfo(path, utils::base::isVideo(path));
+        DBImgInfo dbi = getDBInfo(path, utils::base::isVideo(path));
         if (breloadCache) { //更新缓存文件
             QString spath = albumGlobal::CACHE_PATH + path;
             utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
             pixmap.save(spath, "PNG");
         }
-        ImageEngineApi::instance()->addImageData(path, pdata);
+        ImageEngineApi::instance()->addImageData(path, dbi);
         SignalManager::ViewInfo info;
         info.album = "";
         info.lastPanel = nullptr;
         info.path = path;
         info.paths = paths;
-        DBImgInfo dBImgInfo;
-        dBImgInfo.filePath = path;
-        dBImgInfo.image = pixmap;
-        info.dBImgInfos << dBImgInfo;
+        info.dBImgInfos << dbi;
         // 未启动相册，从外部打开图片时，延迟发送查看图片
         if (dApp->getMainWindow() == nullptr) {
             QTimer::singleShot(100, this, [ = ] {
                 emit dApp->signalM->viewImage(info);
                 emit dApp->signalM->showImageView(0);
-                DBManager::instance()->insertImgInfos(DBImgInfoList() << pdata.dbi);
+                DBManager::instance()->insertImgInfos(DBImgInfoList() << dbi);
             });
         } else {
             emit dApp->signalM->viewImage(info);
             emit dApp->signalM->showImageView(0);
-            DBManager::instance()->insertImgInfos(DBImgInfoList() << pdata.dbi);
+            DBManager::instance()->insertImgInfos(DBImgInfoList() << dbi);
         }
     } else {
         QTimer::singleShot(300, this, [ = ] {

@@ -31,10 +31,6 @@
 
 class ImageEngineThreadObject;
 
-struct ImageDataSt {
-    DBImgInfo dbi;
-};
-
 //这里将QRunnable继承转移到这里，方便将run函数的实现也转移过来
 class ImageEngineThreadObject : public QObject, public QRunnable
 {

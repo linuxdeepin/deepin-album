@@ -69,11 +69,11 @@ ImageEngineApi::ImageEngineApi(QObject *parent)
     //文件加载线程池上限
 
     qRegisterMetaType<QStringList>("QStringList &");
-    qRegisterMetaType<ImageDataSt>("ImageDataSt &");
-    qRegisterMetaType<ImageDataSt>("ImageDataSt");
+    qRegisterMetaType<DBImgInfo>("ImageDataSt &");
+    qRegisterMetaType<DBImgInfo>("ImageDataSt");
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList");
-    qRegisterMetaType<QMap<QString, ImageDataSt>>("QMap<QString,ImageDataSt>");
-    qRegisterMetaType<QVector<ImageDataSt>>("QVector<ImageDataSt>");
+    qRegisterMetaType<QMap<QString, DBImgInfo>>("QMap<QString,DBImgInfo>");
+    qRegisterMetaType<QVector<DBImgInfo>>("QVector<ImageDataSt>");
 #ifdef NOGLOBAL
     m_qtpool.setMaxThreadCount(4);
     cacheThreadPool.setMaxThreadCount(4);
@@ -135,7 +135,7 @@ bool ImageEngineApi::insertImage(const QString &imagepath, const QString &remain
         return false;
     }
 
-    ImageDataSt data;
+    DBImgInfo data;
     if (bexsit) {
         data = m_AllImageData[imagepath];
     }
@@ -143,33 +143,18 @@ bool ImageEngineApi::insertImage(const QString &imagepath, const QString &remain
     if (reLoadIsvideo) {
         bool isVideo = utils::base::isVideo(imagepath);
         if (isVideo) {
-            data.dbi.itemType = ItemTypeVideo;
+            data.itemType = ItemTypeVideo;
         } else {
-            data.dbi.itemType = ItemTypePic;
+            data.itemType = ItemTypePic;
         }
     }
     addImageData(imagepath, data);
     return true;
 }
 
-bool ImageEngineApi::updateImageDataPixmap(QString imagepath, QPixmap &pix)
+bool ImageEngineApi::getImageData(QString imagepath, DBImgInfo &data)
 {
-    ImageDataSt data;
-    if (getImageData(imagepath, data)) {
-        addImageData(imagepath, data);
-
-        QFileInfo file(albumGlobal::CACHE_PATH + imagepath);
-        if (file.exists()) {
-            QFile::remove(albumGlobal::CACHE_PATH + imagepath);
-        }
-        return true;
-    }
-    return false;
-}
-
-bool ImageEngineApi::getImageData(QString imagepath, ImageDataSt &data)
-{
-    QMap<QString, ImageDataSt>::iterator it;
+    QMap<QString, DBImgInfo>::iterator it;
     it = m_AllImageData.find(imagepath);
     if (it == m_AllImageData.end()) {
         return false;
@@ -218,17 +203,17 @@ void ImageEngineApi::sltstopCacheSave()
 #endif
 }
 
-void ImageEngineApi::sigImageBackLoaded(QString path, const ImageDataSt &data)
+void ImageEngineApi::sigImageBackLoaded(QString path, const DBImgInfo &data)
 {
     addImageData(path, data);
 }
 
-void ImageEngineApi::slt80ImgInfosReady(QVector<ImageDataSt> ImageDatas)
+void ImageEngineApi::slt80ImgInfosReady(QVector<DBImgInfo> ImageDatas)
 {
     m_AllImageDataVector = ImageDatas;
     for (int i = 0; i < ImageDatas.size(); i++) {
-        ImageDataSt data = ImageDatas.at(i);
-        addImageData(data.dbi.filePath, data);
+        DBImgInfo data = ImageDatas.at(i);
+        addImageData(data.filePath, data);
     }
     emit sigLoadFirstPageThumbnailsToView();
 }
@@ -332,10 +317,8 @@ void ImageEngineApi::loadFirstPageThumbnails(int num)
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
             info.itemType = static_cast<ItemType>(query.value(6).toInt());
-            ImageDataSt imgData;
-            imgData.dbi = info;
-            addImageData(info.filePath, imgData);
-            m_AllImageDataVector.append(imgData);
+            addImageData(info.filePath, info);
+            m_AllImageDataVector.append(info);
         }
     }
 
@@ -440,8 +423,8 @@ bool ImageEngineApi::isVideo(QString path)
     QMutexLocker locker(&m_dataMutex);
     bool is = false;
     if (m_AllImageData.contains(path)) {
-        ImageDataSt info = m_AllImageData[path];
-        if (info.dbi.itemType == ItemTypeVideo) {
+        DBImgInfo info = m_AllImageData[path];
+        if (info.itemType == ItemTypeVideo) {
             is = true;
         }
     }
@@ -454,7 +437,7 @@ int ImageEngineApi::getAllImageDataCount()
     return m_AllImageData.size();
 }
 
-void ImageEngineApi::addImageData(QString path, ImageDataSt data)
+void ImageEngineApi::addImageData(QString path, DBImgInfo data)
 {
     QMutexLocker locker(&m_dataMutex);
     m_AllImageData[path] = data;

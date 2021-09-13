@@ -63,7 +63,7 @@ class TTBContent : public QLabel
 public:
     struct TTBContentData {
         int index;
-        ImageDataSt data;
+        DBImgInfo data;
     };
 //    explicit TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent = 0);
     explicit TTBContent(bool inDB, QWidget *parent = nullptr);

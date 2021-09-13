@@ -660,16 +660,14 @@ void ImageLoadFromDBThread::runDetail()
     ImageEngineApi::instance()->clearAllImageData();
     for (int i = 0; i < infos.size(); i++) {
         DBImgInfo info = infos.at(i);
-        ImageDataSt imgData;
-        imgData.dbi = info;
         //记录源文件不存在的数据
         if (!QFileInfo(info.filePath).exists()) {
             fail_image_list << info.filePath;
             continue;
         }
 
-        ImageEngineApi::instance()->m_AllImageDataVector.append(imgData);
-        ImageEngineApi::instance()->addImageData(info.filePath, imgData);
+        ImageEngineApi::instance()->m_AllImageDataVector.append(info);
+        ImageEngineApi::instance()->addImageData(info.filePath, info);
     }
     qDebug() << __FUNCTION__ << "---m_AllImageDataVector.size = " << ImageEngineApi::instance()->m_AllImageDataVector.size();
     if (bneedstop) {
@@ -1065,7 +1063,7 @@ void ImageEngineBackThread::runDetail()
         ImageDataService::instance()->addImage(path, tImg);
         if (bbackstop || ImageEngineApi::instance()->closeFg())
             return;
-        m_data.dbi = getDBInfo(temppath);
+        m_data = getDBInfo(temppath);
 
         if (bbackstop || ImageEngineApi::instance()->closeFg()) {
             return;

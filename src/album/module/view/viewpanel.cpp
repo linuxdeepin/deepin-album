@@ -465,7 +465,6 @@ void ViewPanel::onFileDelete()
 {
     m_viewB->setImage(m_currentpath);    //设置当前显示图片
     if (!QFileInfo(m_currentpath).exists()) {
-        ImageDataSt data;
         QImage img = ImageDataService::instance()->getThumnailImageByPath(m_currentpath);
         m_emptyWidget->setThumbnailImage(QPixmap::fromImage(img));
         m_stack->setCurrentIndex(1);
@@ -683,7 +682,6 @@ void ViewPanel::openImage(const QString &path, bool bjudge)
     //m_ttbc->setButtonDisabled(!QFileInfo(path).exists());
     updateMenuContent();
     if (!QFileInfo(path).exists()) {
-        ImageDataSt data;
         QImage img = ImageDataService::instance()->getThumnailImageByPath(path);
         m_emptyWidget->setThumbnailImage(QPixmap::fromImage(img));
         m_stack->setCurrentIndex(1);

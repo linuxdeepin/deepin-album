@@ -274,7 +274,7 @@ void ThumbnailListView::sltReloadAfterFilterEnd()
     }
     //m_model->rowCount()减一是为了减去顶部空白栏占用的一个ModelIndex
     for (int j = (m_model->rowCount() - 1); j < ImageEngineApi::instance()->m_AllImageDataVector.size(); j++) {
-        insertThumbnail(ImageEngineApi::instance()->m_AllImageDataVector.at(j).dbi);
+        insertThumbnail(ImageEngineApi::instance()->m_AllImageDataVector.at(j));
     }
     //加载完后通知所有图片页刷新状态栏显示数量
     emit sigUpdatePicNum();
@@ -1886,12 +1886,9 @@ void ThumbnailListView::slotLoadFirstPageThumbnailsFinish()
         insertBlankOrTitleItem(ItemTypeBlank, "", "", AllPicView::SUSPENSION_WIDGET_HEIGHT);
     }
     for (int i = 0; i < ImageEngineApi::instance()->m_FirstPageScreen && i < size; i++) {
-        ImageDataSt data = ImageEngineApi::instance()->m_AllImageDataVector[i];
-        DBImgInfo info = data.dbi;
+        DBImgInfo info = ImageEngineApi::instance()->m_AllImageDataVector[i];
         info.imgWidth = m_onePicWidth;
         info.imgHeight = m_onePicWidth;
-        info.itemType = data.dbi.itemType;
-        info.videoDuration = data.dbi.videoDuration;
         insertThumbnail(info);
     }
 

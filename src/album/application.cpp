@@ -105,7 +105,8 @@ void ImageLoader::updateImageLoader(const QStringList &pathlist, const QList<QIm
         tImg.save(spath, "PNG");
 
         QPixmap pixmap = QPixmap::fromImage(tImg);
-        ImageEngineApi::instance()->updateImageDataPixmap(pathlist.at(i), pixmap);
+        //不需要在此处更新图片
+        //ImageEngineApi::instance()->updateImageDataPixmap(pathlist.at(i), pixmap);
         emit ImageEngineApi::instance()->sigOneImgReady(pathlist.at(i), pixmap);
     }
 

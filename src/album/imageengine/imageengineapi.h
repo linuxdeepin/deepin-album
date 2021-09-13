@@ -48,8 +48,7 @@ public:
     bool insertObject(void *obj);
     bool removeObject(void *obj);
     bool ifObjectExist(void *obj);
-    bool getImageData(QString imagepath, ImageDataSt &data);
-    bool updateImageDataPixmap(QString imagepath, QPixmap &pix);
+    bool getImageData(QString imagepath, DBImgInfo &data);
     bool ImportImagesFromFileList(QStringList files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
     bool ImportImagesFromUrlList(QList<QUrl> files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
     void setImgPathAndAlbumNames(const QMultiMap<QString, QString> &imgPahtAlbums);
@@ -63,7 +62,7 @@ public:
     //全部数据数量
     int  getAllImageDataCount();
     //添加数据
-    void addImageData(QString path, ImageDataSt data);
+    void addImageData(QString path, DBImgInfo data);
     //清除全部数据
     void clearAllImageData();
     //判断是否已经从数据库加载过，或者是否已经加载到缓存里了
@@ -101,9 +100,9 @@ private slots:
     void sltImageFilesImported(void *imgobject, QStringList &filelist);
     void sltstopCacheSave();
 
-    void sigImageBackLoaded(QString path, const ImageDataSt &data);
+    void sigImageBackLoaded(QString path, const DBImgInfo &data);
 
-    void slt80ImgInfosReady(QVector<ImageDataSt> ImageDatas);
+    void slt80ImgInfosReady(QVector<DBImgInfo> ImageDatas);
 signals:
     //发送给主线程
     //加载到数据库完成
@@ -119,17 +118,17 @@ signals:
 
     //发给子线程
     //先加载指定数量的缩略图
-    void sigLoadThumbnailsByNum(QVector<ImageDataSt> allImageDataVector, int num);
+    void sigLoadThumbnailsByNum(QVector<DBImgInfo> allImageDataVector, int num);
     //发给子线程，加载一张缩略图
     void sigLoadThumbnailIMG(QString path);
     //发给子线程，旋转图片
     void sigRotateImageFile(int angel, const QString &path);
-    void sigLoadOneThumbnail(QString imagepath, ImageDataSt data);
-    void sigLoadOneThumbnailToThumbnailView(QString imagepath, ImageDataSt data);
+    void sigLoadOneThumbnail(QString imagepath, DBImgInfo data);
+    void sigLoadOneThumbnailToThumbnailView(QString imagepath, DBImgInfo data);
     //加载设备中图片列表
     void sigLoadMountFileList(QString path);
 public:
-    QVector<ImageDataSt> m_AllImageDataVector;
+    QVector<DBImgInfo> m_AllImageDataVector;
     int m_FirstPageScreen = 0;
     QStringList m_imgLoaded;//已经加载过的图片，防止多次加载
     QMultiMap<QString, QString> m_allPathAndAlbumNames;
@@ -138,7 +137,7 @@ private:
     explicit ImageEngineApi(QObject *parent = nullptr);
 
     QMap<void *, void *>m_AllObject;
-    QMap<QString, ImageDataSt>m_AllImageData;
+    QMap<QString, DBImgInfo>m_AllImageData;
 
     static ImageEngineApi *s_ImageEngine;
     ImageCacheSaveObject *m_imageCacheSaveobj = nullptr;

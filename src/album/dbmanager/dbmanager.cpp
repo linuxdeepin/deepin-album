@@ -276,9 +276,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
         db.close();
         mutex.unlock();
         for (DBImgInfo info : infos) {
-            ImageDataSt data;
-            data.dbi = info;
-            ImageEngineApi::instance()->addImageData(info.filePath, data);
+            ImageEngineApi::instance()->addImageData(info.filePath, info);
         }
         emit dApp->signalM->imagesInserted(/*infos*/);
     }

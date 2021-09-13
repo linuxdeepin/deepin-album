@@ -47,9 +47,9 @@ int SignalManager::getSliderValue()
 
 void SignalManager::showInfoDlg(const QString &path)
 {
-    ImageDataSt data;
+    DBImgInfo data;
     ImageEngineApi::instance()->getImageData(path, data);
-    if (data.dbi.itemType == ItemTypePic) {
+    if (data.itemType == ItemTypePic) {
         ImgInfoDialog *dialog = new ImgInfoDialog(path, dApp->getMainWindow());
         dialog->setObjectName("ImgInfoDialog");
         dialog->show();
@@ -65,7 +65,7 @@ void SignalManager::showInfoDlg(const QString &path)
                 dialog->deleteLater();
             }
         });
-    } else if (data.dbi.itemType == ItemTypeVideo) {
+    } else if (data.itemType == ItemTypeVideo) {
         VideoInfoDialog *dialog = new VideoInfoDialog(path, dApp->getMainWindow());
         dialog->setObjectName("VideoInfoDialog");
         dialog->show();
