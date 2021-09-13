@@ -1117,7 +1117,7 @@ TEST(MainWindow, recentlydelete)
     auto menu = runContextMenu(thumb->viewport(), p1);
     using TR_SUBORDINATE_t = PointerTypeGetter < decltype(thumb) >::type;
 
-    runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Photo info"));
+//    runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Photo info"));
 
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Restore"));
 

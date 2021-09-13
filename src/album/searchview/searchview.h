@@ -50,26 +50,6 @@
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
 
-class SlideShowButton : public DPushButton
-{
-    Q_OBJECT
-public:
-    explicit SlideShowButton(DWidget *parent = nullptr);
-    void mSetText(QString text);
-protected:
-    void paintEvent(QPaintEvent *event) override;
-    void  enterEvent(QEvent *e) override;
-    void  leaveEvent(QEvent *e) override;
-    void  mouseEvent(QMouseEvent *e);
-    void  mousePressEvent(QMouseEvent *event) override;
-    void  mouseReleaseEvent(QMouseEvent *event) override;
-
-private:
-    qreal m_filletradii;
-    bool  israised;
-    bool ispressed = false;
-};
-
 class SearchView : public QWidget
 {
     Q_OBJECT
@@ -103,7 +83,7 @@ private:
     DWidget *m_pSearchResultWidget = nullptr;
     DWidget *m_searchResultViewbody;
     DWidget *m_searchResultViewTop;
-    SlideShowButton *m_pSlideShowBtn;
+    DPushButton *m_pSlideShowBtn;
     DLabel *m_pSearchResultLabel;
     QString m_keywords;
     DLabel *pNoResult;

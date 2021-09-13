@@ -25,119 +25,6 @@
 #include <QPainter>
 #include <QDebug>
 
-namespace {
-//const int VIEW_MAINWINDOW_SEARCH = 3;
-}  //namespace
-
-
-SlideShowButton::SlideShowButton(DWidget *parent)
-    : DPushButton(parent)
-    , m_filletradii(8)
-    , israised(true)
-    , ispressed(false)
-{
-//    m_filletradii = 8;
-}
-
-void SlideShowButton::paintEvent(QPaintEvent *event)
-{
-    Q_UNUSED(event);
-    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    QColor disablecolor, raisedcolor, disraisedcolor, textcolor, pressedcolor;
-    textcolor = QColor(255, 255, 255);
-    pressedcolor = QColor(0, 0, 0, 50);
-//    disablecolor = QColor(0, 0, 0, 13);
-    if (themeType == DGuiApplicationHelper::LightType) {
-        raisedcolor = QColor(237, 86, 86);
-        disraisedcolor = QColor(253, 94, 94);
-    } else if (themeType == DGuiApplicationHelper::DarkType) {
-        raisedcolor = QColor(165, 27, 27);
-        disraisedcolor = QColor(218, 45, 45);
-    }
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
-    if (!this->isEnabled()) {
-        painter.setBrush(QBrush(disablecolor));
-    } else {
-        if (israised)
-            painter.setBrush(QBrush(raisedcolor));
-        else
-            painter.setBrush(QBrush(disraisedcolor));
-    }
-    painter.setPen(Qt::transparent);
-    QRect rect = this->rect();
-    rect.setWidth(rect.width());
-    rect.setHeight(rect.height());
-    painter.drawRoundedRect(rect, m_filletradii, m_filletradii);
-    QFont qf = DFontSizeManager::instance()->get(DFontSizeManager::T6);
-    qf.setFamily("SourceHanSansSC-Medium");
-    qf.setWeight(QFont::Medium);
-    painter.setFont(qf);
-//    painter.setPen(Qt::black);
-    painter.setPen(textcolor);
-    QIcon qic = icon();
-    QSize iconsize = iconSize();
-    QPixmap qpx = qic.pixmap(QSize(iconsize));
-    int widthOfTitle = painter.fontMetrics().width(text());
-    this->setFixedWidth(widthOfTitle + iconsize.width() + 20);
-    int offsetleft = (this->width() - widthOfTitle - iconsize.width() - 5) / 2;
-    painter.drawPixmap(offsetleft, (this->height() - iconsize.height()) / 2, iconsize.width(), iconsize.height(), qpx);
-    //LMH0430居中
-    painter.drawText(offsetleft + iconsize.width() + 5, 0, this->width() - iconsize.width() - 5 - offsetleft, this->height() - 2, Qt::AlignLeft | Qt::AlignVCenter, text());
-    if (ispressed) {
-        painter.setPen(QColor(0, 0, 0, 0));
-        painter.setBrush(QBrush(pressedcolor));
-        painter.drawRoundedRect(rect, m_filletradii, m_filletradii);
-    }
-    //DPushButton::paintEvent(event);
-}
-
-void SlideShowButton::enterEvent(QEvent *e)
-{
-    Q_UNUSED(e);
-    israised = false;
-    repaint();     //重新绘制按钮
-}
-
-void SlideShowButton::leaveEvent(QEvent *e)
-{
-    Q_UNUSED(e);
-    israised = true;
-    repaint();
-}
-
-void  SlideShowButton::mouseReleaseEvent(QMouseEvent *event)
-{
-    ispressed = false;
-    DPushButton::mouseReleaseEvent(event);
-    update();
-}
-
-void  SlideShowButton::mousePressEvent(QMouseEvent *event)
-{
-    ispressed = true;
-    DPushButton::mousePressEvent(event);
-    update();
-}
-
-void SlideShowButton::mouseEvent(QMouseEvent *e)
-{
-    float  w = this->width();
-    float  h = this->height();
-    int  x = e->x();
-    int  y = e->y();
-    float k = h / w; //斜率
-    if (y > -k * x + h / 2 &&
-            y >= k * x - h / 2 &&
-            y <= k * x + h / 2 &&
-            y <= -k * x + 3 * h / 2) {
-        israised = false;
-    } else {
-        israised = true;
-    }
-    repaint();
-}
-
 SearchView::SearchView()
     : m_stackWidget(nullptr), m_pNoSearchResultView(nullptr), m_pNoSearchResultLabel(nullptr)
     , m_searchResultViewbody(nullptr), m_searchResultViewTop(nullptr)
@@ -214,14 +101,20 @@ void SearchView::initSearchResultView()
     //LMH0417 bug号20706
     pHBoxLayout->setContentsMargins(0, 0, 0, 15);
 
-    m_pSlideShowBtn = new SlideShowButton();
+    m_pSlideShowBtn = new DPushButton(this);
     m_pSlideShowBtn ->setFocusPolicy(Qt::NoFocus);
-
-    QIcon icon;
-    icon = utils::base::renderSVG(":/resources/images/other/play all_normal.svg", QSize(18, 18));
-    m_pSlideShowBtn->setIcon(icon);
+    auto playAllPalette = m_pSlideShowBtn->palette();
+    playAllPalette.setColor(DPalette::ButtonText, Qt::white);
+    playAllPalette.setColor(DPalette::Dark, QColor("#FD5E5E"));
+    playAllPalette.setColor(DPalette::Light, QColor("#ED5656"));
+    m_pSlideShowBtn->setPalette(playAllPalette);
+    m_pSlideShowBtn->setIcon(QIcon::fromTheme("album_slider_show"));
+//    m_pSlideShowBtn->setObjectName(Search_Slider_Show_Button);
     m_pSlideShowBtn->setText(tr("Slide Show"));
     m_pSlideShowBtn->setFixedHeight(30);
+    m_pSlideShowBtn->setIconSize(QSize(18, 18));
+    DFontSizeManager::instance()->bind(m_pSlideShowBtn, DFontSizeManager::T6, QFont::Medium);
+
 
     m_pSearchResultLabel = new DLabel();
     m_pSearchResultLabel->setContentsMargins(0, 0, 0, 0);
@@ -460,6 +353,12 @@ void SearchView::changeTheme()
         color_BT.setAlphaF(0.5);
         pat.setBrush(DPalette::Text, color_BT);
         m_pSearchResultLabel->setPalette(pat);
+
+        auto playAllPalette = m_pSlideShowBtn->palette();
+        playAllPalette.setColor(DPalette::ButtonText, Qt::white);
+        playAllPalette.setColor(DPalette::Light, QColor("#FD5E5E"));
+        playAllPalette.setColor(DPalette::Dark, QColor("#ED5656"));
+        m_pSlideShowBtn->setPalette(playAllPalette);
     } else if (themeType == DGuiApplicationHelper::DarkType) {
         color_TTT.setAlphaF(0.4);
         pa.setBrush(DPalette::Text, color_TTT);
@@ -469,6 +368,12 @@ void SearchView::changeTheme()
         color_BT.setAlphaF(0.75);
         pat.setBrush(DPalette::Text, color_BT);
         m_pSearchResultLabel->setPalette(pat);
+
+        auto playAllPalette = m_pSlideShowBtn->palette();
+        playAllPalette.setColor(DPalette::ButtonText, "#FFFFFF");
+        playAllPalette.setColor(DPalette::Light, QColor("#DA2D2D"));
+        playAllPalette.setColor(DPalette::Dark, QColor("#A51B1B"));
+        m_pSlideShowBtn->setPalette(playAllPalette);
     }
 
 }

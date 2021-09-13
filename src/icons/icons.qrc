@@ -42,6 +42,7 @@
         <file>icons/dark/picture_default_dark.svg</file>
         <file>icons/dark/video_default_dark.svg</file>
         <file>icons/light/video_default_light.svg</file>
+        <file>texts/album_slider_show_18px.svg</file>
     </qresource>
     <qresource prefix="/icons/deepin/builtin/light"/>
     <qresource prefix="/icons/deepin/builtin/dark"/>
