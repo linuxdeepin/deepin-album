@@ -95,7 +95,6 @@ TEST(ThumbnailListView, initThumbnailListView)
     w->m_pAllPicView->m_pThumbnailListView->getListViewHeight();
     w->m_pAllPicView->m_pThumbnailListView->initMenuAction();
     w->m_pAllPicView->m_pThumbnailListView->createAlbumMenu();
-    w->m_pAllPicView->m_pThumbnailListView->getDamagedPixmap();
 //    w->m_pAllPicView->m_pThumbnailListView->updateThumbnaillistview();
     w->m_pAllPicView->m_pThumbnailListView->startDrag(Qt::DropAction::CopyAction);
 

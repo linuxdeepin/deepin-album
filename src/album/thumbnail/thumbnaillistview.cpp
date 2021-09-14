@@ -94,8 +94,6 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, const
     initConnections();
     installEventFilter(this);
     verticalScrollBar()->installEventFilter(this);
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
-            this, &ThumbnailListView::sltChangeDamagedPixOnThemeChanged);
 
     updateEnableSelectionByMouseTimer = new QTimer(this);
     updateEnableSelectionByMouseTimer->setInterval(500);
@@ -1140,11 +1138,6 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
     return false;
 }
 
-QPixmap ThumbnailListView::getDamagedPixmap()
-{
-    return utils::image::getDamagePixmap(DApplicationHelper::instance()->themeType() == DApplicationHelper::LightType);
-}
-
 QStringList ThumbnailListView::getCurrentIndexTime(const QModelIndex &index)
 {
     // index对应的是图片，获取所属时间线的时间和数量
@@ -1311,22 +1304,6 @@ int ThumbnailListView::getListViewHeight()
     return m_height;
 }
 //add end 3975
-
-void ThumbnailListView::sltChangeDamagedPixOnThemeChanged()
-{
-    for (int i = 0; i < m_model->rowCount(); i++) {
-        QModelIndex index = m_model->index(i, 0);
-        DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
-
-        const bool &bNotSuppOrDmg = info.bNotSupportedOrDamaged;
-        if (bNotSuppOrDmg) {
-            info.damagedPixmap = getDamagedPixmap();
-            QVariant infoVariant;
-            infoVariant.setValue(info);
-            m_model->item(i, 0)->setData(infoVariant, Qt::DisplayRole);
-        }
-    }
-}
 //有文件删除，刷新所有列表
 void ThumbnailListView::updateThumbnailViewAfterDelete(const DBImgInfoList &infos)
 {

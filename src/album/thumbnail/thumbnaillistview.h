@@ -198,7 +198,6 @@ private slots:
     void onPixMapScale(int value);
     void onCancelFavorite(const QModelIndex &index);
     void resizeEventF();
-    void sltChangeDamagedPixOnThemeChanged();
     //删除图片之后更新listview中数据
     void updateThumbnailViewAfterDelete(const DBImgInfoList &infos);
     //时间线界面，选择当前时间内照片
@@ -237,7 +236,6 @@ private:
     DMenu *createAlbumMenu();
     void resizeEvent(QResizeEvent *e) override;
     bool eventFilter(QObject *obj, QEvent *e) override;
-    QPixmap getDamagedPixmap();
     //获取当前index所属时间线的时间和数量
     QStringList getCurrentIndexTime(const QModelIndex &index);
     //获取当前时间线内的图片选中状态

@@ -187,82 +187,82 @@ QString hashByData(const QString &str)
     return stHashValue;
 }
 
-bool checkMimeData(const QMimeData *mimeData)
-{
-    if (1 > mimeData->urls().size()) {
-        return false;
-    }
-    QList<QUrl> urlList = mimeData->urls();
-    using namespace utils::image;
-    for (QUrl url : urlList) {
-        const QString path = url.toLocalFile();
-        QFileInfo fileinfo(path);
-        if (fileinfo.isDir()) {
-            auto finfos =  getImagesAndVideoInfo(path, false);
-            for (auto finfo : finfos) {
-                if (imageSupportRead(finfo.absoluteFilePath()) || isVideo(finfo.absoluteFilePath())) {
-                    QFileInfo info(finfo.absoluteFilePath());
-                    QMimeDatabase db;
-                    QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
-                    QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
-                    QString str = info.suffix().toLower();
+//bool checkMimeData(const QMimeData *mimeData)
+//{
+//    if (1 > mimeData->urls().size()) {
+//        return false;
+//    }
+//    QList<QUrl> urlList = mimeData->urls();
+//    using namespace utils::image;
+//    for (QUrl url : urlList) {
+//        const QString path = url.toLocalFile();
+//        QFileInfo fileinfo(path);
+//        if (fileinfo.isDir()) {
+//            auto finfos =  getImagesAndVideoInfo(path, false);
+//            for (auto finfo : finfos) {
+//                if (imageSupportRead(finfo.absoluteFilePath()) || isVideo(finfo.absoluteFilePath())) {
+//                    QFileInfo info(finfo.absoluteFilePath());
+//                    QMimeDatabase db;
+//                    QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
+//                    QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
+//                    QString str = info.suffix().toLower();
 
-                    if (str.isEmpty()) {
-                        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
-                            if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
-                                return true;
-                            } else if (str.isEmpty()) {
-                                return true;
-                            }
-                        }
-                        if (mt.name().startsWith("video/") || mt.name().startsWith("application/x-matroska")) {
-                            return true;
-                        }
-                    } else {
-                        if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-                            if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
-                                return true;
-                            }
-                        }
-                        if (mt1.name().startsWith("video/") || mt1.name().startsWith("application/x-matroska")) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        } else if (imageSupportRead(path) || isVideo(path)) {
-//            paths << path;
-            QFileInfo info(path);
-            QMimeDatabase db;
-            QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
-            QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
-            QString str = info.suffix().toLower();
-            if (str.isEmpty()) {
-                if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
-                    if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
-                        return true;
-                    } else if (str.isEmpty()) {
-                        return true;
-                    }
-                }
-                if (mt.name().startsWith("video/") || mt.name().startsWith("application/x-matroska")) {
-                    return true;
-                }
-            } else {
-                if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-                    if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
-                        return true;
-                    }
-                }
-                if (mt1.name().startsWith("video/") || mt1.name().startsWith("application/x-matroska")) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
-    return false;
-}
+//                    if (str.isEmpty()) {
+//                        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
+//                            if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
+//                                return true;
+//                            } else if (str.isEmpty()) {
+//                                return true;
+//                            }
+//                        }
+//                        if (mt.name().startsWith("video/") || mt.name().startsWith("application/x-matroska")) {
+//                            return true;
+//                        }
+//                    } else {
+//                        if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+//                            if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
+//                                return true;
+//                            }
+//                        }
+//                        if (mt1.name().startsWith("video/") || mt1.name().startsWith("application/x-matroska")) {
+//                            return true;
+//                        }
+//                    }
+//                }
+//            }
+//        } else if (imageSupportRead(path) || isVideo(path)) {
+////            paths << path;
+//            QFileInfo info(path);
+//            QMimeDatabase db;
+//            QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
+//            QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
+//            QString str = info.suffix().toLower();
+//            if (str.isEmpty()) {
+//                if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
+//                    if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
+//                        return true;
+//                    } else if (str.isEmpty()) {
+//                        return true;
+//                    }
+//                }
+//                if (mt.name().startsWith("video/") || mt.name().startsWith("application/x-matroska")) {
+//                    return true;
+//                }
+//            } else {
+//                if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+//                    if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
+//                        return true;
+//                    }
+//                }
+//                if (mt1.name().startsWith("video/") || mt1.name().startsWith("application/x-matroska")) {
+//                    return true;
+//                }
+//            }
+//            return false;
+//        }
+//    }
+//    return false;
+//}
 
 QPixmap renderSVG(const QString &filePath, const QSize &size)
 {
