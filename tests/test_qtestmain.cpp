@@ -65,6 +65,7 @@ using namespace Dtk::Widget;
         QTEST_ADD_GPU_BLACKLIST_SUPPORT \
         TestObject tc; \
         QTEST_SET_MAIN_SOURCE_PATH \
+        qRegisterMetaType<QMenu *>("QMenu *"); \
         return QTest::qExec(&tc, argc, argv); \
     } \
 

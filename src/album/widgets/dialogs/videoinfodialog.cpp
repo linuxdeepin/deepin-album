@@ -65,6 +65,8 @@ void VideoInfoDialog::setVideoInfo(const QString &path)
     bool is = false;
     //获取视频信息
     m_movieInfo = playlistModel->getMovieInfo(QUrl::fromLocalFile(path), &is);
+    delete playlistModel;
+    playlistModel = nullptr;
 
     m_maxFieldWidth = width() - m_title_maxwidth - 20 * 2 - 10 * 2;
     updateBasicInfo();

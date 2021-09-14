@@ -212,9 +212,9 @@ void ViewPanel::bottomTopLeftContent()
     connect(m_ttbc, &TTBContent::feedBackCurrentIndex, this, &ViewPanel::feedBackCurrentIndex);
     //测试使用
     connect(this, &ViewPanel::ttbcDeleteImage, m_ttbc, &TTBContent::deleteImage);
-    connect(this, &ViewPanel::viewImageFrom, m_ttbc, [ = ](const QString & dir) {
-        m_ttbc->setCurrentDir(dir);
-    });
+//    connect(this, &ViewPanel::viewImageFrom, m_ttbc, [ = ](const QString & dir) {
+//        m_ttbc->setCurrentDir(dir);
+//    });
     connect(this, &ViewPanel::imageChanged, m_ttbc, &TTBContent::setImage);
     connect(m_ttbc, &TTBContent::rotateClockwise, this, &ViewPanel::onRotateClockwise);
     connect(m_ttbc, &TTBContent::rotateCounterClockwise, this, &ViewPanel::onRotateCounterClockwise);

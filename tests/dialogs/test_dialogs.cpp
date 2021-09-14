@@ -19,7 +19,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <gtest/gtest.h>
+#include <QtConcurrent/QtConcurrent>
 #include <gmock/gmock-matchers.h>
+#include <QTestEventList>
+
+#define private public
+#define protected public
 
 #include "application.h"
 #include "dialogs/albumcreatedialog.h"
@@ -28,8 +33,88 @@
 #include "controller/exporter.h"
 #include "../test_qtestDefine.h"
 #include "ac-desktop-define.h"
+#include "testtoolkits.h"
+#include "thumbnaillistview.h"
+#include "QTestEventList"
 
-#include <QTestEventList>
+//输入：对话框对象、对话框运行时要执行的操作
+template<typename T, typename U>
+void stubDialog(T &&activeFun, U &&processFun)
+{
+    qDebug() << __FUNCTION__ << "---";
+    activeFun();//启动函数
+
+    QEventLoop loop;
+    QtConcurrent::run([ =, &loop]() {
+        (void)QTest::qWaitFor([ =, &loop]() {
+            return (loop.isRunning());
+        });
+        (void)QTest::qWaitFor([ = ]() {
+            return (qApp->activeModalWidget() != nullptr && qApp->activeModalWidget() != dApp->getMainWindow());
+        });
+        if (qApp->activeModalWidget() != nullptr) {
+            QThread::msleep(200);
+            processFun(); //要执行的操作在这里
+            QThread::msleep(200);
+            QMetaObject::invokeMethod(&loop, "quit");
+        } else {
+            QMetaObject::invokeMethod(&loop, "quit");
+        }
+    });
+    loop.exec();
+}
+
+//三个界面的删除操作
+TEST(allPic, picdelete)
+{
+    TEST_CASE_NAME("load")
+    MainWindow *w = dApp->getMainWindow();
+    QTestEventList e;
+
+    clickToAllPictureView();
+
+    //------右键删除---------
+    QPoint p1(60, 120);
+    e.addMouseMove(p1);
+    e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
+    e.simulate(w->m_pAllPicView->m_pThumbnailListView->viewport());
+    e.clear();
+
+    //所有照片
+    auto menu = runContextMenu(w->m_pAllPicView->m_pThumbnailListView->viewport(), p1);
+    using TR_SUBORDINATE_t = PointerTypeGetter < decltype(w->m_pAllPicView->m_pThumbnailListView) >::type;
+
+    asynchronousObject asynchronous;
+    stubDialog(
+    [ & ]() {
+        QMetaObject::invokeMethod(&asynchronous, "asynchronousRunActionFromMenu"
+                                  , Qt::QueuedConnection, Q_ARG(QMenu *, menu), Q_ARG(QString, TR_SUBORDINATE_t::tr("Delete")));
+    },
+    [ = ]() {
+        QMetaObject::invokeMethod(w, [ = ]() {
+            ImgDeleteDialog *dialog = qobject_cast<ImgDeleteDialog *>(qApp->activeModalWidget());
+            QTestEventList e;
+            e.addKeyPress(Qt::Key::Key_Tab);
+            e.simulate(dialog->getButton(0));
+            QTest::qWait(200);
+
+            e.simulate(dialog->getButton(1));
+            QTest::qWait(200);
+
+            QWidget *closeButton =  dialog->findChild<QWidget *>("DTitlebarDWindowCloseButton");
+            e.simulate(closeButton);
+            QTest::qWait(200);
+
+            e.simulate(dialog->getButton(0));
+            QTest::qWait(200);
+
+            e.clear();
+            e.addKeyPress(Qt::Key::Key_Escape);//这个会让它退出去，不需要执行done
+            e.simulate(dialog);
+        }, Qt::QueuedConnection);
+
+    });
+}
 
 TEST(albumcreatedialog, dia1)
 {

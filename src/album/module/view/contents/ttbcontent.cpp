@@ -78,7 +78,6 @@ const int LOAD_LEFT_RIGHT = 25;     //前后加载图片数（动态）
 
 TTBContent::TTBContent(bool inDB, QWidget *parent) : QLabel(parent)
 {
-    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     m_windowWidth = std::max(this->window()->width(),
                              ConfigSetter::instance()->value("MAINWINDOW", "WindowWidth").toInt());
 
@@ -285,11 +284,11 @@ void TTBContent::setAllFileInfo(const SignalManager::ViewInfo &info)
 
 int TTBContent::getAllFileCount()
 {
+    int count = -1;
     if (m_imgListWidget) {
-        return m_imgListWidget->getImgCount();
-    } else {
-        return -1;
+        count = m_imgListWidget->getImgCount();
     }
+    return count;
 }
 
 int TTBContent::itemLoadedSize()
@@ -328,14 +327,13 @@ void TTBContent::checkAdaptScreenBtn()
 
 void TTBContent::deleteImage()
 {
-    if (m_imgListWidget->getImgCount() == 0)
-        return;
-    //移除正在展示照片
-    if (m_imgListWidget) {
+    if (m_imgListWidget && m_imgListWidget->getImgCount() >= 0) {
+        //移除正在展示照片
         m_imgListWidget->removeCurrent();
+
+        emit removed();     //删除数据库图片
+        onResize();
     }
-    emit removed();     //删除数据库图片
-    onResize();
 }
 
 void TTBContent::updateFilenameLayout()
@@ -455,23 +453,6 @@ void TTBContent::onPreButton()
         m_preButton->setEnabled(!m_imgListWidget->isFirst());
         m_nextButton->setEnabled(true);
     }
-}
-
-void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme)
-{
-    Q_UNUSED(theme);
-}
-
-void TTBContent::setCurrentDir(const QString &text)
-{
-#ifndef LITE_DIV
-    if (text == COMMON_STR_FAVORITES) {
-        text = tr(COMMON_STR_FAVORITES);
-    }
-    m_returnBtn->setText(text);
-#else
-    Q_UNUSED(text)
-#endif
 }
 
 void TTBContent::resizeEvent(QResizeEvent *event)

@@ -25,6 +25,7 @@
 
 #include <QString>
 #include <QPoint>
+#include <QObject>
 
 class QMenu;
 class QWidget;
@@ -71,4 +72,15 @@ struct PointerTypeGetter<T *> {
     {
         Q_UNUSED(t)
     };
+};
+
+class asynchronousObject : public QObject
+{
+    Q_OBJECT
+public:
+    explicit asynchronousObject(QObject *parent = nullptr);
+public slots:
+    void asynchronousRunActionFromMenu(QMenu *menu, QString actionName);
+private:
+
 };

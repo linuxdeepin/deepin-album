@@ -44,7 +44,7 @@
 #include "mainwidget.h"
 #include "commandline.h"
 #include "imageview.h"
-#include "imgdeletedialog.h"
+//#include "imgdeletedialog.h"
 #include "navigationwidget.h"
 #include "fileinotify.h"
 #include "ac-desktop-define.h"
@@ -584,7 +584,7 @@ TEST(MainWindow, allpicture)
 
 TEST(MainWindow, videoInfo)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("videoInfo")
     MainWindow *w = dApp->getMainWindow();
 
     AllPicView *allpicview = w->m_pAllPicView;
@@ -600,7 +600,6 @@ TEST(MainWindow, videoInfo)
         index = allpicview->getThumbnailListView()->m_model->index(i, 0);
         DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
         if (data.itemType == ItemType::ItemTypeVideo) {
-            qDebug() << __FUNCTION__ << "---1111111111";
             break;
         }
     }
@@ -1612,29 +1611,7 @@ TEST(MainWindow, picdelete)
     MainWindow *w = dApp->getMainWindow();
     QTestEventList e;
 
-    clickToAllPictureView();
-
-    //------右键删除---------
-    QPoint p1(60, 120);
-    e.addMouseMove(p1);
-    e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
-    e.simulate(w->m_pAllPicView->m_pThumbnailListView->viewport());
-    e.clear();
-
-    //所有照片
-    int (*dlgexec)() = []() {
-        return 1;
-    };
-    typedef int (*fptr)(QDialog *);
-    fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
-    Stub stub;
-    stub.set(fptrexec, dlgexec);
-
-    auto menu = runContextMenu(w->m_pAllPicView->m_pThumbnailListView->viewport(), p1);
     using TR_SUBORDINATE_t = PointerTypeGetter < decltype(w->m_pAllPicView->m_pThumbnailListView) >::type;
-
-    runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Delete"));
-
     //时间线
     clickToTimelineView();
 

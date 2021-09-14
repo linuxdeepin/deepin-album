@@ -218,29 +218,47 @@ QMenu *runContextMenu(QWidget *w, const QPoint &pos)
 
     QMenu *pMenu = qobject_cast<QMenu *>(qApp->activePopupWidget());
 
+    if (pMenu) {
+        pMenu->hide();
+    }
+
     return pMenu;
 }
 
 void runActionFromMenu(QMenu *menu, const QString &actionName)
 {
     QAction *result = nullptr;
-    for (auto pAction : menu->actions()) {
-        if (pAction->text() == actionName) {
-            result = pAction;
-            break;
-        }
-    }
 
-    //CI崩溃后给个提示信息
-    if (result == nullptr) {
-        std::cout << "Error Action Name: " << actionName.toStdString() << std::endl;
+    if (menu) {
         for (auto pAction : menu->actions()) {
-            std::cout << pAction->text().toStdString() << std::endl;
+            if (pAction->text() == actionName) {
+                result = pAction;
+                break;
+            }
         }
+
+        //CI崩溃后给个提示信息
+        if (result == nullptr) {
+            std::cout << "Error Action Name: " << actionName.toStdString() << std::endl;
+            for (auto pAction : menu->actions()) {
+                std::cout << pAction->text().toStdString() << std::endl;
+            }
+        }
+
+        ASSERT_NE(result, nullptr);
+
+        emit result->triggered();
+        QTest::qWait(500);
     }
+}
 
-    ASSERT_NE(result, nullptr);
+asynchronousObject::asynchronousObject(QObject *parent): QObject(parent)
+{
 
-    emit result->triggered();
-    QTest::qWait(500);
+}
+
+void asynchronousObject::asynchronousRunActionFromMenu(QMenu *menu, QString actionName)
+{
+    qDebug() << __FUNCTION__ << "---";
+    runActionFromMenu(menu, actionName);
 }

@@ -94,7 +94,6 @@ signals:
     void resetShoworHide();
 
 public slots:
-    void setCurrentDir(const QString &text);
     void setImage(const QString &path);
     void updateCollectButton();
 
@@ -116,7 +115,6 @@ public slots:
     void onTrashBtnClicked();
 
 private slots:
-    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
 protected:
     void resizeEvent(QResizeEvent *event) override;

@@ -796,7 +796,6 @@ TEST(AlbumViewList, albumViewList_other5_test)
 //        nw->transImagePos(QPoint(0, 0));
 
 //        mainWidget->m_viewPanel->m_ttbc->deleteImage();
-//        mainWidget->m_viewPanel->m_ttbc->setCurrentDir("");
 //    }
 }
 
