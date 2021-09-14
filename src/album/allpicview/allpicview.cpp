@@ -169,6 +169,7 @@ void AllPicView::initSuspensionWidget()
     m_SuspensionWidget->setLayout(hlayoutDateLabel);
 
     m_batchOperateWidget = new BatchOperateWidget(m_pThumbnailListView, BatchOperateWidget::NullType, this);
+    m_batchOperateWidget->setObjectName(All_Picture_BatchOperateWidget);
     m_batchOperateWidget->setFocusPolicy(Qt::FocusPolicy::StrongFocus);
     hlayoutDateLabel->addStretch(100);
     hlayoutDateLabel->setContentsMargins(0, 0, 19, 0);

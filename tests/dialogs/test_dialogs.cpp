@@ -67,7 +67,7 @@ void stubDialog(T &&activeFun, U &&processFun)
 //三个界面的删除操作
 TEST(allPic, picdelete)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("picdelete")
     MainWindow *w = dApp->getMainWindow();
     QTestEventList e;
 

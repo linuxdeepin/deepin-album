@@ -57,6 +57,7 @@
 
 #define All_Picture_View           "AllPictureView"          //所有图片界面
 #define All_Picture_StackedWidget  "AllPictureStackedWidget"
+#define All_Picture_BatchOperateWidget  "AllPictureBatchOperateWidget"
 
 #define All_Picture_Thembnail      "AllPictureThembnail"     //所有图片缩略图list
 #define Main_Time_Line_Button      "MainTimeLineButton"      //主界面时间线按钮

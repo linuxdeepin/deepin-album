@@ -37,7 +37,8 @@
 #include "signalmanager.h"
 #include "../test_qtestDefine.h"
 #include "ac-desktop-define.h"
-
+#include "testtoolkits.h"
+#include "batchoperatewidget.h"
 
 TEST(allpicview, test_ini)
 {
@@ -253,6 +254,68 @@ TEST(allpicview, test_select)
     QTest::qWait(100);
     emit a->getThumbnailListView()->openImage(0, ImageEngineApi::instance()->get_AllImagePath().first(), false);
     QTest::qWait(100);
+}
+
+TEST(allpicview, BatchOperateWidget)
+{
+    TEST_CASE_NAME("BatchOperateWidget")
+
+    if (ImageEngineApi::instance()->getAllImageDataCount() <= 0) {
+        return;
+    }
+    //定位到所有图片
+    clickToAllPictureView();
+    //定位到第一张图片位置
+    QModelIndex index;
+    for (int i = 0; i < dApp->getMainWindow()->m_pAllPicView->getThumbnailListView()->m_model->rowCount(); i++) {
+        index = dApp->getMainWindow()->m_pAllPicView->getThumbnailListView()->m_model->index(i, 0);
+        DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+        if (data.itemType == ItemType::ItemTypePic) {
+            break;
+        }
+    }
+    QRect picItem = dApp->getMainWindow()->m_pAllPicView->getThumbnailListView()->visualRect(index);
+    //选中第一张图片
+    QTest::qWait(200);
+    QPoint p1(picItem.x() + 20, picItem.y() + 20);
+    QTestEventList e;
+    e.addMouseMove(p1);
+    e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
+    e.simulate(dApp->getMainWindow()->m_pAllPicView->m_pThumbnailListView->viewport());
+    e.clear();
+    QTest::qWait(200);
+
+    BatchOperateWidget *batchOperateWidget = dApp->getMainWindow()->m_pAllPicView->findChild<BatchOperateWidget *>(All_Picture_BatchOperateWidget);
+    if (batchOperateWidget) {
+        batchOperateWidget->sltCollectSelect(true);
+        QTest::qWait(200);
+        batchOperateWidget->sltCollectSelect(true);
+        QTest::qWait(200);
+        batchOperateWidget->sltRightRotate(true);
+        QTest::qWait(200);
+        batchOperateWidget->sltLeftRotate(true);
+        QTest::qWait(200);
+        batchOperateWidget->sltSelectAll();
+        QTest::qWait(200);
+        batchOperateWidget->sltUnSelectAll();
+    }
+
+    dApp->getMainWindow()->m_pAllPicView->m_pThumbnailListView->clearSelection();
+    if (batchOperateWidget) {
+        ExpansionPanel::FilteData data;
+
+        data.type = ItemType::ItemTypeNull;
+        batchOperateWidget->sltCurrentFilterChanged(data);
+        QTest::qWait(200);
+
+        data.type = ItemType::ItemTypePic;
+        batchOperateWidget->sltCurrentFilterChanged(data);
+        QTest::qWait(200);
+
+        data.type = ItemType::ItemTypeVideo;
+        batchOperateWidget->sltCurrentFilterChanged(data);
+        QTest::qWait(200);
+    }
 }
 
 TEST(allpicview, test_showInFileManagerAndBackGrond)
