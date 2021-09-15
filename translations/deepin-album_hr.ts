@@ -278,7 +278,35 @@
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>Jeste li sigurni da želite izbrisati %1 fotografija iz albuma?</translation>
+        <translation type="vanished">Jeste li sigurni da želite izbrisati %1 fotografija iz albuma?</translation>
+    </message>
+    <message numerus="yes">
+        <source>Are you sure you want to delete %n photos from albums?</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this video from the album?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>Are you sure you want to delete %n videos from albums?</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>Are you sure you want to delete %n items from albums?</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>

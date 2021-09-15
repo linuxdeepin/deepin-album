@@ -267,9 +267,21 @@
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>Ви справді хочете вилучити цю фотографію з альбому?</translation>
     </message>
+    <message numerus="yes">
+        <source>Are you sure you want to delete %n photos from albums?</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
     <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>Ви справді хочете вилучити ці %1 фотографій з альбомів?</translation>
+        <source>Are you sure you want to delete this video from the album?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>Are you sure you want to delete %n videos from albums?</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>Are you sure you want to delete %n items from albums?</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>

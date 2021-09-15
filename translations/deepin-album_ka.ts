@@ -278,7 +278,32 @@
     </message>
     <message>
         <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>დარწმუნებული ხართო, რომ გსურთ მონიშნული %1 სურათის წაშლა?</translation>
+        <translation type="vanished">დარწმუნებული ხართო, რომ გსურთ მონიშნული %1 სურათის წაშლა?</translation>
+    </message>
+    <message numerus="yes">
+        <source>Are you sure you want to delete %n photos from albums?</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this video from the album?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>Are you sure you want to delete %n videos from albums?</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>Are you sure you want to delete %n items from albums?</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>

@@ -267,9 +267,21 @@
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>Weet je zeker dat je deze foto wilt verwijderen uit het album?</translation>
     </message>
+    <message numerus="yes">
+        <source>Are you sure you want to delete %n photos from albums?</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
     <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>Weet je zeker dat je %1 foto&apos;s wilt verwijderen uit het album?</translation>
+        <source>Are you sure you want to delete this video from the album?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>Are you sure you want to delete %n videos from albums?</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>Are you sure you want to delete %n items from albums?</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>

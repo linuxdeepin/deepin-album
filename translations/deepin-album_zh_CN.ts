@@ -267,9 +267,21 @@
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>您确定要从相册中删除此照片吗？</translation>
     </message>
+    <message numerus="yes">
+        <source>Are you sure you want to delete %n photos from albums?</source>
+        <translation><numerusform>您确定要从相册中删除这%n张照片吗？</numerusform></translation>
+    </message>
     <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation>您确定要从相册中删除这%1张照片吗？</translation>
+        <source>Are you sure you want to delete this video from the album?</source>
+        <translation>您确定要从相册中删除此视频吗？</translation>
+    </message>
+    <message numerus="yes">
+        <source>Are you sure you want to delete %n videos from albums?</source>
+        <translation><numerusform>您确定要从相册中删除这%n个视频吗？</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>Are you sure you want to delete %n items from albums?</source>
+        <translation><numerusform>您确定要从相册中删除这%n个项目吗？</numerusform></translation>
     </message>
 </context>
 <context>
