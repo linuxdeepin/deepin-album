@@ -1632,7 +1632,18 @@ bool ThumbnailListView::isAllSelectedSupportRotate()
 //删除到相册已删除
 void ThumbnailListView::removeSelectToTrash(QStringList paths)
 {
-    ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
+    int imgCount = 0;
+    int videoCount = 0;
+    DBImgInfo info;
+    for (int i = 0; i < paths.size(); i++) {
+        ImageEngineApi::instance()->getImageData(paths.at(i), info);
+        if (info.itemType == ItemTypePic) {
+            imgCount++;
+        } else if (info.itemType == ItemTypeVideo) {
+            videoCount++;
+        }
+    }
+    ImgDeleteDialog *dialog = new ImgDeleteDialog(this, imgCount, videoCount);
     dialog->setObjectName("deteledialog");
     if (dialog->exec() > 0) {
         // 只更新部分，删除

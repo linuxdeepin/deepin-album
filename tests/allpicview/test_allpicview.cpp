@@ -171,8 +171,8 @@ TEST(allpicview, test_open)
         QTest::qWait(500);
         DBImgInfoList infos = DBManager::instance()->getAllTrashInfos();
         DBImgInfoList infosClear;
-        if(infos.size()>0){
-            infosClear<<infos.at(0);
+        if (infos.size() > 0) {
+            infosClear << infos.at(0);
         }
         ImageEngineApi::instance()->cleanUpTrash(infosClear);
         QTest::qWait(200);
@@ -232,9 +232,9 @@ TEST(allpicview, test_open)
     e.addKeyClick(Qt::Key_Escape);
     e.simulate(w);
 
-    ImgDeleteDialog *dialog = new ImgDeleteDialog(a->getThumbnailListView(), testPathlist.length());
+//    ImgDeleteDialog *dialog = new ImgDeleteDialog(a->getThumbnailListView(), testPathlist.length());
     ImageEngineApi::instance()->moveImagesToTrash(testPathlist, true, false);
-    dialog->deleteLater();
+//    dialog->deleteLater();
 }
 
 TEST(allpicview, test_select)
@@ -518,11 +518,11 @@ TEST(allpicview, deleteTips)
     if (testPathlist.count() > 0) {
         QStringList tempDel;
         tempDel << testPathlist.last();
-        ImgDeleteDialog *delDlg = new ImgDeleteDialog(a->getThumbnailListView(), tempDel.length());
-        delDlg->show();
-        QTest::qWait(500);
+//        ImgDeleteDialog *delDlg = new ImgDeleteDialog(a->getThumbnailListView(), tempDel.length());
+//        delDlg->show();
+//        QTest::qWait(500);
         ImageEngineApi::instance()->moveImagesToTrash(tempDel);
-        delDlg->deleteLater();
+//        delDlg->deleteLater();
         QTest::qWait(500);
     }
 }

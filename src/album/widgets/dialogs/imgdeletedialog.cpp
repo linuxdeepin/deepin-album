@@ -29,7 +29,7 @@
 #include <DSuggestButton>
 #include <DTitlebar>
 
-ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int count, bool bdeleteallonlyone)
+ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int imgCount, int videoCount)
     : DDialog(parent)
 {
     setModal(true);
@@ -37,12 +37,29 @@ ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int count, bool bdeleteallonly
     QIcon icon = QIcon::fromTheme("deepin-album");
     this->setIcon(icon);
     DLabel *m_label = new DLabel(this);
-    if (1 == count && !bdeleteallonlyone) {
-        m_label->setText(tr("Are you sure you want to delete this photo from the album?"));
-    } else {
-        QString str = tr("Are you sure you want to delete %1 photos from albums?");
-        m_label->setText(str.arg(count));
+
+    if (imgCount > 0 && videoCount == 0) {
+        //仅删除图片
+        if (1 == imgCount) {
+            m_label->setText(tr("Are you sure you want to delete this photo from the album?"));
+        } else {
+            QString str = tr("Are you sure you want to delete %n photos from albums?", "", imgCount);
+            m_label->setText(str);
+        }
+    } else if (imgCount == 0 && videoCount > 0) {
+        //仅删除视频
+        if (1 == videoCount) {
+            m_label->setText(tr("Are you sure you want to delete this video from the album?"));
+        } else {
+            QString str = tr("Are you sure you want to delete %n videos from albums?", "", videoCount);
+            m_label->setText(str);
+        }
+    } else if (imgCount > 0 && videoCount > 0) {
+        //删除视频和图片
+        QString str = tr("Are you sure you want to delete %n items from albums?", "", (imgCount + videoCount));
+        m_label->setText(str);
     }
+
     m_label->setWordWrap(true);
     m_label->setAlignment(Qt::AlignHCenter);
     DWidget *contentWidget = new DWidget(this);

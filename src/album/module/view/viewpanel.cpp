@@ -398,7 +398,16 @@ void ViewPanel::onRotateCounterClockwise()
 void ViewPanel::onRemoved()
 {
     if (COMMON_STR_TRASH == m_vinfo.viewType) {
-        ImgDeleteDialog *dialog = new ImgDeleteDialog(this, 1);
+        int imgCount = 0;
+        int videoCount = 0;
+        DBImgInfo info;
+        ImageEngineApi::instance()->getImageData(m_currentpath, info);
+        if (info.itemType == ItemTypePic) {
+            imgCount++;
+        } else if (info.itemType == ItemTypeVideo) {
+            videoCount++;
+        }
+        ImgDeleteDialog *dialog = new ImgDeleteDialog(this, imgCount, videoCount);
         dialog->setObjectName("deteledialog");
         if (dialog->exec() > 0) {
             DBManager::instance()->removeTrashImgInfos(QStringList(m_currentpath));

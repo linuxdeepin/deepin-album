@@ -31,7 +31,7 @@ class ImgDeleteDialog : public DDialog
 {
     Q_OBJECT
 public:
-    explicit ImgDeleteDialog(DWidget *parent, int count, bool bdeleteallonlyone = false);
+    explicit ImgDeleteDialog(DWidget *parent, int imgCount, int videoCount);
 
     //键盘交互
     QList<QWidget *> m_allTabOrder;

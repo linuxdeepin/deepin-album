@@ -1180,7 +1180,18 @@ void AlbumView::onKeyDelete()
     } else if (COMMON_STR_TRASH == m_currentType) {
         paths = m_pRightTrashThumbnailList->selectedPaths();
         if (0 < paths.length()) {
-            ImgDeleteDialog *dialog = new ImgDeleteDialog(this, paths.length());
+            int imgCount = 0;
+            int videoCount = 0;
+            DBImgInfo info;
+            for (int i = 0; i < paths.size(); i++) {
+                ImageEngineApi::instance()->getImageData(paths.at(i), info);
+                if (info.itemType == ItemTypePic) {
+                    imgCount++;
+                } else if (info.itemType == ItemTypeVideo) {
+                    videoCount++;
+                }
+            }
+            ImgDeleteDialog *dialog = new ImgDeleteDialog(this, imgCount, videoCount);
             dialog->setObjectName("deteledialog");
             if (dialog->exec() > 0) {
                 m_pRightTrashThumbnailList->clearSelection();
