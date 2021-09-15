@@ -3,6 +3,7 @@ export QT_QPA_PLATFORM='offscreen'
 export QTEST_FUNCTION_TIMEOUT='800000'
 cp -r ./testResource/* ${HOME}/图片/
 cp -r ./testResource/* ${HOME}/Pictures/
+cp -r ./testResource/* ${HOME}/second/
 
 cd ..
 rm -rf ./build-ut

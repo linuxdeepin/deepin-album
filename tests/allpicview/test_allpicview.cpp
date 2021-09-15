@@ -170,7 +170,11 @@ TEST(allpicview, test_open)
         ImageEngineApi::instance()->moveImagesToTrash(testPathlist);
         QTest::qWait(500);
         DBImgInfoList infos = DBManager::instance()->getAllTrashInfos();
-        ImageEngineApi::instance()->cleanUpTrash(infos);
+        DBImgInfoList infosClear;
+        if(infos.size()>0){
+            infosClear<<infos.at(0);
+        }
+        ImageEngineApi::instance()->cleanUpTrash(infosClear);
         QTest::qWait(200);
         ImageEngineApi::instance()->reloadAfterFilterUnExistImage();
         QTest::qWait(200);

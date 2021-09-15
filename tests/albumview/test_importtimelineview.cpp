@@ -125,3 +125,36 @@ TEST(ImportTimeLineView, thumbnaillistViewSlot_test)
     event.simulate(a->m_pLeftListView->m_pPhotoLibListView->viewport());
     QTest::qWait(1000);
 }
+
+//已导入页面再次导入图片
+TEST(ImportTimeLineView, Picimport)
+{
+    TEST_CASE_NAME("load")
+    QStringList list;
+    QStringList listtemp = QStandardPaths::standardLocations(QStandardPaths::HomeLocation);
+    if (listtemp.size() > 0) {
+        list << listtemp.at(0) + "/second";
+    }
+
+    qDebug() << "Picture count = " << list.size() << list.at(0);
+    MainWindow *w = dApp->getMainWindow();
+    w->getButG();
+    w->allPicBtnClicked();
+
+    AllPicView *allpicview = w->m_pAllPicView;
+    ImageEngineApi::instance()->ImportImagesFromFileList(list, "", allpicview, true);
+    allpicview->update();
+    QTest::qWait(2000);
+
+    QTestEventList event;
+
+    event.addMouseClick(Qt::MouseButton::LeftButton);
+    event.simulate(w->getButG()->button(1));
+    QTest::qWait(300);
+    event.simulate(w->getButG()->button(2));
+    QTest::qWait(300);
+    event.simulate(w->getButG()->button(0));
+    event.clear();
+    QTest::qWait(300);
+    ASSERT_TRUE(w != nullptr);
+}
