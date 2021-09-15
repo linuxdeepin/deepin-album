@@ -86,19 +86,19 @@ public:
     {
         return bcloseFg;
     }
-    void loadFirstPageThumbnails(int num);
+    void loadFirstPageThumbnails(int num, bool clearCache = true);
     void thumbnailLoadThread(int num);
 
     //设置线程循环跳出
     void     setThreadShouldStop();
     //根据路径制作缩略图，并保存到指定位置
-    bool makeThumbnailByPaths(QStringList files);
+//    bool makeThumbnailByPaths(QStringList files);
 private slots:
-    void sltImageLocalLoaded(void *imgobject, QStringList &filelist);
-    void sltImageDBLoaded(void *imgobject, QStringList &filelist);
-    void sltImageFilesGeted(void *imgobject, QStringList &filelist, QString path);
+//    void sltImageLocalLoaded(void *imgobject, QStringList &filelist);
+//    void sltImageDBLoaded(void *imgobject, QStringList &filelist);
+//    void sltImageFilesGeted(void *imgobject, QStringList &filelist, QString path);
     void sltImageFilesImported(void *imgobject, QStringList &filelist);
-    void sltstopCacheSave();
+//    void sltstopCacheSave();
 
     void sigImageBackLoaded(QString path, const DBImgInfo &data);
 

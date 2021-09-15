@@ -163,26 +163,26 @@ bool ImageEngineApi::getImageData(QString imagepath, DBImgInfo &data)
     return true;
 }
 
-void ImageEngineApi::sltImageLocalLoaded(void *imgobject, QStringList &filelist)
-{
-    if (nullptr != imgobject && ifObjectExist(imgobject)) {
-        static_cast<ImageEngineObject *>(imgobject)->imageLocalLoaded(filelist);
-    }
-}
+//void ImageEngineApi::sltImageLocalLoaded(void *imgobject, QStringList &filelist)
+//{
+//    if (nullptr != imgobject && ifObjectExist(imgobject)) {
+//        static_cast<ImageEngineObject *>(imgobject)->imageLocalLoaded(filelist);
+//    }
+//}
 
-void ImageEngineApi::sltImageDBLoaded(void *imgobject, QStringList &filelist)
-{
-    if (nullptr != imgobject && ifObjectExist(imgobject)) {
-        static_cast<ImageEngineObject *>(imgobject)->imageFromDBLoaded(filelist);
-    }
-}
+//void ImageEngineApi::sltImageDBLoaded(void *imgobject, QStringList &filelist)
+//{
+//    if (nullptr != imgobject && ifObjectExist(imgobject)) {
+//        static_cast<ImageEngineObject *>(imgobject)->imageFromDBLoaded(filelist);
+//    }
+//}
 
-void ImageEngineApi::sltImageFilesGeted(void *imgobject, QStringList &filelist, QString path)
-{
-    if (nullptr != imgobject && ifObjectExist(imgobject)) {
-        static_cast<ImageMountGetPathsObject *>(imgobject)->imageGeted(filelist, path);
-    }
-}
+//void ImageEngineApi::sltImageFilesGeted(void *imgobject, QStringList &filelist, QString path)
+//{
+//    if (nullptr != imgobject && ifObjectExist(imgobject)) {
+//        static_cast<ImageMountGetPathsObject *>(imgobject)->imageGeted(filelist, path);
+//    }
+//}
 
 void ImageEngineApi::sltImageFilesImported(void *imgobject, QStringList &filelist)
 {
@@ -191,17 +191,17 @@ void ImageEngineApi::sltImageFilesImported(void *imgobject, QStringList &filelis
     }
 }
 
-void ImageEngineApi::sltstopCacheSave()
-{
-#ifdef NOGLOBAL
-    cacheThreadPool.waitForDone();
-#else
-    qDebug() << "析构缓存对象线程";
-    QThreadPool::globalInstance()->clear();
-    QThreadPool::globalInstance()->waitForDone();
+//void ImageEngineApi::sltstopCacheSave()
+//{
+//#ifdef NOGLOBAL
+//    cacheThreadPool.waitForDone();
+//#else
+//    qDebug() << "析构缓存对象线程";
+//    QThreadPool::globalInstance()->clear();
+//    QThreadPool::globalInstance()->waitForDone();
 
-#endif
-}
+//#endif
+//}
 
 void ImageEngineApi::sigImageBackLoaded(QString path, const DBImgInfo &data)
 {
@@ -281,12 +281,14 @@ bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName
     return iRet;
 }
 
-void ImageEngineApi::loadFirstPageThumbnails(int num)
+void ImageEngineApi::loadFirstPageThumbnails(int num, bool clearCache)
 {
     qDebug() << __FUNCTION__ << "---";
 
     m_FirstPageScreen = num;
-    m_AllImageDataVector.clear();
+    if (clearCache) {
+        m_AllImageDataVector.clear();
+    }
     thumbnailLoadThread(num);
 
     QSqlDatabase db = DBManager::instance()->getDatabase();
@@ -360,30 +362,30 @@ void ImageEngineApi::setThreadShouldStop()
     }
 }
 //根据路径制作缩略图，并保存到指定位置
-bool ImageEngineApi::makeThumbnailByPaths(QStringList files)
-{
-    if (!m_imageCacheSaveobj) {
-        m_imageCacheSaveobj = new ImageCacheSaveObject;
-        connect(dApp->signalM, &SignalManager::cacheThreadStop, this, &ImageEngineApi::sltstopCacheSave);
-    }
-    m_imageCacheSaveobj->add(files);
-    int needCoreCounts = static_cast<int>(std::thread::hardware_concurrency());
-    needCoreCounts = needCoreCounts / 2;
-    if (needCoreCounts < 1)
-        needCoreCounts = 1;
-    QList<QThread *> threads;
-    for (int i = 0; i < needCoreCounts; i++) {
-        makeThumbnailThread *thread = new makeThumbnailThread;
-        thread->setObject(m_imageCacheSaveobj);
-        thread->start();
-        threads.append(thread);
-    }
-    for (auto thread : threads) {
-        thread->wait();
-        thread->deleteLater();
-    }
-    return true;
-}
+//bool ImageEngineApi::makeThumbnailByPaths(QStringList files)
+//{
+//    if (!m_imageCacheSaveobj) {
+//        m_imageCacheSaveobj = new ImageCacheSaveObject;
+//        connect(dApp->signalM, &SignalManager::cacheThreadStop, this, &ImageEngineApi::sltstopCacheSave);
+//    }
+//    m_imageCacheSaveobj->add(files);
+//    int needCoreCounts = static_cast<int>(std::thread::hardware_concurrency());
+//    needCoreCounts = needCoreCounts / 2;
+//    if (needCoreCounts < 1)
+//        needCoreCounts = 1;
+//    QList<QThread *> threads;
+//    for (int i = 0; i < needCoreCounts; i++) {
+//        makeThumbnailThread *thread = new makeThumbnailThread;
+//        thread->setObject(m_imageCacheSaveobj);
+//        thread->start();
+//        threads.append(thread);
+//    }
+//    for (auto thread : threads) {
+//        thread->wait();
+//        thread->deleteLater();
+//    }
+//    return true;
+//}
 
 void ImageEngineApi::setImgPathAndAlbumNames(const QMultiMap<QString, QString> &imgPahtAlbums)
 {
@@ -406,10 +408,6 @@ void ImageEngineApi::cleanUpTrash(const DBImgInfoList &list)
 bool ImageEngineApi::reloadAfterFilterUnExistImage()
 {
     ImageLoadFromDBThread *imagethread = new ImageLoadFromDBThread();
-//    connect(imagethread, &ImageLoadFromDBThread::sigImageLoaded, this, &ImageEngineApi::sltImageDBLoaded);
-//    connect(imagethread, &ImageLoadFromDBThread::sigInsert, this, &ImageEngineApi::sltInsert);
-//    imagethread->setData(type, obj, name);
-//    obj->addThread(imagethread);
 #ifdef NOGLOBAL
     m_qtpool.start(imagethread);
 #else

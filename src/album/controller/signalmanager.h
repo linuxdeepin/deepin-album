@@ -165,7 +165,7 @@ signals:
     void closeWaitDialog();
     void progressOfWaitDialog(int allfiles, int completefiles);
     void waitDevicescan();
-    void cacheThreadStop();
+//    void cacheThreadStop();
     void sigSyncListviewModelData(QStringList paths, QString albumName, int actionType);
 
     //lmh0426设备退出，信号通知线程退出

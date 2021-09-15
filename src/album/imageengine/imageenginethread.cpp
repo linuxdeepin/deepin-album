@@ -632,13 +632,6 @@ ImageLoadFromDBThread::~ImageLoadFromDBThread()
 {
 }
 
-void ImageLoadFromDBThread::setData(ThumbnailDelegate::DelegateType type, ImageEngineObject *imgobject, const QString &nametype)
-{
-    m_type = type;
-    m_imgobject = imgobject;
-    m_nametype = nametype;
-}
-
 bool ImageLoadFromDBThread::ifCanStopThread(void *imgobject)
 {
     static_cast<ImageEngineObject *>(imgobject)->removeThread(this);
@@ -919,94 +912,94 @@ void ImageFromNewAppThread::runDetail()
     m_imgobj->removeThread(this);
 }
 //缩略图制作线程
-makeThumbnailThread::makeThumbnailThread()
-{
-}
+//makeThumbnailThread::makeThumbnailThread()
+//{
+//}
 
-makeThumbnailThread::~makeThumbnailThread()
-{
-    delete  m_playlistModel;
-    m_playlistModel = nullptr;
-}
+//makeThumbnailThread::~makeThumbnailThread()
+//{
+//    delete  m_playlistModel;
+//    m_playlistModel = nullptr;
+//}
 
-void makeThumbnailThread::saveCache(QString m_path)
-{
-    if (needStop || m_path.isEmpty()) {
-        qDebug() << "m_path empty";
-        return;
-    }
-    QImage tImg;
-    QString path = m_path;
+//void makeThumbnailThread::saveCache(QString m_path)
+//{
+//    if (needStop || m_path.isEmpty()) {
+//        qDebug() << "m_path empty";
+//        return;
+//    }
+//    QImage tImg;
+//    QString path = m_path;
 
-    QString spath = utils::base::filePathToThumbnailPath(m_path);
+//    QString spath = utils::base::filePathToThumbnailPath(m_path);
 
-    QFileInfo file(spath);
-    if (needStop)
-        return;
-    if (file.exists()) {
-        return;
-    }
-    if (needStop)
-        return;
+//    QFileInfo file(spath);
+//    if (needStop)
+//        return;
+//    if (file.exists()) {
+//        return;
+//    }
+//    if (needStop)
+//        return;
 
-    QString errMsg;
-    if (utils::base::isVideo(m_path)) {
-        tImg = m_playlistModel->getMovieCover(QUrl::fromLocalFile(m_path));
-        bool is = false;
-        //获取视频信息 demo
-        dmr::MovieInfo mi = m_playlistModel->getMovieInfo(QUrl::fromLocalFile(path), &is);
-        ImageDataService::instance()->addMovieDurationStr(m_path, mi.durationStr());
-    } else {
-        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
-            qDebug() << errMsg;
-            return;
-        }
-    }
-    if (needStop)
-        return;
+//    QString errMsg;
+//    if (utils::base::isVideo(m_path)) {
+//        tImg = m_playlistModel->getMovieCover(QUrl::fromLocalFile(m_path));
+//        bool is = false;
+//        //获取视频信息 demo
+//        dmr::MovieInfo mi = m_playlistModel->getMovieInfo(QUrl::fromLocalFile(path), &is);
+//        ImageDataService::instance()->addMovieDurationStr(m_path, mi.durationStr());
+//    } else {
+//        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+//            qDebug() << errMsg;
+//            return;
+//        }
+//    }
+//    if (needStop)
+//        return;
 
-    if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
-        bool cache_exist = false;
-        if (tImg.height() != 200 && tImg.width() != 200) {
-            if (tImg.height() >= tImg.width()) {
-                cache_exist = true;
-                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
-            } else if (tImg.height() <= tImg.width()) {
-                cache_exist = true;
-                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
-            }
-        }
-        if (!cache_exist) {
-            if (static_cast<float>(tImg.height()) / static_cast<float>(tImg.width()) > 3) {
-                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
-            } else {
-                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
-            }
-        }
-    }
+//    if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
+//        bool cache_exist = false;
+//        if (tImg.height() != 200 && tImg.width() != 200) {
+//            if (tImg.height() >= tImg.width()) {
+//                cache_exist = true;
+//                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+//            } else if (tImg.height() <= tImg.width()) {
+//                cache_exist = true;
+//                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+//            }
+//        }
+//        if (!cache_exist) {
+//            if (static_cast<float>(tImg.height()) / static_cast<float>(tImg.width()) > 3) {
+//                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+//            } else {
+//                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+//            }
+//        }
+//    }
 
-    if (needStop)
-        return;
-    utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
+//    if (needStop)
+//        return;
+//    utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
 
-    QPixmap pixmap = QPixmap::fromImage(tImg);
-    pixmap.save(spath, "PNG");
-}
+//    QPixmap pixmap = QPixmap::fromImage(tImg);
+//    pixmap.save(spath, "PNG");
+//}
 
-void makeThumbnailThread::run()
-{
-    if (m_playlistModel == nullptr) {
-        qDebug() << __FUNCTION__ << "---new dmr::PlaylistModel";
-        m_playlistModel = new dmr::PlaylistModel(nullptr);
-    }
+//void makeThumbnailThread::run()
+//{
+//    if (m_playlistModel == nullptr) {
+//        qDebug() << __FUNCTION__ << "---new dmr::PlaylistModel";
+//        m_playlistModel = new dmr::PlaylistModel(nullptr);
+//    }
 
-    while (!m_obj->isEmpty() && !needStop && !ImageEngineApi::instance()->closeFg()) {
-        QString res = m_obj->pop();
-        if (!res.isEmpty()) {
-            saveCache(res);
-        }
-    }
-}
+//    while (!m_obj->isEmpty() && !needStop && !ImageEngineApi::instance()->closeFg()) {
+//        QString res = m_obj->pop();
+//        if (!res.isEmpty()) {
+//            saveCache(res);
+//        }
+//    }
+//}
 
 ImageEngineBackThread::ImageEngineBackThread(): m_bpause(false)
 {

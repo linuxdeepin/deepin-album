@@ -140,15 +140,9 @@ class ImageLoadFromDBThread : public ImageEngineThreadObject
 public:
     explicit ImageLoadFromDBThread();
     ~ImageLoadFromDBThread() override;
-    void setData(ThumbnailDelegate::DelegateType, ImageEngineObject *imgobject, const QString &nametype = "");
-
 protected:
     bool ifCanStopThread(void *imgobject) override;
     void runDetail() override;
-
-signals:
-    void sigImageLoaded(void *imgobject, QStringList &filelist);
-    void sigInsert(QString imagepath, QString remainDay = "");
 private:
     QString m_nametype;
     ThumbnailDelegate::DelegateType m_type;
@@ -217,28 +211,28 @@ private:
 
 };
 //缩略图制作线程
-class makeThumbnailThread : public QThread
-{
-    Q_OBJECT
-public:
-    makeThumbnailThread();
-    ~makeThumbnailThread() override;
-    void setObject(ImageCacheSaveObject *obj)
-    {
-        m_obj = obj;
-    }
-    void saveCache(QString m_path);
-    void stopThread()
-    {
-        needStop = true;
-    }
-protected:
-    void run() override;
-private:
-    ImageCacheSaveObject *m_obj = nullptr;
-    bool needStop = false;
-    dmr::PlaylistModel *m_playlistModel = nullptr;
-};
+//class makeThumbnailThread : public QThread
+//{
+//    Q_OBJECT
+//public:
+//    makeThumbnailThread();
+//    ~makeThumbnailThread() override;
+//    void setObject(ImageCacheSaveObject *obj)
+//    {
+//        m_obj = obj;
+//    }
+//    void saveCache(QString m_path);
+//    void stopThread()
+//    {
+//        needStop = true;
+//    }
+//protected:
+//    void run() override;
+//private:
+//    ImageCacheSaveObject *m_obj = nullptr;
+//    bool needStop = false;
+//    dmr::PlaylistModel *m_playlistModel = nullptr;
+//};
 
 #include <QWaitCondition>
 class ImageEngineBackThread : public ImageEngineThreadObject

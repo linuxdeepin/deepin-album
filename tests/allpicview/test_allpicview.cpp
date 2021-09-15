@@ -169,6 +169,11 @@ TEST(allpicview, test_open)
     if (!testPathlist.isEmpty()) {
         ImageEngineApi::instance()->moveImagesToTrash(testPathlist);
         QTest::qWait(500);
+        DBImgInfoList infos = DBManager::instance()->getAllTrashInfos();
+        ImageEngineApi::instance()->cleanUpTrash(infos);
+        QTest::qWait(200);
+        ImageEngineApi::instance()->reloadAfterFilterUnExistImage();
+        QTest::qWait(200);
     }
     AllPicView *a = w->m_pAllPicView;
     QTestEventList tl;
@@ -252,8 +257,8 @@ TEST(allpicview, test_select)
     a->updatePicNum();
     dApp->signalM->imagesRemoved();
     QTest::qWait(100);
-    emit a->getThumbnailListView()->openImage(0, ImageEngineApi::instance()->get_AllImagePath().first(), false);
-    QTest::qWait(100);
+//    emit a->getThumbnailListView()->openImage(0, ImageEngineApi::instance()->get_AllImagePath().first(), false);
+//    QTest::qWait(100);
 }
 
 TEST(allpicview, BatchOperateWidget)
