@@ -537,91 +537,91 @@ void ImageImportFilesFromMountThread::runDetail()
     m_imgobject->removeThread(this);
 }
 
-ImageGetFilesFromMountThread::ImageGetFilesFromMountThread()
-{
-    setAutoDelete(false);
-}
+//ImageGetFilesFromMountThread::ImageGetFilesFromMountThread()
+//{
+//    setAutoDelete(false);
+//}
 
-ImageGetFilesFromMountThread::~ImageGetFilesFromMountThread()
-{
-}
+//ImageGetFilesFromMountThread::~ImageGetFilesFromMountThread()
+//{
+//}
 
-void ImageGetFilesFromMountThread::setData(QString &mountname, QString &path, ImageMountGetPathsObject *imgobject)
-{
-    m_mountname = mountname;
-    m_path = path;
-    m_imgobject = imgobject;
-}
+//void ImageGetFilesFromMountThread::setData(QString &mountname, QString &path, ImageMountGetPathsObject *imgobject)
+//{
+//    m_mountname = mountname;
+//    m_path = path;
+//    m_imgobject = imgobject;
+//}
 
-bool ImageGetFilesFromMountThread::ifCanStopThread(void *imgobject)
-{
-    static_cast<ImageMountGetPathsObject *>(imgobject)->removeThread(this);
-    if (imgobject == m_imgobject) {
-        return true;
-    }
-    return false;
-}
+//bool ImageGetFilesFromMountThread::ifCanStopThread(void *imgobject)
+//{
+//    static_cast<ImageMountGetPathsObject *>(imgobject)->removeThread(this);
+//    if (imgobject == m_imgobject) {
+//        return true;
+//    }
+//    return false;
+//}
 
-//搜索手机中存储相机照片文件的路径，采用两级文件目录深度，找"DCIM"文件目录
-//经过调研，安卓手机在path/外部存储设备/DCIM下，iPhone在patn/DCIM下
-bool ImageGetFilesFromMountThread::findPicturePathByPhone(QString &path)
-{
-    QDir dir(path);
-    if (!dir.exists()) return false;
-    QFileInfoList fileInfoList = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
-    QFileInfo tempFileInfo;
-    foreach (tempFileInfo, fileInfoList) {
-        if (tempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0) {
-            path = tempFileInfo.absoluteFilePath();
-            return true;
-        } else {
-            QDir subDir;
-            subDir.setPath(tempFileInfo.absoluteFilePath());
-            QFileInfoList subFileInfoList = subDir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
-            QFileInfo subTempFileInfo;
-            foreach (subTempFileInfo, subFileInfoList) {
-                if (subTempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0) {
-                    path = subTempFileInfo.absoluteFilePath();
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
-    return false;
-}
+////搜索手机中存储相机照片文件的路径，采用两级文件目录深度，找"DCIM"文件目录
+////经过调研，安卓手机在path/外部存储设备/DCIM下，iPhone在patn/DCIM下
+//bool ImageGetFilesFromMountThread::findPicturePathByPhone(QString &path)
+//{
+//    QDir dir(path);
+//    if (!dir.exists()) return false;
+//    QFileInfoList fileInfoList = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
+//    QFileInfo tempFileInfo;
+//    foreach (tempFileInfo, fileInfoList) {
+//        if (tempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0) {
+//            path = tempFileInfo.absoluteFilePath();
+//            return true;
+//        } else {
+//            QDir subDir;
+//            subDir.setPath(tempFileInfo.absoluteFilePath());
+//            QFileInfoList subFileInfoList = subDir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
+//            QFileInfo subTempFileInfo;
+//            foreach (subTempFileInfo, subFileInfoList) {
+//                if (subTempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0) {
+//                    path = subTempFileInfo.absoluteFilePath();
+//                    return true;
+//                }
+//            }
+//            return false;
+//        }
+//    }
+//    return false;
+//}
 
-void ImageGetFilesFromMountThread::runDetail()
-{
-    if (bneedstop) {
-        return;
-    }
-    //获取所选文件类型过滤器
-    QStringList filters;
-    for (QString i : UnionImage_NameSpace::unionImageSupportFormat()) {
-        filters << "*." + i;
-    }
-    //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
-    QDirIterator dir_iterator(m_path,
-                              filters,
-                              QDir::Files | QDir::NoSymLinks,
-                              QDirIterator::Subdirectories);
-    QStringList allfiles;
-    while (dir_iterator.hasNext()) {
-        if (bneedstop || ImageEngineApi::instance()->closeFg()) {
-            return;
-        }
-        dir_iterator.next();
-        QFileInfo fileInfo = dir_iterator.fileInfo();
-        allfiles << fileInfo.filePath();
-    }
-    if (bneedstop) {
-        return;
-    }
-    emit sigImageFilesGeted(m_imgobject, allfiles, m_path);
-    m_imgobject->removeThread(this);
-    emit dApp->signalM->sigLoadMountImagesEnd(m_mountname);
-}
+//void ImageGetFilesFromMountThread::runDetail()
+//{
+//    if (bneedstop) {
+//        return;
+//    }
+//    //获取所选文件类型过滤器
+//    QStringList filters;
+//    for (QString i : UnionImage_NameSpace::unionImageSupportFormat()) {
+//        filters << "*." + i;
+//    }
+//    //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
+//    QDirIterator dir_iterator(m_path,
+//                              filters,
+//                              QDir::Files | QDir::NoSymLinks,
+//                              QDirIterator::Subdirectories);
+//    QStringList allfiles;
+//    while (dir_iterator.hasNext()) {
+//        if (bneedstop || ImageEngineApi::instance()->closeFg()) {
+//            return;
+//        }
+//        dir_iterator.next();
+//        QFileInfo fileInfo = dir_iterator.fileInfo();
+//        allfiles << fileInfo.filePath();
+//    }
+//    if (bneedstop) {
+//        return;
+//    }
+//    emit sigImageFilesGeted(m_imgobject, allfiles, m_path);
+//    m_imgobject->removeThread(this);
+//    emit dApp->signalM->sigLoadMountImagesEnd(m_mountname);
+//}
 
 ImageLoadFromDBThread::ImageLoadFromDBThread()
 {

@@ -113,26 +113,26 @@ private:
     ImageMountImportPathsObject *m_imgobject = nullptr;
 };
 
-class ImageGetFilesFromMountThread : public ImageEngineThreadObject
-{
-    Q_OBJECT
-public:
-    ImageGetFilesFromMountThread();
-    ~ImageGetFilesFromMountThread() override;
-    void setData(QString &mountname, QString &path, ImageMountGetPathsObject *imgobject);
+//class ImageGetFilesFromMountThread : public ImageEngineThreadObject
+//{
+//    Q_OBJECT
+//public:
+//    ImageGetFilesFromMountThread();
+//    ~ImageGetFilesFromMountThread() override;
+//    void setData(QString &mountname, QString &path, ImageMountGetPathsObject *imgobject);
 
-protected:
-    bool ifCanStopThread(void *imgobject) override;
-    void runDetail() override;
+//protected:
+//    bool ifCanStopThread(void *imgobject) override;
+//    void runDetail() override;
 
-signals:
-    void sigImageFilesGeted(void *imgobject, QStringList &filelist, QString path);
-private:
-    bool findPicturePathByPhone(QString &path);
-    QString m_path;
-    QString m_mountname;
-    ImageMountGetPathsObject *m_imgobject = nullptr;
-};
+//signals:
+//    void sigImageFilesGeted(void *imgobject, QStringList &filelist, QString path);
+//private:
+//    bool findPicturePathByPhone(QString &path);
+//    QString m_path;
+//    QString m_mountname;
+//    ImageMountGetPathsObject *m_imgobject = nullptr;
+//};
 
 class ImageLoadFromDBThread : public ImageEngineThreadObject
 {

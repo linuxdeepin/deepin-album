@@ -39,6 +39,7 @@
 #include "ac-desktop-define.h"
 #include "testtoolkits.h"
 #include "batchoperatewidget.h"
+#include "imagedataservice.h"
 
 TEST(allpicview, test_ini)
 {
@@ -166,6 +167,7 @@ TEST(allpicview, test_open)
     QString testPath = publicTestPath;
     MainWindow *w = dApp->getMainWindow();
     QStringList testPathlist = ImageEngineApi::instance()->get_AllImagePath();
+    QImage img = ImageDataService::instance()->getThumnailImageByPath(testPathlist.first());
     if (!testPathlist.isEmpty()) {
         ImageEngineApi::instance()->moveImagesToTrash(testPathlist);
         QTest::qWait(500);
@@ -178,6 +180,19 @@ TEST(allpicview, test_open)
         QTest::qWait(200);
         ImageEngineApi::instance()->reloadAfterFilterUnExistImage();
         QTest::qWait(200);
+        QStringList list;
+        QStringList listtemp = QStandardPaths::standardLocations(QStandardPaths::HomeLocation);
+        if (listtemp.size() > 0) {
+            list << listtemp.at(0) + "/dev";
+        }
+        if (list.size() > 0) {
+            auto finfos = utils::image::getImagesAndVideoInfo(list.at(0));
+            list.clear();
+            for (auto info : finfos) {
+                list << info.absoluteFilePath();
+            }
+            ImageEngineApi::instance()->loadImageDateToMemory(list, list.at(0));
+        }
     }
     AllPicView *a = w->m_pAllPicView;
     QTestEventList tl;

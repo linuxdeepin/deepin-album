@@ -3,7 +3,11 @@ export QT_QPA_PLATFORM='offscreen'
 export QTEST_FUNCTION_TIMEOUT='800000'
 cp -r ./testResource/* ${HOME}/图片/
 cp -r ./testResource/* ${HOME}/Pictures/
-cp -r ./testResource/* ${HOME}/second/
+mkdir ${HOME}/second/
+cp -r ./testResource/second/* ${HOME}/second/
+#模拟设备导入时使用
+mkdir ${HOME}/dev/
+cp -r ./testResource/dev/* ${HOME}/dev/
 
 cd ..
 rm -rf ./build-ut
