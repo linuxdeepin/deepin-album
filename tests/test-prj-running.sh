@@ -1,8 +1,8 @@
 #!/bin/bash
 export QT_QPA_PLATFORM='offscreen'
 export QTEST_FUNCTION_TIMEOUT='800000'
-cp -r ./testResource/* ${HOME}/图片/
-cp -r ./testResource/* ${HOME}/Pictures/
+cp -r ./testResource/pic/* ${HOME}/图片/
+cp -r ./testResource/pic/* ${HOME}/Pictures/
 mkdir ${HOME}/second/
 cp -r ./testResource/second/* ${HOME}/second/
 #模拟设备导入时使用
@@ -12,7 +12,9 @@ cp -r ./testResource/dev/* ${HOME}/dev/
 cd ..
 rm -rf ./build-ut
 rm -rf ./build
-rm -rf ${HOME}/.local/share/deepin/deepin-album
+rm -rf ${HOME}/.local/share/deepin/deepin-album/*
+#导入旧的数据库文件
+cp -r ./tests/testResource/db/* ${HOME}/.local/share/deepin/deepin-album
 mkdir build-ut
 
 cmake . -B build -D DOTEST=ON
