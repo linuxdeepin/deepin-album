@@ -392,6 +392,7 @@ TEST(MainWindow, allpicture)
 
     //全屏
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Fullscreen"));
+    QTest::qWait(300);
     e.addKeyClick(Qt::Key_Escape, Qt::NoModifier, 50);
     e.simulate(imageview->viewport());
     e.clear();
@@ -401,29 +402,38 @@ TEST(MainWindow, allpicture)
 
     //幻灯片
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Slide show"));
+    e.addKeyClick(Qt::Key_Escape, Qt::NoModifier, 50);
+    e.simulate(w->m_slidePanel);
+    e.clear();
+    QTest::qWait(1000);
+
     SlideShowPanel *slideshowpanel = w->m_slidePanel;
 
     //fix：没有调用startSlideShow而直接用鼠标去点，导致UT崩溃
+
     SignalManager::ViewInfo info;
     info.album = "";
     info.lastPanel = nullptr;
-    info.paths = QStringList() << testPath_Pictures + "/a.jpg" << testPath_Pictures + "/3333.jpg";
-    info.path = testPath_Pictures + "/a.jpg";
+    info.paths = allpicview->m_pThumbnailListView->getFileList();
+    if (info.paths.size() > 0) {
+        info.path = info.paths.at(0);
+    }
     info.fullScreen = true;
     info.slideShow = true;
-    info.viewType = "";
-    info.viewMainWindowID = 0;
+    info.viewType = utils::common::VIEW_ALLPIC_SRN;
+    info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
     slideshowpanel->setIsRandom(false);
     slideshowpanel->startSlideShow(info, true);
+    emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALLPIC);
 
     if (slideshowpanel) {
         SlideShowBottomBar *sliderbar = slideshowpanel->slideshowbottombar;
         if (sliderbar) {
             e.addMouseClick(Qt::MouseButton::LeftButton);
-            DIconButton *preButton = sliderbar->findChild<DIconButton *>("SliderPreButton");
-            DIconButton *NextButton = sliderbar->findChild<DIconButton *>("SliderNextButton");
-            DIconButton *Play_PauseButton = sliderbar->findChild<DIconButton *>("SliderPlayPauseButton");
-            DIconButton *ExitButton = sliderbar->findChild<DIconButton *>("SliderExitButton");
+            DIconButton *preButton = sliderbar->findChild<DIconButton *>(Slider_Pre_Button);
+            DIconButton *NextButton = sliderbar->findChild<DIconButton *>(Slider_Next_Button);
+            DIconButton *Play_PauseButton = sliderbar->findChild<DIconButton *>(Slider_Play_Pause_Button);
+            DIconButton *ExitButton = sliderbar->findChild<DIconButton *>(Slider_Next_Button);
             if (NextButton) {
                 e.simulate(NextButton);
                 QTest::qWait(500);
@@ -463,6 +473,12 @@ TEST(MainWindow, allpicture)
                 QTest::qWait(300);
             }
             e.clear();
+
+            if (slideshowpanel->isVisible()) {
+                e.addKeyClick(Qt::Key_Escape, Qt::NoModifier, 10);
+                e.simulate(slideshowpanel);
+                e.clear();
+            }
         } else { //无法获得切换控件，退出幻灯片播放
             QTest::qWait(1000);
             e.addKeyClick(Qt::Key_Escape, Qt::NoModifier, 10);

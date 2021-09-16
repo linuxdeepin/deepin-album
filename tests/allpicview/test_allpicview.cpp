@@ -473,47 +473,10 @@ TEST(allpicview, viewpaneltest)
             t->updateFilenameLayout();
             QTest::qWait(500);
 
-            DWidget *imgList = t->findChild<DWidget *>("imageListObj");
-            if (imgList) {
-                //todo
-            }
-
             //todo
 //            MyImageListWidget *imgListView = t->findChild<MyImageListWidget *>("MyImageListWidget");
 //            if (imgListView) {
-
 //            }
-
-            if (imgList) {
-                //todo
-                QTestEventList el;
-                QPoint p(150, 20);
-                el.addMouseMove(p);
-                el.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, p, 100);
-                p = p + QPoint(-20, 0);
-                el.addMouseMove(p, 100);
-                p = p + QPoint(-20, 0);
-                el.addMouseMove(p, 100);
-                p = p + QPoint(-20, 0);
-                el.addMouseMove(p, 100);
-                p = p + QPoint(-20, 0);
-                el.addMouseMove(p, 100);
-                p = p + QPoint(-20, 0);
-                el.addMouseMove(p, 100);
-                el.addMouseRelease(Qt::LeftButton, Qt::NoModifier, p, 100);
-                el.simulate(imgList);
-                el.clear();
-
-                //            if (imgListView) {
-                //todo
-                //                QPoint p2(imgListView->pos().x() - 50, imgListView->pos().y() + 10);
-                //                el.addMouseMove(p2);
-                //                el.addMousePress(Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier, p2, 100);
-                //                el.addMouseMove(QPoint(p2.x() + 100, p2.y()), 100);
-                //                el.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(p2.x() + 100, p2.y()), 100);
-                //                el.simulate(imgListView);
-                //            }
-            }
         }
     }
 

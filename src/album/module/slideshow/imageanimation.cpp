@@ -41,28 +41,31 @@ float GaussFunction(double max, float mu, float sigma, float x)
     return static_cast<float>(max * std::exp(static_cast<double>(-(x - mu) * (x - mu) / 2 * sigma * sigma)));
 }
 
-class LoopQueue
+class LoopQueue: public QObject
 {
+    Q_OBJECT
 public:
-    LoopQueue(const QString &beginPath, const QStringList &list);
-    inline const QString first()const;
-    inline const QString second()const;
-    inline const QString last()const;
-    inline int index() const;
-    inline const QString next();
+    LoopQueue(QObject *parent = nullptr);
+    ~LoopQueue() override;
+    void setBeginPathAndPath(const QString &beginPath, const QStringList &list);
+    const QString first()const;
+    const QString second()const;
+    const QString last()const;
+    int index() const;
+    const QString next();
 //    inline const QString pre();
-    inline const QString jumpTonext();
-    inline const QString jumpTopre();
-    inline const QString current()const;
-    inline void changeOrder(bool order);
+    const QString jumpTonext();
+    const QString jumpTopre();
+    const QString current()const;
+    void changeOrder(bool order);
 private:
-    inline void AddIndex();
+    void AddIndex();
 private:
     QVector<QString> loop_paths;
     QMutex queueMutex;
-    bool loop_order;
+    bool loop_order = true;
     char m_padding[3] = {'0', '0', '0'}; //填充占位,使数据结构内存对齐
-    int loop_pindex;
+    int loop_pindex = 0;
 };
 
 class ImageAnimationPrivate: public QWidget
@@ -211,12 +214,10 @@ private:
 //    }
 
 private:
-    char m_padding2[3] = {'0', '0', '0'};             //填充占位,使数据结构内存对齐
-    QSharedPointer<LoopQueue> queue;
-    QPointer<QTimer> m_singleanimationTimer;
+    char m_padding2[2] = {'0', '0'};            //填充占位,使数据结构内存对齐
+    LoopQueue *queue = nullptr;
     QPointer<QTimer> m_continuousanimationTimer;
     QPointer<QTimer> m_staticTimer;
-    QPointer<QRect> m_rect;
     QPoint centrePoint;
 //    int beginX;
 //    int beginY;
@@ -235,9 +236,16 @@ private:
  ****************************************************************************************************************
  */
 
-LoopQueue::LoopQueue(const QString &beginPath, const QStringList &list): loop_order(true), loop_pindex(0)
+LoopQueue::LoopQueue(QObject *parent): QObject(parent)
 {
-    Q_UNUSED(m_padding);
+}
+
+LoopQueue::~LoopQueue()
+{
+}
+
+void LoopQueue::setBeginPathAndPath(const QString &beginPath, const QStringList &list)
+{
     loop_paths.clear();
     int newfirst = list.indexOf(beginPath);
     QVector<QString> temp;
@@ -342,9 +350,9 @@ void LoopQueue::AddIndex()
 
 ImageAnimationPrivate::ImageAnimationPrivate(ImageAnimation *qq) :
     m_factor(0.0f), m_funval(0.0f), m_animationType(AnimationType::BlindsEffect), queue(nullptr),
-    m_singleanimationTimer(nullptr), m_continuousanimationTimer(nullptr), m_staticTimer(nullptr),  q_ptr(qq)
+    m_continuousanimationTimer(nullptr), m_staticTimer(nullptr),  q_ptr(qq)
 {
-    Q_UNUSED(m_padding2);
+//    Q_UNUSED(m_padding2);
 }
 
 ImageAnimationPrivate::~ImageAnimationPrivate()
@@ -606,8 +614,13 @@ void ImageAnimationPrivate::moveLeftToRightEffect(QPainter *painter, const QRect
 void ImageAnimationPrivate::setPathList(const QString &first, const QStringList &list)
 {
     //尝试解决UT报告引用queue的空指针
-    queue.clear();
-    queue.reset(new LoopQueue(first, list));
+    if (queue == nullptr) {
+        queue = new LoopQueue(this);
+        queue->setBeginPathAndPath(first, list);
+    } else {
+        queue->setBeginPathAndPath(first, list);
+    }
+//    queue.reset(new LoopQueue(first, list));
     setImage1(queue->last());
     setImage2(queue->first());
 }
