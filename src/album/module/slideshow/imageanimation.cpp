@@ -116,6 +116,7 @@ private:
     QPixmap m_pixmap2;                //图片2
     AnimationType m_animationType;    //动画效果类型
     bool m_isAnimationIng = false;    //正在播动画
+    bool m_isRandom = true;           //设置是否随机播放效果
 
 public:
 //    float getFactor()               const
@@ -172,6 +173,11 @@ public:
         if (m_continuousanimationTimer) {
             m_continuousanimationTimer->stop();
         }
+    }
+    //设置动画效果是否随机
+    void setIsRandom(bool isRandom)
+    {
+        m_isRandom = isRandom;
     }
 
 public slots:
@@ -609,7 +615,16 @@ void ImageAnimationPrivate::setPathList(const QString &first, const QStringList 
 void ImageAnimationPrivate::startAnimation()
 {
     qsrand(static_cast<uint>(QTime(0, 0, 0).secsTo(QTime::currentTime())));
-    m_animationType = static_cast<AnimationType>(qrand() % (3));
+    if (m_isRandom) {
+        m_animationType = static_cast<AnimationType>(qrand() % (3));
+    } else {
+        int type = static_cast<int>(m_animationType);
+        type++;
+        if (type > 4) {
+            type = 0;
+        }
+        m_animationType = static_cast<AnimationType>(type);
+    }
     if (!m_continuousanimationTimer) {
         m_continuousanimationTimer = new QTimer(this);
         m_factor = 0.0f;
@@ -854,6 +869,12 @@ void ImageAnimation::ifPauseAndContinue()
     d->setImage1(d->m_imageName2);
     d->setImage2(d->queue->jumpTonext());
     d->startAnimation();
+}
+
+void ImageAnimation::setIsRandom(bool isRandom)
+{
+    Q_D(ImageAnimation);
+    d->setIsRandom(isRandom);
 }
 
 const QRect ImageAnimation::getCurScreenGeometry()

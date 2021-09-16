@@ -335,6 +335,9 @@ void ImageEngineApi::loadFirstPageThumbnails(int num, bool clearCache)
 void ImageEngineApi::thumbnailLoadThread(int num)
 {
     Q_UNUSED(num)
+    if (m_worker != nullptr) {
+        return;
+    }
     QThread *workerThread = new QThread(this);
     m_worker = new DBandImgOperate(workerThread);
 

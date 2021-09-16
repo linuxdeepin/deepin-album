@@ -99,3 +99,9 @@ TEST(AlbumForTest, db11)
     if (info == info1)
         qDebug() << "same";
 }
+
+TEST(DBandImgOperate, setThreadShouldStop)
+{
+    TEST_CASE_NAME("setThreadShouldStop")
+    ImageEngineApi::instance()->setThreadShouldStop();
+}

@@ -261,6 +261,11 @@ void SlideShowPanel::showFullScreen()
     emit dApp->signalM->hideTopToolbar(true);
 }
 
+void SlideShowPanel::setIsRandom(bool isRandom)
+{
+    m_animation->setIsRandom(isRandom);
+}
+
 void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo, bool inDB)
 {
     Q_UNUSED(inDB);

@@ -83,6 +83,8 @@ public:
     void playAndPre();
     void pauseAndNext();
     void ifPauseAndContinue();
+    //设置动画效果是否随机
+    void setIsRandom(bool isRandom);
 //    void pauseAndpre();
 
     int currentIndex();

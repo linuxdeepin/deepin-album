@@ -151,6 +151,8 @@ TEST(MainWindow, Picimport)
     w->allPicBtnClicked();
 
     AllPicView *allpicview = w->m_pAllPicView;
+    //绑定信号
+    ImageEngineApi::instance()->thumbnailLoadThread(80);
     ImageEngineApi::instance()->ImportImagesFromFileList(list, "", allpicview, true);
     allpicview->update();
     QTest::qWait(2000);
@@ -411,6 +413,7 @@ TEST(MainWindow, allpicture)
     info.slideShow = true;
     info.viewType = "";
     info.viewMainWindowID = 0;
+    slideshowpanel->setIsRandom(false);
     slideshowpanel->startSlideShow(info, true);
 
     if (slideshowpanel) {
@@ -424,6 +427,26 @@ TEST(MainWindow, allpicture)
             if (NextButton) {
                 e.simulate(NextButton);
                 QTest::qWait(500);
+            }
+            if (NextButton) {
+                e.simulate(NextButton);
+                QTest::qWait(2000);
+            }
+            if (NextButton) {
+                e.simulate(NextButton);
+                QTest::qWait(2000);
+            }
+            if (NextButton) {
+                e.simulate(NextButton);
+                QTest::qWait(2000);
+            }
+            if (NextButton) {
+                e.simulate(NextButton);
+                QTest::qWait(2000);
+            }
+            if (NextButton) {
+                e.simulate(NextButton);
+                QTest::qWait(2000);
             }
             if (preButton) {
                 e.simulate(preButton);

@@ -78,6 +78,8 @@ public:
     void backToLastPanel();
     void showNormal();
     void showFullScreen();
+    //设置动画效果是否随机
+    void setIsRandom(bool isRandom);
 
     SlideShowBottomBar *slideshowbottombar;
 
