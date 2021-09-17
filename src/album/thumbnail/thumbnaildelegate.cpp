@@ -327,7 +327,8 @@ bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
     Q_UNUSED(model);
     if (!index.isValid())
         return false;
-    QRect rect = QRect(option.rect.x() + option.rect.width() - 20 - 13 - 2, option.rect.y() + option.rect.height() - 20 - 10 - 2, 20, 20);
+    //跟随收藏按钮变化位置
+    QRect rect = QRect(option.rect.x() + 20, option.rect.y() + option.rect.height() - 30, 20, 20);
     QMouseEvent *pMouseEvent = static_cast<QMouseEvent *>(event);
     if (COMMON_STR_FAVORITES == m_imageTypeStr) {
         if (event->type() == QEvent::MouseButtonPress) {

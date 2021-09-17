@@ -428,7 +428,7 @@ TEST(MainWindow, allpicture)
 
     if (slideshowpanel) {
         SlideShowBottomBar *sliderbar = slideshowpanel->slideshowbottombar;
-        if (sliderbar) {
+        if (sliderbar && info.paths.size() > 1) {
             e.addMouseClick(Qt::MouseButton::LeftButton);
             DIconButton *preButton = sliderbar->findChild<DIconButton *>(Slider_Pre_Button);
             DIconButton *NextButton = sliderbar->findChild<DIconButton *>(Slider_Next_Button);
