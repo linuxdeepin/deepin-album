@@ -32,10 +32,8 @@
 #include "utils/unionimage.h"
 #include "utils/baseutils.h"
 #include "albumgloabl.h"
-#include "player_engine.h"
 #include "imagedataservice.h"
 
-extern QStringList VideoSupportTypeList;
 ImageEngineApi *ImageEngineApi::s_ImageEngine = nullptr;
 
 ImageEngineApi *ImageEngineApi::instance(QObject *parent)

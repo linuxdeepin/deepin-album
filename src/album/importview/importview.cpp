@@ -34,9 +34,8 @@
 #include "imageengine/imageengineapi.h"
 #include "imagedataservice.h"
 #include "ac-desktop-define.h"
-#include "player_engine.h"
+#include "movieservice.h"
 
-extern QStringList VideoSupportTypeList;
 ImportView::ImportView()
     : m_pImportBtn(nullptr), pLabel(nullptr)
 {
@@ -176,13 +175,7 @@ void ImportView::onImprotBtnClicked(bool useDialog, const QStringList &list)
     for (const QString &i : UnionImage_NameSpace::unionImageSupportFormat())
         sList << ("*." + i);
     //添加视频过滤
-    if (VideoSupportTypeList.isEmpty()) {
-        dmr::PlayerEngine *e = new dmr::PlayerEngine(nullptr);
-        VideoSupportTypeList = e->video_filetypes;
-        delete e;
-        e = nullptr;
-    }
-    for (const QString &i : VideoSupportTypeList) {
+    for (const QString &i : utils::base::m_videoFiletypes) {
         sList << i;
     }
     QString filter = tr("All photos and videos");

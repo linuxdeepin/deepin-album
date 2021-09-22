@@ -32,6 +32,7 @@
 #include "imageengineapi.h"
 #include "baseutils.h"
 #include "imageutils.h"
+#include "movieservice.h"
 
 ImageDataService *ImageDataService::s_ImageDataService = nullptr;
 
@@ -187,6 +188,9 @@ int ImageDataService::getVisualIndex()
 QImage ImageDataService::getThumnailImageByPath(const QString &path)
 {
     QMutexLocker locker(&m_imgDataMutex);
+    if (path.isEmpty()) {
+        return  QImage();
+    }
     return m_AllImageMap.contains(path) ? m_AllImageMap[path] : QImage();
 }
 
@@ -208,10 +212,6 @@ readThumbnailThread::readThumbnailThread(QObject *parent): QThread(parent)
 
 readThumbnailThread::~readThumbnailThread()
 {
-    if (m_playlistModel) {
-        delete  m_playlistModel;
-        m_playlistModel = nullptr;
-    }
 }
 
 void readThumbnailThread::readThumbnail(QString path)
@@ -233,50 +233,27 @@ void readThumbnailThread::readThumbnail(QString path)
 
         if (ImageEngineApi::instance()->isItemLoadedFromDB(path)) {
             if (ImageEngineApi::instance()->isVideo(path)) {
-                if (m_playlistModel == nullptr) {
-                    qDebug() << __FUNCTION__ << "---new dmr::PlaylistModel";
-                    m_playlistModel = new dmr::PlaylistModel(nullptr);
-                }
-                bool is = false;
                 //获取视频信息 demo
-                dmr::MovieInfo mi = m_playlistModel->getMovieInfo(QUrl::fromLocalFile(path), &is);
+                MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
                 ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
             }
         } else if (utils::base::isVideo(path)) {
-            if (m_playlistModel == nullptr) {
-                qDebug() << __FUNCTION__ << "---new dmr::PlaylistModel";
-                m_playlistModel = new dmr::PlaylistModel(nullptr);
-            }
-            bool is = false;
             //获取视频信息 demo
-            dmr::MovieInfo mi = m_playlistModel->getMovieInfo(QUrl::fromLocalFile(path), &is);
+            MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
             ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
         }
     } else {
         //读图
         if (ImageEngineApi::instance()->isItemLoadedFromDB(path) && ImageEngineApi::instance()->isVideo(path)) {
-            if (m_playlistModel == nullptr) {
-                qDebug() << __FUNCTION__ << "---new dmr::PlaylistModel";
-                m_playlistModel = new dmr::PlaylistModel(nullptr);
-            }
-
-            tImg = m_playlistModel->getMovieCover(QUrl::fromLocalFile(path));
-
-            bool is = false;
+            tImg = MovieService::instance()->getMovieCover(QUrl::fromLocalFile(path));
             //获取视频信息 demo
-            dmr::MovieInfo mi = m_playlistModel->getMovieInfo(QUrl::fromLocalFile(path), &is);
+            MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
             ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
         } else if (utils::base::isVideo(path)) {
-            if (m_playlistModel == nullptr) {
-                qDebug() << __FUNCTION__ << "---new dmr::PlaylistModel";
-                m_playlistModel = new dmr::PlaylistModel(nullptr);
-            }
+            tImg = MovieService::instance()->getMovieCover(QUrl::fromLocalFile(path));
 
-            tImg = m_playlistModel->getMovieCover(QUrl::fromLocalFile(path));
-
-            bool is = false;
             //获取视频信息 demo
-            dmr::MovieInfo mi = m_playlistModel->getMovieInfo(QUrl::fromLocalFile(path), &is);
+            MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
             ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
         } else {
             if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {

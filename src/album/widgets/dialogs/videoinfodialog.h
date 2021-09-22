@@ -26,7 +26,7 @@
 #include <DDrawer>
 #include <denhancedwidget.h>
 
-#include "playlist_model.h"
+#include "movieservice.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -60,7 +60,7 @@ protected:
     bool event(QEvent *event)override;
     void showEvent(QShowEvent *e) override;
 private:
-    dmr::MovieInfo m_movieInfo;
+    MovieInfo m_movieInfo;
 
     QList<DDrawer *> m_expandGroup;
     QVBoxLayout *m_scrollAreaLayout = nullptr;

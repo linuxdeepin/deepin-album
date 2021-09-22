@@ -33,11 +33,9 @@
 #include <QStandardPaths>
 #include <QDirIterator>
 
-#include "playlist_model.h"
+#include "movieservice.h"
 #include "imagedataservice.h"
-#include "player_engine.h"
 
-extern QStringList VideoSupportTypeList;
 DBandImgOperate::DBandImgOperate(QObject *parent)
 {
     Q_UNUSED(parent);
@@ -47,8 +45,6 @@ DBandImgOperate::DBandImgOperate(QObject *parent)
 
 DBandImgOperate::~DBandImgOperate()
 {
-    delete  m_playlistModel;
-    m_playlistModel = nullptr;
 }
 
 void DBandImgOperate::setThreadShouldStop()
@@ -135,22 +131,15 @@ void DBandImgOperate::loadOneImgForce(QString imagepath, bool refresh)
             qDebug() << errMsg;
         }
         if (utils::base::isVideo(imagepath)) {
-            bool is = false;
             //获取视频信息 demo
-            dmr::MovieInfo mi = m_playlistModel->getMovieInfo(QUrl::fromLocalFile(imagepath), &is);
+            MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(imagepath));
             ImageDataService::instance()->addMovieDurationStr(imagepath, mi.durationStr());
         }
     } else {
         if (utils::base::isVideo(imagepath)) {
-            if (m_playlistModel == nullptr) {
-                qDebug() << __FUNCTION__ << "---new dmr::PlaylistModel";
-                m_playlistModel = new dmr::PlaylistModel(nullptr);
-            }
-
-            tImg = m_playlistModel->getMovieCover(QUrl::fromLocalFile(imagepath));
+            tImg = MovieService::instance()->getMovieCover(QUrl::fromLocalFile(imagepath));
             //获取视频信息 demo
-            bool is = false;
-            dmr::MovieInfo mi = m_playlistModel->getMovieInfo(QUrl::fromLocalFile(imagepath), &is);
+            MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(imagepath));
             ImageDataService::instance()->addMovieDurationStr(imagepath, mi.durationStr());
         } else {
             if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
@@ -238,13 +227,8 @@ void DBandImgOperate::sltLoadMountFileList(const QString &path)
         for (QString i : UnionImage_NameSpace::unionImageSupportFormat()) {
             filters << "*." + i;
         }
-        if (VideoSupportTypeList.isEmpty()) {
-            dmr::PlayerEngine *e = new dmr::PlayerEngine(nullptr);
-            VideoSupportTypeList = e->video_filetypes;
-            delete e;
-            e = nullptr;
-        }
-        for (QString i : VideoSupportTypeList) {
+
+        for (QString i : utils::base::m_videoFiletypes) {
             filters << i;
         }
         //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories

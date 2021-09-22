@@ -35,10 +35,9 @@
 #include <DTitlebar>
 #include <DApplicationHelper>
 #include <DFontSizeManager>
-
-#include "playlist_model.h"
 #include "application.h"
 #include "mainwindow.h"
+#include "movieservice.h"
 
 struct MetaData {
     QString key;
@@ -61,13 +60,9 @@ VideoInfoDialog::VideoInfoDialog(const QString &path, QWidget *parent): DDialog(
 
 void VideoInfoDialog::setVideoInfo(const QString &path)
 {
-    dmr::PlaylistModel *playlistModel = new dmr::PlaylistModel(nullptr);
     bool is = false;
     //获取视频信息
-    m_movieInfo = playlistModel->getMovieInfo(QUrl::fromLocalFile(path), &is);
-    delete playlistModel;
-    playlistModel = nullptr;
-
+    m_movieInfo = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
     m_maxFieldWidth = width() - m_title_maxwidth - 20 * 2 - 10 * 2;
     updateBasicInfo();
     updateCodecInfo();
@@ -152,7 +147,7 @@ void VideoInfoDialog::updateCodecInfo()
 //        field->setWordWrap(true);
 //        field->adjustSize();
 
-        SimpleFormLabel *title = new SimpleFormLabel(key + ":");
+        SimpleFormLabel *title = new SimpleFormLabel(key);
         title->setMinimumHeight(field->minimumHeight());
 //        title->setFixedWidth(m_title_maxwidth);
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -161,7 +156,7 @@ void VideoInfoDialog::updateCodecInfo()
         DPalette pa2 = DApplicationHelper::instance()->palette(title);
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
-        title->setText(SpliteText((key + ":"), title->font(), m_title_maxwidth));
+        title->setText(SpliteText((key), title->font(), m_title_maxwidth));
 //        title->setText((key + ":"));
 //        title->setWordWrap(true);
 //        title->adjustSize();
@@ -179,7 +174,7 @@ void VideoInfoDialog::updateAudioInfo()
     audioInfoMap[tr("Audio CodecID")] = m_movieInfo.audioCodec();
     audioInfoKeys.append(tr("Audio CodecID"));
 
-    audioInfoMap[tr("Audio CodeRate")] = QString::number(m_movieInfo.vCodeRate) + " kbps";
+    audioInfoMap[tr("Audio CodeRate")] = QString::number(m_movieInfo.aCodeRate) + " kbps";
     audioInfoKeys.append(tr("Audio CodeRate"));
 
     audioInfoMap[tr("Audio digit")] = QString::number(m_movieInfo.aDigit) + " bits";
@@ -211,7 +206,7 @@ void VideoInfoDialog::updateAudioInfo()
 //        field->setWordWrap(true);
 //        field->adjustSize();
 
-        SimpleFormLabel *title = new SimpleFormLabel(key + ":");
+        SimpleFormLabel *title = new SimpleFormLabel(key);
         title->setMinimumHeight(field->minimumHeight());
 //        title->setFixedWidth(m_title_maxwidth);
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -220,7 +215,7 @@ void VideoInfoDialog::updateAudioInfo()
         DPalette pa2 = DApplicationHelper::instance()->palette(title);
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
-        title->setText(SpliteText((key + ":"), title->font(), m_title_maxwidth));
+        title->setText(SpliteText((key), title->font(), m_title_maxwidth));
 //        title->setText((key + ":"));
 //        title->setWordWrap(true);
 //        title->adjustSize();
@@ -280,14 +275,14 @@ void VideoInfoDialog::updateBasicInfo()
         field->setPalette(pa1);
         field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
 
-        SimpleFormLabel *title = new SimpleFormLabel(key + ":");
+        SimpleFormLabel *title = new SimpleFormLabel(key);
         title->setMinimumHeight(field->minimumHeight());
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
         DPalette pa2 = DApplicationHelper::instance()->palette(title);
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
-        title->setText(SpliteText((key + ":"), title->font(), m_title_maxwidth));
+        title->setText(SpliteText((key), title->font(), m_title_maxwidth));
 
         m_basicInfoFrameLayout->addRow(title, field);
     }

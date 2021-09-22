@@ -40,8 +40,6 @@
 #include <QSqlDatabase>
 #include "dbmanager.h"
 #include "imageengineobject.h"
-#include "playlist_model.h"
-
 class QSqlDatabase;
 
 class DBandImgOperate : public QObject
@@ -82,7 +80,6 @@ private:
     std::atomic<bool> m_couldRun;
     QVector<QPixmap> m_pixmaps;
     QMap<QString, QStringList>m_PhonePicFileMap; //外部设备及其全部图片路径
-    dmr::PlaylistModel *m_playlistModel = nullptr;
 };
 
 #endif // DBOPERATE_H

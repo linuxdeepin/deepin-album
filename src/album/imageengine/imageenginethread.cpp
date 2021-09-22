@@ -38,9 +38,9 @@
 #include "dbmanager/dbmanager.h"
 #include "application.h"
 #include "controller/signalmanager.h"
-#include "playlist_model.h"
 #include "albumgloabl.h"
 #include "imagedataservice.h"
+#include "movieservice.h"
 
 DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
 {
@@ -335,7 +335,7 @@ void ImportImagesThread::pathCheck(QStringList *image_list, QStringList *curAlbu
             *image_list << path;
         }
     } else if (utils::base::isVideo(path)) {
-        if (utils::base::getMovieInfo(path).valid) {
+        if (MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path)).valid) {
             if (curAlbumImgPathList.contains(path)) {
                 *curAlbumImportedPathList << path;
             } else {

@@ -25,7 +25,6 @@
 #include <QTimer>
 #include <QColor>
 #include <QMimeData>
-#include "playlist_model.h"
 
 #if QT_VERSION >= 0x050500
 #define TIMER_SINGLESHOT(Time, Code, captured, ...) \
@@ -221,8 +220,6 @@ const QColor LIGHT_IMG_R_BORDER_COLOR = QColor(255, 255, 255, 50);
 namespace base {
 //时间之间相差天数
 int         daysDifferenceBetweenTime(const QDateTime &start, const QDateTime &end);
-bool        isVideo(QString path);
-dmr::MovieInfo getMovieInfo(const QString &path);
 //void        copyOneImageToClipboard(const QString &path);
 void        copyImageToClipboard(const QStringList &paths);
 void        showInFileManager(const QString &path);
@@ -239,6 +236,31 @@ QString     mkMutiDir(const QString &path);
 //根据源文件路径生产缩略图路径
 QString     filePathToThumbnailPath(const QString &filePath, QString dataHash = "");
 QUrl        UrlInfo(QString path);  //main中的全局函数移至此处
+//视频相关
+static unsigned int  DAYSECONDS = 86400;
+const QStringList m_audioFiletypes = {"*.mp3", "*.ogg", "*.wav", "*.wma", "*.m4a", "*.aac", "*.ac3"
+                                      , "*.ape", "*.flac", "*.ra", "*.mka", "*.dts", "*.opus", "*.amr"
+                                     };
+const QStringList m_videoFiletypes = {"*.avs2"/*支持avs2视频格式*/, "*.3g2", "*.3ga", "*.3gp", "*.3gp2"
+                                      , "*.3gpp", "*.amv", "*.asf", "*.asx", "*.avf", "*.avi", "*.bdm"
+                                      , "*.bdmv", "*.bik", "*.clpi", "*.cpi", "*.dat", "*.divx", "*.drc"
+                                      , "*.dv", "*.dvr-ms", "*.f4v", "*.flv", "*.gvi", "*.gxf", "*.hdmov"
+                                      , "*.hlv", "*.iso", "*.letv", "*.lrv", "*.m1v", "*.m2p", "*.m2t"
+                                      , "*.m2ts", "*.m2v", "*.m3u", "*.m3u8", "*.m4v", "*.mkv", "*.moov"
+                                      , "*.mov", "*.mov", "*.mp2", "*.mp2v", "*.mp4", "*.mp4v", "*.mpe"
+                                      , "*.mpeg", "*.mpeg1", "*.mpeg2", "*.mpeg4", "*.mpg", "*.mpl", "*.mpls"
+                                      , "*.mpv", "*.mpv2", "*.mqv", "*.mts", "*.mts", "*.mtv", "*.mxf", "*.mxg"
+                                      , "*.nsv", "*.nuv", "*.ogg", "*.ogm", "*.ogv", "*.ogx", "*.ps", "*.qt"
+                                      , "*.qtvr", "*.ram", "*.rec", "*.rm", "*.rm", "*.rmj", "*.rmm", "*.rms"
+                                      , "*.rmvb", "*.rmx", "*.rp", "*.rpl", "*.rv", "*.rvx", "*.thp", "*.tod"
+                                      , "*.tp", "*.trp", "*.ts", "*.tts", "*.txd", "*.vcd", "*.vdr", "*.vob"
+                                      , "*.vp8", "*.vro", "*.webm", "*.wm", "*.wmv", "*.wtv", "*.xesc", "*.xspf"
+                                     };
+QString     Time2str(const qint64 &seconds);
+QString     videoIndex2str(const int &index);
+QString     audioIndex2str(const int &index);
+//判断是否视频
+bool        isVideo(QString path);
 }  // namespace base
 
 }  // namespace utils

@@ -24,8 +24,9 @@
 #include <QObject>
 #include <QMap>
 #include <QUrl>
-
-#include "playlist_model.h"
+#include <QMutex>
+#include <QThread>
+#include <QQueue>
 
 class readThumbnailThread;
 class ImageDataService: public QObject
@@ -86,7 +87,6 @@ public:
     void setQuit(bool quit);
 protected:
     void run() override;
-    dmr::PlaylistModel *m_playlistModel = nullptr;
 private:
     bool m_quit = false;
 };

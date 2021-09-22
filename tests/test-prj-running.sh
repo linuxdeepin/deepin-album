@@ -14,7 +14,7 @@ rm -rf ./build-ut
 rm -rf ./build
 rm -rf ${HOME}/.local/share/deepin/deepin-album/*
 #导入旧的数据库文件
-cp -r ./tests/testResource/db/* ${HOME}/.local/share/deepin/deepin-album
+cp -r ./tests/testResource/db/* ${HOME}/.local/share/deepin/deepin-album/
 mkdir build-ut
 
 cmake . -B build -D DOTEST=ON

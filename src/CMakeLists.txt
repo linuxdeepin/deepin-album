@@ -49,7 +49,6 @@ include_directories(/usr/include)
 include_directories(/usr/include/gio-qt)
 include_directories(/usr/include/udisks2-qt5)
 include_directories(/usr/include/glib-2.0)
-include_directories(/usr/include/libdmr)
 include_directories(/usr/lib/x86_64-linux-gnu/glib-2.0/include)
 
 aux_source_directory(./album allSource)
@@ -198,7 +197,7 @@ endif()
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(3rd_lib REQUIRED
-        dtkwidget dtkgui gio-qt udisks2-qt5 libdmr
+        dtkwidget dtkgui gio-qt udisks2-qt5
         )
 target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS})
 if(DOTEST)

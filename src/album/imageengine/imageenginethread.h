@@ -25,7 +25,6 @@
 #include <QMutex>
 #include <QUrl>
 #include "imageengineobject.h"
-#include "playlist_model.h"
 
 DBImgInfo getDBInfo(const QString &srcpath, bool isVideo = false);
 

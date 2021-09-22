@@ -6,9 +6,9 @@ project(deepin-album)
 execute_process(COMMAND uname -m OUTPUT_VARIABLE MACH
     ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set(DMR_DEBUG on)
-endif()
+#if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+#    set(DMR_DEBUG on)
+#endif()
 
 option(DOTEST "option for test" OFF)
 
