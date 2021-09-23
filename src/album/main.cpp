@@ -48,6 +48,11 @@ DCORE_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
+    //非wayland平台需要添加xcb
+    if (Application::isWaylandPlatform()) {
+        qputenv("QT_WAYLAND_SHELL_INTEGRATION", "kwayland-shell"); //add wayland parameter
+    }
+
     //for qt5platform-plugins load DPlatformIntegration or DPlatformIntegrationParent
     if (!QString(qgetenv("XDG_CURRENT_DESKTOP")).toLower().startsWith("deepin")) {
         setenv("XDG_CURRENT_DESKTOP", "Deepin", 1);

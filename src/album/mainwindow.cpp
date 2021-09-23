@@ -487,20 +487,24 @@ void MainWindow::initCentralWidget()
     QStringList parselist;
     m_commandLine->processOption(parselist);
     if (parselist.length() > 0) {
-        ImageDataService::instance()->readThumbnailByPaths(parselist);
-        ImageEngineApi::instance()->ImportImagesFromFileList(parselist, "", this);
+        QStringList absoluteFilePaths;
+        for (int i = 0; i < parselist.size(); i++) {
+            QFileInfo inf(parselist.at(i));
+            absoluteFilePaths << inf.absoluteFilePath();
+        }
+        ImageDataService::instance()->readThumbnailByPaths(absoluteFilePaths);
+        ImageEngineApi::instance()->ImportImagesFromFileList(absoluteFilePaths, "", this);
         //暂不支持视频首帧查看，只支持导入，视频和图片分开处理
-        QString firstStr = parselist.at(0);
+        QString firstStr = absoluteFilePaths.at(0);
         if (utils::base::isVideo(firstStr)) {
             m_processOptionIsEmpty = true;
             m_pCenterWidget->setCurrentIndex(VIEW_ALLPIC);
         } else {
-            QFileInfo inf(firstStr);
             m_processOptionIsEmpty = false;
             titlebar()->setVisible(false);
             setTitlebarShadowEnabled(false);
             //查看图片
-            m_commandLine->viewImage(inf.absoluteFilePath(), parselist);
+            m_commandLine->viewImage(firstStr, absoluteFilePaths);
             m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
             m_backIndex = VIEW_ALLPIC;
         }

@@ -375,9 +375,6 @@ void ViewPanel::onImagesInserted()
         return;
     }
     int size = m_ttbc->itemLoadedSize();
-//    bottomTopLeftContent();
-    qDebug() << "---" << __FUNCTION__ << "---11111111";
-//    emit dApp->signalM->updateBottomToolbarContent(m_ttbc, (size  > 1));
 }
 
 void ViewPanel::onViewImageNoNeedReload(int &fileindex)
