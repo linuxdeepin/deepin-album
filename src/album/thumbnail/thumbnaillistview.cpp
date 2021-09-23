@@ -628,7 +628,9 @@ void ThumbnailListView::updateMenuContents()
             DBImgInfo data = selectedIndexes().at(0).data(Qt::DisplayRole).value<DBImgInfo>();
             if (data.itemType == ItemTypePic) {
                 m_MenuActionMap.value(tr("Photo info"))->setVisible(true);
+                m_MenuActionMap.value(tr("Video info"))->setVisible(false);
             } else {
+                m_MenuActionMap.value(tr("Photo info"))->setVisible(false);
                 m_MenuActionMap.value(tr("Video info"))->setVisible(true);
             }
         } else {
@@ -702,8 +704,8 @@ void ThumbnailListView::updateMenuContents()
             m_pMenu->insertMenu(action, m_albumMenu);
         }
     }
+    //非最近删除的单选
     if (1 == paths.length() && COMMON_STR_TRASH != m_imageType) {
-
         if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0], AlbumDBType::Favourite)) {
             m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
         } else {
@@ -747,17 +749,42 @@ void ThumbnailListView::updateMenuContents()
         if (data.itemType == ItemTypePic) {
             m_MenuActionMap.value(tr("Photo info"))->setVisible(true);
             m_MenuActionMap.value(tr("Video info"))->setVisible(false);
+            m_MenuActionMap.value(tr("Fullscreen"))->setVisible(true);
+            m_MenuActionMap.value(tr("Rotate clockwise"))->setVisible(true);
+            m_MenuActionMap.value(tr("Rotate counterclockwise"))->setVisible(true);
         } else {
             m_MenuActionMap.value(tr("Video info"))->setVisible(true);
+            m_MenuActionMap.value(tr("Print"))->setVisible(false);
+            m_MenuActionMap.value(tr("Slide show"))->setVisible(false);
+            m_MenuActionMap.value(tr("Export"))->setVisible(false);
             m_MenuActionMap.value(tr("Photo info"))->setVisible(false);
+            m_MenuActionMap.value(tr("Fullscreen"))->setVisible(false);
+            m_MenuActionMap.value(tr("Rotate clockwise"))->setVisible(false);
+            m_MenuActionMap.value(tr("Rotate counterclockwise"))->setVisible(false);
+            m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(false);
         }
     } else if (1 != paths.length()) {
         m_MenuActionMap.value(tr("Display in file manager"))->setVisible(false);
         m_MenuActionMap.value(tr("Photo info"))->setVisible(false);
+        m_MenuActionMap.value(tr("Video info"))->setVisible(false);
+        for (int i = 0; i < paths.length(); i++) {
+            QString path = paths.at(i);
+            if (utils::base::isVideo(path)) {
+                m_MenuActionMap.value(tr("Print"))->setVisible(false);
+                m_MenuActionMap.value(tr("Slide show"))->setVisible(false);
+                m_MenuActionMap.value(tr("Export"))->setVisible(false);
+                break;
+            }
+        }
     }
 
     if ((1 == paths.length() || QFileInfo(paths[0]).suffix().contains("gif"))) {
-        m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(true);
+        DBImgInfo data = selectedIndexes().at(0).data(Qt::DisplayRole).value<DBImgInfo>();
+        if (data.itemType == ItemTypePic) {
+            m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(true);
+        } else {
+            m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(false);
+        }
     } else {
         m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(false);
     }
