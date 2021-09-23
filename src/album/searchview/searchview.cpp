@@ -210,14 +210,17 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, const QString &
             } else {
                 searchStr = tr("%n videos found", "", photoCount);
             }
+            setSliderShowBtnEnable(true);
         } else if (photoCount == 0 && videoCount > 0) {
             if (videoCount == 1) {
                 searchStr = tr("1 video found");
             } else {
                 searchStr = tr("%n videos found", "", videoCount);
             }
+            setSliderShowBtnEnable(false);
         } else if (photoCount > 0 && videoCount > 0) {
             searchStr = tr("%n items found", "", (photoCount + videoCount));
+            setSliderShowBtnEnable(false);
         }
         QString str = QString::number(infos.length());
         m_searchPicNum = photoCount + videoCount;
@@ -376,6 +379,19 @@ void SearchView::changeTheme()
         m_pSlideShowBtn->setPalette(playAllPalette);
     }
 
+}
+
+void SearchView::setSliderShowBtnEnable(bool enabled)
+{
+    if (enabled) {
+        changeTheme();
+    } else {
+        //结果中含视频则置灰
+        auto playAllPalette = m_pSlideShowBtn->palette();
+        playAllPalette.setColor(DPalette::ButtonText, QColor("gray"));
+        m_pSlideShowBtn->setPalette(playAllPalette);
+    }
+    m_pSlideShowBtn->setEnabled(enabled);
 }
 
 void SearchView::paintEvent(QPaintEvent *event)

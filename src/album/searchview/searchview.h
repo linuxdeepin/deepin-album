@@ -72,6 +72,7 @@ private:
     void initMainStackWidget();
     void updateSearchResultsIntoThumbnailView();
     void changeTheme();
+    void setSliderShowBtnEnable(bool enabled);
     void onKeyDelete();
     void resizeEvent(QResizeEvent *e) override;
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
