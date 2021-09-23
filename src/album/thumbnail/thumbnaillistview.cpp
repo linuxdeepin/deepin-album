@@ -31,6 +31,7 @@
 #include <QScroller>
 #include <QPropertyAnimation>
 #include <QDesktopServices>
+#include <QProcess>
 
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
@@ -48,7 +49,6 @@
 namespace {
 const int ITEM_SPACING = 4;
 const int BASE_HEIGHT = 100;
-const int ANIMATION_DRLAY = 50;
 
 // const QString IMAGE_DEFAULTTYPE = "All pics";
 const QString IMAGE_DEFAULTTYPE = "All Photos";
@@ -945,7 +945,16 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         }
 
         if (utils::base::isVideo(path)) {
-            QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+            //更改打开方式，先默认影院，失败再选择
+            QProcess *process = new QProcess(this);
+            QStringList arguments;
+            arguments << QUrl::fromLocalFile(path).toString();
+            bool isopen = process->startDetached("deepin-movie", arguments);
+            if (!isopen) {
+                arguments.clear();
+                arguments << "-o" << path;
+                process->startDetached("dde-file-manager", arguments);
+            }
         } else {
             emit openImage(this->currentIndex().row(), path, false);
         }
@@ -2085,7 +2094,16 @@ void ThumbnailListView::onDoubleClicked(const QModelIndex &index)
         }
         //如果是视频，则使用系统默认播放器打开视频进行播放
         if (data.itemType == ItemTypeVideo) {
-            QDesktopServices::openUrl(QUrl::fromLocalFile(data.filePath));
+            //更改打开方式，先默认影院，失败再选择
+            QProcess *process = new QProcess(this);
+            QStringList arguments;
+            arguments << QUrl::fromLocalFile(data.filePath).toString();
+            bool isopen = process->startDetached("deepin-movie", arguments);
+            if (!isopen) {
+                arguments.clear();
+                arguments << "-o" << data.filePath;
+                process->startDetached("dde-file-manager", arguments);
+            }
         } else {
             emit openImage(index.row(), data.filePath, false);
         }
