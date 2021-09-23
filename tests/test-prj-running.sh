@@ -12,7 +12,7 @@ cp -r ./testResource/dev/* ${HOME}/dev/
 cd ..
 rm -rf ./build-ut
 rm -rf ./build
-rm -rf ${HOME}/.local/share/deepin/deepin-album/*
+rm -rf ${HOME}/.local/share/deepin/deepin-album*
 #导入数据库时使用
 mkdir -p ${HOME}/.local/share/deepin/deepin-album/
 #导入旧的数据库文件
