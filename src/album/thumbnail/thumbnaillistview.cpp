@@ -904,7 +904,6 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         return;
     }
 
-
     const QString path = paths.first();
     const int id = action->property("MenuID").toInt();
     switch (MenuItemId(id)) {
@@ -961,7 +960,6 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         break;
     case IdMoveToTrash: {
         qDebug() << "---" << __FUNCTION__ << "---" << "IdMoveToTrash";
-        clearSelection();
         this->removeSelectToTrash(paths);
     }
     break;

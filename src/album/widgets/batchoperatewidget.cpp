@@ -159,7 +159,6 @@ void BatchOperateWidget::sltRemoveSelect(bool checked)
     Q_UNUSED(checked)
     qDebug() << __FUNCTION__ << "---";
     QStringList paths = m_thumbnailListView->selectedPaths();
-    m_thumbnailListView->clearSelection();
     m_thumbnailListView->removeSelectToTrash(paths);
 }
 //收藏选中项
