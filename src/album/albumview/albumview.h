@@ -115,6 +115,8 @@ private:
     void initFavoriteWidget();
     //初始化设备列表
     void initPhoneWidget();
+    //显示照片与视频总数
+    void resetLabelCount(int photosCount, int videosCount, DLabel *lable);
 
     void updateRightCustomAlbumView();
     void updateRightTrashView();

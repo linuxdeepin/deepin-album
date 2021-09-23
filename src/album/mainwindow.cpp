@@ -1624,7 +1624,7 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut13.insert("name", tr("Copy"));
     shortcut13.insert("value", "Ctrl+C");
     QJsonObject shortcut14;
-    shortcut14.insert("name", tr("Delete photo/album"));
+    shortcut14.insert("name", tr("Delete file/album"));
     shortcut14.insert("value", "Delete");
     QJsonObject shortcut15;
     shortcut15.insert("name", tr("Photo info"));

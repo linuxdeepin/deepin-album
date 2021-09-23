@@ -385,7 +385,7 @@ void AlbumView::iniWaitDiolag()
     m_waitDailog_timer = new QTimer(this);
     m_waitDeviceScandialog->m_closeDeviceScan = new DPushButton(tr("Cancel"));
     m_waitDeviceScandialog->m_ignoreDeviceScan = new DPushButton(tr("Ignore"));
-    m_waitDeviceScandialog->waitTips = new DLabel(tr("Loading photos, please wait..."));
+    m_waitDeviceScandialog->waitTips = new DLabel(tr("Loading..."));
     m_waitDeviceScandialog->iniwaitdialog();
     if (!m_waitDeviceScandialog) {
         return;
@@ -502,7 +502,7 @@ void AlbumView::initTrashWidget()
     }
     m_TrashDescritionLab->setForegroundRole(DPalette::Text);
     m_TrashDescritionLab->setPalette(pal);
-    m_TrashDescritionLab->setText(tr("The photos will be permanently deleted after the days shown on it"));
+    m_TrashDescritionLab->setText(tr("The files will be permanently deleted after the days shown on it"));
     Layout1->addWidget(m_TrashDescritionLab);
 
     m_trashBatchOperateWidget = new BatchOperateWidget(m_pRightTrashThumbnailList, BatchOperateWidget::AlbumViewTrashType, m_pTrashWidget);
@@ -654,10 +654,6 @@ void AlbumView::initFavoriteWidget()
     m_pFavoritePicTotal->setFixedHeight(20);
     DFontSizeManager::instance()->bind(m_pFavoritePicTotal, DFontSizeManager::T6, QFont::Medium);
     m_pFavoritePicTotal->setForegroundRole(DPalette::TextTips);
-    QString favoriteStr = tr("%1 photo(s)");
-
-    int favoritePicNum = DBManager::instance()->getImgsCountByAlbum(COMMON_STR_FAVORITES, AlbumDBType::Favourite);
-    m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(favoritePicNum)));
 
     QPalette pal = DApplicationHelper::instance()->palette(m_pFavoritePicTotal);
     QColor color_BT = pal.color(DPalette::BrightText);
@@ -802,6 +798,31 @@ void AlbumView::initPhoneWidget()
     phonetopwidget->raise();
 }
 
+void AlbumView::resetLabelCount(int photosCount, int videosCount, DLabel *lable)
+{
+    QString photosStr;
+    if (photosCount == 1) {
+        photosStr = StatusBar::tr("1 photo");
+    } else if (photosCount > 1) {
+        photosStr = StatusBar::tr("%n photos", "", photosCount);
+    }
+
+    QString videosStr;
+    if (videosCount == 1) {
+        videosStr = StatusBar::tr("1 video");
+    } else if (videosCount > 1) {
+        videosStr = StatusBar::tr("%n videos", "", videosCount);
+    }
+
+    if (photosCount > 0 && videosCount == 0) {
+        lable->setText(photosStr);
+    } else if (photosCount == 0 && videosCount > 0) {
+        lable->setText(videosStr);
+    } else if (photosCount > 0 && videosCount > 0) {
+        lable->setText(photosStr + " " + videosStr);
+    }
+}
+
 void AlbumView::updateRightView()
 {
     if (!m_customAlbumTitleLabel) {
@@ -891,9 +912,9 @@ void AlbumView::updateRightMyFavoriteView()
     //插入上方空白项
     m_favoriteThumbnailList->insertBlankOrTitleItem(ItemTypeBlank, "", "", favorite_title_height);
     m_favoriteThumbnailList->insertThumbnailByImgInfos(infos);
-    m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum, AlbumDBType::Favourite);
-    QString favoriteStr = tr("%1 photo(s)");
-    m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
+    //重置数量显示
+    resetLabelCount(m_favoriteThumbnailList->getAppointTypeItemCount(ItemTypePic)
+                    , m_favoriteThumbnailList->getAppointTypeItemCount(ItemTypeVideo), m_pFavoritePicTotal);
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
     m_FavoriteTitleWidget->setVisible(infos.size() > 0);
     m_pStatusBar->setVisible(true);
@@ -955,8 +976,9 @@ void AlbumView::updateRightCustomAlbumView()
         m_customAlbumTitleLabel->setText(m_currentAlbum);
         QFontMetrics elideFont(m_customAlbumTitleLabel->font());
         m_customAlbumTitleLabel->setText(elideFont.elidedText(m_currentAlbum, Qt::ElideRight, 525));
-        QString str = tr("%1 photo(s)");
-        m_pRightPicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
+        //重置数量显示
+        resetLabelCount(m_customThumbnailList->getAppointTypeItemCount(ItemTypePic)
+                        , m_customThumbnailList->getAppointTypeItemCount(ItemTypeVideo), m_pRightPicTotal);
         m_customThumbnailList->m_imageType = m_currentAlbum;
         m_customThumbnailList->stopLoadAndClear();
         //todo
@@ -2162,11 +2184,7 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
     m_pPhoneTitle->setText(phoneTitle);
     QFontMetrics elideFont(m_pPhoneTitle->font());
     m_pPhoneTitle->setText(elideFont.elidedText(phoneTitle, Qt::ElideRight, 525));
-    QString str = tr("%1 photo(s)");
-    m_iAlubmPicsNum = fileList.size();
-    m_pPhonePicTotal->setText(str.arg(QString::number(m_iAlubmPicsNum)));
     if (m_iAlubmPicsNum > 0) {
-        m_pStatusBar->m_pAllPicNumLabel->setText(str.arg(QString::number(m_iAlubmPicsNum)));
         m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
         QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
         if (0 < paths.length()) {
@@ -2183,9 +2201,6 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
         m_pPhoneTitle->setText(m_currentAlbum);
         QFontMetrics elideFont(m_pPhoneTitle->font());
         m_pPhoneTitle->setText(elideFont.elidedText(m_currentAlbum, Qt::ElideRight, 525));
-        QString str = tr("%1 photo(s)");
-        m_pPhonePicTotal->setText(str.arg(QString::number(0)));
-        m_pStatusBar->m_pAllPicNumLabel->setText(QString::number(0));
         m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
         m_pStatusBar->setVisible(true);
@@ -2208,6 +2223,12 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
     m_pRightPhoneThumbnailList->insertBlankOrTitleItem(ItemTypeBlank, "", "", m_importByPhoneWidget->height());
     //添加图片信息
     m_pRightPhoneThumbnailList->insertThumbnailByImgInfos(infos);
+
+    //重置数量显示
+    resetLabelCount(m_pRightPhoneThumbnailList->getAppointTypeItemCount(ItemTypePic)
+                    , m_pRightPhoneThumbnailList->getAppointTypeItemCount(ItemTypeVideo), m_pPhonePicTotal);
+
+    m_pStatusBar->m_pAllPicNumLabel->setText(m_pPhonePicTotal->text());
 }
 //筛选显示，当先列表中内容为无结果
 void AlbumView::slotNoPicOrNoVideo(bool isNoResult)

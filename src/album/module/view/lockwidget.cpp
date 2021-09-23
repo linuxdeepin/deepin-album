@@ -34,7 +34,7 @@ LockWidget::LockWidget(const QString &darkFile,
 
     m_lockTips = new QLabel();
     m_lockTips->setObjectName("LockTips");
-    setContentText(tr("You have no permission to view the image"));
+    setContentText(tr("You have no permission to view the file"));
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
