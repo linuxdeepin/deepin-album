@@ -90,11 +90,8 @@ void StatusBar::initConnections()
             m_bcustalbum = !album.isEmpty();
             m_alubm = album;
 
-            QString string = tr("Importing: %1");
             TextLabel->setAlignment(Qt::AlignCenter);
-            TextLabel->setText(string.arg(imgpaths[0]));
             TextLabel->adjustSize();
-
             m_pStackedWidget->setCurrentIndex(1);
             interval = startTimer(3);
 
@@ -257,9 +254,8 @@ void StatusBar::timerEvent(QTimerEvent *e)
                     QCoreApplication::processEvents();
 
                 m_pStackedWidget->setCurrentIndex(0);
-            } else { //此处将label设置挪到后面，先判断m_index是否合法，再去引用它
-                TextLabel->setText(string.arg(imgpaths[m_index + 1]));
-                TextLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8, QFont::Normal));
+            } else {
+                m_pStackedWidget->setCurrentIndex(0);
                 m_index++;
             }
         }
