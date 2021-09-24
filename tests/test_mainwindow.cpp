@@ -49,6 +49,7 @@
 #include "fileinotify.h"
 #include "ac-desktop-define.h"
 #include "qgesture.h"
+#include "batchoperatewidget.h"
 
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
@@ -62,6 +63,12 @@ TEST(MainWindow, noPicTab)
     MainWindow *w = dApp->getMainWindow();
     w->getButG();
     w->allPicBtnClicked();
+
+    //初始界面筛选可见性校验bug89836
+    BatchOperateWidget *batch = w->m_pAllPicView->m_batchOperateWidget;
+    if (batch) {
+        ASSERT_FALSE(batch->isVisible());
+    }
 
     QTestEventList e;
     e.addMouseClick(Qt::MouseButton::LeftButton);
@@ -150,12 +157,21 @@ TEST(MainWindow, Picimport)
     w->getButG();
     w->allPicBtnClicked();
 
+    w->startMonitor();
+    QTest::qWait(2000);
+
     AllPicView *allpicview = w->m_pAllPicView;
     //绑定信号
     ImageEngineApi::instance()->thumbnailLoadThread(80);
     ImageEngineApi::instance()->ImportImagesFromFileList(list, "", allpicview, true);
     allpicview->update();
     QTest::qWait(2000);
+
+    //判断视频大写后缀导入是否正常
+    QString AVI = list.at(0) + "/500KAVI.AVI";
+    bool iscontain = ImageEngineApi::instance()->m_AllImageData.contains(AVI);
+    qDebug() << "------" << AVI << iscontain;
+    ASSERT_TRUE(iscontain);
 
     QTestEventList event;
     QPoint p1(30, 100);
@@ -678,7 +694,20 @@ TEST(MainWindow, viewpanelmenu)
     MainWindow *w = dApp->getMainWindow();
     MainWidget *wid = w->m_commandLine->findChild<MainWidget *>("MainWidget");
     QTestEventList e;
-    QPoint p1(30, 100);
+    QPoint p1(0, 0);
+    for (int i = 0; i < w->m_pAllPicView->m_pThumbnailListView->m_model->rowCount(); i++) {
+        QModelIndex idx = w->m_pAllPicView->m_pThumbnailListView->m_model->index(i, 0);
+        DBImgInfo info = idx.data(Qt::DisplayRole).value<DBImgInfo>();
+        if (info.itemType == ItemTypePic) {
+            QRect r = w->m_pAllPicView->m_pThumbnailListView->visualRect(idx);
+            p1 = QPoint(r.x() + 50, r.y() + 50);
+            break;
+        }
+    }
+    if (p1.isNull()) {
+        p1 = QPoint(30, 100);
+    }
+
     e.addMouseMove(p1);
     e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
     e.addMouseDClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
@@ -949,7 +978,7 @@ TEST(MainWindow, timelineview)
 
 TEST(MainWindow, AlbumView)
 {
-    TEST_CASE_NAME("AlbumView")
+    TEST_CASE_NAME("load")
     MainWindow *w = dApp->getMainWindow();
     AlbumView *albumview = w->m_pAlbumview;
 
@@ -958,6 +987,16 @@ TEST(MainWindow, AlbumView)
     w->albumBtnClicked();
     e.simulate(w->getButG()->button(2));
     e.clear();
+
+    e.addMouseMove(w->m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->viewport()->pos() + QPoint(10, 10));
+    e.addMouseClick(Qt::MouseButton::LeftButton);
+    e.addKeyClick(Qt::Key_Down, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Down, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Up, Qt::NoModifier, 50);
+    e.addKeyClick(Qt::Key_Up, Qt::NoModifier, 50);
+    e.simulate(w->m_pAlbumview->m_pLeftListView->m_pPhotoLibListView->viewport());
+    e.clear();
+    QTest::qWait(300);
 
     StatusBar *bar = albumview->m_pStatusBar;
     bar->m_pSlider->slider()->setValue(0);
@@ -1270,10 +1309,15 @@ TEST(MainWindow, search)
     e.simulate(w->getButG()->button(0));
     QTest::qWait(300);
     e.clear();
-    //所有界面搜索
+    //所有界面搜索bug89849
     w->m_pSearchEdit->setText("a");
-    w->m_pSearchEdit->editingFinished();
+    w->m_pSearchEdit->editingFinished();//第一次搜索
     QTest::qWait(300);
+    int first = w->m_pSearchView->m_pThumbnailListView->m_model->rowCount();//第一次结果
+    w->m_pSearchEdit->editingFinished();//第二次搜索
+    int second = w->m_pSearchView->m_pThumbnailListView->m_model->rowCount();//第二次结果
+    ASSERT_TRUE(first == second);
+
     w->m_pSearchView->onSlideShowBtnClicked();
     QTest::qWait(1000);
     e.addKeyClick(Qt::Key_Escape);
