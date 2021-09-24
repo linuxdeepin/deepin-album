@@ -101,7 +101,8 @@ QImage MovieService::getMovieCover(const QUrl &url)
     }
 
     m_video_thumbnailer->thumbnail_size = static_cast<int>(THUMBNAIL_SIZE);
-    m_video_thumbnailer->seek_time = const_cast<char *>(SEEK_TIME);
+    //不取第一帧，与文管影院保持一致
+//    m_video_thumbnailer->seek_time = const_cast<char *>(SEEK_TIME);
     m_image_data = m_mvideo_thumbnailer_create_image_data();
     QString file = QFileInfo(url.toLocalFile()).absoluteFilePath();
     m_mvideo_thumbnailer_generate_thumbnail_to_buffer(m_video_thumbnailer, file.toUtf8().data(), m_image_data);
