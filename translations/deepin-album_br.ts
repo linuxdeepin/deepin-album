@@ -74,7 +74,7 @@
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>Dilamet e vo da virviken ar fotoioù goude an niver a zevezhioù diskouezet warno</translation>
+        <translation type="vanished">Dilamet e vo da virviken ar fotoioù goude an niver a zevezhioù diskouezet warno</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -114,7 +114,15 @@
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation>O kargañ ar fotoioù, gortozit mar plij...</translation>
+        <translation type="vanished">O kargañ ar fotoioù, gortozit mar plij...</translation>
+    </message>
+    <message>
+        <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -411,7 +419,11 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>N&apos;hoc&apos;h ket aotreet da welet ar skeudenn</translation>
+        <translation type="vanished">N&apos;hoc&apos;h ket aotreet da welet ar skeudenn</translation>
+    </message>
+    <message>
+        <source>You have no permission to view the file</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -545,7 +557,7 @@
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>Dilemel ur foto/albom</translation>
+        <translation type="vanished">Dilemel ur foto/albom</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -593,6 +605,10 @@
     </message>
     <message>
         <source>No photos or videos found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete file/album</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -893,11 +909,11 @@
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Oc&apos;h emporzhiañ ar fotoioù: &apos;%1&apos;</translation>
+        <translation type="vanished">Oc&apos;h emporzhiañ ar fotoioù: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Oc&apos;h ezporzhiañ ar skeudennoù: &apos;%1&apos;</translation>
+        <translation type="vanished">Oc&apos;h ezporzhiañ ar skeudennoù: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>1 photo</source>
@@ -920,6 +936,14 @@
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -71,10 +71,6 @@
         <translation>Імпортувати все</translation>
     </message>
     <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>Кількість днів, за яку фотографії буде остаточно вилучено, показано на мініатюрах</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Імпортувати до:</translation>
     </message>
@@ -111,8 +107,12 @@
         <translation>Ігнорувати</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation>Завантажуємо фотографії, будь ласка, зачекайте…</translation>
+        <source>Loading...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -269,19 +269,19 @@
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Ви справді хочете вилучити цю %n фотографію з альбомів?</numerusform><numerusform>Ви справді хочете вилучити ці %n фотографії з альбомів?</numerusform><numerusform>Ви справді хочете вилучити ці %n фотографій з альбомів?</numerusform><numerusform>Ви справді хочете вилучити цю %n фотографію з альбомів?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="unfinished"/>
+        <translation>Ви справді хочете вилучити це відео з альбому?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Ви справді хочете вилучити це %n відео з альбомів?</numerusform><numerusform>Ви справді хочете вилучити ці %n відео з альбомів?</numerusform><numerusform>Ви справді хочете вилучити ці %n відео з альбомів?</numerusform><numerusform>Ви справді хочете вилучити це %n відео з альбомів?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Ви справді хочете вилучити цей %n запис з альбомів?</numerusform><numerusform>Ви справді хочете вилучити ці %n записи з альбомів?</numerusform><numerusform>Ви справді хочете вилучити ці %n записів з альбомів?</numerusform><numerusform>Ви справді хочете вилучити цей %n запис з альбомів?</numerusform></translation>
     </message>
 </context>
 <context>
@@ -379,8 +379,8 @@
 <context>
     <name>LockWidget</name>
     <message>
-        <source>You have no permission to view the image</source>
-        <translation>У вас немає прав доступу до перегляду цього зображення</translation>
+        <source>You have no permission to view the file</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -513,10 +513,6 @@
         <translation>Позначити все</translation>
     </message>
     <message>
-        <source>Delete photo/album</source>
-        <translation>Вилучити фотографію або альбом</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Збільшити</translation>
     </message>
@@ -559,6 +555,10 @@
     <message>
         <source>No photos or videos found</source>
         <translation>Не знайдено жодної фотографії або відео</translation>
+    </message>
+    <message>
+        <source>Delete file/album</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -838,14 +838,6 @@
 <context>
     <name>StatusBar</name>
     <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Імпортуємо фотографії: «%1»</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Експортуємо фотографії: «%1»</translation>
-    </message>
-    <message>
         <source>1 photo</source>
         <translation>1 фотографія</translation>
     </message>
@@ -860,6 +852,14 @@
     <message numerus="yes">
         <source>%n videos</source>
         <translation><numerusform>%n відео</numerusform><numerusform>%n відео</numerusform><numerusform>%n відео</numerusform><numerusform>%n відео</numerusform></translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

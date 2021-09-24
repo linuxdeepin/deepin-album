@@ -71,10 +71,6 @@
         <translation>Importar todo</translation>
     </message>
     <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>Las fotos serán borradas permanentemente después de los días mostrados.</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Importar a:</translation>
     </message>
@@ -111,8 +107,12 @@
         <translation>Ignorar</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation>Cargando fotos, por favor espere…</translation>
+        <source>Loading...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -330,7 +330,7 @@
     <name>ImportView</name>
     <message>
         <source>Import Photos and Videos</source>
-        <translation>Importar Fotos y Videos</translation>
+        <translation>Importar fotos y vídeos</translation>
     </message>
     <message>
         <source>Or drag them here</source>
@@ -379,8 +379,8 @@
 <context>
     <name>LockWidget</name>
     <message>
-        <source>You have no permission to view the image</source>
-        <translation>No tienes permisos para ver la imagen</translation>
+        <source>You have no permission to view the file</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -513,10 +513,6 @@
         <translation>Seleccionar todo</translation>
     </message>
     <message>
-        <source>Delete photo/album</source>
-        <translation>Borrar foto/álbum</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Acercarse</translation>
     </message>
@@ -554,11 +550,15 @@
     </message>
     <message>
         <source>Import Photos and Videos</source>
-        <translation>Importar Fotos y Videos</translation>
+        <translation>Importar fotos y vídeos</translation>
     </message>
     <message>
         <source>No photos or videos found</source>
         <translation>No fotos o videos encontrados</translation>
+    </message>
+    <message>
+        <source>Delete file/album</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -838,14 +838,6 @@
 <context>
     <name>StatusBar</name>
     <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Importando fotos: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Exportando fotos: &apos;%1&apos;</translation>
-    </message>
-    <message>
         <source>1 photo</source>
         <translation>1 foto</translation>
     </message>
@@ -860,6 +852,14 @@
     <message numerus="yes">
         <source>%n videos</source>
         <translation><numerusform>%n video</numerusform><numerusform>%n videos</numerusform></translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

@@ -73,10 +73,6 @@
         <translation>Impordi kõik</translation>
     </message>
     <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>%1 photo(s) selected</source>
         <translation type="vanished">%1 foto(t) on valitud</translation>
     </message>
@@ -117,7 +113,11 @@
         <translation>Ignoreeri</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
+        <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -430,7 +430,11 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Sul pole pildi vaatamiseks õigusi</translation>
+        <translation type="vanished">Sul pole pildi vaatamiseks õigusi</translation>
+    </message>
+    <message>
+        <source>You have no permission to view the file</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -564,7 +568,7 @@
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>Kustuta foto/album</translation>
+        <translation type="vanished">Kustuta foto/album</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -612,6 +616,10 @@
     </message>
     <message>
         <source>No photos or videos found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete file/album</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -919,14 +927,6 @@
 <context>
     <name>StatusBar</name>
     <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
     </message>
@@ -947,6 +947,14 @@
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

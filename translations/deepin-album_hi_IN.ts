@@ -74,7 +74,7 @@
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>इस पर दिखाए गए दिनों के बाद तस्वीरें स्थायी रूप से हटा दी जाएंगी |</translation>
+        <translation type="vanished">इस पर दिखाए गए दिनों के बाद तस्वीरें स्थायी रूप से हटा दी जाएंगी |</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -114,7 +114,15 @@
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation>तस्वीरें लोड हो रही हैं, कृपया प्रतीक्षा करें ...</translation>
+        <translation type="vanished">तस्वीरें लोड हो रही हैं, कृपया प्रतीक्षा करें ...</translation>
+    </message>
+    <message>
+        <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -411,7 +419,11 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>आपको छवि देखने की कोई अनुमति नहीं है</translation>
+        <translation type="vanished">आपको छवि देखने की कोई अनुमति नहीं है</translation>
+    </message>
+    <message>
+        <source>You have no permission to view the file</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -545,7 +557,7 @@
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>फ़ोटो / एल्बम हटाएं</translation>
+        <translation type="vanished">फ़ोटो / एल्बम हटाएं</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -593,6 +605,10 @@
     </message>
     <message>
         <source>No photos or videos found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete file/album</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -893,11 +909,11 @@
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>तस्वीरें आयात कि जा रही हैं: &apos;% 1&apos;</translation>
+        <translation type="vanished">तस्वीरें आयात कि जा रही हैं: &apos;% 1&apos;</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>तस्वीरें निर्यात की जा रही हैं: &apos;% 1&apos;</translation>
+        <translation type="vanished">तस्वीरें निर्यात की जा रही हैं: &apos;% 1&apos;</translation>
     </message>
     <message>
         <source>1 photo</source>
@@ -920,6 +936,14 @@
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

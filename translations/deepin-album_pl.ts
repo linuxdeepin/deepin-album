@@ -71,10 +71,6 @@
         <translation>Importuj wszystkie</translation>
     </message>
     <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>Zdjęcia zostaną trwale usunięte po upływie pokazanych na nich dniach</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Import do:</translation>
     </message>
@@ -111,8 +107,12 @@
         <translation>Ignoruj</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation>Ładowanie zdjęć, proszę czekać...</translation>
+        <source>Loading...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -273,7 +273,7 @@
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="unfinished"/>
+        <translation>Czy na pewno chcesz usunąć ten film z albumu?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
@@ -379,8 +379,8 @@
 <context>
     <name>LockWidget</name>
     <message>
-        <source>You have no permission to view the image</source>
-        <translation>Nie masz uprawnień do podglądu tego obrazu</translation>
+        <source>You have no permission to view the file</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -513,10 +513,6 @@
         <translation>Wybierz wszystkie</translation>
     </message>
     <message>
-        <source>Delete photo/album</source>
-        <translation>Usuń zdjęcie/album</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Przybliż</translation>
     </message>
@@ -559,6 +555,10 @@
     <message>
         <source>No photos or videos found</source>
         <translation>Nie znaleziono zdjęć i filmów</translation>
+    </message>
+    <message>
+        <source>Delete file/album</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -838,14 +838,6 @@
 <context>
     <name>StatusBar</name>
     <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Importowanie zdjęć: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Eksportowanie zdjęć: &apos;%1&apos;</translation>
-    </message>
-    <message>
         <source>1 photo</source>
         <translation>1 zdjęcie</translation>
     </message>
@@ -860,6 +852,14 @@
     <message numerus="yes">
         <source>%n videos</source>
         <translation><numerusform>%n film</numerusform><numerusform>%n filmów</numerusform><numerusform>%n filmów</numerusform><numerusform>%n filmów</numerusform></translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -981,7 +981,7 @@
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation>Informacje o filmie</translation>
     </message>
     <message>
         <source>days</source>
@@ -1030,59 +1030,59 @@
     </message>
     <message>
         <source>Codec info</source>
-        <translation type="unfinished"/>
+        <translation>Informacje o kodeku</translation>
     </message>
     <message>
         <source>Audio info</source>
-        <translation type="unfinished"/>
+        <translation>Informacje o dźwięku</translation>
     </message>
     <message>
         <source>Video CodecID</source>
-        <translation type="unfinished"/>
+        <translation>Video CodecID</translation>
     </message>
     <message>
         <source>Video CodeRate</source>
-        <translation type="unfinished"/>
+        <translation>Współczynnik kodu wideo</translation>
     </message>
     <message>
         <source>FPS</source>
-        <translation type="unfinished"/>
+        <translation>FPS</translation>
     </message>
     <message>
         <source>Proportion</source>
-        <translation type="unfinished"/>
+        <translation>Proporcja</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished"/>
+        <translation>Rozdzielczość</translation>
     </message>
     <message>
         <source>Audio CodecID</source>
-        <translation type="unfinished"/>
+        <translation>Audio CodecID</translation>
     </message>
     <message>
         <source>Audio CodeRate</source>
-        <translation type="unfinished"/>
+        <translation>Szybkość kodowania dźwięku</translation>
     </message>
     <message>
         <source>Audio digit</source>
-        <translation type="unfinished"/>
+        <translation>Dźwięk cyfrowy</translation>
     </message>
     <message>
         <source>Channels</source>
-        <translation type="unfinished"/>
+        <translation>Kanały</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="unfinished"/>
+        <translation>Kanał</translation>
     </message>
     <message>
         <source>Sampling</source>
-        <translation type="unfinished"/>
+        <translation>Próbowanie</translation>
     </message>
     <message>
         <source>Video name</source>
-        <translation type="unfinished"/>
+        <translation>Nazwa wideo</translation>
     </message>
     <message>
         <source>Date modified</source>
@@ -1098,15 +1098,15 @@
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"/>
+        <translation>Czas trwania</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"/>
+        <translation>Ścieżka</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation>Informacje o filmie</translation>
     </message>
     <message>
         <source>Date captured</source>

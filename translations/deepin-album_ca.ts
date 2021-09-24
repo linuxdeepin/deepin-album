@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ca">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ca" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -73,10 +71,6 @@
         <translation>Importa-ho tot</translation>
     </message>
     <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>Les fotografies s&apos;eliminaran permanentment després dels dies que s&apos;hi mostren.</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Importa-ho a:</translation>
     </message>
@@ -113,8 +107,12 @@
         <translation>Ignora-ho</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation>Es carreguen les fotografies. Espereu, si us plau...</translation>
+        <source>Loading...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -269,34 +267,21 @@
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>Segur que voleu eliminar aquesta fotografia de l&apos;àlbum?</translation>
     </message>
-    <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="vanished">Segur que voleu eliminar %1 fotografies dels àlbums?</translation>
-    </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>Segur que voleu eliminar %n fotografia dels àlbums?</numerusform><numerusform>Segur que voleu eliminar %n fotografies dels àlbums?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="unfinished"></translation>
+        <translation>Segur que voleu eliminar aquest vídeo de l&apos;àlbum?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>Segur que voleu eliminar %n vídeo dels àlbums?</numerusform><numerusform>Segur que voleu eliminar %n vídeos dels àlbums?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>Segur que voleu eliminar %n element dels àlbums?</numerusform><numerusform>Segur que voleu eliminar %n elements dels àlbums?</numerusform></translation>
     </message>
 </context>
 <context>
@@ -322,47 +307,38 @@
     </message>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"></translation>
+        <translation>1 fotografia</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"></translation>
+        <translation>1 vídeo</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n fotografia</numerusform><numerusform>%n fotografies</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n vídeo</numerusform><numerusform>%n vídeos</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n element</numerusform><numerusform>%n elements</numerusform></translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Importa fotografies i vídeos</translation>
     </message>
     <message>
         <source>Or drag them here</source>
-        <translation type="unfinished"></translation>
+        <translation>o arrossegueu-ne aquí.</translation>
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Totes les fotografies i vídeos</translation>
     </message>
 </context>
 <context>
@@ -403,15 +379,15 @@
 <context>
     <name>LockWidget</name>
     <message>
-        <source>You have no permission to view the image</source>
-        <translation>No teniu permís per veure la imatge.</translation>
+        <source>You have no permission to view the file</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;Àlbum és un gestor de moda per visualitzar i organitzar fotografies i vídeos.</translation>
     </message>
 </context>
 <context>
@@ -537,10 +513,6 @@
         <translation>Selecciona-ho tot</translation>
     </message>
     <message>
-        <source>Delete photo/album</source>
-        <translation>Elimina la fotografia / l&apos;àlbum</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Amplia</translation>
     </message>
@@ -574,15 +546,19 @@
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Totes les fotografies i vídeos</translation>
     </message>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Importa fotografies i vídeos</translation>
     </message>
     <message>
         <source>No photos or videos found</source>
-        <translation type="unfinished"></translation>
+        <translation>No s&apos;ha trobat cap fotografia ni vídeo.</translation>
+    </message>
+    <message>
+        <source>Delete file/album</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -766,52 +742,43 @@
     </message>
     <message>
         <source>%1/%2 items imported</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 elements importats</translation>
     </message>
     <message>
         <source>%1/%2 items deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 elements eliminats</translation>
     </message>
     <message>
         <source>%1 items imported, %2 items failed</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 elements importats, %2 elements fallats</translation>
     </message>
     <message>
         <source>1 photo selected</source>
-        <translation type="unfinished"></translation>
+        <translation>1 fotografia seleccionada</translation>
     </message>
     <message>
         <source>1 video selected</source>
-        <translation type="unfinished"></translation>
+        <translation>1 vídeo seleccionat</translation>
     </message>
     <message>
         <source>The photo/video already exists</source>
-        <translation type="unfinished"></translation>
+        <translation>La fotografia o vídeo ja existeix.</translation>
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n fotografia seleccionada</numerusform><numerusform>%n fotografies seleccionades</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n vídeo seleccionat</numerusform><numerusform>%n vídeos seleccionats</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n element seleccionat</numerusform><numerusform>%n elements seleccionats</numerusform></translation>
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 elements importats, %2 elements ja existeixen</translation>
     </message>
 </context>
 <context>
@@ -830,25 +797,19 @@
     </message>
     <message>
         <source>1 photo found</source>
-        <translation type="unfinished"></translation>
+        <translation>S&apos;ha trobat 1 fotografia.</translation>
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>S&apos;ha trobat %n vídeo.</numerusform><numerusform>S&apos;han trobat %n vídeos.</numerusform></translation>
     </message>
     <message>
         <source>1 video found</source>
-        <translation type="unfinished"></translation>
+        <translation>S&apos;ha trobat 1 vídeo.</translation>
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>S&apos;ha trobat %n element.</numerusform><numerusform>S&apos;han trobat %n elements.</numerusform></translation>
     </message>
 </context>
 <context>
@@ -877,34 +838,28 @@
 <context>
     <name>StatusBar</name>
     <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Importació de fotos: «% 1»</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Exportació de fotos: «%1»</translation>
-    </message>
-    <message>
         <source>1 photo</source>
-        <translation type="unfinished"></translation>
+        <translation>1 fotografia</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"></translation>
+        <translation>1 vídeo</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n fotografia</numerusform><numerusform>%n fotografies</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n vídeo</numerusform><numerusform>%n vídeos</numerusform></translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1026,7 +981,7 @@
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informació del vídeo</translation>
     </message>
     <message>
         <source>days</source>
@@ -1048,32 +1003,23 @@
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"></translation>
+        <translation>1 fotografia</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"></translation>
+        <translation>1 vídeo</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n fotografia</numerusform><numerusform>%n fotografies</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n vídeo</numerusform><numerusform>%n vídeos</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n element</numerusform><numerusform>%n elements</numerusform></translation>
     </message>
 </context>
 <context>
@@ -1084,59 +1030,59 @@
     </message>
     <message>
         <source>Codec info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informació del còdec</translation>
     </message>
     <message>
         <source>Audio info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informació d&apos;àudio</translation>
     </message>
     <message>
         <source>Video CodecID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID del còdec de vídeo</translation>
     </message>
     <message>
         <source>Video CodeRate</source>
-        <translation type="unfinished"></translation>
+        <translation>Velocitat del codi de vídeo</translation>
     </message>
     <message>
         <source>FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>FPS</translation>
     </message>
     <message>
         <source>Proportion</source>
-        <translation type="unfinished"></translation>
+        <translation>Proporció</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Resolució</translation>
     </message>
     <message>
         <source>Audio CodecID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID del còdec d&apos;àudio</translation>
     </message>
     <message>
         <source>Audio CodeRate</source>
-        <translation type="unfinished"></translation>
+        <translation>Velocitat del codi d&apos;àudio</translation>
     </message>
     <message>
         <source>Audio digit</source>
-        <translation type="unfinished"></translation>
+        <translation>Dígit d&apos;àudio</translation>
     </message>
     <message>
         <source>Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Canals</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal</translation>
     </message>
     <message>
         <source>Sampling</source>
-        <translation type="unfinished"></translation>
+        <translation>Exemple</translation>
     </message>
     <message>
         <source>Video name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom del vídeo</translation>
     </message>
     <message>
         <source>Date modified</source>
@@ -1152,15 +1098,15 @@
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Durada</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Camí</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informació del vídeo</translation>
     </message>
     <message>
         <source>Date captured</source>

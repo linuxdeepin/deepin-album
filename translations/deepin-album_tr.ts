@@ -71,10 +71,6 @@
         <translation>Tümünü İçe Aktar</translation>
     </message>
     <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>Fotoğraflar, silinmeden önce kalan gün sayısını gösterecek ve ardından kalıcı olarak silinecek.</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Şuradan içe aktar:</translation>
     </message>
@@ -111,8 +107,12 @@
         <translation>Yoksay</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation>Fotoğraflar yükleniyor, lütfen bekleyin...</translation>
+        <source>Loading...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -269,19 +269,19 @@
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n fotoğrafı albümlerden silmek istediğinizden emin misiniz?</numerusform><numerusform>%n fotoğrafı albümlerden silmek istediğinizden emin misiniz?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="unfinished"/>
+        <translation>Bu videoyu albümden silmek istediğinizden emin misiniz?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Albümlerden %n video silmek istediğinizden emin misiniz?</numerusform><numerusform>Albümlerden %n video silmek istediğinizden emin misiniz?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Albümlerden %n öğe silmek istediğinizden emin misiniz?</numerusform><numerusform>Albümlerden %n öğe silmek istediğinizden emin misiniz?</numerusform></translation>
     </message>
 </context>
 <context>
@@ -379,8 +379,8 @@
 <context>
     <name>LockWidget</name>
     <message>
-        <source>You have no permission to view the image</source>
-        <translation>Resmi görüntüleme izniniz yok</translation>
+        <source>You have no permission to view the file</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -513,10 +513,6 @@
         <translation>Tümünü seç</translation>
     </message>
     <message>
-        <source>Delete photo/album</source>
-        <translation>Fotoğrafı/albümü sil</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Yakınlaştır</translation>
     </message>
@@ -559,6 +555,10 @@
     <message>
         <source>No photos or videos found</source>
         <translation>Fotoğraf veya video bulunamadı</translation>
+    </message>
+    <message>
+        <source>Delete file/album</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -838,14 +838,6 @@
 <context>
     <name>StatusBar</name>
     <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Fotoğraf içe aktarılıyor: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Fotoğraf dışa aktarılıyor: &apos;%1&apos;</translation>
-    </message>
-    <message>
         <source>1 photo</source>
         <translation>1 fotoğraf</translation>
     </message>
@@ -860,6 +852,14 @@
     <message numerus="yes">
         <source>%n videos</source>
         <translation><numerusform>%n video</numerusform><numerusform>%n video</numerusform></translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

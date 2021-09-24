@@ -71,10 +71,6 @@
         <translation>Uvozi vse</translation>
     </message>
     <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>Slike bodo trajno izbrisane po dnevih, ki so prikazane na njej</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Uvozi v:</translation>
     </message>
@@ -111,8 +107,12 @@
         <translation>Prezri</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation>Nalaganje slike, prosimo počakajte...</translation>
+        <source>Loading...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -379,8 +379,8 @@
 <context>
     <name>LockWidget</name>
     <message>
-        <source>You have no permission to view the image</source>
-        <translation>Nimate pravic za ogled slike</translation>
+        <source>You have no permission to view the file</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -513,10 +513,6 @@
         <translation>Izberi vse</translation>
     </message>
     <message>
-        <source>Delete photo/album</source>
-        <translation>Izbriši sliko/album</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Približaj</translation>
     </message>
@@ -559,6 +555,10 @@
     <message>
         <source>No photos or videos found</source>
         <translation>Ni najdenih slik ali videev</translation>
+    </message>
+    <message>
+        <source>Delete file/album</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -838,14 +838,6 @@
 <context>
     <name>StatusBar</name>
     <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Uvozi slike: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Izvažam slike: &apos;%1&apos;</translation>
-    </message>
-    <message>
         <source>1 photo</source>
         <translation>ena slika</translation>
     </message>
@@ -860,6 +852,14 @@
     <message numerus="yes">
         <source>%n videos</source>
         <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videi</numerusform><numerusform>%n videev</numerusform></translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

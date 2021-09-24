@@ -71,10 +71,6 @@
         <translation>Importa tutti</translation>
     </message>
     <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>Le immagini verranno eliminate definitivamente dopo i giorni indicati</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Importa in:</translation>
     </message>
@@ -111,8 +107,12 @@
         <translation>Ignora</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation>Caricamento immagini, attendere prego...</translation>
+        <source>Loading...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -379,8 +379,8 @@
 <context>
     <name>LockWidget</name>
     <message>
-        <source>You have no permission to view the image</source>
-        <translation>Non hai il permesso di visualizzare l&apos;immagine</translation>
+        <source>You have no permission to view the file</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -514,10 +514,6 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <translation>Seleziona tutte</translation>
     </message>
     <message>
-        <source>Delete photo/album</source>
-        <translation>Elimina immagine/album</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Zoom più</translation>
     </message>
@@ -560,6 +556,10 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     <message>
         <source>No photos or videos found</source>
         <translation>Nessuna immagine o video trovati</translation>
+    </message>
+    <message>
+        <source>Delete file/album</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -839,14 +839,6 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
 <context>
     <name>StatusBar</name>
     <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Importazione immagini: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Esportazione immagini: &apos;%1&apos;</translation>
-    </message>
-    <message>
         <source>1 photo</source>
         <translation>1 immagine</translation>
     </message>
@@ -861,6 +853,14 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     <message numerus="yes">
         <source>%n videos</source>
         <translation><numerusform>%n video</numerusform><numerusform>%n video</numerusform></translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

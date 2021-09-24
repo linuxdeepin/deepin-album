@@ -71,10 +71,6 @@
         <translation>Import All</translation>
     </message>
     <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>The photos will be permanently deleted after the days shown on it</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Import to:</translation>
     </message>
@@ -111,8 +107,12 @@
         <translation>Ignore</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation>Loading photos, please wait...</translation>
+        <source>Loading...</source>
+        <translation>Loading...</translation>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
+        <translation>The files will be permanently deleted after the days shown on it</translation>
     </message>
 </context>
 <context>
@@ -379,8 +379,8 @@
 <context>
     <name>LockWidget</name>
     <message>
-        <source>You have no permission to view the image</source>
-        <translation>You have no permission to view the image</translation>
+        <source>You have no permission to view the file</source>
+        <translation>You have no permission to view the file</translation>
     </message>
 </context>
 <context>
@@ -513,10 +513,6 @@
         <translation>Select all</translation>
     </message>
     <message>
-        <source>Delete photo/album</source>
-        <translation>Delete photo/album</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Zoom in</translation>
     </message>
@@ -559,6 +555,10 @@
     <message>
         <source>No photos or videos found</source>
         <translation>No photos or videos found</translation>
+    </message>
+    <message>
+        <source>Delete file/album</source>
+        <translation>Delete file/album</translation>
     </message>
 </context>
 <context>
@@ -838,14 +838,6 @@
 <context>
     <name>StatusBar</name>
     <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Importing photos: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Exporting photos: &apos;%1&apos;</translation>
-    </message>
-    <message>
         <source>1 photo</source>
         <translation>1 photo</translation>
     </message>
@@ -860,6 +852,14 @@
     <message numerus="yes">
         <source>%n videos</source>
         <translation><numerusform>%n videos</numerusform><numerusform>%n videos</numerusform></translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation>Importing: %1</translation>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation>Exporting: %1</translation>
     </message>
 </context>
 <context>

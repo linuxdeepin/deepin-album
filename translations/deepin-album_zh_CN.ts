@@ -71,10 +71,6 @@
         <translation>全部导入</translation>
     </message>
     <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>照片在删除前会显示剩余天数，之后将永久删除</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>导入到：</translation>
     </message>
@@ -111,8 +107,12 @@
         <translation>忽略</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation>正在加载图片，请稍候...</translation>
+        <source>Loading...</source>
+        <translation>正在加载，请稍候...</translation>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
+        <translation>文件在删除前会显示剩余天数，之后将永久删除</translation>
     </message>
 </context>
 <context>
@@ -250,7 +250,7 @@
     </message>
     <message>
         <source>Restoring...</source>
-        <translation>正在恢复照片...</translation>
+        <translation>正在恢复...</translation>
     </message>
 </context>
 <context>
@@ -379,8 +379,8 @@
 <context>
     <name>LockWidget</name>
     <message>
-        <source>You have no permission to view the image</source>
-        <translation>您没有权限查看此图片</translation>
+        <source>You have no permission to view the file</source>
+        <translation>您没有权限查看此文件</translation>
     </message>
 </context>
 <context>
@@ -513,10 +513,6 @@
         <translation>全选照片</translation>
     </message>
     <message>
-        <source>Delete photo/album</source>
-        <translation>删除照片/相册</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>放大照片</translation>
     </message>
@@ -559,6 +555,10 @@
     <message>
         <source>No photos or videos found</source>
         <translation>未发现照片或视频文件</translation>
+    </message>
+    <message>
+        <source>Delete file/album</source>
+        <translation>删除文件/相册</translation>
     </message>
 </context>
 <context>
@@ -838,14 +838,6 @@
 <context>
     <name>StatusBar</name>
     <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation>正在导入：&apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>正在导出：&apos;%1&apos;</translation>
-    </message>
-    <message>
         <source>1 photo</source>
         <translation>1张照片</translation>
     </message>
@@ -860,6 +852,14 @@
     <message numerus="yes">
         <source>%n videos</source>
         <translation><numerusform>%n个视频</numerusform></translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation>正在导入：%1</translation>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation>正在导出：%1</translation>
     </message>
 </context>
 <context>

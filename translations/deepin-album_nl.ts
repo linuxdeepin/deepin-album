@@ -71,10 +71,6 @@
         <translation>Alles importeren</translation>
     </message>
     <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>De foto&apos;s worden verwijderd na het vermelde aantal dagen</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Importeren naar:</translation>
     </message>
@@ -111,8 +107,12 @@
         <translation>Negeren</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation>Bezig met laden van foto&apos;s...</translation>
+        <source>Loading...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -269,19 +269,19 @@
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Weet je zeker dat je %1 foto wilt verwijderen uit albums?</numerusform><numerusform>Weet je zeker dat je %n foto&apos;s wilt verwijderen uit albums?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="unfinished"/>
+        <translation>Weet je zeker dat je deze video wilt verwijderen uit het album?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Weet je zeker dat je %n video wilt verwijderen uit albums?</numerusform><numerusform>Weet je zeker dat je %n video&apos;s wilt verwijderen uit albums?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Weet je zeker dat je %n item wilt verwijderen uit albums?</numerusform><numerusform>Weet je zeker dat je %n items wilt verwijderen uit albums?</numerusform></translation>
     </message>
 </context>
 <context>
@@ -379,8 +379,8 @@
 <context>
     <name>LockWidget</name>
     <message>
-        <source>You have no permission to view the image</source>
-        <translation>Je bent niet gemachtigd om deze foto te bekijken</translation>
+        <source>You have no permission to view the file</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -513,10 +513,6 @@
         <translation>Alles selecteren</translation>
     </message>
     <message>
-        <source>Delete photo/album</source>
-        <translation>Foto/Album verwijderen</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Inzoomen</translation>
     </message>
@@ -559,6 +555,10 @@
     <message>
         <source>No photos or videos found</source>
         <translation>Geen foto&apos;s of video&apos;s aangetroffen</translation>
+    </message>
+    <message>
+        <source>Delete file/album</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -838,14 +838,6 @@
 <context>
     <name>StatusBar</name>
     <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Bezig met importeren: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Bezig met exporteren: &apos;%1&apos;</translation>
-    </message>
-    <message>
         <source>1 photo</source>
         <translation>1 foto</translation>
     </message>
@@ -860,6 +852,14 @@
     <message numerus="yes">
         <source>%n videos</source>
         <translation><numerusform>%n video</numerusform><numerusform>%n video&apos;s</numerusform></translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

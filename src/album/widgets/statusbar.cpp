@@ -90,7 +90,7 @@ void StatusBar::initConnections()
             m_bcustalbum = !album.isEmpty();
             m_alubm = album;
 
-            QString string = tr("Importing: '%1'");
+            QString string = tr("Importing: %1");
             TextLabel->setAlignment(Qt::AlignCenter);
             TextLabel->setText(string.arg(imgpaths[0]));
             TextLabel->adjustSize();
@@ -112,7 +112,7 @@ void StatusBar::initConnections()
     connect(dApp->signalM, &SignalManager::sigExporting, this, [ = ](QString path) {
         if (isVisible()) {
             m_pStackedWidget->setCurrentIndex(1);
-            QString string = tr("Exporting: '%1'");
+            QString string = tr("Exporting: %1");
             TextLabel->setAlignment(Qt::AlignCenter);
             TextLabel->setText(string.arg(path));
             TextLabel->adjustSize();
@@ -216,7 +216,7 @@ void StatusBar::timerEvent(QTimerEvent *e)
     if (e->timerId() == interval) {
         loadingicon->move(TextLabel->x() + 102, 0);
         m_pStackedWidget->setCurrentIndex(1);
-        QString string = tr("Importing: '%1'");
+        QString string = tr("Importing: %1");
 
         if (imgpaths.count() == 1) {
             m_index = 0;

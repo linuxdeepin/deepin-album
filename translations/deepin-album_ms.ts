@@ -71,10 +71,6 @@
         <translation>Import Semua</translation>
     </message>
     <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>Foto-foto akan kekal terpadam selepas hari ditunjuk padanya</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Import ke:</translation>
     </message>
@@ -111,8 +107,12 @@
         <translation>Abai</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation>Memuatkan foto, tunggu sebentar...</translation>
+        <source>Loading...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -379,8 +379,8 @@
 <context>
     <name>LockWidget</name>
     <message>
-        <source>You have no permission to view the image</source>
-        <translation>Anda tidak memiliki keizinan untuk melihat imej</translation>
+        <source>You have no permission to view the file</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -513,10 +513,6 @@
         <translation>Pilih semua</translation>
     </message>
     <message>
-        <source>Delete photo/album</source>
-        <translation>Padam foto/album</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Zum masuk</translation>
     </message>
@@ -558,6 +554,10 @@
     </message>
     <message>
         <source>No photos or videos found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete file/album</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -838,14 +838,6 @@
 <context>
     <name>StatusBar</name>
     <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Mengimport foto: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Mengeksport foto: &apos;%1&apos;</translation>
-    </message>
-    <message>
         <source>1 photo</source>
         <translation>1 foto</translation>
     </message>
@@ -860,6 +852,14 @@
     <message numerus="yes">
         <source>%n videos</source>
         <translation><numerusform>%n video</numerusform></translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

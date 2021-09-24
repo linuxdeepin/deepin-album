@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="cs">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -9,7 +7,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Zrušit</translation>
+        <translation>Storno</translation>
     </message>
     <message>
         <source>Create</source>
@@ -24,7 +22,7 @@
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Zrušit</translation>
+        <translation>Storno</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -73,10 +71,6 @@
         <translation>Importovat vše</translation>
     </message>
     <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>Po uplynutí počtu dnů na tomto zobrazených budou fotky nadobro smazány</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Importovat do:</translation>
     </message>
@@ -113,8 +107,12 @@
         <translation>Ignorovat</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation>Načítání fotek – čekejte prosím…</translation>
+        <source>Loading...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -128,7 +126,7 @@
     <name>CExportImageDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Zrušit</translation>
+        <translation>Storno</translation>
     </message>
     <message>
         <source>Replace</source>
@@ -234,7 +232,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Zrušit</translation>
+        <translation>Storno</translation>
     </message>
 </context>
 <context>
@@ -256,13 +254,6 @@
     </message>
 </context>
 <context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation type="vanished">dní</translation>
-    </message>
-</context>
-<context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
@@ -276,37 +267,21 @@
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>Opravdu chcete tuto fotku vymazat z alba?</translation>
     </message>
-    <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="vanished">Opravdu chcete %1 fotek vymazat z alb?</translation>
-    </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>Opravdu chcete %n fotku vymazat z alb?</numerusform><numerusform>Opravdu chcete %n fotky vymazat z alb?</numerusform><numerusform>Opravdu chcete %n fotek vymazat z alb?</numerusform><numerusform>Opravdu chcete %n fotky vymazat z alb?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="unfinished"></translation>
+        <translation>Opravdu chcete toto video vymazat z alba?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>Opravdu chcete %n video vymazat z alb?</numerusform><numerusform>Opravdu chcete %n videa vymazat z alb?</numerusform><numerusform>Opravdu chcete %n videí vymazat z alb?</numerusform><numerusform>Opravdu chcete %n videa vymazat z alb?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>Opravdu chcete %n položku vymazat z alb?</numerusform><numerusform>Opravdu chcete %n položky vymazat z alb?</numerusform><numerusform>Opravdu chcete %n položek vymazat z alb?</numerusform><numerusform>Opravdu chcete %n položky vymazat z alb?</numerusform></translation>
     </message>
 </context>
 <context>
@@ -332,50 +307,38 @@
     </message>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"></translation>
+        <translation>1 fotka</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"></translation>
+        <translation>1 video</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n fotka</numerusform><numerusform>%n fotky</numerusform><numerusform>%n fotek</numerusform><numerusform>%n fotky</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videí</numerusform><numerusform>%n videa</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n položka</numerusform><numerusform>%n položky</numerusform><numerusform>%n položek</numerusform><numerusform>%n položky</numerusform></translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Importovat fotky a videa</translation>
     </message>
     <message>
         <source>Or drag them here</source>
-        <translation type="unfinished"></translation>
+        <translation>Nebo je přetáhněte sem</translation>
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Všechny fotky a videa</translation>
     </message>
 </context>
 <context>
@@ -416,15 +379,15 @@
 <context>
     <name>LockWidget</name>
     <message>
-        <source>You have no permission to view the image</source>
-        <translation>Nemáte oprávnění zobrazit obrázek</translation>
+        <source>You have no permission to view the file</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"></translation>
+        <translation>Album je šikovný správce pro zobrazování a uspořádávání fotek a videí</translation>
     </message>
 </context>
 <context>
@@ -550,10 +513,6 @@
         <translation>Vybrat vše</translation>
     </message>
     <message>
-        <source>Delete photo/album</source>
-        <translation>Smazat fotku/album</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Přiblížit</translation>
     </message>
@@ -582,24 +541,24 @@
         <translation>Importovat fotky</translation>
     </message>
     <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Import fotek</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>Importování…</translation>
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Všechny fotky a videa</translation>
     </message>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Importovat fotky a videa</translation>
     </message>
     <message>
         <source>No photos or videos found</source>
-        <translation type="unfinished"></translation>
+        <translation>Nenalezeny žádné fotky či videa</translation>
+    </message>
+    <message>
+        <source>Delete file/album</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -693,7 +652,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation>Nic nenalezeno</translation>
     </message>
 </context>
 <context>
@@ -718,10 +677,6 @@
         <translation>%1/%2/%3</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 fotek</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>Importováno </translation>
     </message>
@@ -735,11 +690,11 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybrat vše</translation>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation>Zrušit výběr všeho</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -755,7 +710,7 @@
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Vše</translation>
     </message>
     <message>
         <source>Photos</source>
@@ -767,7 +722,7 @@
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation>Nic nenalezeno</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -787,55 +742,43 @@
     </message>
     <message>
         <source>%1/%2 items imported</source>
-        <translation type="unfinished"></translation>
+        <translation>Naimportováno %1/%2 položek</translation>
     </message>
     <message>
         <source>%1/%2 items deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazáno %1/%2 položek</translation>
     </message>
     <message>
         <source>%1 items imported, %2 items failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Naimportováno %1 položek, nepodařilo se u %2 položek</translation>
     </message>
     <message>
         <source>1 photo selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybrána 1 fotka</translation>
     </message>
     <message>
         <source>1 video selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybráno 1 video</translation>
     </message>
     <message>
         <source>The photo/video already exists</source>
-        <translation type="unfinished"></translation>
+        <translation>Fotka/video už existuje</translation>
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>Vybrána %n fotka</numerusform><numerusform>Vybrány %n fotky</numerusform><numerusform>Vybráno %n fotek</numerusform><numerusform>Vybrány %n fotky</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>Vybráno %n video</numerusform><numerusform>Vybrána %n videa</numerusform><numerusform>Vybráno %n videí</numerusform><numerusform>Vybrána %n videa</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>Vybrána %n položka</numerusform><numerusform>Vybrány %n položky</numerusform><numerusform>Vybráno %n položek</numerusform><numerusform>Vybrány %n položky</numerusform></translation>
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
-        <translation type="unfinished"></translation>
+        <translation>Naimportování %1 položek, %2 položek už existuje</translation>
     </message>
 </context>
 <context>
@@ -854,27 +797,19 @@
     </message>
     <message>
         <source>1 photo found</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezena 1 fotka</translation>
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>nalezeno %n video</numerusform><numerusform>nalezena %n videa</numerusform><numerusform>nalezeno %n videí</numerusform><numerusform>nalezena %n videa</numerusform></translation>
     </message>
     <message>
         <source>1 video found</source>
-        <translation type="unfinished"></translation>
+        <translation>Nalezeno 1 video</translation>
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>nalezena %n položka</numerusform><numerusform>nalezeny %n položky</numerusform><numerusform>nalezeno %n položek</numerusform><numerusform>nalezeny %n položky</numerusform></translation>
     </message>
 </context>
 <context>
@@ -903,36 +838,28 @@
 <context>
     <name>StatusBar</name>
     <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Import fotek: „%1“</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Export fotek: „%1“</translation>
-    </message>
-    <message>
         <source>1 photo</source>
-        <translation type="unfinished"></translation>
+        <translation>1 fotka</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"></translation>
+        <translation>1 video</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n fotka</numerusform><numerusform>%n fotky</numerusform><numerusform>%n fotek</numerusform><numerusform>%n fotky</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videí</numerusform><numerusform>%n video</numerusform></translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1054,11 +981,11 @@
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace o videu</translation>
     </message>
     <message>
         <source>days</source>
-        <translation type="unfinished">dní</translation>
+        <translation>dní</translation>
     </message>
 </context>
 <context>
@@ -1076,126 +1003,114 @@
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"></translation>
+        <translation>1 fotka</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"></translation>
+        <translation>1 video</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n fotka</numerusform><numerusform>%n fotky</numerusform><numerusform>%n fotek</numerusform><numerusform>%n fotky</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videí</numerusform><numerusform>%n videa</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n položka</numerusform><numerusform>%n položky</numerusform><numerusform>%n položek</numerusform><numerusform>%n položky</numerusform></translation>
     </message>
 </context>
 <context>
     <name>VideoInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished">Základní údaje</translation>
+        <translation>Základní údaje</translation>
     </message>
     <message>
         <source>Codec info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace o kodeku</translation>
     </message>
     <message>
         <source>Audio info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace o zvuku</translation>
     </message>
     <message>
         <source>Video CodecID</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifikátor kodeku videa</translation>
     </message>
     <message>
         <source>Video CodeRate</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitová rychlost kodeku videa</translation>
     </message>
     <message>
         <source>FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>SN/S</translation>
     </message>
     <message>
         <source>Proportion</source>
-        <translation type="unfinished"></translation>
+        <translation>Proporce</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozlišení</translation>
     </message>
     <message>
         <source>Audio CodecID</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifikátor kodeku zvuku</translation>
     </message>
     <message>
         <source>Audio CodeRate</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitová rychlost kodeku zvuku</translation>
     </message>
     <message>
         <source>Audio digit</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvuk digit</translation>
     </message>
     <message>
         <source>Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanály</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanál</translation>
     </message>
     <message>
         <source>Sampling</source>
-        <translation type="unfinished"></translation>
+        <translation>Frekvence vzorkování</translation>
     </message>
     <message>
         <source>Video name</source>
-        <translation type="unfinished"></translation>
+        <translation>Název videa</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation type="unfinished">Změněno</translation>
+        <translation>Změněno</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Typ</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation type="unfinished">Velikost souboru</translation>
+        <translation>Velikost souboru</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Trvání</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Popis umístění</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace o videu</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished">Datum pořízení</translation>
+        <translation>Datum pořízení</translation>
     </message>
 </context>
 <context>

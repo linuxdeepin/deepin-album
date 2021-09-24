@@ -71,10 +71,6 @@
         <translation>Összes importálása</translation>
     </message>
     <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>A képek a feltüntetett nap után véglegesen törlődnek</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Importálás ide:</translation>
     </message>
@@ -111,8 +107,12 @@
         <translation>Kihagyás</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation>Képek betöltése, kérjük várjon...</translation>
+        <source>Loading...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -269,19 +269,19 @@
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Biztos, hogy törölni szeretne %n képet az albumból?</numerusform><numerusform>Biztos, hogy törölni szeretne %n képet az albumból?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="unfinished"/>
+        <translation>Biztos, hogy törölni szeretné ezt a videót az albumból?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Biztos, hogy törölni szeretne %n videót az albumból?</numerusform><numerusform>Biztos, hogy törölni szeretne %n videót az albumból?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Biztos, hogy törölni szeretne %n elemet az albumból?</numerusform><numerusform>Biztos, hogy törölni szeretne %n elemet az albumból?</numerusform></translation>
     </message>
 </context>
 <context>
@@ -379,8 +379,8 @@
 <context>
     <name>LockWidget</name>
     <message>
-        <source>You have no permission to view the image</source>
-        <translation>Nincs jogosultsága megtekinteni ezt a képet</translation>
+        <source>You have no permission to view the file</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -513,10 +513,6 @@
         <translation>Összes kijelölése</translation>
     </message>
     <message>
-        <source>Delete photo/album</source>
-        <translation>Kép vagy album törlése</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>Nagyítás</translation>
     </message>
@@ -559,6 +555,10 @@
     <message>
         <source>No photos or videos found</source>
         <translation>Nem található kép vagy videó</translation>
+    </message>
+    <message>
+        <source>Delete file/album</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -838,14 +838,6 @@
 <context>
     <name>StatusBar</name>
     <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Importálandó képek: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Exportálandó képek: &apos;%1&apos;</translation>
-    </message>
-    <message>
         <source>1 photo</source>
         <translation>1 kép</translation>
     </message>
@@ -860,6 +852,14 @@
     <message numerus="yes">
         <source>%n videos</source>
         <translation><numerusform>%n videó(k)</numerusform><numerusform>%n videó(k)</numerusform></translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

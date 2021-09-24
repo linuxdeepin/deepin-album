@@ -71,10 +71,6 @@
         <translation>全部匯入</translation>
     </message>
     <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>照片在刪除前會顯示剩餘天數，之後將永久刪除</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>匯入至：</translation>
     </message>
@@ -111,8 +107,12 @@
         <translation>忽略</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation>正在載入照片，請稍候…</translation>
+        <source>Loading...</source>
+        <translation>正在載入，請稍候...</translation>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
+        <translation>文件在刪除前會顯示剩餘天數，之後將永久刪除</translation>
     </message>
 </context>
 <context>
@@ -379,8 +379,8 @@
 <context>
     <name>LockWidget</name>
     <message>
-        <source>You have no permission to view the image</source>
-        <translation>您沒有權限檢視此圖片</translation>
+        <source>You have no permission to view the file</source>
+        <translation>您沒有權限查看此文件</translation>
     </message>
 </context>
 <context>
@@ -513,10 +513,6 @@
         <translation>全部選取</translation>
     </message>
     <message>
-        <source>Delete photo/album</source>
-        <translation>刪除照片或相簿</translation>
-    </message>
-    <message>
         <source>Zoom in</source>
         <translation>放大</translation>
     </message>
@@ -559,6 +555,10 @@
     <message>
         <source>No photos or videos found</source>
         <translation>未發現照片或影片檔案</translation>
+    </message>
+    <message>
+        <source>Delete file/album</source>
+        <translation>刪除文件/相冊</translation>
     </message>
 </context>
 <context>
@@ -838,14 +838,6 @@
 <context>
     <name>StatusBar</name>
     <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation>正在匯入：&apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>正在匯出：&apos;%1&apos;</translation>
-    </message>
-    <message>
         <source>1 photo</source>
         <translation>1張照片</translation>
     </message>
@@ -860,6 +852,14 @@
     <message numerus="yes">
         <source>%n videos</source>
         <translation><numerusform>%n個影片</numerusform></translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation>正在匯入：%1</translation>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation>正在匯出：%1</translation>
     </message>
 </context>
 <context>

@@ -74,7 +74,7 @@
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>Les photos seront supprimées définitivement après les jours indiqués dessus</translation>
+        <translation type="vanished">Les photos seront supprimées définitivement après les jours indiqués dessus</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -114,7 +114,15 @@
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation>Chargement des photos, veuillez patienter...</translation>
+        <translation type="vanished">Chargement des photos, veuillez patienter...</translation>
+    </message>
+    <message>
+        <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -411,7 +419,11 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Vous n&apos;êtes pas autorisé à afficher l&apos;image</translation>
+        <translation type="vanished">Vous n&apos;êtes pas autorisé à afficher l&apos;image</translation>
+    </message>
+    <message>
+        <source>You have no permission to view the file</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -545,7 +557,7 @@
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>Supprimer une photo / un album</translation>
+        <translation type="vanished">Supprimer une photo / un album</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -593,6 +605,10 @@
     </message>
     <message>
         <source>No photos or videos found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete file/album</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -893,11 +909,11 @@
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Importation de photos : &apos;%1&apos;</translation>
+        <translation type="vanished">Importation de photos : &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Exportation de photos : &apos;%1&apos;</translation>
+        <translation type="vanished">Exportation de photos : &apos;%1&apos;</translation>
     </message>
     <message>
         <source>1 photo</source>
@@ -920,6 +936,14 @@
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

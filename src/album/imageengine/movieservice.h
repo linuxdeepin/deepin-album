@@ -89,13 +89,13 @@ struct MovieInfo {
         auto M = 1024 * K;
         auto G = 1024 * M;
         if (fileSize > G) {
-            return QString(QT_TR_NOOP("%1G")).arg((double)fileSize / G, 0, 'f', 1);
+            return QString("%1G").arg((double)fileSize / G, 0, 'f', 1);
         } else if (fileSize > M) {
-            return QString(QT_TR_NOOP("%1M")).arg((double)fileSize / M, 0, 'f', 1);
+            return QString("%1M").arg((double)fileSize / M, 0, 'f', 1);
         } else if (fileSize > K) {
-            return QString(QT_TR_NOOP("%1K")).arg((double)fileSize / K, 0, 'f', 1);
+            return QString("%1K").arg((double)fileSize / K, 0, 'f', 1);
         }
-        return QString(QT_TR_NOOP("%1")).arg(fileSize);
+        return QString("%1").arg(fileSize);
     }
 };
 

@@ -74,7 +74,7 @@
     </message>
     <message>
         <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation>Fotoattēli tiks neatgriezeniski izdzēsti pēc uz tiem norādītajam dienām</translation>
+        <translation type="vanished">Fotoattēli tiks neatgriezeniski izdzēsti pēc uz tiem norādītajam dienām</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -114,7 +114,15 @@
     </message>
     <message>
         <source>Loading photos, please wait...</source>
-        <translation>Ielāde fotoattēlus, lūdzu uzgaidiet...</translation>
+        <translation type="vanished">Ielāde fotoattēlus, lūdzu uzgaidiet...</translation>
+    </message>
+    <message>
+        <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on it</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -417,7 +425,11 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Jums nav atļaujas skatīt attēlu</translation>
+        <translation type="vanished">Jums nav atļaujas skatīt attēlu</translation>
+    </message>
+    <message>
+        <source>You have no permission to view the file</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -551,7 +563,7 @@
     </message>
     <message>
         <source>Delete photo/album</source>
-        <translation>Dzēst fotattēlu/albumu</translation>
+        <translation type="vanished">Dzēst fotattēlu/albumu</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -599,6 +611,10 @@
     </message>
     <message>
         <source>No photos or videos found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete file/album</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -904,11 +920,11 @@
     <name>StatusBar</name>
     <message>
         <source>Importing photos: &apos;%1&apos;</source>
-        <translation>Importē attēlus: &apos;%1&apos;</translation>
+        <translation type="vanished">Importē attēlus: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Exporting photos: &apos;%1&apos;</source>
-        <translation>Eksportē attēlus: &apos;%1&apos;</translation>
+        <translation type="vanished">Eksportē attēlus: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>1 photo</source>
@@ -933,6 +949,14 @@
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
+    </message>
+    <message>
+        <source>Importing: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exporting: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
