@@ -44,7 +44,7 @@ public:
     //获取全部图片数量
     int getCount();
 
-    //读取缩略图到缓存map
+    //读取缩略图到缓存map isFinishFilter:是否过滤过路径
     bool readThumbnailByPaths(QStringList files, bool isFinishFilter = false);
 //    bool readThumbnailByPath(QString file);
 

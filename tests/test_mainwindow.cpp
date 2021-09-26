@@ -163,12 +163,14 @@ TEST(MainWindow, Picimport)
     AllPicView *allpicview = w->m_pAllPicView;
     //绑定信号
     ImageEngineApi::instance()->thumbnailLoadThread(80);
+    QString AVI = list.at(0) + "/500KAVI.AVI";
+    ImageEngineApi::instance()->ImportImagesFromFileList(QStringList()<<AVI, "", allpicview, true);
+    QTest::qWait(1000);
     ImageEngineApi::instance()->ImportImagesFromFileList(list, "", allpicview, true);
     allpicview->update();
     QTest::qWait(2000);
 
     //判断视频大写后缀导入是否正常
-    QString AVI = list.at(0) + "/500KAVI.AVI";
     bool iscontain = ImageEngineApi::instance()->m_AllImageData.contains(AVI);
     qDebug() << "------" << AVI << iscontain;
     ASSERT_TRUE(iscontain);

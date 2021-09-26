@@ -661,7 +661,7 @@ void ThumbnailListView::updateMenuContents()
         }
         m_MenuActionMap.value(tr("Copy"))->setEnabled(false);
 #endif
-        m_MenuActionMap.value(tr("Delete"))->setEnabled(false);
+        m_MenuActionMap.value(tr("Delete"))->setEnabled(true);
         m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
 #ifndef tablet_PC
         m_MenuActionMap.value(tr("Print"))->setVisible(false);
