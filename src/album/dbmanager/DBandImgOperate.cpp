@@ -117,12 +117,8 @@ void DBandImgOperate::loadOneImgForce(QString imagepath, bool refresh)
     using namespace UnionImage_NameSpace;
     QImage tImg;
     QString srcPath = imagepath;
-    QString thumbnailPath = albumGlobal::CACHE_PATH + imagepath;
-    if (utils::base::isVideo(imagepath)) {
-        QFileInfo temDir(thumbnailPath);
-        QString fileName = temDir.fileName();
-        thumbnailPath = albumGlobal::CACHE_PATH + temDir.path() + "/" + temDir.baseName() + ".png";
-    }
+    //缩略图路径
+    QString thumbnailPath = utils::base::filePathToThumbnailPath(imagepath);
     QFileInfo file(thumbnailPath);
     QString errMsg;
     QFileInfo srcfi(srcPath);

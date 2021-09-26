@@ -57,6 +57,10 @@ bool ImageDataService::add(const QStringList &paths)
         if (!m_AllImageMap.contains(paths.at(i))) {
             m_requestQueue.append(paths.at(i));
         }
+
+        if (utils::base::filePathToThumbnailPath(paths.at(i)) != m_AllImageDataHashMap[paths.at(i)]) {
+            m_requestQueue.append(paths.at(i));
+        }
     }
     return true;
 }
@@ -149,6 +153,7 @@ void ImageDataService::addImage(const QString &path, const QImage &image)
 {
     QMutexLocker locker(&m_imgDataMutex);
     m_AllImageMap[path] = image;
+    m_AllImageDataHashMap[path] = utils::base::filePathToThumbnailPath(path);
 
 //    if (!m_AllImageMap.contains(path)) {
 //        m_AllImageMap[path] = image;

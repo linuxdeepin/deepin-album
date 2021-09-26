@@ -69,7 +69,10 @@ private:
 
     //图片数据锁
     QMutex m_imgDataMutex;
+    //QString:原图路径 QImage:缩略图
     QMap<QString, QImage> m_AllImageMap;
+    //QString:原图路径 QString:原图文件hash
+    QMap<QString, QString> m_AllImageDataHashMap;
     QMap<QString, QString> m_movieDurationStrMap;
     QQueue<QString> m_imageKeys;
     int m_visualIndex = 0;//用户查找视图中的model index
