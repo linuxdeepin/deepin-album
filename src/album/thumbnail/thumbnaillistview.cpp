@@ -937,8 +937,8 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     case IdView: {
         //双击打开信号,enter打开信号
         if (paths.size() > 1) {
-            for (auto path : paths) {
-                if (utils::base::isVideo(path)) {
+            for (auto tmpPath : paths) {
+                if (utils::base::isVideo(tmpPath)) {
                     return;//选中数量大于1，只要包含视频即为混选或者多选视频，不作响应
                 }
             }
@@ -948,7 +948,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
             //更改打开方式，先默认影院，失败再选择
             QProcess *process = new QProcess(this);
             QStringList arguments;
-            arguments << QUrl::fromLocalFile(path).toString();
+            arguments << path;
             bool isopen = process->startDetached("deepin-movie", arguments);
             if (!isopen) {
                 arguments.clear();
@@ -1617,8 +1617,7 @@ bool ThumbnailListView::isAllSelected(ItemType type)
     qDebug() << __FUNCTION__ << "---type = " << type;
 
     if (this->selectionModel()->selection().size() == 0) {
-        isAllSelected = false;
-        return isAllSelected;
+        return false;
     }
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex idx = m_model->index(i, 0);
@@ -2053,9 +2052,9 @@ void ThumbnailListView::onScrollbarValueChanged(int value)
         emit sigTimeLineDataAndNum(data.date, data.num, isSelect ? QObject::tr("Unselect") : QObject::tr("Select"));
     } else {
         bool isSelect = getCurrentIndexSelectStatus(index, true);
-        QStringList list = getCurrentIndexTime(index);
-        if (list.size() == 2) {
-            emit sigTimeLineDataAndNum(list.at(0), list.at(1), isSelect ? QObject::tr("Unselect") : QObject::tr("Select"));
+        QStringList currentIndexTimeList = getCurrentIndexTime(index);
+        if (currentIndexTimeList.size() == 2) {
+            emit sigTimeLineDataAndNum(currentIndexTimeList.at(0), currentIndexTimeList.at(1), isSelect ? QObject::tr("Unselect") : QObject::tr("Select"));
         }
     }
 //TODO 时间上滑动画
@@ -2097,7 +2096,7 @@ void ThumbnailListView::onDoubleClicked(const QModelIndex &index)
             //更改打开方式，先默认影院，失败再选择
             QProcess *process = new QProcess(this);
             QStringList arguments;
-            arguments << QUrl::fromLocalFile(data.filePath).toString();
+            arguments << data.filePath;
             bool isopen = process->startDetached("deepin-movie", arguments);
             if (!isopen) {
                 arguments.clear();
@@ -2235,8 +2234,6 @@ void ThumbnailListView::resizeEventF()
     m_rowSizeHint = i_totalwidth / (m_iBaseHeight + ITEM_SPACING);
     int currentwidth = (i_totalwidth - ITEM_SPACING * (m_rowSizeHint - 1)) / m_rowSizeHint;//一张图的宽度
     m_onePicWidth = currentwidth;
-    if (currentwidth < 80)
-        currentwidth = 80;
 
     if (nullptr != m_item) {
         m_item->setSizeHint(QSize(this->width(), getListViewHeight() + 8 + 27)/*this->size()*/);
