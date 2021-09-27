@@ -312,6 +312,9 @@ void AlbumView::initConnections()
     //我的收藏
     connect(m_favoriteThumbnailList->selectionModel(), &QItemSelectionModel::selectionChanged,
             this, &AlbumView::sltSelectionChanged);
+    //设备
+    connect(m_pRightPhoneThumbnailList->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &AlbumView::sltSelectionChanged);
     //最近删除
     connect(m_pRightTrashThumbnailList->selectionModel(), &QItemSelectionModel::selectionChanged,
             this, &AlbumView::sltSelectionChanged);
@@ -1959,7 +1962,7 @@ void AlbumView::onInsertedIntoAlbum(const QString &albumname, QStringList pathli
     if (m_currentAlbum != albumname) {
         return;
     }
-    if (m_currentType == COMMON_STR_CUSTOM || albumname == m_currentAlbum) //如果需要更新的为当前界面
+    if (m_currentType == COMMON_STR_CUSTOM) //如果需要更新的为当前界面
         updateRightView();
 }
 
@@ -2152,10 +2155,10 @@ void AlbumView::onLeftListViewMountListWidgetClicked(const QModelIndex &index)
 {
     Q_UNUSED(index);
     return;
-    m_pRightPhoneThumbnailList->stopLoadAndClear(false);
-    m_pLeftListView->setFocus();
-    qDebug() << "------" << __FUNCTION__ << "";
-    updateRightView();
+//    m_pRightPhoneThumbnailList->stopLoadAndClear(false);
+//    m_pLeftListView->setFocus();
+//    qDebug() << "------" << __FUNCTION__ << "";
+//    updateRightView();
 }
 
 void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
@@ -2199,7 +2202,7 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
         m_importAllByPhoneBtn->setEnabled(false);
         m_importSelectByPhoneBtn->setEnabled(false);
         m_pPhoneTitle->setText(m_currentAlbum);
-        QFontMetrics elideFont(m_pPhoneTitle->font());
+//        QFontMetrics elideFont(m_pPhoneTitle->font());
         m_pPhoneTitle->setText(elideFont.elidedText(m_currentAlbum, Qt::ElideRight, 525));
         m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
