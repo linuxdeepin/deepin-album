@@ -1616,10 +1616,10 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut9.insert("name", tr("View"));
     shortcut9.insert("value", "Enter");
     QJsonObject shortcut10;
-    shortcut10.insert("name", tr("Export"));
+    shortcut10.insert("name", tr("Export photos"));
     shortcut10.insert("value", "Ctrl+E");
     QJsonObject shortcut11;
-    shortcut11.insert("name", tr("Import"));
+    shortcut11.insert("name", tr("Import photos/videos"));
     shortcut11.insert("value", "Ctrl+O");
     QJsonObject shortcut12;
     shortcut12.insert("name", tr("Select all"));
@@ -1628,10 +1628,10 @@ QJsonObject MainWindow::createShorcutJson()
     shortcut13.insert("name", tr("Copy"));
     shortcut13.insert("value", "Ctrl+C");
     QJsonObject shortcut14;
-    shortcut14.insert("name", tr("Delete file/album"));
+    shortcut14.insert("name", tr("Delete"));
     shortcut14.insert("value", "Delete");
     QJsonObject shortcut15;
-    shortcut15.insert("name", tr("Photo info"));
+    shortcut15.insert("name", tr("Photo/Video info"));
     shortcut15.insert("value", "Ctrl+I");
     QJsonObject shortcut16;
     shortcut16.insert("name", tr("Set as wallpaper"));
