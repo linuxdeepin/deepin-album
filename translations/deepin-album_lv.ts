@@ -535,7 +535,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Fotoattēla informācija</translation>
+        <translation type="vanished">Fotoattēla informācija</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
@@ -551,11 +551,11 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>Eksportēt</translation>
+        <translation type="vanished">Eksportēt</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Importēt</translation>
+        <translation type="vanished">Importēt</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -614,7 +614,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Dzēst</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -108,11 +108,11 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"/>
+        <translation>Yükleniyor...</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"/>
+        <translation>Dosyalar, üzerinde gösterilen günlerden sonra kalıcı olarak silinecek</translation>
     </message>
 </context>
 <context>
@@ -380,7 +380,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the file</source>
-        <translation type="unfinished"/>
+        <translation>Dosyayı görüntüleme izniniz yok</translation>
     </message>
 </context>
 <context>
@@ -485,10 +485,6 @@
         <translation>Albümler</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Fotoğraf bilgisi</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Çıkış tam ekran/slayt gösterisi</translation>
     </message>
@@ -499,14 +495,6 @@
     <message>
         <source>View</source>
         <translation>Görünüm</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Dışa aktar</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>İçe aktar</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -557,7 +545,19 @@
         <translation>Fotoğraf veya video bulunamadı</translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Sil</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -855,11 +855,11 @@
     </message>
     <message>
         <source>Importing: %1</source>
-        <translation type="unfinished"/>
+        <translation>İçe aktarılıyor: %1</translation>
     </message>
     <message>
         <source>Exporting: %1</source>
-        <translation type="unfinished"/>
+        <translation>Dışa aktarılıyor: %1</translation>
     </message>
 </context>
 <context>

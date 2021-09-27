@@ -529,7 +529,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>ព័ត៌មានរូបថត</translation>
+        <translation type="vanished">ព័ត៌មានរូបថត</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
@@ -545,11 +545,11 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>នាំចេញ</translation>
+        <translation type="vanished">នាំចេញ</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>នាំចូល</translation>
+        <translation type="vanished">នាំចូល</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -608,7 +608,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">លុប</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

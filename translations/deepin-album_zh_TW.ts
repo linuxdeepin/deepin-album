@@ -485,10 +485,6 @@
         <translation>相簿</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>照片資訊</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>退出全螢幕或幻燈片秀</translation>
     </message>
@@ -498,19 +494,11 @@
     </message>
     <message>
         <source>View</source>
-        <translation>檢視</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>匯出</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>匯入</translation>
+        <translation>查看</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation>全部選取</translation>
+        <translation>全選</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -557,8 +545,20 @@
         <translation>未發現照片或影片檔案</translation>
     </message>
     <message>
-        <source>Delete file/album</source>
-        <translation>刪除文件/相冊</translation>
+        <source>Export photos</source>
+        <translation>匯出照片</translation>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation>匯入照片和影片</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>刪除</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
+        <translation>照片/影片訊息</translation>
     </message>
 </context>
 <context>
@@ -909,7 +909,7 @@
     <name>ThumbnailListView</name>
     <message>
         <source>View</source>
-        <translation>查看照片</translation>
+        <translation>查看</translation>
     </message>
     <message>
         <source>Fullscreen</source>

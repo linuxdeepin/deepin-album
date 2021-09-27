@@ -108,11 +108,11 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"/>
+        <translation>Завантаження…</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"/>
+        <translation>Кількість днів, за яку файли буде остаточно вилучено, показано на мініатюрах</translation>
     </message>
 </context>
 <context>
@@ -380,7 +380,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the file</source>
-        <translation type="unfinished"/>
+        <translation>У вас немає прав доступу до перегляду цього файла</translation>
     </message>
 </context>
 <context>
@@ -485,10 +485,6 @@
         <translation>Альбоми</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Дані щодо фотографії</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Вийти з повноекранного режиму або показу слайдів</translation>
     </message>
@@ -499,14 +495,6 @@
     <message>
         <source>View</source>
         <translation>Перегляд</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Експортувати</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Імпортувати</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -557,7 +545,19 @@
         <translation>Не знайдено жодної фотографії або відео</translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Вилучити</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -855,11 +855,11 @@
     </message>
     <message>
         <source>Importing: %1</source>
-        <translation type="unfinished"/>
+        <translation>Імпортування: %1</translation>
     </message>
     <message>
         <source>Exporting: %1</source>
-        <translation type="unfinished"/>
+        <translation>Експортування: %1</translation>
     </message>
 </context>
 <context>

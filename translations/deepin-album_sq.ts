@@ -108,11 +108,11 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"/>
+        <translation>Po ngarkohet…</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"/>
+        <translation>Pas ditëve të shfaqura në të, kartelat do të fshihen përgjithmonë</translation>
     </message>
 </context>
 <context>
@@ -380,7 +380,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the file</source>
-        <translation type="unfinished"/>
+        <translation>S’keni leje të shihni kartelën</translation>
     </message>
 </context>
 <context>
@@ -485,10 +485,6 @@
         <translation>Albume</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Të dhëna fotoje</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Dil nga mënyra Sa krejt ekrani/Shfaqje si diapozitiva</translation>
     </message>
@@ -499,14 +495,6 @@
     <message>
         <source>View</source>
         <translation>Shihni</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Eksporto</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Importo</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -557,7 +545,19 @@
         <translation>S’u gjetën foto ose video</translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Fshije</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -855,11 +855,11 @@
     </message>
     <message>
         <source>Importing: %1</source>
-        <translation type="unfinished"/>
+        <translation>Po importohet: %1</translation>
     </message>
     <message>
         <source>Exporting: %1</source>
-        <translation type="unfinished"/>
+        <translation>Po eksportohet: %1</translation>
     </message>
 </context>
 <context>

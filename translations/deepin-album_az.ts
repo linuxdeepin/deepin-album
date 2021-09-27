@@ -485,10 +485,6 @@
         <translation>Albomlar</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Fotoşəkil məlumatları</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Tam ekran və ya slayd rejimindən çıxmaq</translation>
     </message>
@@ -499,14 +495,6 @@
     <message>
         <source>View</source>
         <translation>Baxış</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>İxrac</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>İdxal</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -557,7 +545,19 @@
         <translation>Heç bir şəkil və ya video tapılmadı</translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Silmək</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"/>
     </message>
 </context>

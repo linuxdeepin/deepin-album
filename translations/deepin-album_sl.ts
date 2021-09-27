@@ -485,10 +485,6 @@
         <translation>Albumi</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Podatki o sliki</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Zapri celozaslonski način/diaprojekcijo</translation>
     </message>
@@ -499,14 +495,6 @@
     <message>
         <source>View</source>
         <translation>Prikaz</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Izvozi</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Uvozi</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -557,7 +545,19 @@
         <translation>Ni najdenih slik ali videev</translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Izbriši</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"/>
     </message>
 </context>

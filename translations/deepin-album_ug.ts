@@ -108,11 +108,11 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"/>
+        <translation>يۈكلىنىۋاتىدۇ، سەل ساقلاڭ...</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"/>
+        <translation>ھۆججەت ئۆچۈرۈلۈشتىن بۇرۇن ئېشىپ قالغان كۈن سانى كۆرۈنىدۇ، كېيىن مەڭگۈلۈك ئۆچۈرۈلىدۇ</translation>
     </message>
 </context>
 <context>
@@ -269,19 +269,19 @@
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>ئالبومدىن بۇ %n پارچە سۈرەتنى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</numerusform><numerusform>ئالبومدىن بۇ %n پارچە سۈرەتنى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="unfinished"/>
+        <translation>ئالبومدىن بۇ سىننى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>ئالبومدىن بۇ %n سىننى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</numerusform><numerusform>ئالبومدىن بۇ %n سىننى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>ئالبومدىن بۇ %n تۈرنى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</numerusform><numerusform>ئالبومدىن بۇ %n تۈرنى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</numerusform></translation>
     </message>
 </context>
 <context>
@@ -315,15 +315,15 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n پارچە سۈرەت</numerusform><numerusform>%n پارچە سۈرەت</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n سىن</numerusform><numerusform>%n سىن</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n تۈر</numerusform><numerusform>%n تۈر</numerusform></translation>
     </message>
 </context>
 <context>
@@ -380,7 +380,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the file</source>
-        <translation type="unfinished"/>
+        <translation>بۇ ھۆججەتنى كۆرۈش ھوقۇقىڭىز يوق</translation>
     </message>
 </context>
 <context>
@@ -485,10 +485,6 @@
         <translation>ئالبۇملار</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>سۈرەت ئۇچۇرى</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>پۈتۈن ئېكران / تام تەسۋىردىن چېكىنىڭ</translation>
     </message>
@@ -499,14 +495,6 @@
     <message>
         <source>View</source>
         <translation>كۆرۈش</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>چىقىرىش</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>ئەكىرىش</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -554,10 +542,22 @@
     </message>
     <message>
         <source>No photos or videos found</source>
+        <translation>سۈرەت ياكى سىن ھۆججىتى بايقالمىدى</translation>
+    </message>
+    <message>
+        <source>Export photos</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>ئۆچۈرۈش</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -778,7 +778,7 @@
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
-        <translation type="unfinished"/>
+        <translation>%1 تۈر كىرگۈزۈلدى، %2 تۈر مەۋجۇت</translation>
     </message>
 </context>
 <context>
@@ -855,11 +855,11 @@
     </message>
     <message>
         <source>Importing: %1</source>
-        <translation type="unfinished"/>
+        <translation>ئەكىرۋاتىدۇ: %1</translation>
     </message>
     <message>
         <source>Exporting: %1</source>
-        <translation type="unfinished"/>
+        <translation>چىقىرىۋاتىدۇ: %1</translation>
     </message>
 </context>
 <context>
@@ -981,7 +981,7 @@
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation>سىن ئۇچۇرى</translation>
     </message>
     <message>
         <source>days</source>
@@ -1011,15 +1011,15 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n پارچە سۈرەت</numerusform><numerusform>%n پارچە سۈرەت</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n سىن</numerusform><numerusform>%n سىن</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n تۈر</numerusform><numerusform>%n تۈر</numerusform></translation>
     </message>
 </context>
 <context>
@@ -1030,59 +1030,59 @@
     </message>
     <message>
         <source>Codec info</source>
-        <translation type="unfinished"/>
+        <translation>كود ئۇچۇرى</translation>
     </message>
     <message>
         <source>Audio info</source>
-        <translation type="unfinished"/>
+        <translation>ئۈن مىقدارى ئۇچۇرى</translation>
     </message>
     <message>
         <source>Video CodecID</source>
-        <translation type="unfinished"/>
+        <translation>سىن مىقدارى ئۇچۇرى</translation>
     </message>
     <message>
         <source>Video CodeRate</source>
-        <translation type="unfinished"/>
+        <translation>سىننىڭ كودلىنىش نىسبىتى</translation>
     </message>
     <message>
         <source>FPS</source>
-        <translation type="unfinished"/>
+        <translation>سىننىڭ كاندۇك نىسبىتى</translation>
     </message>
     <message>
         <source>Proportion</source>
-        <translation type="unfinished"/>
+        <translation>كۆرسىتىش نىسبىتى</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished"/>
+        <translation>ئېنىقلىقى</translation>
     </message>
     <message>
         <source>Audio CodecID</source>
-        <translation type="unfinished"/>
+        <translation>كود ئۇسلۇبى</translation>
     </message>
     <message>
         <source>Audio CodeRate</source>
-        <translation type="unfinished"/>
+        <translation>كودلىنىش نىسبىتى</translation>
     </message>
     <message>
         <source>Audio digit</source>
-        <translation type="unfinished"/>
+        <translation>ئۈننىڭ بىت سانى</translation>
     </message>
     <message>
         <source>Channels</source>
-        <translation type="unfinished"/>
+        <translation>ئاۋاز يولى سانى</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="unfinished"/>
+        <translation>ئاۋاز يولى</translation>
     </message>
     <message>
         <source>Sampling</source>
-        <translation type="unfinished"/>
+        <translation>نۇسخا ئېلىش سانى</translation>
     </message>
     <message>
         <source>Video name</source>
-        <translation type="unfinished"/>
+        <translation>سىن نامى</translation>
     </message>
     <message>
         <source>Date modified</source>
@@ -1098,15 +1098,15 @@
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"/>
+        <translation>ئۇزۇنلۇقى</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"/>
+        <translation>ھۆججەت ئورنى</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation>سىن ئۇچۇرى</translation>
     </message>
     <message>
         <source>Date captured</source>

@@ -485,10 +485,6 @@
         <translation>相册</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>照片信息</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>退出全屏/幻灯片放映</translation>
     </message>
@@ -498,19 +494,11 @@
     </message>
     <message>
         <source>View</source>
-        <translation>查看照片</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>导出照片</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>导入照片</translation>
+        <translation>查看</translation>
     </message>
     <message>
         <source>Select all</source>
-        <translation>全选照片</translation>
+        <translation>全选</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -557,8 +545,20 @@
         <translation>未发现照片或视频文件</translation>
     </message>
     <message>
-        <source>Delete file/album</source>
-        <translation>删除文件/相册</translation>
+        <source>Export photos</source>
+        <translation>导出照片</translation>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation>导入照片和视频</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
+        <translation>照片/视频信息</translation>
     </message>
 </context>
 <context>

@@ -108,11 +108,11 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"/>
+        <translation>Учитавање...</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"/>
+        <translation>Датотеке ће бити трајно обрисане након датума приказаног на њима</translation>
     </message>
 </context>
 <context>
@@ -380,7 +380,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the file</source>
-        <translation type="unfinished"/>
+        <translation>Немате дозволу да прегледате датотеку</translation>
     </message>
 </context>
 <context>
@@ -485,10 +485,6 @@
         <translation>Албуми</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Подаци слике</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Напусти цео екран/покретни приказ</translation>
     </message>
@@ -499,14 +495,6 @@
     <message>
         <source>View</source>
         <translation>Прикажи</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Извези</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Увези</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -557,7 +545,19 @@
         <translation>Нису пронађене слике или видео записи</translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Обриши</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -981,7 +981,7 @@
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation>Подаци видеа</translation>
     </message>
     <message>
         <source>days</source>
@@ -1054,7 +1054,7 @@
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished"/>
+        <translation>Резолуција</translation>
     </message>
     <message>
         <source>Audio CodecID</source>
@@ -1098,15 +1098,15 @@
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"/>
+        <translation>Трајање</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"/>
+        <translation>Путања</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation>Подаци видеа</translation>
     </message>
     <message>
         <source>Date captured</source>

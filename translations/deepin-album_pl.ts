@@ -485,10 +485,6 @@
         <translation>Albumy</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Informacje o zdjęciu</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Opuść pełny ekran/pokaz slajdów</translation>
     </message>
@@ -499,14 +495,6 @@
     <message>
         <source>View</source>
         <translation>Podgląd</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Eksportuj</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Importuj</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -557,7 +545,19 @@
         <translation>Nie znaleziono zdjęć i filmów</translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Usuń</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"/>
     </message>
 </context>

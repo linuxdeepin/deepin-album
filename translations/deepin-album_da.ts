@@ -529,7 +529,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Billedinformation</translation>
+        <translation type="vanished">Billedinformation</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
@@ -545,11 +545,11 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>Eksportér</translation>
+        <translation type="vanished">Eksportér</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Importér</translation>
+        <translation type="vanished">Importér</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -608,7 +608,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Slet</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

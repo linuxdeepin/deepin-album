@@ -486,10 +486,6 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <translation>Album</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Info immagine</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Esci da schermo intero/presentazione</translation>
     </message>
@@ -500,14 +496,6 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     <message>
         <source>View</source>
         <translation>Visualizza</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Esporta</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Importa</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -558,7 +546,19 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <translation>Nessuna immagine o video trovati</translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Elimina</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"/>
     </message>
 </context>

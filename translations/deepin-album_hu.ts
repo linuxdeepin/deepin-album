@@ -108,11 +108,11 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"/>
+        <translation>Betöltés...</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"/>
+        <translation>A fájlok véglegesen törlődnek a megjelenített napok után</translation>
     </message>
 </context>
 <context>
@@ -380,7 +380,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the file</source>
-        <translation type="unfinished"/>
+        <translation>Nincs jogosultsága a fájl megtekintésére</translation>
     </message>
 </context>
 <context>
@@ -485,10 +485,6 @@
         <translation>Albumok</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Kép tulajdonságai</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Kilépés a teljes képernyős módból vagy a diavetítésből</translation>
     </message>
@@ -499,14 +495,6 @@
     <message>
         <source>View</source>
         <translation>Nézet</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Exportálás</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Importálás</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -557,8 +545,20 @@
         <translation>Nem található kép vagy videó</translation>
     </message>
     <message>
-        <source>Delete file/album</source>
-        <translation type="unfinished"/>
+        <source>Export photos</source>
+        <translation>Képek exportálása</translation>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation>Képek/Videók importálása</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Törlés</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
+        <translation>Kép/Videó tulajdonságai</translation>
     </message>
 </context>
 <context>
@@ -855,11 +855,11 @@
     </message>
     <message>
         <source>Importing: %1</source>
-        <translation type="unfinished"/>
+        <translation>Importálás: %1</translation>
     </message>
     <message>
         <source>Exporting: %1</source>
-        <translation type="unfinished"/>
+        <translation>Exportálás: %1</translation>
     </message>
 </context>
 <context>

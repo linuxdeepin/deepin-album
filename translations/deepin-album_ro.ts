@@ -535,7 +535,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informații poză</translation>
+        <translation type="vanished">Informații poză</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
@@ -551,11 +551,11 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportă</translation>
+        <translation type="vanished">Exportă</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Importă</translation>
+        <translation type="vanished">Importă</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -614,7 +614,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

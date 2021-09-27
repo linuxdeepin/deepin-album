@@ -523,7 +523,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>པར་གྱི་ཆ་འཕྲིན།</translation>
+        <translation type="vanished">པར་གྱི་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
@@ -539,11 +539,11 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>ཕྱིར་འདྲེན།</translation>
+        <translation type="vanished">ཕྱིར་འདྲེན།</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>ནང་འདྲེན་བྱས་ཟིན།</translation>
+        <translation type="vanished">ནང་འདྲེན་བྱས་ཟིན།</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -602,7 +602,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">སུབ་པ།</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -540,7 +540,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Foto info</translation>
+        <translation type="vanished">Foto info</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
@@ -556,11 +556,11 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>Ekspordi</translation>
+        <translation type="vanished">Ekspordi</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Impordi</translation>
+        <translation type="vanished">Impordi</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -619,7 +619,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Kustuta</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -108,11 +108,11 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"/>
+        <translation>Ladataan...</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"/>
+        <translation>Tiedostot poistetaan pysyvästi siinä näytetyn päivän jälkeen </translation>
     </message>
 </context>
 <context>
@@ -380,7 +380,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the file</source>
-        <translation type="unfinished"/>
+        <translation>Sinulla ei ole oikeuksia katsoa tiedostoa</translation>
     </message>
 </context>
 <context>
@@ -485,10 +485,6 @@
         <translation>Albumit</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Kuvan tiedot</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Poistu koko näytöstä/diaesityksestä</translation>
     </message>
@@ -499,14 +495,6 @@
     <message>
         <source>View</source>
         <translation>Näytä</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Vie</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Tuonti</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -557,7 +545,19 @@
         <translation>Kuvia tai videoita ei löytynyt</translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Poista</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -855,11 +855,11 @@
     </message>
     <message>
         <source>Importing: %1</source>
-        <translation type="unfinished"/>
+        <translation>Tuodaan: %1</translation>
     </message>
     <message>
         <source>Exporting: %1</source>
-        <translation type="unfinished"/>
+        <translation>Viedään: %1</translation>
     </message>
 </context>
 <context>

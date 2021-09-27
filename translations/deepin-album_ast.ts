@@ -523,7 +523,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Información de la semeya</translation>
+        <translation type="vanished">Información de la semeya</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
@@ -539,11 +539,11 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>Esportar</translation>
+        <translation type="vanished">Esportar</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>Importar</translation>
+        <translation type="vanished">Importar</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -602,7 +602,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Desaniciar</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -269,7 +269,7 @@
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Tem certeza que deseja excluir %n foto do álbum?</numerusform><numerusform>Tem certeza que deseja excluir %n fotos dos álbuns?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
@@ -277,11 +277,11 @@
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Tem certeza que deseja excluir %n vídeo do álbum?</numerusform><numerusform>Tem certeza que deseja excluir %n vídeos dos álbuns?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Tem certeza que deseja excluir %n item do álbum?</numerusform><numerusform>Tem certeza que deseja excluir %n itens dos álbuns?</numerusform></translation>
     </message>
 </context>
 <context>
@@ -485,10 +485,6 @@
         <translation>Álbuns</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Informações da foto</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Sair da Tela Cheia / Apresentação de Slides</translation>
     </message>
@@ -499,14 +495,6 @@
     <message>
         <source>View</source>
         <translation>Visualizar</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Exportar</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Importar</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -557,8 +545,20 @@
         <translation>Nenhuma foto ou vídeo encontrado</translation>
     </message>
     <message>
-        <source>Delete file/album</source>
-        <translation>Excluir arquivo/álbum</translation>
+        <source>Export photos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Excluir</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1038,11 +1038,11 @@
     </message>
     <message>
         <source>Video CodecID</source>
-        <translation type="unfinished"/>
+        <translation>ID do codec de vídeo</translation>
     </message>
     <message>
         <source>Video CodeRate</source>
-        <translation type="unfinished"/>
+        <translation>Taxa do vídeo</translation>
     </message>
     <message>
         <source>FPS</source>
@@ -1058,15 +1058,15 @@
     </message>
     <message>
         <source>Audio CodecID</source>
-        <translation type="unfinished"/>
+        <translation>ID do codec de áudio</translation>
     </message>
     <message>
         <source>Audio CodeRate</source>
-        <translation type="unfinished"/>
+        <translation>Taxa do áudio</translation>
     </message>
     <message>
         <source>Audio digit</source>
-        <translation type="unfinished"/>
+        <translation>Dígito do áudio</translation>
     </message>
     <message>
         <source>Channels</source>

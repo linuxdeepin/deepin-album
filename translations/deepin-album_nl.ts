@@ -108,11 +108,11 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"/>
+        <translation>Bezig met laden…</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"/>
+        <translation>De bestanden worden verwijderd na het vermelde aantal dagen</translation>
     </message>
 </context>
 <context>
@@ -246,11 +246,11 @@
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
-        <translation>Bezig met verwijderen...</translation>
+        <translation>Bezig met verwijderen…</translation>
     </message>
     <message>
         <source>Restoring...</source>
-        <translation>Bezig met herstellen...</translation>
+        <translation>Bezig met herstellen…</translation>
     </message>
 </context>
 <context>
@@ -380,7 +380,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the file</source>
-        <translation type="unfinished"/>
+        <translation>Je bent niet bevoegd om dit bestand te bekijken</translation>
     </message>
 </context>
 <context>
@@ -485,10 +485,6 @@
         <translation>Albums</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Foto-informatie</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Beeldvullende modus verlaten</translation>
     </message>
@@ -499,14 +495,6 @@
     <message>
         <source>View</source>
         <translation>Bekijken</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Exporteren</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Importeren</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -542,7 +530,7 @@
     </message>
     <message>
         <source>Importing...</source>
-        <translation>Bezig met importeren...</translation>
+        <translation>Bezig met importeren…</translation>
     </message>
     <message>
         <source>All photos and videos</source>
@@ -557,7 +545,19 @@
         <translation>Geen foto&apos;s of video&apos;s aangetroffen</translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Verwijderen</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -738,7 +738,7 @@
     </message>
     <message>
         <source>Importing...</source>
-        <translation>Bezig met importeren...</translation>
+        <translation>Bezig met importeren…</translation>
     </message>
     <message>
         <source>%1/%2 items imported</source>
@@ -855,11 +855,11 @@
     </message>
     <message>
         <source>Importing: %1</source>
-        <translation type="unfinished"/>
+        <translation>Bezig met importeren van %1</translation>
     </message>
     <message>
         <source>Exporting: %1</source>
-        <translation type="unfinished"/>
+        <translation>Bezig met exporteren van %1</translation>
     </message>
 </context>
 <context>

@@ -485,10 +485,6 @@
         <translation>Album</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Maklumat foto</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Keluar skrin penuh/persembahan slaid</translation>
     </message>
@@ -499,14 +495,6 @@
     <message>
         <source>View</source>
         <translation>Lihat</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Eksport</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Import</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -557,7 +545,19 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Padam</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"/>
     </message>
 </context>

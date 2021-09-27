@@ -523,7 +523,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>사진 정보</translation>
+        <translation type="vanished">사진 정보</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
@@ -539,11 +539,11 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>내보내기</translation>
+        <translation type="vanished">내보내기</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>가져오기</translation>
+        <translation type="vanished">가져오기</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -602,7 +602,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">삭제</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

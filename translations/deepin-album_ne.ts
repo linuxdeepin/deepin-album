@@ -525,7 +525,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>फोटो जानकारी</translation>
+        <translation type="vanished">फोटो जानकारी</translation>
     </message>
     <message>
         <source>Exit fullscreen/slideshow</source>
@@ -541,11 +541,11 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>निर्यात गर्नुहोस्</translation>
+        <translation type="vanished">निर्यात गर्नुहोस्</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>आयात गर्नुहोस्</translation>
+        <translation type="vanished">आयात गर्नुहोस्</translation>
     </message>
     <message>
         <source>Select all</source>
@@ -604,7 +604,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete file/album</source>
+        <source>Export photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">हटाउनुहोस्</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
