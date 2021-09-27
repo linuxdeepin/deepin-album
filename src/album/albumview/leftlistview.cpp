@@ -322,11 +322,14 @@ void LeftListView::showMenu(const QPoint &pos)
     m_pMenu->setVisible(true);
     foreach (QAction *action, m_MenuActionMap.values()) {
         action->setVisible(true);
+        action->setEnabled(true);
     }
-    if (0 == DBManager::instance()->getImgsCountByAlbum(m_ItemCurrentName)) {
+
+    if (0 < DBManager::instance()->getVideosCountByAlbum(m_ItemCurrentName)) {
+        m_MenuActionMap.value(tr("Slide show"))->setEnabled(false);
+        m_MenuActionMap.value(tr("Export"))->setEnabled(false);
+    } else if (0 == DBManager::instance()->getImgsCountByAlbum(m_ItemCurrentName)) {
         m_MenuActionMap.value(tr("Slide show"))->setVisible(false);
-    }
-    if (0 == DBManager::instance()->getImgsCountByAlbum(m_ItemCurrentName)) {
         m_MenuActionMap.value(tr("Export"))->setVisible(false);
     }
     m_pMenu->popup(QCursor::pos());

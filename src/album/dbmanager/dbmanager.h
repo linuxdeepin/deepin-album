@@ -87,6 +87,8 @@ public:
     const QStringList       getPathsByAlbum(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;
     const DBImgInfoList     getInfosByAlbum(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;
     int                     getImgsCountByAlbum(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;
+    //获取视频数量
+    int                     getVideosCountByAlbum(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;
 //    int                     getAlbumsCount() const;
     bool                    isAlbumExistInDB(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;
     bool                    isImgExistInAlbum(const QString &album, const QString &path, AlbumDBType atype = AlbumDBType::Custom) const;

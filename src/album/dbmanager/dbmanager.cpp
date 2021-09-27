@@ -511,6 +511,39 @@ int DBManager::getImgsCountByAlbum(const QString &album, AlbumDBType atype) cons
     }
 }
 
+int DBManager::getVideosCountByAlbum(const QString &album, AlbumDBType atype) const
+{
+    int count = 0;
+    QMutexLocker mutex(&m_mutex);
+    QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return 0;
+    }
+    QSqlQuery query(db);
+    query.setForwardOnly(true);
+    bool b = query.prepare("SELECT DISTINCT i.FileType "
+                           "FROM ImageTable3 AS i, AlbumTable3 AS a "
+                           "WHERE i.PathHash=a.PathHash "
+                           "AND a.AlbumName=:album "
+                           "AND a.AlbumDBType=:atype ");
+    query.bindValue(":album", album);
+    query.bindValue(":atype", atype);
+    if (!b || ! query.exec()) {
+        //    qWarning() << "Get ImgInfo by album failed: " << query.lastError();
+    } else {
+        using namespace utils::base;
+        while (query.next()) {
+            ItemType itemType = static_cast<ItemType>(query.value(0).toInt());
+            if (itemType == ItemTypeVideo) {
+                count++;
+            }
+        }
+    }
+    db.close();
+    qDebug() << __FUNCTION__ << "---count = " << count;
+    return count;
+}
+
 bool DBManager::isImgExistInAlbum(const QString &album, const QString &path, AlbumDBType atype) const
 {
     QMutexLocker mutex(&m_mutex);
