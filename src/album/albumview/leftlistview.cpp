@@ -655,27 +655,6 @@ void LeftListView::updateAlbumItemsColor()
     }
 }
 
-void LeftListView::keyPressEvent(QKeyEvent *event)
-{
-    qDebug() << "LeftListView::keyPressEvent()";
-    switch (event->key()) {
-    case Qt::Key_Delete:
-        if (COMMON_STR_CUSTOM == m_ItemCurrentType) {
-            emit sigKeyDelete();
-        }
-        break;
-    case Qt::Key_F2:
-        if (COMMON_STR_CUSTOM == m_ItemCurrentType) {
-            emit sigKeyF2();
-        }
-        break;
-    default:
-        break;
-    }
-    QWidget::keyPressEvent(event);
-
-}
-
 void LeftListView::resizeEvent(QResizeEvent *e)
 {
     DWidget::resizeEvent(e);

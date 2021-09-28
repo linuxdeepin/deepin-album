@@ -60,7 +60,6 @@ private:
     void showMenu(const QPoint &pos);
     void appendAction(int id, const QString &text, const QString &shortcut);
     QString getNewAlbumName();
-    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
 signals:
     void itemClicked();
