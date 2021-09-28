@@ -811,6 +811,10 @@
         <source>%n items found</source>
         <translation><numerusform>%n elemet sikerült találni</numerusform><numerusform>%n elemet sikerült találni</numerusform></translation>
     </message>
+    <message numerus="yes">
+        <source>%n photos found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>

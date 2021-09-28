@@ -811,6 +811,10 @@
         <source>%n items found</source>
         <translation><numerusform>%n ставка пронађена</numerusform><numerusform>%n ставке пронађене</numerusform><numerusform>%n ставки пронађено</numerusform></translation>
     </message>
+    <message numerus="yes">
+        <source>%n photos found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>

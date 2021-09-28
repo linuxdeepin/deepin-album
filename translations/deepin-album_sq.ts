@@ -546,11 +546,11 @@
     </message>
     <message>
         <source>Export photos</source>
-        <translation type="unfinished"/>
+        <translation>Eksporto foto</translation>
     </message>
     <message>
         <source>Import photos/videos</source>
-        <translation type="unfinished"/>
+        <translation>Importo foto/video</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -558,7 +558,7 @@
     </message>
     <message>
         <source>Photo/Video info</source>
-        <translation type="unfinished"/>
+        <translation>Hollësi fotosh/videosh</translation>
     </message>
 </context>
 <context>
@@ -810,6 +810,10 @@
     <message numerus="yes">
         <source>%n items found</source>
         <translation><numerusform>U gjet %n objekt</numerusform><numerusform>U gjetën %n objekte</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>

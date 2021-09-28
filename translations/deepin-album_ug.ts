@@ -546,11 +546,11 @@
     </message>
     <message>
         <source>Export photos</source>
-        <translation type="unfinished"/>
+        <translation>سۈرەت چىقىرىش</translation>
     </message>
     <message>
         <source>Import photos/videos</source>
-        <translation type="unfinished"/>
+        <translation>سۈرەت ۋە سىن كىرگۈزۈش</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -558,7 +558,7 @@
     </message>
     <message>
         <source>Photo/Video info</source>
-        <translation type="unfinished"/>
+        <translation>سۈرەت/سىن ئۇچۇرى</translation>
     </message>
 </context>
 <context>
@@ -810,6 +810,10 @@
     <message numerus="yes">
         <source>%n items found</source>
         <translation><numerusform>%n تۈر بايقالدى</numerusform><numerusform>%n تۈر بايقالدى</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos found</source>
+        <translation><numerusform>1 پارچە سۈرەت بايقالدى</numerusform><numerusform>%n رەسىم تېپىلدى</numerusform></translation>
     </message>
 </context>
 <context>

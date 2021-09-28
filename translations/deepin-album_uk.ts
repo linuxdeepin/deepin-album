@@ -546,11 +546,11 @@
     </message>
     <message>
         <source>Export photos</source>
-        <translation type="unfinished"/>
+        <translation>Експортувати фотографії</translation>
     </message>
     <message>
         <source>Import photos/videos</source>
-        <translation type="unfinished"/>
+        <translation>Імпортувати фотографії/відео</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -558,7 +558,7 @@
     </message>
     <message>
         <source>Photo/Video info</source>
-        <translation type="unfinished"/>
+        <translation>Дані щодо фотографій/відео</translation>
     </message>
 </context>
 <context>
@@ -810,6 +810,10 @@
     <message numerus="yes">
         <source>%n items found</source>
         <translation><numerusform>Знайдено %n запис</numerusform><numerusform>Знайдено %n записи</numerusform><numerusform>Знайдено %n записів</numerusform><numerusform>Знайдено %n запис</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>

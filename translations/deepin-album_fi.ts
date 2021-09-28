@@ -546,11 +546,11 @@
     </message>
     <message>
         <source>Export photos</source>
-        <translation type="unfinished"/>
+        <translation>Vie kuvat</translation>
     </message>
     <message>
         <source>Import photos/videos</source>
-        <translation type="unfinished"/>
+        <translation>Tuo valokuvia/videoita</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -558,7 +558,7 @@
     </message>
     <message>
         <source>Photo/Video info</source>
-        <translation type="unfinished"/>
+        <translation>Valokuva-/videotiedot</translation>
     </message>
 </context>
 <context>
@@ -810,6 +810,10 @@
     <message numerus="yes">
         <source>%n items found</source>
         <translation><numerusform>%n kohdetta löytyi</numerusform><numerusform>%n kohdetta löytyi</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n photos found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>

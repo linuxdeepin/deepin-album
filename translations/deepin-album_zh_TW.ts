@@ -811,6 +811,10 @@
         <source>%n items found</source>
         <translation><numerusform>共找到%n項</numerusform></translation>
     </message>
+    <message numerus="yes">
+        <source>%n photos found</source>
+        <translation><numerusform>共找到%n張照片</numerusform></translation>
+    </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>

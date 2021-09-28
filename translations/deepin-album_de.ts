@@ -893,6 +893,13 @@
             <numerusform></numerusform>
         </translation>
     </message>
+    <message numerus="yes">
+        <source>%n photos found</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>

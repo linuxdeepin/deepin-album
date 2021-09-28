@@ -812,6 +812,10 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <source>%n items found</source>
         <translation><numerusform>%n elementi trovati</numerusform><numerusform>%n elementi trovati</numerusform></translation>
     </message>
+    <message numerus="yes">
+        <source>%n photos found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>

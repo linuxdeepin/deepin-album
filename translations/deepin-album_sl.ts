@@ -811,6 +811,10 @@
         <source>%n items found</source>
         <translation><numerusform>%1 najden predmet</numerusform><numerusform>%1 najdena predmeta</numerusform><numerusform>%1 najdeni predmeti</numerusform><numerusform>%1 najdenih predmetov</numerusform></translation>
     </message>
+    <message numerus="yes">
+        <source>%n photos found</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>

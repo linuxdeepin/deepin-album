@@ -208,7 +208,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, const QString &
             if (photoCount == 1) {
                 searchStr = tr("1 photo found");
             } else {
-                searchStr = tr("%n videos found", "", photoCount);
+                searchStr = tr("%n photos found", "", photoCount);
             }
             setSliderShowBtnEnable(true);
         } else if (photoCount == 0 && videoCount > 0) {
