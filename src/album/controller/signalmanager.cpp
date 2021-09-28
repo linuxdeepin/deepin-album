@@ -45,10 +45,15 @@ int SignalManager::getSliderValue()
     return m_sliderValue;
 }
 
-void SignalManager::showInfoDlg(const QString &path)
+void SignalManager::showInfoDlg(const QString &path, ItemType type)
 {
     DBImgInfo data;
-    ImageEngineApi::instance()->getImageData(path, data);
+    if (type == ItemTypeNull) {
+        ImageEngineApi::instance()->getImageData(path, data);
+    } else {
+        data.itemType = type;
+    }
+
     if (data.itemType == ItemTypePic) {
         ImgInfoDialog *dialog = new ImgInfoDialog(path, dApp->getMainWindow());
         dialog->setObjectName("ImgInfoDialog");

@@ -54,7 +54,7 @@ public:
     void emitSliderValueChg(int value);
     int getSliderValue();
 
-    void showInfoDlg(const QString &path);
+    void showInfoDlg(const QString &path, ItemType type = ItemTypeNull);
 signals:
     void enableMainMenu(bool enable);
     void updateTopToolbarLeftContent(QWidget *content);

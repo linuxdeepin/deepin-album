@@ -1038,9 +1038,11 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     case IdImageInfo:
         dApp->signalM->showInfoDlg(path);
         break;
-    case IdVideoInfo:
-        dApp->signalM->showInfoDlg(path);
-        break;
+    case IdVideoInfo: {
+        DBImgInfo data = selectedIndexes().at(0).data(Qt::DisplayRole).value<DBImgInfo>();
+        dApp->signalM->showInfoDlg(path, data.itemType);
+    }
+    break;
     case IdExport:
         emit dApp->signalM->exportImage(paths);
         break;
@@ -1667,9 +1669,22 @@ void ThumbnailListView::removeSelectToTrash(QStringList paths)
 {
     int imgCount = 0;
     int videoCount = 0;
+    DBImgInfoList infos;
     DBImgInfo info;
     for (int i = 0; i < paths.size(); i++) {
-        ImageEngineApi::instance()->getImageData(paths.at(i), info);
+        QString path = paths.at(i);
+        bool succes = ImageEngineApi::instance()->getImageData(path, info);
+        if (!succes) {
+            if (infos.size() == 0) {
+                infos = DBManager::instance()->getAllTrashInfos();
+            }
+            for (int j = 0; j < infos.size(); j++) {
+                if (infos.at(j).filePath == path) {
+                    info.itemType = infos.at(j).itemType;
+                    break;
+                }
+            }
+        }
         if (info.itemType == ItemTypePic) {
             imgCount++;
         } else if (info.itemType == ItemTypeVideo) {
