@@ -80,6 +80,8 @@ public:
     void batchSelectChanged(bool isBatchSelect, bool disConnectSignal);
     //刷新按钮可用状态 isNoSelected:是否有选中，true为没有
     void refreshBtnEnabled(bool noSelected = false);
+    //刷新收藏按钮
+    void refreshCollectBtn();
 protected:
     void hideEvent(QHideEvent *event) override;
 signals:

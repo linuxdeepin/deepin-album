@@ -54,6 +54,7 @@
 
 DWIDGET_USE_NAMESPACE
 
+class BatchOperateWidget;
 class ThumbnailListView : public DListView
 {
     Q_OBJECT
@@ -146,6 +147,8 @@ public:
     void selectAllByItemType(ItemType type);//zynew
     //时间线所有选择按钮响应ctrl+all快捷键，切换按钮状态
     void TimeLineSelectAllBtn();
+    //设置批量操作菜单
+    void setBatchOperateWidget(BatchOperateWidget *widget);
 
 signals:
     //打开图片，该项在当前列表行数，以及该项所含信息路径
@@ -278,6 +281,7 @@ private:
     QTimer *m_loadTimer = nullptr;
     //记录当前显示类型
     ItemType m_currentShowItemType = ItemType::ItemTypeNull;
+    BatchOperateWidget *m_batchOperateWidget = nullptr;
 public:
     ListViewUseFor m_useFor = Normal;
     QString m_imageType;

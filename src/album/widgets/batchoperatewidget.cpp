@@ -59,6 +59,7 @@ BatchOperateWidget::BatchOperateWidget(ThumbnailListView *thumbnailListView, Ope
     : QWidget(parent)
 {
     m_thumbnailListView = thumbnailListView;
+    m_thumbnailListView->setBatchOperateWidget(this);
     m_operateType = type;
     initUI();
     initConnection();
@@ -523,6 +524,15 @@ void BatchOperateWidget::refreshBtnEnabled(bool noSelected)
     }
     if (m_operateType == AlbumViewTrashType) {
         refreshTrashBtnState();
+    }
+}
+
+void BatchOperateWidget::refreshCollectBtn()
+{
+    if (isAllSelectedCollected()) {
+        m_collection->setIcon(QIcon::fromTheme("dcc_ccollection"));
+    } else {
+        m_collection->setIcon(QIcon::fromTheme("dcc_collection_normal"));
     }
 }
 

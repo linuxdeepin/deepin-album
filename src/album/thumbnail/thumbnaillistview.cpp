@@ -45,6 +45,7 @@
 #include "timelinedatewidget.h"
 #include "allpicview/allpicview.h"
 #include "imagedataservice.h"
+#include "batchoperatewidget.h"
 
 namespace {
 const int ITEM_SPACING = 4;
@@ -1001,10 +1002,13 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     break;
     case IdAddToFavorites:
         DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
+        //todo 下面的信号应该放在dbmanager里删除成功后发送
         emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, paths);
+        m_batchOperateWidget->refreshCollectBtn();
         break;
     case IdRemoveFromFavorites:
         DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
+        m_batchOperateWidget->refreshCollectBtn();
         break;
     case IdRemoveFromAlbum: {
         if (IMAGE_DEFAULTTYPE != m_imageType && COMMON_STR_VIEW_TIMELINE != m_imageType &&
@@ -1888,6 +1892,11 @@ void ThumbnailListView::TimeLineSelectAllBtn()
             }
         }
     }
+}
+
+void ThumbnailListView::setBatchOperateWidget(BatchOperateWidget *widget)
+{
+    m_batchOperateWidget = widget;
 }
 
 void ThumbnailListView::reloadImage()
