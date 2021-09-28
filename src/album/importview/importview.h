@@ -64,7 +64,7 @@ private:
     void dragEnterEvent(QDragEnterEvent *e) override;
     void dropEvent(QDropEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
-    void dragLeaveEvent(QDragLeaveEvent *e) override;
+//    void dragLeaveEvent(QDragLeaveEvent *e) override;
 
 private slots:
     void onThemeTypeChanged();

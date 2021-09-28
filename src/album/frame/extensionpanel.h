@@ -39,13 +39,9 @@ public:
     static ExtensionPanel *getInstance(QWidget *parent);
     void setContent(QWidget *content);
     void updateRectWithContent();
-//    void moveWithAnimation(int x, int y);
+
 signals:
     void requestStopAnimation();
-protected:
-    void paintEvent(QPaintEvent *) override;
-    void mouseMoveEvent(QMouseEvent *e) override;
-public slots:
 
 private:
     static ExtensionPanel *instance;

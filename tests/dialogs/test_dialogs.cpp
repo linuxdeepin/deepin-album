@@ -134,9 +134,10 @@ TEST(albumdeletedialog, deletdialog)
 {
     TEST_CASE_NAME("deletdialog")
     AlbumDeleteDialog *d = new AlbumDeleteDialog;
-    Q_UNUSED(d);
-    QTestEventList event;
-    event.addKeyClick(Qt::Key_Escape);
+    QTestEventList e;
+    e.addKeyClick(Qt::Key_A);
+    e.simulate(d);
+    e.clear();
 }
 
 TEST(albumdeletedialog, exportdialog)

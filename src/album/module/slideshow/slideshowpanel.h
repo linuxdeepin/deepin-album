@@ -87,7 +87,7 @@ public slots:
     void startSlideShow(const SignalManager::ViewInfo &vinfo, bool inDB);
     void onMenuItemClicked(QAction *action);
     void onThemeChanged(ViewerThemeManager::AppTheme dark);
-    void onSingleAnimationEnd();
+//    void onSingleAnimationEnd();
     void onESCKeyStopSlide();
     void onShowPause();
     void onShowContinue();

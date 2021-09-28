@@ -89,14 +89,3 @@ void ExtensionPanel::updateRectWithContent()
         setFixedHeight(qMin(615, height + 5)); //tmp for imageinfo
     });
 }
-
-void ExtensionPanel::mouseMoveEvent(QMouseEvent *e)
-{
-    Q_UNUSED(e);
-    DDialog::mouseMoveEvent(e);
-}
-
-void ExtensionPanel::paintEvent(QPaintEvent *pe)
-{
-    DDialog::paintEvent(pe);
-}

@@ -175,7 +175,7 @@ SlideShowPanel::SlideShowPanel(QWidget *parent) : QWidget(parent)
 
 void SlideShowPanel::initConnections()
 {
-    connect(m_animation, &ImageAnimation::singleAnimationEnd, this, &SlideShowPanel::onSingleAnimationEnd);
+//    connect(m_animation, &ImageAnimation::singleAnimationEnd, this, &SlideShowPanel::onSingleAnimationEnd);
     connect(dApp->signalM, &SignalManager::startSlideShow, this, &SlideShowPanel::startSlideShow);
     connect(dApp->signalM, &SignalManager::sigESCKeyStopSlide, this, &SlideShowPanel::onESCKeyStopSlide);
     connect(slideshowbottombar, &SlideShowBottomBar::showPause, this, &SlideShowPanel::onShowPause);
@@ -270,7 +270,6 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo, bool i
 {
     Q_UNUSED(inDB);
     if (vinfo.paths.isEmpty()) {
-        qDebug() << "Start SlideShow failed! Paths is empty!";
         return;
     }
     m_vinfo = vinfo;
@@ -334,10 +333,10 @@ void SlideShowPanel::onThemeChanged(ViewerThemeManager::AppTheme dark)
     update();
 }
 
-void SlideShowPanel::onSingleAnimationEnd()
-{
-    return ;
-}
+//void SlideShowPanel::onSingleAnimationEnd()
+//{
+//    return ;
+//}
 
 void SlideShowPanel::onESCKeyStopSlide()
 {

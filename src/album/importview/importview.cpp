@@ -136,11 +136,6 @@ void ImportView::dragMoveEvent(QDragMoveEvent *event)
     event->accept();
 }
 
-void ImportView::dragLeaveEvent(QDragLeaveEvent *e)
-{
-    Q_UNUSED(e);
-}
-
 void ImportView::onThemeTypeChanged()
 {
     QPixmap pixmap;
@@ -200,7 +195,6 @@ void ImportView::onImprotBtnClicked(bool useDialog, const QStringList &list)
 
     if (useDialog) {
         if (dialog.exec() != QDialog::Accepted) {
-            qDebug() << "mode != QDialog::Accepted";
             emit dApp->signalM->sigImportFailedToView();
             return;
         }

@@ -554,12 +554,6 @@ void ImportTimeLineView::resizeEvent(QResizeEvent *ev)
     updateSize();
 }
 
-void ImportTimeLineView::showEvent(QShowEvent *ev)
-{
-    Q_UNUSED(ev)
-    qDebug() << "------" << __FUNCTION__ << "---size = " << this->size();
-}
-
 void ImportTimeLineView::dragEnterEvent(QDragEnterEvent *e)
 {
     if (!utils::base::checkMimeUrls(e->mimeData()->urls())) {
@@ -582,26 +576,6 @@ void ImportTimeLineView::dropEvent(QDropEvent *event)
 void ImportTimeLineView::dragMoveEvent(QDragMoveEvent *event)
 {
     event->accept();
-}
-
-void ImportTimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
-{
-    Q_UNUSED(e);
-}
-
-void ImportTimeLineView::keyPressEvent(QKeyEvent *e)
-{
-    qDebug() << "ImportTimeLineView::keyPressEvent()";
-    if (e->key() == Qt::Key_Control) {
-//        m_ctrlPress = true;
-    }
-}
-
-void ImportTimeLineView::keyReleaseEvent(QKeyEvent *e)
-{
-    if (e->key() == Qt::Key_Control) {
-//        m_ctrlPress = false;
-    }
 }
 
 void ImportTimeLineView::mousePressEvent(QMouseEvent *e)

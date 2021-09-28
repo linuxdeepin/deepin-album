@@ -63,7 +63,7 @@ public slots:
     void clearAndStartLayout();
 protected:
     void resizeEvent(QResizeEvent *ev) override;
-    void showEvent(QShowEvent *ev) override;
+//    void showEvent(QShowEvent *ev) override;
 
 private:
     void initTimeLineViewWidget();
@@ -72,9 +72,9 @@ private:
     void dragEnterEvent(QDragEnterEvent *e) override;
     void dropEvent(QDropEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
-    void dragLeaveEvent(QDragLeaveEvent *e) override;
-    void keyPressEvent(QKeyEvent *e) override;
-    void keyReleaseEvent(QKeyEvent *e) override;
+//    void dragLeaveEvent(QDragLeaveEvent *e) override;
+//    void keyPressEvent(QKeyEvent *e) override;
+//    void keyReleaseEvent(QKeyEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
 
 public:

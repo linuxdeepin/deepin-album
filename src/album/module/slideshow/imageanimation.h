@@ -89,8 +89,8 @@ public:
 
     int currentIndex();
     const QRect getCurScreenGeometry();
-signals:
-    void singleAnimationEnd();
+//signals:
+//    void singleAnimationEnd();
 protected:
     void paintEvent(QPaintEvent *) override;
     void setPaintTarget(PaintTarget target);
