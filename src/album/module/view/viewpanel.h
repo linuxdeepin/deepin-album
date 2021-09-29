@@ -86,8 +86,8 @@ public slots:
     bool onSigViewImage(const SignalManager::ViewInfo &info);
     void onMouseHoverMoved();
     void onESCKeyActivated();
-    void onImagesInserted();
-    void onViewImageNoNeedReload(int &fileindex);
+//    void onImagesInserted();
+//    void onViewImageNoNeedReload(int &fileindex);
     void onRotateClockwise();
     void onRotateCounterClockwise();
     void onRemoved();
@@ -155,7 +155,7 @@ private:
     void backToLastPanel();
 
 private slots:
-    void onThemeChanged(ViewerThemeManager::AppTheme theme);
+//    void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void feedBackCurrentIndex(int index, const QString &path);
 
 private:

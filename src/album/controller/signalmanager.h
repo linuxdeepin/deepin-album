@@ -130,7 +130,7 @@ signals:
     void gotoAlbumPanel(const QString &album = "");
     void createAlbum(QStringList imgPath = QStringList());
 
-    void sigDrawingBoard(QStringList Paths);//lmh0407
+//    void sigDrawingBoard(QStringList Paths);//lmh0407
 #if 1
     void viewCreateAlbum(QString path, bool bmodel = true);
     void sigCreateNewAlbumFrom(const QString &albumname);

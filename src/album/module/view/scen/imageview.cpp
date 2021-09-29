@@ -590,17 +590,16 @@ void ImageView::leaveEvent(QEvent *e)
     QGraphicsView::leaveEvent(e);
 }
 
-void ImageView::resizeEvent(QResizeEvent *event)
-{
-    QGraphicsView::resizeEvent(event);
+//void ImageView::resizeEvent(QResizeEvent *event)
+//{
+//    QGraphicsView::resizeEvent(event);
 //    m_toast->move(width() / 2 - m_toast->width() / 2,
 //                  height() - 80 - m_toast->height() / 2 - 11);
-}
+//}
 
 void ImageView::paintEvent(QPaintEvent *event)
 {
     QGraphicsView::paintEvent(event);
-//    update();
 }
 
 void ImageView::dragEnterEvent(QDragEnterEvent *e)
@@ -613,22 +612,8 @@ void ImageView::dragEnterEvent(QDragEnterEvent *e)
 
 void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
 {
-//    QPixmap pm(12, 12);
-//    QPainter pmp(&pm);
-//    //TODO: the transparent box
-//    //should not be scaled with the image
-//    pmp.fillRect(0, 0, 6, 6, LIGHT_CHECKER_COLOR);
-//    pmp.fillRect(6, 6, 6, 6, LIGHT_CHECKER_COLOR);
-//    pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
-//    pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
-//    pmp.end();
-
     painter->save();
     painter->fillRect(rect, m_backgroundColor);
-
-//    QPixmap currentImage(m_path);
-//    if (!currentImage.isNull())
-//        painter->fillRect(currentImage.rect(), QBrush(pm));
     painter->restore();
 }
 int static count = 0;
@@ -666,19 +651,6 @@ bool ImageView::event(QEvent *event)
                 }
             }
         }
-        /*lmh0804*/
-//        const QRect &r = visibleImageRect();
-//        double left = r.width() + r.x();
-//        const QRectF &sr = sceneRect();
-//        if (r.x() <= 1) {
-//            return true;
-//        }
-//        if (left - sr.width() >= -1 && left - sr.width() <= 1) {
-//            return true;
-//        }
-//        if (r.width() >= sr.width()) {
-//            return true;
-//        }
     } else if (evType == QEvent::Gesture)
         handleGestureEvent(static_cast<QGestureEvent *>(event));
 
@@ -765,10 +737,8 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
         if (qAbs(offset) > 200) {
             if (offset > 0) {
                 emit previousRequested();
-                qDebug() << "zy------ImageView::pinchTriggered previousRequested";
             } else {
                 emit nextRequested();
-                qDebug() << "zy------ImageView::pinchTriggered nextRequested";
             }
         }
 #endif
@@ -788,118 +758,3 @@ void ImageView::wheelEvent(QWheelEvent *event)
         event->accept();
     }
 }
-
-//CFileWatcher::CFileWatcher(QObject *parent): QThread(parent)
-//{
-//    _handleId = inotify_init();
-//}
-
-//CFileWatcher::~CFileWatcher()
-//{
-//    clear();
-//}
-
-//bool CFileWatcher::isVaild()
-//{
-//    return (_handleId != -1);
-//}
-
-//void CFileWatcher::addWather(const QString &path)
-//{
-//    QMutexLocker loker(&_mutex);
-//    if (!isVaild())
-//        return;
-//    QFileInfo info(path);
-//    if (!info.exists() || !info.isFile()) {
-//        return;
-//    }
-//    if (watchedFiles.find(path) != watchedFiles.end()) {
-//        return;
-//    }
-//    std::string sfile = path.toStdString();
-//    int fileId = inotify_add_watch(_handleId, sfile.c_str(), IN_MODIFY | IN_DELETE_SELF | IN_MOVE_SELF);
-//    watchedFiles.insert(path, fileId);
-//    watchedFilesId.insert(fileId, path);
-//    if (!_running) {
-//        _running = true;
-//        start();
-//    }
-//}
-
-//void CFileWatcher::removePath(const QString &path)
-//{
-//    QMutexLocker loker(&_mutex);
-//    if (!isVaild())
-//        return;
-//    auto itf = watchedFiles.find(path);
-//    if (itf != watchedFiles.end()) {
-//        inotify_rm_watch(_handleId, itf.value());
-//        watchedFilesId.remove(itf.value());
-//        watchedFiles.erase(itf);
-//    }
-//}
-
-//void CFileWatcher::clear()
-//{
-//    QMutexLocker loker(&_mutex);
-//    for (auto it : watchedFiles) {
-//        inotify_rm_watch(_handleId, it);
-//    }
-//    watchedFilesId.clear();
-//    watchedFiles.clear();
-//}
-
-//void CFileWatcher::run()
-//{
-//    doRun();
-//}
-
-//void CFileWatcher::doRun()
-//{
-//    if (!isVaild())
-//        return;
-
-//    char name[1024];
-//    auto freadsome = [ = ](void *dest, size_t remain, FILE * file) {
-//        char *offset = reinterpret_cast<char *>(dest);
-//        while (remain) {
-//            if (file == nullptr)
-//                return -1;
-//            size_t n = fread(offset, 1, remain, file);
-//            if (n == 0) {
-//                return -1;
-//            }
-
-//            remain -= n;
-//            offset += n;
-//        }
-//        return 0;
-//    };
-
-//    FILE *watcher_file = fdopen(_handleId, "r");
-
-//    while (true) {
-//        inotify_event event;
-//        if (-1 == freadsome(&event, sizeof(event), watcher_file)) {
-//            qWarning() << "------------- freadsome error !!!!!---------- ";
-//            break;
-//        }
-//        if (event.len) {
-//            freadsome(name, event.len, watcher_file);
-//        } else {
-//            QMutexLocker loker(&_mutex);
-//            auto itf = watchedFilesId.find(event.wd);
-//            if (itf != watchedFilesId.end()) {
-//                //qDebug() << "file = " << itf.value() << " event.wd = " << event.wd << "event.mask = " << event.mask;
-
-//                if (event.mask & IN_MODIFY) {
-//                    emit fileChanged(itf.value(), EFileModified);
-//                } else if (event.mask & IN_MOVE_SELF) {
-//                    emit fileChanged(itf.value(), EFileMoved);
-//                } else if (event.mask & IN_DELETE_SELF) {
-//                    emit fileChanged(itf.value(), EFileMoved);
-//                }
-//            }
-//        }
-//    }
-//}

@@ -62,9 +62,6 @@ using namespace Dtk::Widget;
 namespace {
 
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
-//const QSize ICON_SIZE = QSize(48, 40);
-const int LOAD_ALL = 51;           //一次加载数量
-const int LOAD_LEFT_RIGHT = 25;     //动态加载数量
 
 }  // namespace
 
@@ -78,7 +75,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     , m_deletetimer(nullptr)
     , m_bFirstFullScreen(false)
 {
-    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+//    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     initShortcut();
     initStack();
     initFloatingComponent();
@@ -126,11 +123,11 @@ void ViewPanel::initConnect()
     connect(dApp->signalM, &SignalManager::hideExtensionPanel, this, &ViewPanel::onHideExtensionPanel);
     connect(dApp->signalM, &SignalManager::hideImageView, this, &ViewPanel::onHideImageView);
     qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");
-    connect(dApp->signalM, &SignalManager::viewImageNoNeedReload, this, &ViewPanel::onViewImageNoNeedReload);
+//    connect(dApp->signalM, &SignalManager::viewImageNoNeedReload, this, &ViewPanel::onViewImageNoNeedReload);
     connect(dApp->signalM, &SignalManager::viewImage, this, &ViewPanel::onSigViewImage);
     connect(m_viewB, &ImageView::mouseHoverMoved, this, &ViewPanel::onMouseHoverMoved);
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
-    connect(dApp->signalM, &SignalManager::imagesInserted, this, &ViewPanel::onImagesInserted);
+//    connect(dApp->signalM, &SignalManager::imagesInserted, this, &ViewPanel::onImagesInserted);
     connect(dApp->signalM, &SignalManager::sigESCKeyActivated, this, &ViewPanel::onESCKeyActivated);
 }
 
@@ -153,13 +150,14 @@ void ViewPanel::mousePressEvent(QMouseEvent *e)
     ModulePanel::mousePressEvent(e);
 }
 
-void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme)
-{
-    Q_UNUSED(theme);
-}
+//void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme)
+//{
+//    Q_UNUSED(theme);
+//}
 
 void ViewPanel::feedBackCurrentIndex(int index, const QString &path)
 {
+    Q_UNUSED(index)
     openImage(path, false);
 }
 
@@ -369,18 +367,18 @@ void ViewPanel::onESCKeyActivated()
 #endif
 }
 
-void ViewPanel::onImagesInserted()
-{
-    if (!m_ttbc) {
-        return;
-    }
-    int size = m_ttbc->itemLoadedSize();
-}
+//void ViewPanel::onImagesInserted()
+//{
+//    if (!m_ttbc) {
+//        return;
+//    }
+//    int size = m_ttbc->itemLoadedSize();
+//}
 
-void ViewPanel::onViewImageNoNeedReload(int &fileindex)
-{
-    //todo
-}
+//void ViewPanel::onViewImageNoNeedReload(int &fileindex)
+//{
+//    //todo
+//}
 
 void ViewPanel::onRotateClockwise()
 {

@@ -173,7 +173,7 @@ TEST(MainWindow, Picimport)
     //判断视频大写后缀导入是否正常
     bool iscontain = ImageEngineApi::instance()->m_AllImageData.contains(AVI);
     qDebug() << "------" << AVI << iscontain;
-//    ASSERT_TRUE(iscontain);
+    EXPECT_TRUE(iscontain);
 
     QTestEventList event;
     QPoint p1(30, 100);
@@ -698,7 +698,7 @@ TEST(MainWindow, videoInfo)
 
 TEST(MainWindow, viewpanelmenu)
 {
-    TEST_CASE_NAME("viewpanelmenu")
+    TEST_CASE_NAME("load")
     MainWindow *w = dApp->getMainWindow();
     MainWidget *wid = w->m_commandLine->findChild<MainWidget *>("MainWidget");
     QTestEventList e;
@@ -763,8 +763,19 @@ TEST(MainWindow, viewpanelmenu)
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Export"));
 
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Copy"));
-
-//    runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Unfavorite"));
+    //收藏
+    bool isfav = false;
+    for (auto pAction : menu->actions()) {
+        if (pAction->text() == TR_SUBORDINATE_t::tr("Unfavorite")) {
+            isfav = true;
+            break;
+        }
+    }
+    if (isfav) {
+        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Unfavorite"));
+    } else {
+        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Favorite"));
+    }
 
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Rotate clockwise"));
     QTest::qWait(1500);
@@ -780,12 +791,45 @@ TEST(MainWindow, viewpanelmenu)
     e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
     e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
     e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
+    e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
+    e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
+    e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
+    e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
+    e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
+    e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
+    e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
     e.simulate(wid->m_viewPanel->m_viewB->viewport());
     QTest::qWait(300);
     e.clear();
+    //导航窗口
+    //重新获取右键菜单
+    menu = runContextMenu(wid->m_viewPanel->m_viewB->viewport(), p1);
+    bool isNAV = false;
+    for (auto pAction : menu->actions()) {
+        if (pAction->text() == TR_SUBORDINATE_t::tr("Hide navigation window")) {
+            isNAV = true;
+            break;
+        }
+    }
+    if (isNAV) {
+        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Hide navigation window"));
+        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Show navigation window"));
+    } else {
+        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Show navigation window"));
+        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Hide navigation window"));
+    }
+    //大图界面快捷收藏
+    e.addKeyClick(Qt::Key_Period, Qt::NoModifier, 100);
+    e.addKeyClick(Qt::Key_Period, Qt::NoModifier, 100);
+    e.simulate(wid->m_viewPanel->m_viewB->viewport());
+    e.clear();
+    QTest::qWait(300);
+
     e.addKeyClick(Qt::Key_Down, Qt::NoModifier, 50);
     e.simulate(wid->m_viewPanel->m_viewB->viewport());
     QTest::qWait(300);
+
+    runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Delete"));
 
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Display in file manager"));
 
@@ -979,6 +1023,10 @@ TEST(MainWindow, timelineview)
     QTest::qWait(300);
     bar1->m_pSlider->slider()->setValue(9);
     QTest::qWait(300);
+    QScrollBar *thumbBar = timelineview->m_timeLineThumbnailListView->verticalScrollBar();
+    int num = thumbBar->maximum();
+    thumbBar->setValue(num / 2);
+    QTest::qWait(500);
     bar1->m_pSlider->slider()->setValue(4);
     QTest::qWait(300);
     ASSERT_TRUE(timelineview != nullptr);
@@ -986,7 +1034,7 @@ TEST(MainWindow, timelineview)
 
 TEST(MainWindow, AlbumView)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("AlbumView")
     MainWindow *w = dApp->getMainWindow();
     AlbumView *albumview = w->m_pAlbumview;
 
@@ -1308,7 +1356,7 @@ TEST(MainWindow, favorite)
 TEST(MainWindow, search)
 {
     //3界面搜索界面
-    TEST_CASE_NAME("search")
+    TEST_CASE_NAME("load")
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTestEventList e;
@@ -1318,29 +1366,52 @@ TEST(MainWindow, search)
     e.clear();
     //所有界面搜索bug89849
     w->m_pSearchEdit->setText("a");
-    w->m_pSearchEdit->editingFinished();//第一次搜索
+    w->onSearchEditFinished();//第一次搜索
     QTest::qWait(300);
     int first = w->m_pSearchView->m_pThumbnailListView->m_model->rowCount();//第一次结果
-    w->m_pSearchEdit->editingFinished();//第二次搜索
+    w->onSearchEditFinished();//第二次搜索
     int second = w->m_pSearchView->m_pThumbnailListView->m_model->rowCount();//第二次结果
-    ASSERT_TRUE(first == second);
+    qDebug() << "------" << first << second;
+    EXPECT_TRUE(first == second);
 
+    QModelIndex index = w->m_pSearchView->m_pThumbnailListView->m_model->index(1, 0);
+    if (index.isValid()) {
+        QRect videoItem = w->m_pSearchView->m_pThumbnailListView->visualRect(index);
+        QPoint p = QPoint(videoItem.x() + 5, videoItem.y() + 5);
+        e.clear();
+        //删除弹窗处理
+        int (*dlgexec1)() = []() {
+            return 0;
+        };
+        typedef int (*fptr)(QDialog *);
+        fptr fptrexec1 = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
+        Stub stub1;
+        stub1.set(fptrexec1, dlgexec1);
+
+        auto menu = runContextMenu(w->m_pSearchView->m_pThumbnailListView->viewport(), p);
+        using TR_SUBORDINATE_t = PointerTypeGetter < decltype(w->m_pSearchView->m_pThumbnailListView) >::type;
+
+        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Delete"));
+    }
+    //单独图片幻灯片放映
+    w->m_pSearchEdit->setText("3333");
+    w->onSearchEditFinished();
     w->m_pSearchView->onSlideShowBtnClicked();
     QTest::qWait(1000);
     e.addKeyClick(Qt::Key_Escape);
     e.simulate(w->m_commandLine->findChild<MainWidget *>("MainWidget")->m_viewPanel->m_viewB->viewport());
-//    e.clear();
+    e.clear();
     QTest::qWait(300);
 
     w->m_pSearchEdit->clear();
     w->m_pSearchEdit->setText("testNoreault");//无搜索结果
-    w->m_pSearchEdit->editingFinished();
+    w->onSearchEditFinished();
     QTest::qWait(300);
 
     //时间线搜索
     w->timeLineBtnClicked();
     w->m_pSearchEdit->setText("a");
-    w->m_pSearchEdit->editingFinished();
+    w->onSearchEditFinished();
     QTest::qWait(300);
     w->m_pSearchView->onSlideShowBtnClicked();
     QTest::qWait(1000);
@@ -1349,13 +1420,13 @@ TEST(MainWindow, search)
 
     w->m_pSearchEdit->clear();
     w->m_pSearchEdit->setText("testNoreault");//无搜索结果
-    w->m_pSearchEdit->editingFinished();
+    w->onSearchEditFinished();
     QTest::qWait(300);
 
     //相册界面搜索
     w->albumBtnClicked();
     w->m_pSearchEdit->setText("a");
-    w->m_pSearchEdit->editingFinished();
+    w->onSearchEditFinished();
     QTest::qWait(300);
     w->m_pSearchView->onSlideShowBtnClicked();
     QTest::qWait(1000);
@@ -1364,7 +1435,7 @@ TEST(MainWindow, search)
 
     w->m_pSearchEdit->clear();
     w->m_pSearchEdit->setText("testNoreault");//无搜索结果
-    w->m_pSearchEdit->editingFinished();
+    w->onSearchEditFinished();
     QTest::qWait(300);
     ASSERT_TRUE(w->m_pSearchEdit != nullptr);
 }
@@ -1880,4 +1951,13 @@ TEST(MainWindow, onSearchEditIsDisplay)
     w->onSearchEditIsDisplay(false);
 
     w->m_pCenterWidget->setCurrentIndex(temp);
+}
+
+TEST(ViewPanel, darkmenu)
+{
+    ViewPanel *panel = new ViewPanel;
+    panel->appendAction_darkmenu(14, "Rotate clockwise", "Rotate clockwise");
+    EXPECT_TRUE(panel->m_menu != nullptr);
+    panel->deleteLater();
+    panel = nullptr;
 }

@@ -73,8 +73,8 @@ enum MenuItemId {
     IdSetAsWallpaper,
     IdDisplayInFileManager,
     IdImageInfo,
-    IdSubMenu,
-    IdDrawingBoard//lmh0407
+    IdSubMenu
+//    IdDrawingBoard//lmh0407
 };
 
 }  // namespace
@@ -170,10 +170,10 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         PrintHelper::getIntance()->showPrintDialog(QStringList(path1), this);
         break;
     }
-    case IdDrawingBoard: {
-        emit dApp->signalM->sigDrawingBoard(QStringList(path1));
-        break;
-    }
+//    case IdDrawingBoard: {
+//        emit dApp->signalM->sigDrawingBoard(QStringList(path1));
+//        break;
+//    }
 
 #if 1
     //添加到相册
