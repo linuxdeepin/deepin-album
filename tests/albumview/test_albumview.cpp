@@ -695,7 +695,6 @@ TEST(AlbumView, albumView_other1_test)
     w->m_pAlbumview->onThemeTypeChanged(DGuiApplicationHelper::LightType);
 
     w->m_pAlbumview->onImportFailedToView();
-    w->m_pAlbumview->onUpdateFavoriteNum();
     w->m_pAlbumview->onWaitDailogTimeout();
 
 

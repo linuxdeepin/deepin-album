@@ -325,10 +325,11 @@ void LeftListView::showMenu(const QPoint &pos)
         action->setEnabled(true);
     }
 
-    if (0 < DBManager::instance()->getVideosCountByAlbum(m_ItemCurrentName)) {
-        m_MenuActionMap.value(tr("Slide show"))->setEnabled(false);
-        m_MenuActionMap.value(tr("Export"))->setEnabled(false);
-    } else if (0 == DBManager::instance()->getImgsCountByAlbum(m_ItemCurrentName)) {
+    if (0 < DBManager::instance()->getItemsCountByAlbum(m_ItemCurrentName, ItemTypeVideo)) {
+        m_MenuActionMap.value(tr("Export"))->setVisible(false);
+    }
+
+    if (0 == DBManager::instance()->getItemsCountByAlbum(m_ItemCurrentName, ItemTypePic)) {
         m_MenuActionMap.value(tr("Slide show"))->setVisible(false);
         m_MenuActionMap.value(tr("Export"))->setVisible(false);
     }

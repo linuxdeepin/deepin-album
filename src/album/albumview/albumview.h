@@ -184,7 +184,6 @@ private slots:
     void onRightPhoneThumbnailListMouseRelease();
     void onImportViewImportBtnClicked();
     void onImportFailedToView();
-    void onUpdateFavoriteNum();
     void onWaitDailogTimeout();
     void onLeftListViewMountListWidgetClicked(const QModelIndex &index);
 

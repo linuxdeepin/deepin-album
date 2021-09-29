@@ -481,37 +481,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(const QString &album, AlbumDBType
     return infos;
 }
 
-int DBManager::getImgsCountByAlbum(const QString &album, AlbumDBType atype) const
-{
-    QMutexLocker mutex(&m_mutex);
-    QSqlDatabase db = getDatabase();
-    if (! db.isValid()) {
-        return 0;
-    }
-    QSqlQuery query(db);
-    query.setForwardOnly(true);
-    QString ps = "SELECT COUNT(*) FROM AlbumTable3 "
-                 "WHERE AlbumName =:album "
-                 "AND PathHash != \"%1\" "
-                 "AND AlbumDBType =:atype ";
-    bool b = query.prepare(ps.arg(EMPTY_HASH_STR));
-    if (!b) {
-        db.close();
-        return 0;
-    }
-    query.bindValue(":album", album);
-    query.bindValue(":atype", atype);
-    if (query.exec()) {
-        query.first();
-        db.close();
-        return query.value(0).toInt();
-    } else {
-        db.close();
-        return 0;
-    }
-}
-
-int DBManager::getVideosCountByAlbum(const QString &album, AlbumDBType atype) const
+int DBManager::getItemsCountByAlbum(const QString &album, const ItemType &type, AlbumDBType atype) const
 {
     int count = 0;
     QMutexLocker mutex(&m_mutex);
@@ -521,7 +491,7 @@ int DBManager::getVideosCountByAlbum(const QString &album, AlbumDBType atype) co
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
-    bool b = query.prepare("SELECT DISTINCT i.FileType "
+    bool b = query.prepare("SELECT i.FileType "
                            "FROM ImageTable3 AS i, AlbumTable3 AS a "
                            "WHERE i.PathHash=a.PathHash "
                            "AND a.AlbumName=:album "
@@ -534,7 +504,9 @@ int DBManager::getVideosCountByAlbum(const QString &album, AlbumDBType atype) co
         using namespace utils::base;
         while (query.next()) {
             ItemType itemType = static_cast<ItemType>(query.value(0).toInt());
-            if (itemType == ItemTypeVideo) {
+            if (type == ItemTypeNull) {
+                count++;
+            } else if (itemType == type) {
                 count++;
             }
         }

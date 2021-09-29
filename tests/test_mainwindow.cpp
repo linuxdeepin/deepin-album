@@ -803,21 +803,21 @@ TEST(MainWindow, viewpanelmenu)
     e.clear();
     //导航窗口
     //重新获取右键菜单
-    menu = runContextMenu(wid->m_viewPanel->m_viewB->viewport(), p1);
-    bool isNAV = false;
-    for (auto pAction : menu->actions()) {
-        if (pAction->text() == TR_SUBORDINATE_t::tr("Hide navigation window")) {
-            isNAV = true;
-            break;
-        }
-    }
-    if (isNAV) {
-        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Hide navigation window"));
-        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Show navigation window"));
-    } else {
-        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Show navigation window"));
-        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Hide navigation window"));
-    }
+//    menu = runContextMenu(wid->m_viewPanel->m_viewB->viewport(), p1);
+//    bool isNAV = false;
+//    for (auto pAction : menu->actions()) {
+//        if (pAction->text() == TR_SUBORDINATE_t::tr("Hide navigation window")) {
+//            isNAV = true;
+//            break;
+//        }
+//    }
+//    if (isNAV) {
+//        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Hide navigation window"));
+//        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Show navigation window"));
+//    } else {
+//        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Show navigation window"));
+//        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Hide navigation window"));
+//    }
     //大图界面快捷收藏
     e.addKeyClick(Qt::Key_Period, Qt::NoModifier, 100);
     e.addKeyClick(Qt::Key_Period, Qt::NoModifier, 100);

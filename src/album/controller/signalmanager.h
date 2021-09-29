@@ -124,8 +124,6 @@ signals:
     void updatePauseButton();
     void initSlideShowButton();
 
-    void updateFavoriteNum();
-
     // Handle by album
     void gotoAlbumPanel(const QString &album = "");
     void createAlbum(QStringList imgPath = QStringList());

@@ -323,7 +323,6 @@ void AlbumView::initConnections()
     connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, &AlbumView::onImportViewImportBtnClicked);
     connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, &AlbumView::onImportFailedToView);
     connect(m_importByPhoneComboBox, &DComboBox::currentTextChanged, this, &AlbumView::importComboBoxChange);
-    connect(dApp->signalM, &SignalManager::updateFavoriteNum, this, &AlbumView::onUpdateFavoriteNum);
     connect(dApp->signalM, &SignalManager::sigShortcutKeyDelete, this, &AlbumView::onKeyDelete);
     connect(dApp->signalM, &SignalManager::sigShortcutKeyF2, this, &AlbumView::onKeyF2);
     //2020年03月26日15:12:23
@@ -1232,7 +1231,7 @@ void AlbumView::onKeyDelete()
     } else if (COMMON_STR_CUSTOM == m_currentType) {
         paths = m_customThumbnailList->selectedPaths();
         // 如果没有选中的照片,或相册中的照片数为0,则删除相册
-        if (0 == paths.length() || 0 == DBManager::instance()->getImgsCountByAlbum(m_currentAlbum)) {
+        if (0 == paths.length() || 0 == DBManager::instance()->getItemsCountByAlbum(m_currentAlbum, ItemTypeNull)) {
             QListWidgetItem *item = m_pLeftListView->m_pCustomizeListView->currentItem();
             AlbumLeftTabItem *pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pCustomizeListView->itemWidget(item));
             m_deleteDialog = new AlbumDeleteDialog;
@@ -2158,13 +2157,6 @@ void AlbumView::onImportFailedToView()
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
         m_pStatusBar->setVisible(false);
     }
-}
-
-void AlbumView::onUpdateFavoriteNum()
-{
-    m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum, AlbumDBType::Favourite);
-    QString favoriteStr = tr("%1 photo(s)");
-    m_pFavoritePicTotal->setText(favoriteStr.arg(QString::number(m_iAlubmPicsNum)));
 }
 
 void AlbumView::onWaitDailogTimeout()

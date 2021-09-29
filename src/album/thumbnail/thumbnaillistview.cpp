@@ -763,7 +763,7 @@ void ThumbnailListView::updateMenuContents()
             m_MenuActionMap.value(tr("Rotate counterclockwise"))->setVisible(false);
             m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(false);
         }
-    } else if (1 != paths.length()) {
+    } else {
         m_MenuActionMap.value(tr("Display in file manager"))->setVisible(false);
         m_MenuActionMap.value(tr("Photo info"))->setVisible(false);
         m_MenuActionMap.value(tr("Video info"))->setVisible(false);
@@ -773,6 +773,14 @@ void ThumbnailListView::updateMenuContents()
                 m_MenuActionMap.value(tr("Print"))->setVisible(false);
                 m_MenuActionMap.value(tr("Slide show"))->setVisible(false);
                 m_MenuActionMap.value(tr("Export"))->setVisible(false);
+                break;
+            }
+        }
+        //有图片则可以显示幻灯片
+        for (int i = 0; i < paths.length(); i++) {
+            QString path = paths.at(i);
+            if (!utils::base::isVideo(path)) {
+                m_MenuActionMap.value(tr("Slide show"))->setVisible(true);
                 break;
             }
         }
@@ -1106,8 +1114,6 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
     str << info.filePath;
     //通知其它界面更新取消收藏
     DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, str, AlbumDBType::Favourite);
-    emit dApp->signalM->updateFavoriteNum();
-    m_model->removeRow(index.row());
 }
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
