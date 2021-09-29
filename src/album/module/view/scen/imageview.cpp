@@ -643,10 +643,8 @@ bool ImageView::event(QEvent *event)
                 if (qAbs(offset) > 200) {
                     if (offset > 0) {
                         emit previousRequested();
-                        qDebug() << "zy------ImageView::event previousRequested";
                     } else {
                         emit nextRequested();
-                        qDebug() << "zy------ImageView::event nextRequested";
                     }
                 }
             }
