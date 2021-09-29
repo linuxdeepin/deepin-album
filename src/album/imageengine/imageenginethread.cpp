@@ -285,6 +285,7 @@ void ImportImagesThread::runDetail()
             if (count == 200) {
                 //导入相册数据库AlbumTable3
                 DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, pathlistImport);
+                ImageDataService::instance()->readThumbnailByPaths(pathlistImport, true, true);
                 pathlistImport.clear();
                 //导入图片数据库ImageTable3
                 DBManager::instance()->insertImgInfos(dbInfosImport);
@@ -294,6 +295,7 @@ void ImportImagesThread::runDetail()
         }
         //导入相册数据库AlbumTable3
         DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, pathlistImport);
+        ImageDataService::instance()->readThumbnailByPaths(pathlistImport, true, true);
         pathlistImport.clear();
         //导入图片数据库ImageTable3
         DBManager::instance()->insertImgInfos(dbInfosImport);

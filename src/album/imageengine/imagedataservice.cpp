@@ -49,16 +49,12 @@ ImageDataService::~ImageDataService()
 {
 }
 
-bool ImageDataService::add(const QStringList &paths)
+bool ImageDataService::add(const QStringList &paths, bool reLoadThumbnail)
 {
     QMutexLocker locker(&m_imgDataMutex);
     m_requestQueue.clear();
     for (int i = 0; i < paths.size(); i++) {
-        if (!m_AllImageMap.contains(paths.at(i))) {
-            m_requestQueue.append(paths.at(i));
-        }
-
-        if (utils::base::filePathToThumbnailPath(paths.at(i)) != m_AllImageDataHashMap[paths.at(i)]) {
+        if (reLoadThumbnail || !m_AllImageMap.contains(paths.at(i))) {
             m_requestQueue.append(paths.at(i));
         }
     }
@@ -97,7 +93,7 @@ int ImageDataService::getCount()
     return m_AllImageMap.count();
 }
 
-bool ImageDataService::readThumbnailByPaths(QStringList files, bool isFinishFilter)
+bool ImageDataService::readThumbnailByPaths(QStringList files, bool isFinishFilter, bool reLoadThumbnail)
 {
     QStringList image_video_list;
     if (!isFinishFilter) {
@@ -117,6 +113,8 @@ bool ImageDataService::readThumbnailByPaths(QStringList files, bool isFinishFilt
                 image_video_list << path;
             }
         }
+    } else {
+        image_video_list = files;
     }
 
     if (image_video_list.isEmpty())
@@ -125,7 +123,7 @@ bool ImageDataService::readThumbnailByPaths(QStringList files, bool isFinishFilt
     bool empty = isRequestQueueEmpty();
 
     if (empty) {
-        ImageDataService::instance()->add(image_video_list);
+        ImageDataService::instance()->add(image_video_list, reLoadThumbnail);
         int needCoreCounts = static_cast<int>(std::thread::hardware_concurrency());
         needCoreCounts = needCoreCounts / 2;
         if (image_video_list.size() < needCoreCounts) {
@@ -144,7 +142,7 @@ bool ImageDataService::readThumbnailByPaths(QStringList files, bool isFinishFilt
 //            thread->deleteLater();
 //        }
     } else {
-        ImageDataService::instance()->add(image_video_list);
+        ImageDataService::instance()->add(image_video_list, reLoadThumbnail);
     }
     return true;
 }

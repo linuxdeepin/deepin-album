@@ -175,7 +175,7 @@ QString hashByData(const QString &str)
     if (file.open(QIODevice::ReadOnly)) { //只读方式打开
         QCryptographicHash hash(QCryptographicHash::Md5);
 
-        QByteArray buf = file.read(10 * 1024 * 1024); // 每次读取10M
+        QByteArray buf = file.read(1 * 1024 * 1024); // 每次读取10M
         buf = buf.append(str.toUtf8());
         hash.addData(buf);  // 将数据添加到Hash中
         stHashValue.append(hash.result().toHex());

@@ -328,8 +328,7 @@ void ThumbnailListView::onLoadTimerTimeout()
             break;
         }
     }
-    qDebug() << __FUNCTION__ << "---";
-    ImageDataService::instance()->readThumbnailByPaths(pathlist);
+    ImageDataService::instance()->readThumbnailByPaths(pathlist, true);
     this->update();
 }
 

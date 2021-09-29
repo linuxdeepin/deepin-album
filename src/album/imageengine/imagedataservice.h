@@ -37,15 +37,15 @@ public:
     explicit ImageDataService(QObject *parent = nullptr);
     ~ImageDataService();
 
-    bool add(const QStringList &paths);
+    bool add(const QStringList &paths, bool reLoadThumbnail = false);
     bool add(const QString &path);
     QString pop();
     bool isRequestQueueEmpty();
     //获取全部图片数量
     int getCount();
 
-    //读取缩略图到缓存map isFinishFilter:是否过滤过路径
-    bool readThumbnailByPaths(QStringList files, bool isFinishFilter = false);
+    //读取缩略图到缓存map isFinishFilter:是否过滤过路径  reLoadThumbnail:重新加载缩略图
+    bool readThumbnailByPaths(QStringList files, bool isFinishFilter = false, bool reLoadThumbnail = false);
 //    bool readThumbnailByPath(QString file);
 
     void addImage(const QString &path, const QImage &image);
