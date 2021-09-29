@@ -53,21 +53,36 @@ DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
     dbi.fileName = srcfi.fileName();
     dbi.filePath = srcpath;
     dbi.dirHash = utils::base::hashByString(QString());
-    if (!value.isEmpty()) {
-        dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
-    } else if (!srcfi.birthTime().isValid()) {
-        dbi.time = srcfi.birthTime();
-    } else if (!srcfi.metadataChangeTime().isValid()) {
-        dbi.time = srcfi.metadataChangeTime();
-    } else {
-        dbi.time = QDateTime::currentDateTime();
-    }
-    dbi.changeTime = QDateTime::fromString(mds.value("DateTimeDigitized"), "yyyy/MM/dd hh:mm");
+
     dbi.importTime = QDateTime::currentDateTime();
     if (isVideo) {
         dbi.itemType = ItemTypeVideo;
+        //获取视频信息
+        MovieInfo movieInfo = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(srcpath));
+
+        dbi.changeTime = srcfi.lastModified();
+
+        if (!movieInfo.creation.isEmpty()) {
+            dbi.time = QDateTime::fromString(movieInfo.creation);
+        } else if (!srcfi.birthTime().isValid()) {
+            dbi.time = srcfi.birthTime();
+        } else if (!srcfi.metadataChangeTime().isValid()) {
+            dbi.time = srcfi.metadataChangeTime();
+        } else {
+            dbi.time = dbi.changeTime;
+        }
     } else {
         dbi.itemType = ItemTypePic;
+        dbi.changeTime = QDateTime::fromString(mds.value("DateTimeDigitized"), "yyyy/MM/dd hh:mm");
+        if (!value.isEmpty()) {
+            dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
+        } else if (!srcfi.birthTime().isValid()) {
+            dbi.time = srcfi.birthTime();
+        } else if (!srcfi.metadataChangeTime().isValid()) {
+            dbi.time = srcfi.metadataChangeTime();
+        } else {
+            dbi.time = dbi.changeTime;
+        }
     }
     return dbi;
 }
