@@ -48,12 +48,9 @@ DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
     using namespace UnionImage_NameSpace;
     QFileInfo srcfi(srcpath);
     DBImgInfo dbi;
-    auto mds = getAllMetaData(srcpath);
-    QString value = mds.value("DateTimeOriginal");
     dbi.fileName = srcfi.fileName();
     dbi.filePath = srcpath;
     dbi.dirHash = utils::base::hashByString(QString());
-
     dbi.importTime = QDateTime::currentDateTime();
     if (isVideo) {
         dbi.itemType = ItemTypeVideo;
@@ -72,6 +69,8 @@ DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
             dbi.time = dbi.changeTime;
         }
     } else {
+        auto mds = getAllMetaData(srcpath);
+        QString value = mds.value("DateTimeOriginal");
         dbi.itemType = ItemTypePic;
         dbi.changeTime = QDateTime::fromString(mds.value("DateTimeDigitized"), "yyyy/MM/dd hh:mm");
         if (!value.isEmpty()) {

@@ -88,10 +88,6 @@ int main(int argc, char *argv[])
         filepath = utils::base::UrlInfo(path).toLocalFile();
 
         QFileInfo info(filepath);
-        QMimeDatabase db;
-        QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
-        QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
-
         QString str = info.suffix().toLower();
         qDebug() << __FUNCTION__ << "---" << str;
         if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive) ||

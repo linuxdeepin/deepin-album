@@ -1319,7 +1319,7 @@ void MainWindow::floatMessage(const QString &str, const QIcon &icon)
 //外部使用相册打开图片
 void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 {
-    qDebug() << "onNewAPPOpen";
+    qDebug() << __FUNCTION__ << "---";
     Q_UNUSED(pid);
     QStringList paths;
     if (arguments.length() > 1) {
@@ -1341,6 +1341,13 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
                     onHideImageView();
                 }
                 m_pCenterWidget->setCurrentIndex(VIEW_ALLPIC);
+
+                //获取视频信息
+                MovieInfo movieInfo = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(firstStr));
+                //线程加载缩略图
+                if (movieInfo.valid) {
+                    ImageDataService::instance()->readThumbnailByPaths(paths);
+                }
             } else {
                 SignalManager::ViewInfo info;
                 info.album = "";
@@ -1355,9 +1362,9 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
                 onShowImageView(VIEW_ALLPIC);
                 //更改为调用线程api
                 ImageEngineApi::instance()->loadImagesFromNewAPP(paths, this);
+                //线程加载缩略图
+                ImageDataService::instance()->readThumbnailByPaths(paths);
             }
-            //线程加载缩略图
-            ImageDataService::instance()->readThumbnailByPaths(paths);
         }
         m_pAllPicBtn->setChecked(true);
     }
