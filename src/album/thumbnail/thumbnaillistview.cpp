@@ -2207,7 +2207,7 @@ void ThumbnailListView::timeLimeFloatBtnClicked(const QString &date, bool isSele
                 if (pdata.itemType  == ItemTypeTimeLineTitle) {
                     break;//到达下一个时间线，跳出
                 }
-                if (pdata.itemType  == ItemTypePic) {
+                if (pdata.itemType  == ItemTypePic || pdata.itemType == ItemTypeVideo) {
                     if (bFirstSelect) {
                         first_idx = index;
                         bFirstSelect = false;
@@ -2237,7 +2237,7 @@ void ThumbnailListView::timeLimeFloatBtnClicked(const QString &date, bool isSele
                 DBImgInfo pdata = index.data(Qt::DisplayRole).value<DBImgInfo>();
                 if (pdata.itemType  == ItemTypeImportTimeLineTitle) {
                     break;//到达下一个时间线，跳出
-                } else if (pdata.itemType  == ItemTypePic) {
+                } else if (pdata.itemType  == ItemTypePic || pdata.itemType == ItemTypeVideo) {
                     if (bFirstSelect) {
                         first_idx = index;
                         bFirstSelect = false;
