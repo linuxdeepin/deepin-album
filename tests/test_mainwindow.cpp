@@ -50,6 +50,7 @@
 #include "ac-desktop-define.h"
 #include "qgesture.h"
 #include "batchoperatewidget.h"
+#include "expansionmenu.h"
 
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
@@ -195,7 +196,7 @@ TEST(MainWindow, Picimport)
     event.simulate(w->getButG()->button(0));
     event.clear();
     QTest::qWait(300);
-    ASSERT_TRUE(w != nullptr);
+    EXPECT_TRUE(list.size() > 0);
 
     //测试导入单个图片
     ImageEngineApi::instance()->ImportImagesFromFileList({"~/Pictures/2ejqyx.jpg"}, "", allpicview, true);
@@ -523,15 +524,15 @@ TEST(MainWindow, allpicture)
         stub.set(fptrexec, dlgexec);
         QTest::qWait(300);
 
-        QTestEventList e;
-        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-        e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
-        e.simulate(Exporter::instance()->m_exportImageDialog->getButton(1));
-        e.clear();
+        QTestEventList e1;
+        e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e1.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
+        e1.simulate(Exporter::instance()->m_exportImageDialog->getButton(1));
+        e1.clear();
     });
 
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Export"));
@@ -698,7 +699,7 @@ TEST(MainWindow, videoInfo)
 
 TEST(MainWindow, viewpanelmenu)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("viewpanelmenu")
     MainWindow *w = dApp->getMainWindow();
     MainWidget *wid = w->m_commandLine->findChild<MainWidget *>("MainWidget");
     QTestEventList e;
@@ -749,15 +750,15 @@ TEST(MainWindow, viewpanelmenu)
         stub.set(fptrexec, dlgexec);
         QTest::qWait(300);
 
-        QTestEventList e;
-        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-        e.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-        e.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
-        e.simulate(Exporter::instance()->m_exportImageDialog->getButton(1));
-        e.clear();
+        QTestEventList e1;
+        e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+        e1.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
+        e1.simulate(Exporter::instance()->m_exportImageDialog->getButton(1));
+        e1.clear();
     });
 
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Export"));
@@ -1030,7 +1031,7 @@ TEST(MainWindow, timelineview)
     QTest::qWait(500);
     bar1->m_pSlider->slider()->setValue(4);
     QTest::qWait(300);
-    ASSERT_TRUE(timelineview != nullptr);
+    EXPECT_TRUE(bar1->m_pSlider->slider()->value() == 4);
 }
 
 TEST(MainWindow, AlbumView)
@@ -1225,7 +1226,7 @@ TEST(MainWindow, AlbumView)
 
     w->m_pAlbumview->m_pImpTimeLineView->clearAllSelection();
 
-    ASSERT_TRUE(albumview != nullptr);
+    ASSERT_TRUE(w->m_pAlbumview->m_pImpTimeLineView->m_importTimeLineListView->selectedPaths().size() == 0);
 }
 
 TEST(MainWindow, recentlydelete)
@@ -1357,7 +1358,7 @@ TEST(MainWindow, favorite)
 TEST(MainWindow, search)
 {
     //3界面搜索界面
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("search")
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTestEventList e;
@@ -1833,41 +1834,6 @@ TEST(MainWindow, picdelete)
     ASSERT_TRUE(w != nullptr);
 }
 
-//TEST(TimeLineView, shiftandcontrol)
-//{
-//    TEST_CASE_NAME("shiftandcontrol")
-//    MainWindow *w = dApp->getMainWindow();
-//    TimeLineView *timelineview = w->m_pTimeLineView;
-//    w->timeLineBtnClicked();
-
-//    QTestEventList e;
-//    e.addMouseClick(Qt::MouseButton::LeftButton);
-//    e.simulate(w->getButG()->button(1));
-//    e.clear();
-////    CommandLine *commandline = w->m_commandLine;
-////    ImageView *imageview = commandline->findChild<MainWidget *>("MainWidget")->m_viewPanel->m_viewB;
-//    QPoint pr(80, 50);
-//    //control选中
-//    e.addMouseMove(pr, 20);
-//    e.addMouseClick(Qt::MouseButton::LeftButton, Qt::ControlModifier, pr, 50);
-//    e.addMouseClick(Qt::MouseButton::LeftButton, Qt::ControlModifier, pr + QPoint(140, 0), 50);
-//    e.simulate(timelineview->getThumbnailListView()->viewport());
-//    e.clear();
-//    QTest::qWait(300);
-//    //滑动滑块
-//    QScrollBar *bar = timelineview->getThumbnailListView()->verticalScrollBar();
-//    bar->setValue(bar->maximum());
-
-//    e.addMouseClick(Qt::MouseButton::LeftButton, Qt::ControlModifier, pr, 50);
-//    e.addKeyClick(Qt::Key_Delete, Qt::NoModifier, 50);
-//    e.simulate(timelineview->getThumbnailListView()->viewport());
-//    e.clear();
-//    QTest::qWait(300);
-
-//    //删除dbus，过一下析构函数
-//    w->m_pDBus->deleteLater();
-//}
-
 //标题栏创建
 TEST(MainWindow, titlebarcreate)
 {
@@ -1963,9 +1929,54 @@ TEST(MainWindow, onSearchEditIsDisplay)
 
 TEST(ViewPanel, darkmenu)
 {
+    TEST_CASE_NAME("darkmenu")
     ViewPanel *panel = new ViewPanel;
     panel->appendAction_darkmenu(14, "Rotate clockwise", "Rotate clockwise");
     EXPECT_TRUE(panel->m_menu != nullptr);
     panel->deleteLater();
     panel = nullptr;
 }
+
+TEST(ImgInfoDialog, DetailInfo)
+{
+    TEST_CASE_NAME("load")
+    MainWindow *w = dApp->getMainWindow();
+    AllPicView *allpicview = w->m_pAllPicView;
+    QModelIndex idx;
+    for (int i = 0; i < allpicview->m_pThumbnailListView->m_model->rowCount(); i++) {
+        QModelIndex index = allpicview->getThumbnailListView()->m_model->index(i, 0);
+        DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+        if (data.fileName == "DetailInfo.jpg") {
+            idx = index;
+            break;
+        }
+    }
+    if (idx.isValid()) {
+        QRect videoItem = allpicview->m_pThumbnailListView->visualRect(idx);
+        QPoint p = QPoint(videoItem.x() + 5, videoItem.y() + 5);
+
+        auto menu = runContextMenu(allpicview->m_pThumbnailListView->viewport(), p);
+        using TR_SUBORDINATE_t = PointerTypeGetter < decltype(allpicview->m_pThumbnailListView) >::type;
+
+        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Photo info"));
+    }
+    QTest::qWait(500);
+    EXPECT_TRUE(w != nullptr);
+}
+
+TEST(ToolButton, BatchScreen)
+{
+    TEST_CASE_NAME("BatchScreen")
+    MainWindow *w = dApp->getMainWindow();
+    AllPicView *allpicview = w->m_pAllPicView;
+    QTestEventList e;
+    e.addMouseClick(Qt::MouseButton::LeftButton);
+    e.simulate(w->getButG()->button(0));
+    QTest::qWait(300);
+    QTimer::singleShot(1500, w, [ = ] {
+        allpicview->m_batchOperateWidget->m_expansionMenu->panel->hide();
+    });
+    allpicview->m_batchOperateWidget->m_ToolButton->onClicked();
+    QTest::qWait(500);
+}
+
