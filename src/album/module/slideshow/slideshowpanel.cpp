@@ -273,6 +273,26 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo, bool i
         return;
     }
     m_vinfo = vinfo;
+    QStringList paths = QStringList();
+    QList<DBImgInfo> dBImgInfos;
+    //过滤掉视频
+    for (int i = 0; i < m_vinfo.paths.size(); i++) {
+        QString path = m_vinfo.paths.at(i);
+        if (!utils::base::isVideo(path)) {
+            paths << path;
+        }
+    }
+    for (int i = 0; i < m_vinfo.dBImgInfos.size(); i++) {
+        DBImgInfo info = m_vinfo.dBImgInfos.at(i);
+        if (!utils::base::isVideo(info.filePath)) {
+            dBImgInfos << info;
+        }
+    }
+    if (paths.size() > 0 && utils::base::isVideo(m_vinfo.path)) {
+        m_vinfo.path = paths.at(0);
+    }
+    m_vinfo.paths = paths;
+    m_vinfo.dBImgInfos = dBImgInfos;
     this->setCursor(Qt::BlankCursor);
     if (1 < vinfo.paths.length()) {
         slideshowbottombar->m_preButton->setEnabled(true);
