@@ -193,6 +193,8 @@ private slots:
     void slotNoPicOrNoVideo(bool isNoResult);
     //缩略图选中项改变
     void sltSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    //最近删除中有变化
+    void onTrashInfosChanged();
 public:
     int m_iAlubmPicsNum;
     QString m_currentAlbum;
@@ -214,8 +216,9 @@ public:
     DWidget *m_pwidget;
 
     ThumbnailListView *m_customThumbnailList = nullptr;               //自定义
+    DBImgInfoList m_allTrashInfos;                                    //最近删除中的数据
     ThumbnailListView *m_pRightTrashThumbnailList = nullptr;          //最近删除
-    ThumbnailListView *m_favoriteThumbnailList = nullptr;       //我的收藏
+    ThumbnailListView *m_favoriteThumbnailList = nullptr;             //我的收藏
 
     DWidget *pImportTimeLineWidget;
     Waitdevicedialog *m_waitDeviceScandialog;

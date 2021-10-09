@@ -135,6 +135,7 @@ AlbumView::AlbumView()
     m_diskManager = new DDiskManager(this);
     m_diskManager->setWatchChanges(true);
     durlAndNameMap.clear();
+    m_allTrashInfos.clear();
 
     iniWaitDiolag();
     setAcceptDrops(true);
@@ -270,8 +271,9 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &AlbumView::onInsertedIntoAlbum);
     connect(dApp->signalM, &SignalManager::removedFromAlbum, this, &AlbumView::updateAlbumView);
-    connect(dApp->signalM, &SignalManager::imagesTrashInserted, this, &AlbumView::updateRightView);
-    connect(dApp->signalM, &SignalManager::imagesTrashRemoved, this, &AlbumView::updateRightView);
+    //最近删除中数据有变化，刷新缓存
+    connect(dApp->signalM, &SignalManager::imagesTrashInserted, this, &AlbumView::onTrashInfosChanged);
+    connect(dApp->signalM, &SignalManager::imagesTrashRemoved, this, &AlbumView::onTrashInfosChanged);
     connect(m_customThumbnailList, &ThumbnailListView::openImage, this, &AlbumView::onOpenImageCustom);
     connect(m_favoriteThumbnailList, &ThumbnailListView::openImage, this, &AlbumView::onOpenImageFav);
     connect(m_pLeftListView, &LeftListView::sigSlideShow, this, &AlbumView::onSlideShowCustom);
@@ -1003,17 +1005,18 @@ void AlbumView::updateRightCustomAlbumView()
 void AlbumView::updateRightTrashView()
 {
     using namespace utils::image;
-    DBImgInfoList infos;
-    infos = DBManager::instance()->getAllTrashInfos();
+    if (m_allTrashInfos.isEmpty()) {
+        m_allTrashInfos = DBManager::instance()->getAllTrashInfos();
+    }
     QDateTime currentTime = QDateTime::currentDateTime();
     DBImgInfoList list;
-    for (int i = infos.size() - 1; i >= 0; i--) {
-        DBImgInfo pinfo = infos.at(i);
+    for (int i = m_allTrashInfos.size() - 1; i >= 0; i--) {
+        DBImgInfo pinfo = m_allTrashInfos.at(i);
         if (!QFileInfo(pinfo.filePath).exists()) {
-            infos.removeAt(i);
+            m_allTrashInfos.removeAt(i);
         } else if (utils::base::daysDifferenceBetweenTime(pinfo.importTime, currentTime) >= 30) {
             list << pinfo;
-            infos.removeAt(i);
+            m_allTrashInfos.removeAt(i);
         }
     }
     //清理删除时间过长图片
@@ -1023,10 +1026,10 @@ void AlbumView::updateRightTrashView()
 
     m_pRightTrashThumbnailList->clearAll();
     m_pRightTrashThumbnailList->insertBlankOrTitleItem(ItemTypeBlank, "", "", trash_title_height);
-    m_pRightTrashThumbnailList->insertThumbnailByImgInfos(infos);
-    m_curThumbnaiItemList_info << infos;
+    m_pRightTrashThumbnailList->insertThumbnailByImgInfos(m_allTrashInfos);
+    m_curThumbnaiItemList_info << m_allTrashInfos;
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
-    m_trashBatchOperateWidget->setVisible(infos.size() > 0);
+    m_trashBatchOperateWidget->setVisible(m_allTrashInfos.size() > 0);
     m_pStatusBar->setVisible(true);
     m_pRightTrashThumbnailList->stopLoadAndClear();
 }
@@ -2279,6 +2282,13 @@ void AlbumView::sltSelectionChanged(const QItemSelection &selected, const QItemS
     Q_UNUSED(selected)
     Q_UNUSED(deselected)
     updatePicNum();
+}
+
+void AlbumView::onTrashInfosChanged()
+{
+    //最近删除数据变化，先刷新数据
+    m_allTrashInfos = DBManager::instance()->getAllTrashInfos();
+    updateRightView();
 }
 
 void AlbumView::resizeEvent(QResizeEvent *e)
