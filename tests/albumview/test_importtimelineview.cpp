@@ -76,11 +76,6 @@ TEST(ImportTimeLineView, test_func)
     w->albumBtnClicked();
     QTest::qWait(500);
 
-    ImportTimeLineView *impTimeline = w->m_pAlbumview->m_pImpTimeLineView;
-    impTimeline->updateChoseText();
-
-    QTest::qWait(500);
-
     w->allPicBtnClicked();
     w->albumBtnClicked();
     QTest::qWait(500);

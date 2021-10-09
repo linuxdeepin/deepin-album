@@ -86,7 +86,6 @@ public:
     void clearAllSelection();
 #if 1
     QStringList selectPaths();
-    void updateChoseText();
 #endif
 private slots:
     /**
@@ -100,6 +99,8 @@ private slots:
     void slotBatchSelectChanged(bool isBatchSelect);
     //筛选显示，当先列表中内容为无结果
     void slotNoPicOrNoVideo(bool isNoResult);
+    //响应删除
+    void onDelete();
 signals:
     void sigUpdatePicNum();
     //筛选显示图片或者视频，无结果时

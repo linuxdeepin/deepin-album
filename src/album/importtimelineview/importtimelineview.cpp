@@ -201,15 +201,6 @@ void ImportTimeLineView::onSuspensionChoseBtnClicked()
     }
     QString date_str = m_DateLabel->text();
     m_importTimeLineListView->timeLimeFloatBtnClicked(date_str, isSelect);
-    //todo
-//#ifdef tablet_PC
-//            p[0]->m_isSelectAllBtn = true;
-//            p[0]->setSelectionMode(QAbstractItemView::MultiSelection);
-//#endif
-//#ifdef tablet_PC
-//            p[0]->m_isSelectAllBtn = false;
-//            p[0]->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    //#endif
 }
 
 void ImportTimeLineView::slotBatchSelectChanged(bool isBatchSelect)
@@ -225,18 +216,17 @@ void ImportTimeLineView::slotBatchSelectChanged(bool isBatchSelect)
 
 void ImportTimeLineView::slotNoPicOrNoVideo(bool isNoResult)
 {
-//    if (isNoResult) {
-//        m_importTimeLineListView->resetBlankItemHeight(title_HEIGHT);
-//    } else {
-//        m_importTimeLineListView->resetBlankItemHeight(ChoseBtn_HEIGHT + title_HEIGHT);
-//    }
     m_noResultWidget->setVisible(isNoResult);
     m_importTimeLineListView->setVisible(!isNoResult);
     m_DateLabel->setVisible(!isNoResult);
     m_NumLabel->setVisible(!isNoResult);
     m_pImportTitle->setVisible(!isNoResult);
-//    m_choseBtnItem->setVisible(!isNoResult);
     emit sigNoPicOrNoVideo(isNoResult);
+}
+
+void ImportTimeLineView::onDelete()
+{
+    m_suspensionChoseBtn->setText(QObject::tr("Select"));
 }
 
 QStringList ImportTimeLineView::selectPaths()
@@ -244,23 +234,6 @@ QStringList ImportTimeLineView::selectPaths()
     QStringList paths;
     paths << m_importTimeLineListView->selectedPaths();
     return paths;
-}
-
-void ImportTimeLineView::updateChoseText()
-{
-#ifdef tablet_PC
-    return;
-#endif
-    //todo
-//    for (int i = 0; i < m_allChoseButton.length(); i++) {
-//        if (m_allThumbnailListView[i]->model()->rowCount() == m_allThumbnailListView[i]->selectedPaths().length() && QObject::tr("Select") == m_allChoseButton[i]->text()) {
-//            m_allChoseButton[i]->setText(QObject::tr("Unselect"));
-//        }
-
-//        if (m_allThumbnailListView[i]->model()->rowCount() != m_allThumbnailListView[i]->selectedPaths().length() && QObject::tr("Unselect") == m_allChoseButton[i]->text()) {
-//            m_allChoseButton[i]->setText(QObject::tr("Select"));
-//        }
-//    }
 }
 
 void ImportTimeLineView::initTimeLineViewWidget()
@@ -296,6 +269,9 @@ void ImportTimeLineView::initTimeLineViewWidget()
     connect(m_importTimeLineListView, &ThumbnailListView::sigMouseMove, this, &ImportTimeLineView::sigUpdatePicNum);
     //筛选显示，当先列表中内容为无结果
     connect(m_importTimeLineListView, &ThumbnailListView::sigNoPicOrNoVideo, this, &ImportTimeLineView::slotNoPicOrNoVideo);
+    //响应删除
+    connect(m_importTimeLineListView, &ThumbnailListView::sigMoveToTrash, this, &ImportTimeLineView::onDelete);
+    connect(dApp->signalM, &SignalManager::sigShortcutKeyDelete, this, &ImportTimeLineView::onDelete);
 
     //添加悬浮title
     //优化悬浮title布局，适配维语
@@ -583,8 +559,8 @@ void ImportTimeLineView::mousePressEvent(QMouseEvent *e)
     qDebug() << "鼠标按下：";
     if (!m_ctrlPress && e->button() == Qt::LeftButton) {
         m_importTimeLineListView->clearSelection();
+        m_suspensionChoseBtn->setText(QObject::tr("Select"));
         emit sigUpdatePicNum();
-        updateChoseText();
     }
     DWidget::mousePressEvent(e);
     // 焦点移除，需要同步各个选择按钮状态
@@ -594,4 +570,5 @@ void ImportTimeLineView::mousePressEvent(QMouseEvent *e)
 void ImportTimeLineView::clearAllSelection()
 {
     m_importTimeLineListView->clearSelection();
+    m_suspensionChoseBtn->setText(QObject::tr("Select"));
 }

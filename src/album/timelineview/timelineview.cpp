@@ -619,5 +619,7 @@ void TimeLineView::onKeyDelete()
     }
 
     m_timeLineThumbnailListView->clearSelection();
+    //清除选择之后同步状态给悬浮选择按钮
+    m_suspensionChose->setText(QObject::tr("Select"));
     ImageEngineApi::instance()->moveImagesToTrash(paths);
 }
