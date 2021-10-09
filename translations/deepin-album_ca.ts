@@ -108,11 +108,11 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"/>
+        <translation>Es carrega...</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"/>
+        <translation>Els fitxers se suprimiran permanentment després dels dies que s&apos;hi mostren.</translation>
     </message>
 </context>
 <context>
@@ -380,7 +380,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the file</source>
-        <translation type="unfinished"/>
+        <translation>No teniu permís per veure el fitxer.</translation>
     </message>
 </context>
 <context>
@@ -546,11 +546,11 @@
     </message>
     <message>
         <source>Export photos</source>
-        <translation type="unfinished"/>
+        <translation>Exporta fotografies</translation>
     </message>
     <message>
         <source>Import photos/videos</source>
-        <translation type="unfinished"/>
+        <translation>Importa fotografies / vídeos</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -558,7 +558,7 @@
     </message>
     <message>
         <source>Photo/Video info</source>
-        <translation type="unfinished"/>
+        <translation>Informació de la fotografia o vídeo</translation>
     </message>
 </context>
 <context>
@@ -813,7 +813,7 @@
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>S&apos;ha trobat %n fotografia.</numerusform><numerusform>S&apos;han trobat %n fotografies.</numerusform></translation>
     </message>
 </context>
 <context>
@@ -859,11 +859,11 @@
     </message>
     <message>
         <source>Importing: %1</source>
-        <translation type="unfinished"/>
+        <translation>S&apos;importa: %1</translation>
     </message>
     <message>
         <source>Exporting: %1</source>
-        <translation type="unfinished"/>
+        <translation>S&apos;exporta: %1</translation>
     </message>
 </context>
 <context>

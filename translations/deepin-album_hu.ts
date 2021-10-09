@@ -813,7 +813,7 @@
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n képe(ke)t sikerült találni</numerusform><numerusform>%n képe(ke)t sikerült találni</numerusform></translation>
     </message>
 </context>
 <context>

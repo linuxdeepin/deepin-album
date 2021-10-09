@@ -766,16 +766,19 @@ TEST(MainWindow, viewpanelmenu)
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Copy"));
     //收藏
     bool isfav = false;
-    for (auto pAction : menu->actions()) {
-        if (pAction->text() == TR_SUBORDINATE_t::tr("Unfavorite")) {
-            isfav = true;
-            break;
+    if (menu != nullptr) {
+        for (auto pAction : menu->actions()) {
+            if (pAction->text() == TR_SUBORDINATE_t::tr("Unfavorite")) {
+                isfav = true;
+                break;
+            }
         }
-    }
-    if (isfav) {
-        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Unfavorite"));
-    } else {
-        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Favorite"));
+
+        if (isfav) {
+            runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Unfavorite"));
+        } else {
+            runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Favorite"));
+        }
     }
 
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Rotate clockwise"));

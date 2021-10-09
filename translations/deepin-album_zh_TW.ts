@@ -330,7 +330,7 @@
     <name>ImportView</name>
     <message>
         <source>Import Photos and Videos</source>
-        <translation>導入照片和影片</translation>
+        <translation>匯入照片和影片</translation>
     </message>
     <message>
         <source>Or drag them here</source>
@@ -538,7 +538,7 @@
     </message>
     <message>
         <source>Import Photos and Videos</source>
-        <translation>導入照片和影片</translation>
+        <translation>匯入照片和影片</translation>
     </message>
     <message>
         <source>No photos or videos found</source>
@@ -738,11 +738,11 @@
     </message>
     <message>
         <source>Importing...</source>
-        <translation>正在導入，請稍候…</translation>
+        <translation>正在匯入，請稍候…</translation>
     </message>
     <message>
         <source>%1/%2 items imported</source>
-        <translation>已導入%1/%2項</translation>
+        <translation>已匯入%1/%2項</translation>
     </message>
     <message>
         <source>%1/%2 items deleted</source>
@@ -750,7 +750,7 @@
     </message>
     <message>
         <source>%1 items imported, %2 items failed</source>
-        <translation>%1個項目導入成功，%2個項目導入失敗</translation>
+        <translation>%1個項目匯入成功，%2個項目匯入失敗</translation>
     </message>
     <message>
         <source>1 photo selected</source>

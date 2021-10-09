@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="bo">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="bo" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -73,10 +71,6 @@
         <translation>ཚང་མ་ནང་འདྲེན་བྱེད།</translation>
     </message>
     <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">པར་མ་བསུབ་གོང་ཉིན་གྲངས་དོན་སྲིད་པ་དང་། དེ་རྗེས་ཡོངས་སུ་བསུབ་པ་ཡིན།</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>ནང་འདྲེན་བྱེད།</translation>
     </message>
@@ -113,16 +107,12 @@
         <translation>སྣང་མེད་གཏོང་།</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation type="vanished">པར་རིས་སྣོན་འཇུག་བྱེད་བཞིན་ཡོས་པས། ཏོག་ཙམ་སྒུག་རོགས།</translation>
-    </message>
-    <message>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>སྣོན་འཇུག་བྱེད་བཞིན་ཡོད་པས། ཏོག་ཙམ་སྒུག་རོགས།</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"></translation>
+        <translation>ཡིག་ཆ་མ་བསུབ་གོང་ཉིན་གྲངས་ལྷག་མ་མཐོང་ཐུབ། དེ་རྗེས་རྦད་དེ་བསུབ་པ་ཡིན།</translation>
     </message>
 </context>
 <context>
@@ -264,13 +254,6 @@
     </message>
 </context>
 <context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation type="vanished">ཉིན།</translation>
-    </message>
-</context>
-<context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
@@ -284,31 +267,21 @@
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>ཁྱོད་ཀྱི་པར་ཁུག་ལས་པར་འདི་བསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</translation>
     </message>
-    <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="vanished">ཁྱོད་ཀྱི་པར་ཁུག་ལས་པར་འདི་%1བསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</translation>
-    </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>ཁྱོད་ཀྱི་པར་ཁུག་ལས་པར་འདི་%nབསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོད་ཀྱི་པར་ཁུག་ལས་བརྙན་འདི་བསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>ཁྱོད་ཀྱི་པར་ཁུག་ལས་བརྙན་འདི་%nབསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>ཁྱོད་ཀྱི་པར་ཁུག་ལས་རྣམ་གྲངས་འདི་%nབསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</numerusform></translation>
     </message>
 </context>
 <context>
@@ -334,44 +307,38 @@
     </message>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་པར་1།</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་བརྙན་1།</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>ཁྱོན་པར་%n།</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>ཁྱོན་བརྙན་%n།</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>ཁྱོན་%n།</numerusform></translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་དང་བརྙན་ནང་དུ་འདྲེན་པ།</translation>
     </message>
     <message>
         <source>Or drag them here</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱེད་ཀྱིས་པར་དང་བརྙན་འདིར་འདྲུད་ཀྱང་ཆོག</translation>
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་དང་བརྙན་ཆ་ཚང་།</translation>
     </message>
 </context>
 <context>
@@ -412,19 +379,15 @@
 <context>
     <name>LockWidget</name>
     <message>
-        <source>You have no permission to view the image</source>
-        <translation type="vanished">ཁྱོད་ལ་པར་རིས་འདི་ལྟ་བཤེར་བྱེད་དབང་མེད།</translation>
-    </message>
-    <message>
         <source>You have no permission to view the file</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱེད་ལ་ཡིག་ཆ་འདི་ལྟ་དབང་མེད།</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་ཁུག་ནི་ཐབས་ལམ་མང་པོའི་སྒོ་ནས་པར་དང་བརྙན་ལ་བལྟ་བ་དང་། དོ་དམ་བྱེད་པ། སྟབས་བདེའི་རྩོམ་སྒྲིག་བྱེད་པའི་པར་ཁུག་དོ་དམ་གྱི་ཡོ་བྱད་ཅིག་ཡིན།</translation>
     </message>
 </context>
 <context>
@@ -491,7 +454,7 @@
     </message>
     <message>
         <source>Successfully added to “%1”</source>
-        <translation type="unfinished"></translation>
+        <translation> “%1”ནང་སྣོན་ཐུབ་པ།</translation>
     </message>
     <message>
         <source>Import successful</source>
@@ -522,10 +485,6 @@
         <translation>པར་ཁུག</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation type="vanished">པར་གྱི་ཆ་འཕྲིན།</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>ཡོལ་གང་ནས་ཕྱིར་འཐོན།/སྒྲོན་བརྙན་སྟོན་པ།</translation>
     </message>
@@ -538,20 +497,8 @@
         <translation>པར་ལྟ་བཤེར།</translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">ཕྱིར་འདྲེན།</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">ནང་འདྲེན་བྱས་ཟིན།</translation>
-    </message>
-    <message>
         <source>Select all</source>
         <translation>པར་ཆ་ཚང་འདེམས་པ།</translation>
-    </message>
-    <message>
-        <source>Delete photo/album</source>
-        <translation type="vanished">པར་/པར་ཁུག་བསུབ་པ།</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -582,40 +529,36 @@
         <translation>པར་ནང་དུ་འདྲེན་པ།</translation>
     </message>
     <message>
-        <source>Import Photos</source>
-        <translation type="vanished">པར་ནང་དུ་འདྲེན་པ།</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>པར་ནང་དུ་འདྲེན་བཞིན་ཡོད་པས། ཏོག་ཙམ་སྒུག་རོགས།</translation>
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་དང་བརྙན་ཆ་ཚང་།</translation>
     </message>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་དང་བརྙན་ནང་དུ་འདྲེན་པ།</translation>
     </message>
     <message>
         <source>No photos or videos found</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་དང་བརྙན་གྱི་ཡིག་ཆ་མ་རྙེད།</translation>
     </message>
     <message>
         <source>Export photos</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་ཕྱིར་འདོན་པ།</translation>
     </message>
     <message>
         <source>Import photos/videos</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་དང་བརྙན་ནང་དུ་འདྲེན་པ།</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">སུབ་པ།</translation>
+        <translation>སུབ་པ།</translation>
     </message>
     <message>
         <source>Photo/Video info</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་དང་བརྙན་གྱི་ཆ་འཕྲིན།</translation>
     </message>
 </context>
 <context>
@@ -709,7 +652,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation>འབྲས་བུ་མེད།</translation>
     </message>
 </context>
 <context>
@@ -734,10 +677,6 @@
         <translation>%1/ལོའི་ཟླ་%2/ཚེས་%3ཉིན།</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">པར་%1</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>་་་་་དུ་ནང་འདྲེན་བྱེད།</translation>
     </message>
@@ -751,11 +690,11 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>ཚང་མ་འདེམས་པ།</translation>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation>ཚང་མ་འདེམས་པ་མེད་པར་བཟོ་བ།</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -771,7 +710,7 @@
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>རྣམ་གྲངས་ཆ་ཚང་།</translation>
     </message>
     <message>
         <source>Photos</source>
@@ -783,7 +722,7 @@
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation>འབྲས་བུ་མེད།</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -803,49 +742,43 @@
     </message>
     <message>
         <source>%1/%2 items imported</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2དྲངས་ཟིན།</translation>
     </message>
     <message>
         <source>%1/%2 items deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2བསུབས་ཟིན།</translation>
     </message>
     <message>
         <source>%1 items imported, %2 items failed</source>
-        <translation type="unfinished"></translation>
+        <translation>རྣམ་གྲངས་%1དྲངས་ཟིན། རྣམ་གྲངས་%2འདྲེན་མི་ཐུབ།</translation>
     </message>
     <message>
         <source>1 photo selected</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་1བདམས་ཟིན།</translation>
     </message>
     <message>
         <source>1 video selected</source>
-        <translation type="unfinished"></translation>
+        <translation>བརྙན་1བདམས་ཟིན།</translation>
     </message>
     <message>
         <source>The photo/video already exists</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་དང་བརྙན་ཡོད་པ།</translation>
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>པར་%nབདམས་ཟིན།</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>བརྙན་%nབདམས་ཟིན།</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%nབདམས་ཟིན།</numerusform></translation>
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
-        <translation type="unfinished"></translation>
+        <translation>རྣམ་གྲངས་%1དྲངས་ཟིན། རྣམ་གྲངས་%2འདུག</translation>
     </message>
 </context>
 <context>
@@ -864,29 +797,23 @@
     </message>
     <message>
         <source>1 photo found</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་པར་1རྙེད་པ།</translation>
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>ཁྱོན་བརྙན་%nརྙེད་པ།</numerusform></translation>
     </message>
     <message>
         <source>1 video found</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་བརྙན་1རྙེད་པ།</translation>
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>ཁྱོན་%nརྙེད་པ།</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>ཁྱོན་པར་%nརྙེད་པ།</numerusform></translation>
     </message>
 </context>
 <context>
@@ -915,40 +842,28 @@
 <context>
     <name>StatusBar</name>
     <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="vanished">ནང་དུ་འདྲེན་བཞིན་པ།&apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="vanished">ཕྱིར་འདྲེན་བཞིན་པ།&apos;%1&apos;</translation>
-    </message>
-    <message>
         <source>1 photo</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་པར་1།</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་བརྙན་1།</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>པར་%n</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>བརྙན་%n</numerusform></translation>
     </message>
     <message>
         <source>Importing: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>འདྲེན་བཞིན་པ། %1</translation>
     </message>
     <message>
         <source>Exporting: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>འདོན་བཞིན་པ། %1</translation>
     </message>
 </context>
 <context>
@@ -1070,11 +985,11 @@
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"></translation>
+        <translation>བརྙན་གྱི་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <source>days</source>
-        <translation type="unfinished">ཉིན།</translation>
+        <translation>ཉིན།</translation>
     </message>
 </context>
 <context>
@@ -1092,120 +1007,114 @@
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་པར་1།</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་བརྙན་1།</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>ཁྱོན་པར་%n</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>ཁྱོན་བརྙན་%n</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>ཁྱོན་%n</numerusform></translation>
     </message>
 </context>
 <context>
     <name>VideoInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished">གཞི་རྩའི་ཆ་འཕྲིན།</translation>
+        <translation>གཞི་རྩའི་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <source>Codec info</source>
-        <translation type="unfinished"></translation>
+        <translation>རིམ་སྒྲིག་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <source>Audio info</source>
-        <translation type="unfinished"></translation>
+        <translation>སྒྲ་ཟློས་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <source>Video CodecID</source>
-        <translation type="unfinished"></translation>
+        <translation>བརྙན་འཕྲིན་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <source>Video CodeRate</source>
-        <translation type="unfinished"></translation>
+        <translation>བརྙན་ཨང་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <source>FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>བརྙན་གྱི་འཁོར་ཕྱོད།</translation>
     </message>
     <message>
         <source>Proportion</source>
-        <translation type="unfinished"></translation>
+        <translation>མངོན་ཚད།</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>འབྱེད་ཕྱོད།</translation>
     </message>
     <message>
         <source>Audio CodecID</source>
-        <translation type="unfinished"></translation>
+        <translation>རིམ་པ་སྒྲིག་པའི་དཔེ།</translation>
     </message>
     <message>
         <source>Audio CodeRate</source>
-        <translation type="unfinished"></translation>
+        <translation>རིམ་པ་སྒྲིག་ཚད།</translation>
     </message>
     <message>
         <source>Audio digit</source>
-        <translation type="unfinished"></translation>
+        <translation>སྒྲ་ཟློས་གྲངས་གནས།</translation>
     </message>
     <message>
         <source>Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>སྒྲ་ལམ་གྱི་ཁ་གྲངས།</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>སྒྲ་ལམ།</translation>
     </message>
     <message>
         <source>Sampling</source>
-        <translation type="unfinished"></translation>
+        <translation>དཔེ་དབྱིབས་བསྡུ་གྲངས།</translation>
     </message>
     <message>
         <source>Video name</source>
-        <translation type="unfinished"></translation>
+        <translation>བརྙན་མིང་།</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation type="unfinished">ཚེས་གྲངས་བཟོ་བཅོས།</translation>
+        <translation>ཚེས་གྲངས་བཟོ་བཅོས།</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">པར་གྱི་རིགས།</translation>
+        <translation>པར་གྱི་རིགས།</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation type="unfinished">ཡིག་ཆའི་ཆེ་ཆུང་།</translation>
+        <translation>ཡིག་ཆའི་ཆེ་ཆུང་།</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation>དུས་ཚོད་རིང་ཐུང་།</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>ཡིག་ཆའི་འགྲོ་ལམ།</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"></translation>
+        <translation>བརྙན་གྱི་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished">པར་རྒྱག་པའི་ཚེས་གྲངས།</translation>
+        <translation>པར་རྒྱག་པའི་ཚེས་གྲངས།</translation>
     </message>
 </context>
 <context>

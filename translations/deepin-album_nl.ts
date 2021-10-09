@@ -813,7 +813,7 @@
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n foto gevonden</numerusform><numerusform>%n foto&apos;s gevonden</numerusform></translation>
     </message>
 </context>
 <context>

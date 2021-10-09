@@ -108,11 +108,11 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"/>
+        <translation>Yüklənir...</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"/>
+        <translation>Fayllar, onda göstərilən vaxt bitdikdən sonra birdəfəlik silinəcəkdir</translation>
     </message>
 </context>
 <context>
@@ -380,7 +380,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the file</source>
-        <translation type="unfinished"/>
+        <translation>Bu faylı baxmaq üçün icazəniz yoxdur</translation>
     </message>
 </context>
 <context>
@@ -546,11 +546,11 @@
     </message>
     <message>
         <source>Export photos</source>
-        <translation type="unfinished"/>
+        <translation>Fotoşəkilləri ixrac edin</translation>
     </message>
     <message>
         <source>Import photos/videos</source>
-        <translation type="unfinished"/>
+        <translation>Fotoşəkilləri/videoları idxal edin</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -558,7 +558,7 @@
     </message>
     <message>
         <source>Photo/Video info</source>
-        <translation type="unfinished"/>
+        <translation>Foto/video məlumatı</translation>
     </message>
 </context>
 <context>
@@ -813,7 +813,7 @@
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n fotoşəkil tapıldı</numerusform><numerusform>%n fotoşəkil tapıldı</numerusform></translation>
     </message>
 </context>
 <context>
@@ -859,11 +859,11 @@
     </message>
     <message>
         <source>Importing: %1</source>
-        <translation type="unfinished"/>
+        <translation>İdxal olunur: %1</translation>
     </message>
     <message>
         <source>Exporting: %1</source>
-        <translation type="unfinished"/>
+        <translation>İxrac olunur:%2</translation>
     </message>
 </context>
 <context>

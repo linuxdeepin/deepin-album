@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ru">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ru" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -73,10 +71,6 @@
         <translation>Импортировать всё</translation>
     </message>
     <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">Фотографии будут удалены безвозвратно по истечении указанного  срока.</translation>
-    </message>
-    <message>
         <source>Import to:</source>
         <translation>Импортировать в:</translation>
     </message>
@@ -113,16 +107,12 @@
         <translation>Игнорировать</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation type="vanished">Загрузка фотографий, пожалуйста, подождите...</translation>
-    </message>
-    <message>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка...</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"></translation>
+        <translation>Файлы будут безвозвратно удалены по истечении указанного времени</translation>
     </message>
 </context>
 <context>
@@ -264,13 +254,6 @@
     </message>
 </context>
 <context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation type="vanished">дней</translation>
-    </message>
-</context>
-<context>
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
@@ -284,37 +267,21 @@
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>Вы уверены, что хотите удалить эту фотографию из альбома?</translation>
     </message>
-    <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="vanished">Вы уверены, что хотите удалить %1 фото из альбомов?</translation>
-    </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>Вы уверены, что хотите удалить %1 фото из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %1 фото из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %1 фото из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %1 фото из альбомов?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы уверены, что хотите удалить это видео из альбома?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>Вы уверены, что хотите удалить %n видео из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %n видео из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %n видео из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %n видео из альбомов?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>Вы уверены, что хотите удалить %n элемент из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %n элементов из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %n элементов из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %n элементов из альбомов?</numerusform></translation>
     </message>
 </context>
 <context>
@@ -340,50 +307,38 @@
     </message>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"></translation>
+        <translation>1 фото</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"></translation>
+        <translation>1 видео</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n фото</numerusform><numerusform>%n фото</numerusform><numerusform>%n фото</numerusform><numerusform>%n фото</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n видео</numerusform><numerusform>%n видео</numerusform><numerusform>%n видео</numerusform><numerusform>%n видео</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n элемент</numerusform><numerusform>%n элементов</numerusform><numerusform>%n элементов</numerusform><numerusform>%n элементов</numerusform></translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Импорт фото и видео</translation>
     </message>
     <message>
         <source>Or drag them here</source>
-        <translation type="unfinished"></translation>
+        <translation>Или перетащите их сюда</translation>
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Все фото и видео</translation>
     </message>
 </context>
 <context>
@@ -424,19 +379,15 @@
 <context>
     <name>LockWidget</name>
     <message>
-        <source>You have no permission to view the image</source>
-        <translation type="vanished">У вас нет разрешения на просмотр изображения</translation>
-    </message>
-    <message>
         <source>You have no permission to view the file</source>
-        <translation type="unfinished"></translation>
+        <translation>У Вас нет разрешения на просмотр файла</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"></translation>
+        <translation>Альбом - это модный менеджер для просмотра и организации фото и видео.</translation>
     </message>
 </context>
 <context>
@@ -534,10 +485,6 @@
         <translation>Альбомы</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation type="vanished">Информация о фотографии</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Выход из полноэкранного режиме / слайд-шоу</translation>
     </message>
@@ -550,20 +497,8 @@
         <translation>Показать</translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">Экспорт</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">Импортировать</translation>
-    </message>
-    <message>
         <source>Select all</source>
         <translation>Выбрать все</translation>
-    </message>
-    <message>
-        <source>Delete photo/album</source>
-        <translation type="vanished">Удалить фото/альбом</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -594,40 +529,36 @@
         <translation>Импорт фотографий</translation>
     </message>
     <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Импортировать Фотографии</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>Импортирование...</translation>
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Все фото и видео</translation>
     </message>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Импорт фото и видео</translation>
     </message>
     <message>
         <source>No photos or videos found</source>
-        <translation type="unfinished"></translation>
+        <translation>Ни фото, ни видео не найдено</translation>
     </message>
     <message>
         <source>Export photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Экспорт фото</translation>
     </message>
     <message>
         <source>Import photos/videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Импорт фото/видео</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Удалить</translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <source>Photo/Video info</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о фото/видео</translation>
     </message>
 </context>
 <context>
@@ -721,7 +652,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation>Нет результатов</translation>
     </message>
 </context>
 <context>
@@ -746,10 +677,6 @@
         <translation>%1/%2/%3</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 фото(графий)</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>Импортировано на</translation>
     </message>
@@ -763,11 +690,11 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать всё</translation>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation>Снять выделение</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -783,7 +710,7 @@
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Всё</translation>
     </message>
     <message>
         <source>Photos</source>
@@ -795,7 +722,7 @@
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation>Нет результатов</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -815,55 +742,43 @@
     </message>
     <message>
         <source>%1/%2 items imported</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 элементов импортирован (ы)</translation>
     </message>
     <message>
         <source>%1/%2 items deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 элементов удален (ы)</translation>
     </message>
     <message>
         <source>%1 items imported, %2 items failed</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 элемент (ов) импортирован (о), %2 элемент (ов) не удалось импортировать</translation>
     </message>
     <message>
         <source>1 photo selected</source>
-        <translation type="unfinished"></translation>
+        <translation>1 фото выбрано</translation>
     </message>
     <message>
         <source>1 video selected</source>
-        <translation type="unfinished"></translation>
+        <translation>1 видео выбрано</translation>
     </message>
     <message>
         <source>The photo/video already exists</source>
-        <translation type="unfinished"></translation>
+        <translation>Фото/видео уже существует</translation>
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n фото выбрано</numerusform><numerusform>%n фото выбраны</numerusform><numerusform>%n фото выбраны</numerusform><numerusform>%n фото выбраны</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n видео выбрано</numerusform><numerusform>%n видео выбраны</numerusform><numerusform>%n видео выбраны</numerusform><numerusform>%n видео выбраны</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n элемент выбран</numerusform><numerusform>%n элементов выбрано</numerusform><numerusform>%n элементов выбрано</numerusform><numerusform>%n элементов выбрано</numerusform></translation>
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 элемент (ов) импортирован (о), %2 элемент (ов) не удалось импортировать</translation>
     </message>
 </context>
 <context>
@@ -882,35 +797,23 @@
     </message>
     <message>
         <source>1 photo found</source>
-        <translation type="unfinished"></translation>
+        <translation>Найдено 1 фото</translation>
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>Найдено %n видео</numerusform><numerusform>Найдены %n видео</numerusform><numerusform>Найдены %n видео</numerusform><numerusform>Найдены %n видео</numerusform></translation>
     </message>
     <message>
         <source>1 video found</source>
-        <translation type="unfinished"></translation>
+        <translation>Найдено 1 видео</translation>
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>Найден %n элемент</numerusform><numerusform>Найдено %n элементов</numerusform><numerusform>Найдено %n элементов</numerusform><numerusform>Найдено %n элементов</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>Найдено %n фото</numerusform><numerusform>Найдено %n фото</numerusform><numerusform>Найдено %n фото</numerusform><numerusform>Найдено %n фото</numerusform></translation>
     </message>
 </context>
 <context>
@@ -939,44 +842,28 @@
 <context>
     <name>StatusBar</name>
     <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="vanished">Импортируются фотографии: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="vanished">Экспортируются фотографии: &apos;%1&apos;</translation>
-    </message>
-    <message>
         <source>1 photo</source>
-        <translation type="unfinished"></translation>
+        <translation>1 фото</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"></translation>
+        <translation>1 видео</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n фото</numerusform><numerusform>%n фото</numerusform><numerusform>%n фото</numerusform><numerusform>%n фото</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n видео</numerusform><numerusform>%n видео</numerusform><numerusform>%n видео</numerusform><numerusform>%n видео</numerusform></translation>
     </message>
     <message>
         <source>Importing: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Импортировано: %1</translation>
     </message>
     <message>
         <source>Exporting: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Экспортировано: %1</translation>
     </message>
 </context>
 <context>
@@ -1098,11 +985,11 @@
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о  видео</translation>
     </message>
     <message>
         <source>days</source>
-        <translation type="unfinished">дней</translation>
+        <translation>дней</translation>
     </message>
 </context>
 <context>
@@ -1120,126 +1007,114 @@
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"></translation>
+        <translation>1 фото</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"></translation>
+        <translation>1 видео</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n фото</numerusform><numerusform>%n фото</numerusform><numerusform>%n фото</numerusform><numerusform>%n фото</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n видео</numerusform><numerusform>%n видео</numerusform><numerusform>%n видео</numerusform><numerusform>%n видео</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n элемент</numerusform><numerusform>%n элементов</numerusform><numerusform>%n элементов</numerusform><numerusform>%n элементов</numerusform></translation>
     </message>
 </context>
 <context>
     <name>VideoInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished">Основная информация</translation>
+        <translation>Основная информация</translation>
     </message>
     <message>
         <source>Codec info</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о кодеке</translation>
     </message>
     <message>
         <source>Audio info</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация об аудио</translation>
     </message>
     <message>
         <source>Video CodecID</source>
-        <translation type="unfinished"></translation>
+        <translation>Видео КодекИД</translation>
     </message>
     <message>
         <source>Video CodeRate</source>
-        <translation type="unfinished"></translation>
+        <translation>Битрейт</translation>
     </message>
     <message>
         <source>FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>Кадров в секунду</translation>
     </message>
     <message>
         <source>Proportion</source>
-        <translation type="unfinished"></translation>
+        <translation>Соотношение сторон</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешение</translation>
     </message>
     <message>
         <source>Audio CodecID</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудио КодекИД</translation>
     </message>
     <message>
         <source>Audio CodeRate</source>
-        <translation type="unfinished"></translation>
+        <translation>Битрейт</translation>
     </message>
     <message>
         <source>Audio digit</source>
-        <translation type="unfinished"></translation>
+        <translation>Цифровое аудио</translation>
     </message>
     <message>
         <source>Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Каналы</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Канал</translation>
     </message>
     <message>
         <source>Sampling</source>
-        <translation type="unfinished"></translation>
+        <translation>Сэмплирование</translation>
     </message>
     <message>
         <source>Video name</source>
-        <translation type="unfinished"></translation>
+        <translation>Название видео</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation type="unfinished">Дата изменения</translation>
+        <translation>Дата изменения</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Тип</translation>
+        <translation>Тип</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation type="unfinished">Размер файла</translation>
+        <translation>Размер файла</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Продолжительность</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Путь</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о  видео</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished">Дата создания</translation>
+        <translation>Дата создания</translation>
     </message>
 </context>
 <context>
