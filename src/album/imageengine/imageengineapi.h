@@ -51,6 +51,7 @@ public:
     bool getImageData(QString imagepath, DBImgInfo &data);
     bool ImportImagesFromFileList(QStringList files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
     bool ImportImagesFromUrlList(QList<QUrl> files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
+    void setImgPathAndAlbumNames();
     void setImgPathAndAlbumNames(const QMultiMap<QString, QString> &imgPahtAlbums);
     const QMultiMap<QString, QString> &getImgPathAndAlbumNames();
     //清理删除时间过长图片

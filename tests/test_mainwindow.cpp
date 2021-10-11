@@ -808,6 +808,9 @@ TEST(MainWindow, viewpanelmenu)
     //导航窗口
     //重新获取右键菜单
     menu = runContextMenu(wid->m_viewPanel->m_viewB->viewport(), p1);
+    if(menu == nullptr){
+        return;
+    }
     for (auto pAction : menu->actions()) {
         if (pAction->text() == TR_SUBORDINATE_t::tr("Hide navigation window")) {
             runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Hide navigation window"));

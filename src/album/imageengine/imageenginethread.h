@@ -147,6 +147,19 @@ private:
     ThumbnailDelegate::DelegateType m_type;
     ImageEngineObject *m_imgobject = nullptr;
 };
+//获取专辑相关数据
+class GetAllPathAlbumNamesThread : public ImageEngineThreadObject
+{
+    Q_OBJECT
+public:
+    explicit GetAllPathAlbumNamesThread();
+    ~GetAllPathAlbumNamesThread() override;
+protected:
+    void runDetail() override;
+private:
+    ImageEngineObject *m_imgobject = nullptr;
+};
+
 //清除过期已删除文件 >30天
 class RefreshTrashThread : public ImageEngineThreadObject
 {

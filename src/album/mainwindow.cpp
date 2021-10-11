@@ -1142,7 +1142,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
         // " " 新建空的相册
         if (imgpaths.first() != " ")
         {
-            ImageEngineApi::instance()->setImgPathAndAlbumNames(DBManager::instance()->getAllPathAlbumNames());
+            ImageEngineApi::instance()->setImgPathAndAlbumNames();
             emit SignalManager::instance()->sigSyncListviewModelData(imgpaths, d->getCreateAlbumName(), 4);
         }
     });

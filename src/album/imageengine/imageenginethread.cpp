@@ -1095,3 +1095,18 @@ void ImageEngineBackThread::onStartOrPause(bool pause)
         m_bpause = false;
     }
 }
+
+GetAllPathAlbumNamesThread::GetAllPathAlbumNamesThread()
+{
+
+}
+
+GetAllPathAlbumNamesThread::~GetAllPathAlbumNamesThread()
+{
+
+}
+
+void GetAllPathAlbumNamesThread::runDetail()
+{
+    ImageEngineApi::instance()->setImgPathAndAlbumNames(DBManager::instance()->getAllPathAlbumNames());
+}
