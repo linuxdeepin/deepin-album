@@ -521,7 +521,7 @@ void ImageImportFilesFromMountThread::runDetail()
 
         emit dApp->signalM->progressOfWaitDialog(m_paths.size(), dbInfos.size());
     }
-    ImageDataService::instance()->readThumbnailByPaths(m_paths, true);
+    ImageDataService::instance()->readThumbnailByPaths(newPathList, true);
     if (!dbInfos.isEmpty()) {
         QStringList pathslist;
         int idblen = dbInfos.length();
