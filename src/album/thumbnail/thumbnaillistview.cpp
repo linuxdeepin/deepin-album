@@ -1475,6 +1475,11 @@ void ThumbnailListView::slotChangeAllSelectBtnVisible(bool visible)
 // 选中重复导入的图片
 void ThumbnailListView::selectDuplicatePhotos(QStringList paths)
 {
+    //遍历选择过程中先不刷新批量操作按钮
+    if (m_batchOperateWidget) {
+        disconnect(this->selectionModel(), &QItemSelectionModel::selectionChanged,
+                   m_batchOperateWidget, &BatchOperateWidget::sltSelectionChanged);
+    }
     QModelIndex firstIndex;
     if (paths.count() > 0) {
         this->clearSelection();
@@ -1495,6 +1500,12 @@ void ThumbnailListView::selectDuplicatePhotos(QStringList paths)
     // 定位第一个重复导入的照片
     if (firstIndex.isValid()) {
         this->scrollTo(firstIndex, ScrollHint::PositionAtCenter);
+    }
+    //选择完成后刷新批量操作按钮
+    if (m_batchOperateWidget) {
+        connect(this->selectionModel(), &QItemSelectionModel::selectionChanged,
+                m_batchOperateWidget, &BatchOperateWidget::sltSelectionChanged);
+        m_batchOperateWidget->sltSelectionChanged(QItemSelection(), QItemSelection());
     }
 }
 
