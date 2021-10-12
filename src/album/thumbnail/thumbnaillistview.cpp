@@ -1011,11 +1011,15 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
         //todo 下面的信号应该放在dbmanager里删除成功后发送
         emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, paths);
-        m_batchOperateWidget->refreshCollectBtn();
+        if (m_batchOperateWidget) {
+            m_batchOperateWidget->refreshCollectBtn();
+        }
         break;
     case IdRemoveFromFavorites:
         DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
-        m_batchOperateWidget->refreshCollectBtn();
+        if (m_batchOperateWidget) {
+            m_batchOperateWidget->refreshCollectBtn();
+        }
         break;
     case IdRemoveFromAlbum: {
         if (IMAGE_DEFAULTTYPE != m_imageType && COMMON_STR_VIEW_TIMELINE != m_imageType &&
