@@ -1335,9 +1335,7 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
         bool bFind = false;
         QDir dir(strPath);
         if (!dir.exists()) {
-            qDebug() << strPath;
             qDebug() << "onLoadMountImagesStart() !dir.exists()";
-            dApp->signalM->sigLoadMountImagesEnd(rename);
             bFind = false;
         } else {
             bFind = true;
@@ -1359,6 +1357,7 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
 //卸载外接设备
 void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount)
 {
+    m_mounts = getVfsMountList();
     if (m_waitDeviceScandialog) {
         m_waitDeviceScandialog->close();
     }
