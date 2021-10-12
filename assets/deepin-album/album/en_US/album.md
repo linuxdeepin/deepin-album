@@ -2,7 +2,7 @@
 
 ## Overview
 
-Album is a stylish and smooth photo management tool, supporting photo viewing and managing in various formats. You can sort your photos by date or timeline, add them to the Favorites or category them into different albums to manage photos in perfect order.
+Album is a stylish and smooth photo and video management tool, supporting photo and video viewing and managing in various formats. You can sort your photos and videos by date or timeline, add them to the Favorites or category them into different albums to manage photos and videos in perfect order.
 
 ![1|main](fig/album_main.png)
 
@@ -19,7 +19,7 @@ You can run, close, and create shortcuts for Album in the following ways.
  - Click **Send to dock** to fix the application in the Dock.
  - Click **Add to startup** to add the application to startup and it will automatically run when the system starts up.
 
-> ![tips](../common/tips.svg) Tips: In Control Center, you can set Album as the default photo viewing application. Please refer to [Default Applications](dman:///dde#Default Settings) for specific operations.
+> ![tips](../common/tips.svg) Tips: In Control Center, you can set Album as the default photo viewing application. Please refer to [Default Applications](dman:///dde#Default Applications) for specific operations.
 
 ### Exit Album
 
@@ -33,30 +33,30 @@ On the Album interface, press **Ctrl** + **Shift** + **?** to view shortcuts. Pr
 
 ![0|hotkey](fig/hotkey.png)
 
-## Photo Management
+## Photo and Video Management
 
-You are able to manage photos by **Timelines** and **Albums** after launching Album.
+You are able to manage photos and videos by **Timelines** and **Albums** after launching Album.
 
-### Import Photos
+### Import Photos and Videos
 
-On the Album interface, you are able to import photos as follows:
-- Click **Import Photos** when there is no photo in the album.
+On the Album interface, you are able to import photos and videos as follows:
+- Click **Import Photos and Videos** when there is no photo or video in the album.
 - Click![icon_menu](../common/icon_menu.svg)> **Import photos**.
-- Drag directly the photo or the folder where the photo is located to the Album interface.
-- Import photos from the mobile device.
+- Drag the photo and video file to the Album interface.
+- Import photos and videos from the mobile device.
 
-> ![notes](../common/notes.svg) Notes: The photo formats supported include BMP, GIF, JPG, PNG, PBM, PGM, PPM, XBM, XPM, SVG, DDS, ICNS,  MNG, TGA, TIFF, WBMP, WEBP, PSD, ICO, JNG, PCD, PCX, TIF, RAS, MRW, DNG, RAF, CR2, RAW, ORF, NEF, etc.
-
-### Search Photos 
+### Search Photos and Videos
 
 1. In the search box on top of the Album interface, click ![search](../common/search.svg) to enter keywords.
-2. Press the **Enter** key on the keyboard to locate the photos quickly.
+2. Press the **Enter** key on the keyboard to locate the photos or videos quickly.
 
-### View Photos
+### View Photos and Videos
 
-Click the scroll bar on the Album interface to adjust the thumbnail size of photos.
+Click the scroll bar on the Album interface to adjust the thumbnail size of photos and videos. 
 
-Double-click the photo, or right-click the photo and select **View** to enter the photo viewing interface. Press **Esc** on the keyboard to exit.
+Click **All** on the right top corner to view all the photos and videos. Click **Photos** to view photos only. Click **Videos** to view videos only.
+
+Double-click the photo, or right-click the photo and select **View** to enter the photo viewing interface. Press **Esc** on the keyboard to exit. Double-click the video, or right-click the video and select **View** to enter the Movie interface to play the video. 
 
 | Icon                                                    | Name                    | Description                                                  |
 | ------------------------------------------------------- | ----------------------- | ------------------------------------------------------------ |
@@ -77,7 +77,7 @@ Double-click the photo, or right-click the photo and select **View** to enter th
 
 ### View Timelines
 
-In Timelines, all photos are sorted by date. Photos with the same date are displayed together and photos with different dates are displayed in different columns. You are able to locate photos of a specific date quickly by Timelines.
+In Timelines, all photos and videos are displayed in groups according to the shooting time and recording time. The ones with the same date are displayed together and those with different dates are displayed in different columns. You are able to locate photos and videos of a specific date quickly by Timelines.
 
 ### Print Photos
 
@@ -89,30 +89,30 @@ In Timelines, all photos are sorted by date. Photos with the same date are displ
 
 1. On the Album interface, right-click a photo.
 2. Select **Slide show** to play the photo as slides in full screen.
-3. Press **Esc** on the keyboard to exit. 
+3. Right-click to select **Exit** or press **Esc** on the keyboard to exit. 
 
 ![0|copy](fig/play.png)
 
-### Copy Photos
+### Copy Photos and Videos
 
-1. On the Album interface, right-click a photo.
+1. On the Album interface, right-click a photo or video.
 2. Select **Copy**.
-3. Right-click on the desktop or in a target place and select **Paste** to copy the photo file there.
+3. Right-click on the desktop or in a target place and select **Paste** to copy the photo or video file there.
 
-### Favorite Photos
+### Favorite Photos and Videos
 
-1. On the Album interface, right-click a photo.
-2. Select **Favorite** and the photo will be added to the **Favorites** album.
-3. Right-click the photo in Favorites to **Unfavorite** it.
+1. On the Album interface, right-click a photo or video.
+2. Select **Favorite** and the photo or video will be added to the **Favorites** album.
+3. Right-click the photo or video in Favorites to **Unfavorite** it.
 
-> ![tips](../common/tips.svg) Tips: When viewing a photo, click the ![collect](../common/collect.svg) icon to favorite the photo and click ![collect_active](../common/collect_active.svg) again to unfavorite it.
+> ![tips](../common/tips.svg) Tips: You can also click **Select** on the top right corner to select multiple photos or videos and click the ![collect](../common/collect.svg) icon to favorite them in batches and click ![collect_active](../common/collect_active.svg) again to unfavorite them.
 
 ### Rotate Photos
 
 1. On the Album interface, right-click a photo and select **Rotate clockwise** or **Rotate counterclockwise**.
 2. The photo will be rotated clockwise or counterclockwise for 90 degrees.
 
->    ![notes](../common/notes.svg) Notes: If you are using a computer equipped with touch-screen, place two fingers on the photo and keep a certain distance, and rotate the two fingers at the same time to rotate the photo.
+>    ![tips](../common/tips.svg)Tips: You can also click **Select** on the top right corner to select multiple photos and click ![icon](../common/left.svg) or ![icon](../common/right.svg) on the interface to rotate the photos in batches.
 
 ### Set as Wallpaper
 
@@ -121,30 +121,31 @@ In Timelines, all photos are sorted by date. Photos with the same date are displ
 
 ### Display in File Manager
 
-1. Right-click the photo on the Album interface. 
-2. Select **Display in file manager** to open the folder where the photo is located.
+1. Right-click the photo or video on the Album interface. 
+2. Select **Display in file manager** to open the folder where the photo or video is located.
 
 ![0|display](fig/display.png)
 
-### View Photo Information
+### View Photo and Video Information
 
-1. Right-click the photo on the Album interface. 
-2. Select **Photo info** to view the detailed information of photos.
+1. Right-click the photo or video on the Album interface. 
+2. Select **Photo info** or **Video info** to view the detailed information of photos or videos.
 
 ![0|display](fig/info.png)
-### Delete Photos
+### Delete Photos and Videos
 
-You can delete photos from Album in the following ways:
+You can delete photos and videos from Album in the following ways:
 
 - Click the ![delete_press](../common/delete.svg) icon on the Album interface when viewing photos.
-- Right-click the photo and select **Delete**.
-- On the Album interface, click to select the photo and press **Delete** on the keyboard.
+- On the Album interface, click **Select** on the top right corner to select photos or videos and click ![delete_press](../common/delete.svg).
+- Right-click the photo or video and select **Delete**.
+- Select the photo or video and press **Delete** on the keyboard.
 
-> ![tips](../common/tips.svg) Tips: The deleted photos in the Album are not deleted permanently but are temporarily stored in the **Trash** album. When the number displayed on the photo is 0, the photo will be deleted permanently. You are able to restore or permanently delete the photos here in advance.
+> ![tips](../common/tips.svg) Tips: The deleted photos and videos in the Album are not deleted permanently but are temporarily stored in the **Trash** album. When the number displayed on the photo is 0, the photo and video will be deleted permanently. You are able to restore or permanently delete the photos and videos here in advance.
 
 ## Album Management
 
-On the Album interface, you are able to create new albums, manage photos in the album, and view all albums.
+On the Album interface, you are able to create new albums, manage photos and videos in the album, and view all albums.
 
 > ![notes](../common/notes.svg) Notes: **Import**, **Trash** and **Favorites** are albums generated by the system, which cannot be deleted or renamed.
 
@@ -157,19 +158,19 @@ On the Album interface, you are able to create new albums, manage photos in the 
 
 > ![tips](../common/tips.svg) Tips: You are able to create a new album by right-clicking the album created to select **New album**, or create a new album when adding photos to albums.
 
-### Add Photos to Albums
+### Add Photos and Videos to Albums
 
-1. On the Album interface, right-click a photo and select **Add to album**.
-2. Select an album and add the photo to it.
+1. On the Album interface, right-click a photo or video and select **Add to album**.
+2. Select an album and add the photo or video to it.
 
->![tips](../common/tips.svg) Tips: You are also able to add photos to an album by dragging the photo or photo folder directly to it.
+>![tips](../common/tips.svg) Tips: You are also able to drag photos or videos directly to a custom album.
 
 ![0|add-to-album](fig/add-to-album.png)
 
-### Delete Photos from Albums
+### Delete Photos and Videos from Albums
 
-1. On the Albums interface, right-click a photo in an album.
-2. Select **Remove from album** to remove the photo from the album.
+1. On the Albums interface, right-click a photo or video in an album.
+2. Select **Remove from album** to remove the photo or video from the album.
 
 ### Rename Albums
 
