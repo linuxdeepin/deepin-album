@@ -637,13 +637,17 @@ void LeftListView::updateAlbumItemsColor()
 {
     for (int i = 0; i < m_pPhotoLibListView->count(); i++) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->item(i)));
-        item->oriAlbumStatus();
+        if (item) {
+            item->oriAlbumStatus();
+        }
     }
 
     if (0 < m_pCustomizeListView->count()) {
         for (int i = 0; i < m_pCustomizeListView->count(); i++) {
             AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->item(i)));
-            item->oriAlbumStatus();
+            if (item) {
+                item->oriAlbumStatus();
+            }
         }
     }
 

@@ -355,16 +355,33 @@ void AlbumView::initLeftView()
 
 void AlbumView::onCreateNewAlbumFromDialog(const QString &newalbumname)
 {
+    qDebug() << __FUNCTION__ << "---111111111111111";
     int index = m_pLeftListView->m_pCustomizeListView->count();
-
-    QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftListView->m_pCustomizeListView, ablumType);//hj add data to listwidgetitem to Distinguish item's type
-    m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
-    pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
     QString albumName = newalbumname;
-    AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName, COMMON_STR_CREATEALBUM);
+    QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
+    bool isExsit = false;
+    for (int i = 0; i < m_pLeftListView->m_pCustomizeListView->count(); i++) {
+        QListWidgetItem *item = m_pLeftListView->m_pCustomizeListView->item(i);
+        AlbumLeftTabItem *pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pCustomizeListView->itemWidget(item));
+        if (pTabItem) {
+            QString str = pTabItem->m_albumNameStr;
+            if (str == albumName) {
+                isExsit = true;
+                m_pLeftListView->m_pCustomizeListView->setCurrentRow(i);
+                break;
+            }
+        }
+    }
 
-    m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
-    m_pLeftListView->m_pCustomizeListView->setCurrentRow(index);
+    if (!isExsit) {
+        QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftListView->m_pCustomizeListView, ablumType);//hj add data to listwidgetitem to Distinguish item's type
+        m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
+        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
+        AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName, COMMON_STR_CREATEALBUM);
+        m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+        m_pLeftListView->m_pCustomizeListView->setCurrentRow(index);
+    }
+
     m_pLeftListView->onUpdateLeftListview();
     //清除其他已选中的项
     QModelIndex index2;

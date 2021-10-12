@@ -1120,14 +1120,13 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
             m_pAlbumview = new AlbumView();
             connect(m_pAlbumview, &AlbumView::sigSearchEditIsDisplay, this, &MainWindow::onSearchEditIsDisplay);
             m_pCenterWidget->insertWidget(index, m_pAlbumview);
-//            emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
+            emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
             m_pAlbumBtn->setChecked(true);
             m_pSearchEdit->clearEdit();
             m_SearchKey.clear();
             m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
         } else
         {
-//            DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths);
             emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
             m_pAlbumBtn->setChecked(true);
             m_pSearchEdit->clearEdit();
