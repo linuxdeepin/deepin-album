@@ -109,12 +109,8 @@ bool BatchOperateWidget::isAllSelectedCollected()
         isCollected = false;
         return isCollected;
     }
-    for (int i = 0; i < paths.size(); i++) {
-        if (!DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths.at(i), AlbumDBType::Favourite)) {
-            isCollected = false;
-            break;
-        }
-    }
+    isCollected = DBManager::instance()->isAllImgExistInAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
+
     return isCollected;
 }
 //刷新恢复与删除按钮是否可用状态

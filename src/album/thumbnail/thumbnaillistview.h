@@ -114,7 +114,6 @@ public:
     void setListViewUseFor(ListViewUseFor usefor);
     //选中重复照片
     void selectDuplicatePhotos(QStringList paths);
-    void updateModelRoleData(QString albumName, int actionType);
     void selectFirstPhoto();
     bool isFirstPhotoSelected();
     bool isNoPhotosSelected();
@@ -216,8 +215,6 @@ public slots:
     void slotOneImgReady(const QString &path, QPixmap pix);
     //滚动条定时器
     void onScrollTimerOut();
-
-    void onSyncListviewModelData(QStringList paths, QString albumName, int actionType);
     //处理时间线悬浮按钮与其他时间在滑动时的状态同步
     void onScrollbarValueChanged(int value);
 

@@ -515,6 +515,52 @@ int DBManager::getItemsCountByAlbum(const QString &album, const ItemType &type, 
     qDebug() << __FUNCTION__ << "---count = " << count;
     return count;
 }
+//判断是否所有要查询的数据都在要查询的相册中
+bool DBManager::isAllImgExistInAlbum(const QString &album, const QStringList &paths, AlbumDBType atype) const
+{
+    QMutexLocker mutex(&m_mutex);
+    QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return false;
+    }
+    QSqlQuery query(db);
+    query.setForwardOnly(true);
+    QString sql;
+    sql += "SELECT COUNT(*) FROM AlbumTable3 WHERE PathHash In ( %1 ) AND AlbumName = :album AND AlbumDBType =:atype ";
+
+    QString hashList;
+    for (int i = 0; i < paths.size(); i++) {
+        QString path = paths.at(i);
+
+        if (hashList.length() > 0) {
+            hashList += ", ";
+        }
+        hashList += "'";
+        hashList += utils::base::hashByString(path);
+        hashList += "'";
+    }
+
+    bool b = query.prepare(sql.arg(hashList));
+
+    if (!b) {
+        db.close();
+        return false;
+    }
+    query.bindValue(":album", album);
+    query.bindValue(":atype", atype);
+    if (query.exec()) {
+        query.first();
+        db.close();
+        if (query.value(0).toInt() == paths.size()) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        db.close();
+        return false;
+    }
+}
 
 bool DBManager::isImgExistInAlbum(const QString &album, const QString &path, AlbumDBType atype) const
 {

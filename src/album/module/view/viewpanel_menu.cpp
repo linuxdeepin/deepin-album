@@ -184,9 +184,6 @@ void ViewPanel::onMenuItemClicked(QAction *action)
                 emit dApp->signalM->sigAddToAlbToast(album);
                 QStringList paths;
                 paths << path1;
-                // 相册照片更新时的．更新路径相册名缓存,用于listview的setdata userrole + 2
-                ImageEngineApi::instance()->setImgPathAndAlbumNames(DBManager::instance()->getAllPathAlbumNames());
-                emit SignalManager::instance()->sigSyncListviewModelData(paths, album, IdAddToAlbum);
             }
             DBManager::instance()->insertIntoAlbum(album, QStringList(path1));
         } else {
@@ -360,17 +357,15 @@ DMenu *ViewPanel::createAblumMenu()
     am->addSeparator();
 
     QStringList albumNames;
-    // 增加外部打开图片时主界面未创建时判断逻辑
-    if (albums.count() > 0 && dApp->getMainWindow() != nullptr) {
-        QStandardItemModel *pTempModel = dApp->getMainWindow()->m_pAllPicView->getAllPicThumbnailListViewModel()->m_model;
-        for (int i = 0; i < pTempModel->rowCount(); i++) {
-            QModelIndex idx = pTempModel->index(i, 0);
-            DBImgInfo info = idx.data(Qt::DisplayRole).value<DBImgInfo>();
-            if (info.filePath == m_currentpath) {
-                albumNames = idx.model()->data(idx, Qt::UserRole + 2).toStringList();
-            }
+    QStringList paths;
+    paths.append(m_currentpath);
+
+    for (QString album : albums) {
+        if (DBManager::instance()->isAllImgExistInAlbum(album, paths, AlbumDBType::Custom)) {
+            albumNames.append(album);
         }
     }
+
     for (QString album : albums) {
         QAction *ac = new QAction(am);
         ac->setProperty("MenuID", IdAddToAlbum);

@@ -230,12 +230,6 @@ bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, QString albumnam
     return true;
 }
 
-void ImageEngineApi::setImgPathAndAlbumNames()
-{
-    GetAllPathAlbumNamesThread *imagethread = new GetAllPathAlbumNamesThread();
-    QThreadPool::globalInstance()->start(imagethread);
-}
-
 bool ImageEngineApi::ImportImagesFromFileList(QStringList files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect)
 {
     emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
@@ -393,17 +387,6 @@ void ImageEngineApi::setThreadShouldStop()
 //    }
 //    return true;
 //}
-
-void ImageEngineApi::setImgPathAndAlbumNames(const QMultiMap<QString, QString> &imgPahtAlbums)
-{
-    m_allPathAndAlbumNames.clear();
-    m_allPathAndAlbumNames = imgPahtAlbums;
-}
-
-const QMultiMap<QString, QString> &ImageEngineApi::getImgPathAndAlbumNames()
-{
-    return m_allPathAndAlbumNames;
-}
 
 void ImageEngineApi::cleanUpTrash(const DBImgInfoList &list)
 {

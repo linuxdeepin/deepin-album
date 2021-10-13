@@ -51,9 +51,6 @@ public:
     bool getImageData(QString imagepath, DBImgInfo &data);
     bool ImportImagesFromFileList(QStringList files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
     bool ImportImagesFromUrlList(QList<QUrl> files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
-    void setImgPathAndAlbumNames();
-    void setImgPathAndAlbumNames(const QMultiMap<QString, QString> &imgPahtAlbums);
-    const QMultiMap<QString, QString> &getImgPathAndAlbumNames();
     //清理删除时间过长图片
     void cleanUpTrash(const DBImgInfoList &list);
     //过滤不存在图片后重新加载
@@ -132,7 +129,6 @@ public:
     QVector<DBImgInfo> m_AllImageDataVector;
     int m_FirstPageScreen = 0;
     QStringList m_imgLoaded;//已经加载过的图片，防止多次加载
-    QMultiMap<QString, QString> m_allPathAndAlbumNames;
     bool m_firstPageIsLoaded = false;
 private:
     explicit ImageEngineApi(QObject *parent = nullptr);

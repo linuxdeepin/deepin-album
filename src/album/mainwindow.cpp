@@ -1079,13 +1079,6 @@ void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess.svg");
         QString str = tr("Successfully added to “%1”");
         floatMessage(str.arg(d->getCreateAlbumName()), icon);
-        if (imgpath.count() > 0 && imgpath != " ")
-        {
-            ImageEngineApi::instance()->setImgPathAndAlbumNames(DBManager::instance()->getAllPathAlbumNames());
-            QStringList paths;
-            paths << imgpath;
-            emit SignalManager::instance()->sigSyncListviewModelData(paths, d->getCreateAlbumName(), 4);
-        }
     });
 }
 #endif
@@ -1137,13 +1130,6 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths);
         emit dApp->signalM->insertedIntoAlbum(m_pAlbumview->m_currentAlbum, imgpaths);
         emit dApp->signalM->hideImageView();    //该信号针对查看界面新建相册(快捷键 crtl+n)，正常退出
-        // 相册照片更新时的．更新路径相册名缓存,用于listview的setdata userrole + 2
-        // " " 新建空的相册
-        if (imgpaths.first() != " ")
-        {
-            ImageEngineApi::instance()->setImgPathAndAlbumNames();
-            emit SignalManager::instance()->sigSyncListviewModelData(imgpaths, d->getCreateAlbumName(), 4);
-        }
     });
 }
 

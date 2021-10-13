@@ -686,8 +686,6 @@ void ImageLoadFromDBThread::runDetail()
 
     //删除数据库失效的图片
     DBManager::instance()->removeImgInfosNoSignal(fail_image_list);
-    // 相册照片更新时的．更新路径相册名缓存,用于listview的setdata userrole + 2
-    ImageEngineApi::instance()->setImgPathAndAlbumNames(DBManager::instance()->getAllPathAlbumNames());
 
     emit ImageEngineApi::instance()->sigReloadAfterFilterEnd();
 }
@@ -1094,19 +1092,4 @@ void ImageEngineBackThread::onStartOrPause(bool pause)
         m_WatiCondition.wakeOne();      //恢复线程
         m_bpause = false;
     }
-}
-
-GetAllPathAlbumNamesThread::GetAllPathAlbumNamesThread()
-{
-
-}
-
-GetAllPathAlbumNamesThread::~GetAllPathAlbumNamesThread()
-{
-
-}
-
-void GetAllPathAlbumNamesThread::runDetail()
-{
-    ImageEngineApi::instance()->setImgPathAndAlbumNames(DBManager::instance()->getAllPathAlbumNames());
 }

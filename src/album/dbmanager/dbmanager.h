@@ -89,6 +89,7 @@ public:
     int                     getItemsCountByAlbum(const QString &album, const ItemType &type, AlbumDBType atype = AlbumDBType::Custom) const;
 //    int                     getAlbumsCount() const;
     bool                    isAlbumExistInDB(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;
+    bool                    isAllImgExistInAlbum(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom) const;
     bool                    isImgExistInAlbum(const QString &album, const QString &path, AlbumDBType atype = AlbumDBType::Custom) const;
     void                    insertIntoAlbum(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
     void                    removeAlbum(const QString &album, AlbumDBType atype = AlbumDBType::Custom);
