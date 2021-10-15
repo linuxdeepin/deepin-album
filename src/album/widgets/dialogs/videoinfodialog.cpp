@@ -60,7 +60,6 @@ VideoInfoDialog::VideoInfoDialog(const QString &path, QWidget *parent): DDialog(
 
 void VideoInfoDialog::setVideoInfo(const QString &path)
 {
-    bool is = false;
     //获取视频信息
     m_movieInfo = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
     m_maxFieldWidth = width() - m_title_maxwidth - 20 * 2 - 10 * 2;
@@ -81,6 +80,8 @@ void VideoInfoDialog::setVideoInfo(const QString &path)
         int index = m_expandGroup.size() > 0 ? (m_expandGroup.size() - 1) : 0;
         m_expandGroup.at(index)->setContent(m_codecInfoFrame);
         m_expandGroup.at(index)->setExpand(true);
+        //音频编码等信息默认隐藏
+        m_expandGroup.at(index)->setExpand(false);//疑似DDrawer的BUG，直接false会显示不全
     }
 
     if (m_containAudioInfo) {
@@ -88,6 +89,7 @@ void VideoInfoDialog::setVideoInfo(const QString &path)
         int index = m_expandGroup.size() > 0 ? (m_expandGroup.size() - 1) : 0;
         m_expandGroup.at(index)->setContent(m_audioInfoFrame);
         m_expandGroup.at(index)->setExpand(true);
+        m_expandGroup.at(index)->setExpand(false);//疑似DDrawer的BUG，直接false会显示不全
     }
 
     //剔除多余不需要的焦点
