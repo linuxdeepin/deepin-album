@@ -98,7 +98,7 @@ public:
     //为true则清除模型中的数据
     void stopLoadAndClear(bool bClearModel = false);
     //根据列表显示不同，返回不同数据
-    QStringList getFileList(int row = -1);
+    QStringList getFileList(int row = -1, ItemType type = ItemTypeNull);
     //获取所有文件信息
     QList<DBImgInfo> getAllFileInfo(int row = -1);
     //根据路径返回所在行号

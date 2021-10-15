@@ -30,6 +30,7 @@
 #include "ac-desktop-define.h"
 #include "batchoperatewidget.h"
 #include "noresultwidget.h"
+#include "imageviewer.h"
 
 namespace {
 struct MetaData {
@@ -244,9 +245,9 @@ void AllPicView::onOpenImage(int row, const QString &path, bool bFullScreen)
 {
     SignalManager::ViewInfo info;
     info.album = "";
-    info.lastPanel = nullptr;
+//    info.lastPanel = nullptr;  //todo imageviewer
     info.fullScreen = bFullScreen;
-    auto imagelist = m_pThumbnailListView->getFileList(row);
+    auto imagelist = m_pThumbnailListView->getFileList(row, ItemTypePic);
     if (imagelist.size() > 0) {
         info.paths << imagelist;
         info.path = path;
@@ -257,7 +258,8 @@ void AllPicView::onOpenImage(int row, const QString &path, bool bFullScreen)
     info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
     info.dBImgInfos = m_pThumbnailListView->getAllFileInfo(row);
 
-    emit dApp->signalM->viewImage(info);
+//    emit dApp->signalM->viewImage(info);
+    emit dApp->signalM->sigViewImage(info.paths, info.path);
     emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
 }
 
@@ -265,7 +267,7 @@ void AllPicView::onSlideShow(const QString &path)
 {
     SignalManager::ViewInfo info;
     info.album = "";
-    info.lastPanel = nullptr;
+//    info.lastPanel = nullptr;  //todo imageviewer
     auto photolist = m_pThumbnailListView->selectedPaths();
     if (photolist.size() > 1) {
         //如果选中数目大于1，则幻灯片播放选中项

@@ -22,11 +22,9 @@
 #ifndef MAINWIDGET_H
 #define MAINWIDGET_H
 
-#include "bottomtoolbar.h"
 #include "extensionpanel.h"
-#include "toptoolbar.h"
+//#include "toptoolbar.h"
 #include "controller/signalmanager.h"
-#include "module/view/viewpanel.h"
 
 #include <QFrame>
 #include <QStackedWidget>
@@ -43,7 +41,8 @@ protected:
     void showEvent(QShowEvent *event) override;
 
 private slots:
-    void onGotoPanel(ModulePanel *panel);
+    //todo imageviewer
+//    void onGotoPanel(ModulePanel *panel);
     void onBackToMainPanel();
     void onActiveWindow();
     void onShowInFileManager(const QString &path);
@@ -70,11 +69,11 @@ private:
     bool m_manager;
 #endif
     ExtensionPanel  *m_extensionPanel;
-    BottomToolbar   *m_bottomToolbar;
-    TopToolbar      *m_topToolbar;
+//    BottomToolbar   *m_bottomToolbar;  //todo imageviewer
+//    LibTopToolbar      *m_topToolbar;  //todo imageviewer
     QLabel          *m_topSeparatorLine;
     QLabel          *m_btmSeparatorLine;
-    ViewPanel       *m_viewPanel;
+    //ViewPanel       *m_viewPanel;         //todo imageviewer
 };
 
 #endif // MAINWIDGET_H

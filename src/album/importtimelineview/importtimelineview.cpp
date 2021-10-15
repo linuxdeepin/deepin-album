@@ -482,7 +482,7 @@ void ImportTimeLineView::onOpenImage(int row, const QString &path, bool bFullScr
 {
     SignalManager::ViewInfo info;
     info.album = "";
-    info.lastPanel = nullptr;
+//    info.lastPanel = nullptr;  //todo imageviewer
     info.fullScreen = bFullScreen;
     auto imagelist = m_importTimeLineListView->getFileList(row);
     if (imagelist.size() > 0) {
@@ -503,7 +503,7 @@ void ImportTimeLineView::onSlideShow(QString path)
 {
     SignalManager::ViewInfo info;
     info.album = "";
-    info.lastPanel = nullptr;
+//    info.lastPanel = nullptr;  //todo imageviewer
 
     auto photolist = m_importTimeLineListView->selectedPaths();
     if (photolist.size() > 1) {

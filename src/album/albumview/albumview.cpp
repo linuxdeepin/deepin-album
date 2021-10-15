@@ -1095,7 +1095,7 @@ void AlbumView::onOpenImageFav(int row, const QString &path, bool bFullScreen)
 {
     SignalManager::ViewInfo info;
     info.album = "";
-    info.lastPanel = nullptr;
+//    info.lastPanel = nullptr;  //todo imageviewer
     info.fullScreen = bFullScreen;
     auto imagelist = m_favoriteThumbnailList->getFileList(row);
     if (imagelist.size() > 0) {
@@ -1115,7 +1115,7 @@ void AlbumView::onOpenImageCustom(int row, const QString &path, bool bFullScreen
 {
     SignalManager::ViewInfo info;
     info.album = m_currentAlbum;
-    info.lastPanel = nullptr;
+//    info.lastPanel = nullptr;  //todo imageviewer
     info.fullScreen = bFullScreen;
     auto imagelist = m_customThumbnailList->getFileList(row);
     if (imagelist.size() > 0) {
@@ -1135,7 +1135,7 @@ void AlbumView::onSlideShowFav(const QString &path)
 {
     SignalManager::ViewInfo info;
     info.album = "";
-    info.lastPanel = nullptr;
+//    info.lastPanel = nullptr;  //todo imageviewer
 
     auto photolist = m_favoriteThumbnailList->selectedPaths();
     if (photolist.size() > 1) {
@@ -1159,7 +1159,7 @@ void AlbumView::onSlideShowCustom(const QString &path)
 {
     SignalManager::ViewInfo info;
     info.album = "";
-    info.lastPanel = nullptr;
+//    info.lastPanel = nullptr;  //todo imageviewer
 
     auto photolist = m_customThumbnailList->selectedPaths();
     if (photolist.size() > 1) {

@@ -476,7 +476,7 @@ void ThumbnailListView::stopLoadAndClear(bool bClearModel)
     m_allfileslist.clear();
 }
 //根据显示类型，返回不同列表，如所有照片返回所有，时间线返回当前时间下内容
-QStringList ThumbnailListView::getFileList(int row)
+QStringList ThumbnailListView::getFileList(int row, ItemType type)
 {
     m_allfileslist.clear();
     if (m_delegatetype == ThumbnailDelegate::AllPicViewType
@@ -488,9 +488,16 @@ QStringList ThumbnailListView::getFileList(int row)
         for (int i = 0; i < m_model->rowCount(); i++) {
             QModelIndex index = m_model->index(i, 0);
             DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
-            if (data.itemType == ItemType::ItemTypePic || data.itemType == ItemType::ItemTypeVideo) {
-                m_allfileslist.append(data.filePath);
+            if (type == ItemType::ItemTypeNull) {
+                if (data.itemType == ItemType::ItemTypePic || data.itemType == ItemType::ItemTypeVideo) {
+                    m_allfileslist.append(data.filePath);
+                }
+            } else {
+                if (data.itemType == type) {
+                    m_allfileslist.append(data.filePath);
+                }
             }
+
         }
     } else if (m_delegatetype == ThumbnailDelegate::TimeLineViewType
                || m_delegatetype == ThumbnailDelegate::AlbumViewImportTimeLineViewType) {
@@ -515,8 +522,16 @@ QStringList ThumbnailListView::getFileList(int row)
                     || data.itemType == ItemTypeImportTimeLineTitle) {
                 break;
             } else {
-                if (!data.filePath.isEmpty()) {
-                    m_allfileslist.append(data.filePath);
+                if (type == ItemType::ItemTypeNull) {
+                    if (!data.filePath.isEmpty()) {
+                        m_allfileslist.append(data.filePath);
+                    }
+                } else {
+                    if (data.itemType == type) {
+                        if (!data.filePath.isEmpty()) {
+                            m_allfileslist.append(data.filePath);
+                        }
+                    }
                 }
             }
         }

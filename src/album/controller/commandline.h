@@ -30,6 +30,7 @@
 
 struct CMOption;
 class MainWidget;
+class ImageViewer;
 class CommandLine : public QWidget
 {
     Q_OBJECT
@@ -57,7 +58,8 @@ private:
     ImageEngineImportObject *m_obj;
 
     QHBoxLayout *m_layout = nullptr;
-    MainWidget *m_mainWidget = nullptr;
+//    MainWidget *m_mainWidget = nullptr;
+    ImageViewer *m_mainWidget = nullptr;
 };
 
 #endif // COMMANDLINE_H

@@ -26,7 +26,7 @@
 #include <dgiomount.h>
 #include <thumbnail/thumbnaillistview.h>
 
-class ModulePanel;
+//class ModulePanel;
 class SignalManager : public QObject
 {
     Q_OBJECT
@@ -35,7 +35,7 @@ public:
 
     // For view images
     struct ViewInfo {
-        ModulePanel *lastPanel;                 // For back to the last panel
+//        ModulePanel *lastPanel;                 // For back to the last panel  todo imageviewer
 #ifndef LITE_DIV
         bool inDatabase = true;
 #else
@@ -82,7 +82,7 @@ signals:
 
     void gotoTimelinePanel();
     void gotoSearchPanel(const QString &keyWord = "");
-    void gotoPanel(ModulePanel *panel);
+//    void gotoPanel(ModulePanel *panel); //todo imageviewer
     void backToMainPanel();
     void activeWindow();
 
@@ -94,7 +94,10 @@ signals:
     void editImage(const QString &path);
     void showInFileManager(const QString &path);
     void startSlideShow(const ViewInfo &vinfo, bool inDB = true);
-    void viewImage(const ViewInfo &vinfo);
+    void viewImage(const SignalManager::ViewInfo &vinfo);
+
+    void sigViewImage(const QStringList &paths, const QString &firstPath);
+
     void viewImageNoNeedReload(int &fileindex);
     void exportImage(const QStringList &paths);
     void updateFileName(const QString &fileName);

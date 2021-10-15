@@ -19,19 +19,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "commandline.h"
-#include "application.h"
-#include "controller/signalmanager.h"
-#include "controller/wallpapersetter.h"
-//#include "controller/divdbuscontroller.h"
-#include "controller/configsetter.h"
-#include "frame/mainwidget.h"
-#include "utils/imageutils.h"
-#include "utils/baseutils.h"
-#include "utils/unionimage.h"
-
-#include "dthememanager.h"
-#include "ac-desktop-define.h"
-
 #include <QHBoxLayout>
 #include <QCommandLineOption>
 #include <QDBusConnection>
@@ -40,6 +27,18 @@
 #include <QFileInfo>
 #include <QStandardPaths>
 #include <QMimeDatabase>
+
+#include "application.h"
+#include "controller/signalmanager.h"
+#include "controller/wallpapersetter.h"
+#include "controller/configsetter.h"
+#include "frame/mainwidget.h"
+#include "utils/imageutils.h"
+#include "utils/baseutils.h"
+#include "utils/unionimage.h"
+#include "dthememanager.h"
+#include "ac-desktop-define.h"
+#include "imageviewer.h"
 
 using namespace Dtk::Widget;
 
@@ -94,7 +93,8 @@ CommandLine::CommandLine()
 
     m_layout = new QHBoxLayout(this);
     m_layout->setContentsMargins(0, 0, 0, 0);
-    m_mainWidget = new MainWidget(false, this);
+//    m_mainWidget = new MainWidget(false, this);
+    m_mainWidget = new ImageViewer(imageViewerSpace::ImgViewerType::ImgViewerTypeLocal, albumGlobal::CACHE_PATH, nullptr, m_pwidget);
     m_mainWidget->setObjectName("MainWidget");
     m_layout->addWidget(m_mainWidget);
     setLayout(m_layout);
@@ -198,7 +198,7 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
         ImageEngineApi::instance()->addImageData(path, dbi);
         SignalManager::ViewInfo info;
         info.album = "";
-        info.lastPanel = nullptr;
+//        info.lastPanel = nullptr; //todo imageviewer
         info.path = path;
         info.paths = paths;
         info.dBImgInfos << dbi;
@@ -220,7 +220,7 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
             {
                 SignalManager::ViewInfo info;
                 info.album = "";
-                info.lastPanel = nullptr;
+//                info.lastPanel = nullptr;  //todo imageviewer
                 info.path = path;
                 info.paths = paths;
                 emit dApp->signalM->viewImage(info);

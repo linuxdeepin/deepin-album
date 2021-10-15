@@ -83,64 +83,70 @@ MainWidget::~MainWidget()
 
 void MainWidget::resizeEvent(QResizeEvent *e)
 {
-    if (m_topToolbar) {
-        m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
+    //todo imageviewer
+//    if (m_topToolbar) {
+//        m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
 
-        emit dApp->signalM->resizeFileName();
-        if (e->oldSize()  != e->size()) {
-            emit m_topToolbar->updateMaxBtn();
-        }
+//        emit dApp->signalM->resizeFileName();
+//        if (e->oldSize()  != e->size()) {
+//            emit m_topToolbar->updateMaxBtn();
+//        }
 
-        if (window()->isFullScreen()) {
-            m_topToolbar->setVisible(false);
-        } else {
-            m_topToolbar->setVisible(true);
-        }
-    }
+//        if (window()->isFullScreen()) {
+//            m_topToolbar->setVisible(false);
+//        } else {
+//            m_topToolbar->setVisible(true);
+//        }
+//    }
 
-    if (m_bottomToolbar) {
-        if (m_viewPanel->getPicCount() <= 1) {
-            m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_1);
-        } else if (m_viewPanel->getPicCount() <= 3) {
-            m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_2);
-        } else {
-            m_bottomToolbar->setFixedWidth(qMin((BOTTOM_TOOLBAR_WIDTH_2 + THUMBNAIL_ADD_WIDTH * (m_viewPanel->getPicCount() - 3)) + BOTTOM_ADJUST, qMax(this->width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)));
-        }
-        m_bottomToolbar->move((this->width() - m_bottomToolbar->width()) / 2, this->height() - m_bottomToolbar->height() - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
-        if (window()->isFullScreen()) {
-            emit dApp->signalM->sigShowFullScreen();
-        }
-    }
-    if (m_btmSeparatorLine) {
-        m_btmSeparatorLine->resize(window()->width(), 1);
-        m_btmSeparatorLine->move(0, window()->height() -
-                                 m_bottomToolbar->height() - 1);
-    }
+    //todo imageviewer
+//    if (m_bottomToolbar) {
+//        if (m_viewPanel->getPicCount() <= 1) {
+//            m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_1);
+//        } else if (m_viewPanel->getPicCount() <= 3) {
+//            m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_2);
+//        } else {
+//            m_bottomToolbar->setFixedWidth(qMin((BOTTOM_TOOLBAR_WIDTH_2 + THUMBNAIL_ADD_WIDTH * (m_viewPanel->getPicCount() - 3)) + BOTTOM_ADJUST, qMax(this->width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)));
+//        }
+//        m_bottomToolbar->move((this->width() - m_bottomToolbar->width()) / 2, this->height() - m_bottomToolbar->height() - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
+//        if (window()->isFullScreen()) {
+//            emit dApp->signalM->sigShowFullScreen();
+//        }
+//    }
+
+    //todo imageviewer
+//    if (m_btmSeparatorLine) {
+//        m_btmSeparatorLine->resize(window()->width(), 1);
+//        m_btmSeparatorLine->move(0, window()->height() -
+//                                 m_bottomToolbar->height() - 1);
+//    }
 }
 
 void MainWidget::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event);
-    if (m_bottomToolbar) {
-        if (window()->isFullScreen()) {
-            emit dApp->signalM->sigShowFullScreen();
-        }
-    }
-}
 
-void MainWidget::onGotoPanel(ModulePanel *panel)
-{
-    QPointer<ModulePanel> p(panel);
-    if (p.isNull()) {
-        return;
-    }
-    // Record the last panel for restore in the next time launch
-    if (p->isMainPanel() && ! p->moduleName().isEmpty()) {
-        dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_MAINPANEL_KEY,
-                               QVariant(p->moduleName()));
-    }
-    m_panelStack->setCurrentWidget(panel);
+    //todo imageviewer
+//    if (m_bottomToolbar) {
+//        if (window()->isFullScreen()) {
+//            emit dApp->signalM->sigShowFullScreen();
+//        }
+//    }
 }
+//todo imageviewer
+//void MainWidget::onGotoPanel(ModulePanel *panel)
+//{
+//    QPointer<ModulePanel> p(panel);
+//    if (p.isNull()) {
+//        return;
+//    }
+//    // Record the last panel for restore in the next time launch
+//    if (p->isMainPanel() && ! p->moduleName().isEmpty()) {
+//        dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_MAINPANEL_KEY,
+//                               QVariant(p->moduleName()));
+//    }
+//    m_panelStack->setCurrentWidget(panel);
+//}
 
 void MainWidget::onBackToMainPanel()
 {
@@ -154,15 +160,16 @@ void MainWidget::onBackToMainPanel()
         return;
     }
 
-    for (int i = 0; i < m_panelStack->count(); i++) {
-        if (ModulePanel *p =
-                    static_cast<ModulePanel *>(m_panelStack->widget(i))) {
-            if ((p->moduleName() == name) && p->isMainPanel()) {
-                emit dApp->signalM->gotoPanel(p);
-                return;
-            }
-        }
-    }
+    //todo imageviewer
+//    for (int i = 0; i < m_panelStack->count(); i++) {
+//        if (ModulePanel *p =
+//                    static_cast<ModulePanel *>(m_panelStack->widget(i))) {
+//            if ((p->moduleName() == name) && p->isMainPanel()) {
+//                emit dApp->signalM->gotoPanel(p);
+//                return;
+//            }
+//        }
+//    }
 }
 
 void MainWidget::onActiveWindow()
@@ -196,68 +203,74 @@ void MainWidget::onMouseMove(bool show)
     }
 #else
     Q_UNUSED(show)
-    if (window()->isFullScreen()) {
-        QPoint pos = mapFromGlobal(QCursor::pos());
-        if (height() - 90 < pos.y() && height() > pos.y() && height() >= m_bottomToolbar->y()) {
-            QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos", this);
-            animation->setDuration(200);
-            animation->setEasingCurve(QEasingCurve::NCurveTypes);
-            animation->setStartValue(QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
-            animation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height() - m_bottomToolbar->height() - 10));
-            animation->start(QAbstractAnimation::DeleteWhenStopped);
-        } else if (height() - m_bottomToolbar->height() - 10 > pos.y()
-                   && height() - m_bottomToolbar->height() - 10 <= m_bottomToolbar->y()) {
-            //隐藏状态下，区域外的移动事件不响应
-            if (m_bottomToolbar->y() >= height()) {
-                return;
-            }
-            QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos", this);
-            animation->setDuration(200);
-            animation->setEasingCurve(QEasingCurve::NCurveTypes);
-            animation->setStartValue(QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
-            animation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height()));
-            animation->start(QAbstractAnimation::DeleteWhenStopped);
-        }
-    }
+    //todo imageviewer
+//    if (window()->isFullScreen()) {
+//        QPoint pos = mapFromGlobal(QCursor::pos());
+//        if (height() - 90 < pos.y() && height() > pos.y() && height() >= m_bottomToolbar->y()) {
+//            QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos", this);
+//            animation->setDuration(200);
+//            animation->setEasingCurve(QEasingCurve::NCurveTypes);
+//            animation->setStartValue(QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
+//            animation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height() - m_bottomToolbar->height() - 10));
+//            animation->start(QAbstractAnimation::DeleteWhenStopped);
+//        } else if (height() - m_bottomToolbar->height() - 10 > pos.y()
+//                   && height() - m_bottomToolbar->height() - 10 <= m_bottomToolbar->y()) {
+//            //隐藏状态下，区域外的移动事件不响应
+//            if (m_bottomToolbar->y() >= height()) {
+//                return;
+//            }
+//            QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos", this);
+//            animation->setDuration(200);
+//            animation->setEasingCurve(QEasingCurve::NCurveTypes);
+//            animation->setStartValue(QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
+//            animation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height()));
+//            animation->start(QAbstractAnimation::DeleteWhenStopped);
+//        }
+//    }
 #endif
 }
 
 void MainWidget::onShowFullScreen()
 {
-    m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height());
+    //todo imageviewer
+//    m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height());
 }
 
 void MainWidget::onUpdateBottomToolbar(bool wideMode)
 {
     if (wideMode) {
-        m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
-        if (m_viewPanel->getPicCount() <= 3) {
-            m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_2);
-        } else {
-            m_bottomToolbar->setFixedWidth(qMin(BOTTOM_TOOLBAR_WIDTH_2 + THUMBNAIL_ADD_WIDTH * (m_viewPanel->getPicCount() - 3) + BOTTOM_ADJUST, qMax(this->width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)));
-        }
-        m_bottomToolbar->setVisible(true);
-        m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
+//        m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
+        //todo imageviewer
+//        if (m_viewPanel->getPicCount() <= 3) {
+//            m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_2);
+//        } else {
+//            m_bottomToolbar->setFixedWidth(qMin(BOTTOM_TOOLBAR_WIDTH_2 + THUMBNAIL_ADD_WIDTH * (m_viewPanel->getPicCount() - 3) + BOTTOM_ADJUST, qMax(this->width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)));
+//        }
+//        m_bottomToolbar->setVisible(true);
+//        m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
     } else {
-        m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
-        m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_1);
-        if (m_viewPanel->getPicCount() == 1) {
-            m_bottomToolbar->setVisible(true);
-            m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
-        } else {
-            m_bottomToolbar->setVisible(false);
-            m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
-        }
+//        m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
+//        m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_1);
+        //todo imageviewer
+//        if (m_viewPanel->getPicCount() == 1) {
+//            m_bottomToolbar->setVisible(true);
+//            m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
+//        } else {
+//            m_bottomToolbar->setVisible(false);
+//            m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
+//        }
     }
-    m_bottomToolbar->move((this->width() - m_bottomToolbar->width()) / 2,
-                          this->height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
+
+    //todo imageviewer
+//    m_bottomToolbar->move((this->width() - m_bottomToolbar->width()) / 2,
+//                          this->height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
 }
 
 void MainWidget::onUpdateBottomToolbarContent(QWidget *c, bool wideMode)
 {
     if (c == nullptr)
         return;
-    m_bottomToolbar->setContent(c);
+//    m_bottomToolbar->setContent(c);   //todo imageviewer
     onUpdateBottomToolbar(wideMode);
 }
 
@@ -268,14 +281,15 @@ void MainWidget::onShowBottomToolbar()
     for (auto animation : lis) {
         animation->stop();
     }
-    m_bottomToolbar->setVisible(true);
-    m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
+//    m_bottomToolbar->setVisible(true);  //todo imageviewer
+//    m_bottomToolbar->setVisible(false);
+//    m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
 }
 
 void MainWidget::onHideBottomToolbar(bool immediately)
 {
-    m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height());
-    m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
+//    m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height());
+//    m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
     Q_UNUSED(immediately)
 }
 
@@ -305,22 +319,24 @@ void MainWidget::initPanelStack(bool manager)
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->addWidget(m_panelStack);
-    m_viewPanel = new ViewPanel();
-    m_panelStack->addWidget(m_viewPanel);
+    //todo imageviewer
+//    m_viewPanel = new ViewPanel();
+//    m_panelStack->addWidget(m_viewPanel);
 }
 
 void MainWidget::initTopToolbar()
 {
-    m_topToolbar = new TopToolbar(false, this);
-    m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
-    m_topToolbar->move(0, 0);
+    //todo imageviewer
+//    m_topToolbar = new LibTopToolbar(false, this);
+//    m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
+//    m_topToolbar->move(0, 0);
 }
 
 void MainWidget::initConnection()
 {
     connect(dApp->signalM, &SignalManager::backToMainPanel, this, &MainWidget::onBackToMainPanel);
     connect(dApp->signalM, &SignalManager::activeWindow, this, &MainWidget::onActiveWindow);
-    connect(dApp->signalM, &SignalManager::gotoPanel, this, &MainWidget::onGotoPanel);
+//    connect(dApp->signalM, &SignalManager::gotoPanel, this, &MainWidget::onGotoPanel);  //todo imageviewer
     connect(dApp->signalM, &SignalManager::showInFileManager, this, &MainWidget::onShowInFileManager);
     connect(dApp->signalM, &SignalManager::sigMouseMove, this, &MainWidget::onMouseMove);
     connect(dApp->signalM, &SignalManager::sigShowFullScreen, this, &MainWidget::onShowFullScreen);
@@ -328,9 +344,10 @@ void MainWidget::initConnection()
 
 void MainWidget::initBottomToolbar()
 {
-    m_bottomToolbar = new BottomToolbar(this);
-    m_bottomToolbar->resize(532, BOTTOM_TOOLBAR_HEIGHT);
-    m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height() - m_bottomToolbar->height() - 10);
+    //todo imageviewer
+//    m_bottomToolbar = new BottomToolbar(this);
+//    m_bottomToolbar->resize(532, BOTTOM_TOOLBAR_HEIGHT);
+//    m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height() - m_bottomToolbar->height() - 10);
     m_btmSeparatorLine = new QLabel(this);
     connect(dApp->signalM, &SignalManager::updateBottomToolbar, this, &MainWidget::onUpdateBottomToolbar);
     connect(dApp->signalM, &SignalManager::updateBottomToolbarContent, this, &MainWidget::onUpdateBottomToolbarContent);

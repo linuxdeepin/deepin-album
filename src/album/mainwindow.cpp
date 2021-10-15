@@ -51,6 +51,7 @@
 
 #include "imagedataservice.h"
 #include "movieservice.h"
+#include "imageviewer.h"
 
 bool bfirstopen = true;
 bool bfirstandviewimage = false;
@@ -468,9 +469,11 @@ void MainWindow::initCentralWidget()
     //m_pSearchView = new SearchView();           //搜索界面
     m_pSearchViewWidget = new QWidget();
 
-    m_commandLine = CommandLine::instance();
-    m_commandLine->setThreads(this);
-    m_slidePanel = new SlideShowPanel();
+//    m_commandLine = CommandLine::instance();
+    m_commandLine = new ImageViewer(imageViewerSpace::ImgViewerType::ImgViewerTypeAlbum, albumGlobal::CACHE_PATH, nullptr, m_pCenterWidget);
+    connect(dApp->signalM, &SignalManager::sigViewImage, this, &MainWindow::onSigViewImage);
+    //    m_commandLine->setThreads(this);    //todo imageviewer
+//    m_slidePanel = new SlideShowPanel();    //todo imageviewer
 
     m_pCenterWidget->addWidget(m_pAllPicView);
 
@@ -481,11 +484,13 @@ void MainWindow::initCentralWidget()
 
     //m_pCenterWidget->addWidget(m_pSearchView);
     m_pCenterWidget->addWidget(m_pSearchViewWidget);
-    m_pCenterWidget->addWidget(m_commandLine);
-    m_pCenterWidget->addWidget(m_slidePanel);
+//    m_commandLine->setVisible(false);//todo imageviewer
+    m_pCenterWidget->addWidget(m_commandLine); //todo imageviewer
+//    m_pCenterWidget->addWidget(m_slidePanel);   //todo imageviewer
 
     QStringList parselist;
-    m_commandLine->processOption(parselist);
+    //todo imageviewer
+//    m_commandLine->processOption(parselist);
     if (parselist.length() > 0) {
         QStringList absoluteFilePaths;
         for (int i = 0; i < parselist.size(); i++) {
@@ -504,7 +509,8 @@ void MainWindow::initCentralWidget()
             titlebar()->setVisible(false);
             setTitlebarShadowEnabled(false);
             //查看图片
-            m_commandLine->viewImage(firstStr, absoluteFilePaths);
+            //todo imageviewer
+//            m_commandLine->viewImage(firstStr, absoluteFilePaths);
             m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
             m_backIndex = VIEW_ALLPIC;
         }
@@ -1339,7 +1345,7 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 #ifndef LITE_DIV
                 info.inDatabase = false;
 #endif
-                info.lastPanel = nullptr;
+//                info.lastPanel = nullptr;  //todo imageviewer
                 info.path = paths.at(0);
                 info.paths = paths;
                 emit dApp->signalM->viewImage(info);
@@ -1356,6 +1362,11 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
     this->activateWindow();
 }
 
+void MainWindow::onSigViewImage(const QStringList &paths, const QString &firstPath)
+{
+    m_commandLine->startdragImage(paths, firstPath);
+}
+
 QButtonGroup *MainWindow::getButG()
 {
     return (nullptr != static_cast<QButtonGroup *>(btnGroup) ? btnGroup : nullptr);
@@ -1369,7 +1380,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
         emit dApp->signalM->sigPauseOrStart(false);     //唤醒外设后台挂载
         event->ignore();
     } else {
-        delete m_commandLine;
+//        delete m_commandLine;  //todo imageviewer
         event->accept();
     }
 }
@@ -1393,9 +1404,10 @@ void MainWindow::showEvent(QShowEvent *event)
                 m_pCenterWidget->insertWidget(index, m_pSearchView);
                 m_pCenterWidget->removeWidget(m_pSearchViewWidget);
             }
-            if (m_processOptionIsEmpty) {
-                m_commandLine->viewImage("", {});
-            }
+            //todo imageviewer
+//            if (m_processOptionIsEmpty) {
+//                m_commandLine->viewImage("", {});
+//            }
 
             initShortcut();
             initConnections();

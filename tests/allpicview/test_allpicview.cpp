@@ -31,8 +31,6 @@
 #include "allpicview.h"
 #include "imgdeletedialog.h"
 #include "wallpapersetter.h"
-#include "ttbcontent.h"
-#include "viewpanel.h"
 #include "mainwidget.h"
 #include "signalmanager.h"
 #include "../test_qtestDefine.h"
@@ -324,67 +322,7 @@ TEST(allpicview, viewpaneltest)
         e.simulate(w);
         e.clear();
 
-//        emit dApp->signalM->showImageInfo(testPathlist.first());
-
-        QTest::qWait(500);
-//        ImgInfoDialog *dialog = w->findChild<ImgInfoDialog *>("ImgInfoDialog");
-//        dialog->height();
-//        dialog->setImagePath(testPath_test + "2k9o1m.png");
-//        dialog->updateInfo();
-//        QPoint p = dialog->pos();
-//        e.addMouseMove(p, 10);
-//        e.addKeyClick(Qt::Key_Escape, Qt::NoModifier, 10);
-//        e.simulate(dialog);
-//        e.clear();
-//        dialog->deleteLater();
-//        QTest::qWait(500);
-//        ViewPanel *viewPanel = w->findChild<ViewPanel *>("ViewPanel");
-
         QList<QWidget *> widgets = w->findChildren<QWidget *>();
-        foreach (auto widget, widgets) {
-            if (!strcmp(widget->metaObject()->className(), "ViewPanel")) {
-                ViewPanel *viewPanel = dynamic_cast<ViewPanel *>(widget);
-
-                viewPanel->onDeleteByMenu();
-                QTest::qWait(100);
-                viewPanel->onShowExtensionPanel();
-                QTest::qWait(100);
-                viewPanel->onHideExtensionPanel();
-                QTest::qWait(100);
-                viewPanel->onResetTransform(false);
-                QTest::qWait(100);
-                viewPanel->onResetTransform(true);
-                QTest::qWait(100);
-                viewPanel->showNormal();
-                QTest::qWait(100);
-                viewPanel->onHideImageView();
-                QTest::qWait(500);
-                emit a->getThumbnailListView()->openImage(0, testPathlist.first(), false);
-                QTest::qWait(500);
-//                viewPanel->onESCKeyActivated();
-//                QTest::qWait(500);
-                break;
-            }
-        }
-
-        MainWidget *mw = CommandLine::instance()->findChild<MainWidget *>("MainWidget");
-        if (mw) {
-            TTBContent *t = mw->findChild<TTBContent *>("TTBContent");
-            if (t == nullptr) {
-                return;
-            }
-            t->onNextButton();
-            QTest::qWait(500);
-            t->onPreButton();
-            QTest::qWait(500);
-            t->updateFilenameLayout();
-            QTest::qWait(500);
-
-            //todo
-//            MyImageListWidget *imgListView = t->findChild<MyImageListWidget *>("MyImageListWidget");
-//            if (imgListView) {
-//            }
-        }
     }
 
     QTestEventList e;
@@ -398,16 +336,11 @@ TEST(allpicview, deleteTips)
     MainWindow *w = dApp->getMainWindow();
     w->allPicBtnClicked();
     QTest::qWait(500);
-    AllPicView *a = w->m_pAllPicView;
     QStringList testPathlist = ImageEngineApi::instance()->get_AllImagePath();
     if (testPathlist.count() > 0) {
         QStringList tempDel;
         tempDel << testPathlist.last();
-//        ImgDeleteDialog *delDlg = new ImgDeleteDialog(a->getThumbnailListView(), tempDel.length());
-//        delDlg->show();
-//        QTest::qWait(500);
         ImageEngineApi::instance()->moveImagesToTrash(tempDel);
-//        delDlg->deleteLater();
         QTest::qWait(500);
     }
 }
@@ -416,11 +349,6 @@ TEST(allpicview, allpicview_other_test)
 {
     TEST_CASE_NAME("allpicview_other_test")
     MainWindow *w = dApp->getMainWindow();
-
-//    w->m_pAllPicView->onMenuOpenImage("", QStringList(), false, false);
-//    w->m_pAllPicView->onImportViewImportBtnClicked();
-
-
     QMimeData mimedata;
     QList<QUrl> li;
     QString lastImportPath =  QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).first();

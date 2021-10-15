@@ -39,7 +39,6 @@
 #include "test_qtestDefine.h"
 #include "imginfodialog.h"
 #include "imageengine/imageengineapi.h"
-#include "viewpanel.h"
 #include "ac-desktop-define.h"
 
 #include <stub-tool/cpp-stub/stub.h>

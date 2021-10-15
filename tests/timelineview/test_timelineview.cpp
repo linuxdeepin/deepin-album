@@ -30,6 +30,7 @@
 #include "../test_qtestDefine.h"
 #include "ac-desktop-define.h"
 #include "utils/baseutils.h"
+#include "viewerthememanager.h"
 
 
 TEST(TimeLineView, T1)
@@ -62,11 +63,6 @@ TEST(TimeLineView, T1)
     list << testPath_test + "2k9o1m.png";
     t->updataLayout(list);
     t->on_DCommandLinkButton();
-    //todo
-//    t->on_GetSelectedPaths(&list);
-//    t->on_KeyEvent(Qt::Key_PageDown);
-//    t->on_KeyEvent(Qt::Key_PageUp);
-//    t->updateChoseText();
 
     QString jpgItemPath = testPath_test + "/2k9o1m.png";
     QString text = "xxxxxxxxxxxxxx";
@@ -105,29 +101,6 @@ TEST(TimeLineView, dragPhotoToAnAlbum)
     QList<QWidget *> widgets = a->findChildren<QWidget *>("");
     for (int index = 0; index < widgets.count(); index++) {
         if (!strcmp(widgets.at(index)->metaObject()->className(), ("TimelineList"))) {
-            //todo
-//            TimelineListWidget *li = static_cast<TimelineListWidget *>(widgets.at(index));
-//            if (li) {
-//                QScrollBar *bar = li->verticalScrollBar();
-//                bar->setRange(1, 100);
-//                QPoint pos1 = li->rect().center();
-//                QString text = "xxxxxxxxxxxxxx";
-//                QIcon icon = QIcon(":/resources/images/other/deepin-album.svg");
-//                QIcon icon_hover = QIcon(":/resources/images/other/deepin-album.svg");
-//                QByteArray itemData;
-//                QDataStream dataStream(&itemData, QIODevice::WriteOnly);
-//                dataStream << text << icon << icon_hover;
-//                QMimeData mimedata;
-//                mimedata.setData(QStringLiteral("TestListView/text-icon-icon_hover"), itemData);
-//                QDragMoveEvent eMove(pos1, Qt::IgnoreAction, &mimedata, Qt::LeftButton, Qt::NoModifier);
-//                dApp->getDAppNew()->sendEvent(a, &eMove);
-//                QTest::qWait(200);
-
-//                QTestEventList e;
-//                e.addMouseMove(pos1);
-//                e.addMouseMove(pos1 + QPoint(1, 1));
-//                e.simulate(li);
-//            }
         }
         if (!strcmp(widgets.at(index)->metaObject()->className(), ("ThumbnailListView"))) {
             QString jpgItemPath = testPath_test + "/2k9o1m.png";

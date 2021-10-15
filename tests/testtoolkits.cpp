@@ -92,7 +92,7 @@ void exitImageView()
         QTestEventList e;
         e.addKeyClick(Qt::Key::Key_Escape);
         e.addDelay(300);
-        e.simulate(w->m_commandLine);
+        e.simulate(CommandLine::instance());
     }
 }
 

@@ -31,10 +31,7 @@
 #include "leftlistview.h"
 #include "application.h"
 #include "frame/mainwidget.h"
-#include "module/view/navigationwidget.h"
-#include "module/view/scen/graphicsitem.h"
 #include "searchview/searchview.h"
-#include "module/view/scen/imageview.h"
 #include "gio-qt/dgiovolumemanager.h"
 #include "mainwindow.h"
 #include "albumview.h"
@@ -784,35 +781,11 @@ TEST(AlbumViewList, albumViewList_other5_test)
 
     w->m_pAlbumview->m_pImportView->imageImported(true);
     w->m_pAlbumview->m_pImportView->imageImported(false);
-
-
-    MainWidget *mainWidget = w->m_commandLine->findChild<MainWidget *>("MainWidget");
-
-//    if (mainWidget) {
-//        NavigationWidget *nw = mainWidget->m_viewPanel->m_nav.widget();
-//        nw->setAlwaysHidden(false);
-//        nw->setAlwaysHidden(true);
-//        nw->transImagePos(QPoint(0, 0));
-
-//        mainWidget->m_viewPanel->m_ttbc->deleteImage();
-//    }
 }
 
 TEST(AlbumViewList, albumViewList_other6_test)
 {
     TEST_CASE_NAME("albumViewList_other6_test")
-
-    GraphicsMovieItem gmi_1(testPath_Pictures + "/2e5y8y.jpg", "");
-    GraphicsMovieItem gmi_2("", "");
-
-    ImageView *iv = new ImageView;
-    iv->setImage("");
-    iv->setImage(testPath_Pictures + "/2e5y8y.jpg");
-    iv->windowRelativeScale();
-    iv->imageRelativeScale();
-    iv->isWholeImageVisible();
-    iv->onThemeTypeChanged();
-
     ImgInfoDialog iid("");
     iid.height();
 }

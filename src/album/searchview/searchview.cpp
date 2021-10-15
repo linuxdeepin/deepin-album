@@ -277,7 +277,7 @@ void SearchView::onOpenImage(int row, const QString &path, bool bFullScreen)
 {
     SignalManager::ViewInfo info;
     info.album = "";
-    info.lastPanel = nullptr;
+//    info.lastPanel = nullptr;  //todo imageviewer
     info.fullScreen = bFullScreen;
     auto imagelist = m_pThumbnailListView->getFileList(row);
     if (imagelist.size() > 0) {
@@ -304,7 +304,7 @@ void SearchView::onSlideShow(const QString &path)
 {
     SignalManager::ViewInfo info;
     info.album = "";
-    info.lastPanel = nullptr;
+//    info.lastPanel = nullptr;  //todo imageviewer
     auto photolist = m_pThumbnailListView->selectedPaths();
     if (photolist.size() > 1) {
         //如果选中数目大于1，则幻灯片播放选中项

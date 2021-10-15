@@ -50,6 +50,7 @@
 
 DWIDGET_USE_NAMESPACE
 
+class ImageViewer;
 class NoResultWidget;
 class BatchOperateWidget;
 class AllPicView : public DWidget, public ImageEngineImportObject
@@ -121,6 +122,7 @@ private:
     QWidget *m_SuspensionWidget = nullptr;
     BatchOperateWidget *m_batchOperateWidget = nullptr;
     DCommandLinkButton *m_suspensionChose = nullptr;
+//    ImageViewer *m_ImageViewer = nullptr;
 public:
     ThumbnailListView *getThumbnailListView();
     /**

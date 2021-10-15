@@ -29,7 +29,6 @@
 #include "controller/commandline.h"
 #include "controller/exporter.h"
 #include "widgets/dialogs/imginfodialog.h"
-#include "module/slideshow/slideshowpanel.h"
 #include "fileinotify.h"
 
 #include <DMainWindow>
@@ -190,6 +189,8 @@ public slots:
     void onImprotBtnClicked();
 //    void onUpdateCentralWidget();
     void onNewAPPOpen(qint64 pid, const QStringList &arguments);
+
+    void onSigViewImage(const QStringList &paths, const QString &firstPath);
 private:
     int m_iCurrentView;
     bool m_bTitleMenuImportClicked;
@@ -205,9 +206,10 @@ public:
     QWidget *m_pTimeLineWidget;
     SearchView *m_pSearchView;                  //搜索界面视图
     QWidget *m_pSearchViewWidget = nullptr;
-    SlideShowPanel *m_slidePanel;               //幻灯片播放视图
+    //SlideShowPanel *m_slidePanel;               //幻灯片播放视图  //todo imageviewer
     DSearchEdit *m_pSearchEdit;
-    CommandLine *m_commandLine;
+//    CommandLine *m_commandLine;  //todo imageviewer
+    ImageViewer *m_commandLine = nullptr;  //todo imageviewer
 private:
     DBManager *m_pDBManager;
     QMap<QString, ImgInfoDialog *> m_propertyDialogs{};
