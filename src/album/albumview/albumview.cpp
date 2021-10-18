@@ -1097,7 +1097,7 @@ void AlbumView::onOpenImageFav(int row, const QString &path, bool bFullScreen)
     info.album = "";
 //    info.lastPanel = nullptr;  //todo imageviewer
     info.fullScreen = bFullScreen;
-    auto imagelist = m_favoriteThumbnailList->getFileList(row);
+    auto imagelist = m_favoriteThumbnailList->getFileList(row, ItemType::ItemTypePic);
     if (imagelist.size() > 0) {
         info.paths << imagelist;
         info.path = path;
@@ -1107,7 +1107,7 @@ void AlbumView::onOpenImageFav(int row, const QString &path, bool bFullScreen)
     info.dBImgInfos = m_favoriteThumbnailList->getAllFileInfo(row);
     info.viewType = m_currentAlbum;
     info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
-    emit dApp->signalM->viewImage(info);
+    emit dApp->signalM->sigViewImage(info.paths, info.path);
     emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
 }
 
@@ -1117,7 +1117,7 @@ void AlbumView::onOpenImageCustom(int row, const QString &path, bool bFullScreen
     info.album = m_currentAlbum;
 //    info.lastPanel = nullptr;  //todo imageviewer
     info.fullScreen = bFullScreen;
-    auto imagelist = m_customThumbnailList->getFileList(row);
+    auto imagelist = m_customThumbnailList->getFileList(row, ItemType::ItemTypePic);
     if (imagelist.size() > 0) {
         info.paths << imagelist;
         info.path = path;
@@ -1127,7 +1127,7 @@ void AlbumView::onOpenImageCustom(int row, const QString &path, bool bFullScreen
     info.dBImgInfos = m_customThumbnailList->getAllFileInfo(row);
     info.viewType = m_currentAlbum;
     info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
-    emit dApp->signalM->viewImage(info);
+    emit dApp->signalM->sigViewImage(info.paths, info.path);
     emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
 }
 

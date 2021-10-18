@@ -279,7 +279,7 @@ void SearchView::onOpenImage(int row, const QString &path, bool bFullScreen)
     info.album = "";
 //    info.lastPanel = nullptr;  //todo imageviewer
     info.fullScreen = bFullScreen;
-    auto imagelist = m_pThumbnailListView->getFileList(row);
+    auto imagelist = m_pThumbnailListView->getFileList(row, ItemType::ItemTypePic);
     if (imagelist.size() > 0) {
         info.paths << imagelist;
         info.path = path;
@@ -289,7 +289,7 @@ void SearchView::onOpenImage(int row, const QString &path, bool bFullScreen)
     info.dBImgInfos = m_pThumbnailListView->getAllFileInfo(row);
     info.viewType = utils::common::VIEW_SEARCH_SRN;
 
-    emit dApp->signalM->viewImage(info);
+    emit dApp->signalM->sigViewImage(info.paths, info.path);
 
     if (COMMON_STR_ALLPHOTOS == m_albumName) {
         emit dApp->signalM->showImageView(0);

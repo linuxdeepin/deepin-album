@@ -484,7 +484,7 @@ void ImportTimeLineView::onOpenImage(int row, const QString &path, bool bFullScr
     info.album = "";
 //    info.lastPanel = nullptr;  //todo imageviewer
     info.fullScreen = bFullScreen;
-    auto imagelist = m_importTimeLineListView->getFileList(row);
+    auto imagelist = m_importTimeLineListView->getFileList(row, ItemType::ItemTypePic);
     if (imagelist.size() > 0) {
         info.paths << imagelist;
         info.path = path;
@@ -495,7 +495,7 @@ void ImportTimeLineView::onOpenImage(int row, const QString &path, bool bFullScr
     info.dBImgInfos = m_importTimeLineListView->getAllFileInfo(row);
     info.viewType = COMMON_STR_RECENT_IMPORTED;
     info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
-    emit dApp->signalM->viewImage(info);
+    emit dApp->signalM->sigViewImage(info.paths, info.path);
     emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
 }
 

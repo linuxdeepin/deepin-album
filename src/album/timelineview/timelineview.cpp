@@ -373,7 +373,7 @@ void TimeLineView::onOpenImage(int row, const QString &path, bool bFullScreen)
     info.album = "";
 //    info.lastPanel = nullptr;  //todo imageviewer
     info.fullScreen = bFullScreen;
-    auto imagelist = m_timeLineThumbnailListView->getFileList(row);
+    auto imagelist = m_timeLineThumbnailListView->getFileList(row, ItemType::ItemTypePic);
     if (imagelist.size() > 0) {
         info.paths << imagelist;
         info.path = path;
@@ -383,7 +383,7 @@ void TimeLineView::onOpenImage(int row, const QString &path, bool bFullScreen)
     info.dBImgInfos = m_timeLineThumbnailListView->getAllFileInfo(row);
     info.viewType = utils::common::VIEW_TIMELINE_SRN;
     info.viewMainWindowID = VIEW_MAINWINDOW_TIMELINE;
-    emit dApp->signalM->viewImage(info);
+    emit dApp->signalM->sigViewImage(info.paths, info.path);
     emit dApp->signalM->showImageView(VIEW_MAINWINDOW_TIMELINE);
 }
 
