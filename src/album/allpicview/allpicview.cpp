@@ -88,9 +88,6 @@ AllPicView::AllPicView()
     pVBoxLayout->addWidget(m_pStackedWidget);
     fatherwidget->setLayout(pVBoxLayout);
     initConnections();
-//    m_spinner = new DSpinner(this);
-//    m_spinner->setFixedSize(40, 40);
-//    m_spinner->hide();
     connect(m_pThumbnailListView, &ThumbnailListView::sigLoad80ThumbnailsFinish, this, &AllPicView::updatePicsIntoThumbnailViewWithCache);
     connect(m_pThumbnailListView, &ThumbnailListView::sigDBImageLoaded, this, &AllPicView::updateStackedWidget);
     m_pwidget = new QWidget(this);
