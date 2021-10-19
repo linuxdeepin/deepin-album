@@ -191,6 +191,9 @@ public slots:
     void onNewAPPOpen(qint64 pid, const QStringList &arguments);
 
     void onSigViewImage(const QStringList &paths, const QString &firstPath);
+    void onCollectButtonClicked();
+    void updateCollectButton();
+    void onLibDel();
 private:
     int m_iCurrentView;
     bool m_bTitleMenuImportClicked;
@@ -209,7 +212,10 @@ public:
     //SlideShowPanel *m_slidePanel;               //幻灯片播放视图  //todo imageviewer
     DSearchEdit *m_pSearchEdit;
 //    CommandLine *m_commandLine;  //todo imageviewer
-    ImageViewer *m_commandLine = nullptr;  //todo imageviewer
+    ImageViewer *m_imageViewer = nullptr;  //todo imageviewer
+    DIconButton *m_back = nullptr;
+    DIconButton *m_collect = nullptr;
+    DIconButton *m_del = nullptr;
 private:
     DBManager *m_pDBManager;
     QMap<QString, ImgInfoDialog *> m_propertyDialogs{};

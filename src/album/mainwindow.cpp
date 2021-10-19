@@ -52,6 +52,7 @@
 #include "imagedataservice.h"
 #include "movieservice.h"
 #include "imageviewer.h"
+#include "imageengine.h"
 
 bool bfirstopen = true;
 bool bfirstandviewimage = false;
@@ -85,7 +86,6 @@ MainWindow::MainWindow()
     , m_pTimeLineWidget(nullptr)
     , m_pSearchView(nullptr)
     , m_pSearchEdit(nullptr)
-    , m_commandLine(nullptr)
     , m_pDBManager(nullptr)
     , m_backIndex(0)
     , m_backIndex_fromSlide(0)
@@ -470,8 +470,18 @@ void MainWindow::initCentralWidget()
     m_pSearchViewWidget = new QWidget();
 
 //    m_commandLine = CommandLine::instance();
-    m_commandLine = new ImageViewer(imageViewerSpace::ImgViewerType::ImgViewerTypeAlbum, albumGlobal::CACHE_PATH, nullptr, m_pCenterWidget);
+    m_imageViewer = new ImageViewer(imageViewerSpace::ImgViewerType::ImgViewerTypeAlbum, albumGlobal::CACHE_PATH, nullptr, m_pCenterWidget);
     connect(dApp->signalM, &SignalManager::sigViewImage, this, &MainWindow::onSigViewImage);
+    m_back = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeBack);
+    connect(m_back, &DIconButton::clicked, this, &MainWindow::onHideImageView);
+    m_collect = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeCollection);
+    //刷新收藏按钮
+    connect(ImageEngine::instance(), &ImageEngine::sigUpdateCollectBtn, this, &MainWindow::updateCollectButton);
+    connect(m_collect, &DIconButton::clicked, this, &MainWindow::onCollectButtonClicked);
+
+    //刷新收藏按钮
+    connect(ImageEngine::instance(), &ImageEngine::sigDel, this, &MainWindow::onLibDel);
+
     //    m_commandLine->setThreads(this);    //todo imageviewer
 //    m_slidePanel = new SlideShowPanel();    //todo imageviewer
 
@@ -485,7 +495,7 @@ void MainWindow::initCentralWidget()
     //m_pCenterWidget->addWidget(m_pSearchView);
     m_pCenterWidget->addWidget(m_pSearchViewWidget);
 //    m_commandLine->setVisible(false);//todo imageviewer
-    m_pCenterWidget->addWidget(m_commandLine); //todo imageviewer
+    m_pCenterWidget->addWidget(m_imageViewer); //todo imageviewer
 //    m_pCenterWidget->addWidget(m_slidePanel);   //todo imageviewer
 
     QStringList parselist;
@@ -1286,7 +1296,7 @@ void MainWindow::floatMessage(const QString &str, const QIcon &icon)
         pwidget = m_pAlbumview->m_pwidget;
         break;
     case 4:
-        pwidget = m_commandLine;
+        pwidget = m_imageViewer;
         break;
     default:
         pwidget = m_pAllPicView->m_pwidget;
@@ -1305,6 +1315,47 @@ void MainWindow::floatMessage(const QString &str, const QIcon &icon)
         }
         DMessageManager::instance()->sendMessage(pwidget, pDFloatingMessage);
     }
+}
+
+void MainWindow::updateCollectButton()
+{
+    if (m_imageViewer == nullptr) {
+        return;
+    }
+    QString path = m_imageViewer->getCurrentPath();
+    if (path.isEmpty()) {
+        return;
+    }
+    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, path, AlbumDBType::Favourite)) {
+        m_collect->setToolTip(tr("Unfavorite"));
+        m_collect->setIcon(QIcon::fromTheme("dcc_ccollection"));
+        m_collect->setIconSize(QSize(36, 36));
+    } else {
+        m_collect->setToolTip(tr("Favorite"));
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        Q_UNUSED(themeType);
+        m_collect->setIcon(QIcon::fromTheme("dcc_collection_normal"));
+        m_collect->setIconSize(QSize(36, 36));
+    }
+}
+
+void MainWindow::onLibDel()
+{
+    if (m_imageViewer == nullptr) {
+        return;
+    }
+    QString path = m_imageViewer->getCurrentPath();
+    if (path.isEmpty()) {
+        return;
+    }
+
+    DBImgInfoList infos;
+    DBImgInfo info;
+    info = DBManager::instance()->getInfoByPath(path);
+    info.importTime = QDateTime::currentDateTime();
+    infos << info;
+    DBManager::instance()->insertTrashImgInfos(infos);
+    DBManager::instance()->removeImgInfos(QStringList(path));
 }
 
 //外部使用相册打开图片
@@ -1364,7 +1415,30 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 
 void MainWindow::onSigViewImage(const QStringList &paths, const QString &firstPath)
 {
-    m_commandLine->startdragImage(paths, firstPath);
+    m_imageViewer->startdragImage(paths, firstPath);
+}
+
+void MainWindow::onCollectButtonClicked()
+{
+    qDebug() << __FUNCTION__ << "---";
+    if (m_imageViewer == nullptr) {
+        return;
+    }
+    QString path = m_imageViewer->getCurrentPath();
+    if (path.isEmpty()) {
+        return;
+    }
+    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, path, AlbumDBType::Favourite)) {
+        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(path), AlbumDBType::Favourite);
+        m_collect->setToolTip(tr("Favorite"));
+        m_collect->setIcon(QIcon::fromTheme("dcc_collection_normal"));
+        m_collect->setIconSize(QSize(36, 36));
+    } else {
+        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(path), AlbumDBType::Favourite);
+        m_collect->setToolTip(tr("Unfavorite"));
+        m_collect->setIcon(QIcon::fromTheme("dcc_ccollection"));
+        m_collect->setIconSize(QSize(36, 36));
+    }
 }
 
 QButtonGroup *MainWindow::getButG()
