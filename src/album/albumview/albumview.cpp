@@ -1127,7 +1127,7 @@ void AlbumView::onOpenImageCustom(int row, const QString &path, bool bFullScreen
     info.dBImgInfos = m_customThumbnailList->getAllFileInfo(row);
     info.viewType = m_currentAlbum;
     info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
-    emit dApp->signalM->sigViewImage(info.paths, info.path);
+    emit dApp->signalM->sigViewImage(info.paths, info.path, true, m_currentAlbum);
     emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
 }
 

@@ -481,26 +481,26 @@ void MainWindow::initCentralWidget()
 
     //刷新收藏按钮
     connect(ImageEngine::instance(), &ImageEngine::sigDel, this, &MainWindow::onLibDel);
-
-    //    m_commandLine->setThreads(this);    //todo imageviewer
-//    m_slidePanel = new SlideShowPanel();    //todo imageviewer
+    //获取所有自定义相册
+    connect(ImageEngine::instance(), &ImageEngine::sigGetAlbumName, this, &MainWindow::onSendAlbumName);
+    //公共库添加或新建相册请求
+    connect(ImageEngine::instance(), &ImageEngine::sigAddToAlbum, this, &MainWindow::onAddToAlbum);
+    //公共库收藏/取消收藏操作
+    connect(ImageEngine::instance(), &ImageEngine::sigAddOrRemoveToFav, this, &MainWindow::onAddOrRemoveToFav);
+    //公共库导出操作
+    connect(ImageEngine::instance(), &ImageEngine::sigExport, this, &MainWindow::onExport);
+    //公共库：从相册中移除操作
+    connect(ImageEngine::instance(), &ImageEngine::sigRemoveFromCustom, this, &MainWindow::onRemoveFromCustom);
 
     m_pCenterWidget->addWidget(m_pAllPicView);
 
     m_pCenterWidget->addWidget(m_pTimeLineWidget);
-    //m_pCenterWidget->addWidget(m_pTimeLineView);
     m_pCenterWidget->addWidget(m_pAlbumWidget);
-    //m_pCenterWidget->addWidget(m_pAlbumview);
 
-    //m_pCenterWidget->addWidget(m_pSearchView);
     m_pCenterWidget->addWidget(m_pSearchViewWidget);
-//    m_commandLine->setVisible(false);//todo imageviewer
     m_pCenterWidget->addWidget(m_imageViewer); //todo imageviewer
-//    m_pCenterWidget->addWidget(m_slidePanel);   //todo imageviewer
 
     QStringList parselist;
-    //todo imageviewer
-//    m_commandLine->processOption(parselist);
     if (parselist.length() > 0) {
         QStringList absoluteFilePaths;
         for (int i = 0; i < parselist.size(); i++) {
@@ -1358,6 +1358,40 @@ void MainWindow::onLibDel()
     DBManager::instance()->removeImgInfos(QStringList(path));
 }
 
+void MainWindow::onAddToAlbum(bool isNew, const QString &album, const QString &path)
+{
+    if (isNew) {
+        emit dApp->signalM->viewCreateAlbum(path, false);
+    } else {
+        if (! DBManager::instance()->isImgExistInAlbum(album, path)) {
+            emit dApp->signalM->sigAddToAlbToast(album);//提示
+        }
+        DBManager::instance()->insertIntoAlbum(album, QStringList(path));
+    }
+}
+
+void MainWindow::onAddOrRemoveToFav(const QString &path, bool isAdd)
+{
+    if (isAdd) {//收藏
+        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(path), AlbumDBType::Favourite);
+        emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, QStringList(path));
+    } else { //取消收藏
+        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(path), AlbumDBType::Favourite);
+    }
+}
+
+void MainWindow::onExport(const QString &path)
+{
+    emit dApp->signalM->exportImage(QStringList(path));
+}
+
+void MainWindow::onRemoveFromCustom(const QString &path, const QString &album)
+{
+    if (!album.isEmpty()) {
+        DBManager::instance()->removeFromAlbum(album, QStringList(path));
+    }
+}
+
 //外部使用相册打开图片
 void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 {
@@ -1413,9 +1447,9 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
     this->activateWindow();
 }
 
-void MainWindow::onSigViewImage(const QStringList &paths, const QString &firstPath)
+void MainWindow::onSigViewImage(const QStringList &paths, const QString &firstPath, bool isCustom, const QString &album)
 {
-    m_imageViewer->startdragImage(paths, firstPath);
+    m_imageViewer->startdragImage(paths, firstPath, isCustom, album);
 }
 
 void MainWindow::onCollectButtonClicked()
@@ -2206,4 +2240,29 @@ void MainWindow::onSearchEditIsDisplay(bool bIsDisp)
         m_pSearchEdit->setVisible(bIsDisp);
 #endif
     }
+}
+
+void MainWindow::onSendAlbumName(const QString &path)
+{
+    QStringList allalbums = DBManager::instance()->getAllAlbumNames();
+    allalbums.removeAll(COMMON_STR_FAVORITES);
+    allalbums.removeAll(COMMON_STR_TRASH);
+    allalbums.removeAll(COMMON_STR_RECENT_IMPORTED);
+
+    QMap<QString, bool> map;//true为包含。false为不包含
+    QStringList paths;
+    paths.append(path);
+
+    for (QString album : allalbums) {
+        if (DBManager::instance()->isAllImgExistInAlbum(album, paths, AlbumDBType::Custom)) {
+            map.insert(album, true);
+        } else {
+            map.insert(album, false);
+        }
+    }
+    bool isFav = false;
+    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, path, AlbumDBType::Favourite)) {
+        isFav = true;
+    }
+    m_imageViewer->setCustomAlbumName(map, isFav);
 }

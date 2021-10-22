@@ -96,7 +96,7 @@ signals:
     void startSlideShow(const ViewInfo &vinfo, bool inDB = true);
     void viewImage(const SignalManager::ViewInfo &vinfo);
 
-    void sigViewImage(const QStringList &paths, const QString &firstPath);
+    void sigViewImage(const QStringList &paths, const QString &firstPath, bool isCustom = false, const QString &album = "");
 
     void viewImageNoNeedReload(int &fileindex);
     void exportImage(const QStringList &paths);

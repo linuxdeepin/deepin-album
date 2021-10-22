@@ -179,21 +179,27 @@ public slots:
     void onCtrlFShortcutActivated();
     void onShowImageView(int index);
     void onSearchEditIsDisplay(bool bIsDisp);
-
-
-#if 1
+    void onSendAlbumName(const QString &path);
+    //主界面创建相册响应槽
     void onViewCreateAlbum(QString imgpath, bool bmodel = true);
-#endif
     void onSearchEditFinished();
     void onTitleBarMenuClicked(QAction *action);
     void onImprotBtnClicked();
-//    void onUpdateCentralWidget();
     void onNewAPPOpen(qint64 pid, const QStringList &arguments);
 
-    void onSigViewImage(const QStringList &paths, const QString &firstPath);
+    void onSigViewImage(const QStringList &paths, const QString &firstPath, bool isCustom, const QString &album = "");
     void onCollectButtonClicked();
     void updateCollectButton();
     void onLibDel();
+    //响应公共库添加或新建相册请求
+    void onAddToAlbum(bool isNew, const QString &album, const QString &path);
+    //响应公共库收藏/取消收藏操作
+    void onAddOrRemoveToFav(const QString &path, bool isAdd);
+    //响应公共库导出操作
+    void onExport(const QString &path);
+    //响应公共库：从相册中移除操作
+    void onRemoveFromCustom(const QString &path, const QString &album);
+
 private:
     int m_iCurrentView;
     bool m_bTitleMenuImportClicked;
