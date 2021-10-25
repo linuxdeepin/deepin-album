@@ -154,6 +154,7 @@ public slots:
     void onCloseWaitDialog();
     void onImagesRemoved();
     void onHideImageView();
+    void onAddImageBtnClicked(bool checked);
     void onShowSlidePanel(int index);
     void onHideSlidePanel();
     void onExportImage(QStringList paths);
@@ -256,6 +257,8 @@ private:
     QVector<bool> m_bVector;
     FileInotify *m_fileInotify;//固定文件夹监控
 
+    // 添加图片按钮
+    DIconButton         *m_addImageBtn = nullptr;
 public:
     QButtonGroup *getButG();
 };

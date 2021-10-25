@@ -426,20 +426,19 @@ void MainWindow::initTitleBar()
     pNewAlbum->setText(tr("New album"));
     pNewAlbum->setShortcut(QKeySequence(CTRLSHIFTN_SHORTCUT));
     m_pTitleBarMenu->addAction(pNewAlbum);
-
-    QAction *pImport = new QAction(this);
-    AC_SET_OBJECT_NAME(pImport, Import_Image_View);
-    addAction(pImport);
-
-    pImport->setText(tr("Import photos"));
-    pImport->setShortcut(QKeySequence(CTRLO_SHORTCUT));
-    m_pTitleBarMenu->addAction(pImport);
     m_pTitleBarMenu->addSeparator();
 
     titlebar()->addWidget(m_titleBtnWidget, Qt::AlignLeft);
 #ifndef tablet_PC
     titlebar()->addWidget(m_pSearchEdit, Qt::AlignHCenter);
 #endif
+
+    m_addImageBtn = new DIconButton(DStyle::SP_IncreaseElement, this);
+    connect(m_addImageBtn, &DIconButton::clicked, this, &MainWindow::onAddImageBtnClicked);
+    m_addImageBtn->setToolTip(tr("Import photos and videos"));
+    m_addImageBtn->setFixedSize(QSize(36, 36));
+    titlebar()->addWidget(m_addImageBtn, Qt::AlignRight);
+
     titlebar()->setIcon(QIcon::fromTheme("deepin-album"));
     titlebar()->setMenu(m_pTitleBarMenu);
 //    titlebar()->setBlurBackground(true);// 0308 zy ui确认，取消标题栏透明效果
@@ -1058,13 +1057,6 @@ void MainWindow::onTitleBarMenuClicked(QAction *action)
 {
     if (tr("New album") == action->text()) {
         emit dApp->signalM->createAlbum(QStringList(" "));
-    }
-
-    else if (tr("Import photos") == action->text()) {
-        emit dApp->signalM->startImprot();
-        emit sigTitleMenuImportClicked();
-    } else {
-
     }
 }
 
@@ -2050,6 +2042,13 @@ void MainWindow::onHideImageView()
     if (m_backIndex == VIEW_ALLPIC) {
         allPicBtnClicked();
     }
+}
+
+void MainWindow::onAddImageBtnClicked(bool checked)
+{
+    Q_UNUSED(checked)
+    emit dApp->signalM->startImprot();
+    emit sigTitleMenuImportClicked();
 }
 
 void MainWindow::onShowSlidePanel(int index)
