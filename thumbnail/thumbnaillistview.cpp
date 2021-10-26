@@ -1111,6 +1111,7 @@ void ThumbnailListView::appendAction(int id, const QString &text, const QString 
         ac->setShortcuts(shortcuts);
     } else {
         ac->setShortcut(QKeySequence(shortcut));
+        ac->setShortcutVisibleInContextMenu(false);
     }
     ac->setShortcutContext(Qt::WidgetShortcut);
     m_MenuActionMap.insert(text, ac);

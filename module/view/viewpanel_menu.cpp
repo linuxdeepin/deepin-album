@@ -118,6 +118,7 @@ void ViewPanel::appendAction(int id, const QString &text, const QString &shortcu
     ac->setText(text);
     ac->setProperty("MenuID", id);
     ac->setShortcut(QKeySequence(shortcut));
+    ac->setShortcutVisibleInContextMenu(false);
     m_menu->addAction(ac);
 }
 void ViewPanel::appendAction_darkmenu(int id, const QString &text, const QString &shortcut)
@@ -128,6 +129,7 @@ void ViewPanel::appendAction_darkmenu(int id, const QString &text, const QString
     ac->setText(text);
     ac->setProperty("MenuID", id);
     ac->setShortcut(QKeySequence(shortcut));
+    ac->setShortcutVisibleInContextMenu(false);
     m_menu->addAction(ac);
 }
 
@@ -421,6 +423,7 @@ DMenu *ViewPanel::createAblumMenu()
     ac->setText(tr("New album"));
     ac->setData("Add to new album");
     ac->setShortcut(QKeySequence("Ctrl+Shift+N"));
+    ac->setShortcutVisibleInContextMenu(false);
     am->addAction(ac);
     am->addSeparator();
 

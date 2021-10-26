@@ -152,7 +152,6 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
             emit dApp->signalM->showImageView(0);
 
             ImageEngineApi::instance()->loadImagesFromNewAPP(paths, m_obj);
-
         }
     });
 }

@@ -857,6 +857,7 @@ void MainWindow::initTitleBar()
 
     pNewAlbum->setText(tr("New album"));
     pNewAlbum->setShortcut(QKeySequence(CTRLSHIFTN_SHORTCUT));
+    pNewAlbum->setShortcutVisibleInContextMenu(false);
     m_pTitleBarMenu->addAction(pNewAlbum);
 
     QAction *pImport = new QAction();
@@ -864,6 +865,7 @@ void MainWindow::initTitleBar()
 
     pImport->setText(tr("Import photos"));
     pImport->setShortcut(QKeySequence(CTRLI_SHORTCUT));
+    pImport->setShortcutVisibleInContextMenu(false);
     m_pTitleBarMenu->addAction(pImport);
     m_pTitleBarMenu->addSeparator();
 

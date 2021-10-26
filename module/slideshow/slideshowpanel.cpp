@@ -220,6 +220,7 @@ void SlideShowPanel::appendAction(int id, const QString &text, const QString &sh
     ac->setText(text);
     ac->setProperty("MenuID", id);
     ac->setShortcut(QKeySequence(shortcut));
+    ac->setShortcutVisibleInContextMenu(false);
     m_menu->addAction(ac);
     if (id == IdPlayOrPause) {
         connect(slideshowbottombar, &SlideShowBottomBar::showPause, ac, [ = ] {

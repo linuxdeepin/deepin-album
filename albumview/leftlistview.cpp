@@ -459,6 +459,7 @@ void LeftListView::appendAction(int id, const QString &text, const QString &shor
     ac->setText(text);
     ac->setProperty("MenuID", id);
     ac->setShortcut(QKeySequence(shortcut));
+    ac->setShortcutVisibleInContextMenu(false);
     m_MenuActionMap.insert(text, ac);
     m_pMenu->addAction(ac);
 }
