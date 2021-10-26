@@ -31,13 +31,13 @@
 #include "allpicview.h"
 #include "imgdeletedialog.h"
 #include "wallpapersetter.h"
-#include "mainwidget.h"
 #include "signalmanager.h"
 #include "../test_qtestDefine.h"
 #include "ac-desktop-define.h"
 #include "testtoolkits.h"
 #include "batchoperatewidget.h"
 #include "imagedataservice.h"
+#include "imageengineapi.h"
 
 TEST(allpicview, test_ini)
 {
@@ -245,44 +245,6 @@ TEST(allpicview, BatchOperateWidget)
         batchOperateWidget->sltCurrentFilterChanged(data);
         QTest::qWait(200);
     }
-}
-
-TEST(allpicview, test_showInFileManagerAndBackGrond)
-{
-//    TEST_CASE_NAME("test_showInFileManagerAndBackGrond")
-//    using namespace utils::base;
-//    using namespace utils::image;
-//    MainWindow *w = dApp->getMainWindow();
-//    AllPicView *a = w->m_pAllPicView;
-//    QString testPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "test";
-//    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", a, false);
-////    QTime t;
-//    QTest::qWait(500);
-//    QStringList paths = ImageEngineApi::instance()->get_AllImagePath();
-//    if (!paths.isEmpty()) {
-//        QString testImage = paths.first();
-////        showInFileManager(testImage);//roc
-////        imageSupportSave(testImage);
-////        checkFileType(testImage);
-//        copyImageToClipboard(paths);
-////        copyOneImageToClipboard(testImage);
-//        WallpaperSetter::instance()->setBackground(testImage);
-//        QTest::qWait(500);
-//        QMimeData *newMimeData = new QMimeData();
-//        QByteArray gnomeFormat = QByteArray("copy\n");
-//        QString text;
-//        QList<QUrl> dataUrls;
-
-//        for (QString path : paths) {
-//            if (!path.isEmpty())
-//                text += path + '\n';
-//            dataUrls << QUrl::fromLocalFile(path);
-//            gnomeFormat.append(QUrl::fromLocalFile(path).toEncoded()).append("\n");
-//        }
-//        newMimeData->setUrls(dataUrls);
-//        checkMimeData(newMimeData);
-//        QTest::qWait(500);
-//    }
 }
 
 TEST(allpicview, viewpaneltest)

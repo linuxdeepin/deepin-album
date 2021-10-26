@@ -29,6 +29,7 @@
 #include "../test_qtestDefine.h"
 #include "ac-desktop-define.h"
 #include "mainwindow.h"
+#include "imageengineapi.h"
 
 TEST(getImgsCount, db5)
 {

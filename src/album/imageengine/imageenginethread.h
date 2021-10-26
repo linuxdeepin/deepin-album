@@ -24,6 +24,8 @@
 #include <QObject>
 #include <QMutex>
 #include <QUrl>
+#include <QWaitCondition>
+
 #include "imageengineobject.h"
 
 DBImgInfo getDBInfo(const QString &srcpath, bool isVideo = false);
@@ -112,27 +114,6 @@ private:
     ImageMountImportPathsObject *m_imgobject = nullptr;
 };
 
-//class ImageGetFilesFromMountThread : public ImageEngineThreadObject
-//{
-//    Q_OBJECT
-//public:
-//    ImageGetFilesFromMountThread();
-//    ~ImageGetFilesFromMountThread() override;
-//    void setData(QString &mountname, QString &path, ImageMountGetPathsObject *imgobject);
-
-//protected:
-//    bool ifCanStopThread(void *imgobject) override;
-//    void runDetail() override;
-
-//signals:
-//    void sigImageFilesGeted(void *imgobject, QStringList &filelist, QString path);
-//private:
-//    bool findPicturePathByPhone(QString &path);
-//    QString m_path;
-//    QString m_mountname;
-//    ImageMountGetPathsObject *m_imgobject = nullptr;
-//};
-
 class ImageLoadFromDBThread : public ImageEngineThreadObject
 {
     Q_OBJECT
@@ -162,35 +143,6 @@ private:
     DBImgInfoList m_fileinfolist;
 };
 
-//class ImageEngineThread : public ImageEngineThreadObject
-//{
-//    Q_OBJECT
-//public:
-//    ImageEngineThread();
-//    ~ImageEngineThread() override;
-//    void setData(QString &path, ImageEngineObject *imgobject, ImageDataSt &data, bool needcache = true);
-//    bool addObject(ImageEngineObject *imgobject);
-
-//protected:
-//    bool ifCanStopThread(void *imgobject) override;
-//    void runDetail() override;
-
-//signals:
-//    void sigImageLoaded(void *imgobject, QString path, ImageDataSt &data);
-//    void sigAborted(const QString &path);
-//private:
-//    bool getNeedStop();
-//    QString m_path = "";
-//    QList<ImageEngineObject *>m_imgobject;
-//    ImageDataSt m_data;
-//    QMutex m_mutex;
-//    bool bwaitstop = false;
-//    bool bneedcache = true;
-//    bool baborted = false;
-
-//    bool breloadCache = false;      //重新生成缓存
-//};
-
 //通过参数启动载入图像的线程
 class ImageFromNewAppThread : public ImageEngineThreadObject
 {
@@ -209,31 +161,7 @@ private:
     QStringList paths;
 
 };
-//缩略图制作线程
-//class makeThumbnailThread : public QThread
-//{
-//    Q_OBJECT
-//public:
-//    makeThumbnailThread();
-//    ~makeThumbnailThread() override;
-//    void setObject(ImageCacheSaveObject *obj)
-//    {
-//        m_obj = obj;
-//    }
-//    void saveCache(QString m_path);
-//    void stopThread()
-//    {
-//        needStop = true;
-//    }
-//protected:
-//    void run() override;
-//private:
-//    ImageCacheSaveObject *m_obj = nullptr;
-//    bool needStop = false;
-//    dmr::PlaylistModel *m_playlistModel = nullptr;
-//};
 
-#include <QWaitCondition>
 class ImageEngineBackThread : public ImageEngineThreadObject
 {
     Q_OBJECT

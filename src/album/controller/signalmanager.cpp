@@ -23,6 +23,7 @@
 #include "videoinfodialog.h"
 #include "application.h"
 #include "mainwindow.h"
+#include "imageengineapi.h"
 
 SignalManager *SignalManager::m_signalManager = nullptr;
 SignalManager *SignalManager::instance()
@@ -88,6 +89,7 @@ void SignalManager::showInfoDlg(const QString &path, ItemType type)
 }
 
 SignalManager::SignalManager(QObject *parent) : QObject(parent)
+    , m_sliderValue(0)
 {
 
 }

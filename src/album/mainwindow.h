@@ -26,25 +26,24 @@
 #include "timelineview/timelineview.h"
 #include "dbmanager/dbmanager.h"
 #include "searchview/searchview.h"
-#include "controller/commandline.h"
 #include "controller/exporter.h"
 #include "widgets/dialogs/imginfodialog.h"
 #include "fileinotify.h"
 
-#include <DMainWindow>
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QFrame>
-//#include <DSegmentedControl>
-#include <DTitlebar>
 #include <QStackedWidget>
+#include <QStatusBar>
+#include <QButtonGroup>
+
+#include <DMainWindow>
+#include <DTitlebar>
 #include <DSearchEdit>
 #include <DLabel>
-#include <QStatusBar>
 #include <DTabBar>
-#include <QButtonGroup>
 #include <DSuggestButton>
 #include <DProgressBar>
 
@@ -60,9 +59,7 @@ DWIDGET_USE_NAMESPACE
 
 extern bool bfirstopen;
 extern bool bfirstandviewimage;
-//namespace Ui {
-//class MainWindow;
-//}
+
 class MainWindow : public DMainWindow, public ImageEngineImportObject
 {
     Q_OBJECT
@@ -203,7 +200,6 @@ public slots:
 
 private:
     int m_iCurrentView;
-    bool m_bTitleMenuImportClicked;
     bool m_bImport = false;
     QWidget *m_titleBtnWidget;
     DMenu *m_pTitleBarMenu;
@@ -216,16 +212,13 @@ public:
     QWidget *m_pTimeLineWidget;
     SearchView *m_pSearchView;                  //搜索界面视图
     QWidget *m_pSearchViewWidget = nullptr;
-    //SlideShowPanel *m_slidePanel;               //幻灯片播放视图  //todo imageviewer
     DSearchEdit *m_pSearchEdit;
-//    CommandLine *m_commandLine;  //todo imageviewer
-    ImageViewer *m_imageViewer = nullptr;  //todo imageviewer
+    ImageViewer *m_imageViewer = nullptr;       //公共库大图预览
     DIconButton *m_back = nullptr;
     DIconButton *m_collect = nullptr;
     DIconButton *m_del = nullptr;
+
 private:
-    DBManager *m_pDBManager;
-    QMap<QString, ImgInfoDialog *> m_propertyDialogs{};
     int m_backIndex;
     int m_backIndex_fromSlide;
     int m_pSliderPos;       //滑动条步进

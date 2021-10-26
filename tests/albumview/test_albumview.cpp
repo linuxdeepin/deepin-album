@@ -30,7 +30,6 @@
 
 #include "leftlistview.h"
 #include "application.h"
-#include "frame/mainwidget.h"
 #include "searchview/searchview.h"
 #include "gio-qt/dgiovolumemanager.h"
 #include "mainwindow.h"
@@ -41,6 +40,8 @@
 #include "../test_qtestDefine.h"
 #include "ac-desktop-define.h"
 #include "mock_mount.h"
+#include "imageengineapi.h"
+#include "viewerthememanager.h"
 
 #include <QMovie>
 

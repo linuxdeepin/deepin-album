@@ -85,6 +85,7 @@ const int VIEW_ALBUM = 2;
 const int VIEW_SEARCH = 3;
 const int VIEW_IMAGE = 4;
 const int VIEW_SLIDE = 5;
+
 void exitImageView()
 {
     auto w = dApp->getMainWindow();
@@ -92,7 +93,7 @@ void exitImageView()
         QTestEventList e;
         e.addKeyClick(Qt::Key::Key_Escape);
         e.addDelay(300);
-        e.simulate(CommandLine::instance());
+//        e.simulate(w->m_commandLine);
     }
 }
 

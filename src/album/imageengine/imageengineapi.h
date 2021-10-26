@@ -89,14 +89,9 @@ public:
 
     //设置线程循环跳出
     void     setThreadShouldStop();
-    //根据路径制作缩略图，并保存到指定位置
-//    bool makeThumbnailByPaths(QStringList files);
+
 private slots:
-//    void sltImageLocalLoaded(void *imgobject, QStringList &filelist);
-//    void sltImageDBLoaded(void *imgobject, QStringList &filelist);
-//    void sltImageFilesGeted(void *imgobject, QStringList &filelist, QString path);
     void sltImageFilesImported(void *imgobject, QStringList &filelist);
-//    void sltstopCacheSave();
 
     void sigImageBackLoaded(QString path, const DBImgInfo &data);
 
@@ -140,10 +135,7 @@ private:
     ImageCacheSaveObject *m_imageCacheSaveobj = nullptr;
     bool bcloseFg = false;
     QThreadPool *m_pool = nullptr;
-#ifdef NOGLOBAL
-    QThreadPool m_qtpool;
-    QThreadPool cacheThreadPool;
-#endif
+
     DBandImgOperate *m_worker = nullptr;
     QMutex m_dataMutex;
 };

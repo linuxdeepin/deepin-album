@@ -52,8 +52,6 @@ struct CMOption {
 TEST(CommandLine, test_CommandLine)
 {
     TEST_CASE_NAME("test_CommandLine")
-//    MainWindow *w = dApp->getMainWindow();
-    CommandLine::instance();
     QStringList image_list;
     auto finfos = utils::image::getImagesAndVideoInfo(testPath_test);
     for (auto info : finfos) {
@@ -66,44 +64,4 @@ TEST(CommandLine, test_CommandLine)
         paths << DBManager::instance()->getAllPaths().first();
     else
         paths << testPath_test + "/2e5y8y.jpg";
-}
-
-TEST(CommandLine, urltest)
-{
-    TEST_CASE_NAME("urltest")
-    stub_ext::StubExt stu;
-    stu.set_lamda(ADDR(QCommandLineParser, addOption), []() {
-        return false;
-    });
-    CMOption option;
-    CommandLine::instance()->addOption(&option);
-}
-
-TEST(CommandLine, viewImage_test)
-{
-    TEST_CASE_NAME("viewImage_test")
-    MainWindow *w = dApp->getMainWindow();
-    QStringList paths;
-    paths << testPath_test + "/2e5y8y.jpg";
-    CommandLine::instance()->viewImage(paths.first(), paths);
-    QTest::qWait(500);
-    w->allPicBtnClicked();
-    QTest::qWait(500);
-}
-
-TEST(CommandLine, processOption_test)
-{
-    TEST_CASE_NAME("processOption_test")
-    MainWindow *w = dApp->getMainWindow();
-    QStringList paths;
-
-    paths << testPath_test + "/2e5y8y.jpg";
-    CommandLine::instance()->processOption(paths);
-    QTest::qWait(500);
-    w->allPicBtnClicked();
-    QTest::qWait(500);
-
-    paths.clear();
-    CommandLine::instance()->processOption(paths);
-    QTest::qWait(500);
 }

@@ -109,7 +109,7 @@ bool ImageEngineApi::removeImage(QString imagepath)
     if (QThreadPool::globalInstance()->activeThreadCount() < 1) {
         DBManager::instance()->removeImgInfos(dbremovelist);
         dbremovelist.clear();
-        emit dApp->signalM->updatePicView(0);
+//        emit dApp->signalM->updatePicView(0);
     }
 
     if (m_AllImageData.contains(imagepath)) {
@@ -161,45 +161,12 @@ bool ImageEngineApi::getImageData(QString imagepath, DBImgInfo &data)
     return true;
 }
 
-//void ImageEngineApi::sltImageLocalLoaded(void *imgobject, QStringList &filelist)
-//{
-//    if (nullptr != imgobject && ifObjectExist(imgobject)) {
-//        static_cast<ImageEngineObject *>(imgobject)->imageLocalLoaded(filelist);
-//    }
-//}
-
-//void ImageEngineApi::sltImageDBLoaded(void *imgobject, QStringList &filelist)
-//{
-//    if (nullptr != imgobject && ifObjectExist(imgobject)) {
-//        static_cast<ImageEngineObject *>(imgobject)->imageFromDBLoaded(filelist);
-//    }
-//}
-
-//void ImageEngineApi::sltImageFilesGeted(void *imgobject, QStringList &filelist, QString path)
-//{
-//    if (nullptr != imgobject && ifObjectExist(imgobject)) {
-//        static_cast<ImageMountGetPathsObject *>(imgobject)->imageGeted(filelist, path);
-//    }
-//}
-
 void ImageEngineApi::sltImageFilesImported(void *imgobject, QStringList &filelist)
 {
     if (nullptr != imgobject && ifObjectExist(imgobject)) {
         static_cast<ImageMountImportPathsObject *>(imgobject)->imageMountImported(filelist);
     }
 }
-
-//void ImageEngineApi::sltstopCacheSave()
-//{
-//#ifdef NOGLOBAL
-//    cacheThreadPool.waitForDone();
-//#else
-//    qDebug() << "析构缓存对象线程";
-//    QThreadPool::globalInstance()->clear();
-//    QThreadPool::globalInstance()->waitForDone();
-
-//#endif
-//}
 
 void ImageEngineApi::sigImageBackLoaded(QString path, const DBImgInfo &data)
 {
@@ -243,13 +210,6 @@ bool ImageEngineApi::ImportImagesFromFileList(QStringList files, QString albumna
 #endif
     return true;
 }
-
-//bool ImageEngineApi::loadImagesFromPath(ImageEngineObject *obj, QString path)
-//{
-//    sltImageDBLoaded(obj, QStringList() << path);
-//    insertImage(path, "30");
-//    return true;
-//}
 
 bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName)
 {
@@ -362,31 +322,6 @@ void ImageEngineApi::setThreadShouldStop()
         m_worker->setThreadShouldStop();
     }
 }
-//根据路径制作缩略图，并保存到指定位置
-//bool ImageEngineApi::makeThumbnailByPaths(QStringList files)
-//{
-//    if (!m_imageCacheSaveobj) {
-//        m_imageCacheSaveobj = new ImageCacheSaveObject;
-//        connect(dApp->signalM, &SignalManager::cacheThreadStop, this, &ImageEngineApi::sltstopCacheSave);
-//    }
-//    m_imageCacheSaveobj->add(files);
-//    int needCoreCounts = static_cast<int>(std::thread::hardware_concurrency());
-//    needCoreCounts = needCoreCounts / 2;
-//    if (needCoreCounts < 1)
-//        needCoreCounts = 1;
-//    QList<QThread *> threads;
-//    for (int i = 0; i < needCoreCounts; i++) {
-//        makeThumbnailThread *thread = new makeThumbnailThread;
-//        thread->setObject(m_imageCacheSaveobj);
-//        thread->start();
-//        threads.append(thread);
-//    }
-//    for (auto thread : threads) {
-//        thread->wait();
-//        thread->deleteLater();
-//    }
-//    return true;
-//}
 
 void ImageEngineApi::cleanUpTrash(const DBImgInfoList &list)
 {

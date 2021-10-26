@@ -137,10 +137,6 @@ bool ImageDataService::readThumbnailByPaths(QStringList files, bool isFinishFilt
             thread->start();
             threads.append(thread);
         }
-//        for (auto thread : threads) {
-//            thread->wait();
-//            thread->deleteLater();
-//        }
     } else {
         ImageDataService::instance()->add(image_video_list, reLoadThumbnail);
     }
@@ -152,16 +148,6 @@ void ImageDataService::addImage(const QString &path, const QImage &image)
     QMutexLocker locker(&m_imgDataMutex);
     m_AllImageMap[path] = image;
     m_AllImageDataHashMap[path] = utils::base::filePathToThumbnailPath(path);
-
-//    if (!m_AllImageMap.contains(path)) {
-//        m_AllImageMap[path] = image;
-//        while (m_AllImageMap.size() > 1000) {
-//            //保证缓存占用，始终只占用1000张缩略图缓存
-//            QString res = m_imageKey.first();
-//            m_imageKey.pop_front();
-//            m_AllImageMap.remove(res);
-//        }
-//    }
 }
 
 void ImageDataService::addMovieDurationStr(const QString &path, const QString &durationStr)

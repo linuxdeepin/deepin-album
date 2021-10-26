@@ -26,7 +26,6 @@
 #include <dgiomount.h>
 #include <thumbnail/thumbnaillistview.h>
 
-//class ModulePanel;
 class SignalManager : public QObject
 {
     Q_OBJECT
@@ -35,12 +34,7 @@ public:
 
     // For view images
     struct ViewInfo {
-//        ModulePanel *lastPanel;                 // For back to the last panel  todo imageviewer
-#ifndef LITE_DIV
-        bool inDatabase = true;
-#else
         static constexpr bool inDatabase = false;
-#endif
         bool fullScreen = false;
         bool slideShow = false;
         int viewMainWindowID = 0;               // 0:all picture    1:time line     2:album   4:view
@@ -55,61 +49,31 @@ public:
     int getSliderValue();
 
     void showInfoDlg(const QString &path, ItemType type = ItemTypeNull);
-signals:
-    void enableMainMenu(bool enable);
-    void updateTopToolbarLeftContent(QWidget *content);
-    void updateTopToolbarMiddleContent(QWidget *content);
-    void updateBottomToolbarContent(QWidget *content, bool wideMode = false);
-    void updateTopToolbar();
-    void updateBottomToolbar(bool wideMode = false);
-    void updateExtensionPanelContent(QWidget *content);
-    void updatePicView(int i);
-    void showTopToolbar();
-    void hideTopToolbar(bool immediately = false);
-    void showBottomToolbar();
-    void hideBottomToolbar(bool immediately = false);
-    void showExtensionPanel();
-    void hideExtensionPanel(bool immediately = false);
 
+signals:
     void showImageView(int index);
     void hideImageView();
     void showSlidePanel(int index);
     void hideSlidePanel();
     void extensionPanelHeight(int height, bool immediately = false);
     void sendPathlist(QStringList pathlist);
-    void enterView(bool immediately = false);
-    void enterScaledMode(bool immediately = false);
-
-    void gotoTimelinePanel();
-    void gotoSearchPanel(const QString &keyWord = "");
-//    void gotoPanel(ModulePanel *panel); //todo imageviewer
-    void backToMainPanel();
-    void activeWindow();
 
     void imagesInserted(/*const DBImgInfoList infos*/);
     void imagesRemoved();
     void imagesRemovedPar(const DBImgInfoList &infos);
     void imagesTrashInserted(/*const DBImgInfoList infos*/);
     void imagesTrashRemoved(/*const DBImgInfoList &infos*/);
-    void editImage(const QString &path);
-    void showInFileManager(const QString &path);
     void startSlideShow(const ViewInfo &vinfo, bool inDB = true);
-    void viewImage(const SignalManager::ViewInfo &vinfo);
 
     void sigViewImage(const QStringList &paths, const QString &firstPath, bool isCustom = false, const QString &album = "");
 
-    void viewImageNoNeedReload(int &fileindex);
     void exportImage(const QStringList &paths);
-    void updateFileName(const QString &fileName);
-    void resizeFileName();
     void sigAlbDelToast(const QString &albname);
     void sigAddToAlbToast(const QString &album);
     void sigAddDuplicatePhotos();
     void updateStatusBarImportLabel(const QStringList &paths, int count, QString album = "");
-    void updateIcon();
     void ImportSuccess();
     void SearchEditClear();
-    void TransmitAlbumName(const QString &name);
     void ImportFailed();
     void ImportSomeFailed(int successful, int failed);
     void ImportDonotFindPicOrVideo();
@@ -122,52 +86,31 @@ signals:
     void sigExporting(const QString &path);
     void sigRestoreStatus();
 
-    void updateButton();
-    void sigStartTimer();
-    void updatePauseButton();
-    void initSlideShowButton();
-
     // Handle by album
-    void gotoAlbumPanel(const QString &album = "");
     void createAlbum(QStringList imgPath = QStringList());
-
-//    void sigDrawingBoard(QStringList Paths);//lmh0407
-#if 1
     void viewCreateAlbum(QString path, bool bmodel = true);
     void sigCreateNewAlbumFrom(const QString &albumname);
-#endif
-    void importDir(const QString &dir);
     void insertedIntoAlbum(const QString &album, const QStringList &paths);
     void removedFromAlbum(const QString &album, const QStringList &paths);
     void sigSendKeywordsIntoALLPic(QString keywords, QString album = nullptr);
     void sigCreateNewAlbumFromDialog(const QString &albumname);
     void sigMainwindowSliderValueChg(int value);
-    void sigMouseMove(bool show);
-    void sigShowFullScreen();
-    void sigESCKeyActivated();
-    void sigESCKeyStopSlide();
+//    void sigESCKeyActivated();
+//    void sigESCKeyStopSlide();
     void sigUpdataAlbumRightTitle(const QString &titlename);
     void sigUpdateTrashImageLoader();
     void sigUpdateImageLoader(QStringList pathlist = QStringList());
     void sigLoadMountImagesEnd(QString mountname);
-    void sigCtrlADDKeyActivated();
-    void sigCtrlSubtractKeyActivated();
-    void sigDeletePhotos(int num);
-//    void trashDelete();
     void sigLoadOnePhoto();
     void sigImportFailedToView();
     void sigShortcutKeyDelete();
     void sigShortcutKeyF2();
-    void picNotExists(bool immediately = false);
 
-    void deleteByMenu();
     void startImprot();
     void popupWaitDialog(QString waittext, bool bneedprogress = true);
     void closeWaitDialog();
     void progressOfWaitDialog(int allfiles, int completefiles);
     void waitDevicescan();
-//    void cacheThreadStop();
-    void sigSyncListviewModelData(QStringList paths, QString albumName, int actionType);
 
     //lmh0426设备退出，信号通知线程退出
     void sigDevStop(QString devName);

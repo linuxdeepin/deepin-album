@@ -38,6 +38,7 @@
 #include "application.h"
 #include "mainwindow.h"
 #include "test_qtestDefine.h"
+#include "imageengineapi.h"
 
 using namespace Dtk::Core;
 using namespace Dtk::Widget;

@@ -41,13 +41,12 @@
 #include "albumcreatedialog.h"
 #include "test_qtestDefine.h"
 #include "imginfodialog.h"
-#include "mainwidget.h"
-#include "commandline.h"
 #include "fileinotify.h"
 #include "ac-desktop-define.h"
 #include "qgesture.h"
 #include "batchoperatewidget.h"
 #include "expansionmenu.h"
+#include "imageengineapi.h"
 
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
@@ -240,11 +239,6 @@ TEST(MainWindow, allpicture)
     QTest::qWait(300);
     allbar->m_pSlider->slider()->setValue(4);
     QTest::qWait(300);
-
-    //尝试解决UT崩溃
-    //CommandLine *commandline = w->m_commandLine;
-    CommandLine *commandline = CommandLine::instance();
-    MainWidget *pmainwidget = nullptr;
 
     QTest::qWait(200);
     QPoint p1(60, 100);
@@ -506,10 +500,6 @@ TEST(MainWindow, timelineview)
     e.simulate(w->getButG()->button(1));
     e.clear();
 
-    //ARM64下UT总是报告这里的w->m_commandLine是nullptr，因此置换为从单例获取
-    //CommandLine *commandline = w->m_commandLine;
-    CommandLine *commandline = CommandLine::instance();
-
     if (timelineview) {
         // ----右键菜单start----
         QPoint pr(60, 140);
@@ -660,7 +650,6 @@ TEST(MainWindow, AlbumView)
     bar->m_pSlider->slider()->setValue(4);
     QTest::qWait(300);
 
-    CommandLine *commandline = CommandLine::instance();;
     ThumbnailListView *firstThumb = albumview->m_pImpTimeLineView->getListView();
     if (!firstThumb) {
         return;
