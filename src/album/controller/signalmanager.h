@@ -63,9 +63,9 @@ signals:
     void imagesRemovedPar(const DBImgInfoList &infos);
     void imagesTrashInserted(/*const DBImgInfoList infos*/);
     void imagesTrashRemoved(/*const DBImgInfoList &infos*/);
-    void startSlideShow(const ViewInfo &vinfo, bool inDB = true);
+    void startSlideShow(const ViewInfo &vinfo);
 
-    void sigViewImage(const QStringList &paths, const QString &firstPath, bool isCustom = false, const QString &album = "");
+    void sigViewImage(const ViewInfo &info, OpenImgAdditionalOperation operation, bool isCustom = false, const QString &album = "");
 
     void exportImage(const QStringList &paths);
     void sigAlbDelToast(const QString &albname);

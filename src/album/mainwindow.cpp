@@ -34,6 +34,8 @@
 #include <QDesktopWidget>
 #include <QShortcut>
 #include <QDir>
+#include <QCommandLineParser>
+#include <QMimeDatabase>
 
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
@@ -206,9 +208,11 @@ void MainWindow::initConnections()
     //隐藏图片视图
     connect(dApp->signalM, &SignalManager::hideImageView, this, &MainWindow::onHideImageView);
     //幻灯片显示
-    connect(dApp->signalM, &SignalManager::showSlidePanel, this, &MainWindow::onShowSlidePanel);
+    connect(dApp->signalM, &SignalManager::startSlideShow, [this](const SignalManager::ViewInfo & vinfo) {
+        this->onSigViewImage(vinfo, Operation_StartSliderShow, false, "");
+    });
     //隐藏幻灯片显示
-    connect(dApp->signalM, &SignalManager::hideSlidePanel, this, &MainWindow::onHideSlidePanel);
+    connect(ImageEngine::instance(), &ImageEngine::exitSlideShow, this, &MainWindow::onHideSlidePanel);
     //导出图片
     connect(dApp->signalM, &SignalManager::exportImage, this, &MainWindow::onExportImage);
 //    connect(dApp->signalM, &SignalManager::showImageInfo, this, &MainWindow::onShowImageInfo);
@@ -243,10 +247,6 @@ void MainWindow::initConnections()
 //初始化快捷键
 void MainWindow::initShortcut()
 {
-    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
-    esc->setContext(Qt::WindowShortcut);
-    connect(esc, &QShortcut::activated, this, &MainWindow::onEscShortcutActivated);
-
     // Album View画面按DEL快捷键
     QShortcut *del = new QShortcut(QKeySequence(Qt::Key_Delete), this);
     del->setContext(Qt::ApplicationShortcut);
@@ -439,6 +439,87 @@ void MainWindow::initTitleBar()
 #endif
 }
 
+QUrl UrlInfo1(QString path)
+{
+    QUrl url;
+    // Just check if the path is an existing file.
+    if (QFile::exists(path)) {
+        url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
+        return url;
+    }
+
+    const auto match = QRegularExpression(QStringLiteral(":(\\d+)(?::(\\d+))?:?$")).match(path);
+
+    if (match.isValid()) {
+        // cut away line/column specification from the path.
+        path.chop(match.capturedLength());
+    }
+
+    // make relative paths absolute using the current working directory
+    // prefer local file, if in doubt!
+    url = QUrl::fromUserInput(path, QDir::currentPath(), QUrl::AssumeLocalFile);
+
+    // in some cases, this will fail, e.g.
+    // assume a local file and just convert it to an url.
+    if (!url.isValid()) {
+        // create absolute file path, we will e.g. pass this over dbus to other processes
+        url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
+    }
+    return url;
+}
+
+bool processOption(QStringList &paslist)
+{
+    QCommandLineParser parser;
+
+    if (!parser.parse(dApp->getDAppNew()->arguments())) {
+        fputs(qPrintable(parser.helpText()), stdout);
+        return false;
+    }
+
+    QString defaulttheme = dApp->setter->value("APP", "AppTheme").toString();
+
+    if (DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType()) {
+        dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
+    } else {
+        dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
+    }
+
+    QStringList arguments = parser.positionalArguments();
+
+    QString filepath = "";
+    bool bneedexit = true;
+    for (const QString &path : arguments) {
+        filepath = UrlInfo1(path).toLocalFile();
+
+        QFileInfo info(filepath);
+        QMimeDatabase db;
+        QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
+        QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
+
+        QString str = info.suffix().toLower();
+//        if (str.isEmpty()) {
+        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")
+                || mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+            if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
+                bneedexit = false;
+//                break;
+                paslist << info.filePath();
+                ImageEngineApi::instance()->insertImage(info.filePath(), "");
+            } else if (str.isEmpty()) {
+                bneedexit = false;
+                paslist << info.filePath();
+                ImageEngineApi::instance()->insertImage(info.filePath(), "");
+//                break;
+            }
+        }
+    }
+    if ("" != filepath && bneedexit) {
+        exit(0);
+    }
+    return false;
+}
+
 //初始化中心界面
 void MainWindow::initCentralWidget()
 {
@@ -489,6 +570,7 @@ void MainWindow::initCentralWidget()
     m_pCenterWidget->addWidget(m_imageViewer); //todo imageviewer
 
     QStringList parselist;
+    processOption(parselist);
     if (parselist.length() > 0) {
         QStringList absoluteFilePaths;
         for (int i = 0; i < parselist.size(); i++) {
@@ -504,13 +586,13 @@ void MainWindow::initCentralWidget()
             m_pCenterWidget->setCurrentIndex(VIEW_ALLPIC);
         } else {
             m_processOptionIsEmpty = false;
-            titlebar()->setVisible(false);
-            setTitlebarShadowEnabled(false);
+
             //查看图片
-            //todo imageviewer
-//            m_commandLine->viewImage(firstStr, absoluteFilePaths);
-            m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
-            m_backIndex = VIEW_ALLPIC;
+            SignalManager::ViewInfo info;
+            info.paths = absoluteFilePaths;
+            info.path = absoluteFilePaths.at(0);
+            info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
+            emit SignalManager::instance()->sigViewImage(info, Operation_NoOperation);
         }
     } else {
         //性能优化，此句在构造时不需要执行，增加启动时间
@@ -1370,19 +1452,10 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
                 }
             } else {
                 SignalManager::ViewInfo info;
-                info.album = "";
-#ifndef LITE_DIV
-                info.inDatabase = false;
-#endif
-//                info.lastPanel = nullptr;  //todo imageviewer
                 info.path = paths.at(0);
                 info.paths = paths;
-                //若外部打开图片退出时，不默认跳转到所有照片界面，则获取当前页面索引发送
-                onShowImageView(VIEW_ALLPIC);
-                //更改为调用线程api
-                ImageEngineApi::instance()->loadImagesFromNewAPP(paths, this);
-                //线程加载缩略图
-                ImageDataService::instance()->readThumbnailByPaths(paths);
+                info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
+                emit dApp->signalM->sigViewImage(info, Operation_NoOperation);
             }
         }
         m_pAllPicBtn->setChecked(true);
@@ -1390,9 +1463,34 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
     this->activateWindow();
 }
 
-void MainWindow::onSigViewImage(const QStringList &paths, const QString &firstPath, bool isCustom, const QString &album)
+void MainWindow::onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAdditionalOperation operation, bool isCustom, const QString &album)
 {
-    m_imageViewer->startdragImage(paths, firstPath, isCustom, album);
+    m_backIndex = info.viewMainWindowID;
+
+    switch (operation) {
+    case Operation_NoOperation:
+        m_imageViewer->startdragImage(info.paths, info.path, isCustom, album);
+        break;
+    case Operation_FullScreen:
+        if (window()->isMaximized()) {
+            m_backToMaxWindow = true;
+        } else if (window()->isFullScreen()) {
+            ;
+        } else {
+            m_backToMaxWindow = false;
+        }
+        m_imageViewer->startdragImage(info.paths, info.path, isCustom, album);
+        m_imageViewer->switchFullScreen();
+        //window()->setWindowState(Qt::WindowState::WindowFullScreen);
+        break;
+    case Operation_StartSliderShow:
+        m_backIndex_fromSlide = info.viewMainWindowID;
+        m_imageViewer->startSlideShow(info.paths, info.path);
+        break;
+    }
+
+    setTitleBarHideden(true);
+    m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
 }
 
 void MainWindow::onCollectButtonClicked()
@@ -1816,6 +1914,17 @@ void MainWindow::wheelEvent(QWheelEvent *event)
     }
 }
 
+void MainWindow::setTitleBarHideden(bool hide)
+{
+    if (hide) {
+        titlebar()->setFixedHeight(0);
+        setTitlebarShadowEnabled(false);
+    } else {
+        titlebar()->setFixedHeight(50);
+        setTitlebarShadowEnabled(true);
+    }
+}
+
 void MainWindow::closeFromMenu()
 {
     //这个函数是从overrideVfptrFun进来的，要指定obj对象
@@ -1956,12 +2065,22 @@ void MainWindow::onImagesRemoved()
 
 void MainWindow::onHideImageView()
 {
-    titlebar()->setVisible(true);   //显示状态栏
-    setTitlebarShadowEnabled(true);
+    setTitleBarHideden(false);
     m_pCenterWidget->setCurrentIndex(m_backIndex);
     //外部打开图片，返回时默认跳转到所有照片界面
     if (m_backIndex == VIEW_ALLPIC) {
         allPicBtnClicked();
+    }
+
+    if (window()->isFullScreen()) {
+        m_imageViewer->switchFullScreen();
+        if (m_backToMaxWindow) {
+            window()->showNormal();
+            window()->showMaximized();
+        }
+    } else if (m_backToMaxWindow) {
+        window()->showNormal();
+        window()->showMaximized();
     }
 }
 
@@ -1972,19 +2091,10 @@ void MainWindow::onAddImageBtnClicked(bool checked)
     emit sigTitleMenuImportClicked();
 }
 
-void MainWindow::onShowSlidePanel(int index)
-{
-    m_backIndex_fromSlide = index;
-    titlebar()->setVisible(false);
-    setTitlebarShadowEnabled(false);
-    m_pCenterWidget->setCurrentIndex(VIEW_SLIDE);
-}
-
 void MainWindow::onHideSlidePanel()
 {
     if (VIEW_IMAGE != m_backIndex_fromSlide) {
-        titlebar()->setVisible(true);
-        setTitlebarShadowEnabled(true);
+        setTitleBarHideden(false);
     }
 
     m_pCenterWidget->setCurrentIndex(m_backIndex_fromSlide);
@@ -2142,8 +2252,7 @@ void MainWindow::onCtrlFShortcutActivated()
 void MainWindow::onShowImageView(int index)
 {
     m_backIndex = index;
-    titlebar()->setVisible(false);  //隐藏顶部状态栏
-    setTitlebarShadowEnabled(false);
+    setTitleBarHideden(true);
     m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
 }
 

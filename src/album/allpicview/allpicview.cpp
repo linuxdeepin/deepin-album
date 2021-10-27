@@ -259,7 +259,11 @@ void AllPicView::onOpenImage(int row, const QString &path, bool bFullScreen)
     info.dBImgInfos = m_pThumbnailListView->getAllFileInfo(row);
 
 //    emit dApp->signalM->viewImage(info);
-    emit dApp->signalM->sigViewImage(info.paths, info.path);
+    if (bFullScreen) {
+        emit dApp->signalM->sigViewImage(info, Operation_FullScreen);
+    } else {
+        emit dApp->signalM->sigViewImage(info, Operation_NoOperation);
+    }
     emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALLPIC);
 }
 
@@ -283,7 +287,6 @@ void AllPicView::onSlideShow(const QString &path)
     info.viewType = utils::common::VIEW_ALLPIC_SRN;
     info.viewMainWindowID = VIEW_MAINWINDOW_ALLPIC;
     emit dApp->signalM->startSlideShow(info);
-    emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALLPIC);
 }
 
 void AllPicView::onImportViewImportBtnClicked()

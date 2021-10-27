@@ -25,6 +25,7 @@
 #include <DDialog>
 #include <DMessageBox>
 #include <DTitlebar>
+#include <DComboBox>
 
 #include <QFormLayout>
 #include <QImageWriter>
@@ -469,14 +470,14 @@ bool CExportImageDialog::doSave()
     m_saveFormat = m_formatCombox->currentText();
     QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed() + "." + m_saveFormat;
     if (tr("gif") == m_saveFormat) {
-        if(gifpath.isEmpty()){
+        if (gifpath.isEmpty()) {
             return isSuccess;
         }
 
         QFileInfo fileinfo(completePath);
         if (fileinfo.exists() && !fileinfo.isDir()) {
             //目标位置与原图位置相同则直接返回
-            if(gifpath == completePath){
+            if (gifpath == completePath) {
                 return true;
             }
             //目标位置与原图位置不同则先删除再复制

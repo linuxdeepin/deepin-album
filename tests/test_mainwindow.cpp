@@ -1293,7 +1293,7 @@ TEST(MainWindow, picdelete)
 }
 
 //标题栏创建
-TEST(MainWindow, titlebarcreate)
+/*TEST(MainWindow, titlebarcreate)
 {
     TEST_CASE_NAME("titlebarcreate")
     MainWindow *w = dApp->getMainWindow();
@@ -1334,7 +1334,7 @@ TEST(MainWindow, titlebarcreate)
         e.clear();
     }
     QTest::qWait(300);
-}
+}*/
 
 //ctrl+滚轮
 TEST(MainWindow, wheelEvent)

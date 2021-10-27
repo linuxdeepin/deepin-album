@@ -126,6 +126,7 @@ private:
     bool compareVersion();
 //    void viewImageClose();
     void floatMessage(const QString &str, const QIcon &icon);
+    void setTitleBarHideden(bool hide);
 protected:
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
@@ -152,7 +153,6 @@ public slots:
     void onImagesRemoved();
     void onHideImageView();
     void onAddImageBtnClicked(bool checked);
-    void onShowSlidePanel(int index);
     void onHideSlidePanel();
     void onExportImage(QStringList paths);
     void onMainwindowSliderValueChg(int step);
@@ -185,7 +185,7 @@ public slots:
     void onImprotBtnClicked();
     void onNewAPPOpen(qint64 pid, const QStringList &arguments);
 
-    void onSigViewImage(const QStringList &paths, const QString &firstPath, bool isCustom, const QString &album = "");
+    void onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAdditionalOperation operation, bool isCustom, const QString &album);
     void onCollectButtonClicked();
     void updateCollectButton();
     void onLibDel();
@@ -237,6 +237,7 @@ private:
 
     bool m_isFirstStart = true;
     bool m_processOptionIsEmpty = false;
+    bool m_backToMaxWindow = false; //记录全屏前是normal还是max
     QSettings *m_settings;
     // 所有照片空白界面时的taborder
     QList<QWidget *> m_emptyAllViewTabOrder;

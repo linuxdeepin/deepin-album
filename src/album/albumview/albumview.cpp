@@ -1107,7 +1107,13 @@ void AlbumView::onOpenImageFav(int row, const QString &path, bool bFullScreen)
     info.dBImgInfos = m_favoriteThumbnailList->getAllFileInfo(row);
     info.viewType = m_currentAlbum;
     info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
-    emit dApp->signalM->sigViewImage(info.paths, info.path);
+
+    if (bFullScreen) {
+        emit dApp->signalM->sigViewImage(info, Operation_FullScreen);
+    } else {
+        emit dApp->signalM->sigViewImage(info, Operation_NoOperation);
+    }
+
     emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
 }
 
@@ -1127,7 +1133,13 @@ void AlbumView::onOpenImageCustom(int row, const QString &path, bool bFullScreen
     info.dBImgInfos = m_customThumbnailList->getAllFileInfo(row);
     info.viewType = m_currentAlbum;
     info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
-    emit dApp->signalM->sigViewImage(info.paths, info.path, true, m_currentAlbum);
+
+    if (bFullScreen) {
+        emit dApp->signalM->sigViewImage(info, Operation_FullScreen, true, m_currentAlbum);
+    } else {
+        emit dApp->signalM->sigViewImage(info, Operation_NoOperation, true, m_currentAlbum);
+    }
+
     emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
 }
 
@@ -1152,7 +1164,6 @@ void AlbumView::onSlideShowFav(const QString &path)
     info.viewType = m_currentAlbum;
     info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
     emit dApp->signalM->startSlideShow(info);
-    emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALBUM);
 }
 
 void AlbumView::onSlideShowCustom(const QString &path)
@@ -1176,7 +1187,6 @@ void AlbumView::onSlideShowCustom(const QString &path)
     info.viewType = m_currentAlbum;
     info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
     emit dApp->signalM->startSlideShow(info);
-    emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALBUM);
 }
 
 void AlbumView::dragEnterEvent(QDragEnterEvent *e)
@@ -1457,7 +1467,7 @@ void AlbumView::getAllDeviceName()
             goto runend1;
         }
         udispname = label;
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";

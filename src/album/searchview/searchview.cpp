@@ -289,7 +289,11 @@ void SearchView::onOpenImage(int row, const QString &path, bool bFullScreen)
     info.dBImgInfos = m_pThumbnailListView->getAllFileInfo(row);
     info.viewType = utils::common::VIEW_SEARCH_SRN;
 
-    emit dApp->signalM->sigViewImage(info.paths, info.path);
+    if (bFullScreen) {
+        emit dApp->signalM->sigViewImage(info, Operation_FullScreen);
+    } else {
+        emit dApp->signalM->sigViewImage(info, Operation_NoOperation);
+    }
 
     if (COMMON_STR_ALLPHOTOS == m_albumName) {
         emit dApp->signalM->showImageView(0);
@@ -319,14 +323,6 @@ void SearchView::onSlideShow(const QString &path)
     info.slideShow = true;
     info.viewType = utils::common::VIEW_SEARCH_SRN;
     emit dApp->signalM->startSlideShow(info);
-
-    if (COMMON_STR_ALLPHOTOS == m_albumName) {
-        emit dApp->signalM->showSlidePanel(0);
-    } else if (COMMON_STR_TIMELINE == m_albumName) {
-        emit dApp->signalM->showSlidePanel(1);
-    } else {
-        emit dApp->signalM->showSlidePanel(2);
-    }
 }
 
 void SearchView::updateSearchResultsIntoThumbnailView()

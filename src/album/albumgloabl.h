@@ -118,5 +118,11 @@ enum OpenImgViewType {
     VIEW_MAINWINDOW_ALBUM = 2 //
 };
 
+enum OpenImgAdditionalOperation {
+    Operation_NoOperation = 0,
+    Operation_FullScreen,
+    Operation_StartSliderShow
+};
+
 Q_DECLARE_METATYPE(DBImgInfo)
 #endif // ALBUMGLOBAL_H

@@ -495,7 +495,11 @@ void ImportTimeLineView::onOpenImage(int row, const QString &path, bool bFullScr
     info.dBImgInfos = m_importTimeLineListView->getAllFileInfo(row);
     info.viewType = COMMON_STR_RECENT_IMPORTED;
     info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
-    emit dApp->signalM->sigViewImage(info.paths, info.path);
+    if (bFullScreen) {
+        emit dApp->signalM->sigViewImage(info, Operation_FullScreen);
+    } else {
+        emit dApp->signalM->sigViewImage(info, Operation_NoOperation);
+    }
     emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
 }
 
@@ -521,7 +525,6 @@ void ImportTimeLineView::onSlideShow(QString path)
     info.viewType = COMMON_STR_RECENT_IMPORTED;
     info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
     emit dApp->signalM->startSlideShow(info);
-    emit dApp->signalM->showSlidePanel(VIEW_MAINWINDOW_ALBUM);
 }
 
 void ImportTimeLineView::resizeEvent(QResizeEvent *ev)
