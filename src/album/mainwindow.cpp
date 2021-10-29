@@ -543,6 +543,7 @@ void MainWindow::initCentralWidget()
     connect(dApp->signalM, &SignalManager::sigViewImage, this, &MainWindow::onSigViewImage);
     m_back = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeBack);
     connect(m_back, &DIconButton::clicked, this, &MainWindow::onHideImageView);
+    m_del = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeTrash);
     m_collect = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeCollection);
     //刷新收藏按钮
     connect(ImageEngine::instance(), &ImageEngine::sigUpdateCollectBtn, this, &MainWindow::updateCollectButton);
@@ -2221,6 +2222,7 @@ void MainWindow::onEscShortcutActivated()
 void MainWindow::onDelShortcutActivated()
 {
     emit dApp->signalM->sigShortcutKeyDelete();
+    m_del->click();
 }
 
 void MainWindow::onKeyF2ShortcutActivated()
