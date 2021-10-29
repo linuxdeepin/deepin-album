@@ -1398,7 +1398,8 @@ void MainWindow::onAddToAlbum(bool isNew, const QString &album, const QString &p
 
 void MainWindow::onAddOrRemoveToFav(const QString &path, bool isAdd)
 {
-    if (isAdd) {//收藏
+    Q_UNUSED(isAdd)
+    if (!DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, path, AlbumDBType::Favourite)) {//收藏
         DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(path), AlbumDBType::Favourite);
         emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, QStringList(path));
     } else { //取消收藏
