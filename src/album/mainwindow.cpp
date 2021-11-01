@@ -557,6 +557,8 @@ void MainWindow::initCentralWidget()
     connect(ImageEngine::instance(), &ImageEngine::sigRemoveFromCustom, this, &MainWindow::onRemoveFromCustom);
     //公共库：按下ESC键
     connect(ImageEngine::instance(), &ImageEngine::escShortcutActivated, this, &MainWindow::onEscShortcutActivated);
+    //公共库：viewpanel界面图片全部删除
+    connect(ImageEngine::instance(), &ImageEngine::sigPicCountIsNull, this, &MainWindow::onHideImageView);
 
     m_pCenterWidget->addWidget(m_pAllPicView);
 
