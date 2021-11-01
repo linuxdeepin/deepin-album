@@ -355,7 +355,6 @@ void AlbumView::initLeftView()
 
 void AlbumView::onCreateNewAlbumFromDialog(const QString &newalbumname)
 {
-    qDebug() << __FUNCTION__ << "---111111111111111";
     int index = m_pLeftListView->m_pCustomizeListView->count();
     QString albumName = newalbumname;
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
@@ -1467,7 +1466,7 @@ void AlbumView::getAllDeviceName()
             goto runend1;
         }
         udispname = label;
-runend1:
+    runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -2242,11 +2241,9 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
         m_pStatusBar->setVisible(true);
     } else {
-        m_importByPhoneComboBox->setEnabled(false);
         m_importAllByPhoneBtn->setEnabled(false);
         m_importSelectByPhoneBtn->setEnabled(false);
         m_pPhoneTitle->setText(m_currentAlbum);
-//        QFontMetrics elideFont(m_pPhoneTitle->font());
         m_pPhoneTitle->setText(elideFont.elidedText(m_currentAlbum, Qt::ElideRight, 525));
         m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
