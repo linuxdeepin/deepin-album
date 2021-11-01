@@ -33,6 +33,7 @@
 #include <QHBoxLayout>
 #include <DFontSizeManager>
 #include <DStyledItemDelegate>
+#include <QScroller>
 
 namespace {
 const int OPE_MODE_ADDNEWALBUM = 0;
@@ -58,6 +59,8 @@ LeftListView::LeftListView(QWidget *parent)
     , m_ItemCurrentType(COMMON_STR_RECENT_IMPORTED)
     , m_pMenu(nullptr)
 {
+    //右侧菜单栏支持滑动
+    QScroller::grabGesture(viewport());
     m_ItemCurrentDataType = 0;
     initUI();
     initMenu();
