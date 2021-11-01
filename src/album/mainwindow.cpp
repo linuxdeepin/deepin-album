@@ -1480,8 +1480,18 @@ void MainWindow::onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAddi
         m_imageViewer->switchFullScreen();
         break;
     case Operation_StartSliderShow:
+        //BUG#100660 过滤掉视频
+        auto paths = info.paths;
+        auto iter = std::remove_if(paths.begin(), paths.end(), [](const QString & path) {
+            return utils::base::isVideo(path);
+        });
+        paths.erase(iter, paths.end());
         m_backIndex_fromSlide = info.viewMainWindowID;
-        m_imageViewer->startSlideShow(info.paths, info.path);
+        if (utils::base::isVideo(info.path) && !paths.isEmpty()) {
+            m_imageViewer->startSlideShow(paths, paths.at(0));
+        } else {
+            m_imageViewer->startSlideShow(paths, info.path);
+        }
         break;
     }
 
