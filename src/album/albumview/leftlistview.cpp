@@ -81,6 +81,10 @@ void LeftListView::initConnections()
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &LeftListView::onApplicationHelperThemeTypeChanged);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &LeftListView::onGuiApplicationHelperThemeTypeChanged);
     connect(m_pMountListWidget, &LeftListWidget::sigMousePressIsNoValid, this, &LeftListView::onMousePressIsNoValid);
+
+    connect(m_pPhotoLibListView, &LeftListWidget::sigMouseReleaseEvent, this, &LeftListView::onPhotoLibListViewPressed);
+    connect(m_pCustomizeListView, &LeftListWidget::sigMouseReleaseEvent, this, &LeftListView::onCustomListViewPressed);
+    connect(m_pMountListWidget, &LeftListWidget::sigMouseReleaseEvent, this, &LeftListView::onMountListViewPressed);
 }
 
 void LeftListView::initUI()

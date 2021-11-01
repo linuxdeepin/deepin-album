@@ -109,7 +109,15 @@ QStyleOptionViewItem LeftListWidget::viewOptions() const
     return option;
 }
 
-//QModelIndex LeftListWidget::getModelIndex(QListWidgetItem *pItem)
-//{
-//    return indexFromItem(pItem);
-//}
+void LeftListWidget::mouseReleaseEvent(QMouseEvent *e)
+{
+    QModelIndex index = indexAt(e->pos());
+    if (index.isValid()) {
+        emit sigMouseReleaseEvent(index);
+    } else {
+        QModelIndex currentSelect = this->currentIndex();
+        if (currentSelect.isValid())
+            emit sigMouseReleaseEvent(currentSelect);
+    }
+    DListWidget::mousePressEvent(e);
+}

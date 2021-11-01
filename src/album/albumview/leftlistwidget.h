@@ -34,7 +34,7 @@ public:
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
     QStyleOptionViewItem viewOptions() const override;
-//    QModelIndex getModelIndex(QListWidgetItem *pItem);
+    void mouseReleaseEvent(QMouseEvent *e) override;
 
 protected:
     void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
@@ -45,6 +45,7 @@ protected:
 signals:
     void signalDropEvent(QModelIndex index);
     void sigMousePressIsNoValid();
+    void sigMouseReleaseEvent(QModelIndex index);
 
 };
 
