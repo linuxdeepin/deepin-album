@@ -47,7 +47,6 @@
 #include <DWarningButton>
 #include <QtMath>
 
-#include "imgviewlistview.h"
 #include "thumbnaillistview.h"
 #include "expansionmenu.h"
 #include "imgdeletedialog.h"
