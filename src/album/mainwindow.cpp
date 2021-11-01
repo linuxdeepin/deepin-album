@@ -139,36 +139,31 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     // 键盘交互处理
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        // tab键 交互处理
-        if (keyEvent->key() == Qt::Key_Tab) {
+
+        switch (keyEvent->key()) {
+        default:
+            break;
+        case Qt::Key_Tab:
             if (initAllViewTabKeyOrder(obj)) {
                 return true;
             }
-        }
-        // enter键 交互处理
-        else if (keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return) {
+        case Qt::Key_Enter:
+        case Qt::Key_Return:
             initEnterkeyAction(obj);
-        }
-        // 右键 交互处理
-        else if (keyEvent->key() == Qt::Key_Right) {
+            break;
+        case Qt::Key_Right:
             if (initRightKeyOrder(obj)) {
                 return true;
             }
-        }
-        // 左键 交互处理
-        else if (keyEvent->key() == Qt::Key_Left) {
+        case Qt::Key_Left:
             if (initLeftKeyOrder(obj)) {
                 return true;
             }
-        }
-        // 向下键 交互处理
-        else if (keyEvent->key() == Qt::Key_Down) {
+        case Qt::Key_Down:
             if (initDownKeyOrder()) {
                 return true;
             }
-        }
-        // 向上键 交互处理
-        else if (keyEvent->key() == Qt::Key_Up) {
+        case Qt::Key_Up:
             if (initUpKeyOrder()) {
                 return true;
             }
@@ -258,18 +253,18 @@ void MainWindow::initShortcut()
     connect(keyF2, &QShortcut::activated, this, &MainWindow::onKeyF2ShortcutActivated);
 
     //Ctrl+Up 缩略图放大
-    QShortcut *CtrlUp = new QShortcut(QKeySequence(CTRLUP_SHORTCUT), this);
-    CtrlUp->setContext(Qt::ApplicationShortcut);
-    connect(CtrlUp, &QShortcut::activated, this, &MainWindow::thumbnailZoomIn);
+    m_CtrlUp = new QShortcut(QKeySequence(CTRLUP_SHORTCUT), this);
+    m_CtrlUp->setContext(Qt::ApplicationShortcut);
+    connect(m_CtrlUp, &QShortcut::activated, this, &MainWindow::thumbnailZoomIn);
 
-    QShortcut *ReCtrlUp = new QShortcut(QKeySequence(RECTRLUP_SHORTCUT), this);
-    ReCtrlUp->setContext(Qt::ApplicationShortcut);
-    connect(ReCtrlUp, &QShortcut::activated, this, &MainWindow::thumbnailZoomIn);
+    m_ReCtrlUp = new QShortcut(QKeySequence(RECTRLUP_SHORTCUT), this);
+    m_ReCtrlUp->setContext(Qt::ApplicationShortcut);
+    connect(m_ReCtrlUp, &QShortcut::activated, this, &MainWindow::thumbnailZoomIn);
 
     //Ctrl+Down 缩略图缩小
-    QShortcut *CtrlDown = new QShortcut(QKeySequence(CTRLDOWN_SHORTCUT), this);
-    CtrlDown->setContext(Qt::ApplicationShortcut);
-    connect(CtrlDown, &QShortcut::activated, this, &MainWindow::thumbnailZoomOut);
+    m_CtrlDown = new QShortcut(QKeySequence(CTRLDOWN_SHORTCUT), this);
+    m_CtrlDown->setContext(Qt::ApplicationShortcut);
+    connect(m_CtrlDown, &QShortcut::activated, this, &MainWindow::thumbnailZoomOut);
 
     //Ctrl+Shift+/ 显示快捷键预览
     QShortcut *CtrlShiftSlash = new QShortcut(QKeySequence(CTRLSHIFTSLASH_SHORTCUT), this);
@@ -1483,7 +1478,6 @@ void MainWindow::onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAddi
         }
         m_imageViewer->startdragImage(info.paths, info.path, isCustom, album);
         m_imageViewer->switchFullScreen();
-        //window()->setWindowState(Qt::WindowState::WindowFullScreen);
         break;
     case Operation_StartSliderShow:
         m_backIndex_fromSlide = info.viewMainWindowID;
@@ -1493,6 +1487,9 @@ void MainWindow::onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAddi
 
     setTitleBarHideden(true);
     m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
+
+    //禁用冲突的快捷键
+    setConflictShortcutEnabled(false);
 }
 
 void MainWindow::onCollectButtonClicked()
@@ -2084,6 +2081,15 @@ void MainWindow::onHideImageView()
         window()->showNormal();
         window()->showMaximized();
     }
+
+    setConflictShortcutEnabled(true);
+}
+
+void MainWindow::setConflictShortcutEnabled(bool enable)
+{
+    m_CtrlUp->setEnabled(enable);
+    m_ReCtrlUp->setEnabled(enable);
+    m_CtrlDown->setEnabled(enable);
 }
 
 void MainWindow::onAddImageBtnClicked(bool checked)

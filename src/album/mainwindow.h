@@ -60,6 +60,8 @@ DWIDGET_USE_NAMESPACE
 extern bool bfirstopen;
 extern bool bfirstandviewimage;
 
+class QShortcut;
+
 class MainWindow : public DMainWindow, public ImageEngineImportObject
 {
     Q_OBJECT
@@ -127,6 +129,7 @@ private:
 //    void viewImageClose();
     void floatMessage(const QString &str, const QIcon &icon);
     void setTitleBarHideden(bool hide);
+    void setConflictShortcutEnabled(bool enable);
 protected:
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
@@ -253,6 +256,12 @@ private:
 
     // 添加图片按钮
     DIconButton         *m_addImageBtn = nullptr;
+
+    //启动看图插件后需要关闭的快捷键
+    QShortcut *m_CtrlUp;
+    QShortcut *m_ReCtrlUp;
+    QShortcut *m_CtrlDown;
+
 public:
     QButtonGroup *getButG();
 };
