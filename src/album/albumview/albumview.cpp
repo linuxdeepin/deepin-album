@@ -2241,8 +2241,6 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
         m_pStatusBar->setVisible(true);
     } else {
-        m_importAllByPhoneBtn->setEnabled(false);
-        m_importSelectByPhoneBtn->setEnabled(false);
         m_pPhoneTitle->setText(m_currentAlbum);
         m_pPhoneTitle->setText(elideFont.elidedText(m_currentAlbum, Qt::ElideRight, 525));
         m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
@@ -2260,6 +2258,12 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
         }
         info.filePath = fileList.at(i);
         infos.append(info);
+    }
+    //有有效图片时，设置按钮状态
+    if (m_pRightPhoneThumbnailList->m_model->rowCount() <= 0) {
+        m_importByPhoneComboBox->setEnabled(false);
+        m_importAllByPhoneBtn->setEnabled(false);
+        m_importSelectByPhoneBtn->setEnabled(false);
     }
     //先清除所有
     m_pRightPhoneThumbnailList->clearAll();
