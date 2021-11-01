@@ -1112,8 +1112,6 @@ void AlbumView::onOpenImageFav(int row, const QString &path, bool bFullScreen)
     } else {
         emit dApp->signalM->sigViewImage(info, Operation_NoOperation);
     }
-
-    emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
 }
 
 void AlbumView::onOpenImageCustom(int row, const QString &path, bool bFullScreen)
@@ -1138,8 +1136,6 @@ void AlbumView::onOpenImageCustom(int row, const QString &path, bool bFullScreen
     } else {
         emit dApp->signalM->sigViewImage(info, Operation_NoOperation, true, m_currentAlbum);
     }
-
-    emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
 }
 
 void AlbumView::onSlideShowFav(const QString &path)
@@ -1471,7 +1467,7 @@ void AlbumView::getAllDeviceName()
             goto runend1;
         }
         udispname = label;
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";

@@ -173,12 +173,11 @@ public slots:
     void onImgExportSuccess();
     void onAlbExportFailed();
     void onAlbExportSuccess();
-    void onEscShortcutActivated();
+    void onEscShortcutActivated(bool isSwitchFullScreen);
     void onDelShortcutActivated();
     void onKeyF2ShortcutActivated();
     void onCtrlShiftSlashShortcutActivated();
     void onCtrlFShortcutActivated();
-    void onShowImageView(int index);
     void onSearchEditIsDisplay(bool bIsDisp);
     void onSendAlbumName(const QString &path);
     //主界面创建相册响应槽
@@ -224,6 +223,7 @@ public:
 private:
     int m_backIndex;
     int m_backIndex_fromSlide;
+    int m_backIndex_fromFullScreen;
     int m_pSliderPos;       //滑动条步进
 
     QButtonGroup *btnGroup;

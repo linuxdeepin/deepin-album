@@ -289,18 +289,18 @@ void SearchView::onOpenImage(int row, const QString &path, bool bFullScreen)
     info.dBImgInfos = m_pThumbnailListView->getAllFileInfo(row);
     info.viewType = utils::common::VIEW_SEARCH_SRN;
 
+    if (COMMON_STR_ALLPHOTOS == m_albumName) {
+        info.viewMainWindowID = 0;
+    } else if (COMMON_STR_TIMELINE == m_albumName) {
+        info.viewMainWindowID = 1;
+    } else {
+        info.viewMainWindowID = 2;
+    }
+
     if (bFullScreen) {
         emit dApp->signalM->sigViewImage(info, Operation_FullScreen);
     } else {
         emit dApp->signalM->sigViewImage(info, Operation_NoOperation);
-    }
-
-    if (COMMON_STR_ALLPHOTOS == m_albumName) {
-        emit dApp->signalM->showImageView(0);
-    } else if (COMMON_STR_TIMELINE == m_albumName) {
-        emit dApp->signalM->showImageView(1);
-    } else {
-        emit dApp->signalM->showImageView(2);
     }
 }
 

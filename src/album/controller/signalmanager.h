@@ -51,7 +51,6 @@ public:
     void showInfoDlg(const QString &path, ItemType type = ItemTypeNull);
 
 signals:
-    void showImageView(int index);
     void hideImageView();
     void showSlidePanel(int index);
     void hideSlidePanel();

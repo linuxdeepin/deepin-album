@@ -500,7 +500,6 @@ void ImportTimeLineView::onOpenImage(int row, const QString &path, bool bFullScr
     } else {
         emit dApp->signalM->sigViewImage(info, Operation_NoOperation);
     }
-    emit dApp->signalM->showImageView(VIEW_MAINWINDOW_ALBUM);
 }
 
 void ImportTimeLineView::onSlideShow(QString path)

@@ -388,7 +388,6 @@ void TimeLineView::onOpenImage(int row, const QString &path, bool bFullScreen)
     } else {
         emit dApp->signalM->sigViewImage(info, Operation_NoOperation);
     }
-    emit dApp->signalM->showImageView(VIEW_MAINWINDOW_TIMELINE);
 }
 
 void TimeLineView::onSlideShow(QString path)

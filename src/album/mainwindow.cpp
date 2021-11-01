@@ -105,7 +105,6 @@ MainWindow::MainWindow()
     //性能优化，此句在构造时不需要执行，增加启动时间,放在showevent之后队列执行
     loadZoomRatio();
     m_bVector << true << true << true;
-    connect(dApp->signalM, &SignalManager::showImageView, this, &MainWindow::onShowImageView);
 
     //平板模式下屏蔽最大化最小化及关闭按钮
 #ifdef tablet_PC
@@ -556,6 +555,8 @@ void MainWindow::initCentralWidget()
     connect(ImageEngine::instance(), &ImageEngine::sigExport, this, &MainWindow::onExport);
     //公共库：从相册中移除操作
     connect(ImageEngine::instance(), &ImageEngine::sigRemoveFromCustom, this, &MainWindow::onRemoveFromCustom);
+    //公共库：按下ESC键
+    connect(ImageEngine::instance(), &ImageEngine::escShortcutActivated, this, &MainWindow::onEscShortcutActivated);
 
     m_pCenterWidget->addWidget(m_pAllPicView);
 
@@ -1467,6 +1468,7 @@ void MainWindow::onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAddi
     switch (operation) {
     case Operation_NoOperation:
         m_imageViewer->startdragImage(info.paths, info.path, isCustom, album);
+        m_backIndex_fromFullScreen = VIEW_IMAGE;
         break;
     case Operation_FullScreen:
         if (window()->isMaximized()) {
@@ -1478,6 +1480,7 @@ void MainWindow::onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAddi
         }
         m_imageViewer->startdragImage(info.paths, info.path, isCustom, album);
         m_imageViewer->switchFullScreen();
+        m_backIndex_fromFullScreen = info.viewMainWindowID;
         break;
     case Operation_StartSliderShow:
         //BUG#100660 过滤掉视频
@@ -1492,6 +1495,7 @@ void MainWindow::onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAddi
         } else {
             m_imageViewer->startSlideShow(paths, info.path);
         }
+        m_backIndex_fromFullScreen = info.viewMainWindowID;
         break;
     }
 
@@ -1500,6 +1504,30 @@ void MainWindow::onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAddi
 
     //禁用冲突的快捷键
     setConflictShortcutEnabled(false);
+}
+
+void MainWindow::onHideImageView()
+{
+    if (window()->isFullScreen()) {
+        m_imageViewer->switchFullScreen();
+        if (m_backToMaxWindow) {
+            window()->showNormal();
+            window()->showMaximized();
+        }
+    } else if (m_backToMaxWindow) {
+        window()->showNormal();
+        window()->showMaximized();
+    }
+
+    setTitleBarHideden(false);
+    m_pCenterWidget->setCurrentIndex(m_backIndex);
+
+    //外部打开图片，返回时默认跳转到所有照片界面
+    if (m_backIndex == VIEW_ALLPIC) {
+        allPicBtnClicked();
+    }
+
+    setConflictShortcutEnabled(true);
 }
 
 void MainWindow::onCollectButtonClicked()
@@ -2072,29 +2100,6 @@ void MainWindow::onImagesRemoved()
     }
 }
 
-void MainWindow::onHideImageView()
-{
-    setTitleBarHideden(false);
-    m_pCenterWidget->setCurrentIndex(m_backIndex);
-    //外部打开图片，返回时默认跳转到所有照片界面
-    if (m_backIndex == VIEW_ALLPIC) {
-        allPicBtnClicked();
-    }
-
-    if (window()->isFullScreen()) {
-        m_imageViewer->switchFullScreen();
-        if (m_backToMaxWindow) {
-            window()->showNormal();
-            window()->showMaximized();
-        }
-    } else if (m_backToMaxWindow) {
-        window()->showNormal();
-        window()->showMaximized();
-    }
-
-    setConflictShortcutEnabled(true);
-}
-
 void MainWindow::setConflictShortcutEnabled(bool enable)
 {
     m_CtrlUp->setEnabled(enable);
@@ -2111,11 +2116,11 @@ void MainWindow::onAddImageBtnClicked(bool checked)
 
 void MainWindow::onHideSlidePanel()
 {
-    if (VIEW_IMAGE != m_backIndex_fromSlide) {
+    if (VIEW_IMAGE != m_backIndex_fromFullScreen) {
         setTitleBarHideden(false);
     }
 
-    m_pCenterWidget->setCurrentIndex(m_backIndex_fromSlide);
+    m_pCenterWidget->setCurrentIndex(m_backIndex_fromFullScreen);
 }
 
 void MainWindow::onExportImage(QStringList paths)
@@ -2225,13 +2230,10 @@ void MainWindow::onAlbExportSuccess()
     floatMessage(str, icon);
 }
 
-void MainWindow::onEscShortcutActivated()
+void MainWindow::onEscShortcutActivated(bool isSwitchFullScreen)
 {
-    if (window()->isFullScreen()) {
-//        emit dApp->signalM->sigESCKeyActivated();
-//        emit dApp->signalM->sigESCKeyStopSlide();
-    } else if (VIEW_IMAGE == m_pCenterWidget->currentIndex()) {
-        this->close();
+    if (!(isSwitchFullScreen && m_backIndex_fromFullScreen == VIEW_IMAGE)) {
+        onHideImageView();
     }
 }
 
@@ -2266,13 +2268,6 @@ void MainWindow::onCtrlShiftSlashShortcutActivated()
 void MainWindow::onCtrlFShortcutActivated()
 {
     m_pSearchEdit->lineEdit()->setFocus();
-}
-
-void MainWindow::onShowImageView(int index)
-{
-    m_backIndex = index;
-    setTitleBarHideden(true);
-    m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
 }
 
 void MainWindow::onSearchEditIsDisplay(bool bIsDisp)
