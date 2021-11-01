@@ -1309,9 +1309,7 @@ void AlbumView::onKeyF2()
 //挂载设备改变
 void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount)
 {
-    qDebug() << "zy------onVfsMountChangedAdd activeThreadCount = " << QThreadPool::globalInstance()->activeThreadCount();
     qDebug() << "zy------AlbumView::onVfsMountChangedAdd() name:" << mount->name();
-
     //TODO:
     //Support android phone, iPhone, and usb devices. Not support ftp, smb mount, non removeable disk now
     QString uri = mount->getRootFile()->uri();
@@ -1366,11 +1364,9 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
 //卸载外接设备
 void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount)
 {
-    m_mounts = getVfsMountList();
     if (m_waitDeviceScandialog) {
         m_waitDeviceScandialog->close();
     }
-    qDebug() << "zy------onVfsMountChangedRemove activeThreadCount = " << QThreadPool::globalInstance()->activeThreadCount();
     qDebug() << "zy------AlbumView::onVfsMountChangedRemove";
     QString uri = mount->getRootFile()->uri();
     QString strPath = mount->getDefaultLocationFile()->path();
@@ -1408,6 +1404,13 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
     }
     leftTabClicked();
     m_mounts = getVfsMountList();
+    for (auto endmount : m_mounts) {
+        if (uri == endmount->getRootFile()->uri()) {
+            //刚卸载的设备再次挂载上，需要走add逻辑
+            qDebug() << "---Current remove decive is the same as current add--";
+            m_mounts.removeOne(endmount);
+        }
+    }
     updateDeviceLeftList();
 }
 
