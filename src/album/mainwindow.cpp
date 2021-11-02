@@ -1329,9 +1329,9 @@ void MainWindow::floatMessage(const QString &str, const QIcon &icon)
     }
     DFloatingMessage *pDFloatingMessage = new DFloatingMessage(DFloatingMessage::MessageType::TransientType, pwidget);
     pDFloatingMessage->setBlurBackgroundEnabled(true);
+    pDFloatingMessage->raise();
     pDFloatingMessage->setMessage(tempStr);
     pDFloatingMessage->setIcon(icon);
-    pDFloatingMessage->raise();
     if (pwidget) {
         if (icon.isNull()) {
             QLabel *tempLabel = new QLabel(pDFloatingMessage);
@@ -2154,7 +2154,7 @@ void MainWindow::onAddDuplicatePhotos()
 void MainWindow::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName)
 {
     Q_UNUSED(albumName)
-    QIcon icon;
+    QIcon icon(":/images/logo/resources/images/other/info_ash.svg");
     QString str = QObject::tr("%1 items imported, %2 items exist already").arg(importPaths.count()).arg(duplicatePaths.count());
     floatMessage(str, icon);
 }
