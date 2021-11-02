@@ -305,6 +305,8 @@ void ImageEngineApi::thumbnailLoadThread(int num)
 //    connect(this, &ImageEngineApi::sigLoadThumbnailIMG, m_worker, &DBandImgOperate::loadOneImg);
     //加载设备中文件列表
     connect(this, &ImageEngineApi::sigLoadMountFileList, m_worker, &DBandImgOperate::sltLoadMountFileList);
+    //同步设备卸载
+    connect(this, &ImageEngineApi::sigDeciveUnMount, m_worker, &DBandImgOperate::sltDeciveUnMount);
     //旋转一张图片
     connect(this, &ImageEngineApi::sigRotateImageFile, m_worker, &DBandImgOperate::rotateImageFile);
 

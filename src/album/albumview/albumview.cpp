@@ -945,11 +945,10 @@ void AlbumView::updateRightMyFavoriteView()
 // 更新外接设备右侧视图
 void AlbumView::updateRightMountView()
 {
-    qDebug() << "------" << __FUNCTION__ << "";
     if (!isVisible()) {
-        qDebug() << "提前退出更新右侧视图";
         return;
     }
+    qDebug() << "------更新外接设备右侧视图-----";
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
     if (!m_pLeftListView) {
         return;
@@ -967,6 +966,7 @@ void AlbumView::updateRightMountView()
     emit ImageEngineApi::instance()->sigLoadMountFileList(strPath);
     //TODO 保存每个挂载设备的加载状态
     if (mountLoadStatus.contains(strPath) && mountLoadStatus[strPath]) {
+        qDebug() << "---已加载过，不加载---";
         return;
     }
     mountLoadStatus[strPath] = true;
@@ -1309,7 +1309,7 @@ void AlbumView::onKeyF2()
 //挂载设备改变
 void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount)
 {
-    qDebug() << "zy------AlbumView::onVfsMountChangedAdd() name:" << mount->name();
+    qDebug() << "挂载设备增加：" << mount->name();
     //TODO:
     //Support android phone, iPhone, and usb devices. Not support ftp, smb mount, non removeable disk now
     QString uri = mount->getRootFile()->uri();
@@ -1353,9 +1353,9 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
         }
         isIgnore = true;
         updateExternalDevice(mount, strPath);
-        m_mounts = getVfsMountList();
         updateDeviceLeftList();
         if (bFind) {
+            qDebug() << "------挂载路径存在，更新右侧视图---------";
             updateRightMountView();
         }
     }
@@ -1404,6 +1404,8 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
     }
     leftTabClicked();
     m_mounts = getVfsMountList();
+    //通知子线程，设备已卸载
+    emit ImageEngineApi::instance()->sigDeciveUnMount(strPath);
     for (auto endmount : m_mounts) {
         if (uri == endmount->getRootFile()->uri()) {
             //刚卸载的设备再次挂载上，需要走add逻辑
@@ -1597,7 +1599,7 @@ void AlbumView::initExternalDevice()
 
 void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mount, QString strPath)
 {
-    qDebug() << "------" << __FUNCTION__ << "---strPath = " << strPath;
+    qDebug() << "------更新外部设备---： " << strPath;
     QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftListView->m_pMountListWidget, devType);
     //pListWidgetItem缓存文件挂载路径
     if (pListWidgetItem) {
@@ -2213,6 +2215,7 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
     QTimer::singleShot(1500, this, [ = ] {
         m_waitDeviceScandialog->close();
     });
+    qDebug() << "--- sltLoadMountFileList 线程处理完毕，开始加载右侧图片 ---" << QThread::currentThreadId();
     QString strPath;
     QString phoneTitle;
     if (m_pLeftListView->m_pMountListWidget->currentItem()) {
@@ -2225,6 +2228,7 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
     if (path != strPath) {
         return;
     }
+    qDebug() << "------路径匹配继续加载缩略图----";
     ImageDataService::instance()->readThumbnailByPaths(fileList);
     //更新外部设备页面标题等状态
     m_importByPhoneComboBox->setEnabled(true);
@@ -2280,6 +2284,7 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
                     , m_pRightPhoneThumbnailList->getAppointTypeItemCount(ItemTypeVideo), m_pPhonePicTotal);
 
     m_pStatusBar->m_pAllPicNumLabel->setText(m_pPhonePicTotal->text());
+    qDebug() << "------图片缩略图加载完成---" << QThread::currentThreadId() << infos.size();
 }
 //筛选显示，当先列表中内容为无结果
 void AlbumView::slotNoPicOrNoVideo(bool isNoResult)

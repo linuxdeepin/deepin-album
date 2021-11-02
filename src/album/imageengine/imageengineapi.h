@@ -120,6 +120,8 @@ signals:
     void sigLoadOneThumbnailToThumbnailView(QString imagepath, DBImgInfo data);
     //加载设备中图片列表
     void sigLoadMountFileList(QString path);
+    //同步设备卸载
+    void sigDeciveUnMount(const QString &path);
 public:
     QVector<DBImgInfo> m_AllImageDataVector;
     int m_FirstPageScreen = 0;

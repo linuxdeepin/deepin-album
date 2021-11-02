@@ -255,35 +255,10 @@ void DBandImgOperate::sltLoadMountFileList(const QString &path)
     }
 }
 
-//void DBandImgOperate::getAllInfos()
-//{
-//    DBImgInfoList infos;
-//    QSqlDatabase db = DBManager::instance()->getDatabase();
-//    if (! db.isValid()) {
-//        emit sigAllImgInfosReady(infos);
-//        return;
-//    }
-//    QSqlQuery query(db);
-//    query.setForwardOnly(true);
-//    bool b = query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType "
-//                           "FROM ImageTable3");
-//    if (!b || ! query.exec()) {
-//        emit sigAllImgInfosReady(infos);
-//        return;
-//    } else {
-//        using namespace utils::base;
-//        while (query.next()) {
-//            DBImgInfo info;
-//            info.filePath = query.value(0).toString();
-//            info.fileName = query.value(1).toString();
-//            info.dirHash = query.value(2).toString();
-//            info.time = stringToDateTime(query.value(3).toString());
-//            info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
-//            info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
-//            info.itemType = static_cast<ItemType>(query.value(6).toInt());
-//            infos << info;
-//        }
-//    }
-//    emit sigAllImgInfosReady(infos);
-//}
-
+void DBandImgOperate::sltDeciveUnMount(const QString &path)
+{
+    if (m_PhonePicFileMap.contains(path)) {
+        qDebug() << "------DBandImgOperate::sltDeciveUnMount同步状态-----";
+        m_PhonePicFileMap.remove(path);
+    }
+}

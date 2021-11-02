@@ -146,6 +146,7 @@ private:
     const QList<QExplicitlySharedDataPointer<DGioMount> > getVfsMountList();
 
     void initExternalDevice();
+    //更新外部设备的显示
     void updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mount, QString strPath = QString());
     bool findPicturePathByPhone(QString &path);
     void updateImportComboBox();

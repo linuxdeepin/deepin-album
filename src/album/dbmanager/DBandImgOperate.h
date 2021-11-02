@@ -63,6 +63,8 @@ public slots:
     void     sltLoadThumbnailByNum(QVector<DBImgInfo> infos, int num);
     //加载设备中图片列表请求完成
     void sltLoadMountFileList(const QString &path);
+    //同步设备卸载
+    void sltDeciveUnMount(const QString &path);
 signals:
     void sig80ImgInfosReady(QVector<DBImgInfo> imageDatas);
     void sigOneImgReady(QString imagepath, QPixmap pimap);
