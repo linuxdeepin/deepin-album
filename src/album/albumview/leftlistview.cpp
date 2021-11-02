@@ -34,7 +34,7 @@
 #include <DFontSizeManager>
 #include <DStyledItemDelegate>
 #include <QScroller>
-
+#include <QScrollBar>
 namespace {
 const int OPE_MODE_ADDNEWALBUM = 0;
 const int OPE_MODE_RENAMEALBUM = 1;
@@ -60,7 +60,10 @@ LeftListView::LeftListView(QWidget *parent)
     , m_pMenu(nullptr)
 {
     //右侧菜单栏支持滑动
-    QScroller::grabGesture(viewport());
+//    QScroller::grabGesture(viewport());
+    QScrollBar *m_bar = new QScrollBar();
+//    QScroller::grabGesture(viewport());
+    this->setVerticalScrollBar(m_bar);
     m_ItemCurrentDataType = 0;
     initUI();
     initMenu();
@@ -82,6 +85,10 @@ void LeftListView::initConnections()
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &LeftListView::onGuiApplicationHelperThemeTypeChanged);
     connect(m_pMountListWidget, &LeftListWidget::sigMousePressIsNoValid, this, &LeftListView::onMousePressIsNoValid);
 
+
+    connect(m_pPhotoLibListView, &LeftListWidget::sigMouseMoveEvent, this, &LeftListView::onMouseMove);
+    connect(m_pCustomizeListView, &LeftListWidget::sigMouseMoveEvent, this, &LeftListView::onMouseMove);
+    connect(m_pMountListWidget, &LeftListWidget::sigMouseMoveEvent, this, &LeftListView::onMouseMove);
     connect(m_pPhotoLibListView, &LeftListWidget::sigMouseReleaseEvent, this, &LeftListView::onPhotoLibListViewPressed);
     connect(m_pCustomizeListView, &LeftListWidget::sigMouseReleaseEvent, this, &LeftListView::onCustomListViewPressed);
     connect(m_pMountListWidget, &LeftListWidget::sigMouseReleaseEvent, this, &LeftListView::onMountListViewPressed);
@@ -423,6 +430,8 @@ void LeftListView::onUpdateLeftListview()
 
 void LeftListView::onPhotoLibListViewPressed(const QModelIndex &index)
 {
+    //release重新初始化m_posY值
+    m_posY = 0;
     Q_UNUSED(index);
     qDebug() << "m_pPhotoLibListView, &DListWidget::pressed";
     m_pCustomizeListView->clearSelection();
@@ -457,8 +466,11 @@ void LeftListView::onPhotoLibListViewPressed(const QModelIndex &index)
 
 void LeftListView::onCustomListViewPressed(const QModelIndex &index)
 {
+    //release重新初始化m_posY值
+    m_posY = 0;
     Q_UNUSED(index);
     qDebug() << "m_pCustomizeListView, &DListWidget::pressed";
+
     m_pPhotoLibListView->clearSelection();
     m_pMountListWidget->clearSelection();
     updateAlbumItemsColor();
@@ -483,6 +495,8 @@ void LeftListView::onCustomListViewPressed(const QModelIndex &index)
 
 void LeftListView::onMountListViewPressed(const QModelIndex &index)
 {
+    //release重新初始化m_posY值
+    m_posY = 0;
     Q_UNUSED(index);
     qDebug() << "------" << __FUNCTION__ << "---size = " << m_pMountListWidget->count();
     m_pPhotoLibListView->clearSelection();
@@ -616,6 +630,22 @@ void LeftListView::onGuiApplicationHelperThemeTypeChanged()
 void LeftListView::onMousePressIsNoValid()
 {
     setFocusPolicy(Qt::ClickFocus);
+}
+
+void LeftListView::onMouseMove()
+{
+    //手动判断滑动进而滑动
+    if (m_posY != 0) {
+        int y = QCursor::pos().y() - m_posY;
+        int value = y * this->verticalScrollBar()->maximum()  / this->verticalScrollBar()->size().height();
+        if (this->verticalScrollBar()->value() != value) {
+            this->verticalScrollBar()->setValue(this->verticalScrollBar()->value() - value * 4);
+            m_posY = QCursor::pos().y();
+        }
+    } else {
+        m_posY = QCursor::pos().y();
+    }
+
 }
 
 

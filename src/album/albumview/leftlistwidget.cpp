@@ -33,6 +33,12 @@ LeftListWidget::LeftListWidget()
     setAcceptDrops(true);
 }
 
+void LeftListWidget::mouseMoveEvent(QMouseEvent *e)
+{
+    emit sigMouseMoveEvent();
+    return DListWidget::mouseMoveEvent(e);
+}
+
 void LeftListWidget::dragMoveEvent(QDragMoveEvent *event)
 {
     QModelIndex index = this->indexAt(event->pos());
@@ -119,5 +125,5 @@ void LeftListWidget::mouseReleaseEvent(QMouseEvent *e)
         if (currentSelect.isValid())
             emit sigMouseReleaseEvent(currentSelect);
     }
-    DListWidget::mousePressEvent(e);
+    DListWidget::mouseReleaseEvent(e);
 }

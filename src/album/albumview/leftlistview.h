@@ -83,6 +83,7 @@ public slots:
     void onApplicationHelperThemeTypeChanged();
     void onGuiApplicationHelperThemeTypeChanged();
     void onMousePressIsNoValid();
+    void onMouseMove();
 
 public:
 
@@ -107,6 +108,8 @@ private:
     DMenu *m_pMenu;
     QMap<QString, QAction *> m_MenuActionMap;
     AlbumDeleteDialog *deletDialg;
+    QScrollBar *m_bar = nullptr;
+    int m_posY = 0;
 };
 
 #endif // LEFTLISTVIEW_H
