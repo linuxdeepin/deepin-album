@@ -534,6 +534,7 @@ void MainWindow::initCentralWidget()
 
 //    m_commandLine = CommandLine::instance();
     m_imageViewer = new ImageViewer(imageViewerSpace::ImgViewerType::ImgViewerTypeAlbum, albumGlobal::CACHE_PATH, nullptr, m_pCenterWidget);
+    m_imageViewer->setDropEnabled(false);
     connect(dApp->signalM, &SignalManager::sigViewImage, this, &MainWindow::onSigViewImage);
     m_back = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeBack);
     connect(m_back, &DIconButton::clicked, this, &MainWindow::onHideImageView);
