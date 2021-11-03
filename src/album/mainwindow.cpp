@@ -419,6 +419,7 @@ void MainWindow::initTitleBar()
     connect(m_addImageBtn, &DIconButton::clicked, this, &MainWindow::onAddImageBtnClicked);
     m_addImageBtn->setToolTip(tr("Import photos and videos"));
     m_addImageBtn->setFixedSize(QSize(36, 36));
+    m_addImageBtn->setShortcut(QKeySequence(CTRLO_SHORTCUT));
     titlebar()->addWidget(m_addImageBtn, Qt::AlignRight);
 
     titlebar()->setIcon(QIcon::fromTheme("deepin-album"));
