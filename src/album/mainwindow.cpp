@@ -82,7 +82,6 @@ MainWindow::MainWindow()
     , m_pSearchView(nullptr)
     , m_pSearchEdit(nullptr)
     , m_backIndex(0)
-    , m_backIndex_fromSlide(0)
     , m_pSliderPos(2)
     , btnGroup(nullptr)
     , m_pAllPicBtn(nullptr)
@@ -1492,7 +1491,6 @@ void MainWindow::onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAddi
             return utils::base::isVideo(path);
         });
         paths.erase(iter, paths.end());
-        m_backIndex_fromSlide = info.viewMainWindowID;
         if (utils::base::isVideo(info.path) && !paths.isEmpty()) {
             m_imageViewer->startSlideShow(paths, paths.at(0));
         } else {
@@ -1598,6 +1596,11 @@ void MainWindow::showEvent(QShowEvent *event)
 
             initShortcut();
             initConnections();
+
+            if (m_needBanShortcutButNotReady) {
+                m_needBanShortcutButNotReady = false;
+                setConflictShortcutEnabled(false);
+            }
 
             if (0 < DBManager::instance()->getImgsCount()) {
                 // dothing
@@ -2105,6 +2108,15 @@ void MainWindow::onImagesRemoved()
 
 void MainWindow::setConflictShortcutEnabled(bool enable)
 {
+    //BUG#101119 快捷键初始化位于show event中，但命令行启动的时候，显示图片的指令会先于show event函数执行，因此需要加flag判断
+    if (!enable && (m_CtrlUp == nullptr || m_ReCtrlUp == nullptr || m_CtrlDown == nullptr)) {
+        m_needBanShortcutButNotReady = true;
+        return;
+    } else if (enable && (m_CtrlUp == nullptr || m_ReCtrlUp == nullptr || m_CtrlDown == nullptr)) {
+        m_needBanShortcutButNotReady = false;
+        return;
+    }
+
     m_CtrlUp->setEnabled(enable);
     m_ReCtrlUp->setEnabled(enable);
     m_CtrlDown->setEnabled(enable);

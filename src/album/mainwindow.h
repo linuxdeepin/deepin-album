@@ -222,8 +222,8 @@ public:
 
 private:
     int m_backIndex;
-    int m_backIndex_fromSlide;
     int m_backIndex_fromFullScreen;
+    bool m_needBanShortcutButNotReady = false;
     int m_pSliderPos;       //滑动条步进
 
     QButtonGroup *btnGroup;
