@@ -318,6 +318,18 @@ TEST(MainWindow, allpicture)
     auto menu = runContextMenu(allpicview->m_pThumbnailListView->viewport(), p1);
     using TR_SUBORDINATE_t = PointerTypeGetter < decltype(allpicview->m_pThumbnailListView) >::type;
 
+    //全屏
+    runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Fullscreen"));
+    QTest::qWait(1000);
+    w->onHideImageView();
+    QTest::qWait(500);
+
+    //幻灯片
+    runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Slide show"));
+    QTest::qWait(2000);
+    w->onHideImageView();
+    QTest::qWait(500);
+
     //TODO:打印
     //fix：没有调用startSlideShow而直接用鼠标去点，导致UT崩溃
     //TODO:添加到自定义相册5
@@ -518,6 +530,17 @@ TEST(MainWindow, timelineview)
 
         auto menu = runContextMenu(timelineview->getThumbnailListView()->viewport(), pr);
         using TR_SUBORDINATE_t = PointerTypeGetter < decltype(timelineview->getThumbnailListView()) >::type;
+
+        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Fullscreen"));
+        QTest::qWait(1000);
+        w->onHideImageView();
+        QTest::qWait(500);
+
+        runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Slide show"));
+        QTest::qWait(2000);
+        w->onHideImageView();
+        QTest::qWait(500);
+
         //TODO:打印
         //复制7
         e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, pr, 50);
@@ -664,6 +687,19 @@ TEST(MainWindow, AlbumView)
     //------右键菜单start---------
     auto menu = runContextMenu(firstThumb->viewport(), p1);
     using TR_SUBORDINATE_t = PointerTypeGetter < decltype(firstThumb) >::type;
+
+    //全屏
+    runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Fullscreen"));
+    QTest::qWait(1000);
+    w->onHideImageView();
+    QTest::qWait(500);
+
+    //幻灯片
+    runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Slide show"));
+    QTest::qWait(2000);
+    w->onHideImageView();
+    QTest::qWait(500);
+
     //TODO:打印
     //复制7
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Copy"));
@@ -800,6 +836,19 @@ TEST(MainWindow, favorite)
 
     auto menu = runContextMenu(thumb->viewport(), p1);
     using TR_SUBORDINATE_t = PointerTypeGetter < decltype(thumb) >::type;
+
+    //全屏
+    runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Fullscreen"));
+    QTest::qWait(1000);
+    w->onHideImageView();
+    QTest::qWait(500);
+
+    //幻灯片
+    runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Slide show"));
+    QTest::qWait(2000);
+    w->onHideImageView();
+    QTest::qWait(500);
+
     //TODO:打
     //复制7
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Copy"));
@@ -1428,3 +1477,22 @@ TEST(ToolButton, BatchScreen)
     QTest::qWait(500);
 }
 
+TEST(MainWindow, ImportButton)
+{
+    TEST_CASE_NAME("ImportButton")
+    MainWindow *w = dApp->getMainWindow();
+
+    {
+        int (*dlgexec)() = []() {
+            return 1;
+        };
+        typedef int (*fptr)(QDialog *);
+        fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
+        Stub stub;
+        stub.set(fptrexec, dlgexec);
+        QTest::qWait(300);
+
+        auto button = w->m_addImageBtn;
+        button->click();
+    }
+}
