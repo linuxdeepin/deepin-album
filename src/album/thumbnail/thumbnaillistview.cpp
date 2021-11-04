@@ -338,6 +338,8 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
     touchStatus = 0;
     updateEnableSelectionByMouseTimer->stop();
     m_animationEnable = false;
+    //每次选中需要更新右键菜单，以便快捷键响应，多选不响应，单选响应
+    updateMenuContents();
 
     if (COMMON_STR_RECENT_IMPORTED  == m_imageType) {
         if (QApplication::keyboardModifiers() == Qt::NoModifier) {
@@ -1001,7 +1003,6 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         utils::base::copyImageToClipboard(paths);
         break;
     case IdMoveToTrash: {
-        qDebug() << "---" << __FUNCTION__ << "---" << "IdMoveToTrash";
         this->removeSelectToTrash(paths);
     }
     break;
