@@ -43,7 +43,7 @@ include_directories(/usr/include)
 include_directories(/usr/include/gio-qt)
 include_directories(/usr/include/udisks2-qt5)
 include_directories(/usr/include/glib-2.0)
-include_directories(/usr/include/libimage-viewer)
+include_directories(/usr/include/libimageviewer)
 include_directories(/usr/lib/x86_64-linux-gnu/glib-2.0/include)
 
 aux_source_directory(./album allSource)
@@ -181,9 +181,9 @@ if(DOTEST)
     target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${3rd_lib_INCLUDE_DIRS})
 endif()
 
-target_link_libraries(${PROJECT_NAME} Qt5::WidgetsPrivate ${3rd_lib_LIBRARIES} freeimage image-viewer)
+target_link_libraries(${PROJECT_NAME} Qt5::WidgetsPrivate ${3rd_lib_LIBRARIES} freeimage imageviewer)
 if(DOTEST)
-    target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES} freeimage image-viewer)
+    target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES} freeimage imageviewer)
 endif()
 #------------------添加第三方库end--------------------------#
 
