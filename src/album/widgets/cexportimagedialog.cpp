@@ -45,7 +45,7 @@ const QSize LINE_EDIT_SIZE = QSize(250, 35);
 CExportImageDialog::CExportImageDialog(DWidget *parent)
     : DDialog(parent), m_fileNameEdit(nullptr), m_savePathCombox(nullptr)
     , m_formatCombox(nullptr), m_qualitySlider(nullptr), m_qualityLabel(nullptr)
-    , m_quality(0), m_questionDialog(nullptr), m_emptyWarningDialog(nullptr)
+    , m_quality(0), m_questionDialog(nullptr), m_questionDialogs(nullptr), m_emptyWarningDialog(nullptr)
 {
     initUI();
     initConnection();
@@ -378,6 +378,16 @@ void CExportImageDialog::slotOnQuestionDialogButtonClick(int index, const QStrin
     }
 }
 
+void CExportImageDialog::slotOnQuestionDialogButtonClicks(int index, const QString &text)
+{
+    Q_UNUSED(text);
+    m_isCover = false;
+    if (index == 1) {
+        QFile::remove(m_CoverFilepath);
+        m_isCover = true;
+    }
+}
+
 void CExportImageDialog::slotOnQualityChanged(int value)
 {
     m_qualityLabel->setText(QString("%1%").arg(value));
@@ -462,6 +472,45 @@ void CExportImageDialog::showQuestionDialog(const QString &path, const QString &
     m_questionDialog->move(dApp->getMainWindow()->x() + (dApp->getMainWindow()->width() - m_questionDialog->width()) / 2,
                            dApp->getMainWindow()->y() + (dApp->getMainWindow()->height() - m_questionDialog->height()) / 2);
     m_questionDialog->exec();
+}
+
+void CExportImageDialog::showQuestionDialogs(const QString &path)
+{
+    delete m_questionDialogs;
+    m_questionDialogs = new DDialog(this);
+    m_questionDialogs->setFocusPolicy(Qt::NoFocus);
+    m_questionDialogs->setModal(true);
+    m_questionDialogs->addButtons({tr("Cancel"), tr("Replace")});
+    m_questionDialogs->setFixedSize(400, 170);
+    m_CoverFilepath = path;
+    connect(m_questionDialogs, SIGNAL(buttonClicked(int, const QString &)), this, SLOT(slotOnQuestionDialogButtonClicks(int, const QString &)));
+    //BUG#90251
+
+    DWidget *wid = new DWidget();
+    DLabel *lab1 = new DLabel();
+    QFontMetrics elideFont(lab1->font());
+    lab1->setText(elideFont.elidedText(path, Qt::ElideRight, 255));
+    lab1->setToolTip(path);
+
+    DLabel *lab2 = new DLabel();
+    lab2->setText(tr("already exists. Do you want to replace it?"));
+    lab2->setAlignment(Qt::AlignCenter);
+
+    QVBoxLayout *lay = new QVBoxLayout();
+    lay->setContentsMargins(0, 0, 0, 0);
+    lay->addWidget(lab1);
+    lay->addWidget(lab2);
+    lay->addSpacing(100);
+    wid->setLayout(lay);
+    m_questionDialogs->addContent(wid, Qt::AlignCenter);
+    m_questionDialogs->move(dApp->getMainWindow()->x() + (dApp->getMainWindow()->width() - m_questionDialogs->width()) / 2,
+                            dApp->getMainWindow()->y() + (dApp->getMainWindow()->height() - m_questionDialogs->height()) / 2);
+    m_questionDialogs->exec();
+}
+
+bool CExportImageDialog::getIsCover()
+{
+    return m_isCover;
 }
 
 bool CExportImageDialog::doSave()
