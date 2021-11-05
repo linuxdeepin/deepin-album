@@ -130,6 +130,7 @@ private:
     void floatMessage(const QString &str, const QIcon &icon);
     void setTitleBarHideden(bool hide);
     void setConflictShortcutEnabled(bool enable);
+    bool processOption(QStringList &paslist);
 protected:
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;

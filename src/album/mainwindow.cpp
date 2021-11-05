@@ -462,7 +462,7 @@ QUrl UrlInfo1(QString path)
     return url;
 }
 
-bool processOption(QStringList &paslist)
+bool MainWindow::processOption(QStringList &paslist)
 {
     QCommandLineParser parser;
 
@@ -483,6 +483,7 @@ bool processOption(QStringList &paslist)
 
     QString filepath = "";
     bool bneedexit = true;
+    QStringList videos;
     for (const QString &path : arguments) {
         filepath = UrlInfo1(path).toLocalFile();
 
@@ -506,7 +507,13 @@ bool processOption(QStringList &paslist)
                 ImageEngineApi::instance()->insertImage(info.filePath(), "");
 //                break;
             }
+        } else if (utils::base::isVideo(filepath)) {
+            bneedexit = false;
+            videos.push_back(path);
         }
+    }
+    if (!videos.isEmpty()) {
+        ImageEngineApi::instance()->ImportImagesFromFileList(videos, "", this, true);
     }
     if ("" != filepath && bneedexit) {
         exit(0);

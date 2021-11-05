@@ -1674,7 +1674,11 @@ void ThumbnailListView::removeSelectToTrash(QStringList paths)
     dialog->setObjectName("deteledialog");
     if (dialog->exec() > 0) {
         clearSelection();
-        ImageEngineApi::instance()->moveImagesToTrash(paths);
+        if (COMMON_STR_VIEW_TIMELINE == m_imageType || COMMON_STR_RECENT_IMPORTED == m_imageType) {
+            emit sigMoveToTrash();
+        }
+        (COMMON_STR_TRASH == m_imageType) ? ImageEngineApi::instance()->moveImagesToTrash(paths, true, false)
+        : ImageEngineApi::instance()->moveImagesToTrash(paths);
     }
 }
 //更新时间线界面内各个按钮的text状态，单选/框选
