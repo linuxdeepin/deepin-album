@@ -560,6 +560,8 @@ void MainWindow::initCentralWidget()
     connect(ImageEngine::instance(), &ImageEngine::escShortcutActivated, this, &MainWindow::onEscShortcutActivated);
     //公共库：viewpanel界面图片全部删除
     connect(ImageEngine::instance(), &ImageEngine::sigPicCountIsNull, this, &MainWindow::onHideImageView);
+    //公共库：旋转
+    connect(ImageEngine::instance(), &ImageEngine::sigRotatePic, this, &MainWindow::onRotatePic);
 
     m_pCenterWidget->addWidget(m_pAllPicView);
 
@@ -1416,6 +1418,15 @@ void MainWindow::onRemoveFromCustom(const QString &path, const QString &album)
 {
     if (!album.isEmpty()) {
         DBManager::instance()->removeFromAlbum(album, QStringList(path));
+    }
+}
+
+void MainWindow::onRotatePic(const QString &path)
+{
+    if (!path.isEmpty()) {
+        //公共库默认只传输路径，图片需相册加载
+        QImage tImg;
+        dApp->m_imageloader->updateImageLoader(QStringList(path), QList<QImage>({tImg}));
     }
 }
 

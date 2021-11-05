@@ -199,6 +199,8 @@ public slots:
     void onExport(const QString &path);
     //响应公共库：从相册中移除操作
     void onRemoveFromCustom(const QString &path, const QString &album);
+    //响应公共库：旋转请求
+    void onRotatePic(const QString &path);
 
 private:
     int m_iCurrentView;
