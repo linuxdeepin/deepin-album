@@ -1244,7 +1244,7 @@ void AlbumView::onKeyDelete()
             dialog->setObjectName("deteledialog");
             if (dialog->exec() > 0) {
                 m_pRightTrashThumbnailList->clearSelection();
-                ImageEngineApi::instance()->moveImagesToTrash(paths, true);
+                ImageEngineApi::instance()->moveImagesToTrash(paths);
             }
         }
     } else if (COMMON_STR_FAVORITES == m_currentType) {

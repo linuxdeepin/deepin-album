@@ -251,7 +251,7 @@ void BatchOperateWidget::onTrashDeleteBtnClicked()
     dialog->setObjectName("deteledialog");
     if (dialog->exec() > 0) {
         m_thumbnailListView->clearSelection();
-        ImageEngineApi::instance()->moveImagesToTrash(paths, true, false);
+        ImageEngineApi::instance()->moveImagesToTrash(paths);
     }
 
     refreshTrashBtnState();
