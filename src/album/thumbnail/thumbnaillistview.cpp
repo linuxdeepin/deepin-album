@@ -338,8 +338,6 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
     touchStatus = 0;
     updateEnableSelectionByMouseTimer->stop();
     m_animationEnable = false;
-    //每次选中需要更新右键菜单，以便快捷键响应，多选不响应，单选响应
-    updateMenuContents();
 
     if (COMMON_STR_RECENT_IMPORTED  == m_imageType) {
         if (QApplication::keyboardModifiers() == Qt::NoModifier) {
@@ -350,6 +348,11 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
     }
 
     DListView::mouseReleaseEvent(event);
+
+    //每次选中需要更新右键菜单，以便快捷键响应，多选不响应，单选响应
+    //BUG#101481 调整为在list view响应事件后刷新菜单
+    updateMenuContents();
+
     updatetimeLimeBtnText();
 }
 
