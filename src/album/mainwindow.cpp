@@ -1622,7 +1622,7 @@ void MainWindow::showEvent(QShowEvent *event)
             }
 
             if (0 < DBManager::instance()->getImgsCount()) {
-                // dothing
+                m_pSearchEdit->setEnabled(true);
             } else {
                 m_pSearchEdit->setEnabled(false);
             }
