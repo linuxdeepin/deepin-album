@@ -2187,7 +2187,13 @@ void MainWindow::onRepeatImportingTheSamePhotos(QStringList importPaths, QString
 {
     Q_UNUSED(albumName)
     QIcon icon(":/images/logo/resources/images/other/info_ash.svg");
-    QString str = QObject::tr("%1 items imported, %2 items exist already").arg(importPaths.count()).arg(duplicatePaths.count());
+    QString str;
+
+    if (duplicatePaths.size() == 1 && importPaths.isEmpty()) { //仅导入一个文件且这个文件还已经在相册里了
+        str = QObject::tr("The photo/video already exists");
+    } else {
+        str = QObject::tr("%1 items imported, %2 items exist already").arg(importPaths.count()).arg(duplicatePaths.count());
+    }
     floatMessage(str, icon);
 }
 
