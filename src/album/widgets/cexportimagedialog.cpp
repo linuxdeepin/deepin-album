@@ -142,39 +142,6 @@ void CExportImageDialog::initUI()
 
     setWindowTitle(tr("Export"));
 
-    m_fileNameEdit = new DLineEdit(this);
-    //m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
-    m_fileNameEdit->setClearButtonEnabled(false);
-//    m_fileNameEdit->setFocusPolicy(Qt::ClickFocus);
-
-    connect(m_fileNameEdit, &DLineEdit::editingFinished, this, [ = ] {
-        QString arg = m_fileNameEdit->text();
-        int len = arg.toLocal8Bit().size();
-        int filemaxlen = 251;
-        if (m_saveFormat.toUpper().compare("JPEG") == 0)
-            filemaxlen -= 1;
-        QString Interceptstr;
-        if (len > filemaxlen)
-        {
-            int num = 0;
-            int pos = 0;
-            for (; pos < arg.size(); pos++) {
-                if (arg.at(pos) >= 0x4e00 && arg.at(pos) <= 0x9fa5) {
-                    num += 3;
-                    if (num >= filemaxlen) {
-                        break;
-                    }
-                } else if (num < filemaxlen) {
-                    num += 1;
-                } else {
-                    break;
-                }
-            }
-            Interceptstr = arg.left(pos);
-            m_fileNameEdit->setText(Interceptstr);
-        }
-    });
-
     m_savePathCombox = new DComboBox(this);
     m_savePathCombox->setFocusPolicy(Qt::TabFocus);
     m_savePathCombox->insertItem(Pictures, tr("Pictures"));
@@ -186,7 +153,6 @@ void CExportImageDialog::initUI()
     m_savePathCombox->insertItem(UsrSelect, tr("Select other directories"));
 
     //m_savePathCombox->setFixedSize(LINE_EDIT_SIZE);
-
 
     m_formatCombox = new DComboBox(this);
     m_formatCombox->setFocusPolicy(Qt::TabFocus);
@@ -205,6 +171,10 @@ void CExportImageDialog::initUI()
     m_formatCombox->insertItem(XBM, "xbm");
     m_formatCombox->insertItem(XPM, "xpm");
     //m_formatCombox->setFixedSize(LINE_EDIT_SIZE);
+
+    m_fileNameEdit = new DLineEdit(this);
+    m_fileNameEdit->setClearButtonEnabled(false);
+    m_fileNameEdit->lineEdit()->setMaxLength(255 - 1 - m_formatCombox->currentText().size());
 
     m_qualitySlider = new DSlider(Qt::Horizontal, this);
     m_qualitySlider->slider()->setFocusPolicy(Qt::TabFocus);
@@ -301,30 +271,9 @@ void CExportImageDialog::slotOnSavePathChange(int index)
 void CExportImageDialog::slotOnFormatChange(int index)
 {
     m_saveFormat = m_formatCombox->itemText(index);
-    //when jpeg format,recalculate file name length ,because ".jpeg"==5
-    if (m_saveFormat.toUpper().compare("JPEG") == 0) {
-        QString arg = m_fileNameEdit->text();
-        int len = arg.toLocal8Bit().size();
-        QString Interceptstr;
-        if (len > 250) {
-            unsigned num = 0;
-            int pos = 0;
-            for (; pos < arg.size(); pos++) {
-                if (arg.at(pos) >= 0x4e00 && arg.at(pos) <= 0x9fa5) {
-                    num += 3;
-                    if (num >= 250) {
-                        break;
-                    }
-                } else if (num < 250) {
-                    num += 1;
-                } else {
-                    break;
-                }
-            }
-            Interceptstr = arg.left(pos);
-            m_fileNameEdit->setText(Interceptstr);
-        }
-    }
+
+    int filemaxlen = 255 - 1 - m_saveFormat.size();
+    m_fileNameEdit->lineEdit()->setMaxLength(filemaxlen);
 }
 
 void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
