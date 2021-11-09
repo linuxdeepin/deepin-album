@@ -1178,10 +1178,9 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
     });
 #endif
 
-    connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
+    connect(d, &AlbumCreateDialog::albumAdded, this, [ = ]() {
         //double insert problem from here ,first insert at AlbumCreateDialog::createAlbum(albumname)
-        if (nullptr == m_pAlbumview)
-        {
+        if (nullptr == m_pAlbumview) {
             int index = 0;
             if (nullptr == m_pTimeLineView) {
                 m_pCenterWidget->removeWidget(m_pTimeLineWidget);
@@ -1200,8 +1199,7 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
             m_pSearchEdit->clearEdit();
             m_SearchKey.clear();
             m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-        } else
-        {
+        } else {
             emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
             m_pAlbumBtn->setChecked(true);
             m_pSearchEdit->clearEdit();

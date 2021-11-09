@@ -704,3 +704,9 @@ void LeftListView::resizeEvent(QResizeEvent *e)
     int deviceHeight = m_pMountListWidget->count() * LEFT_VIEW_LISTITEM_HEIGHT_40;
     m_pMountListWidget->setFixedHeight(deviceHeight);
 }
+
+void LeftListView::mousePressEvent(QMouseEvent *e)
+{
+    m_pCustomizeListView->SaveRename(e->pos());
+    DWidget::mousePressEvent(e);
+}

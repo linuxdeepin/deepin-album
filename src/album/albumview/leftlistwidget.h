@@ -36,6 +36,8 @@ public:
     void keyReleaseEvent(QKeyEvent *event) override;
     QStyleOptionViewItem viewOptions() const override;
     void mouseReleaseEvent(QMouseEvent *e) override;
+    //重命名状态下，接收外层ListView的点击事件确认保存已修改的内容
+    void SaveRename(QPoint p);
 
 protected:
     void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;

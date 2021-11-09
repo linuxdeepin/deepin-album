@@ -61,6 +61,7 @@ private:
     void appendAction(int id, const QString &text, const QString &shortcut);
     QString getNewAlbumName();
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *e) override;
 signals:
     void itemClicked();
     //幻灯片播放
