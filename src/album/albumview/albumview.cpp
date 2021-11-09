@@ -522,7 +522,7 @@ void AlbumView::initTrashWidget()
     }
     m_TrashDescritionLab->setForegroundRole(DPalette::Text);
     m_TrashDescritionLab->setPalette(pal);
-    m_TrashDescritionLab->setText(tr("The files will be permanently deleted after the days shown on it"));
+    m_TrashDescritionLab->setText(tr("The files will be permanently deleted after the days shown on them"));
     Layout1->addWidget(m_TrashDescritionLab);
 
     m_trashBatchOperateWidget = new BatchOperateWidget(m_pRightTrashThumbnailList, BatchOperateWidget::AlbumViewTrashType, m_pTrashWidget);
@@ -1467,7 +1467,7 @@ void AlbumView::getAllDeviceName()
             goto runend1;
         }
         udispname = label;
-runend1:
+    runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
