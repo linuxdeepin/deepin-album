@@ -2274,7 +2274,11 @@ void MainWindow::onEscShortcutActivated(bool isSwitchFullScreen)
 void MainWindow::onDelShortcutActivated()
 {
     emit dApp->signalM->sigShortcutKeyDelete();
-    m_del->click();
+
+    //BUG#101527 同其它界面的策略一样，仅在界面切换至此时触发删除动作
+    if (m_pCenterWidget->currentIndex() == VIEW_IMAGE) {
+        m_del->click();
+    }
 }
 
 void MainWindow::onKeyF2ShortcutActivated()
