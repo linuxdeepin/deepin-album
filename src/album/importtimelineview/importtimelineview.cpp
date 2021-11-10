@@ -143,28 +143,15 @@ void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeT
     m_DateLabel->setForegroundRole(DPalette::Text);
     m_DateLabel->setPalette(pal1);
     m_NumLabel->setPalette(pal1);
-    //todo
-//    for (int i = 1; i < m_mainListWidget->count(); i++) {
-//        TimelineItem *item = static_cast<TimelineItem *>(m_mainListWidget->itemWidget(m_mainListWidget->item(i)));
-//        QList<DLabel *> pLabelList = item->findChildren<DLabel *>();
-//        if (pLabelList.size() < 2) {
-//            break;
-//        }
-//        DPalette pal = DApplicationHelper::instance()->palette(pLabelList[1]);
-//        QColor color_BT = pal.color(DPalette::BrightText);
-//        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-//        if (themeType == DGuiApplicationHelper::LightType) {
-//            color_BT.setAlphaF(0.5);
-//            pal.setBrush(DPalette::Text, color_BT);
-//        } else if (themeType == DGuiApplicationHelper::DarkType) {
-//            color_BT.setAlphaF(0.75);
-//            pal.setBrush(DPalette::Text, color_BT);
-//        }
-//        pLabelList[1]->setForegroundRole(DPalette::Text);
-//        pLabelList[0]->setForegroundRole(DPalette::Text);
-//        pLabelList[0]->setPalette(pal);
-//        pLabelList[1]->setPalette(pal);
-//    }
+
+    //BUG#101474 顶部遮罩条样式刷新
+    DPalette ppal_TitleItem = DApplicationHelper::instance()->palette(m_TitleItem);
+    ppal_TitleItem.setBrush(DPalette::Background, ppal_TitleItem.color(DPalette::Base));
+    QGraphicsOpacityEffect *opacityEffect_TitleItem = new QGraphicsOpacityEffect;
+    opacityEffect_TitleItem->setOpacity(0.95);
+    m_TitleItem->setPalette(ppal_TitleItem);
+    m_TitleItem->setGraphicsEffect(opacityEffect_TitleItem);
+    m_TitleItem->setAutoFillBackground(true);
 }
 
 ThumbnailListView *ImportTimeLineView::getListView()
