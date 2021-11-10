@@ -100,6 +100,29 @@ TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time,
     TitleViewLayout->addStretch();
     TitleViewLayout->addLayout(NumandBtnLayout);
     this->setLayout(TitleViewLayout);
+
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &TimeLineDateWidget::onThemeChanged);
+}
+
+void TimeLineDateWidget::onThemeChanged(DGuiApplicationHelper::ColorType themeType)
+{
+    DPalette pal = DApplicationHelper::instance()->palette(m_pNum);
+    QColor color_BT = pal.color(DPalette::BrightText);
+    if (themeType == DGuiApplicationHelper::LightType) {
+        color_BT.setAlphaF(0.5);
+        pal.setBrush(DPalette::Text, color_BT);
+        m_pNum->setForegroundRole(DPalette::Text);
+        m_pNum->setPalette(pal);
+    } else if (themeType == DGuiApplicationHelper::DarkType) {
+        color_BT.setAlphaF(0.75);
+        pal.setBrush(DPalette::Text, color_BT);
+        m_pNum->setForegroundRole(DPalette::Text);
+        m_pNum->setPalette(pal);
+    }
+
+    DPalette color = DApplicationHelper::instance()->palette(m_pDate);
+    color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
+    m_pDate->setPalette(color);
 }
 
 void TimeLineDateWidget::onChooseBtnCliked()
@@ -186,6 +209,8 @@ importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QS
     TitleViewLayout->addWidget(m_pbtn);
     TitleViewLayout->addWidget(m_chooseBtn);
     this->setLayout(TitleViewLayout);
+
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &importTimeLineDateWidget::onThemeChanged);
 }
 
 void importTimeLineDateWidget::onChooseBtnCliked()
@@ -216,4 +241,21 @@ void importTimeLineDateWidget::onTimeLinePicSelectAll(bool selectall)
 QString importTimeLineDateWidget::onGetBtnStatus()
 {
     return m_chooseBtn->text();
+}
+
+void importTimeLineDateWidget::onThemeChanged(DGuiApplicationHelper::ColorType themeType)
+{
+    DPalette pal = DApplicationHelper::instance()->palette(m_pDateandNum);
+    QColor color_BT = pal.color(DPalette::BrightText);
+    if (themeType == DGuiApplicationHelper::LightType) {
+        color_BT.setAlphaF(0.5);
+        pal.setBrush(DPalette::Text, color_BT);
+        m_pDateandNum->setForegroundRole(DPalette::Text);
+        m_pDateandNum->setPalette(pal);
+    } else if (themeType == DGuiApplicationHelper::DarkType) {
+        color_BT.setAlphaF(0.75);
+        pal.setBrush(DPalette::Text, color_BT);
+        m_pDateandNum->setForegroundRole(DPalette::Text);
+        m_pDateandNum->setPalette(pal);
+    }
 }

@@ -24,6 +24,7 @@
 #include <DCommandLinkButton>
 #include <DLabel>
 #include <DWidget>
+#include <DGuiApplicationHelper>
 
 #include <QStandardItem>
 
@@ -42,6 +43,7 @@ public slots:
     void onChangeChooseBtnVisible(bool visible = false);             //1050预留，默认隐藏按钮
     void onTimeLinePicSelectAll(bool selectall = true);              //响应本时间内所有照片的全选状态，改变btn
     QString onGetBtnStatus();                                        //获取按钮状态
+    void onThemeChanged(DGuiApplicationHelper::ColorType themeType); //界面主题切换
 
 signals:
     void sigIsSelectCurrentDatePic(bool isSelectAll, QStandardItem *item);
@@ -69,6 +71,7 @@ public slots:
     void onChangeChooseBtnVisible(bool visible = false);             //1050预留，默认隐藏按钮
     void onTimeLinePicSelectAll(bool selectall = true);              //响应本时间内所有照片的全选状态，改变btn
     QString onGetBtnStatus();                                        //获取按钮状态
+    void onThemeChanged(DGuiApplicationHelper::ColorType themeType); //界面主题切换
 
 signals:
     void sigIsSelectCurrentDatePic(bool isSelectAll, QStandardItem *item);

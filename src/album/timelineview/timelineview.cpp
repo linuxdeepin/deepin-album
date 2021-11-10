@@ -129,10 +129,12 @@ void TimeLineView::initConnections()
 
 void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
 {
-    DPalette pa1 = DApplicationHelper::instance()->palette(m_dateNumItemWidget);
-    pa1.setBrush(DPalette::Background, pa1.color(DPalette::Base));
+    DPalette pa1 = DApplicationHelper::instance()->palette(pTimeLineViewWidget);
+    pa1.setBrush(DPalette::Base, pa1.color(DPalette::Window));
+
     m_dateNumItemWidget->setForegroundRole(DPalette::Background);
     m_dateNumItemWidget->setPalette(pa1);
+
     DPalette pa = DApplicationHelper::instance()->palette(m_dateLabel);
     pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
     m_dateLabel->setForegroundRole(DPalette::Text);
