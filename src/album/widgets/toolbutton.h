@@ -46,19 +46,19 @@ public:
     /**
      * @description: setIcon 设置控件显示的图标
     */
-    void setLIcon(const QIcon &icon);
-    void setRIcon(const QIcon &icon);
+    void setLIcon(const QIcon &icon_light, const QIcon &icon_dark);
+    void setRIcon(const QIcon &icon_light, const QIcon &icon_dark);
     void setRWIcon(const QString &path);
 
 
-    QIcon lIcon()
+    std::pair<QIcon, QIcon> lIcon()
     {
-        return m_Licon;
+        return std::make_pair(m_Licon_light, m_Licon_dark);
     }
 
-    QIcon rIcon()
+    std::pair<QIcon, QIcon> rIcon()
     {
-        return m_Ricon;
+        return std::make_pair(m_Ricon_light, m_Ricon_dark);
     }
 
     QString text()
@@ -83,9 +83,13 @@ private:
     QString m_text;
 
     //用于绘制的图片
-    QIcon   m_Licon;
-    QIcon   m_Ricon;
-    QIcon   m_RiconWhite;
+    QIcon m_Licon_light;
+    QIcon m_Licon_dark;
+
+    QIcon m_Ricon_light;
+    QIcon m_Ricon_dark;
+
+    QIcon m_RiconWhite;
 };
 
 #endif // TOOLBUTTON_H

@@ -77,8 +77,8 @@ void ExpansionPanel::addNewButton(FilteData &data)
     auto button = new ToolButton(this);
     buttons[buttonCount++] = button;
     button->setText(data.text);
-    button->setLIcon(data.icon_l);
-    button->setRIcon(data.icon_r);
+    button->setLIcon(data.icon_l_light, data.icon_l_dark);
+    button->setRIcon(data.icon_r_light, data.icon_r_dark);
     button->setRWIcon((data.icon_r_path + "_hover"));
     button->setFixedSize(190, 34);
     layout->addWidget(button);

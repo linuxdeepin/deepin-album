@@ -39,8 +39,10 @@ class ExpansionPanel : public DBlurEffectWidget
 public:
     //所选数据
     struct FilteData {
-        QIcon icon_l = QIcon();//左边图标
-        QIcon icon_r = QIcon();//右边图标
+        QIcon icon_l_light = QIcon();//左边图标浅
+        QIcon icon_l_dark = QIcon(); //左边图标深
+        QIcon icon_r_light = QIcon();//右边图标浅
+        QIcon icon_r_dark = QIcon(); //右边图标深
         QString icon_r_path;
         QString text;
         ItemType type = ItemType::ItemTypeNull;

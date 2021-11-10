@@ -39,22 +39,26 @@ void ToolButton::setText(const QString &text)
     update();
 }
 
-void ToolButton::setLIcon(const QIcon &icon)
+void ToolButton::setLIcon(const QIcon &icon_light, const QIcon &icon_dark)
 {
     //控件设置需要绘制的图片
-    m_Licon = icon;
+    m_Licon_light = icon_light;
+    m_Licon_dark = icon_dark;
     update();
 }
 
-void ToolButton::setRIcon(const QIcon &icon)
+void ToolButton::setRIcon(const QIcon &icon_light, const QIcon &icon_dark)
 {
     //控件设置需要绘制的图片
-    m_Ricon = icon;
+    m_Ricon_light = icon_light;
+    m_Ricon_dark = icon_dark;
+    update();
 }
 
 void ToolButton::setRWIcon(const QString &path)
 {
     m_RiconWhite = QIcon::fromTheme(path);
+    update();
 }
 
 void ToolButton::paintEvent(QPaintEvent *e)
@@ -80,7 +84,7 @@ void ToolButton::paintEvent(QPaintEvent *e)
     }
     painter.restore();
 
-    if (Dtk::Gui::DGuiApplicationHelper::instance()->themeType() == 1) {
+    if (Dtk::Gui::DGuiApplicationHelper::instance()->themeType() == Dtk::Gui::DGuiApplicationHelper::LightType) {
         //控件禁用样式
         if (!(option.state & QStyle::State_Enabled)) {
             painter.setPen(QColor("#9C9C9C"));
@@ -98,8 +102,9 @@ void ToolButton::paintEvent(QPaintEvent *e)
             painter.setPen(QColor("#343434"));
         }
 
+        //图片
+        painter.drawPixmap(QRect(10, -6, 32, 32), m_Licon_light.pixmap(QSize(32, 32)));
     } else {
-
         //控件禁用样式
         if (!(option.state & QStyle::State_Enabled)) {
             painter.setPen(QColor("#8D8D8D"));
@@ -116,10 +121,10 @@ void ToolButton::paintEvent(QPaintEvent *e)
         } else {
             painter.setPen(QColor(Qt::white));
         }
-    }
 
-    // 绘制图片
-    painter.drawPixmap(QRect(10, -6, 32, 32), m_Licon.pixmap(QSize(32, 32)));
+        //图片
+        painter.drawPixmap(QRect(10, -6, 32, 32), m_Licon_dark.pixmap(QSize(32, 32)));
+    }
 
     //绘制文字
     painter.save();
@@ -133,7 +138,11 @@ void ToolButton::paintEvent(QPaintEvent *e)
     if (option.state & QStyle::State_MouseOver) {
         painter.drawPixmap(QRect(130, 10, 16, 16), m_RiconWhite.pixmap(QSize(16, 16)));
     } else {
-        painter.drawPixmap(QRect(130, 10, 16, 16), m_Ricon.pixmap(QSize(16, 16)));
+        if (Dtk::Gui::DGuiApplicationHelper::instance()->themeType() == Dtk::Gui::DGuiApplicationHelper::LightType) {
+            painter.drawPixmap(QRect(130, 10, 16, 16), m_Ricon_light.pixmap(QSize(16, 16)));
+        } else {
+            painter.drawPixmap(QRect(130, 10, 16, 16), m_Ricon_dark.pixmap(QSize(16, 16)));
+        }
     }
 }
 
