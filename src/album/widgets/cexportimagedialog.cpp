@@ -37,7 +37,8 @@
 #include <QDebug>
 #include <QDateTime>
 #include <QTimer>
-
+#include <QRegExp>
+#include <QRegExpValidator>
 
 const QSize DIALOG_SIZE = QSize(380, 280);
 const QSize LINE_EDIT_SIZE = QSize(250, 35);
@@ -175,6 +176,9 @@ void CExportImageDialog::initUI()
     m_fileNameEdit = new DLineEdit(this);
     m_fileNameEdit->setClearButtonEnabled(false);
     m_fileNameEdit->lineEdit()->setMaxLength(255 - 1 - m_formatCombox->currentText().size());
+    QRegExp regExp("[^/\\\\\\[\\]:|<>+=;,?*'\"]+");
+    QRegExpValidator *pattern = new QRegExpValidator(regExp, this);
+    m_fileNameEdit->lineEdit()->setValidator(pattern);
 
     m_qualitySlider = new DSlider(Qt::Horizontal, this);
     m_qualitySlider->slider()->setFocusPolicy(Qt::TabFocus);
