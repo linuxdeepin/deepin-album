@@ -165,7 +165,7 @@ public:
                       << "SVG" << "ICNS" << "GIF" << "MNG" << "TIF"
                       << "TIFF" << "BMP" << "XPM" << "MRW" << "DNG"
                       << "RAF"  << "CR2" << "MEF" << "RAW" << "ORF"
-                      << "NEF" ;
+                      << "NEF" << "PEF" << "PXM" ;
 
         m_canSave << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
                   << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
@@ -614,8 +614,13 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
     if (f == FIF_TIFF) {
         file_suffix_upper = "TIFF";
     }
+    bool usingQimage = false;
+    if (f == FIF_RAW && path.endsWith(".PEF")) {
+        usingQimage = true;
+        file_suffix_upper = "";
+    }
     QString file_suffix_lower = file_suffix_upper.toLower();
-    if (union_image_private.m_qtSupported.contains(file_suffix_upper)) {
+    if (usingQimage || union_image_private.m_qtSupported.contains(file_suffix_upper)) {
         QImageReader reader;
         QImage res_qt;
         reader.setFileName(path);
