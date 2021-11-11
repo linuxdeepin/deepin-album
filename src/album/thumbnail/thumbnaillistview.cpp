@@ -663,44 +663,54 @@ void ThumbnailListView::updateMenuContents()
         action->setEnabled(true);
     }
     //源文件不存在时的菜单
-    if ((1 == paths.length()) && (!QFileInfo(paths[0]).exists()) && (COMMON_STR_TRASH != m_imageType)) {
+    if (1 == paths.length()) {
+        QFileInfo info(paths[0]);
+        if (!info.exists() && COMMON_STR_TRASH != m_imageType) {
 #ifndef tablet_PC
-        m_MenuActionMap.value(tr("View"))->setEnabled(true);
-        m_MenuActionMap.value(tr("Fullscreen"))->setEnabled(false);
-        m_MenuActionMap.value(tr("Slide show"))->setEnabled(false);
-        m_MenuActionMap.value(tr("Export"))->setEnabled(false);
-        m_albumMenu->deleteLater();
-        m_albumMenu = createAlbumMenu();
-        if (m_albumMenu) {
-            QAction *action = m_MenuActionMap.value(tr("Export"));
-            action->setEnabled(false);
-            m_albumMenu->setEnabled(false);
-            m_pMenu->insertMenu(action, m_albumMenu);
+            m_MenuActionMap.value(tr("View"))->setEnabled(true);
+            m_MenuActionMap.value(tr("Fullscreen"))->setEnabled(false);
+            m_MenuActionMap.value(tr("Slide show"))->setEnabled(false);
+            m_MenuActionMap.value(tr("Export"))->setEnabled(false);
+            m_albumMenu->deleteLater();
+            m_albumMenu = createAlbumMenu();
+            if (m_albumMenu) {
+                QAction *action = m_MenuActionMap.value(tr("Export"));
+                action->setEnabled(false);
+                m_albumMenu->setEnabled(false);
+                m_pMenu->insertMenu(action, m_albumMenu);
+            }
+            m_MenuActionMap.value(tr("Copy"))->setEnabled(false);
+#endif
+            m_MenuActionMap.value(tr("Delete"))->setEnabled(true);
+            m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
+#ifndef tablet_PC
+            m_MenuActionMap.value(tr("Print"))->setVisible(false);
+#endif
+            if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0], AlbumDBType::Favourite)) {
+                m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
+                m_MenuActionMap.value(tr("Unfavorite"))->setEnabled(false);
+            } else {
+                m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
+                m_MenuActionMap.value(tr("Favorite"))->setEnabled(false);
+            }
+#ifndef tablet_PC
+            m_MenuActionMap.value(tr("Rotate clockwise"))->setEnabled(false);
+            m_MenuActionMap.value(tr("Rotate counterclockwise"))->setEnabled(false);
+            m_MenuActionMap.value(tr("Display in file manager"))->setEnabled(false);
+            m_MenuActionMap.value(tr("Photo info"))->setEnabled(false);
+            m_MenuActionMap.value(tr("Video info"))->setVisible(false);
+            m_MenuActionMap.value(tr("Set as wallpaper"))->setEnabled(false);
+#endif
+            return;
         }
-        m_MenuActionMap.value(tr("Copy"))->setEnabled(false);
-#endif
-        m_MenuActionMap.value(tr("Delete"))->setEnabled(true);
-        m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
 #ifndef tablet_PC
-        m_MenuActionMap.value(tr("Print"))->setVisible(false);
-#endif
-        if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0], AlbumDBType::Favourite)) {
-            m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
-            m_MenuActionMap.value(tr("Unfavorite"))->setEnabled(false);
-        } else {
-            m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
-            m_MenuActionMap.value(tr("Favorite"))->setEnabled(false);
+        if (!info.permission(QFile::ReadOwner)) {
+            m_MenuActionMap.value(tr("Set as wallpaper"))->setEnabled(false);
+            m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(false);
         }
-#ifndef tablet_PC
-        m_MenuActionMap.value(tr("Rotate clockwise"))->setEnabled(false);
-        m_MenuActionMap.value(tr("Rotate counterclockwise"))->setEnabled(false);
-        m_MenuActionMap.value(tr("Display in file manager"))->setEnabled(false);
-        m_MenuActionMap.value(tr("Photo info"))->setEnabled(false);
-        m_MenuActionMap.value(tr("Video info"))->setVisible(false);
-        m_MenuActionMap.value(tr("Set as wallpaper"))->setEnabled(false);
 #endif
-        return;
     }
+
 #ifndef tablet_PC
     if (1 != paths.length()) {
         m_MenuActionMap.value(tr("View"))->setVisible(false);
@@ -749,20 +759,15 @@ void ThumbnailListView::updateMenuContents()
         if (UnionImage_NameSpace::isImageSupportRotate(paths[0]))
             bflag_imageSupportSave = true;
     }
-    if (bflag_imageSupportSave) {
-        int flag_isRW = 0;
-        if (1 == paths.length()) {
-            if (QFileInfo(paths[0]).isReadable() && !QFileInfo(paths[0]).isWritable()) {
-                flag_isRW = 1;
-            }
+    int flag_isRW = 0;
+    if (1 == paths.length()) {
+        if (QFileInfo(paths[0]).isReadable() && QFileInfo(paths[0]).isWritable()) {
+            flag_isRW = 1;
         }
-        if (flag_isRW == 1) {
-            m_MenuActionMap.value(tr("Rotate clockwise"))->setDisabled(true);
-            m_MenuActionMap.value(tr("Rotate counterclockwise"))->setDisabled(true);
-        } else {
-            m_MenuActionMap.value(tr("Rotate clockwise"))->setDisabled(false);
-            m_MenuActionMap.value(tr("Rotate counterclockwise"))->setDisabled(false);
-        }
+    }
+    if (bflag_imageSupportSave && flag_isRW == 1) {
+        m_MenuActionMap.value(tr("Rotate clockwise"))->setEnabled(true);
+        m_MenuActionMap.value(tr("Rotate counterclockwise"))->setEnabled(true);
     } else {
         m_MenuActionMap.value(tr("Rotate clockwise"))->setVisible(false);
         m_MenuActionMap.value(tr("Rotate counterclockwise"))->setVisible(false);
@@ -773,8 +778,10 @@ void ThumbnailListView::updateMenuContents()
             m_MenuActionMap.value(tr("Photo info"))->setVisible(true);
             m_MenuActionMap.value(tr("Video info"))->setVisible(false);
             m_MenuActionMap.value(tr("Fullscreen"))->setVisible(true);
-            m_MenuActionMap.value(tr("Rotate clockwise"))->setVisible(true);
-            m_MenuActionMap.value(tr("Rotate counterclockwise"))->setVisible(true);
+            if (flag_isRW) {
+                m_MenuActionMap.value(tr("Rotate clockwise"))->setVisible(true);
+                m_MenuActionMap.value(tr("Rotate counterclockwise"))->setVisible(true);
+            }
         } else {
             m_MenuActionMap.value(tr("Video info"))->setVisible(true);
             m_MenuActionMap.value(tr("Print"))->setVisible(false);
@@ -817,7 +824,7 @@ void ThumbnailListView::updateMenuContents()
 
     if ((1 == paths.length() || QFileInfo(paths[0]).suffix().contains("gif"))) {
         DBImgInfo data = selectedIndexes().at(0).data(Qt::DisplayRole).value<DBImgInfo>();
-        if (data.itemType == ItemTypePic) {
+        if (data.itemType == ItemTypePic && QFileInfo(paths[0]).isReadable()) {
             m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(true);
         } else {
             m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(false);

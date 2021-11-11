@@ -533,7 +533,7 @@ UNIONIMAGESHARED_EXPORT FIBITMAP *readFile2FIBITMAP(const QString &path, int fla
 UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
 {
     QFileInfo info(path);
-    if (!info.exists() || !QFile::permissions(path).testFlag(QFile::WriteUser)) {
+    if (!info.exists() || !QFile::permissions(path).testFlag(QFile::WriteOwner) || !QFile::permissions(path).testFlag(QFile::ReadOwner)) {
         return false;
     }
     QImageReader r(path);
