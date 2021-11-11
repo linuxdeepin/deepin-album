@@ -82,6 +82,8 @@ public:
     void refreshBtnEnabled(bool noSelected = false);
     //刷新收藏按钮
     void refreshCollectBtn();
+    //判断全部选中项是否全部已收藏
+    bool isAllSelectedCollected();
 protected:
     void hideEvent(QHideEvent *event) override;
 signals:
@@ -116,8 +118,6 @@ public slots:
 private:
     //初始化信号槽
     void initConnection();
-    //判断全部选中项是否全部已收藏
-    bool isAllSelectedCollected();
     //刷新恢复与删除按钮是否可用状态
     void refreshTrashBtnState();
 private:

@@ -131,6 +131,7 @@ void BatchOperateWidget::sltBatchSelectChanged()
         batchSelectChanged(false, true);
     }
     refreshBtnEnabled();
+    m_thumbnailListView->setFocus();
 }
 //全选
 void BatchOperateWidget::sltSelectAll()
@@ -138,6 +139,7 @@ void BatchOperateWidget::sltSelectAll()
     m_thumbnailListView->selectAllByItemType(m_ToolButton->getFilteType());
     m_thumbnailListView->slotChangeAllSelectBtnVisible(true);
     m_thumbnailListView->updatetimeLimeBtnText();
+    m_thumbnailListView->setFocus();
     m_chooseAll->setVisible(false);
     m_cancelChooseAll->setVisible(true);
 }
@@ -147,6 +149,7 @@ void BatchOperateWidget::sltUnSelectAll()
     m_thumbnailListView->clearSelection();
     m_thumbnailListView->slotChangeAllSelectBtnVisible(true);
     m_thumbnailListView->updatetimeLimeBtnText();
+    m_thumbnailListView->setFocus();
     m_chooseAll->setVisible(true);
     m_cancelChooseAll->setVisible(false);
 }
@@ -157,6 +160,7 @@ void BatchOperateWidget::sltRemoveSelect(bool checked)
     qDebug() << __FUNCTION__ << "---";
     QStringList paths = m_thumbnailListView->selectedPaths();
     m_thumbnailListView->removeSelectToTrash(paths);
+    m_thumbnailListView->setFocus();
 }
 //收藏选中项
 void BatchOperateWidget::sltCollectSelect(bool checked)
@@ -177,6 +181,7 @@ void BatchOperateWidget::sltCollectSelect(bool checked)
     } else {
         m_collection->setIcon(QIcon::fromTheme("dcc_collection_normal"));
     }
+    m_thumbnailListView->setFocus();
 }
 //顺时针旋转
 void BatchOperateWidget::sltRightRotate(bool checked)
@@ -187,6 +192,7 @@ void BatchOperateWidget::sltRightRotate(bool checked)
     for (int i = 0; i < paths.size(); i++) {
         emit ImageEngineApi::instance()->sigRotateImageFile(90, paths.at(i));
     }
+    m_thumbnailListView->setFocus();
 }
 //逆时针旋转
 void BatchOperateWidget::sltLeftRotate(bool checked)
@@ -197,6 +203,7 @@ void BatchOperateWidget::sltLeftRotate(bool checked)
     for (int i = 0; i < paths.size(); i++) {
         emit ImageEngineApi::instance()->sigRotateImageFile(-90, paths.at(i));
     }
+    m_thumbnailListView->setFocus();
 }
 //缩略图列表选中状态发生变化
 void BatchOperateWidget::sltSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
@@ -209,6 +216,7 @@ void BatchOperateWidget::sltSelectionChanged(const QItemSelection &selected, con
     }
     batchSelectChanged(true, false);
     refreshBtnEnabled();
+    m_thumbnailListView->setFocus();
 }
 
 void BatchOperateWidget::sltCurrentFilterChanged(ExpansionPanel::FilteData &data)
@@ -225,6 +233,7 @@ void BatchOperateWidget::sltCurrentFilterChanged(ExpansionPanel::FilteData &data
     }
     //如果过滤会后数量<=0，则不可用
     m_startBatchSelect->setEnabled(m_thumbnailListView->getAppointTypeItemCount(m_ToolButton->getFilteType()) > 0);
+    m_thumbnailListView->setFocus();
 }
 //点击最近删除恢复按钮
 void BatchOperateWidget::onTrashRecoveryBtnClicked()
@@ -232,6 +241,7 @@ void BatchOperateWidget::onTrashRecoveryBtnClicked()
     QStringList paths;
     paths = m_thumbnailListView->selectedPaths();
     ImageEngineApi::instance()->recoveryImagesFromTrash(paths);
+    m_thumbnailListView->setFocus();
 }
 //点击最近删除中删除按钮
 void BatchOperateWidget::onTrashDeleteBtnClicked()
@@ -256,6 +266,7 @@ void BatchOperateWidget::onTrashDeleteBtnClicked()
     }
 
     refreshTrashBtnState();
+    m_thumbnailListView->setFocus();
 }
 //主题变化
 void BatchOperateWidget::onThemeTypeChanged(DGuiApplicationHelper::ColorType themeType)

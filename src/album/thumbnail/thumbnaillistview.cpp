@@ -361,6 +361,7 @@ void ThumbnailListView::keyPressEvent(QKeyEvent *event)
     DListView::keyPressEvent(event);
     if ((event->modifiers() == Qt::ControlModifier) && (event->key() == Qt::Key_A)) {
         TimeLineSelectAllBtn();
+        updateMenuContents();
         emit sigSelectAll();
     }
     m_dragItemPath = selectedPaths();
@@ -730,8 +731,13 @@ void ThumbnailListView::updateMenuContents()
         }
         m_pMenu->addSeparator();
     } else {
-        m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
-        m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
+        if (!m_batchOperateWidget->isAllSelectedCollected()) {
+            m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
+            m_MenuActionMap.value(tr("Favorite"))->setVisible(true);
+        } else {
+            m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
+            m_MenuActionMap.value(tr("Unfavorite"))->setVisible(true);
+        }
     }
     //非自定义相册，隐藏从相册中移除菜单
     if (m_delegatetype != ThumbnailDelegate::AlbumViewCustomType) {
@@ -776,8 +782,6 @@ void ThumbnailListView::updateMenuContents()
             m_MenuActionMap.value(tr("Export"))->setVisible(false);
             m_MenuActionMap.value(tr("Photo info"))->setVisible(false);
             m_MenuActionMap.value(tr("Fullscreen"))->setVisible(false);
-            m_MenuActionMap.value(tr("Rotate clockwise"))->setVisible(false);
-            m_MenuActionMap.value(tr("Rotate counterclockwise"))->setVisible(false);
             m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(false);
         }
     } else {
@@ -800,6 +804,14 @@ void ThumbnailListView::updateMenuContents()
                 m_MenuActionMap.value(tr("Slide show"))->setVisible(true);
                 break;
             }
+        }
+        //多选状态下应当支持批量旋转
+        if (!isAllSelectedSupportRotate()) {
+            m_MenuActionMap.value(tr("Rotate clockwise"))->setVisible(false);
+            m_MenuActionMap.value(tr("Rotate counterclockwise"))->setVisible(false);
+        } else {
+            m_MenuActionMap.value(tr("Rotate clockwise"))->setVisible(true);
+            m_MenuActionMap.value(tr("Rotate counterclockwise"))->setVisible(true);
         }
     }
 
@@ -1010,12 +1022,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     }
     break;
     case IdAddToFavorites:
-        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
-        //todo 下面的信号应该放在dbmanager里删除成功后发送
-        emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, paths);
-        if (m_batchOperateWidget) {
-            m_batchOperateWidget->refreshCollectBtn();
-        }
+        m_batchOperateWidget->sltCollectSelect(true); //参数未使用，true false随便传
         break;
     case IdRemoveFromFavorites:
         DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
@@ -1838,6 +1845,7 @@ void ThumbnailListView::selectAllByItemType(ItemType type)
     qDebug() << __FUNCTION__ << "---type = " << type;
     this->selectAll();
     emit sigSelectAll();
+    updateMenuContents();
     //因为性能问题，未根据类型选择，这里做全选处理，全选后，在获取选中项处过滤隐藏项
 //    if (type == ItemTypeNull) {
 //        this->selectAll();
