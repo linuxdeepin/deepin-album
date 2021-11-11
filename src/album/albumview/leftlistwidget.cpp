@@ -133,6 +133,10 @@ void LeftListWidget::SaveRename(QPoint p)
     QModelIndex index = indexAt(p);
     if (!index.isValid() || index.row() == 0 || index.row() == 4 || index.row() == 6) {
         //保存当前的修改状态，发送不存在的index点击,0 4 6为标题索引，为有效index
-        emit pressed(index);
+        QModelIndexList indexs = this->selectedIndexes();
+        for (auto idx : indexs) {
+            AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(this->itemWidget(this->item(idx.row())));
+            emit item->m_pLineEdit->editingFinished();
+        }
     }
 }

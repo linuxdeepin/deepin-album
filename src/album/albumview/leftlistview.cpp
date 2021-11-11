@@ -369,10 +369,10 @@ void LeftListView::onMenuClicked(QAction *action)
     case IdCreateAlbum: {
         QListWidgetItem *pListWidgetItem = new QListWidgetItem();
         pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
-        m_pCustomizeListView->insertItem(m_pCustomizeListView->currentRow() + 1, pListWidgetItem);
+        m_pCustomizeListView->insertItem(m_pCustomizeListView->count(), pListWidgetItem);
         AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(getNewAlbumName());
         m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
-        m_pCustomizeListView->setCurrentRow(m_pCustomizeListView->currentRow() + 1);
+        m_pCustomizeListView->setCurrentRow(m_pCustomizeListView->count() - 1);
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
         item->m_opeMode = OPE_MODE_ADDNEWALBUM;
         item->editAlbumEdit();
