@@ -522,7 +522,8 @@ void AlbumView::initTrashWidget()
     }
     m_TrashDescritionLab->setForegroundRole(DPalette::Text);
     m_TrashDescritionLab->setPalette(pal);
-    m_TrashDescritionLab->setText(tr("The files will be permanently deleted after the days shown on them"));
+    m_trashNoticeFullStr = tr("The files will be permanently deleted after the days shown on them");
+    m_TrashDescritionLab->setText(m_trashNoticeFullStr);
     Layout1->addWidget(m_TrashDescritionLab);
 
     m_trashBatchOperateWidget = new BatchOperateWidget(m_pRightTrashThumbnailList, BatchOperateWidget::AlbumViewTrashType, m_pTrashWidget);
@@ -1467,7 +1468,7 @@ void AlbumView::getAllDeviceName()
             goto runend1;
         }
         udispname = label;
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -2322,6 +2323,18 @@ void AlbumView::onTrashInfosChanged()
     updateRightView();
 }
 
+void AlbumView::adaptiveTrashDescritionLabel()
+{
+    //然后还要看情况把旁边那个label搞成省略号
+    auto descritionText = utils::base::reorganizationStr(m_TrashDescritionLab->font(), m_trashNoticeFullStr, m_TrashTitleLab->x() - 30);
+    m_TrashDescritionLab->setText(descritionText);
+    if (descritionText != m_trashNoticeFullStr) {
+        m_TrashDescritionLab->setToolTip(m_trashNoticeFullStr);
+    } else {
+        m_TrashDescritionLab->setToolTip("");
+    }
+}
+
 void AlbumView::resizeEvent(QResizeEvent *e)
 {
     qDebug() << "------" << __FUNCTION__ << "";
@@ -2356,6 +2369,18 @@ void AlbumView::resizeEvent(QResizeEvent *e)
     m_pStatusBar->setFixedWidth(this->width() - m_pLeftListView->width());
     m_pStatusBar->move(m_pLeftListView->width(), this->height() - m_pStatusBar->height());
     m_pStatusBar->raise();
+
+    //然后还要看情况把旁边那个label搞成省略号
+    auto descritionText = utils::base::reorganizationStr(m_TrashDescritionLab->font(), m_trashNoticeFullStr, m_TrashTitleLab->x() - 30);
+    m_TrashDescritionLab->setText(descritionText);
+    if (descritionText != m_trashNoticeFullStr) {
+        m_TrashDescritionLab->setToolTip(m_trashNoticeFullStr);
+    } else {
+        m_TrashDescritionLab->setToolTip("");
+    }
+
+    adaptiveTrashDescritionLabel();
+
     QWidget::resizeEvent(e);
 }
 
@@ -2384,6 +2409,8 @@ void AlbumView::showEvent(QShowEvent *e)
 //        m_pRightPhoneThumbnailList->setFixedSize(pPhoneWidget->size());
         phonetopwidget->setFixedWidth(pPhoneWidget->width() - 15);//BUG#93779 -15把右侧滚动条露出来
     }
+
+    adaptiveTrashDescritionLabel();
+
     QWidget::showEvent(e);
 }
-

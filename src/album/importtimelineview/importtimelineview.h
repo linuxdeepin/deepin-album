@@ -68,6 +68,7 @@ protected:
 private:
     void initTimeLineViewWidget();
     void initConnections();
+    void updateDateNumLabel();
 
     void dragEnterEvent(QDragEnterEvent *e) override;
     void dropEvent(QDropEvent *event) override;
@@ -116,8 +117,9 @@ private:
     DCommandLinkButton *m_suspensionChoseBtn = nullptr;  //悬浮选择按钮
     DWidget *m_timeLineViewWidget = nullptr;
     BatchOperateWidget *m_batchOperateWidget = nullptr;
-    DLabel *m_DateLabel = nullptr;                      //已导入悬浮日期
-    DLabel *m_NumLabel = nullptr;                       //已导入悬浮数量
+    DLabel *m_DateNumLabel = nullptr;                   //已导入悬浮日期数量
+    QString dateFullStr;
+    QString numFullStr;
     DLabel *m_pImportTitle = nullptr;                   //已导入悬浮标题
     DSlider *m_DSlider;
     ThumbnailListView *m_importTimeLineListView = nullptr;

@@ -63,6 +63,19 @@ int stringHeight(const QFont &f, const QString &str)
     return fm.boundingRect(str).height();
 }
 
+QString reorganizationStr(const QFont &font, const QString &fullStr, int maxWidth)
+{
+    QFontMetrics fontWidth(font); //字体信息
+    int width = fontWidth.width(fullStr) + 10; //计算字符串宽度,+10提前进入省略，避免右边遮挡
+    QString result;
+    if (width > maxWidth) {
+        result = fontWidth.elidedText(fullStr, Qt::ElideRight, maxWidth); //超过最大长度，右边搞成省略号
+    } else {
+        result = fullStr; //没超最大长度，完整显示字符串
+    }
+    return result;
+}
+
 QDateTime stringToDateTime(const QString &time)
 {
     QDateTime dt = QDateTime::fromString(time, DATETIME_FORMAT_EXIF);

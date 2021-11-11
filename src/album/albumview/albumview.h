@@ -197,6 +197,8 @@ private slots:
     void sltSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
     //最近删除中有变化
     void onTrashInfosChanged();
+    //删除描述语自适应变化
+    void adaptiveTrashDescritionLabel();
 public:
     int m_iAlubmPicsNum;
     QString m_currentAlbum;
@@ -260,6 +262,7 @@ private:
     BatchOperateWidget *m_trashBatchOperateWidget = nullptr;
     DWidget *m_pTrashWidget = nullptr;                                //最近删除外层界面
     NoResultWidget *m_trashNoResultWidget = nullptr;
+    QString m_trashNoticeFullStr;
     //手机照片导入窗体
     DWidget *m_importByPhoneWidget;
     DComboBox *m_importByPhoneComboBox;

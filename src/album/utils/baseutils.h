@@ -261,6 +261,8 @@ QString     videoIndex2str(const int &index);
 QString     audioIndex2str(const int &index);
 //判断是否视频
 bool        isVideo(QString path);
+//字符串自适应长度，多的变省略号
+QString reorganizationStr(const QFont &font, const QString &fullStr, int maxWidth);
 }  // namespace base
 
 }  // namespace utils

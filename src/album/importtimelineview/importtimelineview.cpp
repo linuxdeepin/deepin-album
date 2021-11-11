@@ -130,7 +130,7 @@ void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeT
     m_pImportTitle->setPalette(ppal_light2);
     //add end 3975
 
-    DPalette pal1 = DApplicationHelper::instance()->palette(m_NumLabel);
+    DPalette pal1 = DApplicationHelper::instance()->palette(m_DateNumLabel);
     QColor color_BT1 = pal1.color(DPalette::BrightText);
     if (themeType == DGuiApplicationHelper::LightType) {
         color_BT1.setAlphaF(0.5);
@@ -139,10 +139,8 @@ void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeT
         color_BT1.setAlphaF(0.75);
         pal1.setBrush(DPalette::Text, color_BT1);
     }
-    m_NumLabel->setForegroundRole(DPalette::Text);
-    m_DateLabel->setForegroundRole(DPalette::Text);
-    m_DateLabel->setPalette(pal1);
-    m_NumLabel->setPalette(pal1);
+    m_DateNumLabel->setForegroundRole(DPalette::Text);
+    m_DateNumLabel->setPalette(pal1);
 
     //BUG#101474 顶部遮罩条样式刷新
     DPalette ppal_TitleItem = DApplicationHelper::instance()->palette(m_TitleItem);
@@ -166,6 +164,7 @@ void ImportTimeLineView::updateSize()
     m_pImportTitle->raise();//图层上移
     m_choseBtnItem->setFixedSize(width() - 15, ChoseBtn_HEIGHT);
     m_choseBtnItem->move(0, m_TitleItem->geometry().bottom());
+    updateDateNumLabel();
 }
 
 void ImportTimeLineView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName)
@@ -186,8 +185,7 @@ void ImportTimeLineView::onSuspensionChoseBtnClicked()
     } else {
         m_suspensionChoseBtn->setText(QObject::tr("Select"));
     }
-    QString date_str = m_DateLabel->text();
-    m_importTimeLineListView->timeLimeFloatBtnClicked(date_str, isSelect);
+    m_importTimeLineListView->timeLimeFloatBtnClicked(dateFullStr, isSelect);
 }
 
 void ImportTimeLineView::slotBatchSelectChanged(bool isBatchSelect)
@@ -205,8 +203,7 @@ void ImportTimeLineView::slotNoPicOrNoVideo(bool isNoResult)
 {
     m_noResultWidget->setVisible(isNoResult);
     m_importTimeLineListView->setVisible(!isNoResult);
-    m_DateLabel->setVisible(!isNoResult);
-    m_NumLabel->setVisible(!isNoResult);
+    m_DateNumLabel->setVisible(!isNoResult);
     m_pImportTitle->setVisible(!isNoResult);
     emit sigNoPicOrNoVideo(isNoResult);
 }
@@ -276,19 +273,15 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_TitleItem->setGraphicsEffect(opacityEffect_TitleItem);
     m_TitleItem->setAutoFillBackground(true);
     //时间数量
-    m_DateLabel = new DLabel();
-    DFontSizeManager::instance()->bind(m_DateLabel, DFontSizeManager::T6, QFont::Medium);
-    m_DateLabel->setForegroundRole(DPalette::Text);
-
-    m_NumLabel = new DLabel();
-    DFontSizeManager::instance()->bind(m_NumLabel, DFontSizeManager::T6, QFont::Medium);
-    m_NumLabel->setForegroundRole(DPalette::Text);
+    m_DateNumLabel = new DLabel();
+    DFontSizeManager::instance()->bind(m_DateNumLabel, DFontSizeManager::T6, QFont::Medium);
+    m_DateNumLabel->setForegroundRole(DPalette::Text);
 
     QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft6.setFamily("SourceHanSansSC");
     ft6.setWeight(QFont::Medium);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    DPalette pal = DApplicationHelper::instance()->palette(m_NumLabel);
+    DPalette pal = DApplicationHelper::instance()->palette(m_DateNumLabel);
     QColor color_BT = pal.color(DPalette::BrightText);
     if (themeType == DGuiApplicationHelper::LightType) {
         color_BT.setAlphaF(0.5);
@@ -297,20 +290,14 @@ void ImportTimeLineView::initTimeLineViewWidget()
     } else if (themeType == DGuiApplicationHelper::DarkType) {
         color_BT.setAlphaF(0.75);
         pal.setBrush(DPalette::Text, color_BT);
-        m_NumLabel->setForegroundRole(DPalette::Text);
-        m_NumLabel->setPalette(pal);
+        m_DateNumLabel->setForegroundRole(DPalette::Text);
+        m_DateNumLabel->setPalette(pal);
     }
-    m_NumLabel->setForegroundRole(DPalette::Text);
-    m_DateLabel->setForegroundRole(DPalette::Text);
-    m_DateLabel->setPalette(pal);
-    m_NumLabel->setPalette(pal);
-
-    m_NumLabel->setFont(ft6);
-    m_DateLabel->setFont(ft6);
+    m_DateNumLabel->setForegroundRole(DPalette::Text);
+    m_DateNumLabel->setFont(ft6);
     //end xiaolong
 
-    TitleLayout->addWidget(m_DateLabel);
-    TitleLayout->addWidget(m_NumLabel);
+    TitleLayout->addWidget(m_DateNumLabel);
     QSpacerItem *spacerItem = new QSpacerItem(10, 10, QSizePolicy::Expanding, QSizePolicy::Expanding);
     TitleLayout->addSpacerItem(spacerItem);
     m_TitleItem->move(0, 0);
@@ -432,8 +419,8 @@ void ImportTimeLineView::addTimelineLayout()
         }
 
         if (timelineIndex == 0) {
-            m_DateLabel->setText(data);
-            m_NumLabel->setText(num);
+            dateFullStr = data;
+            numFullStr = num;
             //加空白栏
             if (!m_choseBtnItem->isHidden()) {
                 m_importTimeLineListView->insertBlankOrTitleItem(ItemTypeBlank, data, num, (title_HEIGHT + ChoseBtn_HEIGHT));
@@ -447,6 +434,8 @@ void ImportTimeLineView::addTimelineLayout()
         //加当前时间下的图片
         m_importTimeLineListView->insertThumbnailByImgInfos(ImgInfoList);
     }
+
+    updateDateNumLabel();
 }
 
 void ImportTimeLineView::getFatherStatusBar(DSlider *s)
@@ -457,12 +446,13 @@ void ImportTimeLineView::getFatherStatusBar(DSlider *s)
 void ImportTimeLineView::slotTimeLineDataAndNum(QString data, QString num, QString text)
 {
     if (!data.isEmpty()) {
-        m_DateLabel->setText(data);
+        dateFullStr = data;
     }
     if (!num.isEmpty()) {
-        m_NumLabel->setText(num);
+        numFullStr = num;
     }
     m_suspensionChoseBtn->setText(text);
+    updateDateNumLabel();
 }
 
 void ImportTimeLineView::onOpenImage(int row, const QString &path, bool bFullScreen)
@@ -560,4 +550,17 @@ void ImportTimeLineView::clearAllSelection()
 {
     m_importTimeLineListView->clearSelection();
     m_suspensionChoseBtn->setText(QObject::tr("Select"));
+}
+
+void ImportTimeLineView::updateDateNumLabel()
+{
+    auto fullStr = dateFullStr + "  " + numFullStr;
+    auto resultStr = utils::base::reorganizationStr(m_DateNumLabel->font(), fullStr, m_pImportTitle->x() - 19);
+    m_DateNumLabel->setText(resultStr);
+
+    if (resultStr != fullStr) {
+        m_DateNumLabel->setToolTip(fullStr);
+    } else {
+        m_DateNumLabel->setToolTip("");
+    }
 }
