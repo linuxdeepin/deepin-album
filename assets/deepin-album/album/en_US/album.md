@@ -4,7 +4,7 @@
 
 Album is a stylish and smooth photo and video management tool, supporting photo and video viewing and managing in various formats. You can sort your photos and videos by date or timeline, add them to the Favorites or category them into different albums to manage photos and videos in perfect order.
 
-![1|main](fig/album_main.png)
+![1|main](fig/album.png)
 
 ## Guide
 
@@ -40,8 +40,8 @@ You are able to manage photos and videos by **Timelines** and **Albums** after l
 ### Import Photos and Videos
 
 On the Album interface, you are able to import photos and videos as follows:
+- Click the ![icon_menu](../common/add1.svg) icon on the title bar.
 - Click **Import Photos and Videos** when there is no photo or video in the album.
-- Click![icon_menu](../common/icon_menu.svg)> **Import photos**.
 - Drag the photo and video file to the Album interface.
 - Import photos and videos from the mobile device.
 
@@ -65,15 +65,18 @@ Double-click the photo, or right-click the photo and select **View** to enter th
 | ![next](../common/next.svg)                             | Next                    | Switch to the next image.                                    |
 | ![adapt_image](../common/adapt_image.svg)               | 1:1 Size                | The photo will be displayed in 1:1 size without changing the size of the window. |
 | ![fit_hover](../common/adapt_screen.svg)                | Fit to window           | The photo will be resized to adapt to the current window.    |
-| ![collect](../common/collect.svg)                       | Favorite                | Add favorite photos to your Favorites.                       |
 | ![clockwise_rotation](../common/clockwise_rotation.svg) | Rotate clockwise        | Rotate the photo 90 degrees clockwise.                       |
+| ![collect](../common/collect.svg)                       | Favorite                | Add favorite photos to your Favorites.                       |
+| ![ocr](../common/ocr.svg)                               | Extract text            | Recognize texts on the image.                                |
 | ![contrarotate](../common/contrarotate.svg)             | Rotate counterclockwise | Rotate the photo 90 degrees counterclockwise.                |
 | ![delete](../common/delete.svg)                         | Delete                  | Delete the current photo.                                    |
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 > ![tips](../common/tips.svg) Tips: Scroll the mouse wheel to enlarge the picture. If the photo size exceeds the window, a navigation window will appear at the lower part. Drag the box in the window to fast locate the corresponding photo areas. You can click ![close_icon](../common/close_icon.svg) on the top right corner of the navigation window to close it. Right-click the photo, you can select **Hide navigation window/Show navigation window**.
 
-![0|copy](fig/view-pic.png)
+![0|copy](fig/navigation.png)
+
+
 
 ### View Timelines
 
@@ -84,6 +87,14 @@ In Timelines, all photos and videos are displayed in groups according to the sho
 1. On the Album interface, select the photo to be printed and right-click to select **Print**.
 2. Select the printer and set the printing parameters.
 3. Click **Print**.
+
+### Extract Texts
+
+1. Double-click the photo to enter the Image Viewer interface.
+2. Click ![ocr](../common/ocr.svg) on the tool-bar or right-click the photo and select **Extract text** to enter the text extraction interface and extract the texts on the image.
+3. You are able to edit, copy and save the recognized texts as TXT, etc.
+
+![0|ocr](fig/ocr.png)
 
 ### Slide Show
 
@@ -153,7 +164,7 @@ On the Album interface, you are able to create new albums, manage photos and vid
 
 ### Create New Albums
 
-1. On the Albums interface, Click ![create](fig/create.png) or ![icon_menu](../common/icon_menu.svg)> **New album**.
+1. On the Albums interface, Click ![add](../common/add.svg) or ![icon_menu](../common/icon_menu.svg)> **New album**.
 2. Enter the album name and click **Create**.
 
 > ![tips](../common/tips.svg) Tips: You are able to create a new album by right-clicking the album created to select **New album**, or create a new album when adding photos to albums.
@@ -179,17 +190,19 @@ On the Album interface, you are able to create new albums, manage photos and vid
 
 ### Export Albums
 
-1. On the Albums interface, right-click an album.
+1. On the Albums interface, right-click an album with photos only.
 2. Select **Export**.
+3. Select the path to be stored and click **Save** in the pop-up dialog box.
 
 ### Delete Albums
 
 1. On the Albums interface, right-click an album.
 2. Select **Delete**.
+3. Click **Delete** in the pop-up dialog box.
 
 ## Main Menu
 
-In the main menu, you can [Create New Albums](#Create New Albums), [Import Photos](#Import Photos), switch window themes, view help manual, and get more information about Album.
+In the main menu, you can [Create New Albums](#Create New Albums), switch window themes, view help manual, and get more information about Album.
 
 ### Theme
 
