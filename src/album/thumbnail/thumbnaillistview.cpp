@@ -369,12 +369,7 @@ void ThumbnailListView::keyPressEvent(QKeyEvent *event)
         if (m_dragItemPath.empty()) {
             return;
         }
-        if (!DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, m_dragItemPath.first(), AlbumDBType::Favourite)) {
-            DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_dragItemPath.first()), AlbumDBType::Favourite);
-            emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, QStringList(m_dragItemPath.first()));
-        } else {
-            DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(m_dragItemPath.first()), AlbumDBType::Favourite);
-        }
+        m_batchOperateWidget->sltCollectSelect(true); //参数未使用，true false随便传
     }
 }
 
