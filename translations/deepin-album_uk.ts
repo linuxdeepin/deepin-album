@@ -64,7 +64,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 фотографії</translation>
+        <translation type="vanished">%1 фотографії</translation>
     </message>
     <message>
         <source>Import All</source>
@@ -112,6 +112,10 @@
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
+        <translation type="vanished">Кількість днів, за яку файли буде остаточно вилучено, показано на мініатюрах</translation>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation>Кількість днів, за яку файли буде остаточно вилучено, показано на мініатюрах</translation>
     </message>
 </context>
@@ -239,7 +243,7 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Дані щодо фотографії</translation>
+        <translation type="vanished">Дані щодо фотографії</translation>
     </message>
 </context>
 <context>
@@ -380,7 +384,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the file</source>
-        <translation>У вас немає прав доступу до перегляду цього файла</translation>
+        <translation type="vanished">У вас немає прав доступу до перегляду цього файла</translation>
     </message>
 </context>
 <context>
@@ -526,7 +530,7 @@
     </message>
     <message>
         <source>Import photos</source>
-        <translation>Імпортувати фотографії</translation>
+        <translation type="vanished">Імпортувати фотографії</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -559,6 +563,10 @@
     <message>
         <source>Photo/Video info</source>
         <translation>Дані щодо фотографій/відео</translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
+        <translation>Імпортуйте фотографії та відео</translation>
     </message>
 </context>
 <context>
@@ -820,23 +828,23 @@
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>Пауза</translation>
+        <translation type="vanished">Пауза</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Відтворити</translation>
+        <translation type="vanished">Відтворити</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Вийти</translation>
+        <translation type="vanished">Вийти</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Назад</translation>
+        <translation type="vanished">Назад</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Далі</translation>
+        <translation type="vanished">Далі</translation>
     </message>
 </context>
 <context>
@@ -870,43 +878,43 @@
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>Назад</translation>
+        <translation type="vanished">Назад</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Назад</translation>
+        <translation type="vanished">Назад</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Далі</translation>
+        <translation type="vanished">Далі</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>Розмір 1:1</translation>
+        <translation type="vanished">Розмір 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Вмістити у вікно</translation>
+        <translation type="vanished">Вмістити у вікно</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Обертати проти годинникової стрілки</translation>
+        <translation type="vanished">Обертати проти годинникової стрілки</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Обертати за годинниковою стрілкою</translation>
+        <translation type="vanished">Обертати за годинниковою стрілкою</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Вилучити</translation>
+        <translation type="vanished">Вилучити</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Додати до вибраних</translation>
+        <translation type="vanished">Додати до вибраних</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Вилучити з вибраних</translation>
+        <translation type="vanished">Вилучити з вибраних</translation>
     </message>
 </context>
 <context>
@@ -996,11 +1004,11 @@
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Файлів зображень не знайдено</translation>
+        <translation type="vanished">Файлів зображень не знайдено</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>Фотографії не знайдено</translation>
+        <translation type="vanished">Фотографії не знайдено</translation>
     </message>
 </context>
 <context>
@@ -1121,79 +1129,79 @@
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>Додати до альбому</translation>
+        <translation type="vanished">Додати до альбому</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Показ слайдів</translation>
+        <translation type="vanished">Показ слайдів</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Звичайний режим</translation>
+        <translation type="vanished">Звичайний режим</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>На весь екран</translation>
+        <translation type="vanished">На весь екран</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Копіювати</translation>
+        <translation type="vanished">Копіювати</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Вилучити</translation>
+        <translation type="vanished">Вилучити</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Показати навігаційне вікно</translation>
+        <translation type="vanished">Показати навігаційне вікно</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Приховати навігаційне вікно</translation>
+        <translation type="vanished">Приховати навігаційне вікно</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Обертати за годинниковою стрілкою</translation>
+        <translation type="vanished">Обертати за годинниковою стрілкою</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Обертати проти годинникової стрілки</translation>
+        <translation type="vanished">Обертати проти годинникової стрілки</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Встановити зображенням тла</translation>
+        <translation type="vanished">Встановити зображенням тла</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Показати у менеджері файлів</translation>
+        <translation type="vanished">Показати у менеджері файлів</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Експортувати</translation>
+        <translation type="vanished">Експортувати</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Вилучити з вибраних</translation>
+        <translation type="vanished">Вилучити з вибраних</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Дані щодо фотографії</translation>
+        <translation type="vanished">Дані щодо фотографії</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Вилучити з альбому</translation>
+        <translation type="vanished">Вилучити з альбому</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Додати до вибраних</translation>
+        <translation type="vanished">Додати до вибраних</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Новий альбом</translation>
+        <translation type="vanished">Новий альбом</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Надрукувати</translation>
+        <translation type="vanished">Надрукувати</translation>
     </message>
 </context>
 </TS>

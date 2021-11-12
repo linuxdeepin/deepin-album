@@ -64,7 +64,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(&apos;s)</translation>
+        <translation type="vanished">%1 foto(&apos;s)</translation>
     </message>
     <message>
         <source>Import All</source>
@@ -112,6 +112,10 @@
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
+        <translation type="vanished">De bestanden worden verwijderd na het vermelde aantal dagen</translation>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation>De bestanden worden verwijderd na het vermelde aantal dagen</translation>
     </message>
 </context>
@@ -239,7 +243,7 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Foto-informatie</translation>
+        <translation type="vanished">Foto-informatie</translation>
     </message>
 </context>
 <context>
@@ -380,7 +384,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the file</source>
-        <translation>Je bent niet bevoegd om dit bestand te bekijken</translation>
+        <translation type="vanished">Je bent niet bevoegd om dit bestand te bekijken</translation>
     </message>
 </context>
 <context>
@@ -526,7 +530,7 @@
     </message>
     <message>
         <source>Import photos</source>
-        <translation>Foto&apos;s importeren</translation>
+        <translation type="vanished">Foto&apos;s importeren</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -559,6 +563,10 @@
     <message>
         <source>Photo/Video info</source>
         <translation>Foto-/Video-informatie</translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
+        <translation>Importeer foto&apos;s en video&apos;s</translation>
     </message>
 </context>
 <context>
@@ -820,23 +828,23 @@
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>Pauzeren</translation>
+        <translation type="vanished">Pauzeren</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Afspelen</translation>
+        <translation type="vanished">Afspelen</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Afsluiten</translation>
+        <translation type="vanished">Afsluiten</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Vorige</translation>
+        <translation type="vanished">Vorige</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Volgende</translation>
+        <translation type="vanished">Volgende</translation>
     </message>
 </context>
 <context>
@@ -870,43 +878,43 @@
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>Terug</translation>
+        <translation type="vanished">Terug</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Vorige</translation>
+        <translation type="vanished">Vorige</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Volgende</translation>
+        <translation type="vanished">Volgende</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1</translation>
+        <translation type="vanished">1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Aanpassen aan venster</translation>
+        <translation type="vanished">Aanpassen aan venster</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Naar links draaien</translation>
+        <translation type="vanished">Naar links draaien</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Naar rechts draaien</translation>
+        <translation type="vanished">Naar rechts draaien</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Verwijderen</translation>
+        <translation type="vanished">Verwijderen</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Toev. aan favorieten</translation>
+        <translation type="vanished">Toev. aan favorieten</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Verw. uit favorieten</translation>
+        <translation type="vanished">Verw. uit favorieten</translation>
     </message>
 </context>
 <context>
@@ -996,11 +1004,11 @@
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Geen afbeeldingsbestanden aangetroffen</translation>
+        <translation type="vanished">Geen afbeeldingsbestanden aangetroffen</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>Foto niet aangetroffen</translation>
+        <translation type="vanished">Foto niet aangetroffen</translation>
     </message>
 </context>
 <context>
@@ -1121,79 +1129,79 @@
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>Toevoegen aan album</translation>
+        <translation type="vanished">Toevoegen aan album</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diavoorstelling</translation>
+        <translation type="vanished">Diavoorstelling</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Beeldvullende modus verlaten</translation>
+        <translation type="vanished">Beeldvullende modus verlaten</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Beeldvullende modus</translation>
+        <translation type="vanished">Beeldvullende modus</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiëren</translation>
+        <translation type="vanished">Kopiëren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Verwijderen</translation>
+        <translation type="vanished">Verwijderen</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Navigatievenster tonen</translation>
+        <translation type="vanished">Navigatievenster tonen</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Navigatievenster verbergen</translation>
+        <translation type="vanished">Navigatievenster verbergen</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Naar rechts draaien</translation>
+        <translation type="vanished">Naar rechts draaien</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Naar links draaien</translation>
+        <translation type="vanished">Naar links draaien</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Instellen als achtergrond</translation>
+        <translation type="vanished">Instellen als achtergrond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Tonen in bestandsbeheerder</translation>
+        <translation type="vanished">Tonen in bestandsbeheerder</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exporteren</translation>
+        <translation type="vanished">Exporteren</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Verw. uit favorieten</translation>
+        <translation type="vanished">Verw. uit favorieten</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Foto-informatie</translation>
+        <translation type="vanished">Foto-informatie</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Verwijderen uit album</translation>
+        <translation type="vanished">Verwijderen uit album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Toev. aan favorieten</translation>
+        <translation type="vanished">Toev. aan favorieten</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nieuw album</translation>
+        <translation type="vanished">Nieuw album</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Afdrukken</translation>
+        <translation type="vanished">Afdrukken</translation>
     </message>
 </context>
 </TS>

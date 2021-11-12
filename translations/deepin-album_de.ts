@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="de">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="de" version="2.1">
 <context>
     <name>AlbumCreateDialog</name>
     <message>
@@ -66,15 +64,11 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 Foto(s)</translation>
+        <translation type="vanished">%1 Foto(s)</translation>
     </message>
     <message>
         <source>Import All</source>
         <translation>Alle importieren</translation>
-    </message>
-    <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">Die Fotos werden nach der angegebenen Anzahl von Tagen gelöscht</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -113,16 +107,16 @@
         <translation>Ignorieren</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation type="vanished">Fotos werden geladen, bitte warten ...</translation>
-    </message>
-    <message>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wird geladen ...</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on them</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -249,7 +243,7 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Foto Info</translation>
+        <translation type="vanished">Foto Info</translation>
     </message>
 </context>
 <context>
@@ -261,13 +255,6 @@
     <message>
         <source>Restoring...</source>
         <translation>Wird wiederhergestellt ...</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation type="vanished">Tage</translation>
     </message>
 </context>
 <context>
@@ -284,34 +271,21 @@
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>Sind Sie sicher, dass Sie dieses Foto aus dem Album löschen möchten?</translation>
     </message>
-    <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="vanished">Sind Sie sicher, dass Sie %1 Fotos aus Alben löschen möchten?</translation>
-    </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -326,7 +300,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Foto Info</translation>
+        <translation>Foto-Info</translation>
     </message>
 </context>
 <context>
@@ -337,47 +311,38 @@
     </message>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Foto</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Video</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Fotos und Videos importieren</translation>
     </message>
     <message>
         <source>Or drag them here</source>
-        <translation type="unfinished"></translation>
+        <translation>Oder hierher ziehen</translation>
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle Fotos und Videos</translation>
     </message>
 </context>
 <context>
@@ -418,19 +383,15 @@
 <context>
     <name>LockWidget</name>
     <message>
-        <source>You have no permission to view the image</source>
-        <translation type="vanished">Sie haben keine Berechtigung das Bild anzeigen zu lassen</translation>
-    </message>
-    <message>
         <source>You have no permission to view the file</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Sie haben keine Berechtigung zum Ansehen der Datei</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -461,7 +422,7 @@
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Als Hintergrundbild einrichten</translation>
+        <translation>Als Hintergrundbild festlegen</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -501,19 +462,19 @@
     </message>
     <message>
         <source>Import successful</source>
-        <translation>Import erfolgreich</translation>
+        <translation>Importieren erfolgreich</translation>
     </message>
     <message>
         <source>Import failed</source>
-        <translation>Import gescheitert</translation>
+        <translation>Importieren fehlgeschlagen</translation>
     </message>
     <message>
         <source>Export failed</source>
-        <translation>Export gescheitert</translation>
+        <translation>Exportieren fehlgeschlagen</translation>
     </message>
     <message>
         <source>Export successful</source>
-        <translation>Export erfolgreich</translation>
+        <translation>Exportieren erfolgreich</translation>
     </message>
     <message>
         <source>All Photos</source>
@@ -528,10 +489,6 @@
         <translation>Alben</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation type="vanished">Foto Info</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Vollbildmodus/Diashow verlassen</translation>
     </message>
@@ -541,23 +498,11 @@
     </message>
     <message>
         <source>View</source>
-        <translation>Anzeigen</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="vanished">Exportieren</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">Importieren</translation>
+        <translation>Ansicht</translation>
     </message>
     <message>
         <source>Select all</source>
         <translation>Alle auswählen</translation>
-    </message>
-    <message>
-        <source>Delete photo/album</source>
-        <translation type="vanished">Foto/Album löschen</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -585,10 +530,6 @@
     </message>
     <message>
         <source>Import photos</source>
-        <translation>Fotos importieren</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
         <translation type="vanished">Fotos importieren</translation>
     </message>
     <message>
@@ -597,31 +538,35 @@
     </message>
     <message>
         <source>All photos and videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle Fotos und Videos</translation>
     </message>
     <message>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Fotos und Videos importieren</translation>
     </message>
     <message>
         <source>No photos or videos found</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Fotos oder Videos gefunden</translation>
     </message>
     <message>
         <source>Export photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Fotos exportieren</translation>
     </message>
     <message>
         <source>Import photos/videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Fotos/Videos importieren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Löschen</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <source>Photo/Video info</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -715,7 +660,7 @@
     <name>NoResultWidget</name>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Ergebnisse</translation>
     </message>
 </context>
 <context>
@@ -740,10 +685,6 @@
         <translation>%1/%2/%3</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 Foto(s)</translation>
-    </message>
-    <message>
         <source>Imported on</source>
         <translation>Importiert am</translation>
     </message>
@@ -757,11 +698,11 @@
     </message>
     <message>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle auswählen</translation>
     </message>
     <message>
         <source>Unselect All</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle abwählen</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -777,7 +718,7 @@
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle</translation>
     </message>
     <message>
         <source>Photos</source>
@@ -789,7 +730,7 @@
     </message>
     <message>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Ergebnisse</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -809,52 +750,43 @@
     </message>
     <message>
         <source>%1/%2 items imported</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 Elemente importiert</translation>
     </message>
     <message>
         <source>%1/%2 items deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2 Elemente gelöscht</translation>
     </message>
     <message>
         <source>%1 items imported, %2 items failed</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Elemente importiert, %2 Elemente fehlgeschlagen</translation>
     </message>
     <message>
         <source>1 photo selected</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Foto ausgewählt</translation>
     </message>
     <message>
         <source>1 video selected</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Video ausgewählt</translation>
     </message>
     <message>
         <source>The photo/video already exists</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Foto/Video existiert bereits</translation>
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Elemente importiert, %2 Elemente existieren bereits</translation>
     </message>
 </context>
 <context>
@@ -873,146 +805,123 @@
     </message>
     <message>
         <source>1 photo found</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Foto gefunden</translation>
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
         <source>1 video found</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Video gefunden</translation>
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>Pause</translation>
+        <translation type="vanished">Pause</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Abspielen</translation>
+        <translation type="vanished">Abspielen</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Beenden</translation>
+        <translation type="vanished">Beenden</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Vorheriges</translation>
+        <translation type="vanished">Vorheriges</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Nächstes</translation>
+        <translation type="vanished">Nächstes</translation>
     </message>
 </context>
 <context>
     <name>StatusBar</name>
     <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="vanished">Fotos werden importiert: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="vanished">Fotos werden exportiert: &apos;%1&apos;</translation>
-    </message>
-    <message>
         <source>1 photo</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Foto</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Video</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
         <source>Importing: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Wird importiert: %1</translation>
     </message>
     <message>
         <source>Exporting: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Wird exportiert: %1</translation>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>Zurück</translation>
+        <translation type="vanished">Zurück</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Vorheriges</translation>
+        <translation type="vanished">Vorheriges</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Nächstes</translation>
+        <translation type="vanished">Nächstes</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 Größe</translation>
+        <translation type="vanished">1:1 Größe</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>An Fenster anpassen</translation>
+        <translation type="vanished">An Fenster anpassen</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Gegen den Uhrzeigersinn drehen</translation>
+        <translation type="vanished">Gegen den Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Im Uhrzeigersinn drehen</translation>
+        <translation type="vanished">Im Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Löschen</translation>
+        <translation type="vanished">Löschen</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Zu Favoriten hinzufügen</translation>
+        <translation type="vanished">Zu Favoriten hinzufügen</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Aus Favoriten entfernen</translation>
+        <translation type="vanished">Aus Favoriten entfernen</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <source>View</source>
-        <translation>Anzeigen</translation>
+        <translation>Ansicht</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -1044,7 +953,7 @@
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Als Hintergrundbild einrichten</translation>
+        <translation>Als Hintergrundbild festlegen</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -1060,7 +969,7 @@
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Foto Info</translation>
+        <translation>Foto-Info</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -1084,224 +993,215 @@
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"></translation>
+        <translation>Video-Info</translation>
     </message>
     <message>
         <source>days</source>
-        <translation type="unfinished">Tage</translation>
+        <translation>Tage</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Keine Bilddateien gefunden</translation>
+        <translation type="vanished">Keine Bilddateien gefunden</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>Foto nicht gefunden</translation>
+        <translation type="vanished">Foto nicht gefunden</translation>
     </message>
 </context>
 <context>
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Foto</translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Video</translation>
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
     <name>VideoInfoDialog</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished">Allgemeine Informationen</translation>
+        <translation>Allgemeine Informationen</translation>
     </message>
     <message>
         <source>Codec info</source>
-        <translation type="unfinished"></translation>
+        <translation>Codec-Info</translation>
     </message>
     <message>
         <source>Audio info</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio-Info</translation>
     </message>
     <message>
         <source>Video CodecID</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Video CodeRate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>BpS</translation>
     </message>
     <message>
         <source>Proportion</source>
-        <translation type="unfinished"></translation>
+        <translation>Verhältnis</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Auflösung</translation>
     </message>
     <message>
         <source>Audio CodecID</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Audio CodeRate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Audio digit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanäle</translation>
     </message>
     <message>
         <source>Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal</translation>
     </message>
     <message>
         <source>Sampling</source>
-        <translation type="unfinished"></translation>
+        <translation>Abtastung</translation>
     </message>
     <message>
         <source>Video name</source>
-        <translation type="unfinished"></translation>
+        <translation>Videoname</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation type="unfinished">Änderungsdatum</translation>
+        <translation>Änderungsdatum</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Typ</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation type="unfinished">Dateigröße</translation>
+        <translation>Dateigröße</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Dauer</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Pfad</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"></translation>
+        <translation>Video-Info</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished">Aufnahmedatum</translation>
+        <translation>Aufnahmedatum</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>Zum Album hinzufügen</translation>
+        <translation type="vanished">Zum Album hinzufügen</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diashow</translation>
+        <translation type="vanished">Diashow</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Vollbildmodus beenden</translation>
+        <translation type="vanished">Vollbildmodus beenden</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Vollbild</translation>
+        <translation type="vanished">Vollbild</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopieren</translation>
+        <translation type="vanished">Kopieren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Löschen</translation>
+        <translation type="vanished">Löschen</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Navigationsfenster anzeigen</translation>
+        <translation type="vanished">Navigationsfenster anzeigen</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Navigationsfenster ausblenden</translation>
+        <translation type="vanished">Navigationsfenster ausblenden</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Im Uhrzeigersinn drehen</translation>
+        <translation type="vanished">Im Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Gegen den Uhrzeigersinn drehen</translation>
+        <translation type="vanished">Gegen den Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Als Hintergrundbild einrichten</translation>
+        <translation type="vanished">Als Hintergrundbild festlegen</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Im Dateimanager anzeigen</translation>
+        <translation type="vanished">Im Dateimanager anzeigen</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportieren</translation>
+        <translation type="vanished">Exportieren</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Aus Favoriten entfernen</translation>
+        <translation type="vanished">Aus Favoriten entfernen</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Foto Info</translation>
+        <translation type="vanished">Foto-Info</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Aus Album entfernen</translation>
+        <translation type="vanished">Aus Album entfernen</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Zu Favoriten hinzufügen</translation>
+        <translation type="vanished">Zu Favoriten hinzufügen</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Neues Album</translation>
+        <translation type="vanished">Neues Album</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Drucken</translation>
+        <translation type="vanished">Drucken</translation>
     </message>
 </context>
 </TS>

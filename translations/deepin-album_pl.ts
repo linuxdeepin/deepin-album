@@ -3,7 +3,7 @@
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
-        <translation>Nienazwane</translation>
+        <translation>Bez nazwy</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -64,7 +64,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 zdjęcie(a)</translation>
+        <translation type="vanished">%1 zdjęcie(a)</translation>
     </message>
     <message>
         <source>Import All</source>
@@ -108,11 +108,15 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"/>
+        <translation>Ładowanie...</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Pliki zostaną permanentnie usunięte po dniach, które na nich widnieją </translation>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on them</source>
+        <translation>Pliki zostaną permanentnie usunięte po dniach, które na nich widnieją </translation>
     </message>
 </context>
 <context>
@@ -239,7 +243,7 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Informacje o zdjęciu</translation>
+        <translation type="vanished">Informacje o zdjęciu</translation>
     </message>
 </context>
 <context>
@@ -269,7 +273,7 @@
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Czy na pewno chcesz usunąć %n zdjęcie z albumów? </numerusform><numerusform>Czy na pewno chcesz usunąć %n zdjęcia z albumów? </numerusform><numerusform>Czy na pewno chcesz usunąć %n zdjęć z albumów? </numerusform><numerusform>Czy na pewno chcesz usunąć %n zdjęć z albumów? </numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
@@ -277,11 +281,11 @@
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Czy na pewno chcesz usunąć %n film z albumów? </numerusform><numerusform>Czy na pewno chcesz usunąć %n filmy z albumów? </numerusform><numerusform>Czy na pewno chcesz usunąć %n filmów z albumów? </numerusform><numerusform>Czy na pewno chcesz usunąć %n filmów z albumów? </numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Czy na pewno chcesz usunąć %n rzecz z albumów?</numerusform><numerusform>Czy na pewno chcesz usunąć %n rzeczy z albumów?</numerusform><numerusform>Czy na pewno chcesz usunąć %n rzeczy z albumów?</numerusform><numerusform>Czy na pewno chcesz usunąć %n rzeczy z albumów?</numerusform></translation>
     </message>
 </context>
 <context>
@@ -380,7 +384,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the file</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Nie masz uprawnień, żeby zobaczyć ten plik</translation>
     </message>
 </context>
 <context>
@@ -526,7 +530,7 @@
     </message>
     <message>
         <source>Import photos</source>
-        <translation>Importuj zdjęcia</translation>
+        <translation type="vanished">Importuj zdjęcia</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -546,11 +550,11 @@
     </message>
     <message>
         <source>Export photos</source>
-        <translation type="unfinished"/>
+        <translation>Eksportuj zdjęcia</translation>
     </message>
     <message>
         <source>Import photos/videos</source>
-        <translation type="unfinished"/>
+        <translation>Importuj zdjęcia/wideo</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -558,7 +562,11 @@
     </message>
     <message>
         <source>Photo/Video info</source>
-        <translation type="unfinished"/>
+        <translation>Zdjęcia/Wideo info</translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
+        <translation>Importuj zdjęcia i filmy</translation>
     </message>
 </context>
 <context>
@@ -766,15 +774,15 @@
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation><numerusform>Wybrano %n zdjęcie</numerusform><numerusform>Wybrano %n zdjęć</numerusform><numerusform>Wybrano %n zdjęć</numerusform><numerusform>Wybrano %n zdjęć</numerusform></translation>
+        <translation><numerusform>Wybrano %n zdjęcie</numerusform><numerusform>Wybrano %n zdjęcia</numerusform><numerusform>Wybrano %n zdjęć</numerusform><numerusform>Wybrano %n zdjęć</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation><numerusform>Wybrano %n film</numerusform><numerusform>Wybrano %n filmów</numerusform><numerusform>Wybrano %n filmów</numerusform><numerusform>Wybrano %n filmów</numerusform></translation>
+        <translation><numerusform>Wybrano %n film</numerusform><numerusform>Wybrano %n filmy</numerusform><numerusform>Wybrano %n filmów</numerusform><numerusform>Wybrano %n filmów</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation><numerusform>Wybrano %n przedmiot</numerusform><numerusform>Wybrano %n przedmiotów</numerusform><numerusform>Wybrano %n przedmiotów</numerusform><numerusform>Wybrano %n przedmiotów</numerusform></translation>
+        <translation><numerusform>Wybrano %n przedmiot</numerusform><numerusform>Wybrano %n przedmioty</numerusform><numerusform>Wybrano %n przedmiotów</numerusform><numerusform>Wybrano %n przedmiotów</numerusform></translation>
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
@@ -813,30 +821,30 @@
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n zdjęcie znaleziono</numerusform><numerusform>%n zdjęć znaleziono</numerusform><numerusform>%n zdjęć znaleziono</numerusform><numerusform>%n zdjęć znaleziono</numerusform></translation>
     </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>Wstrzymaj</translation>
+        <translation type="vanished">Wstrzymaj</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Odtwarzaj</translation>
+        <translation type="vanished">Odtwarzaj</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Wyjdź</translation>
+        <translation type="vanished">Wyjdź</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Poprzedni</translation>
+        <translation type="vanished">Poprzedni</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Dalej</translation>
+        <translation type="vanished">Dalej</translation>
     </message>
 </context>
 <context>
@@ -859,54 +867,54 @@
     </message>
     <message>
         <source>Importing: %1</source>
-        <translation type="unfinished"/>
+        <translation>Importowanie: %1</translation>
     </message>
     <message>
         <source>Exporting: %1</source>
-        <translation type="unfinished"/>
+        <translation>Eksportowanie: %1</translation>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>Wstecz</translation>
+        <translation type="vanished">Wstecz</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Poprzedni</translation>
+        <translation type="vanished">Poprzedni</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Dalej</translation>
+        <translation type="vanished">Dalej</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>Rozmiar 1:1</translation>
+        <translation type="vanished">Rozmiar 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Dopasuj do okna</translation>
+        <translation type="vanished">Dopasuj do okna</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Obróć przeciwnie do wskazówek zegara</translation>
+        <translation type="vanished">Obróć przeciwnie do wskazówek zegara</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Obróć zgodnie ze wskazówkami zegara</translation>
+        <translation type="vanished">Obróć zgodnie ze wskazówkami zegara</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Usuń</translation>
+        <translation type="vanished">Usuń</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Ulubione</translation>
+        <translation type="vanished">Ulubione</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Usuń z ulubionych</translation>
+        <translation type="vanished">Usuń z ulubionych</translation>
     </message>
 </context>
 <context>
@@ -996,11 +1004,11 @@
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Nie odnaleziono plików obrazów</translation>
+        <translation type="vanished">Nie odnaleziono plików obrazów</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>Zdjęcie nie zostało odnalezione</translation>
+        <translation type="vanished">Zdjęcie nie zostało odnalezione</translation>
     </message>
 </context>
 <context>
@@ -1121,79 +1129,79 @@
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>Dodaj do albumu</translation>
+        <translation type="vanished">Dodaj do albumu</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Pokaz slajdów</translation>
+        <translation type="vanished">Pokaz slajdów</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Opuść pełny ekran</translation>
+        <translation type="vanished">Opuść pełny ekran</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pełny ekran</translation>
+        <translation type="vanished">Pełny ekran</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiuj</translation>
+        <translation type="vanished">Kopiuj</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Usuń</translation>
+        <translation type="vanished">Usuń</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Wyświetl okno nawigacji</translation>
+        <translation type="vanished">Wyświetl okno nawigacji</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Ukryj okno nawigacji</translation>
+        <translation type="vanished">Ukryj okno nawigacji</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Obróć zgodnie ze wskazówkami zegara</translation>
+        <translation type="vanished">Obróć zgodnie ze wskazówkami zegara</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Obróć przeciwnie do wskazówek zegara</translation>
+        <translation type="vanished">Obróć przeciwnie do wskazówek zegara</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Ustaw jako tapetę pulpitu</translation>
+        <translation type="vanished">Ustaw jako tapetę pulpitu</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Wyświetl w menedżerze plików</translation>
+        <translation type="vanished">Wyświetl w menedżerze plików</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Eksportuj</translation>
+        <translation type="vanished">Eksportuj</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Usuń z ulubionych</translation>
+        <translation type="vanished">Usuń z ulubionych</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informacje o zdjęciu</translation>
+        <translation type="vanished">Informacje o zdjęciu</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Usuń z albumu</translation>
+        <translation type="vanished">Usuń z albumu</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Ulubione</translation>
+        <translation type="vanished">Ulubione</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nowy album</translation>
+        <translation type="vanished">Nowy album</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Drukuj</translation>
+        <translation type="vanished">Drukuj</translation>
     </message>
 </context>
 </TS>

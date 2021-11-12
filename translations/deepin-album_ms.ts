@@ -64,7 +64,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto</translation>
+        <translation type="vanished">%1 foto</translation>
     </message>
     <message>
         <source>Import All</source>
@@ -112,6 +112,10 @@
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -239,7 +243,7 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Maklumat foto</translation>
+        <translation type="vanished">Maklumat foto</translation>
     </message>
 </context>
 <context>
@@ -526,7 +530,7 @@
     </message>
     <message>
         <source>Import photos</source>
-        <translation>Import foto</translation>
+        <translation type="vanished">Import foto</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -558,6 +562,10 @@
     </message>
     <message>
         <source>Photo/Video info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -820,23 +828,23 @@
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>Jeda</translation>
+        <translation type="vanished">Jeda</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Main</translation>
+        <translation type="vanished">Main</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Keluar</translation>
+        <translation type="vanished">Keluar</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Terdahulu</translation>
+        <translation type="vanished">Terdahulu</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Berikutnya</translation>
+        <translation type="vanished">Berikutnya</translation>
     </message>
 </context>
 <context>
@@ -870,43 +878,43 @@
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>Undur</translation>
+        <translation type="vanished">Undur</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Terdahulu</translation>
+        <translation type="vanished">Terdahulu</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Berikutnya</translation>
+        <translation type="vanished">Berikutnya</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>Saiz 1:1</translation>
+        <translation type="vanished">Saiz 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Suai muat tetingkap</translation>
+        <translation type="vanished">Suai muat tetingkap</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Putar lawan jam</translation>
+        <translation type="vanished">Putar lawan jam</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Putar ikut jam</translation>
+        <translation type="vanished">Putar ikut jam</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Padam</translation>
+        <translation type="vanished">Padam</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Kegemaran</translation>
+        <translation type="vanished">Kegemaran</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Nyahgemar</translation>
+        <translation type="vanished">Nyahgemar</translation>
     </message>
 </context>
 <context>
@@ -996,11 +1004,11 @@
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Tiada fail imej ditemui</translation>
+        <translation type="vanished">Tiada fail imej ditemui</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>Foto tidak ditemui</translation>
+        <translation type="vanished">Foto tidak ditemui</translation>
     </message>
 </context>
 <context>
@@ -1121,79 +1129,79 @@
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>Tambah kepada album</translation>
+        <translation type="vanished">Tambah kepada album</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Persembahan slaid</translation>
+        <translation type="vanished">Persembahan slaid</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Keluar dari skrin penuh</translation>
+        <translation type="vanished">Keluar dari skrin penuh</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Skrin penuh</translation>
+        <translation type="vanished">Skrin penuh</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Salin</translation>
+        <translation type="vanished">Salin</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Padam</translation>
+        <translation type="vanished">Padam</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Tunjuk tetingkap pengemudian</translation>
+        <translation type="vanished">Tunjuk tetingkap pengemudian</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Sembunyi tetingkap pengemudian</translation>
+        <translation type="vanished">Sembunyi tetingkap pengemudian</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Putar ikut jam</translation>
+        <translation type="vanished">Putar ikut jam</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Putar lawan jam</translation>
+        <translation type="vanished">Putar lawan jam</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Tetap sebagai kertas dinding</translation>
+        <translation type="vanished">Tetap sebagai kertas dinding</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Papar dalam pengurus fail</translation>
+        <translation type="vanished">Papar dalam pengurus fail</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Eksport</translation>
+        <translation type="vanished">Eksport</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Nyahgemar</translation>
+        <translation type="vanished">Nyahgemar</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Maklumat foto</translation>
+        <translation type="vanished">Maklumat foto</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Buang daripada album</translation>
+        <translation type="vanished">Buang daripada album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Kegemaran</translation>
+        <translation type="vanished">Kegemaran</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Album baharu</translation>
+        <translation type="vanished">Album baharu</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Cetak</translation>
+        <translation type="vanished">Cetak</translation>
     </message>
 </context>
 </TS>

@@ -64,7 +64,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 fotek</translation>
+        <translation type="vanished">%1 fotek</translation>
     </message>
     <message>
         <source>Import All</source>
@@ -112,7 +112,11 @@
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
-        <translation>Po uplynutí počtu dnů na tomto zobrazených budou soubory nadobro smazány</translation>
+        <translation type="vanished">Po uplynutí počtu dnů na tomto zobrazených budou soubory nadobro smazány</translation>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on them</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -239,7 +243,7 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Informace o fotce</translation>
+        <translation type="vanished">Informace o fotce</translation>
     </message>
 </context>
 <context>
@@ -380,7 +384,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the file</source>
-        <translation>Nemáte oprávnění zobrazit obsah souboru</translation>
+        <translation type="vanished">Nemáte oprávnění zobrazit obsah souboru</translation>
     </message>
 </context>
 <context>
@@ -526,7 +530,7 @@
     </message>
     <message>
         <source>Import photos</source>
-        <translation>Importovat fotky</translation>
+        <translation type="vanished">Importovat fotky</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -558,6 +562,10 @@
     </message>
     <message>
         <source>Photo/Video info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -820,23 +828,23 @@
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>Pozastavit</translation>
+        <translation type="vanished">Pozastavit</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Přehrát</translation>
+        <translation type="vanished">Přehrát</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Ukončit</translation>
+        <translation type="vanished">Ukončit</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Předchozí</translation>
+        <translation type="vanished">Předchozí</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Další</translation>
+        <translation type="vanished">Další</translation>
     </message>
 </context>
 <context>
@@ -870,43 +878,43 @@
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>Zpět</translation>
+        <translation type="vanished">Zpět</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Předchozí</translation>
+        <translation type="vanished">Předchozí</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Další</translation>
+        <translation type="vanished">Další</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>Velikost 1:1</translation>
+        <translation type="vanished">Velikost 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Přizpůsobit oknu</translation>
+        <translation type="vanished">Přizpůsobit oknu</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Otočit doleva</translation>
+        <translation type="vanished">Otočit doleva</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Otočit doprava</translation>
+        <translation type="vanished">Otočit doprava</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Smazat</translation>
+        <translation type="vanished">Smazat</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Přidat do oblíbených</translation>
+        <translation type="vanished">Přidat do oblíbených</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Odebrat z oblíbených</translation>
+        <translation type="vanished">Odebrat z oblíbených</translation>
     </message>
 </context>
 <context>
@@ -996,11 +1004,11 @@
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Nenalezeny žádné soubory s obrázky</translation>
+        <translation type="vanished">Nenalezeny žádné soubory s obrázky</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>Fotka nenalezena</translation>
+        <translation type="vanished">Fotka nenalezena</translation>
     </message>
 </context>
 <context>
@@ -1121,79 +1129,79 @@
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>Přidat do alba</translation>
+        <translation type="vanished">Přidat do alba</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Promítání</translation>
+        <translation type="vanished">Promítání</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Opustit celou obrazovku</translation>
+        <translation type="vanished">Opustit celou obrazovku</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Celá obrazovka</translation>
+        <translation type="vanished">Celá obrazovka</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopírovat</translation>
+        <translation type="vanished">Kopírovat</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Smazat</translation>
+        <translation type="vanished">Smazat</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Zobrazit okno navigace</translation>
+        <translation type="vanished">Zobrazit okno navigace</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Skrýt navigační okno</translation>
+        <translation type="vanished">Skrýt navigační okno</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Otočit doprava</translation>
+        <translation type="vanished">Otočit doprava</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Otočit doleva</translation>
+        <translation type="vanished">Otočit doleva</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Nastavit jako pozadí plochy</translation>
+        <translation type="vanished">Nastavit jako pozadí plochy</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Zobrazit ve správci souborů</translation>
+        <translation type="vanished">Zobrazit ve správci souborů</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation type="vanished">Export</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Odebrat z oblíbených</translation>
+        <translation type="vanished">Odebrat z oblíbených</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informace o fotce</translation>
+        <translation type="vanished">Informace o fotce</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Odstranit z alba</translation>
+        <translation type="vanished">Odstranit z alba</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Přidat do oblíbených</translation>
+        <translation type="vanished">Přidat do oblíbených</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nové album</translation>
+        <translation type="vanished">Nové album</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Tisk</translation>
+        <translation type="vanished">Tisk</translation>
     </message>
 </context>
 </TS>

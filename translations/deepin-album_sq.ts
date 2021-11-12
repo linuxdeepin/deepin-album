@@ -64,7 +64,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 foto(t)</translation>
+        <translation type="vanished">%1 foto(t)</translation>
     </message>
     <message>
         <source>Import All</source>
@@ -112,7 +112,11 @@
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
-        <translation>Pas ditëve të shfaqura në të, kartelat do të fshihen përgjithmonë</translation>
+        <translation type="vanished">Pas ditëve të shfaqura në të, kartelat do të fshihen përgjithmonë</translation>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on them</source>
+        <translation>Kartelat do të fshihen përgjithmonë, pas ditëve të treguara në to</translation>
     </message>
 </context>
 <context>
@@ -239,7 +243,7 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Të dhëna fotoje</translation>
+        <translation type="vanished">Të dhëna fotoje</translation>
     </message>
 </context>
 <context>
@@ -380,7 +384,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the file</source>
-        <translation>S’keni leje të shihni kartelën</translation>
+        <translation type="vanished">S’keni leje të shihni kartelën</translation>
     </message>
 </context>
 <context>
@@ -526,7 +530,7 @@
     </message>
     <message>
         <source>Import photos</source>
-        <translation>Importo foto</translation>
+        <translation type="vanished">Importo foto</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -559,6 +563,10 @@
     <message>
         <source>Photo/Video info</source>
         <translation>Hollësi fotosh/videosh</translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
+        <translation>Importoni foto dhe video</translation>
     </message>
 </context>
 <context>
@@ -820,23 +828,23 @@
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>Pauzë</translation>
+        <translation type="vanished">Pauzë</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Luaje</translation>
+        <translation type="vanished">Luaje</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Dalje</translation>
+        <translation type="vanished">Dalje</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>E mëparshmja</translation>
+        <translation type="vanished">E mëparshmja</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Pasuesja</translation>
+        <translation type="vanished">Pasuesja</translation>
     </message>
 </context>
 <context>
@@ -870,43 +878,43 @@
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>Mbrapsht</translation>
+        <translation type="vanished">Mbrapsht</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>E mëparshmja</translation>
+        <translation type="vanished">E mëparshmja</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Pasuesja</translation>
+        <translation type="vanished">Pasuesja</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>Në madhësinë 1:1</translation>
+        <translation type="vanished">Në madhësinë 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Sa dritarja</translation>
+        <translation type="vanished">Sa dritarja</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rrotulloje në kahun anti-orar</translation>
+        <translation type="vanished">Rrotulloje në kahun anti-orar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rrotulloje në kahun orar</translation>
+        <translation type="vanished">Rrotulloje në kahun orar</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Fshije</translation>
+        <translation type="vanished">Fshije</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Vëre si të parapëlqyer</translation>
+        <translation type="vanished">Vëre si të parapëlqyer</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Hiqe nga të parapëlqyerat</translation>
+        <translation type="vanished">Hiqe nga të parapëlqyerat</translation>
     </message>
 </context>
 <context>
@@ -996,11 +1004,11 @@
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>S’u gjetën kartela figurash</translation>
+        <translation type="vanished">S’u gjetën kartela figurash</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>S’u gjet foto</translation>
+        <translation type="vanished">S’u gjet foto</translation>
     </message>
 </context>
 <context>
@@ -1121,79 +1129,79 @@
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>Shto te albumi</translation>
+        <translation type="vanished">Shto te albumi</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Shfaqje si diapozitiva</translation>
+        <translation type="vanished">Shfaqje si diapozitiva</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Dil nga mënyra Sa krejt ekrani</translation>
+        <translation type="vanished">Dil nga mënyra Sa krejt ekrani</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Sa krejt ekrani</translation>
+        <translation type="vanished">Sa krejt ekrani</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopjoje</translation>
+        <translation type="vanished">Kopjoje</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Fshije</translation>
+        <translation type="vanished">Fshije</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Shfaq dritare lëvizjesh</translation>
+        <translation type="vanished">Shfaq dritare lëvizjesh</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Fshih dritare lëvizjesh</translation>
+        <translation type="vanished">Fshih dritare lëvizjesh</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rrotulloje në kahun orar</translation>
+        <translation type="vanished">Rrotulloje në kahun orar</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rrotulloje në kahun anti-orar</translation>
+        <translation type="vanished">Rrotulloje në kahun anti-orar</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Vëre si sfond</translation>
+        <translation type="vanished">Vëre si sfond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Shfaqe te përgjegjës kartelash</translation>
+        <translation type="vanished">Shfaqe te përgjegjës kartelash</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Eksporto</translation>
+        <translation type="vanished">Eksporto</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Hiqe nga të parapëlqyerat</translation>
+        <translation type="vanished">Hiqe nga të parapëlqyerat</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Të dhëna fotoje</translation>
+        <translation type="vanished">Të dhëna fotoje</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Hiqe nga albumi</translation>
+        <translation type="vanished">Hiqe nga albumi</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Vëre si të parapëlqyer</translation>
+        <translation type="vanished">Vëre si të parapëlqyer</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Album i ri</translation>
+        <translation type="vanished">Album i ri</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Shtype</translation>
+        <translation type="vanished">Shtype</translation>
     </message>
 </context>
 </TS>

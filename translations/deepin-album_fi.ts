@@ -7,7 +7,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Peru</translation>
+        <translation>Peruuta</translation>
     </message>
     <message>
         <source>Create</source>
@@ -22,7 +22,7 @@
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Peru</translation>
+        <translation>Peruuta</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -64,7 +64,7 @@
     </message>
     <message>
         <source>%1 photo(s)</source>
-        <translation>%1 kuvaa</translation>
+        <translation type="vanished">%1 kuvaa</translation>
     </message>
     <message>
         <source>Import All</source>
@@ -100,7 +100,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Peru</translation>
+        <translation>Peruuta</translation>
     </message>
     <message>
         <source>Ignore</source>
@@ -112,7 +112,11 @@
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on it</source>
-        <translation>Tiedostot poistetaan pysyvästi siinä näytetyn päivän jälkeen </translation>
+        <translation type="vanished">Tiedostot poistetaan pysyvästi siinä näytetyn päivän jälkeen </translation>
+    </message>
+    <message>
+        <source>The files will be permanently deleted after the days shown on them</source>
+        <translation>Tiedostot poistetaan pysyvästi niille annetun päivän jälkeen</translation>
     </message>
 </context>
 <context>
@@ -126,7 +130,7 @@
     <name>CExportImageDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Peru</translation>
+        <translation>Peruuta</translation>
     </message>
     <message>
         <source>Replace</source>
@@ -232,14 +236,14 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Peru</translation>
+        <translation>Peruuta</translation>
     </message>
 </context>
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Photo info</source>
-        <translation>Kuvan tiedot</translation>
+        <translation type="vanished">Kuvan tiedot</translation>
     </message>
 </context>
 <context>
@@ -257,7 +261,7 @@
     <name>ImgDeleteDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Peru</translation>
+        <translation>Peruuta</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -380,7 +384,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the file</source>
-        <translation>Sinulla ei ole oikeuksia katsoa tiedostoa</translation>
+        <translation type="vanished">Sinulla ei ole oikeuksia katsoa tiedostoa</translation>
     </message>
 </context>
 <context>
@@ -526,7 +530,7 @@
     </message>
     <message>
         <source>Import photos</source>
-        <translation>Tuo kuvat</translation>
+        <translation type="vanished">Tuo kuvat</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -559,6 +563,10 @@
     <message>
         <source>Photo/Video info</source>
         <translation>Valokuva-/videotiedot</translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
+        <translation>Tuo valokuvia ja videoita</translation>
     </message>
 </context>
 <context>
@@ -698,7 +706,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Peru</translation>
+        <translation>Peruuta</translation>
     </message>
     <message>
         <source>Restore</source>
@@ -813,30 +821,30 @@
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n kuvaa löydetty</numerusform><numerusform>%n kuvaa löydetty</numerusform></translation>
     </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>
     <message>
         <source>Pause</source>
-        <translation>Tauko</translation>
+        <translation type="vanished">Tauko</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation>Toista</translation>
+        <translation type="vanished">Toista</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Poistu</translation>
+        <translation type="vanished">Poistu</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Edellinen</translation>
+        <translation type="vanished">Edellinen</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Seuraava</translation>
+        <translation type="vanished">Seuraava</translation>
     </message>
 </context>
 <context>
@@ -870,43 +878,43 @@
     <name>TTBContent</name>
     <message>
         <source>Back</source>
-        <translation>Takaisin</translation>
+        <translation type="vanished">Takaisin</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Edellinen</translation>
+        <translation type="vanished">Edellinen</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Seuraava</translation>
+        <translation type="vanished">Seuraava</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>Koko 1:1</translation>
+        <translation type="vanished">Koko 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Sovita ikkunaan</translation>
+        <translation type="vanished">Sovita ikkunaan</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Käännä vastapäivään</translation>
+        <translation type="vanished">Käännä vastapäivään</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Käännä myötäpäivään</translation>
+        <translation type="vanished">Käännä myötäpäivään</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Poista</translation>
+        <translation type="vanished">Poista</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Suosikki</translation>
+        <translation type="vanished">Suosikki</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Inhokki</translation>
+        <translation type="vanished">Inhokki</translation>
     </message>
 </context>
 <context>
@@ -996,11 +1004,11 @@
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Kuvatiedostoja ei löytynyt</translation>
+        <translation type="vanished">Kuvatiedostoja ei löytynyt</translation>
     </message>
     <message>
         <source>Photo not found</source>
-        <translation>Kuvaa ei löytynyt</translation>
+        <translation type="vanished">Kuvaa ei löytynyt</translation>
     </message>
 </context>
 <context>
@@ -1121,79 +1129,79 @@
     <name>ViewPanel</name>
     <message>
         <source>Add to album</source>
-        <translation>Lisää albumiin</translation>
+        <translation type="vanished">Lisää albumiin</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diaesitys</translation>
+        <translation type="vanished">Diaesitys</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Poistu koko näytöstä</translation>
+        <translation type="vanished">Poistu koko näytöstä</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Koko näyttö</translation>
+        <translation type="vanished">Koko näyttö</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopioi</translation>
+        <translation type="vanished">Kopioi</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Poista</translation>
+        <translation type="vanished">Poista</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Näytä navigointi-ikkuna</translation>
+        <translation type="vanished">Näytä navigointi-ikkuna</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Piilota navigointi-ikkuna</translation>
+        <translation type="vanished">Piilota navigointi-ikkuna</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Käännä myötäpäivään</translation>
+        <translation type="vanished">Käännä myötäpäivään</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Käännä vastapäivään</translation>
+        <translation type="vanished">Käännä vastapäivään</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Aseta taustakuvaksi</translation>
+        <translation type="vanished">Aseta taustakuvaksi</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Näytä tiedostohallinnassa</translation>
+        <translation type="vanished">Näytä tiedostohallinnassa</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Vie</translation>
+        <translation type="vanished">Vie</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Inhokki</translation>
+        <translation type="vanished">Inhokki</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Kuvan tiedot</translation>
+        <translation type="vanished">Kuvan tiedot</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Poista albumista</translation>
+        <translation type="vanished">Poista albumista</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Suosikki</translation>
+        <translation type="vanished">Suosikki</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Uusi albumi</translation>
+        <translation type="vanished">Uusi albumi</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Tulosta</translation>
+        <translation type="vanished">Tulosta</translation>
     </message>
 </context>
 </TS>
