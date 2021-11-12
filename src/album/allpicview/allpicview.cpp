@@ -164,7 +164,7 @@ void AllPicView::initSuspensionWidget()
 {
     //添加悬浮title
     m_SuspensionWidget = new QWidget(m_thumbnailListViewWidget);
-    m_SuspensionWidget->setFocusPolicy(Qt::ClickFocus);
+    m_SuspensionWidget->setFocusPolicy(Qt::NoFocus); //click focus不会取消缩略图选中，但会转移焦点
     //右侧批量操作控件
     QHBoxLayout *hlayoutDateLabel = new QHBoxLayout(m_SuspensionWidget);
     m_SuspensionWidget->setLayout(hlayoutDateLabel);

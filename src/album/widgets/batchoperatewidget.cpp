@@ -576,3 +576,9 @@ void BatchOperateWidget::hideEvent(QHideEvent *event)
     refreshBtnEnabled();
 }
 
+void BatchOperateWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    QWidget::mouseReleaseEvent(event);
+
+    m_thumbnailListView->setFocus();
+}
