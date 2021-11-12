@@ -96,9 +96,32 @@ void BatchOperateWidget::initConnection()
     connect(m_trashRecoveryBtn, &DPushButton::clicked, this, &BatchOperateWidget::onTrashRecoveryBtnClicked);
     //点击最近删除中删除按钮
     connect(m_trashDeleteBtn, &DPushButton::clicked, this, &BatchOperateWidget::onTrashDeleteBtnClicked);
-
     //主题变化
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &BatchOperateWidget::onThemeTypeChanged);
+
+    //数据库变化
+    //我的收藏
+    connect(dApp->signalM, &SignalManager::removedFromAlbum, this, &BatchOperateWidget::sltAlbumChanged);
+    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &BatchOperateWidget::sltAlbumChanged);
+    //图片/视频插入删除
+    connect(m_thumbnailListView, &DListView::rowCountChanged, this, &BatchOperateWidget::sltListViewChanged);
+}
+
+void BatchOperateWidget::sltAlbumChanged(const QString &album, const QStringList &paths)
+{
+    Q_UNUSED(paths)
+    if (album == COMMON_STR_FAVORITES) {
+        refreshCollectBtn();
+    }
+}
+
+void BatchOperateWidget::sltListViewChanged()
+{
+    ExpansionPanel::FilteData data;
+    data.type = m_ToolButton->getFilteType();
+    sltCurrentFilterChanged(data);
+
+    batchSelectChanged(false, true);
 }
 
 bool BatchOperateWidget::isAllSelectedCollected()

@@ -292,7 +292,7 @@ void AllPicView::onImportViewImportBtnClicked()
     emit dApp->signalM->startImprot();
     m_pImportView->onImprotBtnClicked();
     //导入结束后判断是否有导入，有导入则切换显示列表
-    if (ImageEngineApi::instance()->getAllImageDataCount() > 0) {
+    if (DBManager::instance()->getImgsCount() > 0) { //和updateStackedWidget()函数的判断方法对齐
         m_pStackedWidget->setCurrentIndex(VIEW_ALLPICS);
     }
 }

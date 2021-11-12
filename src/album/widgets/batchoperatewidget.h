@@ -112,9 +112,12 @@ public slots:
     void onTrashRecoveryBtnClicked();
     //点击最近删除中删除按钮
     void onTrashDeleteBtnClicked();
-
     //主题变化
     void onThemeTypeChanged(DGuiApplicationHelper::ColorType themeType);
+    //我的收藏改变，需要接收变化的相册名
+    void sltAlbumChanged(const QString &album, const QStringList &paths);
+    //图片/视频插入删除
+    void sltListViewChanged();
 private:
     //初始化信号槽
     void initConnection();
