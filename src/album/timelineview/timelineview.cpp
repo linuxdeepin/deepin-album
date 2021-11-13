@@ -551,7 +551,6 @@ void TimeLineView::mousePressEvent(QMouseEvent *e)
 
 void TimeLineView::slotNoPicOrNoVideo(bool isNoResult)
 {
-    qDebug() << __FUNCTION__ << "---" << isNoResult;
     m_noResultWidget->setVisible(isNoResult);
     m_timeLineThumbnailListView->setVisible(!isNoResult);
     if (isNoResult) {

@@ -736,7 +736,7 @@ void ThumbnailListView::updateMenuContents()
         }
         m_pMenu->addSeparator();
     } else {
-        if (!m_batchOperateWidget->isAllSelectedCollected()) {
+        if (m_batchOperateWidget && !m_batchOperateWidget->isAllSelectedCollected()) {
             m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
             m_MenuActionMap.value(tr("Favorite"))->setVisible(true);
         } else {
@@ -1768,7 +1768,6 @@ void ThumbnailListView::showAppointTypeItem(ItemType type)
     m_currentShowItemType = type;
     //切换显示之前先清除选中
     this->clearSelection();
-    qDebug() << __FUNCTION__ << "---";
     if (type == ItemTypePic) {
         //显示所有图片
         if (isAllAppointType(ItemTypeVideo)) {

@@ -514,7 +514,7 @@ void ImageImportFilesFromMountThread::runDetail()
         using namespace utils::image;
         using namespace utils::base;
         if (QFile::copy(strPath, strNewPath)) {
-            qDebug() << "onCopyPhotoFromPhone()";
+//            qDebug() << "onCopyPhotoFromPhone()";
         }
         dbInfos << getDBInfo(strNewPath, utils::base::isVideo(strNewPath));
 

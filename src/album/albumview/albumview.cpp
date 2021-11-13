@@ -967,7 +967,6 @@ void AlbumView::updateRightMountView()
     emit ImageEngineApi::instance()->sigLoadMountFileList(strPath);
     //TODO 保存每个挂载设备的加载状态
     if (mountLoadStatus.contains(strPath) && mountLoadStatus[strPath]) {
-        qDebug() << "---已加载过，不加载---";
         return;
     }
     mountLoadStatus[strPath] = true;
@@ -1078,7 +1077,6 @@ bool AlbumView::imageGeted(QStringList &filelist, QString path)
     ImageEngineApi::instance()->loadImageDateToMemory(m_phoneNameAndPathlist[path], path);
     if (m_itemClicked == true) {
         m_curThumbnaiItemList_str.clear();
-        qDebug() << "------" << __FUNCTION__ << "";
         updateRightMountView();
     }
     return true;
@@ -1468,7 +1466,7 @@ void AlbumView::getAllDeviceName()
             goto runend1;
         }
         udispname = label;
-runend1:
+    runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -2212,7 +2210,6 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
     QTimer::singleShot(1500, this, [ = ] {
         m_waitDeviceScandialog->close();
     });
-    qDebug() << "--- sltLoadMountFileList 线程处理完毕，开始加载右侧图片 ---" << QThread::currentThreadId();
     QString strPath;
     QString phoneTitle;
     if (m_pLeftListView->m_pMountListWidget->currentItem()) {
@@ -2263,18 +2260,19 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
         info.filePath = fileList.at(i);
         infos.append(info);
     }
-    //有有效图片时，设置按钮状态
-    if (m_pRightPhoneThumbnailList->m_model->rowCount() <= 0) {
-        m_importByPhoneComboBox->setEnabled(false);
-        m_importAllByPhoneBtn->setEnabled(false);
-        m_importSelectByPhoneBtn->setEnabled(false);
-    }
     //先清除所有
     m_pRightPhoneThumbnailList->clearAll();
     //添加上方空白栏
     m_pRightPhoneThumbnailList->insertBlankOrTitleItem(ItemTypeBlank, "", "", m_importByPhoneWidget->height());
     //添加图片信息
     m_pRightPhoneThumbnailList->insertThumbnailByImgInfos(infos);
+
+    //有有效图片时，设置按钮状态
+    if (m_pRightPhoneThumbnailList->m_model->rowCount() <= 0) {
+        m_importByPhoneComboBox->setEnabled(false);
+        m_importAllByPhoneBtn->setEnabled(false);
+        m_importSelectByPhoneBtn->setEnabled(false);
+    }
 
     //重置数量显示
     resetLabelCount(m_pRightPhoneThumbnailList->getAppointTypeItemCount(ItemTypePic)

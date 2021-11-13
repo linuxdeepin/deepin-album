@@ -52,7 +52,10 @@ ImageDataService::~ImageDataService()
 bool ImageDataService::add(const QStringList &paths, bool reLoadThumbnail)
 {
     QMutexLocker locker(&m_imgDataMutex);
-    m_requestQueue.clear();
+    if (reLoadThumbnail) {
+        m_requestQueue.clear();
+        qDebug() << "---m_requestQueue 清空,重新加载---" << paths.size();
+    }
     for (int i = 0; i < paths.size(); i++) {
         if (reLoadThumbnail || !m_AllImageMap.contains(paths.at(i))) {
             m_requestQueue.append(paths.at(i));
@@ -131,11 +134,9 @@ bool ImageDataService::readThumbnailByPaths(QStringList files, bool isFinishFilt
         }
         if (needCoreCounts < 1)
             needCoreCounts = 1;
-        QList<QThread *> threads;
         for (int i = 0; i < needCoreCounts; i++) {
             readThumbnailThread *thread = new readThumbnailThread;
             thread->start();
-            threads.append(thread);
         }
     } else {
         ImageDataService::instance()->add(image_video_list, reLoadThumbnail);
