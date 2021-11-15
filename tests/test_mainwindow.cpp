@@ -1006,7 +1006,7 @@ TEST(MainWindow, createalbumFromTitlebarMenu)
     stub_ext::StubExt stu;
     stu.set_lamda(ADDR(DFileDialog, selectedFiles), []() {
         QStringList filelist;
-        filelist << testPath_Pictures + "/a.jpg" << testPath_Pictures + "/aa.jpg" ;
+        filelist << testPath_Pictures + "/a.jpg" << testPath_Pictures + "/aa.jpg" << testPath_Pictures + "500Kavi.avi";
         return filelist;
     });
     emit w->m_pAlbumview->m_pImportView->m_pImportBtn->clicked(true);

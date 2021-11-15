@@ -37,6 +37,7 @@
 #include "../test_qtestDefine.h"
 #include "thumbnaillistview.h"
 #include "ac-desktop-define.h"
+#include "timelinedatewidget.h"
 
 #include <stub-tool/cpp-stub/stub.h>
 #include <stub-tool/stub-ext/stubext.h>
@@ -142,4 +143,51 @@ TEST(ThumbnailListView, createNewAlbumFromDialog1)
     }
     QTest::qWait(200);
     emit dApp->signalM->sigCreateNewAlbumFromDialog("test-album1");
+}
+
+TEST(TimeLineDateWidget, functions)
+{
+    TEST_CASE_NAME("TimeLineDateWidget_functions")
+
+    auto type = DGuiApplicationHelper::instance()->themeType();
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::DarkType);
+
+    auto w = new TimeLineDateWidget(nullptr, "123", "321");
+    w->onGetBtnStatus();
+
+    w->deleteLater();
+
+    DGuiApplicationHelper::instance()->setThemeType(type);
+    QTest::qWait(500);
+}
+
+TEST(importTimeLineDateWidget, functions)
+{
+    TEST_CASE_NAME("importTimeLineDateWidgett_functions")
+
+    auto type = DGuiApplicationHelper::instance()->themeType();
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::DarkType);
+
+    auto w1 = new importTimeLineDateWidget(nullptr, "123", "321");
+    w1->onChooseBtnCliked();
+    QTest::qWait(200);
+    w1->onChooseBtnCliked();
+    w1->onChangeChooseBtnVisible(true);
+    w1->onGetBtnStatus();
+
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::LightType);
+    QTest::qWait(500);
+
+    auto w2 = new importTimeLineDateWidget(nullptr, "321", "123");
+    w2->onTimeLinePicSelectAll(true);
+    w2->onTimeLinePicSelectAll(false);
+
+    DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::DarkType);
+    QTest::qWait(500);
+
+    w1->deleteLater();
+    w2->deleteLater();
+
+    DGuiApplicationHelper::instance()->setThemeType(type);
+    QTest::qWait(500);
 }

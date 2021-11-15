@@ -635,6 +635,7 @@ TEST(AlbumView, onLeftListDropEvent_test)
 TEST(AlbumView, albumView_other1_test)
 {
     TEST_CASE_NAME("albumView_other1_test")
+
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
 
@@ -695,6 +696,7 @@ TEST(AlbumView, albumView_other1_test)
     w->m_pAlbumview->onImportFailedToView();
     w->m_pAlbumview->onWaitDailogTimeout();
 
+    w->m_pAlbumview->onBlockDeviceAdded("");
 
     QTest::qWait(500);
 }
