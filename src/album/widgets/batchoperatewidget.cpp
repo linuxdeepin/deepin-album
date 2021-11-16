@@ -428,26 +428,27 @@ void BatchOperateWidget::initDropdown()
     m_expansionMenu = new ExpansionMenu(this);
     m_ToolButton = m_expansionMenu->mainWidget();
     m_ToolButton->setText(QObject::tr("All"));
-    m_ToolButton->setIcon(QIcon::fromTheme("album_all"));
+    //m_ToolButton->setIcon(DHiDPIHelper::loadNxPixmap(":/icons/deepin/builtin/icons/light/album_all_16px.svg"));
+    m_ToolButton->setIcon(DHiDPIHelper::loadNxPixmap(":/icons/deepin/builtin/icons/dark/album_all_16px.svg"));
     ExpansionPanel::FilteData data;
 
-    data.icon_r_light = DHiDPIHelper::loadNxPixmap(":/icons/deepin/builtin/icons/light/album_all_16px.svg");
-    data.icon_r_dark  = DHiDPIHelper::loadNxPixmap(":/icons/deepin/builtin/icons/dark/album_all_16px.svg");
+    data.icon_r_light = QIcon::fromTheme("album_all");
+    data.icon_r_dark  = QIcon::fromTheme("album_all_hover");
     data.icon_r_path  = "album_all";
     data.text = QObject::tr("All");
     data.type = ItemType::ItemTypeNull;
     m_expansionMenu->setDefaultFilteData(data);
     m_expansionMenu->addNewButton(data);
 
-    data.icon_r_light = DHiDPIHelper::loadNxPixmap(":/icons/deepin/builtin/icons/light/album_pic_16px.svg");
-    data.icon_r_dark  = DHiDPIHelper::loadNxPixmap(":/icons/deepin/builtin/icons/dark/album_pic_16px.svg");
+    data.icon_r_light = QIcon::fromTheme("album_pic");
+    data.icon_r_dark  = QIcon::fromTheme("album_pic_hover");
     data.icon_r_path  = "album_pic";
     data.text = QObject::tr("Photos");
     data.type = ItemType::ItemTypePic;
     m_expansionMenu->addNewButton(data);
 
-    data.icon_r_light = DHiDPIHelper::loadNxPixmap(":/icons/deepin/builtin/icons/light/album_video_16px.svg");
-    data.icon_r_dark  = DHiDPIHelper::loadNxPixmap(":/icons/deepin/builtin/icons/dark/album_video_16px.svg");
+    data.icon_r_light = QIcon::fromTheme("album_video");
+    data.icon_r_dark  = QIcon::fromTheme("album_video_hover");
     data.icon_r_path  = "album_video";
     data.text = QObject::tr("Videos");
     data.type = ItemType::ItemTypeVideo;
