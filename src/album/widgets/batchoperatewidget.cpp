@@ -98,13 +98,19 @@ void BatchOperateWidget::initConnection()
     connect(m_trashDeleteBtn, &DPushButton::clicked, this, &BatchOperateWidget::onTrashDeleteBtnClicked);
     //主题变化
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &BatchOperateWidget::onThemeTypeChanged);
-
     //数据库变化
     //我的收藏
     connect(dApp->signalM, &SignalManager::removedFromAlbum, this, &BatchOperateWidget::sltAlbumChanged);
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &BatchOperateWidget::sltAlbumChanged);
     //图片/视频插入删除
-    connect(m_thumbnailListView, &DListView::rowCountChanged, this, &BatchOperateWidget::sltListViewChanged);
+    viewChangedFlushTimer = new QTimer;
+    connect(viewChangedFlushTimer, &QTimer::timeout, this, &BatchOperateWidget::sltListViewChanged);
+    connect(m_thumbnailListView, &DListView::rowCountChanged, [this]() {
+        if (!viewChangedFlushFlag) {
+            viewChangedFlushTimer->start(200);
+            viewChangedFlushFlag = true;
+        }
+    });
 }
 
 void BatchOperateWidget::sltAlbumChanged(const QString &album, const QStringList &paths)
@@ -117,6 +123,9 @@ void BatchOperateWidget::sltAlbumChanged(const QString &album, const QStringList
 
 void BatchOperateWidget::sltListViewChanged()
 {
+    viewChangedFlushTimer->stop();
+    viewChangedFlushFlag = false;
+
     ExpansionPanel::FilteData data;
     data.type = m_ToolButton->getFilteType();
     sltCurrentFilterChanged(data);

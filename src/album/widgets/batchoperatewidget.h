@@ -143,6 +143,8 @@ private:
 
     ThumbnailListView   *m_thumbnailListView = nullptr;
     OperateType          m_operateType;
+    QTimer *viewChangedFlushTimer = nullptr;
+    bool viewChangedFlushFlag = false;
 };
 
 #endif // BATCHOPERATEWIDGET_H
