@@ -425,6 +425,8 @@ void MainWindow::initTitleBar()
     titlebar()->setIcon(QIcon::fromTheme("deepin-album"));
     titlebar()->setMenu(m_pTitleBarMenu);
     titlebar()->setFocusPolicy(Qt::FocusPolicy::NoFocus);
+    m_pSearchEdit->setFocusPolicy(Qt::ClickFocus);
+
 //    titlebar()->setBlurBackground(true);// 0308 zy ui确认，取消标题栏透明效果
     AC_SET_OBJECT_NAME(titlebar(), MainWindow_Titlebar);
     AC_SET_ACCESSIBLE_NAME(titlebar(), MainWindow_Titlebar);
@@ -1607,10 +1609,6 @@ void MainWindow::showEvent(QShowEvent *event)
                 m_pCenterWidget->insertWidget(index, m_pSearchView);
                 m_pCenterWidget->removeWidget(m_pSearchViewWidget);
             }
-            //todo imageviewer
-//            if (m_processOptionIsEmpty) {
-//                m_commandLine->viewImage("", {});
-//            }
 
             initShortcut();
             initConnections();
