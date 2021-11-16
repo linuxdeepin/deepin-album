@@ -773,10 +773,6 @@ void ThumbnailListView::updateMenuContents()
             m_MenuActionMap.value(tr("Photo info"))->setVisible(true);
             m_MenuActionMap.value(tr("Video info"))->setVisible(false);
             m_MenuActionMap.value(tr("Fullscreen"))->setVisible(true);
-            if (flag_isRW) {
-                m_MenuActionMap.value(tr("Rotate clockwise"))->setVisible(true);
-                m_MenuActionMap.value(tr("Rotate counterclockwise"))->setVisible(true);
-            }
         } else {
             m_MenuActionMap.value(tr("Video info"))->setVisible(true);
             m_MenuActionMap.value(tr("Print"))->setVisible(false);
