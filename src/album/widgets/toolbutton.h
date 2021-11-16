@@ -33,6 +33,12 @@ class ToolButton : public DPushButton
     Q_OBJECT
 public:
 
+    enum ButtonStatus
+    {
+        btnNormal = 0,
+        btnHover = 1
+    };
+
     /**
      * @description: ToolButton 构造函数
     */
@@ -78,6 +84,10 @@ protected:
     void focusInEvent(QFocusEvent *e) override;
     void focusOutEvent(QFocusEvent *e) override;
 
+    void enterEvent(QEvent *event) override;
+    void leaveEvent(QEvent *event) override;
+    void hideEvent(QHideEvent *event) override;
+
 private:
     //用于绘制的文字
     QString m_text;
@@ -90,6 +100,8 @@ private:
     QIcon m_Ricon_dark;
 
     QIcon m_RiconWhite;
+
+    ButtonStatus currentStatus = btnNormal;
 };
 
 #endif // TOOLBUTTON_H

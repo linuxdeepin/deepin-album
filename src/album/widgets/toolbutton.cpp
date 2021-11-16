@@ -74,7 +74,7 @@ void ToolButton::paintEvent(QPaintEvent *e)
     painter.save();
     //非禁用状态绘制背景
     if (option.state & QStyle::State_Enabled) {
-        if (option.state & QStyle::State_MouseOver) {
+        if (currentStatus == btnHover) {
             painter.setPen(Qt::NoPen);
             //获取系统主题颜色
             QColor hovertColor(option.palette.highlight().color());
@@ -91,7 +91,7 @@ void ToolButton::paintEvent(QPaintEvent *e)
         }
 
         //鼠标悬停画笔颜色
-        else if (option.state & QStyle::State_MouseOver) {
+        else if (currentStatus == btnHover) {
             painter.setPen(QColor(Qt::white));
         }
 
@@ -111,7 +111,7 @@ void ToolButton::paintEvent(QPaintEvent *e)
         }
 
         //鼠标悬停画笔颜色
-        else if (option.state & QStyle::State_MouseOver) {
+        else if (currentStatus == btnHover) {
             painter.setPen(QColor(Qt::white));
         }
 
@@ -135,7 +135,7 @@ void ToolButton::paintEvent(QPaintEvent *e)
     painter.restore();
 
     // 绘制图片
-    if (option.state & QStyle::State_MouseOver) {
+    if (currentStatus == btnHover) {
         painter.drawPixmap(QRect(130, 10, 16, 16), m_RiconWhite.pixmap(QSize(16, 16)));
     } else {
         if (Dtk::Gui::DGuiApplicationHelper::instance()->themeType() == Dtk::Gui::DGuiApplicationHelper::LightType) {
@@ -156,4 +156,22 @@ void ToolButton::focusOutEvent(QFocusEvent *e)
 {
     emit focusStatusChanged(false);
     DPushButton::focusOutEvent(e);
+}
+
+void ToolButton::enterEvent(QEvent *event)
+{
+    currentStatus = btnHover;
+    DPushButton::enterEvent(event);
+}
+
+void ToolButton::leaveEvent(QEvent *event)
+{
+    currentStatus = btnNormal;
+    DPushButton::leaveEvent(event);
+}
+
+void ToolButton::hideEvent(QHideEvent *event)
+{
+    currentStatus = btnNormal;
+    DPushButton::hideEvent(event);
 }
