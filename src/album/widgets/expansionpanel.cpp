@@ -24,9 +24,20 @@
 #include <QVBoxLayout>
 #include <iostream>
 
+#include <DPalette>
+
+DGUI_USE_NAMESPACE
+
 ExpansionPanel::ExpansionPanel(QWidget *parent)
     : DBlurEffectWidget(parent)
 {
+    //wayland背景透明问题
+    DPalette imgInfoDlgPl = this->palette();
+    QColor imgInfoDlgColor("#F7F7F7");
+    imgInfoDlgColor.setAlphaF(0.8);
+    imgInfoDlgPl.setColor(DPalette::Window, imgInfoDlgColor);
+    this->setBackgroundRole(DPalette::Window);
+
     this->setWindowFlag(Qt::Popup);
     layout = new QVBoxLayout;
 
