@@ -108,6 +108,7 @@ void TimeLineView::initConnections()
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(dApp->signalM, &SignalManager::sigLoadOnePhoto, this, &TimeLineView::clearAndStartLayout);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &TimeLineView::clearAndStartLayout);
+    connect(dApp->signalM, &SignalManager::imagesRemoved, this, &TimeLineView::clearAndStartLayout);
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &TimeLineView::updataLayout);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::emitSliderValueChg);
 //    connect(pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &TimeLineView::updatePicNum);

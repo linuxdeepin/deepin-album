@@ -258,6 +258,12 @@ void ImportImagesThread::runDetail()
             image_list = newImagePaths;
         }
 
+        std::sort(image_list.begin(), image_list.end(), [](const QString & lhs, const QString & rhs) {
+            QFileInfo l_info(lhs);
+            QFileInfo r_info(rhs);
+            return l_info.lastModified().toTime_t() > r_info.lastModified().toTime_t();
+        });
+
         DBImgInfoList dbInfos;
         QStringList pathlist;
         using namespace utils::image;
