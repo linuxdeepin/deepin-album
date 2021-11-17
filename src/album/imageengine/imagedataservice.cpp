@@ -148,7 +148,7 @@ void ImageDataService::addImage(const QString &path, const QImage &image)
 {
     QMutexLocker locker(&m_imgDataMutex);
     m_AllImageMap[path] = image;
-    m_AllImageDataHashMap[path] = utils::base::filePathToThumbnailPath(path);
+//    m_AllImageDataHashMap[path] = utils::base::filePathToThumbnailPath(path);
 }
 
 void ImageDataService::addMovieDurationStr(const QString &path, const QString &durationStr)
