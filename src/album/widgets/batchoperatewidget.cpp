@@ -103,7 +103,7 @@ void BatchOperateWidget::initConnection()
     connect(dApp->signalM, &SignalManager::removedFromAlbum, this, &BatchOperateWidget::sltAlbumChanged);
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &BatchOperateWidget::sltAlbumChanged);
     //图片/视频插入删除
-    viewChangedFlushTimer = new QTimer;
+    viewChangedFlushTimer = new QTimer(this);
     connect(viewChangedFlushTimer, &QTimer::timeout, this, &BatchOperateWidget::sltListViewChanged);
     connect(m_thumbnailListView, &DListView::rowCountChanged, [this]() {
         if (!viewChangedFlushFlag) {
