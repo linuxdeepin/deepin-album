@@ -48,7 +48,6 @@ ExpansionPanel::ExpansionPanel(QWidget *parent)
     setMode(DBlurEffectWidget::GaussianBlur);
 
     //绘制背景阴影
-    setAttribute(Qt::WA_TranslucentBackground);
     const int nMargin = 10;     // 设置阴影宽度
     shadow_effect = new QGraphicsDropShadowEffect(this);
     shadow_effect->setOffset(0, 0);
