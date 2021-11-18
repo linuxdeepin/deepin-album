@@ -234,6 +234,7 @@ private:
     void appendAction(int id, const QString &text, const QString &shortcut);
     void initMenuAction();
     DMenu *createAlbumMenu();
+    void flushTopTimeLine(int offset); //刷新顶部的时间线显示
     void resizeEvent(QResizeEvent *e) override;
     bool eventFilter(QObject *obj, QEvent *e) override;
     //获取当前index所属时间线的时间和数量

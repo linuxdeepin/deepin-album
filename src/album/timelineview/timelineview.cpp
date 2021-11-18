@@ -471,6 +471,11 @@ void TimeLineView:: addTimelineLayout()
             m_timeLineThumbnailListView->insertBlankOrTitleItem(ItemTypeTimeLineTitle, data, num, 90);
         }
         //加当前时间下的图片
+        for (auto &eachInfo : ImgInfoList) {
+            //存入当前所属时间线的日期和照片数量信息
+            eachInfo.date = data;
+            eachInfo.num = num;
+        }
         m_timeLineThumbnailListView->insertThumbnailByImgInfos(ImgInfoList);
     }
 }

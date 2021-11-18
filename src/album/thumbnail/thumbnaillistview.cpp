@@ -1340,6 +1340,8 @@ void ThumbnailListView::hideAllAppointType(ItemType type)
             }
         }
     }
+
+    flushTopTimeLine(8); //筛完了要刷新顶部
 }
 
 int ThumbnailListView::getRow(QPoint point)
@@ -1981,7 +1983,12 @@ void ThumbnailListView::onScrollbarValueChanged(int value)
         m_scrollTimer->stop();
     }
 
-    QModelIndex index = this->indexAt(QPoint(80, m_blankItemHeight));
+    flushTopTimeLine(8); //滑完了要刷新顶部
+}
+
+void ThumbnailListView::flushTopTimeLine(int offset)
+{
+    QModelIndex index = this->indexAt(QPoint(80, m_blankItemHeight + offset)); //额外下移x个像素点，避免在筛选状态的时候选择错误
     DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
 
     //无选中照片，直接返回
@@ -2003,26 +2010,6 @@ void ThumbnailListView::onScrollbarValueChanged(int value)
             emit sigTimeLineDataAndNum(currentIndexTimeList.at(0), currentIndexTimeList.at(1), isSelect ? QObject::tr("Unselect") : QObject::tr("Select"));
         }
     }
-//TODO 时间上滑动画
-//    if (data.itemType == ItemTypeTimeLineTitle || data.itemType == ItemTypeBlank || data.itemType == ItemTypeImportTimeLineTitle) {
-//        if (!m_animationEnable) {
-//            //计算滚动距离，使用动画滑动
-//            QRect rect = rectForIndex(index);
-//            if (m_animation == nullptr) {
-//                m_animation = new QPropertyAnimation(verticalScrollBar(), "value", this);
-//                m_animation->setDuration(ANIMATION_DRLAY);
-//                m_animation->setEasingCurve(QEasingCurve::InOutQuad);
-//            }
-//            m_animation->setStartValue(verticalScrollBar()->value());
-//            m_animation->setEndValue(rect.top());
-
-//            disconnect(this->verticalScrollBar(), &QScrollBar::valueChanged, this, &ThumbnailListView::onScrollbarValueChanged);
-//            m_animation->start();
-//            connect(m_animation, &QPropertyAnimation::finished, this, [ = ]() {
-//                connect(this->verticalScrollBar(), &QScrollBar::valueChanged, this, &ThumbnailListView::onScrollbarValueChanged);
-//            });
-//        }
-//    }
 }
 
 void ThumbnailListView::onDoubleClicked(const QModelIndex &index)
