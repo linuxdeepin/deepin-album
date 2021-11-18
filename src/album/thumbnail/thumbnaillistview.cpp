@@ -1434,6 +1434,9 @@ void ThumbnailListView::slotSelectCurrentDatePic(bool isSelect, QStandardItem *i
     if (item == nullptr || !m_model->indexFromItem(item).isValid()) {
         return;
     }
+
+    disconnect(this->selectionModel(), &QItemSelectionModel::selectionChanged, m_batchOperateWidget, &BatchOperateWidget::sltSelectionChanged);
+
     int index = m_model->indexFromItem(item).row() + 1;
     for (; index < m_model->rowCount(); index++) {
         QModelIndex itemIndex = m_model->index(index, 0);
@@ -1448,6 +1451,12 @@ void ThumbnailListView::slotSelectCurrentDatePic(bool isSelect, QStandardItem *i
             }
         }
     }
+
+    connect(this->selectionModel(), &QItemSelectionModel::selectionChanged, m_batchOperateWidget, &BatchOperateWidget::sltSelectionChanged);
+
+    QItemSelection selected;
+    QItemSelection deselected;
+    emit this->selectionModel()->selectionChanged(selected, deselected);
 }
 //刷新所有标题中选择按钮的状态
 void ThumbnailListView::slotChangeAllSelectBtnVisible(bool visible)
