@@ -224,7 +224,6 @@ void StatusBar::timerEvent(QTimerEvent *e)
                 emit dApp->signalM->sigAddToAlbToast(m_alubm);
                 if (m_baddDuplicatePhotos) {
                     m_baddDuplicatePhotos = false;
-                    emit dApp->signalM->sigAddDuplicatePhotos();
                 }
             }
         } else {
@@ -236,7 +235,6 @@ void StatusBar::timerEvent(QTimerEvent *e)
                     emit dApp->signalM->sigAddToAlbToast(m_alubm);
                     if (m_baddDuplicatePhotos) {
                         m_baddDuplicatePhotos = false;
-                        emit dApp->signalM->sigAddDuplicatePhotos();
                     }
                 } else if (1 == pic_count) {
                     if (m_baddDuplicatePhotos) {
