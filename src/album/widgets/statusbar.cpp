@@ -238,6 +238,10 @@ void StatusBar::timerEvent(QTimerEvent *e)
                         m_baddDuplicatePhotos = false;
                         emit dApp->signalM->sigAddDuplicatePhotos();
                     }
+                } else if (1 == pic_count) {
+                    if (m_baddDuplicatePhotos) {
+                        m_baddDuplicatePhotos = false;
+                    }
                 } else {
                     emit dApp->signalM->ImportFailed();
                 }
