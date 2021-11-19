@@ -2,6 +2,61 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="km_KH">
 <context>
+    <name></name>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">លុប</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">ពេញ​អេក្រង់</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">បញ្ចាំងស្លាយ</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">នាំចេញ</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">ចម្លង</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">ចំណូលចិត្ត</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">បង្វិលតាមទ្រនិចនាឡិកា</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">បង្វិលច្រាសទ្រនិចនាឡិកា</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">កំណត់ជាផ្ទាំងរូបភាព</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">បង្ហាញនៅក្នុងកម្មវិធីគ្រប់គ្រងឯកសារ</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">ព័ត៌មានរូបថត</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">ស្តារ</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -65,16 +120,8 @@
         <translation>ឬអូសរូបថតនៅទីនេះ</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 រូបថត()</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>នាំចូលទាំងអស់</translation>
-    </message>
-    <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">រូបថតនឹងត្រូវលុបចោលជាអចិន្ត្រៃយ៍បន្ទាប់ពីថ្ងៃដែលបានបង្ហាញ</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -113,15 +160,11 @@
         <translation>មិនអើពើ</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation type="vanished">កំពុងផ្ទុករូបថត សូមរង់ចាំ...</translation>
-    </message>
-    <message>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -246,13 +289,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation>ព័ត៌មានរូបថត</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -261,13 +297,6 @@
     <message>
         <source>Restoring...</source>
         <translation>កំពុងស្ដារ...</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation type="vanished">ថ្ងៃ</translation>
     </message>
 </context>
 <context>
@@ -283,10 +312,6 @@
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>តើអ្នកពិតជាចង់លុបរូបថតនេះចេញពីអាល់ប៊ុមមែនទេ?</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="vanished">តើអ្នកពិតជាចង់លុបរូបថត%1 ចេញពីអាល់ប៊ុមមែនទេ?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
@@ -325,8 +350,8 @@
         <translation>ព័ត៌មានលម្អិត</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>ព័ត៌មានរូបថត</translation>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -413,17 +438,6 @@
     <message>
         <source>New album</source>
         <translation>អាល់ប៊ុមថ្មី</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the image</source>
-        <translation type="vanished">អ្នកគ្មានសិទ្ធិមើលរូបភាពទេ</translation>
-    </message>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -528,10 +542,6 @@
         <translation>អាល់ប៊ុម</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation type="vanished">ព័ត៌មានរូបថត</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>ចេញពីអេក្រង់ពេញ / បញ្ចាំងស្លាយ</translation>
     </message>
@@ -544,20 +554,8 @@
         <translation>មើល</translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">នាំចេញ</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">នាំចូល</translation>
-    </message>
-    <message>
         <source>Select all</source>
         <translation>ជ្រើស​យក​ទាំងអស់</translation>
-    </message>
-    <message>
-        <source>Delete photo/album</source>
-        <translation type="vanished">លុបរូបថត / អាល់ប៊ុម</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -582,14 +580,6 @@
     <message>
         <source>Settings</source>
         <translation>ការកំណត់</translation>
-    </message>
-    <message>
-        <source>Import photos</source>
-        <translation>នាំចូលរូបថត</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation type="vanished">នាំចូលរូបថត</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -621,6 +611,10 @@
     </message>
     <message>
         <source>Photo/Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -707,8 +701,8 @@
         <translation>ស្លាក</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>ឈ្មោះរូបថត</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -738,10 +732,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 រូបថត()</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -902,38 +892,7 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation>ផ្អាក</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation>ចាក់</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>ចេញ</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>មុន</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>បន្ទាប់</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
-    <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="vanished">កំពុងនាំចូលរូបថត: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="vanished">កំពុងនាំចេញរូបថត: &apos;%1&apos;</translation>
-    </message>
     <message>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
@@ -963,49 +922,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation>ថយក្រោយ</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>មុន</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>បន្ទាប់</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation>1:1 ទំហំ</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation>សមនឹងបង្អួច</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>បង្វិលច្រាសទ្រនិចនាឡិកា</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>បង្វិលតាមទ្រនិចនាឡិកា</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>លុប</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>ចំណូលចិត្ត</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>មិនចូលចិត្ត</translation>
     </message>
 </context>
 <context>
@@ -1089,17 +1005,6 @@
     <message>
         <source>days</source>
         <translation type="unfinished">ថ្ងៃ</translation>
-    </message>
-</context>
-<context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation>រកមិនឃើញឯកសាររូបភាព</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation>រកមិនឃើញរូបថត</translation>
     </message>
 </context>
 <context>
@@ -1193,10 +1098,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation type="unfinished">កាលបរិច្ឆេទបានកែប្រែ</translation>
     </message>
@@ -1224,84 +1125,9 @@
         <source>Date captured</source>
         <translation type="unfinished">កាលបរិច្ឆេទចាប់យក</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation>បន្ថែមទៅអាល់ប៊ុម</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>បញ្ចាំងស្លាយ</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>ចេញពីអេក្រង់ពេញ</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>ពេញ​អេក្រង់</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>ចម្លង</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>លុប</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation>បង្ហាញផ្ទាំងរុករក</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation>លាក់ផ្ទាំងរុករក</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>បង្វិលតាមទ្រនិចនាឡិកា</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>បង្វិលច្រាសទ្រនិចនាឡិកា</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>កំណត់ជាផ្ទាំងរូបភាព</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>បង្ហាញនៅក្នុងកម្មវិធីគ្រប់គ្រងឯកសារ</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>នាំចេញ</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>មិនចូលចិត្ត</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation>ព័ត៌មានរូបថត</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>យកចេញពីអាល់ប៊ុម</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>ចំណូលចិត្ត</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>អាល់ប៊ុមថ្មី</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>បោះពុម្ព</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

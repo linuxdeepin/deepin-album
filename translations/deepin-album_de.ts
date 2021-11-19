@@ -1,5 +1,60 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS language="de" version="2.1">
 <context>
+    <name/>
+    <message>
+        <source>Delete</source>
+        <translation>Löschen</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation>Vollbild</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Diashow</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Exportieren</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopieren</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation>Zu Favoriten hinzufügen</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Im Uhrzeigersinn drehen</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Gegen den Uhrzeigersinn drehen</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Als Hintergrundbild festlegen</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Im Dateimanager anzeigen</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation>Foto-Info</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation>Video-Info</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation>Wiederherstellen</translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -63,10 +118,6 @@
         <translation>Oder ziehen Sie die Fotos hierher</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 Foto(s)</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>Alle importieren</translation>
     </message>
@@ -109,10 +160,6 @@
     <message>
         <source>Loading...</source>
         <translation>Wird geladen ...</translation>
-    </message>
-    <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on them</source>
@@ -240,13 +287,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Foto Info</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -299,8 +339,8 @@
         <translation>Details</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Foto-Info</translation>
+        <source>Image info</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -378,13 +418,6 @@
     <message>
         <source>New album</source>
         <translation>Neues Album</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="vanished">Sie haben keine Berechtigung zum Ansehen der Datei</translation>
     </message>
 </context>
 <context>
@@ -529,10 +562,6 @@
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <source>Import photos</source>
-        <translation type="vanished">Fotos importieren</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>Wird importiert ...</translation>
     </message>
@@ -652,8 +681,8 @@
         <translation>Tag</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>Fotoname</translation>
+        <source>Name</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -825,29 +854,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation type="vanished">Pause</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation type="vanished">Abspielen</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Beenden</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Vorheriges</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Nächstes</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
     <message>
         <source>1 photo</source>
@@ -872,49 +878,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation>Wird exportiert: %1</translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation type="vanished">Zurück</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Vorheriges</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Nächstes</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation type="vanished">1:1 Größe</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation type="vanished">An Fenster anpassen</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Gegen den Uhrzeigersinn drehen</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Im Uhrzeigersinn drehen</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Löschen</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">Zu Favoriten hinzufügen</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">Aus Favoriten entfernen</translation>
     </message>
 </context>
 <context>
@@ -1001,17 +964,6 @@
     </message>
 </context>
 <context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation type="vanished">Keine Bilddateien gefunden</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation type="vanished">Foto nicht gefunden</translation>
-    </message>
-</context>
-<context>
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
@@ -1093,10 +1045,6 @@
         <translation>Abtastung</translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation>Videoname</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Änderungsdatum</translation>
     </message>
@@ -1124,84 +1072,9 @@
         <source>Date captured</source>
         <translation>Aufnahmedatum</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation type="vanished">Zum Album hinzufügen</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="vanished">Diashow</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="vanished">Vollbildmodus beenden</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="vanished">Vollbild</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="vanished">Kopieren</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Löschen</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation type="vanished">Navigationsfenster anzeigen</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation type="vanished">Navigationsfenster ausblenden</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Im Uhrzeigersinn drehen</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Gegen den Uhrzeigersinn drehen</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="vanished">Als Hintergrundbild festlegen</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="vanished">Im Dateimanager anzeigen</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="vanished">Exportieren</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">Aus Favoriten entfernen</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Foto-Info</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation type="vanished">Aus Album entfernen</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">Zu Favoriten hinzufügen</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation type="vanished">Neues Album</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="vanished">Drucken</translation>
+        <source>Name</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

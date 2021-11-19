@@ -2,6 +2,61 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="el">
 <context>
+    <name></name>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Διαγραφή</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Πλήρης Οθόνη</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Προβολή εικονών</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Εξαγωγή</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Αντιγραφή</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Περιστροφή δεξιόστροφα</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Περιστροφή αριστερόστροφα</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Ορισμός ως ταπετσαρία</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Προβολή στον διαχειριστή αρχείων</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Πληροφορίες φωτογραφίας</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Επαναφορά</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -65,16 +120,8 @@
         <translation>Ή σύρτε φωτογραφίες εδώ</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 φωτογραφίες</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>Εισαγωγή όλων</translation>
-    </message>
-    <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">Οι φωτογραφίες θα διαγραφούν οριστικά μετά το πέρασμα των ημερών που αναγράφονται</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -113,15 +160,11 @@
         <translation>Αγνόηση</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation type="vanished">Φόρτωση εικόνων, παρακαλώ περιμένετε...</translation>
-    </message>
-    <message>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -246,13 +289,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation>Πληροφορίες φωτογραφίας</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -261,13 +297,6 @@
     <message>
         <source>Restoring...</source>
         <translation>Επαναφορά...</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation type="vanished">Ημέρες</translation>
     </message>
 </context>
 <context>
@@ -283,10 +312,6 @@
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>Είστε σίγουροι ότι θέλετε να διαγράψετε αυτήν την φωτογραφία απο το άλμπουμ;</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="vanished">Είστε σίγουροι ότι θέλετε να διαγράψετε %1 φωτογραφίες από τα άλμπουμ;</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
@@ -325,8 +350,8 @@
         <translation>Λεπτομέριες</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Πληροφορίες φωτογραφίας</translation>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -413,17 +438,6 @@
     <message>
         <source>New album</source>
         <translation>Νέο άλμπουμ</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the image</source>
-        <translation type="vanished">Δεν έχετε άδεια προβολής της φωτογραφίας</translation>
-    </message>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -528,10 +542,6 @@
         <translation>Άλμπουμ</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation type="vanished">Πληροφορίες φωτογραφίας</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Έξοδος πλήρης οθόνης/παρουσίασης</translation>
     </message>
@@ -544,20 +554,8 @@
         <translation>Προβολή</translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">Εξαγωγή</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">Εισαγωγή</translation>
-    </message>
-    <message>
         <source>Select all</source>
         <translation>Επιλογή όλων</translation>
-    </message>
-    <message>
-        <source>Delete photo/album</source>
-        <translation type="vanished">Διαγραφή φωτογραφίας/άλμπουμ</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -582,14 +580,6 @@
     <message>
         <source>Settings</source>
         <translation>Ρυθμίσεις</translation>
-    </message>
-    <message>
-        <source>Import photos</source>
-        <translation>Εισαγωγή φωτογραφιών</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Εισαγωγή Φωτογραφιών</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -621,6 +611,10 @@
     </message>
     <message>
         <source>Photo/Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -707,8 +701,8 @@
         <translation>Ετικέτα</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>Ονομασία φωτογραφίας</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -738,10 +732,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 φωτογραφίες</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -902,38 +892,7 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation>Παύση</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation>Αναπαραγωγή</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>Έξοδος</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Προηγούμενο</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Επόμενο</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
-    <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="vanished">Εισαγωγή φωτογραφιών: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="vanished">Εξαγωγή φωτογραφιών: &apos;%1&apos;</translation>
-    </message>
     <message>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
@@ -963,49 +922,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation>Πίσω</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Προηγούμενο</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Επόμενο</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation>1:1 Μέγεθος</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation>Εφαρμογή στο παράθυρο</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Περιστροφή αριστερόστροφα</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Περιστροφή δεξιόστροφα</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Διαγραφή</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Αγαπημένο</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Αφαίρεση από τα αγαπημένα</translation>
     </message>
 </context>
 <context>
@@ -1089,17 +1005,6 @@
     <message>
         <source>days</source>
         <translation type="unfinished">Ημέρες</translation>
-    </message>
-</context>
-<context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation>Δεν βρέθηκαν αρχεία εικόνας</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation>Η φωτογραφία δεν βρέθηκε</translation>
     </message>
 </context>
 <context>
@@ -1193,10 +1098,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation type="unfinished">Ημερομηνία τροποποίησης</translation>
     </message>
@@ -1224,84 +1125,9 @@
         <source>Date captured</source>
         <translation type="unfinished">Ημερομηνία λήψης</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation>Προσθήκη σε άλμπουμ</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Προβολή εικονών</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Έξοδος πλήρης οθόνης</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Πλήρης Οθόνη</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Αντιγραφή</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Διαγραφή</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation>Προβολή παραθύρου πλοήγησης</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation>Απόκρυψη παραθύρου πλοήγησης</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Περιστροφή δεξιόστροφα</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Περιστροφή αριστερόστροφα</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Ορισμός ως ταπετσαρία</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Προβολή στον διαχειριστή αρχείων</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Εξαγωγή</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Αφαίρεση από τα αγαπημένα</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation>Πληροφορίες φωτογραφίας</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Αφαίρεση από άλμπουμ</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Αγαπημένο</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Νέο άλμπουμ</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Εκτύπωση</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

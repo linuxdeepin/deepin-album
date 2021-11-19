@@ -2,6 +2,61 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="hi_IN">
 <context>
+    <name></name>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">मिटाए</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">पूर्ण स्क्रीन</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">स्लाइड शो</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">निर्यात</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">नकल करे</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">पसंदीदा</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">घड़ी की सुई की दिशा में घुमाए</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">घड़ी की सुई के विपरीत दिशा में घुमाइए</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">वॉलपेपर के रूप में सेट करें</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">फ़ाइल प्रबंधक में प्रदर्शित करें</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">फोटो की जानकारी</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">पुनःस्थापन करे</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -65,16 +120,8 @@
         <translation>या यहां फोटो लाये</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 तस्वीरें</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>सभी आयात करें</translation>
-    </message>
-    <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">इस पर दिखाए गए दिनों के बाद तस्वीरें स्थायी रूप से हटा दी जाएंगी |</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -113,15 +160,11 @@
         <translation>नज़रअंदाज़ करे</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation type="vanished">तस्वीरें लोड हो रही हैं, कृपया प्रतीक्षा करें ...</translation>
-    </message>
-    <message>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -246,13 +289,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation>फोटो की जानकारी</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -261,13 +297,6 @@
     <message>
         <source>Restoring...</source>
         <translation>पुन: र्स्थापित किया जा रहा है ...</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation type="vanished">दिनों</translation>
     </message>
 </context>
 <context>
@@ -283,10 +312,6 @@
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>क्या आप वाकई इस फ़ोटो को एल्बम से हटाना चाहते हैं?</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="vanished">क्या आप वाकई एल्बम से % 1 फ़ोटो हटाना चाहते हैं?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
@@ -325,8 +350,8 @@
         <translation>विवरण</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>फोटो की जानकारी</translation>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -413,17 +438,6 @@
     <message>
         <source>New album</source>
         <translation>नयी एल्बम</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the image</source>
-        <translation type="vanished">आपको छवि देखने की कोई अनुमति नहीं है</translation>
-    </message>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -528,10 +542,6 @@
         <translation>एल्बमस</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation type="vanished">फोटो की जानकारी</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>फुलस्क्रीन / स्लाइड शो से बाहर निकलें</translation>
     </message>
@@ -544,20 +554,8 @@
         <translation>देखना</translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">निर्यात</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">आयात</translation>
-    </message>
-    <message>
         <source>Select all</source>
         <translation>सभी का चयन करे</translation>
-    </message>
-    <message>
-        <source>Delete photo/album</source>
-        <translation type="vanished">फ़ोटो / एल्बम हटाएं</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -582,14 +580,6 @@
     <message>
         <source>Settings</source>
         <translation>सेटटिंग</translation>
-    </message>
-    <message>
-        <source>Import photos</source>
-        <translation>फ़ोटो आयात करें</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation type="vanished">फ़ोटो आयात करें</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -621,6 +611,10 @@
     </message>
     <message>
         <source>Photo/Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -707,8 +701,8 @@
         <translation>टैग</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>फोटो का नाम</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -738,10 +732,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 तस्वीरें</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -902,38 +892,7 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation>रोके</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation>चलाये</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>बाहर जाएं</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>पीछे</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>आगे</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
-    <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="vanished">तस्वीरें आयात कि जा रही हैं: &apos;% 1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="vanished">तस्वीरें निर्यात की जा रही हैं: &apos;% 1&apos;</translation>
-    </message>
     <message>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
@@ -963,49 +922,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation>पीछे</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>पीछे</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>आगे</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation>1:1 आकार</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation>Fit to window</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>घड़ी की सुई के विपरीत दिशा में घुमाइए</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>घड़ी की सुई की दिशा में घुमाए</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>मिटाए</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>पसंदीदा</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>नापसंदीदा</translation>
     </message>
 </context>
 <context>
@@ -1089,17 +1005,6 @@
     <message>
         <source>days</source>
         <translation type="unfinished">दिनों</translation>
-    </message>
-</context>
-<context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation>कोई छवि फ़ाइलें नहीं मिलीं</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation>फोटो नहीं मिला</translation>
     </message>
 </context>
 <context>
@@ -1193,10 +1098,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation type="unfinished">तिथि संशोधित</translation>
     </message>
@@ -1224,84 +1125,9 @@
         <source>Date captured</source>
         <translation type="unfinished">तिथि  ली</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation>एल्बम में जोड़ें</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>स्लाइड शो</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>पूर्ण स्क्रीन से बाहर निकलें</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>पूर्ण स्क्रीन</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>नकल करे</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>मिटाए</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation>नेविगेशन विंडो दिखाएं</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation>नेविगेशन विंडो छिपाएँ</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>घड़ी की सुई की दिशा में घुमाए</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>घड़ी की सुई के विपरीत दिशा में घुमाइए</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>वॉलपेपर के रूप में सेट करें</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>फ़ाइल प्रबंधक में प्रदर्शित करें</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>निर्यात</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>नापसंदीदा</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation>फोटो की जानकारी</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>एल्बम से निकालें</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>पसंदीदा</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>नयी एल्बम</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>प्रिंट</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

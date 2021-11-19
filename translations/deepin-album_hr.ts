@@ -2,6 +2,61 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="hr">
 <context>
+    <name></name>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Izbriši</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Cijeli zaslon</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Klizni prikaz</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Izvezi</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Kopiraj</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Favorit</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Rotirajte u smjeru kazaljka na satu</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Rotirajte u smjeru suprotnom od kazaljke na satu</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Postavi kao tapetu</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Prikaži u upravitelju datotekama</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Informacije o fotografiji</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Obnovi</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -65,10 +120,6 @@
         <translation>Ili privuci fotografije ovdje</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>Uvezi sve</translation>
     </message>
@@ -109,15 +160,11 @@
         <translation>Ignoriraj</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation type="vanished">Učitavam fotografije, molim pričekajte...</translation>
-    </message>
-    <message>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -242,13 +289,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation>Informacije o fotografiji</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -257,13 +297,6 @@
     <message>
         <source>Restoring...</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation type="vanished">dana</translation>
     </message>
 </context>
 <context>
@@ -279,10 +312,6 @@
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>Jeste li sigurni da želite izbrisati ovu fotografiju iz albuma?</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="vanished">Jeste li sigurni da želite izbrisati %1 fotografija iz albuma?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
@@ -324,8 +353,8 @@
         <translation>Pojedinosti</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Informacije o fotografiji</translation>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -369,14 +398,6 @@
 </context>
 <context>
     <name>ImportView</name>
-    <message>
-        <source>All Photos</source>
-        <translation type="vanished">Sve fotografije</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Uvezi fotografije</translation>
-    </message>
     <message>
         <source>Import Photos and Videos</source>
         <translation type="unfinished"></translation>
@@ -426,22 +447,7 @@
     </message>
 </context>
 <context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the image</source>
-        <translation type="vanished">Nemate dozvolu za gledanje slike</translation>
-    </message>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>Main</name>
-    <message>
-        <source>Album is a fashion photo manager for viewing and organizing pictures.</source>
-        <translation type="vanished">Album je upravitelj fotografijom za gledanje i organizaciju slika.</translation>
-    </message>
     <message>
         <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
         <translation type="unfinished"></translation>
@@ -542,10 +548,6 @@
         <translation>Albumi</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation type="vanished">Informacije o fotografiji</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Napusti cijeli zaslon/klizni prikaz</translation>
     </message>
@@ -558,20 +560,8 @@
         <translation>Pogled</translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">Izvezi</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">Uvezi</translation>
-    </message>
-    <message>
         <source>Select all</source>
         <translation>Odaberi sve</translation>
-    </message>
-    <message>
-        <source>Delete photo/album</source>
-        <translation type="vanished">Izbriši fotografiju/album</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -596,14 +586,6 @@
     <message>
         <source>Settings</source>
         <translation>Postavke</translation>
-    </message>
-    <message>
-        <source>Import photos</source>
-        <translation>Uvezi fotografije</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Uvezi fotografije</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -635,6 +617,10 @@
     </message>
     <message>
         <source>Photo/Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -721,8 +707,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>Ime fotografije</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -918,38 +904,7 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation>Pauza</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>Izađi</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Prethodno</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Slijedeće</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
-    <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="vanished">Uvozim fotografije: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="vanished">Izvozim fotografije: &apos;%1&apos;</translation>
-    </message>
     <message>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
@@ -980,49 +935,6 @@
     </message>
     <message>
         <source>Exporting: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation>Natrag</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Prethodno</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Slijedeće</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation>1:1 Veličina</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation>Pristajanje u prozor</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Rotirajte u smjeru suprotnom od kazaljke na satu</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Rotirajte u smjeru kazaljka na satu</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Izbriši</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Favorit</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1107,17 +1019,6 @@
     <message>
         <source>days</source>
         <translation type="unfinished">dana</translation>
-    </message>
-</context>
-<context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation>Nisu nađene slikovne datoteke</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation>Fotografija nije nađena</translation>
     </message>
 </context>
 <context>
@@ -1214,10 +1115,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation type="unfinished">Datum izmjene</translation>
     </message>
@@ -1245,84 +1142,9 @@
         <source>Date captured</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation>Dodaj u album</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Klizni prikaz</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Napusti cijeli zaslon</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Cijeli zaslon</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Kopiraj</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Izbriši</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation>Pokaži navigacijski prozor</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation>Sakrij navigacijski prozor</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Rotirajte u smjeru kazaljka na satu</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Rotirajte u smjeru suprotnom od kazaljke na satu</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Postavi kao tapetu</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Prikaži u upravitelju datotekama</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Izvezi</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
+        <source>Name</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation>Informacije o fotografiji</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Ukloni iz albuma</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Favorit</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Novi album</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Ispis</translation>
     </message>
 </context>
 </TS>

@@ -2,6 +2,61 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="br">
 <context>
+    <name></name>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Dilemel</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Skramm-leun</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Diaporama</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Ezporzhiañ</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Eilañ</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Sined</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Treiñ er memes tu hag an horolaj</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Treiñ en tu enep eus an horolaj</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Termeniñ evel paper-moger</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Diskouez er merer restroù</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Titouroù ar skeudenn</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Adsevel</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -65,16 +120,8 @@
         <translation>Pe laoskit fotoioù amañ</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 a fotoioù</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>Emporzhiañ pep-tra</translation>
-    </message>
-    <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">Dilamet e vo da virviken ar fotoioù goude an niver a zevezhioù diskouezet warno</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -113,15 +160,11 @@
         <translation>Na ober van</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation type="vanished">O kargañ ar fotoioù, gortozit mar plij...</translation>
-    </message>
-    <message>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -246,13 +289,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation>Titouroù ar skeudenn</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -261,13 +297,6 @@
     <message>
         <source>Restoring...</source>
         <translation>Oc&apos;h adsevel...</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation type="vanished">devezhioù</translation>
     </message>
 </context>
 <context>
@@ -283,10 +312,6 @@
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>Ha sur oc&apos;h da gaout c&apos;hoant da zilelem ar foto-mañ diwar an albom-mañ?</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="vanished">Ha sur oc&apos;h ho peus c&apos;hoant da zilemel %1 a skeudennoù diwar an albomoù?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
@@ -325,8 +350,8 @@
         <translation>Munudoù</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Titouroù ar skeudenn</translation>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -413,17 +438,6 @@
     <message>
         <source>New album</source>
         <translation>Albom nevez</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the image</source>
-        <translation type="vanished">N&apos;hoc&apos;h ket aotreet da welet ar skeudenn</translation>
-    </message>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -528,10 +542,6 @@
         <translation>Albomoù</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation type="vanished">Titouroù ar skeudenn</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Kuitaat ar skramm-leun/diaporama</translation>
     </message>
@@ -544,20 +554,8 @@
         <translation>Gweled</translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">Ezporzhiañ</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">Emporzhiañ</translation>
-    </message>
-    <message>
         <source>Select all</source>
         <translation>Diuzañ pep-tra</translation>
-    </message>
-    <message>
-        <source>Delete photo/album</source>
-        <translation type="vanished">Dilemel ur foto/albom</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -582,14 +580,6 @@
     <message>
         <source>Settings</source>
         <translation>Arventennoù</translation>
-    </message>
-    <message>
-        <source>Import photos</source>
-        <translation>Emporzhiañ fotoioù</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Emporzhiañ ar fotoioù</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -621,6 +611,10 @@
     </message>
     <message>
         <source>Photo/Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -707,8 +701,8 @@
         <translation>Liketenn</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>Anv ar skeudenn</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -738,10 +732,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 a fotoioù</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -902,38 +892,7 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation>Ehan</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation>Lenn</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>Kuitat</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Kent</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Da-heul</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
-    <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="vanished">Oc&apos;h emporzhiañ ar fotoioù: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="vanished">Oc&apos;h ezporzhiañ ar skeudennoù: &apos;%1&apos;</translation>
-    </message>
     <message>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
@@ -963,49 +922,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation>Distro</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Kent</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Da-heul</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation>Ment 1:1</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation>Keidañ d&apos;ar prenestr</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Treiñ en tu enep eus an horolaj</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Treiñ er memes tu hag an horolaj</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Dilemel</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Sined</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Disinedet</translation>
     </message>
 </context>
 <context>
@@ -1089,17 +1005,6 @@
     <message>
         <source>days</source>
         <translation type="unfinished">devezhioù</translation>
-    </message>
-</context>
-<context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation>Restr skeudenn ebet kavet</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation>Foto digavus</translation>
     </message>
 </context>
 <context>
@@ -1193,10 +1098,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation type="unfinished">Deiziad ar c&apos;hemm</translation>
     </message>
@@ -1224,84 +1125,9 @@
         <source>Date captured</source>
         <translation type="unfinished">Deiziad an dapadenn</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation>Ouzhpennañ d&apos;an albom</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Diaporama</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Kuitaat ar skramm-leun</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Skramm-leun</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Eilañ</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Dilemel</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation>Diskouez ar prenestr merdeiñ</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation>Kuzhat prenestr ar merdeiñ</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Treiñ er memes tu hag an horolaj</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Treiñ en tu enep eus an horolaj</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Termeniñ evel paper-moger</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Diskouez er merer restroù</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Ezporzhiañ</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Disinedet</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation>Titouroù ar skeudenn</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Dilemel diwar an albom</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Sined</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Albom nevez</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Moullañ</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

@@ -2,6 +2,61 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="gl_ES">
 <context>
+    <name></name>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Eliminar</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Pantalla completa</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Presentación das diapositivas</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Exportar</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Copiar</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Favorito</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Xira en sentido horario</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Xire en sentido antihorario</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Establecer como fondo de pantalla</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Amosar no xestor de ficheiros</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Información da foto</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Restaurar</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -65,16 +120,8 @@
         <translation>Ou arrastre as fotos aquí</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 foto(s)</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>Importar todo</translation>
-    </message>
-    <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">As fotos eliminaranse definitivamente despois dos días que se amosan nel</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -113,15 +160,11 @@
         <translation>Ignorar</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation type="vanished">Cargando fotos, agarde...</translation>
-    </message>
-    <message>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -246,13 +289,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation>Información da foto</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -261,13 +297,6 @@
     <message>
         <source>Restoring...</source>
         <translation>Restaurando...</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation type="vanished">días</translation>
     </message>
 </context>
 <context>
@@ -283,10 +312,6 @@
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>Está certo/a de que quere eliminar esta foto do álbum?</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="vanished">Está certo/a de que quere eliminar% 1 fotos dos álbums?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
@@ -325,8 +350,8 @@
         <translation>Detalles</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Información da foto</translation>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -413,17 +438,6 @@
     <message>
         <source>New album</source>
         <translation>Novo álbum</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the image</source>
-        <translation type="vanished">Non tes permiso para ver a imaxe</translation>
-    </message>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -528,10 +542,6 @@
         <translation>Álbums</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation type="vanished">Información da foto</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Saír da pantalla completa/presentación das diapositivas</translation>
     </message>
@@ -544,20 +554,8 @@
         <translation>Ver</translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">Exportar</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">Importar</translation>
-    </message>
-    <message>
         <source>Select all</source>
         <translation>Seleccionar todo</translation>
-    </message>
-    <message>
-        <source>Delete photo/album</source>
-        <translation type="vanished">Eliminar foto/álbum</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -582,14 +580,6 @@
     <message>
         <source>Settings</source>
         <translation>Configuracións</translation>
-    </message>
-    <message>
-        <source>Import photos</source>
-        <translation>Importar fotos</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Importar fotos</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -621,6 +611,10 @@
     </message>
     <message>
         <source>Photo/Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -707,8 +701,8 @@
         <translation>Etiqueta</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>Nome da foto</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -738,10 +732,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 foto(s)</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -902,38 +892,7 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation>Parar</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation>Reproducir</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>Saír</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Anterior</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Posterior</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
-    <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="vanished">Importando fotos: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="vanished">Exportando fotos: &apos;%1&apos;</translation>
-    </message>
     <message>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
@@ -963,49 +922,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation>Atrás</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Anterior</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Posterior</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation>1:1 Tamaño</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation>Axustar a xanela</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Xire en sentido antihorario</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Xira en sentido horario</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Eliminar</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Favorito</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Non favorito</translation>
     </message>
 </context>
 <context>
@@ -1089,17 +1005,6 @@
     <message>
         <source>days</source>
         <translation type="unfinished">días</translation>
-    </message>
-</context>
-<context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation>Non se atoparon imaxes</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation>Non se atopou a imaxe</translation>
     </message>
 </context>
 <context>
@@ -1193,10 +1098,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation type="unfinished">Datos modificados</translation>
     </message>
@@ -1224,84 +1125,9 @@
         <source>Date captured</source>
         <translation type="unfinished">Datos collidos</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation>Engadir ao álbum</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Presentación das diapositivas</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Saír da pantalla completa</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Pantalla completa</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Copiar</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Eliminar</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation>Amosar a xanela de navegación</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation>Agochar a xanela de navegación</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Xira en sentido horario</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Xire en sentido antihorario</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Establecer como fondo de pantalla</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Amosar no xestor de ficheiros</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Exportar</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Non favorito</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation>Información da foto</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Eliminar do álbum</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Favorito</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Novo álbum</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Imprimir</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

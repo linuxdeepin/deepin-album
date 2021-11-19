@@ -2,6 +2,61 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ro">
 <context>
+    <name></name>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Ecran complet</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Exportă</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Favorit</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Rotește în sensul acelor de ceasornic</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Rotește în sens opus acelor de ceasornic </translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Setează ca imagine de fundal</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Restabilire</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Informații poză</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -65,16 +120,8 @@
         <translation>Sau trage pozele aici</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 poza(e)</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>Importă tot</translation>
-    </message>
-    <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">Pozele vor fi șterse definitiv după zilele afișate pe ea</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -113,15 +160,11 @@
         <translation>Ignoră</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation type="vanished">Se încarcă pozele, vă rugăm așteptați ...</translation>
-    </message>
-    <message>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -246,13 +289,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation>Informație poză</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -261,13 +297,6 @@
     <message>
         <source>Restoring...</source>
         <translation>Restaurare...</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation type="vanished">zile</translation>
     </message>
 </context>
 <context>
@@ -283,10 +312,6 @@
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>Doriți să ștergeți această poză din album?</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="vanished">Doriți să ștergeți  %1  poze din albume?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
@@ -328,8 +353,8 @@
         <translation>Detalii</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Informații poze</translation>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -419,17 +444,6 @@
     <message>
         <source>New album</source>
         <translation>Album nou</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the image</source>
-        <translation type="vanished">Nu aveți permisiunea de a vizualiza imaginea</translation>
-    </message>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -534,10 +548,6 @@
         <translation>Albume</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation type="vanished">Informații poză</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Ieșire ecran complet/prezentare</translation>
     </message>
@@ -550,20 +560,8 @@
         <translation>Vizionare</translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">Exportă</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">Importă</translation>
-    </message>
-    <message>
         <source>Select all</source>
         <translation>Selectează tot</translation>
-    </message>
-    <message>
-        <source>Delete photo/album</source>
-        <translation type="vanished">Șterge poză/album</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -588,14 +586,6 @@
     <message>
         <source>Settings</source>
         <translation>Setări</translation>
-    </message>
-    <message>
-        <source>Import photos</source>
-        <translation>Importă poze</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Importă Poze</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -627,6 +617,10 @@
     </message>
     <message>
         <source>Photo/Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -713,8 +707,8 @@
         <translation>Etichetă</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>Nume poză</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -744,10 +738,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 poză(e)</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -914,38 +904,7 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation>Pauză</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation>Redare</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>Ieșire</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Precedent</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Următor</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
-    <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="vanished">Importare poze: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="vanished">Exportare poze: &apos;%1&apos;</translation>
-    </message>
     <message>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
@@ -977,49 +936,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation>Înapoi</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Precedent</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Următor</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation>1:1 Mărime</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation>Potrivire la fereastră</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Rotește în sens opus acelor de ceasornic </translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Rotește în sensul acelor de ceasornic</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Șterge</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Favorit</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Anulează favorit</translation>
     </message>
 </context>
 <context>
@@ -1103,17 +1019,6 @@
     <message>
         <source>days</source>
         <translation type="unfinished">zile</translation>
-    </message>
-</context>
-<context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation>Nici-un fișier cu imagini nu a fost găsit</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation>Poze nu au fost găsite</translation>
     </message>
 </context>
 <context>
@@ -1210,10 +1115,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation type="unfinished">Data modificării</translation>
     </message>
@@ -1241,84 +1142,9 @@
         <source>Date captured</source>
         <translation type="unfinished">Data capturării</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation>Adăugare la album</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Prezentare </translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Ieșire ecran complet</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Ecran complet</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Copiere</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Șterge</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation>Afișează fereastră de navigare</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation>Ascunde fereastră de navigare</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Rotește în sensul acelor de ceasornic</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Rotește în sens opus acelor de ceasornic </translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Setează ca imagine de fundal</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Afișează în managerul de  fișiere</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Exportă</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Anulează favorit</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation>Informații  poză</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Eliminare din album</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Favorit</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Album nou</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Printare</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

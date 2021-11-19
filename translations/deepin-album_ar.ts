@@ -2,6 +2,61 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ar">
 <context>
+    <name></name>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">حذف</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">ملء الشاشة</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">عرض الشرائح</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">تصدير</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">نسخ</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">تفضيل</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">عرض في مدير الملفات</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">معلومات الصورة</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">إستعادة</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -65,16 +120,8 @@
         <translation>أو اسحب الصور هنا</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 صورة(صور)</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>استيراد الكل</translation>
-    </message>
-    <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">سيتم حذف الصور نهائياً بعد عدد الأيام المعروضة عليها</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -113,15 +160,11 @@
         <translation>تجاهل</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation type="vanished">يتم تحميل الصور، الرجاء الانتظار...</translation>
-    </message>
-    <message>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -246,13 +289,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation>معلومات الصورة</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -261,13 +297,6 @@
     <message>
         <source>Restoring...</source>
         <translation>تتم الآن الإستعادة...</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation type="vanished">الأيام</translation>
     </message>
 </context>
 <context>
@@ -283,10 +312,6 @@
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>هل أنت متأكد من حذف هذه الصورة من الألبوم؟</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="vanished">هل أنت متأكد من حذف 1% صورة/صور من الإلبومات؟</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
@@ -337,8 +362,8 @@
         <translation>التفاصيل</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>معلومات الصورة</translation>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -437,17 +462,6 @@
     <message>
         <source>New album</source>
         <translation>ألبوم جديد</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the image</source>
-        <translation type="vanished">لا تملك الصلاحية لعرض الصورة</translation>
-    </message>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -552,10 +566,6 @@
         <translation>الإلبومات</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation type="vanished">معلومات الصورة</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>الخروج من وضع ملء الشاشة/عرض الشرائح</translation>
     </message>
@@ -568,20 +578,8 @@
         <translation>عرض</translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">تصدير</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">استيراد</translation>
-    </message>
-    <message>
         <source>Select all</source>
         <translation>اختيار الكل</translation>
-    </message>
-    <message>
-        <source>Delete photo/album</source>
-        <translation type="vanished">حذف الصورة/الإلبوم</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -606,14 +604,6 @@
     <message>
         <source>Settings</source>
         <translation>الإعدادات</translation>
-    </message>
-    <message>
-        <source>Import photos</source>
-        <translation>استيراد الصور</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation type="vanished">استيراد الصور</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -645,6 +635,10 @@
     </message>
     <message>
         <source>Photo/Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -731,8 +725,8 @@
         <translation>كلمة مفتاحية</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>اسم الصورة</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -762,10 +756,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 صورة(صور)</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -950,38 +940,7 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation>إيقاف مؤقت</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation>تشغيل</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>خروج</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>السابق</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>التالي</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
-    <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="vanished">استيراد الصور: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="vanished">تصدير الصور: &apos;%1&apos;</translation>
-    </message>
     <message>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
@@ -1019,49 +978,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation>رجوع</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>السابق</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>التالي</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation>حجم 1:1</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation>ضبط إلى حجم النافذة</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>ادر الصورة بعكس إتجاه عقارب الساعة</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>أدر الصورة بإتجاه عقارب الساعة</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>حذف</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>تفضيل</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>عدم التفضيل</translation>
     </message>
 </context>
 <context>
@@ -1145,17 +1061,6 @@
     <message>
         <source>days</source>
         <translation type="unfinished">الأيام</translation>
-    </message>
-</context>
-<context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation>لم يتم إيجاد أي صور</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation>لم يتم إيجاد الصورة</translation>
     </message>
 </context>
 <context>
@@ -1261,10 +1166,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation type="unfinished">تاريخ التعديل</translation>
     </message>
@@ -1292,84 +1193,9 @@
         <source>Date captured</source>
         <translation type="unfinished">تاريخ الإلتقاط</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation>إضافة إلى الإلبوم</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>عرض الشرائح</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>الخروج من وضع ملء الشاشة</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>ملء الشاشة</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>نسخ</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>حذف</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation>أظهار نافذة التنقل</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation>أخفاء نافذة التنقل</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>أدر الصورة بإتجاه عقارب الساعة</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>ادر الصورة بعكس إتجاه عقارب الساعة</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>اجعلها كخلفية</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>عرض في مدير الملفات</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>تصدير</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>عدم التفضيل</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation>معلومات الصورة</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>حذف من الإلبوم</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>تفضيل</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>ألبوم جديد</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>طباعة</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

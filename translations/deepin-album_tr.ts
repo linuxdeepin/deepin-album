@@ -1,5 +1,60 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
+    <name/>
+    <message>
+        <source>Delete</source>
+        <translation>Sil</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation>Tam ekran</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Slayt gösterisi</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Dışa aktar</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopyala</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation>Favori</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Saat yönünde döndür</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Saat yönünün tersine döndür</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Duvar kağıdı yap</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Dosya yöneticisinde görüntüle</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation>Fotoğraf bilgisi</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation>Video bilgisi</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation>Kurtar</translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -63,10 +118,6 @@
         <translation>Veya fotoğrafları buraya sürükle</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 fotoğraf</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>Tümünü İçe Aktar</translation>
     </message>
@@ -109,10 +160,6 @@
     <message>
         <source>Loading...</source>
         <translation>Yükleniyor...</translation>
-    </message>
-    <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">Dosyalar, üzerinde gösterilen günlerden sonra kalıcı olarak silinecek</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on them</source>
@@ -240,13 +287,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Fotoğraf bilgisi</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -299,8 +339,8 @@
         <translation>Ayrıntılar</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Fotoğraf bilgisi</translation>
+        <source>Image info</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -378,13 +418,6 @@
     <message>
         <source>New album</source>
         <translation>Yeni albüm</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="vanished">Dosyayı görüntüleme izniniz yok</translation>
     </message>
 </context>
 <context>
@@ -529,10 +562,6 @@
         <translation>Ayarlar</translation>
     </message>
     <message>
-        <source>Import photos</source>
-        <translation type="vanished">Fotoğrafları içe aktar</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>İçe aktarılıyor...</translation>
     </message>
@@ -652,8 +681,8 @@
         <translation>Etiket</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>Fotoğraf adı</translation>
+        <source>Name</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -825,29 +854,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation type="vanished">Duraklat</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation type="vanished">Oynat</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Çıkış</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Önceki</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Sonraki</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
     <message>
         <source>1 photo</source>
@@ -872,49 +878,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation>Dışa aktarılıyor: %1</translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation type="vanished">Geri</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Önceki</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Sonraki</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation type="vanished">1:1 Boyut</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation type="vanished">Pencereye sığdır</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Saat yönünün tersine döndür</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Saat yönünde döndür</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Sil</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">Favori</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">Favori değil</translation>
     </message>
 </context>
 <context>
@@ -1001,17 +964,6 @@
     </message>
 </context>
 <context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation type="vanished">Görüntü dosyası bulunamadı</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation type="vanished">Fotoğraf bulunamadı</translation>
-    </message>
-</context>
-<context>
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
@@ -1093,10 +1045,6 @@
         <translation>Örnekleme</translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation>Viideo adı</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Değiştirilme tarihi</translation>
     </message>
@@ -1124,84 +1072,9 @@
         <source>Date captured</source>
         <translation>Alındığı tarih</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation type="vanished">Albüme ekle</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="vanished">Slayt gösterisi</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="vanished">Tam ekrandan çık</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="vanished">Tam ekran</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="vanished">Kopyala</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Sil</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation type="vanished">Gezinme penceresini göster</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation type="vanished">Gezinme penceresini gizle</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Saat yönünde döndür</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Saat yönünün tersine döndür</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="vanished">Duvar kağıdı yap</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="vanished">Dosya yöneticisinde göster</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="vanished">Dışa aktar</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">Favori değil</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Fotoğraf bilgisi</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation type="vanished">Albümden kaldır</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">Favori</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation type="vanished">Yeni albüm</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="vanished">Yazdır</translation>
+        <source>Name</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

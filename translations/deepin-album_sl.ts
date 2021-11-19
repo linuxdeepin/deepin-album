@@ -1,5 +1,60 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS language="sl" version="2.1">
 <context>
+    <name/>
+    <message>
+        <source>Delete</source>
+        <translation>Izbriši</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation>Celozaslonsko</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Diaprojekcija</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Izvozi</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopiraj</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation>Priljubljeno</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Obrni proti smeri urinega kazalca</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Obrni proti smeri urinega kazalca</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Določi kot ozadje namizja</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Prikaži v upravljalniku datotek</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation>Podatki o sliki</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation>Podatki o videu</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation>Obnovi</translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -63,10 +118,6 @@
         <translation>ali povlecite slike sem</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 slik(a)</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>Uvozi vse</translation>
     </message>
@@ -109,10 +160,6 @@
     <message>
         <source>Loading...</source>
         <translation>Nalaganje...</translation>
-    </message>
-    <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">Datoteke bodo trajno izbrisane po naj njej prikazanih dni</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on them</source>
@@ -240,13 +287,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Podatki o sliki</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -299,8 +339,8 @@
         <translation>Podrobnosti</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Podatki o sliki</translation>
+        <source>Image info</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -378,13 +418,6 @@
     <message>
         <source>New album</source>
         <translation>Nov album</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="vanished">Nimate pravic za ogled datoteke</translation>
     </message>
 </context>
 <context>
@@ -529,10 +562,6 @@
         <translation>Nastavitve</translation>
     </message>
     <message>
-        <source>Import photos</source>
-        <translation type="vanished">Uvozi slike</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>Uvažanje...</translation>
     </message>
@@ -652,8 +681,8 @@
         <translation>Oznaka</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>Ime slike</translation>
+        <source>Name</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -825,29 +854,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation type="vanished">Pavza</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation type="vanished">Predvajaj</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Izhod</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Nazaj</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Naslednja</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
     <message>
         <source>1 photo</source>
@@ -872,49 +878,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation>Izvažanje: %1</translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation type="vanished">Nazaj</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Nazaj</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Naslednja</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation type="vanished">Velikost 1:1</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation type="vanished">Prilagodi oknu</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Obrni proti smeri urinega kazalca</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Obrni proti smeri urinega kazalca</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Izbriši</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">Priljubljeno</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">Nepriljubljeno</translation>
     </message>
 </context>
 <context>
@@ -1001,17 +964,6 @@
     </message>
 </context>
 <context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation type="vanished">ni najdenih slik</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation type="vanished">Slika ni bila najdena</translation>
-    </message>
-</context>
-<context>
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
@@ -1093,10 +1045,6 @@
         <translation>Vzorčenje</translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation>Ime videa</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Datum spremembe</translation>
     </message>
@@ -1124,84 +1072,9 @@
         <source>Date captured</source>
         <translation>Datum snemanja</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation type="vanished">Dodaj v album</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="vanished">Diaprojekcija</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="vanished">Zapri celozaslonski način</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="vanished">Celozaslonsko</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="vanished">Kopiraj</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Izbriši</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation type="vanished">Prikaži navigacijsko okno</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation type="vanished">Skrij navigacijsko okno</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Obrni proti smeri urinega kazalca</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Obrni proti smeri urinega kazalca</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="vanished">Določi kot ozadje namizja</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="vanished">Prikaži v upravljalniku datotek</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="vanished">Izvozi</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">Nepriljubljeno</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Podatki o sliki</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation type="vanished">Odstrani iz albuma</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">Priljubljeno</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation type="vanished">Nov album</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="vanished">Tiskanje</translation>
+        <source>Name</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

@@ -2,6 +2,61 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_AU">
 <context>
+    <name></name>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Delete</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Fullscreen</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Slide show</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Export</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Copy</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Favourite</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Rotate clockwise</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Rotate counterclockwise</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Set as wallpaper</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Display in file manager</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Photo info</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Restore</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -65,16 +120,8 @@
         <translation>Or drag photos here</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 photo(s)</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>Import All</translation>
-    </message>
-    <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">The photos will be permanently deleted after the days shown on it</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -113,15 +160,11 @@
         <translation>Ignore</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation type="vanished">Loading photos, please wait...</translation>
-    </message>
-    <message>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -246,13 +289,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation>Photo info</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -261,13 +297,6 @@
     <message>
         <source>Restoring...</source>
         <translation>Restoring...</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation type="vanished">days</translation>
     </message>
 </context>
 <context>
@@ -283,10 +312,6 @@
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>Are you sure you want to delete this photo from the album?</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="vanished">Are you sure you want to delete %1 photos from albums?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
@@ -325,8 +350,8 @@
         <translation>Details</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Photo info</translation>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -413,17 +438,6 @@
     <message>
         <source>New album</source>
         <translation>New album</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the image</source>
-        <translation type="vanished">You have no permission to view the image</translation>
-    </message>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -528,10 +542,6 @@
         <translation>Albums</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation type="vanished">Photo info</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Exit fullscreen/slideshow</translation>
     </message>
@@ -544,20 +554,8 @@
         <translation>View</translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">Export</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">Import</translation>
-    </message>
-    <message>
         <source>Select all</source>
         <translation>Select all</translation>
-    </message>
-    <message>
-        <source>Delete photo/album</source>
-        <translation type="vanished">Delete photo/album</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -582,14 +580,6 @@
     <message>
         <source>Settings</source>
         <translation>Settings</translation>
-    </message>
-    <message>
-        <source>Import photos</source>
-        <translation>Import photos</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Import Photos</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -621,6 +611,10 @@
     </message>
     <message>
         <source>Photo/Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -707,8 +701,8 @@
         <translation>Tag</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>Photo name</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -738,10 +732,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 photo(s)</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -902,38 +892,7 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation>Pause</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation>Play</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>Exit</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Previous</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Next</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
-    <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="vanished">Importing photos: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="vanished">Exporting photos: &apos;%1&apos;</translation>
-    </message>
     <message>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
@@ -963,49 +922,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation>Back</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Previous</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Next</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation>1:1 Size</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation>Fit to window</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Delete</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Favourite</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Unfavourite</translation>
     </message>
 </context>
 <context>
@@ -1089,17 +1005,6 @@
     <message>
         <source>days</source>
         <translation type="unfinished">days</translation>
-    </message>
-</context>
-<context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation>No image files found</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation>Photo not found</translation>
     </message>
 </context>
 <context>
@@ -1193,10 +1098,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation type="unfinished">Date modified</translation>
     </message>
@@ -1224,84 +1125,9 @@
         <source>Date captured</source>
         <translation type="unfinished">Date captured</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation>Add to album</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Slide show</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Exit fullscreen</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Fullscreen</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Copy</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Delete</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation>Show navigation window</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation>Hide navigation window</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Set as wallpaper</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Display in file manager</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Export</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Unfavourite</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation>Photo info</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Remove from album</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Favourite</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>New album</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Print</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

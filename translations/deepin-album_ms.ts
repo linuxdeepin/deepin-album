@@ -1,5 +1,60 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS language="ms" version="2.1">
 <context>
+    <name/>
+    <message>
+        <source>Delete</source>
+        <translation>Padam</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation>Skrin penuh</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Persembahan slaid</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Eksport</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Salin</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation>Kegemaran</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Putar ikut jam</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Putar lawan jam</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Tetap sebagai kertas dinding</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Papar dalam pengurus fail</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation>Maklumat foto</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation>Pulih</translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -63,10 +118,6 @@
         <translation>Atau seret foto di sini</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 foto</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>Import Semua</translation>
     </message>
@@ -108,10 +159,6 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -240,13 +287,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Maklumat foto</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -299,8 +339,8 @@
         <translation>Perincian</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Maklumat foto</translation>
+        <source>Image info</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -378,13 +418,6 @@
     <message>
         <source>New album</source>
         <translation>Album baharu</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -529,10 +562,6 @@
         <translation>Tetapan</translation>
     </message>
     <message>
-        <source>Import photos</source>
-        <translation type="vanished">Import foto</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>Mengimport...</translation>
     </message>
@@ -652,8 +681,8 @@
         <translation>Tag</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>Nama foto</translation>
+        <source>Name</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -825,29 +854,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation type="vanished">Jeda</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation type="vanished">Main</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Keluar</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Terdahulu</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Berikutnya</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
     <message>
         <source>1 photo</source>
@@ -872,49 +878,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation type="vanished">Undur</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Terdahulu</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Berikutnya</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation type="vanished">Saiz 1:1</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation type="vanished">Suai muat tetingkap</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Putar lawan jam</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Putar ikut jam</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Padam</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">Kegemaran</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">Nyahgemar</translation>
     </message>
 </context>
 <context>
@@ -1001,17 +964,6 @@
     </message>
 </context>
 <context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation type="vanished">Tiada fail imej ditemui</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation type="vanished">Foto tidak ditemui</translation>
-    </message>
-</context>
-<context>
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
@@ -1093,10 +1045,6 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Video name</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Tarikh diubah suai</translation>
     </message>
@@ -1124,84 +1072,9 @@
         <source>Date captured</source>
         <translation>Tarikh ditangkap</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation type="vanished">Tambah kepada album</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="vanished">Persembahan slaid</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="vanished">Keluar dari skrin penuh</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="vanished">Skrin penuh</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="vanished">Salin</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Padam</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation type="vanished">Tunjuk tetingkap pengemudian</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation type="vanished">Sembunyi tetingkap pengemudian</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Putar ikut jam</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Putar lawan jam</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="vanished">Tetap sebagai kertas dinding</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="vanished">Papar dalam pengurus fail</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="vanished">Eksport</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">Nyahgemar</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Maklumat foto</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation type="vanished">Buang daripada album</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">Kegemaran</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation type="vanished">Album baharu</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="vanished">Cetak</translation>
+        <source>Name</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

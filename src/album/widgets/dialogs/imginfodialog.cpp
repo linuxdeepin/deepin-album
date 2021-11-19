@@ -44,7 +44,7 @@ struct MetaData {
 };
 
 static MetaData MetaDataBasics[] = {
-    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Photo name")},
+    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Name")},
 
     {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date captured")},
     {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "Date modified")},
@@ -118,7 +118,7 @@ void ImgInfoDialog::initUI()
 
     //title
     DLabel *title = new DLabel(this);
-    title->setText(tr("Photo info"));
+    title->setText(tr("Image info"));
     title->setGeometry(this->x() + (this->width() - title->width()) / 2, this->y(), 112, 50);
     title->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     DFontSizeManager::instance()->bind(title, DFontSizeManager::T6);

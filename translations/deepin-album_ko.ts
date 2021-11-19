@@ -2,6 +2,61 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ko">
 <context>
+    <name></name>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">삭제</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">전체 화면</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">슬라이드 쇼</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">내보내기</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">복사</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">즐겨찾기</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">시계 방향으로 회전</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">시계 반대 방향으로 회전</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">배경화면으로 설정</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">파일 관리자에 표시</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">사진 정보</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">복원</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -65,16 +120,8 @@
         <translation>또는 사진을 여기로 끌어다 놓기</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation>사진 %1장</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>모두 가져오기</translation>
-    </message>
-    <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">사진들은 표시된 날 이후에 영구적으로 삭제됩니다.</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -113,15 +160,11 @@
         <translation>무시</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation type="vanished">사진 불러오는 중, 기다려주십시오...</translation>
-    </message>
-    <message>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -246,13 +289,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation>사진 정보</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -261,13 +297,6 @@
     <message>
         <source>Restoring...</source>
         <translation>복원중...</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation type="vanished">일간</translation>
     </message>
 </context>
 <context>
@@ -283,10 +312,6 @@
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>앨범에서 이 사진을 삭제하시겠습니까?</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="vanished">앨범에서 %1 사진을 삭제하시겠습니까?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
@@ -322,8 +347,8 @@
         <translation>세부 정보</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>사진 정보</translation>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -407,17 +432,6 @@
     <message>
         <source>New album</source>
         <translation>새 앨범</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the image</source>
-        <translation type="vanished">이미지를 볼 수 있는 권한이 없습니다</translation>
-    </message>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -522,10 +536,6 @@
         <translation>앨범</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation type="vanished">사진 정보</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>전체 화면/슬라이드쇼 종료</translation>
     </message>
@@ -538,20 +548,8 @@
         <translation>보기</translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">내보내기</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">가져오기</translation>
-    </message>
-    <message>
         <source>Select all</source>
         <translation>모두 선택</translation>
-    </message>
-    <message>
-        <source>Delete photo/album</source>
-        <translation type="vanished">사진/앨범 삭제</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -576,14 +574,6 @@
     <message>
         <source>Settings</source>
         <translation>설정</translation>
-    </message>
-    <message>
-        <source>Import photos</source>
-        <translation>사진 가져오기</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation type="vanished">사진 가져오기</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -615,6 +605,10 @@
     </message>
     <message>
         <source>Photo/Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -701,8 +695,8 @@
         <translation>태그</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>사진 이름</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -732,10 +726,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">사진 %1장</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -890,38 +880,7 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation>일시 중지</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation>재생</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>종료</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>이전</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>다음</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
-    <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="vanished">사진 가져오는 중: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="vanished">사진 내보내는 중: &apos;%1&apos;</translation>
-    </message>
     <message>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
@@ -949,49 +908,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation>뒤로</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>이전</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>다음</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation>1:1 크기</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation>창에 맞추기</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>시계 반대 방향으로 회전</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>시계 방향으로 회전</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>삭제</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>즐겨찾기</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>즐겨찾기 해제</translation>
     </message>
 </context>
 <context>
@@ -1075,17 +991,6 @@
     <message>
         <source>days</source>
         <translation type="unfinished">일간</translation>
-    </message>
-</context>
-<context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation>이미지 파일을 찾을 수 없음</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation>사진을 찾을 수 없음</translation>
     </message>
 </context>
 <context>
@@ -1176,10 +1081,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation type="unfinished">수정된 날짜</translation>
     </message>
@@ -1207,84 +1108,9 @@
         <source>Date captured</source>
         <translation type="unfinished">캡처된 날짜</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation>앨범에 추가</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>슬라이드 쇼</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>전체화면 종료</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>전체 화면</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>복사</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>삭제</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation>탐색 창 표시</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation>탐색 창 숨기기</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>시계 방향으로 회전</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>시계 반대 방향으로 회전</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>배경화면으로 설정</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>파일 관리자에 표시</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>내보내기</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>즐겨찾기 해제</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation>사진 정보</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>앨범에서 제거</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>즐겨찾기</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>새 앨범</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>인쇄</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

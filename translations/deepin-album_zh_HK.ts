@@ -1,5 +1,60 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_HK" version="2.1">
 <context>
+    <name/>
+    <message>
+        <source>Delete</source>
+        <translation>刪除</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation>全屏</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>幻燈片放映</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>導出</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>複製</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation>收藏</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>順時針旋轉</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>逆時針旋轉</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>設為壁紙</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>在檔案管理員中顯示</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation>照片訊息</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation>影片訊息</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation>恢復</translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -63,10 +118,6 @@
         <translation>您也可以拖拽照片到此</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1張照片</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>全部導入</translation>
     </message>
@@ -109,10 +160,6 @@
     <message>
         <source>Loading...</source>
         <translation>正在加載，請稍候...</translation>
-    </message>
-    <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">文件在刪除前會顯示剩餘天數，之後將永久刪除</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on them</source>
@@ -240,13 +287,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">照片訊息</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -299,8 +339,8 @@
         <translation>詳細訊息</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>照片訊息</translation>
+        <source>Image info</source>
+        <translation>圖片訊息</translation>
     </message>
 </context>
 <context>
@@ -378,13 +418,6 @@
     <message>
         <source>New album</source>
         <translation>新建相冊</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="vanished">您沒有權限查看此文件</translation>
     </message>
 </context>
 <context>
@@ -529,10 +562,6 @@
         <translation>設置</translation>
     </message>
     <message>
-        <source>Import photos</source>
-        <translation type="vanished">導入照片</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>正在導入照片，請稍候...</translation>
     </message>
@@ -652,8 +681,8 @@
         <translation>標記</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>照片名稱</translation>
+        <source>Name</source>
+        <translation>名稱</translation>
     </message>
 </context>
 <context>
@@ -827,29 +856,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation type="vanished">暫停</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation type="vanished">播放</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">退出</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">上一張</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">下一張</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
     <message>
         <source>1 photo</source>
@@ -874,49 +880,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation>正在導出：%1</translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation type="vanished">返回</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">上一張</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">下一張</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation type="vanished">1:1視圖</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation type="vanished">適應窗口</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">逆時針旋轉</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">順時針旋轉</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">刪除</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">收藏</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">取消收藏</translation>
     </message>
 </context>
 <context>
@@ -1003,17 +966,6 @@
     </message>
 </context>
 <context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation type="vanished">未找到圖片文件</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation type="vanished">未發現照片文件</translation>
-    </message>
-</context>
-<context>
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
@@ -1095,10 +1047,6 @@
         <translation>採樣數</translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation>影片名稱</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>修改日期</translation>
     </message>
@@ -1126,84 +1074,9 @@
         <source>Date captured</source>
         <translation>拍攝日期</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation type="vanished">添加到相冊</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="vanished">幻燈片放映</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="vanished">退出全屏</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="vanished">全屏</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="vanished">複製</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">刪除</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation type="vanished">顯示導航窗口</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation type="vanished">隱藏導航窗口</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">順時針旋轉</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">逆時針旋轉</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="vanished">設為壁紙</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="vanished">在檔案管理員中顯示</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="vanished">導出</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">取消收藏</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">照片訊息</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation type="vanished">從相冊中移除</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">收藏</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation type="vanished">新建相冊</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="vanished">打印</translation>
+        <source>Name</source>
+        <translation>名稱</translation>
     </message>
 </context>
 </TS>

@@ -2,6 +2,61 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="et">
 <context>
+    <name></name>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Kustuta</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Täisekraan</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Slaidiseanss</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Ekspordi</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Kopeeri</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Lemmik</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Pööra päripäeva</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Pööra vastupäeva</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Määra taustapildiks</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Näita failihalduris</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Foto info</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Taasta</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -65,16 +120,8 @@
         <translation>Või lohista fotod siia</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 foto(t)</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>Impordi kõik</translation>
-    </message>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation type="vanished">%1 foto(t) on valitud</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -117,19 +164,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>AllPicView</name>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation type="vanished">%1 foto(t) on valitud</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 foto(t)</translation>
     </message>
 </context>
 <context>
@@ -253,13 +289,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation>Foto info</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -268,13 +297,6 @@
     <message>
         <source>Restoring...</source>
         <translation>Taastamine...</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation type="vanished">päeva</translation>
     </message>
 </context>
 <context>
@@ -328,8 +350,8 @@
         <translation>Üksikasjad</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Foto info</translation>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -370,14 +392,6 @@
 </context>
 <context>
     <name>ImportView</name>
-    <message>
-        <source>All Photos</source>
-        <translation type="vanished">Kõik fotod</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Impordi fotosid</translation>
-    </message>
     <message>
         <source>Import Photos and Videos</source>
         <translation type="unfinished"></translation>
@@ -424,17 +438,6 @@
     <message>
         <source>New album</source>
         <translation>Uus album</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the image</source>
-        <translation type="vanished">Sul pole pildi vaatamiseks õigusi</translation>
-    </message>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -539,10 +542,6 @@
         <translation>Albumid</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation type="vanished">Foto info</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Välju täisekraanist/slaidiseansist</translation>
     </message>
@@ -555,20 +554,8 @@
         <translation>Vaata</translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">Ekspordi</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">Impordi</translation>
-    </message>
-    <message>
         <source>Select all</source>
         <translation>Vali kõik</translation>
-    </message>
-    <message>
-        <source>Delete photo/album</source>
-        <translation type="vanished">Kustuta foto/album</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -593,14 +580,6 @@
     <message>
         <source>Settings</source>
         <translation>Seaded</translation>
-    </message>
-    <message>
-        <source>Import photos</source>
-        <translation>Impordi fotod</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Impordi fotosid</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -632,6 +611,10 @@
     </message>
     <message>
         <source>Photo/Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -718,8 +701,8 @@
         <translation>Silt</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>Foto nimi</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -749,14 +732,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 foto(t)</translation>
-    </message>
-    <message>
-        <source>%1 photo(s) selected</source>
-        <translation type="vanished">%1 foto(t) on valitud</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -883,10 +858,6 @@
         <translation>Slaidiseanss</translation>
     </message>
     <message>
-        <source>%1 photo(s) found</source>
-        <translation type="vanished">Leiti %1 foto(t)</translation>
-    </message>
-    <message>
         <source>Search results</source>
         <translation>Otsingu tulemused</translation>
     </message>
@@ -921,29 +892,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation>Paus</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation>Esita</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>Välju</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Eelmine</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Järgmine</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
     <message>
         <source>1 photo</source>
@@ -974,49 +922,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation>Tagasi</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Eelmine</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Järgmine</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation>1:1 suurus</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation>Mahuta aknasse</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Pööra vastupäeva</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Pööra päripäeva</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Kustuta</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Lemmik</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Eemalda lemmikutest</translation>
     </message>
 </context>
 <context>
@@ -1100,17 +1005,6 @@
     <message>
         <source>days</source>
         <translation type="unfinished">päeva</translation>
-    </message>
-</context>
-<context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation>Pildifaili ei leitud</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation>Fotot ei leitud</translation>
     </message>
 </context>
 <context>
@@ -1204,10 +1098,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation type="unfinished">Muutmise kuupäev</translation>
     </message>
@@ -1235,84 +1125,9 @@
         <source>Date captured</source>
         <translation type="unfinished">Pildistamise kuupäev</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation>Lisa albumisse</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Slaidiseanss</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Välju täisekraanist</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Täisekraan</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Kopeeri</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Kustuta</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation>Näita navigeerimise akent</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation>Peida navigeerimise aken</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Pööra päripäeva</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Pööra vastupäeva</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Määra taustapildiks</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Näita failihalduris</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Ekspordi</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Eemalda lemmikutest</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation>Foto info</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Eemalda albumist</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Lemmik</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Uus album</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Prindi</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

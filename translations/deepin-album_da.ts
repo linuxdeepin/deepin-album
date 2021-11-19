@@ -2,6 +2,61 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="da">
 <context>
+    <name></name>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Slet</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Fuldskærm</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Slideshow</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Eksportér</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Kopiér</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Drej med urets retning</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Drej modsat urets retning</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Indstil som tapet</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Vis i filhåndtering</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Billedinformation</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Gendan</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Indstil som favorit</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -65,16 +120,8 @@
         <translation>Eller træk billeder hertil</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 billed(er)</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>Importér alle</translation>
-    </message>
-    <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">Billederne slettes permanent efter det antal dage som vises på dem</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -113,15 +160,11 @@
         <translation>Ignorer</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation type="vanished">Indlæser billeder, vent venligst ...</translation>
-    </message>
-    <message>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -246,13 +289,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation>Billedinformation</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -261,13 +297,6 @@
     <message>
         <source>Restoring...</source>
         <translation>Gendanner ...</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation type="vanished">dage</translation>
     </message>
 </context>
 <context>
@@ -283,10 +312,6 @@
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>Er du sikker på, at du vil slette billedet fra albummet?</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="vanished">Er du sikker på, at du vil slette %1 billeder fra albummet?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
@@ -325,8 +350,8 @@
         <translation>Detaljer</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Billedinformation</translation>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -413,17 +438,6 @@
     <message>
         <source>New album</source>
         <translation>Nyt album</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the image</source>
-        <translation type="vanished">Du har ikke tilladelse til at vise billedet</translation>
-    </message>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -528,10 +542,6 @@
         <translation>Albummer</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation type="vanished">Billedinformation</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Afslut fuldskærm/slideshow</translation>
     </message>
@@ -544,20 +554,8 @@
         <translation>Vis</translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">Eksportér</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">Importér</translation>
-    </message>
-    <message>
         <source>Select all</source>
         <translation>Vælg alle</translation>
-    </message>
-    <message>
-        <source>Delete photo/album</source>
-        <translation type="vanished">Slet billed/album</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -582,14 +580,6 @@
     <message>
         <source>Settings</source>
         <translation>Indstillinger</translation>
-    </message>
-    <message>
-        <source>Import photos</source>
-        <translation>Importér billeder</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Importér billeder</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -621,6 +611,10 @@
     </message>
     <message>
         <source>Photo/Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -707,8 +701,8 @@
         <translation>Mærkat</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>Billednavn</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -738,10 +732,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%3/%2/%1</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 billed(er)</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -902,38 +892,7 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation>Pause</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation>Afspil</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>Afslut</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Forrige</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Næste</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
-    <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="vanished">Importerer billeder: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="vanished">Eksporterer billeder: &apos;%1&apos;</translation>
-    </message>
     <message>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
@@ -963,49 +922,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation>Tilbage</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Forrige</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Næste</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation>1:1 størrelse</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation>Tilpas til vindue</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Drej modsat urets retning</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Drej med urets retning</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Slet</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Indstil som favorit</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Fjern fra favorit</translation>
     </message>
 </context>
 <context>
@@ -1089,17 +1005,6 @@
     <message>
         <source>days</source>
         <translation type="unfinished">dage</translation>
-    </message>
-</context>
-<context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation>Fandt ingen billedfiler</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation>Billedet blev ikke fundet</translation>
     </message>
 </context>
 <context>
@@ -1193,10 +1098,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation type="unfinished">Ændringsdato</translation>
     </message>
@@ -1224,84 +1125,9 @@
         <source>Date captured</source>
         <translation type="unfinished">Optagelsesdato</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation>Tilføj til album</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Slideshow</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Afslut fuldskærm</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Fuldskærm</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Kopiér</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Slet</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation>Vis navigationsvindue</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation>Skjul navigationsvindue</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Drej med urets retning</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Drej modsat urets retning</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Indstil som tapet</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Vis i filhåndtering</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Eksportér</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Fjern fra favorit</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation>Billedinformation</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Fjern fra album</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Favorit</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Nyt album</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Udskriv</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

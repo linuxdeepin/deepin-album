@@ -1,5 +1,60 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS language="nl" version="2.1">
 <context>
+    <name/>
+    <message>
+        <source>Delete</source>
+        <translation>Verwijderen</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation>Beeldvullende modus</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Diavoorstelling</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Exporteren</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopiëren</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation>Toev. aan favorieten</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Naar rechts draaien</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Naar links draaien</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Instellen als achtergrond</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Tonen in bestandsbeheerder</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation>Foto-informatie</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation>Video-informatie</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation>Herstellen</translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -63,10 +118,6 @@
         <translation>of sleep foto&apos;s hierheen</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 foto(&apos;s)</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>Alles importeren</translation>
     </message>
@@ -109,10 +160,6 @@
     <message>
         <source>Loading...</source>
         <translation>Bezig met laden…</translation>
-    </message>
-    <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">De bestanden worden verwijderd na het vermelde aantal dagen</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on them</source>
@@ -240,13 +287,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Foto-informatie</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -299,8 +339,8 @@
         <translation>Details</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Foto-informatie</translation>
+        <source>Image info</source>
+        <translation>Afbeeldingsinformatie</translation>
     </message>
 </context>
 <context>
@@ -378,13 +418,6 @@
     <message>
         <source>New album</source>
         <translation>Nieuw album</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="vanished">Je bent niet bevoegd om dit bestand te bekijken</translation>
     </message>
 </context>
 <context>
@@ -529,10 +562,6 @@
         <translation>Instellingen</translation>
     </message>
     <message>
-        <source>Import photos</source>
-        <translation type="vanished">Foto&apos;s importeren</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>Bezig met importeren…</translation>
     </message>
@@ -652,8 +681,8 @@
         <translation>Label</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>Naam</translation>
+        <source>Name</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -825,29 +854,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation type="vanished">Pauzeren</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation type="vanished">Afspelen</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Afsluiten</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Vorige</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Volgende</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
     <message>
         <source>1 photo</source>
@@ -872,49 +878,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation>Bezig met exporteren van %1</translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation type="vanished">Terug</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Vorige</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Volgende</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation type="vanished">1:1</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation type="vanished">Aanpassen aan venster</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Naar links draaien</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Naar rechts draaien</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Verwijderen</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">Toev. aan favorieten</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">Verw. uit favorieten</translation>
     </message>
 </context>
 <context>
@@ -1001,17 +964,6 @@
     </message>
 </context>
 <context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation type="vanished">Geen afbeeldingsbestanden aangetroffen</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation type="vanished">Foto niet aangetroffen</translation>
-    </message>
-</context>
-<context>
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
@@ -1093,10 +1045,6 @@
         <translation>Sampling</translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation>Videonaam</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Aangepast op</translation>
     </message>
@@ -1124,84 +1072,9 @@
         <source>Date captured</source>
         <translation>Genomen op</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation type="vanished">Toevoegen aan album</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="vanished">Diavoorstelling</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="vanished">Beeldvullende modus verlaten</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="vanished">Beeldvullende modus</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="vanished">Kopiëren</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Verwijderen</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation type="vanished">Navigatievenster tonen</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation type="vanished">Navigatievenster verbergen</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Naar rechts draaien</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Naar links draaien</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="vanished">Instellen als achtergrond</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="vanished">Tonen in bestandsbeheerder</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="vanished">Exporteren</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">Verw. uit favorieten</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Foto-informatie</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation type="vanished">Verwijderen uit album</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">Toev. aan favorieten</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation type="vanished">Nieuw album</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="vanished">Afdrukken</translation>
+        <source>Name</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

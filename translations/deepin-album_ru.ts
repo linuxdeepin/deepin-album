@@ -1,5 +1,60 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS language="ru" version="2.1">
 <context>
+    <name/>
+    <message>
+        <source>Delete</source>
+        <translation>Удалить</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation>На весь экран</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Слайд-шоу</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Экспорт</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Копировать</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation>Добавить в избранное</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Повернуть по часовой стрелке</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Повернуть против часовой стрелки</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Установить в качестве обоев</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Отображать в файловом менеджере</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation>Информация о фотографии</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation>Информация о  видео</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation>Восстановить</translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -63,10 +118,6 @@
         <translation>Или перетащите фотографии сюда</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 фотография(-ий)</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>Импортировать всё</translation>
     </message>
@@ -109,10 +160,6 @@
     <message>
         <source>Loading...</source>
         <translation>Загрузка...</translation>
-    </message>
-    <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">Файлы будут безвозвратно удалены по истечении указанного времени</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on them</source>
@@ -240,13 +287,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Информация о фотографии</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -299,8 +339,8 @@
         <translation>Подробные сведения</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Информация о фотографии</translation>
+        <source>Image info</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -378,13 +418,6 @@
     <message>
         <source>New album</source>
         <translation>Новый альбом</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="vanished">У Вас нет разрешения на просмотр файла</translation>
     </message>
 </context>
 <context>
@@ -529,10 +562,6 @@
         <translation>Параметры</translation>
     </message>
     <message>
-        <source>Import photos</source>
-        <translation type="vanished">Импорт фотографий</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>Импортирование...</translation>
     </message>
@@ -652,8 +681,8 @@
         <translation>Тег</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>Название фотографии</translation>
+        <source>Name</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -825,29 +854,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation type="vanished">Пауза</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation type="vanished">Воспроизвести</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Выход</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Предыдущий</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Следующий</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
     <message>
         <source>1 photo</source>
@@ -872,49 +878,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation>Экспортировано: %1</translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation type="vanished">Назад</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Предыдущий</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Следующий</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation type="vanished">Размер 1:1</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation type="vanished">Подходит для окна</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Повернуть против часовой стрелки</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Повернуть по часовой стрелке</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Удалить</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">Избранное</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">Удалить из избранного</translation>
     </message>
 </context>
 <context>
@@ -1001,17 +964,6 @@
     </message>
 </context>
 <context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation type="vanished">Файлы изображений не найдены</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation type="vanished">Фотографии не найдены</translation>
-    </message>
-</context>
-<context>
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
@@ -1093,10 +1045,6 @@
         <translation>Сэмплирование</translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation>Название видео</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Дата изменения</translation>
     </message>
@@ -1124,84 +1072,9 @@
         <source>Date captured</source>
         <translation>Дата создания</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation type="vanished">Добавить в альбом</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="vanished">Слайд-шоу</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="vanished">Выход из полноэкранного режима</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="vanished">На весь экран</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="vanished">Копировать</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Удалить</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation type="vanished">Показать окно навигации</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation type="vanished">Скрыть окно навигации</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Повернуть по часовой стрелке</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Повернуть против часовой стрелки</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="vanished">Установить в качестве обоев</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="vanished">Отображать в файловом менеджере</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="vanished">Экспорт</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">Удалить из избранного</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Информация о фотографии</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation type="vanished">Удалить из альбома</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">Избранное</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation type="vanished">Новый альбом</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="vanished">Печать</translation>
+        <source>Name</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

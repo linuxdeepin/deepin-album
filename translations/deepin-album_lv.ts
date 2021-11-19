@@ -2,6 +2,61 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="lv">
 <context>
+    <name></name>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Dzēst</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Pilnekrāna režīms</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Slaidrāde</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Eksportēt</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Kopēt</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Pievienot izlasei</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Pagrieziet pulksteņrādītāja virzienā</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Pagrieziet pretēji pulksteņrādītāja virzienam</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Iestatīt kā fona attēlu</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Apskatīt failu pārvaldniekā</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Fotoattēla informācija</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Atjaunot</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -65,16 +120,8 @@
         <translation>Vai ievelciet fotoattēlus šeit</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 fotoattēls(s)</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>Importēt visu</translation>
-    </message>
-    <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">Fotoattēli tiks neatgriezeniski izdzēsti pēc uz tiem norādītajam dienām</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -113,15 +160,11 @@
         <translation>Ignorēt</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation type="vanished">Ielāde fotoattēlus, lūdzu uzgaidiet...</translation>
-    </message>
-    <message>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -246,13 +289,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation>Fotoattēla informācija</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -261,13 +297,6 @@
     <message>
         <source>Restoring...</source>
         <translation>Atjauno...</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation type="vanished">dienas</translation>
     </message>
 </context>
 <context>
@@ -283,10 +312,6 @@
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>Vai tiešām vēlaties dzēst šo fotoattēlu no albuma?</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="vanished">Vai tiešām vēlaties dzēst %1 fotoattēlus no albuma?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
@@ -328,8 +353,8 @@
         <translation>Informācija</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Fotoattēla informācija</translation>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -419,17 +444,6 @@
     <message>
         <source>New album</source>
         <translation>Jauns albums</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the image</source>
-        <translation type="vanished">Jums nav atļaujas skatīt attēlu</translation>
-    </message>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -534,10 +548,6 @@
         <translation>Albumi</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation type="vanished">Fotoattēla informācija</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>Pārtraukt pilnekrāna režīmu/slaidrādi</translation>
     </message>
@@ -550,20 +560,8 @@
         <translation>Apskatīt</translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">Eksportēt</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">Importēt</translation>
-    </message>
-    <message>
         <source>Select all</source>
         <translation>Atlasīt visu</translation>
-    </message>
-    <message>
-        <source>Delete photo/album</source>
-        <translation type="vanished">Dzēst fotattēlu/albumu</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -588,14 +586,6 @@
     <message>
         <source>Settings</source>
         <translation>Iestatījumi</translation>
-    </message>
-    <message>
-        <source>Import photos</source>
-        <translation>Importēt fotoattēlus</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation type="vanished">Importēt Fotoattēlus</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -627,6 +617,10 @@
     </message>
     <message>
         <source>Photo/Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -713,8 +707,8 @@
         <translation>Birka</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>Fotoattēla nosaukums</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -744,10 +738,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 fotoattēls(i)</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -914,38 +904,7 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation>Pauze</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation>Turpināt</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>Iziet</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Iepriekšējais</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Nākamais</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
-    <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="vanished">Importē attēlus: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="vanished">Eksportē attēlus: &apos;%1&apos;</translation>
-    </message>
     <message>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
@@ -977,49 +936,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation>Atpakaļ</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Iepriekšējais</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Nākamais</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation>1:1 Izmērs</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation>Ietilpināt logā</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Pagrieziet pretēji pulksteņrādītāja virzienam</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Pagrieziet pulksteņrādītāja virzienā</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Dzēst</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Pievienot izlasei</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Noņemt no izlases</translation>
     </message>
 </context>
 <context>
@@ -1103,17 +1019,6 @@
     <message>
         <source>days</source>
         <translation type="unfinished">dienas</translation>
-    </message>
-</context>
-<context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation>Netika atrasts neviens attēls</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation>Fotoattēls netika atrasts</translation>
     </message>
 </context>
 <context>
@@ -1210,10 +1115,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation type="unfinished">Izmainīšanas datums</translation>
     </message>
@@ -1241,84 +1142,9 @@
         <source>Date captured</source>
         <translation type="unfinished">Uzņemšanas datums</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation>Pievienot albumam</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Slaidrāde</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>Pārtraukt pilnekrāna režīmu</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Pilnekrāna režīms</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Kopēt</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Dzēst</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation>Rādīt navigācijas logu</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation>Slēpt navigācijas logu</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Pagrieziet pulksteņrādītāja virzienā</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Pagrieziet pretēji pulksteņrādītāja virzienam</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Iestatīt kā fona attēlu</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Apskatīt failu pārvaldniekā</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Eksportēt</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Noņemt no izlases</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation>Fotoattēla informācija</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Noņemt no albuma</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Pievienot izlasei</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Jauns albums</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Printēt</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

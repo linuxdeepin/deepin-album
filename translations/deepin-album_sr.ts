@@ -1,5 +1,60 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS language="sr" version="2.1">
 <context>
+    <name/>
+    <message>
+        <source>Delete</source>
+        <translation>Обриши</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation>Цео екран</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Покретни приказ</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Извези</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Копирај</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation>У омиљено</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Ротирај удесно</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Ротирај улево</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Постави као позадину</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Прикажи у управнику података</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation>Подаци слике</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation>Подаци видеа</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation>Врати</translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -63,10 +118,6 @@
         <translation>Или првуци слике овде</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 слика(е)</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>Увези све</translation>
     </message>
@@ -109,10 +160,6 @@
     <message>
         <source>Loading...</source>
         <translation>Учитавање...</translation>
-    </message>
-    <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">Датотеке ће бити трајно обрисане након датума приказаног на њима</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on them</source>
@@ -240,13 +287,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Подаци слике</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -299,8 +339,8 @@
         <translation>Детаљи</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Подаци слике</translation>
+        <source>Image info</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -378,13 +418,6 @@
     <message>
         <source>New album</source>
         <translation>Нови албум</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="vanished">Немате дозволу да прегледате датотеку</translation>
     </message>
 </context>
 <context>
@@ -529,10 +562,6 @@
         <translation>Подешавања</translation>
     </message>
     <message>
-        <source>Import photos</source>
-        <translation type="vanished">Увези слику</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>Увоз...</translation>
     </message>
@@ -652,8 +681,8 @@
         <translation>Ознака</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>Име слике</translation>
+        <source>Name</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -825,29 +854,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation type="vanished">Паузирај</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation type="vanished">Пусти</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Изађи</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Претходно</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Следеће</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
     <message>
         <source>1 photo</source>
@@ -872,49 +878,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation type="vanished">Назад</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Претходно</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Следеће</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation type="vanished">1:1 Размера</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation type="vanished">Уклопи у прозор</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Ротирај улево</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Ротирај удесно</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Обриши</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">У омиљено</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">Из омиљеног</translation>
     </message>
 </context>
 <context>
@@ -1001,17 +964,6 @@
     </message>
 </context>
 <context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation type="vanished">Нису пронађене датотеке са сликама</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation type="vanished">Слика није пронађена</translation>
-    </message>
-</context>
-<context>
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
@@ -1093,10 +1045,6 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Video name</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Датум измене</translation>
     </message>
@@ -1124,84 +1072,9 @@
         <source>Date captured</source>
         <translation>Датум усликавања</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation type="vanished">Додај у албум</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="vanished">Покретни приказ</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="vanished">Напусти цео екран</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="vanished">Цео екран</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="vanished">Копирај</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Обриши</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation type="vanished">Прикажи навигациони прозор</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation type="vanished">Сакриј навигациони прозор</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Ротирај удесно</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Ротирај улево</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="vanished">Постави као позадину</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="vanished">Прикажи у управнику података</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="vanished">Извези</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">Из омиљеног</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Подаци слике</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation type="vanished">Уклоини из албума</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">У омиљено</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation type="vanished">Нови албум</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="vanished">Штампај</translation>
+        <source>Name</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

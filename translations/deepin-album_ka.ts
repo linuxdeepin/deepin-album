@@ -2,6 +2,61 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ka">
 <context>
+    <name></name>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">წაშლა</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">მთელს ეკრანზე</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">სლაიდშოუ</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">ექსპორტი</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">კოპირება</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">ფავორიტი</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">საათის ისრის მიმართულებით დაბრუნება</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">საათის ისრის საწინააღმდეგო მიმართულებით დაბრუნება</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">ფონად დაყენება</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">ფაილების მენეჯერში ნახვა</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">ინფორმაცია</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">აღდგენა</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -65,16 +120,8 @@
         <translation>ან გადმოიტანეთ ფოტო აქ</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation>%1 სურათი</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>ყველა</translation>
-    </message>
-    <message>
-        <source>The photos will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">სურათი ავტომატურად წაიშლება იმდენი დღის შემდეგ რამდენიც მასზე გამოსახულია</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -113,15 +160,11 @@
         <translation>იგნორირება</translation>
     </message>
     <message>
-        <source>Loading photos, please wait...</source>
-        <translation type="vanished">სურათების ჩატვირთვა, გთხოვთ დაელოდოთ...</translation>
-    </message>
-    <message>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -246,13 +289,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation>ინფორმაცია</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -261,13 +297,6 @@
     <message>
         <source>Restoring...</source>
         <translation>აღდგენა...</translation>
-    </message>
-</context>
-<context>
-    <name>ImageLoadFromLocalThread</name>
-    <message>
-        <source>days</source>
-        <translation type="vanished"> დღე</translation>
     </message>
 </context>
 <context>
@@ -283,10 +312,6 @@
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
         <translation>დარწმუნებული ხართ, რომ გსურთ ამ სურათის წაშლა?</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete %1 photos from albums?</source>
-        <translation type="vanished">დარწმუნებული ხართო, რომ გსურთ მონიშნული %1 სურათის წაშლა?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
@@ -325,8 +350,8 @@
         <translation>დეტალები</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>ინფორმაცია</translation>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -413,17 +438,6 @@
     <message>
         <source>New album</source>
         <translation>ახალი ალბომი</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the image</source>
-        <translation type="vanished">თქვენ არ გაქვთ სურათის ნახვის უფლება</translation>
-    </message>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -528,10 +542,6 @@
         <translation>ალბომები</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation type="vanished">ინფორმაცია</translation>
-    </message>
-    <message>
         <source>Exit fullscreen/slideshow</source>
         <translation>მთლიანი ეკრანიდან/სლაიდშოუდან გამოსვლა</translation>
     </message>
@@ -544,20 +554,8 @@
         <translation>ნახვა</translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">ექსპორტი</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">იმპორტი</translation>
-    </message>
-    <message>
         <source>Select all</source>
         <translation>ყველას მონიშვნა</translation>
-    </message>
-    <message>
-        <source>Delete photo/album</source>
-        <translation type="vanished">სურათის/ალბომის წაშლა</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -582,14 +580,6 @@
     <message>
         <source>Settings</source>
         <translation>პარამეტრები</translation>
-    </message>
-    <message>
-        <source>Import photos</source>
-        <translation>სურათების იმპორტი</translation>
-    </message>
-    <message>
-        <source>Import Photos</source>
-        <translation type="vanished">სურათის იმპორტი</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -621,6 +611,10 @@
     </message>
     <message>
         <source>Photo/Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos and videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -707,8 +701,8 @@
         <translation>თეგი</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>სურათის სახელი</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -738,10 +732,6 @@
     <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
-    </message>
-    <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 სურათი</translation>
     </message>
     <message>
         <source>Imported on</source>
@@ -902,38 +892,7 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation>პაუზა</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation>გაშვება</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation>გამოსვლა</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>წინა</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>შემდეგი</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
-    <message>
-        <source>Importing photos: &apos;%1&apos;</source>
-        <translation type="vanished">სურათების იმპორტი: &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Exporting photos: &apos;%1&apos;</source>
-        <translation type="vanished">სურათების ექსპორტი: &apos;%1&apos;</translation>
-    </message>
     <message>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
@@ -963,49 +922,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation>უკან</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>წინა</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>შემდეგი</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation>1:1 ზომა</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation>ფანჯარაზე მორგება</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>საათის ისრის საწინააღმდეგო მიმართულებით დაბრუნება</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>საათის ისრის მიმართულებით დაბრუნება</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>წაშლა</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>ფავორიტი</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>ფავორიტებიდან წაშლა</translation>
     </message>
 </context>
 <context>
@@ -1089,17 +1005,6 @@
     <message>
         <source>days</source>
         <translation type="unfinished"> დღე</translation>
-    </message>
-</context>
-<context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation>სურათები ვერ მოიძებნა</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation>ფოტო არ მოიძებნა</translation>
     </message>
 </context>
 <context>
@@ -1193,10 +1098,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation type="unfinished">ცვლილების დრო</translation>
     </message>
@@ -1224,84 +1125,9 @@
         <source>Date captured</source>
         <translation type="unfinished">გადაღების დრო</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation>ალბომში დამატება</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>სლაიდშოუ</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation>მთლიანი ეკრანის გათიშვა</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>მთელს ეკრანზე</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>კოპირება</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>წაშლა</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation>ნავიგაციის ფანჯრის ნახვა</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation>ნავიგაციის ფანჯრის დამალვა</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>საათის ისრის მიმართულებით დაბრუნება</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>საათის ისრის საწინააღმდეგო მიმართულებით დაბრუნება</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>ფონად დაყენება</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>ფაილების მენეჯერში ნახვა</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>ექსპორტი</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>ფავორიტებიდან წაშლა</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation>ინფორმაცია</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>ალბომის წაშლა</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>ფავორიტი</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>ახალი ალბომი</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>დაბეჭდვა</translation>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

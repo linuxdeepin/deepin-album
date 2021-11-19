@@ -1,5 +1,60 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS language="pt" version="2.1">
 <context>
+    <name/>
+    <message>
+        <source>Delete</source>
+        <translation>Eliminar</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation>Ecrã inteiro</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Apresentação</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Exportar</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Copiar</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation>Adicionar aos favoritos</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Rodar para a direita</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Rodar para a esquerda</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Definir como papel de parede</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Mostrar no gestor de ficheiros</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation>Informações da foto</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation>Informação do vídeo</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation>Restaurar</translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -63,10 +118,6 @@
         <translation>Ou arraste fotos para aqui</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 foto(s)</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>Importar tudo</translation>
     </message>
@@ -109,10 +160,6 @@
     <message>
         <source>Loading...</source>
         <translation>A carregar...</translation>
-    </message>
-    <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">Os ficheiros serão eliminados permanentemente após os dias aqui mostrados</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on them</source>
@@ -240,13 +287,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Informações da foto</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -299,8 +339,8 @@
         <translation>Detalhes</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <source>Image info</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -378,13 +418,6 @@
     <message>
         <source>New album</source>
         <translation>Novo álbum</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="vanished">Não tem permissão para ver o ficheiro</translation>
     </message>
 </context>
 <context>
@@ -529,10 +562,6 @@
         <translation>Definições</translation>
     </message>
     <message>
-        <source>Import photos</source>
-        <translation type="vanished">Importar fotos</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>A importar... </translation>
     </message>
@@ -652,8 +681,8 @@
         <translation>Rótulo</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>Nome da foto</translation>
+        <source>Name</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -825,29 +854,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation type="vanished">Pausa</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation type="vanished">Reproduzir</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Sair</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Anterior</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Próximo</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
     <message>
         <source>1 photo</source>
@@ -872,49 +878,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation>A exportar: %1</translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation type="vanished">Voltar</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Anterior</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Próximo</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation type="vanished">Tamanho 1:1</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation type="vanished">Ajustar à janela</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Rodar para a esquerda</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Rodar para a direita</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Eliminar</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">Adicionar aos favoritos</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">Remover dos favoritos</translation>
     </message>
 </context>
 <context>
@@ -1001,17 +964,6 @@
     </message>
 </context>
 <context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation type="vanished">Nenhuma imagem encontrada</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation type="vanished">Foto não encontrada</translation>
-    </message>
-</context>
-<context>
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
@@ -1093,10 +1045,6 @@
         <translation>Amostragem</translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation>Nome do vídeo</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Data de modificação</translation>
     </message>
@@ -1124,84 +1072,9 @@
         <source>Date captured</source>
         <translation>Data de captura</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation type="vanished">Adicionar ao álbum</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="vanished">Apresentação</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="vanished">Sair de ecrã inteiro</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="vanished">Ecrã inteiro</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="vanished">Copiar</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Eliminar</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation type="vanished">Mostrar janela de navegação</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation type="vanished">Ocultar janela de navegação</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Rodar para a direita</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Rodar para a esquerda</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="vanished">Definir como papel de parede</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="vanished">Mostrar no gestor de ficheiros</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="vanished">Exportar</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">Remover dos favoritos</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Informações da foto</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation type="vanished">Remover do álbum</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">Adicionar aos favoritos</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation type="vanished">Novo álbum</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="vanished">Imprimir</translation>
+        <source>Name</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

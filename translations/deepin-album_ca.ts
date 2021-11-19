@@ -1,5 +1,60 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS language="ca" version="2.1">
 <context>
+    <name/>
+    <message>
+        <source>Delete</source>
+        <translation>Elimina</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation>Pantalla completa</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>Presentació</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Exporta-ho</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Copia</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation>Preferits</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Gira-la a la dreta</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Gira-la a l&apos;esquerra</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>Estableix com a fons de pantalla</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>Mostra-ho al gestor de fitxers.</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation>Informació de la fotografia</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation>Informació del vídeo</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation>Restaura</translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Unnamed</source>
@@ -63,10 +118,6 @@
         <translation>O arrossegueu fotos aquí.</translation>
     </message>
     <message>
-        <source>%1 photo(s)</source>
-        <translation type="vanished">%1 foto/s</translation>
-    </message>
-    <message>
         <source>Import All</source>
         <translation>Importa-ho tot</translation>
     </message>
@@ -109,10 +160,6 @@
     <message>
         <source>Loading...</source>
         <translation>Es carrega...</translation>
-    </message>
-    <message>
-        <source>The files will be permanently deleted after the days shown on it</source>
-        <translation type="vanished">Els fitxers se suprimiran permanentment després dels dies que s&apos;hi mostren.</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on them</source>
@@ -240,13 +287,6 @@
     </message>
 </context>
 <context>
-    <name>ExtensionPanel</name>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Informació de la fotografia</translation>
-    </message>
-</context>
-<context>
     <name>ImageEngineApi</name>
     <message>
         <source>Deleting...</source>
@@ -299,8 +339,8 @@
         <translation>Detalls</translation>
     </message>
     <message>
-        <source>Photo info</source>
-        <translation>Informació de la fotografia</translation>
+        <source>Image info</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -378,13 +418,6 @@
     <message>
         <source>New album</source>
         <translation>Àlbum nou</translation>
-    </message>
-</context>
-<context>
-    <name>LockWidget</name>
-    <message>
-        <source>You have no permission to view the file</source>
-        <translation type="vanished">No teniu permís per veure el fitxer.</translation>
     </message>
 </context>
 <context>
@@ -529,10 +562,6 @@
         <translation>Paràmetres</translation>
     </message>
     <message>
-        <source>Import photos</source>
-        <translation type="vanished">Importa fotografies</translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>S&apos;importa...</translation>
     </message>
@@ -652,8 +681,8 @@
         <translation>Etiqueta</translation>
     </message>
     <message>
-        <source>Photo name</source>
-        <translation>Nom de la fotografia</translation>
+        <source>Name</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -825,29 +854,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowBottomBar</name>
-    <message>
-        <source>Pause</source>
-        <translation type="vanished">Pausa</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation type="vanished">Reprodueix</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Surt</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Anterior</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Següent</translation>
-    </message>
-</context>
-<context>
     <name>StatusBar</name>
     <message>
         <source>1 photo</source>
@@ -872,49 +878,6 @@
     <message>
         <source>Exporting: %1</source>
         <translation>S&apos;exporta: %1</translation>
-    </message>
-</context>
-<context>
-    <name>TTBContent</name>
-    <message>
-        <source>Back</source>
-        <translation type="vanished">Enrere</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation type="vanished">Anterior</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="vanished">Següent</translation>
-    </message>
-    <message>
-        <source>1:1 Size</source>
-        <translation type="vanished">Mida 1:1</translation>
-    </message>
-    <message>
-        <source>Fit to window</source>
-        <translation type="vanished">Ajusta-ho a la finestra</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Gira-la a l&apos;esquerra</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Gira-la a la dreta</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Elimina</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">Afegeix als preferits</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">Elimina dels preferits</translation>
     </message>
 </context>
 <context>
@@ -1001,17 +964,6 @@
     </message>
 </context>
 <context>
-    <name>ThumbnailWidget</name>
-    <message>
-        <source>No image files found</source>
-        <translation type="vanished">No s&apos;ha trobat cap fitxer d&apos;imatge.</translation>
-    </message>
-    <message>
-        <source>Photo not found</source>
-        <translation type="vanished">No s&apos;ha trobat la fotografia.</translation>
-    </message>
-</context>
-<context>
     <name>TimeLineView</name>
     <message>
         <source>1 photo</source>
@@ -1093,10 +1045,6 @@
         <translation>Exemple</translation>
     </message>
     <message>
-        <source>Video name</source>
-        <translation>Nom del vídeo</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Data de modificació</translation>
     </message>
@@ -1124,84 +1072,9 @@
         <source>Date captured</source>
         <translation>Data de captura</translation>
     </message>
-</context>
-<context>
-    <name>ViewPanel</name>
     <message>
-        <source>Add to album</source>
-        <translation type="vanished">Afegeix a l&apos;àlbum</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="vanished">Presentació</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen</source>
-        <translation type="vanished">Surt de la pantalla completa</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="vanished">Pantalla completa</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="vanished">Copia</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Elimina</translation>
-    </message>
-    <message>
-        <source>Show navigation window</source>
-        <translation type="vanished">Mostra la finestra de navegació</translation>
-    </message>
-    <message>
-        <source>Hide navigation window</source>
-        <translation type="vanished">Amaga la finestra de navegació</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Gira-la a la dreta</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Gira-la a l&apos;esquerra</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="vanished">Estableix com a fons de pantalla</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="vanished">Mostra-ho al gestor de fitxers.</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="vanished">Exporta-ho</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="vanished">Elimina dels preferits</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Informació de la fotografia</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation type="vanished">Elimina de l&apos;àlbum</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="vanished">Preferit</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation type="vanished">Àlbum nou</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="vanished">Imprimeix</translation>
+        <source>Name</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>
