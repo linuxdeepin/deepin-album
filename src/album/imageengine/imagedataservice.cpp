@@ -137,6 +137,7 @@ bool ImageDataService::readThumbnailByPaths(QStringList files, bool isFinishFilt
         for (int i = 0; i < needCoreCounts; i++) {
             readThumbnailThread *thread = new readThumbnailThread;
             thread->start();
+            connect(thread, &readThumbnailThread::finished, thread, &readThumbnailThread::deleteLater);
         }
     } else {
         ImageDataService::instance()->add(image_video_list, reLoadThumbnail);
@@ -314,5 +315,4 @@ void readThumbnailThread::run()
         }
     }
     emit ImageDataService::instance()->sigeUpdateListview();
-    this->deleteLater();
 }
