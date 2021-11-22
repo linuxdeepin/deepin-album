@@ -318,6 +318,7 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
             pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
             field->setPalette(pa1);
             field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
+
             SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
             title->setMinimumHeight(field->minimumHeight());
             title->setFixedWidth(m_title_maxwidth);
@@ -327,9 +328,8 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
             DPalette pa2 = DApplicationHelper::instance()->palette(title);
             pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
             title->setPalette(pa2);
-            QString text1 = i->name;
             title->setText(SpliteText(trLabel(i->name) + ":", title->font(), m_title_maxwidth));
-            QString text = title->text();
+
             m_exifLayout_base->addRow(title, field);
         }
     }

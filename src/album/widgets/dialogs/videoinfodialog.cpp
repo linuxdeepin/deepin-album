@@ -145,9 +145,6 @@ void VideoInfoDialog::updateCodecInfo()
         pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
         field->setPalette(pa1);
         field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
-//        field->setText(value);
-//        field->setWordWrap(true);
-//        field->adjustSize();
 
         SimpleFormLabel *title = new SimpleFormLabel(key);
         title->setMinimumHeight(field->minimumHeight());
@@ -159,13 +156,9 @@ void VideoInfoDialog::updateCodecInfo()
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
         title->setText(SpliteText((key), title->font(), m_title_maxwidth));
-//        title->setText((key + ":"));
-//        title->setWordWrap(true);
-//        title->adjustSize();
 
         m_codecInfoFrameLayout->addRow(title, field);
         QFontMetrics fm(field->font());
-//        m_codecInfoFrame->setFixedHeight(m_codecInfoFrame->height() + field->height());
     }
 }
 
@@ -204,9 +197,6 @@ void VideoInfoDialog::updateAudioInfo()
         pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
         field->setPalette(pa1);
         field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
-//        field->setText(value);
-//        field->setWordWrap(true);
-//        field->adjustSize();
 
         SimpleFormLabel *title = new SimpleFormLabel(key);
         title->setMinimumHeight(field->minimumHeight());
@@ -218,13 +208,9 @@ void VideoInfoDialog::updateAudioInfo()
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
         title->setText(SpliteText((key), title->font(), m_title_maxwidth));
-//        title->setText((key + ":"));
-//        title->setWordWrap(true);
-//        title->adjustSize();
 
         m_audioInfoFrameLayout->addRow(title, field);
         QFontMetrics fm(field->font());
-//        m_audioInfoFrame->setFixedHeight(m_audioInfoFrame->height() + field->height());
     }
 }
 
@@ -279,6 +265,7 @@ void VideoInfoDialog::updateBasicInfo()
 
         SimpleFormLabel *title = new SimpleFormLabel(key);
         title->setMinimumHeight(field->minimumHeight());
+        title->setFixedWidth(m_title_maxwidth);
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
         DPalette pa2 = DApplicationHelper::instance()->palette(title);
@@ -290,25 +277,8 @@ void VideoInfoDialog::updateBasicInfo()
     }
 }
 
-//QList<DDrawer *> VideoInfoDialog::addExpandWidget(const QStringList &titleList)
-//{
-//    QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(m_scrollArea->widget()->layout());
-//    QList<DDrawer *> group;
-
-//    for (const QString &title : titleList) {
-//        DFMDArrowLineExpand *expand = new DFMDArrowLineExpand;//DArrowLineExpand;
-//        expand->setTitle(title);
-//        initExpand(layout, expand);
-//        group.push_back(expand);
-//    }
-
-//    return group;
-//}
-
 void VideoInfoDialog::appendExpandWidget(const QString &title)
 {
-//    QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(m_scrollArea->widget()->layout());
-
     DFMDArrowLineExpand *expand = new DFMDArrowLineExpand;//DArrowLineExpand;
     expand->setTitle(title);
     initExpand(m_scrollAreaLayout, expand);
@@ -331,13 +301,10 @@ void VideoInfoDialog::initExpand(QVBoxLayout *layout, DDrawer *expand)
         QRect rc = geometry();
         if (m_expandGroup.count() == 2) {
             rc.setHeight(qMin(615, contentHeight() + 15));
-//            setGeometry(rc);
-//            this->setFixedHeight(qMin(615, contentHeight() + 15));
             setGeometry(rc);
         } else {
             rc.setHeight(qMin(615, contentHeight() + 25));
             setGeometry(rc);
-//            this->setFixedHeight(qMin(615, contentHeight() + 25));
         }
     });
 }
