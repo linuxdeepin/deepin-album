@@ -53,6 +53,7 @@
 #include "leftlistwidget.h"
 #include <QRunnable>
 #include <QThreadPool>
+#include <DComboBox>
 
 //#define GIO_COMPILATION
 #undef signals

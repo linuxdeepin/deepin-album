@@ -30,6 +30,8 @@
 #include "../test_qtestDefine.h"
 #include "ac-desktop-define.h"
 
+#include <DComboBox>
+
 
 TEST(searchview, test_ini)
 {

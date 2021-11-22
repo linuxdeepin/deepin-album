@@ -35,7 +35,6 @@
 #include <DFontSizeManager>
 #include "utils/unionimage.h"
 #include <QDirIterator>
-#include <DComboBox>
 #include "widgets/dialogs/imgdeletedialog.h"
 #include "imageengine/imageengineapi.h"
 #include <QShortcut>
@@ -1951,21 +1950,6 @@ void AlbumView::needUnMount(const QString &path)
             findPicturePathByPhone(strPath);
         }
         if (strPath == path) {
-            if (1 < m_pLeftListView->m_pMountListWidget->count()) {
-                QWidget *wdg  = m_pLeftListView->m_pMountListWidget->itemWidget(pListWidgetItem);
-                m_pLeftListView->m_pMountListWidget->removeItemWidget(pListWidgetItem);
-                wdg->deleteLater();
-                m_pLeftListView->m_pMountListWidget->takeItem(m_pLeftListView->m_pMountListWidget->row(pListWidgetItem));
-                delete pListWidgetItem;
-            } else {
-                m_pLeftListView->m_pMountListWidget->clear();
-                m_pLeftListView->updatePhotoListView();
-            }
-            emit dApp->signalM->sigDevStop(strPath);
-            m_phoneNameAndPathlist.remove(strPath);
-            QUrl qurl(mount->getRootFile()->uri());
-            durlAndNameMap.erase(durlAndNameMap.find(qurl));
-
             QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
             if (LocationFile->path().compare(path) == 0 && mount->canUnmount()) {
                 QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blkget->drive()));
@@ -1995,6 +1979,22 @@ void AlbumView::needUnMount(const QString &path)
                 }
                 break;
             }
+            //调整逻辑，先尝试卸载，在确认能够卸载后开始处理界面
+            m_pRightPhoneThumbnailList->stopLoadAndClear();
+            if (1 < m_pLeftListView->m_pMountListWidget->count()) {
+                QWidget *wdg  = m_pLeftListView->m_pMountListWidget->itemWidget(pListWidgetItem);
+                m_pLeftListView->m_pMountListWidget->removeItemWidget(pListWidgetItem);
+                wdg->deleteLater();
+                m_pLeftListView->m_pMountListWidget->takeItem(m_pLeftListView->m_pMountListWidget->row(pListWidgetItem));
+                delete pListWidgetItem;
+            } else {
+                m_pLeftListView->m_pMountListWidget->clear();
+                m_pLeftListView->updatePhotoListView();
+            }
+            emit dApp->signalM->sigDevStop(strPath);
+            m_phoneNameAndPathlist.remove(strPath);
+            QUrl qurl(mount->getRootFile()->uri());
+            durlAndNameMap.erase(durlAndNameMap.find(qurl));
             break;
         }
     }
@@ -2005,7 +2005,7 @@ void AlbumView::needUnMount(const QString &path)
 //卸载外部设备
 void AlbumView::onUnMountSignal(const QString &unMountPath)
 {
-    m_pRightPhoneThumbnailList->stopLoadAndClear();
+//    m_pRightPhoneThumbnailList->stopLoadAndClear();
     needUnMount(unMountPath);
 }
 
