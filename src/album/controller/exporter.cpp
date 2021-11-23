@@ -150,12 +150,12 @@ void Exporter::popupDialogSaveImage(const QStringList &imagePaths)
                 QFileInfo fileinfo(savePath);
                 if (fileinfo.exists()) {
                     if (!fileinfo.isDir()) {
-                        m_exportImageDialog->setPicFileName(savePath.mid(savePath.lastIndexOf("/") + 1));
-                        m_exportImageDialog->showQuestionDialog(savePath, imagePaths[j]);
-                        continue;
+                        m_exportImageDialog->showQuestionDialogs(savePath);
                     }
                 }
-
+                if (!m_exportImageDialog->getIsCover()) {
+                    continue;
+                }
                 bool isSucceed = QFile::copy(imagePaths[j], savePath);
                 emit dApp->signalM->sigExporting(imagePaths[j]);
                 if (!isSucceed) {
