@@ -98,30 +98,33 @@ GraphicsPixmapItem::~GraphicsPixmapItem()
 
 void GraphicsPixmapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
+    //update paint
+    const QTransform ts = painter->transform();
 
-//    const QTransform ts = painter->transform();
-    QGraphicsPixmapItem::paint(painter, option, widget);
-    return;
-//    if (ts.type() == QTransform::TxScale && ts.m11() < 1) {
-//        painter->setRenderHint(QPainter::SmoothPixmapTransform,
-//                               (transformationMode() == Qt::SmoothTransformation));
+    if (ts.type() == QTransform::TxScale && ts.m11() < 1) {
+        QPixmap currentPixmap = pixmap();
+        if (currentPixmap.width() < 10000 && currentPixmap.height() < 10000) {
+            painter->setRenderHint(QPainter::SmoothPixmapTransform,
+                                   (transformationMode() == Qt::SmoothTransformation));
 
-//        QPixmap pixmap;
+            Q_UNUSED(option);
+            Q_UNUSED(widget);
 
-//        if (qIsNull(cachePixmap.first - ts.m11())) {
-//            pixmap = cachePixmap.second;
-//        } else {
-//            pixmap = this->pixmap().transformed(painter->transform(), transformationMode());
-//            cachePixmap = qMakePair(ts.m11(), pixmap);
-//        }
+            QPixmap pixmap;
 
-//        pixmap.setDevicePixelRatio(painter->device()->devicePixelRatioF());
-//        painter->resetTransform();
-//        painter->drawPixmap(offset() + QPointF(ts.dx(), ts.dy()), pixmap);
-//        painter->setTransform(ts);
-//    } else {
-//        QGraphicsPixmapItem::paint(painter, option, widget);
-//    }
+            if (qIsNull(cachePixmap.first - ts.m11())) {
+                pixmap = cachePixmap.second;
+            } else {
+                pixmap = currentPixmap.transformed(painter->transform(), transformationMode());
+                cachePixmap = qMakePair(ts.m11(), pixmap);
+            }
+
+            pixmap.setDevicePixelRatio(painter->device()->devicePixelRatioF());
+            painter->resetTransform();
+            painter->drawPixmap(offset() + QPointF(ts.dx(), ts.dy()), pixmap);
+            painter->setTransform(ts);
+        }
+    } else {
+        QGraphicsPixmapItem::paint(painter, option, widget);
+    }
 }
