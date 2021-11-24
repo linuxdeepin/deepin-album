@@ -167,7 +167,7 @@ public:
                       << "RAF"  << "CR2" << "MEF" << "RAW" << "ORF"
                       << "NEF" ;
 
-        m_canSave << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
+        m_canSave << "BMP" << "JPG" << "JPEG" << "PNG"
                   << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
                   << "SVG" << "TGA" << "XPM" << "ICO" << "J2C"
                   << "J2K" << "JNG" << "JP2" ;
