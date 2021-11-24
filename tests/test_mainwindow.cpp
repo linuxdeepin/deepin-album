@@ -198,6 +198,9 @@ TEST(MainWindow, Picimport)
     ImageEngineApi::instance()->ImportImagesFromFileList({"~/Pictures/2ejqyx.jpg"}, "", allpicview, true);
     ImageEngineApi::instance()->ImportImagesFromFileList({"~/Pictures/2ejqyx.jpg"}, "111", allpicview, true);
     ImageEngineApi::instance()->ImportImagesFromFileList({"~/Pictures/album_ut_mount_point/DCIM/0jll1w.jpg"}, "", allpicview, true);
+    DBImgInfoList dbInfos;
+    dbInfos.push_back(DBImgInfo());
+    dApp->m_imageloader->ImportImageLoader(dbInfos);
 }
 
 TEST(MainWindow, allpicture)
@@ -1439,6 +1442,9 @@ TEST(ImgInfoDialog, DetailInfo)
     TEST_CASE_NAME("load")
     MainWindow *w = dApp->getMainWindow();
     AllPicView *allpicview = w->m_pAllPicView;
+    w->onHideImageView();
+    w->albumBtnClicked();
+    QTest::qWait(500);
     QModelIndex idx;
     for (int i = 0; i < allpicview->m_pThumbnailListView->m_model->rowCount(); i++) {
         QModelIndex index = allpicview->getThumbnailListView()->m_model->index(i, 0);

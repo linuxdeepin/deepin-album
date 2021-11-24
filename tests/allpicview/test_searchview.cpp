@@ -73,4 +73,21 @@ TEST(searchview, search)
     w->showEvent(nullptr);
     SearchView *s = w->m_pSearchView;
     s->onSlideShowBtnClicked();
+
+    w->m_pSearchEdit->setText(".jpg");
+
+    QTestEventList e;
+    e.addKeyClick(Qt::Key_Enter);
+    e.addDelay(500);
+    e.simulate(w);
+
+    s->onOpenImage(1, testPath_Pictures + "2e5y8y.jpg", false);
+    QTest::qWait(500);
+    w->onHideImageView();
+    QTest::qWait(500);
+
+    s->onSlideShow(testPath_Pictures + "2e5y8y.jpg");
+    QTest::qWait(500);
+    w->onHideSlidePanel();
+    QTest::qWait(500);
 }

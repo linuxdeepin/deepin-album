@@ -791,6 +791,13 @@ TEST(AlbumViewList, albumViewList_other6_test)
     TEST_CASE_NAME("albumViewList_other6_test")
     ImgInfoDialog iid("");
     iid.height();
+    iid.setImagePath(testPath_Pictures + "DetailInfo.jpg");
+    iid.show();
+
+    QTestEventList e;
+    e.addKeyClick(Qt::Key_Escape);
+    e.addDelay(200);
+    e.simulate(&iid);
 }
 
 TEST(AlbumViewList, deviceMount)
