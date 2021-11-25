@@ -9,6 +9,7 @@
 #include <DLabel>
 #include <QAbstractButton>
 #include <QMouseEvent>
+#include <QScreen>
 
 FilterWidget::FilterWidget(QWidget *parent): QWidget(parent)
 {
@@ -138,7 +139,17 @@ void ExpansionMenu::onMainButtonClicked()
 {
     qDebug() << __FUNCTION__ << "---" << panel->isHidden();
     panel->isHidden() ? panel->show() : panel->hide();
-    panel->setGeometry(QCursor().pos().x(), QCursor().pos().y() + 15, 0, 0);
+    //不允许弹窗被右侧屏幕遮挡部分
+    QList<QScreen *> screens = QGuiApplication::screens();
+    int width = 0;//所有屏幕整体宽度
+    for (int i = 0; i < screens.size(); i++) {
+        width += screens.at(i)->availableGeometry().width();
+    }
+    if (width - QCursor().pos().x() < 190) {
+        panel->setGeometry(width - 191, QCursor().pos().y() + 15, 0, 0);
+    } else {
+        panel->setGeometry(QCursor().pos().x(), QCursor().pos().y() + 15, 0, 0);
+    }
 }
 
 void ExpansionMenu::addNewButton(ExpansionPanel::FilteData &data)
