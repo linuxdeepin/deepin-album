@@ -167,7 +167,7 @@ public:
                       << "RAF"  << "CR2" << "MEF" << "RAW" << "ORF"
                       << "NEF" << "PEF" << "PXM" ;
 
-        m_canSave << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
+        m_canSave << "BMP" << "JPG" << "JPEG" << "PNG"
                   << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
                   << "SVG" << "TGA" << "XPM" << "ICO" << "J2C"
                   << "J2K" << "JNG" << "JP2" ;
@@ -543,7 +543,7 @@ UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
     // Try to guess the file format from the file extension
     fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
-    if (fif != FIF_UNKNOWN) {
+    if (fif != FIF_UNKNOWN && info.suffix().toUpper() != "PBM") {
         // Check that the dib can be saved in this format
         if (union_image_private.m_canSave.contains(union_image_private.m_freeiamge_formats.key(fif))) {
             return true;
