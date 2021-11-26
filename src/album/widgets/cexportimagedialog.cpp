@@ -363,6 +363,8 @@ void CExportImageDialog::showDirChoseDialog()
         QTimer::singleShot(50, this, [ = ] {
             m_savePathCombox->setCurrentText(fileDir);
         });
+    } else {
+        m_savePathCombox->setCurrentIndex(0);
     }
 }
 
