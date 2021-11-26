@@ -1457,6 +1457,7 @@ void ThumbnailListView::slotSelectCurrentDatePic(bool isSelect, QStandardItem *i
     QItemSelection selected;
     QItemSelection deselected;
     emit this->selectionModel()->selectionChanged(selected, deselected);
+    flushTopTimeLine(8);
 }
 //刷新所有标题中选择按钮的状态
 void ThumbnailListView::slotChangeAllSelectBtnVisible(bool visible)
@@ -1716,10 +1717,7 @@ void ThumbnailListView::updatetimeLimeBtnText()
                 continue;
             }
             if (data.itemType == ItemTypeTimeLineTitle) {
-                if (w == nullptr) { //说明是第一个时间线
-                    // 悬浮时间线标题内的按钮状态同步
-                    emit sigTimeLineDataAndNum("", "", isSelectAll ? QObject::tr("Unselect") : QObject::tr("Select"));
-                } else {
+                if (w != nullptr) {
                     w->onTimeLinePicSelectAll(isSelectAll);
                 }
                 w = static_cast<TimeLineDateWidget *>(this->indexWidget(idx));
@@ -1733,8 +1731,6 @@ void ThumbnailListView::updatetimeLimeBtnText()
         //最后一个时间线的相关逻辑
         if (w) {
             w->onTimeLinePicSelectAll(isSelectAll);
-        } else { //有且只有一个时间线时的逻辑
-            emit sigTimeLineDataAndNum("", "", isSelectAll ? QObject::tr("Unselect") : QObject::tr("Select"));
         }
     }  else if (m_delegatetype == ThumbnailDelegate::AlbumViewImportTimeLineViewType) {
         importTimeLineDateWidget *iw = nullptr;
@@ -1746,10 +1742,7 @@ void ThumbnailListView::updatetimeLimeBtnText()
                 continue;
             }
             if (data.itemType == ItemTypeImportTimeLineTitle) {
-                if (iw == nullptr) { //说明是第一个时间线
-                    // 悬浮时间线标题内的按钮状态同步
-                    emit sigTimeLineDataAndNum("", "", isSelectAll ? QObject::tr("Unselect") : QObject::tr("Select"));
-                } else {
+                if (iw != nullptr) { //说明是第一个时间线
                     iw->onTimeLinePicSelectAll(isSelectAll);
                 }
                 iw = static_cast<importTimeLineDateWidget *>(this->indexWidget(idx));
@@ -1763,10 +1756,10 @@ void ThumbnailListView::updatetimeLimeBtnText()
         //最后一个时间线的相关逻辑
         if (iw) {
             iw->onTimeLinePicSelectAll(isSelectAll);
-        } else { //有且只有一个时间线时的逻辑
-            emit sigTimeLineDataAndNum("", "", isSelectAll ? QObject::tr("Unselect") : QObject::tr("Select"));
         }
     }
+    //刷新顶部栏
+    flushTopTimeLine(8);
 }
 
 void ThumbnailListView::showAppointTypeItem(ItemType type)
