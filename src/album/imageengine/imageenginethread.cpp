@@ -519,11 +519,12 @@ void ImageImportFilesFromMountThread::runDetail()
         QFileInfo fi(strNewPath);
         using namespace utils::image;
         using namespace utils::base;
+        //复制失败的图片不算在成功导入
         if (QFile::copy(strPath, strNewPath)) {
-//            qDebug() << "onCopyPhotoFromPhone()";
+            dbInfos << getDBInfo(strNewPath, utils::base::isVideo(strNewPath));
+        } else {
+            newPathList.removeOne(strNewPath);
         }
-        dbInfos << getDBInfo(strNewPath, utils::base::isVideo(strNewPath));
-
         emit dApp->signalM->progressOfWaitDialog(m_paths.size(), dbInfos.size());
     }
     ImageDataService::instance()->readThumbnailByPaths(newPathList, true);
