@@ -104,6 +104,8 @@ public:
     void updateDeviceLeftList();
     void setCurrentItemType(int type);
     void leftTabClicked();
+    void onAddNewNotifyDir(const QString &dirPath);
+    bool checkIfNotified(const QString &dirPath);
 private:
     void initConnections();
     void initLeftView();

@@ -183,6 +183,11 @@ void ImageEngineApi::slt80ImgInfosReady(QVector<DBImgInfo> ImageDatas)
     emit sigLoadFirstPageThumbnailsToView();
 }
 
+bool ImageEngineApi::ImportImagesFromCustomAutoPaths()
+{
+    return true;
+}
+
 bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect)
 {
     emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));

@@ -1066,6 +1066,16 @@ void AlbumView::leftTabClicked()
     updateRightView();
 }
 
+bool AlbumView::checkIfNotified(const QString &dirPath)
+{
+    return false;
+}
+
+void AlbumView::onAddNewNotifyDir(const QString &dirPath)
+{
+    ;
+}
+
 bool AlbumView::imageGeted(QStringList &filelist, QString path)
 {
     m_phoneNameAndPathlist[path] = filelist;
@@ -1466,7 +1476,7 @@ void AlbumView::getAllDeviceName()
             goto runend1;
         }
         udispname = label;
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";

@@ -482,6 +482,30 @@ bool isVideo(QString path)
     return m_videoFiletypes.contains(fileName);
 }
 
+QString makeVaultLocalPath(const QString &path, const QString &base)
+{
+    QString basePath = base;
+    if (basePath.isEmpty()) {
+        basePath = VAULT_DECRYPT_DIR_NAME;
+    }
+    return VAULT_BASE_PATH + QDir::separator() + basePath + (path.startsWith('/') ? "" : "/") + path;
+}
+
+bool isVaultFile(const QString &path)
+{
+    bool bVaultFile = false;
+    QString rootPath = makeVaultLocalPath("", "");
+    if (rootPath.back() == "/") {
+        rootPath.chop(1);
+    }
+
+    if (path.contains(rootPath) && path.left(6) != "search") {
+        bVaultFile = true;
+    }
+
+    return bVaultFile;
+}
+
 }  // namespace base
 
 }  // namespace utils

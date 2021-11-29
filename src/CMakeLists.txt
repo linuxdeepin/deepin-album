@@ -134,6 +134,7 @@ if(DOTEST)
         "./album/application.cpp"
         "./album/mainwindow.cpp"
         "./album/fileinotify.cpp"
+        "./album/fileinotifygroup.cpp"
         )
 
     add_executable(${PROJECT_NAME_TEST} ${allHeaders} ${AllTestQRC} ${allTestSource} ${allTestSource1})

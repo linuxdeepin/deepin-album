@@ -92,7 +92,7 @@ MainWindow::MainWindow()
     , m_waitlabel(nullptr)
     , m_countLabel(nullptr)
     , m_settings(nullptr)
-    , m_fileInotify(nullptr)
+    , m_fileInotifygroup(new FileInotifyGroup(this))
 {
     this->setObjectName("drawMainWindow");
     initShortcutKey();          //初始化各种快捷键
@@ -400,14 +400,21 @@ void MainWindow::initTitleBar()
     //m_titleSearchWidget->setLayout(pTitleSearchLayout);
 
     // TitleBar Menu
-    m_pTitleBarMenu = new DMenu();
     QAction *pNewAlbum = new QAction(this);
     addAction(pNewAlbum);
     pNewAlbum->setObjectName("New album");
-
     pNewAlbum->setText(tr("New album"));
     pNewAlbum->setShortcut(QKeySequence(CTRLSHIFTN_SHORTCUT));
+
+    QAction *pNewPath = new QAction(this);
+    addAction(pNewPath);
+    pNewPath->setObjectName("Import folders");
+    pNewPath->setText(tr("Import folders"));
+    connect(pNewPath, &QAction::triggered, this, &MainWindow::onNewPathAction);
+
+    m_pTitleBarMenu = new DMenu();
     m_pTitleBarMenu->addAction(pNewAlbum);
+    m_pTitleBarMenu->addAction(pNewPath);
     m_pTitleBarMenu->addSeparator();
 
     titlebar()->addWidget(m_titleBtnWidget, Qt::AlignLeft);
@@ -1085,19 +1092,7 @@ void MainWindow::albumBtnClicked()
 {
     clearFocus();
     if (nullptr == m_pAlbumview) {
-        int index = 0;
-        if (nullptr == m_pTimeLineView) {
-            m_pCenterWidget->removeWidget(m_pTimeLineWidget);
-            index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
-            m_pTimeLineView = new TimeLineView();
-            m_pCenterWidget->insertWidget(index, m_pTimeLineView);
-//            m_pTimeLineView->clearAndStartLayout();
-        }
-        m_pCenterWidget->removeWidget(m_pAlbumWidget);
-        index = m_pCenterWidget->indexOf(m_pTimeLineView) + 1;
-        m_pAlbumview = new AlbumView();
-        connect(m_pAlbumview, &AlbumView::sigSearchEditIsDisplay, this, &MainWindow::onSearchEditIsDisplay);
-        m_pCenterWidget->insertWidget(index, m_pAlbumview);
+        createAlbumView();
     }
     m_pSearchEdit->clearEdit();
     m_SearchKey.clear();
@@ -1184,36 +1179,71 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
     connect(d, &AlbumCreateDialog::albumAdded, this, [ = ]() {
         //double insert problem from here ,first insert at AlbumCreateDialog::createAlbum(albumname)
         if (nullptr == m_pAlbumview) {
-            int index = 0;
-            if (nullptr == m_pTimeLineView) {
-                m_pCenterWidget->removeWidget(m_pTimeLineWidget);
-                index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
-                m_pTimeLineView = new TimeLineView();
-                m_pCenterWidget->insertWidget(index, m_pTimeLineView);
-//                m_pTimeLineView->clearAndStartLayout();
-            }
-            m_pCenterWidget->removeWidget(m_pAlbumWidget);
-            index = m_pCenterWidget->indexOf(m_pTimeLineView) + 1;
-            m_pAlbumview = new AlbumView();
-            connect(m_pAlbumview, &AlbumView::sigSearchEditIsDisplay, this, &MainWindow::onSearchEditIsDisplay);
-            m_pCenterWidget->insertWidget(index, m_pAlbumview);
-            emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
-            m_pAlbumBtn->setChecked(true);
-            m_pSearchEdit->clearEdit();
-            m_SearchKey.clear();
-            m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
-        } else {
-            emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
-            m_pAlbumBtn->setChecked(true);
-            m_pSearchEdit->clearEdit();
-            m_SearchKey.clear();
-            m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
+            createAlbumView();
         }
+        emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
+        m_pAlbumBtn->setChecked(true);
+        m_pSearchEdit->clearEdit();
+        m_SearchKey.clear();
+        m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
         m_backIndex = VIEW_ALBUM;
         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths);
         emit dApp->signalM->insertedIntoAlbum(m_pAlbumview->m_currentAlbum, imgpaths);
         emit dApp->signalM->hideImageView();    //该信号针对查看界面新建相册(快捷键 crtl+n)，正常退出
     });
+}
+
+void MainWindow::onNewPathAction()
+{
+    if (m_pAlbumview == nullptr) {
+        createAlbumView();
+    }
+
+    auto url = QFileDialog::getExistingDirectoryUrl(nullptr, "", QUrl());
+
+    if (url.isEmpty()) {
+        return;
+    }
+
+    if (!url.isLocalFile() || !url.isValid()) { //远程路径、非法路径
+        onNotSupportedNotifyPath();
+        return;
+    }
+
+    auto path = url.toLocalFile();
+    QDir dir(path);
+    if (path.startsWith("/media/") || // U盘
+            utils::base::isVaultFile(path) || //保险箱
+            path == QDir::homePath() || //主文件夹
+            path == "/" || //根目录
+            !dir.exists()) { //目录不存在
+        onNotSupportedNotifyPath();
+        return;
+    }
+
+    if (m_pAlbumview->checkIfNotified(path)) { //已处于监控
+        onNotifyPathIsExists();
+        return;
+    }
+
+    //执行添加
+    m_pAlbumview->onAddNewNotifyDir(path);
+}
+
+void MainWindow::createAlbumView()
+{
+    int index = 0;
+    if (nullptr == m_pTimeLineView) {
+        m_pCenterWidget->removeWidget(m_pTimeLineWidget);
+        index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
+        m_pTimeLineView = new TimeLineView();
+        m_pCenterWidget->insertWidget(index, m_pTimeLineView);
+    }
+    m_pCenterWidget->removeWidget(m_pAlbumWidget);
+    index = m_pCenterWidget->indexOf(m_pTimeLineView) + 1;
+    m_pAlbumview = new AlbumView();
+    connect(m_pAlbumview, &AlbumView::sigSearchEditIsDisplay, this, &MainWindow::onSearchEditIsDisplay);
+    m_pCenterWidget->insertWidget(index, m_pAlbumview);
 }
 
 //搜索框
@@ -1626,6 +1656,13 @@ void MainWindow::showEvent(QShowEvent *event)
         }
         m_isFirstStart = false;
     }, Qt::QueuedConnection);
+
+    //启动路径监控
+    startMonitor({QStandardPaths::standardLocations(QStandardPaths::PicturesLocation), QStandardPaths::standardLocations(QStandardPaths::MoviesLocation)},
+    {{"Camera", "Screen Capture", "Draw"}, {"Camera", "Screen Capture"}});
+
+    //读取并加载自定义的自动导入路径
+    ImageEngineApi::instance()->ImportImagesFromCustomAutoPaths();
 }
 
 void MainWindow::saveWindowState()
@@ -1944,20 +1981,18 @@ QJsonObject MainWindow::createShorcutJson()
     return main_shortcut;
 }
 
-void MainWindow::startMonitor()
+void MainWindow::startMonitor(const QList<QStringList> &stdPaths, const QList<QStringList> &subPath)
 {
-    QStringList paths = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
-    if (paths.size() > 0) {
-        QString path = paths.at(0) + "/album";
-        //添加文件夹是否存在判断，不存在则直接返回不进行监控
-        QDir dir(path);
-        if (!dir.exists()) {
-//            dir.mkdir(path);
-            return;
+    for (int i = 0; i != stdPaths.size(); ++i) {
+        if (stdPaths.at(i).size() > 0) {
+            QString path_root = stdPaths.at(i).at(0);
+            QStringList pic_notify(subPath.at(i));
+
+            for (auto eachPath : pic_notify) {
+                //添加文件夹是否存在判断，不存在则直接返回不进行监控
+                m_fileInotifygroup->startWatch(path_root + "/" + eachPath, eachPath);
+            }
         }
-        m_fileInotify = new FileInotify();
-        m_fileInotify->addWather(path);
-        m_fileInotify->start();
     }
 }
 
@@ -2016,18 +2051,7 @@ void MainWindow::onButtonClicked(int id)
     }
     if (2 == id) {
         if (nullptr == m_pAlbumview) {
-            if (nullptr == m_pTimeLineView) {
-                m_pCenterWidget->removeWidget(m_pTimeLineWidget);
-                index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
-                m_pTimeLineView = new TimeLineView();
-                m_pCenterWidget->insertWidget(index, m_pTimeLineView);
-//                m_pTimeLineView->clearAndStartLayout();
-            }
-            m_pCenterWidget->removeWidget(m_pAlbumWidget);
-            index = m_pCenterWidget->indexOf(m_pTimeLineView) + 1;
-            m_pAlbumview = new AlbumView();
-            connect(m_pAlbumview, &AlbumView::sigSearchEditIsDisplay, this, &MainWindow::onSearchEditIsDisplay);
-            m_pCenterWidget->insertWidget(index, m_pAlbumview);
+            createAlbumView();
         }
         albumBtnClicked();
         // 如果是最近删除或者移动设备,则搜索框不显示
@@ -2264,6 +2288,20 @@ void MainWindow::onAlbExportSuccess()
 {
     QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
     QString str = tr("Export successful");
+    floatMessage(str, icon);
+}
+
+void MainWindow::onNotSupportedNotifyPath()
+{
+    QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
+    QString str = tr("Cannot add this path, please try another one");
+    floatMessage(str, icon);
+}
+
+void MainWindow::onNotifyPathIsExists()
+{
+    QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
+    QString str = tr("The path already exists");
     floatMessage(str, icon);
 }
 

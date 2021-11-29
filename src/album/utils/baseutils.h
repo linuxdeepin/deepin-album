@@ -83,6 +83,9 @@
 #define BUTTON_RECOVERY "Recovery"
 #define SHOW_SHORTCUT_PREVIEW "Show shortcut preview"
 
+#define VAULT_DECRYPT_DIR_NAME          "vault_unlocked"
+#define VAULT_BASE_PATH (QDir::homePath() + QString("/.local/share/applications"))  //! 获取保险箱创建的目录地址
+
 namespace utils {
 namespace common {
 const int TOP_TOOLBAR_THEIGHT = 40;
@@ -263,6 +266,8 @@ QString     audioIndex2str(const int &index);
 bool        isVideo(QString path);
 //字符串自适应长度，多的变省略号
 QString reorganizationStr(const QFont &font, const QString &fullStr, int maxWidth);
+//判断是否保险箱路径
+bool isVaultFile(const QString &path);
 }  // namespace base
 
 }  // namespace utils

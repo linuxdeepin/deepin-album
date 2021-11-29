@@ -28,7 +28,7 @@
 #include "searchview/searchview.h"
 #include "controller/exporter.h"
 #include "widgets/dialogs/imginfodialog.h"
-#include "fileinotify.h"
+#include "fileinotifygroup.h"
 
 #include <QListWidget>
 #include <QListWidgetItem>
@@ -117,7 +117,7 @@ public:
     void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
     QJsonObject createShorcutJson();
     //开始监控
-    void startMonitor();
+    void startMonitor(const QList<QStringList> &stdPaths, const QList<QStringList> &subPath);
 private:
     explicit MainWindow(); //修改为单例后，构造函数也挪走了
     void thumbnailZoomIn();
@@ -174,6 +174,8 @@ public slots:
     void onImgExportSuccess();
     void onAlbExportFailed();
     void onAlbExportSuccess();
+    void onNotifyPathIsExists();
+    void onNotSupportedNotifyPath();
     void onEscShortcutActivated(bool isSwitchFullScreen);
     void onDelShortcutActivated();
     void onKeyF2ShortcutActivated();
@@ -192,6 +194,8 @@ public slots:
     void onCollectButtonClicked();
     void updateCollectButton();
     void onLibDel();
+    void onNewPathAction(); //响应新自定义路径创建
+    void createAlbumView(); //创建相册界面
     //响应公共库添加或新建相册请求
     void onAddToAlbum(bool isNew, const QString &album, const QString &path);
     //响应公共库收藏/取消收藏操作
@@ -255,7 +259,7 @@ private:
     QList<QWidget *> m_AlbumViewTabOrder;
     // isfirst init
     QVector<bool> m_bVector;
-    FileInotify *m_fileInotify;//固定文件夹监控
+    FileInotifyGroup *m_fileInotifygroup;//固定文件夹监控
 
     // 添加图片按钮
     DIconButton         *m_addImageBtn = nullptr;

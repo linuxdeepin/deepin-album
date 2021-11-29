@@ -154,7 +154,8 @@ TEST(MainWindow, Picimport)
     w->getButG();
     w->allPicBtnClicked();
 
-    w->startMonitor();
+    w->startMonitor({QStandardPaths::standardLocations(QStandardPaths::PicturesLocation), QStandardPaths::standardLocations(QStandardPaths::MoviesLocation)},
+    {{"Camera", "Screen Capture", "Draw"}, {"Camera", "Screen Capture"}});
     QTest::qWait(2000);
 
     AllPicView *allpicview = w->m_pAllPicView;

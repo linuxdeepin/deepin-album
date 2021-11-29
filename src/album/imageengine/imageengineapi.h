@@ -51,6 +51,7 @@ public:
     bool getImageData(QString imagepath, DBImgInfo &data);
     bool ImportImagesFromFileList(QStringList files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
     bool ImportImagesFromUrlList(QList<QUrl> files, QString albumname, ImageEngineImportObject *obj, bool bdialogselect = false);
+    bool ImportImagesFromCustomAutoPaths();
     //清理删除时间过长图片
     void cleanUpTrash(const DBImgInfoList &list);
     //过滤不存在图片后重新加载

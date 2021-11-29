@@ -21,23 +21,21 @@
 #ifndef FILEINOTIFY_H
 #define FILEINOTIFY_H
 
-#include <QThread>
 #include <QObject>
-#include <QMutex>
 #include <QMap>
 #include <QTimer>
+#include <QFileSystemWatcher>
 
-class FileInotify : public QThread
+class FileInotify : public QObject
 {
     Q_OBJECT
 public:
     explicit FileInotify(QObject *parent = nullptr);
     ~FileInotify() override;
 
-    bool isVaild();
     //添加和删除监控
-    void addWather(const QString &path);
-//    void removeWatcher(const QString &path);
+    void addWather(const QString &path, const QString &album);
+    //void removeWatcher(const QString &path); //预留，暂未使用
 
     void clear();
     //获取监控目录所有照片
@@ -51,20 +49,15 @@ public slots:
     //发送插入
     void onNeedSendPictures();
 
-protected:
-    void run() override;
-
 private:
-    int  m_handleId = -1;
-    int m_wd = -1;
     bool m_running = false;
-    QMutex m_mutex;
-    QMap<QString, int> watchedDirId;
     QStringList m_allPic;       //目前所有照片
     QStringList m_newFile;      //当前新添加的
     QString m_currentDir;       //给定的当前监控路径
+    QString m_currentAlbum;     //给定当前的相册
     QStringList  m_Supported;   //支持的格式
     QTimer *m_timer;
+    QFileSystemWatcher m_watcher; //实际执行监控的类
 };
 
 #endif // FILEINOTIFY_H
