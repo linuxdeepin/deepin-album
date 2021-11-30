@@ -72,12 +72,14 @@ LeftListView::LeftListView(QWidget *parent)
 
 void LeftListView::initConnections()
 {
-    connect(m_pPhotoLibListView, &DListWidget::pressed, this, &LeftListView::onPhotoLibListViewPressed);
-    connect(m_pCustomizeListView, &DListWidget::pressed, this, &LeftListView::onCustomListViewPressed);
-    connect(m_pMountListWidget, &DListWidget::pressed, this, &LeftListView::onMountListViewPressed);
-    connect(m_pPhotoLibListView, &DListWidget::currentItemChanged, this, &LeftListView::onPhotoLibListViewCurrentItemChanged);
-    connect(m_pCustomizeListView, &DListWidget::currentItemChanged, this, &LeftListView::onCustomizeListViewCurrentItemChanged);
-    connect(m_pMountListWidget, &DListWidget::currentItemChanged, this, &LeftListView::onMountListWidgetCurrentItemChanged);
+    connect(m_pPhotoLibListView, &LeftListWidget::pressed, this, &LeftListView::onPhotoLibListViewPressed);
+    connect(m_pCustomizeListView, &LeftListWidget::pressed, this, &LeftListView::onCustomListViewPressed);
+    connect(m_pMountListWidget, &LeftListWidget::pressed, this, &LeftListView::onMountListViewPressed);
+    connect(m_pPhotoLibListView, &LeftListWidget::sigMouseReleaseEvent, this, &LeftListView::onPhotoLibListViewPressed);
+    connect(m_pCustomizeListView, &LeftListWidget::sigMouseReleaseEvent, this, &LeftListView::onCustomListViewPressed);
+    connect(m_pMountListWidget, &LeftListWidget::sigMouseReleaseEvent, this, &LeftListView::onMountListViewPressed);
+
+
     connect(m_pCustomizeListView, &QListView::customContextMenuRequested, this, &LeftListView::showMenu);
     connect(m_pMenu, &DMenu::triggered, this, &LeftListView::onMenuClicked);
     connect(m_pAddListBtn, &DPushButton::clicked, this, &LeftListView::onAddListBtnClicked);
@@ -85,13 +87,14 @@ void LeftListView::initConnections()
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &LeftListView::onGuiApplicationHelperThemeTypeChanged);
     connect(m_pMountListWidget, &LeftListWidget::sigMousePressIsNoValid, this, &LeftListView::onMousePressIsNoValid);
 
-
     connect(m_pPhotoLibListView, &LeftListWidget::sigMouseMoveEvent, this, &LeftListView::onMouseMove);
     connect(m_pCustomizeListView, &LeftListWidget::sigMouseMoveEvent, this, &LeftListView::onMouseMove);
     connect(m_pMountListWidget, &LeftListWidget::sigMouseMoveEvent, this, &LeftListView::onMouseMove);
-    connect(m_pPhotoLibListView, &LeftListWidget::sigMouseReleaseEvent, this, &LeftListView::onPhotoLibListViewPressed);
-    connect(m_pCustomizeListView, &LeftListWidget::sigMouseReleaseEvent, this, &LeftListView::onCustomListViewPressed);
-    connect(m_pMountListWidget, &LeftListWidget::sigMouseReleaseEvent, this, &LeftListView::onMountListViewPressed);
+
+
+    connect(m_pPhotoLibListView, &DListWidget::currentItemChanged, this, &LeftListView::onPhotoLibListViewCurrentItemChanged);
+    connect(m_pCustomizeListView, &DListWidget::currentItemChanged, this, &LeftListView::onCustomizeListViewCurrentItemChanged);
+    connect(m_pMountListWidget, &DListWidget::currentItemChanged, this, &LeftListView::onMountListWidgetCurrentItemChanged);
 }
 
 void LeftListView::initUI()
@@ -441,7 +444,7 @@ void LeftListView::onPhotoLibListViewPressed(const QModelIndex &index)
     if (pitem) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
         auto list = m_pPhotoLibListView->selectedItems();  //当前选中项
-        if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier && list.isEmpty()) { //ctrl取消选中
+        if (list.isEmpty()) { //ctrl取消选中
             item->oriAlbumStatus();
         } else {
             item->newAlbumStatus(); //选中状态
@@ -478,7 +481,7 @@ void LeftListView::onCustomListViewPressed(const QModelIndex &index)
     if (plitem) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
         auto list = m_pCustomizeListView->selectedItems(); //当前选中项
-        if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier && list.isEmpty()) { //ctrl取消选中
+        if (list.isEmpty()) { //ctrl取消选中
             item->oriAlbumStatus();
         } else {
             item->newAlbumStatus();
@@ -507,7 +510,7 @@ void LeftListView::onMountListViewPressed(const QModelIndex &index)
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListWidget->itemWidget(m_pMountListWidget->currentItem()));
         if (item) {
             auto list = m_pMountListWidget->selectedItems(); //当前选中项
-            if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier) { //ctrl取消选中
+            if (list.isEmpty()) { //ctrl取消选中
                 item->oriAlbumStatus();
             } else {
                 item->newAlbumStatus();
@@ -530,7 +533,11 @@ void LeftListView::onPhotoLibListViewCurrentItemChanged()
     updateAlbumItemsColor();
     if (m_pPhotoLibListView->currentItem()) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
-        item->newAlbumStatus();
+        if (!m_pPhotoLibListView->selectedItems().isEmpty()) {
+            item->newAlbumStatus();
+        } else {
+            item->oriAlbumStatus();
+        }
         if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr) {
             m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
             m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
@@ -552,7 +559,11 @@ void LeftListView::onCustomizeListViewCurrentItemChanged()
         updateAlbumItemsColor();
         if (m_pCustomizeListView->currentItem()) {
             AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
-            item->newAlbumStatus();
+            if (!m_pCustomizeListView->selectedItems().isEmpty()) {
+                item->newAlbumStatus();
+            } else {
+                item->oriAlbumStatus();
+            }
             m_ItemCurrentName = item->m_albumNameStr;
         }
         m_ItemCurrentType = COMMON_STR_CUSTOM;
@@ -567,10 +578,12 @@ void LeftListView::onMountListWidgetCurrentItemChanged()
         updateAlbumItemsColor();
         if (m_pMountListWidget->currentItem()) {
             AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListWidget->itemWidget(m_pMountListWidget->currentItem()));
-            if (nullptr != item) {
+            if (!m_pMountListWidget->selectedItems().isEmpty()) {
                 item->newAlbumStatus();
-                m_ItemCurrentName = item->m_albumNameStr;
+            } else {
+                item->oriAlbumStatus();
             }
+            m_ItemCurrentName = item->m_albumNameStr;
         }
         m_ItemCurrentType = ALBUM_PATHTYPE_BY_PHONE;
     }
@@ -583,30 +596,29 @@ void LeftListView::onAddListBtnClicked()
 
 void LeftListView::onApplicationHelperThemeTypeChanged()
 {
-    if (COMMON_STR_RECENT_IMPORTED == m_ItemCurrentType) {
+    if (COMMON_STR_RECENT_IMPORTED == m_ItemCurrentType || COMMON_STR_TRASH == m_ItemCurrentType || COMMON_STR_FAVORITES == m_ItemCurrentType) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
-        item->newAlbumStatus();
-        item->oriAlbumStatus();
-    }
-    if (COMMON_STR_TRASH == m_ItemCurrentType) {
-        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
-        item->newAlbumStatus();
-        item->oriAlbumStatus();
-    }
-    if (COMMON_STR_FAVORITES == m_ItemCurrentType) {
-        AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
-        item->newAlbumStatus();
-        item->oriAlbumStatus();
+        if (item != nullptr && !m_pPhotoLibListView->selectedItems().isEmpty()) {
+            item->newAlbumStatus();
+        } else {
+            item->oriAlbumStatus();
+        }
     }
     if (COMMON_STR_CUSTOM == m_ItemCurrentType) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
-        item->newAlbumStatus();
-        item->oriAlbumStatus();
+        if (!m_pCustomizeListView->selectedItems().isEmpty()) {
+            item->newAlbumStatus();
+        } else {
+            item->oriAlbumStatus();
+        }
     }
     if (ALBUM_PATHTYPE_BY_PHONE == m_ItemCurrentType) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListWidget->itemWidget(m_pMountListWidget->currentItem()));
-        item->newAlbumStatus();
-        item->oriAlbumStatus();
+        if (!m_pMountListWidget->selectedItems().isEmpty()) {
+            item->newAlbumStatus();
+        } else {
+            item->oriAlbumStatus();
+        }
     }
 }
 
