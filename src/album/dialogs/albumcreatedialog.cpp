@@ -141,36 +141,14 @@ void AlbumCreateDialog::initConnection()
     connect(this, &AlbumCreateDialog::closed, this, &AlbumCreateDialog::onClosed);
 }
 
-/**
- * @brief AlbumCreateDialog::getNewAlbumName
- * @param[in] baseName
- * @param[in] isWithOutSelf
- * @param[in] beforeName
- * @author DJH
- * @date 2020/6/1
- * @return const QString
- * 根据已有相册名，获取对于数据库中不重复的新相册名，当isWithOutSefl为true的时候，查询不会包含自己，用于替换型查询
- */
-const QString AlbumCreateDialog::getNewAlbumName(const QString &baseName, bool isWithOutSelf, const QString &beforeName)
+//需求变更：允许相册重名，空字符串返回Unnamed，其余字符串返回本名
+const QString AlbumCreateDialog::getNewAlbumName(const QString &baseName)
 {
-    QString nan;
     QString albumName;
-    int num = 1;
     if (baseName.isEmpty()) {
-        nan = tr("Unnamed");
-        albumName = nan;
+        albumName = tr("Unnamed");
     } else {
-        nan = baseName;
-        albumName = nan + QString::number(num);
-    }
-    QStringList albums = DBManager::instance()->getAllAlbumNames();
-    if (isWithOutSelf) {
-        albums.removeOne(beforeName);
-    }
-
-    while (albums.contains(albumName)) {
-        albumName = nan + QString::number(num);
-        num++;
+        albumName = baseName;
     }
     return static_cast<const QString>(albumName);
 }
@@ -187,17 +165,17 @@ const QString AlbumCreateDialog::getCreateAlbumName() const
     return m_createAlbumName;
 }
 
+int AlbumCreateDialog::getCreateUID() const
+{
+    return m_createUID;
+}
+
 void AlbumCreateDialog::createAlbum(const QString &newName)
 {
-    if (!DBManager::instance()->isAlbumExistInDB(newName)) {
-        m_createAlbumName = newName;
-        DBManager::instance()->insertIntoAlbum(newName, QStringList(" "));
-    } else {
-        m_createAlbumName = getNewAlbumName(newName);
-        DBManager::instance()->insertIntoAlbum(m_createAlbumName, QStringList(" "));
-    }
+    m_createAlbumName = getNewAlbumName(newName);
+    m_createUID = DBManager::instance()->createAlbum(m_createAlbumName, QStringList(" "));
 
-    emit albumAdded();
+    emit albumAdded(m_createUID);
 }
 
 void AlbumCreateDialog::onTextEdited(const QString &)

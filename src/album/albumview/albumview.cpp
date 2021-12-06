@@ -115,7 +115,7 @@ using namespace utils::common;
 Q_DECLARE_METATYPE(QExplicitlySharedDataPointer<DGioMount>)
 
 AlbumView::AlbumView()
-    : m_iAlubmPicsNum(0), m_currentAlbum(COMMON_STR_RECENT_IMPORTED)
+    : m_iAlubmPicsNum(0), m_currentAlbum(COMMON_STR_RECENT_IMPORTED), m_currentUID(-1)
     , m_currentType(COMMON_STR_RECENT_IMPORTED), m_selPicNum(0), m_itemClicked(false)
     , m_pRightStackWidget(nullptr), m_pLeftListView(nullptr), m_pStatusBar(nullptr)
     , m_pRightWidget(nullptr), m_pRightPhoneThumbnailList(nullptr), m_pwidget(nullptr)
@@ -353,18 +353,16 @@ void AlbumView::initLeftView()
 #endif
 }
 
-void AlbumView::onCreateNewAlbumFromDialog(const QString &newalbumname)
+void AlbumView::onCreateNewAlbumFromDialog(const QString &newalbumname, int UID)
 {
     int index = m_pLeftListView->m_pCustomizeListView->count();
     QString albumName = newalbumname;
-    QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     bool isExsit = false;
     for (int i = 0; i < m_pLeftListView->m_pCustomizeListView->count(); i++) {
         QListWidgetItem *item = m_pLeftListView->m_pCustomizeListView->item(i);
         AlbumLeftTabItem *pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pCustomizeListView->itemWidget(item));
         if (pTabItem) {
-            QString str = pTabItem->m_albumNameStr;
-            if (str == albumName) {
+            if (UID == pTabItem->m_UID) {
                 isExsit = true;
                 m_pLeftListView->m_pCustomizeListView->setCurrentRow(i);
                 break;
@@ -376,7 +374,7 @@ void AlbumView::onCreateNewAlbumFromDialog(const QString &newalbumname)
         QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftListView->m_pCustomizeListView, ablumType);//hj add data to listwidgetitem to Distinguish item's type
         m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
         pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
-        AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName, COMMON_STR_CREATEALBUM);
+        AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName, UID, COMMON_STR_CREATEALBUM);
         m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
         m_pLeftListView->m_pCustomizeListView->setCurrentRow(index);
     }
@@ -387,13 +385,13 @@ void AlbumView::onCreateNewAlbumFromDialog(const QString &newalbumname)
     emit m_pLeftListView->m_pCustomizeListView->pressed(index2);
 }
 
-void AlbumView::onCreateNewAlbumFrom(const QString &albumname)
+void AlbumView::onCreateNewAlbumFrom(const QString &albumname, int UID)
 {
     int index = m_pLeftListView->m_pCustomizeListView->count();
     QListWidgetItem *pListWidgetItem = new QListWidgetItem();
     pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
     QString albumName = albumname;
-    AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName);
+    AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName, UID);
     m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
     m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     m_pLeftListView->onUpdateLeftListview();
@@ -877,13 +875,11 @@ void AlbumView::updateRightView()
     updatePicNum();
 }
 
-void AlbumView::updateAlbumView(const QString &album)
+void AlbumView::updateAlbumView(int UID)
 {
-    if (m_currentType == album) {
+    if (UID == DBManager::SpUID::u_Favorite) {
         updateRightMyFavoriteView();
-    }
-    //更新我的收藏时不刷新自定义相册
-    if (m_currentType == COMMON_STR_CUSTOM && album != COMMON_STR_FAVORITES) {
+    } else {
         updateRightCustomAlbumView();
     }
 }
@@ -927,7 +923,7 @@ void AlbumView::updateRightMyFavoriteView()
 {
     using namespace utils::image;
     DBImgInfoList infos;
-    infos = DBManager::instance()->getInfosByAlbum(m_currentAlbum, AlbumDBType::Favourite);
+    infos = DBManager::instance()->getInfosByAlbum(m_currentUID, AlbumDBType::Favourite);
     m_curThumbnaiItemList_info << infos;
     m_favoriteThumbnailList->clearAll();
     //插入上方空白项
@@ -982,7 +978,7 @@ void AlbumView::updateRightCustomAlbumView()
     m_curThumbnaiItemList_info.clear();
     using namespace utils::image;
     DBImgInfoList infos;
-    infos = DBManager::instance()->getInfosByAlbum(m_currentAlbum);
+    infos = DBManager::instance()->getInfosByAlbum(m_currentUID);
     //先清除所有
     m_customThumbnailList->clearAll();
     //添加上方空白栏
@@ -1208,7 +1204,7 @@ void AlbumView::dropEvent(QDropEvent *event)
     if (urls.isEmpty()) {
         return;
     }
-    ImageEngineApi::instance()->ImportImagesFromUrlList(urls, m_currentAlbum, this);
+    ImageEngineApi::instance()->ImportImagesFromUrlList(urls, m_currentAlbum, m_currentUID, this);
     event->accept();
 }
 
@@ -1260,20 +1256,20 @@ void AlbumView::onKeyDelete()
         paths = m_favoriteThumbnailList->selectedPaths();
         if (0 < paths.length()) {
             m_favoriteThumbnailList->clearSelection();
-            DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
+            DBManager::instance()->removeFromAlbum(DBManager::SpUID::u_Favorite, paths, AlbumDBType::Favourite);
         }
     } else if (COMMON_STR_CUSTOM == m_currentType) {
         paths = m_customThumbnailList->selectedPaths();
         // 如果没有选中的照片,或相册中的照片数为0,则删除相册
-        if (0 == paths.length() || 0 == DBManager::instance()->getItemsCountByAlbum(m_currentAlbum, ItemTypeNull)) {
+        if (0 == paths.length() || 0 == DBManager::instance()->getItemsCountByAlbum(m_currentUID, ItemTypeNull)) {
             QListWidgetItem *item = m_pLeftListView->m_pCustomizeListView->currentItem();
             AlbumLeftTabItem *pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pCustomizeListView->itemWidget(item));
             m_deleteDialog = new AlbumDeleteDialog;
             connect(m_deleteDialog, &AlbumDeleteDialog::deleteAlbum, this, [ = ]() {
                 QString str = pTabItem->m_albumNameStr;
-                QStringList album_paths = DBManager::instance()->getPathsByAlbum(pTabItem->m_albumNameStr);
+                QStringList album_paths = DBManager::instance()->getPathsByAlbum(pTabItem->m_UID);
                 ImageEngineApi::instance()->moveImagesToTrash(album_paths);
-                DBManager::instance()->removeAlbum(pTabItem->m_albumNameStr);
+                DBManager::instance()->removeAlbum(pTabItem->m_UID);
 
                 if (1 < m_pLeftListView->m_pCustomizeListView->count()) {
                     delete  item;
@@ -1523,8 +1519,8 @@ void AlbumView::importComboBoxChange(QString strText)
         qDebug() << "xxxxxxxxxx" << window()->x();
         dialog->move(window()->x() + (window()->width() - dialog->width()) / 2, window()->y() + (window()->height() - dialog->height()) / 2);
         connect(dialog, &AlbumCreateDialog::albumAdded, this, [ = ] {
-            DBManager::instance()->insertIntoAlbum(dialog->getCreateAlbumName(), QStringList(" "));
-            onCreateNewAlbumFrom(dialog->getCreateAlbumName());
+            DBManager::instance()->insertIntoAlbum(dialog->getCreateUID(), QStringList(" "));
+            onCreateNewAlbumFrom(dialog->getCreateAlbumName(), dialog->getCreateUID());
             updateImportComboBox();
             m_importByPhoneComboBox->setCurrentIndex(m_importByPhoneComboBox->count() - 1);
         });
@@ -1579,9 +1575,9 @@ void AlbumView::initExternalDevice()
             AlbumLeftTabItem *pAlbumLeftTabItem;
 
             if (strPath.contains("/media/")) {
-                pAlbumLeftTabItem = new AlbumLeftTabItem(rename, ALBUM_PATHTYPE_BY_U);
+                pAlbumLeftTabItem = new AlbumLeftTabItem(rename, -1, ALBUM_PATHTYPE_BY_U);
             } else {
-                pAlbumLeftTabItem = new AlbumLeftTabItem(rename, ALBUM_PATHTYPE_BY_PHONE);
+                pAlbumLeftTabItem = new AlbumLeftTabItem(rename, -1, ALBUM_PATHTYPE_BY_PHONE);
             }
 
             pAlbumLeftTabItem->setExternalDevicesMountPath(strPath);
@@ -1623,9 +1619,9 @@ void AlbumView::updateExternalDevice(QExplicitlySharedDataPointer<DGioMount> mou
         pListWidgetItem->setData(Qt::UserRole + 2, value);
     }
     if (strPath.contains("/media/")) {
-        pAlbumLeftTabItem = new AlbumLeftTabItem(rename, ALBUM_PATHTYPE_BY_U);
+        pAlbumLeftTabItem = new AlbumLeftTabItem(rename, -1, ALBUM_PATHTYPE_BY_U);
     } else {
-        pAlbumLeftTabItem = new AlbumLeftTabItem(rename, ALBUM_PATHTYPE_BY_PHONE);
+        pAlbumLeftTabItem = new AlbumLeftTabItem(rename, -1, ALBUM_PATHTYPE_BY_PHONE);
     }
     pAlbumLeftTabItem->setExternalDevicesMountPath(strPath);
     pAlbumLeftTabItem->oriAlbumStatus();
@@ -1665,7 +1661,7 @@ void AlbumView::SearchReturnUpdate()
             m_trashBatchOperateWidget->setVisible(infos.size() > 0);
         } else if (COMMON_STR_FAVORITES == m_currentAlbum) {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
-            DBImgInfoList infos = DBManager::instance()->getInfosByAlbum(m_currentAlbum, AlbumDBType::Favourite);
+            DBImgInfoList infos = DBManager::instance()->getInfosByAlbum(m_currentUID, AlbumDBType::Favourite);
             //收藏内没有图片，隐藏批量处理按钮
             m_FavoriteTitleWidget->setVisible(infos.size() > 0);
         } else if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum) {
@@ -1714,9 +1710,9 @@ void AlbumView::updateImportComboBox()
     m_importByPhoneComboBox->clear();
     m_importByPhoneComboBox->addItem(tr("Gallery"));
     m_importByPhoneComboBox->addItem(tr("New album"));
-    QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
+    auto allAlbumNames = DBManager::instance()->getAllAlbumNames();
     for (auto albumName : allAlbumNames) {
-        m_importByPhoneComboBox->addItem(albumName);
+        m_importByPhoneComboBox->addItem(albumName.second);
     }
     m_importByPhoneComboBox->setCurrentText(tr("Gallery"));     //默认选中
 }
@@ -1892,7 +1888,7 @@ void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
     }
     qDebug() << "dropItemPaths: " << dropItemPaths;
     //向其他相册拖拽，动作添加
-    DBManager::instance()->insertIntoAlbum(item->m_albumNameStr, dropItemPaths);
+    DBManager::instance()->insertIntoAlbum(item->m_UID, dropItemPaths);
     //LMH0509,为了解决24887 【相册】【5.6.9.13】拖动已导入相册中的图片到新建相册，相册崩溃
     QModelIndex index;
     emit m_pLeftListView->m_pCustomizeListView->pressed(index);
@@ -1998,10 +1994,10 @@ void AlbumView::onWaitDialogIgnore()
     this->setEnabled(true);
 }
 
-void AlbumView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName)
+void AlbumView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, int UID)
 {
     Q_UNUSED(importPaths)
-    if (m_currentAlbum == albumName && dApp->getMainWindow()->getCurrentViewType() == 2) {
+    if (m_currentUID == UID && dApp->getMainWindow()->getCurrentViewType() == 2) {
         m_customThumbnailList->selectDuplicatePhotos(duplicatePaths);
     }
 }
@@ -2016,11 +2012,11 @@ void AlbumView::onSelectAll()
     updatePicNum();
 }
 
-void AlbumView::onInsertedIntoAlbum(const QString &albumname, QStringList pathlist)
+void AlbumView::onInsertedIntoAlbum(int UID, QStringList pathlist)
 {
-    qDebug() << "添加到目的相册：" << albumname;
+    qDebug() << "添加到目的相册：" << UID;
     Q_UNUSED(pathlist);
-    if (m_currentAlbum != albumname) {
+    if (m_currentUID != UID) {
         return;
     }
     if (m_currentType == COMMON_STR_CUSTOM) //如果需要更新的为当前界面

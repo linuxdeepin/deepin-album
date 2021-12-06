@@ -117,7 +117,7 @@ public:
     void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
     QJsonObject createShorcutJson();
     //开始监控
-    void startMonitor(const QList<QStringList> &stdPaths, const QList<QStringList> &subPath);
+    void startMonitor(const QStringList &paths, const QStringList &albumNames, const QList<int> UIDs);
 private:
     explicit MainWindow(); //修改为单例后，构造函数也挪走了
     void thumbnailZoomIn();
@@ -163,7 +163,7 @@ public slots:
     void onAlbDelToast(QString str1);
     void onAddDuplicatePhotos();
     //成功与已存在数量
-    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
+    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, int UID);
     void onAddToAlbToast(QString album);
     void onImportSuccess();
     void onSearchEditClear();
@@ -197,13 +197,13 @@ public slots:
     void onNewPathAction(); //响应新自定义路径创建
     void createAlbumView(); //创建相册界面
     //响应公共库添加或新建相册请求
-    void onAddToAlbum(bool isNew, const QString &album, const QString &path);
+    void onAddToAlbum(bool isNew, int UID, const QString &album, const QString &path);
     //响应公共库收藏/取消收藏操作
     void onAddOrRemoveToFav(const QString &path, bool isAdd);
     //响应公共库导出操作
     void onExport(const QString &path);
     //响应公共库：从相册中移除操作
-    void onRemoveFromCustom(const QString &path, const QString &album);
+    void onRemoveFromCustom(const QString &path, int UID);
     //响应公共库：旋转请求
     void onRotatePic(const QString &path);
 

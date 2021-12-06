@@ -73,7 +73,7 @@ struct DBImgInfo {
     QDateTime time;         // 图片创建时间
     QDateTime changeTime;   // 文件修改时间
     QDateTime importTime;   // 导入时间 Or 删除时间
-    QString albumname;      // 图片所属相册名，以","分隔
+    QString albumUID;      // 图片所属相册UID，以","分隔
     QString albumSize;      //原图片分辨率
     QString videoDuration = "00:00";  //视频时长
     ItemType itemType = ItemTypePic;//类型，空白，图片，视频
@@ -104,7 +104,7 @@ struct DBImgInfo {
             << " Time:" << info.time
             << " ChangeTime:" << info.changeTime
             << " ImportTime:" << info.importTime
-            << " AlbumName:" << info.albumname
+            << " UID:" << info.albumUID
             << " AlbumSize:" << info.albumSize
             << "]";
         return dbg;

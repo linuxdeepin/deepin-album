@@ -94,7 +94,7 @@ private slots:
      * 调整已导入界面的整体大小
      */
     void updateSize();
-    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
+    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, int UID);
     void onSuspensionChoseBtnClicked();
     //进入批量状态
     void slotBatchSelectChanged(bool isBatchSelect);

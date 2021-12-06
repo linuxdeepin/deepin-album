@@ -33,7 +33,7 @@ public:
     ~FileInotifyGroup() = default;
 
     //添加：path下的改动会实时同步到对应的album中
-    void startWatch(const QString &path, const QString &album);
+    void startWatch(const QString &path, const QString &album, int UID);
 };
 
 #endif // FILEINOTIFYGROUP_H

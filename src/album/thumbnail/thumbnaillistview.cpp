@@ -681,7 +681,7 @@ void ThumbnailListView::updateMenuContents()
 #ifndef tablet_PC
             m_MenuActionMap.value(tr("Print"))->setVisible(false);
 #endif
-            if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0], AlbumDBType::Favourite)) {
+            if (DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, paths[0], AlbumDBType::Favourite)) {
                 m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
                 m_MenuActionMap.value(tr("Unfavorite"))->setEnabled(false);
             } else {
@@ -729,7 +729,7 @@ void ThumbnailListView::updateMenuContents()
     }
     //非最近删除的单选
     if (1 == paths.length() && COMMON_STR_TRASH != m_imageType) {
-        if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, paths[0], AlbumDBType::Favourite)) {
+        if (DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, paths[0], AlbumDBType::Favourite)) {
             m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
         } else {
             m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
@@ -889,32 +889,33 @@ void ThumbnailListView::initMenuAction()
 DMenu *ThumbnailListView::createAlbumMenu()
 {
     DMenu *am = new DMenu(tr("Add to album"));
-    QStringList albums = DBManager::instance()->getAllAlbumNames();
+    auto albums = DBManager::instance()->getAllAlbumNames();
     QAction *ac1 = new QAction(am);
     ac1->setProperty("MenuID", IdAddToAlbum);
     ac1->setText(tr("New album"));
-    ac1->setData("Add to new album");
+    ac1->setData(-1);
     am->addAction(ac1);
     am->addSeparator();
     QModelIndexList indexList = selectionModel()->selectedIndexes();
-    QStringList albumNames;
+    QList<int> albumNames;
     //选中的全部路径
     QStringList paths = this->selectedPaths();
 
-    for (QString album : albums) {
-        if (DBManager::instance()->isAllImgExistInAlbum(album, paths, AlbumDBType::Custom)) {
-            albumNames.append(album);
+    //注意：album.first是UID，album.second是album name
+    for (const auto &album : albums) {
+        if (DBManager::instance()->isAllImgExistInAlbum(album.first, paths, AlbumDBType::Custom)) {
+            albumNames.append(album.first);
         }
     }
 
-    for (QString album : albums) {
+    for (const auto &album : albums) {
         QAction *ac = new QAction(am);
         ac->setProperty("MenuID", IdAddToAlbum);
         ac->setText(
-            fontMetrics().elidedText(QString(album).replace("&", "&&"), Qt::ElideMiddle, 200));
-        ac->setData(album);
+            fontMetrics().elidedText(QString(album.second).replace("&", "&&"), Qt::ElideMiddle, 200));
+        ac->setData(album.first);
         am->addAction(ac);
-        if (albumNames.contains(album)) {
+        if (albumNames.contains(album.first)) {
             ac->setEnabled(false);
         }
     }
@@ -996,17 +997,18 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         emit sigSlideShow(path);
         break;
     case IdAddToAlbum: {
-        const QString album = action->data().toString();
-        if (album != "Add to new album") {
+        int UID = action->data().toInt();
+        auto album = DBManager::instance()->getAlbumNameFromUID(UID);
+        if (UID != -1) {
             if (1 == paths.count()) {
-                if (!DBManager::instance()->isImgExistInAlbum(album, paths[0])) {
-                    emit dApp->signalM->sigAddToAlbToast(album);
+                if (!DBManager::instance()->isImgExistInAlbum(UID, paths[0])) {
+                    emit dApp->signalM->sigAddToAlbToast(album);//TODO：根据UID获取相册名
                 }
             } else {
                 emit dApp->signalM->sigAddToAlbToast(album);
             }
-            DBManager::instance()->insertIntoAlbum(album, paths);
-            emit dApp->signalM->insertedIntoAlbum(album, paths);
+            DBManager::instance()->insertIntoAlbum(UID, paths);
+            emit dApp->signalM->insertedIntoAlbum(UID, paths);
         } else {
             emit dApp->signalM->createAlbum(paths);
         }
@@ -1023,16 +1025,17 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         m_batchOperateWidget->sltCollectSelect(true); //参数未使用，true false随便传
         break;
     case IdRemoveFromFavorites:
-        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
+        DBManager::instance()->removeFromAlbum(DBManager::SpUID::u_Favorite, paths, AlbumDBType::Favourite);
         if (m_batchOperateWidget) {
             m_batchOperateWidget->refreshCollectBtn();
         }
         break;
     case IdRemoveFromAlbum: {
-        if (IMAGE_DEFAULTTYPE != m_imageType && COMMON_STR_VIEW_TIMELINE != m_imageType &&
+        //TODO：暂时不知道咋实现
+        /*if (IMAGE_DEFAULTTYPE != m_imageType && COMMON_STR_VIEW_TIMELINE != m_imageType &&
                 COMMON_STR_RECENT_IMPORTED != m_imageType && COMMON_STR_TRASH != m_imageType) {
             DBManager::instance()->removeFromAlbum(m_imageType, paths);
-        }
+        }*/
     }
     break;
     case IdRotateClockwise: {
@@ -1122,7 +1125,7 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
     DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
     str << info.filePath;
     //通知其它界面更新取消收藏
-    DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, str, AlbumDBType::Favourite);
+    DBManager::instance()->removeFromAlbum(DBManager::SpUID::u_Favorite, str, AlbumDBType::Favourite);
 }
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)

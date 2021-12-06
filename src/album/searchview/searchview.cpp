@@ -178,9 +178,10 @@ void SearchView::initMainStackWidget()
     layout->addWidget(m_stackWidget);
 }
 
-void SearchView::improtSearchResultsIntoThumbnailView(QString s, const QString &album)
+void SearchView::improtSearchResultsIntoThumbnailView(QString s, const QString &album, int UID)
 {
     m_albumName = album;
+    m_UID = UID;
     using namespace utils::image;
     m_keywords = s;
     QList<DBImgInfo> thumbnaiItemList;
@@ -192,7 +193,7 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, const QString &
     } else if (COMMON_STR_TRASH == m_albumName) {
         infos = DBManager::instance()->getTrashInfosForKeyword(s);
     } else {
-        infos = DBManager::instance()->getInfosForKeyword(m_albumName, s);
+        infos = DBManager::instance()->getInfosForKeyword(m_UID, s);
     }
 
     if (0 < infos.length()) {
@@ -258,7 +259,7 @@ void SearchView::onSlideShowBtnClicked()
     } else if (COMMON_STR_TRASH == m_albumName) {
         imagelist = DBManager::instance()->getTrashInfosForKeyword(m_keywords);
     } else {
-        imagelist = DBManager::instance()->getInfosForKeyword(m_albumName, m_keywords);
+        imagelist = DBManager::instance()->getInfosForKeyword(m_UID, m_keywords);//TODO：指定UID下搜索
     }
 
     QStringList paths;
@@ -327,7 +328,7 @@ void SearchView::onSlideShow(const QString &path)
 
 void SearchView::updateSearchResultsIntoThumbnailView()
 {
-    improtSearchResultsIntoThumbnailView(m_keywords, m_albumName);
+    improtSearchResultsIntoThumbnailView(m_keywords, m_albumName, m_UID);
 }
 
 void SearchView::changeTheme()

@@ -82,12 +82,13 @@ TEST(AlbumForTest, db11)
         image_list << info.absoluteFilePath();
     }
     QStringList partList = image_list.mid(image_list.size() / 2);
-    DBManager::instance()->insertIntoAlbum("testAlbum", image_list);
+    int UID = DBManager::instance()->createAlbum("testAlbum", {});
+    DBManager::instance()->insertIntoAlbum(UID, image_list);
     DBManager::instance()->insertIntoAlbumNoSignal("testAlbum", image_list);
-    DBManager::instance()->getPathsByAlbum("testAlbum");
-    DBManager::instance()->getInfosByAlbum("testAlbum");
+    DBManager::instance()->getPathsByAlbum(UID);
+    DBManager::instance()->getInfosByAlbum(UID);
 //    DBManager::instance()->removeFromAlbum("testAlbum", partList);
-    DBManager::instance()->renameAlbum("testAlbum", "newTestAlbum");
+    DBManager::instance()->renameAlbum(UID, "newTestAlbum");
 //    DBManager::instance()->removeAlbum("newTestAlbum");
     DBManager::instance()->getTrashInfosForKeyword("");
     QStringList l;

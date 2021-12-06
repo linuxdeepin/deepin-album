@@ -201,9 +201,9 @@ void AllPicView::updateStackedWidget()
     updatePicNum();
 }
 
-void AllPicView::monitorHaveNewFile(QStringList list, QString album)
+void AllPicView::monitorHaveNewFile(QStringList list, QString album, int UID)
 {
-    ImageEngineApi::instance()->ImportImagesFromFileList(list, album, this, true);
+    ImageEngineApi::instance()->ImportImagesFromFileList(list, album, UID, this, true);
 }
 
 void AllPicView::updatePicsIntoThumbnailView()
@@ -233,10 +233,10 @@ void AllPicView::updatePicsIntoThumbnailViewWithCache()
     restorePicNum();
 }
 
-void AllPicView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName)
+void AllPicView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, int UID)
 {
     Q_UNUSED(importPaths)
-    if (albumName.length() == 0 && dApp->getMainWindow()->getCurrentViewType() == 0) {
+    if (UID == -1 && dApp->getMainWindow()->getCurrentViewType() == 0) {
         m_pThumbnailListView->selectDuplicatePhotos(duplicatePaths);
     }
 }
@@ -345,7 +345,7 @@ void AllPicView::dropEvent(QDropEvent *event)
     if (urls.isEmpty()) {
         return;
     }
-    ImageEngineApi::instance()->ImportImagesFromUrlList(urls, nullptr, this);
+    ImageEngineApi::instance()->ImportImagesFromUrlList(urls, "", -1, this);
     event->accept();
 }
 

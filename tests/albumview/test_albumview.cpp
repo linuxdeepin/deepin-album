@@ -222,8 +222,8 @@ TEST(AlbumView, createNewAlbumFromDialog)
         }
     }
     QTest::qWait(200);
-    emit dApp->signalM->sigCreateNewAlbumFromDialog("test-album");
-    emit dApp->signalM->sigCreateNewAlbumFrom("test-album2");
+    emit dApp->signalM->sigCreateNewAlbumFromDialog("test-album", 994);
+    emit dApp->signalM->sigCreateNewAlbumFrom("test-album2", 993);
 }
 
 TEST(AlbumView, dragPhotoToAnAlbum)
@@ -666,7 +666,7 @@ TEST(AlbumView, albumView_other1_test)
     w->m_pAlbumview->m_currentType = COMMON_STR_FAVORITES;
     w->m_pAlbumview->updateRightView();
 
-    w->m_pAlbumview->updateAlbumView(w->m_pAlbumview->m_currentType);
+    w->m_pAlbumview->updateAlbumView(-1);
     w->m_pAlbumview->updateRightMyFavoriteView();
 //    w->m_pAlbumview->onTrashDeleteBtnClicked();
 

@@ -52,7 +52,7 @@ class ImageLoader : public QObject
 public:
     explicit ImageLoader(/*Application *parent, QStringList pathlist, QStringList pathlisttrash*/);
 
-    void ImportImageLoader(const DBImgInfoList &dbInfos, QString albumname = "");
+    void ImportImageLoader(const DBImgInfoList &dbInfos);
     void updateImageLoader(const QStringList &pathlist, const QList<QImage> &images = QList<QImage>());
 
 signals:

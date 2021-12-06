@@ -142,7 +142,7 @@ TEST(ThumbnailListView, createNewAlbumFromDialog1)
         }
     }
     QTest::qWait(200);
-    emit dApp->signalM->sigCreateNewAlbumFromDialog("test-album1");
+    emit dApp->signalM->sigCreateNewAlbumFromDialog("test-album1", 999); //UID乱写的
 }
 
 TEST(TimeLineDateWidget, functions)

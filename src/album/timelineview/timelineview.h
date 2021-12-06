@@ -90,7 +90,7 @@ public slots:
     void updataLayout(QStringList updatePathList);
     void onImportViewImportBtnClicked();
     void onImportFailedToView();
-    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
+    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, int UID);
     //打开图片
     void onOpenImage(int row, const QString &path, bool bFullScreen);
     //幻灯片播放

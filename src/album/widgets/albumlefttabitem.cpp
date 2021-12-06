@@ -38,8 +38,8 @@ const int OPE_MODE_ADDRENAMEALBUM = 2;
 
 using namespace utils::common;
 
-AlbumLeftTabItem::AlbumLeftTabItem(QString str, QString strAlbumType)
-    : m_albumNameStr(str), m_albumTypeStr(strAlbumType), m_opeMode(0)
+AlbumLeftTabItem::AlbumLeftTabItem(QString str, int UID, QString strAlbumType)
+    : m_albumNameStr(str), m_albumTypeStr(strAlbumType), m_UID(UID), m_opeMode(0)
     , m_pLineEdit(nullptr), m_pNewLineEdit(nullptr), m_nameLabel(nullptr)
     , pImageLabel(nullptr), m_unMountBtn(nullptr), m_pListWidget(nullptr)
     , m_pListWidgetItem(nullptr)
@@ -215,12 +215,10 @@ void AlbumLeftTabItem::onCheckNameValid()
 {
     QString newNameStr = m_pLineEdit->lineEdit()->text().trimmed();
     if (newNameStr.isEmpty()) {
-        newNameStr = AlbumCreateDialog::getNewAlbumName("", true, m_nameLabel->text());
+        newNameStr = AlbumCreateDialog::getNewAlbumName(m_nameLabel->text());
     }
     if (OPE_MODE_RENAMEALBUM == m_opeMode || OPE_MODE_ADDRENAMEALBUM == m_opeMode) {
-        if (newNameStr != m_nameLabel->oldstr && DBManager::instance()->isAlbumExistInDB(newNameStr)) {
-            newNameStr = AlbumCreateDialog::getNewAlbumName(newNameStr, true, m_nameLabel->text());
-        }
+        newNameStr = AlbumCreateDialog::getNewAlbumName(m_nameLabel->text());
         QFontMetrics elideFont(m_nameLabel->font());
         m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
         m_nameLabel->oldstr = newNameStr;
@@ -231,15 +229,11 @@ void AlbumLeftTabItem::onCheckNameValid()
         m_nameLabel->setVisible(true);
         m_pLineEdit->setVisible(false);
 
-        DBManager::instance()->renameAlbum(m_albumNameStr, newNameStr);
+        DBManager::instance()->renameAlbum(m_UID, newNameStr);
 
         m_albumNameStr = newNameStr;
         emit dApp->signalM->sigUpdataAlbumRightTitle(m_albumNameStr);
     } else if (OPE_MODE_ADDNEWALBUM == m_opeMode) {
-//        m_nameLabel->setText(newNameStr);
-        if (newNameStr != m_nameLabel->text() && DBManager::instance()->isAlbumExistInDB(newNameStr)) {
-            newNameStr = AlbumCreateDialog::getNewAlbumName(newNameStr);
-        }
         QFontMetrics elideFont(m_nameLabel->font());
         m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
         m_nameLabel->oldstr = newNameStr;
@@ -251,7 +245,7 @@ void AlbumLeftTabItem::onCheckNameValid()
         m_nameLabel->setVisible(true);
         m_pLineEdit->setVisible(false);
 
-        DBManager::instance()->insertIntoAlbum(newNameStr, QStringList(" "));
+        m_UID = DBManager::instance()->createAlbum(newNameStr, QStringList(" "));
 
         m_albumNameStr = newNameStr;
         emit dApp->signalM->sigUpdataAlbumRightTitle(m_albumNameStr);

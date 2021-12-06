@@ -167,11 +167,11 @@ void ImportTimeLineView::updateSize()
     updateDateNumLabel();
 }
 
-void ImportTimeLineView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName)
+void ImportTimeLineView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, int UID)
 {
     Q_UNUSED(importPaths)
     // 导入的照片重复照片提示
-    if (duplicatePaths.size() > 0 && albumName.length() < 1 && dApp->getMainWindow()->getCurrentViewType() == 2) {
+    if (duplicatePaths.size() > 0 && UID == -1 && dApp->getMainWindow()->getCurrentViewType() == 2) {
         m_importTimeLineListView->selectDuplicatePhotos(duplicatePaths);
     }
 }
@@ -529,7 +529,7 @@ void ImportTimeLineView::dropEvent(QDropEvent *event)
     if (urls.isEmpty()) {
         return;
     }
-    ImageEngineApi::instance()->ImportImagesFromUrlList(urls, nullptr, this);
+    ImageEngineApi::instance()->ImportImagesFromUrlList(urls, nullptr, -1, this);
     event->accept();
 }
 

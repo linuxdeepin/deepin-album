@@ -100,7 +100,7 @@ public:
     void restorePicNum();
     void updatePicNum();
     void updateRightView();
-    void updateAlbumView(const QString &album);
+    void updateAlbumView(int UID);
     void updateDeviceLeftList();
     void setCurrentItemType(int type);
     void leftTabClicked();
@@ -167,8 +167,8 @@ private slots:
     void onTrashRecoveryBtnClicked();
     void onUpdataAlbumRightTitle(const QString &titlename);
     void onUnMountSignal(const QString &unMountPath);          //手动卸载设备
-    void onCreateNewAlbumFromDialog(const QString &newalbumname);
-    void onCreateNewAlbumFrom(const QString &albumname);
+    void onCreateNewAlbumFromDialog(const QString &newalbumname, int UID);
+    void onCreateNewAlbumFrom(const QString &albumname, int UID);
     void onLeftListDropEvent(QModelIndex dropIndex);
     void onKeyDelete();
     void onKeyF2();
@@ -177,10 +177,10 @@ private slots:
     void onWaitDialogClose();
     void onWaitDialogIgnore();
     // change lambda to normal slt
-    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
+    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, int UID);
     void ongMouseMove();
     void onSelectAll();
-    void onInsertedIntoAlbum(const QString &albumname, QStringList pathlist);
+    void onInsertedIntoAlbum(int UID, QStringList pathlist);
     void onFileSystemAdded(const QString &dbusPath);
     void onBlockDeviceAdded(const QString &blks);
     void onThemeTypeChanged(DGuiApplicationHelper::ColorType themeType);
@@ -204,6 +204,7 @@ private slots:
 public:
     int m_iAlubmPicsNum;
     QString m_currentAlbum;
+    int m_currentUID;
     QString m_currentType;
     AblumType m_currentItemType = photosType;
     int m_selPicNum;

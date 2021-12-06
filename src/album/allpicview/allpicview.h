@@ -85,13 +85,13 @@ public slots:
     void slotNoPicOrNoVideo(bool isNoResult);
     void updateStackedWidget();
     // 监控到新文件
-    void monitorHaveNewFile(QStringList list, QString album);
+    void monitorHaveNewFile(QStringList list, QString album, int UID);
 
 private slots:
     //所有照片
 
     void updatePicsIntoThumbnailViewWithCache();
-    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
+    void onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, int UID);
     //打开图片
     void onOpenImage(int row, const QString &path, bool bFullScreen);
     //幻灯片播放

@@ -48,6 +48,7 @@ public:
     explicit LeftListView(QWidget *parent = nullptr);
     QString getItemCurrentName();
     QString getItemCurrentType();
+    int getItemCurrentUID();
     int getItemDataType();
     void updatePhotoListView();
     void updateAlbumItemsColor();
@@ -105,6 +106,7 @@ public:
 private:
     QString m_ItemCurrentName;
     QString m_ItemCurrentType;
+    int m_currentUID;
     int m_ItemCurrentDataType;
     DMenu *m_pMenu;
     QMap<QString, QAction *> m_MenuActionMap;

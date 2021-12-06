@@ -154,17 +154,13 @@ TEST(MainWindow, Picimport)
     w->getButG();
     w->allPicBtnClicked();
 
-    w->startMonitor({QStandardPaths::standardLocations(QStandardPaths::PicturesLocation), QStandardPaths::standardLocations(QStandardPaths::MoviesLocation)},
-    {{"Camera", "Screen Capture", "Draw"}, {"Camera", "Screen Capture"}});
-    QTest::qWait(2000);
-
     AllPicView *allpicview = w->m_pAllPicView;
     //绑定信号
     ImageEngineApi::instance()->thumbnailLoadThread(80);
     QString AVI = list.at(0) + "/500KAVI.AVI";
-    ImageEngineApi::instance()->ImportImagesFromFileList(QStringList() << AVI, "", allpicview, true);
+    ImageEngineApi::instance()->ImportImagesFromFileList(QStringList() << AVI, "", -1, allpicview, true);
     QTest::qWait(1000);
-    ImageEngineApi::instance()->ImportImagesFromFileList(list, "", allpicview, true);
+    ImageEngineApi::instance()->ImportImagesFromFileList(list, "",  -1, allpicview, true);
     allpicview->update();
     QTest::qWait(2000);
 
@@ -182,7 +178,7 @@ TEST(MainWindow, Picimport)
     event.clear();
     QTest::qWait(300);
 
-    ImageEngineApi::instance()->ImportImagesFromFileList(list, "", allpicview, true);
+    ImageEngineApi::instance()->ImportImagesFromFileList(list, "", -1, allpicview, true);
     QTest::qWait(300);
 
     event.addMouseClick(Qt::MouseButton::LeftButton);
@@ -196,9 +192,9 @@ TEST(MainWindow, Picimport)
     EXPECT_TRUE(list.size() > 0);
 
     //测试导入单个图片
-    ImageEngineApi::instance()->ImportImagesFromFileList({"~/Pictures/2ejqyx.jpg"}, "", allpicview, true);
-    ImageEngineApi::instance()->ImportImagesFromFileList({"~/Pictures/2ejqyx.jpg"}, "111", allpicview, true);
-    ImageEngineApi::instance()->ImportImagesFromFileList({"~/Pictures/album_ut_mount_point/DCIM/0jll1w.jpg"}, "", allpicview, true);
+    ImageEngineApi::instance()->ImportImagesFromFileList({"~/Pictures/2ejqyx.jpg"}, "", -1, allpicview, true);
+    ImageEngineApi::instance()->ImportImagesFromFileList({"~/Pictures/2ejqyx.jpg"}, "111", -1, allpicview, true);
+    ImageEngineApi::instance()->ImportImagesFromFileList({"~/Pictures/album_ut_mount_point/DCIM/0jll1w.jpg"}, "", -1, allpicview, true);
     DBImgInfoList dbInfos;
     dbInfos.push_back(DBImgInfo());
     dApp->m_imageloader->ImportImageLoader(dbInfos);

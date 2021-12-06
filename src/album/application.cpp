@@ -56,25 +56,23 @@ ImageLoader::ImageLoader(/*Application *parent, QStringList pathlist, QStringLis
 
 }
 
-
-void ImageLoader::ImportImageLoader(const DBImgInfoList &dbInfos, QString albumname)
+//这个函数只有右键使用相册打开的流程在用，所以这里直接流程简化
+void ImageLoader::ImportImageLoader(const DBImgInfoList &dbInfos)
 {
     QStringList pathlist;
 
     for (auto info : dbInfos) {
         pathlist << info.filePath;
     }
-    //导入相册数据库AlbumTable3
-    DBManager::instance()->insertIntoAlbumNoSignal(albumname, pathlist);
+
     //导入图片数据库ImageTable3
     DBManager::instance()->insertImgInfos(dbInfos);
     if (pathlist.size() > 0) {
-        emit dApp->signalM->updateStatusBarImportLabel(pathlist, 1, albumname);
+        emit dApp->signalM->updateStatusBarImportLabel(pathlist, 1, "");
     } else {
         emit dApp->signalM->ImportFailed();
     }
 }
-
 
 void ImageLoader::updateImageLoader(const QStringList &pathlist, const QList<QImage> &images)
 {

@@ -136,7 +136,7 @@ TEST(ImportTimeLineView, Picimport)
     w->allPicBtnClicked();
 
     AllPicView *allpicview = w->m_pAllPicView;
-    ImageEngineApi::instance()->ImportImagesFromFileList(list, "", allpicview, true);
+    ImageEngineApi::instance()->ImportImagesFromFileList(list, "", -1, allpicview, true);
     allpicview->update();
     QTest::qWait(2000);
 

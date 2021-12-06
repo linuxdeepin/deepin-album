@@ -45,15 +45,34 @@ const QString DATETIME_FORMAT_DATABASE = "yyyy.MM.dd hh:mm";
 
 enum AlbumDBType {
     Favourite,
-    Custom
+    Custom,
+    AutoImport
 };
 
 class QSqlDatabase;
+
+//注意：需要支持相册重名的版本，在对底层相册操作时，只能传入UID
 
 class DBManager : public QObject
 {
     Q_OBJECT
 public:
+    //特殊UID
+    //-1,不属于任意相册
+    //0,我的收藏
+    //1,监控路径：Video
+    //2,监控路径：Camera
+    //3,监控路径：Draw
+
+    enum SpUID {
+        u_NotInAnyAlbum = -1,
+        u_Favorite,
+        u_ScreenCapture,
+        u_Camera,
+        u_Draw,
+        u_CustomStart
+    };
+
     static DBManager  *instance();
     explicit DBManager(QObject *parent = nullptr);
     ~DBManager()
@@ -79,24 +98,27 @@ public:
     void                    removeImgInfosNoSignal(const QStringList &paths);
     const DBImgInfoList     getInfosForKeyword(const QString &keywords) const;
     const DBImgInfoList     getTrashInfosForKeyword(const QString &keywords) const;
-    const DBImgInfoList     getInfosForKeyword(const QString &album, const QString &keywords) const;
+    const DBImgInfoList     getInfosForKeyword(int UID, const QString &keywords) const;
 
     // TableAlbum
     const QMultiMap<QString, QString> getAllPathAlbumNames() const;
-    const QStringList       getAllAlbumNames(AlbumDBType atype = AlbumDBType::Custom) const;
-    const QStringList       getPathsByAlbum(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;
-    const DBImgInfoList     getInfosByAlbum(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;
-    int                     getItemsCountByAlbum(const QString &album, const ItemType &type, AlbumDBType atype = AlbumDBType::Custom) const;
+    //输入：相册类型，输出：所属类型下的相册UID、相册名称
+    const QList<std::pair<int, QString> > getAllAlbumNames(AlbumDBType atype = AlbumDBType::Custom) const;
+    const QStringList       getPathsByAlbum(int UID, AlbumDBType atype = AlbumDBType::Custom) const;
+    const DBImgInfoList     getInfosByAlbum(int UID, AlbumDBType atype = AlbumDBType::Custom) const;
+    int                     getItemsCountByAlbum(int UID, const ItemType &type, AlbumDBType atype = AlbumDBType::Custom) const;
 //    int                     getAlbumsCount() const;
-    bool                    isAlbumExistInDB(const QString &album, AlbumDBType atype = AlbumDBType::Custom) const;
-    bool                    isAllImgExistInAlbum(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom) const;
-    bool                    isImgExistInAlbum(const QString &album, const QString &path, AlbumDBType atype = AlbumDBType::Custom) const;
-    void                    insertIntoAlbum(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
-    void                    removeAlbum(const QString &album, AlbumDBType atype = AlbumDBType::Custom);
-    void                    removeFromAlbum(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
-    void                    renameAlbum(const QString &oldAlbum, const QString &newAlbum, AlbumDBType atype = AlbumDBType::Custom);
+    bool                    isAlbumExistInDB(int UID, AlbumDBType atype = AlbumDBType::Custom) const;
+    QString                 getAlbumNameFromUID(int UID) const;
+    bool                    isAllImgExistInAlbum(int UID, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom) const;
+    bool                    isImgExistInAlbum(int UID, const QString &path, AlbumDBType atype = AlbumDBType::Custom) const;
+    bool                    insertIntoAlbum(int UID, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
+    int                     createAlbum(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
+    void                    removeAlbum(int UID, AlbumDBType atype = AlbumDBType::Custom);
+    void                    removeFromAlbum(int UID, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
+    void                    renameAlbum(int UID, const QString &newAlbum, AlbumDBType atype = AlbumDBType::Custom);
 //    void                    removeFromAlbumNoSignal(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
-    void                    insertIntoAlbumNoSignal(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
+    int                     insertIntoAlbumNoSignal(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
     // TabelTrash
     const QStringList       getAllTrashPaths() const;
     const DBImgInfoList     getAllTrashInfos() const;
@@ -111,15 +133,17 @@ private:
     const DBImgInfoList     getInfosByNameTimeline(const QString &value) const;
     const DBImgInfoList     getImgInfos(const QString &key, const QString &value, const bool &needlock = true) const;
 
-
     void                    checkDatabase();
     static DBManager       *m_dbManager;
+    void insertSpUID(QSqlDatabase &db, const QString &albumName, AlbumDBType astype, SpUID UID);
 private:
     //QString m_connectionName;
     mutable QMutex m_mutex;
 
 //    mutable QMutex m_mutex1;
     mutable QSqlDatabase m_db;
+
+    std::atomic_int albumMaxUID; //当前数据库中UID的最大值，用于新建UID用
 };
 
 #endif // DBMANAGER_H

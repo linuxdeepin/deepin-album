@@ -97,24 +97,25 @@ ImportImagesThread::~ImportImagesThread()
     qDebug() << "ImportImagesThread destoryed";
 }
 
-void ImportImagesThread::setData(QList<QUrl> &paths, QString &albumname, ImageEngineImportObject *obj, bool bdialogselect)
+void ImportImagesThread::setData(QList<QUrl> &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect)
 {
     m_urls = paths;
-    m_albumname = albumname;
+    m_UID = UID;
     m_obj = obj;
     m_bdialogselect = bdialogselect;
     m_type = DataType_UrlList;
+    m_albumname = albumname;
 }
 
-void ImportImagesThread::setData(QStringList &paths, QString &albumname, ImageEngineImportObject *obj, bool bdialogselect)
+void ImportImagesThread::setData(QStringList &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect)
 {
     m_paths = paths;
-    m_albumname = albumname;
+    m_UID = UID;
     m_obj = obj;
     m_bdialogselect = bdialogselect;
     m_type = DataType_StringList;
+    m_albumname = albumname;
 }
-
 
 bool ImportImagesThread::ifCanStopThread(void *imgobject)
 {
@@ -134,9 +135,9 @@ void ImportImagesThread::runDetail()
     }
     QStringList image_list;
     QStringList curAlbumImgPathList;
-    if (m_albumname.length() > 0) {
+    if (m_UID >= 0) {
         // 在相册中导入时,
-        curAlbumImgPathList = DBManager::instance()->getPathsByAlbum(m_albumname);
+        curAlbumImgPathList = DBManager::instance()->getPathsByAlbum(m_UID);
     } else {
         // 不是在相册中导入时,allpic timeline .etc
         curAlbumImgPathList = DBManager::instance()->getAllPaths();
@@ -189,7 +190,7 @@ void ImportImagesThread::runDetail()
         } else if (curAlbumImportedPathList.size() > 0) {
             // 视为导入的图片全部为重复图片
             // ImportImageLoader() 中，底部状态栏将显示导入状态，之后，核对是否存在重复图片，发送信号准备提示
-            emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_albumname);
+            emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_UID);
             // 导入重复照片提示
 //            emit dApp->signalM->sigAddDuplicatePhotos();
             m_obj->imageImported(true);
@@ -289,7 +290,7 @@ void ImportImagesThread::runDetail()
             pathlistImport << info.filePath;
             if (count == 200) {
                 //导入相册数据库AlbumTable3
-                DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, pathlistImport);
+                DBManager::instance()->insertIntoAlbum(m_UID, pathlistImport);
                 ImageDataService::instance()->readThumbnailByPaths(pathlistImport, true, true);
                 pathlistImport.clear();
                 //导入图片数据库ImageTable3
@@ -299,7 +300,7 @@ void ImportImagesThread::runDetail()
             emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
         }
         //导入相册数据库AlbumTable3
-        DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, pathlistImport);
+        DBManager::instance()->insertIntoAlbum(m_UID, pathlistImport);
         ImageDataService::instance()->readThumbnailByPaths(pathlistImport, true, true);
         pathlistImport.clear();
         //导入图片数据库ImageTable3
@@ -330,7 +331,7 @@ void ImportImagesThread::runDetail()
             m_obj->imageImported(true);
             // ImportImageLoader() 中，底部状态栏将显示导入状态，之后，核对是否存在重复图片，发送信号准备提示
             if (curAlbumImportedPathList.count() > 0) {
-                emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_albumname);
+                emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_UID);
             }
         } else {
             //BUG#92844 额外提示未发现照片或文件
@@ -432,10 +433,11 @@ void ImageMoveImagesToTrashThread::runDetail()
             DBImgInfo info;
             info = DBManager::instance()->getInfoByPath(path);
             info.importTime = QDateTime::currentDateTime();
-            QStringList allalbumnames = DBManager::instance()->getAllAlbumNames();
+            auto allalbumnames = DBManager::instance()->getAllAlbumNames();
+            //first是UID，secend是album name
             for (auto eachname : allalbumnames) {
-                if (DBManager::instance()->isImgExistInAlbum(eachname, path)) {
-                    info.albumname += (eachname + ",");
+                if (DBManager::instance()->isImgExistInAlbum(eachname.first, path)) {
+                    info.albumUID += (QString::number(eachname.first) + ",");
                 }
             }
             infos << info;

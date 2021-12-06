@@ -361,11 +361,11 @@ void TimeLineView::onImportFailedToView()
     }
 }
 
-void TimeLineView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName)
+void TimeLineView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, int UID)
 {
     Q_UNUSED(importPaths)
     // 导入的照片重复照片提示
-    if (duplicatePaths.size() > 0 && albumName.length() < 1 && dApp->getMainWindow()->getCurrentViewType() == 1) {
+    if (duplicatePaths.size() > 0 && UID == -1 && dApp->getMainWindow()->getCurrentViewType() == 1) {
         m_timeLineThumbnailListView->selectDuplicatePhotos(duplicatePaths);
     }
 }
@@ -531,7 +531,7 @@ void TimeLineView::dropEvent(QDropEvent *event)
     if (urls.isEmpty()) {
         return;
     }
-    ImageEngineApi::instance()->ImportImagesFromUrlList(urls, nullptr, this);
+    ImageEngineApi::instance()->ImportImagesFromUrlList(urls, "", -1, this);
     event->accept();
 }
 

@@ -57,6 +57,7 @@ DBManager::DBManager(QObject *parent)
     , m_db(QSqlDatabase::addDatabase("QSQLITE", "album_sql_connect"))
 {
     m_db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
+    albumMaxUID = u_CustomStart;
     checkDatabase();
 }
 
@@ -393,22 +394,23 @@ void DBManager::removeImgInfosNoSignal(const QStringList &paths)
     db.close();
 }
 
-const QStringList DBManager::getAllAlbumNames(AlbumDBType atype) const
+const QList<std::pair<int, QString>> DBManager::getAllAlbumNames(AlbumDBType atype) const
 {
     QMutexLocker mutex(&m_mutex);
-    QStringList list;
+    QList<std::pair<int, QString>> list;
     QSqlDatabase db = getDatabase();
     if (! db.isValid()) {
         return list;
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
-    bool b = query.prepare("SELECT DISTINCT AlbumName FROM AlbumTable3 WHERE AlbumDBType =:atype");
+    //以UID和相册名称同时作为筛选条件，名称作为UI显示用，UID作为UI和数据库通信的钥匙
+    bool b = query.prepare("SELECT DISTINCT UID, AlbumName FROM AlbumTable3 WHERE AlbumDBType =:atype");
     query.bindValue(":atype", atype);
     if (!b || !query.exec()) {
     } else {
         while (query.next()) {
-            list << query.value(0).toString();
+            list.push_back(std::make_pair(query.value(0).toInt(), query.value(1).toString()));
         }
     }
     db.close();
@@ -416,7 +418,7 @@ const QStringList DBManager::getAllAlbumNames(AlbumDBType atype) const
     return list;
 }
 
-const QStringList DBManager::getPathsByAlbum(const QString &album, AlbumDBType atype) const
+const QStringList DBManager::getPathsByAlbum(int UID, AlbumDBType atype) const
 {
     QMutexLocker mutex(&m_mutex);
     QStringList list;
@@ -429,10 +431,9 @@ const QStringList DBManager::getPathsByAlbum(const QString &album, AlbumDBType a
     bool b = query.prepare("SELECT DISTINCT i.FilePath "
                            "FROM ImageTable3 AS i, AlbumTable3 AS a "
                            "WHERE i.PathHash=a.PathHash "
-                           "AND a.AlbumName=:album "
-                           "AND a.AlbumDBType=:atype "
-                           /*"AND FilePath != \" \" "*/);
-    query.bindValue(":album", album);
+                           "AND a.UID=:UID "
+                           "AND a.AlbumDBType=:atype ");
+    query.bindValue(":UID", UID);
     query.bindValue(":atype", atype);
     if (!b || ! query.exec()) {
     } else {
@@ -445,7 +446,7 @@ const QStringList DBManager::getPathsByAlbum(const QString &album, AlbumDBType a
     return list;
 }
 
-const DBImgInfoList DBManager::getInfosByAlbum(const QString &album, AlbumDBType atype) const
+const DBImgInfoList DBManager::getInfosByAlbum(int UID, AlbumDBType atype) const
 {
     QMutexLocker mutex(&m_mutex);
     DBImgInfoList infos;
@@ -458,9 +459,9 @@ const DBImgInfoList DBManager::getInfosByAlbum(const QString &album, AlbumDBType
     bool b = query.prepare("SELECT DISTINCT i.FilePath, i.FileName, i.FileType, i.Time, i.ChangeTime, i.ImportTime "
                            "FROM ImageTable3 AS i, AlbumTable3 AS a "
                            "WHERE i.PathHash=a.PathHash "
-                           "AND a.AlbumName=:album "
+                           "AND a.UID=:UID "
                            "AND a.AlbumDBType=:atype ");
-    query.bindValue(":album", album);
+    query.bindValue(":UID", UID);
     query.bindValue(":atype", atype);
     if (!b || ! query.exec()) {
         //    qWarning() << "Get ImgInfo by album failed: " << query.lastError();
@@ -481,7 +482,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(const QString &album, AlbumDBType
     return infos;
 }
 
-int DBManager::getItemsCountByAlbum(const QString &album, const ItemType &type, AlbumDBType atype) const
+int DBManager::getItemsCountByAlbum(int UID, const ItemType &type, AlbumDBType atype) const
 {
     int count = 0;
     QMutexLocker mutex(&m_mutex);
@@ -494,9 +495,9 @@ int DBManager::getItemsCountByAlbum(const QString &album, const ItemType &type, 
     bool b = query.prepare("SELECT i.FileType "
                            "FROM ImageTable3 AS i, AlbumTable3 AS a "
                            "WHERE i.PathHash=a.PathHash "
-                           "AND a.AlbumName=:album "
+                           "AND a.UID=:UID "
                            "AND a.AlbumDBType=:atype ");
-    query.bindValue(":album", album);
+    query.bindValue(":UID", UID);
     query.bindValue(":atype", atype);
     if (!b || ! query.exec()) {
         //    qWarning() << "Get ImgInfo by album failed: " << query.lastError();
@@ -516,7 +517,7 @@ int DBManager::getItemsCountByAlbum(const QString &album, const ItemType &type, 
     return count;
 }
 //判断是否所有要查询的数据都在要查询的相册中
-bool DBManager::isAllImgExistInAlbum(const QString &album, const QStringList &paths, AlbumDBType atype) const
+bool DBManager::isAllImgExistInAlbum(int UID, const QStringList &paths, AlbumDBType atype) const
 {
     QMutexLocker mutex(&m_mutex);
     QSqlDatabase db = getDatabase();
@@ -526,7 +527,7 @@ bool DBManager::isAllImgExistInAlbum(const QString &album, const QStringList &pa
     QSqlQuery query(db);
     query.setForwardOnly(true);
     QString sql;
-    sql += "SELECT COUNT(*) FROM AlbumTable3 WHERE PathHash In ( %1 ) AND AlbumName = :album AND AlbumDBType =:atype ";
+    sql += "SELECT COUNT(*) FROM AlbumTable3 WHERE PathHash In ( %1 ) AND UID = :UID AND AlbumDBType =:atype ";
 
     QString hashList;
     for (int i = 0; i < paths.size(); i++) {
@@ -546,7 +547,7 @@ bool DBManager::isAllImgExistInAlbum(const QString &album, const QStringList &pa
         db.close();
         return false;
     }
-    query.bindValue(":album", album);
+    query.bindValue(":UID", UID);
     query.bindValue(":atype", atype);
     if (query.exec()) {
         query.first();
@@ -562,7 +563,7 @@ bool DBManager::isAllImgExistInAlbum(const QString &album, const QStringList &pa
     }
 }
 
-bool DBManager::isImgExistInAlbum(const QString &album, const QString &path, AlbumDBType atype) const
+bool DBManager::isImgExistInAlbum(int UID, const QString &path, AlbumDBType atype) const
 {
     QMutexLocker mutex(&m_mutex);
     QSqlDatabase db = getDatabase();
@@ -572,14 +573,14 @@ bool DBManager::isImgExistInAlbum(const QString &album, const QString &path, Alb
     QSqlQuery query(db);
     query.setForwardOnly(true);
     bool b = query.prepare("SELECT COUNT(*) FROM AlbumTable3 WHERE PathHash = :hash "
-                           "AND AlbumName = :album "
+                           "AND UID = :UID "
                            "AND AlbumDBType =:atype ");
     if (!b) {
         db.close();
         return false;
     }
     query.bindValue(":hash", utils::base::hashByString(path));
-    query.bindValue(":album", album);
+    query.bindValue(":UID", UID);
     query.bindValue(":atype", atype);
     if (query.exec()) {
         query.first();
@@ -591,7 +592,28 @@ bool DBManager::isImgExistInAlbum(const QString &album, const QString &path, Alb
     }
 }
 
-bool DBManager::isAlbumExistInDB(const QString &album, AlbumDBType atype) const
+QString DBManager::getAlbumNameFromUID(int UID) const
+{
+    QString result;
+
+    QMutexLocker mutex(&m_mutex);
+    QSqlDatabase db = getDatabase();
+    if (!db.isValid()) {
+        return result;
+    }
+
+    QSqlQuery query(db);
+    query.setForwardOnly(true);
+    bool b = query.exec(QString("SELECT DISTINCT AlbumName FROM AlbumTable3 WHERE UID=%1").arg(UID));
+    if (!b || !query.next()) {
+        db.close();
+        return result;
+    }
+
+    return query.value(0).toString();
+}
+
+bool DBManager::isAlbumExistInDB(int UID, AlbumDBType atype) const
 {
     QMutexLocker mutex(&m_mutex);
     QSqlDatabase db = getDatabase();
@@ -600,12 +622,12 @@ bool DBManager::isAlbumExistInDB(const QString &album, AlbumDBType atype) const
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
-    bool b = query.prepare("SELECT COUNT(*) FROM AlbumTable3 WHERE AlbumName = :album AND AlbumDBType =:atype");
+    bool b = query.prepare("SELECT COUNT(*) FROM AlbumTable3 WHERE UID = :UID AND AlbumDBType =:atype");
     if (!b) {
         db.close();
         return false;
     }
-    query.bindValue(":album", album);
+    query.bindValue(":UID", UID);
     query.bindValue(":atype", atype);
     if (query.exec()) {
         query.first();
@@ -619,32 +641,36 @@ bool DBManager::isAlbumExistInDB(const QString &album, AlbumDBType atype) const
     }
 }
 
-void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths, AlbumDBType atype)
+int DBManager::createAlbum(const QString &album, const QStringList &paths, AlbumDBType atype)
 {
     QMutexLocker mutex(&m_mutex);
     QSqlDatabase db = getDatabase();
-    if (!db.isValid() || album.isEmpty()) {
-        return;
+
+    if (!db.isValid()) {
+        return -1;
     }
+    int currentUID = albumMaxUID++;
     QStringList nameRows, pathHashRows;
-    QVariantList atypes;
+    QVariantList atypes, uids;
     for (QString path : paths) {
         nameRows << album;
         pathHashRows << utils::base::hashByString(path);
         atypes << atype;
+        uids << currentUID;
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
     if (!query.exec("BEGIN IMMEDIATE TRANSACTION")) {
     }
-    bool b = query.prepare("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType) VALUES (null, ?, ?, ?)");
+    bool b = query.prepare("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, ?, ?, ?, ?)");
     if (!b) {
         db.close();
-        return;
+        return -1;
     }
     query.addBindValue(nameRows);
     query.addBindValue(pathHashRows);
     query.addBindValue(atypes);
+    query.addBindValue(uids);
 
     if (! query.execBatch()) {
     }
@@ -655,13 +681,13 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths, 
     //Delete the same data
     QString ps = "DELETE FROM AlbumTable3 where AlbumId NOT IN"
                  "(SELECT min(AlbumId) FROM AlbumTable3 GROUP BY"
-                 " AlbumName, PathHash, AlbumDBType) AND PathHash != \"%1\""
+                 " UID, PathHash, AlbumDBType) AND PathHash != \"%1\""
                  " AND AlbumDBType =:atype ";
     bool bs = query.prepare(ps.arg(EMPTY_HASH_STR));
     if (!bs) {
         db.close();
         mutex.unlock();
-        return;
+        return -1;
     }
     query.bindValue(":atype", atype);
     if (!query.exec()) {
@@ -671,21 +697,93 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths, 
     }
     db.close();
     mutex.unlock();
+
+    //把当前UID传出去
+    return currentUID;
 }
 
-void DBManager::insertIntoAlbumNoSignal(const QString &album, const QStringList &paths, AlbumDBType atype)
+bool DBManager::insertIntoAlbum(int UID, const QStringList &paths, AlbumDBType atype)
 {
     QMutexLocker mutex(&m_mutex);
     QSqlDatabase db = getDatabase();
-    if (! db.isValid() || album.isEmpty() || paths.isEmpty()) {
-        return;
+
+    if (!db.isValid()) {
+        return false;
     }
+
+    QSqlQuery query(db);
+
+    if (!query.exec(QString("SELECT DISTINCT AlbumName FROM AlbumTable3 WHERE UID=%1").arg(UID)) || !query.next()) {
+        return false; //没找到这个UID，需要先执行创建
+    }
+
+    auto album = query.value(0).toString();
+
     QStringList nameRows, pathHashRows;
-    QVariantList atypes;
+    QVariantList atypes, uids;
     for (QString path : paths) {
         nameRows << album;
         pathHashRows << utils::base::hashByString(path);
         atypes << atype;
+        uids << UID;
+    }
+
+    query.setForwardOnly(true);
+    if (!query.exec("BEGIN IMMEDIATE TRANSACTION")) {
+    }
+    bool b = query.prepare("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, ?, ?, ?, ?)");
+    if (!b) {
+        db.close();
+        return false;
+    }
+    query.addBindValue(nameRows);
+    query.addBindValue(pathHashRows);
+    query.addBindValue(atypes);
+    query.addBindValue(uids);
+
+    if (! query.execBatch()) {
+    }
+    if (!query.exec("COMMIT")) {
+    }
+
+    //FIXME: Don't insert the repeated filepath into the same album
+    //Delete the same data
+    QString ps = "DELETE FROM AlbumTable3 where AlbumId NOT IN"
+                 "(SELECT min(AlbumId) FROM AlbumTable3 GROUP BY"
+                 " UID, PathHash, AlbumDBType) AND PathHash != \"%1\""
+                 " AND AlbumDBType =:atype ";
+    bool bs = query.prepare(ps.arg(EMPTY_HASH_STR));
+    if (!bs) {
+        db.close();
+        mutex.unlock();
+        return false;
+    }
+    query.bindValue(":atype", atype);
+    if (!query.exec()) {
+        //   qDebug() << "delete same date failed!";
+    }
+    if (!query.exec("COMMIT")) {
+    }
+    db.close();
+    mutex.unlock();
+    return true;
+}
+
+int DBManager::insertIntoAlbumNoSignal(const QString &album, const QStringList &paths, AlbumDBType atype)
+{
+    QMutexLocker mutex(&m_mutex);
+    QSqlDatabase db = getDatabase();
+    if (! db.isValid() || paths.isEmpty()) {
+        return -1;
+    }
+    int currentUID = albumMaxUID++;
+    QStringList nameRows, pathHashRows;
+    QVariantList atypes, uids;
+    for (QString path : paths) {
+        nameRows << album;
+        pathHashRows << utils::base::hashByString(path);
+        atypes << atype;
+        uids << currentUID;
     }
 
     QSqlQuery query(db);
@@ -693,15 +791,16 @@ void DBManager::insertIntoAlbumNoSignal(const QString &album, const QStringList 
     if (!query.exec("BEGIN IMMEDIATE TRANSACTION")) {
 //        qDebug() << "begin transaction failed.";
     }
-    bool b = query.prepare("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType) "
-                           "VALUES (null, ?, ?, ?)");
+    bool b = query.prepare("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) "
+                           "VALUES (null, ?, ?, ?, ?)");
     if (!b) {
         db.close();
-        return;
+        return -1;
     }
     query.addBindValue(nameRows);
     query.addBindValue(pathHashRows);
     query.addBindValue(atypes);
+    query.addBindValue(uids);
     if (! query.execBatch()) {
     }
     if (!query.exec("COMMIT")) {
@@ -712,12 +811,12 @@ void DBManager::insertIntoAlbumNoSignal(const QString &album, const QStringList 
     //Delete the same data
     QString ps = "DELETE FROM AlbumTable3 where AlbumId NOT IN "
                  "(SELECT min(AlbumId) FROM AlbumTable3 GROUP BY "
-                 " AlbumName, PathHash) AND PathHash != \"%1\" "
+                 " UID, PathHash) AND PathHash != \"%1\" "
                  " AND AlbumDBType =:atype ";
     bool bs = query.prepare(ps.arg(EMPTY_HASH_STR));
     if (!bs) {
         db.close();
-        return;
+        return -1;
     }
     query.bindValue(":atype", atype);
     if (!query.exec()) {
@@ -726,10 +825,12 @@ void DBManager::insertIntoAlbumNoSignal(const QString &album, const QStringList 
 //        qDebug() << "COMMIT failed.";
     }
     db.close();
+
+    //把当前UID传出去
+    return currentUID;
 }
 
-
-void DBManager::removeAlbum(const QString &album, AlbumDBType atype)
+void DBManager::removeAlbum(int UID, AlbumDBType atype)
 {
     QMutexLocker mutex(&m_mutex);
     QSqlDatabase db = getDatabase();
@@ -738,19 +839,19 @@ void DBManager::removeAlbum(const QString &album, AlbumDBType atype)
     }
     QSqlQuery query(db);
     query.setForwardOnly(true);
-    bool b = query.prepare("DELETE FROM AlbumTable3 WHERE AlbumName=:album AND AlbumDBType =:atype");
+    bool b = query.prepare("DELETE FROM AlbumTable3 WHERE UID=:UID AND AlbumDBType =:atype");
     if (!b) {
         db.close();
         return;
     }
-    query.bindValue(":album", album);
+    query.bindValue(":UID", UID);
     query.bindValue(":atype", atype);
     if (!query.exec()) {
     }
     db.close();
 }
 
-void DBManager::removeFromAlbum(const QString &album, const QStringList &paths, AlbumDBType atype)
+void DBManager::removeFromAlbum(int UID, const QStringList &paths, AlbumDBType atype)
 {
     QMutexLocker mutex(&m_mutex);
     QSqlDatabase db = getDatabase();
@@ -770,8 +871,8 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths, 
 //        qDebug() << "begin transaction failed.";
     }
     // Remove from albums table
-    QString qs("DELETE FROM AlbumTable3 WHERE AlbumName=\"%1\" AND PathHash=? AND AlbumDBType=? ");
-    bool b = query.prepare(qs.arg(album));
+    QString qs("DELETE FROM AlbumTable3 WHERE UID=%1 AND PathHash=? AND AlbumDBType=? ");
+    bool b = query.prepare(qs.arg(UID));
     if (!b) {
         db.close();
         return;
@@ -789,10 +890,10 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths, 
     db.close();
     mutex.unlock();
     if (suc)
-        emit dApp->signalM->removedFromAlbum(album, paths);
+        emit dApp->signalM->removedFromAlbum(UID, paths);
 }
 
-void DBManager::renameAlbum(const QString &oldAlbum, const QString &newAlbum, AlbumDBType atype)
+void DBManager::renameAlbum(int UID, const QString &newAlbum, AlbumDBType atype)
 {
     QMutexLocker mutex(&m_mutex);
     QSqlDatabase db = getDatabase();
@@ -804,14 +905,14 @@ void DBManager::renameAlbum(const QString &oldAlbum, const QString &newAlbum, Al
     query.setForwardOnly(true);
     bool b = query.prepare("UPDATE AlbumTable3 SET "
                            "AlbumName = :newName "
-                           "WHERE AlbumName = :oldName "
+                           "WHERE UID = :UID "
                            "AND AlbumDBType = :atype");
     if (!b) {
         db.close();
         return;
     }
     query.bindValue(":newName", newAlbum);
-    query.bindValue(":oldName", oldAlbum);
+    query.bindValue(":UID", UID);
     query.bindValue(":atype",  atype);
     if (! query.exec()) {
     }
@@ -874,6 +975,7 @@ const DBImgInfoList DBManager::getTrashInfosForKeyword(const QString &keywords) 
     QSqlQuery query(db);
     query.setForwardOnly(true);
 
+    //切换到UID后，纯关键字搜索应该不受影响
     QString queryStr = "SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType AlbumName FROM TrashTable3 "
                        "WHERE FileName like '%" + keywords + "%' OR Time like '%" + keywords + "%' ORDER BY Time DESC";
 
@@ -898,7 +1000,7 @@ const DBImgInfoList DBManager::getTrashInfosForKeyword(const QString &keywords) 
     return infos;
 }
 
-const DBImgInfoList DBManager::getInfosForKeyword(const QString &album, const QString &keywords) const
+const DBImgInfoList DBManager::getInfosForKeyword(int UID, const QString &keywords) const
 {
     QMutexLocker mutex(&m_mutex);
 
@@ -910,13 +1012,13 @@ const DBImgInfoList DBManager::getInfosForKeyword(const QString &album, const QS
 
     QString queryStr = "SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time, i.ChangeTime, i.ImportTime "
                        "FROM ImageTable3 AS i "
-                       "inner join AlbumTable3 AS a on i.PathHash=a.PathHash AND a.AlbumName=:album "
+                       "inner join AlbumTable3 AS a on i.PathHash=a.PathHash AND a.UID=:UID "
                        "WHERE i.FileName like '%" + keywords + "%' ORDER BY Time DESC"; //OR Time like '%" + keywords + "%' 移除按时间搜索
 
     QSqlQuery query(db);
     query.setForwardOnly(true);
     bool b = query.prepare(queryStr);
-    query.bindValue(":album", album);
+    query.bindValue(":UID", UID);
 
 
     if (!b || ! query.exec()) {
@@ -948,7 +1050,7 @@ const QMultiMap<QString, QString> DBManager::getAllPathAlbumNames() const
         return infos;
     }
 
-    QString queryStr = "SELECT DISTINCT i.FilePath, a.AlbumName "
+    QString queryStr = "SELECT DISTINCT i.FilePath, a.UID "
                        "FROM ImageTable3 AS i, AlbumTable3 AS a "
                        "inner join AlbumTable3 on i.PathHash=a.PathHash "
                        "where a.AlbumDBType = 1";
@@ -1062,15 +1164,16 @@ void DBManager::checkDatabase()
         }
 
         // AlbumTable3
-        ///////////////////////////////////////////////////////////////////////////
-        //AlbumId               | AlbumName         | PathHash      |AlbumDBType //
-        //INTEGER primari key   | TEXT              | TEXT          |TEXT        //
-        ///////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////
+        //AlbumId               | AlbumName         | PathHash      |AlbumDBType    |UID     //
+        //INTEGER primari key   | TEXT              | TEXT          |TEXT           |INTEGER //
+        ///////////////////////////////////////////////////////////////////////////////////////
         bool c = queryCreate.exec(QString("CREATE TABLE IF NOT EXISTS AlbumTable3 ( "
                                           "AlbumId INTEGER primary key, "
                                           "AlbumName TEXT, "
                                           "PathHash TEXT,"
-                                          "AlbumDBType INTEGER)"));
+                                          "AlbumDBType INTEGER,"
+                                          "UID INTEGER)"));
         if (!c) {
             qDebug() << "c CREATE TABLE exec failed.";
         }
@@ -1153,7 +1256,7 @@ void DBManager::checkDatabase()
         QString strSqlDBType = QString::fromLocal8Bit("select * from sqlite_master where name = \"AlbumTable3\" and sql like \"%AlbumDBType%\"");
         QSqlQuery queryType(db);
         bool q2 = queryType.exec(strSqlDBType);
-        if (!q2 && queryType.next()) {
+        if (q2 && !queryType.next()) {
             // 无AlbumDBType字段,则增加AlbumDBType字段, 全部赋值为个人相册
             if (queryType.exec(QString("ALTER TABLE \"AlbumTable3\" ADD COLUMN \"AlbumDBType\" INTEGER default %1")
                                .arg("1"))) {
@@ -1163,7 +1266,44 @@ void DBManager::checkDatabase()
                                .arg(COMMON_STR_FAVORITES))) {
             }
         }
+
+        // 判断AlbumTable3中是否有UID字段
+        QString strSqlUID = QString::fromLocal8Bit("select * from sqlite_master where name = \"AlbumTable3\" and sql like \"%UID%\"");
+        QSqlQuery queryUID(db);
+        bool q3 = queryUID.exec(strSqlUID);
+        if (q3 && !queryUID.next()) {
+            // 无UID字段，则需要主动添加
+            if (queryUID.exec(QString("ALTER TABLE \"AlbumTable3\" ADD COLUMN \"UID\" INTEGER default %1")
+                              .arg("0"))) {
+                qDebug() << "add UID success";
+            }
+
+            // UID字段添加完成后，还需要主动为其进行赋值
+            //1.获取当前已存在的album name
+            if (queryUID.exec(QString("SELECT DISTINCT \"AlbumName\" FROM \"AlbumTable3\""))) {
+                qDebug() << "search album name success";
+            }
+
+            //2.在内存中为其进行编号
+            QStringList nameList;
+            while (queryUID.next()) {
+                auto currentName = queryUID.value(0).toString();
+                nameList.push_back(currentName);
+            }
+
+            //3.写入数据库
+            for (auto &currentName : nameList) {
+                queryUID.exec(QString("UPDATE \"AlbumTable3\" SET UID = %1 WHERE \"AlbumName\" = \"%2\"").arg(albumMaxUID++).arg(currentName));
+            }
+        }
     }
+
+    //预先插入特殊UID
+    insertSpUID(db, "Favorite", Favourite, u_Favorite);
+    insertSpUID(db, "Screen Capture", AutoImport, u_ScreenCapture);//应用album name的SQL语句注意加冒号
+    insertSpUID(db, "Camera", AutoImport, u_Camera);
+    insertSpUID(db, "Draw", AutoImport, u_Draw);
+
     // 判断TrashTable的版本
     QString strSqlTrashTable = QString::fromLocal8Bit("select * from sqlite_master where name = \"TrashTable3\"");
     QSqlQuery queryTrashReBuild(db);
@@ -1219,6 +1359,17 @@ void DBManager::checkDatabase()
         }
     }
     db.close();
+}
+
+void DBManager::insertSpUID(QSqlDatabase &db, const QString &albumName, AlbumDBType astype, SpUID UID)
+{
+    QSqlQuery query(db);
+    query.prepare("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, ?, ?, ?, ?)");
+    query.addBindValue(albumName);
+    query.addBindValue("7215ee9c7d9dc229d2921a40e899ec5f");
+    query.addBindValue(astype);
+    query.addBindValue(UID);
+    query.exec();
 }
 
 const QStringList DBManager::getAllTrashPaths() const

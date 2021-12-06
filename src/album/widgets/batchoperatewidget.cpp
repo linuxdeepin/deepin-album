@@ -113,10 +113,10 @@ void BatchOperateWidget::initConnection()
     });
 }
 
-void BatchOperateWidget::sltAlbumChanged(const QString &album, const QStringList &paths)
+void BatchOperateWidget::sltAlbumChanged(int UID, const QStringList &paths)
 {
     Q_UNUSED(paths)
-    if (album == COMMON_STR_FAVORITES) {
+    if (UID == DBManager::SpUID::u_Favorite) {
         refreshCollectBtn();
     }
 }
@@ -141,7 +141,7 @@ bool BatchOperateWidget::isAllSelectedCollected()
         isCollected = false;
         return isCollected;
     }
-    isCollected = DBManager::instance()->isAllImgExistInAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
+    isCollected = DBManager::instance()->isAllImgExistInAlbum(DBManager::SpUID::u_Favorite, paths, AlbumDBType::Favourite);
 
     return isCollected;
 }
@@ -201,11 +201,11 @@ void BatchOperateWidget::sltCollectSelect(bool checked)
     QStringList paths =  m_thumbnailListView->selectedPaths();
     if (isAllSelectedCollected()) {
         //全部收藏，执行取消收藏动作
-        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
+        DBManager::instance()->removeFromAlbum(DBManager::SpUID::u_Favorite, paths, AlbumDBType::Favourite);
     } else {
         //未全部收藏，执行收藏动作
-        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, paths, AlbumDBType::Favourite);
-        emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, paths);
+        DBManager::instance()->insertIntoAlbum(DBManager::SpUID::u_Favorite, paths, AlbumDBType::Favourite);
+        emit dApp->signalM->insertedIntoAlbum(DBManager::SpUID::u_Favorite, paths);
     }
     //收藏后刷新按钮状态，未通过insertIntoAlbum返回值判断是否成功
     if (isAllSelectedCollected()) {

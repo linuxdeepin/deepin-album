@@ -127,7 +127,7 @@ void ImportView::dropEvent(QDropEvent *event)
     if (urls.isEmpty()) {
         return;
     }
-    ImageEngineApi::instance()->ImportImagesFromUrlList(urls, m_albumname, this);
+    ImageEngineApi::instance()->ImportImagesFromUrlList(urls, m_albumname, m_UID, this);
     event->accept();
 }
 
@@ -209,7 +209,7 @@ void ImportView::onImprotBtnClicked(bool useDialog, const QStringList &list)
     }
 
 //    ImageEngineApi::instance()->makeThumbnailByPaths(file_list);
-    ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_albumname, this, true);
+    ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_albumname, m_UID, this, true);
 }
 
 
@@ -227,5 +227,7 @@ void ImportView::setAlbumname(const QString &name)
     m_albumname = name;
 }
 
-
-
+void ImportView::setUID(int UID)
+{
+    m_UID = UID;
+}

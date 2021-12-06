@@ -55,6 +55,7 @@ public:
     ImportView();
     bool imageImported(bool success) override;
     void setAlbumname(const QString &name);
+    void setUID(int UID);
     void onImprotBtnClicked(bool useDialog = true, const QStringList &list = QStringList());
 
 private:
@@ -74,6 +75,7 @@ signals:
 public:
     DPushButton *m_pImportBtn;
     QString m_albumname;
+    int m_UID;
     DLabel *pLabel;
     DBImgInfoList m_dbInfos;
     DLabel *pDragLabel;

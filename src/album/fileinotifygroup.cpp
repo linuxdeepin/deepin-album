@@ -31,15 +31,15 @@ FileInotifyGroup::FileInotifyGroup(QObject *parent) : QObject(parent)
 
 }
 
-void FileInotifyGroup::startWatch(const QString &path, const QString &album)
+void FileInotifyGroup::startWatch(const QString &path, const QString &album, int UID)
 {
     QDir dir(path);
 
     if (!dir.exists()) {
-        //dir.mkdir(path); 存在争议
+        //dir.mkdir(path); TODO：存在争议
         return;
     }
 
     auto watcher = new FileInotify(this);
-    watcher->addWather(path, album);
+    watcher->addWather(path, album, UID);
 }

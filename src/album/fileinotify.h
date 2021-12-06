@@ -34,7 +34,7 @@ public:
     ~FileInotify() override;
 
     //添加和删除监控
-    void addWather(const QString &path, const QString &album);
+    void addWather(const QString &path, const QString &album, int UID);
     //void removeWatcher(const QString &path); //预留，暂未使用
 
     void clear();
@@ -55,6 +55,7 @@ private:
     QStringList m_newFile;      //当前新添加的
     QString m_currentDir;       //给定的当前监控路径
     QString m_currentAlbum;     //给定当前的相册
+    int m_currentUID;           //给定当前的相册的UID
     QStringList  m_Supported;   //支持的格式
     QTimer *m_timer;
     QFileSystemWatcher m_watcher; //实际执行监控的类

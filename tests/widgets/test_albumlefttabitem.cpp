@@ -50,7 +50,7 @@ TEST(AlbumLeftTabItem, func_test)
     QTest::qWait(500);
     QString str = "hello";
     QString strType = "world";
-    AlbumLeftTabItem *leftItem = new AlbumLeftTabItem(str, strType);
+    AlbumLeftTabItem *leftItem = new AlbumLeftTabItem(str, 998, strType);
     leftItem->initUI();
     leftItem->unMountBtnClicked();
     leftItem->editAlbumEdit();
@@ -68,7 +68,7 @@ TEST(AlbumLeftTabItem, onCheckNameValid_test)
 
     QString str = "hello";
     QString strType = "world";
-    AlbumLeftTabItem *leftItem1 = new AlbumLeftTabItem(str, strType);
+    AlbumLeftTabItem *leftItem1 = new AlbumLeftTabItem(str, 997, strType);
     leftItem1->initUI();
     leftItem1->m_opeMode = 1;
     leftItem1->onCheckNameValid();
@@ -90,7 +90,7 @@ TEST(AlbumLeftTabItem, oriAlbumStatus_test)
 
     QString str = "hello";
     QString strType = "world";
-    AlbumLeftTabItem *leftItem2 = new AlbumLeftTabItem(str, strType);
+    AlbumLeftTabItem *leftItem2 = new AlbumLeftTabItem(str, 996, strType);
     leftItem2->initUI();
 
     int i = 0;
@@ -143,7 +143,7 @@ TEST(AlbumLeftTabItem, newAlbumStatus_test)
 
     QString str = "hello";
     QString strType = "world";
-    AlbumLeftTabItem *leftItem3 = new AlbumLeftTabItem(str, strType);
+    AlbumLeftTabItem *leftItem3 = new AlbumLeftTabItem(str, 995, strType);
     leftItem3->initUI();
 
     leftItem3->m_albumTypeStr = ALBUM_PATHTYPE_BY_PHONE;

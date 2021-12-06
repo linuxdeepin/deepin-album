@@ -67,7 +67,7 @@ FileInotify::~FileInotify()
     clear();
 }
 
-void FileInotify::addWather(const QString &paths, const QString &album)
+void FileInotify::addWather(const QString &paths, const QString &album, int UID)
 {
     QFileInfo info(paths);
     if (!info.exists() || !info.isDir()) {
@@ -75,6 +75,7 @@ void FileInotify::addWather(const QString &paths, const QString &album)
     }
     m_currentDir = paths + "/";
     m_currentAlbum = album;
+    m_currentUID = UID;
     m_watcher.addPath(paths);
 
     pathLoadOnce();
@@ -174,7 +175,7 @@ void FileInotify::onNeedSendPictures()
 {
     //发送导入
     if (m_newFile.size() > 0) {
-        emit dApp->signalM->sigMonitorChanged(m_newFile, m_currentAlbum);
+        emit dApp->signalM->sigMonitorChanged(m_newFile, m_currentAlbum, m_currentUID);
         m_newFile.clear();
     }
 }

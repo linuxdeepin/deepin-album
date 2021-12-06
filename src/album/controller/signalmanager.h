@@ -76,7 +76,7 @@ signals:
     void ImportFailed();
     void ImportSomeFailed(int successful, int failed);
     void ImportDonotFindPicOrVideo();
-    void RepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName);
+    void RepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, int UID);
     void ImgExportSuccess();
     void ImgExportFailed();
     void AlbExportSuccess();
@@ -88,11 +88,11 @@ signals:
     // Handle by album
     void createAlbum(QStringList imgPath = QStringList());
     void viewCreateAlbum(QString path, bool bmodel = true);
-    void sigCreateNewAlbumFrom(const QString &albumname);
-    void insertedIntoAlbum(const QString &album, const QStringList &paths);
-    void removedFromAlbum(const QString &album, const QStringList &paths);
-    void sigSendKeywordsIntoALLPic(QString keywords, QString album = nullptr);
-    void sigCreateNewAlbumFromDialog(const QString &albumname);
+    void sigCreateNewAlbumFrom(const QString &albumname, int UID);
+    void insertedIntoAlbum(int UID, const QStringList &paths);
+    void removedFromAlbum(int UID, const QStringList &paths);
+    void sigSendKeywordsIntoALLPic(QString keywords, QString album = nullptr, int UID = -1);
+    void sigCreateNewAlbumFromDialog(const QString &albumname, int UID);
     void sigMainwindowSliderValueChg(int value);
 //    void sigESCKeyActivated();
 //    void sigESCKeyStopSlide();
@@ -118,7 +118,7 @@ signals:
     void sigPauseOrStart(bool bpause);
 
     //监控到改变
-    void sigMonitorChanged(QStringList newfile, QString album);
+    void sigMonitorChanged(QStringList newfile, QString album, int UID);
 
 private:
     explicit SignalManager(QObject *parent = nullptr);

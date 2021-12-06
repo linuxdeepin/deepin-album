@@ -32,6 +32,7 @@ class AlbumCreateDialog : public DDialog
 public:
     explicit AlbumCreateDialog(DWidget *parent = nullptr);
     const QString getCreateAlbumName() const;
+    int getCreateUID() const;
     /**
      * @brief AlbumCreateDialog::getNewAlbumName
      * @param[in] baseName
@@ -42,11 +43,11 @@ public:
      * @return const QString
      * 根据已有相册名，获取对于数据库中不重复的新相册名，当isWithOutSefl为true的时候，查询不会包含自己，用于替换型查询
      */
-    static const QString getNewAlbumName(const QString &baseName, bool isWithOutSelf = false, const QString &beforeName = "");
+    static const QString getNewAlbumName(const QString &baseName);
     DLineEdit *getEdit();
 
 signals:
-    void albumAdded();
+    void albumAdded(int UID);
     void sigClose();
 
 protected:
@@ -68,6 +69,7 @@ private slots:
 
 private:
     QString m_createAlbumName;
+    int m_createUID = 0;
     DLineEdit *edit;
     bool m_OKClicked;
 

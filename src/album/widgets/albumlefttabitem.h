@@ -36,7 +36,7 @@ class AlbumLeftTabItem : public QWidget
 {
     Q_OBJECT
 public:
-    AlbumLeftTabItem(QString str, QString strAlbumType = "");
+    AlbumLeftTabItem(QString str, int UID, QString strAlbumType = "");
     ~AlbumLeftTabItem();
     void editAlbumEdit();
     void oriAlbumStatus();
@@ -56,6 +56,7 @@ public slots:
 public:
     QString m_albumNameStr;
     QString m_albumTypeStr;
+    int m_UID;
     int m_opeMode;
     DLineEdit *m_pLineEdit;
     DLineEdit *m_pNewLineEdit;

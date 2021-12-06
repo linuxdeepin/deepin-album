@@ -523,7 +523,7 @@ bool MainWindow::processOption(QStringList &paslist)
         }
     }
     if (!videos.isEmpty()) {
-        ImageEngineApi::instance()->ImportImagesFromFileList(videos, "", this, true);
+        ImageEngineApi::instance()->ImportImagesFromFileList(videos, "", -1, this, true);
     }
     if ("" != filepath && bneedexit) {
         exit(0);
@@ -566,13 +566,15 @@ void MainWindow::initCentralWidget()
     //获取所有自定义相册
     connect(ImageEngine::instance(), &ImageEngine::sigGetAlbumName, this, &MainWindow::onSendAlbumName);
     //公共库添加或新建相册请求
-    connect(ImageEngine::instance(), &ImageEngine::sigAddToAlbum, this, &MainWindow::onAddToAlbum);
+    //TODO：改公共库
+    //connect(ImageEngine::instance(), &ImageEngine::sigAddToAlbum, this, &MainWindow::onAddToAlbum);
     //公共库收藏/取消收藏操作
     connect(ImageEngine::instance(), &ImageEngine::sigAddOrRemoveToFav, this, &MainWindow::onAddOrRemoveToFav);
     //公共库导出操作
     connect(ImageEngine::instance(), &ImageEngine::sigExport, this, &MainWindow::onExport);
     //公共库：从相册中移除操作
-    connect(ImageEngine::instance(), &ImageEngine::sigRemoveFromCustom, this, &MainWindow::onRemoveFromCustom);
+    //TODO：改公共库
+    //connect(ImageEngine::instance(), &ImageEngine::sigRemoveFromCustom, this, &MainWindow::onRemoveFromCustom);
     //公共库：按下ESC键
     connect(ImageEngine::instance(), &ImageEngine::escShortcutActivated, this, &MainWindow::onEscShortcutActivated);
     //公共库：viewpanel界面图片全部删除
@@ -597,7 +599,7 @@ void MainWindow::initCentralWidget()
             absoluteFilePaths << inf.absoluteFilePath();
         }
         ImageDataService::instance()->readThumbnailByPaths(absoluteFilePaths);
-        ImageEngineApi::instance()->ImportImagesFromFileList(absoluteFilePaths, "", this);
+        ImageEngineApi::instance()->ImportImagesFromFileList(absoluteFilePaths, "", -1, this);
         //暂不支持视频首帧查看，只支持导入，视频和图片分开处理
         QString firstStr = absoluteFilePaths.at(0);
         if (utils::base::isVideo(firstStr)) {
@@ -1153,9 +1155,10 @@ void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
     });
 #endif
 
-    connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] {
-        DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpath.isEmpty() ? QStringList(" ") : QStringList(imgpath));
-        emit dApp->signalM->sigCreateNewAlbumFrom(d->getCreateAlbumName());
+    //此处需要同时接收dialog获取的UID和album name
+    connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] (int UID) {
+        DBManager::instance()->insertIntoAlbum(UID, imgpath.isEmpty() ? QStringList(" ") : QStringList(imgpath));
+        emit dApp->signalM->sigCreateNewAlbumFrom(d->getCreateAlbumName(), UID);
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess.svg");
         QString str = tr("Successfully added to “%1”");
         floatMessage(str.arg(d->getCreateAlbumName()), icon);
@@ -1176,19 +1179,19 @@ void MainWindow::showCreateDialog(QStringList imgpaths)
     });
 #endif
 
-    connect(d, &AlbumCreateDialog::albumAdded, this, [ = ]() {
+    connect(d, &AlbumCreateDialog::albumAdded, this, [ = ](int UID) {
         //double insert problem from here ,first insert at AlbumCreateDialog::createAlbum(albumname)
         if (nullptr == m_pAlbumview) {
             createAlbumView();
         }
-        emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName());
+        emit dApp->signalM->sigCreateNewAlbumFromDialog(d->getCreateAlbumName(), UID);
         m_pAlbumBtn->setChecked(true);
         m_pSearchEdit->clearEdit();
         m_SearchKey.clear();
         m_pAlbumview->m_pStatusBar->m_pSlider->setValue(m_pSliderPos);
         m_backIndex = VIEW_ALBUM;
-        DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(), imgpaths);
-        emit dApp->signalM->insertedIntoAlbum(m_pAlbumview->m_currentAlbum, imgpaths);
+        DBManager::instance()->insertIntoAlbum(UID, imgpaths);
+        emit dApp->signalM->insertedIntoAlbum(UID, imgpaths);
         emit dApp->signalM->hideImageView();    //该信号针对查看界面新建相册(快捷键 crtl+n)，正常退出
     });
 }
@@ -1282,9 +1285,9 @@ void MainWindow::onSearchEditFinished()
             }
             //LMH0514,为了解决26092 【相册】【5.6.9.14】在我的收藏相册下无法搜索到收藏的照片，加入我的收藏枚举
             else if (COMMON_STR_FAVORITES == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
-                emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_FAVORITES);
+                emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_FAVORITES, DBManager::SpUID::u_Favorite);
             } else if (COMMON_STR_CUSTOM == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
-                emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, m_pAlbumview->m_pLeftListView->getItemCurrentName());
+                emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, m_pAlbumview->m_pLeftListView->getItemCurrentName(), m_pAlbumview->m_pLeftListView->getItemCurrentUID());
             }
 
             m_pAlbumview->m_pRightStackWidget->setCurrentIndex(4);
@@ -1330,12 +1333,12 @@ void MainWindow::onImprotBtnClicked()
     ImageDataService::instance()->readThumbnailByPaths(file_list);
     if (m_iCurrentView == VIEW_ALBUM) {
         if (m_pAlbumview->m_currentType == ALBUM_PATHTYPE_BY_PHONE || m_pAlbumview->m_currentItemType == 0) {
-            ImageEngineApi::instance()->ImportImagesFromFileList(file_list, "", this, true);
+            ImageEngineApi::instance()->ImportImagesFromFileList(file_list, "", -1, this, true);
         } else {
-            ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_pAlbumview->m_currentAlbum, this, true);
+            ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_pAlbumview->m_currentAlbum, m_pAlbumview->m_currentUID, this, true);
         }
     } else {
-        ImageEngineApi::instance()->ImportImagesFromFileList(file_list, "", this, true);
+        ImageEngineApi::instance()->ImportImagesFromFileList(file_list, "", -1, this, true);
     }
 
 }
@@ -1392,7 +1395,7 @@ void MainWindow::updateCollectButton()
     if (path.isEmpty()) {
         return;
     }
-    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, path, AlbumDBType::Favourite)) {
+    if (DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, path, AlbumDBType::Favourite)) {
         m_collect->setToolTip(tr("Unfavorite"));
         m_collect->setIcon(QIcon::fromTheme("dcc_ccollection"));
         m_collect->setIconSize(QSize(36, 36));
@@ -1424,26 +1427,26 @@ void MainWindow::onLibDel()
     DBManager::instance()->removeImgInfos(QStringList(path));
 }
 
-void MainWindow::onAddToAlbum(bool isNew, const QString &album, const QString &path)
+void MainWindow::onAddToAlbum(bool isNew, int UID, const QString &album, const QString &path)
 {
     if (isNew) {
         emit dApp->signalM->viewCreateAlbum(path, false);
     } else {
-        if (! DBManager::instance()->isImgExistInAlbum(album, path)) {
+        if (! DBManager::instance()->isImgExistInAlbum(UID, path)) {
             emit dApp->signalM->sigAddToAlbToast(album);//提示
         }
-        DBManager::instance()->insertIntoAlbum(album, QStringList(path));
+        DBManager::instance()->insertIntoAlbum(UID, {path});
     }
 }
 
 void MainWindow::onAddOrRemoveToFav(const QString &path, bool isAdd)
 {
     Q_UNUSED(isAdd)
-    if (!DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, path, AlbumDBType::Favourite)) {//收藏
-        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(path), AlbumDBType::Favourite);
-        emit dApp->signalM->insertedIntoAlbum(COMMON_STR_FAVORITES, QStringList(path));
+    if (!DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, path, AlbumDBType::Favourite)) {//收藏
+        DBManager::instance()->insertIntoAlbum(DBManager::SpUID::u_Favorite, QStringList(path), AlbumDBType::Favourite);
+        emit dApp->signalM->insertedIntoAlbum(DBManager::SpUID::u_Favorite, QStringList(path));
     } else { //取消收藏
-        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(path), AlbumDBType::Favourite);
+        DBManager::instance()->removeFromAlbum(DBManager::SpUID::u_Favorite, QStringList(path), AlbumDBType::Favourite);
     }
 }
 
@@ -1452,10 +1455,10 @@ void MainWindow::onExport(const QString &path)
     emit dApp->signalM->exportImage(QStringList(path));
 }
 
-void MainWindow::onRemoveFromCustom(const QString &path, const QString &album)
+void MainWindow::onRemoveFromCustom(const QString &path, int UID)
 {
-    if (!album.isEmpty()) {
-        DBManager::instance()->removeFromAlbum(album, QStringList(path));
+    if (UID > 0) {
+        DBManager::instance()->removeFromAlbum(UID, QStringList(path));
     }
 }
 
@@ -1487,7 +1490,7 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
         }
         if (paths.count() > 0) {
             QString firstStr = paths.at(0);
-            ImageEngineApi::instance()->ImportImagesFromFileList(paths, "", this);
+            ImageEngineApi::instance()->ImportImagesFromFileList(paths, "", -1, this);
             if (utils::base::isVideo(firstStr)) {
                 if (m_pCenterWidget->currentIndex() == VIEW_IMAGE) {
                     onHideImageView();
@@ -1591,13 +1594,13 @@ void MainWindow::onCollectButtonClicked()
     if (path.isEmpty()) {
         return;
     }
-    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, path, AlbumDBType::Favourite)) {
-        DBManager::instance()->removeFromAlbum(COMMON_STR_FAVORITES, QStringList(path), AlbumDBType::Favourite);
+    if (DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, path, AlbumDBType::Favourite)) {
+        DBManager::instance()->removeFromAlbum(DBManager::SpUID::u_Favorite, QStringList(path), AlbumDBType::Favourite);
         m_collect->setToolTip(tr("Favorite"));
         m_collect->setIcon(QIcon::fromTheme("dcc_collection_normal"));
         m_collect->setIconSize(QSize(36, 36));
     } else {
-        DBManager::instance()->insertIntoAlbum(COMMON_STR_FAVORITES, QStringList(path), AlbumDBType::Favourite);
+        DBManager::instance()->insertIntoAlbum(DBManager::SpUID::u_Favorite, QStringList(path), AlbumDBType::Favourite);
         m_collect->setToolTip(tr("Unfavorite"));
         m_collect->setIcon(QIcon::fromTheme("dcc_ccollection"));
         m_collect->setIconSize(QSize(36, 36));
@@ -1658,8 +1661,42 @@ void MainWindow::showEvent(QShowEvent *event)
     }, Qt::QueuedConnection);
 
     //启动路径监控
-    startMonitor({QStandardPaths::standardLocations(QStandardPaths::PicturesLocation), QStandardPaths::standardLocations(QStandardPaths::MoviesLocation)},
-    {{"Camera", "Screen Capture", "Draw"}, {"Camera", "Screen Capture"}});
+    QStringList monitorPaths;
+    QStringList monitorAlbumNames;
+    QList<int>  monitorAlbumUIDs;
+
+    auto stdPicPaths = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
+    if (!stdPicPaths.isEmpty()) {
+        auto stdPicPath = stdPicPaths[0];
+
+        monitorPaths.push_back(stdPicPath + "/" + "Camera");
+        monitorPaths.push_back(stdPicPath + "/" + "Screen Capture");
+        monitorPaths.push_back(stdPicPath + "/" + "Draw");
+
+        monitorAlbumNames.push_back(tr("Camera"));
+        monitorAlbumNames.push_back(tr("Screen Capture"));
+        monitorAlbumNames.push_back(tr("Draw"));
+
+        monitorAlbumUIDs.push_back(DBManager::SpUID::u_Camera);
+        monitorAlbumUIDs.push_back(DBManager::SpUID::u_ScreenCapture);
+        monitorAlbumUIDs.push_back(DBManager::SpUID::u_Draw);
+    }
+
+    auto stdMoviePaths = QStandardPaths::standardLocations(QStandardPaths::MoviesLocation);
+    if (!stdMoviePaths.isEmpty()) {
+        auto stdMoviePath = stdMoviePaths[0];
+
+        monitorPaths.push_back(stdMoviePath + "/" + "Camera");
+        monitorPaths.push_back(stdMoviePath + "/" + "Screen Capture");
+
+        monitorAlbumNames.push_back(tr("Camera"));
+        monitorAlbumNames.push_back(tr("Screen Capture"));
+
+        monitorAlbumUIDs.push_back(DBManager::SpUID::u_Camera);
+        monitorAlbumUIDs.push_back(DBManager::SpUID::u_ScreenCapture);
+    }
+
+    startMonitor(monitorPaths, monitorAlbumNames, monitorAlbumUIDs);
 
     //读取并加载自定义的自动导入路径
     ImageEngineApi::instance()->ImportImagesFromCustomAutoPaths();
@@ -1981,17 +2018,11 @@ QJsonObject MainWindow::createShorcutJson()
     return main_shortcut;
 }
 
-void MainWindow::startMonitor(const QList<QStringList> &stdPaths, const QList<QStringList> &subPath)
+void MainWindow::startMonitor(const QStringList &paths, const QStringList &albumNames, const QList<int> UIDs)
 {
-    for (int i = 0; i != stdPaths.size(); ++i) {
-        if (stdPaths.at(i).size() > 0) {
-            QString path_root = stdPaths.at(i).at(0);
-            QStringList pic_notify(subPath.at(i));
-
-            for (auto eachPath : pic_notify) {
-                //添加文件夹是否存在判断，不存在则直接返回不进行监控
-                m_fileInotifygroup->startWatch(path_root + "/" + eachPath, eachPath);
-            }
+    for (int i = 0; i != paths.size(); ++i) {
+        if (paths.at(i).size() > 0) {
+            m_fileInotifygroup->startWatch(paths.at(i), albumNames.at(i), UIDs.at(i));
         }
     }
 }
@@ -2204,9 +2235,9 @@ void MainWindow::onAddDuplicatePhotos()
     floatMessage(str, icon);
 }
 
-void MainWindow::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, const QString &albumName)
+void MainWindow::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, int UID)
 {
-    Q_UNUSED(albumName)
+    Q_UNUSED(UID)
     QIcon icon(":/images/logo/resources/images/other/info_ash.svg");
     QString str;
 
@@ -2364,25 +2395,24 @@ void MainWindow::onSearchEditIsDisplay(bool bIsDisp)
 
 void MainWindow::onSendAlbumName(const QString &path)
 {
-    QStringList allalbums = DBManager::instance()->getAllAlbumNames();
-    allalbums.removeAll(COMMON_STR_FAVORITES);
-    allalbums.removeAll(COMMON_STR_TRASH);
-    allalbums.removeAll(COMMON_STR_RECENT_IMPORTED);
+    auto allalbums = DBManager::instance()->getAllAlbumNames();
 
     QMap<QString, bool> map;//true为包含。false为不包含
     QStringList paths;
     paths.append(path);
 
-    for (QString album : allalbums) {
-        if (DBManager::instance()->isAllImgExistInAlbum(album, paths, AlbumDBType::Custom)) {
-            map.insert(album, true);
+    for (auto &album : allalbums) {
+        if (DBManager::instance()->isAllImgExistInAlbum(album.first, paths, AlbumDBType::Custom)) {
+            map.insert(album.second, true);
         } else {
-            map.insert(album, false);
+            map.insert(album.second, false);
         }
     }
     bool isFav = false;
-    if (DBManager::instance()->isImgExistInAlbum(COMMON_STR_FAVORITES, path, AlbumDBType::Favourite)) {
+    if (DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, path, AlbumDBType::Favourite)) {
         isFav = true;
     }
+
+    //TODO：需要修改接口，使其回传UID
     m_imageViewer->setCustomAlbumName(map, isFav);
 }
