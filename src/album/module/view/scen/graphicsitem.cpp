@@ -123,6 +123,8 @@ void GraphicsPixmapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
             painter->resetTransform();
             painter->drawPixmap(offset() + QPointF(ts.dx(), ts.dy()), pixmap);
             painter->setTransform(ts);
+        } else {
+            QGraphicsPixmapItem::paint(painter, option, widget);
         }
     } else {
         QGraphicsPixmapItem::paint(painter, option, widget);
