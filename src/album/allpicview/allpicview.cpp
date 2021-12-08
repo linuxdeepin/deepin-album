@@ -203,7 +203,7 @@ void AllPicView::updateStackedWidget()
 
 void AllPicView::monitorHaveNewFile(QStringList list, QString album, int UID)
 {
-    ImageEngineApi::instance()->ImportImagesFromFileList(list, album, UID, this, true);
+    ImageEngineApi::instance()->ImportImagesFromFileList(list, album, UID, this, true, AutoImport);
 }
 
 void AllPicView::updatePicsIntoThumbnailView()

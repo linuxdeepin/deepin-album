@@ -893,7 +893,7 @@ DMenu *ThumbnailListView::createAlbumMenu()
     QAction *ac1 = new QAction(am);
     ac1->setProperty("MenuID", IdAddToAlbum);
     ac1->setText(tr("New album"));
-    ac1->setData(-1);
+    ac1->setData(-1); //设置UID为-1表示为新建相册选项
     am->addAction(ac1);
     am->addSeparator();
     QModelIndexList indexList = selectionModel()->selectedIndexes();
@@ -997,12 +997,16 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         emit sigSlideShow(path);
         break;
     case IdAddToAlbum: {
+        //缩略图右键添加进相册流程
+        //1.获取和action绑定的相册UID
         int UID = action->data().toInt();
+        //2.根据UID获取对应的相册名
         auto album = DBManager::instance()->getAlbumNameFromUID(UID);
+        //3.1若不是创建相册选项，则执行插入图片流程
         if (UID != -1) {
             if (1 == paths.count()) {
                 if (!DBManager::instance()->isImgExistInAlbum(UID, paths[0])) {
-                    emit dApp->signalM->sigAddToAlbToast(album);//TODO：根据UID获取相册名
+                    emit dApp->signalM->sigAddToAlbToast(album);
                 }
             } else {
                 emit dApp->signalM->sigAddToAlbToast(album);
@@ -1010,6 +1014,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
             DBManager::instance()->insertIntoAlbum(UID, paths);
             emit dApp->signalM->insertedIntoAlbum(UID, paths);
         } else {
+            //3.2是创建相册则执行新建相册流程
             emit dApp->signalM->createAlbum(paths);
         }
         break;

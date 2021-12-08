@@ -36,8 +36,8 @@ class ImportImagesThread : public ImageEngineThreadObject
 public:
     ImportImagesThread();
     ~ImportImagesThread() override;
-    void setData(QStringList &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect);
-    void setData(QList<QUrl> &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect);
+    void setData(QStringList &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType);
+    void setData(QList<QUrl> &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType);
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
@@ -58,6 +58,7 @@ private:
     QList<QUrl> m_urls;
     int m_UID;
     QString m_albumname;
+    AlbumDBType m_dbType;
     ImageEngineImportObject *m_obj = nullptr;
     bool m_bdialogselect = false;
     DataType m_type = DataType_NULL;

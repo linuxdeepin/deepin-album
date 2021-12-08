@@ -923,7 +923,7 @@ void AlbumView::updateRightMyFavoriteView()
 {
     using namespace utils::image;
     DBImgInfoList infos;
-    infos = DBManager::instance()->getInfosByAlbum(m_currentUID, AlbumDBType::Favourite);
+    infos = DBManager::instance()->getInfosByAlbum(m_currentUID);
     m_curThumbnaiItemList_info << infos;
     m_favoriteThumbnailList->clearAll();
     //插入上方空白项
@@ -1050,13 +1050,17 @@ void AlbumView::leftTabClicked()
 {
     emit dApp->signalM->SearchEditClear();
     //若点击当前的item，则不做任何处理
-    if (m_currentAlbum == m_pLeftListView->getItemCurrentName()
+    //判定规则：相同的UID+相同的名称+相同的类型，三者同时相同即判定为同一个项
+    //不加相同的名称会导致无法在 已导入、最近删除、我的收藏 三个选项间切换
+    if (m_currentUID == m_pLeftListView->getItemCurrentUID()
+            && m_currentAlbum == m_pLeftListView->getItemCurrentName()
             && m_currentItemType == m_pLeftListView->getItemDataType()) {
         SearchReturnUpdate();
         return;
     }
     m_currentAlbum = m_pLeftListView->getItemCurrentName();
     m_currentType = m_pLeftListView->getItemCurrentType();
+    m_currentUID = m_pLeftListView->getItemCurrentUID();
     m_currentItemType = static_cast<AblumType>(m_pLeftListView->getItemDataType());
     qDebug() << "------" << __FUNCTION__ << "";
     updateRightView();
@@ -1661,7 +1665,7 @@ void AlbumView::SearchReturnUpdate()
             m_trashBatchOperateWidget->setVisible(infos.size() > 0);
         } else if (COMMON_STR_FAVORITES == m_currentAlbum) {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
-            DBImgInfoList infos = DBManager::instance()->getInfosByAlbum(m_currentUID, AlbumDBType::Favourite);
+            DBImgInfoList infos = DBManager::instance()->getInfosByAlbum(m_currentUID);
             //收藏内没有图片，隐藏批量处理按钮
             m_FavoriteTitleWidget->setVisible(infos.size() > 0);
         } else if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum) {

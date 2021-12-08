@@ -207,8 +207,21 @@ void LeftListView::initUI()
     m_pCustomizeListView->setFrameShape(DListWidget::NoFrame);
     m_pCustomizeListView->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    auto allAlbumNames = DBManager::instance()->getAllAlbumNames();
-    for (auto albumName : allAlbumNames) {
+    //自动导入路径
+    auto autoImportAlbumNames = DBManager::instance()->getAllAlbumNames(AutoImport);
+    for (auto albumName : autoImportAlbumNames) {
+        QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pCustomizeListView, 1);
+        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160 /*+ 8*/, LEFT_VIEW_LISTITEM_HEIGHT_40));
+
+        AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName.second, albumName.first, "AutoImport");
+        pAlbumLeftTabItem->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_160 /*+ 8*/);
+        pAlbumLeftTabItem->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
+        m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+    }
+
+    //自定义相册
+    auto customAlbumNames = DBManager::instance()->getAllAlbumNames(Custom);
+    for (auto albumName : customAlbumNames) {
         QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pCustomizeListView, 1);
         pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160 /*+ 8*/, LEFT_VIEW_LISTITEM_HEIGHT_40));
 
@@ -342,14 +355,27 @@ void LeftListView::showMenu(const QPoint &pos)
         action->setEnabled(true);
     }
 
-    if (0 < DBManager::instance()->getItemsCountByAlbum(m_currentUID, ItemTypeVideo)) {
+    auto dbType = DBManager::instance()->getAlbumDBTypeFromUID(m_currentUID);
+
+    if (dbType == AutoImport) { //自动导入路径不可重命名和新建相册
+        m_MenuActionMap.value(tr("Rename"))->setVisible(false);
+        m_MenuActionMap.value(tr("New album"))->setVisible(false);
+
+        //默认自动导入路径删除
+        if (DBManager::instance()->isDefaultAutoImportDB(m_currentUID)) {
+            m_MenuActionMap.value(tr("Delete"))->setVisible(false);
+        }
+    }
+
+    if (0 < DBManager::instance()->getItemsCountByAlbum(m_currentUID, ItemTypeVideo, dbType)) {//隐藏导出
         m_MenuActionMap.value(tr("Export"))->setVisible(false);
     }
 
-    if (0 == DBManager::instance()->getItemsCountByAlbum(m_currentUID, ItemTypePic)) {
+    if (0 == DBManager::instance()->getItemsCountByAlbum(m_currentUID, ItemTypePic, dbType)) {//隐藏幻灯片和导出
         m_MenuActionMap.value(tr("Slide show"))->setVisible(false);
         m_MenuActionMap.value(tr("Export"))->setVisible(false);
     }
+
     m_pMenu->popup(QCursor::pos());
 }
 

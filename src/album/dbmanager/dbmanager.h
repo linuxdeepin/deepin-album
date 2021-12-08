@@ -46,7 +46,8 @@ const QString DATETIME_FORMAT_DATABASE = "yyyy.MM.dd hh:mm";
 enum AlbumDBType {
     Favourite,
     Custom,
-    AutoImport
+    AutoImport,
+    TypeCount
 };
 
 class QSqlDatabase;
@@ -67,8 +68,8 @@ public:
     enum SpUID {
         u_NotInAnyAlbum = -1,
         u_Favorite,
-        u_ScreenCapture,
         u_Camera,
+        u_ScreenCapture,
         u_Draw,
         u_CustomStart
     };
@@ -104,12 +105,15 @@ public:
     const QMultiMap<QString, QString> getAllPathAlbumNames() const;
     //输入：相册类型，输出：所属类型下的相册UID、相册名称
     const QList<std::pair<int, QString> > getAllAlbumNames(AlbumDBType atype = AlbumDBType::Custom) const;
+    //从UID判断是否是默认导入路径
+    bool isDefaultAutoImportDB(int UID) const;
     const QStringList       getPathsByAlbum(int UID, AlbumDBType atype = AlbumDBType::Custom) const;
-    const DBImgInfoList     getInfosByAlbum(int UID, AlbumDBType atype = AlbumDBType::Custom) const;
+    const DBImgInfoList     getInfosByAlbum(int UID) const;
     int                     getItemsCountByAlbum(int UID, const ItemType &type, AlbumDBType atype = AlbumDBType::Custom) const;
 //    int                     getAlbumsCount() const;
     bool                    isAlbumExistInDB(int UID, AlbumDBType atype = AlbumDBType::Custom) const;
     QString                 getAlbumNameFromUID(int UID) const;
+    AlbumDBType             getAlbumDBTypeFromUID(int UID) const;
     bool                    isAllImgExistInAlbum(int UID, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom) const;
     bool                    isImgExistInAlbum(int UID, const QString &path, AlbumDBType atype = AlbumDBType::Custom) const;
     bool                    insertIntoAlbum(int UID, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);

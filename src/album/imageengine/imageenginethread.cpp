@@ -97,7 +97,7 @@ ImportImagesThread::~ImportImagesThread()
     qDebug() << "ImportImagesThread destoryed";
 }
 
-void ImportImagesThread::setData(QList<QUrl> &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect)
+void ImportImagesThread::setData(QList<QUrl> &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType)
 {
     m_urls = paths;
     m_UID = UID;
@@ -105,9 +105,10 @@ void ImportImagesThread::setData(QList<QUrl> &paths, const QString &albumname, i
     m_bdialogselect = bdialogselect;
     m_type = DataType_UrlList;
     m_albumname = albumname;
+    m_dbType = dbType;
 }
 
-void ImportImagesThread::setData(QStringList &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect)
+void ImportImagesThread::setData(QStringList &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType)
 {
     m_paths = paths;
     m_UID = UID;
@@ -115,6 +116,7 @@ void ImportImagesThread::setData(QStringList &paths, const QString &albumname, i
     m_bdialogselect = bdialogselect;
     m_type = DataType_StringList;
     m_albumname = albumname;
+    m_dbType = dbType;
 }
 
 bool ImportImagesThread::ifCanStopThread(void *imgobject)
@@ -290,7 +292,7 @@ void ImportImagesThread::runDetail()
             pathlistImport << info.filePath;
             if (count == 200) {
                 //导入相册数据库AlbumTable3
-                DBManager::instance()->insertIntoAlbum(m_UID, pathlistImport);
+                DBManager::instance()->insertIntoAlbum(m_UID, pathlistImport, m_dbType);
                 ImageDataService::instance()->readThumbnailByPaths(pathlistImport, true, true);
                 pathlistImport.clear();
                 //导入图片数据库ImageTable3
@@ -300,7 +302,7 @@ void ImportImagesThread::runDetail()
             emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
         }
         //导入相册数据库AlbumTable3
-        DBManager::instance()->insertIntoAlbum(m_UID, pathlistImport);
+        DBManager::instance()->insertIntoAlbum(m_UID, pathlistImport, m_dbType);
         ImageDataService::instance()->readThumbnailByPaths(pathlistImport, true, true);
         pathlistImport.clear();
         //导入图片数据库ImageTable3

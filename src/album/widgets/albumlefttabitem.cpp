@@ -73,6 +73,7 @@ void AlbumLeftTabItem::initUI()
     pImageLabel = new DLabel();
     pImageLabel->setFixedSize(24, 24);
     QPixmap pixmap;
+
     if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr) {
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_iphone_normal.svg", QSize(24, 24));
     } else if (ALBUM_PATHTYPE_BY_U == m_albumTypeStr) {
@@ -90,9 +91,8 @@ void AlbumLeftTabItem::initUI()
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_trash_normal.svg", QSize(24, 24));
     } else if (COMMON_STR_FAVORITES == m_albumNameStr) {
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_collection_normal.svg", QSize(24, 24));
-    }  else {
+    } else {
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_album_normal.svg", QSize(24, 24));
-
     }
     pImageLabel->setPixmap(pixmap);
 
@@ -218,7 +218,8 @@ void AlbumLeftTabItem::onCheckNameValid()
         newNameStr = AlbumCreateDialog::getNewAlbumName(m_nameLabel->text());
     }
     if (OPE_MODE_RENAMEALBUM == m_opeMode || OPE_MODE_ADDRENAMEALBUM == m_opeMode) {
-        newNameStr = AlbumCreateDialog::getNewAlbumName(m_nameLabel->text());
+        //由于m_nameLabel->text()的值还是原来的值，此处修改为直接使用上面获取的lineedit的值
+        newNameStr = AlbumCreateDialog::getNewAlbumName(newNameStr);
         QFontMetrics elideFont(m_nameLabel->font());
         m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
         m_nameLabel->oldstr = newNameStr;

@@ -136,7 +136,9 @@ void LeftListWidget::SaveRename(QPoint p)
         QModelIndexList indexs = this->selectedIndexes();
         for (auto idx : indexs) {
             AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(this->itemWidget(this->item(idx.row())));
-            emit item->m_pLineEdit->editingFinished();
+            if (item->m_pLineEdit->isVisible()) { //如果lineedit不可见则表示是在未触发编辑的情况下点击lift list下方的空白处，此时不需要发射这个信号，否则会导致点几下新建几个相册
+                emit item->m_pLineEdit->editingFinished();
+            }
         }
     }
 }

@@ -57,7 +57,6 @@ DBManager::DBManager(QObject *parent)
     , m_db(QSqlDatabase::addDatabase("QSQLITE", "album_sql_connect"))
 {
     m_db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
-    albumMaxUID = u_CustomStart;
     checkDatabase();
 }
 
@@ -418,6 +417,15 @@ const QList<std::pair<int, QString>> DBManager::getAllAlbumNames(AlbumDBType aty
     return list;
 }
 
+bool DBManager::isDefaultAutoImportDB(int UID) const
+{
+    if (UID > u_Favorite && UID < u_CustomStart) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 const QStringList DBManager::getPathsByAlbum(int UID, AlbumDBType atype) const
 {
     QMutexLocker mutex(&m_mutex);
@@ -446,7 +454,7 @@ const QStringList DBManager::getPathsByAlbum(int UID, AlbumDBType atype) const
     return list;
 }
 
-const DBImgInfoList DBManager::getInfosByAlbum(int UID, AlbumDBType atype) const
+const DBImgInfoList DBManager::getInfosByAlbum(int UID) const
 {
     QMutexLocker mutex(&m_mutex);
     DBImgInfoList infos;
@@ -459,10 +467,8 @@ const DBImgInfoList DBManager::getInfosByAlbum(int UID, AlbumDBType atype) const
     bool b = query.prepare("SELECT DISTINCT i.FilePath, i.FileName, i.FileType, i.Time, i.ChangeTime, i.ImportTime "
                            "FROM ImageTable3 AS i, AlbumTable3 AS a "
                            "WHERE i.PathHash=a.PathHash "
-                           "AND a.UID=:UID "
-                           "AND a.AlbumDBType=:atype ");
+                           "AND a.UID=:UID ");
     query.bindValue(":UID", UID);
-    query.bindValue(":atype", atype);
     if (!b || ! query.exec()) {
         //    qWarning() << "Get ImgInfo by album failed: " << query.lastError();
     } else {
@@ -594,12 +600,10 @@ bool DBManager::isImgExistInAlbum(int UID, const QString &path, AlbumDBType atyp
 
 QString DBManager::getAlbumNameFromUID(int UID) const
 {
-    QString result;
-
     QMutexLocker mutex(&m_mutex);
     QSqlDatabase db = getDatabase();
     if (!db.isValid()) {
-        return result;
+        return QString();
     }
 
     QSqlQuery query(db);
@@ -607,10 +611,29 @@ QString DBManager::getAlbumNameFromUID(int UID) const
     bool b = query.exec(QString("SELECT DISTINCT AlbumName FROM AlbumTable3 WHERE UID=%1").arg(UID));
     if (!b || !query.next()) {
         db.close();
-        return result;
+        return QString();
     }
 
     return query.value(0).toString();
+}
+
+AlbumDBType DBManager::getAlbumDBTypeFromUID(int UID) const
+{
+    QMutexLocker mutex(&m_mutex);
+    QSqlDatabase db = getDatabase();
+    if (!db.isValid()) {
+        return TypeCount;
+    }
+
+    QSqlQuery query(db);
+    query.setForwardOnly(true);
+    bool b = query.exec(QString("SELECT DISTINCT AlbumDBType FROM AlbumTable3 WHERE UID=%1").arg(UID));
+    if (!b || !query.next()) {
+        db.close();
+        return TypeCount;
+    }
+
+    return static_cast<AlbumDBType>(query.value(0).toInt());
 }
 
 bool DBManager::isAlbumExistInDB(int UID, AlbumDBType atype) const
@@ -1300,9 +1323,16 @@ void DBManager::checkDatabase()
 
     //预先插入特殊UID
     insertSpUID(db, "Favorite", Favourite, u_Favorite);
-    insertSpUID(db, "Screen Capture", AutoImport, u_ScreenCapture);//应用album name的SQL语句注意加冒号
     insertSpUID(db, "Camera", AutoImport, u_Camera);
+    insertSpUID(db, "Screen Capture", AutoImport, u_ScreenCapture);//使用album name的SQL语句注意加冒号
     insertSpUID(db, "Draw", AutoImport, u_Draw);
+
+    //搜索当前最大ID值
+    QSqlQuery sqlId(db);
+    sqlId.exec("SELECT max(UID) FROM AlbumTable3");
+    sqlId.next();
+    albumMaxUID = sqlId.value(0).toInt();
+    albumMaxUID++;
 
     // 判断TrashTable的版本
     QString strSqlTrashTable = QString::fromLocal8Bit("select * from sqlite_master where name = \"TrashTable3\"");
@@ -1363,7 +1393,17 @@ void DBManager::checkDatabase()
 
 void DBManager::insertSpUID(QSqlDatabase &db, const QString &albumName, AlbumDBType astype, SpUID UID)
 {
+    //使用传入的db防死锁
     QSqlQuery query(db);
+
+    //1.检查当前需要新建的sp相册是否存在
+    query.exec(QString("SELECT UID FROM AlbumTable3 WHERE UID=%1").arg(UID));
+    if (query.next()) {
+        return;
+    }
+
+    //2.不存在则插入数据
+    query.clear();
     query.prepare("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, ?, ?, ?, ?)");
     query.addBindValue(albumName);
     query.addBindValue("7215ee9c7d9dc229d2921a40e899ec5f");
