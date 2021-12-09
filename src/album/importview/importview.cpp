@@ -73,25 +73,25 @@ void ImportView::initUI()
     m_pImportBtn->setFixedSize(302, 36);
     m_pImportBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
-    pDragLabel = new DLabel();
-    DFontSizeManager::instance()->bind(pDragLabel, DFontSizeManager::T9, QFont::ExtraLight);
-    pDragLabel->setForegroundRole(DPalette::TextTips);
-    pDragLabel->setFixedHeight(18);
-    pDragLabel->setText(tr("Or drag them here"));
+    pNoteLabel = new DLabel();
+    DFontSizeManager::instance()->bind(pNoteLabel, DFontSizeManager::T9, QFont::ExtraLight);
+    pNoteLabel->setForegroundRole(DPalette::TextTips);
+    pNoteLabel->setFixedHeight(18);
+    pNoteLabel->setText(tr("Or drag them here"));
 
     //#BUG90879，字体风格调整
-    DPalette palette = DApplicationHelper::instance()->palette(pDragLabel);
+    DPalette palette = DApplicationHelper::instance()->palette(pNoteLabel);
     QColor color_TTT = palette.color(DPalette::ToolTipText);
     if (themeType == DGuiApplicationHelper::LightType) {
         color_TTT.setAlphaF(0.4);
         palette.setBrush(DPalette::Text, color_TTT);
-        pDragLabel->setForegroundRole(DPalette::Text);
-        pDragLabel->setPalette(palette);
+        pNoteLabel->setForegroundRole(DPalette::Text);
+        pNoteLabel->setPalette(palette);
     } else if (themeType == DGuiApplicationHelper::DarkType) {
         color_TTT.setAlphaF(0.5);
         palette.setBrush(DPalette::Text, color_TTT);
-        pDragLabel->setForegroundRole(DPalette::Text);
-        pDragLabel->setPalette(palette);
+        pNoteLabel->setForegroundRole(DPalette::Text);
+        pNoteLabel->setPalette(palette);
     }
 
     pImportFrameLayout->setMargin(0);
@@ -100,7 +100,7 @@ void ImportView::initUI()
     pImportFrameLayout->addSpacing(5);
     pImportFrameLayout->addWidget(m_pImportBtn, 0, Qt::AlignCenter);
     pImportFrameLayout->addSpacing(10);
-    pImportFrameLayout->addWidget(pDragLabel, 0, Qt::AlignCenter);
+    pImportFrameLayout->addWidget(pNoteLabel, 0, Qt::AlignCenter);
     pImportFrameLayout->addStretch();
     setLayout(pImportFrameLayout);
 }
@@ -149,18 +149,18 @@ void ImportView::onThemeTypeChanged()
     pLabel->setPixmap(pixmap);
 
     //#BUG90879，字体风格调整
-    DPalette palette = DApplicationHelper::instance()->palette(pDragLabel);
+    DPalette palette = DApplicationHelper::instance()->palette(pNoteLabel);
     QColor color_TTT = palette.color(DPalette::ToolTipText);
     if (themeType == DGuiApplicationHelper::LightType) {
         color_TTT.setAlphaF(0.4);
         palette.setBrush(DPalette::Text, color_TTT);
-        pDragLabel->setForegroundRole(DPalette::Text);
-        pDragLabel->setPalette(palette);
+        pNoteLabel->setForegroundRole(DPalette::Text);
+        pNoteLabel->setPalette(palette);
     } else if (themeType == DGuiApplicationHelper::DarkType) {
         color_TTT.setAlphaF(0.5);
         palette.setBrush(DPalette::Text, color_TTT);
-        pDragLabel->setForegroundRole(DPalette::Text);
-        pDragLabel->setPalette(palette);
+        pNoteLabel->setForegroundRole(DPalette::Text);
+        pNoteLabel->setPalette(palette);
     }
 }
 
@@ -212,7 +212,6 @@ void ImportView::onImprotBtnClicked(bool useDialog, const QStringList &list)
     ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_albumname, m_UID, this, true);
 }
 
-
 bool ImportView::imageImported(bool success)
 {
     emit dApp->signalM->closeWaitDialog();
@@ -230,4 +229,51 @@ void ImportView::setAlbumname(const QString &name)
 void ImportView::setUID(int UID)
 {
     m_UID = UID;
+
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+
+    //如果是自动导入进来的，需要做特殊处理
+    if (DBManager::instance()->getAlbumDBTypeFromUID(m_UID) == AutoImport) {
+        m_pImportBtn->setVisible(false);
+        pLabel->setVisible(false);
+        pNoteLabel->setText(tr("No photos or videos found"));
+
+        //特殊风格
+        pNoteLabel->setFixedHeight(32);
+        pNoteLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T4));
+        DPalette palette = DApplicationHelper::instance()->palette(pNoteLabel);
+        QColor color_TTT = palette.color(DPalette::ToolTipText);
+        if (themeType == DGuiApplicationHelper::LightType) {
+            color_TTT.setAlphaF(0.3);
+            palette.setBrush(DPalette::Text, color_TTT);
+            pNoteLabel->setForegroundRole(DPalette::Text);
+            pNoteLabel->setPalette(palette);
+        } else if (themeType == DGuiApplicationHelper::DarkType) {
+            color_TTT.setAlphaF(0.4);
+            palette.setBrush(DPalette::Text, color_TTT);
+            pNoteLabel->setForegroundRole(DPalette::Text);
+            pNoteLabel->setPalette(palette);
+        }
+    } else { //如果是其它界面，则还原回去
+        m_pImportBtn->setVisible(true);
+        pLabel->setVisible(true);
+        pNoteLabel->setText(tr("Or drag them here"));
+
+        //原版风格
+        pNoteLabel->setFixedHeight(18);
+        pNoteLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T9));
+        DPalette palette = DApplicationHelper::instance()->palette(pNoteLabel);
+        QColor color_TTT = palette.color(DPalette::ToolTipText);
+        if (themeType == DGuiApplicationHelper::LightType) {
+            color_TTT.setAlphaF(0.4);
+            palette.setBrush(DPalette::Text, color_TTT);
+            pNoteLabel->setForegroundRole(DPalette::Text);
+            pNoteLabel->setPalette(palette);
+        } else if (themeType == DGuiApplicationHelper::DarkType) {
+            color_TTT.setAlphaF(0.5);
+            palette.setBrush(DPalette::Text, color_TTT);
+            pNoteLabel->setForegroundRole(DPalette::Text);
+            pNoteLabel->setPalette(palette);
+        }
+    }
 }

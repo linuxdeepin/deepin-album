@@ -28,6 +28,8 @@
 NoResultWidget::NoResultWidget(QWidget *parent): QWidget(parent)
 {
     initNoSearchResultView();
+
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, &NoResultWidget::changeTheme);
 }
 
 NoResultWidget::~NoResultWidget()

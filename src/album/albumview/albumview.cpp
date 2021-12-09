@@ -471,7 +471,7 @@ void AlbumView::initRightView()
         m_pStatusBar->show();
     } else {
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-        m_pStatusBar->setVisible(false);
+        m_pStatusBar->setVisible(false); //隐藏底部栏
     }
 }
 //初始化最近删除列表
@@ -911,8 +911,9 @@ void AlbumView::updateRightImportView()
     } else {
         m_pImpTimeLineView->clearAndStartLayout();
         m_pImportView->setAlbumname(QString());
+        m_pImportView->setUID(-1);
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-        m_pStatusBar->setVisible(false);
+        m_pStatusBar->setVisible(false); //隐藏底部栏
     }
     emit sigSearchEditIsDisplay(true);
     setAcceptDrops(true);
@@ -1006,8 +1007,9 @@ void AlbumView::updateRightCustomAlbumView()
         //todo
 //        m_pRightThumbnailList->loadFilesFromLocal(infos);
         m_pImportView->setAlbumname(m_currentAlbum);
+        m_pImportView->setUID(m_currentUID);
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-        m_pStatusBar->setVisible(false);
+        m_pStatusBar->setVisible(false); //隐藏底部栏
     }
 
     emit sigSearchEditIsDisplay(true);
@@ -2194,7 +2196,7 @@ void AlbumView::onImportFailedToView()
         m_spinner->hide();
         m_spinner->stop();
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-        m_pStatusBar->setVisible(false);
+        m_pStatusBar->setVisible(false); //隐藏底部栏
     }
 }
 
@@ -2292,6 +2294,7 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
     m_pStatusBar->m_pAllPicNumLabel->setText(m_pPhonePicTotal->text());
     qDebug() << "------图片缩略图加载完成---" << QThread::currentThreadId() << infos.size();
 }
+
 //筛选显示，当先列表中内容为无结果
 void AlbumView::slotNoPicOrNoVideo(bool isNoResult)
 {

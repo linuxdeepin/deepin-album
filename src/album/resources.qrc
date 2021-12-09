@@ -59,6 +59,18 @@
         <file>resources/light/button_tab_close_press 2.svg</file>
         <file>resources/dark/naviwindow_bg.svg</file>
         <file>resources/light/naviwindow_bg.svg</file>
+        <file>resources/images/sidebar/normal/icon_camera_normal_dark.svg</file>
+        <file>resources/images/sidebar/normal/icon_camera_normal.svg</file>
+        <file>resources/images/sidebar/normal/icon_custompath_normal_dark.svg</file>
+        <file>resources/images/sidebar/normal/icon_custompath_normal.svg</file>
+        <file>resources/images/sidebar/normal/icon_draw_normal_dark.svg</file>
+        <file>resources/images/sidebar/normal/icon_draw_normal.svg</file>
+        <file>resources/images/sidebar/normal/icon_screencapture_normal_dark.svg</file>
+        <file>resources/images/sidebar/normal/icon_screencapture_normal.svg</file>
+        <file>resources/images/sidebar/active/icon_camera_active.svg</file>
+        <file>resources/images/sidebar/active/icon_custompath_active.svg</file>
+        <file>resources/images/sidebar/active/icon_draw_active.svg</file>
+        <file>resources/images/sidebar/active/icon_screencapture_active.svg</file>
     </qresource>
     <qresource prefix="/qt-project.org/dialogs">
         <file>resources/images/qprintpreviewdialog/images/go-first-24.svg</file>

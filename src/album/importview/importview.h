@@ -78,7 +78,7 @@ public:
     int m_UID;
     DLabel *pLabel;
     DBImgInfoList m_dbInfos;
-    DLabel *pDragLabel;
+    DLabel *pNoteLabel;
 };
 
 #endif // IMPORTVIEW_H

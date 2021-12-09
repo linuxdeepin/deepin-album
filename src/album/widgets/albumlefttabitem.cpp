@@ -74,7 +74,23 @@ void AlbumLeftTabItem::initUI()
     pImageLabel->setFixedSize(24, 24);
     QPixmap pixmap;
 
-    if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr) {
+    if (DBManager::instance()->isDefaultAutoImportDB(m_UID)) { //如果是默认自动导入
+        switch (m_UID) {
+        case DBManager::SpUID::u_Camera:
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_camera_normal.svg", QSize(24, 24));
+            break;
+        case DBManager::SpUID::u_Draw:
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_draw_normal.svg", QSize(24, 24));
+            break;
+        case DBManager::SpUID::u_ScreenCapture:
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_screencapture_normal.svg", QSize(24, 24));
+            break;
+        default:
+            break;
+        }
+    } else if (DBManager::instance()->getAlbumDBTypeFromUID(m_UID) == AutoImport) { //如果是自定义默认导入
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_custompath_normal.svg", QSize(24, 24));
+    } else if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr) {
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_iphone_normal.svg", QSize(24, 24));
     } else if (ALBUM_PATHTYPE_BY_U == m_albumTypeStr) {
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
@@ -255,11 +271,47 @@ void AlbumLeftTabItem::onCheckNameValid()
 
 void AlbumLeftTabItem::oriAlbumStatus()
 {
-    if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr) {
-        QPixmap pixmap;
-        QPixmap mountpixmap;
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    QPixmap pixmap;
 
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if (DBManager::instance()->isDefaultAutoImportDB(m_UID)) { //如果是默认自动导入
+        if (themeType == DGuiApplicationHelper::LightType) {
+            switch (m_UID) {
+            case DBManager::SpUID::u_Camera:
+                pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_camera_normal.svg", QSize(24, 24));
+                break;
+            case DBManager::SpUID::u_Draw:
+                pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_draw_normal.svg", QSize(24, 24));
+                break;
+            case DBManager::SpUID::u_ScreenCapture:
+                pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_screencapture_normal.svg", QSize(24, 24));
+                break;
+            default:
+                break;
+            }
+        } else {
+            switch (m_UID) {
+            case DBManager::SpUID::u_Camera:
+                pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_camera_normal_dark.svg", QSize(24, 24));
+                break;
+            case DBManager::SpUID::u_Draw:
+                pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_draw_normal_dark.svg", QSize(24, 24));
+                break;
+            case DBManager::SpUID::u_ScreenCapture:
+                pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_screencapture_normal_dark.svg", QSize(24, 24));
+                break;
+            default:
+                break;
+            }
+        }
+    } else if (DBManager::instance()->getAlbumDBTypeFromUID(m_UID) == AutoImport) { //如果是自定义默认导入
+        if (themeType == DGuiApplicationHelper::LightType) {
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_custompath_normal.svg", QSize(24, 24));
+        } else {
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_custompath_normal_dark.svg", QSize(24, 24));
+        }
+    } else if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr) {
+        QPixmap mountpixmap;
         if (themeType == DGuiApplicationHelper::LightType) {
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_iphone_normal.svg", QSize(24, 24));
             mountpixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_exit_normal.svg", QSize(24, 24));
@@ -268,14 +320,9 @@ void AlbumLeftTabItem::oriAlbumStatus()
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_iphone_normal_dark.svg", QSize(24, 24));
             mountpixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_exit_normal_dark.svg", QSize(24, 24));
         }
-
-        pImageLabel->setPixmap(pixmap);
         m_unMountBtn->setPixmap(mountpixmap);
     } else if (ALBUM_PATHTYPE_BY_U == m_albumTypeStr) {
-        QPixmap pixmap;
         QPixmap mountpixmap;
-
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType) {
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_usb_normal.svg", QSize(24, 24));
             mountpixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_exit_normal.svg", QSize(24, 24));
@@ -284,71 +331,69 @@ void AlbumLeftTabItem::oriAlbumStatus()
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_usb_normal_dark.svg", QSize(24, 24));
             mountpixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_exit_normal_dark.svg", QSize(24, 24));
         }
-
-        pImageLabel->setPixmap(pixmap);
         m_unMountBtn->setPixmap(mountpixmap);
     } else if (COMMON_STR_CUSTOM == m_albumTypeStr || COMMON_STR_CREATEALBUM == m_albumTypeStr) {
-        QPixmap pixmap;
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType) {
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_album_normal.svg", QSize(24, 24));
         }
         if (themeType == DGuiApplicationHelper::DarkType) {
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_album_normal_dark.svg", QSize(24, 24));
         }
-        pImageLabel->setPixmap(pixmap);
     } else if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr) {
-        QPixmap pixmap;
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType) {
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_import_normal.svg", QSize(24, 24));
         }
         if (themeType == DGuiApplicationHelper::DarkType) {
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_import_normal_dark.svg", QSize(24, 24));
         }
-        pImageLabel->setPixmap(pixmap);
-
     } else if (COMMON_STR_TRASH == m_albumNameStr) {
-        QPixmap pixmap;
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType) {
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_trash_normal.svg", QSize(24, 24));
         }
         if (themeType == DGuiApplicationHelper::DarkType) {
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_trash_normal_dark.svg", QSize(24, 24));
         }
-        pImageLabel->setPixmap(pixmap);
-
     } else if (COMMON_STR_FAVORITES == m_albumNameStr) {
-        QPixmap pixmap;
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType) {
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_collection_normal.svg", QSize(24, 24));
         }
         if (themeType == DGuiApplicationHelper::DarkType) {
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_collection_normal_dark.svg", QSize(24, 24));
         }
-        pImageLabel->setPixmap(pixmap);
-
     }  else {
-        QPixmap pixmap;
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::LightType) {
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_album_normal.svg", QSize(24, 24));
         }
         if (themeType == DGuiApplicationHelper::DarkType) {
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_album_normal_dark.svg", QSize(24, 24));
         }
-        pImageLabel->setPixmap(pixmap);
     }
 
+    pImageLabel->setPixmap(pixmap);
     m_nameLabel->setForegroundRole(DPalette::TextTitle);
 }
 
 void AlbumLeftTabItem::newAlbumStatus()
 {
     QPixmap pixmap;
-    if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr) {
+
+    if (DBManager::instance()->isDefaultAutoImportDB(m_UID)) { //如果是默认自动导入
+        switch (m_UID) {
+        case DBManager::SpUID::u_Camera:
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_camera_active.svg", QSize(24, 24));
+            break;
+        case DBManager::SpUID::u_Draw:
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_draw_active.svg", QSize(24, 24));
+            break;
+        case DBManager::SpUID::u_ScreenCapture:
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_screencapture_active.svg", QSize(24, 24));
+            break;
+        default:
+            break;
+        }
+    } else if (DBManager::instance()->getAlbumDBTypeFromUID(m_UID) == AutoImport) { //如果是自定义默认导入
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_custompath_active.svg", QSize(24, 24));
+    } else if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr) {
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_iphone_active.svg", QSize(24, 24));
 
         QPixmap mountpixmap;
@@ -374,4 +419,3 @@ void AlbumLeftTabItem::newAlbumStatus()
     pImageLabel->setPixmap(pixmap);
     m_nameLabel->setForegroundRole(DPalette::HighlightedText);
 }
-
