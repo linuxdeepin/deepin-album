@@ -542,14 +542,6 @@ void MainWindow::initCentralWidget()
     //m_pSearchView = new SearchView();           //搜索界面
     m_pSearchViewWidget = new QWidget();
 
-//    m_commandLine = CommandLine::instance();
-    m_imageViewer = new ImageViewer(imageViewerSpace::ImgViewerType::ImgViewerTypeAlbum, albumGlobal::CACHE_PATH, nullptr, m_pCenterWidget);
-    m_imageViewer->setDropEnabled(false);
-    connect(dApp->signalM, &SignalManager::sigViewImage, this, &MainWindow::onSigViewImage);
-    m_back = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeBack);
-    connect(m_back, &DIconButton::clicked, this, &MainWindow::onHideImageView);
-    m_del = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeTrash);
-    m_collect = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeCollection);
     //刷新收藏按钮
     connect(ImageEngine::instance(), &ImageEngine::sigUpdateCollectBtn, this, &MainWindow::updateCollectButton);
     connect(m_collect, &DIconButton::clicked, this, &MainWindow::onCollectButtonClicked);
@@ -579,7 +571,18 @@ void MainWindow::initCentralWidget()
     m_pCenterWidget->addWidget(m_pAlbumWidget);
 
     m_pCenterWidget->addWidget(m_pSearchViewWidget);
-    m_pCenterWidget->addWidget(m_imageViewer); //todo imageviewer
+    //延迟加载公共库
+    QTimer::singleShot(800, this, [ = ]() {
+        m_imageViewer = new ImageViewer(imageViewerSpace::ImgViewerType::ImgViewerTypeAlbum, albumGlobal::CACHE_PATH, nullptr, m_pCenterWidget);
+        m_imageViewer->setDropEnabled(false);
+        connect(dApp->signalM, &SignalManager::sigViewImage, this, &MainWindow::onSigViewImage);
+        m_back = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeBack);
+        connect(m_back, &DIconButton::clicked, this, &MainWindow::onHideImageView);
+        m_del = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeTrash);
+        m_collect = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeCollection);
+
+        m_pCenterWidget->addWidget(m_imageViewer);
+    });
 
     QStringList parselist;
     processOption(parselist);
@@ -1486,7 +1489,10 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 void MainWindow::onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAdditionalOperation operation, bool isCustom, const QString &album)
 {
     m_backIndex = info.viewMainWindowID;
-
+    //避免刚启动时，大图界面未初始化完成就查看大图
+    if (m_imageViewer == nullptr) {
+        return;
+    }
     switch (operation) {
     case Operation_NoOperation:
         m_imageViewer->startdragImage(info.paths, info.path, isCustom, album);
