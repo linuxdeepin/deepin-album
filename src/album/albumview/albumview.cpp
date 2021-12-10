@@ -1469,7 +1469,6 @@ void AlbumView::onKeyF2()
 //挂载设备改变
 void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount)
 {
-    qDebug() << "zy------onVfsMountChangedAdd activeThreadCount = " << QThreadPool::globalInstance()->activeThreadCount();
     qDebug() << "zy------AlbumView::onVfsMountChangedAdd() name:" << mount->name();
 
     //TODO:
@@ -1531,8 +1530,7 @@ void AlbumView::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> 
     if (m_waitDeviceScandialog) {
         m_waitDeviceScandialog->close();
     }
-    qDebug() << "zy------onVfsMountChangedRemove activeThreadCount = " << QThreadPool::globalInstance()->activeThreadCount();
-    qDebug() << "zy------AlbumView::onVfsMountChangedRemove";
+    qDebug() << "zy------AlbumView::onVfsMountChangedRemove-----";
     QString uri = mount->getRootFile()->uri();
     QString strPath = mount->getDefaultLocationFile()->path();
     if (!strPath.contains("/media/")) {
@@ -1909,8 +1907,8 @@ bool AlbumView::imageMountImported(QStringList &filelist)
 
 void AlbumView::needUnMount(const QString &path)
 {
+    qDebug() << "---needUnMount---" << path;
     QStringList blDevList = DDiskManager::blockDevices(QVariantMap());
-    qDebug() << "blDevList:" << blDevList;
     QSharedPointer<DBlockDevice> blkget;
     QString mountPoint = "";
     for (const QString &blks : blDevList) {
@@ -1973,8 +1971,10 @@ void AlbumView::needUnMount(const QString &path)
                     msgbox.setTextFormat(Qt::AutoText);
                     msgbox.setMessage(tr("Disk is busy, cannot eject now"));
                     msgbox.insertButton(1, tr("OK"), false, DDialog::ButtonNormal);
+                    isDiskBuzy = true;
                     auto ret = msgbox.exec();
-                    Q_UNUSED(ret);
+                    qDebug() << "---Disk unmount faild---" << ret;
+                    isDiskBuzy = false;
                     return;
                 }
                 break;
@@ -2114,7 +2114,9 @@ void AlbumView::paintEvent(QPaintEvent *event)
 void AlbumView::importDialog()
 {
     //导入取消窗口
-    m_waitDeviceScandialog->show();
+    if (!isDiskBuzy) {
+        m_waitDeviceScandialog->show();
+    }
     m_waitDailog_timer->start(2000);
     this->setDisabled(true);
     m_waitDeviceScandialog->setEnabled(true);

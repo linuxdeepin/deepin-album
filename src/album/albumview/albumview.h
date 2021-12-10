@@ -284,6 +284,7 @@ private:
     QTimer *m_waitDailog_timer;
     bool isMountThreadRunning;
     int m_currentViewPictureCount;
+    bool isDiskBuzy = false;  //磁盘忙，无法卸载
 
 public:
     AlbumViewListWidget *m_TrashListWidget;
