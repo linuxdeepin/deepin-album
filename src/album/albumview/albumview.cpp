@@ -1759,7 +1759,7 @@ bool AlbumView::imageMountImported(QStringList &filelist)
 void AlbumView::needUnMount(const QString &path)
 {
     QStringList blDevList = DDiskManager::blockDevices(QVariantMap());
-    qDebug() << "blDevList:" << blDevList;
+    qDebug() << "blDevList:" << blDevList << path;
     QSharedPointer<DBlockDevice> blkget;
     QString mountPoint = "";
     for (const QString &blks : blDevList) {
@@ -1803,6 +1803,17 @@ void AlbumView::needUnMount(const QString &path)
             if (LocationFile->path().compare(path) == 0 && mount->canUnmount() && !blkget.isNull()) { //增加blkget为空判断，某些情况下卸载设备会导致程序闪退
                 QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blkget->drive()));
                 QScopedPointer<DBlockDevice> cbblk(DDiskManager::createBlockDevice(blkget->cryptoBackingDevice()));
+                if (!drv->removable()) {
+                    DDialog msgbox(this);
+                    msgbox.setFixedWidth(400);
+                    msgbox.setIcon(DMessageBox::standardIcon(DMessageBox::Critical));
+                    msgbox.setTextFormat(Qt::AutoText);
+                    msgbox.setMessage(tr("Disk is busy, cannot eject now"));
+                    msgbox.insertButton(1, tr("OK"), false, DDialog::ButtonNormal);
+                    auto ret = msgbox.exec();
+                    Q_UNUSED(ret);
+                    return;
+                }
                 bool err = false;
                 if (!blkget->mountPoints().empty()) {
                     blkget->unmount({});
@@ -1813,7 +1824,9 @@ void AlbumView::needUnMount(const QString &path)
                     err |= cbblk->lastError().isValid();
                     drv.reset(DDiskManager::createDiskDevice(cbblk->drive()));
                 }
-                drv->powerOff({});
+                if (drv->canPowerOff()) {
+                    drv->powerOff({});
+                }
                 err |= drv->lastError().isValid();
                 if (err) {
                     DDialog msgbox(this);
