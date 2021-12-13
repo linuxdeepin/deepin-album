@@ -1949,9 +1949,20 @@ void AlbumView::needUnMount(const QString &path)
         }
         if (strPath == path) {
             QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
-            if (LocationFile->path().compare(path) == 0 && mount->canUnmount()) {
+            if (LocationFile->path().compare(path) == 0 && mount->canUnmount() && !blkget.isNull()) {
                 QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blkget->drive()));
                 QScopedPointer<DBlockDevice> cbblk(DDiskManager::createBlockDevice(blkget->cryptoBackingDevice()));
+                if (!drv->removable()) {
+                    DDialog msgbox(this);
+                    msgbox.setFixedWidth(400);
+                    msgbox.setIcon(DMessageBox::standardIcon(DMessageBox::Critical));
+                    msgbox.setTextFormat(Qt::AutoText);
+                    msgbox.setMessage(tr("Disk is busy, cannot eject now"));
+                    msgbox.insertButton(1, tr("OK"), false, DDialog::ButtonNormal);
+                    auto ret = msgbox.exec();
+                    Q_UNUSED(ret);
+                    return;
+                }
                 bool err = false;
                 if (!blkget->mountPoints().empty()) {
                     blkget->unmount({});
@@ -1962,7 +1973,9 @@ void AlbumView::needUnMount(const QString &path)
                     err |= cbblk->lastError().isValid();
                     drv.reset(DDiskManager::createDiskDevice(cbblk->drive()));
                 }
-                drv->powerOff({});
+                if (drv->canPowerOff()) {
+                    drv->powerOff({});
+                }
                 err |= drv->lastError().isValid();
                 if (err) {
                     DDialog msgbox(this);
