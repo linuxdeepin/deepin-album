@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     }
 
 #if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
-    QScopedPointer<DApplication> dAppNew(new DApplication(argc, argv));
+    DApplication *dAppNew = new DApplication(argc, argv);
 #else
     DApplication *dAppNew = DApplication::globalApplication(argc, argv);
 #endif
