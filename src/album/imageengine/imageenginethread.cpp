@@ -269,9 +269,7 @@ void ImportImagesThread::runDetail()
         using namespace utils::image;
         int noReadCount = 0;
         bool bIsVideo = false;
-        int count = 0;
         QStringList pathlistImport;
-        DBImgInfoList dbInfosImport;
         for (auto imagePath : image_list) {
             bIsVideo = utils::base::isVideo(imagePath);
             if (!imageSupportRead(imagePath) && !bIsVideo) {
@@ -284,27 +282,15 @@ void ImportImagesThread::runDetail()
             }
             DBImgInfo info =  getDBInfo(imagePath, bIsVideo);
             dbInfos << info;
-            count++;
-            dbInfosImport << info;
             pathlistImport << info.filePath;
-            if (count == 200) {
-                //导入相册数据库AlbumTable3
-                DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, pathlistImport);
-                ImageDataService::instance()->readThumbnailByPaths(pathlistImport, true, true);
-                pathlistImport.clear();
-                //导入图片数据库ImageTable3
-                DBManager::instance()->insertImgInfos(dbInfosImport);
-                dbInfosImport.clear();
-            }
             emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
         }
+
         //导入相册数据库AlbumTable3
         DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, pathlistImport);
         ImageDataService::instance()->readThumbnailByPaths(pathlistImport, true, true);
-        pathlistImport.clear();
         //导入图片数据库ImageTable3
-        DBManager::instance()->insertImgInfos(dbInfosImport);
-        dbInfosImport.clear();
+        DBManager::instance()->insertImgInfos(dbInfos);
         emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
 
         if (bneedstop) {

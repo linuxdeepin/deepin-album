@@ -98,9 +98,9 @@ const DBImgInfoList DBManager::getAllInfos(int loadCount)const
     query.setForwardOnly(true);
     bool b = false;
     if (loadCount == 0) {
-        b = query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc");
+        b = query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by ChangeTime desc");
     } else {
-        b = query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc limit 80");
+        b = query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by ChangeTime desc limit 80");
     }
     if (!b || ! query.exec()) {
 //        qDebug() << query.lastError();

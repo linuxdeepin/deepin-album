@@ -127,8 +127,7 @@ bool ImageDataService::readThumbnailByPaths(QStringList files, bool isFinishFilt
 
     if (empty) {
         ImageDataService::instance()->add(image_video_list, reLoadThumbnail);
-        int needCoreCounts = static_cast<int>(std::thread::hardware_concurrency());
-        needCoreCounts = needCoreCounts / 2;
+        int needCoreCounts = static_cast<int>(std::thread::hardware_concurrency()) - 1;
         if (image_video_list.size() < needCoreCounts) {
             needCoreCounts = image_video_list.size();
         }
