@@ -27,8 +27,9 @@
 #include <QWaitCondition>
 
 #include "imageengineobject.h"
+#include "movieservice.h"
 
-DBImgInfo getDBInfo(const QString &srcpath, bool isVideo = false);
+DBImgInfo getDBInfo(const QString &srcpath, bool isVideo = false, QFileInfo *fileInfos = nullptr);
 
 class ImportImagesThread : public ImageEngineThreadObject
 {

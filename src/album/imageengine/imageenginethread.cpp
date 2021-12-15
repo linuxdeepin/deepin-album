@@ -42,11 +42,17 @@
 #include "imagedataservice.h"
 #include "movieservice.h"
 
-DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
+DBImgInfo getDBInfo(const QString &srcpath, bool isVideo, QFileInfo *fileInfos)
 {
     using namespace utils::base;
     using namespace UnionImage_NameSpace;
-    QFileInfo srcfi(srcpath);
+    QFileInfo srcfi;
+
+    if (fileInfos != nullptr) {
+        srcfi = *fileInfos;
+    } else {
+        srcfi.setFile(srcpath);
+    }
     DBImgInfo dbi;
     dbi.fileName = srcfi.fileName();
     dbi.filePath = srcpath;
@@ -145,16 +151,15 @@ void ImportImagesThread::runDetail()
     QStringList curAlbumImportedPathList;
     // 拖拽导入 url
     if (m_type == DataType_UrlList) {
-        QStringList urlLocalPathList;
         for (QUrl url : m_urls) {
             const QString path = url.toLocalFile();
-            urlLocalPathList << path;
-            if (QFileInfo(path).isDir()) {
+            QFileInfo info(path);
+            if (info.isDir()) {
                 auto finfos =  utils::image::getImagesAndVideoInfo(path, true);
                 for (auto finfo : finfos) {
                     pathCheck(&image_list, &curAlbumImportedPathList, curAlbumImgPathList, finfo.absoluteFilePath());
                 }
-            } else if (QFileInfo(path).exists()) { //文件存在
+            } else if (info.exists()) { //文件存在
                 pathCheck(&image_list, &curAlbumImportedPathList, curAlbumImgPathList, path);
             }
         }
@@ -179,14 +184,14 @@ void ImportImagesThread::runDetail()
         }
     }
 
-    if (image_list.size() < 1) {
-        if (curAlbumImportedPathList.size() < 1) {
+    if (image_list.isEmpty()) {
+        if (curAlbumImportedPathList.isEmpty()) {
             // 导入列表为空并且导入相同照片的列表也为空，视为导入失败,直接返回
             emit dApp->signalM->ImportFailed();
             m_obj->imageImported(false);
             m_obj->removeThread(this);
             return;
-        } else if (curAlbumImportedPathList.size() > 0) {
+        } else if (!curAlbumImportedPathList.isEmpty()) {
             // 视为导入的图片全部为重复图片
             // ImportImageLoader() 中，底部状态栏将显示导入状态，之后，核对是否存在重复图片，发送信号准备提示
             emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_albumname);
@@ -196,14 +201,14 @@ void ImportImagesThread::runDetail()
             m_obj->removeThread(this);
             return;
         }
-    } else if (image_list.size() > 0) {
+    } else if (!image_list.isEmpty()) {
         if (m_bdialogselect) {
             QFileInfo firstFileInfo(image_list.first());
             static QString cfgGroupName = QStringLiteral("General"), cfgLastOpenPath = QStringLiteral("LastOpenPath");
             dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
         }
         // 判断当前导入路径是否为外接设备
-        int isMountFlag = 0;
+        bool isMountFlag = false;
         DGioVolumeManager *pvfsManager = new DGioVolumeManager;
         QList<QExplicitlySharedDataPointer<DGioMount>> mounts = pvfsManager->getMounts();
         for (auto mount : mounts) {
@@ -215,7 +220,7 @@ void ImportImagesThread::runDetail()
             QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
             QString strPath = LocationFile->path();
             if (0 == image_list.first().compare(strPath)) {
-                isMountFlag = 1;
+                isMountFlag = true;
                 break;
             }
         }
@@ -258,21 +263,13 @@ void ImportImagesThread::runDetail()
             image_list = newImagePaths;
         }
 
-        std::sort(image_list.begin(), image_list.end(), [](const QString & lhs, const QString & rhs) {
-            QFileInfo l_info(lhs);
-            QFileInfo r_info(rhs);
-            return l_info.lastModified().toTime_t() > r_info.lastModified().toTime_t();
-        });
-
         DBImgInfoList dbInfos;
-        QStringList pathlist;
         using namespace utils::image;
         int noReadCount = 0;
         bool bIsVideo = false;
-        QStringList pathlistImport;
         for (auto imagePath : image_list) {
             bIsVideo = utils::base::isVideo(imagePath);
-            if (!imageSupportRead(imagePath) && !bIsVideo) {
+            if (!bIsVideo && !imageSupportRead(imagePath)) {
                 noReadCount++;
                 continue;
             }
@@ -280,10 +277,18 @@ void ImportImagesThread::runDetail()
             if (!srcfi.exists()) {  //当前文件不存在
                 continue;
             }
-            DBImgInfo info =  getDBInfo(imagePath, bIsVideo);
+            DBImgInfo info = getDBInfo(imagePath, bIsVideo, &srcfi);
             dbInfos << info;
-            pathlistImport << info.filePath;
             emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
+        }
+
+        std::sort(dbInfos.begin(), dbInfos.end(), [](const DBImgInfo & lhs, const DBImgInfo & rhs) {
+            return lhs.changeTime.toTime_t() > rhs.changeTime.toTime_t();
+        });
+
+        QStringList pathlistImport;
+        for (auto &dbInfo : dbInfos) {
+            pathlistImport << dbInfo.filePath;
         }
 
         //导入相册数据库AlbumTable3
@@ -298,6 +303,8 @@ void ImportImagesThread::runDetail()
             m_obj->removeThread(this);
             return;
         }
+
+        QStringList pathlist;
         for (auto Info : dbInfos) {
             QFileInfo fi(Info.filePath);
             if (!fi.exists())

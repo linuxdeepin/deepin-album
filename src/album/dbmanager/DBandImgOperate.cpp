@@ -225,7 +225,7 @@ void DBandImgOperate::sltLoadMountFileList(const QString &path)
         }
 
         for (QString i : utils::base::m_videoFiletypes) {
-            filters << i;
+            filters << "*." + i;
         }
         //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
         QDirIterator dir_iterator(strPath,

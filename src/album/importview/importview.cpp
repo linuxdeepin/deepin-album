@@ -171,7 +171,7 @@ void ImportView::onImprotBtnClicked(bool useDialog, const QStringList &list)
         sList << ("*." + i);
     //添加视频过滤
     for (const QString &i : utils::base::m_videoFiletypes) {
-        sList << i;
+        sList << ("*." + i);
     }
     QString filter = tr("All photos and videos");
     filter.append('(');
