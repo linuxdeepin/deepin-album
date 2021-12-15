@@ -190,14 +190,14 @@ public slots:
     void onImprotBtnClicked();
     void onNewAPPOpen(qint64 pid, const QStringList &arguments);
 
-    void onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAdditionalOperation operation, bool isCustom, const QString &album);
+    void onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAdditionalOperation operation, bool isCustom, const QString &album, int UID);
     void onCollectButtonClicked();
     void updateCollectButton();
     void onLibDel();
     void onNewPathAction(); //响应新自定义路径创建
     void createAlbumView(); //创建相册界面
     //响应公共库添加或新建相册请求
-    void onAddToAlbum(bool isNew, int UID, const QString &album, const QString &path);
+    void onAddToAlbum(bool isNew, int UID, const QString &path);
     //响应公共库收藏/取消收藏操作
     void onAddOrRemoveToFav(const QString &path, bool isAdd);
     //响应公共库导出操作

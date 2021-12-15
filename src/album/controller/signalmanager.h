@@ -64,7 +64,7 @@ signals:
     void imagesTrashRemoved(/*const DBImgInfoList &infos*/);
     void startSlideShow(const ViewInfo &vinfo);
 
-    void sigViewImage(const ViewInfo &info, OpenImgAdditionalOperation operation, bool isCustom = false, const QString &album = "");
+    void sigViewImage(const ViewInfo &info, OpenImgAdditionalOperation operation, bool isCustom = false, const QString &album = "", int UID = -1);
 
     void exportImage(const QStringList &paths);
     void sigAlbDelToast(const QString &albname);

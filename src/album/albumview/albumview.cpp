@@ -1143,9 +1143,9 @@ void AlbumView::onOpenImageCustom(int row, const QString &path, bool bFullScreen
     info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
 
     if (bFullScreen) {
-        emit dApp->signalM->sigViewImage(info, Operation_FullScreen, true, m_currentAlbum);
+        emit dApp->signalM->sigViewImage(info, Operation_FullScreen, true, m_currentAlbum, m_currentUID);
     } else {
-        emit dApp->signalM->sigViewImage(info, Operation_NoOperation, true, m_currentAlbum);
+        emit dApp->signalM->sigViewImage(info, Operation_NoOperation, true, m_currentAlbum, m_currentUID);
     }
 }
 
@@ -1478,7 +1478,7 @@ void AlbumView::getAllDeviceName()
             goto runend1;
         }
         udispname = label;
-    runend1:
+runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";

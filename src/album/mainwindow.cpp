@@ -202,7 +202,7 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::hideImageView, this, &MainWindow::onHideImageView);
     //幻灯片显示
     connect(dApp->signalM, &SignalManager::startSlideShow, [this](const SignalManager::ViewInfo & vinfo) {
-        this->onSigViewImage(vinfo, Operation_StartSliderShow, false, "");
+        this->onSigViewImage(vinfo, Operation_StartSliderShow, false, "", -1);
     });
     //隐藏幻灯片显示
     connect(ImageEngine::instance(), &ImageEngine::exitSlideShow, this, &MainWindow::onHideSlidePanel);
@@ -566,15 +566,13 @@ void MainWindow::initCentralWidget()
     //获取所有自定义相册
     connect(ImageEngine::instance(), &ImageEngine::sigGetAlbumName, this, &MainWindow::onSendAlbumName);
     //公共库添加或新建相册请求
-    //TODO：改公共库
-    //connect(ImageEngine::instance(), &ImageEngine::sigAddToAlbum, this, &MainWindow::onAddToAlbum);
+    connect(ImageEngine::instance(), &ImageEngine::sigAddToAlbumWithUID, this, &MainWindow::onAddToAlbum);
     //公共库收藏/取消收藏操作
     connect(ImageEngine::instance(), &ImageEngine::sigAddOrRemoveToFav, this, &MainWindow::onAddOrRemoveToFav);
     //公共库导出操作
     connect(ImageEngine::instance(), &ImageEngine::sigExport, this, &MainWindow::onExport);
     //公共库：从相册中移除操作
-    //TODO：改公共库
-    //connect(ImageEngine::instance(), &ImageEngine::sigRemoveFromCustom, this, &MainWindow::onRemoveFromCustom);
+    connect(ImageEngine::instance(), &ImageEngine::sigRemoveFromCustomWithUID, this, &MainWindow::onRemoveFromCustom);
     //公共库：按下ESC键
     connect(ImageEngine::instance(), &ImageEngine::escShortcutActivated, this, &MainWindow::onEscShortcutActivated);
     //公共库：viewpanel界面图片全部删除
@@ -588,7 +586,7 @@ void MainWindow::initCentralWidget()
     m_pCenterWidget->addWidget(m_pAlbumWidget);
 
     m_pCenterWidget->addWidget(m_pSearchViewWidget);
-    m_pCenterWidget->addWidget(m_imageViewer); //todo imageviewer
+    m_pCenterWidget->addWidget(m_imageViewer);
 
     QStringList parselist;
     processOption(parselist);
@@ -1427,13 +1425,13 @@ void MainWindow::onLibDel()
     DBManager::instance()->removeImgInfos(QStringList(path));
 }
 
-void MainWindow::onAddToAlbum(bool isNew, int UID, const QString &album, const QString &path)
+void MainWindow::onAddToAlbum(bool isNew, int UID, const QString &path)
 {
     if (isNew) {
         emit dApp->signalM->viewCreateAlbum(path, false);
     } else {
         if (! DBManager::instance()->isImgExistInAlbum(UID, path)) {
-            emit dApp->signalM->sigAddToAlbToast(album);//提示
+            emit dApp->signalM->sigAddToAlbToast(DBManager::instance()->getAlbumNameFromUID(UID));//提示
         }
         DBManager::instance()->insertIntoAlbum(UID, {path});
     }
@@ -1516,13 +1514,22 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
     this->activateWindow();
 }
 
-void MainWindow::onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAdditionalOperation operation, bool isCustom, const QString &album)
+void MainWindow::onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAdditionalOperation operation, bool isCustom, const QString &album, int UID)
 {
     m_backIndex = info.viewMainWindowID;
+    auto finalUseAlbum = album;
+
+    if (operation == Operation_NoOperation || operation == Operation_FullScreen) {
+        if (DBManager::instance()->getAlbumDBTypeFromUID(UID) == AutoImport) { //如果是自动导入的相册，则禁用从相册删除功能
+            finalUseAlbum.clear();
+            UID = -1;
+            isCustom = false;
+        }
+    }
 
     switch (operation) {
     case Operation_NoOperation:
-        m_imageViewer->startdragImage(info.paths, info.path, isCustom, album);
+        m_imageViewer->startdragImageWithUID(info.paths, info.path, isCustom, finalUseAlbum, UID);
         m_backIndex_fromFullScreen = VIEW_IMAGE;
         break;
     case Operation_FullScreen:
@@ -1533,7 +1540,7 @@ void MainWindow::onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAddi
         } else {
             m_backToMaxWindow = false;
         }
-        m_imageViewer->startdragImage(info.paths, info.path, isCustom, album);
+        m_imageViewer->startdragImageWithUID(info.paths, info.path, isCustom, finalUseAlbum, UID);
         m_imageViewer->switchFullScreen();
         m_backIndex_fromFullScreen = info.viewMainWindowID;
         break;
@@ -2395,17 +2402,17 @@ void MainWindow::onSearchEditIsDisplay(bool bIsDisp)
 
 void MainWindow::onSendAlbumName(const QString &path)
 {
-    auto allalbums = DBManager::instance()->getAllAlbumNames();
+    auto allalbums = DBManager::instance()->getAllAlbumNames(Custom);
 
-    QMap<QString, bool> map;//true为包含。false为不包含
+    QMap<int, std::pair<QString, bool>> map; //UID，相册名称，是否包含
     QStringList paths;
     paths.append(path);
 
     for (auto &album : allalbums) {
         if (DBManager::instance()->isAllImgExistInAlbum(album.first, paths, AlbumDBType::Custom)) {
-            map.insert(album.second, true);
+            map.insert(album.first, std::make_pair(album.second, true));
         } else {
-            map.insert(album.second, false);
+            map.insert(album.first, std::make_pair(album.second, false));
         }
     }
     bool isFav = false;
@@ -2413,6 +2420,5 @@ void MainWindow::onSendAlbumName(const QString &path)
         isFav = true;
     }
 
-    //TODO：需要修改接口，使其回传UID
-    m_imageViewer->setCustomAlbumName(map, isFav);
+    m_imageViewer->setCustomAlbumNameAndUID(map, isFav);
 }
