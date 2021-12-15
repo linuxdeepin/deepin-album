@@ -198,6 +198,7 @@ ImageDataService::ImageDataService(QObject *parent)
 //缩略图读取线程
 readThumbnailThread::readThumbnailThread(QObject *parent): QThread(parent)
 {
+    m_thumb.clear();
 }
 
 readThumbnailThread::~readThumbnailThread()
@@ -255,25 +256,24 @@ void readThumbnailThread::readThumbnail(QString path)
         //裁切
         if (!tImg.isNull() && 0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
             bool cache_exist = false;
-            if (tImg.height() != 200 && tImg.width() != 200) {
+            if (tImg.height() != 160 && tImg.width() != 160) {
                 if (tImg.height() >= tImg.width()) {
                     cache_exist = true;
-                    tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+                    tImg = tImg.scaledToWidth(160,  Qt::FastTransformation);
                 } else if (tImg.height() <= tImg.width()) {
                     cache_exist = true;
-                    tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+                    tImg = tImg.scaledToHeight(160,  Qt::FastTransformation);
                 }
             }
             if (!cache_exist) {
                 if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
-                    tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+                    tImg = tImg.scaledToWidth(160,  Qt::FastTransformation);
                 } else {
-                    tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+                    tImg = tImg.scaledToHeight(160,  Qt::FastTransformation);
                 }
             }
         }
         utils::base::mkMutiDir(thumbnailPath.mid(0, thumbnailPath.lastIndexOf('/')));
-        tImg.save(thumbnailPath, "PNG");
     }
     if (!tImg.isNull()) {
 
@@ -294,6 +294,7 @@ void readThumbnailThread::readThumbnail(QString path)
             }
         }
     }
+    m_thumb.insert(thumbnailPath, tImg);
     ImageDataService::instance()->addImage(path, tImg);
 }
 
@@ -314,4 +315,10 @@ void readThumbnailThread::run()
         }
     }
     emit ImageDataService::instance()->sigeUpdateListview();
+
+    for (auto i = m_thumb.begin(); i != m_thumb.end(); i++) {
+        QImage img = i.value();
+        img.save(i.key(), "PNG");
+    }
+    m_thumb.clear();
 }

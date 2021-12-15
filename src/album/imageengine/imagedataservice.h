@@ -92,5 +92,7 @@ protected:
     void run() override;
 private:
     bool m_quit = false;
+
+    QMap<QString, QImage> m_thumb; //延迟保存缩略图，导入性能优化
 };
 #endif // IMAGEDATASERVICE_H
