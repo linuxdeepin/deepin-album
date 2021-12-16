@@ -2099,7 +2099,7 @@ void MainWindow::onPopupWaitDialog(QString waittext, bool bneedprogress)
         m_waitlabel->show();
         m_waitdailog->show();
     } else {
-        if (waittext.compare(tr("Importing..."), Qt::CaseInsensitive)) {
+        if (waittext.compare(tr("Importing..."), Qt::CaseInsensitive) >= 0) {
             m_bImport = true;
         } else {
             m_bImport = false;

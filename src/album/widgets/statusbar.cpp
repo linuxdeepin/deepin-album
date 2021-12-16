@@ -211,49 +211,49 @@ void StatusBar::resetUnselectedStatue(int photosCount, int videosCount)
 void StatusBar::timerEvent(QTimerEvent *e)
 {
     if (e->timerId() == interval) {
-        loadingicon->move(TextLabel->x() + 102, 0);
-        m_pStackedWidget->setCurrentIndex(1);
-        QString string = tr("Importing: %1");
+//        loadingicon->move(TextLabel->x() + 102, 0);
+//        m_pStackedWidget->setCurrentIndex(1);
+//        QString string = tr("Importing: %1");
 
-        if (imgpaths.count() == 1) {
-            m_index = 0;
-            killTimer(interval);
-            interval = 0;
-            m_pStackedWidget->setCurrentIndex(0);
-            if (m_bcustalbum) {
-                emit dApp->signalM->sigAddToAlbToast(m_alubm);
-                if (m_baddDuplicatePhotos) {
-                    m_baddDuplicatePhotos = false;
-                }
-            }
-        } else {
-            if (m_index >= imgpaths.count() - 1) {
-                m_index = 0;
-                killTimer(interval);
-                interval = 0;
-                if (m_bcustalbum) {
-                    emit dApp->signalM->sigAddToAlbToast(m_alubm);
-                    if (m_baddDuplicatePhotos) {
-                        m_baddDuplicatePhotos = false;
-                    }
-                } else if (1 == pic_count) {
-                    if (m_baddDuplicatePhotos) {
-                        m_baddDuplicatePhotos = false;
-                    }
-                } else {
-                    emit dApp->signalM->ImportFailed();
-                }
+//        if (imgpaths.count() == 1) {
+//            m_index = 0;
+//            killTimer(interval);
+//            interval = 0;
+//            m_pStackedWidget->setCurrentIndex(0);
+//            if (m_bcustalbum) {
+//                emit dApp->signalM->sigAddToAlbToast(m_alubm);
+//                if (m_baddDuplicatePhotos) {
+//                    m_baddDuplicatePhotos = false;
+//                }
+//            }
+//        } else {
+//            if (m_index >= imgpaths.count() - 1) {
+//                m_index = 0;
+//                killTimer(interval);
+//                interval = 0;
+//                if (m_bcustalbum) {
+//                    emit dApp->signalM->sigAddToAlbToast(m_alubm);
+//                    if (m_baddDuplicatePhotos) {
+//                        m_baddDuplicatePhotos = false;
+//                    }
+//                } else if (1 == pic_count) {
+//                    if (m_baddDuplicatePhotos) {
+//                        m_baddDuplicatePhotos = false;
+//                    }
+//                } else {
+//                    emit dApp->signalM->ImportFailed();
+//                }
 
-                QTime time;
-                time.start();
-                while (time.elapsed() < 500)
-                    QCoreApplication::processEvents();
+//                QTime time;
+//                time.start();
+//                while (time.elapsed() < 500)
+//                    QCoreApplication::processEvents();
 
-                m_pStackedWidget->setCurrentIndex(0);
-            } else {
-                m_pStackedWidget->setCurrentIndex(0);
-                m_index++;
-            }
-        }
+//                m_pStackedWidget->setCurrentIndex(0);
+//            } else {
+//                m_pStackedWidget->setCurrentIndex(0);
+//                m_index++;
+//            }
+//        }
     }
 }
