@@ -1922,7 +1922,6 @@ void ThumbnailListView::slotLoadFirstPageThumbnailsFinish()
 {
     // 将缩略图信息插入到listview中
     int size = ImageEngineApi::instance()->m_AllImageDataVector.size();
-    qDebug() << __FUNCTION__ << "---size = " << size;
     if (size <= 0) {
         //通知所有照片界面刷新，如果没有图片则显示导入界面
         emit sigDBImageLoaded();

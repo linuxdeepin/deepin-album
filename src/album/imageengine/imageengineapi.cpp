@@ -241,8 +241,6 @@ bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName
 
 void ImageEngineApi::loadFirstPageThumbnails(int num, bool clearCache)
 {
-    qDebug() << __FUNCTION__ << "---";
-
     m_FirstPageScreen = num;
     if (clearCache) {
         m_AllImageDataVector.clear();
@@ -283,7 +281,6 @@ void ImageEngineApi::loadFirstPageThumbnails(int num, bool clearCache)
     }
 
     db.close();
-    qDebug() << "------" << __FUNCTION__ << "" << m_AllImageDataVector.size();
     m_firstPageIsLoaded = true;
     ImageDataService::instance()->readThumbnailByPaths(list);
 
@@ -301,7 +298,7 @@ void ImageEngineApi::thumbnailLoadThread(int num)
 
     m_worker->moveToThread(workerThread);
     //开始录制
-    connect(this, &ImageEngineApi::sigLoadThumbnailsByNum, m_worker, &DBandImgOperate::sltLoadThumbnailByNum);
+//    connect(this, &ImageEngineApi::sigLoadThumbnailsByNum, m_worker, &DBandImgOperate::sltLoadThumbnailByNum);
 //    connect(this, &ImageEngineApi::sigLoadThumbnailIMG, m_worker, &DBandImgOperate::loadOneImg);
     //加载设备中文件列表
     connect(this, &ImageEngineApi::sigLoadMountFileList, m_worker, &DBandImgOperate::sltLoadMountFileList);
@@ -311,7 +308,7 @@ void ImageEngineApi::thumbnailLoadThread(int num)
     connect(this, &ImageEngineApi::sigRotateImageFile, m_worker, &DBandImgOperate::rotateImageFile);
 
     //收到获取全部照片信息成功信号
-    connect(m_worker, &DBandImgOperate::sig80ImgInfosReady, this, &ImageEngineApi::slt80ImgInfosReady);
+//    connect(m_worker, &DBandImgOperate::sig80ImgInfosReady, this, &ImageEngineApi::slt80ImgInfosReady);
     connect(m_worker, &DBandImgOperate::sigOneImgReady, this, &ImageEngineApi::sigOneImgReady);
     //加载设备中文件列表完成，发送到主线程
     connect(m_worker, &DBandImgOperate::sigMountFileListLoadReady, this, &ImageEngineApi::sigMountFileListLoadReady);
