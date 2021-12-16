@@ -544,7 +544,6 @@ void MainWindow::initCentralWidget()
 
     //刷新收藏按钮
     connect(ImageEngine::instance(), &ImageEngine::sigUpdateCollectBtn, this, &MainWindow::updateCollectButton);
-    connect(m_collect, &DIconButton::clicked, this, &MainWindow::onCollectButtonClicked);
 
     //刷新收藏按钮
     connect(ImageEngine::instance(), &ImageEngine::sigDel, this, &MainWindow::onLibDel);
@@ -580,7 +579,7 @@ void MainWindow::initCentralWidget()
         connect(m_back, &DIconButton::clicked, this, &MainWindow::onHideImageView);
         m_del = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeTrash);
         m_collect = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeCollection);
-
+        connect(m_collect, &DIconButton::clicked, this, &MainWindow::onCollectButtonClicked);
         m_pCenterWidget->addWidget(m_imageViewer);
     });
 
