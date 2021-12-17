@@ -183,11 +183,6 @@ void ImageEngineApi::slt80ImgInfosReady(QVector<DBImgInfo> ImageDatas)
     emit sigLoadFirstPageThumbnailsToView();
 }
 
-bool ImageEngineApi::ImportImagesFromCustomAutoPaths()
-{
-    return true;
-}
-
 bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType)
 {
     emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
@@ -213,6 +208,18 @@ bool ImageEngineApi::ImportImagesFromFileList(QStringList files, const QString &
 #else
     QThreadPool::globalInstance()->start(imagethread);
 #endif
+    return true;
+}
+
+bool ImageEngineApi::removeImageFromAutoImport(QStringList files, int UID)
+{
+    //从自动导入数据库删除
+    DBManager::instance()->removeFromAlbum(UID, files, AutoImport);
+
+    //按失效步骤删除图片
+    removeImage(files);
+    DBManager::instance()->removeImgInfos(files);
+
     return true;
 }
 

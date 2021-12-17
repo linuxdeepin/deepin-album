@@ -1253,7 +1253,7 @@ private:
     FREE_IMAGE_FORMAT currentFormat = FIF_UNKNOWN;
     int currentIndex = 0;
     int frames = 0;
-    char padding[4];
+    char padding[4] = { 0 };
 };
 
 UnionMovieImage::UnionMovieImage(): d_ptr(new UnionMovieImagePrivate(this))

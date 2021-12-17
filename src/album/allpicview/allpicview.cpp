@@ -66,7 +66,7 @@ AllPicView::AllPicView()
     AC_SET_OBJECT_NAME(m_pStackedWidget, All_Picture_StackedWidget);
     AC_SET_ACCESSIBLE_NAME(m_pStackedWidget, All_Picture_StackedWidget);
     m_pImportView = new ImportView();
-    m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::AllPicViewType, COMMON_STR_ALLPHOTOS);
+    m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::AllPicViewType, -1, COMMON_STR_ALLPHOTOS);
 //    m_pThumbnailListView->setStyleSheet("background-color:red;");
     AC_SET_OBJECT_NAME(m_pThumbnailListView, All_Picture_Thembnail);
     AC_SET_ACCESSIBLE_NAME(m_pThumbnailListView, All_Picture_Thembnail);
@@ -201,9 +201,12 @@ void AllPicView::updateStackedWidget()
     updatePicNum();
 }
 
-void AllPicView::monitorHaveNewFile(QStringList list, QString album, int UID)
+void AllPicView::monitorHaveNewFile(QStringList fileAdd, QStringList fileDelete, QString album, int UID)
 {
-    ImageEngineApi::instance()->ImportImagesFromFileList(list, album, UID, this, true, AutoImport);
+    //注意：导入新图由于需要制作缩略图，因此是异步多线程的，而移除不存在的图只需要操作数据库，所以是单线程的
+    //所以先执行移除，再执行导入
+    ImageEngineApi::instance()->removeImageFromAutoImport(fileDelete, UID); //移除不存在的图
+    ImageEngineApi::instance()->ImportImagesFromFileList(fileAdd, album, UID, this, true, AutoImport); //导入新图
 }
 
 void AllPicView::updatePicsIntoThumbnailView()

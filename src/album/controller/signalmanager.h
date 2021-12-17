@@ -118,7 +118,7 @@ signals:
     void sigPauseOrStart(bool bpause);
 
     //监控到改变
-    void sigMonitorChanged(QStringList newfile, QString album, int UID);
+    void sigMonitorChanged(QStringList fileAdd, QStringList fileDelete, QString album, int UID);
 
 private:
     explicit SignalManager(QObject *parent = nullptr);

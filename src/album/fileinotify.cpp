@@ -117,19 +117,41 @@ void FileInotify::getAllPicture(bool isFirst)
     if (dir_count == 0) {
         return;
     }
+
+    //当前文件夹下的所有文件
     QFileInfoList list = dir.entryInfoList();
 
+    //移除不支持的文件
+    auto removeIter = std::remove_if(list.begin(), list.end(), [this](const QFileInfo & info) {
+        return !m_Supported.contains(info.suffix().toUpper());
+    });
+    list.erase(removeIter, list.end());
+
+    //提取文件路径
+    QStringList filePaths;
+    for (auto &fileInfo : list) {
+        filePaths.push_back(fileInfo.absoluteFilePath());
+    }
+
     //筛选出新增图片文件
-    for (auto fileinfo : list) {
-        if (m_Supported.contains(fileinfo.suffix().toUpper())) {
-            QString filename = fileinfo.fileName();
-            filename = m_currentDir + filename;
-            if (!m_allPic.contains(filename)) {
-                m_allPic << filename;
-                m_newFile << filename;
+    for (auto path : filePaths) {
+        if (!m_allPic.contains(path)) {
+            m_allPic << path;
+            m_newFile << path;
+        }
+    }
+
+    //筛选出删除图片文件，初次导入不需要执行
+    if (!isFirst) {
+        for (int i = 0; i != m_allPic.size(); ++i) {
+            if (!filePaths.contains(m_allPic[i])) {
+                m_deleteFile << m_allPic[i];
+                m_allPic.removeAt(i);
+                i--;
             }
         }
     }
+
     //初次导入，判重
     if (isFirst) {
         QStringList allpaths = DBManager::instance()->getAllPaths();
@@ -174,8 +196,18 @@ void FileInotify::pathLoadOnce()
 void FileInotify::onNeedSendPictures()
 {
     //发送导入
-    if (m_newFile.size() > 0) {
-        emit dApp->signalM->sigMonitorChanged(m_newFile, m_currentAlbum, m_currentUID);
-        m_newFile.clear();
+    if (!m_newFile.isEmpty() || !m_deleteFile.isEmpty()) {
+        emit dApp->signalM->sigMonitorChanged(m_newFile, m_deleteFile, m_currentAlbum, m_currentUID);
+        if (m_newFile.size() > 100) {
+            QStringList().swap(m_newFile); //强制清理内存
+        } else {
+            m_newFile.clear();
+        }
+
+        if (m_deleteFile.size() > 100) {
+            QStringList().swap(m_deleteFile); //强制清理内存
+        } else {
+            m_deleteFile.clear();
+        }
     }
 }

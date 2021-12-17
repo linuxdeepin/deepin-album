@@ -39,14 +39,11 @@ enum ThumbnailType {
     ThumbFail
 };
 
-const QFileInfoList                 getImagesAndVideoInfo(const QString &dir,
-                                                  bool recursive = true);
-bool                                imageSupportRead(const QString &path);
-//bool                                imageSupportSave(const QString &path);
-QStringList                         supportedImageFormats();
-//bool                                checkFileType(const QString &path);
-
-QPixmap                             getDamagePixmap(bool bLight = true);
+const QFileInfoList getImagesAndVideoInfo(const QString &dir, bool recursive = true);
+bool imageSupportRead(const QString &path);
+QStringList supportedImageFormats();
+QPixmap getDamagePixmap(bool bLight = true);
+void getAllFileInDir(const QDir &dir, QFileInfoList &result);
 }  // namespace image
 
 }  // namespace utils

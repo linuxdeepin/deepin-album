@@ -137,7 +137,7 @@ void SearchView::initSearchResultView()
     QVBoxLayout *pSearchResultbodyLayout = new QVBoxLayout();
     pSearchResultbodyLayout->setContentsMargins(8, 0, 0, 0);//搜索界面各边距
     //LMH0417 bug号20706
-    m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::SearchViewType, COMMON_STR_SEARCH);
+    m_pThumbnailListView = new ThumbnailListView(ThumbnailDelegate::SearchViewType, -1, COMMON_STR_SEARCH);
 
     m_pThumbnailListView->setFrameShape(QListView::NoFrame);
 

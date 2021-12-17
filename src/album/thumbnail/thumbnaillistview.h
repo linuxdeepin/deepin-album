@@ -91,7 +91,7 @@ public:
         IdDrawingBoard//lmh0407画板
     };
 
-    explicit ThumbnailListView(ThumbnailDelegate::DelegateType type = ThumbnailDelegate::NullType, const QString &imgtype = "All Photos", QWidget *parent = nullptr);
+    explicit ThumbnailListView(ThumbnailDelegate::DelegateType type = ThumbnailDelegate::NullType, int UID = -1, const QString &imgtype = "All Photos", QWidget *parent = nullptr);
     ~ThumbnailListView() override;
 
     void insertThumbnail(const DBImgInfo &dBImgInfo);//1050
@@ -282,7 +282,8 @@ private:
     BatchOperateWidget *m_batchOperateWidget = nullptr;
 public:
     ListViewUseFor m_useFor = Normal;
-    QString m_imageType;
+    QString m_imageType; //老版相册的image type有识别当前界面和相册的双重功能
+    int m_currentUID = -1; //新版基于UID的相册需要标记相册UID，否则不能执行从相册移除的功能，-1代表不属于任意相册
     QStandardItemModel *m_model = nullptr;
 
     int m_rowSizeHint = 0;

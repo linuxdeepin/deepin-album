@@ -231,12 +231,13 @@ void ImportTimeLineView::initTimeLineViewWidget()
     palcolor.setBrush(DPalette::Base, palcolor.color(DPalette::Window));
     m_timeLineViewWidget->setPalette(palcolor);
 
-    m_importTimeLineListView = new ThumbnailListView(ThumbnailDelegate::AlbumViewImportTimeLineViewType, COMMON_STR_RECENT_IMPORTED);
+    m_importTimeLineListView = new ThumbnailListView(ThumbnailDelegate::AlbumViewImportTimeLineViewType, -1, COMMON_STR_RECENT_IMPORTED);
     m_importTimeLineListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_importTimeLineListView->setContextMenuPolicy(Qt::CustomContextMenu);
     m_importTimeLineListView->setContentsMargins(0, 0, 0, 0);
     m_importTimeLineListView->setFocusPolicy(Qt::NoFocus);
     m_importTimeLineListView->m_imageType = COMMON_STR_RECENT_IMPORTED;
+    m_importTimeLineListView->m_currentUID = -1;
     m_mainLayout->addWidget(m_importTimeLineListView);
     //初始化筛选无结果窗口
     m_noResultWidget = new NoResultWidget(this);

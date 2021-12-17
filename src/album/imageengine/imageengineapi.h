@@ -51,7 +51,6 @@ public:
     bool getImageData(QString imagepath, DBImgInfo &data);
     bool ImportImagesFromFileList(QStringList files, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect = false, AlbumDBType dbType = Custom);
     bool ImportImagesFromUrlList(QList<QUrl> files, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect = false, AlbumDBType dbType = Custom);
-    bool ImportImagesFromCustomAutoPaths();
     //清理删除时间过长图片
     void cleanUpTrash(const DBImgInfoList &list);
     //过滤不存在图片后重新加载
@@ -72,6 +71,10 @@ public:
     bool importImageFilesFromMount(QString albumname, QStringList paths, ImageMountImportPathsObject *obj);
     bool moveImagesToTrash(QStringList files, bool typetrash = false, bool bneedprogress = true);
     bool recoveryImagesFromTrash(QStringList files);
+
+    //从自动导入路径删除图片，和移动到trash不同，此处是直接从数据库删除
+    //参数：需要删除的图片路径，相册UID
+    bool removeImageFromAutoImport(QStringList files, int UID);
 
     QStringList get_AllImagePath();
 

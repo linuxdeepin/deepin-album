@@ -183,7 +183,7 @@ void TimeLineView::initTimeLineViewWidget()
     palcolor.setBrush(DPalette::Base, palcolor.color(DPalette::Window));
     pTimeLineViewWidget->setPalette(palcolor);
 
-    m_timeLineThumbnailListView = new ThumbnailListView(ThumbnailDelegate::TimeLineViewType, COMMON_STR_VIEW_TIMELINE, pTimeLineViewWidget);
+    m_timeLineThumbnailListView = new ThumbnailListView(ThumbnailDelegate::TimeLineViewType, -1, COMMON_STR_VIEW_TIMELINE, pTimeLineViewWidget);
     m_timeLineThumbnailListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_timeLineThumbnailListView->setContextMenuPolicy(Qt::CustomContextMenu);
     m_timeLineThumbnailListView->setContentsMargins(0, 0, 0, 0);

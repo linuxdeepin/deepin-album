@@ -232,8 +232,7 @@ void MovieService::initThumb()
     m_mvideo_thumbnailer_generate_thumbnail_to_buffer = (mvideo_thumbnailer_generate_thumbnail_to_buffer) library.resolve("video_thumbnailer_generate_thumbnail_to_buffer");
     m_video_thumbnailer = m_creat_video_thumbnailer();
 
-    if (m_creat_video_thumbnailer == nullptr
-            || m_mvideo_thumbnailer_destroy == nullptr
+    if (m_mvideo_thumbnailer_destroy == nullptr
             || m_mvideo_thumbnailer_create_image_data == nullptr
             || m_mvideo_thumbnailer_destroy_image_data == nullptr
             || m_mvideo_thumbnailer_generate_thumbnail_to_buffer == nullptr

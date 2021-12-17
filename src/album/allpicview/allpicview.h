@@ -85,7 +85,7 @@ public slots:
     void slotNoPicOrNoVideo(bool isNoResult);
     void updateStackedWidget();
     // 监控到新文件
-    void monitorHaveNewFile(QStringList list, QString album, int UID);
+    void monitorHaveNewFile(QStringList fileAdd, QStringList fileDelete, QString album, int UID);
 
 private slots:
     //所有照片

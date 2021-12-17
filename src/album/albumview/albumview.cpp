@@ -355,8 +355,28 @@ void AlbumView::initLeftView()
 
 void AlbumView::onCreateNewAlbumFromDialog(const QString &newalbumname, int UID)
 {
-    int index = m_pLeftListView->m_pCustomizeListView->count();
-    QString albumName = newalbumname;
+    //需要对UID进行判断，如果是自动导入的UID，需要和其它自动导入的项挨着
+    int index = -1;
+    if (DBManager::instance()->getAlbumDBTypeFromUID(UID) == AutoImport) {
+        index = 0;
+        for (int i = 0; i < m_pLeftListView->m_pCustomizeListView->count(); i++) { //尝试搜索第一个非AutoImport的位置
+            auto item = m_pLeftListView->m_pCustomizeListView->item(i);
+            auto pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pCustomizeListView->itemWidget(item));
+            if (pTabItem) {
+                if (DBManager::instance()->getAlbumDBTypeFromUID(pTabItem->m_UID) != AutoImport) {
+                    index = i; //搜索到了以后，让它插入到这个位置
+                    break;
+                }
+            }
+        }
+        if (index == 0) { //如果没有搜索到，则表示没有非AutoImport的项，直接插入到末尾
+            index = m_pLeftListView->m_pCustomizeListView->count();
+        }
+    } else { //如果不是AutoImport，直接插入到末尾
+        index = m_pLeftListView->m_pCustomizeListView->count();
+    }
+
+    //这一段是在检查是否已经存在相同的UID
     bool isExsit = false;
     for (int i = 0; i < m_pLeftListView->m_pCustomizeListView->count(); i++) {
         QListWidgetItem *item = m_pLeftListView->m_pCustomizeListView->item(i);
@@ -370,11 +390,13 @@ void AlbumView::onCreateNewAlbumFromDialog(const QString &newalbumname, int UID)
         }
     }
 
+    //如果UID不存在，则执行新建操作
     if (!isExsit) {
-        QListWidgetItem *pListWidgetItem = new QListWidgetItem(m_pLeftListView->m_pCustomizeListView, ablumType);//hj add data to listwidgetitem to Distinguish item's type
+        //创建item的时候第一个项不能指定widget，需要是nullptr才能使下面的insertItem生效
+        QListWidgetItem *pListWidgetItem = new QListWidgetItem(nullptr, ablumType);//hj add data to listwidgetitem to Distinguish item's type
         m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
         pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
-        AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName, UID, COMMON_STR_CREATEALBUM);
+        AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(newalbumname, UID, COMMON_STR_CREATEALBUM);
         m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
         m_pLeftListView->m_pCustomizeListView->setCurrentRow(index);
     }
@@ -390,8 +412,7 @@ void AlbumView::onCreateNewAlbumFrom(const QString &albumname, int UID)
     int index = m_pLeftListView->m_pCustomizeListView->count();
     QListWidgetItem *pListWidgetItem = new QListWidgetItem();
     pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
-    QString albumName = albumname;
-    AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName, UID);
+    AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumname, UID);
     m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
     m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     m_pLeftListView->onUpdateLeftListview();
@@ -487,7 +508,7 @@ void AlbumView::initTrashWidget()
     p_Trash->setContentsMargins(8, 0, 0, 0);
     m_pTrashWidget->setLayout(p_Trash);
     //最近删除列表
-    m_pRightTrashThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewTrashType, COMMON_STR_TRASH);
+    m_pRightTrashThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewTrashType, -1, COMMON_STR_TRASH);
     m_pRightTrashThumbnailList->setFrameShape(DTableView::NoFrame);
     m_pRightTrashThumbnailList->setObjectName("RightTrashThumbnail");
     m_pRightTrashThumbnailList->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -595,7 +616,7 @@ void AlbumView::initCustomAlbumWidget()
     pHLayout->addWidget(m_pRightPicTotal);
     pHLayout->addStretch();
 
-    m_customThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewCustomType, COMMON_STR_CUSTOM);
+    m_customThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewCustomType, -1, COMMON_STR_CUSTOM);
     //筛选显示，当先列表中内容为无结果
     connect(m_customThumbnailList, &ThumbnailListView::sigNoPicOrNoVideo, this, &AlbumView::slotNoPicOrNoVideo);
     m_customThumbnailList->setFrameShape(DTableView::NoFrame);
@@ -644,7 +665,7 @@ void AlbumView::initFavoriteWidget()
     p_Favorite->setContentsMargins(8, 0, 0, 0);
     m_pFavoriteWidget->setLayout(p_Favorite);
 
-    m_favoriteThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewFavoriteType, COMMON_STR_FAVORITES);
+    m_favoriteThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewFavoriteType, DBManager::u_Favorite, COMMON_STR_FAVORITES);
     //筛选显示，当先列表中内容为无结果
     connect(m_favoriteThumbnailList, &ThumbnailListView::sigNoPicOrNoVideo, this, &AlbumView::slotNoPicOrNoVideo);
     m_favoriteThumbnailList->setFrameShape(DTableView::NoFrame);
@@ -748,7 +769,7 @@ void AlbumView::initPhoneWidget()
     m_pPhonePicTotal->setForegroundRole(DPalette::Text);
     m_pPhonePicTotal->setPalette(pal);
 
-    m_pRightPhoneThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewPhoneType, ALBUM_PATHTYPE_BY_PHONE);
+    m_pRightPhoneThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewPhoneType, -1, ALBUM_PATHTYPE_BY_PHONE);
     m_pRightPhoneThumbnailList->setListViewUseFor(ThumbnailListView::Mount);
     m_pRightPhoneThumbnailList->setFrameShape(DTableView::NoFrame);
     m_pRightPhoneThumbnailList->setViewportMargins(0, 0, 0, 0);
@@ -877,8 +898,10 @@ void AlbumView::updateRightView()
 
 void AlbumView::updateAlbumView(int UID)
 {
-    if (UID == DBManager::SpUID::u_Favorite) {
-        updateRightMyFavoriteView();
+    if (UID == DBManager::SpUID::u_Favorite) { //注意不要把下面那个if提上来用&&连接
+        if (m_currentUID == DBManager::SpUID::u_Favorite) { //只有当前的UID也是我的收藏时才执行刷新，否则会自动跳转过去
+            updateRightMyFavoriteView();
+        }
     } else {
         updateRightCustomAlbumView();
     }
@@ -997,6 +1020,7 @@ void AlbumView::updateRightCustomAlbumView()
         resetLabelCount(m_customThumbnailList->getAppointTypeItemCount(ItemTypePic)
                         , m_customThumbnailList->getAppointTypeItemCount(ItemTypeVideo), m_pRightPicTotal);
         m_customThumbnailList->m_imageType = m_currentAlbum;
+        m_customThumbnailList->m_currentUID = m_currentUID;
         m_customThumbnailList->stopLoadAndClear();
         //todo
 //        m_pRightThumbnailList->loadFilesFromLocal(infos);
@@ -1070,12 +1094,31 @@ void AlbumView::leftTabClicked()
 
 bool AlbumView::checkIfNotified(const QString &dirPath)
 {
-    return false;
+    return DBManager::instance()->checkCustomAutoImportPathIsNotified(dirPath);
 }
 
 void AlbumView::onAddNewNotifyDir(const QString &dirPath)
 {
-    ;
+    //自定义自动导入路径的相册名是文件夹最后一级的名字
+    auto albumName = dirPath.split('/').last();
+
+    //新建数据库
+    int UID = DBManager::instance()->createNewCustomAutoImportPath(dirPath, albumName);
+
+    //插入左侧label
+    onCreateNewAlbumFromDialog(albumName, UID);
+
+    //刷新图片
+    //1.获取所有图片和视频
+    QFileInfoList infos;
+    utils::image::getAllFileInDir(dirPath, infos);
+    QStringList importFiles;
+    for (auto &eachInfo : infos) {
+        importFiles.push_back(eachInfo.absoluteFilePath());
+    }
+
+    //2.导入进去
+    ImageEngineApi::instance()->ImportImagesFromFileList(importFiles, albumName, UID, this, false, AutoImport);
 }
 
 bool AlbumView::imageGeted(QStringList &filelist, QString path)
@@ -2259,6 +2302,7 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
     m_pPhoneTitle->setText(elideFont.elidedText(phoneTitle, Qt::ElideRight, 525));
     if (m_iAlubmPicsNum > 0) {
         m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
+        m_pRightPhoneThumbnailList->m_currentUID = -1;
         QStringList paths = m_pRightPhoneThumbnailList->selectedPaths();
         if (0 < paths.length()) {
             m_importSelectByPhoneBtn->setEnabled(true);
@@ -2271,6 +2315,7 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
         m_pPhoneTitle->setText(m_currentAlbum);
         m_pPhoneTitle->setText(elideFont.elidedText(m_currentAlbum, Qt::ElideRight, 525));
         m_pRightPhoneThumbnailList->m_imageType = ALBUM_PATHTYPE_BY_PHONE;
+        m_pRightPhoneThumbnailList->m_currentUID = -1;
         m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_PHONE);
         m_pStatusBar->setVisible(true);
     }

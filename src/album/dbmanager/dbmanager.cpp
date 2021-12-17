@@ -426,6 +426,32 @@ bool DBManager::isDefaultAutoImportDB(int UID) const
     }
 }
 
+QStringList DBManager::getDefaultNotifyPaths() const
+{
+    QStringList monitorPaths;
+
+    //图片路径
+    auto stdPicPaths = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
+    if (!stdPicPaths.isEmpty()) {
+        auto stdPicPath = stdPicPaths[0];
+
+        monitorPaths.push_back(stdPicPath + "/" + "Camera");
+        monitorPaths.push_back(stdPicPath + "/" + "Screen Capture");
+        monitorPaths.push_back(stdPicPath + "/" + "Draw");
+    }
+
+    //视频路径
+    auto stdMoviePaths = QStandardPaths::standardLocations(QStandardPaths::MoviesLocation);
+    if (!stdMoviePaths.isEmpty()) {
+        auto stdMoviePath = stdMoviePaths[0];
+
+        monitorPaths.push_back(stdMoviePath + "/" + "Camera");
+        monitorPaths.push_back(stdMoviePath + "/" + "Screen Capture");
+    }
+
+    return monitorPaths;
+}
+
 const QStringList DBManager::getPathsByAlbum(int UID, AlbumDBType atype) const
 {
     QMutexLocker mutex(&m_mutex);
@@ -1128,6 +1154,120 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
     return infos;
 }
 
+bool DBManager::checkCustomAutoImportPathIsNotified(const QString &path)
+{
+    //检查是否是默认路径，这一段不涉及数据库操作，不需要加锁
+    auto defaultPath = getDefaultNotifyPaths();
+    for (auto &eachPath : defaultPath) {
+        if (path.startsWith(eachPath)) {
+            return false;
+        }
+    }
+
+    QMutexLocker mutex(&m_mutex);
+    QSqlDatabase db = getDatabase();
+    if (! db.isValid()) { //数据库炸了，返回true禁止外部操作
+        return true;
+    }
+
+    //这里再去检查已有的数据库
+    QSqlQuery query(db);
+    if (!query.exec("SELECT FullPath FROM CustomAutoImportPathTable3")) {
+        return true;
+    }
+
+    while (query.next()) {
+        auto currentPath = query.value(0).toString();
+        if (path.startsWith(currentPath) || currentPath.startsWith(path)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+int DBManager::createNewCustomAutoImportPath(const QString &path, const QString &albumName)
+{
+    QMutexLocker mutex(&m_mutex);
+    QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return -1;
+    }
+
+    //1.新建相册
+    int UID = albumMaxUID++;
+    QSqlQuery query(db);
+
+    if (!query.prepare("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, ?, ?, ?, ?)")) {
+        return -1;
+    }
+
+    query.addBindValue(albumName);
+    query.addBindValue("7215ee9c7d9dc229d2921a40e899ec5f");
+    query.addBindValue(AutoImport);
+    query.addBindValue(UID);
+
+    if (!query.exec()) {
+        return -1;
+    }
+
+    //2.新建保存路径
+    query.clear();
+
+    if (!query.prepare("INSERT INTO CustomAutoImportPathTable3 (UID, FullPath, AlbumName) VALUES (?, ?, ?)")) {
+        return -1;
+    }
+
+    query.addBindValue(UID);
+    query.addBindValue(path);
+    query.addBindValue(albumName);
+
+    if (!query.exec()) {
+        return -1;
+    }
+
+    return UID;
+}
+
+void DBManager::removeCustomAutoImportPath(int UID)
+{
+    QMutexLocker mutex(&m_mutex);
+    QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return;
+    }
+
+    //TODO：目前暂时不管删除问题
+
+    //1.删除图片
+
+    //2.删除路径
+
+    //3.删除相册
+}
+
+std::map<int, QString> DBManager::getAllCustomAutoImportUIDAndPath()
+{
+    std::map<int, QString> result;
+
+    QMutexLocker mutex(&m_mutex);
+    QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return result;
+    }
+
+    QSqlQuery query(db);
+    if (!query.exec("SELECT UID, FullPath FROM CustomAutoImportPathTable3")) {
+        return result;
+    }
+
+    while (query.next()) {
+        result.insert(std::make_pair(query.value(0).toInt(), query.value(1).toString()));
+    }
+
+    return result;
+}
+
 const QSqlDatabase DBManager::getDatabase() const
 {
     if (!m_db.open()) {
@@ -1152,121 +1292,123 @@ void DBManager::checkDatabase()
     if (! db.isValid()) {
         return;
     }
-    bool tableExist = false;
-    QSqlQuery query(db);
-    query.setForwardOnly(true);
-    bool b = query.prepare("SELECT name FROM sqlite_master "
-                           "WHERE type=\"table\" AND name = \"ImageTable3\"");
+
+    // 创建Table的语句都是加了IF NOT EXISTS的，直接运行就可以了
+    QSqlQuery queryCreate(db);
+    // ImageTable3
+    //////////////////////////////////////////////////////////////
+    //PathHash           | FilePath | FileName   | Dir  | Time | ChangeTime | ImportTime//
+    //TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT | TEXT       | TEXT      //
+    //////////////////////////////////////////////////////////////
+    bool b = queryCreate.exec(QString("CREATE TABLE IF NOT EXISTS ImageTable3 ( "
+                                      "PathHash TEXT primary key, "
+                                      "FilePath TEXT, "
+                                      "FileName TEXT, "
+                                      "Dir TEXT, "
+                                      "Time TEXT, "
+                                      "ChangeTime TEXT, "
+                                      "ImportTime TEXT, "
+                                      "FileType INTEGER, "
+                                      "DataHash TEXT)"));
     if (!b) {
-        db.close();
-        return;
+        qDebug() << "b CREATE TABLE exec failed.";
     }
-    if (query.exec() && query.first()) {
-        tableExist = ! query.value(0).toString().isEmpty();
+
+    // AlbumTable3
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //AlbumId               | AlbumName         | PathHash      |AlbumDBType    |UID     //
+    //INTEGER primari key   | TEXT              | TEXT          |TEXT           |INTEGER //
+    ///////////////////////////////////////////////////////////////////////////////////////
+    bool c = queryCreate.exec(QString("CREATE TABLE IF NOT EXISTS AlbumTable3 ( "
+                                      "AlbumId INTEGER primary key, "
+                                      "AlbumName TEXT, "
+                                      "PathHash TEXT,"
+                                      "AlbumDBType INTEGER,"
+                                      "UID INTEGER)"));
+    if (!c) {
+        qDebug() << "c CREATE TABLE exec failed.";
     }
-    //if tables not exist, create it.
-    if (!tableExist) {
-        QSqlQuery queryCreate(db);
-        // ImageTable3
-        //////////////////////////////////////////////////////////////
-        //PathHash           | FilePath | FileName   | Dir  | Time | ChangeTime | ImportTime//
-        //TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT | TEXT       | TEXT      //
-        //////////////////////////////////////////////////////////////
-        bool b = queryCreate.exec(QString("CREATE TABLE IF NOT EXISTS ImageTable3 ( "
-                                          "PathHash TEXT primary key, "
-                                          "FilePath TEXT, "
-                                          "FileName TEXT, "
-                                          "Dir TEXT, "
-                                          "Time TEXT, "
-                                          "ChangeTime TEXT, "
-                                          "ImportTime TEXT, "
-                                          "FileType INTEGER, "
-                                          "DataHash TEXT)"));
-        if (!b) {
-            qDebug() << "b CREATE TABLE exec failed.";
-        }
+    // TrashTable3
+    //////////////////////////////////////////////////////////////
+    //PathHash           | FilePath | FileName   | Dir  | Time | ChangeTime | ImportTime//
+    //TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT | TEXT       | TEXT      //
+    //////////////////////////////////////////////////////////////
+    bool d = queryCreate.exec(QString("CREATE TABLE IF NOT EXISTS TrashTable3 ( "
+                                      "PathHash TEXT primary key, "
+                                      "FilePath TEXT, "
+                                      "FileName TEXT, "
+                                      "Dir TEXT, "
+                                      "Time TEXT, "
+                                      "ChangeTime TEXT, "
+                                      "ImportTime TEXT,"
+                                      "FileType INTEGER)"));
+    if (!d) {
+        qDebug() << "d CREATE TABLE exec failed.";
+    }
 
-        // AlbumTable3
-        ///////////////////////////////////////////////////////////////////////////////////////
-        //AlbumId               | AlbumName         | PathHash      |AlbumDBType    |UID     //
-        //INTEGER primari key   | TEXT              | TEXT          |TEXT           |INTEGER //
-        ///////////////////////////////////////////////////////////////////////////////////////
-        bool c = queryCreate.exec(QString("CREATE TABLE IF NOT EXISTS AlbumTable3 ( "
-                                          "AlbumId INTEGER primary key, "
-                                          "AlbumName TEXT, "
-                                          "PathHash TEXT,"
-                                          "AlbumDBType INTEGER,"
-                                          "UID INTEGER)"));
-        if (!c) {
-            qDebug() << "c CREATE TABLE exec failed.";
-        }
-        // TrashTable
-        //////////////////////////////////////////////////////////////
-        //PathHash           | FilePath | FileName   | Dir  | Time | ChangeTime | ImportTime//
-        //TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT | TEXT       | TEXT      //
-        //////////////////////////////////////////////////////////////
-        bool d = queryCreate.exec(QString("CREATE TABLE IF NOT EXISTS TrashTable3 ( "
-                                          "PathHash TEXT primary key, "
-                                          "FilePath TEXT, "
-                                          "FileName TEXT, "
-                                          "Dir TEXT, "
-                                          "Time TEXT, "
-                                          "ChangeTime TEXT, "
-                                          "ImportTime TEXT,"
-                                          "FileType INTEGER)"));
-        if (!d) {
-            qDebug() << "d CREATE TABLE exec failed.";
-        }
-        // Check if there is an old version table exist or not
-        //TODO: AlbumTable's primary key is changed, need to importVersion again
-    } else {
-        // 判断ImageTable3中是否有ChangeTime字段
-        QString strSqlImage = QString::fromLocal8Bit("select sql from sqlite_master where name = \"ImageTable3\" and sql like \"%ChangeTime%\"");
-        QSqlQuery queryImage1(db);
-        bool q = queryImage1.exec(strSqlImage);
-        if (!q && queryImage1.next()) {
-            // 无ChangeTime字段,则增加ChangeTime字段,赋值当前时间
-            QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
-            if (queryImage1.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ChangeTime\" TEXT default \"%1\"")
-                                 .arg(strDate))) {
-                qDebug() << "add ChangeTime success";
-            }
-        }
+    // 自定义导入路径表
+    // CustomAutoImportPathTable3
+    //////////////////////////////////////////////////////////////
+    //UID                 | FullPath | AlbumName
+    //INTEGER primari key | TEXT     | TEXT
+    //////////////////////////////////////////////////////////////
+    bool e = queryCreate.exec(QString("CREATE TABLE IF NOT EXISTS CustomAutoImportPathTable3 ( "
+                                      "UID INTEGER primary key, "
+                                      "FullPath TEXT, "
+                                      "AlbumName TEXT)"));
+    if (!e) {
+        qDebug() << "d CREATE TABLE exec failed.";
+    }
 
-        // 判断ImageTable3中是否有ImportTime字段
-        QString strSqlImportTime = "select sql from sqlite_master where name = 'ImageTable3' and sql like '%ImportTime%'";
-        QSqlQuery queryImage2(db);
-        if (!queryImage2.exec(strSqlImportTime)) {
-            qDebug() << queryImage2.lastError();
+    // 判断ImageTable3中是否有ChangeTime字段
+    QString strSqlImage = QString::fromLocal8Bit("select sql from sqlite_master where name = \"ImageTable3\" and sql like \"%ChangeTime%\"");
+    QSqlQuery queryImage1(db);
+    bool q = queryImage1.exec(strSqlImage);
+    if (!q && queryImage1.next()) {
+        // 无ChangeTime字段,则增加ChangeTime字段,赋值当前时间
+        QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
+        if (queryImage1.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ChangeTime\" TEXT default \"%1\"")
+                             .arg(strDate))) {
+            qDebug() << "add ChangeTime success";
         }
-        if (!queryImage2.next()) {
-            // 无ImportTime字段,则增加ImportTime字段
-            QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
-            if (queryImage2.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ImportTime\" TEXT default \"%1\"")
-                                 .arg(strDate))) {
-                qDebug() << "add ImportTime success";
-            }
-        }
+    }
 
-        // 判断ImageTable3中是否有FileType字段，区分是图片还是视频
-        QString strSqlFileType = QString::fromLocal8Bit(
-                                     "select * from sqlite_master where name = 'ImageTable3' and sql like '%FileType%'");
-        QSqlQuery queryFileType(db);
-        int fileType = static_cast<int>(ItemTypePic);
-        queryFileType.exec(strSqlFileType);
-        if (!queryFileType.next()) {
-            // 无FileType字段,则增加FileType字段,赋值1,默认是图片
-            if (queryFileType.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"FileType\" INTEGER default \"%1\"")
-                                   .arg(QString::number(fileType)))) {
-                qDebug() << "add FileType success";
-            }
+    // 判断ImageTable3中是否有ImportTime字段
+    QString strSqlImportTime = "select sql from sqlite_master where name = 'ImageTable3' and sql like '%ImportTime%'";
+    QSqlQuery queryImage2(db);
+    if (!queryImage2.exec(strSqlImportTime)) {
+        qDebug() << queryImage2.lastError();
+    }
+    if (!queryImage2.next()) {
+        // 无ImportTime字段,则增加ImportTime字段
+        QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
+        if (queryImage2.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ImportTime\" TEXT default \"%1\"")
+                             .arg(strDate))) {
+            qDebug() << "add ImportTime success";
         }
+    }
 
-        // 判断ImageTable3中是否有DataHash字段，根据文件内容产生的hash
-        QString strDataHash = QString::fromLocal8Bit(
-                                  "select * from sqlite_master where name = 'ImageTable3' and sql like '%DataHash%'");
-        QSqlQuery queryDataHash(db);
-        queryDataHash.exec(strDataHash);
+    // 判断ImageTable3中是否有FileType字段，区分是图片还是视频
+    QString strSqlFileType = QString::fromLocal8Bit(
+                                 "select * from sqlite_master where name = 'ImageTable3' and sql like '%FileType%'");
+    QSqlQuery queryFileType(db);
+    int fileType = static_cast<int>(ItemTypePic);
+    if (!queryFileType.exec(strSqlFileType)) {
+        qDebug() << "add FileType failed";
+    }
+    if (!queryFileType.next()) {
+        // 无FileType字段,则增加FileType字段,赋值1,默认是图片
+        if (queryFileType.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"FileType\" INTEGER default \"%1\"")
+                               .arg(QString::number(fileType)))) {
+            qDebug() << "add FileType success";
+        }
+    }
+
+    // 判断ImageTable3中是否有DataHash字段，根据文件内容产生的hash
+    QString strDataHash = QString::fromLocal8Bit(
+                              "select * from sqlite_master where name = 'ImageTable3' and sql like '%DataHash%'");
+    QSqlQuery queryDataHash(db);
+    if (queryDataHash.exec(strDataHash)) {
         if (!queryDataHash.next()) {
             // DataHash,则增加DataHash字段
             if (queryDataHash.exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"DataHash\" TEXT default \"%1\"")
@@ -1274,65 +1416,83 @@ void DBManager::checkDatabase()
                 qDebug() << "add FileType success";
             }
         }
+    }
 
-        // 判断AlbumTable3中是否有AlbumDBType字段
-        QString strSqlDBType = QString::fromLocal8Bit("select * from sqlite_master where name = \"AlbumTable3\" and sql like \"%AlbumDBType%\"");
-        QSqlQuery queryType(db);
-        bool q2 = queryType.exec(strSqlDBType);
-        if (q2 && !queryType.next()) {
-            // 无AlbumDBType字段,则增加AlbumDBType字段, 全部赋值为个人相册
-            if (queryType.exec(QString("ALTER TABLE \"AlbumTable3\" ADD COLUMN \"AlbumDBType\" INTEGER default %1")
-                               .arg("1"))) {
-                qDebug() << "add AlbumDBType success";
-            }
-            if (queryType.exec(QString("update AlbumTable3 SET AlbumDBType = 0 Where AlbumName = \"%1\" ")
-                               .arg(COMMON_STR_FAVORITES))) {
-            }
+    // 判断AlbumTable3中是否有AlbumDBType字段
+    QString strSqlDBType = QString::fromLocal8Bit("select * from sqlite_master where name = \"AlbumTable3\" and sql like \"%AlbumDBType%\"");
+    QSqlQuery queryType(db);
+    bool q2 = queryType.exec(strSqlDBType);
+    if (q2 && !queryType.next()) {
+        // 无AlbumDBType字段,则增加AlbumDBType字段, 全部赋值为个人相册
+        if (queryType.exec(QString("ALTER TABLE \"AlbumTable3\" ADD COLUMN \"AlbumDBType\" INTEGER default %1")
+                           .arg("1"))) {
+            qDebug() << "add AlbumDBType success";
         }
-
-        // 判断AlbumTable3中是否有UID字段
-        QString strSqlUID = QString::fromLocal8Bit("select * from sqlite_master where name = \"AlbumTable3\" and sql like \"%UID%\"");
-        QSqlQuery queryUID(db);
-        bool q3 = queryUID.exec(strSqlUID);
-        if (q3 && !queryUID.next()) {
-            // 无UID字段，则需要主动添加
-            if (queryUID.exec(QString("ALTER TABLE \"AlbumTable3\" ADD COLUMN \"UID\" INTEGER default %1")
-                              .arg("0"))) {
-                qDebug() << "add UID success";
-            }
-
-            // UID字段添加完成后，还需要主动为其进行赋值
-            //1.获取当前已存在的album name
-            if (queryUID.exec(QString("SELECT DISTINCT \"AlbumName\" FROM \"AlbumTable3\""))) {
-                qDebug() << "search album name success";
-            }
-
-            //2.在内存中为其进行编号
-            QStringList nameList;
-            while (queryUID.next()) {
-                auto currentName = queryUID.value(0).toString();
-                nameList.push_back(currentName);
-            }
-
-            //3.写入数据库
-            for (auto &currentName : nameList) {
-                queryUID.exec(QString("UPDATE \"AlbumTable3\" SET UID = %1 WHERE \"AlbumName\" = \"%2\"").arg(albumMaxUID++).arg(currentName));
-            }
+        if (queryType.exec(QString("update AlbumTable3 SET AlbumDBType = 0 Where AlbumName = \"%1\" ")
+                           .arg(COMMON_STR_FAVORITES))) {
         }
     }
 
-    //预先插入特殊UID
-    insertSpUID(db, "Favorite", Favourite, u_Favorite);
-    insertSpUID(db, "Camera", AutoImport, u_Camera);
-    insertSpUID(db, "Screen Capture", AutoImport, u_ScreenCapture);//使用album name的SQL语句注意加冒号
-    insertSpUID(db, "Draw", AutoImport, u_Draw);
+    // 判断AlbumTable3中是否有UID字段
+    // UID初始化标记
+    bool uidIsInited = false;
+    QString strSqlUID = QString::fromLocal8Bit("select * from sqlite_master where name = \"AlbumTable3\" and sql like \"%UID%\"");
+    QSqlQuery queryUID(db);
+    bool q3 = queryUID.exec(strSqlUID);
+    if (q3 && !queryUID.next()) {
+        // 无UID字段，则需要主动添加
+        if (queryUID.exec(QString("ALTER TABLE \"AlbumTable3\" ADD COLUMN \"UID\" INTEGER default %1")
+                          .arg("0"))) {
+            qDebug() << "add UID success";
+        }
 
-    //搜索当前最大ID值
-    QSqlQuery sqlId(db);
-    sqlId.exec("SELECT max(UID) FROM AlbumTable3");
-    sqlId.next();
-    albumMaxUID = sqlId.value(0).toInt();
-    albumMaxUID++;
+        // UID字段添加完成后，还需要主动为其进行赋值
+        //1.获取当前已存在的album name
+        if (queryUID.exec(QString("SELECT DISTINCT \"AlbumName\" FROM \"AlbumTable3\""))) {
+            qDebug() << "search album name success";
+        }
+
+        //2.在内存中为其进行编号
+        QStringList nameList;
+        while (queryUID.next()) {
+            auto currentName = queryUID.value(0).toString();
+            nameList.push_back(currentName);
+        }
+
+        //3.插入特殊UID字段
+        insertSpUID(db, "Favorite", Favourite, u_Favorite);
+        insertSpUID(db, "Camera", AutoImport, u_Camera);
+        insertSpUID(db, "Screen Capture", AutoImport, u_ScreenCapture);//使用album name的SQL语句注意加冒号
+        insertSpUID(db, "Draw", AutoImport, u_Draw);
+
+        //4.初始化max uid
+        albumMaxUID = u_CustomStart;
+
+        //5.写入数据库
+        for (auto &currentName : nameList) {
+            if (!queryUID.exec(QString("UPDATE \"AlbumTable3\" SET UID = %1 WHERE \"AlbumName\" = \"%2\"").arg(albumMaxUID++).arg(currentName))) {
+                qDebug() << "update AlbumTable3 UID failed";
+            }
+        }
+
+        uidIsInited = true;
+    }
+
+    if (!uidIsInited) {
+        //预先插入特殊UID
+        insertSpUID(db, "Favorite", Favourite, u_Favorite);
+        insertSpUID(db, "Camera", AutoImport, u_Camera);
+        insertSpUID(db, "Screen Capture", AutoImport, u_ScreenCapture);//使用album name的SQL语句注意加冒号
+        insertSpUID(db, "Draw", AutoImport, u_Draw);
+
+        //搜索当前最大ID值
+        QSqlQuery sqlId(db);
+        if (!sqlId.exec("SELECT max(UID) FROM AlbumTable3") || !sqlId.next()) {
+            qDebug() << "find max UID failed";
+        }
+        albumMaxUID = sqlId.value(0).toInt();
+        albumMaxUID++;
+    }
 
     // 判断TrashTable的版本
     QString strSqlTrashTable = QString::fromLocal8Bit("select * from sqlite_master where name = \"TrashTable3\"");
@@ -1397,19 +1557,25 @@ void DBManager::insertSpUID(QSqlDatabase &db, const QString &albumName, AlbumDBT
     QSqlQuery query(db);
 
     //1.检查当前需要新建的sp相册是否存在
-    query.exec(QString("SELECT UID FROM AlbumTable3 WHERE UID=%1").arg(UID));
-    if (query.next()) {
+    if (!query.exec(QString("SELECT UID FROM AlbumTable3 WHERE UID=%1").arg(UID)) || query.next()) {
         return;
     }
 
     //2.不存在则插入数据
     query.clear();
-    query.prepare("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, ?, ?, ?, ?)");
+
+    if (!query.prepare("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, ?, ?, ?, ?)")) {
+        qDebug() << "insertSpUID failed";
+    }
+
     query.addBindValue(albumName);
     query.addBindValue("7215ee9c7d9dc229d2921a40e899ec5f");
     query.addBindValue(astype);
     query.addBindValue(UID);
-    query.exec();
+
+    if (!query.exec()) {
+        qDebug() << "insertSpUID failed";
+    }
 }
 
 const QStringList DBManager::getAllTrashPaths() const

@@ -61,8 +61,8 @@ public:
     //特殊UID
     //-1,不属于任意相册
     //0,我的收藏
-    //1,监控路径：Video
-    //2,监控路径：Camera
+    //1,监控路径：Camera
+    //2,监控路径：Screen Capture
     //3,监控路径：Draw
 
     enum SpUID {
@@ -101,12 +101,23 @@ public:
     const DBImgInfoList     getTrashInfosForKeyword(const QString &keywords) const;
     const DBImgInfoList     getInfosForKeyword(int UID, const QString &keywords) const;
 
+    //CustomAutoImportPathTable
+    //检查当前的自定义自动导入路径是否已经被监控，检查内容包括是否是子文件夹和是否是默认导入路径
+    bool checkCustomAutoImportPathIsNotified(const QString &path);
+    //添加新的自定义自动导入路径，步骤类似于新建相册，传入路径和相册名，然后返回UID
+    int createNewCustomAutoImportPath(const QString &path, const QString &albumName);
+    //删除自定义自动导入路径，需要以UID为删除依据
+    void removeCustomAutoImportPath(int UID);
+    //获取所有需要监控的路径
+    std::map<int, QString> getAllCustomAutoImportUIDAndPath();
+
     // TableAlbum
     const QMultiMap<QString, QString> getAllPathAlbumNames() const;
     //输入：相册类型，输出：所属类型下的相册UID、相册名称
     const QList<std::pair<int, QString> > getAllAlbumNames(AlbumDBType atype = AlbumDBType::Custom) const;
     //从UID判断是否是默认导入路径
     bool isDefaultAutoImportDB(int UID) const;
+    QStringList getDefaultNotifyPaths() const;
     const QStringList       getPathsByAlbum(int UID, AlbumDBType atype = AlbumDBType::Custom) const;
     const DBImgInfoList     getInfosByAlbum(int UID) const;
     int                     getItemsCountByAlbum(int UID, const ItemType &type, AlbumDBType atype = AlbumDBType::Custom) const;

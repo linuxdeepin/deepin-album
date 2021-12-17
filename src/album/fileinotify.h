@@ -53,6 +53,7 @@ private:
     bool m_running = false;
     QStringList m_allPic;       //目前所有照片
     QStringList m_newFile;      //当前新添加的
+    QStringList m_deleteFile;   //当前删除的
     QString m_currentDir;       //给定的当前监控路径
     QString m_currentAlbum;     //给定当前的相册
     int m_currentUID;           //给定当前的相册的UID

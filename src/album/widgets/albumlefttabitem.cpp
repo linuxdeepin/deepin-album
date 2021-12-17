@@ -77,19 +77,19 @@ void AlbumLeftTabItem::initUI()
     if (DBManager::instance()->isDefaultAutoImportDB(m_UID)) { //如果是默认自动导入
         switch (m_UID) {
         case DBManager::SpUID::u_Camera:
-            pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_camera_normal.svg", QSize(24, 24));
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_camera_normal.svg", QSize(24, 24));
             break;
         case DBManager::SpUID::u_Draw:
-            pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_draw_normal.svg", QSize(24, 24));
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_draw_normal.svg", QSize(24, 24));
             break;
         case DBManager::SpUID::u_ScreenCapture:
-            pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_screencapture_normal.svg", QSize(24, 24));
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_screencapture_normal.svg", QSize(24, 24));
             break;
         default:
             break;
         }
     } else if (DBManager::instance()->getAlbumDBTypeFromUID(m_UID) == AutoImport) { //如果是自定义默认导入
-        pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_custompath_normal.svg", QSize(24, 24));
+        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_custompath_normal.svg", QSize(24, 24));
     } else if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr) {
         pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_iphone_normal.svg", QSize(24, 24));
     } else if (ALBUM_PATHTYPE_BY_U == m_albumTypeStr) {
@@ -306,9 +306,9 @@ void AlbumLeftTabItem::oriAlbumStatus()
         }
     } else if (DBManager::instance()->getAlbumDBTypeFromUID(m_UID) == AutoImport) { //如果是自定义默认导入
         if (themeType == DGuiApplicationHelper::LightType) {
-            pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_custompath_normal.svg", QSize(24, 24));
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_custompath_normal.svg", QSize(24, 24));
         } else {
-            pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_custompath_normal_dark.svg", QSize(24, 24));
+            pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_custompath_normal_dark.svg", QSize(24, 24));
         }
     } else if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr) {
         QPixmap mountpixmap;

@@ -66,11 +66,12 @@ QString ss(const QString &text)
 }
 }  // namespace
 
-ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, const  QString &imgtype, QWidget *parent)
+ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, int UID, const QString &imgtype, QWidget *parent)
     :  DListView(parent), m_delegatetype(type), m_allfileslist(), updateEnableSelectionByMouseTimer(nullptr)
 {
     m_model = new QStandardItemModel(this);
     m_imageType = imgtype;
+    m_currentUID = UID;
     m_iBaseHeight = BASE_HEIGHT;
     m_albumMenu = nullptr;
     setResizeMode(QListView::Adjust);
@@ -1036,11 +1037,9 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         }
         break;
     case IdRemoveFromAlbum: {
-        //TODO：暂时不知道咋实现
-        /*if (IMAGE_DEFAULTTYPE != m_imageType && COMMON_STR_VIEW_TIMELINE != m_imageType &&
-                COMMON_STR_RECENT_IMPORTED != m_imageType && COMMON_STR_TRASH != m_imageType) {
-            DBManager::instance()->removeFromAlbum(m_imageType, paths);
-        }*/
+        if (m_currentUID != -1) {
+            DBManager::instance()->removeFromAlbum(m_currentUID, paths);
+        }
     }
     break;
     case IdRotateClockwise: {

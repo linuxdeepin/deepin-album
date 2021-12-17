@@ -56,7 +56,7 @@ private:
 
     QStringList m_paths;
     QList<QUrl> m_urls;
-    int m_UID;
+    int m_UID = -1;
     QString m_albumname;
     AlbumDBType m_dbType;
     ImageEngineImportObject *m_obj = nullptr;

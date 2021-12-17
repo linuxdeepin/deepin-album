@@ -189,7 +189,7 @@ public slots:
     void onTitleBarMenuClicked(QAction *action);
     void onImprotBtnClicked();
     void onNewAPPOpen(qint64 pid, const QStringList &arguments);
-
+    void ImportImagesFromCustomAutoPaths(); //从自定义自动导入路径刷新图片
     void onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAdditionalOperation operation, bool isCustom, const QString &album, int UID);
     void onCollectButtonClicked();
     void updateCollectButton();
