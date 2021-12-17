@@ -61,9 +61,9 @@ DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
 
         if (!movieInfo.creation.isEmpty()) {
             dbi.time = QDateTime::fromString(movieInfo.creation);
-        } else if (!srcfi.birthTime().isValid()) {
+        } else if (srcfi.birthTime().isValid()) {
             dbi.time = srcfi.birthTime();
-        } else if (!srcfi.metadataChangeTime().isValid()) {
+        } else if (srcfi.metadataChangeTime().isValid()) {
             dbi.time = srcfi.metadataChangeTime();
         } else {
             dbi.time = dbi.changeTime;
@@ -75,9 +75,9 @@ DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
         dbi.changeTime = QDateTime::fromString(mds.value("DateTimeDigitized"), "yyyy/MM/dd hh:mm");
         if (!value.isEmpty()) {
             dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
-        } else if (!srcfi.birthTime().isValid()) {
+        } else if (srcfi.birthTime().isValid()) {
             dbi.time = srcfi.birthTime();
-        } else if (!srcfi.metadataChangeTime().isValid()) {
+        } else if (srcfi.metadataChangeTime().isValid()) {
             dbi.time = srcfi.metadataChangeTime();
         } else {
             dbi.time = dbi.changeTime;

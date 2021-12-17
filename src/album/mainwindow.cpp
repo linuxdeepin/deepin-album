@@ -1156,7 +1156,7 @@ void MainWindow::onViewCreateAlbum(QString imgpath, bool bmodel)
 #endif
 
     //此处需要同时接收dialog获取的UID和album name
-    connect(d, &AlbumCreateDialog::albumAdded, this, [ = ] (int UID) {
+    connect(d, &AlbumCreateDialog::albumAdded, this, [ = ](int UID) {
         DBManager::instance()->insertIntoAlbum(UID, imgpath.isEmpty() ? QStringList(" ") : QStringList(imgpath));
         emit dApp->signalM->sigCreateNewAlbumFrom(d->getCreateAlbumName(), UID);
         QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess.svg");
@@ -2148,7 +2148,7 @@ void MainWindow::onPopupWaitDialog(QString waittext, bool bneedprogress)
         m_waitlabel->show();
         m_waitdailog->show();
     } else {
-        if (waittext.compare(tr("Importing..."), Qt::CaseInsensitive)) {
+        if (waittext.compare(tr("Importing..."), Qt::CaseInsensitive) >= 0) {
             m_bImport = true;
         } else {
             m_bImport = false;
