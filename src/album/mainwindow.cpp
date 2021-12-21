@@ -235,6 +235,8 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::AlbExportSuccess, this, &MainWindow::onAlbExportSuccess);
     //没找到图片或视频提示框
     connect(dApp->signalM, &SignalManager::ImportDonotFindPicOrVideo, this, &MainWindow::onImportDonotFindPicOrVideo);
+    //自动导入中断
+    connect(dApp->signalM, &SignalManager::ImportInterrupted, this, &MainWindow::onImportInterrupted);
 }
 
 //初始化快捷键
@@ -1217,7 +1219,8 @@ void MainWindow::onNewPathAction()
             utils::base::isVaultFile(path) || //保险箱
             path == QDir::homePath() || //主文件夹
             path == "/" || //根目录
-            !dir.exists()) { //目录不存在
+            !dir.exists() || //目录不存在
+            !dir.isReadable()) { //目录不可读
         onNotSupportedNotifyPath();
         return;
     }
@@ -2297,6 +2300,13 @@ void MainWindow::onAddToAlbToast(QString album)
     QIcon icon(":/images/logo/resources/images/other/icon_toast_sucess_new.svg");
     QString str2 = tr("Successfully added to “%1”");
     QString str = str2.arg(album);
+    floatMessage(str, icon);
+}
+
+void MainWindow::onImportInterrupted()
+{
+    QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
+    QString str = tr("Import interrupted");
     floatMessage(str, icon);
 }
 

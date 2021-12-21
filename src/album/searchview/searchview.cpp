@@ -259,7 +259,7 @@ void SearchView::onSlideShowBtnClicked()
     } else if (COMMON_STR_TRASH == m_albumName) {
         imagelist = DBManager::instance()->getTrashInfosForKeyword(m_keywords);
     } else {
-        imagelist = DBManager::instance()->getInfosForKeyword(m_UID, m_keywords);//TODO：指定UID下搜索
+        imagelist = DBManager::instance()->getInfosForKeyword(m_UID, m_keywords);
     }
 
     QStringList paths;

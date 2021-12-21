@@ -745,8 +745,8 @@ void ThumbnailListView::updateMenuContents()
             m_MenuActionMap.value(tr("Unfavorite"))->setVisible(true);
         }
     }
-    //非自定义相册，隐藏从相册中移除菜单
-    if (m_delegatetype != ThumbnailDelegate::AlbumViewCustomType) {
+    //非自定义相册、自动导入路径，隐藏从相册中移除菜单
+    if (m_delegatetype != ThumbnailDelegate::AlbumViewCustomType || DBManager::instance()->getAlbumDBTypeFromUID(m_currentUID) == AutoImport) {
         m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
     }
 #ifndef tablet_PC

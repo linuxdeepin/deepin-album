@@ -74,6 +74,7 @@ signals:
     void ImportSuccess();
     void SearchEditClear();
     void ImportFailed();
+    void ImportInterrupted();
     void ImportSomeFailed(int successful, int failed);
     void ImportDonotFindPicOrVideo();
     void RepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, int UID);

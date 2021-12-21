@@ -176,6 +176,7 @@ public slots:
     void onAlbExportSuccess();
     void onNotifyPathIsExists();
     void onNotSupportedNotifyPath();
+    void onImportInterrupted();
     void onEscShortcutActivated(bool isSwitchFullScreen);
     void onDelShortcutActivated();
     void onKeyF2ShortcutActivated();

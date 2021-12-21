@@ -185,7 +185,10 @@ void ImportImagesThread::runDetail()
     if (image_list.size() < 1) {
         if (curAlbumImportedPathList.size() < 1) {
             // 导入列表为空并且导入相同照片的列表也为空，视为导入失败,直接返回
-            emit dApp->signalM->ImportFailed();
+            // 但是自动导入不执行此项，只是在最终界面显示无照片或视频
+            if (m_dbType != AutoImport) {
+                emit dApp->signalM->ImportFailed();
+            }
             m_obj->imageImported(false);
             m_obj->removeThread(this);
             return;
@@ -323,12 +326,8 @@ void ImportImagesThread::runDetail()
         }
         emit ImageEngineApi::instance()->sigLoadCompleted();
         if (image_list.length() == pathlist.length() && !pathlist.isEmpty()) {
-            if (pathlist.size() > 0) {
-                emit dApp->signalM->updateStatusBarImportLabel(pathlist, 1, m_albumname);
-                emit dApp->signalM->ImportSuccess();
-            } else {
-                emit dApp->signalM->ImportFailed();
-            }
+            emit dApp->signalM->updateStatusBarImportLabel(pathlist, 1, m_albumname);
+            emit dApp->signalM->ImportSuccess();
 //            dApp->m_imageloader->ImportImageLoader(tempdbInfos, m_albumname);// 导入照片提示在此处理中
             m_obj->imageImported(true);
             // ImportImageLoader() 中，底部状态栏将显示导入状态，之后，核对是否存在重复图片，发送信号准备提示
@@ -336,19 +335,25 @@ void ImportImagesThread::runDetail()
                 emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_UID);
             }
         } else {
-            //BUG#92844 额外提示未发现照片或文件
-            if (pathlist.isEmpty()) {
-                emit dApp->signalM->ImportDonotFindPicOrVideo();
+            if (m_dbType == AutoImport) { //发送导入中断信号
+                emit dApp->signalM->ImportInterrupted();
+                if (!pathlist.isEmpty()) {
+                    emit dApp->signalM->ImportSomeFailed(image_list.length(), image_list.length() - pathlist.length());
+                }
             } else {
-                emit dApp->signalM->ImportSomeFailed(image_list.length(), image_list.length() - pathlist.length());
+                //BUG#92844 额外提示未发现照片或文件
+                if (pathlist.isEmpty()) {
+                    emit dApp->signalM->ImportDonotFindPicOrVideo();
+                } else {
+                    emit dApp->signalM->ImportSomeFailed(image_list.length(), image_list.length() - pathlist.length());
+                }
+                emit dApp->signalM->ImportFailed();
             }
-
-            emit dApp->signalM->ImportFailed();
-
-            m_obj->imageImported(false);
         }
-        m_obj->removeThread(this);
+
+        m_obj->imageImported(false);
     }
+    m_obj->removeThread(this);
 }
 
 void ImportImagesThread::pathCheck(QStringList *image_list, QStringList *curAlbumImportedPathList, QStringList &curAlbumImgPathList, const QString &path)
