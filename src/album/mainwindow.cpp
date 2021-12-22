@@ -570,8 +570,11 @@ void MainWindow::initCentralWidget()
     m_pCenterWidget->addWidget(m_pAlbumWidget);
 
     m_pCenterWidget->addWidget(m_pSearchViewWidget);
-    //延迟加载公共库
-    QTimer::singleShot(800, this, [ = ]() {
+
+    QStringList parselist;
+    processOption(parselist);
+    if (parselist.length() > 0) {
+        //调整逻辑，外部双击打开图片需要直接进入大图界面，不能延迟加载大图界面
         m_imageViewer = new ImageViewer(imageViewerSpace::ImgViewerType::ImgViewerTypeAlbum, albumGlobal::CACHE_PATH, nullptr, m_pCenterWidget);
         m_imageViewer->setDropEnabled(false);
         connect(dApp->signalM, &SignalManager::sigViewImage, this, &MainWindow::onSigViewImage);
@@ -581,11 +584,7 @@ void MainWindow::initCentralWidget()
         m_collect = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeCollection);
         connect(m_collect, &DIconButton::clicked, this, &MainWindow::onCollectButtonClicked);
         m_pCenterWidget->addWidget(m_imageViewer);
-    });
 
-    QStringList parselist;
-    processOption(parselist);
-    if (parselist.length() > 0) {
         QStringList absoluteFilePaths;
         for (int i = 0; i < parselist.size(); i++) {
             QFileInfo inf(parselist.at(i));
@@ -609,6 +608,18 @@ void MainWindow::initCentralWidget()
             emit SignalManager::instance()->sigViewImage(info, Operation_NoOperation);
         }
     } else {
+        //延迟加载公共库
+        QTimer::singleShot(300, this, [ = ]() {
+            m_imageViewer = new ImageViewer(imageViewerSpace::ImgViewerType::ImgViewerTypeAlbum, albumGlobal::CACHE_PATH, nullptr, m_pCenterWidget);
+            m_imageViewer->setDropEnabled(false);
+            connect(dApp->signalM, &SignalManager::sigViewImage, this, &MainWindow::onSigViewImage);
+            m_back = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeBack);
+            connect(m_back, &DIconButton::clicked, this, &MainWindow::onHideImageView);
+            m_del = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeTrash);
+            m_collect = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeCollection);
+            connect(m_collect, &DIconButton::clicked, this, &MainWindow::onCollectButtonClicked);
+            m_pCenterWidget->addWidget(m_imageViewer);
+        });
         //性能优化，此句在构造时不需要执行，增加启动时间
         m_processOptionIsEmpty = true;
         m_pCenterWidget->setCurrentIndex(VIEW_ALLPIC);
