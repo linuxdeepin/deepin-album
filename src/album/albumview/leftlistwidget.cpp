@@ -136,7 +136,9 @@ void LeftListWidget::SaveRename(QPoint p)
         QModelIndexList indexs = this->selectedIndexes();
         for (auto idx : indexs) {
             AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(this->itemWidget(this->item(idx.row())));
-            emit item->m_pLineEdit->editingFinished();
+            if (item->m_pLineEdit->isVisible()) {
+                emit item->m_pLineEdit->editingFinished();
+            }
         }
     }
 }
