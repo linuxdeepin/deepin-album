@@ -123,7 +123,7 @@ TEST(ImportTimeLineView, thumbnaillistViewSlot_test)
 //已导入页面再次导入图片
 TEST(ImportTimeLineView, Picimport)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("Picimport")
     QStringList list;
     QStringList listtemp = QStandardPaths::standardLocations(QStandardPaths::HomeLocation);
     if (listtemp.size() > 0) {

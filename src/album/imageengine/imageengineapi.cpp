@@ -223,34 +223,6 @@ bool ImageEngineApi::removeImageFromAutoImport(QStringList files, int UID)
     return true;
 }
 
-bool ImageEngineApi::loadImageDateToMemory(QStringList pathlist, QString devName)
-{
-    bool iRet = false;
-    //判断是否已经在线程中加载LMH0426
-    QStringList tmpPathlist = pathlist;
-    if (m_AllImageData.count() > 0) {
-        for (auto imagepath : pathlist) {
-            if (m_AllImageData.contains(imagepath)) {
-                tmpPathlist.removeOne(imagepath);
-            }
-        }
-    }
-    if (tmpPathlist.count() > 0) {
-        ImageEngineBackThread *imagethread = new ImageEngineBackThread;
-        imagethread->setData(tmpPathlist, devName);
-        connect(imagethread, &ImageEngineBackThread::sigImageBackLoaded, this, &ImageEngineApi::sigImageBackLoaded, Qt::QueuedConnection);
-#ifdef NOGLOBAL
-        m_qtpool.start(imagethread);
-#else
-        QThreadPool::globalInstance()->start(imagethread);
-#endif
-        iRet = true;
-    } else {
-        iRet = false;
-    }
-    return iRet;
-}
-
 void ImageEngineApi::loadFirstPageThumbnails(int num, bool clearCache)
 {
     qDebug() << __FUNCTION__ << "---";
@@ -392,21 +364,7 @@ bool ImageEngineApi::isItemLoadedFromDB(QString path)
     return m_AllImageData.contains(path);
 }
 
-//从外部启动，启用线程加载图片
-bool ImageEngineApi::loadImagesFromNewAPP(QStringList files, ImageEngineImportObject *obj)
-{
-    ImageFromNewAppThread *imagethread = new ImageFromNewAppThread;
-    imagethread->setDate(files, obj);
-    obj->addThread(imagethread);
-#ifdef NOGLOBAL
-    m_qtpool.start(imagethread);
-#else
-    QThreadPool::globalInstance()->start(imagethread);
-#endif
-    return true;
-}
-
-bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList paths, ImageMountImportPathsObject *obj)
+bool ImageEngineApi::importImageFilesFromMount(QString albumname, int UID, QStringList paths, ImageMountImportPathsObject *obj)
 {
     emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
     ImageImportFilesFromMountThread *imagethread = new ImageImportFilesFromMountThread;
@@ -414,7 +372,7 @@ bool ImageEngineApi::importImageFilesFromMount(QString albumname, QStringList pa
 //    if (albumname == tr("Gallery")) {
 //        albumname = "";
 //    }
-    imagethread->setData(albumname, paths, obj);
+    imagethread->setData(albumname, UID, paths, obj);
     obj->addThread(imagethread);
 #ifdef NOGLOBAL
     m_qtpool.start(imagethread);

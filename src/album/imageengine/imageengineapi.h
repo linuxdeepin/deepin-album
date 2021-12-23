@@ -67,8 +67,8 @@ public:
     bool isItemLoadedFromDB(QString path);
 
     //从外部启动，启用线程加载图片
-    bool loadImagesFromNewAPP(QStringList files, ImageEngineImportObject *obj);
-    bool importImageFilesFromMount(QString albumname, QStringList paths, ImageMountImportPathsObject *obj);
+    //bool loadImagesFromNewAPP(QStringList files, ImageEngineImportObject *obj);
+    bool importImageFilesFromMount(QString albumname, int UID, QStringList paths, ImageMountImportPathsObject *obj);
     bool moveImagesToTrash(QStringList files, bool typetrash = false, bool bneedprogress = true);
     bool recoveryImagesFromTrash(QStringList files);
 
@@ -77,8 +77,6 @@ public:
     bool removeImageFromAutoImport(QStringList files, int UID);
 
     QStringList get_AllImagePath();
-
-    bool loadImageDateToMemory(QStringList pathlist, QString devName);
 
     void close()
     {

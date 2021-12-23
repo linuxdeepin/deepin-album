@@ -102,7 +102,7 @@ class ImageImportFilesFromMountThread : public ImageEngineThreadObject
 public:
     ImageImportFilesFromMountThread();
     ~ImageImportFilesFromMountThread() override;
-    void setData(QString &albumname, QStringList &paths, ImageMountImportPathsObject *imgobject);
+    void setData(QString &albumname, int UID, QStringList &paths, ImageMountImportPathsObject *imgobject);
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
@@ -113,6 +113,7 @@ signals:
 private:
     QStringList m_paths;
     QString m_albumname;
+    int m_UID = -1;
     ImageMountImportPathsObject *m_imgobject = nullptr;
 };
 
@@ -143,50 +144,6 @@ protected:
     void runDetail() override;
 private:
     DBImgInfoList m_fileinfolist;
-};
-
-//通过参数启动载入图像的线程
-class ImageFromNewAppThread : public ImageEngineThreadObject
-{
-    Q_OBJECT
-public:
-    ImageFromNewAppThread();
-    ~ImageFromNewAppThread() override;
-    //配置参数
-    void setDate(QStringList &files, ImageEngineImportObject *obj);
-protected:
-    bool ifCanStopThread(void *imgobject) override;
-    void runDetail() override;
-
-private:
-    ImageEngineImportObject *m_imgobj = nullptr;
-    QStringList paths;
-
-};
-
-class ImageEngineBackThread : public ImageEngineThreadObject
-{
-    Q_OBJECT
-public:
-    ImageEngineBackThread();
-
-    void setData(const QStringList &pathlist = QStringList(), const QString &devName = QString());
-
-protected:
-    void runDetail() override;
-
-signals:
-    void sigImageBackLoaded(QString path, const DBImgInfo &data);
-private slots:
-    void onStartOrPause(bool pause);
-private:
-    QStringList m_pathlist;
-    DBImgInfo m_data;
-    QString m_devName;
-
-    QWaitCondition  m_WatiCondition;
-    QMutex  m_mutex;
-    bool m_bpause;
 };
 
 

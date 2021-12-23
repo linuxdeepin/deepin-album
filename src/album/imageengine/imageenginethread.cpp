@@ -477,11 +477,12 @@ ImageImportFilesFromMountThread::~ImageImportFilesFromMountThread()
 {
 }
 
-void ImageImportFilesFromMountThread::setData(QString &albumname, QStringList &paths, ImageMountImportPathsObject *imgobject)
+void ImageImportFilesFromMountThread::setData(QString &albumname, int UID, QStringList &paths, ImageMountImportPathsObject *imgobject)
 {
     m_paths = paths;
     m_imgobject = imgobject;
     m_albumname = albumname;
+    m_UID = UID;
 }
 
 bool ImageImportFilesFromMountThread::ifCanStopThread(void *imgobject)
@@ -548,7 +549,7 @@ void ImageImportFilesFromMountThread::runDetail()
         }
 
         if (m_albumname.length() > 0) {
-            DBManager::instance()->insertIntoAlbumNoSignal(m_albumname, pathslist);
+            DBManager::instance()->insertIntoAlbum(m_UID, pathslist);
         }
         DBManager::instance()->insertImgInfos(dbInfos);
 
@@ -648,137 +649,5 @@ void RefreshTrashThread::runDetail()
         if (0 < image_list.length()) {
             DBManager::instance()->removeTrashImgInfosNoSignal(image_list);
         }
-    }
-}
-
-ImageFromNewAppThread::ImageFromNewAppThread()
-{
-    setAutoDelete(false);
-}
-
-ImageFromNewAppThread::~ImageFromNewAppThread()
-{
-}
-
-void ImageFromNewAppThread::setDate(QStringList &files, ImageEngineImportObject *obj)
-{
-    paths = files;
-    m_imgobj = obj;
-}
-
-bool ImageFromNewAppThread::ifCanStopThread(void *imgobject)
-{
-    static_cast<ImageEngineImportObject *>(imgobject)->removeThread(this);
-    if (imgobject == m_imgobj) {
-        return true;
-    }
-    return  false;
-}
-
-void ImageFromNewAppThread::runDetail()
-{
-    if (bneedstop) {
-        m_imgobj->imageImported(false);
-        m_imgobj->removeThread(this);
-        return;
-    }
-    DBImgInfoList dbInfos;
-    using namespace utils::image;
-    for (auto path : paths) {
-        if (bneedstop) {
-            m_imgobj->imageImported(false);
-            m_imgobj->removeThread(this);
-            return;
-        }
-        if (!imageSupportRead(path))
-            continue;
-        dbInfos << getDBInfo(path);
-    }
-    if (! dbInfos.isEmpty()) {
-        if (bneedstop) {
-            m_imgobj->imageImported(false);
-            m_imgobj->removeThread(this);
-            return;
-        }
-        dApp->m_imageloader->ImportImageLoader(dbInfos);
-    }
-    m_imgobj->removeThread(this);
-}
-
-ImageEngineBackThread::ImageEngineBackThread(): m_bpause(false)
-{
-    setAutoDelete(false);
-    connect(dApp->signalM, &SignalManager::sigDevStop, this, [ = ](QString devName) {
-        if (devName == m_devName || devName.isEmpty()) {
-            bbackstop = true;
-        }
-    });
-
-    connect(dApp->signalM, &SignalManager::sigPauseOrStart, this, &ImageEngineBackThread::onStartOrPause);
-}
-
-void ImageEngineBackThread::setData(const QStringList &pathlist, const QString &devName)
-{
-    m_pathlist = pathlist;
-    m_devName = devName;
-}
-
-void ImageEngineBackThread::runDetail()
-{
-    using namespace UnionImage_NameSpace;
-    for (auto temppath : m_pathlist) {
-        QImage tImg;
-        QString path = temppath;
-        QString errMsg;
-        if (!loadStaticImageFromFile(path, tImg, errMsg)) {
-            qDebug() << errMsg;
-            break;
-        }
-        if (bbackstop || ImageEngineApi::instance()->closeFg())
-            return;
-
-        if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
-            bool cache_exist = false;
-            if (tImg.height() != 100 && tImg.width() != 100) {
-                if (tImg.height() >= tImg.width()) {
-                    cache_exist = true;
-                    tImg = tImg.scaledToWidth(100,  Qt::FastTransformation);
-                } else if (tImg.height() <= tImg.width()) {
-                    cache_exist = true;
-                    tImg = tImg.scaledToHeight(100,  Qt::FastTransformation);
-                }
-            }
-            if (!cache_exist) {
-                if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
-                    tImg = tImg.scaledToWidth(100,  Qt::FastTransformation);
-                } else {
-                    tImg = tImg.scaledToHeight(100,  Qt::FastTransformation);
-                }
-            }
-        }
-
-        ImageDataService::instance()->addImage(path, tImg);
-        if (bbackstop || ImageEngineApi::instance()->closeFg())
-            return;
-        m_data = getDBInfo(temppath);
-
-        if (bbackstop || ImageEngineApi::instance()->closeFg()) {
-            return;
-        }
-
-        if (m_bpause) {
-            m_WatiCondition.wait(&m_mutex);     //挂起
-        }
-        emit sigImageBackLoaded(temppath, m_data);
-    }
-}
-
-void ImageEngineBackThread::onStartOrPause(bool pause)
-{
-    if (pause)
-        m_bpause = true;
-    else {
-        m_WatiCondition.wakeOne();      //恢复线程
-        m_bpause = false;
     }
 }

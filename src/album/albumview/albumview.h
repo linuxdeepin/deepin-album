@@ -92,7 +92,6 @@ public:
     ~AlbumView() override;
 
     bool imageImported(bool success) override;
-    bool imageGeted(QStringList &filelist, QString path) override;
     bool imageMountImported(QStringList &filelist) override;
 
     void iniWaitDiolag();
@@ -134,6 +133,8 @@ private:
     void onSlideShowFav(const QString &path);
     //幻灯片播放
     void onSlideShowCustom(const QString &path);
+    //幻灯片播放，真实实现
+    void runSlideShow(const QString &path, ThumbnailListView *listView);
 
     void dragEnterEvent(QDragEnterEvent *e) override;
     void dropEvent(QDropEvent *event) override;
@@ -154,6 +155,7 @@ private:
     void updateImportComboBox();
     void importAllBtnClicked();
     void importSelectBtnClicked();
+    void importFromMountDevice(const QStringList &paths);
 
     void initLeftMenu();
     void importComboBoxChange(QString strText);
@@ -216,9 +218,6 @@ public:
     DWidget *m_pRightWidget;
 
     ThumbnailListView *m_pRightPhoneThumbnailList;       //设备相关列表
-    QMap<QString, QStringList> m_phoneNameAndPathlist;
-    //LMH0424
-    QStringList m_pictrueallPathlist;
 
     DWidget *m_pwidget;
 
@@ -273,8 +272,6 @@ private:
     DSuggestButton *m_importSelectByPhoneBtn;
     QList<QExplicitlySharedDataPointer<DGioMount>> m_mounts;     //外部设备挂载
 
-    DBImgInfoList m_curThumbnaiItemList_info;
-    QStringList m_curThumbnaiItemList_str;
     int m_mountPicNum;
 
     QMap<QUrl, QString> durlAndNameMap;

@@ -61,6 +61,8 @@ TEST(getImageByKeyBoard, db8)
     DBManager::instance()->getInfosForKeyword("");
     DBManager::instance()->getInfosForKeyword("1");
     DBManager::instance()->getInfosForKeyword("a");
+    DBManager::instance()->getInfosForKeyword(DBManager::SpUID::u_Draw, "jpg");
+    DBManager::instance()->getInfosForKeyword(10, "a");
 }
 
 TEST(getTrashImageCount, db10)
@@ -84,7 +86,6 @@ TEST(AlbumForTest, db11)
     QStringList partList = image_list.mid(image_list.size() / 2);
     int UID = DBManager::instance()->createAlbum("testAlbum", {});
     DBManager::instance()->insertIntoAlbum(UID, image_list);
-    DBManager::instance()->insertIntoAlbumNoSignal("testAlbum", image_list);
     DBManager::instance()->getPathsByAlbum(UID);
     DBManager::instance()->getInfosByAlbum(UID);
 //    DBManager::instance()->removeFromAlbum("testAlbum", partList);
@@ -106,4 +107,46 @@ TEST(DBandImgOperate, setThreadShouldStop)
 {
     TEST_CASE_NAME("setThreadShouldStop")
     ImageEngineApi::instance()->setThreadShouldStop();
+}
+
+TEST(DBManager, getAlbumNameFromUID)
+{
+    TEST_CASE_NAME("getAlbumNameFromUID")
+    DBManager::instance()->getAlbumNameFromUID(DBManager::SpUID::u_Draw);  //查询成功
+    QTest::qWait(200);
+    DBManager::instance()->getAlbumNameFromUID(DBManager::SpUID::u_Camera);//查询失败
+    QTest::qWait(200);
+}
+
+TEST(DBManager, isAlbumExistInDB)
+{
+    TEST_CASE_NAME("getAlbumNameFromUID")
+    DBManager::instance()->isAlbumExistInDB(DBManager::SpUID::u_Draw, AutoImport);//查询成功
+    QTest::qWait(200);
+    DBManager::instance()->isAlbumExistInDB(DBManager::SpUID::u_Camera, Custom);//查询失败
+    QTest::qWait(200);
+}
+
+TEST(DBManager, AutoImport)
+{
+    TEST_CASE_NAME("checkCustomAutoImportPathIsNotified")
+
+    auto testPath = testPath_Pictures + "/Wallpapers";
+
+    //预先检查是否有
+    auto b = DBManager::instance()->checkCustomAutoImportPathIsNotified(testPath);
+    ASSERT_EQ(b, false);
+
+    //添加进去后再检查是否有
+    int uid = DBManager::instance()->createNewCustomAutoImportPath(testPath, "Wallpapers");
+    QTest::qWait(2000);
+    auto c = DBManager::instance()->checkCustomAutoImportPathIsNotified(testPath);
+    ASSERT_EQ(c, true);
+
+    //完成删除后最后检查是否有
+    DBManager::instance()->removeCustomAutoImportPath(uid);
+    QTest::qWait(2000);
+    auto d = DBManager::instance()->checkCustomAutoImportPathIsNotified(testPath);
+    Q_UNUSED(d)
+    //ASSERT_EQ(d, false); 删除函数没实现里面的内容，暂时不检查
 }

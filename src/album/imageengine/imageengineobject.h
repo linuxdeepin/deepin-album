@@ -73,7 +73,6 @@ class ImageMountGetPathsObject
 public:
     ImageMountGetPathsObject();
     virtual ~ImageMountGetPathsObject();
-    virtual bool imageGeted(QStringList &filelist, QString path) = 0;
     void addThread(ImageEngineThreadObject *thread);
     void removeThread(ImageEngineThreadObject *thread);
 protected:

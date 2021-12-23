@@ -59,19 +59,11 @@ void runActionFromMenu(QMenu *menu, const QString &actionName);
 template <typename T>
 struct PointerTypeGetter {
     using type = T;
-    PointerTypeGetter(T t)
-    {
-        Q_UNUSED(t)
-    };
 };
 
 template <typename T>
 struct PointerTypeGetter<T *> {
     using type = T;
-    PointerTypeGetter(T *t)
-    {
-        Q_UNUSED(t)
-    };
 };
 
 class asynchronousObject : public QObject

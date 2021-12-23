@@ -54,9 +54,8 @@ DBManager *DBManager::instance()
 
 DBManager::DBManager(QObject *parent)
     : QObject(parent)
-    , m_db(QSqlDatabase::addDatabase("QSQLITE", "album_sql_connect"))
 {
-    m_db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
+    m_db = getDatabase();
     checkDatabase();
 }
 
@@ -818,67 +817,6 @@ bool DBManager::insertIntoAlbum(int UID, const QStringList &paths, AlbumDBType a
     return true;
 }
 
-int DBManager::insertIntoAlbumNoSignal(const QString &album, const QStringList &paths, AlbumDBType atype)
-{
-    QMutexLocker mutex(&m_mutex);
-    QSqlDatabase db = getDatabase();
-    if (! db.isValid() || paths.isEmpty()) {
-        return -1;
-    }
-    int currentUID = albumMaxUID++;
-    QStringList nameRows, pathHashRows;
-    QVariantList atypes, uids;
-    for (QString path : paths) {
-        nameRows << album;
-        pathHashRows << utils::base::hashByString(path);
-        atypes << atype;
-        uids << currentUID;
-    }
-
-    QSqlQuery query(db);
-    query.setForwardOnly(true);
-    if (!query.exec("BEGIN IMMEDIATE TRANSACTION")) {
-//        qDebug() << "begin transaction failed.";
-    }
-    bool b = query.prepare("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) "
-                           "VALUES (null, ?, ?, ?, ?)");
-    if (!b) {
-        db.close();
-        return -1;
-    }
-    query.addBindValue(nameRows);
-    query.addBindValue(pathHashRows);
-    query.addBindValue(atypes);
-    query.addBindValue(uids);
-    if (! query.execBatch()) {
-    }
-    if (!query.exec("COMMIT")) {
-//        qDebug() << "COMMIT failed.";
-    }
-
-    //FIXME: Don't insert the repeated filepath into the same album
-    //Delete the same data
-    QString ps = "DELETE FROM AlbumTable3 where AlbumId NOT IN "
-                 "(SELECT min(AlbumId) FROM AlbumTable3 GROUP BY "
-                 " UID, PathHash) AND PathHash != \"%1\" "
-                 " AND AlbumDBType =:atype ";
-    bool bs = query.prepare(ps.arg(EMPTY_HASH_STR));
-    if (!bs) {
-        db.close();
-        return -1;
-    }
-    query.bindValue(":atype", atype);
-    if (!query.exec()) {
-    }
-    if (!query.exec("COMMIT")) {
-//        qDebug() << "COMMIT failed.";
-    }
-    db.close();
-
-    //把当前UID传出去
-    return currentUID;
-}
-
 void DBManager::removeAlbum(int UID, AlbumDBType atype)
 {
     QMutexLocker mutex(&m_mutex);
@@ -1159,8 +1097,8 @@ bool DBManager::checkCustomAutoImportPathIsNotified(const QString &path)
     //检查是否是默认路径，这一段不涉及数据库操作，不需要加锁
     auto defaultPath = getDefaultNotifyPaths();
     for (auto &eachPath : defaultPath) {
-        if (path.startsWith(eachPath)) {
-            return false;
+        if (path.startsWith(eachPath) || eachPath.startsWith(path)) {
+            return true;
         }
     }
 

@@ -140,7 +140,7 @@ TEST(MainWindow, noPicTab)
 // 3个button界面主视图切换显示,右键菜单
 TEST(MainWindow, Picimport)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("Picimport")
     QStringList list = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
     if (list.size() > 0) {
     } else {
@@ -531,11 +531,13 @@ TEST(MainWindow, timelineview)
         auto menu = runContextMenu(timelineview->getThumbnailListView()->viewport(), pr);
         using TR_SUBORDINATE_t = PointerTypeGetter < decltype(timelineview->getThumbnailListView()) >::type;
 
+        //全屏
         runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Fullscreen"));
         QTest::qWait(1000);
         w->onHideImageView();
         QTest::qWait(500);
 
+        //幻灯片
         runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Slide show"));
         QTest::qWait(2000);
         w->onHideImageView();
@@ -595,7 +597,7 @@ TEST(MainWindow, timelineview)
         //照片信息14
         runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Photo info"));
 
-        //幻灯片
+        //鼠标单击
         e.addMouseMove(pr, 20);
         e.addMouseClick(Qt::MouseButton::LeftButton);
         e.simulate(timelineview->getThumbnailListView()->viewport());
@@ -849,7 +851,6 @@ TEST(MainWindow, favorite)
     w->onHideImageView();
     QTest::qWait(500);
 
-    //TODO:打
     //复制7
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Copy"));
 
@@ -1498,4 +1499,36 @@ TEST(MainWindow, ImportButton)
         auto button = w->m_addImageBtn;
         button->click();
     }
+}
+
+TEST(MainWindow, NewImportPath)
+{
+    TEST_CASE_NAME("NewImportPath")
+    MainWindow *w = dApp->getMainWindow();
+
+    {
+        int (*dlgexec)() = []() {
+            return 1;
+        };
+        typedef int (*fptr)(QDialog *);
+        fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
+        Stub stub;
+        stub.set(fptrexec, dlgexec);
+        QTest::qWait(300);
+
+        w->onNewPathAction(); //新自动导入路径
+    }
+}
+
+TEST(MainWindow, rotatepic)
+{
+    TEST_CASE_NAME("rotatepic")
+    MainWindow *w = dApp->getMainWindow();
+
+    w->onRotatePic(testPath_Pictures + "dhqy39rphp.jpg"); //外部旋转完图片后的操作，不存在的路径
+    QTest::qWait(1000);
+
+    w->onRotatePic(testPath_Pictures + "/2ejqyx.jpg"); //外部旋转完图片后的操作
+
+    QTest::qWait(1000);
 }
