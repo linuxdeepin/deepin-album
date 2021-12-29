@@ -41,7 +41,6 @@
 #include "albumcreatedialog.h"
 #include "test_qtestDefine.h"
 #include "imginfodialog.h"
-#include "fileinotify.h"
 #include "ac-desktop-define.h"
 #include "qgesture.h"
 #include "batchoperatewidget.h"
@@ -1531,4 +1530,13 @@ TEST(MainWindow, rotatepic)
     w->onRotatePic(testPath_Pictures + "/2ejqyx.jpg"); //外部旋转完图片后的操作
 
     QTest::qWait(1000);
+}
+
+TEST(MainWindow, monitor)
+{
+    TEST_CASE_NAME("monitor")
+
+    //删除一次文件
+    std::system(("rm -rf " + testPath_Pictures + "/Draw/2ejqyx.jpg").toStdString().c_str());
+    QTest::qWait(2000);
 }

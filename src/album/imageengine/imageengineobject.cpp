@@ -174,42 +174,6 @@ void ImageEngineObject::removeThread(ImageEngineThreadObject *thread)
     QObject::disconnect(thread, &ImageEngineThreadObject::runFinished, nullptr, nullptr);
 }
 
-void ImageEngineObject::addCheckPath(QString &path)
-{
-    m_checkpath << path;
-}
-
-void ImageEngineObject::checkSelf()
-{
-    if (m_checkpath.size() < 1) {
-        return;
-    }
-
-    for (auto file : m_pathlast) {
-        if (QString::compare(file, m_checkpath.first()) == 0) {
-            m_checkpath.removeFirst();
-            imageLoaded(file);
-            m_pathlast.removeOne(file);
-            checkSelf();
-            break;
-        }
-    }
-}
-
-//void ImageEngineObject::checkAndReturnPath(QString &path)//保证顺序排列
-//{
-//    if (m_checkpath.size() < 1) {
-//        return;
-//    }
-//    if (path == m_checkpath.first()) {
-//        m_checkpath.removeFirst();
-//        imageLoaded(path);
-//        checkSelf();
-//    } else {
-//        m_pathlast << path;
-//    }
-//}
-
 void ImageEngineObject::clearAndStopThread()
 {
     QMutexLocker mutex(&m_mutexthread);
@@ -223,39 +187,4 @@ void ImageEngineObject::clearAndStopThread()
     m_threads.clear();
     m_checkpath.clear();
     m_pathlast.clear();
-}
-
-ImageCacheSaveObject::ImageCacheSaveObject()
-{
-
-}
-
-bool ImageCacheSaveObject::add(const QString &path)
-{
-    QMutexLocker locker(&m_queuqMutex);
-    requestQueue.append(path);
-    return true;
-}
-
-bool ImageCacheSaveObject::add(const QStringList &paths)
-{
-    QMutexLocker locker(&m_queuqMutex);
-    requestQueue.append(paths);
-    return true;
-}
-
-QString ImageCacheSaveObject::pop()
-{
-    QMutexLocker locker(&m_queuqMutex);
-    if (requestQueue.empty())
-        return QString();
-    QString res = requestQueue.first();
-    requestQueue.pop_front();
-    return res;
-}
-
-bool ImageCacheSaveObject::isEmpty()
-{
-    QMutexLocker locker(&m_queuqMutex);
-    return requestQueue.isEmpty();
 }

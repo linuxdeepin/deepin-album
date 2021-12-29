@@ -136,7 +136,6 @@ private:
     QMap<QString, DBImgInfo>m_AllImageData;
 
     static ImageEngineApi *s_ImageEngine;
-    ImageCacheSaveObject *m_imageCacheSaveobj = nullptr;
     bool bcloseFg = false;
     QThreadPool *m_pool = nullptr;
 

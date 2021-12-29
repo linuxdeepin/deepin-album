@@ -60,10 +60,6 @@ MovieService *MovieService::instance(QObject *parent)
     return m_movieService;
 }
 
-MovieService::~MovieService()
-{
-}
-
 MovieInfo MovieService::getMovieInfo(const QUrl &url)
 {
     if (!m_initFFmpeg) {

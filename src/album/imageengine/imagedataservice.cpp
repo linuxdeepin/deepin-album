@@ -45,10 +45,6 @@ ImageDataService *ImageDataService::instance(QObject *parent)
     return s_ImageDataService;
 }
 
-ImageDataService::~ImageDataService()
-{
-}
-
 bool ImageDataService::add(const QStringList &paths, bool reLoadThumbnail)
 {
     QMutexLocker locker(&m_imgDataMutex);

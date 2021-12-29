@@ -104,7 +104,6 @@ class MovieService: public QObject
     Q_OBJECT
 public:
     static MovieService *instance(QObject *parent = nullptr);
-    ~MovieService();
 
     //获取视频信息
     MovieInfo   getMovieInfo(const QUrl &url);

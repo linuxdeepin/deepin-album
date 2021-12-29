@@ -56,9 +56,6 @@ ImageEngineApi::~ImageEngineApi()
     QThreadPool::globalInstance()->clear();     //清除队列
     QThreadPool::globalInstance()->waitForDone();
 #endif
-
-    //销毁
-    delete m_imageCacheSaveobj;
 }
 
 ImageEngineApi::ImageEngineApi(QObject *parent)

@@ -35,7 +35,6 @@ class ImageDataService: public QObject
 public:
     static ImageDataService *instance(QObject *parent = nullptr);
     explicit ImageDataService(QObject *parent = nullptr);
-    ~ImageDataService();
 
     bool add(const QStringList &paths, bool reLoadThumbnail = false);
     bool add(const QString &path);
