@@ -333,9 +333,7 @@ void MainWindow::initTitleBar()
     AC_SET_OBJECT_NAME(m_pAllPicBtn, Main_All_Picture_Button);
     AC_SET_ACCESSIBLE_NAME(m_pAllPicBtn, Main_All_Picture_Button);
 
-//    m_pAllPicBtn = new DSuggestButton();
     m_pAllPicBtn->setFlat(true);
-//    m_pAllPicBtn->setFixedSize(80, 36);
     m_pAllPicBtn->setMaximumSize(110, 36);
     m_pAllPicBtn->setCheckable(true);
     m_pAllPicBtn->setChecked(true);
@@ -348,9 +346,7 @@ void MainWindow::initTitleBar()
     m_pTimeBtn->setFocusPolicy(Qt::TabFocus);
     AC_SET_OBJECT_NAME(m_pTimeBtn, Main_Time_Line_Button);
     AC_SET_ACCESSIBLE_NAME(m_pTimeBtn, Main_Time_Line_Button);
-//    m_pTimeBtn = new DSuggestButton();
     m_pTimeBtn->setFlat(true);
-//    m_pTimeBtn->setFixedSize(60, 36);
     m_pTimeBtn->setMaximumSize(110, 36);
     m_pTimeBtn->setCheckable(true);
     m_pTimeBtn->setText(tr("Timelines"));
@@ -363,9 +359,7 @@ void MainWindow::initTitleBar()
     m_pAlbumBtn->setFocusPolicy(Qt::TabFocus);
     AC_SET_OBJECT_NAME(m_pAlbumBtn, Main_Album_Button);
     AC_SET_ACCESSIBLE_NAME(m_pAlbumBtn, Main_Album_Button);
-//    m_pAlbumBtn = new DSuggestButton();
     m_pAlbumBtn->setFlat(true);
-//    m_pAlbumBtn->setFixedSize(60, 36);
     m_pAlbumBtn->setMaximumSize(90, 36);
     m_pAlbumBtn->setCheckable(true);
     m_pAlbumBtn->setText(tr("Albums"));
