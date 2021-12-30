@@ -233,7 +233,7 @@ TEST(TimeLineView, oneThumblistview_test)
     TimeLineView *tlView = w->m_pTimeLineView;
     QList<QWidget *> widgets =  tlView->findChildren<QWidget *>();
     foreach (auto wgt, widgets) {
-        if (!strcmp(wgt->metaObject()->className(), "ThumbnailListView")) {
+        if (wgt != nullptr && !strcmp(wgt->metaObject()->className(), "ThumbnailListView")) {
 
             QPoint pos(60, 60);
             event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, pos);
