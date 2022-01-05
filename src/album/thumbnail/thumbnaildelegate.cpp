@@ -134,7 +134,7 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     }
 
     QRect pixmapRect;
-    QImage img = ImageDataService::instance()->getThumnailImageByPath(data.filePath);
+    QImage img = ImageDataService::instance()->getThumnailImageByPathRealTime(data.filePath);
     if (img.isNull()) {
         pixmapRect.setX(backgroundRect.x() + backgroundRect.width() / 2 - NotSupportedOrDamagedWidth / 2);
         pixmapRect.setY(backgroundRect.y() + backgroundRect.height() / 2 - NotSupportedOrDamagedHeigh / 2);
@@ -167,7 +167,6 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     if (!ImageDataService::instance()->imageIsLoaded(data.filePath)) {
         painter->drawPixmap(pixmapRect, m_default);
     } else {
-        QImage img = ImageDataService::instance()->getThumnailImageByPath(data.filePath);
         if (img.isNull()) {
             if (data.itemType == ItemTypeVideo) {
                 painter->drawPixmap(pixmapRect, m_videoDefault);
@@ -185,8 +184,7 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
         DGuiApplicationHelper::ColorType themeType3 = DGuiApplicationHelper::instance()->themeType();
         if (themeType3 == DGuiApplicationHelper::LightType) {
             selectedPixmap = selectedPixmapLight;
-        }
-        if (themeType3 == DGuiApplicationHelper::DarkType) {
+        } else if (themeType3 == DGuiApplicationHelper::DarkType) {
             selectedPixmap = selectedPixmapDark;
         }
 //        QRect selectedRect(backgroundRect.x() + backgroundRect.width() - 28, backgroundRect.y(), 28, 28);

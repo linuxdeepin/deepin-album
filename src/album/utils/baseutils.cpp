@@ -178,7 +178,11 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize)
 
 QString hashByString(const QString &str)
 {
-    return QString(QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex());
+    if (str.isEmpty()) {
+        return "d41d8cd98f00b204e9800998ecf8427e";
+    } else {
+        return QString(QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex());
+    }
 }
 
 QString hashByData(const QString &str)

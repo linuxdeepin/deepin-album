@@ -110,6 +110,15 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, int U
     m_scrollTimer->setInterval(100);
     m_scrollTimer->setSingleShot(true);
     connect(m_scrollTimer, &QTimer::timeout, this, &ThumbnailListView::onScrollTimerOut);
+
+    m_importTimer = new QTimer(this);
+    connect(m_importTimer, &QTimer::timeout, this, [this]() {
+        this->update();
+        m_importActiveCount--;
+        if (m_importActiveCount <= 0) {
+            m_importTimer->stop();
+        }
+    });
 }
 
 ThumbnailListView::~ThumbnailListView()
@@ -424,7 +433,7 @@ void ThumbnailListView::dropEvent(QDropEvent *event)
 void ThumbnailListView::initConnections()
 {
     connect(ImageEngineApi::instance(), &ImageEngineApi::sigLoadCompleted, this, &ThumbnailListView::reloadImage);
-    connect(ImageDataService::instance(), &ImageDataService::sigeUpdateListview, this, &ThumbnailListView::onUpdateListview);
+    connect(ImageDataService::instance(), &ImageDataService::sigeUpdateListview, this, &ThumbnailListView::onUpdateListview, Qt::ConnectionType::QueuedConnection);
     //有图片删除后，刷新列表
     connect(dApp->signalM, &SignalManager::imagesRemovedPar, this, &ThumbnailListView::updateThumbnailViewAfterDelete);
     connect(this->verticalScrollBar(), &QScrollBar::valueChanged, this, &ThumbnailListView::onScrollbarValueChanged);
@@ -1585,7 +1594,6 @@ void ThumbnailListView::insertBlankOrTitleItem(ItemType type, const QString &dat
 //更新空白栏高度
 void ThumbnailListView::resetBlankItemHeight(int height)
 {
-
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex idx = m_model->index(i, 0);
         DBImgInfo data = idx.data(Qt::DisplayRole).value<DBImgInfo>();
@@ -1619,6 +1627,10 @@ void ThumbnailListView::insertThumbnailByImgInfos(DBImgInfoList infoList)
     if (m_currentShowItemType != ItemTypeNull) {
         this->showAppointTypeItem(m_currentShowItemType);
     }
+
+    //启动主动update机制
+    m_importTimer->start(100);
+    m_importActiveCount = 150;
 }
 //判断所有图片是否全选中
 bool ThumbnailListView::isAllSelected(ItemType type)

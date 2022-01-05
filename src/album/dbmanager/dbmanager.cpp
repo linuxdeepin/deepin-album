@@ -97,9 +97,9 @@ const DBImgInfoList DBManager::getAllInfos(int loadCount)const
     query.setForwardOnly(true);
     bool b = false;
     if (loadCount == 0) {
-        b = query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc");
+        b = query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by ChangeTime desc");
     } else {
-        b = query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc limit 80");
+        b = query.prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by ChangeTime desc limit 80");
     }
     if (!b || ! query.exec()) {
 //        qDebug() << query.lastError();
@@ -550,7 +550,7 @@ int DBManager::getItemsCountByAlbum(int UID, const ItemType &type, AlbumDBType a
 //判断是否所有要查询的数据都在要查询的相册中
 bool DBManager::isAllImgExistInAlbum(int UID, const QStringList &paths, AlbumDBType atype) const
 {
-    QMutexLocker mutex(&m_mutex);
+    //QMutexLocker mutex(&m_mutex);
     QSqlDatabase db = getDatabase();
     if (! db.isValid()) {
         return false;

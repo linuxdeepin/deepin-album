@@ -240,7 +240,7 @@ TEST(MainWindow, allpicture)
     QTest::qWait(300);
 
     QTest::qWait(200);
-    QPoint p1(60, 100);
+    QPoint p1(60, 200);
     event.addMouseMove(p1);
     event.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
     event.addMouseDClick(Qt::MouseButton::LeftButton, Qt::NoModifier, p1, 50);
@@ -1297,7 +1297,7 @@ TEST(MainWindow, picdelete)
     QPoint pr(80, 50);
     //选中第一张
     e.addMouseMove(pr, 20);
-    e.addMouseDClick(Qt::MouseButton::LeftButton, Qt::NoModifier, pr, 50);
+    e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, pr, 50);
     e.simulate(w->m_pTimeLineView->getThumbnailListView()->viewport());
     e.clear();
     QTest::qWait(300);

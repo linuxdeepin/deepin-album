@@ -45,6 +45,46 @@ ImageDataService *ImageDataService::instance(QObject *parent)
     return s_ImageDataService;
 }
 
+bool ImageDataService::pathInMap(const QString &path)
+{
+    auto iter = std::find_if(m_AllImageMap.begin(), m_AllImageMap.end(), [path](const std::pair<QString, QImage> &pr) {
+        if (pr.first.size() != path.size()) {
+            return false;
+        }
+        for (auto rIter_lhs = pr.first.rbegin(), rIter_rhs = path.rbegin(); rIter_lhs != pr.first.rend() && rIter_rhs != path.rend(); ++rIter_lhs, ++rIter_rhs) {
+            if (*rIter_lhs != *rIter_rhs) {
+                return false;
+            }
+        }
+        return true;
+    });
+    if (iter != m_AllImageMap.end()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+QImage ImageDataService::getImageFromMap(const QString &path)
+{
+    auto iter = std::find_if(m_AllImageMap.begin(), m_AllImageMap.end(), [path](const std::pair<QString, QImage> &pr) {
+        if (pr.first.size() != path.size()) {
+            return false;
+        }
+        for (auto rIter_lhs = pr.first.rbegin(), rIter_rhs = path.rbegin(); rIter_lhs != pr.first.rend() && rIter_rhs != path.rend(); ++rIter_lhs, ++rIter_rhs) {
+            if (*rIter_lhs != *rIter_rhs) {
+                return false;
+            }
+        }
+        return true;
+    });
+    if (iter != m_AllImageMap.end()) {
+        return iter->second;
+    } else {
+        return QImage();
+    }
+}
+
 bool ImageDataService::add(const QStringList &paths, bool reLoadThumbnail)
 {
     QMutexLocker locker(&m_imgDataMutex);
@@ -53,7 +93,7 @@ bool ImageDataService::add(const QStringList &paths, bool reLoadThumbnail)
         qDebug() << "---m_requestQueue 清空,重新加载---" << paths.size();
     }
     for (int i = 0; i < paths.size(); i++) {
-        if (reLoadThumbnail || !m_AllImageMap.contains(paths.at(i))) {
+        if (reLoadThumbnail || !pathInMap(paths.at(i))) {
             m_requestQueue.append(paths.at(i));
         }
     }
@@ -64,7 +104,7 @@ bool ImageDataService::add(const QString &path)
 {
     QMutexLocker locker(&m_imgDataMutex);
     if (!path.isEmpty()) {
-        if (!m_AllImageMap.contains(path)) {
+        if (!pathInMap(path)) {
             m_requestQueue.append(path);
         }
     }
@@ -89,11 +129,19 @@ bool ImageDataService::isRequestQueueEmpty()
 
 int ImageDataService::getCount()
 {
-    return m_AllImageMap.count();
+    QMutexLocker locker(&m_imgDataMutex);
+
+    return static_cast<int>(m_AllImageMap.size());
 }
 
 bool ImageDataService::readThumbnailByPaths(QStringList files, bool isFinishFilter, bool reLoadThumbnail)
 {
+#if 1
+    Q_UNUSED(files)
+    Q_UNUSED(isFinishFilter)
+    Q_UNUSED(reLoadThumbnail)
+    return true;
+#else
     QStringList image_video_list;
     if (!isFinishFilter) {
         foreach (QString path, files) {
@@ -123,8 +171,7 @@ bool ImageDataService::readThumbnailByPaths(QStringList files, bool isFinishFilt
 
     if (empty) {
         ImageDataService::instance()->add(image_video_list, reLoadThumbnail);
-        int needCoreCounts = static_cast<int>(std::thread::hardware_concurrency());
-        needCoreCounts = needCoreCounts / 2;
+        int needCoreCounts = static_cast<int>(std::thread::hardware_concurrency()) - 1;
         if (image_video_list.size() < needCoreCounts) {
             needCoreCounts = image_video_list.size();
         }
@@ -139,13 +186,33 @@ bool ImageDataService::readThumbnailByPaths(QStringList files, bool isFinishFilt
         ImageDataService::instance()->add(image_video_list, reLoadThumbnail);
     }
     return true;
+#endif
 }
 
 void ImageDataService::addImage(const QString &path, const QImage &image)
 {
     QMutexLocker locker(&m_imgDataMutex);
-    m_AllImageMap[path] = image;
-//    m_AllImageDataHashMap[path] = utils::base::filePathToThumbnailPath(path);
+
+    auto iter = std::find_if(m_AllImageMap.begin(), m_AllImageMap.end(), [path](const std::pair<QString, QImage> &pr) {
+        if (pr.first.size() != path.size()) {
+            return false;
+        }
+        for (auto rIter_lhs = pr.first.rbegin(), rIter_rhs = path.rbegin(); rIter_lhs != pr.first.rend() && rIter_rhs != path.rend(); ++rIter_lhs, ++rIter_rhs) {
+            if (*rIter_lhs != *rIter_rhs) {
+                return false;
+            }
+        }
+        return true;
+    });
+    if (iter != m_AllImageMap.end()) {
+        iter->second = image;
+    } else {
+        m_AllImageMap.push_back(std::make_pair(path, image));
+        if (m_AllImageMap.size() > 500) {
+            m_AllImageMap.pop_front();
+        }
+    }
+    emit sigeUpdateListview();
 }
 
 void ImageDataService::addMovieDurationStr(const QString &path, const QString &durationStr)
@@ -178,18 +245,160 @@ QImage ImageDataService::getThumnailImageByPath(const QString &path)
     if (path.isEmpty()) {
         return  QImage();
     }
-    return m_AllImageMap.contains(path) ? m_AllImageMap[path] : QImage();
+    return getImageFromMap(path);
 }
 
 bool ImageDataService::imageIsLoaded(const QString &path)
 {
     QMutexLocker locker(&m_imgDataMutex);
-    return m_AllImageMap.contains(path);
+    return pathInMap(path);
 }
 
-ImageDataService::ImageDataService(QObject *parent)
+ImageDataService::ImageDataService(QObject *parent) : QObject (parent)
 {
-    Q_UNUSED(parent);
+    readThumbnailManager = new ReadThumbnailManager;
+    readThread = new QThread;
+    readThumbnailManager->moveToThread(readThread);
+    readThread->start();
+    connect(this, &ImageDataService::startImageLoad, readThumbnailManager, &ReadThumbnailManager::readThumbnail);
+}
+
+QImage ImageDataService::getThumnailImageByPathRealTime(const QString &path)
+{
+    if (!QFileInfo(path).exists()) {
+        return QImage();
+    }
+
+    auto bufferImage = getImageFromMap(path);
+    if (!bufferImage.isNull()) {
+        return bufferImage;
+    }
+
+    readThumbnailManager->addLoadPath(path);
+    emit startImageLoad();
+
+    return QImage();
+}
+
+ReadThumbnailManager::ReadThumbnailManager(QObject *parent) : QObject (parent)
+{
+}
+
+void ReadThumbnailManager::addLoadPath(const QString &path)
+{
+    mutex.lock();
+    needLoadPath.push_back(path);
+    if (needLoadPath.size() > 100) {
+        needLoadPath.pop_front();
+    }
+    mutex.unlock();
+}
+
+void ReadThumbnailManager::readThumbnail()
+{
+    while (1) {
+        mutex.lock();
+
+        if (needLoadPath.empty()) {
+            mutex.unlock();
+            break;
+        }
+
+        auto path = needLoadPath[needLoadPath.size() - 1];
+        needLoadPath.pop_back();
+
+        mutex.unlock();
+
+        if (!QFileInfo(path).exists()) {
+            return;
+        }
+        using namespace UnionImage_NameSpace;
+        QImage tImg;
+        QString srcPath = path;
+        QString thumbnailPath = utils::base::filePathToThumbnailPath(path);
+
+        QFileInfo thumbnailFile(thumbnailPath);
+        QString errMsg;
+        if (thumbnailFile.exists()) {
+            if (!loadStaticImageFromFile(thumbnailPath, tImg, errMsg, "PNG")) {
+                qDebug() << errMsg;
+            }
+
+            if (ImageEngineApi::instance()->isItemLoadedFromDB(path)) {
+                if (ImageEngineApi::instance()->isVideo(path)) {
+                    //获取视频信息 demo
+                    MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
+                    ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
+                }
+            } else if (utils::base::isVideo(path)) {
+                //获取视频信息 demo
+                MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
+                ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
+            }
+        } else {
+            //读图
+            if (ImageEngineApi::instance()->isItemLoadedFromDB(path) && ImageEngineApi::instance()->isVideo(path)) {
+                tImg = MovieService::instance()->getMovieCover(QUrl::fromLocalFile(path));
+                //获取视频信息 demo
+                MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
+                ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
+            } else if (utils::base::isVideo(path)) {
+                tImg = MovieService::instance()->getMovieCover(QUrl::fromLocalFile(path));
+
+                //获取视频信息 demo
+                MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
+                ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
+            } else {
+                if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
+                    qDebug() << errMsg;
+                    ImageDataService::instance()->addImage(path, tImg);
+                    return;
+                }
+            }
+            //裁切
+            if (!tImg.isNull() && 0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
+                bool cache_exist = false;
+                if (tImg.height() != 200 && tImg.width() != 200) {
+                    if (tImg.height() >= tImg.width()) {
+                        cache_exist = true;
+                        tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+                    } else if (tImg.height() <= tImg.width()) {
+                        cache_exist = true;
+                        tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+                    }
+                }
+                if (!cache_exist) {
+                    if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
+                        tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+                    } else {
+                        tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+                    }
+                }
+            }
+            utils::base::mkMutiDir(thumbnailPath.mid(0, thumbnailPath.lastIndexOf('/')));
+            tImg.save(thumbnailPath, "PNG");
+        }
+        if (!tImg.isNull()) {
+
+            int width = tImg.width();
+            int height = tImg.height();
+            if (abs((width - height) * 10 / width) >= 1) {
+                QRect rect = tImg.rect();
+                int x = rect.x() + width / 2;
+                int y = rect.y() + height / 2;
+                if (width > height) {
+                    x = x - height / 2;
+                    y = 0;
+                    tImg = tImg.copy(x, y, height, height);
+                } else {
+                    y = y - width / 2;
+                    x = 0;
+                    tImg = tImg.copy(x, y, width, width);
+                }
+            }
+        }
+        ImageDataService::instance()->addImage(path, tImg);
+    }
 }
 
 //缩略图读取线程
@@ -307,7 +516,7 @@ void readThumbnailThread::run()
         }
         QString res = ImageDataService::instance()->pop();
         if (!res.isEmpty()) {
-            readThumbnail(res);
+            //readThumbnail(res);
         }
     }
     emit ImageDataService::instance()->sigeUpdateListview();

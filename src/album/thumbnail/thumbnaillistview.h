@@ -280,6 +280,9 @@ private:
     //记录当前显示类型
     ItemType m_currentShowItemType = ItemType::ItemTypeNull;
     BatchOperateWidget *m_batchOperateWidget = nullptr;
+    //导入时主动update timer
+    QTimer *m_importTimer;
+    int m_importActiveCount = 0;
 public:
     ListViewUseFor m_useFor = Normal;
     QString m_imageType; //老版相册的image type有识别当前界面和相册的双重功能

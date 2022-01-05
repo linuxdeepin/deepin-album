@@ -62,20 +62,32 @@ MovieService *MovieService::instance(QObject *parent)
 
 MovieInfo MovieService::getMovieInfo(const QUrl &url)
 {
-    if (!m_initFFmpeg) {
-        initFFmpeg();
-    }
+    MovieInfo result;
 
     if (url.isLocalFile()) {
         QFileInfo fi(url.toLocalFile());
+
         if (fi.exists()) {
-            return parseFromFile(fi);
-        } else {
-            return MovieInfo();
+            auto filePath = fi.filePath();
+
+            auto iter = std::find_if(movieInfoBuffer.begin(), movieInfoBuffer.end(), [filePath](const MovieInfo & info) {
+                return info.filePath == filePath;
+            });
+
+            if (iter != movieInfoBuffer.end()) {
+                result = *iter;
+            } else {
+                if (!m_initFFmpeg) {
+                    initFFmpeg();
+                }
+                result = parseFromFile(fi);
+                movieInfoBuffer.append(result);
+            }
         }
-    } else {
-        return MovieInfo();
     }
+
+    movieInfoFlushTimer->start(15000);
+    return result;
 }
 
 QImage MovieService::getMovieCover(const QUrl &url)
@@ -214,8 +226,13 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
 }
 
 MovieService::MovieService(QObject *parent)
+    : QObject(parent)
+    , movieInfoFlushTimer(new QTimer)
 {
-    Q_UNUSED(parent);
+    connect(movieInfoFlushTimer, &QTimer::timeout, [this]() {
+        QList<MovieInfo>().swap(movieInfoBuffer); //使用swap确保内存清空
+        movieInfoFlushTimer->stop();
+    });
 }
 
 void MovieService::initThumb()
