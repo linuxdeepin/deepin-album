@@ -202,9 +202,9 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
         painter->setClipPath(bp);
         painter->setPen(QColor(85, 85, 85, 170)); //边框颜色：灰色
         //字符串的像素宽度
-        const int m_Width = painter->fontMetrics().width(data.remainDays);
+        QString str(QString::number(data.remainDays) + ThumbnailListView::tr("days"));
+        const int m_Width = painter->fontMetrics().width(str);
         painter->setBrush(QBrush(QColor(85, 85, 85, 170)));//填充颜色：灰色
-        QString str(data.remainDays);
         QFontMetrics Text(str);
 
         //2020/3/13-xiaolong

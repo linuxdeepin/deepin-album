@@ -252,8 +252,6 @@ void ImageEngineApi::loadFirstPageThumbnails(int num, bool clearCache)
                 list << info.filePath;
                 count++;
             }
-            info.fileName = query.value(1).toString();
-            info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);

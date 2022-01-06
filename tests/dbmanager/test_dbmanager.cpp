@@ -95,12 +95,6 @@ TEST(AlbumForTest, db11)
     QStringList l;
     l << "newTestAlbum";
     DBManager::instance()->removeTrashImgInfosNoSignal(l);
-
-    DBImgInfo info, info1;
-    info.dirHash = "test";
-    info1.dirHash = "test";
-    if (info == info1)
-        qDebug() << "same";
 }
 
 TEST(DBandImgOperate, setThreadShouldStop)

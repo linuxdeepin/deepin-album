@@ -168,10 +168,10 @@ void ImportView::onImprotBtnClicked(bool useDialog, const QStringList &list)
 {
     static QStringList sList;
     for (const QString &i : UnionImage_NameSpace::unionImageSupportFormat())
-        sList << ("*." + i);
+        sList << "*." + i;
     //添加视频过滤
     for (const QString &i : utils::base::m_videoFiletypes) {
-        sList << i;
+        sList << "*." + i;
     }
     QString filter = tr("All photos and videos");
     filter.append('(');

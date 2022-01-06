@@ -1305,7 +1305,7 @@ void MainWindow::onImprotBtnClicked()
         sList << ("*." + i);
     //添加视频过滤
     for (const QString &i : utils::base::m_videoFiletypes)
-        sList << i;
+        sList << "*." + i;
     QString filter = tr("All photos and videos");
     filter.append('(');
     filter.append(sList.join(" "));

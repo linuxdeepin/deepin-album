@@ -1619,7 +1619,7 @@ void ThumbnailListView::insertThumbnailByImgInfos(DBImgInfoList infoList)
         info.imgWidth = m_onePicWidth;
         info.imgHeight = m_onePicWidth;
         if (m_delegatetype == ThumbnailDelegate::AlbumViewTrashType) {
-            info.remainDays = QString::number(30 - utils::base::daysDifferenceBetweenTime(info.importTime, currentTime)) + tr("days");
+            info.remainDays = 30 - utils::base::daysDifferenceBetweenTime(info.importTime, currentTime);
         }
         insertThumbnail(info);
     }

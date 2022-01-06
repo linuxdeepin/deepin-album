@@ -48,9 +48,7 @@ DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
     using namespace UnionImage_NameSpace;
     QFileInfo srcfi(srcpath);
     DBImgInfo dbi;
-    dbi.fileName = srcfi.fileName();
     dbi.filePath = srcpath;
-    dbi.dirHash = utils::base::hashByString(QString());
     dbi.importTime = QDateTime::currentDateTime();
     if (isVideo) {
         dbi.itemType = ItemTypeVideo;

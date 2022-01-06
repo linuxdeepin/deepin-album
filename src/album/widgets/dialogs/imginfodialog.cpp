@@ -279,18 +279,13 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
         if (i->key.contains("Dimension")) {
             value = infos.value("Dimension");
             if (value == "0x0") {
-                DBImgInfo st;
-                ImageEngineApi::instance()->getImageData(m_path, st);
-                value = st.albumSize;
-                if (value.isEmpty()) {
-                    QImage tImg;
-                    QString errMsg;
-                    if (!UnionImage_NameSpace::loadStaticImageFromFile(m_path, tImg, errMsg)) {
-                        qDebug() << errMsg;
-                        continue;
-                    }
-                    value = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
+                QImage tImg;
+                QString errMsg;
+                if (!UnionImage_NameSpace::loadStaticImageFromFile(m_path, tImg, errMsg)) {
+                    qDebug() << errMsg;
+                    continue;
                 }
+                value = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
             }
         } else if (i->key.contains("FileFormat")) {
             QStringList list = value.split("/");

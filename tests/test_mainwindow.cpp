@@ -1446,7 +1446,7 @@ TEST(ImgInfoDialog, DetailInfo)
     for (int i = 0; i < allpicview->m_pThumbnailListView->m_model->rowCount(); i++) {
         QModelIndex index = allpicview->getThumbnailListView()->m_model->index(i, 0);
         DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
-        if (data.fileName == "DetailInfo.jpg") {
+        if (data.getFileNameFromFilePath() == "DetailInfo.jpg") {
             idx = index;
             break;
         }

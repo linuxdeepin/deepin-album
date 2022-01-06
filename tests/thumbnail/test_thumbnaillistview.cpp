@@ -62,7 +62,7 @@ TEST(ThumbnailListView, initThumbnailListView)
     QTest::qWait(200);
     DBImgInfoList infolist;
     DBImgInfo temp;
-    temp.fileName = testPath_test + "/2k9o1m.png";
+    temp.filePath = testPath_test + "/2k9o1m.png";
     if (DBManager::instance()->getAllInfos().size() > 0)
         infolist = DBManager::instance()->getAllInfos();
     else

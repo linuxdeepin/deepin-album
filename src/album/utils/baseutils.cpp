@@ -178,12 +178,17 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize)
 
 QString hashByString(const QString &str)
 {
-    if (str.isEmpty()) {
-        return "d41d8cd98f00b204e9800998ecf8427e";
-    } else {
-        return QString(QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex());
-    }
+    return QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex();
 }
+
+/*QByteArray hashByString(const QString &str)
+{
+    if (str.isEmpty()) {
+        return "\xd4\x1d\x8c\xd9\x8f\x00\xb2\x04\xe9\x80\x09\x98\xec\xf8\x42\x7e";
+    } else {
+        return QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5);
+    }
+}*/
 
 QString hashByData(const QString &str)
 {
@@ -482,7 +487,7 @@ QString Time2str(const qint64 &seconds)
 bool isVideo(QString path)
 {
     QFileInfo temDir(path);
-    QString fileName = "*." + temDir.suffix().toLower(); //扩展名
+    QString fileName = temDir.suffix().toLower(); //扩展名
     return m_videoFiletypes.contains(fileName);
 }
 

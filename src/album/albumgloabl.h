@@ -33,6 +33,7 @@
 #include <QDebug>
 #include <QStandardPaths>
 #include <QDir>
+#include <QTime>
 
 namespace albumGlobal {
 
@@ -64,50 +65,73 @@ enum ItemType {
     ItemTypeMountImg //设备图片
 };
 
+//注意内部数据的摆放顺序，可以依靠64位程序的8字节对齐以节省空间
 struct DBImgInfo {
     //数据库
     QString filePath;
-    QString fileName;
-    QString dirHash;
-    QString dataHash;
-    QDateTime time;         // 图片创建时间
-    QDateTime changeTime;   // 文件修改时间
-    QDateTime importTime;   // 导入时间 Or 删除时间
-    QString albumUID;      // 图片所属相册UID，以","分隔
-    QString albumSize;      //原图片分辨率
-    QString videoDuration = "00:00";  //视频时长
+    QDateTime time;        // 图片创建时间
+    QDateTime changeTime;  // 文件修改时间
+    QDateTime importTime;  // 导入时间 Or 删除时间
+    QString albumUID;      // 图片所属相册UID，以","分隔，用于恢复
+
     ItemType itemType = ItemTypePic;//类型，空白，图片，视频
 
     //显示
     int imgWidth = 0;
     int imgHeight = 0;
-    QString remainDays = "30天";
-    bool isSelected = false;
-    QPixmap image = QPixmap();
-    QPixmap damagedPixmap = QPixmap();
+    int remainDays = 30;
     bool bNotSupportedOrDamaged = false;
     bool bNeedDelete = false;//删除时间线与已导入标题时使用
+    bool isSelected = false;
+    QPixmap image;
     QString date;
     QString num;
-
-    bool operator==(const DBImgInfo &other) const
-    {
-        return (dataHash == other.dataHash);
-    }
 
     friend QDebug operator<<(QDebug &dbg, const DBImgInfo &info)
     {
         dbg << "(DBImgInfo)["
             << " Path:" << info.filePath
-            << " Name:" << info.fileName
-            << " Dir:" << info.dirHash
+            << " Name:" << info.getFileNameFromFilePath()
             << " Time:" << info.time
-            << " ChangeTime:" << info.changeTime
+            << " ChangeTime:" <<  info.changeTime
             << " ImportTime:" << info.importTime
             << " UID:" << info.albumUID
-            << " AlbumSize:" << info.albumSize
             << "]";
         return dbg;
+    }
+
+    //辅助函数，在需要的时候调用
+
+    //反hex，用于将toHex后的32字节hash值反向提取成标准16字节hash值，用于从数据库读取数据用
+    //后续版本注意不要在非界面展示上使用toHex后的数据以节省内存和拷贝时间
+    static QByteArray deHex(const QString &hexString)
+    {
+        QByteArray result;
+        if (hexString.size() != 32) {
+            return result;
+        }
+        auto srcData = hexString.toStdString();
+        for (size_t i = 0; i < 32; i += 2) {
+            quint8 highHelf = static_cast<quint8>(srcData[i]);
+            quint8 lowHelf = static_cast<quint8>(srcData[i + 1]);
+            result.push_back(static_cast<char>(highHelf << 4 | lowHelf));
+        }
+        return result;
+    }
+
+    //根据filepath获取filename
+    //由于目标只是filePath.split('/').last()，所以直接从后向前搜索'/'以节省时间
+    QString getFileNameFromFilePath() const
+    {
+        auto rIter = std::find(filePath.crbegin(), filePath.crend(), '/');
+        if (rIter != filePath.crend()) {
+            auto iter = rIter.base();
+            QString result;
+            std::copy(iter, filePath.cend(), std::back_inserter(result));
+            return result;
+        } else {
+            return QString();
+        }
     }
 };
 typedef QList<DBImgInfo> DBImgInfoList;

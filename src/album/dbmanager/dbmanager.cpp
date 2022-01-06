@@ -109,8 +109,6 @@ const DBImgInfoList DBManager::getAllInfos(int loadCount)const
         while (query.next()) {
             DBImgInfo info;
             info.filePath = query.value(0).toString();
-            info.fileName = query.value(1).toString();
-            info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
@@ -235,10 +233,9 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
     }
     QVariantList pathhashs, filenames, filepaths, dirs, times, changetimes, importtimes, fileTypes;
     for (DBImgInfo info : infos) {
-        filenames << info.fileName;
+        filenames << info.getFileNameFromFilePath();
         filepaths << info.filePath;
         pathhashs << utils::base::hashByString(info.filePath);
-        dirs << info.dirHash;
         times << info.time.toString("yyyy.MM.dd");
         changetimes << info.changeTime.toString(DATETIME_FORMAT_DATABASE);
         importtimes << info.importTime.toString(DATETIME_FORMAT_DATABASE);
@@ -249,8 +246,8 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
     if (!query.exec("BEGIN IMMEDIATE TRANSACTION")) {
 //        qDebug() << query.lastError();
     }
-    bool b = query.prepare("REPLACE INTO ImageTable3 (PathHash, FilePath, FileName, Dir, Time, "
-                           "ChangeTime, ImportTime, FileType) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    bool b = query.prepare("REPLACE INTO ImageTable3 (PathHash, FilePath, FileName, Time, "
+                           "ChangeTime, ImportTime, FileType) VALUES (?, ?, ?, ?, ?, ?, ?)");
     if (!b) {
         db.close();
         return;
@@ -258,7 +255,6 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
     query.addBindValue(pathhashs);
     query.addBindValue(filepaths);
     query.addBindValue(filenames);
-    query.addBindValue(dirs);
     query.addBindValue(times);
     query.addBindValue(changetimes);
     query.addBindValue(importtimes);
@@ -501,7 +497,6 @@ const DBImgInfoList DBManager::getInfosByAlbum(int UID) const
         while (query.next()) {
             DBImgInfo info;
             info.filePath = query.value(0).toString();
-            info.fileName = query.value(1).toString();
             info.itemType = static_cast<ItemType>(query.value(2).toInt());
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
@@ -928,8 +923,6 @@ const DBImgInfoList DBManager::getInfosByNameTimeline(const QString &value) cons
         while (query.next()) {
             DBImgInfo info;
             info.filePath = query.value(0).toString();
-            info.fileName = query.value(1).toString();
-            info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
@@ -974,8 +967,6 @@ const DBImgInfoList DBManager::getTrashInfosForKeyword(const QString &keywords) 
         while (query.next()) {
             DBImgInfo info;
             info.filePath = query.value(0).toString();
-            info.fileName = query.value(1).toString();
-            info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
@@ -1014,8 +1005,6 @@ const DBImgInfoList DBManager::getInfosForKeyword(int UID, const QString &keywor
         while (query.next()) {
             DBImgInfo info;
             info.filePath = query.value(0).toString();
-            info.fileName = query.value(1).toString();
-            info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
@@ -1079,8 +1068,6 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
         while (query.next()) {
             DBImgInfo info;
             info.filePath = query.value(0).toString();
-            info.fileName = query.value(1).toString();
-            info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
@@ -1571,8 +1558,6 @@ const DBImgInfoList DBManager::getAllTrashInfos() const
             info.filePath = query.value(0).toString();
             if (info.filePath.isEmpty()) //如果路径为空
                 continue;
-            info.fileName = query.value(1).toString();
-            info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
@@ -1594,13 +1579,12 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
         return;
     }
 
-    QVariantList pathhashs, filenames, filepaths, dirs, times, changetimes, importtimes, filetypes;
+    QVariantList pathhashs, filenames, filepaths, times, changetimes, importtimes, filetypes;
 
     for (DBImgInfo info : infos) {
-        filenames << info.fileName;
+        filenames << info.getFileNameFromFilePath();
         filepaths << info.filePath;
         pathhashs << utils::base::hashByString(info.filePath);
-        dirs << info.dirHash;
         times << info.time.toString("yyyy.MM.dd");
         changetimes << info.changeTime.toString(DATETIME_FORMAT_DATABASE);
         importtimes << info.importTime.toString(DATETIME_FORMAT_DATABASE);
@@ -1614,7 +1598,7 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
         qDebug() << "begin transaction failed.";
     }
     bool b = query.prepare("REPLACE INTO TrashTable3 "
-                           "(PathHash, FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                           "(PathHash, FilePath, FileName, Time, ChangeTime, ImportTime, FileType) VALUES (?, ?, ?, ?, ?, ?, ?)");
     if (!b) {
         db.close();
         return;
@@ -1622,7 +1606,6 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
     query.addBindValue(pathhashs);
     query.addBindValue(filepaths);
     query.addBindValue(filenames);
-    query.addBindValue(dirs);
     query.addBindValue(times);
     query.addBindValue(changetimes);
     query.addBindValue(importtimes);
@@ -1784,8 +1767,6 @@ const DBImgInfoList DBManager::getTrashImgInfos(const QString &key, const QStrin
             info.filePath = query.value(0).toString();
             if (info.filePath.isEmpty()) //如果路径为空
                 continue;
-            info.fileName = query.value(1).toString();
-            info.dirHash = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
