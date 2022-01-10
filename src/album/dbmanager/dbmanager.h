@@ -68,8 +68,8 @@ public:
     enum SpUID {
         u_NotInAnyAlbum = -1,
         u_Favorite,
-        u_Camera,
         u_ScreenCapture,
+        u_Camera,
         u_Draw,
         u_CustomStart
     };

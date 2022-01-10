@@ -26,6 +26,7 @@
 #include <QUrl>
 #include <QFileInfo>
 #include <QMutex>
+#include <mutex>
 
 #include "baseutils.h"
 #include <libffmpegthumbnailer/videothumbnailerc.h>
@@ -123,8 +124,8 @@ public:
 private:
     QMutex m_queuqMutex;
     static MovieService *m_movieService;
+    static std::once_flag instanceFlag;
     bool m_bInitThumb = false;
-    bool m_initFFmpeg = false;
 
     video_thumbnailer *m_video_thumbnailer = nullptr;
     image_data *m_image_data = nullptr;
@@ -134,9 +135,6 @@ private:
     mvideo_thumbnailer_create_image_data m_mvideo_thumbnailer_create_image_data = nullptr;
     mvideo_thumbnailer_destroy_image_data m_mvideo_thumbnailer_destroy_image_data = nullptr;
     mvideo_thumbnailer_generate_thumbnail_to_buffer m_mvideo_thumbnailer_generate_thumbnail_to_buffer = nullptr;
-
-    QTimer *movieInfoFlushTimer;
-    QList<MovieInfo> movieInfoBuffer;
 };
 
 #endif // MOVIESERVICE_H

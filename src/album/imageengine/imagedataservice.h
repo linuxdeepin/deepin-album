@@ -76,31 +76,13 @@ private:
     //图片数据锁
     QMutex m_imgDataMutex;
     //QString:原图路径 QImage:缩略图
-    //QMap<QString, QImage> m_AllImageMap;
     std::deque<std::pair<QString, QImage>> m_AllImageMap;
-    //QString:原图路径 QString:原图文件hash
-//    QMap<QString, QString> m_AllImageDataHashMap;
     QMap<QString, QString> m_movieDurationStrMap;
     QQueue<QString> m_imageKeys;
     int m_visualIndex = 0;//用户查找视图中的model index
 
     ReadThumbnailManager *readThumbnailManager;
     QThread *readThread;
-};
-
-//缩略图读取线程
-class readThumbnailThread : public QThread
-{
-    Q_OBJECT
-public:
-    readThumbnailThread(QObject *parent = nullptr);
-    ~readThumbnailThread() override;
-    void readThumbnail(QString m_path);
-    void setQuit(bool quit);
-protected:
-    void run() override;
-private:
-    bool m_quit = false;
 };
 
 //缩略图读取类

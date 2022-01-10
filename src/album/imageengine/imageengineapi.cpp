@@ -76,6 +76,8 @@ ImageEngineApi::ImageEngineApi(QObject *parent)
     QThreadPool::globalInstance()->setMaxThreadCount(12);
     QThreadPool::globalInstance()->setExpiryTimeout(10);
 #endif
+
+    bcloseFg = false;
 }
 
 bool ImageEngineApi::insertObject(void *obj)
@@ -97,22 +99,6 @@ bool ImageEngineApi::removeObject(void *obj)
 bool ImageEngineApi::ifObjectExist(void *obj)
 {
     return m_AllObject.contains(obj);
-}
-
-bool ImageEngineApi::removeImage(QString imagepath)
-{
-    static QStringList dbremovelist;
-    dbremovelist.append(imagepath);
-    if (QThreadPool::globalInstance()->activeThreadCount() < 1) {
-        DBManager::instance()->removeImgInfos(dbremovelist);
-        dbremovelist.clear();
-//        emit dApp->signalM->updatePicView(0);
-    }
-
-    if (m_AllImageData.contains(imagepath)) {
-        return m_AllImageData.remove(imagepath);
-    }
-    return false;
 }
 
 bool ImageEngineApi::removeImage(QStringList imagepathList)
@@ -322,19 +308,6 @@ bool ImageEngineApi::reloadAfterFilterUnExistImage()
     return true;
 }
 
-bool ImageEngineApi::isVideo(QString path)
-{
-    QMutexLocker locker(&m_dataMutex);
-    bool is = false;
-    if (m_AllImageData.contains(path)) {
-        DBImgInfo info = m_AllImageData[path];
-        if (info.itemType == ItemTypeVideo) {
-            is = true;
-        }
-    }
-    return is;
-}
-
 int ImageEngineApi::getAllImageDataCount()
 {
     QMutexLocker locker(&m_dataMutex);
@@ -405,11 +378,4 @@ bool ImageEngineApi::recoveryImagesFromTrash(QStringList files)
     QThreadPool::globalInstance()->start(imagethread);
 #endif
     return true;
-}
-
-QStringList ImageEngineApi::get_AllImagePath()
-{
-    if (m_AllImageData.size() > 0)
-        return m_AllImageData.keys();
-    return QStringList();
 }

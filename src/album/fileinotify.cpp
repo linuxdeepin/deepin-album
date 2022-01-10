@@ -24,6 +24,7 @@
 #include "signalmanager.h"
 #include "utils/unionimage.h"
 #include "baseutils.h"
+#include "imageutils.h"
 
 #include <sys/inotify.h>
 #include <dirent.h>
@@ -113,7 +114,8 @@ void FileInotify::getAllPicture(bool isFirst)
     }
 
     //当前文件夹下的所有文件
-    QFileInfoList list = dir.entryInfoList();
+    QFileInfoList list;
+    utils::image::getAllFileInDir(dir, list);
 
     //移除不支持的文件
     auto removeIter = std::remove_if(list.begin(), list.end(), [this](const QFileInfo & info) {

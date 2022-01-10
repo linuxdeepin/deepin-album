@@ -310,7 +310,6 @@ void ImportImagesThread::runDetail()
                 continue;
             pathlist << Info.filePath;
         }
-        emit ImageEngineApi::instance()->sigLoadCompleted();
         if (image_list.length() == pathlist.length() && !pathlist.isEmpty()) {
             emit dApp->signalM->updateStatusBarImportLabel(pathlist, 1, m_albumname);
             emit dApp->signalM->ImportSuccess();

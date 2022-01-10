@@ -260,51 +260,6 @@ TEST(allpicview, viewpaneltest)
     tl.addMouseMove(a->m_pImportView->geometry().center());
     tl.simulate(a->m_pImportView);
     QTest::qWait(500);
-//    ImageEngineApi::instance()->ImportImagesFromFileList((QStringList() << testPath), "", a, false);
-//    QTest::qWait(500);
-
-    QStringList testPathlist = ImageEngineApi::instance()->get_AllImagePath();
-    if (!testPathlist.isEmpty()) {
-        qDebug() << "test ImageView Success ";
-        w->m_pSearchEdit->setText("1");
-        w->m_pSearchEdit->editingFinished();
-        QTest::qWait(300);
-
-        emit a->getThumbnailListView()->openImage(0, testPathlist.first(), false);
-        QTest::qWait(300);
-
-        QTestEventList e;
-        e.addKeyClick(Qt::Key_Minus, Qt::ControlModifier, 100);
-        e.addKeyClick(Qt::Key_Minus, Qt::ControlModifier, 100);
-        e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
-        e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
-        e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
-        e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
-        e.addKeyClick(Qt::Key_Plus, Qt::ControlModifier, 100);
-        e.simulate(w);
-        e.clear();
-
-        QList<QWidget *> widgets = w->findChildren<QWidget *>();
-    }
-
-    QTestEventList e;
-    e.addKeyClick(Qt::Key_Escape);
-    e.simulate(w);
-}
-
-TEST(allpicview, deleteTips)
-{
-    TEST_CASE_NAME("deleteTips")
-    MainWindow *w = dApp->getMainWindow();
-    w->allPicBtnClicked();
-    QTest::qWait(500);
-    QStringList testPathlist = ImageEngineApi::instance()->get_AllImagePath();
-    if (testPathlist.count() > 0) {
-        QStringList tempDel;
-        tempDel << testPathlist.last();
-        ImageEngineApi::instance()->moveImagesToTrash(tempDel);
-        QTest::qWait(500);
-    }
 }
 
 TEST(allpicview, allpicview_other_test)

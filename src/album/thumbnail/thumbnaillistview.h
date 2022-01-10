@@ -194,7 +194,6 @@ private slots:
     void sltReloadAfterFilterEnd();
     //子线程加载缩略图后刷新列表
     void onUpdateListview();
-    void onLoadTimerTimeout();
     void onMenuItemClicked(QAction *action);
     void onShowMenu(const QPoint &pos);
     void onPixMapScale(int value);
@@ -205,8 +204,6 @@ private slots:
     //时间线界面，选择当前时间内照片
     void slotSelectCurrentDatePic(bool isSelect, QStandardItem *item);
 public slots:
-    //加载当前页面前后各两百张图片
-    void reloadImage();
     //所有照片界面
     void slotLoadFirstPageThumbnailsFinish();
 

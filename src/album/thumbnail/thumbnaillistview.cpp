@@ -296,52 +296,6 @@ void ThumbnailListView::onUpdateListview()
     }
 }
 
-void ThumbnailListView::onLoadTimerTimeout()
-{
-//    qDebug() << __FUNCTION__ << "---allImageCount = " << ImageDataService::instance()->getCount();
-    //获取一个有效的model index；
-//            QModelIndex load;
-//            int row = ImageDataService::instance()->getVisualIndex();
-//            if (row <= m_model->rowCount())
-//            {
-//                load = m_model->index(row, 0);
-//            }
-    if (!this->isVisible()) {
-        return;
-    }
-    QModelIndex load = indexAt(QPoint(100, 100));
-    if (!load.isValid()) {
-        load = indexAt(QPoint(120, 130));
-    }
-    if (!load.isValid()) {
-        return;
-    }
-
-    QStringList pathlist;
-    int count = 0;
-    for (int i = load.row(); i >= 0; i--) {
-        QModelIndex index = m_model->index(i, 0);
-        DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
-        pathlist << data.filePath;
-        count++;
-        if (count >= 300) {
-            break;
-        }
-    }
-    count = 0;
-    for (int i = load.row(); i < m_model->rowCount(); i++) {
-        QModelIndex index = m_model->index(i, 0);
-        DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
-        pathlist << data.filePath;
-        count++;
-        if (count >= 300) {
-            break;
-        }
-    }
-    ImageDataService::instance()->readThumbnailByPaths(pathlist, true);
-    this->update();
-}
-
 void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
 {
     //触屏状态复位
@@ -432,7 +386,6 @@ void ThumbnailListView::dropEvent(QDropEvent *event)
 
 void ThumbnailListView::initConnections()
 {
-    connect(ImageEngineApi::instance(), &ImageEngineApi::sigLoadCompleted, this, &ThumbnailListView::reloadImage);
     connect(ImageDataService::instance(), &ImageDataService::sigeUpdateListview, this, &ThumbnailListView::onUpdateListview, Qt::ConnectionType::QueuedConnection);
     //有图片删除后，刷新列表
     connect(dApp->signalM, &SignalManager::imagesRemovedPar, this, &ThumbnailListView::updateThumbnailViewAfterDelete);
@@ -452,7 +405,7 @@ void ThumbnailListView::initConnections()
 void ThumbnailListView::insertThumbnail(const DBImgInfo &dBImgInfo)
 {
     DBImgInfo info = dBImgInfo;
-    cutPixmap(info);
+    //cutPixmap(info); 感觉现在不需要了，先屏蔽了试试
 
     QStandardItem *item = new QStandardItem;
     QVariant infoVariant;
@@ -464,14 +417,14 @@ void ThumbnailListView::insertThumbnail(const DBImgInfo &dBImgInfo)
     }
     infoVariant.setValue(info);
     item->setData(infoVariant, Qt::DisplayRole);
-    item->setData(QVariant(QSize(info.imgWidth, /*gridItem[i][j].height*/height)),
+    item->setData(QVariant(QSize(info.imgWidth, height)),
                   Qt::SizeHintRole);
     m_model->appendRow(item);
     if (info.itemType == ItemTypeTimeLineTitle) {
         QModelIndex index = m_model->indexFromItem(item);
         TimeLineDateWidget *pCurrentDateWidget = new TimeLineDateWidget(item, info.date, info.num);
         connect(pCurrentDateWidget, &TimeLineDateWidget::sigIsSelectCurrentDatePic, this, &ThumbnailListView::slotSelectCurrentDatePic);
-        this->setIndexWidget(index, pCurrentDateWidget);
+        this->setIndexWidget(index, pCurrentDateWidget); //时间线打开速度慢的原因
     } else if (info.itemType == ItemTypeImportTimeLineTitle) {
         QModelIndex index = m_model->indexFromItem(item);
         importTimeLineDateWidget *pCurrentDateWidget = new importTimeLineDateWidget(item, info.date, info.num);
@@ -1614,8 +1567,7 @@ void ThumbnailListView::insertThumbnailByImgInfos(DBImgInfoList infoList)
 {
     QDateTime currentTime = QDateTime::currentDateTime();
     for (int i = 0; i < infoList.size(); ++i) {
-        DBImgInfo imgData = infoList.at(i);
-        DBImgInfo info = imgData;
+        DBImgInfo info = infoList.at(i);
         info.imgWidth = m_onePicWidth;
         info.imgHeight = m_onePicWidth;
         if (m_delegatetype == ThumbnailDelegate::AlbumViewTrashType) {
@@ -1906,24 +1858,6 @@ void ThumbnailListView::setBatchOperateWidget(BatchOperateWidget *widget)
     m_batchOperateWidget = widget;
 }
 
-void ThumbnailListView::reloadImage()
-{
-    if (!this->isVisible()) {
-        return;
-    }
-    //加载上下两百张
-    if (m_loadTimer == nullptr) {
-        m_loadTimer = new QTimer();
-        m_loadTimer->setInterval(50);
-        m_loadTimer->setSingleShot(true);
-        connect(m_loadTimer, &QTimer::timeout, this, &ThumbnailListView::onLoadTimerTimeout);
-    }
-    if (m_loadTimer->isActive()) {
-        m_loadTimer->stop();
-    }
-    m_loadTimer->start();
-}
-
 void ThumbnailListView::slotLoadFirstPageThumbnailsFinish()
 {
     // 将缩略图信息插入到listview中
@@ -1994,8 +1928,6 @@ void ThumbnailListView::onScrollTimerOut()
 void ThumbnailListView::onScrollbarValueChanged(int value)
 {
     Q_UNUSED(value)
-    //加载上下两百张
-    reloadImage();
     //滚动条向下滑动
     if (m_animation && m_animation->state() == QPropertyAnimation::Running) {
         m_animation->stop();
@@ -2197,7 +2129,4 @@ void ThumbnailListView::resizeEventF()
         m_delegate->setItemSize(QSize(m_onePicWidth, m_onePicWidth));
     }
     this->setSpacing(ITEM_SPACING);
-
-    //resize以后加载图片
-    reloadImage();
 }

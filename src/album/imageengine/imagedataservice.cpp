@@ -212,7 +212,6 @@ void ImageDataService::addImage(const QString &path, const QImage &image)
             m_AllImageMap.pop_front();
         }
     }
-    emit sigeUpdateListview();
 }
 
 void ImageDataService::addMovieDurationStr(const QString &path, const QString &durationStr)
@@ -296,6 +295,8 @@ void ReadThumbnailManager::addLoadPath(const QString &path)
 
 void ReadThumbnailManager::readThumbnail()
 {
+    int sendCounter = 0;
+
     while (1) {
         mutex.lock();
 
@@ -308,6 +309,12 @@ void ReadThumbnailManager::readThumbnail()
         needLoadPath.pop_back();
 
         mutex.unlock();
+
+        sendCounter++;
+        if (sendCounter == 5) {
+            sendCounter = 0;
+            emit ImageDataService::instance()->sigeUpdateListview();
+        }
 
         if (!QFileInfo(path).exists()) {
             return;
@@ -324,25 +331,14 @@ void ReadThumbnailManager::readThumbnail()
                 qDebug() << errMsg;
             }
 
-            if (ImageEngineApi::instance()->isItemLoadedFromDB(path)) {
-                if (ImageEngineApi::instance()->isVideo(path)) {
-                    //获取视频信息 demo
-                    MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
-                    ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
-                }
-            } else if (utils::base::isVideo(path)) {
+            if (utils::base::isVideo(path)) {
                 //获取视频信息 demo
                 MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
                 ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
             }
         } else {
             //读图
-            if (ImageEngineApi::instance()->isItemLoadedFromDB(path) && ImageEngineApi::instance()->isVideo(path)) {
-                tImg = MovieService::instance()->getMovieCover(QUrl::fromLocalFile(path));
-                //获取视频信息 demo
-                MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
-                ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
-            } else if (utils::base::isVideo(path)) {
+            if (utils::base::isVideo(path)) {
                 tImg = MovieService::instance()->getMovieCover(QUrl::fromLocalFile(path));
 
                 //获取视频信息 demo
@@ -376,10 +372,8 @@ void ReadThumbnailManager::readThumbnail()
                 }
             }
             utils::base::mkMutiDir(thumbnailPath.mid(0, thumbnailPath.lastIndexOf('/')));
-            tImg.save(thumbnailPath, "PNG");
         }
         if (!tImg.isNull()) {
-
             int width = tImg.width();
             int height = tImg.height();
             if (abs((width - height) * 10 / width) >= 1) {
@@ -396,128 +390,12 @@ void ReadThumbnailManager::readThumbnail()
                     tImg = tImg.copy(x, y, width, width);
                 }
             }
+            if (!thumbnailFile.exists()) {
+                tImg.save(thumbnailPath, "PNG"); //保存裁好的缩略图，下次读的时候直接刷进去
+            }
         }
         ImageDataService::instance()->addImage(path, tImg);
     }
-}
 
-//缩略图读取线程
-readThumbnailThread::readThumbnailThread(QObject *parent): QThread(parent)
-{
-}
-
-readThumbnailThread::~readThumbnailThread()
-{
-}
-
-void readThumbnailThread::readThumbnail(QString path)
-{
-    if (!QFileInfo(path).exists()) {
-        return;
-    }
-    using namespace UnionImage_NameSpace;
-    QImage tImg;
-    QString srcPath = path;
-    QString thumbnailPath = utils::base::filePathToThumbnailPath(path);
-
-    QFileInfo thumbnailFile(thumbnailPath);
-    QString errMsg;
-    if (thumbnailFile.exists()) {
-        if (!loadStaticImageFromFile(thumbnailPath, tImg, errMsg, "PNG")) {
-            qDebug() << errMsg;
-        }
-
-        if (ImageEngineApi::instance()->isItemLoadedFromDB(path)) {
-            if (ImageEngineApi::instance()->isVideo(path)) {
-                //获取视频信息 demo
-                MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
-                ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
-            }
-        } else if (utils::base::isVideo(path)) {
-            //获取视频信息 demo
-            MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
-            ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
-        }
-    } else {
-        //读图
-        if (ImageEngineApi::instance()->isItemLoadedFromDB(path) && ImageEngineApi::instance()->isVideo(path)) {
-            tImg = MovieService::instance()->getMovieCover(QUrl::fromLocalFile(path));
-            //获取视频信息 demo
-            MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
-            ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
-        } else if (utils::base::isVideo(path)) {
-            tImg = MovieService::instance()->getMovieCover(QUrl::fromLocalFile(path));
-
-            //获取视频信息 demo
-            MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
-            ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
-        } else {
-            if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
-                qDebug() << errMsg;
-                ImageDataService::instance()->addImage(path, tImg);
-                return;
-            }
-        }
-        //裁切
-        if (!tImg.isNull() && 0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
-            bool cache_exist = false;
-            if (tImg.height() != 200 && tImg.width() != 200) {
-                if (tImg.height() >= tImg.width()) {
-                    cache_exist = true;
-                    tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
-                } else if (tImg.height() <= tImg.width()) {
-                    cache_exist = true;
-                    tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
-                }
-            }
-            if (!cache_exist) {
-                if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
-                    tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
-                } else {
-                    tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
-                }
-            }
-        }
-        utils::base::mkMutiDir(thumbnailPath.mid(0, thumbnailPath.lastIndexOf('/')));
-        tImg.save(thumbnailPath, "PNG");
-    }
-    if (!tImg.isNull()) {
-
-        int width = tImg.width();
-        int height = tImg.height();
-        if (abs((width - height) * 10 / width) >= 1) {
-            QRect rect = tImg.rect();
-            int x = rect.x() + width / 2;
-            int y = rect.y() + height / 2;
-            if (width > height) {
-                x = x - height / 2;
-                y = 0;
-                tImg = tImg.copy(x, y, height, height);
-            } else {
-                y = y - width / 2;
-                x = 0;
-                tImg = tImg.copy(x, y, width, width);
-            }
-        }
-    }
-    ImageDataService::instance()->addImage(path, tImg);
-}
-
-void readThumbnailThread::setQuit(bool quit)
-{
-    m_quit = quit;
-}
-
-void readThumbnailThread::run()
-{
-    while (!ImageDataService::instance()->isRequestQueueEmpty()) {
-        if (m_quit) {
-            break;
-        }
-        QString res = ImageDataService::instance()->pop();
-        if (!res.isEmpty()) {
-            //readThumbnail(res);
-        }
-    }
     emit ImageDataService::instance()->sigeUpdateListview();
 }

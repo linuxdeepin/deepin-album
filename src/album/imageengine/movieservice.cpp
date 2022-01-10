@@ -24,6 +24,7 @@
 #include <QStandardPaths>
 #include <QLibrary>
 #include <QLibraryInfo>
+#include <memory>
 
 #include "controller/signalmanager.h"
 #include "application.h"
@@ -38,6 +39,7 @@ extern "C" {
 #define SEEK_TIME "00:00:01"
 
 MovieService *MovieService::m_movieService = nullptr;
+std::once_flag MovieService::instanceFlag;
 
 typedef int (*mvideo_avformat_open_input)(AVFormatContext **ps, const char *url, AVInputFormat *fmt, AVDictionary **options);
 typedef int (*mvideo_avformat_find_stream_info)(AVFormatContext *ic, AVDictionary **options);
@@ -45,18 +47,19 @@ typedef int (*mvideo_av_find_best_stream)(AVFormatContext *ic, enum AVMediaType 
 typedef AVDictionaryEntry *(*mvideo_av_dict_get)(const AVDictionary *m, const char *key, const AVDictionaryEntry *prev, int flags);
 typedef void (*mvideo_avformat_close_input)(AVFormatContext **s);
 
-mvideo_avformat_open_input g_mvideo_avformat_open_input = nullptr;
-mvideo_avformat_find_stream_info g_mvideo_avformat_find_stream_info = nullptr;
-mvideo_av_find_best_stream g_mvideo_av_find_best_stream = nullptr;
-mvideo_av_dict_get g_mvideo_av_dict_get = nullptr;
-mvideo_avformat_close_input g_mvideo_avformat_close_input = nullptr;
+static mvideo_avformat_open_input g_mvideo_avformat_open_input = nullptr;
+static mvideo_avformat_find_stream_info g_mvideo_avformat_find_stream_info = nullptr;
+static mvideo_av_find_best_stream g_mvideo_av_find_best_stream = nullptr;
+static mvideo_av_dict_get g_mvideo_av_dict_get = nullptr;
+static mvideo_avformat_close_input g_mvideo_avformat_close_input = nullptr;
 
 MovieService *MovieService::instance(QObject *parent)
 {
-    Q_UNUSED(parent);
-    if (!m_movieService) {
-        m_movieService = new MovieService();
-    }
+    Q_UNUSED(parent)
+    //线程安全单例
+    std::call_once(instanceFlag, [&]() {
+        m_movieService = new MovieService;
+    });
     return m_movieService;
 }
 
@@ -69,24 +72,10 @@ MovieInfo MovieService::getMovieInfo(const QUrl &url)
 
         if (fi.exists()) {
             auto filePath = fi.filePath();
-
-            auto iter = std::find_if(movieInfoBuffer.begin(), movieInfoBuffer.end(), [filePath](const MovieInfo & info) {
-                return info.filePath == filePath;
-            });
-
-            if (iter != movieInfoBuffer.end()) {
-                result = *iter;
-            } else {
-                if (!m_initFFmpeg) {
-                    initFFmpeg();
-                }
-                result = parseFromFile(fi);
-                movieInfoBuffer.append(result);
-            }
+            result = parseFromFile(fi);
         }
     }
 
-    movieInfoFlushTimer->start(15000);
     return result;
 }
 
@@ -227,12 +216,8 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
 
 MovieService::MovieService(QObject *parent)
     : QObject(parent)
-    , movieInfoFlushTimer(new QTimer)
 {
-    connect(movieInfoFlushTimer, &QTimer::timeout, [this]() {
-        QList<MovieInfo>().swap(movieInfoBuffer); //使用swap确保内存清空
-        movieInfoFlushTimer->stop();
-    });
+    initFFmpeg();
 }
 
 void MovieService::initThumb()
@@ -269,8 +254,6 @@ void MovieService::initFFmpeg()
     g_mvideo_av_find_best_stream = (mvideo_av_find_best_stream) avformatLibrary.resolve("av_find_best_stream");
     g_mvideo_avformat_close_input = (mvideo_avformat_close_input) avformatLibrary.resolve("avformat_close_input");
     g_mvideo_av_dict_get = (mvideo_av_dict_get) avutilLibrary.resolve("av_dict_get");
-
-    m_initFFmpeg = true;
 }
 
 QString MovieService::libPath(const QString &strlib)

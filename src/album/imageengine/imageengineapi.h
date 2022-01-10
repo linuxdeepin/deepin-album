@@ -55,8 +55,6 @@ public:
     void cleanUpTrash(const DBImgInfoList &list);
     //过滤不存在图片后重新加载
     bool reloadAfterFilterUnExistImage();
-    //判断是否视频
-    bool isVideo(QString path);
     //全部数据数量
     int  getAllImageDataCount();
     //添加数据
@@ -75,8 +73,6 @@ public:
     //从自动导入路径删除图片，和移动到trash不同，此处是直接从数据库删除
     //参数：需要删除的图片路径，相册UID
     bool removeImageFromAutoImport(QStringList files, int UID);
-
-    QStringList get_AllImagePath();
 
     void close()
     {
@@ -100,8 +96,6 @@ private slots:
     void slt80ImgInfosReady(QVector<DBImgInfo> ImageDatas);
 signals:
     //发送给主线程
-    //加载到数据库完成
-    void sigLoadCompleted();
     //发送给缩略图控件
     void sigLoadFirstPageThumbnailsToView();
     //加载一张图片请求完成
@@ -136,7 +130,7 @@ private:
     QMap<QString, DBImgInfo>m_AllImageData;
 
     static ImageEngineApi *s_ImageEngine;
-    bool bcloseFg = false;
+    std::atomic_bool bcloseFg;
     QThreadPool *m_pool = nullptr;
 
     DBandImgOperate *m_worker = nullptr;

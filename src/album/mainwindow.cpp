@@ -1679,12 +1679,12 @@ void MainWindow::showEvent(QShowEvent *event)
     if (!stdPicPaths.isEmpty()) {
         auto stdPicPath = stdPicPaths[0];
 
-        monitorPaths.push_back(stdPicPath + "/" + "Camera");
         monitorPaths.push_back(stdPicPath + "/" + "Screen Capture");
+        monitorPaths.push_back(stdPicPath + "/" + "Camera");
         monitorPaths.push_back(stdPicPath + "/" + "Draw");
 
-        monitorAlbumNames.push_back(tr("Camera"));
         monitorAlbumNames.push_back(tr("Screen Capture"));
+        monitorAlbumNames.push_back(tr("Camera"));
         monitorAlbumNames.push_back(tr("Draw"));
 
         monitorAlbumUIDs.push_back(DBManager::SpUID::u_Camera);
@@ -1696,11 +1696,11 @@ void MainWindow::showEvent(QShowEvent *event)
     if (!stdMoviePaths.isEmpty()) {
         auto stdMoviePath = stdMoviePaths[0];
 
-        monitorPaths.push_back(stdMoviePath + "/" + "Camera");
         monitorPaths.push_back(stdMoviePath + "/" + "Screen Capture");
+        monitorPaths.push_back(stdMoviePath + "/" + "Camera");
 
-        monitorAlbumNames.push_back(tr("Camera"));
         monitorAlbumNames.push_back(tr("Screen Capture"));
+        monitorAlbumNames.push_back(tr("Camera"));
 
         monitorAlbumUIDs.push_back(DBManager::SpUID::u_Camera);
         monitorAlbumUIDs.push_back(DBManager::SpUID::u_ScreenCapture);

@@ -221,7 +221,6 @@ void AllPicView::updatePicsIntoThumbnailView()
     } else {
         updateStackedWidget();
     }
-    m_pThumbnailListView->reloadImage();
     restorePicNum();
 }
 

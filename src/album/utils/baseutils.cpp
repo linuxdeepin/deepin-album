@@ -314,6 +314,7 @@ QString mkMutiDir(const QString &path)   //创建多级目录
         parentPath.mkpath(dirname);
     return parentDir + "/" + dirname;
 }
+
 //根据源文件路径生产缩略图路径
 QString filePathToThumbnailPath(const QString &filePath, QString dataHash)
 {
