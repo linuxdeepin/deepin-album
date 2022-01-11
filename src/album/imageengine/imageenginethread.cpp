@@ -394,8 +394,11 @@ void ImageRecoveryImagesFromTrashThread::runDetail()
 //        }
 //    }
 
-    DBManager::instance()->removeTrashImgInfos(m_paths);
+    //恢复图片至原来的位置
+    auto failedFiles = DBManager::instance()->recoveryImgFromTrash(m_paths);
     emit dApp->signalM->closeWaitDialog();
+
+    //TODO：把恢复失败的文件发出去
 }
 
 ImageMoveImagesToTrashThread::ImageMoveImagesToTrashThread()
@@ -413,6 +416,7 @@ void ImageMoveImagesToTrashThread::runDetail()
 {
     QStringList paths = m_paths;
     if (btypetrash) {
+        //从最近删除里面删除图片
         DBManager::instance()->removeTrashImgInfos(paths);
     } else {
         DBImgInfoList infos;

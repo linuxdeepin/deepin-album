@@ -516,6 +516,110 @@ bool isVaultFile(const QString &path)
     return bVaultFile;
 }
 
+//生成回收站文件名的函数，从文管里面抄的
+static QString getNotExistsTrashFileName(const QString &fileName)
+{
+    QByteArray name = fileName.toUtf8();
+
+    int index = name.lastIndexOf('/');
+
+    if (index >= 0)
+        name = name.mid(index + 1);
+
+    index = name.lastIndexOf('.');
+    QByteArray suffix;
+
+    if (index >= 0)
+        suffix = name.mid(index);
+
+    if (suffix.size() > 200)
+        suffix = suffix.left(200);
+
+    name.chop(suffix.size());
+    name = name.left(200 - suffix.size());
+
+    QString trashpath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/.local/share/Trash";
+
+    while (true) {
+        QFileInfo info(trashpath + name + suffix);
+        // QFile::exists ==> If the file is a symlink that points to a non-existing file, false is returned.
+        if (!info.isSymLink() && !info.exists()) {
+            break;
+        }
+
+        name = QCryptographicHash::hash(name, QCryptographicHash::Md5).toHex();
+    }
+
+    return QString::fromUtf8(name + suffix);
+}
+
+bool trashFile(const QString &file)
+{
+    QString trashPath;
+    QString trashInfoPath;
+    QString trashFilesPath;
+
+    QString home = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+    // There maby others location for trash like $HOME/.trash or
+    // $XDG_DATA_HOME/Trash, but our stupid FileManager coder said we should
+    // assume that the trash lcation is $HOME/.local/share/Trash,so...
+    trashPath = home + "/.local/share/Trash";
+    trashInfoPath = trashPath + "/info";
+    trashFilesPath = trashPath + "/files";
+    if (! QDir(trashFilesPath).exists()) {
+        QDir().mkpath(trashFilesPath);
+    }
+    if (! QDir(trashInfoPath).exists()) {
+        QDir().mkpath(trashInfoPath);
+    }
+
+    QFileInfo originalInfo(file);
+    if (! originalInfo.exists()) {
+        qWarning() << "File doesn't exists, can't move to trash";
+        return false;
+    }
+    // Info for restore
+    QString infoStr;
+    infoStr += "[Trash Info]\nPath=";
+    infoStr += QString(originalInfo.absoluteFilePath().toUtf8().toPercentEncoding("/"));
+    infoStr += "\nDeletionDate=";
+    infoStr += QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss.zzzZ");
+    infoStr += "\n";
+
+    QString trashname = getNotExistsTrashFileName(originalInfo.fileName());
+    QString infopath = trashInfoPath + "/" + trashname + ".trashinfo";
+    QString filepath = trashFilesPath + "/" + trashname;
+    int nr = 1;
+    while (QFileInfo(infopath).exists() || QFileInfo(filepath).exists()) {
+        nr++;
+        trashname = originalInfo.baseName() + "." + QString::number(nr);
+        if (!originalInfo.completeSuffix().isEmpty()) {
+            trashname += QString(".") + originalInfo.completeSuffix();
+        }
+        infopath = trashInfoPath + "/" + trashname + ".trashinfo";
+        filepath = trashFilesPath + "/" + trashname;
+    }
+    QFile infoFile(infopath);
+    if (infoFile.open(QIODevice::WriteOnly)) {
+        infoFile.write(infoStr.toUtf8());
+        infoFile.close();
+
+        if (!QDir().rename(originalInfo.absoluteFilePath(), filepath)) {
+            qWarning() << "move to trash failed!";
+            return false;
+        }
+    } else {
+        qDebug() << "Move to trash failed! Could not write *.trashinfo!";
+        return false;
+    }
+    return true;
+}
+
+QString getDeleteFullPath(const QString &hash, const QString &fileName)
+{
+    return albumGlobal::DELETE_PATH + "/" + hash + fileName;
+}
+
 }  // namespace base
 
 }  // namespace utils

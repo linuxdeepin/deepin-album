@@ -37,8 +37,13 @@
 
 namespace albumGlobal {
 
+//图片缓存文件夹
 const QString CACHE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
-                           + QDir::separator() + "deepin" + QDir::separator() + "deepin-album"/* + QDir::separator()*/;
+                           + QDir::separator() + "deepin" + QDir::separator() + "deepin-album";
+
+//图片删除文件夹
+const QString DELETE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
+                            + QDir::separator() + "deepin" + QDir::separator() + "deepin-album-delete";
 }
 
 //数据库存储的文件类型
@@ -121,7 +126,7 @@ struct DBImgInfo {
 
     //根据filepath获取filename
     //由于目标只是filePath.split('/').last()，所以直接从后向前搜索'/'以节省时间
-    QString getFileNameFromFilePath() const
+    static QString getFileNameFromFilePath(const QString &filePath)
     {
         auto rIter = std::find(filePath.crbegin(), filePath.crend(), '/');
         if (rIter != filePath.crend()) {
@@ -132,6 +137,11 @@ struct DBImgInfo {
         } else {
             return QString();
         }
+    }
+
+    QString getFileNameFromFilePath() const
+    {
+        return getFileNameFromFilePath(filePath);
     }
 };
 typedef QList<DBImgInfo> DBImgInfoList;

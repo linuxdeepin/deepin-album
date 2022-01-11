@@ -1148,7 +1148,6 @@ void DBManager::checkDatabase()
     QDir dd(DATABASE_PATH);
     if (! dd.exists()) {
         dd.mkpath(DATABASE_PATH);
-    } else {
     }
     QMutexLocker mutex(&m_mutex);
     QSqlDatabase db = getDatabase();
@@ -1167,7 +1166,6 @@ void DBManager::checkDatabase()
                                       "PathHash TEXT primary key, "
                                       "FilePath TEXT, "
                                       "FileName TEXT, "
-
                                       "Dir TEXT, "
                                       "Time TEXT, "
                                       "ChangeTime TEXT, "
@@ -1413,6 +1411,18 @@ void DBManager::checkDatabase()
         }
     }
 
+    //新版删除需求的数据表策略
+    //1.沿用老版的TrashTable3表，不做任何改变
+    //2.PathHash作为存放在deepin-album-delete下的文件名，但是为了方便用户维修电脑，把原始文件名带在后面
+    //3.数据库里面存的是标准的PathHash，不带文件名
+    //4.如果PathHash所代表的文件没有在deepin-album-delete下找到，则表示是老版本的删除策略，恢复的时候以此为依据
+
+    //创建删除缓存路径
+    QDir deleteCacheDir(albumGlobal::DELETE_PATH);
+    if (!deleteCacheDir.exists()) {
+        deleteCacheDir.mkpath(albumGlobal::DELETE_PATH);
+    }
+
     //每次启动后释放一次文件空间，防止占用过多无效空间
     QSqlQuery queryVacuum(db);
     if (!queryVacuum.exec("VACUUM")) {
@@ -1524,7 +1534,23 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
         return;
     }
 
-    // Insert into TrashTable
+    //图片删除步骤
+
+    //1.生成路径hash，复制图片到deepin-album-delete，删除原图至回收站
+    QStringList pathHashs;
+    for (const auto &info : infos) {
+        //计算路径hash
+        auto hash = utils::base::hashByString(info.filePath);
+        pathHashs.push_back(hash);
+
+        //复制操作
+        QFile::copy(info.filePath, utils::base::getDeleteFullPath(hash, info.getFileNameFromFilePath()));
+
+        //删除原图至回收站
+        utils::base::trashFile(info.filePath);
+    }
+
+    //2.向数据库插入数据
     QSqlQuery query(db);
     query.setForwardOnly(true);
     if (!query.exec("BEGIN IMMEDIATE TRANSACTION")) {
@@ -1535,14 +1561,14 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
                "(PathHash, FilePath, FileName, Time, ChangeTime, ImportTime, FileType) VALUES (?, ?, ?, ?, ?, ?, ?)");
     if (!query.prepare(qs)) {
     }
-    for (const auto &info : infos) {
-        query.addBindValue(utils::base::hashByString(info.filePath));
-        query.addBindValue(info.filePath);
-        query.addBindValue(info.getFileNameFromFilePath());
-        query.addBindValue(info.time.toString("yyyy.MM.dd"));
-        query.addBindValue(info.changeTime.toString(DATETIME_FORMAT_DATABASE));
-        query.addBindValue(info.importTime.toString(DATETIME_FORMAT_DATABASE));
-        query.addBindValue(info.itemType);
+    for (int i = 0; i != infos.size(); ++i) {
+        query.addBindValue(pathHashs[i]); //复用上面生成的hash
+        query.addBindValue(infos[i].filePath);
+        query.addBindValue(infos[i].getFileNameFromFilePath());
+        query.addBindValue(infos[i].time.toString("yyyy.MM.dd"));
+        query.addBindValue(infos[i].changeTime.toString(DATETIME_FORMAT_DATABASE));
+        query.addBindValue(infos[i].importTime.toString(DATETIME_FORMAT_DATABASE));
+        query.addBindValue(infos[i].itemType);
         if (!query.exec()) {
         }
     }
@@ -1552,6 +1578,8 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
     }
     db.close();
     mutex.unlock();
+
+    //3.通知UI模块有图片删除
     emit dApp->signalM->imagesTrashInserted();
 }
 
@@ -1561,6 +1589,12 @@ void DBManager::removeTrashImgInfos(const QStringList &paths)
     QSqlDatabase db = getDatabase();
     if (paths.isEmpty() || ! db.isValid()) {
         return;
+    }
+
+    //计算路径hash
+    QStringList pathHashs;
+    for (QString path : paths) {
+        pathHashs << utils::base::hashByString(path);
     }
 
     QSqlQuery query(db);
@@ -1585,7 +1619,144 @@ void DBManager::removeTrashImgInfos(const QStringList &paths)
     }
     db.close();
     mutex.unlock();
-    emit dApp->signalM->imagesTrashRemoved(/*infos*/);
+
+    //删除deepin-album-delete下的缓存文件
+    for (int i = 0; i != paths.size(); ++i) {
+        auto deletePath = utils::base::getDeleteFullPath(pathHashs[i], DBImgInfo::getFileNameFromFilePath(paths[i]));
+        QFile::remove(deletePath);
+    }
+
+    emit dApp->signalM->imagesTrashRemoved();
+}
+
+QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
+{
+    //1.计算路径hash
+    QStringList pathHashs;
+    for (QString path : paths) {
+        pathHashs << utils::base::hashByString(path);
+    }
+
+    //2.尝试恢复文件
+
+    //获取内部恢复路径
+    auto stdPicPaths = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
+    QString internalRecoveryPath;
+    QDir internalRecoveryDir;
+    if (!stdPicPaths.isEmpty()) {
+        internalRecoveryPath = stdPicPaths[0] + "/" + "Albums";
+        internalRecoveryDir.setPath(internalRecoveryPath);
+    }
+
+    QStringList successedHashs; //恢复成功的hash
+    QStringList failedFiles;    //恢复失败的文件名
+    std::vector<std::tuple<QString, QString, QString>> changedPaths;//恢复成功但路径变了，0：原始路径hash，1：当前路径，2：当前路径的hash
+
+    //执行恢复步骤
+    for (int i = 0; i != paths.size(); ++i) {
+        auto deletePath = utils::base::getDeleteFullPath(pathHashs[i], DBImgInfo::getFileNameFromFilePath(paths[i])); //获取删除缓存路径
+        if (!QFile::exists(deletePath)) { //文件不存在，表示要么是老版相册，要么是缓存文件已被破坏
+            continue;
+        }
+        QString recoveryName = paths[i];
+        if (QFile::exists(recoveryName)) { //文件已存在，加副本标记
+            recoveryName.append(tr("(copy)"));
+            if (recoveryName.size() > 255) {
+                failedFiles.push_back(paths[i]); //文件名过长，恢复失败
+                continue;
+            }
+        }
+
+        if (QFile::rename(deletePath, recoveryName)) { //尝试正常恢复
+            successedHashs.push_back(pathHashs[i]); //正常恢复成功
+        } else { //正常恢复失败，尝试恢复至内部路径
+            if (!internalRecoveryDir.exists()) { //检查文件夹是否存在，不存在则创建
+                internalRecoveryDir.mkpath(internalRecoveryPath);
+            }
+            recoveryName = internalRecoveryPath + "/" + DBImgInfo::getFileNameFromFilePath(paths[i]);
+            if (QFile::exists(recoveryName)) { //文件已存在，加副本标记
+                recoveryName.append(tr("(copy)"));
+                if (recoveryName.size() > 255) {
+                    failedFiles.push_back(paths[i]); //文件名过长，恢复失败
+                    continue;
+                }
+            }
+            //尝试恢复至内部路径
+            if (QFile::rename(deletePath, recoveryName)) {
+                successedHashs.push_back(pathHashs[i]); //恢复至内部路径
+            } else { //TODO：极端特殊情况：使用内部恢复路径恢复失败
+                continue;
+            }
+        }
+
+        //文件名改变，需要刷新另外两个表的文件名和hash数据
+        if (recoveryName != paths[i]) {
+            changedPaths.push_back(std::make_tuple(pathHashs[i], recoveryName, utils::base::hashByData(recoveryName)));
+        }
+    }
+
+    //3.数据库操作
+    QMutexLocker mutex(&m_mutex);
+    QSqlDatabase db = getDatabase();
+    if (paths.isEmpty() || !db.isValid()) {
+        return failedFiles; //不管怎么样都要把失败的文件返回出去
+    }
+    QSqlQuery query(db);
+    query.setForwardOnly(true);
+
+    //3.1把恢复成功的文件数据清理掉
+    if (!query.exec("BEGIN IMMEDIATE TRANSACTION")) {
+    }
+    QString qs("DELETE FROM TrashTable3 WHERE PathHash=:hash");
+    if (!query.prepare(qs)) {
+    }
+    for (const auto &hash : successedHashs) {
+        query.bindValue(":hash", hash);
+        if (!query.exec()) {
+        }
+    }
+    if (!query.exec("COMMIT")) {
+    }
+
+    //3.2刷新另外两个表的文件名和hash数据 0：原始路径hash，1：当前路径，2：当前路径的hash
+
+    //3.2.1刷新AlbumTable3
+    if (!query.exec("BEGIN IMMEDIATE TRANSACTION")) {
+    }
+    qs = "UPDATE AlbumTable3 SET PathHash=:newHash WHERE PathHash=:oldHash";
+    if (!query.prepare(qs)) {
+    }
+    for (const auto &eachData : changedPaths) {
+        query.bindValue(":newHash", std::get<2>(eachData));
+        query.bindValue(":oldHash", std::get<0>(eachData));
+        if (!query.exec()) {
+        }
+    }
+    if (!query.exec("COMMIT")) {
+    }
+
+    //3.2.2刷新ImageTable3
+    if (!query.exec("BEGIN IMMEDIATE TRANSACTION")) {
+    }
+    qs = "UPDATE ImageTable3 SET PathHash=:newHash, FilePath=:newPath WHERE PathHash=:oldHash";
+    if (!query.prepare(qs)) {
+    }
+    for (const auto &eachData : changedPaths) {
+        query.bindValue(":newHash", std::get<2>(eachData));
+        query.bindValue(":newPath", std::get<1>(eachData));
+        query.bindValue(":oldHash", std::get<0>(eachData));
+        if (!query.exec()) {
+        }
+    }
+    if (!query.exec("COMMIT")) {
+    }
+
+    db.close();
+    mutex.unlock();
+
+    //4.发送信号通知外层控件，并返回失败的文件
+    emit dApp->signalM->imagesTrashRemoved();
+    return failedFiles;
 }
 
 void DBManager::removeTrashImgInfosNoSignal(const QStringList &paths)
@@ -1596,16 +1767,15 @@ void DBManager::removeTrashImgInfosNoSignal(const QStringList &paths)
         return;
     }
 
-    // Collect info before removing data
-//    DBImgInfoList infos;
+    //计算路径hash
     QStringList pathHashs;
     for (QString path : paths) {
         pathHashs << utils::base::hashByString(path);
-//        infos << getInfoByPath(path);
     }
 
     QSqlQuery query(db);
-    // Remove from albums table
+
+    //从AlbumTable3删除
     query.setForwardOnly(true);
     if (!query.exec("BEGIN IMMEDIATE TRANSACTION")) {
 //        qDebug() << "begin transaction failed.";
@@ -1622,7 +1792,7 @@ void DBManager::removeTrashImgInfosNoSignal(const QStringList &paths)
 //        qDebug() << "COMMIT failed.";
     }
 
-    // Remove from image table
+    //从TrashTable3删除
     if (!query.exec("BEGIN IMMEDIATE TRANSACTION")) {
 //        qDebug() << "begin transaction failed.";
     }
@@ -1638,6 +1808,12 @@ void DBManager::removeTrashImgInfosNoSignal(const QStringList &paths)
 //        qDebug() << "COMMIT failed.";
     }
     db.close();
+
+    //删除deepin-album-delete下的缓存文件
+    for (int i = 0; i != paths.size(); ++i) {
+        auto deletePath = utils::base::getDeleteFullPath(pathHashs[i], DBImgInfo::getFileNameFromFilePath(paths[i]));
+        QFile::remove(deletePath);
+    }
 }
 
 const DBImgInfo DBManager::getTrashInfoByPath(const QString &path) const

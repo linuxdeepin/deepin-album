@@ -268,6 +268,10 @@ bool        isVideo(QString path);
 QString reorganizationStr(const QFont &font, const QString &fullStr, int maxWidth);
 //判断是否保险箱路径
 bool isVaultFile(const QString &path);
+//移动至回收站，抄的看图的代码，看图抄的文管的代码
+bool trashFile(const QString &file);
+//生成deepin-album-delete下的文件路径，hash：原始路径hash，fileName：文件名
+QString getDeleteFullPath(const QString &hash, const QString &fileName);
 }  // namespace base
 
 }  // namespace utils

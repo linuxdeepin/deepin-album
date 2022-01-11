@@ -125,14 +125,14 @@ TEST(DBManager, AutoImport)
 {
     TEST_CASE_NAME("checkCustomAutoImportPathIsNotified")
 
-    auto testPath = testPath_Pictures + "/Wallpapers";
+    auto testPath = testPath_Pictures + "/album_ut_mount_point";
 
     //预先检查是否有
     auto b = DBManager::instance()->checkCustomAutoImportPathIsNotified(testPath);
     ASSERT_EQ(b, false);
 
     //添加进去后再检查是否有
-    int uid = DBManager::instance()->createNewCustomAutoImportPath(testPath, "Wallpapers");
+    int uid = DBManager::instance()->createNewCustomAutoImportPath(testPath, "album_ut_mount_point");
     QTest::qWait(2000);
     auto c = DBManager::instance()->checkCustomAutoImportPathIsNotified(testPath);
     ASSERT_EQ(c, true);
