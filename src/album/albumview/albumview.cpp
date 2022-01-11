@@ -377,8 +377,8 @@ void AlbumView::onCreateNewAlbumFromDialog(const QString &newalbumname, int UID)
     }
 
     //这一段是在检查是否已经存在相同的UID
-    //感觉这坨代码在目前的UID体制下是多余的，先屏蔽掉节省点性能
-    /*bool isExsit = false;
+    //现有逻辑会触发进来两次，需要进行检查
+    bool isExsit = false;
     for (int i = 0; i < m_pLeftListView->m_pCustomizeListView->count(); i++) {
         QListWidgetItem *item = m_pLeftListView->m_pCustomizeListView->item(i);
         AlbumLeftTabItem *pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pCustomizeListView->itemWidget(item));
@@ -389,18 +389,18 @@ void AlbumView::onCreateNewAlbumFromDialog(const QString &newalbumname, int UID)
                 break;
             }
         }
-    }*/
+    }
 
     //如果UID不存在，则执行新建操作
-    //if (!isExsit) {
-    //创建item的时候第一个项不能指定widget，需要是nullptr才能使下面的insertItem生效
-    QListWidgetItem *pListWidgetItem = new QListWidgetItem(nullptr, ablumType);//hj add data to listwidgetitem to Distinguish item's type
-    m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
-    pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
-    AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(newalbumname, UID, COMMON_STR_CREATEALBUM);
-    m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
-    m_pLeftListView->m_pCustomizeListView->setCurrentRow(index);
-    //}
+    if (!isExsit) {
+        //创建item的时候第一个项不能指定widget，需要是nullptr才能使下面的insertItem生效
+        QListWidgetItem *pListWidgetItem = new QListWidgetItem(nullptr, ablumType);//hj add data to listwidgetitem to Distinguish item's type
+        m_pLeftListView->m_pCustomizeListView->insertItem(index, pListWidgetItem);
+        pListWidgetItem->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH, LEFT_VIEW_LISTITEM_HEIGHT));
+        AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(newalbumname, UID, COMMON_STR_CREATEALBUM);
+        m_pLeftListView->m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
+        m_pLeftListView->m_pCustomizeListView->setCurrentRow(index);
+    }
 
     m_pLeftListView->onUpdateLeftListview();
     //清除其他已选中的项

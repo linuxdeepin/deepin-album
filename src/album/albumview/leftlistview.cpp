@@ -429,9 +429,15 @@ void LeftListView::onMenuClicked(QAction *action)
         deletDialg = new AlbumDeleteDialog;
         connect(deletDialg, &AlbumDeleteDialog::deleteAlbum, this, [ = ]() {
             QString str = pTabItem->m_albumNameStr;
-            QStringList paths = DBManager::instance()->getPathsByAlbum(pTabItem->m_UID);
-            ImageEngineApi::instance()->moveImagesToTrash(paths);
-            DBManager::instance()->removeAlbum(pTabItem->m_UID);
+            auto dbType = DBManager::instance()->getAlbumDBTypeFromUID(pTabItem->m_UID);
+
+            if (dbType == AutoImport) { //自动导入删除步骤
+                DBManager::instance()->removeCustomAutoImportPath(pTabItem->m_UID);
+            } else { //常规相册删除步骤
+                QStringList paths = DBManager::instance()->getPathsByAlbum(pTabItem->m_UID);
+                ImageEngineApi::instance()->moveImagesToTrash(paths);
+                DBManager::instance()->removeAlbum(pTabItem->m_UID);
+            }
 
             if (1 < m_pCustomizeListView->count()) {
                 delete item;

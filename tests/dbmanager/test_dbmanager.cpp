@@ -141,6 +141,5 @@ TEST(DBManager, AutoImport)
     DBManager::instance()->removeCustomAutoImportPath(uid);
     QTest::qWait(2000);
     auto d = DBManager::instance()->checkCustomAutoImportPathIsNotified(testPath);
-    Q_UNUSED(d)
-    //ASSERT_EQ(d, false); 删除函数没实现里面的内容，暂时不检查
+    ASSERT_EQ(d, false);
 }
