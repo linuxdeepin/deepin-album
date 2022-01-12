@@ -121,8 +121,7 @@ private:
     //悬浮时间栏控件
     QWidget *m_SuspensionWidget = nullptr;
     BatchOperateWidget *m_batchOperateWidget = nullptr;
-    DCommandLinkButton *m_suspensionChose = nullptr;
-//    ImageViewer *m_ImageViewer = nullptr;
+
 public:
     ThumbnailListView *getThumbnailListView();
     /**

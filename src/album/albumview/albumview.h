@@ -199,6 +199,8 @@ private slots:
     void onTrashInfosChanged();
     //删除描述语自适应变化
     void adaptiveTrashDescritionLabel();
+    //批量操作时判断标题栏是否有遮挡情况
+    void onBatchSelectChanged(bool isBatchSelect);
 public:
     int m_iAlubmPicsNum;
     QString m_currentAlbum;

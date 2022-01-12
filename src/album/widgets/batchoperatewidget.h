@@ -90,6 +90,8 @@ protected:
 signals:
     //进入批量状态
     void signalBatchSelectChanged(bool isBatchSelect);
+    //取消全选时通知标题栏刷新
+    void sigCancelAll(bool cancel);
 public slots:
     //批量操作状态改变
     void sltBatchSelectChanged();
