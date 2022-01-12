@@ -44,7 +44,7 @@ struct MetaData {
     const char *name;
 };
 
-VideoInfoDialog::VideoInfoDialog(const QString &path, QWidget *parent): DDialog(parent)
+VideoInfoDialog::VideoInfoDialog(const QString &path, const QString &displayName, bool isTrash, QWidget *parent): DDialog(parent)
 {
     QFont font;
     m_currentFontSize = DFontSizeManager::instance()->fontPixelSize(font);
@@ -54,6 +54,8 @@ VideoInfoDialog::VideoInfoDialog(const QString &path, QWidget *parent): DDialog(
     else
         m_title_maxwidth = 108;
     this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    m_displayName = displayName;
+    m_isTrash = isTrash;
     initUI();
     setVideoInfo(path);
 }
@@ -219,7 +221,7 @@ void VideoInfoDialog::updateBasicInfo()
 //    clearLayout(m_basicInfoFrameLayout);
     QMap<QString, QString> basicInfoMap;
     QList<QString> basicInfoKeys;
-    basicInfoMap[tr("Name")] = m_movieInfo.title;
+    basicInfoMap[tr("Name")] = m_displayName;
     basicInfoKeys.append(tr("Name"));
 
     QDateTime dateTime = QDateTime::fromString(m_movieInfo.creation);
@@ -244,8 +246,11 @@ void VideoInfoDialog::updateBasicInfo()
     basicInfoMap[tr("Duration")] = m_movieInfo.durationStr();
     basicInfoKeys.append(tr("Duration"));
 
-    basicInfoMap[tr("Path")] = m_movieInfo.filePath;
-    basicInfoKeys.append(tr("Path"));
+    //TODO：存在争议，可能需要隐藏
+    if (!m_isTrash) {
+        basicInfoMap[tr("Path")] = m_movieInfo.filePath;
+        basicInfoKeys.append(tr("Path"));
+    }
 
     for (int i = 0; i < basicInfoKeys.size(); i++) {
         QString key = basicInfoKeys.at(i);

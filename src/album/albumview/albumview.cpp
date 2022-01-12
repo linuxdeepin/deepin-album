@@ -1046,7 +1046,8 @@ void AlbumView::updateRightTrashView()
     DBImgInfoList list;
     for (int i = m_allTrashInfos.size() - 1; i >= 0; i--) {
         DBImgInfo pinfo = m_allTrashInfos.at(i);
-        if (!QFileInfo(pinfo.filePath).exists()) {
+        if (!QFile::exists(pinfo.filePath) &&
+                !QFile::exists(utils::base::getDeleteFullPath(pinfo.pathHash, pinfo.getFileNameFromFilePath()))) {
             m_allTrashInfos.removeAt(i);
         } else if (utils::base::daysDifferenceBetweenTime(pinfo.importTime, currentTime) >= 30) {
             list << pinfo;
@@ -1062,7 +1063,7 @@ void AlbumView::updateRightTrashView()
     m_pRightTrashThumbnailList->insertBlankOrTitleItem(ItemTypeBlank, "", "", trash_title_height);
     m_pRightTrashThumbnailList->insertThumbnailByImgInfos(m_allTrashInfos);
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
-    m_trashBatchOperateWidget->setVisible(m_allTrashInfos.size() > 0);
+    m_trashBatchOperateWidget->setVisible(!m_allTrashInfos.isEmpty());
     m_pStatusBar->setVisible(true);
     m_pRightTrashThumbnailList->stopLoadAndClear();
 }
@@ -1671,12 +1672,12 @@ void AlbumView::SearchReturnUpdate()
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
             //最近删除内没有图片，隐藏批量处理按钮
             DBImgInfoList infos = DBManager::instance()->getAllTrashInfos();
-            m_trashBatchOperateWidget->setVisible(infos.size() > 0);
+            m_trashBatchOperateWidget->setVisible(!infos.isEmpty());
         } else if (COMMON_STR_FAVORITES == m_currentAlbum) {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
             DBImgInfoList infos = DBManager::instance()->getInfosByAlbum(m_currentUID);
             //收藏内没有图片，隐藏批量处理按钮
-            m_FavoriteTitleWidget->setVisible(infos.size() > 0);
+            m_FavoriteTitleWidget->setVisible(!infos.isEmpty());
         } else if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum) {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
         } else {

@@ -247,10 +247,16 @@ QImage ImageDataService::getThumnailImageByPath(const QString &path)
     return getImageFromMap(path);
 }
 
-bool ImageDataService::imageIsLoaded(const QString &path)
+bool ImageDataService::imageIsLoaded(const QString &path, bool isTrashFile)
 {
     QMutexLocker locker(&m_imgDataMutex);
-    return pathInMap(path);
+
+    if (isTrashFile) {
+        QString realPath = utils::base::getDeleteFullPath(utils::base::hashByString(path), DBImgInfo::getFileNameFromFilePath(path));
+        return pathInMap(realPath) || pathInMap(path);
+    } else {
+        return pathInMap(path);
+    }
 }
 
 ImageDataService::ImageDataService(QObject *parent) : QObject (parent)
@@ -262,18 +268,36 @@ ImageDataService::ImageDataService(QObject *parent) : QObject (parent)
     connect(this, &ImageDataService::startImageLoad, readThumbnailManager, &ReadThumbnailManager::readThumbnail);
 }
 
-QImage ImageDataService::getThumnailImageByPathRealTime(const QString &path)
+QImage ImageDataService::getThumnailImageByPathRealTime(const QString &path, bool isTrashFile)
 {
-    if (!QFileInfo(path).exists()) {
-        return QImage();
+    QString realPath;
+
+    if (!isTrashFile) {
+        realPath = path;
+    } else {
+        realPath = utils::base::getDeleteFullPath(utils::base::hashByString(path), DBImgInfo::getFileNameFromFilePath(path));
     }
 
-    auto bufferImage = getImageFromMap(path);
+    if (!isTrashFile) {
+        if (!QFile::exists(path)) {
+            return QImage();
+        }
+    } else {
+        if (!QFile::exists(realPath)) {
+            if (!QFile::exists(path)) {
+                return QImage();
+            } else {
+                realPath = path;
+            }
+        }
+    }
+
+    auto bufferImage = getImageFromMap(realPath);
     if (!bufferImage.isNull()) {
         return bufferImage;
     }
 
-    readThumbnailManager->addLoadPath(path);
+    readThumbnailManager->addLoadPath(realPath);
     emit startImageLoad();
 
     return QImage();

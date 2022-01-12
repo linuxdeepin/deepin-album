@@ -38,6 +38,8 @@
 #include <QMutex>
 #include <QDebug>
 #include <QSqlDatabase>
+#include <QSqlQuery>
+#include <mutex>
 #include "albumgloabl.h"
 //#include "connectionpool.h"
 
@@ -133,7 +135,6 @@ public:
     void                    removeFromAlbum(int UID, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
     void                    renameAlbum(int UID, const QString &newAlbum, AlbumDBType atype = AlbumDBType::Custom);
     // TabelTrash
-    const QStringList       getAllTrashPaths() const;
     const DBImgInfoList     getAllTrashInfos() const;
     void                    insertTrashImgInfos(const DBImgInfoList &infos);
     void                    removeTrashImgInfos(const QStringList &paths);
@@ -142,21 +143,17 @@ public:
     const DBImgInfo         getTrashInfoByPath(const QString &path) const;
     const DBImgInfoList     getTrashImgInfos(const QString &key, const QString &value) const;
     int                     getTrashImgsCount() const;
-    const QSqlDatabase      getDatabase() const;
 private:
     const DBImgInfoList     getInfosByNameTimeline(const QString &value) const;
-    const DBImgInfoList     getImgInfos(const QString &key, const QString &value, const bool &needlock = true) const;
+    const DBImgInfoList     getImgInfos(const QString &key, const QString &value) const;
 
     void                    checkDatabase();
     static DBManager       *m_dbManager;
-    void insertSpUID(QSqlDatabase &db, const QString &albumName, AlbumDBType astype, SpUID UID);
+    static std::once_flag   instanceFlag; //线程安全的单例flag
+    void insertSpUID(const QString &albumName, AlbumDBType astype, SpUID UID);
 private:
-    //QString m_connectionName;
     mutable QMutex m_mutex;
-
-//    mutable QMutex m_mutex1;
-    mutable QSqlDatabase m_db;
-
+    mutable QSqlQuery *m_query; //将数据库查询对象统一到类成员变量，以尝试解决sqlite崩溃问题
     std::atomic_int albumMaxUID; //当前数据库中UID的最大值，用于新建UID用
 };
 

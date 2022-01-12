@@ -77,9 +77,7 @@ static MetaData MetaDataDetails[] = {
 
 }  // namespace
 
-
-
-ImgInfoDialog::ImgInfoDialog(const QString &path, QWidget *parent)
+ImgInfoDialog::ImgInfoDialog(const QString &path, const QString &displayName, QWidget *parent)
     : DDialog(parent), m_title_maxwidth(0), m_maxFieldWidth(0),
       m_isBaseInfo(false), m_isDetailsInfo(false), m_exif_base(nullptr),
       m_exif_details(nullptr), m_exifLayout_base(nullptr), m_exifLayout_details(nullptr),
@@ -93,6 +91,8 @@ ImgInfoDialog::ImgInfoDialog(const QString &path, QWidget *parent)
         m_title_maxwidth = 60;
     else
         m_title_maxwidth = 108;
+
+    m_displayName = displayName;
 
     initUI();
     setImagePath(path);
@@ -312,7 +312,12 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
             DPalette pa1 = DApplicationHelper::instance()->palette(field);
             pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
             field->setPalette(pa1);
-            field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
+
+            if (i->key == "FileName") {
+                field->setText(SpliteText(m_displayName, field->font(), m_maxFieldWidth));
+            } else {
+                field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
+            }
 
             SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
             title->setMinimumHeight(field->minimumHeight());

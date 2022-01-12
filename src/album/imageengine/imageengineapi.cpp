@@ -215,18 +215,11 @@ void ImageEngineApi::loadFirstPageThumbnails(int num, bool clearCache)
         m_AllImageDataVector.clear();
     }
     thumbnailLoadThread(num);
-
-    QSqlDatabase db = DBManager::instance()->getDatabase();
-    if (!db.isValid()) {
-        return;
-    }
     QStringList list;
     int count = 0;
-    QSqlQuery query(db);
+    QSqlQuery query;
     query.setForwardOnly(true);
-    bool b = query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc limit %1").arg(QString::number(num)));
-//    bool b = query.prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc"));
-    if (!b || !query.exec()) {
+    if (!query.exec(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc limit %1").arg(QString::number(num)))) {
         qDebug() << "------" << __FUNCTION__ <<  query.lastError();
         return;
     } else {
@@ -247,7 +240,6 @@ void ImageEngineApi::loadFirstPageThumbnails(int num, bool clearCache)
         }
     }
 
-    db.close();
     qDebug() << "------" << __FUNCTION__ << "" << m_AllImageDataVector.size();
     m_firstPageIsLoaded = true;
     ImageDataService::instance()->readThumbnailByPaths(list);

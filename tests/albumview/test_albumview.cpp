@@ -789,7 +789,7 @@ TEST(AlbumViewList, albumViewList_other5_test)
 TEST(AlbumViewList, albumViewList_other6_test)
 {
     TEST_CASE_NAME("albumViewList_other6_test")
-    ImgInfoDialog iid("");
+    ImgInfoDialog iid("1", "2");
     iid.height();
     iid.setImagePath(testPath_Pictures + "DetailInfo.jpg");
     iid.show();

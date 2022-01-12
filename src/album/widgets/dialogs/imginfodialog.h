@@ -37,7 +37,7 @@ class ImgInfoDialog : public DDialog
 {
     Q_OBJECT
 public:
-    explicit ImgInfoDialog(const QString &path, QWidget *parent = nullptr);
+    explicit ImgInfoDialog(const QString &path, const QString &displayName, QWidget *parent = nullptr);
     int height();
 private:
     void initUI();
@@ -58,6 +58,7 @@ private:
     bool m_isBaseInfo;
     bool m_isDetailsInfo;
     QString m_path;
+    QString m_displayName; //最近删除里面的文件名可能和它自己的文件名不一样
     QFrame *m_exif_base;
     QFrame *m_exif_details;
     QFormLayout *m_exifLayout_base;

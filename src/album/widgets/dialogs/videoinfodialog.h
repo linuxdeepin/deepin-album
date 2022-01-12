@@ -38,7 +38,7 @@ class VideoInfoDialog : public DDialog
 {
     Q_OBJECT
 public:
-    explicit VideoInfoDialog(const QString &path, QWidget *parent = nullptr);
+    explicit VideoInfoDialog(const QString &path, const QString &displayName, bool isTrash, QWidget *parent = nullptr);
 private:
     void initUI();
     void setVideoInfo(const QString &path);
@@ -82,6 +82,9 @@ private:
 
     QVBoxLayout *m_mainLayout = nullptr;
     DScrollArea *m_scrollArea = nullptr;
+
+    QString m_displayName; //显示出来的名字
+    bool m_isTrash; //是最近删除路径
 };
 
 #endif // VIDEOINFODIALOG_H

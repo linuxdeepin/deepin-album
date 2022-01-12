@@ -51,8 +51,8 @@ public:
 
     void addImage(const QString &path, const QImage &image);
     QImage getThumnailImageByPath(const QString &path);
-    QImage getThumnailImageByPathRealTime(const QString &path);
-    bool imageIsLoaded(const QString &path);
+    QImage getThumnailImageByPathRealTime(const QString &path, bool isTrashFile);
+    bool imageIsLoaded(const QString &path, bool isTrashFile);
 
     void addMovieDurationStr(const QString &path, const QString &durationStr);
     QString getMovieDurationStrByPath(const QString &path);

@@ -1025,11 +1025,10 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
         utils::base::showInFileManager(path);
         break;
     case IdImageInfo:
-        dApp->signalM->showInfoDlg(path);
+        dApp->signalM->showInfoDlg(path, ItemTypePic, m_imageType == COMMON_STR_TRASH);
         break;
     case IdVideoInfo: {
-        DBImgInfo data = selectedIndexes().at(0).data(Qt::DisplayRole).value<DBImgInfo>();
-        dApp->signalM->showInfoDlg(path, data.itemType);
+        dApp->signalM->showInfoDlg(path, ItemTypeVideo, m_imageType == COMMON_STR_TRASH);
     }
     break;
     case IdExport:
@@ -2002,7 +2001,7 @@ void ThumbnailListView::onClicked(const QModelIndex &index)
     }
     DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
     qDebug() << __FUNCTION__ << "---" << data.filePath;
-    qDebug() << __FUNCTION__ << "---" << ImageDataService::instance()->imageIsLoaded(data.filePath);
+    qDebug() << __FUNCTION__ << "---" << ImageDataService::instance()->imageIsLoaded(data.filePath, m_imageType == COMMON_STR_TRASH);
     qDebug() << __FUNCTION__ << "---" << ImageDataService::instance()->getMovieDurationStrByPath(data.filePath);
 #ifdef tablet_PC
     if (activeClick && ALBUM_PATHTYPE_BY_PHONE != m_imageType) {

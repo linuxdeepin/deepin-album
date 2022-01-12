@@ -48,7 +48,7 @@ public:
     void emitSliderValueChg(int value);
     int getSliderValue();
 
-    void showInfoDlg(const QString &path, ItemType type = ItemTypeNull);
+    void showInfoDlg(const QString &path, ItemType type, bool isTrash);
 
 signals:
     void hideImageView();

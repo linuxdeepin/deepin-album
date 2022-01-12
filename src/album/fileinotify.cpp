@@ -47,6 +47,10 @@ FileInotify::FileInotify(QObject *parent): QObject(parent)
     m_Supported = UnionImage_NameSpace::unionImageSupportFormat(); //图片
     m_Supported.append(utils::base::m_videoFiletypes); //视频
 
+    for (auto &eachData : m_Supported) {
+        eachData = eachData.toUpper();
+    }
+
     m_timer = new QTimer();
     connect(m_timer, &QTimer::timeout, this, &FileInotify::onNeedSendPictures);
     m_timer->start(1500);

@@ -70,7 +70,6 @@ TEST(getTrashImageCount, db10)
     TEST_CASE_NAME("db10")
     DBManager::instance()->getTrashImgsCount();
     DBManager::instance()->getAllTrashInfos();
-    DBManager::instance()->getAllTrashPaths();
     DBManager::instance()->getTrashInfoByPath("");
 }
 

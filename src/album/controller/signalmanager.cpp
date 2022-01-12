@@ -46,17 +46,27 @@ int SignalManager::getSliderValue()
     return m_sliderValue;
 }
 
-void SignalManager::showInfoDlg(const QString &path, ItemType type)
+void SignalManager::showInfoDlg(const QString &path, ItemType type, bool isTrash)
 {
-    DBImgInfo data;
-    if (type == ItemTypeNull) {
+    if (type == ItemTypeNull) { //类型未知的时候才去抓它的类型
+        DBImgInfo data;
         ImageEngineApi::instance()->getImageData(path, data);
-    } else {
-        data.itemType = type;
+        type = data.itemType;
     }
 
-    if (data.itemType == ItemTypePic) {
-        ImgInfoDialog *dialog = new ImgInfoDialog(path, dApp->getMainWindow());
+    QString realPath;
+    QString displayName(DBImgInfo::getFileNameFromFilePath(path)); //这里传入的path是原始路径，所以可以直接用
+    if (isTrash) { //获取最近删除图片的真实路径
+        realPath = utils::base::getDeleteFullPath(utils::base::hashByString(path), displayName);
+        if (!QFile::exists(realPath)) {
+            realPath = path;
+        }
+    } else {
+        realPath = path;
+    }
+
+    if (type == ItemTypePic) {
+        ImgInfoDialog *dialog = new ImgInfoDialog(realPath, displayName, dApp->getMainWindow());
         dialog->setObjectName("ImgInfoDialog");
         dialog->show();
         dialog->move((dApp->getMainWindow()->width() - dialog->width() - 50 + dApp->getMainWindow()->mapToGlobal(QPoint(0, 0)).x())
@@ -71,8 +81,8 @@ void SignalManager::showInfoDlg(const QString &path, ItemType type)
                 dialog->deleteLater();
             }
         });
-    } else if (data.itemType == ItemTypeVideo) {
-        VideoInfoDialog *dialog = new VideoInfoDialog(path, dApp->getMainWindow());
+    } else if (type == ItemTypeVideo) {
+        VideoInfoDialog *dialog = new VideoInfoDialog(realPath, displayName, isTrash, dApp->getMainWindow());
         dialog->setObjectName("VideoInfoDialog");
         dialog->show();
         dialog->setWindowState(Qt::WindowActive);

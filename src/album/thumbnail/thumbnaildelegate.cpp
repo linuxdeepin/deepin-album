@@ -134,7 +134,7 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     }
 
     QRect pixmapRect;
-    QImage img = ImageDataService::instance()->getThumnailImageByPathRealTime(data.filePath);
+    QImage img = ImageDataService::instance()->getThumnailImageByPathRealTime(data.filePath, COMMON_STR_TRASH == m_imageTypeStr);
     if (img.isNull()) {
         pixmapRect.setX(backgroundRect.x() + backgroundRect.width() / 2 - NotSupportedOrDamagedWidth / 2);
         pixmapRect.setY(backgroundRect.y() + backgroundRect.height() / 2 - NotSupportedOrDamagedHeigh / 2);
@@ -142,7 +142,7 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
         pixmapRect.setHeight(NotSupportedOrDamagedHeigh);
     } else {
         pixmapRect.setX(backgroundRect.x() + 8);
-        pixmapRect.setY(backgroundRect.y() + 8);;
+        pixmapRect.setY(backgroundRect.y() + 8);
         pixmapRect.setWidth(backgroundRect.width() - 16);
         pixmapRect.setHeight(backgroundRect.height() - 16);
     }
@@ -164,7 +164,7 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     bp1.addRoundedRect(pixmapRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
     painter->setClipPath(bp1);
 
-    if (!ImageDataService::instance()->imageIsLoaded(data.filePath)) {
+    if (!ImageDataService::instance()->imageIsLoaded(data.filePath, COMMON_STR_TRASH == m_imageTypeStr)) {
         painter->drawPixmap(pixmapRect, m_default);
     } else {
         if (img.isNull()) {
