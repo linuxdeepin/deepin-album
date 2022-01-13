@@ -8,7 +8,7 @@ Album is a stylish and smooth photo and video management tool, supporting photo 
 
 ## Guide
 
-You can run, close, and create shortcuts for Album in the following ways.
+You can run, close, and create a desktop shortcut for Album in the following ways.
 
 ### Run Album
 
@@ -96,7 +96,7 @@ In Timelines, all photos and videos are displayed in groups according to the sho
 
 ![0|ocr](fig/ocr.png)
 
-### Slide Show
+### Show in Slides 
 
 1. On the Album interface, right-click a photo.
 2. Select **Slide show** to play the photo as slides in full screen.
@@ -164,7 +164,7 @@ On the Album interface, you are able to create new albums, manage photos and vid
 
 ### Create New Albums
 
-1. On the Albums interface, Click ![add](../common/add.svg) or ![icon_menu](../common/icon_menu.svg)> **New album**.
+1. On the Albums interface, Click ![add](../common/add.svg) or ![icon_menu](../common/icon_menu.svg) > **New album**.
 2. Enter the album name and click **Create**.
 
 > ![tips](../common/tips.svg) Tips: You are able to create a new album by right-clicking the album created to select **New album**, or create a new album when adding photos to albums.
