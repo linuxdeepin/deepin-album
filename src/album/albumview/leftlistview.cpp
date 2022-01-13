@@ -61,7 +61,7 @@ LeftListView::LeftListView(QWidget *parent)
 {
     //右侧菜单栏支持滑动
 //    QScroller::grabGesture(viewport());
-    QScrollBar *m_bar = new QScrollBar();
+    m_bar = new QScrollBar();
 //    QScroller::grabGesture(viewport());
     this->setVerticalScrollBar(m_bar);
     m_ItemCurrentDataType = 0;
@@ -206,6 +206,7 @@ void LeftListView::initUI()
     m_pCustomizeListView->setSpacing(0);
     m_pCustomizeListView->setFrameShape(DListWidget::NoFrame);
     m_pCustomizeListView->setContextMenuPolicy(Qt::CustomContextMenu);
+    m_pCustomizeListView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     QStringList allAlbumNames = DBManager::instance()->getAllAlbumNames();
     for (auto albumName : allAlbumNames) {
@@ -659,8 +660,6 @@ void LeftListView::onMouseMove()
     }
 
 }
-
-
 
 QString LeftListView::getNewAlbumName()
 {
