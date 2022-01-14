@@ -680,7 +680,7 @@ void AlbumView::initFavoriteWidget()
     DFontSizeManager::instance()->bind(m_pFavoriteTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pFavoriteTitle->setForegroundRole(DPalette::TextTitle);
     m_pFavoriteTitle->setText(tr("Favorites"));
-    m_pFavoriteTitle->setFixedWidth(150); //BUG#93470 手动调大控件长度
+//    m_pFavoriteTitle->setFixedWidth(150); //BUG#93470 手动调大控件长度
 
     m_pFavoritePicTotal = new DLabel();
     m_pFavoritePicTotal->setFixedHeight(20);
@@ -2447,6 +2447,7 @@ void AlbumView::onBatchSelectChanged(bool isBatchSelect)
                 m_pFavoriteTitle->hide();
             }
             m_pFavoriteTitle->setText(Str);
+            m_pFavoriteTitle->adjustSize();
             if (Str != tr("Favorites")) {
                 m_pFavoriteTitle->setToolTip(tr("Favorites"));
             } else {
@@ -2501,6 +2502,7 @@ void AlbumView::onBatchSelectChanged(bool isBatchSelect)
             m_pFavoriteTitle->hide();
         }
         m_pFavoriteTitle->setText(Str);
+        m_pFavoriteTitle->adjustSize();
         if (Str != tr("Favorites")) {
             m_pFavoriteTitle->setToolTip(tr("Favorites"));
         } else {
@@ -2600,6 +2602,7 @@ void AlbumView::resizeEvent(QResizeEvent *e)
                 m_pFavoriteTitle->hide();
             }
             m_pFavoriteTitle->setText(Str);
+            m_pFavoriteTitle->adjustSize();
             if (Str != tr("Favorites")) {
                 m_pFavoriteTitle->setToolTip(tr("Favorites"));
             } else {
