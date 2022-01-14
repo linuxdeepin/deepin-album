@@ -222,7 +222,6 @@ public:
     DWidget *m_pwidget;
 
     ThumbnailListView *m_customThumbnailList = nullptr;               //自定义
-    DBImgInfoList m_allTrashInfos;                                    //最近删除中的数据
     ThumbnailListView *m_pRightTrashThumbnailList = nullptr;          //最近删除
     ThumbnailListView *m_favoriteThumbnailList = nullptr;             //我的收藏
 

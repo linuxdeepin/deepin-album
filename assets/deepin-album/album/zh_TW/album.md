@@ -27,7 +27,7 @@
 
 - 在相簿介面單擊  ![close_icon](../common/close_icon.svg)，關閉相簿。
 - 在任務欄右鍵單擊 ![deepin_album](../common/deepin_album.svg)，選擇 **全部關閉** ，關閉相簿。
-- 在相簿介面單擊 ![icon_menu](../common/icon_menu.svg) ，選擇 **離開** ，關閉相簿。
+- 在相簿介面單擊 ![icon_menu](../common/icon_menu.svg) ，選擇 **退出** ，關閉相簿。
 
 ### 查看快捷鍵
 
@@ -245,7 +245,7 @@
 2. 單擊 **關於**。
 3. 查看相簿的版本和介紹。
 
-### 離開
+### 退出
 
 1. 在相簿介面，單擊 ![icon_menu](../common/icon_menu.svg)。
-2. 單擊 **離開**。
+2. 單擊 **退出**。

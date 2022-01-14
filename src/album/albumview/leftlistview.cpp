@@ -367,11 +367,11 @@ void LeftListView::showMenu(const QPoint &pos)
         }
     }
 
-    if (0 < DBManager::instance()->getItemsCountByAlbum(m_currentUID, ItemTypeVideo, dbType)) {//隐藏导出
+    if (0 < DBManager::instance()->getItemsCountByAlbum(m_currentUID, ItemTypeVideo)) {//隐藏导出
         m_MenuActionMap.value(tr("Export"))->setVisible(false);
     }
 
-    if (0 == DBManager::instance()->getItemsCountByAlbum(m_currentUID, ItemTypePic, dbType)) {//隐藏幻灯片和导出
+    if (0 == DBManager::instance()->getItemsCountByAlbum(m_currentUID, ItemTypePic)) {//隐藏幻灯片和导出
         m_MenuActionMap.value(tr("Slide show"))->setVisible(false);
         m_MenuActionMap.value(tr("Export"))->setVisible(false);
     }

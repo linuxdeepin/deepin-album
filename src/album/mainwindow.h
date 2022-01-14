@@ -184,6 +184,7 @@ public slots:
     void onCtrlFShortcutActivated();
     void onSearchEditIsDisplay(bool bIsDisp);
     void onSendAlbumName(const QString &path);
+    void onRestoreFailed(const QStringList &failedFiles);
     //主界面创建相册响应槽
     void onViewCreateAlbum(QString imgpath, bool bmodel = true);
     void onSearchEditFinished();

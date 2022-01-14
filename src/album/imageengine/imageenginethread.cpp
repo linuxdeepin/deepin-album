@@ -372,33 +372,14 @@ void ImageRecoveryImagesFromTrashThread::setData(QStringList &paths)
 
 void ImageRecoveryImagesFromTrashThread::runDetail()
 {
-    DBImgInfoList infos;
-    for (auto path : m_paths) {
-        DBImgInfo info = DBManager::instance()->getTrashInfoByPath(path);
-        QFileInfo fi(info.filePath);
-        if (fi.exists()) {
-            info.importTime = QDateTime::currentDateTime();
-            infos << info;
-        }
-    }
-    DBManager::instance()->insertImgInfos(infos);
-
-    //恢复到相册是无意义的getTrashInfoByPath无法查询到album
-//    for (auto path : paths) {
-//        DBImgInfo info = DBManager::instance()->getTrashInfoByPath(path);
-//        QStringList namelist = info.albumname.split(",");
-//        for (auto eachname : namelist) {
-//            if (DBManager::instance()->isAlbumExistInDB(eachname)) {
-//                DBManager::instance()->insertIntoAlbum(eachname, QStringList(path));
-//            }
-//        }
-//    }
-
     //恢复图片至原来的位置
     auto failedFiles = DBManager::instance()->recoveryImgFromTrash(m_paths);
     emit dApp->signalM->closeWaitDialog();
 
-    //TODO：把恢复失败的文件发出去
+    //把恢复失败的文件发出去
+    if (!failedFiles.isEmpty()) {
+        emit dApp->signalM->sigRestoreFailed(failedFiles);
+    }
 }
 
 ImageMoveImagesToTrashThread::ImageMoveImagesToTrashThread()
@@ -431,11 +412,12 @@ void ImageMoveImagesToTrashThread::runDetail()
             info.importTime = QDateTime::currentDateTime();
             auto allalbumnames = DBManager::instance()->getAllAlbumNames();
             //first是UID，secend是album name
-            for (auto eachname : allalbumnames) {
+            //获取生前所属相册UID，有需要再放开
+            /*for (auto eachname : allalbumnames) {
                 if (DBManager::instance()->isImgExistInAlbum(eachname.first, path)) {
                     info.albumUID += (QString::number(eachname.first) + ",");
                 }
-            }
+            }*/
             infos << info;
             removedPaths << path;
             removedCount++;

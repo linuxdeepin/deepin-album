@@ -419,7 +419,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(int UID) const
     return infos;
 }
 
-int DBManager::getItemsCountByAlbum(int UID, const ItemType &type, AlbumDBType atype) const
+int DBManager::getItemsCountByAlbum(int UID, const ItemType &type) const
 {
     int count = 0;
     QMutexLocker mutex(&m_mutex);
@@ -427,19 +427,14 @@ int DBManager::getItemsCountByAlbum(int UID, const ItemType &type, AlbumDBType a
     bool b = m_query->prepare("SELECT i.FileType "
                               "FROM ImageTable3 AS i, AlbumTable3 AS a "
                               "WHERE i.PathHash=a.PathHash "
-                              "AND a.UID=:UID "
-                              "AND a.AlbumDBType=:atype ");
+                              "AND a.UID=:UID ");
     m_query->bindValue(":UID", UID);
-    m_query->bindValue(":atype", atype);
     if (!b || ! m_query->exec()) {
         //    qWarning() << "Get ImgInfo by album failed: " << query.lastError();
     } else {
-        using namespace utils::base;
         while (m_query->next()) {
             ItemType itemType = static_cast<ItemType>(m_query->value(0).toInt());
-            if (type == ItemTypeNull) {
-                count++;
-            } else if (itemType == type) {
+            if (type == ItemTypeNull || itemType == type) {
                 count++;
             }
         }
@@ -1373,7 +1368,8 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
     //执行恢复步骤
     for (int i = 0; i != paths.size(); ++i) {
         auto deletePath = utils::base::getDeleteFullPath(pathHashs[i], DBImgInfo::getFileNameFromFilePath(paths[i])); //获取删除缓存路径
-        if (!QFile::exists(deletePath)) { //文件不存在，表示要么是老版相册，要么是缓存文件已被破坏
+        if (!QFile::exists(deletePath)) { //文件不存在，表示要么是老版相册，要么是缓存文件已被破坏，此时需要判定文件恢复成功
+            successedHashs.push_back(pathHashs[i]);
             continue;
         }
         QString recoveryName = paths[i];
@@ -1414,59 +1410,91 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
     }
 
     //3.数据库操作
-    m_query->setForwardOnly(true);
+    if (!successedHashs.isEmpty()) { //如果没有成功恢复的文件，则以下操作全部不会执行
+        m_query->setForwardOnly(true);
 
-    //3.1把恢复成功的文件数据清理掉
-    if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-    }
-    QString qs("DELETE FROM TrashTable3 WHERE PathHash=:hash");
-    if (!m_query->prepare(qs)) {
-    }
-    for (const auto &hash : successedHashs) {
-        m_query->bindValue(":hash", hash);
-        if (!m_query->exec()) {
+        //3.1获取恢复成功的文件数据
+        DBImgInfoList infos;
+        QString qs("SELECT FilePath, Time, ChangeTime, ImportTime, FileType FROM TrashTable3 WHERE PathHash=:value");
+        if (!m_query->prepare(qs)) {
         }
-    }
-    if (!m_query->exec("COMMIT")) {
-    }
 
-    //3.2刷新另外两个表的文件名和hash数据 0：原始路径hash，1：当前路径，2：当前路径的hash
+        for (const auto &hash : successedHashs) {
+            m_query->bindValue(":value", hash);
+            if (m_query->exec() && m_query->next()) {
+                //数据读取
+                DBImgInfo info;
+                info.filePath = m_query->value(0).toString();
 
-    //3.2.1刷新AlbumTable3
-    if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-    }
-    qs = "UPDATE AlbumTable3 SET PathHash=:newHash WHERE PathHash=:oldHash";
-    if (!m_query->prepare(qs)) {
-    }
-    for (const auto &eachData : changedPaths) {
-        m_query->bindValue(":newHash", std::get<2>(eachData));
-        m_query->bindValue(":oldHash", std::get<0>(eachData));
-        if (!m_query->exec()) {
+                //此处需要额外判断路径是否存在，如果不存在则表示是缓存文件已破坏，只能无视
+                if (!QFile::exists(info.filePath)) {
+                    continue;
+                }
+
+                info.time = utils::base::stringToDateTime(m_query->value(1).toString());
+                info.changeTime = QDateTime::fromString(m_query->value(2).toString(), DATETIME_FORMAT_DATABASE);
+                info.importTime = QDateTime::currentDateTime();
+                info.itemType = ItemType(m_query->value(4).toInt());
+
+                //如果文件名改变则刷新数据
+                auto iter = std::find_if(changedPaths.begin(), changedPaths.end(), [hash](const auto & item) {
+                    return hash == std::get<0>(item);
+                });
+
+                if (iter != changedPaths.end()) { //改变了就写入新的hash和路径
+                    info.filePath = std::get<1>(*iter);
+                    info.pathHash = std::get<2>(*iter);
+                } else { //没变就写入原来的hash
+                    info.pathHash = hash;
+                }
+
+                infos.push_back(info);
+            }
         }
-    }
-    if (!m_query->exec("COMMIT")) {
-    }
 
-    //3.2.2刷新ImageTable3
-    if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-    }
-    qs = "UPDATE ImageTable3 SET PathHash=:newHash, FilePath=:newPath WHERE PathHash=:oldHash";
-    if (!m_query->prepare(qs)) {
-    }
-    for (const auto &eachData : changedPaths) {
-        m_query->bindValue(":newHash", std::get<2>(eachData));
-        m_query->bindValue(":newPath", std::get<1>(eachData));
-        m_query->bindValue(":oldHash", std::get<0>(eachData));
-        if (!m_query->exec()) {
+        //3.2把恢复成功的文件数据清理掉
+        if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
         }
-    }
-    if (!m_query->exec("COMMIT")) {
+        qs = "DELETE FROM TrashTable3 WHERE PathHash=:hash";
+        if (!m_query->prepare(qs)) {
+        }
+        for (const auto &hash : successedHashs) {
+            m_query->bindValue(":hash", hash);
+            if (!m_query->exec()) {
+            }
+        }
+        if (!m_query->exec("COMMIT")) {
+        }
+
+        //3.3把恢复成功的文件数据刷回ImageTable3，这里需要重复利用已经计算好的hash，所以不调用已有的API
+        if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
+        }
+        qs = "REPLACE INTO ImageTable3 (PathHash, FilePath, FileName, Time, "
+             "ChangeTime, ImportTime, FileType) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        if (!m_query->prepare(qs)) {
+        }
+        for (const auto &info : infos) {
+            m_query->addBindValue(info.pathHash);
+            m_query->addBindValue(info.filePath);
+            m_query->addBindValue(info.getFileNameFromFilePath());
+            m_query->addBindValue(info.time.toString("yyyy.MM.dd"));
+            m_query->addBindValue(info.changeTime.toString(DATETIME_FORMAT_DATABASE));
+            m_query->addBindValue(info.importTime.toString(DATETIME_FORMAT_DATABASE));
+            m_query->addBindValue(info.itemType);
+            if (!m_query->exec()) {
+            }
+        }
+        if (!m_query->exec("COMMIT")) {
+        }
+
+        mutex.unlock();
+
+        //4.发送信号通知外层控件有最近删除的文件被恢复
+        emit dApp->signalM->imagesTrashRemoved();
+        emit dApp->signalM->imagesInserted();
     }
 
-    mutex.unlock();
-
-    //4.发送信号通知外层控件，并返回失败的文件
-    emit dApp->signalM->imagesTrashRemoved();
+    //5.返回失败的文件
     return failedFiles;
 }
 
@@ -1547,13 +1575,12 @@ const DBImgInfoList DBManager::getTrashImgInfos(const QString &key, const QStrin
     if (!b || !m_query->exec()) {
         //  qWarning() << "Get Image from database failed: " << query.lastError();
     } else {
-        using namespace utils::base;
         while (m_query->next()) {
             DBImgInfo info;
             info.filePath = m_query->value(0).toString();
             if (info.filePath.isEmpty()) //如果路径为空
                 continue;
-            info.time = stringToDateTime(m_query->value(3).toString());
+            info.time = utils::base::stringToDateTime(m_query->value(3).toString());
             info.changeTime = QDateTime::fromString(m_query->value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(m_query->value(5).toString(), DATETIME_FORMAT_DATABASE);
             info.itemType = ItemType(m_query->value(6).toInt());
@@ -1569,6 +1596,19 @@ int DBManager::getTrashImgsCount() const
     QMutexLocker mutex(&m_mutex);
     m_query->setForwardOnly(true);
     if (m_query->exec("SELECT COUNT(*) FROM TrashTable3")) {
+        m_query->first();
+        int count = m_query->value(0).toInt();
+        return count;
+    }
+    return 0;
+}
+
+int DBManager::getAlbumImgsCount(int UID) const
+{
+    QMutexLocker mutex(&m_mutex);
+    m_query->setForwardOnly(true);
+    if (m_query->exec(QString("SELECT COUNT(*) FROM AlbumTable3 WHERE UID=%1 AND PathHash<>\"%2\"")
+                      .arg(UID).arg("7215ee9c7d9dc229d2921a40e899ec5f"))) {
         m_query->first();
         int count = m_query->value(0).toInt();
         return count;

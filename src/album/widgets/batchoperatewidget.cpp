@@ -290,7 +290,7 @@ void BatchOperateWidget::onTrashDeleteBtnClicked()
             videoCount++;
         }
     }
-    ImgDeleteDialog *dialog = new ImgDeleteDialog(this, imgCount, videoCount);
+    ImgDeleteDialog *dialog = new ImgDeleteDialog(this, imgCount, videoCount, true);
     dialog->setObjectName("deteledialog");
     if (dialog->exec() > 0) {
         m_thumbnailListView->clearSelection();
@@ -536,11 +536,11 @@ void BatchOperateWidget::batchSelectChanged(bool isBatchSelect, bool disConnectS
 void BatchOperateWidget::refreshBtnEnabled(bool noSelected)
 {
     //选中项数量变化，更新按钮可用状态
-    bool selectMultiple = m_thumbnailListView->selectedPaths().size() > 0;
+    bool selectMultiple = !m_thumbnailListView->selectedPaths().isEmpty();
     m_collection->setEnabled(selectMultiple);
     m_leftRotate->setEnabled(selectMultiple);
     m_rightRotate->setEnabled(selectMultiple);
-    m_delete->setEnabled(selectMultiple);
+    m_delete->setEnabled(m_thumbnailListView->isSelectedCanUseDelete());
     //选择发生变化，刷新收藏按钮状态
     if (m_collection->isVisible()) {
         if (isAllSelectedCollected()) {

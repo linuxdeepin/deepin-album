@@ -347,6 +347,17 @@ bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash, bool b
         return false;
     }
 
+    //非最近删除进来的，需要剔除没有权限的部分
+    if (!typetrash) {
+        auto iter = std::remove_if(files.begin(), files.end(), [](const QString & eachFile) {
+            return !QFile::permissions(eachFile).testFlag(QFile::WriteUser);
+        });
+        files.erase(iter, files.end());
+        if (files.isEmpty()) {
+            return true;
+        }
+    }
+
     emit dApp->signalM->popupWaitDialog(tr("Deleting..."), bneedprogress); //author : jia.dong
     if (typetrash)  //如果为回收站删除，则删除内存数据
         removeImage(files);

@@ -105,6 +105,7 @@ signals:
     void sigImportFailedToView();
     void sigShortcutKeyDelete();
     void sigShortcutKeyF2();
+    void sigRestoreFailed(const QStringList &);
 
     void startImprot();
     void popupWaitDialog(QString waittext, bool bneedprogress = true);

@@ -112,8 +112,8 @@ public:
     int getListViewHeight();
     int getRow(QPoint point);
     void setListViewUseFor(ListViewUseFor usefor);
-    //选中重复照片
-    void selectDuplicatePhotos(QStringList paths);
+    //主动选中照片
+    void selectPhotos(const QStringList &paths);
     void selectFirstPhoto();
     bool isFirstPhotoSelected();
     bool isNoPhotosSelected();
@@ -132,6 +132,8 @@ public:
     bool isAllSelected(ItemType type = ItemTypeNull); //zynew
     //判断选中图片是否都可旋转
     bool isAllSelectedSupportRotate();//zynew
+    //判断选中的图片是否可以执行删除
+    bool isSelectedCanUseDelete();
     //删除选中项到相册已删除
     void removeSelectToTrash(QStringList paths);//zynew
     //更新时间线界面内各个按钮的text状态，单选/框选

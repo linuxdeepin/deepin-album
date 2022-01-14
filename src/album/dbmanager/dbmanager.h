@@ -122,7 +122,7 @@ public:
     QStringList getDefaultNotifyPaths() const;
     const QStringList       getPathsByAlbum(int UID, AlbumDBType atype = AlbumDBType::Custom) const;
     const DBImgInfoList     getInfosByAlbum(int UID) const;
-    int                     getItemsCountByAlbum(int UID, const ItemType &type, AlbumDBType atype = AlbumDBType::Custom) const;
+    int                     getItemsCountByAlbum(int UID, const ItemType &type) const;
 //    int                     getAlbumsCount() const;
     bool                    isAlbumExistInDB(int UID, AlbumDBType atype = AlbumDBType::Custom) const;
     QString                 getAlbumNameFromUID(int UID) const;
@@ -143,6 +143,7 @@ public:
     const DBImgInfo         getTrashInfoByPath(const QString &path) const;
     const DBImgInfoList     getTrashImgInfos(const QString &key, const QString &value) const;
     int                     getTrashImgsCount() const;
+    int                     getAlbumImgsCount(int UID) const;
 private:
     const DBImgInfoList     getInfosByNameTimeline(const QString &value) const;
     const DBImgInfoList     getImgInfos(const QString &key, const QString &value) const;

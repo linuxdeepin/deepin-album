@@ -239,7 +239,7 @@ void AllPicView::onRepeatImportingTheSamePhotos(QStringList importPaths, QString
 {
     Q_UNUSED(importPaths)
     if (UID == -1 && dApp->getMainWindow()->getCurrentViewType() == 0) {
-        m_pThumbnailListView->selectDuplicatePhotos(duplicatePaths);
+        m_pThumbnailListView->selectPhotos(duplicatePaths);
     }
 }
 

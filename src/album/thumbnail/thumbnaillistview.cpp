@@ -119,6 +119,10 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, int U
             m_importTimer->stop();
         }
     });
+
+    if (m_imageType == COMMON_STR_TRASH) {
+        connect(dApp->signalM, &SignalManager::sigRestoreFailed, this, &ThumbnailListView::selectPhotos);
+    }
 }
 
 ThumbnailListView::~ThumbnailListView()
@@ -1458,7 +1462,7 @@ void ThumbnailListView::slotChangeAllSelectBtnVisible(bool visible)
 }
 
 // 选中重复导入的图片
-void ThumbnailListView::selectDuplicatePhotos(QStringList paths)
+void ThumbnailListView::selectPhotos(const QStringList &paths)
 {
     //遍历选择过程中先不刷新批量操作按钮
     if (m_batchOperateWidget) {
@@ -1466,7 +1470,7 @@ void ThumbnailListView::selectDuplicatePhotos(QStringList paths)
                    m_batchOperateWidget, &BatchOperateWidget::sltSelectionChanged);
     }
     QModelIndex firstIndex;
-    if (paths.count() > 0) {
+    if (!paths.isEmpty()) {
         this->clearSelection();
         for (int i = 0; i < m_model->rowCount(); i++) {
             QModelIndex index = m_model->index(i, 0);
@@ -1616,23 +1620,38 @@ bool ThumbnailListView::isAllSelected(ItemType type)
     }
     return isAllSelected;
 }
+
 //判断选中图片是否都可旋转
 bool ThumbnailListView::isAllSelectedSupportRotate()
 {
     QStringList list = selectedPaths();
-    int count = list.size();
-    bool isAllSelectedSupportRotate = true;
-    if (count <= 0) {
-        isAllSelectedSupportRotate = false;
+    if (list.isEmpty()) {
+        return false;
     }
-    for (int i = 0; i < count; i++) {
-        QString path = list.at(i);
-        if (!UnionImage_NameSpace::isImageSupportRotate(path)) {
+    bool isAllSelectedSupportRotate = true;
+    for (const auto &path : list) {
+        if (!UnionImage_NameSpace::isImageSupportRotate(path)) { //只要有一个不能转，就都不能转
             isAllSelectedSupportRotate = false;
             break;
         }
     }
     return isAllSelectedSupportRotate;
+}
+
+bool ThumbnailListView::isSelectedCanUseDelete()
+{
+    QStringList list = selectedPaths();
+    if (list.isEmpty()) {
+        return false;
+    }
+    bool isSelectedCanUseDelete = false;
+    for (const auto &path : list) {
+        if (QFile::permissions(path).testFlag(QFile::WriteUser)) { //只要有一个能写，就可以删
+            isSelectedCanUseDelete = true;
+            break;
+        }
+    }
+    return isSelectedCanUseDelete;
 }
 
 //删除到相册已删除
@@ -1662,13 +1681,17 @@ void ThumbnailListView::removeSelectToTrash(QStringList paths)
             videoCount++;
         }
     }
-    ImgDeleteDialog *dialog = new ImgDeleteDialog(this, imgCount, videoCount);
+    ImgDeleteDialog *dialog = new ImgDeleteDialog(this, imgCount, videoCount, COMMON_STR_TRASH == m_imageType);
     dialog->setObjectName("deteledialog");
     if (dialog->exec() > 0) {
         clearSelection();
+
+        //清理界面
         if (COMMON_STR_VIEW_TIMELINE == m_imageType || COMMON_STR_RECENT_IMPORTED == m_imageType) {
             emit sigMoveToTrash();
         }
+
+        //执行删除
         (COMMON_STR_TRASH == m_imageType) ? ImageEngineApi::instance()->moveImagesToTrash(paths, true, false)
         : ImageEngineApi::instance()->moveImagesToTrash(paths);
     }

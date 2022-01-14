@@ -29,47 +29,53 @@
 #include <DSuggestButton>
 #include <DTitlebar>
 
-ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int imgCount, int videoCount)
+ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int imgCount, int videoCount, bool isTrash)
     : DDialog(parent)
 {
     setModal(true);
     setContentsMargins(0, 0, 0, 0);
     QIcon icon = QIcon::fromTheme("deepin-album");
     this->setIcon(icon);
-    DLabel *m_label = new DLabel(this);
+    DLabel *m_Toplabel = new DLabel(this);
+    DLabel *m_Bottomlabel = new DLabel(this);
 
-    if (imgCount > 0 && videoCount == 0) {
-        //仅删除图片
-        if (1 == imgCount) {
-            m_label->setText(tr("Are you sure you want to delete this photo from the album?"));
+    //新版删除文案
+    if (isTrash) { //从最近删除点进来的
+        if (imgCount + videoCount == 1) {
+            m_Toplabel->setText(tr("Are you sure you want to permanently delete this file?"));
+            m_Bottomlabel->setText(tr("You cannot restore it any longer"));
         } else {
-            QString str = tr("Are you sure you want to delete %n photos from albums?", "", imgCount);
-            m_label->setText(str);
+            m_Toplabel->setText(tr("Are you sure you want to permanently delete %1 files?").arg(imgCount + videoCount));
+            m_Bottomlabel->setText(tr("You cannot restore them any longer"));
         }
-    } else if (imgCount == 0 && videoCount > 0) {
-        //仅删除视频
-        if (1 == videoCount) {
-            m_label->setText(tr("Are you sure you want to delete this video from the album?"));
+    } else { //从其它地方点进来的
+        if (imgCount + videoCount == 1) {
+            m_Toplabel->setText(tr("Are you sure you want to delete this file locally?"));
+            m_Bottomlabel->setText(tr("You can restore it in the trash"));
         } else {
-            QString str = tr("Are you sure you want to delete %n videos from albums?", "", videoCount);
-            m_label->setText(str);
+            m_Toplabel->setText(tr("Are you sure you want to delete %1 files locally?").arg(imgCount + videoCount));
+            m_Bottomlabel->setText(tr("You can restore them in the trash"));
         }
-    } else if (imgCount > 0 && videoCount > 0) {
-        //删除视频和图片
-        QString str = tr("Are you sure you want to delete %n items from albums?", "", (imgCount + videoCount));
-        m_label->setText(str);
     }
 
-    m_label->setWordWrap(true);
-    m_label->setAlignment(Qt::AlignHCenter);
+    //字体风格调整
+    m_Toplabel->setWordWrap(true);
+    m_Toplabel->setAlignment(Qt::AlignHCenter);
+    DFontSizeManager::instance()->bind(m_Toplabel, DFontSizeManager::T6, QFont::Medium);
+    m_Bottomlabel->setWordWrap(true);
+    m_Bottomlabel->setAlignment(Qt::AlignHCenter);
+    m_Bottomlabel->setForegroundRole(DPalette::TextTips);
+    DFontSizeManager::instance()->bind(m_Bottomlabel, DFontSizeManager::T7, QFont::Medium);
+
     DWidget *contentWidget = new DWidget(this);
-    contentWidget->setFixedHeight(this->height() - 80);
+    contentWidget->setFixedHeight(this->height() - 10);
     contentWidget->setContentsMargins(0, 0, 0, 0);
     QVBoxLayout *layout = new QVBoxLayout(contentWidget);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(8);
     layout->addStretch();
-    layout->addWidget(m_label);
+    layout->addWidget(m_Toplabel);
+    layout->addWidget(m_Bottomlabel);
     layout->addStretch();
     addContent(contentWidget);
     insertButton(0, tr("Cancel"), false, DDialog::ButtonNormal);

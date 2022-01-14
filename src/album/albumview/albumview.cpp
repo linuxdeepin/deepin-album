@@ -134,8 +134,6 @@ AlbumView::AlbumView()
     m_vfsManager = new DGioVolumeManager;
     m_diskManager = new DDiskManager(this);
     m_diskManager->setWatchChanges(true);
-    durlAndNameMap.clear();
-    m_allTrashInfos.clear();
 
     iniWaitDiolag();
     setAcceptDrops(true);
@@ -1038,20 +1036,17 @@ void AlbumView::updateRightCustomAlbumView()
 
 void AlbumView::updateRightTrashView()
 {
-    using namespace utils::image;
-    if (m_allTrashInfos.isEmpty()) {
-        m_allTrashInfos = DBManager::instance()->getAllTrashInfos();
-    }
+    auto allTrashInfos = DBManager::instance()->getAllTrashInfos();
     QDateTime currentTime = QDateTime::currentDateTime();
     DBImgInfoList list;
-    for (int i = m_allTrashInfos.size() - 1; i >= 0; i--) {
-        DBImgInfo pinfo = m_allTrashInfos.at(i);
+    for (int i = allTrashInfos.size() - 1; i >= 0; i--) {
+        DBImgInfo pinfo = allTrashInfos.at(i);
         if (!QFile::exists(pinfo.filePath) &&
                 !QFile::exists(utils::base::getDeleteFullPath(pinfo.pathHash, pinfo.getFileNameFromFilePath()))) {
-            m_allTrashInfos.removeAt(i);
+            allTrashInfos.removeAt(i);
         } else if (utils::base::daysDifferenceBetweenTime(pinfo.importTime, currentTime) >= 30) {
             list << pinfo;
-            m_allTrashInfos.removeAt(i);
+            allTrashInfos.removeAt(i);
         }
     }
     //清理删除时间过长图片
@@ -1061,9 +1056,9 @@ void AlbumView::updateRightTrashView()
 
     m_pRightTrashThumbnailList->clearAll();
     m_pRightTrashThumbnailList->insertBlankOrTitleItem(ItemTypeBlank, "", "", trash_title_height);
-    m_pRightTrashThumbnailList->insertThumbnailByImgInfos(m_allTrashInfos);
+    m_pRightTrashThumbnailList->insertThumbnailByImgInfos(allTrashInfos);
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
-    m_trashBatchOperateWidget->setVisible(!m_allTrashInfos.isEmpty());
+    m_trashBatchOperateWidget->setVisible(!allTrashInfos.isEmpty());
     m_pStatusBar->setVisible(true);
     m_pRightTrashThumbnailList->stopLoadAndClear();
 }
@@ -1243,12 +1238,12 @@ void AlbumView::onKeyDelete()
     if (COMMON_STR_RECENT_IMPORTED == m_currentType) {
         paths = m_pImpTimeLineView->selectPaths();
         m_pImpTimeLineView->getListView()->clearSelection();
-        if (0 < paths.length()) {
+        if (!paths.isEmpty()) {
             bMoveToTrash = true;
         }
     } else if (COMMON_STR_TRASH == m_currentType) {
         paths = m_pRightTrashThumbnailList->selectedPaths();
-        if (0 < paths.length()) {
+        if (!paths.isEmpty()) {
             int imgCount = 0;
             int videoCount = 0;
             DBImgInfo info;
@@ -1260,7 +1255,7 @@ void AlbumView::onKeyDelete()
                     videoCount++;
                 }
             }
-            ImgDeleteDialog *dialog = new ImgDeleteDialog(this, imgCount, videoCount);
+            ImgDeleteDialog *dialog = new ImgDeleteDialog(this, imgCount, videoCount, true);
             dialog->setObjectName("deteledialog");
             if (dialog->exec() > 0) {
                 m_pRightTrashThumbnailList->clearSelection();
@@ -1269,14 +1264,14 @@ void AlbumView::onKeyDelete()
         }
     } else if (COMMON_STR_FAVORITES == m_currentType) {
         paths = m_favoriteThumbnailList->selectedPaths();
-        if (0 < paths.length()) {
+        if (!paths.isEmpty()) {
             m_favoriteThumbnailList->clearSelection();
             DBManager::instance()->removeFromAlbum(DBManager::SpUID::u_Favorite, paths, AlbumDBType::Favourite);
         }
     } else if (COMMON_STR_CUSTOM == m_currentType) {
         paths = m_customThumbnailList->selectedPaths();
         // 如果没有选中的照片,或相册中的照片数为0,则删除相册
-        if (0 == paths.length() || 0 == DBManager::instance()->getItemsCountByAlbum(m_currentUID, ItemTypeNull)) {
+        if (paths.isEmpty() || 0 == DBManager::instance()->getItemsCountByAlbum(m_currentUID, ItemTypeNull)) {
             QListWidgetItem *item = m_pLeftListView->m_pCustomizeListView->currentItem();
             AlbumLeftTabItem *pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pCustomizeListView->itemWidget(item));
             m_deleteDialog = new AlbumDeleteDialog;
@@ -1671,13 +1666,13 @@ void AlbumView::SearchReturnUpdate()
         if (COMMON_STR_TRASH == m_currentAlbum) {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
             //最近删除内没有图片，隐藏批量处理按钮
-            DBImgInfoList infos = DBManager::instance()->getAllTrashInfos();
-            m_trashBatchOperateWidget->setVisible(!infos.isEmpty());
+            int count = DBManager::instance()->getTrashImgsCount();
+            m_trashBatchOperateWidget->setVisible(count != 0);
         } else if (COMMON_STR_FAVORITES == m_currentAlbum) {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
-            DBImgInfoList infos = DBManager::instance()->getInfosByAlbum(m_currentUID);
+            int count = DBManager::instance()->getAlbumImgsCount(m_currentUID);
             //收藏内没有图片，隐藏批量处理按钮
-            m_FavoriteTitleWidget->setVisible(!infos.isEmpty());
+            m_FavoriteTitleWidget->setVisible(count != 0);
         } else if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum) {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TIMELINE_IMPORT);
         } else {
@@ -2023,7 +2018,7 @@ void AlbumView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringL
 {
     Q_UNUSED(importPaths)
     if (m_currentUID == UID && dApp->getMainWindow()->getCurrentViewType() == 2) {
-        m_customThumbnailList->selectDuplicatePhotos(duplicatePaths);
+        m_customThumbnailList->selectPhotos(duplicatePaths);
     }
 }
 
@@ -2351,8 +2346,6 @@ void AlbumView::sltSelectionChanged(const QItemSelection &selected, const QItemS
 
 void AlbumView::onTrashInfosChanged()
 {
-    //最近删除数据变化，先刷新数据
-    m_allTrashInfos = DBManager::instance()->getAllTrashInfos();
     updateRightView();
 }
 

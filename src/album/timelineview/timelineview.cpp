@@ -366,7 +366,7 @@ void TimeLineView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStri
     Q_UNUSED(importPaths)
     // 导入的照片重复照片提示
     if (duplicatePaths.size() > 0 && UID == -1 && dApp->getMainWindow()->getCurrentViewType() == 1) {
-        m_timeLineThumbnailListView->selectDuplicatePhotos(duplicatePaths);
+        m_timeLineThumbnailListView->selectPhotos(duplicatePaths);
     }
 }
 

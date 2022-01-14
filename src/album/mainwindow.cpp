@@ -237,6 +237,8 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::ImportDonotFindPicOrVideo, this, &MainWindow::onImportDonotFindPicOrVideo);
     //自动导入中断
     connect(dApp->signalM, &SignalManager::ImportInterrupted, this, &MainWindow::onImportInterrupted);
+    //恢复失败
+    connect(dApp->signalM, &SignalManager::sigRestoreFailed, this, &MainWindow::onRestoreFailed);
 }
 
 //初始化快捷键
@@ -2386,6 +2388,13 @@ void MainWindow::onNotifyPathIsExists()
 {
     QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
     QString str = tr("The path already exists");
+    floatMessage(str, icon);
+}
+
+void MainWindow::onRestoreFailed(const QStringList &failedFiles)
+{
+    QIcon icon(":/images/logo/resources/images/other/warning_new.svg");
+    QString str = tr("Failed to restore %1 files: file name too long").arg(failedFiles.size());
     floatMessage(str, icon);
 }
 
