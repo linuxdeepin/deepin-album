@@ -136,9 +136,9 @@ void FileInotify::getAllPicture(bool isFirst)
 
     //提取文件路径
     QStringList filePaths;
-    for (auto &fileInfo : list) {
-        filePaths.push_back(fileInfo.absoluteFilePath());
-    }
+    std::transform(list.begin(), list.end(), std::back_inserter(filePaths), [](const QFileInfo & info) {
+        return info.absoluteFilePath();
+    });
 
     //筛选出新增图片文件
     for (auto path : filePaths) {

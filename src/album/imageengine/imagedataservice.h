@@ -46,7 +46,7 @@ public:
     int getCount();
 
     //读取缩略图到缓存map isFinishFilter:是否过滤过路径  reLoadThumbnail:重新加载缩略图
-    bool readThumbnailByPaths(QStringList files, bool isFinishFilter = false, bool reLoadThumbnail = false);
+    bool readThumbnailByPaths(const QStringList &files, bool isFinishFilter = false, bool reLoadThumbnail = false);
 //    bool readThumbnailByPath(QString file);
 
     void addImage(const QString &path, const QImage &image);
@@ -90,7 +90,7 @@ class ReadThumbnailManager : public QObject
 {
     Q_OBJECT
 public:
-    ReadThumbnailManager(QObject *parent = nullptr);
+    explicit ReadThumbnailManager(QObject *parent = nullptr);
     void addLoadPath(const QString &path);
 
 public slots:

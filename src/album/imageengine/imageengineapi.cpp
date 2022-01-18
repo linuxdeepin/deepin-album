@@ -151,7 +151,7 @@ void ImageEngineApi::sltImageFilesImported(void *imgobject, QStringList &filelis
     }
 }
 
-void ImageEngineApi::sigImageBackLoaded(QString path, const DBImgInfo &data)
+void ImageEngineApi::sigImageBackLoaded(const QString &path, const DBImgInfo &data)
 {
     addImageData(path, data);
 }
@@ -216,14 +216,13 @@ void ImageEngineApi::loadFirstPageThumbnails(int num, bool clearCache)
     }
     thumbnailLoadThread(num);
     QStringList list;
-    int count = 0;
     QSqlQuery query;
     query.setForwardOnly(true);
     if (!query.exec(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc limit %1").arg(QString::number(num)))) {
         qDebug() << "------" << __FUNCTION__ <<  query.lastError();
         return;
     } else {
-        using namespace utils::base;
+        int count = 0;
         while (query.next()) {
             DBImgInfo info;
             info.filePath = query.value(0).toString();
@@ -231,7 +230,7 @@ void ImageEngineApi::loadFirstPageThumbnails(int num, bool clearCache)
                 list << info.filePath;
                 count++;
             }
-            info.time = stringToDateTime(query.value(3).toString());
+            info.time = utils::base::stringToDateTime(query.value(3).toString());
             info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
             info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
             info.itemType = static_cast<ItemType>(query.value(6).toInt());

@@ -678,11 +678,10 @@ void DBManager::removeFromAlbum(int UID, const QStringList &paths, AlbumDBType a
     QMutexLocker mutex(&m_mutex);
 
     QStringList pathHashs;
-    for (QString path : paths) {
-        pathHashs.push_back(utils::base::hashByString(path));
-    }
+    std::transform(paths.begin(), paths.end(), std::back_inserter(pathHashs), [](const QString & path) {
+        return utils::base::hashByString(path);
+    });
     bool success = true;
-
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
         ;
     }
@@ -1069,16 +1068,13 @@ void DBManager::checkDatabase()
     }
 
     // 判断ImageTable3中是否有FileType字段，区分是图片还是视频
-    QString strSqlFileType = QString::fromLocal8Bit(
-                                 "select * from sqlite_master where name = 'ImageTable3' and sql like '%FileType%'");
-    int fileType = static_cast<int>(ItemTypePic);
-    if (!m_query->exec(strSqlFileType)) {
+    if (!m_query->exec("select * from sqlite_master where name = 'ImageTable3' and sql like '%FileType%'")) {
         qDebug() << "add FileType failed";
     }
     if (!m_query->next()) {
         // 无FileType字段,则增加FileType字段,赋值1,默认是图片
         if (m_query->exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"FileType\" INTEGER default \"%1\"")
-                          .arg(QString::number(fileType)))) {
+                          .arg(QString::number(ItemTypePic)))) {
             qDebug() << "add FileType success";
         }
     }
@@ -1098,8 +1094,7 @@ void DBManager::checkDatabase()
 
     // 判断AlbumTable3中是否有AlbumDBType字段
     QString strSqlDBType = QString::fromLocal8Bit("select * from sqlite_master where name = \"AlbumTable3\" and sql like \"%AlbumDBType%\"");
-    bool q2 = m_query->exec(strSqlDBType);
-    if (q2 && !m_query->next()) {
+    if (m_query->exec(strSqlDBType) && !m_query->next()) {
         // 无AlbumDBType字段,则增加AlbumDBType字段, 全部赋值为个人相册
         if (m_query->exec(QString("ALTER TABLE \"AlbumTable3\" ADD COLUMN \"AlbumDBType\" INTEGER default %1")
                           .arg("1"))) {
@@ -1191,16 +1186,13 @@ void DBManager::checkDatabase()
         }
     } else {
         //判断TrashTable3是否包含FileType
-        QString strSqlFileType = QString::fromLocal8Bit("select * from sqlite_master where name = \"TrashTable3\" and sql like \"%FileType%\"");
-        bool q2 = m_query->exec(strSqlFileType);
-        if (!q2) {
+        if (!m_query->exec("select * from sqlite_master where name = \"TrashTable3\" and sql like \"%FileType%\"")) {
             qDebug() << m_query->lastError();
         }
         if (!m_query->next()) {
             // 无FileType字段,则增加FileType字段, 全部赋值为图片
-            int type = ItemType::ItemTypePic;
             if (m_query->exec(QString("ALTER TABLE \"TrashTable3\" ADD COLUMN \"FileType\" INTEGER default %1")
-                              .arg(QString::number(type)))) {
+                              .arg(QString::number(ItemType::ItemTypePic)))) {
                 qDebug() << "add AlbumDBType success";
             }
         }

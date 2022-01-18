@@ -1105,9 +1105,9 @@ void AlbumView::onAddNewNotifyDir(const QString &dirPath)
     QFileInfoList infos;
     utils::image::getAllFileInDir(dirPath, infos);
     QStringList importFiles;
-    for (auto &eachInfo : infos) {
-        importFiles.push_back(eachInfo.absoluteFilePath());
-    }
+    std::transform(infos.begin(), infos.end(), std::back_inserter(importFiles), [](const QFileInfo & info) {
+        return info.absoluteFilePath();
+    });
 
     //2.导入进去
     ImageEngineApi::instance()->ImportImagesFromFileList(importFiles, albumName, UID, this, false, AutoImport);

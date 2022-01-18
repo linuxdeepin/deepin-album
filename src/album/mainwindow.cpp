@@ -1996,7 +1996,7 @@ QJsonObject MainWindow::createShorcutJson()
     return main_shortcut;
 }
 
-void MainWindow::startMonitor(const QStringList &paths, const QStringList &albumNames, const QList<int> UIDs)
+void MainWindow::startMonitor(const QStringList &paths, const QStringList &albumNames, const QList<int> &UIDs)
 {
     for (int i = 0; i != paths.size(); ++i) {
         if (!paths.at(i).isEmpty()) {
@@ -2043,11 +2043,10 @@ void MainWindow::onButtonClicked(int id)
         m_pSearchEdit->setVisible(true);
 #endif
     }
-    int index = 0;
     if (1 == id) {
         if (nullptr == m_pTimeLineView) {
             m_pCenterWidget->removeWidget(m_pTimeLineWidget);
-            index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
+            int index = m_pCenterWidget->indexOf(m_pAllPicView) + 1;
             m_pTimeLineView = new TimeLineView();
             m_pCenterWidget->insertWidget(index, m_pTimeLineView);
 //            m_pTimeLineView->clearAndStartLayout();
@@ -2168,9 +2167,9 @@ void MainWindow::ImportImagesFromCustomAutoPaths()
         QFileInfoList infos;
         utils::image::getAllFileInDir(eachItem.second, infos);
         QStringList currentPaths;
-        for (auto &info : infos) {
-            currentPaths.push_back(info.absoluteFilePath());
-        }
+        std::transform(infos.begin(), infos.end(), std::back_inserter(currentPaths), [](const QFileInfo & info) {
+            return info.absoluteFilePath();
+        });
 
         //3.获取已不存在的路径
         QStringList deleteFiles;

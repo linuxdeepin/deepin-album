@@ -91,7 +91,7 @@ public:
 private slots:
     void sltImageFilesImported(void *imgobject, QStringList &filelist);
 
-    void sigImageBackLoaded(QString path, const DBImgInfo &data);
+    void sigImageBackLoaded(const QString &path, const DBImgInfo &data);
 
     void slt80ImgInfosReady(QVector<DBImgInfo> ImageDatas);
 signals:

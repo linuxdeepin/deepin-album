@@ -12,7 +12,7 @@ class FilterLabel : public QLabel
     Q_OBJECT
 
 public:
-    FilterLabel(QWidget *parent);
+    explicit FilterLabel(QWidget *parent);
     ~FilterLabel() override;
 protected:
     void mouseReleaseEvent(QMouseEvent *ev) override;
@@ -26,7 +26,7 @@ class FilterWidget : public QWidget
     Q_OBJECT
 
 public:
-    FilterWidget(QWidget *parent);
+    explicit FilterWidget(QWidget *parent);
     ~FilterWidget() override;
 
     void setIcon(QIcon icon);

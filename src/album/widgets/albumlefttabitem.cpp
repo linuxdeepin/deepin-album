@@ -192,9 +192,9 @@ void AlbumLeftTabItem::initUI()
     m_unMountBtn = new MountExternalBtn(m_nameLabel);
     //外部设备插入，需要添加卸载按钮
     if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr || ALBUM_PATHTYPE_BY_U == m_albumTypeStr) {
-        QPixmap pixmap;
-        pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_exit_normal.svg", QSize(24, 24));
-        m_unMountBtn->setPixmap(pixmap);
+        QPixmap pixmapMount;
+        pixmapMount = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_exit_normal.svg", QSize(24, 24));
+        m_unMountBtn->setPixmap(pixmapMount);
         pHBoxLayout->addWidget(m_unMountBtn);
         //m_unMountBtn->move(92, 9);
     }

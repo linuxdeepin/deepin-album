@@ -106,7 +106,7 @@ public:
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
-    void runDetail() Q_DECL_OVERRIDE;
+    void runDetail() override;
 
 signals:
     void sigImageFilesImported(void *imgobject, QStringList &filelist);

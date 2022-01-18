@@ -117,7 +117,7 @@ public:
     void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
     QJsonObject createShorcutJson();
     //开始监控
-    void startMonitor(const QStringList &paths, const QStringList &albumNames, const QList<int> UIDs);
+    void startMonitor(const QStringList &paths, const QStringList &albumNames, const QList<int> &UIDs);
 private:
     explicit MainWindow(); //修改为单例后，构造函数也挪走了
     void thumbnailZoomIn();
@@ -270,6 +270,9 @@ private:
     QShortcut *m_CtrlUp;
     QShortcut *m_ReCtrlUp;
     QShortcut *m_CtrlDown;
+
+    MainWindow(const MainWindow &) = delete;
+    MainWindow operator=(const MainWindow &) = delete;
 
 public:
     QButtonGroup *getButG();

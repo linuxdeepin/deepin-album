@@ -134,7 +134,7 @@ int ImageDataService::getCount()
     return static_cast<int>(m_AllImageMap.size());
 }
 
-bool ImageDataService::readThumbnailByPaths(QStringList files, bool isFinishFilter, bool reLoadThumbnail)
+bool ImageDataService::readThumbnailByPaths(const QStringList &files, bool isFinishFilter, bool reLoadThumbnail)
 {
 #if 1
     Q_UNUSED(files)

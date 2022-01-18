@@ -318,19 +318,16 @@ QString mkMutiDir(const QString &path)   //创建多级目录
 //根据源文件路径生产缩略图路径
 QString filePathToThumbnailPath(const QString &filePath, QString dataHash)
 {
-    QString thumbnailPath = albumGlobal::CACHE_PATH + filePath;
-
     QFileInfo temDir(filePath);
     //如果hash为空，制作新的hash
     if (dataHash.isEmpty()) {
         dataHash = hashByData(filePath);
     }
 
-    thumbnailPath = albumGlobal::CACHE_PATH + temDir.path() + "/" + dataHash + ".png";
-    return thumbnailPath;
+    return albumGlobal::CACHE_PATH + temDir.path() + "/" + dataHash + ".png";
 }
 
-bool checkMimeUrls(const QList<QUrl> urls)
+bool checkMimeUrls(const QList<QUrl> &urls)
 {
     if (1 > urls.size()) {
         return false;

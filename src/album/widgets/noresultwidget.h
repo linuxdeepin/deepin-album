@@ -55,7 +55,7 @@ class NoResultWidget : public QWidget
     Q_OBJECT
 
 public:
-    NoResultWidget(QWidget *parent);
+    explicit NoResultWidget(QWidget *parent);
     ~NoResultWidget()override;
 
 private:

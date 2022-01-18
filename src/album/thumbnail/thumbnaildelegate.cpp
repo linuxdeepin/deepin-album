@@ -55,10 +55,10 @@ ThumbnailDelegate::ThumbnailDelegate(DelegateType type, QObject *parent)
     , selectedPixmapLight(utils::base::renderSVG(":/resources/images/other/select_active.svg", QSize(28, 28)))
     , selectedPixmapDark(utils::base::renderSVG(":/images/logo/resources/images/other/select_active_dark.svg", QSize(28, 28)))
     , m_delegatetype(type)
+    , m_default(utils::base::renderSVG(":/icons/deepin/builtin/icons/light/picture_default_light.svg", QSize(60, 45)))
+    , m_videoDefault(utils::base::renderSVG(":/icons/deepin/builtin/icons/light/video_default_light.svg", QSize(60, 45)))
+    , m_damagePixmap(utils::image::getDamagePixmap(DApplicationHelper::instance()->themeType() == DApplicationHelper::LightType))
 {
-    m_default = utils::base::renderSVG(":/icons/deepin/builtin/icons/light/picture_default_light.svg", QSize(60, 45));
-    m_videoDefault = utils::base::renderSVG(":/icons/deepin/builtin/icons/light/video_default_light.svg", QSize(60, 45));
-    m_damagePixmap = utils::image::getDamagePixmap(DApplicationHelper::instance()->themeType() == DApplicationHelper::LightType);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this,
             &ThumbnailDelegate::onThemeTypeChanged);
 }
@@ -332,10 +332,9 @@ bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
     if (COMMON_STR_FAVORITES == m_imageTypeStr) {
         if (event->type() == QEvent::MouseButtonPress) {
             const DBImgInfo data = itemData(index);
-            bool blast = false;
-            if (!blast && rect.contains(pMouseEvent->pos())) {
+            if (rect.contains(pMouseEvent->pos())) {
                 emit sigCancelFavorite(index);
-            } else if (blast && event->type() == QEvent::MouseButtonPress && rect.contains(pMouseEvent->x(), pMouseEvent->y() + 27)) {
+            } else if (event->type() == QEvent::MouseButtonPress && rect.contains(pMouseEvent->x(), pMouseEvent->y() + 27)) {
                 emit sigCancelFavorite(index);
             }
         }

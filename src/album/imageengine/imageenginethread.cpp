@@ -265,9 +265,8 @@ void ImportImagesThread::runDetail()
         DBImgInfoList dbInfos;
         using namespace utils::image;
         int noReadCount = 0;
-        bool bIsVideo = false;
         for (auto imagePath : image_list) {
-            bIsVideo = utils::base::isVideo(imagePath);
+            bool bIsVideo = utils::base::isVideo(imagePath);
             if (!bIsVideo && !imageSupportRead(imagePath)) {
                 noReadCount++;
                 continue;

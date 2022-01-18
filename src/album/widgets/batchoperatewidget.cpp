@@ -135,15 +135,12 @@ void BatchOperateWidget::sltListViewChanged()
 
 bool BatchOperateWidget::isAllSelectedCollected()
 {
-    bool isCollected = true;
     QStringList paths =  m_thumbnailListView->selectedPaths();
     if (paths.isEmpty()) {
-        isCollected = false;
-        return isCollected;
+        return false;
     }
-    isCollected = DBManager::instance()->isAllImgExistInAlbum(DBManager::SpUID::u_Favorite, paths, AlbumDBType::Favourite);
 
-    return isCollected;
+    return DBManager::instance()->isAllImgExistInAlbum(DBManager::SpUID::u_Favorite, paths, AlbumDBType::Favourite);
 }
 //刷新恢复与删除按钮是否可用状态
 void BatchOperateWidget::refreshTrashBtnState()

@@ -234,7 +234,7 @@ QDateTime   stringToDateTime(const QString &time);
 QString     getFileContent(const QString &file);
 QPixmap     renderSVG(const QString &filePath, const QSize &size);
 //bool        checkMimeData(const QMimeData *mimeData);
-bool        checkMimeUrls(const QList<QUrl> urls);
+bool        checkMimeUrls(const QList<QUrl> &urls);
 QString     mkMutiDir(const QString &path);
 //根据源文件路径生产缩略图路径
 QString     filePathToThumbnailPath(const QString &filePath, QString dataHash = "");
