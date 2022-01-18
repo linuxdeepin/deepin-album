@@ -159,13 +159,12 @@ void FileInotify::getAllPicture(bool isFirst)
         }
     }
 
-    //初次导入，判重
-    if (isFirst) {
-        QStringList allpaths = DBManager::instance()->getAllPaths();
-        for (int i = 0; i < m_allPic.size(); i++) {
-            if (allpaths.contains(m_allPic.at(i))) {
-                m_newFile.removeOne(m_allPic.at(i));
-            }
+    //判重
+    //由于这里是基于相册的，所以不能使用基于ImageTable的方法
+    auto allInfos = DBManager::instance()->getPathsByAlbum(m_currentUID, AutoImport);
+    for (int i = 0; i < m_allPic.size(); i++) {
+        if (allInfos.contains(m_allPic.at(i))) {
+            m_newFile.removeOne(m_allPic.at(i));
         }
     }
 }

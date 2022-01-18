@@ -67,7 +67,9 @@ signals:
 public:
 private:
     bool pathInMap(const QString &path);
-    QImage getImageFromMap(const QString &path);
+
+    //QImage:图片，bool:是否是从缓存加载
+    std::pair<QImage, bool> getImageFromMap(const QString &path);
 
     static ImageDataService *s_ImageDataService;
     QMutex m_queuqMutex;

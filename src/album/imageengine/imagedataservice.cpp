@@ -65,7 +65,7 @@ bool ImageDataService::pathInMap(const QString &path)
     }
 }
 
-QImage ImageDataService::getImageFromMap(const QString &path)
+std::pair<QImage, bool> ImageDataService::getImageFromMap(const QString &path)
 {
     auto iter = std::find_if(m_AllImageMap.begin(), m_AllImageMap.end(), [path](const std::pair<QString, QImage> &pr) {
         if (pr.first.size() != path.size()) {
@@ -79,9 +79,9 @@ QImage ImageDataService::getImageFromMap(const QString &path)
         return true;
     });
     if (iter != m_AllImageMap.end()) {
-        return iter->second;
+        return std::make_pair(iter->second, true);
     } else {
-        return QImage();
+        return std::make_pair(QImage(), false);
     }
 }
 
@@ -244,7 +244,7 @@ QImage ImageDataService::getThumnailImageByPath(const QString &path)
     if (path.isEmpty()) {
         return  QImage();
     }
-    return getImageFromMap(path);
+    return getImageFromMap(path).first;
 }
 
 bool ImageDataService::imageIsLoaded(const QString &path, bool isTrashFile)
@@ -293,8 +293,8 @@ QImage ImageDataService::getThumnailImageByPathRealTime(const QString &path, boo
     }
 
     auto bufferImage = getImageFromMap(realPath);
-    if (!bufferImage.isNull()) {
-        return bufferImage;
+    if (bufferImage.second) {
+        return bufferImage.first;
     }
 
     readThumbnailManager->addLoadPath(realPath);
@@ -372,7 +372,7 @@ void ReadThumbnailManager::readThumbnail()
                 if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
                     qDebug() << errMsg;
                     ImageDataService::instance()->addImage(path, tImg);
-                    return;
+                    continue;
                 }
             }
             //裁切
