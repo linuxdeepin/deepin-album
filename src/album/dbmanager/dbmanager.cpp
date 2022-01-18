@@ -326,7 +326,7 @@ const QList<std::pair<int, QString>> DBManager::getAllAlbumNames(AlbumDBType aty
     QList<std::pair<int, QString>> list;
     m_query->setForwardOnly(true);
     //以UID和相册名称同时作为筛选条件，名称作为UI显示用，UID作为UI和数据库通信的钥匙
-    if (m_query->exec(QString("SELECT DISTINCT UID, AlbumName FROM AlbumTable3 WHERE AlbumDBType =") + QString::number(atype))) {
+    if (m_query->exec(QString("SELECT DISTINCT UID, AlbumName FROM AlbumTable3 WHERE AlbumDBType=%1 ORDER BY UID").arg(atype))) {
         while (m_query->next()) {
             list.push_back(std::make_pair(m_query->value(0).toInt(), m_query->value(1).toString()));
         }
@@ -335,7 +335,7 @@ const QList<std::pair<int, QString>> DBManager::getAllAlbumNames(AlbumDBType aty
     return list;
 }
 
-bool DBManager::isDefaultAutoImportDB(int UID) const
+bool DBManager::isDefaultAutoImportDB(int UID)
 {
     if (UID > u_Favorite && UID < u_CustomStart) {
         return true;
@@ -344,18 +344,27 @@ bool DBManager::isDefaultAutoImportDB(int UID) const
     }
 }
 
-QStringList DBManager::getDefaultNotifyPaths() const
+std::tuple<QStringList, QStringList, QList<int>> DBManager::getDefaultNotifyPaths()
 {
-    QStringList monitorPaths;
-
     //图片路径
+    QStringList monitorPaths;
+    QStringList monitorAlbumNames;
+    QList<int>  monitorAlbumUIDs;
     auto stdPicPaths = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
     if (!stdPicPaths.isEmpty()) {
         auto stdPicPath = stdPicPaths[0];
 
-        monitorPaths.push_back(stdPicPath + "/" + "Screen Capture");
-        monitorPaths.push_back(stdPicPath + "/" + "Camera");
-        monitorPaths.push_back(stdPicPath + "/" + "Draw");
+        monitorPaths.push_back(stdPicPath + "/Screenshots");
+        monitorPaths.push_back(stdPicPath + "/Camera");
+        monitorPaths.push_back(stdPicPath + "/Draw");
+
+        monitorAlbumNames.push_back(tr("Screen Capture"));
+        monitorAlbumNames.push_back(tr("Camera"));
+        monitorAlbumNames.push_back(tr("Draw"));
+
+        monitorAlbumUIDs.push_back(DBManager::SpUID::u_ScreenCapture);
+        monitorAlbumUIDs.push_back(DBManager::SpUID::u_Camera);
+        monitorAlbumUIDs.push_back(DBManager::SpUID::u_Draw);
     }
 
     //视频路径
@@ -363,11 +372,41 @@ QStringList DBManager::getDefaultNotifyPaths() const
     if (!stdMoviePaths.isEmpty()) {
         auto stdMoviePath = stdMoviePaths[0];
 
-        monitorPaths.push_back(stdMoviePath + "/" + "Screen Capture");
-        monitorPaths.push_back(stdMoviePath + "/" + "Camera");
+        monitorPaths.push_back(stdMoviePath + "/Screen Recordings");
+        monitorPaths.push_back(stdMoviePath + "/Camera");
+
+        monitorAlbumNames.push_back(tr("Screen Capture"));
+        monitorAlbumNames.push_back(tr("Camera"));
+
+        monitorAlbumUIDs.push_back(DBManager::SpUID::u_ScreenCapture);
+        monitorAlbumUIDs.push_back(DBManager::SpUID::u_Camera);
     }
 
-    return monitorPaths;
+    //返回tuple数据
+    return std::make_tuple(monitorPaths, monitorAlbumNames, monitorAlbumUIDs);
+}
+
+bool DBManager::defaultNotifyPathExists(int UID)
+{
+    if (!isDefaultAutoImportDB(UID)) { //如果连默认导入UID都不是，直接返回
+        return false;
+    }
+
+    auto pathsListTuple = getDefaultNotifyPaths();
+    auto uidList = std::get<2>(pathsListTuple);
+    auto pathsList = std::get<0>(pathsListTuple);
+
+    bool isExists = false;
+    for (int i = 0; i != uidList.size(); ++i) {
+        if (uidList[i] == UID) {
+            QFileInfo currentPath(pathsList[i]);
+            if (currentPath.exists() && currentPath.isDir()) {
+                isExists = true;
+                break;
+            }
+        }
+    }
+    return isExists;
 }
 
 const QStringList DBManager::getPathsByAlbum(int UID, AlbumDBType atype) const
@@ -821,7 +860,8 @@ bool DBManager::checkCustomAutoImportPathIsNotified(const QString &path)
 {
     //检查是否是默认路径，这一段不涉及数据库操作，不需要加锁
     auto defaultPath = getDefaultNotifyPaths();
-    for (auto &eachPath : defaultPath) {
+    auto pathsList = std::get<0>(defaultPath);
+    for (auto &eachPath : pathsList) {
         if (path.startsWith(eachPath) || eachPath.startsWith(path)) {
             return true;
         }
@@ -1200,6 +1240,15 @@ void DBManager::checkDatabase()
 
 void DBManager::insertSpUID(const QString &albumName, AlbumDBType astype, SpUID UID)
 {
+    //0.路径不存在
+    if (!defaultNotifyPathExists(UID)) {
+        //路径不存在则删除已有的相册
+        if (!m_query->exec(QString("DELETE FROM AlbumTable3 WHERE UID=%1").arg(UID))) {
+        }
+
+        return;
+    }
+
     //1.检查当前需要新建的sp相册是否存在
     if (!m_query->exec(QString("SELECT UID FROM AlbumTable3 WHERE UID=%1").arg(UID)) || m_query->next()) {
         return;
@@ -1251,14 +1300,18 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
     QStringList pathHashs;
     for (const auto &info : infos) {
         //计算路径hash
-        auto hash = utils::base::hashByString(info.filePath);
-        pathHashs.push_back(hash);
+        QString hash;
+        if (QFile::exists(info.filePath)) {
+            hash = utils::base::hashByString(info.filePath);
 
-        //复制操作
-        QFile::copy(info.filePath, utils::base::getDeleteFullPath(hash, info.getFileNameFromFilePath()));
+            //复制操作
+            QFile::copy(info.filePath, utils::base::getDeleteFullPath(hash, info.getFileNameFromFilePath()));
 
-        //删除原图至回收站
-        utils::base::trashFile(info.filePath);
+            //删除原图至回收站
+            utils::base::trashFile(info.filePath);
+        }
+
+        pathHashs.push_back(hash); //不能丢进if，否则下面会炸
     }
 
     QMutexLocker mutex(&m_mutex);
@@ -1274,6 +1327,9 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
     if (!m_query->prepare(qs)) {
     }
     for (int i = 0; i != infos.size(); ++i) {
+        if (pathHashs[i].isEmpty()) {
+            continue;
+        }
         m_query->addBindValue(pathHashs[i]); //复用上面生成的hash
         m_query->addBindValue(infos[i].filePath);
         m_query->addBindValue(infos[i].getFileNameFromFilePath());

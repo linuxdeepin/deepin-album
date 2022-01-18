@@ -36,10 +36,16 @@ void FileInotifyGroup::startWatch(const QString &path, const QString &album, int
     QDir dir(path);
 
     if (!dir.exists()) {
-        //dir.mkdir(path); TODO：存在争议
         return;
     }
 
     auto watcher = new FileInotify(this);
     watcher->addWather(path, album, UID);
+
+    //如果路径完全没了，则销毁相关的UI和数据库内容
+    connect(watcher, &FileInotify::pathDestroyed, [UID]() {
+        if (!DBManager::defaultNotifyPathExists(UID)) {
+            emit dApp->signalM->sigMonitorDestroyed(UID);
+        }
+    });
 }

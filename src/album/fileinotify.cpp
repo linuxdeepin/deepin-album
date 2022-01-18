@@ -25,6 +25,7 @@
 #include "utils/unionimage.h"
 #include "baseutils.h"
 #include "imageutils.h"
+#include "signalmanager.h"
 
 #include <sys/inotify.h>
 #include <dirent.h>
@@ -109,6 +110,12 @@ void FileInotify::getAllPicture(bool isFirst)
 {
     QDir dir(m_currentDir);
     if (!dir.exists()) {
+        //文件夹被删除，清理数据库
+        DBManager::instance()->removeAlbum(m_currentUID);
+        m_deleteFile = m_allPic;
+        m_newFile.clear();
+        m_allPic.clear();
+        emit pathDestroyed();
         return;
     }
     dir.setFilter(QDir::Files); //设置类型过滤器，只为文件格式

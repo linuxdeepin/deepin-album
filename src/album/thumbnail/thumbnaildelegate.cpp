@@ -37,6 +37,7 @@
 #include <QApplication>
 #include <DFontSizeManager>
 #include <DGuiApplicationHelper>
+#include <timelinedatewidget.h>
 
 #include "imageengineapi.h"
 #include "imagedataservice.h"

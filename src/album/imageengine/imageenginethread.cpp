@@ -312,18 +312,16 @@ void ImportImagesThread::runDetail()
         }
         if (image_list.length() == pathlist.length() && !pathlist.isEmpty()) {
             emit dApp->signalM->updateStatusBarImportLabel(pathlist, 1, m_albumname);
-            emit dApp->signalM->ImportSuccess();
-//            dApp->m_imageloader->ImportImageLoader(tempdbInfos, m_albumname);// 导入照片提示在此处理中
+            emit dApp->signalM->ImportSuccess(); //导入成功
             m_obj->imageImported(true);
-            // ImportImageLoader() 中，底部状态栏将显示导入状态，之后，核对是否存在重复图片，发送信号准备提示
-            if (curAlbumImportedPathList.count() > 0) {
-                emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_UID);
+            if (!curAlbumImportedPathList.isEmpty()) {
+                emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_UID); //相同图片
             }
         } else {
             if (m_dbType == AutoImport) { //发送导入中断信号
-                emit dApp->signalM->ImportInterrupted();
+                emit dApp->signalM->ImportInterrupted(); //导入中断
                 if (!pathlist.isEmpty()) {
-                    emit dApp->signalM->ImportSomeFailed(image_list.length(), image_list.length() - pathlist.length());
+                    emit dApp->signalM->ImportSomeFailed(image_list.length(), image_list.length() - pathlist.length()); //部分失败提示
                 }
             } else {
                 //BUG#92844 额外提示未发现照片或文件

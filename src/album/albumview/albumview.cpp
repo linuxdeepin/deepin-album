@@ -333,8 +333,9 @@ void AlbumView::initConnections()
     connect(m_waitDeviceScandialog->m_ignoreDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogIgnore);
     connect(m_pLeftListView->m_pMountListWidget, &DListWidget::clicked, this, &AlbumView::onLeftListViewMountListWidgetClicked);
     connect(m_waitDeviceScandialog, &Waitdevicedialog::closed, this, &AlbumView::onWaitDialogClose);
-
     connect(ImageEngineApi::instance(), &ImageEngineApi::sigMountFileListLoadReady, this, &AlbumView::sltLoadMountFileList, Qt::QueuedConnection);
+    //路径监控相关
+    connect(dApp->signalM, &SignalManager::sigMonitorDestroyed, this, &AlbumView::onMonitorDestroyed);
 }
 
 void AlbumView::initLeftView()
@@ -1270,8 +1271,8 @@ void AlbumView::onKeyDelete()
         }
     } else if (COMMON_STR_CUSTOM == m_currentType) {
         paths = m_customThumbnailList->selectedPaths();
-        // 如果没有选中的照片,或相册中的照片数为0,则删除相册
-        if (paths.isEmpty() || 0 == DBManager::instance()->getItemsCountByAlbum(m_currentUID, ItemTypeNull)) {
+        // 在不是自动导入相册的前提下：如果没有选中的照片，或相册中的照片数为0，则删除相册
+        if ((paths.isEmpty() || DBManager::instance()->getItemsCountByAlbum(m_currentUID, ItemTypeNull) == 0) && !DBManager::instance()->isDefaultAutoImportDB(m_currentUID)) {
             QListWidgetItem *item = m_pLeftListView->m_pCustomizeListView->currentItem();
             AlbumLeftTabItem *pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pCustomizeListView->itemWidget(item));
             m_deleteDialog = new AlbumDeleteDialog;
@@ -1281,15 +1282,15 @@ void AlbumView::onKeyDelete()
                 ImageEngineApi::instance()->moveImagesToTrash(album_paths);
                 DBManager::instance()->removeAlbum(pTabItem->m_UID);
 
-                if (1 < m_pLeftListView->m_pCustomizeListView->count()) {
-                    delete  item;
+                if (m_pLeftListView->m_pCustomizeListView->count() > 1) {
+                    delete item;
                     m_currentItemType = ablumType;
                 } else {
                     m_pLeftListView->updateCustomizeListView();
                     m_pLeftListView->updatePhotoListView();
                     m_currentItemType = photosType;
                 }
-                //刷新右侧视图
+
                 leftTabClicked();
                 m_pLeftListView->onUpdateLeftListview();
                 emit dApp->signalM->sigAlbDelToast(str);
@@ -2047,6 +2048,27 @@ void AlbumView::onFileSystemAdded(const QString &dbusPath)
 {
     DBlockDevice *blDev = DDiskManager::createBlockDevice(dbusPath);
     blDev->mount({});
+}
+
+void AlbumView::onMonitorDestroyed(int UID)
+{
+    //直接把左侧栏删了即可，数据库操作交给别的地方
+    for (int i = 0; i < m_pLeftListView->m_pCustomizeListView->count(); i++) {
+        QListWidgetItem *item = m_pLeftListView->m_pCustomizeListView->item(i);
+        AlbumLeftTabItem *pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pCustomizeListView->itemWidget(item));
+        if (pTabItem) {
+            if (UID == pTabItem->m_UID) {
+                delete item;
+                break;
+            }
+        }
+    }
+
+    //刷新界面
+    if (this->isVisible()) {
+        leftTabClicked();
+        m_pLeftListView->onUpdateLeftListview();
+    }
 }
 
 void AlbumView::onBlockDeviceAdded(const QString &blks)

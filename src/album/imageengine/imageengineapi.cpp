@@ -347,10 +347,11 @@ bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash, bool b
         return false;
     }
 
-    //非最近删除进来的，需要剔除没有权限的部分
+    //非最近删除进来的，需要剔除存在且没有权限的部分
     if (!typetrash) {
         auto iter = std::remove_if(files.begin(), files.end(), [](const QString & eachFile) {
-            return !QFile::permissions(eachFile).testFlag(QFile::WriteUser);
+            QFileInfo info(eachFile);
+            return !QFile::permissions(eachFile).testFlag(QFile::WriteUser) && info.exists();
         });
         files.erase(iter, files.end());
         if (files.isEmpty()) {

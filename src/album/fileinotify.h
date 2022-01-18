@@ -45,6 +45,9 @@ public:
     //启动时加载一次
     void pathLoadOnce();
 
+signals:
+    void pathDestroyed();
+
 public slots:
     //发送插入
     void onNeedSendPictures();

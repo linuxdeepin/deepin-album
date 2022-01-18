@@ -1646,7 +1646,8 @@ bool ThumbnailListView::isSelectedCanUseDelete()
     }
     bool isSelectedCanUseDelete = false;
     for (const auto &path : list) {
-        if (QFile::permissions(path).testFlag(QFile::WriteUser)) { //只要有一个能写，就可以删
+        QFileInfo info(path);
+        if (QFile::permissions(path).testFlag(QFile::WriteUser) || !info.exists()) { //只要有一个能写或不存在，就可以删
             isSelectedCanUseDelete = true;
             break;
         }

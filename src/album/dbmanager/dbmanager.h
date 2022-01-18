@@ -118,8 +118,11 @@ public:
     //输入：相册类型，输出：所属类型下的相册UID、相册名称
     const QList<std::pair<int, QString> > getAllAlbumNames(AlbumDBType atype = AlbumDBType::Custom) const;
     //从UID判断是否是默认导入路径
-    bool isDefaultAutoImportDB(int UID) const;
-    QStringList getDefaultNotifyPaths() const;
+    static bool isDefaultAutoImportDB(int UID);
+    //获取默认监控路径数据包，数据顺序是：监控路径，界面显示名字，对应的UID
+    static std::tuple<QStringList, QStringList, QList<int> > getDefaultNotifyPaths();
+    //确认目标UID对应的默认监控路径是否存在
+    static bool defaultNotifyPathExists(int UID);
     const QStringList       getPathsByAlbum(int UID, AlbumDBType atype = AlbumDBType::Custom) const;
     const DBImgInfoList     getInfosByAlbum(int UID) const;
     int                     getItemsCountByAlbum(int UID, const ItemType &type) const;

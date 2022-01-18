@@ -122,6 +122,9 @@ signals:
     //监控到改变
     void sigMonitorChanged(QStringList fileAdd, QStringList fileDelete, QString album, int UID);
 
+    //自动导入路径被删除
+    void sigMonitorDestroyed(int UID);
+
 private:
     explicit SignalManager(QObject *parent = nullptr);
 

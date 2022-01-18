@@ -1673,42 +1673,8 @@ void MainWindow::showEvent(QShowEvent *event)
     }, Qt::QueuedConnection);
 
     //启动路径监控
-    QStringList monitorPaths;
-    QStringList monitorAlbumNames;
-    QList<int>  monitorAlbumUIDs;
-
-    auto stdPicPaths = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
-    if (!stdPicPaths.isEmpty()) {
-        auto stdPicPath = stdPicPaths[0];
-
-        monitorPaths.push_back(stdPicPath + "/" + "Screen Capture");
-        monitorPaths.push_back(stdPicPath + "/" + "Camera");
-        monitorPaths.push_back(stdPicPath + "/" + "Draw");
-
-        monitorAlbumNames.push_back(tr("Screen Capture"));
-        monitorAlbumNames.push_back(tr("Camera"));
-        monitorAlbumNames.push_back(tr("Draw"));
-
-        monitorAlbumUIDs.push_back(DBManager::SpUID::u_Camera);
-        monitorAlbumUIDs.push_back(DBManager::SpUID::u_ScreenCapture);
-        monitorAlbumUIDs.push_back(DBManager::SpUID::u_Draw);
-    }
-
-    auto stdMoviePaths = QStandardPaths::standardLocations(QStandardPaths::MoviesLocation);
-    if (!stdMoviePaths.isEmpty()) {
-        auto stdMoviePath = stdMoviePaths[0];
-
-        monitorPaths.push_back(stdMoviePath + "/" + "Screen Capture");
-        monitorPaths.push_back(stdMoviePath + "/" + "Camera");
-
-        monitorAlbumNames.push_back(tr("Screen Capture"));
-        monitorAlbumNames.push_back(tr("Camera"));
-
-        monitorAlbumUIDs.push_back(DBManager::SpUID::u_Camera);
-        monitorAlbumUIDs.push_back(DBManager::SpUID::u_ScreenCapture);
-    }
-
-    startMonitor(monitorPaths, monitorAlbumNames, monitorAlbumUIDs);
+    auto monitorPathsTuple = DBManager::getDefaultNotifyPaths();
+    startMonitor(std::get<0>(monitorPathsTuple), std::get<1>(monitorPathsTuple), std::get<2>(monitorPathsTuple));
 
     //读取并加载自定义的自动导入路径
     ImportImagesFromCustomAutoPaths();
@@ -2033,7 +1999,7 @@ QJsonObject MainWindow::createShorcutJson()
 void MainWindow::startMonitor(const QStringList &paths, const QStringList &albumNames, const QList<int> UIDs)
 {
     for (int i = 0; i != paths.size(); ++i) {
-        if (paths.at(i).size() > 0) {
+        if (!paths.at(i).isEmpty()) {
             m_fileInotifygroup->startWatch(paths.at(i), albumNames.at(i), UIDs.at(i));
         }
     }

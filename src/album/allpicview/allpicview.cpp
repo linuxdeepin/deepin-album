@@ -205,8 +205,13 @@ void AllPicView::monitorHaveNewFile(QStringList fileAdd, QStringList fileDelete,
 {
     //注意：导入新图由于需要制作缩略图，因此是异步多线程的，而移除不存在的图只需要操作数据库，所以是单线程的
     //所以先执行移除，再执行导入
-    ImageEngineApi::instance()->removeImageFromAutoImport(fileDelete, UID); //移除不存在的图
-    ImageEngineApi::instance()->ImportImagesFromFileList(fileAdd, album, UID, this, true, AutoImport); //导入新图
+    if (!fileDelete.isEmpty()) {
+        ImageEngineApi::instance()->removeImageFromAutoImport(fileDelete, UID); //移除不存在的图
+    }
+
+    if (!fileAdd.isEmpty()) {
+        ImageEngineApi::instance()->ImportImagesFromFileList(fileAdd, album, UID, this, true, AutoImport); //导入新图
+    }
 }
 
 void AllPicView::updatePicsIntoThumbnailView()
