@@ -1218,6 +1218,12 @@ void MainWindow::onNewPathAction()
     auto path = url.toLocalFile();
     QDir dir(path);
     if (path.startsWith("/media/") || // U盘
+            path.contains("smb-share:server=") || //smb地址
+            path.contains("gphoto2:host=Apple") || //apple phone
+            path.contains("ftp:host=") || //ftp路径
+            path.contains("gphoto2:host=") || //ptp路径
+            path.contains("mtp:host=") || //mtp路径
+            path.contains(QDir::homePath() + "/.local/share/Trash") || //垃圾箱
             utils::base::isVaultFile(path) || //保险箱
             path == QDir::homePath() || //主文件夹
             path == "/" || //根目录
