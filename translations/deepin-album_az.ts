@@ -1,57 +1,57 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="az" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="az">
 <context>
     <name/>
     <message>
         <source>Delete</source>
-        <translation>Silmək</translation>
+        <translation type="vanished">Silmək</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tam ekran</translation>
+        <translation type="vanished">Tam ekran</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slayd-şou</translation>
+        <translation type="vanished">Slayd-şou</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>İxrac</translation>
+        <translation type="vanished">İxrac</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopyalamaq</translation>
+        <translation type="vanished">Kopyalamaq</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Sevimlilər</translation>
+        <translation type="vanished">Sevimlilər</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Saat əqrəbi istiqamətinə döndərmək</translation>
+        <translation type="vanished">Saat əqrəbi istiqamətinə döndərmək</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Saat əqrəbinin əksinə döndərmək</translation>
+        <translation type="vanished">Saat əqrəbinin əksinə döndərmək</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Divar kağızı kimi təyin etmək</translation>
+        <translation type="vanished">Divar kağızı kimi təyin etmək</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Fayl menecerində göstərmək</translation>
+        <translation type="vanished">Fayl menecerində göstərmək</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Fotoşəkil məlumatları</translation>
+        <translation type="vanished">Fotoşəkil məlumatları</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation>Video haqqında</translation>
+        <translation type="vanished">Video haqqında</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Bərpa etmək</translation>
+        <translation type="vanished">Bərpa etmək</translation>
     </message>
 </context>
 <context>
@@ -253,6 +253,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -309,23 +328,55 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Bu şəkili albomdan silmək istədiyinizə əminsiniz?</translation>
+        <translation type="vanished">Bu şəkili albomdan silmək istədiyinizə əminsiniz?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation><numerusform>Albomlardan %n şəkli silmək istədiyinizə əminsiniz?</numerusform><numerusform>Albomdan %n şəkli silmək istədiyinizə əminsiniz?</numerusform></translation>
+        <translation type="vanished"><numerusform>Albomlardan %n şəkli silmək istədiyinizə əminsiniz?</numerusform><numerusform>Albomdan %n şəkli silmək istədiyinizə əminsiniz?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation>Albomdan bu videonu silmək istədiyinizə əminsiniz?</translation>
+        <translation type="vanished">Albomdan bu videonu silmək istədiyinizə əminsiniz?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation><numerusform>Albomlardan %n videonu silmək istədiyinizə əminsiniz?</numerusform><numerusform>Albomlardan %n videonu silmək istədiyinizə əminsiniz?</numerusform></translation>
+        <translation type="vanished"><numerusform>Albomlardan %n videonu silmək istədiyinizə əminsiniz?</numerusform><numerusform>Albomlardan %n videonu silmək istədiyinizə əminsiniz?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation><numerusform>Albomlardan %n elementi silmək istədiyinizə əminsiniz?</numerusform><numerusform>Albomlardan %n elementi silmək istədiyinizə əminsiniz?</numerusform></translation>
+        <translation type="vanished"><numerusform>Albomlardan %n elementi silmək istədiyinizə əminsiniz?</numerusform><numerusform>Albomlardan %n elementi silmək istədiyinizə əminsiniz?</numerusform></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -340,7 +391,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"/>
+        <translation>Şəkil məlumatı</translation>
     </message>
 </context>
 <context>
@@ -383,6 +434,10 @@
     <message>
         <source>All photos and videos</source>
         <translation>Bütün şəkillər və videolar</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>Heç bir şəkil və ya video tapılmadı</translation>
     </message>
 </context>
 <context>
@@ -597,6 +652,26 @@
         <source>Import photos and videos</source>
         <translation>Fotoları və videoları idxal edin</translation>
     </message>
+    <message>
+        <source>Import folders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -682,7 +757,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Ad</translation>
     </message>
 </context>
 <context>
@@ -1074,7 +1149,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Ad</translation>
     </message>
 </context>
 </TS>

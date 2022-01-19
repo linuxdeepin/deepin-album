@@ -1,57 +1,57 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="it" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="it">
 <context>
     <name/>
     <message>
         <source>Delete</source>
-        <translation>Elimina</translation>
+        <translation type="vanished">Elimina</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tutto schermo</translation>
+        <translation type="vanished">Tutto schermo</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Presentazione</translation>
+        <translation type="vanished">Presentazione</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Esporta</translation>
+        <translation type="vanished">Esporta</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copia</translation>
+        <translation type="vanished">Copia</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Agg. ai preferiti</translation>
+        <translation type="vanished">Agg. ai preferiti</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Ruota in senso orario</translation>
+        <translation type="vanished">Ruota in senso orario</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Ruota in senso antiorario</translation>
+        <translation type="vanished">Ruota in senso antiorario</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Imposta come sfondo</translation>
+        <translation type="vanished">Imposta come sfondo</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Visualizza nel File Manager</translation>
+        <translation type="vanished">Visualizza nel File Manager</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Info immagine</translation>
+        <translation type="vanished">Info immagine</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation>Video info</translation>
+        <translation type="vanished">Video info</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Ripristina</translation>
+        <translation type="vanished">Ripristina</translation>
     </message>
 </context>
 <context>
@@ -159,11 +159,11 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation type="unfinished"/>
+        <translation>Caricamento...</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on them</source>
-        <translation type="unfinished"/>
+        <translation>I file verranno eliminati definitivamente dopo i giorni indicati</translation>
     </message>
 </context>
 <context>
@@ -253,6 +253,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -309,23 +328,55 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Sei sicuro di eliminare questa foto dall&apos;album?</translation>
+        <translation type="vanished">Sei sicuro di eliminare questa foto dall&apos;album?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="vanished"><numerusform>Sicuro di voler eliminare %n immagini dall&apos;album?</numerusform><numerusform>Sicuro di voler eliminare %n immagini dall&apos;album?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Sei sicuro di eliminare questo video dall&apos;album?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="vanished"><numerusform>Sicuro di voler eliminare %n video dall&apos;album?</numerusform><numerusform>Sicuro di voler eliminare %n video dall&apos;album?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="vanished"><numerusform>Sicuro di voler eliminare %n elementi dall&apos;album?</numerusform><numerusform>Sicuro di voler eliminare %n elementi dall&apos;album?</numerusform></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -383,6 +434,10 @@
     <message>
         <source>All photos and videos</source>
         <translation>Tutte le immagini e video</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>Nessuna immagine o video trovati</translation>
     </message>
 </context>
 <context>
@@ -580,11 +635,11 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     </message>
     <message>
         <source>Export photos</source>
-        <translation type="unfinished"/>
+        <translation>Esporta foto</translation>
     </message>
     <message>
         <source>Import photos/videos</source>
-        <translation type="unfinished"/>
+        <translation>Importa foto/video</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -592,10 +647,30 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     </message>
     <message>
         <source>Photo/Video info</source>
-        <translation type="unfinished"/>
+        <translation>Info Foto/Video</translation>
     </message>
     <message>
         <source>Import photos and videos</source>
+        <translation>Importa foto e video</translation>
+    </message>
+    <message>
+        <source>Import folders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -683,7 +758,7 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Nome</translation>
     </message>
 </context>
 <context>
@@ -851,7 +926,7 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n foto trovate</numerusform><numerusform>%n foto trovate</numerusform></translation>
     </message>
 </context>
 <context>
@@ -874,11 +949,11 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     </message>
     <message>
         <source>Importing: %1</source>
-        <translation type="unfinished"/>
+        <translation>Importazione: %1</translation>
     </message>
     <message>
         <source>Exporting: %1</source>
-        <translation type="unfinished"/>
+        <translation>Esportazione: %1</translation>
     </message>
 </context>
 <context>
@@ -1075,7 +1150,7 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Nome</translation>
     </message>
 </context>
 </TS>

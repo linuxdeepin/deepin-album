@@ -948,6 +948,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
 
         if (utils::base::isVideo(path)) {
             //更改打开方式，先默认影院，失败再选择
+#ifndef USE_TEST
             QProcess *process = new QProcess(this);
             QStringList arguments;
             arguments << path;
@@ -957,6 +958,7 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
                 arguments << "-o" << path;
                 process->startDetached("dde-file-manager", arguments);
             }
+#endif
         } else {
             emit openImage(this->currentIndex().row(), path, false);
         }
@@ -2022,6 +2024,7 @@ void ThumbnailListView::onDoubleClicked(const QModelIndex &index)
         //如果是视频，则使用系统默认播放器打开视频进行播放
         if (data.itemType == ItemTypeVideo) {
             //更改打开方式，先默认影院，失败再选择
+#ifndef USE_TEST
             QProcess *process = new QProcess(this);
             QStringList arguments;
             arguments << data.filePath;
@@ -2031,6 +2034,7 @@ void ThumbnailListView::onDoubleClicked(const QModelIndex &index)
                 arguments << "-o" << data.filePath;
                 process->startDetached("dde-file-manager", arguments);
             }
+#endif
         } else {
             emit openImage(index.row(), data.filePath, false);
         }

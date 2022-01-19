@@ -19,6 +19,7 @@ if(DOTEST)
         add_definitions(-DSYSTEM_MIPS)
         set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
     endif()
+    add_definitions( -DUSE_TEST )
 else()
     # 加速编译优化参数
     if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")

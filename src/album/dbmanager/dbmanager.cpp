@@ -1396,6 +1396,7 @@ void DBManager::removeTrashImgInfos(const QStringList &paths)
         QFile::remove(deletePath);
     }
 
+    mutex.unlock();
     emit dApp->signalM->imagesTrashRemoved();
 }
 

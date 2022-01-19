@@ -1,57 +1,57 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="cs">
 <context>
     <name/>
     <message>
         <source>Delete</source>
-        <translation>Smazat</translation>
+        <translation type="vanished">Smazat</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Na celou obrazovku</translation>
+        <translation type="vanished">Na celou obrazovku</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Promítání</translation>
+        <translation type="vanished">Promítání</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation type="vanished">Export</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopírovat</translation>
+        <translation type="vanished">Kopírovat</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Přidat do oblíbených</translation>
+        <translation type="vanished">Přidat do oblíbených</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Otočit doprava</translation>
+        <translation type="vanished">Otočit doprava</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Otočit doleva</translation>
+        <translation type="vanished">Otočit doleva</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Nastavit jako pozadí plochy</translation>
+        <translation type="vanished">Nastavit jako pozadí plochy</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Zobrazit ve správci souborů</translation>
+        <translation type="vanished">Zobrazit ve správci souborů</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informace o fotce</translation>
+        <translation type="vanished">Informace o fotce</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation>Informace o videu</translation>
+        <translation type="vanished">Informace o videu</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Obnovit</translation>
+        <translation type="vanished">Obnovit</translation>
     </message>
 </context>
 <context>
@@ -119,7 +119,7 @@
     </message>
     <message>
         <source>Import All</source>
-        <translation>Importovat vše</translation>
+        <translation>Naimportovat vše</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -159,11 +159,11 @@
     </message>
     <message>
         <source>Loading...</source>
-        <translation>Načítání</translation>
+        <translation>Načítání…</translation>
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on them</source>
-        <translation type="unfinished"/>
+        <translation>Po uplynutí na nich zobrazeného počtu dnů budou soubory nadobro smazány</translation>
     </message>
 </context>
 <context>
@@ -253,6 +253,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -309,23 +328,55 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Opravdu chcete tuto fotku vymazat z alba?</translation>
+        <translation type="vanished">Opravdu chcete tuto fotku vymazat z alba?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation><numerusform>Opravdu chcete %n fotku vymazat z alb?</numerusform><numerusform>Opravdu chcete %n fotky vymazat z alb?</numerusform><numerusform>Opravdu chcete %n fotek vymazat z alb?</numerusform><numerusform>Opravdu chcete %n fotky vymazat z alb?</numerusform></translation>
+        <translation type="vanished"><numerusform>Opravdu chcete %n fotku vymazat z alb?</numerusform><numerusform>Opravdu chcete %n fotky vymazat z alb?</numerusform><numerusform>Opravdu chcete %n fotek vymazat z alb?</numerusform><numerusform>Opravdu chcete %n fotky vymazat z alb?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation>Opravdu chcete toto video vymazat z alba?</translation>
+        <translation type="vanished">Opravdu chcete toto video vymazat z alba?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation><numerusform>Opravdu chcete %n video vymazat z alb?</numerusform><numerusform>Opravdu chcete %n videa vymazat z alb?</numerusform><numerusform>Opravdu chcete %n videí vymazat z alb?</numerusform><numerusform>Opravdu chcete %n videa vymazat z alb?</numerusform></translation>
+        <translation type="vanished"><numerusform>Opravdu chcete %n video vymazat z alb?</numerusform><numerusform>Opravdu chcete %n videa vymazat z alb?</numerusform><numerusform>Opravdu chcete %n videí vymazat z alb?</numerusform><numerusform>Opravdu chcete %n videa vymazat z alb?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation><numerusform>Opravdu chcete %n položku vymazat z alb?</numerusform><numerusform>Opravdu chcete %n položky vymazat z alb?</numerusform><numerusform>Opravdu chcete %n položek vymazat z alb?</numerusform><numerusform>Opravdu chcete %n položky vymazat z alb?</numerusform></translation>
+        <translation type="vanished"><numerusform>Opravdu chcete %n položku vymazat z alb?</numerusform><numerusform>Opravdu chcete %n položky vymazat z alb?</numerusform><numerusform>Opravdu chcete %n položek vymazat z alb?</numerusform><numerusform>Opravdu chcete %n položky vymazat z alb?</numerusform></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -340,7 +391,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"/>
+        <translation>Informace o obrázku</translation>
     </message>
 </context>
 <context>
@@ -383,6 +434,10 @@
     <message>
         <source>All photos and videos</source>
         <translation>Všechny fotky a videa</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>Nenalezeny žádné fotky či videa</translation>
     </message>
 </context>
 <context>
@@ -451,7 +506,7 @@
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopírovat</translation>
+        <translation>Zkopírovat</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
@@ -579,11 +634,11 @@
     </message>
     <message>
         <source>Export photos</source>
-        <translation type="unfinished"/>
+        <translation>Exportovat fotky</translation>
     </message>
     <message>
         <source>Import photos/videos</source>
-        <translation type="unfinished"/>
+        <translation>Importovat fotky/videa</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -591,10 +646,30 @@
     </message>
     <message>
         <source>Photo/Video info</source>
-        <translation type="unfinished"/>
+        <translation>Informace o fotce/videu</translation>
     </message>
     <message>
         <source>Import photos and videos</source>
+        <translation>Nahrát fotky a videa</translation>
+    </message>
+    <message>
+        <source>Import folders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -682,7 +757,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Název</translation>
     </message>
 </context>
 <context>
@@ -815,7 +890,7 @@
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
-        <translation>Naimportování %1 položek, %2 položek už existuje</translation>
+        <translation>Naimportováno %1 položek, %2 položek už existuje</translation>
     </message>
 </context>
 <context>
@@ -850,7 +925,7 @@
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Nalezena %1 fotka</numerusform><numerusform>Nalezeno %1 fotek</numerusform><numerusform>Nalezeno %1 fotek</numerusform><numerusform>Nalezeno %1 fotek</numerusform></translation>
     </message>
 </context>
 <context>
@@ -877,7 +952,7 @@
     </message>
     <message>
         <source>Exporting: %1</source>
-        <translation>Exportuje se: %1</translation>
+        <translation>Ukládá se: %1</translation>
     </message>
 </context>
 <context>
@@ -1074,7 +1149,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Název</translation>
     </message>
 </context>
 </TS>

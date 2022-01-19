@@ -41,6 +41,7 @@
 #include "albumgloabl.h"
 #include "imagedataservice.h"
 #include "movieservice.h"
+#include <QElapsedTimer>
 
 DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
 {
@@ -398,10 +399,12 @@ void ImageMoveImagesToTrashThread::runDetail()
     } else {
         DBImgInfoList infos;
         int pathsCount = paths.size();
-        int remmoveOffset = 30; //每30条上报前端一次
+        int removeTimeout = 500; //每500ms上报前端一次
         int removedCount = 0;
+        QElapsedTimer timer;
         QStringList removedPaths;
         emit dApp->signalM->progressOfWaitDialog(paths.size(), 0);
+        timer.start();
         for (auto path : paths) {
             DBImgInfo info;
             info = DBManager::instance()->getInfoByPath(path);
@@ -417,7 +420,8 @@ void ImageMoveImagesToTrashThread::runDetail()
             infos << info;
             removedPaths << path;
             removedCount++;
-            if (removedCount % remmoveOffset == 0) {
+            if (timer.elapsed() >= removeTimeout) {
+                timer.start();
                 DBManager::instance()->insertTrashImgInfos(infos);
                 DBManager::instance()->removeImgInfos(removedPaths);
                 emit dApp->signalM->progressOfWaitDialog(pathsCount, removedCount);

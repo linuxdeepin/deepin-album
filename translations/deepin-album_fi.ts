@@ -1,57 +1,57 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="fi">
 <context>
     <name/>
     <message>
         <source>Delete</source>
-        <translation>Poista</translation>
+        <translation type="vanished">Poista</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Koko näyttö</translation>
+        <translation type="vanished">Koko näyttö</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diaesitys</translation>
+        <translation type="vanished">Diaesitys</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Vie</translation>
+        <translation type="vanished">Vie</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopioi</translation>
+        <translation type="vanished">Kopioi</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Suosikki</translation>
+        <translation type="vanished">Suosikki</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Käännä myötäpäivään</translation>
+        <translation type="vanished">Käännä myötäpäivään</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Käännä vastapäivään</translation>
+        <translation type="vanished">Käännä vastapäivään</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Aseta taustakuvaksi</translation>
+        <translation type="vanished">Aseta taustakuvaksi</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Näytä tiedostohallinnassa</translation>
+        <translation type="vanished">Näytä tiedostohallinnassa</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Kuvan tiedot</translation>
+        <translation type="vanished">Kuvan tiedot</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation>Videon tiedot</translation>
+        <translation type="vanished">Videon tiedot</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Palauta</translation>
+        <translation type="vanished">Palauta</translation>
     </message>
 </context>
 <context>
@@ -253,6 +253,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -309,23 +328,55 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Haluatko varmasti poistaa tämän kuvan albumista?</translation>
+        <translation type="vanished">Haluatko varmasti poistaa tämän kuvan albumista?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation><numerusform>Haluatko varmasti poistaa %n valokuvaa albumista?</numerusform><numerusform>Haluatko varmasti poistaa %n valokuvaa albumista?</numerusform></translation>
+        <translation type="vanished"><numerusform>Haluatko varmasti poistaa %n valokuvaa albumista?</numerusform><numerusform>Haluatko varmasti poistaa %n valokuvaa albumista?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation>Haluatko varmasti poistaa tämän videon albumista?</translation>
+        <translation type="vanished">Haluatko varmasti poistaa tämän videon albumista?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation><numerusform>Haluatko varmasti poistaa %n videota albumista?</numerusform><numerusform>Haluatko varmasti poistaa %n videota albumista?</numerusform></translation>
+        <translation type="vanished"><numerusform>Haluatko varmasti poistaa %n videota albumista?</numerusform><numerusform>Haluatko varmasti poistaa %n videota albumista?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation><numerusform>Haluatko varmasti poistaa %n kohdetta albumista?</numerusform><numerusform>Haluatko varmasti poistaa %n kohdetta albumista?</numerusform></translation>
+        <translation type="vanished"><numerusform>Haluatko varmasti poistaa %n kohdetta albumista?</numerusform><numerusform>Haluatko varmasti poistaa %n kohdetta albumista?</numerusform></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -383,6 +434,10 @@
     <message>
         <source>All photos and videos</source>
         <translation>Kaikki kuvat ja videot</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>Kuvia tai videoita ei löytynyt</translation>
     </message>
 </context>
 <context>
@@ -597,6 +652,26 @@
         <source>Import photos and videos</source>
         <translation>Tuo valokuvia ja videoita</translation>
     </message>
+    <message>
+        <source>Import folders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -682,7 +757,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Nimi</translation>
     </message>
 </context>
 <context>
@@ -1074,7 +1149,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Nimi</translation>
     </message>
 </context>
 </TS>

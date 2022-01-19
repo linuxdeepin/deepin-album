@@ -102,6 +102,18 @@ bool imageSupportRead(const QString &path)
 //    }
 //}
 
+void getAllDirInDir(const QDir &dir, QFileInfoList &result)
+{
+    QDir root(dir);
+    auto list = root.entryInfoList(QDir::AllDirs | QDir::NoDotAndDotDot);
+    for (const auto &eachInfo : list) {
+        if (eachInfo.isDir()) {
+            result.push_back(eachInfo);
+            getAllDirInDir(eachInfo.absoluteFilePath(), result);
+        }
+    }
+}
+
 void getAllFileInDir(const QDir &dir, QFileInfoList &result)
 {
     QDir root(dir);

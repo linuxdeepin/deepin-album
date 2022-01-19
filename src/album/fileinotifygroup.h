@@ -30,10 +30,13 @@ class FileInotifyGroup : public QObject
     Q_OBJECT
 public:
     explicit FileInotifyGroup(QObject *parent = nullptr);
-    ~FileInotifyGroup() = default;
+    ~FileInotifyGroup() override;
 
     //添加：path下的改动会实时同步到对应的album中
     void startWatch(const QString &path, const QString &album, int UID);
+
+private:
+    QList<FileInotify *> watchers;
 };
 
 #endif // FILEINOTIFYGROUP_H

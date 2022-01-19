@@ -1,57 +1,57 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="en" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="en">
 <context>
     <name/>
     <message>
         <source>Delete</source>
-        <translation>Delete</translation>
+        <translation type="vanished">Delete</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Fullscreen</translation>
+        <translation type="vanished">Fullscreen</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slide show</translation>
+        <translation type="vanished">Slide show</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation type="vanished">Export</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copy</translation>
+        <translation type="vanished">Copy</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorite</translation>
+        <translation type="vanished">Favorite</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
+        <translation type="vanished">Rotate clockwise</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
+        <translation type="vanished">Rotate counterclockwise</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Set as wallpaper</translation>
+        <translation type="vanished">Set as wallpaper</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Display in file manager</translation>
+        <translation type="vanished">Display in file manager</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Photo info</translation>
+        <translation type="vanished">Photo info</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation>Video info</translation>
+        <translation type="vanished">Video info</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Restore</translation>
+        <translation type="vanished">Restore</translation>
     </message>
 </context>
 <context>
@@ -253,6 +253,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation>Screen Capture</translation>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation>Camera</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation>Draw</translation>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation>(copy)</translation>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -309,23 +328,55 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Are you sure you want to delete this photo from the album?</translation>
+        <translation type="vanished">Are you sure you want to delete this photo from the album?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation><numerusform>Are you sure you want to delete %n photos from albums?</numerusform><numerusform>Are you sure you want to delete %n photos from albums?</numerusform></translation>
+        <translation type="vanished"><numerusform>Are you sure you want to delete %n photos from albums?</numerusform><numerusform>Are you sure you want to delete %n photos from albums?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation>Are you sure you want to delete this video from the album?</translation>
+        <translation type="vanished">Are you sure you want to delete this video from the album?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation><numerusform>Are you sure you want to delete %n videos from albums?</numerusform><numerusform>Are you sure you want to delete %n videos from albums?</numerusform></translation>
+        <translation type="vanished"><numerusform>Are you sure you want to delete %n videos from albums?</numerusform><numerusform>Are you sure you want to delete %n videos from albums?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation><numerusform>Are you sure you want to delete %n items from albums?</numerusform><numerusform>Are you sure you want to delete %n items from albums?</numerusform></translation>
+        <translation type="vanished"><numerusform>Are you sure you want to delete %n items from albums?</numerusform><numerusform>Are you sure you want to delete %n items from albums?</numerusform></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation>Are you sure you want to permanently delete this file?</translation>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation>You cannot restore it any longer</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation>Are you sure you want to permanently delete %1 files?</translation>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation>You cannot restore them any longer</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation>Are you sure you want to delete this file locally?</translation>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation>You can restore it in the trash</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation>Are you sure you want to delete %1 files locally?</translation>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation>You can restore them in the trash</translation>
     </message>
 </context>
 <context>
@@ -383,6 +434,10 @@
     <message>
         <source>All photos and videos</source>
         <translation>All photos and videos</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>No photos or videos found</translation>
     </message>
 </context>
 <context>
@@ -596,6 +651,26 @@
     <message>
         <source>Import photos and videos</source>
         <translation>Import photos and videos</translation>
+    </message>
+    <message>
+        <source>Import folders</source>
+        <translation>Import folders</translation>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation>Import interrupted</translation>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation>Cannot add this path, please try another one</translation>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation>The path already exists</translation>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
+        <translation>Failed to restore %1 files: file name too long</translation>
     </message>
 </context>
 <context>

@@ -1,57 +1,57 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_TW" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="zh_TW">
 <context>
     <name/>
     <message>
         <source>Delete</source>
-        <translation>刪除</translation>
+        <translation type="vanished">刪除</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全螢幕</translation>
+        <translation type="vanished">全螢幕</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻燈片秀</translation>
+        <translation type="vanished">幻燈片秀</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>匯出照片</translation>
+        <translation type="vanished">匯出照片</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>複製</translation>
+        <translation type="vanished">複製</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation type="vanished">收藏</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>順時針旋轉</translation>
+        <translation type="vanished">順時針旋轉</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆時針旋轉</translation>
+        <translation type="vanished">逆時針旋轉</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>設為桌布</translation>
+        <translation type="vanished">設為桌布</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在檔案管理器中顯示</translation>
+        <translation type="vanished">在檔案管理器中顯示</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>照片訊息</translation>
+        <translation type="vanished">照片訊息</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation>影片訊息</translation>
+        <translation type="vanished">影片訊息</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>復原</translation>
+        <translation type="vanished">復原</translation>
     </message>
 </context>
 <context>
@@ -253,6 +253,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation>截圖錄屏</translation>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation>相機</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation>畫板</translation>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation>(副本)</translation>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -309,23 +328,55 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>是否從相簿刪除此照片？</translation>
+        <translation type="vanished">是否從相簿刪除此照片？</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation><numerusform>您確定要從相冊中刪除這%n張照片嗎？</numerusform></translation>
+        <translation type="vanished"><numerusform>您確定要從相冊中刪除這%n張照片嗎？</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation>您確定要從相冊中刪除此影片嗎？</translation>
+        <translation type="vanished">您確定要從相冊中刪除此影片嗎？</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation><numerusform>您確定要從相冊中刪除這%n個影片嗎？</numerusform></translation>
+        <translation type="vanished"><numerusform>您確定要從相冊中刪除這%n個影片嗎？</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation><numerusform>您確定要從相冊中刪除這%n個項目嗎？</numerusform></translation>
+        <translation type="vanished"><numerusform>您確定要從相冊中刪除這%n個項目嗎？</numerusform></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation>您確定要永久刪除此文件嗎？</translation>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation>刪除後不可復原</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation>您確定要永久刪除這%1個文件嗎？</translation>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation>刪除後不可復原</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation>您確定要從本機刪除此文件嗎？</translation>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation>您可以在“最近刪除”中進行復原</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation>您確定要從本機刪除這%1個文件嗎？</translation>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation>您可以在“最近刪除”中進行復原</translation>
     </message>
 </context>
 <context>
@@ -383,6 +434,10 @@
     <message>
         <source>All photos and videos</source>
         <translation>所有照片和影片</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>未發現照片或影片檔案</translation>
     </message>
 </context>
 <context>
@@ -596,6 +651,26 @@
     <message>
         <source>Import photos and videos</source>
         <translation>匯入照片和影片</translation>
+    </message>
+    <message>
+        <source>Import folders</source>
+        <translation>從資料夾匯入</translation>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation>匯入中斷</translation>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation>不支援此路徑，請嘗試其他路徑</translation>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation>路徑已存在</translation>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
+        <translation>%1個文件復原失敗，檔案名過長</translation>
     </message>
 </context>
 <context>

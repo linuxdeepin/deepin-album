@@ -44,6 +44,18 @@ AlbumLeftTabItem::AlbumLeftTabItem(QString str, int UID, QString strAlbumType)
     , pImageLabel(nullptr), m_unMountBtn(nullptr), m_pListWidget(nullptr)
     , m_pListWidgetItem(nullptr)
 {
+    //修正默认相册显示的名字
+    if (DBManager::isDefaultAutoImportDB(UID)) {
+        auto paths = DBManager::getDefaultNotifyPaths();
+        auto uids = std::get<2>(paths);
+        auto names = std::get<1>(paths);
+        for (int i = 0; i != uids.size(); ++i) {
+            if (uids[i] == m_UID) {
+                m_albumNameStr = names[i];
+            }
+        }
+    }
+
     initUI();
     initConnections();
 }

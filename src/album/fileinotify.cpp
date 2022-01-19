@@ -43,8 +43,6 @@ enum {MASK = IN_MODIFY | IN_CREATE | IN_DELETE};
 
 FileInotify::FileInotify(QObject *parent): QObject(parent)
 {
-    m_allPic.clear();
-
     m_Supported = UnionImage_NameSpace::unionImageSupportFormat(); //图片
     m_Supported.append(utils::base::m_videoFiletypes); //视频
 
@@ -54,17 +52,30 @@ FileInotify::FileInotify(QObject *parent): QObject(parent)
 
     m_timer = new QTimer();
     connect(m_timer, &QTimer::timeout, this, &FileInotify::onNeedSendPictures);
-    m_timer->start(1500);
 
     connect(&m_watcher, &QFileSystemWatcher::directoryChanged, this, [this](const QString & path) {
         Q_UNUSED(path)
-        getAllPicture(false);
+        m_timer->start(500);
     });
 }
 
 FileInotify::~FileInotify()
 {
     clear();
+}
+
+void FileInotify::checkNewPath()
+{
+    QDir dir(m_currentDir);
+    QFileInfoList list;
+    utils::image::getAllDirInDir(dir, list);
+
+    QStringList dirs;
+    std::transform(list.begin(), list.end(), std::back_inserter(dirs), [](const QFileInfo & info) {
+        return info.absoluteFilePath();
+    });
+
+    m_watcher.addPaths(dirs);
 }
 
 void FileInotify::addWather(const QString &paths, const QString &album, int UID)
@@ -78,7 +89,7 @@ void FileInotify::addWather(const QString &paths, const QString &album, int UID)
     m_currentUID = UID;
     m_watcher.addPath(paths);
 
-    pathLoadOnce();
+    m_timer->start(1500);
 }
 
 /*void FileInotify::removeWatcher(const QString &path)
@@ -95,7 +106,6 @@ void FileInotify::addWather(const QString &paths, const QString &album, int UID)
 
 void FileInotify::clear()
 {
-    m_allPic.clear();
     m_Supported.clear();
     m_newFile.clear();
     m_Supported.clear();
@@ -112,15 +122,9 @@ void FileInotify::getAllPicture(bool isFirst)
     if (!dir.exists()) {
         //文件夹被删除，清理数据库
         DBManager::instance()->removeAlbum(m_currentUID);
-        m_deleteFile = m_allPic;
+        m_deleteFile = DBManager::instance()->getPathsByAlbum(m_currentUID, AutoImport);
         m_newFile.clear();
-        m_allPic.clear();
         emit pathDestroyed();
-        return;
-    }
-    dir.setFilter(QDir::Files); //设置类型过滤器，只为文件格式
-    unsigned int dir_count = dir.count();
-    if (dir_count == 0) {
         return;
     }
 
@@ -140,31 +144,21 @@ void FileInotify::getAllPicture(bool isFirst)
         return info.absoluteFilePath();
     });
 
+    auto allPaths = DBManager::instance()->getPathsByAlbum(m_currentUID, AutoImport);
+
     //筛选出新增图片文件
     for (auto path : filePaths) {
-        if (!m_allPic.contains(path)) {
-            m_allPic << path;
+        if (!allPaths.contains(path)) {
             m_newFile << path;
         }
     }
 
     //筛选出删除图片文件，初次导入不需要执行
     if (!isFirst) {
-        for (int i = 0; i != m_allPic.size(); ++i) {
-            if (!filePaths.contains(m_allPic[i])) {
-                m_deleteFile << m_allPic[i];
-                m_allPic.removeAt(i);
-                i--;
+        for (auto path : allPaths) {
+            if (!filePaths.contains(path)) {
+                m_deleteFile << path;
             }
-        }
-    }
-
-    //判重
-    //由于这里是基于相册的，所以不能使用基于ImageTable的方法
-    auto allInfos = DBManager::instance()->getPathsByAlbum(m_currentUID, AutoImport);
-    for (int i = 0; i < m_allPic.size(); i++) {
-        if (allInfos.contains(m_allPic.at(i))) {
-            m_newFile.removeOne(m_allPic.at(i));
         }
     }
 }
@@ -194,13 +188,11 @@ void FileInotify::getAllPicture(bool isFirst)
 //    }
 //}
 
-void FileInotify::pathLoadOnce()
-{
-    getAllPicture(true);
-}
-
 void FileInotify::onNeedSendPictures()
 {
+    checkNewPath();
+    getAllPicture(false);
+
     //发送导入
     if (!m_newFile.isEmpty() || !m_deleteFile.isEmpty()) {
         emit dApp->signalM->sigMonitorChanged(m_newFile, m_deleteFile, m_currentAlbum, m_currentUID);
@@ -216,4 +208,6 @@ void FileInotify::onNeedSendPictures()
             m_deleteFile.clear();
         }
     }
+
+    m_timer->stop();
 }

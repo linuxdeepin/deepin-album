@@ -1,57 +1,57 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sr" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sr">
 <context>
     <name/>
     <message>
         <source>Delete</source>
-        <translation>Обриши</translation>
+        <translation type="vanished">Обриши</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Цео екран</translation>
+        <translation type="vanished">Цео екран</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Покретни приказ</translation>
+        <translation type="vanished">Покретни приказ</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Извези</translation>
+        <translation type="vanished">Извези</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Копирај</translation>
+        <translation type="vanished">Копирај</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>У омиљено</translation>
+        <translation type="vanished">У омиљено</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Ротирај удесно</translation>
+        <translation type="vanished">Ротирај удесно</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Ротирај улево</translation>
+        <translation type="vanished">Ротирај улево</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Постави као позадину</translation>
+        <translation type="vanished">Постави као позадину</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Прикажи у управнику података</translation>
+        <translation type="vanished">Прикажи у управнику података</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Подаци слике</translation>
+        <translation type="vanished">Подаци слике</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation>Подаци видеа</translation>
+        <translation type="vanished">Подаци видеа</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Врати</translation>
+        <translation type="vanished">Врати</translation>
     </message>
 </context>
 <context>
@@ -253,6 +253,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -309,7 +328,7 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Заиста желите да обришете ову слику из албума?</translation>
+        <translation type="vanished">Заиста желите да обришете ову слику из албума?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
@@ -326,6 +345,38 @@
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -383,6 +434,10 @@
     <message>
         <source>All photos and videos</source>
         <translation>Све слике и видео записи</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>Нису пронађене слике или видео записи</translation>
     </message>
 </context>
 <context>
@@ -595,6 +650,26 @@
     </message>
     <message>
         <source>Import photos and videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import folders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
         <translation type="unfinished"/>
     </message>
 </context>

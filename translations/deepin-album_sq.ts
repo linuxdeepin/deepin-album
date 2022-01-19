@@ -1,57 +1,57 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sq" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sq">
 <context>
     <name/>
     <message>
         <source>Delete</source>
-        <translation>Fshije</translation>
+        <translation type="vanished">Fshije</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Sa krejt ekrani</translation>
+        <translation type="vanished">Sa krejt ekrani</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Shfaqje si diapozitiva</translation>
+        <translation type="vanished">Shfaqje si diapozitiva</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Eksporto</translation>
+        <translation type="vanished">Eksporto</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopjoje</translation>
+        <translation type="vanished">Kopjoje</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Vëre si të parapëlqyer</translation>
+        <translation type="vanished">Vëre si të parapëlqyer</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rrotulloje në kahun orar</translation>
+        <translation type="vanished">Rrotulloje në kahun orar</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rrotulloje në kahun anti-orar</translation>
+        <translation type="vanished">Rrotulloje në kahun anti-orar</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Vëre si sfond</translation>
+        <translation type="vanished">Vëre si sfond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Shfaqe te përgjegjës kartelash</translation>
+        <translation type="vanished">Shfaqe te përgjegjës kartelash</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Të dhëna fotoje</translation>
+        <translation type="vanished">Të dhëna fotoje</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation>Hollësi videoje</translation>
+        <translation type="vanished">Hollësi videoje</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Riktheje</translation>
+        <translation type="vanished">Riktheje</translation>
     </message>
 </context>
 <context>
@@ -253,6 +253,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -309,23 +328,55 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Jeni i sigurt se doni të fshihet kjo foto nga albumi?</translation>
+        <translation type="vanished">Jeni i sigurt se doni të fshihet kjo foto nga albumi?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation><numerusform>Jeni i sigurt se doni të fshihen %n foto prej albumesh?</numerusform><numerusform>Jeni i sigurt se doni të fshihen %n foto prej albumesh?</numerusform></translation>
+        <translation type="vanished"><numerusform>Jeni i sigurt se doni të fshihen %n foto prej albumesh?</numerusform><numerusform>Jeni i sigurt se doni të fshihen %n foto prej albumesh?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation>Jeni i sigurt se doni të fshihet kjo video prej albumit?</translation>
+        <translation type="vanished">Jeni i sigurt se doni të fshihet kjo video prej albumit?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation><numerusform>Jeni i sigurt se doni të fshihet %n video prej albumesh?</numerusform><numerusform>Jeni i sigurt se doni të fshihen %n video prej albumesh?</numerusform></translation>
+        <translation type="vanished"><numerusform>Jeni i sigurt se doni të fshihet %n video prej albumesh?</numerusform><numerusform>Jeni i sigurt se doni të fshihen %n video prej albumesh?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation><numerusform>Jeni i sigurt se doni të fshihen %n objekt prej albumesh?</numerusform><numerusform>Jeni i sigurt se doni të fshihen %n objekte prej albumesh?</numerusform></translation>
+        <translation type="vanished"><numerusform>Jeni i sigurt se doni të fshihen %n objekt prej albumesh?</numerusform><numerusform>Jeni i sigurt se doni të fshihen %n objekte prej albumesh?</numerusform></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -383,6 +434,10 @@
     <message>
         <source>All photos and videos</source>
         <translation>Krejt fotot dhe videot</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>S’u gjetën foto ose video</translation>
     </message>
 </context>
 <context>
@@ -597,6 +652,26 @@
         <source>Import photos and videos</source>
         <translation>Importoni foto dhe video</translation>
     </message>
+    <message>
+        <source>Import folders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -682,7 +757,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Emër</translation>
     </message>
 </context>
 <context>
@@ -1074,7 +1149,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Emër</translation>
     </message>
 </context>
 </TS>

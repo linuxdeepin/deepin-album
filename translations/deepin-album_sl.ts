@@ -1,57 +1,57 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sl" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sl">
 <context>
     <name/>
     <message>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation type="vanished">Izbriši</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Celozaslonsko</translation>
+        <translation type="vanished">Celozaslonsko</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diaprojekcija</translation>
+        <translation type="vanished">Diaprojekcija</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Izvozi</translation>
+        <translation type="vanished">Izvozi</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiraj</translation>
+        <translation type="vanished">Kopiraj</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Priljubljeno</translation>
+        <translation type="vanished">Priljubljeno</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Obrni proti smeri urinega kazalca</translation>
+        <translation type="vanished">Obrni proti smeri urinega kazalca</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Obrni proti smeri urinega kazalca</translation>
+        <translation type="vanished">Obrni proti smeri urinega kazalca</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Določi kot ozadje namizja</translation>
+        <translation type="vanished">Določi kot ozadje namizja</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Prikaži v upravljalniku datotek</translation>
+        <translation type="vanished">Prikaži v upravljalniku datotek</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Podatki o sliki</translation>
+        <translation type="vanished">Podatki o sliki</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation>Podatki o videu</translation>
+        <translation type="vanished">Podatki o videu</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Obnovi</translation>
+        <translation type="vanished">Obnovi</translation>
     </message>
 </context>
 <context>
@@ -163,7 +163,7 @@
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on them</source>
-        <translation type="unfinished"/>
+        <translation>Datoteke bodo trajno izbrisane po preteku prikazanega števila dni</translation>
     </message>
 </context>
 <context>
@@ -253,6 +253,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -309,23 +328,55 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Ali ste prepričani, da želite odstraniti to sliko iz albuma?</translation>
+        <translation type="vanished">Ali ste prepričani, da želite odstraniti to sliko iz albuma?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation><numerusform>Ali res želite izbrisati %n sliko iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n sliki iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n slike iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n slik iz albumov?</numerusform></translation>
+        <translation type="vanished"><numerusform>Ali res želite izbrisati %n sliko iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n sliki iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n slike iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n slik iz albumov?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation>Ali želite izbrisati ta video iz albuma?</translation>
+        <translation type="vanished">Ali želite izbrisati ta video iz albuma?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation><numerusform>Ali res želite izbrisati %n video iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n videa iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n videe iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n videev iz albumov?</numerusform></translation>
+        <translation type="vanished"><numerusform>Ali res želite izbrisati %n video iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n videa iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n videe iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n videev iz albumov?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation><numerusform>Ali res želite izbrisati %n predmet iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n predmeta iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n predmete iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n predmetov iz albumov?</numerusform></translation>
+        <translation type="vanished"><numerusform>Ali res želite izbrisati %n predmet iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n predmeta iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n predmete iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n predmetov iz albumov?</numerusform></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -340,7 +391,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"/>
+        <translation>Podatki o sliki</translation>
     </message>
 </context>
 <context>
@@ -383,6 +434,10 @@
     <message>
         <source>All photos and videos</source>
         <translation>Vse slike in videi</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>Ni najdenih slik ali videev</translation>
     </message>
 </context>
 <context>
@@ -595,6 +650,26 @@
     </message>
     <message>
         <source>Import photos and videos</source>
+        <translation>Uvoz slik in videa</translation>
+    </message>
+    <message>
+        <source>Import folders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -682,7 +757,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Ime</translation>
     </message>
 </context>
 <context>
@@ -1074,7 +1149,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Ime</translation>
     </message>
 </context>
 </TS>

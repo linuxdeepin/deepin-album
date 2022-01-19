@@ -42,8 +42,6 @@ public:
     void getAllPicture(bool isFirst);
     //文件数量改变
 //    void fileNumChange(); //预留，暂未使用
-    //启动时加载一次
-    void pathLoadOnce();
 
 signals:
     void pathDestroyed();
@@ -53,8 +51,10 @@ public slots:
     void onNeedSendPictures();
 
 private:
+    //检查是否新建了子文件夹
+    void checkNewPath();
+
     bool m_running = false;
-    QStringList m_allPic;       //目前所有照片
     QStringList m_newFile;      //当前新添加的
     QStringList m_deleteFile;   //当前删除的
     QString m_currentDir;       //给定的当前监控路径

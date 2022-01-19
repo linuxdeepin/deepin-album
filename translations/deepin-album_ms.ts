@@ -1,49 +1,49 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ms" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ms">
 <context>
     <name/>
     <message>
         <source>Delete</source>
-        <translation>Padam</translation>
+        <translation type="vanished">Padam</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Skrin penuh</translation>
+        <translation type="vanished">Skrin penuh</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Persembahan slaid</translation>
+        <translation type="vanished">Persembahan slaid</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Eksport</translation>
+        <translation type="vanished">Eksport</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Salin</translation>
+        <translation type="vanished">Salin</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Kegemaran</translation>
+        <translation type="vanished">Kegemaran</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Putar ikut jam</translation>
+        <translation type="vanished">Putar ikut jam</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Putar lawan jam</translation>
+        <translation type="vanished">Putar lawan jam</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Tetap sebagai kertas dinding</translation>
+        <translation type="vanished">Tetap sebagai kertas dinding</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Papar dalam pengurus fail</translation>
+        <translation type="vanished">Papar dalam pengurus fail</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Maklumat foto</translation>
+        <translation type="vanished">Maklumat foto</translation>
     </message>
     <message>
         <source>Video info</source>
@@ -51,7 +51,7 @@
     </message>
     <message>
         <source>Restore</source>
-        <translation>Pulih</translation>
+        <translation type="vanished">Pulih</translation>
     </message>
 </context>
 <context>
@@ -253,6 +253,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -309,7 +328,7 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Anda pasti mahu memadam foto ini dari album?</translation>
+        <translation type="vanished">Anda pasti mahu memadam foto ini dari album?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
@@ -326,6 +345,38 @@
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
         <translation type="unfinished"><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -383,6 +434,10 @@
     <message>
         <source>All photos and videos</source>
         <translation>Semua foto dan video</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -595,6 +650,26 @@
     </message>
     <message>
         <source>Import photos and videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import folders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
         <translation type="unfinished"/>
     </message>
 </context>

@@ -1,57 +1,57 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="zh_CN">
 <context>
     <name/>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation type="vanished">删除</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation type="vanished">全屏</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation type="vanished">幻灯片放映</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>导出</translation>
+        <translation type="vanished">导出</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation type="vanished">复制</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation type="vanished">收藏</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation type="vanished">顺时针旋转</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation type="vanished">逆时针旋转</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
+        <translation type="vanished">设为壁纸</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
+        <translation type="vanished">在文件管理器中显示</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>照片信息</translation>
+        <translation type="vanished">照片信息</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation>视频信息</translation>
+        <translation type="vanished">视频信息</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>恢复</translation>
+        <translation type="vanished">恢复</translation>
     </message>
 </context>
 <context>
@@ -253,6 +253,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation>截图录屏</translation>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation>相机</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation>画板</translation>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation>(副本)</translation>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -309,23 +328,55 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>您确定要从相册中删除此照片吗？</translation>
+        <translation type="vanished">您确定要从相册中删除此照片吗？</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation><numerusform>您确定要从相册中删除这%n张照片吗？</numerusform></translation>
+        <translation type="vanished"><numerusform>您确定要从相册中删除这%n张照片吗？</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation>您确定要从相册中删除此视频吗？</translation>
+        <translation type="vanished">您确定要从相册中删除此视频吗？</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation><numerusform>您确定要从相册中删除这%n个视频吗？</numerusform></translation>
+        <translation type="vanished"><numerusform>您确定要从相册中删除这%n个视频吗？</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation><numerusform>您确定要从相册中删除这%n个项目吗？</numerusform></translation>
+        <translation type="vanished"><numerusform>您确定要从相册中删除这%n个项目吗？</numerusform></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation>您确定要永久删除此文件吗？</translation>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation>删除后不可恢复</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation>您确定要永久删除这%1个文件吗？</translation>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation>删除后不可恢复</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation>您确定要从本地删除此文件吗？</translation>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation>您可以在“最近删除”中进行恢复</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation>您确定要从本地删除这%1个文件吗？</translation>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation>您可以在“最近删除”中进行恢复</translation>
     </message>
 </context>
 <context>
@@ -383,6 +434,10 @@
     <message>
         <source>All photos and videos</source>
         <translation>所有照片和视频</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>未发现照片或视频文件</translation>
     </message>
 </context>
 <context>
@@ -563,7 +618,7 @@
     </message>
     <message>
         <source>Importing...</source>
-        <translation>正在导入照片，请稍候...</translation>
+        <translation>正在导入，请稍候...</translation>
     </message>
     <message>
         <source>All photos and videos</source>
@@ -596,6 +651,26 @@
     <message>
         <source>Import photos and videos</source>
         <translation>导入照片和视频</translation>
+    </message>
+    <message>
+        <source>Import folders</source>
+        <translation>从文件夹导入</translation>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation>导入中断</translation>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation>不支持此路径，请尝试其他路径</translation>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation>路径已存在</translation>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
+        <translation>%1个文件恢复失败，文件名过长</translation>
     </message>
 </context>
 <context>

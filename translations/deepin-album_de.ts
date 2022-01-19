@@ -1,57 +1,57 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="de" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="de">
 <context>
     <name/>
     <message>
         <source>Delete</source>
-        <translation>Löschen</translation>
+        <translation type="vanished">Löschen</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Vollbild</translation>
+        <translation type="vanished">Vollbild</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diashow</translation>
+        <translation type="vanished">Diashow</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportieren</translation>
+        <translation type="vanished">Exportieren</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopieren</translation>
+        <translation type="vanished">Kopieren</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Zu Favoriten hinzufügen</translation>
+        <translation type="vanished">Zu Favoriten hinzufügen</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Im Uhrzeigersinn drehen</translation>
+        <translation type="vanished">Im Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Gegen den Uhrzeigersinn drehen</translation>
+        <translation type="vanished">Gegen den Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Als Hintergrundbild festlegen</translation>
+        <translation type="vanished">Als Hintergrundbild festlegen</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Im Dateimanager anzeigen</translation>
+        <translation type="vanished">Im Dateimanager anzeigen</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Foto-Info</translation>
+        <translation type="vanished">Foto-Info</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation>Video-Info</translation>
+        <translation type="vanished">Video-Info</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Wiederherstellen</translation>
+        <translation type="vanished">Wiederherstellen</translation>
     </message>
 </context>
 <context>
@@ -163,7 +163,7 @@
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on them</source>
-        <translation type="unfinished"/>
+        <translation>Die Dateien werden nach Ablauf der auf ihnen angegebenen Tage endgültig gelöscht</translation>
     </message>
 </context>
 <context>
@@ -253,6 +253,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -309,7 +328,7 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Sind Sie sicher, dass Sie dieses Foto aus dem Album löschen möchten?</translation>
+        <translation type="vanished">Sind Sie sicher, dass Sie dieses Foto aus dem Album löschen möchten?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
@@ -327,6 +346,38 @@
         <source>Are you sure you want to delete %n items from albums?</source>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ImgInfoDialog</name>
@@ -340,7 +391,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"/>
+        <translation>Bildinfo</translation>
     </message>
 </context>
 <context>
@@ -383,6 +434,10 @@
     <message>
         <source>All photos and videos</source>
         <translation>Alle Fotos und Videos</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>Keine Fotos oder Videos gefunden</translation>
     </message>
 </context>
 <context>
@@ -591,10 +646,30 @@
     </message>
     <message>
         <source>Photo/Video info</source>
-        <translation type="unfinished"/>
+        <translation>Foto-/Videoinfo</translation>
     </message>
     <message>
         <source>Import photos and videos</source>
+        <translation>Fotos und Videos importieren</translation>
+    </message>
+    <message>
+        <source>Import folders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -682,7 +757,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Name</translation>
     </message>
 </context>
 <context>
@@ -1074,7 +1149,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Name</translation>
     </message>
 </context>
 </TS>

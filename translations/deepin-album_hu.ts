@@ -1,57 +1,57 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="hu">
 <context>
     <name/>
     <message>
         <source>Delete</source>
-        <translation>Törlés</translation>
+        <translation type="vanished">Törlés</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Teljes képernyő</translation>
+        <translation type="vanished">Teljes képernyő</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diavetítés</translation>
+        <translation type="vanished">Diavetítés</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportálás</translation>
+        <translation type="vanished">Exportálás</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Másolás</translation>
+        <translation type="vanished">Másolás</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Kedvenc</translation>
+        <translation type="vanished">Kedvenc</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Forgatás az óramutató járásával megegyezően</translation>
+        <translation type="vanished">Forgatás az óramutató járásával megegyezően</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
+        <translation type="vanished">Forgatás az óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Beállítás háttérképként</translation>
+        <translation type="vanished">Beállítás háttérképként</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Megjelenítés a fájlkezelőben</translation>
+        <translation type="vanished">Megjelenítés a fájlkezelőben</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Kép tulajdonságai</translation>
+        <translation type="vanished">Kép tulajdonságai</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation>Videó tulajdonságai</translation>
+        <translation type="vanished">Videó tulajdonságai</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Helyreállítás</translation>
+        <translation type="vanished">Helyreállítás</translation>
     </message>
 </context>
 <context>
@@ -253,6 +253,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -309,23 +328,55 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Biztos, hogy törölni szeretné ezt a képet az albumból?</translation>
+        <translation type="vanished">Biztos, hogy törölni szeretné ezt a képet az albumból?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation><numerusform>Biztos, hogy törölni szeretne %n képet az albumból?</numerusform><numerusform>Biztos, hogy törölni szeretne %n képet az albumból?</numerusform></translation>
+        <translation type="vanished"><numerusform>Biztos, hogy törölni szeretne %n képet az albumból?</numerusform><numerusform>Biztos, hogy törölni szeretne %n képet az albumból?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation>Biztos, hogy törölni szeretné ezt a videót az albumból?</translation>
+        <translation type="vanished">Biztos, hogy törölni szeretné ezt a videót az albumból?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation><numerusform>Biztos, hogy törölni szeretne %n videót az albumból?</numerusform><numerusform>Biztos, hogy törölni szeretne %n videót az albumból?</numerusform></translation>
+        <translation type="vanished"><numerusform>Biztos, hogy törölni szeretne %n videót az albumból?</numerusform><numerusform>Biztos, hogy törölni szeretne %n videót az albumból?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation><numerusform>Biztos, hogy törölni szeretne %n elemet az albumból?</numerusform><numerusform>Biztos, hogy törölni szeretne %n elemet az albumból?</numerusform></translation>
+        <translation type="vanished"><numerusform>Biztos, hogy törölni szeretne %n elemet az albumból?</numerusform><numerusform>Biztos, hogy törölni szeretne %n elemet az albumból?</numerusform></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -383,6 +434,10 @@
     <message>
         <source>All photos and videos</source>
         <translation>Összes Kép és Videó</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>Nem található kép vagy videó</translation>
     </message>
 </context>
 <context>
@@ -596,6 +651,26 @@
     <message>
         <source>Import photos and videos</source>
         <translation>Képek és Videók importálása</translation>
+    </message>
+    <message>
+        <source>Import folders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

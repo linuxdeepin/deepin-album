@@ -1,57 +1,57 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ug" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ug">
 <context>
     <name/>
     <message>
         <source>Delete</source>
-        <translation>ئۆچۈرۈش</translation>
+        <translation type="vanished">ئۆچۈرۈش</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>تولۇق ئېكران</translation>
+        <translation type="vanished">تولۇق ئېكران</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>تام تەسۋىر</translation>
+        <translation type="vanished">تام تەسۋىر</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>چىقىرىش</translation>
+        <translation type="vanished">چىقىرىش</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>كۆچۈرۈش</translation>
+        <translation type="vanished">كۆچۈرۈش</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>ياقتۇرغانلىرىم</translation>
+        <translation type="vanished">ياقتۇرغانلىرىم</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>سائەت يۆنىلىشىدە ئايلاندۇرۇش</translation>
+        <translation type="vanished">سائەت يۆنىلىشىدە ئايلاندۇرۇش</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>سائەتكە قارشى يۆنىلىشنى ئايلاندۇرۇش</translation>
+        <translation type="vanished">سائەتكە قارشى يۆنىلىشنى ئايلاندۇرۇش</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>تام قەغىزى قىلىپ تەڭشەڭ</translation>
+        <translation type="vanished">تام قەغىزى قىلىپ تەڭشەڭ</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>ھۆججەت باشقۇرغۇچتا كۆرسىتىلىدۇ</translation>
+        <translation type="vanished">ھۆججەت باشقۇرغۇچتا كۆرسىتىلىدۇ</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>سۈرەت ئۇچۇرى</translation>
+        <translation type="vanished">سۈرەت ئۇچۇرى</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation>سىن ئۇچۇرى</translation>
+        <translation type="vanished">سىن ئۇچۇرى</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>ئەسلىگە كەلتۈرۈش</translation>
+        <translation type="vanished">ئەسلىگە كەلتۈرۈش</translation>
     </message>
 </context>
 <context>
@@ -253,6 +253,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -309,23 +328,55 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>بۇ رەسىمنى دىسكىدىن ئۆچۈرمەكچىمۇ؟</translation>
+        <translation type="vanished">بۇ رەسىمنى دىسكىدىن ئۆچۈرمەكچىمۇ؟</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation><numerusform>ئالبومدىن بۇ %n پارچە سۈرەتنى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</numerusform><numerusform>ئالبومدىن بۇ %n پارچە سۈرەتنى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</numerusform></translation>
+        <translation type="vanished"><numerusform>ئالبومدىن بۇ %n پارچە سۈرەتنى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</numerusform><numerusform>ئالبومدىن بۇ %n پارچە سۈرەتنى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation>ئالبومدىن بۇ سىننى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</translation>
+        <translation type="vanished">ئالبومدىن بۇ سىننى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation><numerusform>ئالبومدىن بۇ %n سىننى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</numerusform><numerusform>ئالبومدىن بۇ %n سىننى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</numerusform></translation>
+        <translation type="vanished"><numerusform>ئالبومدىن بۇ %n سىننى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</numerusform><numerusform>ئالبومدىن بۇ %n سىننى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation><numerusform>ئالبومدىن بۇ %n تۈرنى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</numerusform><numerusform>ئالبومدىن بۇ %n تۈرنى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</numerusform></translation>
+        <translation type="vanished"><numerusform>ئالبومدىن بۇ %n تۈرنى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</numerusform><numerusform>ئالبومدىن بۇ %n تۈرنى ئۆچۈرۈشنى جەزىملەشتۈرەلەمسىز؟</numerusform></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -383,6 +434,10 @@
     <message>
         <source>All photos and videos</source>
         <translation>بارلىق سۈرەت ۋە سىن</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>سۈرەت ياكى سىن ھۆججىتى بايقالمىدى</translation>
     </message>
 </context>
 <context>
@@ -596,6 +651,26 @@
     <message>
         <source>Import photos and videos</source>
         <translation>سۈرەت ۋە سىن كىرگۈزۈش</translation>
+    </message>
+    <message>
+        <source>Import folders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

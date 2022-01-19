@@ -1,57 +1,57 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="bo" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="bo">
 <context>
     <name/>
     <message>
         <source>Delete</source>
-        <translation>སུབ་པ།</translation>
+        <translation type="vanished">སུབ་པ།</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>ཡོལ་གང་།</translation>
+        <translation type="vanished">ཡོལ་གང་།</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>སྒྲོན་བརྙན་སྟོན་པ།</translation>
+        <translation type="vanished">སྒྲོན་བརྙན་སྟོན་པ།</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>ཕྱིར་འདྲེན།</translation>
+        <translation type="vanished">ཕྱིར་འདྲེན།</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>པར་སློག</translation>
+        <translation type="vanished">པར་སློག</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>བསྡུ་ཉར།</translation>
+        <translation type="vanished">བསྡུ་ཉར།</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>གཡས་སྐོར་བརྒྱབ།</translation>
+        <translation type="vanished">གཡས་སྐོར་བརྒྱབ།</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>གཡོན་སྐོར་བརྒྱབ།</translation>
+        <translation type="vanished">གཡོན་སྐོར་བརྒྱབ།</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>རྒྱབ་ཤོག་ཏུ་བྱེད་པ།</translation>
+        <translation type="vanished">རྒྱབ་ཤོག་ཏུ་བྱེད་པ།</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>ཡིག་ཆ་དོ་དམ་བྱེད་ཆས་ཁྲོད་མངོན་སྟོན་བྱེད།</translation>
+        <translation type="vanished">ཡིག་ཆ་དོ་དམ་བྱེད་ཆས་ཁྲོད་མངོན་སྟོན་བྱེད།</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>པར་གྱི་ཆ་འཕྲིན།</translation>
+        <translation type="vanished">པར་གྱི་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation>བརྙན་གྱི་ཆ་འཕྲིན།</translation>
+        <translation type="vanished">བརྙན་གྱི་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>སོར་ཆུད།</translation>
+        <translation type="vanished">སོར་ཆུད།</translation>
     </message>
 </context>
 <context>
@@ -253,6 +253,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -309,23 +328,55 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>ཁྱོད་ཀྱི་པར་ཁུག་ལས་པར་འདི་བསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</translation>
+        <translation type="vanished">ཁྱོད་ཀྱི་པར་ཁུག་ལས་པར་འདི་བསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation><numerusform>ཁྱོད་ཀྱི་པར་ཁུག་ལས་པར་འདི་%nབསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</numerusform></translation>
+        <translation type="vanished"><numerusform>ཁྱོད་ཀྱི་པར་ཁུག་ལས་པར་འདི་%nབསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation>ཁྱོད་ཀྱི་པར་ཁུག་ལས་བརྙན་འདི་བསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</translation>
+        <translation type="vanished">ཁྱོད་ཀྱི་པར་ཁུག་ལས་བརྙན་འདི་བསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation><numerusform>ཁྱོད་ཀྱི་པར་ཁུག་ལས་བརྙན་འདི་%nབསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</numerusform></translation>
+        <translation type="vanished"><numerusform>ཁྱོད་ཀྱི་པར་ཁུག་ལས་བརྙན་འདི་%nབསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation><numerusform>ཁྱོད་ཀྱི་པར་ཁུག་ལས་རྣམ་གྲངས་འདི་%nབསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</numerusform></translation>
+        <translation type="vanished"><numerusform>ཁྱོད་ཀྱི་པར་ཁུག་ལས་རྣམ་གྲངས་འདི་%nབསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</numerusform></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -383,6 +434,10 @@
     <message>
         <source>All photos and videos</source>
         <translation>པར་དང་བརྙན་ཆ་ཚང་།</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>པར་དང་བརྙན་གྱི་ཡིག་ཆ་མ་རྙེད།</translation>
     </message>
 </context>
 <context>
@@ -596,6 +651,26 @@
     <message>
         <source>Import photos and videos</source>
         <translation>པར་དང་བརྙན་ནང་དུ་འདྲེན་པ།</translation>
+    </message>
+    <message>
+        <source>Import folders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

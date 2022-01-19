@@ -1,57 +1,57 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="tr">
 <context>
     <name/>
     <message>
         <source>Delete</source>
-        <translation>Sil</translation>
+        <translation type="vanished">Sil</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tam ekran</translation>
+        <translation type="vanished">Tam ekran</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slayt gösterisi</translation>
+        <translation type="vanished">Slayt gösterisi</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Dışa aktar</translation>
+        <translation type="vanished">Dışa aktar</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopyala</translation>
+        <translation type="vanished">Kopyala</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favori</translation>
+        <translation type="vanished">Favori</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Saat yönünde döndür</translation>
+        <translation type="vanished">Saat yönünde döndür</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Saat yönünün tersine döndür</translation>
+        <translation type="vanished">Saat yönünün tersine döndür</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Duvar kağıdı yap</translation>
+        <translation type="vanished">Duvar kağıdı yap</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Dosya yöneticisinde görüntüle</translation>
+        <translation type="vanished">Dosya yöneticisinde görüntüle</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Fotoğraf bilgisi</translation>
+        <translation type="vanished">Fotoğraf bilgisi</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation>Video bilgisi</translation>
+        <translation type="vanished">Video bilgisi</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Kurtar</translation>
+        <translation type="vanished">Kurtar</translation>
     </message>
 </context>
 <context>
@@ -163,7 +163,7 @@
     </message>
     <message>
         <source>The files will be permanently deleted after the days shown on them</source>
-        <translation type="unfinished"/>
+        <translation>Dosyalar, üzerlerinde gösterilen günlerden sonra kalıcı olarak silinecek</translation>
     </message>
 </context>
 <context>
@@ -253,6 +253,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -309,23 +328,55 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Bu fotoğrafı albümden silmek istediğinizden emin misiniz?</translation>
+        <translation type="vanished">Bu fotoğrafı albümden silmek istediğinizden emin misiniz?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation><numerusform>%n fotoğrafı albümlerden silmek istediğinizden emin misiniz?</numerusform><numerusform>%n fotoğrafı albümlerden silmek istediğinizden emin misiniz?</numerusform></translation>
+        <translation type="vanished"><numerusform>%n fotoğrafı albümlerden silmek istediğinizden emin misiniz?</numerusform><numerusform>%n fotoğrafı albümlerden silmek istediğinizden emin misiniz?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation>Bu videoyu albümden silmek istediğinizden emin misiniz?</translation>
+        <translation type="vanished">Bu videoyu albümden silmek istediğinizden emin misiniz?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation><numerusform>Albümlerden %n video silmek istediğinizden emin misiniz?</numerusform><numerusform>Albümlerden %n video silmek istediğinizden emin misiniz?</numerusform></translation>
+        <translation type="vanished"><numerusform>Albümlerden %n video silmek istediğinizden emin misiniz?</numerusform><numerusform>Albümlerden %n video silmek istediğinizden emin misiniz?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation><numerusform>Albümlerden %n öğe silmek istediğinizden emin misiniz?</numerusform><numerusform>Albümlerden %n öğe silmek istediğinizden emin misiniz?</numerusform></translation>
+        <translation type="vanished"><numerusform>Albümlerden %n öğe silmek istediğinizden emin misiniz?</numerusform><numerusform>Albümlerden %n öğe silmek istediğinizden emin misiniz?</numerusform></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -340,7 +391,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"/>
+        <translation>Resim bilgisi</translation>
     </message>
 </context>
 <context>
@@ -383,6 +434,10 @@
     <message>
         <source>All photos and videos</source>
         <translation>Tüm fotoğraflar ve videolar</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>Fotoğraf veya video bulunamadı</translation>
     </message>
 </context>
 <context>
@@ -579,11 +634,11 @@
     </message>
     <message>
         <source>Export photos</source>
-        <translation type="unfinished"/>
+        <translation>Fotoğrafları dışa aktar</translation>
     </message>
     <message>
         <source>Import photos/videos</source>
-        <translation type="unfinished"/>
+        <translation>Fotoğrafları/videoları içe aktar</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -591,10 +646,30 @@
     </message>
     <message>
         <source>Photo/Video info</source>
-        <translation type="unfinished"/>
+        <translation>Fotoğraf/Video bilgisi</translation>
     </message>
     <message>
         <source>Import photos and videos</source>
+        <translation>Fotoğrafları ve videoları içe aktarın</translation>
+    </message>
+    <message>
+        <source>Import folders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -682,7 +757,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>İsim</translation>
     </message>
 </context>
 <context>
@@ -850,7 +925,7 @@
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n fotoğraf bulundu</numerusform><numerusform>%n fotoğraf bulundu</numerusform></translation>
     </message>
 </context>
 <context>
@@ -1074,7 +1149,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>İsim</translation>
     </message>
 </context>
 </TS>

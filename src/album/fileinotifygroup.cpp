@@ -39,7 +39,7 @@ void FileInotifyGroup::startWatch(const QString &path, const QString &album, int
         return;
     }
 
-    auto watcher = new FileInotify(this);
+    auto watcher = new FileInotify;
     watcher->addWather(path, album, UID);
 
     //如果路径完全没了，则销毁相关的UI和数据库内容
@@ -48,4 +48,13 @@ void FileInotifyGroup::startWatch(const QString &path, const QString &album, int
             emit dApp->signalM->sigMonitorDestroyed(UID);
         }
     });
+
+    watchers.push_back(watcher);
+}
+
+FileInotifyGroup::~FileInotifyGroup()
+{
+    for (auto &watcher : watchers) {
+        watcher->deleteLater();
+    }
 }

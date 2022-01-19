@@ -1,57 +1,57 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ru" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ru">
 <context>
     <name/>
     <message>
         <source>Delete</source>
-        <translation>Удалить</translation>
+        <translation type="vanished">Удалить</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>На весь экран</translation>
+        <translation type="vanished">На весь экран</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Слайд-шоу</translation>
+        <translation type="vanished">Слайд-шоу</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Экспорт</translation>
+        <translation type="vanished">Экспорт</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Копировать</translation>
+        <translation type="vanished">Копировать</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Добавить в избранное</translation>
+        <translation type="vanished">Добавить в избранное</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Повернуть по часовой стрелке</translation>
+        <translation type="vanished">Повернуть по часовой стрелке</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Повернуть против часовой стрелки</translation>
+        <translation type="vanished">Повернуть против часовой стрелки</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Установить в качестве обоев</translation>
+        <translation type="vanished">Установить в качестве обоев</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Отображать в файловом менеджере</translation>
+        <translation type="vanished">Отображать в файловом менеджере</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Информация о фотографии</translation>
+        <translation type="vanished">Информация о фотографии</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation>Информация о  видео</translation>
+        <translation type="vanished">Информация о  видео</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Восстановить</translation>
+        <translation type="vanished">Восстановить</translation>
     </message>
 </context>
 <context>
@@ -253,6 +253,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -309,23 +328,55 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Вы уверены, что хотите удалить эту фотографию из альбома?</translation>
+        <translation type="vanished">Вы уверены, что хотите удалить эту фотографию из альбома?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation><numerusform>Вы уверены, что хотите удалить %1 фото из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %1 фото из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %1 фото из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %1 фото из альбомов?</numerusform></translation>
+        <translation type="vanished"><numerusform>Вы уверены, что хотите удалить %1 фото из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %1 фото из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %1 фото из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %1 фото из альбомов?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation>Вы уверены, что хотите удалить это видео из альбома?</translation>
+        <translation type="vanished">Вы уверены, что хотите удалить это видео из альбома?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation><numerusform>Вы уверены, что хотите удалить %n видео из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %n видео из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %n видео из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %n видео из альбомов?</numerusform></translation>
+        <translation type="vanished"><numerusform>Вы уверены, что хотите удалить %n видео из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %n видео из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %n видео из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %n видео из альбомов?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation><numerusform>Вы уверены, что хотите удалить %n элемент из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %n элементов из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %n элементов из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %n элементов из альбомов?</numerusform></translation>
+        <translation type="vanished"><numerusform>Вы уверены, что хотите удалить %n элемент из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %n элементов из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %n элементов из альбомов?</numerusform><numerusform>Вы уверены, что хотите удалить %n элементов из альбомов?</numerusform></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -383,6 +434,10 @@
     <message>
         <source>All photos and videos</source>
         <translation>Все фото и видео</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>Ни фото, ни видео не найдено</translation>
     </message>
 </context>
 <context>
@@ -595,6 +650,26 @@
     </message>
     <message>
         <source>Import photos and videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import folders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
         <translation type="unfinished"/>
     </message>
 </context>

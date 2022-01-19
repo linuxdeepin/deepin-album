@@ -1,57 +1,57 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pt">
 <context>
     <name/>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation type="vanished">Eliminar</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Ecrã inteiro</translation>
+        <translation type="vanished">Ecrã inteiro</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Apresentação</translation>
+        <translation type="vanished">Apresentação</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation>Exportar</translation>
+        <translation type="vanished">Exportar</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation type="vanished">Copiar</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Adicionar aos favoritos</translation>
+        <translation type="vanished">Adicionar aos favoritos</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rodar para a direita</translation>
+        <translation type="vanished">Rodar para a direita</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rodar para a esquerda</translation>
+        <translation type="vanished">Rodar para a esquerda</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como papel de parede</translation>
+        <translation type="vanished">Definir como papel de parede</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar no gestor de ficheiros</translation>
+        <translation type="vanished">Mostrar no gestor de ficheiros</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation>Informações da foto</translation>
+        <translation type="vanished">Informações da foto</translation>
     </message>
     <message>
         <source>Video info</source>
-        <translation>Informação do vídeo</translation>
+        <translation type="vanished">Informação do vídeo</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation>Restaurar</translation>
+        <translation type="vanished">Restaurar</translation>
     </message>
 </context>
 <context>
@@ -253,6 +253,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -309,23 +328,55 @@
     </message>
     <message>
         <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Tem a certeza que deseja eliminar esta foto do álbum?</translation>
+        <translation type="vanished">Tem a certeza que deseja eliminar esta foto do álbum?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation><numerusform>Tem a certeza que deseja eliminar %n foto do álbum?</numerusform><numerusform>Tem a certeza que deseja eliminar %n fotos dos álbuns?</numerusform></translation>
+        <translation type="vanished"><numerusform>Tem a certeza que deseja eliminar %n foto do álbum?</numerusform><numerusform>Tem a certeza que deseja eliminar %n fotos dos álbuns?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation>Tem a certeza que deseja eliminar este vídeo do álbum?</translation>
+        <translation type="vanished">Tem a certeza que deseja eliminar este vídeo do álbum?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation><numerusform>Tem a certeza que deseja eliminar %n vídeos do álbum?</numerusform><numerusform>Tem a certeza que deseja eliminar %n vídeos dos álbuns?</numerusform></translation>
+        <translation type="vanished"><numerusform>Tem a certeza que deseja eliminar %n vídeos do álbum?</numerusform><numerusform>Tem a certeza que deseja eliminar %n vídeos dos álbuns?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation><numerusform>Tem a certeza que deseja eliminar %n item do álbum?</numerusform><numerusform>Tem a certeza que deseja eliminar %n itens dos álbuns?</numerusform></translation>
+        <translation type="vanished"><numerusform>Tem a certeza que deseja eliminar %n item do álbum?</numerusform><numerusform>Tem a certeza que deseja eliminar %n itens dos álbuns?</numerusform></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -340,7 +391,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"/>
+        <translation>Informação da imagem</translation>
     </message>
 </context>
 <context>
@@ -383,6 +434,10 @@
     <message>
         <source>All photos and videos</source>
         <translation>Todas as fotos e vídeos</translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>Não foram encontradas fotos ou vídeos</translation>
     </message>
 </context>
 <context>
@@ -597,6 +652,26 @@
         <source>Import photos and videos</source>
         <translation>Importar fotos e vídeos</translation>
     </message>
+    <message>
+        <source>Import folders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -682,7 +757,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Nome</translation>
     </message>
 </context>
 <context>
@@ -1074,7 +1149,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Nome</translation>
     </message>
 </context>
 </TS>
