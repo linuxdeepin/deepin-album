@@ -346,7 +346,7 @@ bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash, bool b
     if (!typetrash) {
         auto iter = std::remove_if(files.begin(), files.end(), [](const QString & eachFile) {
             QFileInfo info(eachFile);
-            return !QFile::permissions(eachFile).testFlag(QFile::WriteUser) && info.exists();
+            return !QFileInfo(info.dir(), info.dir().path()).isWritable() && info.exists();
         });
         files.erase(iter, files.end());
         if (files.isEmpty()) {

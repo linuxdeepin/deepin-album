@@ -643,7 +643,12 @@ void ThumbnailListView::updateMenuContents()
             }
             m_MenuActionMap.value(tr("Copy"))->setEnabled(false);
 #endif
-            m_MenuActionMap.value(tr("Delete"))->setEnabled(true);
+            if (QFileInfo(info.dir(), info.dir().path()).isWritable()) {
+                m_MenuActionMap.value(tr("Delete"))->setEnabled(true);
+            } else {
+                m_MenuActionMap.value(tr("Delete"))->setEnabled(false);
+            }
+
             m_MenuActionMap.value(tr("Remove from album"))->setVisible(false);
 #ifndef tablet_PC
             m_MenuActionMap.value(tr("Print"))->setVisible(false);
@@ -679,9 +684,12 @@ void ThumbnailListView::updateMenuContents()
         m_MenuActionMap.value(tr("Fullscreen"))->setVisible(false);
     }
 #endif
-    if (COMMON_STR_TRASH == m_imageType) {
+    QFileInfo info(paths[0]);
+
+    if (COMMON_STR_TRASH == m_imageType || !QFileInfo(info.dir(), info.dir().path()).isWritable()) {
         m_MenuActionMap.value(tr("Delete"))->setVisible(false);
     } else {
+        m_MenuActionMap.value(tr("Delete"))->setVisible(true);
         if (m_albumMenu)
             m_albumMenu->deleteLater();
         m_albumMenu = createAlbumMenu();
@@ -1647,11 +1655,15 @@ bool ThumbnailListView::isSelectedCanUseDelete()
     bool isSelectedCanUseDelete = false;
     for (const auto &path : list) {
         QFileInfo info(path);
-        if (QFile::permissions(path).testFlag(QFile::WriteUser) || !info.exists()) { //只要有一个能写或不存在，就可以删
+        //路径无写权限
+        if (!QFileInfo(info.dir(), info.dir().path()).isWritable()) {
+            continue;
+        } else {  //只要有一个能写或不存在，就可以删
             isSelectedCanUseDelete = true;
             break;
         }
     }
+
     return isSelectedCanUseDelete;
 }
 
@@ -1664,23 +1676,30 @@ void ThumbnailListView::removeSelectToTrash(QStringList paths)
     DBImgInfo info;
     for (int i = 0; i < paths.size(); i++) {
         QString path = paths.at(i);
-        bool succes = ImageEngineApi::instance()->getImageData(path, info);
-        if (!succes) {
-            if (infos.size() == 0) {
-                infos = DBManager::instance()->getAllTrashInfos();
-            }
-            for (int j = 0; j < infos.size(); j++) {
-                if (infos.at(j).filePath == path) {
-                    info.itemType = infos.at(j).itemType;
-                    break;
+        QFileInfo infox(path);
+        //文件或者文件夹不可写
+        if (!QFileInfo(infox.dir(), infox.dir().path()).isWritable()) {
+            continue;
+        } else {
+            bool succes = ImageEngineApi::instance()->getImageData(path, info);
+            if (!succes) {
+                if (infos.size() == 0) {
+                    infos = DBManager::instance()->getAllTrashInfos();
+                }
+                for (int j = 0; j < infos.size(); j++) {
+                    if (infos.at(j).filePath == path) {
+                        info.itemType = infos.at(j).itemType;
+                        break;
+                    }
                 }
             }
+            if (info.itemType == ItemTypePic) {
+                imgCount++;
+            } else if (info.itemType == ItemTypeVideo) {
+                videoCount++;
+            }
         }
-        if (info.itemType == ItemTypePic) {
-            imgCount++;
-        } else if (info.itemType == ItemTypeVideo) {
-            videoCount++;
-        }
+
     }
     ImgDeleteDialog *dialog = new ImgDeleteDialog(this, imgCount, videoCount, COMMON_STR_TRASH == m_imageType);
     dialog->setObjectName("deteledialog");
