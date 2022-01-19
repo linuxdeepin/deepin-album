@@ -1299,8 +1299,20 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
             //复制操作
             QFile::copy(info.filePath, utils::base::getDeleteFullPath(hash, info.getFileNameFromFilePath()));
 
-            //删除原图至回收站
-            utils::base::trashFile(info.filePath);
+            //判断文件路径来自于哪里
+            QString path = info.filePath;
+            if (path.startsWith("/media/") || // U盘
+                    path.contains("smb-share:server=") || //smb地址
+                    path.contains("gphoto2:host=Apple") || //apple phone
+                    path.contains("ftp:host=") || //ftp路径
+                    path.contains("gphoto2:host=") || //ptp路径
+                    path.contains("mtp:host=") || //mtp路径
+                    path.contains(QDir::homePath() + "/.local/share/Trash") || //垃圾箱
+                    utils::base::isVaultFile(path)) { //保险箱
+
+            } else {
+                utils::base::trashFile(info.filePath);
+            }
         }
 
         pathHashs.push_back(hash); //不能丢进if，否则下面会炸
@@ -1422,7 +1434,21 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
         }
         QString recoveryName = paths[i];
         if (QFile::exists(recoveryName)) { //文件已存在，加副本标记
-            recoveryName.append(tr("(copy)"));
+            if (recoveryName.startsWith("/media/") || // U盘
+                    recoveryName.contains("smb-share:server=") || //smb地址
+                    recoveryName.contains("gphoto2:host=Apple") || //apple phone
+                    recoveryName.contains("ftp:host=") || //ftp路径
+                    recoveryName.contains("gphoto2:host=") || //ptp路径
+                    recoveryName.contains("mtp:host=") || //mtp路径
+                    recoveryName.contains(QDir::homePath() + "/.local/share/Trash") || //垃圾箱
+                    utils::base::isVaultFile(recoveryName)) { //保险箱
+
+            } else {
+                QFileInfo info(recoveryName);
+                QString name = info.completeBaseName();
+                name.append("(copy)");
+                recoveryName = info.dir().path() + "/" + name + "." + info.completeSuffix();
+            }
             if (recoveryName.size() > 255) {
                 failedFiles.push_back(paths[i]); //文件名过长，恢复失败
                 continue;
