@@ -74,7 +74,7 @@ void AlbumLeftTabItem::initUI()
     pImageLabel->setFixedSize(24, 24);
     QPixmap pixmap;
 
-    if (DBManager::instance()->isDefaultAutoImportDB(m_UID)) { //如果是默认自动导入
+    if (DBManager::isDefaultAutoImportDB(m_UID)) { //如果是默认自动导入
         switch (m_UID) {
         case DBManager::SpUID::u_Camera:
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_camera_normal.svg", QSize(24, 24));
@@ -274,7 +274,7 @@ void AlbumLeftTabItem::oriAlbumStatus()
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     QPixmap pixmap;
 
-    if (DBManager::instance()->isDefaultAutoImportDB(m_UID)) { //如果是默认自动导入
+    if (DBManager::isDefaultAutoImportDB(m_UID)) { //如果是默认自动导入
         if (themeType == DGuiApplicationHelper::LightType) {
             switch (m_UID) {
             case DBManager::SpUID::u_Camera:
@@ -377,7 +377,7 @@ void AlbumLeftTabItem::newAlbumStatus()
 {
     QPixmap pixmap;
 
-    if (DBManager::instance()->isDefaultAutoImportDB(m_UID)) { //如果是默认自动导入
+    if (DBManager::isDefaultAutoImportDB(m_UID)) { //如果是默认自动导入
         switch (m_UID) {
         case DBManager::SpUID::u_Camera:
             pixmap = utils::base::renderSVG(":/resources/images/sidebar/active/icon_camera_active.svg", QSize(24, 24));

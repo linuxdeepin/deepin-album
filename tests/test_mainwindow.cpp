@@ -333,26 +333,23 @@ TEST(MainWindow, allpicture)
     //fix：没有调用startSlideShow而直接用鼠标去点，导致UT崩溃
     //TODO:添加到自定义相册5
     //导出6
-    QTimer::singleShot(1000, w, [ = ]() {
-        //导出重复时，干掉覆盖提示框
-        int (*dlgexec)() = []() {
-            return 1;
-        };
-        typedef int (*fptr)(QDialog *);
-        fptr fptrexec = reinterpret_cast<fptr>(&QDialog::exec);  //obtaining an address
-        Stub stub;
-        stub.set(fptrexec, dlgexec);
-        QTest::qWait(300);
-
-        QTestEventList e1;
-        e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-        e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-        e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-        e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-        e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
-        e1.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
-        e1.simulate(Exporter::instance()->m_exportImageDialog->getButton(1));
-        e1.clear();
+    asynchronousObject asynchronous;
+    stubDialog(
+    [ & ]() {
+        QMetaObject::invokeMethod(&asynchronous, "asynchronousRunActionFromMenu"
+                                  , Qt::QueuedConnection, Q_ARG(QMenu *, menu), Q_ARG(QString, TR_SUBORDINATE_t::tr("Export")));
+    },
+    [ = ]() {
+        QMetaObject::invokeMethod(w, [ = ]() {
+            QTestEventList e1;
+            e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+            e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+            e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+            e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+            e1.addKeyClick(Qt::Key_Tab, Qt::NoModifier, 50);
+            e1.addKeyClick(Qt::Key_Enter, Qt::NoModifier, 50);
+            e1.simulate(Exporter::instance()->m_exportImageDialog->getButton(1));
+        }, Qt::QueuedConnection);
     });
 
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Export"));
@@ -994,6 +991,24 @@ TEST(MainWindow, createalbumFromTitlebarMenu)
         emit w->m_pTitleBarMenu->triggered(act);
     }
 
+    asynchronousObject asynchronous;
+    stubDialog(
+    [ & ]() {
+        QMetaObject::invokeMethod(&asynchronous, "asynchronousRunActionFromMenu"
+                                  , Qt::QueuedConnection, Q_ARG(QMenu *, w->m_pTitleBarMenu), Q_ARG(QString, AlbumView::tr("New album")));
+    },
+    [ = ]() {
+        QMetaObject::invokeMethod(w, [ = ]() {
+            AlbumCreateDialog *tempDlg = dynamic_cast<AlbumCreateDialog *>(qApp->activeModalWidget());
+            tempDlg->getEdit()->setText("albumFromAction");
+            tempDlg->onTextEdited("albumFromAction");
+            tempDlg->onReturnPressed();
+            emit tempDlg->buttonClicked(1, "");
+        }, Qt::QueuedConnection);
+    });
+
+    QTest::qWait(1000);
+
     //往此相册导入图片
     int (*dlgexec)() = []() {
         return 1;
@@ -1011,13 +1026,13 @@ TEST(MainWindow, createalbumFromTitlebarMenu)
     });
     emit w->m_pAlbumview->m_pImportView->m_pImportBtn->clicked(true);
 
-    QTest::qWait(500);
+    QTest::qWait(3000);
 }
 
 // 从菜单导入照片
 TEST(MainWindow, ImportPhotosFromTitlebarMenu)
 {
-    TEST_CASE_NAME("ImportPhotosFromTitlebarMenu")
+    TEST_CASE_NAME("load")
     MainWindow *w = dApp->getMainWindow();
     w->albumBtnClicked();
     QTest::qWait(500);
@@ -1436,7 +1451,7 @@ TEST(MainWindow, onSearchEditIsDisplay)
 
 TEST(ImgInfoDialog, DetailInfo)
 {
-    TEST_CASE_NAME("load")
+    TEST_CASE_NAME("DetailInfo")
     MainWindow *w = dApp->getMainWindow();
     AllPicView *allpicview = w->m_pAllPicView;
     w->onHideImageView();

@@ -362,7 +362,7 @@ void LeftListView::showMenu(const QPoint &pos)
         m_MenuActionMap.value(tr("New album"))->setVisible(false);
 
         //默认自动导入路径删除
-        if (DBManager::instance()->isDefaultAutoImportDB(m_currentUID)) {
+        if (DBManager::isDefaultAutoImportDB(m_currentUID)) {
             m_MenuActionMap.value(tr("Delete"))->setVisible(false);
         }
     }

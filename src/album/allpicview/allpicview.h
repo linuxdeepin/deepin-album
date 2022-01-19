@@ -99,7 +99,7 @@ private slots:
     void onImportViewImportBtnClicked();
     void onImportFailedToView();
     //图片刷新后更新
-    void onImgRemoved(const DBImgInfoList &infos);
+    void onImgRemoved();
     //缩略图选中项改变
     void sltSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 

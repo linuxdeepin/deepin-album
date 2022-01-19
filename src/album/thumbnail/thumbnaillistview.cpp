@@ -1333,7 +1333,7 @@ int ThumbnailListView::getListViewHeight()
 }
 //add end 3975
 //有文件删除，刷新所有列表
-void ThumbnailListView::updateThumbnailViewAfterDelete(const DBImgInfoList &infos)
+void ThumbnailListView::updateThumbnailViewAfterDelete(const QStringList &paths)
 {
     //列表上移除所有图片项
     if (m_delegatetype == ThumbnailDelegate::AllPicViewType
@@ -1341,11 +1341,11 @@ void ThumbnailListView::updateThumbnailViewAfterDelete(const DBImgInfoList &info
             || m_delegatetype == ThumbnailDelegate::AlbumViewFavoriteType
             || m_delegatetype == ThumbnailDelegate::TimeLineViewType
             || m_delegatetype == ThumbnailDelegate::AlbumViewImportTimeLineViewType) {
-        foreach (auto info, infos) {
+        for (const auto &path : paths) {
             for (int i = (m_model->rowCount() - 1); i >= 0; i--) {
                 QModelIndex index = m_model->index(i, 0);
                 DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
-                if (info.filePath == data.filePath) {
+                if (path == data.filePath) {
                     m_model->removeRow(i);
                     break;
                 }

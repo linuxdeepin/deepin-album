@@ -267,7 +267,7 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AlbumView::updateRightView);
     //todo
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AlbumView::updateRightView);
-    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &AlbumView::onInsertedIntoAlbum);
+    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &AlbumView::onInsertedIntoAlbum, Qt::QueuedConnection);
     connect(dApp->signalM, &SignalManager::removedFromAlbum, this, &AlbumView::updateAlbumView);
     //最近删除中数据有变化，刷新缓存
     connect(dApp->signalM, &SignalManager::imagesTrashInserted, this, &AlbumView::onTrashInfosChanged);
@@ -1032,7 +1032,12 @@ void AlbumView::updateRightCustomAlbumView()
     }
 
     emit sigSearchEditIsDisplay(true);
-    setAcceptDrops(true);
+
+    if (DBManager::instance()->getAlbumDBTypeFromUID(m_currentUID) == AutoImport) {
+        setAcceptDrops(false); //自动导入路径禁止拖放
+    } else {
+        setAcceptDrops(true);
+    }
 }
 
 void AlbumView::updateRightTrashView()
@@ -1272,7 +1277,7 @@ void AlbumView::onKeyDelete()
     } else if (COMMON_STR_CUSTOM == m_currentType) {
         paths = m_customThumbnailList->selectedPaths();
         // 在不是自动导入相册的前提下：如果没有选中的照片，或相册中的照片数为0，则删除相册
-        if ((paths.isEmpty() || DBManager::instance()->getItemsCountByAlbum(m_currentUID, ItemTypeNull) == 0) && !DBManager::instance()->isDefaultAutoImportDB(m_currentUID)) {
+        if ((paths.isEmpty() || DBManager::instance()->getItemsCountByAlbum(m_currentUID, ItemTypeNull) == 0) && !DBManager::isDefaultAutoImportDB(m_currentUID)) {
             QListWidgetItem *item = m_pLeftListView->m_pCustomizeListView->currentItem();
             AlbumLeftTabItem *pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pCustomizeListView->itemWidget(item));
             m_deleteDialog = new AlbumDeleteDialog;
@@ -1502,7 +1507,7 @@ const QList<QExplicitlySharedDataPointer<DGioMount>> AlbumView::getVfsMountList(
 {
     getAllDeviceName();
     QList<QExplicitlySharedDataPointer<DGioMount> > result;
-    const QList<QExplicitlySharedDataPointer<DGioMount> > mounts = m_vfsManager->getMounts();
+    const QList<QExplicitlySharedDataPointer<DGioMount> > mounts = DGioVolumeManager::getMounts();
     for (auto mount : mounts) {
         //TODO:
         //Support android phone, iPhone, and usb devices. Not support ftp, smb, non removeable disk now
@@ -2229,10 +2234,7 @@ void AlbumView::onImportViewImportBtnClicked()
 void AlbumView::onImportFailedToView()
 {
     if (isVisible()) {
-        m_spinner->hide();
-        m_spinner->stop();
-        m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_IMPORT);
-        m_pStatusBar->setVisible(false); //隐藏底部栏
+        updateRightView();
     }
 }
 

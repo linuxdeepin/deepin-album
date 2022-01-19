@@ -26,6 +26,7 @@
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
 #include <dgiovolume.h>
+#include <QtConcurrent>
 
 #include "ac-desktop-define.h"
 #include "batchoperatewidget.h"
@@ -132,7 +133,7 @@ void AllPicView::initConnections()
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(dApp->signalM, &SignalManager::imagesInserted, this, &AllPicView::updatePicsIntoThumbnailView);
     //有图片删除后，刷新列表
-    connect(dApp->signalM, &SignalManager::imagesRemovedPar, this, &AllPicView::onImgRemoved);
+    connect(dApp->signalM, &SignalManager::imagesRemoved, this, &AllPicView::onImgRemoved);
     // 添加重复照片提示
     connect(dApp->signalM, &SignalManager::RepeatImportingTheSamePhotos, this, &AllPicView::onRepeatImportingTheSamePhotos);
     connect(m_pThumbnailListView, &ThumbnailListView::openImage, this, &AllPicView::onOpenImage);
@@ -206,7 +207,7 @@ void AllPicView::monitorHaveNewFile(QStringList fileAdd, QStringList fileDelete,
     //注意：导入新图由于需要制作缩略图，因此是异步多线程的，而移除不存在的图只需要操作数据库，所以是单线程的
     //所以先执行移除，再执行导入
     if (!fileDelete.isEmpty()) {
-        ImageEngineApi::instance()->removeImageFromAutoImport(fileDelete, UID); //移除不存在的图
+        ImageEngineApi::instance()->removeImageFromAutoImport(fileDelete); //移除不存在的图
     }
 
     if (!fileAdd.isEmpty()) {
@@ -313,7 +314,7 @@ void AllPicView::onImportFailedToView()
     }
 }
 
-void AllPicView::onImgRemoved(const DBImgInfoList &infos)
+void AllPicView::onImgRemoved()
 {
     updateStackedWidget();
 }

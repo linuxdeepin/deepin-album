@@ -223,12 +223,10 @@ void DBManager::removeImgInfos(const QStringList &paths)
         return;
     }
     // Collect info before removing data
-    DBImgInfoList infos;
     QStringList pathHashs;
-    for (QString path : paths) {
-        pathHashs << utils::base::hashByString(path);
-        infos.append(getImgInfos("FilePath", path));
-    }
+    std::transform(paths.begin(), paths.end(), std::back_inserter(pathHashs), [](const QString & path) {
+        return utils::base::hashByString(path);
+    });
 
     QMutexLocker mutex(&m_mutex);
 
@@ -269,7 +267,7 @@ void DBManager::removeImgInfos(const QStringList &paths)
     mutex.unlock();
     emit dApp->signalM->imagesRemoved();
     qDebug() << "------" << __FUNCTION__ << "size = " << paths.size();
-    emit dApp->signalM->imagesRemovedPar(infos);
+    emit dApp->signalM->imagesRemovedPar(paths);
 }
 
 void DBManager::removeImgInfosNoSignal(const QStringList &paths)
@@ -662,6 +660,11 @@ bool DBManager::insertIntoAlbum(int UID, const QStringList &paths, AlbumDBType a
     if (!m_query->exec(ps.arg(EMPTY_HASH_STR).arg(atype))) {
         //   qDebug() << "delete same date failed!";
     }
+
+    mutex.unlock();
+
+    //发信号通知上层
+    emit dApp->signalM->insertedIntoAlbum(UID, paths);
 
     return true;
 }

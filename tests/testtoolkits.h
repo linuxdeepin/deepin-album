@@ -26,6 +26,11 @@
 #include <QString>
 #include <QPoint>
 #include <QObject>
+#include <QApplication>
+#include "application.h"
+#include <QtConcurrent>
+#include <QTestEvent>
+#include "mainwindow.h"
 
 class QMenu;
 class QWidget;
@@ -76,3 +81,30 @@ public slots:
 private:
 
 };
+
+//输入：对话框对象、对话框运行时要执行的操作
+template<typename T, typename U>
+void stubDialog(T &&activeFun, U &&processFun)
+{
+    qDebug() << __FUNCTION__ << "---";
+    activeFun();//启动函数
+
+    QEventLoop loop;
+    QtConcurrent::run([ =, &loop]() {
+        (void)QTest::qWaitFor([ =, &loop]() {
+            return (loop.isRunning());
+        });
+        (void)QTest::qWaitFor([ = ]() {
+            return (qApp->activeModalWidget() != nullptr && qApp->activeModalWidget() != dApp->getMainWindow());
+        });
+        if (qApp->activeModalWidget() != nullptr) {
+            QThread::msleep(200);
+            processFun(); //要执行的操作在这里
+            QThread::msleep(200);
+            QMetaObject::invokeMethod(&loop, "quit");
+        } else {
+            QMetaObject::invokeMethod(&loop, "quit");
+        }
+    });
+    loop.exec();
+}

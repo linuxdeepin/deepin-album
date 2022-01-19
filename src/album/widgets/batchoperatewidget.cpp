@@ -101,7 +101,7 @@ void BatchOperateWidget::initConnection()
     //数据库变化
     //我的收藏
     connect(dApp->signalM, &SignalManager::removedFromAlbum, this, &BatchOperateWidget::sltAlbumChanged);
-    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &BatchOperateWidget::sltAlbumChanged);
+    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, this, &BatchOperateWidget::sltAlbumChanged, Qt::QueuedConnection);
     //图片/视频插入删除
     viewChangedFlushTimer = new QTimer(this);
     connect(viewChangedFlushTimer, &QTimer::timeout, this, &BatchOperateWidget::sltListViewChanged);

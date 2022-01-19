@@ -72,7 +72,7 @@ public:
 
     //从自动导入路径删除图片，和移动到trash不同，此处是直接从数据库删除
     //参数：需要删除的图片路径，相册UID
-    bool removeImageFromAutoImport(QStringList files, int UID);
+    bool removeImageFromAutoImport(const QStringList &files);
 
     void close()
     {

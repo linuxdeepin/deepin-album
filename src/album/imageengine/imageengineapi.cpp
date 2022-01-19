@@ -194,13 +194,9 @@ bool ImageEngineApi::ImportImagesFromFileList(QStringList files, const QString &
     return true;
 }
 
-bool ImageEngineApi::removeImageFromAutoImport(QStringList files, int UID)
+bool ImageEngineApi::removeImageFromAutoImport(const QStringList &files)
 {
-    //从自动导入数据库删除
-    DBManager::instance()->removeFromAlbum(UID, files, AutoImport);
-
-    //按失效步骤删除图片
-    removeImage(files);
+    //直接删除图片
     DBManager::instance()->removeImgInfos(files);
 
     return true;

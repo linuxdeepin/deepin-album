@@ -1341,7 +1341,9 @@ void MainWindow::onImprotBtnClicked()
         return;
     ImageDataService::instance()->readThumbnailByPaths(file_list);
     if (m_iCurrentView == VIEW_ALBUM) {
-        if (m_pAlbumview->m_currentType == ALBUM_PATHTYPE_BY_PHONE || m_pAlbumview->m_currentItemType == 0) {
+        if (m_pAlbumview->m_currentType == ALBUM_PATHTYPE_BY_PHONE ||
+                m_pAlbumview->m_currentItemType == 0 ||
+                DBManager::instance()->getAlbumDBTypeFromUID(m_pAlbumview->m_currentUID) == AutoImport) { //外部设备、特定类型、自动导入走常规导入，不得导入进目标相册
             ImageEngineApi::instance()->ImportImagesFromFileList(file_list, "", -1, this, true);
         } else {
             ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_pAlbumview->m_currentAlbum, m_pAlbumview->m_currentUID, this, true);
@@ -1349,7 +1351,6 @@ void MainWindow::onImprotBtnClicked()
     } else {
         ImageEngineApi::instance()->ImportImagesFromFileList(file_list, "", -1, this, true);
     }
-
 }
 
 bool MainWindow::imageImported(bool success)
@@ -2189,7 +2190,7 @@ void MainWindow::ImportImagesFromCustomAutoPaths()
         //所以先执行移除，再执行导入
 
         //4.删除不存在的路径
-        ImageEngineApi::instance()->removeImageFromAutoImport(deleteFiles, eachItem.first);
+        ImageEngineApi::instance()->removeImageFromAutoImport(deleteFiles);
 
         //5.执行导入
         ImageEngineApi::instance()->ImportImagesFromFileList(currentPaths, eachItem.second.split('/').last(), eachItem.first, this, true, AutoImport);

@@ -202,7 +202,7 @@ private slots:
     void onCancelFavorite(const QModelIndex &index);
     void resizeEventF();
     //删除图片之后更新listview中数据
-    void updateThumbnailViewAfterDelete(const DBImgInfoList &infos);
+    void updateThumbnailViewAfterDelete(const QStringList &paths);
     //时间线界面，选择当前时间内照片
     void slotSelectCurrentDatePic(bool isSelect, QStandardItem *item);
 public slots:

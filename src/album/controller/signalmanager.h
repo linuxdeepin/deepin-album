@@ -59,7 +59,7 @@ signals:
 
     void imagesInserted(/*const DBImgInfoList infos*/);
     void imagesRemoved();
-    void imagesRemovedPar(const DBImgInfoList &infos);
+    void imagesRemovedPar(const QStringList &paths);
     void imagesTrashInserted(/*const DBImgInfoList infos*/);
     void imagesTrashRemoved(/*const DBImgInfoList &infos*/);
     void startSlideShow(const ViewInfo &vinfo);
