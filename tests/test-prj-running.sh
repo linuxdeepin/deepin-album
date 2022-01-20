@@ -1,8 +1,10 @@
 #!/bin/bash
 export QT_QPA_PLATFORM='offscreen'
 export QTEST_FUNCTION_TIMEOUT='800000'
-cp -r ./testResource/pic/* ${HOME}/图片/
-cp -r ./testResource/pic/* ${HOME}/Pictures/
+mkdir -p ${HOME}/图片/AlbumtestResource/
+mkdir -p ${HOME}/Pictures/AlbumtestResource/
+cp -r ./testResource/pic/* ${HOME}/图片/AlbumtestResource/
+cp -r ./testResource/pic/* ${HOME}/Pictures/AlbumtestResource/
 mkdir -p ${HOME}/second/
 cp -r ./testResource/second/* ${HOME}/second/
 #模拟设备导入时使用

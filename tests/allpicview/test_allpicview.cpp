@@ -269,7 +269,7 @@ TEST(allpicview, allpicview_other_test)
     QMimeData mimedata;
     QList<QUrl> li;
     QString lastImportPath =  QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).first();
-    lastImportPath += "/test/4l6r5y.png";
+    lastImportPath += "/AlbumtestResource/test/4l6r5y.png";
     li.append(QUrl(lastImportPath));
     mimedata.setUrls(li);
 
