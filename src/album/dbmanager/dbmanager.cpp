@@ -1450,7 +1450,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
             } else {
                 QFileInfo info(recoveryName);
                 QString name = info.completeBaseName();
-                name.append("(copy)");
+                name.append(tr("(copy)"));
                 recoveryName = info.dir().path() + "/" + name + "." + info.completeSuffix();
             }
             if (recoveryName.size() > 255) {
