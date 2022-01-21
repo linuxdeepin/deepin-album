@@ -1235,8 +1235,8 @@ void DBManager::checkDatabase()
 
 void DBManager::insertSpUID(const QString &albumName, AlbumDBType astype, SpUID UID)
 {
-    //0.路径不存在
-    if (!defaultNotifyPathExists(UID)) {
+    //0.路径不存在，BUG#111917，只检查默认路径，不要把最近收藏也搞进来了，否则会导致后续收藏失败
+    if (UID != u_Favorite && !defaultNotifyPathExists(UID)) {
         //路径不存在则删除已有的相册
         if (!m_query->exec(QString("DELETE FROM AlbumTable3 WHERE UID=%1").arg(UID))) {
         }

@@ -6,10 +6,6 @@ project(deepin-album)
 execute_process(COMMAND uname -m OUTPUT_VARIABLE MACH
     ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-#if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-#    set(DMR_DEBUG on)
-#endif()
-
 option(DOTEST "option for test" OFF)
 
 add_definitions(-DENABLE_ACCESSIBILITY=1)
@@ -19,8 +15,11 @@ if(DOTEST)
         add_definitions(-DSYSTEM_MIPS)
         set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
     endif()
-    add_definitions( -DUSE_TEST )
-else()
+    add_definitions(-DUSE_TEST)
+endif()
+
+#只在非debug模式下启动这些参数，否则调试体验会非常差
+if (NOT(CMAKE_BUILD_TYPE STREQUAL "Debug"))
     # 加速编译优化参数
     if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
         SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wl,-O1 -Wl,--as-needed -Wl,-E -fPIE -ffunction-sections -fdata-sections -Wl,--gc-sections -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi -z noexecstack")
