@@ -65,10 +65,10 @@ ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int imgCount, int videoCount, 
     m_Bottomlabel->setWordWrap(true);
     m_Bottomlabel->setAlignment(Qt::AlignHCenter);
     m_Bottomlabel->setForegroundRole(DPalette::TextTips);
-    DFontSizeManager::instance()->bind(m_Bottomlabel, DFontSizeManager::T7, QFont::Medium);
+    DFontSizeManager::instance()->bind(m_Bottomlabel, DFontSizeManager::T6, QFont::Medium);
 
     DWidget *contentWidget = new DWidget(this);
-    contentWidget->setFixedHeight(this->height() - 10);
+    contentWidget->setFixedHeight(this->height() - 60);
     contentWidget->setContentsMargins(0, 0, 0, 0);
     QVBoxLayout *layout = new QVBoxLayout(contentWidget);
     layout->setContentsMargins(0, 0, 0, 0);
