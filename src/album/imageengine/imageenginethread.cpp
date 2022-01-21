@@ -147,10 +147,12 @@ void ImportImagesThread::runDetail()
     QStringList curAlbumImportedPathList;
     // 拖拽导入 url
     if (m_type == DataType_UrlList) {
-        QStringList urlLocalPathList;
         for (QUrl url : m_urls) {
-            const QString path = url.toLocalFile();
-            urlLocalPathList << path;
+            QString temp = url.toLocalFile();
+            if (QFileInfo(temp).isSymLink()) {
+                temp = QFileInfo(temp).readLink();
+            }
+            const QString path = temp;
             if (QFileInfo(path).isDir()) {
                 auto finfos =  utils::image::getImagesAndVideoInfo(path, true);
                 for (auto finfo : finfos) {
@@ -168,6 +170,9 @@ void ImportImagesThread::runDetail()
                 m_obj->imageImported(false);
                 m_obj->removeThread(this);
                 return;
+            }
+            if (QFileInfo(path).isSymLink()) {
+                path = QFileInfo(path).readLink();
             }
             QFileInfo file(path);
             if (file.isDir()) {
