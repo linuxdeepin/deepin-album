@@ -208,7 +208,6 @@ void MainWindow::initConnections()
     connect(ImageEngine::instance(), &ImageEngine::exitSlideShow, this, &MainWindow::onHideSlidePanel);
     //导出图片
     connect(dApp->signalM, &SignalManager::exportImage, this, &MainWindow::onExportImage);
-//    connect(dApp->signalM, &SignalManager::showImageInfo, this, &MainWindow::onShowImageInfo);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::newProcessInstance, this, &MainWindow::onNewAPPOpen);
     //右下角滑动条
     connect(dApp->signalM, &SignalManager::sigMainwindowSliderValueChg, this, &MainWindow::onMainwindowSliderValueChg);
