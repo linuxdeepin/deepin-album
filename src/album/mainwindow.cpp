@@ -49,6 +49,7 @@
 #include <DFloatingMessage>
 #include <DWidgetUtil>
 #include <DStandardPaths>
+#include <set>
 
 #include "imagedataservice.h"
 #include "movieservice.h"
@@ -1680,7 +1681,7 @@ void MainWindow::showEvent(QShowEvent *event)
     }, Qt::QueuedConnection);
 
     //启动路径监控
-    auto monitorPathsTuple = DBManager::getDefaultNotifyPaths();
+    auto monitorPathsTuple = DBManager::getDefaultNotifyPaths_group();
     startMonitor(std::get<0>(monitorPathsTuple), std::get<1>(monitorPathsTuple), std::get<2>(monitorPathsTuple));
 
     //读取并加载自定义的自动导入路径
@@ -2003,12 +2004,10 @@ QJsonObject MainWindow::createShorcutJson()
     return main_shortcut;
 }
 
-void MainWindow::startMonitor(const QStringList &paths, const QStringList &albumNames, const QList<int> &UIDs)
+void MainWindow::startMonitor(const QList<QStringList> &paths, const QStringList &albumNames, const QList<int> &UIDs)
 {
-    for (int i = 0; i != paths.size(); ++i) {
-        if (!paths.at(i).isEmpty()) {
-            m_fileInotifygroup->startWatch(paths.at(i), albumNames.at(i), UIDs.at(i));
-        }
+    for (int i = 0; i != UIDs.size(); ++i) {
+        m_fileInotifygroup->startWatch(paths.at(i), albumNames.at(i), UIDs.at(i));
     }
 }
 

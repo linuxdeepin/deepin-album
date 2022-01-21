@@ -66,29 +66,26 @@ FileInotify::~FileInotify()
 
 void FileInotify::checkNewPath()
 {
-    QDir dir(m_currentDir);
-    QFileInfoList list;
-    utils::image::getAllDirInDir(dir, list);
+    for (const auto &currentDir : m_currentDirs) {
+        QDir dir(currentDir);
+        QFileInfoList list;
+        utils::image::getAllDirInDir(dir, list);
 
-    QStringList dirs;
-    std::transform(list.begin(), list.end(), std::back_inserter(dirs), [](const QFileInfo & info) {
-        return info.absoluteFilePath();
-    });
+        QStringList dirs;
+        std::transform(list.begin(), list.end(), std::back_inserter(dirs), [](const QFileInfo & info) {
+            return info.absoluteFilePath();
+        });
 
-    m_watcher.addPaths(dirs);
+        m_watcher.addPaths(dirs);
+    }
 }
 
-void FileInotify::addWather(const QString &paths, const QString &album, int UID)
+void FileInotify::addWather(const QStringList &paths, const QString &album, int UID)
 {
-    QFileInfo info(paths);
-    if (!info.exists() || !info.isDir()) {
-        return;
-    }
-    m_currentDir = paths + "/";
+    m_currentDirs = paths;
     m_currentAlbum = album;
     m_currentUID = UID;
-    m_watcher.addPath(paths);
-
+    m_watcher.addPaths(paths);
     m_timer->start(1500);
 }
 
@@ -118,19 +115,26 @@ void FileInotify::clear()
 
 void FileInotify::getAllPicture(bool isFirst)
 {
-    QDir dir(m_currentDir);
-    if (!dir.exists()) {
-        //文件夹被删除，清理数据库
+    QFileInfoList list;
+    for (int i = 0; i != m_currentDirs.size(); ++i) {
+        QDir dir(m_currentDirs[i]);
+        if (!dir.exists()) {
+            m_currentDirs.removeAt(i);
+            --i;
+            continue;
+        }
+
+        //获取监控目录的所有文件
+        utils::image::getAllFileInDir(dir, list);
+    }
+
+    if (m_currentDirs.isEmpty()) { //文件夹被删除，清理数据库
         DBManager::instance()->removeAlbum(m_currentUID);
         m_deleteFile = DBManager::instance()->getPathsByAlbum(m_currentUID, AutoImport);
         m_newFile.clear();
-        emit pathDestroyed();
+        emit pathDestroyed(m_currentUID);
         return;
     }
-
-    //当前文件夹下的所有文件
-    QFileInfoList list;
-    utils::image::getAllFileInDir(dir, list);
 
     //移除不支持的文件
     auto removeIter = std::remove_if(list.begin(), list.end(), [this](const QFileInfo & info) {
@@ -144,6 +148,7 @@ void FileInotify::getAllPicture(bool isFirst)
         return info.absoluteFilePath();
     });
 
+    //获取当前已导入的全部文件
     auto allPaths = DBManager::instance()->getPathsByAlbum(m_currentUID, AutoImport);
 
     //筛选出新增图片文件

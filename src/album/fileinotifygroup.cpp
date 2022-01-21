@@ -31,24 +31,28 @@ FileInotifyGroup::FileInotifyGroup(QObject *parent) : QObject(parent)
 
 }
 
-void FileInotifyGroup::startWatch(const QString &path, const QString &album, int UID)
+void FileInotifyGroup::startWatch(const QStringList &paths, const QString &album, int UID)
 {
-    QDir dir(path);
-
-    if (!dir.exists()) {
+    //去除不存在的路径
+    QStringList watchPaths;
+    for (const auto &path : paths) {
+        QFileInfo info(path);
+        if (info.exists() && info.isDir()) {
+            watchPaths.push_back(path);
+        }
+    }
+    if (watchPaths.isEmpty()) {
         return;
     }
 
+    //启动监控
     auto watcher = new FileInotify;
-    watcher->addWather(path, album, UID);
+    watcher->addWather(watchPaths, album, UID);
 
-    //如果路径完全没了，则销毁相关的UI和数据库内容
-    connect(watcher, &FileInotify::pathDestroyed, [UID]() {
-        if (!DBManager::defaultNotifyPathExists(UID)) {
-            emit dApp->signalM->sigMonitorDestroyed(UID);
-        }
-    });
+    //设置销毁链接
+    connect(watcher, &FileInotify::pathDestroyed, dApp->signalM, &SignalManager::sigMonitorDestroyed);
 
+    //加进监控list，后面方便销毁
     watchers.push_back(watcher);
 }
 

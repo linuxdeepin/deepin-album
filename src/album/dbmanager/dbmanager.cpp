@@ -384,6 +384,37 @@ std::tuple<QStringList, QStringList, QList<int>> DBManager::getDefaultNotifyPath
     return std::make_tuple(monitorPaths, monitorAlbumNames, monitorAlbumUIDs);
 }
 
+std::tuple<QList<QStringList>, QStringList, QList<int>> DBManager::getDefaultNotifyPaths_group()
+{
+    QList<QStringList> monitorPaths;
+    QStringList monitorAlbumNames;
+    QList<int>  monitorAlbumUIDs;
+
+    //获取基础路径
+    auto stdPicPaths = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
+    auto stdPicPath = stdPicPaths[0];
+    auto stdMoviePaths = QStandardPaths::standardLocations(QStandardPaths::MoviesLocation);
+    auto stdMoviePath = stdMoviePaths[0];
+
+    //截图录屏
+    monitorPaths.push_back({stdPicPath + "/Screenshots", stdMoviePath + "/Screen Recordings"});
+    monitorAlbumNames.push_back(tr("Screen Capture"));
+    monitorAlbumUIDs.push_back(DBManager::SpUID::u_ScreenCapture);
+
+    //相机
+    monitorPaths.push_back({stdPicPath + "/Camera", stdMoviePath + "/Camera"});
+    monitorAlbumNames.push_back(tr("Camera"));
+    monitorAlbumUIDs.push_back(DBManager::SpUID::u_Camera);
+
+    //画板
+    monitorPaths.push_back({stdPicPath + "/Draw"});
+    monitorAlbumNames.push_back(tr("Draw"));
+    monitorAlbumUIDs.push_back(DBManager::SpUID::u_Draw);
+
+    //返回tuple数据
+    return std::make_tuple(monitorPaths, monitorAlbumNames, monitorAlbumUIDs);
+}
+
 bool DBManager::defaultNotifyPathExists(int UID)
 {
     if (!isDefaultAutoImportDB(UID)) { //如果连默认导入UID都不是，直接返回

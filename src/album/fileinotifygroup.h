@@ -33,7 +33,7 @@ public:
     ~FileInotifyGroup() override;
 
     //添加：path下的改动会实时同步到对应的album中
-    void startWatch(const QString &path, const QString &album, int UID);
+    void startWatch(const QStringList &paths, const QString &album, int UID);
 
 private:
     QList<FileInotify *> watchers;

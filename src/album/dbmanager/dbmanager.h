@@ -121,6 +121,8 @@ public:
     static bool isDefaultAutoImportDB(int UID);
     //获取默认监控路径数据包，数据顺序是：监控路径，界面显示名字，对应的UID
     static std::tuple<QStringList, QStringList, QList<int> > getDefaultNotifyPaths();
+    //获取默认监控路径数据包，数据顺序是：监控路径，界面显示名字，对应的UID，和不带_group的区别是，它把路径打包起来了
+    static std::tuple<QList<QStringList>, QStringList, QList<int>> getDefaultNotifyPaths_group();
     //确认目标UID对应的默认监控路径是否存在
     static bool defaultNotifyPathExists(int UID);
     const QStringList       getPathsByAlbum(int UID, AlbumDBType atype = AlbumDBType::Custom) const;

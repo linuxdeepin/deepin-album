@@ -34,7 +34,7 @@ public:
     ~FileInotify() override;
 
     //添加和删除监控
-    void addWather(const QString &path, const QString &album, int UID);
+    void addWather(const QStringList &paths, const QString &album, int UID);
     //void removeWatcher(const QString &path); //预留，暂未使用
 
     void clear();
@@ -44,7 +44,7 @@ public:
 //    void fileNumChange(); //预留，暂未使用
 
 signals:
-    void pathDestroyed();
+    void pathDestroyed(int UID);
 
 public slots:
     //发送插入
@@ -57,7 +57,7 @@ private:
     bool m_running = false;
     QStringList m_newFile;      //当前新添加的
     QStringList m_deleteFile;   //当前删除的
-    QString m_currentDir;       //给定的当前监控路径
+    QStringList m_currentDirs;  //给定的当前监控路径
     QString m_currentAlbum;     //给定当前的相册
     int m_currentUID;           //给定当前的相册的UID
     QStringList  m_Supported;   //支持的格式
