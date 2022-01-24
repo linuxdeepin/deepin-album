@@ -2166,6 +2166,13 @@ void MainWindow::ImportImagesFromCustomAutoPaths()
 
     //first -> UID, secend -> path
     for (auto &eachItem : customAutoImportUIDAndPaths) {
+        //0.先检查路径是否存在，不存在直接移除
+        QFileInfo info(eachItem.second);
+        if (!info.exists() || !info.isDir()) {
+            DBManager::instance()->removeCustomAutoImportPath(eachItem.first);
+            continue;
+        }
+
         //1.获取原有的路径
         auto originPaths = DBManager::instance()->getPathsByAlbum(eachItem.first, AutoImport);
 
