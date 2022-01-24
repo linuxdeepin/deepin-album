@@ -1438,7 +1438,7 @@ void MainWindow::onLibDel()
     info = DBManager::instance()->getInfoByPath(path);
     info.importTime = QDateTime::currentDateTime();
     infos << info;
-    DBManager::instance()->insertTrashImgInfos(infos);
+    DBManager::instance()->insertTrashImgInfos(infos, false);
     DBManager::instance()->removeImgInfos(QStringList(path));
 }
 

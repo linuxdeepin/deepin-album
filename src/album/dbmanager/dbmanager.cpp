@@ -1334,7 +1334,7 @@ const DBImgInfoList DBManager::getAllTrashInfos() const
     return infos;
 }
 
-void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
+void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDialog)
 {
     if (infos.isEmpty()) {
         return;
@@ -1352,6 +1352,10 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
 
             //复制操作
             QFile::copy(info.filePath, utils::base::getDeleteFullPath(hash, info.getFileNameFromFilePath()));
+
+            if (showWaitDialog) {
+                emit dApp->signalM->progressOfWaitDialog(infos.size(), infos.indexOf(info) + 1);
+            }
 
             //判断文件路径来自于哪里
             QString path = info.filePath;

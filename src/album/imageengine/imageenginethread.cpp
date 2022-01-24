@@ -418,10 +418,10 @@ void ImageMoveImagesToTrashThread::runDetail()
         int pathsCount = paths.size();
         int removeTimeout = 500; //每500ms上报前端一次
         int removedCount = 0;
-        QElapsedTimer timer;
+
         QStringList removedPaths;
         emit dApp->signalM->progressOfWaitDialog(paths.size(), 0);
-        timer.start();
+
         for (auto path : paths) {
             DBImgInfo info;
             info = DBManager::instance()->getInfoByPath(path);
@@ -437,21 +437,14 @@ void ImageMoveImagesToTrashThread::runDetail()
             infos << info;
             removedPaths << path;
             removedCount++;
-            if (timer.elapsed() >= removeTimeout) {
-                timer.start();
-                DBManager::instance()->insertTrashImgInfos(infos);
-                DBManager::instance()->removeImgInfos(removedPaths);
-                emit dApp->signalM->progressOfWaitDialog(pathsCount, removedCount);
-                removedPaths.clear();
-                infos.clear();
-            }
         }
 
-        if (infos.size() > 0) {
-            DBManager::instance()->insertTrashImgInfos(infos);
-            DBManager::instance()->removeImgInfos(removedPaths);
-            emit dApp->signalM->progressOfWaitDialog(pathsCount, removedCount);
-        }
+        DBManager::instance()->insertTrashImgInfos(infos, true);
+        DBManager::instance()->removeImgInfos(removedPaths);
+        emit dApp->signalM->progressOfWaitDialog(pathsCount, removedCount);
+        removedPaths.clear();
+        infos.clear();
+
     }
     emit dApp->signalM->closeWaitDialog();
 }

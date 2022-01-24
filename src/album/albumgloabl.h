@@ -106,6 +106,11 @@ struct DBImgInfo {
         return dbg;
     }
 
+    bool operator==(const DBImgInfo &info)
+    {
+        return this->filePath == info.filePath;
+    }
+
     //辅助函数，在需要的时候调用
 
     //反hex，用于将toHex后的32字节hash值反向提取成标准16字节hash值，用于从数据库读取数据用

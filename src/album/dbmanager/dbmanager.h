@@ -141,7 +141,7 @@ public:
     void                    renameAlbum(int UID, const QString &newAlbum, AlbumDBType atype = AlbumDBType::Custom);
     // TabelTrash
     const DBImgInfoList     getAllTrashInfos() const;
-    void                    insertTrashImgInfos(const DBImgInfoList &infos);
+    void                    insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDialog);
     void                    removeTrashImgInfos(const QStringList &paths);
     QStringList             recoveryImgFromTrash(const QStringList &paths); //返回无法恢复的文件
     void                    removeTrashImgInfosNoSignal(const QStringList &paths);
