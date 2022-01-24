@@ -439,7 +439,7 @@ bool DBManager::defaultNotifyPathExists(int UID)
     return isExists;
 }
 
-const QStringList DBManager::getPathsByAlbum(int UID, AlbumDBType atype) const
+const QStringList DBManager::getPathsByAlbum(int UID) const
 {
     QMutexLocker mutex(&m_mutex);
     QStringList list;
@@ -447,10 +447,8 @@ const QStringList DBManager::getPathsByAlbum(int UID, AlbumDBType atype) const
     bool b = m_query->prepare("SELECT DISTINCT i.FilePath "
                               "FROM ImageTable3 AS i, AlbumTable3 AS a "
                               "WHERE i.PathHash=a.PathHash "
-                              "AND a.UID=:UID "
-                              "AND a.AlbumDBType=:atype ");
+                              "AND a.UID=:UID ");
     m_query->bindValue(":UID", UID);
-    m_query->bindValue(":atype", atype);
     if (!b || ! m_query->exec()) {
     } else {
         while (m_query->next()) {
@@ -1371,8 +1369,6 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
             }
         }
         pathHashs.push_back(hash); //不能丢进if，否则下面会炸
-
-
     }
 
     QMutexLocker mutex(&m_mutex);

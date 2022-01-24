@@ -2174,7 +2174,7 @@ void MainWindow::ImportImagesFromCustomAutoPaths()
         }
 
         //1.获取原有的路径
-        auto originPaths = DBManager::instance()->getPathsByAlbum(eachItem.first, AutoImport);
+        auto originPaths = DBManager::instance()->getPathsByAlbum(eachItem.first);
 
         //2.获取现在的路径
         QFileInfoList infos;

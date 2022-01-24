@@ -130,7 +130,7 @@ void FileInotify::getAllPicture(bool isFirst)
 
     if (m_currentDirs.isEmpty()) { //文件夹被删除，清理数据库
         DBManager::instance()->removeAlbum(m_currentUID);
-        m_deleteFile = DBManager::instance()->getPathsByAlbum(m_currentUID, AutoImport);
+        m_deleteFile = DBManager::instance()->getPathsByAlbum(m_currentUID);
         m_newFile.clear();
         emit pathDestroyed(m_currentUID);
         return;
@@ -149,7 +149,7 @@ void FileInotify::getAllPicture(bool isFirst)
     });
 
     //获取当前已导入的全部文件
-    auto allPaths = DBManager::instance()->getPathsByAlbum(m_currentUID, AutoImport);
+    auto allPaths = DBManager::instance()->getPathsByAlbum(m_currentUID);
 
     //筛选出新增图片文件
     for (auto path : filePaths) {

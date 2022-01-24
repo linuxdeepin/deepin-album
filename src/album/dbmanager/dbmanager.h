@@ -125,7 +125,7 @@ public:
     static std::tuple<QList<QStringList>, QStringList, QList<int>> getDefaultNotifyPaths_group();
     //确认目标UID对应的默认监控路径是否存在
     static bool defaultNotifyPathExists(int UID);
-    const QStringList       getPathsByAlbum(int UID, AlbumDBType atype = AlbumDBType::Custom) const;
+    const QStringList       getPathsByAlbum(int UID) const;
     const DBImgInfoList     getInfosByAlbum(int UID) const;
     int                     getItemsCountByAlbum(int UID, const ItemType &type) const;
 //    int                     getAlbumsCount() const;
