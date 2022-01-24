@@ -1428,7 +1428,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
     QStringList successedHashs; //恢复成功的hash
     QStringList failedFiles;    //恢复失败的文件名
     std::vector<std::tuple<QString, QString, QString>> changedPaths;//恢复成功但路径变了，0：原始路径hash，1：当前路径，2：当前路径的hash
-
+    QMap <QString, QString> succesedPaths;//保存成功的hash key,路径为value
     //执行恢复步骤
     for (int i = 0; i != paths.size(); ++i) {
         auto deletePath = utils::base::getDeleteFullPath(pathHashs[i], DBImgInfo::getFileNameFromFilePath(paths[i])); //获取删除缓存路径
@@ -1461,6 +1461,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
 
         if (QFile::rename(deletePath, recoveryName)) { //尝试正常恢复
             successedHashs.push_back(pathHashs[i]); //正常恢复成功
+            succesedPaths.insert(pathHashs[i], recoveryName);
         } else { //正常恢复失败，尝试恢复至内部路径
             if (!internalRecoveryDir.exists()) { //检查文件夹是否存在，不存在则创建
                 internalRecoveryDir.mkpath(internalRecoveryPath);
@@ -1476,6 +1477,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
             //尝试恢复至内部路径
             if (QFile::rename(deletePath, recoveryName)) {
                 successedHashs.push_back(pathHashs[i]); //恢复至内部路径
+                succesedPaths.insert(pathHashs[i], recoveryName);
             } else { //TODO：极端特殊情况：使用内部恢复路径恢复失败
                 continue;
             }
@@ -1506,7 +1508,12 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
 
                 //此处需要额外判断路径是否存在，如果不存在则表示是缓存文件已破坏，只能无视
                 if (!QFile::exists(info.filePath)) {
-                    continue;
+                    if (!QFile::exists(succesedPaths.value(hash))) {
+                        info.filePath = succesedPaths.value(hash);
+                    } else {
+                        continue;
+                    }
+
                 }
 
                 info.time = utils::base::stringToDateTime(m_query->value(1).toString());
