@@ -1685,7 +1685,11 @@ void MainWindow::showEvent(QShowEvent *event)
     startMonitor(std::get<0>(monitorPathsTuple), std::get<1>(monitorPathsTuple), std::get<2>(monitorPathsTuple));
 
     //读取并加载自定义的自动导入路径
-    ImportImagesFromCustomAutoPaths();
+    static bool isFirst = true;
+    if (isFirst) {
+        isFirst = false;
+        ImportImagesFromCustomAutoPaths();
+    }
 }
 
 void MainWindow::saveWindowState()

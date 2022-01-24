@@ -269,16 +269,20 @@ void ImportImagesThread::runDetail()
 
         DBImgInfoList dbInfos;
         using namespace utils::image;
-        int noReadCount = 0;
+        int noReadCount = 0; //记录已存在于相册中的数量，若全部存在，则不进行导入操作
+        QStringList allPath = DBManager::instance()->getAllPaths();
         for (auto imagePath : image_list) {
             bool bIsVideo = utils::base::isVideo(imagePath);
             if (!bIsVideo && !imageSupportRead(imagePath)) {
-                noReadCount++;
                 continue;
             }
             QFileInfo srcfi(imagePath);
             if (!srcfi.exists()) {  //当前文件不存在
+                noReadCount++;
                 continue;
+            }
+            if (allPath.contains(imagePath)) {
+                noReadCount++;
             }
             DBImgInfo info =  getDBInfo(imagePath, bIsVideo);
             dbInfos << info;
@@ -291,12 +295,20 @@ void ImportImagesThread::runDetail()
 
         QStringList pathlistImport;
         for (auto &dbInfo : dbInfos) {
-            pathlistImport << dbInfo.filePath;
+            if (!DBManager::instance()->isImgExistInAlbum(m_UID, dbInfo.filePath, m_dbType))
+                pathlistImport << dbInfo.filePath;
         }
-
         //导入相册数据库AlbumTable3
-        DBManager::instance()->insertIntoAlbum(m_UID, pathlistImport, m_dbType);
-        ImageDataService::instance()->readThumbnailByPaths(pathlistImport, true, true);
+        if (pathlistImport.size() > 0) {
+            DBManager::instance()->insertIntoAlbum(m_UID, pathlistImport, m_dbType);
+            ImageDataService::instance()->readThumbnailByPaths(pathlistImport, true, true);
+        }
+        //已全部存在，无需导入
+        if (noReadCount == image_list.size()) {
+            m_obj->imageImported(false);
+            m_obj->removeThread(this);
+            return;
+        }
         //导入图片数据库ImageTable3
         DBManager::instance()->insertImgInfos(dbInfos);
         emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
