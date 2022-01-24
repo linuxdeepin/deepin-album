@@ -22,6 +22,7 @@
 #include "application.h"
 #include "controller/signalmanager.h"
 #include "utils/baseutils.h"
+#include "utils/imageutils.h"
 #include "albumgloabl.h"
 
 #include <QDebug>
@@ -1265,6 +1266,23 @@ void DBManager::checkDatabase()
 
     //每次启动后释放一次文件空间，防止占用过多无效空间
     if (!m_query->exec("VACUUM")) {
+    }
+
+    //在清理数据库本体的同时，还需要清理一下delete目录
+    QFileInfoList deleteInfos;
+    utils::image::getAllFileInDir(deleteCacheDir, deleteInfos);
+    if (!deleteInfos.isEmpty()) {
+        auto fullTrashInfos = getAllTrashInfos();
+        QStringList trashPaths;
+        std::transform(fullTrashInfos.begin(), fullTrashInfos.end(), std::back_inserter(trashPaths), [](const DBImgInfo & info) {
+            return utils::base::getDeleteFullPath(info.pathHash, info.getFileNameFromFilePath());
+        });
+        for (const auto &eachDeleteInfo : deleteInfos) {
+            auto currentPath = eachDeleteInfo.absoluteFilePath();
+            if (!trashPaths.contains(currentPath)) {
+                QFile::remove(currentPath);
+            }
+        }
     }
 }
 
