@@ -2181,14 +2181,13 @@ void MainWindow::ImportImagesFromCustomAutoPaths()
         auto originPaths = DBManager::instance()->getPathsByAlbum(eachItem.first);
 
         //2.获取现在的路径
-        QFileInfoList infos;
-        utils::image::getAllFileInDir(eachItem.second, infos);
+        QFileInfoList infos = utils::image::getImagesAndVideoInfo(eachItem.second, false);
         QStringList currentPaths;
         std::transform(infos.begin(), infos.end(), std::back_inserter(currentPaths), [](const QFileInfo & info) {
-            return info.absoluteFilePath();
+            return info.isSymLink() ? info.readLink() : info.absoluteFilePath();
         });
 
-        //3.获取已不存在的路径
+        //3.1获取已不存在的路径
         QStringList deleteFiles;
         for (int i = 0; i != originPaths.size(); ++i) {
             if (!currentPaths.contains(originPaths[i])) {
@@ -2196,14 +2195,24 @@ void MainWindow::ImportImagesFromCustomAutoPaths()
             }
         }
 
+        //3.2移除已导入的路径
+        auto removeIter = std::remove_if(currentPaths.begin(), currentPaths.end(), [originPaths](const QString & path) {
+            return originPaths.contains(path);
+        });
+        currentPaths.erase(removeIter, currentPaths.end());
+
         //注意：导入新图由于需要制作缩略图，因此是异步多线程的，而移除不存在的图只需要操作数据库，所以是单线程的
         //所以先执行移除，再执行导入
 
         //4.删除不存在的路径
-        ImageEngineApi::instance()->removeImageFromAutoImport(deleteFiles);
+        if (!deleteFiles.isEmpty()) {
+            ImageEngineApi::instance()->removeImageFromAutoImport(deleteFiles);
+        }
 
         //5.执行导入
-        ImageEngineApi::instance()->ImportImagesFromFileList(currentPaths, eachItem.second.split('/').last(), eachItem.first, this, true, AutoImport);
+        if (!currentPaths.isEmpty()) {
+            ImageEngineApi::instance()->ImportImagesFromFileList(currentPaths, eachItem.second.split('/').last(), eachItem.first, this, true, AutoImport);
+        }
     }
 }
 

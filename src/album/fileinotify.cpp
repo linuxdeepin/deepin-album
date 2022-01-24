@@ -145,7 +145,7 @@ void FileInotify::getAllPicture(bool isFirst)
     //提取文件路径
     QStringList filePaths;
     std::transform(list.begin(), list.end(), std::back_inserter(filePaths), [](const QFileInfo & info) {
-        return info.absoluteFilePath();
+        return info.isSymLink() ? info.readLink() : info.absoluteFilePath();
     });
 
     //获取当前已导入的全部文件

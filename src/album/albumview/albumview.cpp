@@ -1107,8 +1107,7 @@ void AlbumView::onAddNewNotifyDir(const QString &dirPath)
 
     //刷新图片
     //1.获取所有图片和视频
-    QFileInfoList infos;
-    utils::image::getAllFileInDir(dirPath, infos);
+    QFileInfoList infos = utils::image::getImagesAndVideoInfo(dirPath, false);
     QStringList importFiles;
     std::transform(infos.begin(), infos.end(), std::back_inserter(importFiles), [](const QFileInfo & info) {
         return info.absoluteFilePath();
