@@ -1347,13 +1347,14 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos)
                     path.contains("mtp:host=") || //mtp路径
                     path.contains(QDir::homePath() + "/.local/share/Trash") || //垃圾箱
                     utils::base::isVaultFile(path)) { //保险箱
-
+                hash.clear();
             } else {
                 utils::base::trashFile(info.filePath);
             }
         }
-
         pathHashs.push_back(hash); //不能丢进if，否则下面会炸
+
+
     }
 
     QMutexLocker mutex(&m_mutex);
