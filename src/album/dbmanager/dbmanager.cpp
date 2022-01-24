@@ -1192,10 +1192,14 @@ void DBManager::checkDatabase()
 
         //搜索当前最大ID值
         if (!m_query->exec("SELECT max(UID) FROM AlbumTable3") || !m_query->next()) {
-            qDebug() << "find max UID failed";
+            albumMaxUID = u_CustomStart; //没找到
+        } else {
+            albumMaxUID = m_query->value(0).toInt();
+            if (albumMaxUID < u_CustomStart - 1) { //如果当前的UID过小，后面+1后仍然在特殊UID范围内
+                albumMaxUID = u_CustomStart - 1;
+            }
+            albumMaxUID++; //+1以避开已有相册
         }
-        albumMaxUID = m_query->value(0).toInt();
-        albumMaxUID++;
     }
 
     // 判断TrashTable的版本
