@@ -549,7 +549,7 @@ static QString getNotExistsTrashFileName(const QString &fileName)
 
     return QString::fromUtf8(name + suffix);
 }
-
+//如果删除失败,返回使用dtk接口删除
 bool trashFile(const QString &file)
 {
     QString trashPath;
@@ -573,7 +573,7 @@ bool trashFile(const QString &file)
     QFileInfo originalInfo(file);
     if (! originalInfo.exists()) {
         qWarning() << "File doesn't exists, can't move to trash";
-        return false;
+        return DDesktopServices::trash(file);
     }
     // Info for restore
     QString infoStr;
@@ -603,18 +603,19 @@ bool trashFile(const QString &file)
 
         if (!QDir().rename(originalInfo.absoluteFilePath(), filepath)) {
             qWarning() << "move to trash failed!";
-            return false;
+            return DDesktopServices::trash(file);
         }
     } else {
         qDebug() << "Move to trash failed! Could not write *.trashinfo!";
-        return false;
+        return DDesktopServices::trash(file);
     }
     return true;
 }
 
 QString getDeleteFullPath(const QString &hash, const QString &fileName)
 {
-    return albumGlobal::DELETE_PATH + "/" + hash + fileName;
+    //防止文件过长,采用只用hash的名称;
+    return albumGlobal::DELETE_PATH + "/" + hash + "." + QFileInfo(fileName).suffix();
 }
 
 }  // namespace base
