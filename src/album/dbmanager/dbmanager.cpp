@@ -1522,10 +1522,22 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
             }
             recoveryName = internalRecoveryPath + "/" + DBImgInfo::getFileNameFromFilePath(paths[i]);
             if (QFile::exists(recoveryName)) { //文件已存在，加副本标记
-                recoveryName.append(tr("(copy)"));
-                if (recoveryName.size() > 255) {
-                    failedFiles.push_back(paths[i]); //文件名过长，恢复失败
-                    continue;
+                QFileInfo info(recoveryName);
+                QString name = info.completeBaseName();
+                recoveryName = info.dir().path() + "/" + name + tr("(copy)") + "." + info.completeSuffix();
+                int number = 1;
+                //防止
+                while (QFile::exists(recoveryName)) {
+                    recoveryName = info.dir().path() + "/" + name + tr("(copy)") + QString::number(number++) + "." + info.completeSuffix();
+                }
+                QString strName = name + tr("(copy)") + QString::number(number++);
+                if (strName.size() > 255) {
+//                    failedFiles.push_back(paths[i]); //文件名过长，恢复失败
+//                    continue;
+                    //文件过长,修改名称
+                    while (QFile::exists(recoveryName)) {
+                        recoveryName = info.dir().path() + "/" +  tr("(copy)") + QString::number(number++) + "." + info.completeSuffix();
+                    }
                 }
             }
             //尝试恢复至内部路径
@@ -1562,7 +1574,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
 
                 //此处需要额外判断路径是否存在，如果不存在则表示是缓存文件已破坏，只能无视
                 if (!QFile::exists(info.filePath)) {
-                    if (!QFile::exists(succesedPaths.value(hash))) {
+                    if (QFile::exists(succesedPaths.value(hash))) {
                         info.filePath = succesedPaths.value(hash);
                     } else {
                         continue;
