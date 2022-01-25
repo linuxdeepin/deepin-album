@@ -95,7 +95,7 @@ ImportImagesThread::~ImportImagesThread()
     qDebug() << "ImportImagesThread destoryed";
 }
 
-void ImportImagesThread::setData(QList<QUrl> &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType)
+void ImportImagesThread::setData(QList<QUrl> &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType, bool isFirst)
 {
     m_urls = paths;
     m_UID = UID;
@@ -104,9 +104,10 @@ void ImportImagesThread::setData(QList<QUrl> &paths, const QString &albumname, i
     m_type = DataType_UrlList;
     m_albumname = albumname;
     m_dbType = dbType;
+    m_isFirst = isFirst;
 }
 
-void ImportImagesThread::setData(QStringList &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType)
+void ImportImagesThread::setData(QStringList &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType, bool isFirst)
 {
     m_paths = paths;
     m_UID = UID;
@@ -115,6 +116,7 @@ void ImportImagesThread::setData(QStringList &paths, const QString &albumname, i
     m_type = DataType_StringList;
     m_albumname = albumname;
     m_dbType = dbType;
+    m_isFirst = isFirst;
 }
 
 bool ImportImagesThread::ifCanStopThread(void *imgobject)
@@ -328,27 +330,30 @@ void ImportImagesThread::runDetail()
                 continue;
             pathlist << Info.filePath;
         }
-        if (image_list.length() == pathlist.length() && !pathlist.isEmpty()) {
-            emit dApp->signalM->updateStatusBarImportLabel(pathlist, 1, m_albumname);
-            emit dApp->signalM->ImportSuccess(); //导入成功
-            m_obj->imageImported(true);
-            if (!curAlbumImportedPathList.isEmpty()) {
-                emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_UID); //相同图片
-            }
-        } else {
-            if (m_dbType == AutoImport) { //发送导入中断信号
-                emit dApp->signalM->ImportInterrupted(); //导入中断
-                if (!pathlist.isEmpty()) {
-                    emit dApp->signalM->ImportSomeFailed(image_list.length(), image_list.length() - pathlist.length()); //部分失败提示
+
+        if (!(m_dbType == AutoImport && !m_isFirst)) {
+            if (image_list.length() == pathlist.length() && !pathlist.isEmpty()) {
+                emit dApp->signalM->updateStatusBarImportLabel(pathlist, 1, m_albumname);
+                emit dApp->signalM->ImportSuccess(); //导入成功
+                m_obj->imageImported(true);
+                if (!curAlbumImportedPathList.isEmpty()) {
+                    emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_UID); //相同图片
                 }
             } else {
-                //BUG#92844 额外提示未发现照片或文件
-                if (pathlist.isEmpty()) {
-                    emit dApp->signalM->ImportDonotFindPicOrVideo();
+                if (m_dbType == AutoImport) { //发送导入中断信号
+                    emit dApp->signalM->ImportInterrupted(); //导入中断
+                    if (!pathlist.isEmpty()) {
+                        emit dApp->signalM->ImportSomeFailed(image_list.length(), image_list.length() - pathlist.length()); //部分失败提示
+                    }
                 } else {
-                    emit dApp->signalM->ImportSomeFailed(image_list.length(), image_list.length() - pathlist.length());
+                    //BUG#92844 额外提示未发现照片或文件
+                    if (pathlist.isEmpty()) {
+                        emit dApp->signalM->ImportDonotFindPicOrVideo();
+                    } else {
+                        emit dApp->signalM->ImportSomeFailed(image_list.length(), image_list.length() - pathlist.length());
+                    }
+                    emit dApp->signalM->ImportFailed();
                 }
-                emit dApp->signalM->ImportFailed();
             }
         }
 

@@ -36,8 +36,8 @@ class ImportImagesThread : public ImageEngineThreadObject
 public:
     ImportImagesThread();
     ~ImportImagesThread() override;
-    void setData(QStringList &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType);
-    void setData(QList<QUrl> &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType);
+    void setData(QStringList &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType, bool isFirst);
+    void setData(QList<QUrl> &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType, bool isFirst);
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
@@ -63,6 +63,7 @@ private:
     bool m_bdialogselect = false;
     DataType m_type = DataType_NULL;
     QStringList m_videoSupportType;
+    bool m_isFirst;
 };
 
 class ImageRecoveryImagesFromTrashThread : public ImageEngineThreadObject

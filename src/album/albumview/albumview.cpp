@@ -1114,7 +1114,7 @@ void AlbumView::onAddNewNotifyDir(const QString &dirPath)
     });
 
     //2.导入进去
-    ImageEngineApi::instance()->ImportImagesFromFileList(importFiles, albumName, UID, this, false, AutoImport);
+    ImageEngineApi::instance()->ImportImagesFromFileList(importFiles, albumName, UID, this, false, AutoImport, true);
 }
 
 void AlbumView::onTrashRecoveryBtnClicked()

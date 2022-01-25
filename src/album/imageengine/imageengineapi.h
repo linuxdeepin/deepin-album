@@ -49,8 +49,8 @@ public:
     bool removeObject(void *obj);
     bool ifObjectExist(void *obj);
     bool getImageData(QString imagepath, DBImgInfo &data);
-    bool ImportImagesFromFileList(QStringList files, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect = false, AlbumDBType dbType = Custom);
-    bool ImportImagesFromUrlList(QList<QUrl> files, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect = false, AlbumDBType dbType = Custom);
+    bool ImportImagesFromFileList(QStringList files, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect = false, AlbumDBType dbType = Custom, bool isFirst = false);
+    bool ImportImagesFromUrlList(QList<QUrl> files, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect = false, AlbumDBType dbType = Custom, bool isFirst = false);
     //清理删除时间过长图片
     void cleanUpTrash(const DBImgInfoList &list);
     //过滤不存在图片后重新加载

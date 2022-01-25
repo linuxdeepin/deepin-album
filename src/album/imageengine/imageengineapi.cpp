@@ -166,11 +166,11 @@ void ImageEngineApi::slt80ImgInfosReady(QVector<DBImgInfo> ImageDatas)
     emit sigLoadFirstPageThumbnailsToView();
 }
 
-bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType)
+bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType, bool isFirst)
 {
     emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
     ImportImagesThread *imagethread = new ImportImagesThread;
-    imagethread->setData(files, albumname, UID, obj, bdialogselect, dbType);
+    imagethread->setData(files, albumname, UID, obj, bdialogselect, dbType, isFirst);
     obj->addThread(imagethread);
 #ifdef NOGLOBAL
     m_qtpool.start(imagethread);
@@ -180,10 +180,10 @@ bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, const QString &a
     return true;
 }
 
-bool ImageEngineApi::ImportImagesFromFileList(QStringList files, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType)
+bool ImageEngineApi::ImportImagesFromFileList(QStringList files, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType, bool isFirst)
 {
     ImportImagesThread *imagethread = new ImportImagesThread;
-    imagethread->setData(files, albumname, UID, obj, bdialogselect, dbType);
+    imagethread->setData(files, albumname, UID, obj, bdialogselect, dbType, isFirst);
     obj->addThread(imagethread);
 #ifdef NOGLOBAL
     m_qtpool.start(imagethread);

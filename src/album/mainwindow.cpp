@@ -1243,8 +1243,9 @@ void MainWindow::onNewPathAction()
     m_pAlbumview->onAddNewNotifyDir(path);
 
     //自定义切换到导入位置
+    m_pAlbumBtn->setChecked(true);
     m_backIndex = VIEW_ALBUM;
-    emit dApp->signalM->hideImageView();    //该信号针对查看界面新建相册(快捷键 crtl+n)，正常退出
+    emit dApp->signalM->hideImageView();
 }
 
 void MainWindow::createAlbumView()
