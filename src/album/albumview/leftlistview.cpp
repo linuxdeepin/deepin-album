@@ -348,6 +348,10 @@ void LeftListView::showMenu(const QPoint &pos)
 {
     if (!m_pCustomizeListView->indexAt(pos).isValid()) {
         return;
+    } else {
+        //直接右键点击index时，概率无法收到鼠标press事件，怀疑Qt BUG，这里通过pos判断index有效后手动切换过去
+        m_pCustomizeListView->setCurrentIndex(m_pCustomizeListView->indexAt(pos));
+        emit m_pCustomizeListView->pressed(m_pCustomizeListView->indexAt(pos));
     }
     m_pMenu->setVisible(true);
     foreach (QAction *action, m_MenuActionMap.values()) {
