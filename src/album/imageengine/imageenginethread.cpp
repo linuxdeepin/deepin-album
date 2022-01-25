@@ -88,7 +88,6 @@ DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
 ImportImagesThread::ImportImagesThread()
 {
     m_paths.clear();
-    //setAutoDelete(false); 禁用auto delete，防止崩溃
 }
 
 ImportImagesThread::~ImportImagesThread()
@@ -376,7 +375,6 @@ void ImportImagesThread::pathCheck(QStringList *image_list, QStringList *curAlbu
 
 ImageRecoveryImagesFromTrashThread::ImageRecoveryImagesFromTrashThread()
 {
-    setAutoDelete(false);
 }
 
 void ImageRecoveryImagesFromTrashThread::setData(QStringList &paths)
@@ -398,7 +396,6 @@ void ImageRecoveryImagesFromTrashThread::runDetail()
 
 ImageMoveImagesToTrashThread::ImageMoveImagesToTrashThread()
 {
-    setAutoDelete(false);
 }
 
 void ImageMoveImagesToTrashThread::setData(const QStringList &paths, bool typetrash)
@@ -451,7 +448,6 @@ void ImageMoveImagesToTrashThread::runDetail()
 
 ImageImportFilesFromMountThread::ImageImportFilesFromMountThread()
 {
-    setAutoDelete(false);
 }
 
 ImageImportFilesFromMountThread::~ImageImportFilesFromMountThread()
@@ -553,7 +549,6 @@ void ImageImportFilesFromMountThread::runDetail()
 
 ImageLoadFromDBThread::ImageLoadFromDBThread()
 {
-    setAutoDelete(false);
 }
 
 ImageLoadFromDBThread::~ImageLoadFromDBThread()
@@ -603,7 +598,6 @@ void ImageLoadFromDBThread::runDetail()
 
 RefreshTrashThread::RefreshTrashThread()
 {
-    setAutoDelete(false);
 }
 
 RefreshTrashThread::~RefreshTrashThread()

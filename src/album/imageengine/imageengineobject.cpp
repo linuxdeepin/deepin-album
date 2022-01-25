@@ -23,6 +23,7 @@
 
 ImageEngineThreadObject::ImageEngineThreadObject()
 {
+    setAutoDelete(false); //从根源上禁止auto delete
 }
 
 void ImageEngineThreadObject::needStop(void *imageobject)
