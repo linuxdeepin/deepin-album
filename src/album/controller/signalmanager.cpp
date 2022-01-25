@@ -85,6 +85,9 @@ void SignalManager::showInfoDlg(const QString &path, ItemType type, bool isTrash
         VideoInfoDialog *dialog = new VideoInfoDialog(realPath, displayName, isTrash, dApp->getMainWindow());
         dialog->setObjectName("VideoInfoDialog");
         dialog->show();
+        //概率性获取位置错误，需要再次移动
+        dialog->move((dApp->getMainWindow()->width() - dialog->width() - 50 + dApp->getMainWindow()->mapToGlobal(QPoint(0, 0)).x())
+                     , 100 + dApp->getMainWindow()->mapToGlobal(QPoint(0, 0)).y());
         dialog->setWindowState(Qt::WindowActive);
         connect(dialog, &VideoInfoDialog::closed, this, [ = ] {
             dialog->deleteLater();
