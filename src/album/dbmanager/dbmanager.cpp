@@ -951,26 +951,47 @@ void DBManager::removeCustomAutoImportPath(int UID)
         hashs.push_back(m_query->value(0).toString());
     }
 
-    //1.删除图片
-    if (!m_query->exec("BEGIN")) {
+    //移除占位hash
+    auto removeIter = std::remove_if(hashs.begin(), hashs.end(), [](const QString & hash) {
+        return hash == "7215ee9c7d9dc229d2921a40e899ec5f";
+    });
+    hashs.erase(removeIter, hashs.end());
+
+    if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
     }
-    if (m_query->prepare("DELETE FROM ImageTable3 WHERE PathHash=:hash")) {
+
+    //1.删除图片
+    if (!m_query->prepare("DELETE FROM ImageTable3 WHERE PathHash=:hash")) {
     }
     for (auto &eachHash : hashs) {
         m_query->bindValue(":hash", eachHash);
         if (!m_query->exec()) {
         }
     }
-    if (!m_query->exec("COMMIT")) {
-    }
 
     //2.删除路径
     if (!m_query->exec(QString("DELETE FROM CustomAutoImportPathTable3 WHERE UID=") + QString::number(UID))) {
     }
 
-    //2.删除相册
+    //3.删除相册
+    if (!m_query->prepare("DELETE FROM AlbumTable3 WHERE PathHash=:hash")) {
+    }
+    for (auto &eachHash : hashs) {
+        m_query->bindValue(":hash", eachHash);
+        if (!m_query->exec()) {
+        }
+    }
+
+    //补个刀以清除占位hash
     if (!m_query->exec(QString("DELETE FROM AlbumTable3 WHERE UID=") + QString::number(UID))) {
     }
+
+    if (!m_query->exec("COMMIT")) {
+    }
+
+    //发送信号通知上层
+    mutex.unlock();
+    emit dApp->signalM->imagesRemoved();
 }
 
 std::map<int, QString> DBManager::getAllCustomAutoImportUIDAndPath()

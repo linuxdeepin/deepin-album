@@ -317,6 +317,7 @@ void AllPicView::onImportFailedToView()
 void AllPicView::onImgRemoved()
 {
     updateStackedWidget();
+    updatePicsIntoThumbnailView();
 }
 
 void AllPicView::sltSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
