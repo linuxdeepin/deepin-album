@@ -308,6 +308,9 @@ void ImportImagesThread::runDetail()
             m_obj->removeThread(this);
             return;
         }
+        //bug112005只有在确认有需要导入的文件时才显示导入进度
+        emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
+
         //导入图片数据库ImageTable3
         DBManager::instance()->insertImgInfos(dbInfos);
         emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
@@ -413,7 +416,6 @@ void ImageMoveImagesToTrashThread::runDetail()
     } else {
         DBImgInfoList infos;
         int pathsCount = paths.size();
-        int removeTimeout = 500; //每500ms上报前端一次
         int removedCount = 0;
 
         QStringList removedPaths;

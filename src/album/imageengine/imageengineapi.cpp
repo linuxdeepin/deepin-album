@@ -182,7 +182,6 @@ bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, const QString &a
 
 bool ImageEngineApi::ImportImagesFromFileList(QStringList files, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType)
 {
-    emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
     ImportImagesThread *imagethread = new ImportImagesThread;
     imagethread->setData(files, albumname, UID, obj, bdialogselect, dbType);
     obj->addThread(imagethread);
