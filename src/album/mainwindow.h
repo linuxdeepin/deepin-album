@@ -195,7 +195,8 @@ public slots:
     void onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAdditionalOperation operation, bool isCustom, const QString &album, int UID);
     void onCollectButtonClicked();
     void updateCollectButton();
-    void onLibDel();
+    void onLibDel(QString path);
+    void deleteSaveImage();
     void onNewPathAction(); //响应新自定义路径创建
     void createAlbumView(); //创建相册界面
     //响应公共库添加或新建相册请求
@@ -244,6 +245,9 @@ private:
     DProgressBar *m_importBar;
     DLabel *m_waitlabel;
     DLabel *m_countLabel;
+
+    QTimer *m_tdeleteSaveImage = nullptr; //预览delete延时
+    DBImgInfoList m_deleteInfo;//删除缓存
 
     QString       m_SearchKey;      //搜索框查询信息
 

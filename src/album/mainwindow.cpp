@@ -567,7 +567,7 @@ void MainWindow::initCentralWidget()
     connect(m_collect, &DIconButton::clicked, this, &MainWindow::onCollectButtonClicked);
 
     //刷新收藏按钮
-    connect(ImageEngine::instance(), &ImageEngine::sigDel, this, &MainWindow::onLibDel);
+    connect(ImageEngine::instance(), &ImageEngine::sigDel, this, &MainWindow::onLibDel, Qt::DirectConnection);
     //获取所有自定义相册
     connect(ImageEngine::instance(), &ImageEngine::sigGetAlbumName, this, &MainWindow::onSendAlbumName);
     //公共库添加或新建相册请求
@@ -1424,23 +1424,60 @@ void MainWindow::updateCollectButton()
     }
 }
 
-void MainWindow::onLibDel()
+void MainWindow::onLibDel(QString path)
 {
     if (m_imageViewer == nullptr) {
         return;
     }
-    QString path = m_imageViewer->getCurrentPath();
+    if (path.isEmpty()) {
+        path = m_imageViewer->getCurrentPath();
+    }
     if (path.isEmpty()) {
         return;
     }
 
-    DBImgInfoList infos;
+
     DBImgInfo info;
     info = DBManager::instance()->getInfoByPath(path);
     info.importTime = QDateTime::currentDateTime();
-    infos << info;
-    DBManager::instance()->insertTrashImgInfos(infos, false);
-    DBManager::instance()->removeImgInfos(QStringList(path));
+
+    m_deleteInfo << info;
+
+    //实时保存太卡，因此采用2s后延时保存的问题
+    if (!m_tdeleteSaveImage) {
+        m_tdeleteSaveImage = new QTimer(this);
+        connect(m_tdeleteSaveImage, &QTimer::timeout, this, &MainWindow::deleteSaveImage);
+    }
+    m_tdeleteSaveImage->setSingleShot(true);
+    if (m_imageViewer->isVisible()) {
+        m_tdeleteSaveImage->start(2000);
+    } else {
+        deleteSaveImage();
+    }
+
+
+
+
+
+}
+
+void MainWindow::deleteSaveImage()
+{
+    if (!m_deleteInfo.isEmpty()) {
+        if (m_tdeleteSaveImage) {
+            m_tdeleteSaveImage->setSingleShot(true);
+            m_tdeleteSaveImage->start(2000);
+        }
+        DBManager::instance()->insertTrashImgInfos(m_deleteInfo, false);
+        QStringList list;
+        for (auto info : m_deleteInfo) {
+            list << info.filePath;
+        }
+        DBManager::instance()->removeImgInfos(list);
+
+        m_deleteInfo.clear();
+    }
+
 }
 
 void MainWindow::onAddToAlbum(bool isNew, int UID, const QString &path)
@@ -1587,6 +1624,8 @@ void MainWindow::onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAddi
 
 void MainWindow::onHideImageView()
 {
+    //返回界面删除
+    deleteSaveImage();
     if (window()->isFullScreen()) {
         m_imageViewer->switchFullScreen();
         if (m_backToMaxWindow) {
