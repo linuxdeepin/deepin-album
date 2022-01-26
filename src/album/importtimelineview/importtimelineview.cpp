@@ -381,20 +381,22 @@ void ImportTimeLineView::clearAndStartLayout()
 void ImportTimeLineView::addTimelineLayout()
 {
     m_importTimeLineListView->clearAll();
+    DBImgInfoList importList;
+
     for (int timelineIndex = 0; timelineIndex < m_timelines.size(); timelineIndex++) {
         //获取当前时间照片
         DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByImportTimeline(m_timelines.at(timelineIndex));
 
         //加时间线标题
-        QString data, num;
+        QString date, num;
         QStringList dateTimeList = m_timelines.at(timelineIndex).split(" ");
         QStringList datelist = dateTimeList.at(0).split(".");
         if (datelist.count() > 2) {
             if (dateTimeList.count() == 2) {
-                data = QString(QObject::tr("Imported on") + QObject::tr(" %1-%2-%3 %4"))
+                date = QString(QObject::tr("Imported on") + QObject::tr(" %1-%2-%3 %4"))
                        .arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(dateTimeList[1]);
             } else {
-                data = QString(QObject::tr("Imported on ") + QObject::tr("%1/%2/%3"))
+                date = QString(QObject::tr("Imported on ") + QObject::tr("%1/%2/%3"))
                        .arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
             }
         }
@@ -420,27 +422,44 @@ void ImportTimeLineView::addTimelineLayout()
         }
 
         if (timelineIndex == 0) {
-            dateFullStr = data;
-            numFullStr = num;
             //加空白栏
+            int height = 0;
             if (!m_choseBtnItem->isHidden()) {
-                m_importTimeLineListView->insertBlankOrTitleItem(ItemTypeBlank, data, num, (title_HEIGHT + ChoseBtn_HEIGHT));
+                height = title_HEIGHT + ChoseBtn_HEIGHT;
             } else {
-                m_importTimeLineListView->insertBlankOrTitleItem(ItemTypeBlank, data, num, (title_HEIGHT));
+                height = title_HEIGHT;
             }
+            dateFullStr = date;
+            numFullStr = num;
+
+            DBImgInfo info;
+            info.itemType = ItemTypeBlank;
+            info.imgWidth = this->width();
+            m_importTimeLineListView->m_blankItemHeight = height;
+            info.imgHeight = height;
+            info.date = date;
+            info.num = num;
+            importList.append(info);
         } else {
             //加已导入时间线标题
-            m_importTimeLineListView->insertBlankOrTitleItem(ItemTypeImportTimeLineTitle, data, num, 40);
+            DBImgInfo info;
+            info.itemType = ItemTypeImportTimeLineTitle;
+            info.imgWidth = this->width();
+            info.imgHeight = 40;
+            info.date = date;
+            info.num = num;
+            importList.append(info);
         }
         //加当前时间下的图片
         for (auto &eachInfo : ImgInfoList) {
             //存入当前所属时间线的日期和照片数量信息
-            eachInfo.date = data;
+            eachInfo.date = date;
             eachInfo.num = num;
         }
-        m_importTimeLineListView->insertThumbnailByImgInfos(ImgInfoList);
+        importList.append(ImgInfoList);
     }
 
+    m_importTimeLineListView->insertThumbnails(importList);
     updateDateNumLabel();
 }
 

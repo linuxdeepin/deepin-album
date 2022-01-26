@@ -427,18 +427,20 @@ void TimeLineView::sltSelectionChanged(const QItemSelection &selected, const QIt
     updatePicNum();
 }
 
-void TimeLineView:: addTimelineLayout()
+void TimeLineView::addTimelineLayout()
 {
     m_timeLineThumbnailListView->clearAll();
+    DBImgInfoList importList;
+
     for (int timelineIndex = 0; timelineIndex < m_timelines.size(); timelineIndex++) {
         //获取当前时间照片
         DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByTimeline(m_timelines.at(timelineIndex));
 
         //加时间线标题
-        QString data, num;
+        QString date, num;
         QStringList datelist = m_timelines.at(timelineIndex).split(".");
         if (datelist.count() > 2) {
-            data = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+            date = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
         }
         int photoCount = 0;
         int videoCount = 0;
@@ -462,22 +464,37 @@ void TimeLineView:: addTimelineLayout()
         }
 
         if (timelineIndex == 0) {
-            m_dateLabel->setText(data);
+            m_dateLabel->setText(date);
             m_numLabel->setText(num);
             //加空白栏
-            m_timeLineThumbnailListView->insertBlankOrTitleItem(ItemTypeBlank, data, num, SUSPENSION_WIDGET_HEIGHT);
+            DBImgInfo info;
+            info.itemType = ItemTypeBlank;
+            info.imgWidth = m_timeLineThumbnailListView->width();
+            m_timeLineThumbnailListView->m_blankItemHeight = SUSPENSION_WIDGET_HEIGHT;
+            info.imgHeight = SUSPENSION_WIDGET_HEIGHT;
+            info.date = date;
+            info.num = num;
+            importList.append(info);
         } else {
             //加时间线标题
-            m_timeLineThumbnailListView->insertBlankOrTitleItem(ItemTypeTimeLineTitle, data, num, 90);
+            DBImgInfo info;
+            info.itemType = ItemTypeTimeLineTitle;
+            info.imgWidth = m_timeLineThumbnailListView->width();
+            info.imgHeight = 90;
+            info.date = date;
+            info.num = num;
+            importList.append(info);
         }
         //加当前时间下的图片
         for (auto &eachInfo : ImgInfoList) {
             //存入当前所属时间线的日期和照片数量信息
-            eachInfo.date = data;
+            eachInfo.date = date;
             eachInfo.num = num;
         }
-        m_timeLineThumbnailListView->insertThumbnailByImgInfos(ImgInfoList);
+        importList.append(ImgInfoList);
     }
+
+    m_timeLineThumbnailListView->insertThumbnails(importList);
 }
 
 void TimeLineView::on_AddLabel(QString date, QString num)

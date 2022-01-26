@@ -95,6 +95,7 @@ public:
     ~ThumbnailListView() override;
 
     void insertThumbnail(const DBImgInfo &dBImgInfo);//1050
+    void insertThumbnails(const DBImgInfoList &infos);
     //为true则清除模型中的数据
     void stopLoadAndClear(bool bClearModel = false);
     //根据列表显示不同，返回不同数据

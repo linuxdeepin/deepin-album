@@ -409,7 +409,6 @@ void ThumbnailListView::initConnections()
 void ThumbnailListView::insertThumbnail(const DBImgInfo &dBImgInfo)
 {
     DBImgInfo info = dBImgInfo;
-    //cutPixmap(info); 感觉现在不需要了，先屏蔽了试试
 
     QStandardItem *item = new QStandardItem;
     QVariant infoVariant;
@@ -428,12 +427,51 @@ void ThumbnailListView::insertThumbnail(const DBImgInfo &dBImgInfo)
         QModelIndex index = m_model->indexFromItem(item);
         TimeLineDateWidget *pCurrentDateWidget = new TimeLineDateWidget(item, info.date, info.num);
         connect(pCurrentDateWidget, &TimeLineDateWidget::sigIsSelectCurrentDatePic, this, &ThumbnailListView::slotSelectCurrentDatePic);
-        this->setIndexWidget(index, pCurrentDateWidget); //时间线打开速度慢的原因
+        this->setIndexWidget(index, pCurrentDateWidget); //时间线打开速度慢的原因，目前两个时间线初始化的时候走下面那个insertThumbnails，其余的走这里
     } else if (info.itemType == ItemTypeImportTimeLineTitle) {
         QModelIndex index = m_model->indexFromItem(item);
         importTimeLineDateWidget *pCurrentDateWidget = new importTimeLineDateWidget(item, info.date, info.num);
         connect(pCurrentDateWidget, &importTimeLineDateWidget::sigIsSelectCurrentDatePic, this, &ThumbnailListView::slotSelectCurrentDatePic);
         this->setIndexWidget(index, pCurrentDateWidget);
+    }
+}
+
+void ThumbnailListView::insertThumbnails(const DBImgInfoList &infos)
+{
+    std::vector<std::pair<QModelIndex, DWidget *>> timelines;
+
+    for (const auto &dBImgInfo : infos) {
+        DBImgInfo info = dBImgInfo;
+
+        QStandardItem *item = new QStandardItem;
+        QVariant infoVariant;
+        int height = info.imgHeight;
+        if (info.itemType == ItemType::ItemTypeBlank
+                || info.itemType == ItemType::ItemTypeTimeLineTitle
+                || info.itemType == ItemType::ItemTypeImportTimeLineTitle) {
+            info.imgWidth = this->width() - 5;
+        }
+        infoVariant.setValue(info);
+        item->setData(infoVariant, Qt::DisplayRole);
+        item->setData(QVariant(QSize(info.imgWidth, height)),
+                      Qt::SizeHintRole);
+        m_model->appendRow(item);
+        if (info.itemType == ItemTypeTimeLineTitle) {
+            QModelIndex index = m_model->indexFromItem(item);
+            TimeLineDateWidget *pCurrentDateWidget = new TimeLineDateWidget(item, info.date, info.num);
+            connect(pCurrentDateWidget, &TimeLineDateWidget::sigIsSelectCurrentDatePic, this, &ThumbnailListView::slotSelectCurrentDatePic);
+            timelines.push_back(std::make_pair(index, pCurrentDateWidget));
+        } else if (info.itemType == ItemTypeImportTimeLineTitle) {
+            QModelIndex index = m_model->indexFromItem(item);
+            importTimeLineDateWidget *pCurrentDateWidget = new importTimeLineDateWidget(item, info.date, info.num);
+            connect(pCurrentDateWidget, &importTimeLineDateWidget::sigIsSelectCurrentDatePic, this, &ThumbnailListView::slotSelectCurrentDatePic);
+            timelines.push_back(std::make_pair(index, pCurrentDateWidget));
+        }
+    }
+
+    //最后再来统一插入控件，速度要快个几十倍
+    for (const auto &eachLine : timelines) {
+        this->setIndexWidget(eachLine.first, eachLine.second);
     }
 }
 
