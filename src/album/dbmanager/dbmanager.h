@@ -40,6 +40,7 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <mutex>
+#include <QReadWriteLock>
 #include "albumgloabl.h"
 //#include "connectionpool.h"
 
@@ -82,6 +83,7 @@ public:
     {
 //        ConnectionPool::release(); //释放数据库连接
     }
+    static QReadWriteLock m_fileMutex; //文件锁，用于锁定已导入文件的操作权限
 
     // TableImage
     const QStringList       getAllPaths() const;
@@ -158,7 +160,7 @@ private:
     static std::once_flag   instanceFlag; //线程安全的单例flag
     void insertSpUID(const QString &albumName, AlbumDBType astype, SpUID UID);
 private:
-    mutable QMutex m_mutex;
+    mutable QMutex m_dbMutex; //数据库锁，用于锁定Sqlite数据库的操作权限
     mutable QSqlQuery *m_query; //将数据库查询对象统一到类成员变量，以尝试解决sqlite崩溃问题
     std::atomic_int albumMaxUID; //当前数据库中UID的最大值，用于新建UID用
 };

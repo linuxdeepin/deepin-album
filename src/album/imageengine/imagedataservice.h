@@ -95,12 +95,18 @@ public:
     explicit ReadThumbnailManager(QObject *parent = nullptr);
     void addLoadPath(const QString &path);
 
+    bool isRunning()
+    {
+        return runningFlag;
+    }
+
 public slots:
     void readThumbnail();
 
 private:
     std::deque<QString> needLoadPath;
     QMutex mutex;
+    std::atomic_bool runningFlag;
 };
 
 #endif // IMAGEDATASERVICE_H

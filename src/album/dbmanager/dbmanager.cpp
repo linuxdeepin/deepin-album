@@ -45,6 +45,7 @@ const QString EMPTY_HASH_STR = utils::base::hashByString(QString(" "));
 
 DBManager *DBManager::m_dbManager = nullptr;
 std::once_flag DBManager::instanceFlag;
+QReadWriteLock DBManager::m_fileMutex;
 
 DBManager *DBManager::instance()
 {
@@ -63,7 +64,7 @@ DBManager::DBManager(QObject *parent)
 
 const QStringList DBManager::getAllPaths() const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     QStringList paths;
 
     m_query->setForwardOnly(true);
@@ -80,7 +81,7 @@ const QStringList DBManager::getAllPaths() const
 
 const DBImgInfoList DBManager::getAllInfos(int loadCount)const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
     bool b = false;
@@ -108,7 +109,7 @@ const DBImgInfoList DBManager::getAllInfos(int loadCount)const
 
 const QStringList DBManager::getAllTimelines() const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     QStringList times;
     m_query->setForwardOnly(true);
     if (!m_query->exec("SELECT DISTINCT Time FROM ImageTable3 ORDER BY Time DESC")) {
@@ -133,7 +134,7 @@ const DBImgInfoList DBManager::getInfosByTimeline(const QString &timeline) const
 
 const QStringList DBManager::getImportTimelines() const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     QStringList importtimes;
 
     m_query->setForwardOnly(true);
@@ -169,7 +170,7 @@ const DBImgInfo DBManager::getInfoByPath(const QString &path) const
 
 int DBManager::getImgsCount() const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
 
     m_query->setForwardOnly(true);
     if (m_query->exec("SELECT COUNT(*) FROM ImageTable3")) {
@@ -182,7 +183,7 @@ int DBManager::getImgsCount() const
 
 void DBManager::insertImgInfos(const DBImgInfoList &infos)
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
 //        qDebug() << query.lastError();
@@ -229,7 +230,7 @@ void DBManager::removeImgInfos(const QStringList &paths)
         return utils::base::hashByString(path);
     });
 
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
 
     // Remove from albums table
     m_query->setForwardOnly(true);
@@ -273,7 +274,7 @@ void DBManager::removeImgInfos(const QStringList &paths)
 
 void DBManager::removeImgInfosNoSignal(const QStringList &paths)
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     if (paths.isEmpty()) {
         return;
     }
@@ -321,7 +322,7 @@ void DBManager::removeImgInfosNoSignal(const QStringList &paths)
 
 const QList<std::pair<int, QString>> DBManager::getAllAlbumNames(AlbumDBType atype) const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     QList<std::pair<int, QString>> list;
     m_query->setForwardOnly(true);
     //以UID和相册名称同时作为筛选条件，名称作为UI显示用，UID作为UI和数据库通信的钥匙
@@ -441,7 +442,7 @@ bool DBManager::defaultNotifyPathExists(int UID)
 
 const QStringList DBManager::getPathsByAlbum(int UID) const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     QStringList list;
     m_query->setForwardOnly(true);
     bool b = m_query->prepare("SELECT DISTINCT i.FilePath "
@@ -461,7 +462,7 @@ const QStringList DBManager::getPathsByAlbum(int UID) const
 
 const DBImgInfoList DBManager::getInfosByAlbum(int UID) const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
     bool b = m_query->prepare("SELECT DISTINCT i.FilePath, i.FileName, i.FileType, i.Time, i.ChangeTime, i.ImportTime "
@@ -489,7 +490,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(int UID) const
 int DBManager::getItemsCountByAlbum(int UID, const ItemType &type) const
 {
     int count = 0;
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     bool b = m_query->prepare("SELECT i.FileType "
                               "FROM ImageTable3 AS i, AlbumTable3 AS a "
@@ -513,7 +514,7 @@ int DBManager::getItemsCountByAlbum(int UID, const ItemType &type) const
 //判断是否所有要查询的数据都在要查询的相册中
 bool DBManager::isAllImgExistInAlbum(int UID, const QStringList &paths, AlbumDBType atype) const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     QString sql("SELECT COUNT(*) FROM AlbumTable3 WHERE PathHash In ( %1 ) AND UID = :UID AND AlbumDBType =:atype ");
 
@@ -550,7 +551,7 @@ bool DBManager::isAllImgExistInAlbum(int UID, const QStringList &paths, AlbumDBT
 
 bool DBManager::isImgExistInAlbum(int UID, const QString &path, AlbumDBType atype) const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     bool b = m_query->prepare("SELECT COUNT(*) FROM AlbumTable3 WHERE PathHash = :hash "
                               "AND UID = :UID "
@@ -571,7 +572,7 @@ bool DBManager::isImgExistInAlbum(int UID, const QString &path, AlbumDBType atyp
 
 QString DBManager::getAlbumNameFromUID(int UID) const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     bool b = m_query->exec(QString("SELECT DISTINCT AlbumName FROM AlbumTable3 WHERE UID=%1").arg(UID));
     if (!b || !m_query->next()) {
@@ -583,7 +584,7 @@ QString DBManager::getAlbumNameFromUID(int UID) const
 
 AlbumDBType DBManager::getAlbumDBTypeFromUID(int UID) const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     bool b = m_query->exec(QString("SELECT DISTINCT AlbumDBType FROM AlbumTable3 WHERE UID=%1").arg(UID));
     if (!b || !m_query->next()) {
@@ -595,7 +596,7 @@ AlbumDBType DBManager::getAlbumDBTypeFromUID(int UID) const
 
 bool DBManager::isAlbumExistInDB(int UID, AlbumDBType atype) const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     bool b = m_query->prepare("SELECT COUNT(*) FROM AlbumTable3 WHERE UID = :UID AND AlbumDBType =:atype");
     if (!b) {
@@ -613,7 +614,7 @@ bool DBManager::isAlbumExistInDB(int UID, AlbumDBType atype) const
 
 int DBManager::createAlbum(const QString &album, const QStringList &paths, AlbumDBType atype)
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     int currentUID = albumMaxUID++;
     QStringList pathHashs;
     for (QString path : paths) {
@@ -653,7 +654,7 @@ int DBManager::createAlbum(const QString &album, const QStringList &paths, Album
 
 bool DBManager::insertIntoAlbum(int UID, const QStringList &paths, AlbumDBType atype)
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
 
     if (!m_query->exec(QString("SELECT DISTINCT AlbumName FROM AlbumTable3 WHERE UID=%1").arg(UID)) || !m_query->next()) {
@@ -701,14 +702,14 @@ bool DBManager::insertIntoAlbum(int UID, const QStringList &paths, AlbumDBType a
 
 void DBManager::removeAlbum(int UID)
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     if (!m_query->exec(QString("DELETE FROM AlbumTable3 WHERE UID=") + QString::number(UID))) {
     }
 }
 
 void DBManager::removeFromAlbum(int UID, const QStringList &paths, AlbumDBType atype)
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
 
     QStringList pathHashs;
     std::transform(paths.begin(), paths.end(), std::back_inserter(pathHashs), [](const QString & path) {
@@ -738,14 +739,14 @@ void DBManager::removeFromAlbum(int UID, const QStringList &paths, AlbumDBType a
 
 void DBManager::renameAlbum(int UID, const QString &newAlbum, AlbumDBType atype)
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     if (!m_query->exec(QString("UPDATE AlbumTable3 SET AlbumName=%1 WHERE UID=%2 AND AlbumDBType=%3").arg(newAlbum).arg(UID).arg(atype))) {
     }
 }
 
 const DBImgInfoList DBManager::getInfosByNameTimeline(const QString &value) const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
 
@@ -782,7 +783,7 @@ const DBImgInfoList DBManager::getInfosForKeyword(const QString &keywords) const
 
 const DBImgInfoList DBManager::getTrashInfosForKeyword(const QString &keywords) const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
 
@@ -810,7 +811,7 @@ const DBImgInfoList DBManager::getTrashInfosForKeyword(const QString &keywords) 
 
 const DBImgInfoList DBManager::getInfosForKeyword(int UID, const QString &keywords) const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
 
     DBImgInfoList infos;
 
@@ -840,7 +841,7 @@ const DBImgInfoList DBManager::getInfosForKeyword(int UID, const QString &keywor
 
 const QMultiMap<QString, QString> DBManager::getAllPathAlbumNames() const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
 
     QMultiMap<QString, QString> infos;
 
@@ -864,7 +865,7 @@ const QMultiMap<QString, QString> DBManager::getAllPathAlbumNames() const
 
 const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &value) const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
     bool b = m_query->prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 "
@@ -899,7 +900,7 @@ bool DBManager::checkCustomAutoImportPathIsNotified(const QString &path)
         }
     }
 
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
 
     //这里再去检查已有的数据库
     if (!m_query->exec("SELECT FullPath FROM CustomAutoImportPathTable3")) {
@@ -918,7 +919,7 @@ bool DBManager::checkCustomAutoImportPathIsNotified(const QString &path)
 
 int DBManager::createNewCustomAutoImportPath(const QString &path, const QString &albumName)
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
 
     //1.新建相册
     int UID = albumMaxUID++;
@@ -940,7 +941,7 @@ int DBManager::createNewCustomAutoImportPath(const QString &path, const QString 
 
 void DBManager::removeCustomAutoImportPath(int UID)
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
 
     //0.查询在该监控路径下的图片
@@ -998,7 +999,7 @@ std::map<int, QString> DBManager::getAllCustomAutoImportUIDAndPath()
 {
     std::map<int, QString> result;
 
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
 
     if (!m_query->exec("SELECT UID, FullPath FROM CustomAutoImportPathTable3")) {
@@ -1330,7 +1331,7 @@ void DBManager::insertSpUID(const QString &albumName, AlbumDBType astype, SpUID 
 
 const DBImgInfoList DBManager::getAllTrashInfos() const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
     bool b = m_query->prepare("SELECT FilePath, Time, ChangeTime, ImportTime, FileType, PathHash "
@@ -1362,6 +1363,9 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
     }
 
     //图片删除步骤
+
+    //0.锁定文件操作权限
+    m_fileMutex.lockForWrite();
 
     //1.生成路径hash，复制图片到deepin-album-delete，删除原图至回收站
     QStringList pathHashs;
@@ -1396,7 +1400,10 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
         pathHashs.push_back(hash); //不能丢进if，否则下面会炸
     }
 
-    QMutexLocker mutex(&m_mutex);
+    //文件操作完毕，释放锁
+    m_fileMutex.unlock();
+
+    QMutexLocker mutex(&m_dbMutex);
 
     //2.向数据库插入数据
     m_query->setForwardOnly(true);
@@ -1445,7 +1452,7 @@ void DBManager::removeTrashImgInfos(const QStringList &paths)
         pathHashs << utils::base::hashByString(path);
     }
 
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
 
     // Remove from image table
@@ -1489,7 +1496,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
 
     //2.尝试恢复文件
 
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
 
     //获取内部恢复路径
     auto stdPicPaths = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
@@ -1676,7 +1683,7 @@ void DBManager::removeTrashImgInfosNoSignal(const QStringList &paths)
         return;
     }
 
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
 
     //计算路径hash
     QStringList pathHashs;
@@ -1736,7 +1743,7 @@ const DBImgInfo DBManager::getTrashInfoByPath(const QString &path) const
 
 const DBImgInfoList DBManager::getTrashImgInfos(const QString &key, const QString &value) const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
     bool b = m_query->prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM TrashTable3 "
@@ -1765,7 +1772,7 @@ const DBImgInfoList DBManager::getTrashImgInfos(const QString &key, const QStrin
 
 int DBManager::getTrashImgsCount() const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     if (m_query->exec("SELECT COUNT(*) FROM TrashTable3")) {
         m_query->first();
@@ -1777,7 +1784,7 @@ int DBManager::getTrashImgsCount() const
 
 int DBManager::getAlbumImgsCount(int UID) const
 {
-    QMutexLocker mutex(&m_mutex);
+    QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     if (m_query->exec(QString("SELECT COUNT(*) FROM AlbumTable3 WHERE UID=%1 AND PathHash<>\"%2\"")
                       .arg(UID).arg("7215ee9c7d9dc229d2921a40e899ec5f"))) {

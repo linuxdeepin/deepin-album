@@ -272,6 +272,7 @@ QImage ImageDataService::getThumnailImageByPathRealTime(const QString &path, boo
 {
     QString realPath;
 
+    //计算图片的真实路径，删除的图片和常规图片不一样
     if (!isTrashFile) {
         realPath = path;
     } else {
@@ -292,19 +293,26 @@ QImage ImageDataService::getThumnailImageByPathRealTime(const QString &path, boo
         }
     }
 
+    //尝试在缓存里面找图
     auto bufferImage = getImageFromMap(realPath);
     if (bufferImage.second) {
         return bufferImage.first;
     }
 
+    //缓存没找到则加入图片加载队列
     readThumbnailManager->addLoadPath(realPath);
-    emit startImageLoad();
+
+    //如果加载队列正在休眠，则发信号唤醒，反之不去反复发信号激活队列
+    if (!readThumbnailManager->isRunning()) {
+        emit startImageLoad();
+    }
 
     return QImage();
 }
 
 ReadThumbnailManager::ReadThumbnailManager(QObject *parent) : QObject (parent)
 {
+    runningFlag = false;
 }
 
 void ReadThumbnailManager::addLoadPath(const QString &path)
@@ -319,9 +327,11 @@ void ReadThumbnailManager::addLoadPath(const QString &path)
 
 void ReadThumbnailManager::readThumbnail()
 {
-    int sendCounter = 0;
+    int sendCounter = 0; //刷新上层界面指示
+    runningFlag = true;  //告诉外面加载队列处于激活状态
 
     while (1) {
+        //尝试读取队列数据
         mutex.lock();
 
         if (needLoadPath.empty()) {
@@ -329,19 +339,23 @@ void ReadThumbnailManager::readThumbnail()
             break;
         }
 
+        //锁定文件操作权限
+        DBManager::m_fileMutex.lockForRead();
+
         auto path = needLoadPath[needLoadPath.size() - 1];
         needLoadPath.pop_back();
 
         mutex.unlock();
 
         sendCounter++;
-        if (sendCounter == 5) {
+        if (sendCounter == 5) { //每加载5张图，就让上层界面主动刷新一次
             sendCounter = 0;
             emit ImageDataService::instance()->sigeUpdateListview();
         }
 
         if (!QFileInfo(path).exists()) {
-            return;
+            DBManager::m_fileMutex.unlock();
+            continue;
         }
         using namespace UnionImage_NameSpace;
         QImage tImg;
@@ -372,6 +386,7 @@ void ReadThumbnailManager::readThumbnail()
                 if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
                     qDebug() << errMsg;
                     ImageDataService::instance()->addImage(path, tImg);
+                    DBManager::m_fileMutex.unlock();
                     continue;
                 }
             }
@@ -419,7 +434,10 @@ void ReadThumbnailManager::readThumbnail()
             }
         }
         ImageDataService::instance()->addImage(path, tImg);
+        DBManager::m_fileMutex.unlock();
     }
 
-    emit ImageDataService::instance()->sigeUpdateListview();
+    emit ImageDataService::instance()->sigeUpdateListview(); //最后让上层界面刷新
+
+    runningFlag = false; //告诉外面加载队列处于休眠状态
 }
