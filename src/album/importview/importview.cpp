@@ -254,6 +254,7 @@ void ImportView::setUID(int UID)
             pNoteLabel->setForegroundRole(DPalette::Text);
             pNoteLabel->setPalette(palette);
         }
+        setAcceptDrops(false);
     } else { //如果是其它界面，则还原回去
         m_pImportBtn->setVisible(true);
         pLabel->setVisible(true);
@@ -275,5 +276,6 @@ void ImportView::setUID(int UID)
             pNoteLabel->setForegroundRole(DPalette::Text);
             pNoteLabel->setPalette(palette);
         }
+        setAcceptDrops(true);
     }
 }
