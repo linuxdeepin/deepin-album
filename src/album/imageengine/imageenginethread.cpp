@@ -287,7 +287,10 @@ void ImportImagesThread::runDetail()
             }
             DBImgInfo info =  getDBInfo(imagePath, bIsVideo);
             dbInfos << info;
-            emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
+            if (m_dbType != AutoImport || m_isFirst) {
+                emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
+            }
+
         }
 
         std::sort(dbInfos.begin(), dbInfos.end(), [](const DBImgInfo & lhs, const DBImgInfo & rhs) {
@@ -311,11 +314,14 @@ void ImportImagesThread::runDetail()
             return;
         }
         //bug112005只有在确认有需要导入的文件时才显示导入进度
-        emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
-
+        if (m_dbType != AutoImport || m_isFirst) {
+            emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
+        }
         //导入图片数据库ImageTable3
         DBManager::instance()->insertImgInfos(dbInfos);
-        emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
+        if (m_dbType != AutoImport || m_isFirst) {
+            emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
+        }
 
         if (bneedstop) {
             m_obj->imageImported(false);
