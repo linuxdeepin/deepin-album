@@ -50,7 +50,7 @@ QReadWriteLock DBManager::m_fileMutex;
 DBManager *DBManager::instance()
 {
     //线程安全单例
-    std::call_once(instanceFlag, [&]() {
+    std::call_once(instanceFlag, []() {
         m_dbManager = new DBManager;
     });
     return m_dbManager;
@@ -1579,7 +1579,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
 
         //文件名改变，需要刷新另外两个表的文件名和hash数据
         if (recoveryName != paths[i]) {
-            changedPaths.push_back(std::make_tuple(pathHashs[i], recoveryName, utils::base::hashByData(recoveryName)));
+            changedPaths.push_back(std::make_tuple(pathHashs[i], recoveryName, utils::base::hashByString(recoveryName)));
         }
     }
 

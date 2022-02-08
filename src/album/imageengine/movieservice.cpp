@@ -192,19 +192,16 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
     mi.resolution = QString("%1x%2").arg(mi.width).arg(mi.height);
     mi.title = fi.fileName(); //FIXME this
     mi.filePath = fi.canonicalFilePath();
-    mi.creation = fi.created().toString();
+    mi.creation = fi.created();
     mi.fileSize = fi.size();
     mi.fileType = fi.suffix();
 
     AVDictionaryEntry *tag = nullptr;
-    while ((tag = g_mvideo_av_dict_get(av_ctx->metadata, "", tag, AV_DICT_IGNORE_SUFFIX)) != nullptr) {
-        if (tag->key && strcmp(tag->key, "creation_time") == 0) {
-            auto dt = QDateTime::fromString(tag->value, Qt::ISODate);
-            mi.creation = dt.toString();
-            qInfo() << __func__ << dt.toString();
-            break;
-        }
-        qInfo() << "tag:" << tag->key << tag->value;
+
+    //搜索拍摄时间
+    tag = g_mvideo_av_dict_get(av_ctx->metadata, "creation_time", tag, AV_DICT_MATCH_CASE);
+    if (tag != nullptr) {
+        mi.creation = QDateTime::fromString(tag->value, Qt::ISODate);
     }
 
     g_mvideo_avformat_close_input(&av_ctx);

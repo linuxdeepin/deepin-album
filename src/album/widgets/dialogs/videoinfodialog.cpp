@@ -224,7 +224,7 @@ void VideoInfoDialog::updateBasicInfo()
     basicInfoMap[tr("Name")] = m_displayName;
     basicInfoKeys.append(tr("Name"));
 
-    QDateTime dateTime = QDateTime::fromString(m_movieInfo.creation);
+    QDateTime dateTime = m_movieInfo.creation;
 //    basicInfoMap[tr("Date captured")] = m_movieInfo.creation;
     basicInfoMap[tr("Date captured")] = dateTime.toString("yyyy/MM/dd HH:mm");
     basicInfoKeys.append(tr("Date captured"));
@@ -246,7 +246,7 @@ void VideoInfoDialog::updateBasicInfo()
     basicInfoMap[tr("Duration")] = m_movieInfo.durationStr();
     basicInfoKeys.append(tr("Duration"));
 
-    //TODO：存在争议，可能需要隐藏
+    //trash目录不显示路径
     if (!m_isTrash) {
         basicInfoMap[tr("Path")] = m_movieInfo.filePath;
         basicInfoKeys.append(tr("Path"));

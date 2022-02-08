@@ -76,7 +76,9 @@ void FileInotify::checkNewPath()
             return info.absoluteFilePath();
         });
 
-        m_watcher.addPaths(dirs);
+        if (!dirs.isEmpty()) {
+            m_watcher.addPaths(dirs);
+        }
     }
 }
 

@@ -58,8 +58,8 @@ DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
 
         dbi.changeTime = srcfi.lastModified();
 
-        if (!movieInfo.creation.isEmpty()) {
-            dbi.time = QDateTime::fromString(movieInfo.creation);
+        if (movieInfo.creation.isValid()) {
+            dbi.time = movieInfo.creation;
         } else if (srcfi.birthTime().isValid()) {
             dbi.time = srcfi.birthTime();
         } else if (srcfi.metadataChangeTime().isValid()) {

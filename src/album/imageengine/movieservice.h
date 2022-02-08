@@ -27,6 +27,7 @@
 #include <QFileInfo>
 #include <QMutex>
 #include <mutex>
+#include <QDateTime>
 
 #include "baseutils.h"
 #include <libffmpegthumbnailer/videothumbnailerc.h>
@@ -46,7 +47,7 @@ struct MovieInfo {
     QString fileType;
     QString resolution;
     QString filePath;
-    QString creation;
+    QDateTime creation;
 
     // rotation in metadata, this affects width/height
     int raw_rotate;
