@@ -312,6 +312,12 @@ UNIONIMAGESHARED_EXPORT QDateTime string2DateTime(const QString &time)
 UNIONIMAGESHARED_EXPORT QMap<QString, QString> getMetaData(FREE_IMAGE_MDMODEL model, FIBITMAP *dib)
 {
     QMap<QString, QString> mdMap;  // key-data
+
+    //有时候会存在tag为野指针的情况，根据FreeImage的demo，需要加这个进行预判断
+    if (FreeImage_GetMetadataCount(model, dib) == 0) {
+        return mdMap;
+    }
+
     FITAG *tag = nullptr;
     FIMETADATA *mdhandle = nullptr;
     mdhandle = FreeImage_FindFirstMetadata(model, dib, &tag);
