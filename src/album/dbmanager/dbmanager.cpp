@@ -1173,8 +1173,8 @@ void DBManager::checkDatabase()
         }
 
         // UID字段添加完成后，还需要主动为其进行赋值
-        //1.获取当前已存在的album name
-        if (m_query->exec(QString("SELECT DISTINCT \"AlbumName\" FROM \"AlbumTable3\""))) {
+        //1.获取当前已存在的album name，但要确保不能影响到收藏相册
+        if (m_query->exec(QString("SELECT DISTINCT \"AlbumName\" FROM \"AlbumTable3\" WHERE AlbumDBType <> %1 ").arg(Favourite))) {
             qDebug() << "search album name success";
         }
 
@@ -1308,7 +1308,7 @@ void DBManager::checkDatabase()
 
 void DBManager::insertSpUID(const QString &albumName, AlbumDBType astype, SpUID UID)
 {
-    //0.路径不存在，BUG#111917，只检查默认路径，不要把最近收藏也搞进来了，否则会导致后续收藏失败
+    //0.路径不存在，BUG#111917，只检查默认路径，不要把收藏也搞进来了，否则会导致后续收藏失败
     if (UID != u_Favorite && !defaultNotifyPathExists(UID)) {
         //路径不存在则删除已有的相册
         if (!m_query->exec(QString("DELETE FROM AlbumTable3 WHERE UID=%1").arg(UID))) {
@@ -1326,6 +1326,13 @@ void DBManager::insertSpUID(const QString &albumName, AlbumDBType astype, SpUID 
     if (!m_query->exec(QString("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, \"%1\", \"%2\", %3, %4)")
                        .arg(albumName).arg("7215ee9c7d9dc229d2921a40e899ec5f").arg(astype).arg(UID))) {
         qWarning() << "insertSpUID failed" << m_query->lastError().text();
+    }
+
+    //2.1.如果是收藏的话，需要对历史收藏的图片进行迁移
+    if (UID == u_Favorite) {
+        if (!m_query->exec(QString("UPDATE \"AlbumTable3\" SET UID = %1 WHERE \"AlbumDBType\" = \"%2\"").arg(UID).arg(Favourite))) {
+            qDebug() << "update Favorite failed";
+        }
     }
 }
 

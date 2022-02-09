@@ -601,7 +601,6 @@ void MainWindow::initCentralWidget()
             QFileInfo inf(parselist.at(i));
             absoluteFilePaths << inf.absoluteFilePath();
         }
-        ImageDataService::instance()->readThumbnailByPaths(absoluteFilePaths);
         ImageEngineApi::instance()->ImportImagesFromFileList(absoluteFilePaths, "", -1, this);
         //暂不支持视频首帧查看，只支持导入，视频和图片分开处理
         QString firstStr = absoluteFilePaths.at(0);
@@ -1345,7 +1344,6 @@ void MainWindow::onImprotBtnClicked()
     const QStringList &file_list = dialog.selectedFiles();
     if (file_list.isEmpty())
         return;
-    ImageDataService::instance()->readThumbnailByPaths(file_list);
     if (m_iCurrentView == VIEW_ALBUM) {
         if (m_pAlbumview->m_currentType == ALBUM_PATHTYPE_BY_PHONE ||
                 m_pAlbumview->m_currentItemType == 0 ||
@@ -1549,13 +1547,6 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
                     onHideImageView();
                 }
                 m_pCenterWidget->setCurrentIndex(VIEW_ALLPIC);
-
-                //获取视频信息
-                MovieInfo movieInfo = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(firstStr));
-                //线程加载缩略图
-                if (movieInfo.valid) {
-                    ImageDataService::instance()->readThumbnailByPaths(paths);
-                }
             } else {
                 SignalManager::ViewInfo info;
                 info.path = paths.at(0);

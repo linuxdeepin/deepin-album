@@ -305,7 +305,6 @@ void ImportImagesThread::runDetail()
         //导入相册数据库AlbumTable3
         if (pathlistImport.size() > 0) {
             DBManager::instance()->insertIntoAlbum(m_UID, pathlistImport, m_dbType);
-            ImageDataService::instance()->readThumbnailByPaths(pathlistImport, true, true);
         }
         //已全部存在，无需导入
         if (noReadCount == image_list.size()) {
@@ -527,7 +526,6 @@ void ImageImportFilesFromMountThread::runDetail()
         }
         emit dApp->signalM->progressOfWaitDialog(m_paths.size(), dbInfos.size());
     }
-    ImageDataService::instance()->readThumbnailByPaths(newPathList, true);
     if (!dbInfos.isEmpty()) {
         QStringList pathslist;
         int idblen = dbInfos.length();

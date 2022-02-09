@@ -2272,8 +2272,6 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
     if (path != strPath) {
         return;
     }
-    qDebug() << "------路径匹配继续加载缩略图----";
-    ImageDataService::instance()->readThumbnailByPaths(fileList);
     //更新外部设备页面标题等状态
     m_importByPhoneComboBox->setEnabled(true);
     m_importAllByPhoneBtn->setEnabled(true);

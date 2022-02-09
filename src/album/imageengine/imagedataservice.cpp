@@ -134,61 +134,6 @@ int ImageDataService::getCount()
     return static_cast<int>(m_AllImageMap.size());
 }
 
-bool ImageDataService::readThumbnailByPaths(const QStringList &files, bool isFinishFilter, bool reLoadThumbnail)
-{
-#if 1
-    Q_UNUSED(files)
-    Q_UNUSED(isFinishFilter)
-    Q_UNUSED(reLoadThumbnail)
-    return true;
-#else
-    QStringList image_video_list;
-    if (!isFinishFilter) {
-        foreach (QString path, files) {
-            QFileInfo file(path);
-            if (file.isDir()) {
-                QFileInfoList infos;
-                QDirIterator dirIterator(path,
-                                         QDir::Files,
-                                         QDirIterator::Subdirectories);
-                while (dirIterator.hasNext()) {
-                    dirIterator.next();
-                    QFileInfo fi = dirIterator.fileInfo();
-                    image_video_list << fi.absoluteFilePath();
-                }
-            } else if (file.exists()) { //文件存在
-                image_video_list << path;
-            }
-        }
-    } else {
-        image_video_list = files;
-    }
-
-    if (image_video_list.isEmpty())
-        return true;
-
-    bool empty = isRequestQueueEmpty();
-
-    if (empty) {
-        ImageDataService::instance()->add(image_video_list, reLoadThumbnail);
-        int needCoreCounts = static_cast<int>(std::thread::hardware_concurrency()) - 1;
-        if (image_video_list.size() < needCoreCounts) {
-            needCoreCounts = image_video_list.size();
-        }
-        if (needCoreCounts < 1)
-            needCoreCounts = 1;
-        for (int i = 0; i < needCoreCounts; i++) {
-            readThumbnailThread *thread = new readThumbnailThread;
-            thread->start();
-            connect(thread, &readThumbnailThread::finished, thread, &readThumbnailThread::deleteLater);
-        }
-    } else {
-        ImageDataService::instance()->add(image_video_list, reLoadThumbnail);
-    }
-    return true;
-#endif
-}
-
 void ImageDataService::addImage(const QString &path, const QImage &image)
 {
     QMutexLocker locker(&m_imgDataMutex);
@@ -272,18 +217,13 @@ QImage ImageDataService::getThumnailImageByPathRealTime(const QString &path, boo
 {
     QString realPath;
 
-    //计算图片的真实路径，删除的图片和常规图片不一样
     if (!isTrashFile) {
         realPath = path;
-    } else {
-        realPath = utils::base::getDeleteFullPath(utils::base::hashByString(path), DBImgInfo::getFileNameFromFilePath(path));
-    }
-
-    if (!isTrashFile) {
-        if (!QFile::exists(path)) {
+        if (!QFile::exists(realPath)) {
             return QImage();
         }
     } else {
+        realPath = utils::base::getDeleteFullPath(utils::base::hashByString(path), DBImgInfo::getFileNameFromFilePath(path));
         if (!QFile::exists(realPath)) {
             if (!QFile::exists(path)) {
                 return QImage();

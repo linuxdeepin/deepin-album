@@ -236,7 +236,6 @@ void ImageEngineApi::loadFirstPageThumbnails(int num, bool clearCache)
 
     qDebug() << "------" << __FUNCTION__ << "" << m_AllImageDataVector.size();
     m_firstPageIsLoaded = true;
-    ImageDataService::instance()->readThumbnailByPaths(list);
 
     emit sigLoadFirstPageThumbnailsToView();
 }

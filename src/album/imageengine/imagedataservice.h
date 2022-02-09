@@ -45,10 +45,6 @@ public:
     //获取全部图片数量
     int getCount();
 
-    //读取缩略图到缓存map isFinishFilter:是否过滤过路径  reLoadThumbnail:重新加载缩略图
-    bool readThumbnailByPaths(const QStringList &files, bool isFinishFilter = false, bool reLoadThumbnail = false);
-//    bool readThumbnailByPath(QString file);
-
     void addImage(const QString &path, const QImage &image);
     QImage getThumnailImageByPath(const QString &path);
     QImage getThumnailImageByPathRealTime(const QString &path, bool isTrashFile);
