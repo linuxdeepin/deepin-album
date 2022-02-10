@@ -508,19 +508,14 @@ bool MainWindow::processOption(QStringList &paslist)
         QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
 
         QString str = info.suffix().toLower();
-//        if (str.isEmpty()) {
         if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")
                 || mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
             if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
                 bneedexit = false;
-//                break;
                 paslist << info.filePath();
-                ImageEngineApi::instance()->insertImage(info.filePath(), "");
             } else if (str.isEmpty()) {
                 bneedexit = false;
                 paslist << info.filePath();
-                ImageEngineApi::instance()->insertImage(info.filePath(), "");
-//                break;
             }
         } else if (utils::base::isVideo(filepath)) {
             bneedexit = false;

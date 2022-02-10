@@ -188,31 +188,6 @@ void DBandImgOperate::rotateImageFile(int angel, const QString &path)
     loadOneImgForce(path, true);
 }
 
-void DBandImgOperate::sltLoadThumbnailByNum(QVector<DBImgInfo> infos, int num)
-{
-    // 从硬盘上加载图片到缓存中
-    int size = infos.size();
-    QStringList list;
-    for (int i = 0; i < num; i++) {
-        if (i < size) {
-            DBImgInfo dbInfo = infos[i];
-
-            list << dbInfo.filePath;
-//            if (dbInfo.fileType == DbFileTypePic) {
-//                infos[i].imgpixmap = loadOneThumbnail(dbInfo.filePath);
-//            } else if (dbInfo.fileType == DbFileTypeVideo) {
-//                QString spath = albumGlobal::CACHE_PATH + dbInfo.filePath;
-//                QFileInfo temDir(dbInfo.filePath);
-//                QString fileName = temDir.fileName();
-//                spath = albumGlobal::CACHE_PATH + temDir.path() + "/" + temDir.baseName() + ".PNG";
-//                infos[i].imgpixmap = loadOneThumbnail(spath);
-//            }
-        }
-    }
-//    ImageDataService::instance()->readThumbnailByPaths(list);
-    emit sig80ImgInfosReady(infos);
-}
-
 void DBandImgOperate::sltLoadMountFileList(const QString &path)
 {
     QString strPath = path;

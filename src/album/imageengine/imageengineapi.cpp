@@ -82,13 +82,13 @@ ImageEngineApi::ImageEngineApi(QObject *parent)
 
 bool ImageEngineApi::insertObject(void *obj)
 {
-    m_AllObject.insert(obj, obj);
+    m_AllObject.push_back(obj);
     return true;
 }
+
 bool ImageEngineApi::removeObject(void *obj)
 {
-    QMap<void *, void *>::iterator it;
-    it = m_AllObject.find(obj);
+    auto it = std::find(m_AllObject.begin(), m_AllObject.end(), obj);
     if (it != m_AllObject.end()) {
         m_AllObject.erase(it);
         return true;
@@ -98,50 +98,7 @@ bool ImageEngineApi::removeObject(void *obj)
 
 bool ImageEngineApi::ifObjectExist(void *obj)
 {
-    return m_AllObject.contains(obj);
-}
-
-bool ImageEngineApi::removeImage(QStringList imagepathList)
-{
-    for (const auto &imagepath : imagepathList) {
-        m_AllImageData.remove(imagepath);
-    }
-    return true;
-}
-
-bool ImageEngineApi::insertImage(const QString &imagepath, const QString &remainDay, bool reLoadIsvideo)
-{
-    bool bexsit = m_AllImageData.contains(imagepath);
-    if (bexsit && remainDay.isEmpty()) {
-        return false;
-    }
-
-    DBImgInfo data;
-    if (bexsit) {
-        data = m_AllImageData[imagepath];
-    }
-
-    if (reLoadIsvideo) {
-        bool isVideo = utils::base::isVideo(imagepath);
-        if (isVideo) {
-            data.itemType = ItemTypeVideo;
-        } else {
-            data.itemType = ItemTypePic;
-        }
-    }
-    addImageData(imagepath, data);
-    return true;
-}
-
-bool ImageEngineApi::getImageData(QString imagepath, DBImgInfo &data)
-{
-    QMap<QString, DBImgInfo>::iterator it;
-    it = m_AllImageData.find(imagepath);
-    if (it == m_AllImageData.end()) {
-        return false;
-    }
-    data = it.value();
-    return true;
+    return std::find(m_AllObject.begin(), m_AllObject.end(), obj) != m_AllObject.end();
 }
 
 void ImageEngineApi::sltImageFilesImported(void *imgobject, QStringList &filelist)
@@ -149,21 +106,6 @@ void ImageEngineApi::sltImageFilesImported(void *imgobject, QStringList &filelis
     if (nullptr != imgobject && ifObjectExist(imgobject)) {
         static_cast<ImageMountImportPathsObject *>(imgobject)->imageMountImported(filelist);
     }
-}
-
-void ImageEngineApi::sigImageBackLoaded(const QString &path, const DBImgInfo &data)
-{
-    addImageData(path, data);
-}
-
-void ImageEngineApi::slt80ImgInfosReady(QVector<DBImgInfo> ImageDatas)
-{
-    m_AllImageDataVector = ImageDatas;
-    for (int i = 0; i < ImageDatas.size(); i++) {
-        DBImgInfo data = ImageDatas.at(i);
-        addImageData(data.filePath, data);
-    }
-    emit sigLoadFirstPageThumbnailsToView();
 }
 
 bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType, bool isFirst)
@@ -201,48 +143,20 @@ bool ImageEngineApi::removeImageFromAutoImport(const QStringList &files)
     return true;
 }
 
-void ImageEngineApi::loadFirstPageThumbnails(int num, bool clearCache)
+void ImageEngineApi::loadFirstPageThumbnails(int num)
 {
     qDebug() << __FUNCTION__ << "---";
 
     m_FirstPageScreen = num;
-    if (clearCache) {
-        m_AllImageDataVector.clear();
-    }
-    thumbnailLoadThread(num);
-    QStringList list;
-    QSqlQuery query;
-    query.setForwardOnly(true);
-    if (!query.exec(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc limit %1").arg(QString::number(num)))) {
-        qDebug() << "------" << __FUNCTION__ <<  query.lastError();
-        return;
-    } else {
-        int count = 0;
-        while (query.next()) {
-            DBImgInfo info;
-            info.filePath = query.value(0).toString();
-            if (count < num) {
-                list << info.filePath;
-                count++;
-            }
-            info.time = utils::base::stringToDateTime(query.value(3).toString());
-            info.changeTime = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT_DATABASE);
-            info.importTime = QDateTime::fromString(query.value(5).toString(), DATETIME_FORMAT_DATABASE);
-            info.itemType = static_cast<ItemType>(query.value(6).toInt());
-            addImageData(info.filePath, info);
-            m_AllImageDataVector.append(info);
-        }
-    }
 
-    qDebug() << "------" << __FUNCTION__ << "" << m_AllImageDataVector.size();
+    thumbnailLoadThread();
+
     m_firstPageIsLoaded = true;
-
     emit sigLoadFirstPageThumbnailsToView();
 }
 
-void ImageEngineApi::thumbnailLoadThread(int num)
+void ImageEngineApi::thumbnailLoadThread()
 {
-    Q_UNUSED(num)
     if (m_worker != nullptr) {
         return;
     }
@@ -250,9 +164,6 @@ void ImageEngineApi::thumbnailLoadThread(int num)
     m_worker = new DBandImgOperate(workerThread);
 
     m_worker->moveToThread(workerThread);
-    //开始录制
-    connect(this, &ImageEngineApi::sigLoadThumbnailsByNum, m_worker, &DBandImgOperate::sltLoadThumbnailByNum);
-//    connect(this, &ImageEngineApi::sigLoadThumbnailIMG, m_worker, &DBandImgOperate::loadOneImg);
     //加载设备中文件列表
     connect(this, &ImageEngineApi::sigLoadMountFileList, m_worker, &DBandImgOperate::sltLoadMountFileList);
     //同步设备卸载
@@ -261,7 +172,6 @@ void ImageEngineApi::thumbnailLoadThread(int num)
     connect(this, &ImageEngineApi::sigRotateImageFile, m_worker, &DBandImgOperate::rotateImageFile);
 
     //收到获取全部照片信息成功信号
-    connect(m_worker, &DBandImgOperate::sig80ImgInfosReady, this, &ImageEngineApi::slt80ImgInfosReady);
     connect(m_worker, &DBandImgOperate::sigOneImgReady, this, &ImageEngineApi::sigOneImgReady);
     //加载设备中文件列表完成，发送到主线程
     connect(m_worker, &DBandImgOperate::sigMountFileListLoadReady, this, &ImageEngineApi::sigMountFileListLoadReady);
@@ -291,30 +201,6 @@ bool ImageEngineApi::reloadAfterFilterUnExistImage()
     QThreadPool::globalInstance()->start(imagethread);
 #endif
     return true;
-}
-
-int ImageEngineApi::getAllImageDataCount()
-{
-    QMutexLocker locker(&m_dataMutex);
-    return m_AllImageData.size();
-}
-
-void ImageEngineApi::addImageData(QString path, DBImgInfo data)
-{
-    QMutexLocker locker(&m_dataMutex);
-    m_AllImageData[path] = data;
-}
-
-void ImageEngineApi::clearAllImageData()
-{
-    QMutexLocker locker(&m_dataMutex);
-    m_AllImageData.clear();
-}
-
-bool ImageEngineApi::isItemLoadedFromDB(QString path)
-{
-    QMutexLocker locker(&m_dataMutex);
-    return m_AllImageData.contains(path);
 }
 
 bool ImageEngineApi::importImageFilesFromMount(QString albumname, int UID, QStringList paths, ImageMountImportPathsObject *obj)
@@ -353,8 +239,6 @@ bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash, bool b
     }
 
     emit dApp->signalM->popupWaitDialog(tr("Deleting..."), bneedprogress); //author : jia.dong
-    if (typetrash)  //如果为回收站删除，则删除内存数据
-        removeImage(files);
     ImageMoveImagesToTrashThread *imagethread = new ImageMoveImagesToTrashThread;
     imagethread->setData(files, typetrash);
 #ifdef NOGLOBAL

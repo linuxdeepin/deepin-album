@@ -67,6 +67,8 @@ bool ImageDataService::pathInMap(const QString &path)
 
 std::pair<QImage, bool> ImageDataService::getImageFromMap(const QString &path)
 {
+    QMutexLocker locker(&m_imgDataMutex);
+
     auto iter = std::find_if(m_AllImageMap.begin(), m_AllImageMap.end(), [path](const std::pair<QString, QImage> &pr) {
         if (pr.first.size() != path.size()) {
             return false;
@@ -83,55 +85,6 @@ std::pair<QImage, bool> ImageDataService::getImageFromMap(const QString &path)
     } else {
         return std::make_pair(QImage(), false);
     }
-}
-
-bool ImageDataService::add(const QStringList &paths, bool reLoadThumbnail)
-{
-    QMutexLocker locker(&m_imgDataMutex);
-    if (reLoadThumbnail) {
-        m_requestQueue.clear();
-        qDebug() << "---m_requestQueue 清空,重新加载---" << paths.size();
-    }
-    for (int i = 0; i < paths.size(); i++) {
-        if (reLoadThumbnail || !pathInMap(paths.at(i))) {
-            m_requestQueue.append(paths.at(i));
-        }
-    }
-    return true;
-}
-
-bool ImageDataService::add(const QString &path)
-{
-    QMutexLocker locker(&m_imgDataMutex);
-    if (!path.isEmpty()) {
-        if (!pathInMap(path)) {
-            m_requestQueue.append(path);
-        }
-    }
-    return true;
-}
-
-QString ImageDataService::pop()
-{
-    QMutexLocker locker(&m_imgDataMutex);
-    if (m_requestQueue.empty())
-        return QString();
-    QString res = m_requestQueue.first();
-    m_requestQueue.pop_front();
-    return res;
-}
-
-bool ImageDataService::isRequestQueueEmpty()
-{
-    QMutexLocker locker(&m_imgDataMutex);
-    return m_requestQueue.isEmpty();
-}
-
-int ImageDataService::getCount()
-{
-    QMutexLocker locker(&m_imgDataMutex);
-
-    return static_cast<int>(m_AllImageMap.size());
 }
 
 void ImageDataService::addImage(const QString &path, const QImage &image)
@@ -169,27 +122,6 @@ QString ImageDataService::getMovieDurationStrByPath(const QString &path)
 {
     QMutexLocker locker(&m_imgDataMutex);
     return m_movieDurationStrMap.contains(path) ? m_movieDurationStrMap[path] : QString() ;
-}
-
-void ImageDataService::setVisualIndex(int row)
-{
-    QMutexLocker locker(&m_imgDataMutex);
-    m_visualIndex = row;
-}
-
-int ImageDataService::getVisualIndex()
-{
-    QMutexLocker locker(&m_imgDataMutex);
-    return m_visualIndex;
-}
-
-QImage ImageDataService::getThumnailImageByPath(const QString &path)
-{
-    QMutexLocker locker(&m_imgDataMutex);
-    if (path.isEmpty()) {
-        return  QImage();
-    }
-    return getImageFromMap(path).first;
 }
 
 bool ImageDataService::imageIsLoaded(const QString &path, bool isTrashFile)

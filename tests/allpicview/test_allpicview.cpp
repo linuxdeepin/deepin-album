@@ -189,9 +189,6 @@ TEST(allpicview, BatchOperateWidget)
 {
     TEST_CASE_NAME("BatchOperateWidget")
 
-    if (ImageEngineApi::instance()->getAllImageDataCount() <= 0) {
-        return;
-    }
     //定位到所有图片
     clickToAllPictureView();
     //定位到第一张图片位置

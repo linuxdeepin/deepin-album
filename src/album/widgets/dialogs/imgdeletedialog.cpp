@@ -29,7 +29,7 @@
 #include <DSuggestButton>
 #include <DTitlebar>
 
-ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int imgCount, int videoCount, bool isTrash)
+ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int count, bool isTrash)
     : DDialog(parent)
 {
     setModal(true);
@@ -41,19 +41,19 @@ ImgDeleteDialog::ImgDeleteDialog(DWidget *parent, int imgCount, int videoCount, 
 
     //新版删除文案
     if (isTrash) { //从最近删除点进来的
-        if (imgCount + videoCount == 1) {
+        if (count == 1) {
             m_Toplabel->setText(tr("Are you sure you want to permanently delete this file?"));
             m_Bottomlabel->setText(tr("You cannot restore it any longer"));
         } else {
-            m_Toplabel->setText(tr("Are you sure you want to permanently delete %1 files?").arg(imgCount + videoCount));
+            m_Toplabel->setText(tr("Are you sure you want to permanently delete %1 files?").arg(count));
             m_Bottomlabel->setText(tr("You cannot restore them any longer"));
         }
     } else { //从其它地方点进来的
-        if (imgCount + videoCount == 1) {
+        if (count == 1) {
             m_Toplabel->setText(tr("Are you sure you want to delete this file locally?"));
             m_Bottomlabel->setText(tr("You can restore it in the trash"));
         } else {
-            m_Toplabel->setText(tr("Are you sure you want to delete %1 files locally?").arg(imgCount + videoCount));
+            m_Toplabel->setText(tr("Are you sure you want to delete %1 files locally?").arg(count));
             m_Bottomlabel->setText(tr("You can restore them in the trash"));
         }
     }

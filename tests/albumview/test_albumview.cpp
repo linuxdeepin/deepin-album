@@ -119,9 +119,6 @@ TEST(AlbumView, clickImportViewBtn)
         image_list << info.absoluteFilePath();
     }
     QTest::qWait(500);
-
-    if (image_list.size() > 0)
-        ImageEngineApi::instance()->insertImage(image_list.first(), "");
 }
 
 TEST(AlbumView, ini)

@@ -41,28 +41,15 @@ public:
     static ImageEngineApi *instance(QObject *parent = nullptr);
     ~ImageEngineApi();
 
-    //reLoadIsvideo为true，重新判断是否是视频
-    bool insertImage(const QString &imagepath, const QString &remainDay, bool reLoadIsvideo = false);
-    bool removeImage(QString imagepath);
-    bool removeImage(QStringList imagepathList);
     bool insertObject(void *obj);
     bool removeObject(void *obj);
     bool ifObjectExist(void *obj);
-    bool getImageData(QString imagepath, DBImgInfo &data);
     bool ImportImagesFromFileList(QStringList files, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect = false, AlbumDBType dbType = Custom, bool isFirst = false);
     bool ImportImagesFromUrlList(QList<QUrl> files, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect = false, AlbumDBType dbType = Custom, bool isFirst = false);
     //清理删除时间过长图片
     void cleanUpTrash(const DBImgInfoList &list);
     //过滤不存在图片后重新加载
     bool reloadAfterFilterUnExistImage();
-    //全部数据数量
-    int  getAllImageDataCount();
-    //添加数据
-    void addImageData(QString path, DBImgInfo data);
-    //清除全部数据
-    void clearAllImageData();
-    //判断是否已经从数据库加载过，或者是否已经加载到缓存里了
-    bool isItemLoadedFromDB(QString path);
 
     //从外部启动，启用线程加载图片
     //bool loadImagesFromNewAPP(QStringList files, ImageEngineImportObject *obj);
@@ -82,18 +69,14 @@ public:
     {
         return bcloseFg;
     }
-    void loadFirstPageThumbnails(int num, bool clearCache = true);
-    void thumbnailLoadThread(int num);
+    void loadFirstPageThumbnails(int num);
+    void thumbnailLoadThread();
 
     //设置线程循环跳出
     void     setThreadShouldStop();
 
 private slots:
     void sltImageFilesImported(void *imgobject, QStringList &filelist);
-
-    void sigImageBackLoaded(const QString &path, const DBImgInfo &data);
-
-    void slt80ImgInfosReady(QVector<DBImgInfo> ImageDatas);
 signals:
     //发送给主线程
     //发送给缩略图控件
@@ -103,7 +86,7 @@ signals:
     //加载设备中图片列表请求完成
     void sigMountFileListLoadReady(QString path, QStringList fileList);
     //过滤不存在图片后重新加载
-    void sigReloadAfterFilterEnd();
+    void sigReloadAfterFilterEnd(const QVector<DBImgInfo> &);
 
     //发给子线程
     //先加载指定数量的缩略图
@@ -119,15 +102,13 @@ signals:
     //同步设备卸载
     void sigDeciveUnMount(const QString &path);
 public:
-    QVector<DBImgInfo> m_AllImageDataVector;
     int m_FirstPageScreen = 0;
     QStringList m_imgLoaded;//已经加载过的图片，防止多次加载
     bool m_firstPageIsLoaded = false;
 private:
     explicit ImageEngineApi(QObject *parent = nullptr);
 
-    QMap<void *, void *>m_AllObject;
-    QMap<QString, DBImgInfo>m_AllImageData;
+    std::vector<void *>m_AllObject;
 
     static ImageEngineApi *s_ImageEngine;
     std::atomic_bool bcloseFg;

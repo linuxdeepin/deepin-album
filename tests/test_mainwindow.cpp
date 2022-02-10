@@ -155,7 +155,6 @@ TEST(MainWindow, Picimport)
 
     AllPicView *allpicview = w->m_pAllPicView;
     //绑定信号
-    ImageEngineApi::instance()->thumbnailLoadThread(80);
     QString AVI = list.at(0) + "/AlbumtestResource/500KAVI.AVI";
     ImageEngineApi::instance()->ImportImagesFromFileList(QStringList() << AVI, "", -1, allpicview, true);
     QTest::qWait(1000);
@@ -163,11 +162,6 @@ TEST(MainWindow, Picimport)
     ImageEngineApi::instance()->ImportImagesFromFileList(QStringList() << list.at(0) + "/AlbumtestResource", "",  -1, allpicview, true);
     allpicview->update();
     QTest::qWait(2000);
-
-    //判断视频大写后缀导入是否正常
-    bool iscontain = ImageEngineApi::instance()->m_AllImageData.contains(AVI);
-    qDebug() << "------" << AVI << iscontain;
-//    EXPECT_TRUE(iscontain);
 
     QTestEventList event;
     QPoint p1(30, 100);

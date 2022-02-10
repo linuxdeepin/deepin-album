@@ -60,13 +60,11 @@ public slots:
     void     loadOneImgForce(QString imagepath, bool refresh);//缩略图已存在仍然强制刷新缩略图
     //旋转图片并重新制作缩略图
     void     rotateImageFile(int angel, const QString &path);
-    void     sltLoadThumbnailByNum(QVector<DBImgInfo> infos, int num);
     //加载设备中图片列表请求完成
     void sltLoadMountFileList(const QString &path);
     //同步设备卸载
     void sltDeciveUnMount(const QString &path);
 signals:
-    void sig80ImgInfosReady(QVector<DBImgInfo> imageDatas);
     void sigOneImgReady(QString imagepath, QPixmap pimap);
 
     void sigAllImgInfosReady(DBImgInfoList);

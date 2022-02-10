@@ -583,8 +583,9 @@ void ImageLoadFromDBThread::runDetail()
     QStringList image_list;
     QStringList fail_image_list;
     DBImgInfoList infos = DBManager::instance()->getAllInfos(0);
-    ImageEngineApi::instance()->m_AllImageDataVector.clear();
-    ImageEngineApi::instance()->clearAllImageData();
+
+    QVector<DBImgInfo> allImageDataVector;
+
     for (int i = 0; i < infos.size(); i++) {
         DBImgInfo info = infos.at(i);
         //记录源文件不存在的数据
@@ -593,10 +594,9 @@ void ImageLoadFromDBThread::runDetail()
             continue;
         }
 
-        ImageEngineApi::instance()->m_AllImageDataVector.append(info);
-        ImageEngineApi::instance()->addImageData(info.filePath, info);
+        allImageDataVector.append(info);
     }
-    qDebug() << __FUNCTION__ << "---m_AllImageDataVector.size = " << ImageEngineApi::instance()->m_AllImageDataVector.size();
+    qDebug() << __FUNCTION__ << "---allImageDataVector.size = " << allImageDataVector.size();
     if (bneedstop) {
         return;
     }
@@ -604,7 +604,7 @@ void ImageLoadFromDBThread::runDetail()
     //删除数据库失效的图片
     DBManager::instance()->removeImgInfosNoSignal(fail_image_list);
 
-    emit ImageEngineApi::instance()->sigReloadAfterFilterEnd();
+    emit ImageEngineApi::instance()->sigReloadAfterFilterEnd(allImageDataVector);
 }
 
 RefreshTrashThread::RefreshTrashThread()

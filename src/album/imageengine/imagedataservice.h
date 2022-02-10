@@ -38,24 +38,13 @@ public:
     static ImageDataService *instance(QObject *parent = nullptr);
     explicit ImageDataService(QObject *parent = nullptr);
 
-    bool add(const QStringList &paths, bool reLoadThumbnail = false);
-    bool add(const QString &path);
-    QString pop();
-    bool isRequestQueueEmpty();
-    //获取全部图片数量
-    int getCount();
-
     void addImage(const QString &path, const QImage &image);
-    QImage getThumnailImageByPath(const QString &path);
     QImage getThumnailImageByPathRealTime(const QString &path, bool isTrashFile);
     bool imageIsLoaded(const QString &path, bool isTrashFile);
 
     void addMovieDurationStr(const QString &path, const QString &durationStr);
     QString getMovieDurationStrByPath(const QString &path);
 
-    //
-    void setVisualIndex(int row);
-    int getVisualIndex();
 private slots:
 signals:
     void sigeUpdateListview();
@@ -68,8 +57,6 @@ private:
     std::pair<QImage, bool> getImageFromMap(const QString &path);
 
     static ImageDataService *s_ImageDataService;
-    QMutex m_queuqMutex;
-    QList<QString> m_requestQueue;
 
     //图片数据锁
     QMutex m_imgDataMutex;

@@ -48,12 +48,6 @@ int SignalManager::getSliderValue()
 
 void SignalManager::showInfoDlg(const QString &path, ItemType type, bool isTrash)
 {
-    if (type == ItemTypeNull) { //类型未知的时候才去抓它的类型
-        DBImgInfo data;
-        ImageEngineApi::instance()->getImageData(path, data);
-        type = data.itemType;
-    }
-
     QString realPath;
     QString displayName(DBImgInfo::getFileNameFromFilePath(path)); //这里传入的path是原始路径，所以可以直接用
     if (isTrash) { //获取最近删除图片的真实路径

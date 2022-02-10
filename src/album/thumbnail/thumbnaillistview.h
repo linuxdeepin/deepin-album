@@ -194,7 +194,7 @@ protected:
     QRect visualRect(const QModelIndex &index) const override;
 
 private slots:
-    void sltReloadAfterFilterEnd();
+    void sltReloadAfterFilterEnd(const QVector<DBImgInfo> &allImageDataVector);
     //子线程加载缩略图后刷新列表
     void onUpdateListview();
     void onMenuItemClicked(QAction *action);
