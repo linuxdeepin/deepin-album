@@ -618,6 +618,40 @@ QString getDeleteFullPath(const QString &hash, const QString &fileName)
     return albumGlobal::DELETE_PATH + "/" + hash + "." + QFileInfo(fileName).suffix();
 }
 
+//产品需求：需要支持同步文件拷贝，以实时监控拷贝进度
+bool syncCopy(const QString &srcFileName, const QString &dstFileName)
+{
+    QFile src(srcFileName);
+    QFile dst(dstFileName);
+
+    src.open(QIODevice::ReadOnly);
+    dst.open(QIODevice::WriteOnly);
+
+    //0.预分配空间
+    auto fileSize = src.size();
+    if (!dst.resize(fileSize)) { //预分配空间失败
+        dst.close();
+        dst.remove();
+        return false;
+    }
+
+    //1.执行拷贝
+    dst.seek(0);
+    while (1) {
+        auto data = src.read(4 * 1024 * 1024);
+        if (data.isEmpty()) { //没有更多的数据
+            break;
+        }
+
+        dst.write(data);
+
+        //等待数据写入，这是和QFile::copy的区别
+        dst.waitForBytesWritten(30000);
+    }
+
+    return true;
+}
+
 }  // namespace base
 
 }  // namespace utils

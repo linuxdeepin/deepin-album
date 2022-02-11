@@ -1382,8 +1382,9 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
         if (QFile::exists(info.filePath)) {
             hash = utils::base::hashByString(info.filePath);
 
-            //复制操作
-            QFile::copy(info.filePath, utils::base::getDeleteFullPath(hash, info.getFileNameFromFilePath()));
+            //复制操作，上面那个QFile::copy是异步拷贝，下面那个utils::base::syncCopy是会阻塞的同步拷贝
+            //QFile::copy(info.filePath, utils::base::getDeleteFullPath(hash, info.getFileNameFromFilePath()));
+            utils::base::syncCopy(info.filePath, utils::base::getDeleteFullPath(hash, info.getFileNameFromFilePath()));
 
             if (showWaitDialog) {
                 emit dApp->signalM->progressOfWaitDialog(infos.size(), infos.indexOf(info) + 1);

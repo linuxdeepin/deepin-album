@@ -272,6 +272,8 @@ bool isVaultFile(const QString &path);
 bool trashFile(const QString &file);
 //生成deepin-album-delete下的文件路径，hash：原始路径hash，fileName：文件名
 QString getDeleteFullPath(const QString &hash, const QString &fileName);
+//同步文件拷贝，用于区分QFile::copy的异步拷贝
+bool syncCopy(const QString &srcFileName, const QString &dstFileName);
 }  // namespace base
 
 }  // namespace utils
