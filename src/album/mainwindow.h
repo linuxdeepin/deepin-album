@@ -157,7 +157,7 @@ public slots:
     void onImagesRemoved();
     void onHideImageView();
     void onAddImageBtnClicked(bool checked);
-    void onHideSlidePanel();
+    void onHideFromFullScreen();
     void onExportImage(QStringList paths);
     void onMainwindowSliderValueChg(int step);
     void onAlbDelToast(QString str1);

@@ -205,8 +205,8 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::startSlideShow, [this](const SignalManager::ViewInfo & vinfo) {
         this->onSigViewImage(vinfo, Operation_StartSliderShow, false, "", -1);
     });
-    //隐藏幻灯片显示
-    connect(ImageEngine::instance(), &ImageEngine::exitSlideShow, this, &MainWindow::onHideSlidePanel);
+    //image-editor隐藏退出全屏显示
+    connect(ImageEngine::instance(), &ImageEngine::exitSlideShow, this, &MainWindow::onHideFromFullScreen);
     //导出图片
     connect(dApp->signalM, &SignalManager::exportImage, this, &MainWindow::onExportImage);
 //    connect(dApp->signalM, &SignalManager::showImageInfo, this, &MainWindow::onShowImageInfo);
@@ -1626,11 +1626,6 @@ void MainWindow::onHideImageView()
     setTitleBarHideden(false);
     m_pCenterWidget->setCurrentIndex(m_backIndex);
 
-    //外部打开图片，返回时默认跳转到所有照片界面
-    if (m_backIndex == VIEW_ALLPIC) {
-        allPicBtnClicked();
-    }
-
     setConflictShortcutEnabled(true);
 }
 
@@ -2270,7 +2265,7 @@ void MainWindow::onAddImageBtnClicked(bool checked)
     emit sigTitleMenuImportClicked();
 }
 
-void MainWindow::onHideSlidePanel()
+void MainWindow::onHideFromFullScreen()
 {
     if (VIEW_IMAGE != m_backIndex_fromFullScreen) {
         setTitleBarHideden(false);

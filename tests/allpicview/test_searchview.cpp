@@ -88,6 +88,6 @@ TEST(searchview, search)
 
     s->onSlideShow(testPath_Pictures + "2e5y8y.jpg");
     QTest::qWait(500);
-    w->onHideSlidePanel();
+    w->onHideFromFullScreen();
     QTest::qWait(500);
 }
