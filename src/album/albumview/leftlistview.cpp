@@ -388,7 +388,7 @@ void LeftListView::onMenuClicked(QAction *action)
     const int id = action->property("MenuID").toInt();
     switch (MenuItemId(id)) {
     case IdStartSlideShow: {
-        auto imagelist = DBManager::instance()->getInfosByAlbum(m_currentUID);
+        auto imagelist = DBManager::instance()->getInfosByAlbum(m_currentUID, false);
         QStringList paths;
         for (auto image : imagelist) {
             paths << image.filePath;

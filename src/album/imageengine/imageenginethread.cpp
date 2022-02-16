@@ -435,9 +435,9 @@ void ImageMoveImagesToTrashThread::runDetail()
             DBImgInfo info;
             info = DBManager::instance()->getInfoByPath(path);
             info.importTime = QDateTime::currentDateTime();
-            auto allalbumnames = DBManager::instance()->getAllAlbumNames();
             //first是UID，secend是album name
             //获取生前所属相册UID，有需要再放开
+            //auto allalbumnames = DBManager::instance()->getAllAlbumNames();
             /*for (auto eachname : allalbumnames) {
                 if (DBManager::instance()->isImgExistInAlbum(eachname.first, path)) {
                     info.albumUID += (QString::number(eachname.first) + ",");

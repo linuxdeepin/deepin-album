@@ -1429,7 +1429,6 @@ void MainWindow::onLibDel(QString path)
         return;
     }
 
-
     DBImgInfo info;
     info = DBManager::instance()->getInfoByPath(path);
     info.importTime = QDateTime::currentDateTime();
@@ -1447,11 +1446,6 @@ void MainWindow::onLibDel(QString path)
     } else {
         deleteSaveImage();
     }
-
-
-
-
-
 }
 
 void MainWindow::deleteSaveImage()

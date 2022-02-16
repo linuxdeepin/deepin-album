@@ -69,7 +69,8 @@ TEST(getTrashImageCount, db10)
 {
     TEST_CASE_NAME("db10")
     DBManager::instance()->getTrashImgsCount();
-    DBManager::instance()->getAllTrashInfos();
+    DBManager::instance()->getAllTrashInfos(true);
+    DBManager::instance()->getAllTrashInfos(false);
     DBManager::instance()->getTrashInfoByPath("");
 }
 
@@ -86,7 +87,8 @@ TEST(AlbumForTest, db11)
     int UID = DBManager::instance()->createAlbum("testAlbum", {});
     DBManager::instance()->insertIntoAlbum(UID, image_list);
     DBManager::instance()->getPathsByAlbum(UID);
-    DBManager::instance()->getInfosByAlbum(UID);
+    DBManager::instance()->getInfosByAlbum(UID, true);
+    DBManager::instance()->getInfosByAlbum(UID, false);
 //    DBManager::instance()->removeFromAlbum("testAlbum", partList);
     DBManager::instance()->renameAlbum(UID, "newTestAlbum");
 //    DBManager::instance()->removeAlbum("newTestAlbum");

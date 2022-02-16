@@ -128,7 +128,7 @@ public:
     //确认目标UID对应的默认监控路径是否存在
     static bool defaultNotifyPathExists(int UID);
     const QStringList       getPathsByAlbum(int UID) const;
-    const DBImgInfoList     getInfosByAlbum(int UID) const;
+    const DBImgInfoList     getInfosByAlbum(int UID, bool needTimeData) const;
     int                     getItemsCountByAlbum(int UID, const ItemType &type) const;
 //    int                     getAlbumsCount() const;
     bool                    isAlbumExistInDB(int UID, AlbumDBType atype = AlbumDBType::Custom) const;
@@ -142,7 +142,8 @@ public:
     void                    removeFromAlbum(int UID, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
     void                    renameAlbum(int UID, const QString &newAlbum, AlbumDBType atype = AlbumDBType::Custom);
     // TabelTrash
-    const DBImgInfoList     getAllTrashInfos() const;
+    const DBImgInfoList     getAllTrashInfos(bool needTimeData) const;
+    const DBImgInfoList     getAllTrashInfos_importTimeOnly() const;
     void                    insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDialog);
     void                    removeTrashImgInfos(const QStringList &paths);
     QStringList             recoveryImgFromTrash(const QStringList &paths); //返回无法恢复的文件
@@ -153,7 +154,7 @@ public:
     int                     getAlbumImgsCount(int UID) const;
 private:
     const DBImgInfoList     getInfosByNameTimeline(const QString &value) const;
-    const DBImgInfoList     getImgInfos(const QString &key, const QString &value) const;
+    const DBImgInfoList     getImgInfos(const QString &key, const QString &value, bool needTimeData) const;
 
     void                    checkDatabase();
     static DBManager       *m_dbManager;

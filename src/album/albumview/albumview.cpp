@@ -945,7 +945,7 @@ void AlbumView::updateRightMyFavoriteView()
 {
     using namespace utils::image;
     DBImgInfoList infos;
-    infos = DBManager::instance()->getInfosByAlbum(m_currentUID);
+    infos = DBManager::instance()->getInfosByAlbum(m_currentUID, false);
     m_favoriteThumbnailList->clearAll();
     //插入上方空白项
     m_favoriteThumbnailList->insertBlankOrTitleItem(ItemTypeBlank, "", "", favorite_title_height);
@@ -998,7 +998,7 @@ void AlbumView::updateRightCustomAlbumView()
     //bug78951 更新时需清空
     using namespace utils::image;
     DBImgInfoList infos;
-    infos = DBManager::instance()->getInfosByAlbum(m_currentUID);
+    infos = DBManager::instance()->getInfosByAlbum(m_currentUID, false);
     //先清除所有
     m_customThumbnailList->clearAll();
     //添加上方空白栏
@@ -1042,7 +1042,7 @@ void AlbumView::updateRightCustomAlbumView()
 
 void AlbumView::updateRightTrashView()
 {
-    auto allTrashInfos = DBManager::instance()->getAllTrashInfos();
+    auto allTrashInfos = DBManager::instance()->getAllTrashInfos_importTimeOnly();
     QDateTime currentTime = QDateTime::currentDateTime();
     DBImgInfoList list;
     for (int i = allTrashInfos.size() - 1; i >= 0; i--) {
