@@ -437,8 +437,8 @@ void TimeLineView::addTimelineLayout()
         DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByTimeline(m_timelines.at(timelineIndex));
 
         //加时间线标题
-        QString date, num;
-        QStringList datelist = m_timelines.at(timelineIndex).split(".");
+        QString date;
+        QStringList datelist = m_timelines.at(timelineIndex).toString("yyyy.MM.dd").split(".");
         if (datelist.count() > 2) {
             date = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
         }
@@ -451,6 +451,8 @@ void TimeLineView::addTimelineLayout()
                 videoCount++;
             }
         }
+
+        QString num;
         if (photoCount == 1 && videoCount == 0) {
             num = tr("1 photo");
         } else if (photoCount == 0 && videoCount == 1) {

@@ -1619,9 +1619,9 @@ void ThumbnailListView::insertThumbnailByImgInfos(DBImgInfoList infoList)
         DBImgInfo info = infoList.at(i);
         info.imgWidth = m_onePicWidth;
         info.imgHeight = m_onePicWidth;
-        if (m_delegatetype == ThumbnailDelegate::AlbumViewTrashType) {
+        /*if (m_delegatetype == ThumbnailDelegate::AlbumViewTrashType) {
             info.remainDays = 30 - utils::base::daysDifferenceBetweenTime(info.importTime, currentTime);
-        }
+        }*/
         insertThumbnail(info);
     }
     //如果不是显示全部，则重新过滤显示

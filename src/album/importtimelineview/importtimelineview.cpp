@@ -365,11 +365,10 @@ void ImportTimeLineView::clearAndStartLayout()
     //后面的listview就有了正确的宽度，该信号槽就不需要再连接
     disconnect(m_importTimeLineListView, &ThumbnailListView::sigShowEvent, this, &ImportTimeLineView::clearAndStartLayout);
     qDebug() << "------" << __FUNCTION__ << "";
-    m_timelines.clear();
+
     //获取所有时间线
     m_timelines = DBManager::instance()->getImportTimelines();
     qDebug() << __func__ << m_timelines.size();
-
 
     if (0 < m_timelines.size()) {
     } else {
@@ -389,7 +388,7 @@ void ImportTimeLineView::addTimelineLayout()
 
         //加时间线标题
         QString date, num;
-        QStringList dateTimeList = m_timelines.at(timelineIndex).split(" ");
+        QStringList dateTimeList = m_timelines.at(timelineIndex).toString("yyyy.MM.dd hh:mm").split(" ");
         QStringList datelist = dateTimeList.at(0).split(".");
         if (datelist.count() > 2) {
             if (dateTimeList.count() == 2) {

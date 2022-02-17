@@ -111,7 +111,7 @@ public:
     const static int ChoseBtn_HEIGHT = 32;
 private:
     QLayout *m_mainLayout;
-    QList<QString> m_timelines;
+    QList<QDateTime> m_timelines;
     DWidget *m_choseBtnItem = nullptr;
     DWidget *m_TitleItem;                               //title包裹窗口
     DCommandLinkButton *m_suspensionChoseBtn = nullptr;  //悬浮选择按钮

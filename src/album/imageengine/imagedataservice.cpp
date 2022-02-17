@@ -48,21 +48,9 @@ ImageDataService *ImageDataService::instance(QObject *parent)
 bool ImageDataService::pathInMap(const QString &path)
 {
     auto iter = std::find_if(m_AllImageMap.begin(), m_AllImageMap.end(), [path](const std::pair<QString, QImage> &pr) {
-        if (pr.first.size() != path.size()) {
-            return false;
-        }
-        for (auto rIter_lhs = pr.first.rbegin(), rIter_rhs = path.rbegin(); rIter_lhs != pr.first.rend() && rIter_rhs != path.rend(); ++rIter_lhs, ++rIter_rhs) {
-            if (*rIter_lhs != *rIter_rhs) {
-                return false;
-            }
-        }
-        return true;
+        return pr.first == path;
     });
-    if (iter != m_AllImageMap.end()) {
-        return true;
-    } else {
-        return false;
-    }
+    return iter != m_AllImageMap.end();
 }
 
 std::pair<QImage, bool> ImageDataService::getImageFromMap(const QString &path)
@@ -70,15 +58,7 @@ std::pair<QImage, bool> ImageDataService::getImageFromMap(const QString &path)
     QMutexLocker locker(&m_imgDataMutex);
 
     auto iter = std::find_if(m_AllImageMap.begin(), m_AllImageMap.end(), [path](const std::pair<QString, QImage> &pr) {
-        if (pr.first.size() != path.size()) {
-            return false;
-        }
-        for (auto rIter_lhs = pr.first.rbegin(), rIter_rhs = path.rbegin(); rIter_lhs != pr.first.rend() && rIter_rhs != path.rend(); ++rIter_lhs, ++rIter_rhs) {
-            if (*rIter_lhs != *rIter_rhs) {
-                return false;
-            }
-        }
-        return true;
+        return pr.first == path;
     });
     if (iter != m_AllImageMap.end()) {
         return std::make_pair(iter->second, true);

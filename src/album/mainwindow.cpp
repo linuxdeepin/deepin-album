@@ -50,6 +50,7 @@
 #include <DWidgetUtil>
 #include <DStandardPaths>
 #include <set>
+#include <QtConcurrent/QtConcurrent>
 
 #include "imagedataservice.h"
 #include "movieservice.h"
@@ -1707,7 +1708,10 @@ void MainWindow::showEvent(QShowEvent *event)
     static bool isFirst = true;
     if (isFirst) {
         isFirst = false;
-        ImportImagesFromCustomAutoPaths();
+        QtConcurrent::run([this]() {
+            ImportImagesFromCustomAutoPaths();
+        });
+        //ImportImagesFromCustomAutoPaths();
     }
 }
 
@@ -2208,18 +2212,17 @@ void MainWindow::ImportImagesFromCustomAutoPaths()
         });
 
         //3.1获取已不存在的路径
-        QStringList deleteFiles;
-        for (int i = 0; i != originPaths.size(); ++i) {
-            if (!currentPaths.contains(originPaths[i])) {
-                deleteFiles << originPaths[i];
-            }
-        }
+        QFuture<QString> watcher = QtConcurrent::filtered(originPaths, [currentPaths](const QString & path) {
+            return !currentPaths.contains(path);
+        });
+        watcher.waitForFinished();
+        QStringList deleteFiles(watcher.results());
 
         //3.2移除已导入的路径
-        auto removeIter = std::remove_if(currentPaths.begin(), currentPaths.end(), [originPaths](const QString & path) {
-            return originPaths.contains(path);
+        auto watcher2 = QtConcurrent::filter(currentPaths, [originPaths](const QString & path) {
+            return !originPaths.contains(path);
         });
-        currentPaths.erase(removeIter, currentPaths.end());
+        watcher2.waitForFinished();
 
         //注意：导入新图由于需要制作缩略图，因此是异步多线程的，而移除不存在的图只需要操作数据库，所以是单线程的
         //所以先执行移除，再执行导入

@@ -1042,7 +1042,7 @@ void AlbumView::updateRightCustomAlbumView()
 
 void AlbumView::updateRightTrashView()
 {
-    auto allTrashInfos = DBManager::instance()->getAllTrashInfos_importTimeOnly();
+    auto allTrashInfos = DBManager::instance()->getAllTrashInfos_getRemainDays();
     QDateTime currentTime = QDateTime::currentDateTime();
     DBImgInfoList list;
     for (int i = allTrashInfos.size() - 1; i >= 0; i--) {
@@ -1050,7 +1050,7 @@ void AlbumView::updateRightTrashView()
         if (!QFile::exists(pinfo.filePath) &&
                 !QFile::exists(utils::base::getDeleteFullPath(pinfo.pathHash, pinfo.getFileNameFromFilePath()))) {
             allTrashInfos.removeAt(i);
-        } else if (utils::base::daysDifferenceBetweenTime(pinfo.importTime, currentTime) >= 30) {
+        } else if (pinfo.remainDays <= 0) {
             list << pinfo;
             allTrashInfos.removeAt(i);
         }

@@ -102,7 +102,7 @@ public slots:
     void sltSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 private:
     QLayout *m_mainLayout;
-    QList<QString> m_timelines;
+    QList<QDateTime> m_timelines;
     //悬浮时间栏控件
     QWidget *m_dateNumItemWidget = nullptr;
     BatchOperateWidget *m_batchOperateWidget = nullptr;

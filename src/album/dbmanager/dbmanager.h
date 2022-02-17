@@ -79,19 +79,16 @@ public:
 
     static DBManager  *instance();
     explicit DBManager(QObject *parent = nullptr);
-    ~DBManager()
-    {
-//        ConnectionPool::release(); //释放数据库连接
-    }
+    ~DBManager() = default;
     static QReadWriteLock m_fileMutex; //文件锁，用于锁定已导入文件的操作权限
 
     // TableImage
     const QStringList       getAllPaths() const;
     const DBImgInfoList     getAllInfos(int loadCount = 0) const;
-    const QStringList       getAllTimelines() const;
-    const DBImgInfoList     getInfosByTimeline(const QString &timeline) const;
-    const QStringList       getImportTimelines() const;
-    const DBImgInfoList     getInfosByImportTimeline(const QString &timeline) const;
+    const QList<QDateTime>  getAllTimelines() const;
+    const DBImgInfoList     getInfosByTimeline(const QDateTime &timeline) const;
+    const QList<QDateTime>  getImportTimelines() const;
+    const DBImgInfoList     getInfosByImportTimeline(const QDateTime &timeline) const;
 //    const DBImgInfo         getInfoByName(const QString &name) const;
     const DBImgInfo         getInfoByPath(const QString &path) const;
 //    const DBImgInfo         getInfoByPathHash(const QString &pathHash) const;
@@ -143,7 +140,7 @@ public:
     void                    renameAlbum(int UID, const QString &newAlbum, AlbumDBType atype = AlbumDBType::Custom);
     // TabelTrash
     const DBImgInfoList     getAllTrashInfos(bool needTimeData) const;
-    const DBImgInfoList     getAllTrashInfos_importTimeOnly() const;
+    const DBImgInfoList     getAllTrashInfos_getRemainDays() const;
     void                    insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDialog);
     void                    removeTrashImgInfos(const QStringList &paths);
     QStringList             recoveryImgFromTrash(const QStringList &paths); //返回无法恢复的文件

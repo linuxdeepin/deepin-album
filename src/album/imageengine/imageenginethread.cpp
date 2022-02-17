@@ -42,6 +42,7 @@
 #include "imagedataservice.h"
 #include "movieservice.h"
 #include <QElapsedTimer>
+#include <QtConcurrent/QtConcurrent>
 
 DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
 {
@@ -287,7 +288,7 @@ void ImportImagesThread::runDetail()
             }
             DBImgInfo info =  getDBInfo(imagePath, bIsVideo);
             dbInfos << info;
-            if (m_dbType != AutoImport || m_isFirst) {
+            if (m_dbType != AutoImport || (m_dbType == AutoImport && m_isFirst)) {
                 emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
             }
 
@@ -313,12 +314,12 @@ void ImportImagesThread::runDetail()
             return;
         }
         //bug112005只有在确认有需要导入的文件时才显示导入进度
-        if (m_dbType != AutoImport || m_isFirst) {
+        if (m_dbType != AutoImport || (m_dbType == AutoImport && m_isFirst)) {
             emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
         }
         //导入图片数据库ImageTable3
         DBManager::instance()->insertImgInfos(dbInfos);
-        if (m_dbType != AutoImport || m_isFirst) {
+        if (m_dbType != AutoImport || (m_dbType == AutoImport && m_isFirst)) {
             emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
         }
 
@@ -336,7 +337,7 @@ void ImportImagesThread::runDetail()
             pathlist << Info.filePath;
         }
 
-        if (!(m_dbType == AutoImport && !m_isFirst)) {
+        if (m_dbType != AutoImport || (m_dbType == AutoImport && m_isFirst)) {
             if (image_list.length() == pathlist.length() && !pathlist.isEmpty()) {
                 emit dApp->signalM->updateStatusBarImportLabel(pathlist, 1, m_albumname);
                 emit dApp->signalM->ImportSuccess(); //导入成功
@@ -601,8 +602,11 @@ void ImageLoadFromDBThread::runDetail()
         return;
     }
 
-    //删除数据库失效的图片
-    DBManager::instance()->removeImgInfosNoSignal(fail_image_list);
+    //删除数据库失效的图片，目前自动导入路径删除图片后启动卡的原因
+    //DBManager::instance()->removeImgInfosNoSignal(fail_image_list);
+    QtConcurrent::run([fail_image_list]() {
+        DBManager::instance()->removeImgInfosNoSignal(fail_image_list);
+    });
 
     emit ImageEngineApi::instance()->sigReloadAfterFilterEnd(allImageDataVector);
 }
