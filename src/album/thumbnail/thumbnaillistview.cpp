@@ -424,7 +424,7 @@ void ThumbnailListView::insertThumbnail(const DBImgInfo &dBImgInfo)
         QModelIndex index = m_model->indexFromItem(item);
         TimeLineDateWidget *pCurrentDateWidget = new TimeLineDateWidget(item, info.date, info.num);
         connect(pCurrentDateWidget, &TimeLineDateWidget::sigIsSelectCurrentDatePic, this, &ThumbnailListView::slotSelectCurrentDatePic);
-        this->setIndexWidget(index, pCurrentDateWidget); //时间线打开速度慢的原因，目前两个时间线初始化的时候走下面那个insertThumbnails，其余的走这里
+        this->setIndexWidget(index, pCurrentDateWidget);
     } else if (info.itemType == ItemTypeImportTimeLineTitle) {
         QModelIndex index = m_model->indexFromItem(item);
         importTimeLineDateWidget *pCurrentDateWidget = new importTimeLineDateWidget(item, info.date, info.num);
@@ -1234,7 +1234,6 @@ bool ThumbnailListView::getCurrentIndexSelectStatus(const QModelIndex &index, bo
     if (!index.isValid()) {
         return false;
     }
-    QModelIndexList list = selectionModel()->selectedIndexes();
     if (isPic) {
         //图片，向前循环判断选中状态
         for (int i = index.row(); i > 0; i--) {
@@ -1244,7 +1243,7 @@ bool ThumbnailListView::getCurrentIndexSelectStatus(const QModelIndex &index, bo
                     || tempdata.itemType == ItemTypeImportTimeLineTitle) {
                 break;
             }
-            if (!list.contains(idx)) {
+            if (!selectionModel()->isSelected(idx)) {
                 return false;
             }
         }
@@ -1256,7 +1255,7 @@ bool ThumbnailListView::getCurrentIndexSelectStatus(const QModelIndex &index, bo
                     || tempdata.itemType == ItemTypeImportTimeLineTitle) {
                 break;
             }
-            if (!list.contains(idx)) {
+            if (!selectionModel()->isSelected(idx)) {
                 return false;
             }
         }
@@ -1268,7 +1267,7 @@ bool ThumbnailListView::getCurrentIndexSelectStatus(const QModelIndex &index, bo
                     || tempdata.itemType == ItemTypeImportTimeLineTitle) {
                 break;
             }
-            if (!list.contains(idx)) {
+            if (!selectionModel()->isSelected(idx)) {
                 return false;
             }
         }
@@ -1387,14 +1386,12 @@ void ThumbnailListView::updateThumbnailViewAfterDelete(const QStringList &paths)
             || m_delegatetype == ThumbnailDelegate::AlbumViewFavoriteType
             || m_delegatetype == ThumbnailDelegate::TimeLineViewType
             || m_delegatetype == ThumbnailDelegate::AlbumViewImportTimeLineViewType) {
-        for (const auto &path : paths) {
-            for (int i = (m_model->rowCount() - 1); i >= 0; i--) {
-                QModelIndex index = m_model->index(i, 0);
-                DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
-                if (path == data.filePath) {
-                    m_model->removeRow(i);
-                    break;
-                }
+        for (int i = (m_model->rowCount() - 1); i >= 0; i--) {
+            QModelIndex index = m_model->index(i, 0);
+            DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
+            if (paths.contains(data.filePath)) { //你永远可以相信QStringList::contains
+                m_model->removeRow(i);
+                break;
             }
         }
     }
@@ -1619,9 +1616,6 @@ void ThumbnailListView::insertThumbnailByImgInfos(DBImgInfoList infoList)
         DBImgInfo info = infoList.at(i);
         info.imgWidth = m_onePicWidth;
         info.imgHeight = m_onePicWidth;
-        /*if (m_delegatetype == ThumbnailDelegate::AlbumViewTrashType) {
-            info.remainDays = 30 - utils::base::daysDifferenceBetweenTime(info.importTime, currentTime);
-        }*/
         insertThumbnail(info);
     }
     //如果不是显示全部，则重新过滤显示

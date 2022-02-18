@@ -1711,7 +1711,6 @@ void MainWindow::showEvent(QShowEvent *event)
         QtConcurrent::run([this]() {
             ImportImagesFromCustomAutoPaths();
         });
-        //ImportImagesFromCustomAutoPaths();
     }
 }
 

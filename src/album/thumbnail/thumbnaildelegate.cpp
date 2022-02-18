@@ -102,22 +102,22 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     painter->save();
     const DBImgInfo data = itemData(index);
     bool selected = false;
-    if (/*(option.state & QStyle::State_MouseOver) &&*/
-        (option.state & QStyle::State_Selected) != 0) {
+    if ((option.state & QStyle::State_Selected) != 0) {
         selected = true;
     }
     painter->setRenderHints(QPainter::HighQualityAntialiasing |
                             QPainter::SmoothPixmapTransform |
                             QPainter::Antialiasing);
     QRect backgroundRect = option.rect;
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     //选中阴影框
     if (selected) {
         QPainterPath backgroundBp;
         backgroundBp.addRoundedRect(backgroundRect, utils::common::SHADOW_BORDER_RADIUS, utils::common::SHADOW_BORDER_RADIUS);
         painter->setClipPath(backgroundBp);
 
-        QBrush  shadowbrush;
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        QBrush shadowbrush;
+
         if (themeType == DGuiApplicationHelper::LightType) {
             shadowbrush = QBrush(QColor("#DEDEDE"));
         }
@@ -126,12 +126,12 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
         }
         painter->fillRect(backgroundRect, shadowbrush);
 
-        //绘制选中默认背景
-        QRect backRect(backgroundRect.x() + 8, backgroundRect.y() + 8, backgroundRect.width() - 16, backgroundRect.height() - 16);
-        QPainterPath backBp;
-        backBp.addRoundedRect(backRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
-        painter->setClipPath(backBp);
-        painter->fillRect(backRect, shadowbrush);
+        //绘制选中默认背景 屏蔽了好像也没影响
+        //QRect backRect(backgroundRect.x() + 8, backgroundRect.y() + 8, backgroundRect.width() - 16, backgroundRect.height() - 16);
+        //QPainterPath backBp;
+        //backBp.addRoundedRect(backRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+        //painter->setClipPath(backBp);
+        //painter->fillRect(backRect, shadowbrush);
     }
 
     QRect pixmapRect;
@@ -149,10 +149,9 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     }
     //2020/6/9 DJH UI 透明图片背景
     QBrush transparentbrush;
-    DGuiApplicationHelper::ColorType themeType1 = DGuiApplicationHelper::instance()->themeType();
-    if (themeType1 == DGuiApplicationHelper::LightType) {
+    if (themeType == DGuiApplicationHelper::LightType) {
         transparentbrush = QBrush(QColor("#FFFFFF"));
-    } else if (themeType1 == DGuiApplicationHelper::DarkType) { //#BUG77517，去除下方的虚化代码，改为直接填充黑色
+    } else if (themeType == DGuiApplicationHelper::DarkType) { //#BUG77517，去除下方的虚化代码，改为直接填充黑色
         transparentbrush = QBrush(QColor("#000000"));
     }
     QRect transparentRect(backgroundRect.x() + 8, backgroundRect.y() + 8, backgroundRect.width() - 16, backgroundRect.height() - 16);
@@ -182,13 +181,11 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     //绘制选中图标
     if (selected) {
         QPixmap selectedPixmap;
-        DGuiApplicationHelper::ColorType themeType3 = DGuiApplicationHelper::instance()->themeType();
-        if (themeType3 == DGuiApplicationHelper::LightType) {
+        if (themeType == DGuiApplicationHelper::LightType) {
             selectedPixmap = selectedPixmapLight;
-        } else if (themeType3 == DGuiApplicationHelper::DarkType) {
+        } else if (themeType == DGuiApplicationHelper::DarkType) {
             selectedPixmap = selectedPixmapDark;
         }
-//        QRect selectedRect(backgroundRect.x() + backgroundRect.width() - 28, backgroundRect.y(), 28, 28);
         QRect selectedRect(backgroundRect.x() + backgroundRect.width() - 30, backgroundRect.y() + 4, 28, 28);
         QPainterPath selectedBp;
         selectedBp.addRoundedRect(selectedRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
@@ -294,7 +291,7 @@ void ThumbnailDelegate::onThemeTypeChanged(int themeType)
         m_default = utils::base::renderSVG(":/icons/deepin/builtin/icons/light/picture_default_light.svg", QSize(60, 45));
         m_videoDefault = utils::base::renderSVG(":/icons/deepin/builtin/icons/light/video_default_light.svg", QSize(60, 45));
     } else {
-        m_default = utils::base::renderSVG("::/icons/deepin/builtin/icons/dark/picture_default_dark.svg", QSize(60, 45));
+        m_default = utils::base::renderSVG(":/icons/deepin/builtin/icons/dark/picture_default_dark.svg", QSize(60, 45));
         m_videoDefault = utils::base::renderSVG(":/icons/deepin/builtin/icons/dark/video_default_dark.svg", QSize(60, 45));
     }
 }

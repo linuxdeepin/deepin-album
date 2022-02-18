@@ -314,29 +314,23 @@ void DBManager::removeImgInfosNoSignal(const QStringList &paths)
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
 //        qDebug() << "begin transaction failed.";
     }
-    QString qs("DELETE FROM AlbumTable3 WHERE PathHash=:hash");
-    if (!m_query->prepare(qs)) {
-    }
+    QString qs("DELETE FROM AlbumTable3 WHERE PathHash=");
     for (auto &eachHash : pathHashs) {
-        m_query->bindValue(":hash", eachHash);
-        if (!m_query->exec()) {
+        if (!m_query->exec(qs + eachHash)) {
             ;
         }
     }
 
     if (!m_query->exec("COMMIT")) {
-//        qDebug() << "COMMIT failed.";
+        //        qDebug() << "COMMIT failed.";
     }
 
     // Remove from image table
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
     }
-    qs = "DELETE FROM ImageTable3 WHERE PathHash=:hash";
-    if (!m_query->prepare(qs)) {
-    }
+    qs = "DELETE FROM ImageTable3 WHERE PathHash=";
     for (auto &eachHash : pathHashs) {
-        m_query->bindValue(":hash", eachHash);
-        if (!m_query->exec()) {
+        if (!m_query->exec(qs + eachHash)) {
         }
     }
 
@@ -1082,10 +1076,10 @@ void DBManager::checkDatabase()
     // 创建Table的语句都是加了IF NOT EXISTS的，直接运行就可以了
 
     // ImageTable3
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    //PathHash           | FilePath | FileName   | Dir  | Time      | ChangeTime | ImportTime //
-    //TEXT primari key   | TEXT     | TEXT       | TEXT | TIMESTAMP | TIMESTAMP  | TIMESTAMP  //
-    ////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    //PathHash                    | FilePath | FileName   | Dir  | Time      | ChangeTime | ImportTime //
+    //CHARACTER(32) primari key   | TEXT     | TEXT       | TEXT | TIMESTAMP | TIMESTAMP  | TIMESTAMP  //
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
     bool b = m_query->exec(QString("CREATE TABLE IF NOT EXISTS ImageTable3 ( "
                                    "PathHash CHARACTER(32) primary key, "
                                    "FilePath TEXT, "
@@ -1102,8 +1096,8 @@ void DBManager::checkDatabase()
 
     // AlbumTable3
     ///////////////////////////////////////////////////////////////////////////////////////
-    //AlbumId               | AlbumName         | PathHash      |AlbumDBType    |UID     //
-    //INTEGER primari key   | TEXT              | TEXT          |TEXT           |INTEGER //
+    //AlbumId               | AlbumName    | PathHash        |AlbumDBType    |UID        //
+    //INTEGER primari key   | TEXT         | CHARACTER(32)   |TEXT           |INTEGER    //
     ///////////////////////////////////////////////////////////////////////////////////////
     bool c = m_query->exec(QString("CREATE TABLE IF NOT EXISTS AlbumTable3 ( "
                                    "AlbumId INTEGER primary key, "
@@ -1115,10 +1109,10 @@ void DBManager::checkDatabase()
         qDebug() << "c CREATE TABLE exec failed.";
     }
     // TrashTable3
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    //PathHash           | FilePath | FileName   | Dir  | Time      | ChangeTime | ImportTime //
-    //TEXT primari key   | TEXT     | TEXT       | TEXT | TIMESTAMP | TIMESTAMP  | TIMESTAMP  //
-    ////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    //PathHash                    | FilePath | FileName   | Dir  | Time      | ChangeTime | ImportTime //
+    //CHARACTER(32) primari key   | TEXT     | TEXT       | TEXT | TIMESTAMP | TIMESTAMP  | TIMESTAMP  //
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
     bool d = m_query->exec(QString("CREATE TABLE IF NOT EXISTS TrashTable3 ( "
                                    "PathHash CHARACTER(32) primary key, "
                                    "FilePath TEXT, "
@@ -1318,6 +1312,11 @@ void DBManager::checkDatabase()
             qDebug() << m_query->lastError();
         }
     }
+
+    //创建索引以加速
+    m_query->exec("CREATE INDEX IF NOT EXISTS album_hash_index ON AlbumTable3 (PathHash)");
+    m_query->exec("CREATE INDEX IF NOT EXISTS image_hash_index ON ImageTable3 (PathHash)");
+    m_query->exec("CREATE INDEX IF NOT EXISTS trash_hash_index ON TrashTable3 (PathHash)");
 
     //新版删除需求的数据表策略
     //1.沿用老版的TrashTable3表，不做任何改变

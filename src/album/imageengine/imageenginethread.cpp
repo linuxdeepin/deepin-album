@@ -602,8 +602,7 @@ void ImageLoadFromDBThread::runDetail()
         return;
     }
 
-    //删除数据库失效的图片，目前自动导入路径删除图片后启动卡的原因
-    //DBManager::instance()->removeImgInfosNoSignal(fail_image_list);
+    //删除数据库失效的图片
     QtConcurrent::run([fail_image_list]() {
         DBManager::instance()->removeImgInfosNoSignal(fail_image_list);
     });
