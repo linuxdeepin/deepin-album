@@ -230,7 +230,7 @@ int         stringHeight(const QFont &f, const QString &str);
 QString     hashByString(const QString &str);
 QString     hashByData(const QString &str);
 QString     SpliteText(const QString &text, const QFont &font, int nLabelSize);
-QDateTime   stringToDateTime(const QString &time);
+std::pair<QDateTime, bool> analyzeDateTime(const QVariant &data);
 QString     getFileContent(const QString &file);
 QPixmap     renderSVG(const QString &filePath, const QSize &size);
 //bool        checkMimeData(const QMimeData *mimeData);

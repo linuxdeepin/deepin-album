@@ -154,6 +154,7 @@ private:
     const DBImgInfoList     getImgInfos(const QString &key, const QString &value, bool needTimeData) const;
 
     void                    checkDatabase();
+    void                    checkTimeColumn(const QString &tableName);
     static DBManager       *m_dbManager;
     static std::once_flag   instanceFlag; //线程安全的单例flag
     void insertSpUID(const QString &albumName, AlbumDBType astype, SpUID UID);

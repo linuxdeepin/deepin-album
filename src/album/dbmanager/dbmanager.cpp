@@ -1074,6 +1074,7 @@ void DBManager::checkDatabase()
     m_query = new QSqlQuery(db);
 
     // 创建Table的语句都是加了IF NOT EXISTS的，直接运行就可以了
+    // 注释里面的是实际我们希望的类型，而下面的SQL语句是SQLite3接受的类型
 
     // ImageTable3
     /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1081,13 +1082,13 @@ void DBManager::checkDatabase()
     //CHARACTER(32) primari key   | TEXT     | TEXT       | TEXT | TIMESTAMP | TIMESTAMP  | TIMESTAMP  //
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     bool b = m_query->exec(QString("CREATE TABLE IF NOT EXISTS ImageTable3 ( "
-                                   "PathHash CHARACTER(32) primary key, "
+                                   "PathHash TEXT primary key, "
                                    "FilePath TEXT, "
                                    "FileName TEXT, "
                                    "Dir TEXT, "
-                                   "Time TIMESTAMP, "
-                                   "ChangeTime TIMESTAMP, "
-                                   "ImportTime TIMESTAMP, "
+                                   "Time TEXT, "
+                                   "ChangeTime TEXT, "
+                                   "ImportTime TEXT, "
                                    "FileType INTEGER, "
                                    "DataHash TEXT)"));
     if (!b) {
@@ -1102,7 +1103,7 @@ void DBManager::checkDatabase()
     bool c = m_query->exec(QString("CREATE TABLE IF NOT EXISTS AlbumTable3 ( "
                                    "AlbumId INTEGER primary key, "
                                    "AlbumName TEXT, "
-                                   "PathHash CHARACTER(32),"
+                                   "PathHash TEXT, "
                                    "AlbumDBType INTEGER,"
                                    "UID INTEGER)"));
     if (!c) {
@@ -1114,13 +1115,13 @@ void DBManager::checkDatabase()
     //CHARACTER(32) primari key   | TEXT     | TEXT       | TEXT | TIMESTAMP | TIMESTAMP  | TIMESTAMP  //
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     bool d = m_query->exec(QString("CREATE TABLE IF NOT EXISTS TrashTable3 ( "
-                                   "PathHash CHARACTER(32) primary key, "
+                                   "PathHash TEXT primary key, "
                                    "FilePath TEXT, "
                                    "FileName TEXT, "
                                    "Dir TEXT, "
-                                   "Time TIMESTAMP, "
-                                   "ChangeTime TIMESTAMP, "
-                                   "ImportTime TIMESTAMP, "
+                                   "Time TEXT, "
+                                   "ChangeTime TEXT, "
+                                   "ImportTime TEXT, "
                                    "FileType INTEGER)"));
     if (!d) {
         qDebug() << "d CREATE TABLE exec failed.";
@@ -1146,7 +1147,7 @@ void DBManager::checkDatabase()
     if (!q && m_query->next()) {
         // 无ChangeTime字段,则增加ChangeTime字段,赋值当前时间
         QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
-        if (m_query->exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ChangeTime\" TIMESTAMP"))) {
+        if (m_query->exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ChangeTime\" TEXT"))) {
             qDebug() << "add ChangeTime success";
         }
     }
@@ -1159,7 +1160,7 @@ void DBManager::checkDatabase()
     if (!m_query->next()) {
         // 无ImportTime字段,则增加ImportTime字段
         QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
-        if (m_query->exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ImportTime\" TIMESTAMP"))) {
+        if (m_query->exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ImportTime\" TEXT"))) {
             qDebug() << "add ImportTime success";
         }
     }
@@ -1278,9 +1279,9 @@ void DBManager::checkDatabase()
                                    "FilePath TEXT, "
                                    "FileName TEXT, "
                                    "Dir TEXT, "
-                                   "Time TIMESTAMP, "
-                                   "ChangeTime TIMESTAMP, "
-                                   "ImportTime TIMESTAMP, "
+                                   "Time TEXT, "
+                                   "ChangeTime TEXT, "
+                                   "ImportTime TEXT, "
                                    "FileType INTEGER)"))) {
             qDebug() << m_query->lastError();
         }
@@ -1314,9 +1315,14 @@ void DBManager::checkDatabase()
     }
 
     //创建索引以加速
-    m_query->exec("CREATE INDEX IF NOT EXISTS album_hash_index ON AlbumTable3 (PathHash)");
-    m_query->exec("CREATE INDEX IF NOT EXISTS image_hash_index ON ImageTable3 (PathHash)");
-    m_query->exec("CREATE INDEX IF NOT EXISTS trash_hash_index ON TrashTable3 (PathHash)");
+    if (!m_query->exec("CREATE INDEX IF NOT EXISTS album_hash_index ON AlbumTable3 (PathHash)")) {
+    }
+
+    if (!m_query->exec("CREATE INDEX IF NOT EXISTS image_hash_index ON ImageTable3 (PathHash)")) {
+    }
+
+    if (!m_query->exec("CREATE INDEX IF NOT EXISTS trash_hash_index ON TrashTable3 (PathHash)")) {
+    }
 
     //新版删除需求的数据表策略
     //1.沿用老版的TrashTable3表，不做任何改变
@@ -1328,6 +1334,17 @@ void DBManager::checkDatabase()
     QDir deleteCacheDir(albumGlobal::DELETE_PATH);
     if (!deleteCacheDir.exists()) {
         deleteCacheDir.mkpath(albumGlobal::DELETE_PATH);
+    }
+
+    //检查时间数据，以相册版本表为准
+    if (!m_query->exec("SELECT * FROM AlbumVersion")) {
+        //创建表
+        if (!m_query->exec("CREATE TABLE AlbumVersion (version TEXT primary key)")) {
+        }
+        if (!m_query->exec("INSERT INTO AlbumVersion (version) VALUES (\"5.9\")")) {
+        }
+        checkTimeColumn("ImageTable3");
+        checkTimeColumn("TrashTable3");
     }
 
     //每次启动后释放一次文件空间，防止占用过多无效空间
@@ -1351,6 +1368,36 @@ void DBManager::checkDatabase()
             }
         });
         watcher.waitForFinished();
+    }
+}
+
+void DBManager::checkTimeColumn(const QString &tableName)
+{
+    //检查并切换所有时间数据
+    if (m_query->exec(QString("SELECT Time, ChangeTime, ImportTime, PathHash FROM %1").arg(tableName))) {
+        std::vector<std::tuple<QString, QDateTime, QDateTime, QDateTime>> needUpdate;
+        while (m_query->next()) {
+            auto time = utils::base::analyzeDateTime(m_query->value(0));
+            auto changeTime = utils::base::analyzeDateTime(m_query->value(1));
+            auto importTime = utils::base::analyzeDateTime(m_query->value(2));
+            if (time.second || changeTime.second || importTime.second) {
+                needUpdate.push_back(std::make_tuple(m_query->value(3).toString(), time.first, changeTime.first, importTime.first));
+            }
+        }
+        if (!needUpdate.empty()) {
+            m_query->exec("BEGIN IMMEDIATE TRANSACTION");
+
+            for (const auto &eachData : needUpdate) {
+                m_query->prepare("UPDATE ImageTable3 SET Time = :t, ChangeTime = :ct, ImportTime = :it WHERE PathHash = :ph");
+                m_query->bindValue(":t", std::get<1>(eachData));
+                m_query->bindValue(":ct", std::get<2>(eachData));
+                m_query->bindValue(":it", std::get<3>(eachData));
+                m_query->bindValue(":ph", std::get<0>(eachData));
+                m_query->exec();
+            }
+
+            m_query->exec("COMMIT");
+        }
     }
 }
 

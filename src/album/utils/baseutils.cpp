@@ -85,6 +85,23 @@ QDateTime stringToDateTime(const QString &time)
     return dt;
 }
 
+//这个东西主要用于兼容老版本数据库的时间表示
+//first: 时间值 secend: 是否需要升级
+std::pair<QDateTime, bool> analyzeDateTime(const QVariant &data)
+{
+    QDateTime result = data.toDateTime();
+    bool needUpdate = false;
+    if (!result.isValid()) {
+        needUpdate = true;
+        auto str = data.toString();
+        result.fromString(str, DATETIME_FORMAT_DATABASE);
+        if (!result.isValid()) {
+            result = stringToDateTime(str);
+        }
+    }
+    return std::make_pair(result, needUpdate);
+}
+
 void showInFileManager(const QString &path)
 {
     if (path.isEmpty() || !QFile::exists(path)) {

@@ -368,9 +368,7 @@ void AlbumView::onCreateNewAlbumFromDialog(const QString &newalbumname, int UID)
                 }
             }
         }
-        if (index == 0) { //如果没有搜索到，则表示没有非AutoImport的项，直接插入到末尾
-            index = m_pLeftListView->m_pCustomizeListView->count();
-        }
+        //如果没有搜索到，则表示没有非AutoImport的项，此时index保持为0，直接插入到第一个
     } else { //如果不是AutoImport，直接插入到末尾
         index = m_pLeftListView->m_pCustomizeListView->count();
     }
