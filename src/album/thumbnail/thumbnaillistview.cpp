@@ -1670,7 +1670,7 @@ bool ThumbnailListView::isAllSelectedSupportRotate()
     }
     bool isAllSelectedSupportRotate = true;
     for (const auto &path : list) {
-        if (!UnionImage_NameSpace::isImageSupportRotate(path)) { //只要有一个不能转，就都不能转
+        if (!(UnionImage_NameSpace::isImageSupportRotate(path) && QFileInfo(path).isReadable() && QFileInfo(path).isWritable())) { //只要有一个不能转，就都不能转
             isAllSelectedSupportRotate = false;
             break;
         }
