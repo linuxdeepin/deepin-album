@@ -41,11 +41,10 @@
 
 enum {MASK = IN_MODIFY | IN_CREATE | IN_DELETE};
 
-FileInotify::FileInotify(QObject *parent): QObject(parent)
+FileInotify::FileInotify(QObject *parent)
+    : QObject(parent)
+    , m_Supported(UnionImage_NameSpace::unionImageSupportFormat() + utils::base::m_videoFiletypes) //图片+视频
 {
-    m_Supported = UnionImage_NameSpace::unionImageSupportFormat(); //图片
-    m_Supported.append(utils::base::m_videoFiletypes); //视频
-
     for (auto &eachData : m_Supported) {
         eachData = eachData.toUpper();
     }

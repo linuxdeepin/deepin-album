@@ -110,7 +110,7 @@ void ImageEngineApi::sltImageFilesImported(void *imgobject, QStringList &filelis
 
 bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType, bool isFirst)
 {
-    if (dbType != AutoImport || (dbType == AutoImport && isFirst)) {
+    if (dbType != AutoImport || isFirst) {
         emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
     }
 
@@ -127,7 +127,7 @@ bool ImageEngineApi::ImportImagesFromUrlList(QList<QUrl> files, const QString &a
 
 bool ImageEngineApi::ImportImagesFromFileList(QStringList files, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType, bool isFirst)
 {
-    if (dbType != AutoImport || (dbType == AutoImport && isFirst)) {
+    if (dbType != AutoImport || isFirst) {
         emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
     }
 

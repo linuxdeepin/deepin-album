@@ -63,7 +63,7 @@ private:
     bool m_bdialogselect = false;
     DataType m_type = DataType_NULL;
     QStringList m_videoSupportType;
-    bool m_isFirst;
+    bool m_isFirst = false;
 };
 
 class ImageRecoveryImagesFromTrashThread : public ImageEngineThreadObject

@@ -162,9 +162,10 @@ QImage ImageDataService::getThumnailImageByPathRealTime(const QString &path, boo
     return QImage();
 }
 
-ReadThumbnailManager::ReadThumbnailManager(QObject *parent) : QObject (parent)
+ReadThumbnailManager::ReadThumbnailManager(QObject *parent)
+    : QObject (parent)
+    , runningFlag(false)
 {
-    runningFlag = false;
 }
 
 void ReadThumbnailManager::addLoadPath(const QString &path)

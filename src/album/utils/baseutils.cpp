@@ -94,7 +94,7 @@ std::pair<QDateTime, bool> analyzeDateTime(const QVariant &data)
     if (!result.isValid()) {
         needUpdate = true;
         auto str = data.toString();
-        result.fromString(str, DATETIME_FORMAT_DATABASE);
+        result = QDateTime::fromString(str, DATETIME_FORMAT_DATABASE);
         if (!result.isValid()) {
             result = stringToDateTime(str);
         }

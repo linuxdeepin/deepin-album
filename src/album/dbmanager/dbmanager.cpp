@@ -1385,18 +1385,22 @@ void DBManager::checkTimeColumn(const QString &tableName)
             }
         }
         if (!needUpdate.empty()) {
-            m_query->exec("BEGIN IMMEDIATE TRANSACTION");
+            if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
+            }
 
             for (const auto &eachData : needUpdate) {
-                m_query->prepare("UPDATE ImageTable3 SET Time = :t, ChangeTime = :ct, ImportTime = :it WHERE PathHash = :ph");
+                if (!m_query->prepare("UPDATE ImageTable3 SET Time = :t, ChangeTime = :ct, ImportTime = :it WHERE PathHash = :ph")) {
+                }
                 m_query->bindValue(":t", std::get<1>(eachData));
                 m_query->bindValue(":ct", std::get<2>(eachData));
                 m_query->bindValue(":it", std::get<3>(eachData));
                 m_query->bindValue(":ph", std::get<0>(eachData));
-                m_query->exec();
+                if (m_query->exec()) {
+                }
             }
 
-            m_query->exec("COMMIT");
+            if (m_query->exec("COMMIT")) {
+            }
         }
     }
 }
