@@ -89,17 +89,16 @@ QDateTime stringToDateTime(const QString &time)
 //first: 时间值 secend: 是否需要升级
 std::pair<QDateTime, bool> analyzeDateTime(const QVariant &data)
 {
-    QDateTime result = data.toDateTime();
-    bool needUpdate = false;
+    auto str = data.toString();
+    QDateTime result = QDateTime::fromString(str, DATETIME_FORMAT_DATABASE);
     if (!result.isValid()) {
-        needUpdate = true;
-        auto str = data.toString();
-        result = QDateTime::fromString(str, DATETIME_FORMAT_DATABASE);
-        if (!result.isValid()) {
-            result = stringToDateTime(str);
-        }
+        result = stringToDateTime(str);
     }
-    return std::make_pair(result, needUpdate);
+    if (result.isValid()) {
+        return std::make_pair(result, true);
+    } else {
+        return std::make_pair(data.toDateTime(), false);
+    }
 }
 
 void showInFileManager(const QString &path)
