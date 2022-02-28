@@ -357,7 +357,6 @@ void AlbumView::onCreateNewAlbumFromDialog(const QString &newalbumname, int UID)
     //需要对UID进行判断，如果是自动导入的UID，需要和其它自动导入的项挨着
     int index = -1;
     if (DBManager::instance()->getAlbumDBTypeFromUID(UID) == AutoImport) {
-        index = 0;
         for (int i = 0; i < m_pLeftListView->m_pCustomizeListView->count(); i++) { //尝试搜索第一个非AutoImport的位置
             auto item = m_pLeftListView->m_pCustomizeListView->item(i);
             auto pTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pCustomizeListView->itemWidget(item));
@@ -368,7 +367,10 @@ void AlbumView::onCreateNewAlbumFromDialog(const QString &newalbumname, int UID)
                 }
             }
         }
-        //如果没有搜索到，则表示没有非AutoImport的项，此时index保持为0，直接插入到第一个
+        //如果没有搜索到，则表示没有非AutoImport的项，此时直接插入到最后
+        if (index == -1) {
+            index = m_pLeftListView->m_pCustomizeListView->count();
+        }
     } else { //如果不是AutoImport，直接插入到末尾
         index = m_pLeftListView->m_pCustomizeListView->count();
     }

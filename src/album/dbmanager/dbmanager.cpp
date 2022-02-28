@@ -940,7 +940,13 @@ bool DBManager::checkCustomAutoImportPathIsNotified(const QString &path)
     auto pathsList = std::get<0>(defaultPath);
     for (auto &eachPath : pathsList) {
         if (path.startsWith(eachPath) || eachPath.startsWith(path)) {
-            return true;
+            if (path.size() > eachPath.size() && path.at(eachPath.size()) == '/') {
+                return true;
+            } else if (eachPath.size() > path.size() && eachPath.at(path.size()) == '/') {
+                return true;
+            } else if (eachPath.size() == path.size()) {
+                return true;
+            }
         }
     }
 
@@ -952,9 +958,15 @@ bool DBManager::checkCustomAutoImportPathIsNotified(const QString &path)
     }
 
     while (m_query->next()) {
-        auto currentPath = m_query->value(0).toString();
-        if (path.startsWith(currentPath) || currentPath.startsWith(path)) {
-            return true;
+        auto eachPath = m_query->value(0).toString();
+        if (path.startsWith(eachPath) || eachPath.startsWith(path)) {
+            if (path.size() > eachPath.size() && path.at(eachPath.size()) == '/') {
+                return true;
+            } else if (eachPath.size() > path.size() && eachPath.at(path.size()) == '/') {
+                return true;
+            } else if (eachPath.size() == path.size()) {
+                return true;
+            }
         }
     }
 
