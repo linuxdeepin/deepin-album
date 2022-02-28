@@ -438,8 +438,6 @@ void LeftListView::onMenuClicked(QAction *action)
             if (dbType == AutoImport) { //自动导入删除步骤
                 DBManager::instance()->removeCustomAutoImportPath(pTabItem->m_UID);
             } else { //常规相册删除步骤
-                QStringList paths = DBManager::instance()->getPathsByAlbum(pTabItem->m_UID);
-                ImageEngineApi::instance()->moveImagesToTrash(paths);
                 DBManager::instance()->removeAlbum(pTabItem->m_UID);
             }
 

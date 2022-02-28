@@ -1271,9 +1271,13 @@ void AlbumView::onKeyDelete()
             m_deleteDialog = new AlbumDeleteDialog;
             connect(m_deleteDialog, &AlbumDeleteDialog::deleteAlbum, this, [ = ]() {
                 QString str = pTabItem->m_albumNameStr;
-                QStringList album_paths = DBManager::instance()->getPathsByAlbum(pTabItem->m_UID);
-                ImageEngineApi::instance()->moveImagesToTrash(album_paths);
-                DBManager::instance()->removeAlbum(pTabItem->m_UID);
+                auto dbType = DBManager::instance()->getAlbumDBTypeFromUID(pTabItem->m_UID);
+
+                if (dbType == AutoImport) { //自动导入删除步骤
+                    DBManager::instance()->removeCustomAutoImportPath(pTabItem->m_UID);
+                } else { //常规相册删除步骤
+                    DBManager::instance()->removeAlbum(pTabItem->m_UID);
+                }
 
                 if (m_pLeftListView->m_pCustomizeListView->count() > 1) {
                     delete item;
