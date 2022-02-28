@@ -1518,17 +1518,17 @@ void ThumbnailListView::selectPhotos(const QStringList &paths)
         for (int i = 0; i < m_model->rowCount(); i++) {
             QModelIndex index = m_model->index(i, 0);
             DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
-            for (int j = 0; j < paths.count(); j++) {
-                if (info.filePath == paths.at(j)) {
-                    // 选中
-                    selectionModel()->select(index, QItemSelectionModel::Select);
-                    if (!firstIndex.isValid()) {
-                        firstIndex = index;
-                    }
+
+            if (paths.contains(info.filePath)) {
+                // 选中
+                selectionModel()->select(index, QItemSelectionModel::Select); //主要耗时点，移除后这个循环3W图只需要5秒
+                if (!firstIndex.isValid()) {
+                    firstIndex = index;
                 }
             }
         }
     }
+
     // 定位第一个重复导入的照片
     if (firstIndex.isValid()) {
         this->scrollTo(firstIndex, ScrollHint::PositionAtCenter);
