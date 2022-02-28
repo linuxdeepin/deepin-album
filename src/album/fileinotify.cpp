@@ -130,7 +130,7 @@ void FileInotify::getAllPicture(bool isFirst)
     }
 
     if (m_currentDirs.isEmpty()) { //文件夹被删除，清理数据库
-        DBManager::instance()->removeAlbum(m_currentUID);
+        DBManager::instance()->removeCustomAutoImportPath(m_currentUID);
         m_deleteFile = DBManager::instance()->getPathsByAlbum(m_currentUID);
         m_newFile.clear();
         emit pathDestroyed(m_currentUID);

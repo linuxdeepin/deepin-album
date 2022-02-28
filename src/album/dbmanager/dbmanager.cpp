@@ -488,7 +488,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(int UID, bool needTimeData) const
         bool b = m_query->prepare(QString("SELECT DISTINCT i.FilePath, i.FileType, i.Time, i.ChangeTime, i.ImportTime "
                                           "FROM ImageTable3 AS i, AlbumTable3 AS a "
                                           "WHERE i.PathHash=a.PathHash "
-                                          "AND a.UID=:UID ").arg(UID));
+                                          "AND a.UID=:UID ORDER BY Time DESC").arg(UID));
         if (!b || ! m_query->exec()) {
         } else {
             while (m_query->next()) {
@@ -505,7 +505,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(int UID, bool needTimeData) const
         bool b = m_query->prepare(QString("SELECT DISTINCT i.FilePath, i.FileType "
                                           "FROM ImageTable3 AS i, AlbumTable3 AS a "
                                           "WHERE i.PathHash=a.PathHash "
-                                          "AND a.UID=%1").arg(UID));
+                                          "AND a.UID=%1 ORDER BY Time DESC").arg(UID));
         if (!b || ! m_query->exec()) {
         } else {
             while (m_query->next()) {
@@ -1006,6 +1006,19 @@ void DBManager::removeCustomAutoImportPath(int UID)
     }
 
     //1.删除图片
+
+    //1.1查询要删除的图片的路径，后面用于通知上层UI进行改变
+    QStringList paths;
+    if (!m_query->prepare("SELECT FilePath FROM ImageTable3 WHERE PathHash=:hash")) {
+    }
+    for (auto &eachHash : hashs) {
+        m_query->bindValue(":hash", eachHash);
+        if (!m_query->exec() || !m_query->next()) {
+        }
+        paths.push_back(m_query->value(0).toString());
+    }
+
+    //1.2执行删除
     if (!m_query->prepare("DELETE FROM ImageTable3 WHERE PathHash=:hash")) {
     }
     for (auto &eachHash : hashs) {
@@ -1037,6 +1050,7 @@ void DBManager::removeCustomAutoImportPath(int UID)
     //发送信号通知上层
     mutex.unlock();
     emit dApp->signalM->imagesRemoved();
+    emit dApp->signalM->imagesRemovedPar(paths);
 }
 
 std::map<int, QString> DBManager::getAllCustomAutoImportUIDAndPath()
@@ -1410,9 +1424,7 @@ void DBManager::insertSpUID(const QString &albumName, AlbumDBType astype, SpUID 
     //0.路径不存在，BUG#111917，只检查默认路径，不要把收藏也搞进来了，否则会导致后续收藏失败
     if (UID != u_Favorite && !defaultNotifyPathExists(UID)) {
         //路径不存在则删除已有的相册
-        if (!m_query->exec(QString("DELETE FROM AlbumTable3 WHERE UID=%1").arg(UID))) {
-        }
-
+        removeCustomAutoImportPath(UID);
         return;
     }
 
