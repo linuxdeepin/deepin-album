@@ -32,6 +32,7 @@
 #include <QPropertyAnimation>
 #include <QDesktopServices>
 #include <QProcess>
+#include <QElapsedTimer>
 
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
@@ -1513,18 +1514,25 @@ void ThumbnailListView::selectPhotos(const QStringList &paths)
                    m_batchOperateWidget, &BatchOperateWidget::sltSelectionChanged);
     }
     QModelIndex firstIndex;
+
     if (!paths.isEmpty()) {
         this->clearSelection();
+        QElapsedTimer timer_4s;
+        timer_4s.start();
         for (int i = 0; i < m_model->rowCount(); i++) {
             QModelIndex index = m_model->index(i, 0);
             DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
 
             if (paths.contains(info.filePath)) {
                 // 选中
-                selectionModel()->select(index, QItemSelectionModel::Select); //主要耗时点，移除后这个循环3W图只需要5秒
+                selectionModel()->select(index, QItemSelectionModel::Select); //主要耗时点
                 if (!firstIndex.isValid()) {
                     firstIndex = index;
                 }
+            }
+
+            if (timer_4s.elapsed() > 4000) { //只给4秒时间，能选多少选多少
+                break;
             }
         }
     }
