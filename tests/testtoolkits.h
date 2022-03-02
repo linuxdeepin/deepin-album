@@ -60,6 +60,9 @@ QMenu *runContextMenu(QWidget *w, const QPoint &pos);
 //执行动作
 void runActionFromMenu(QMenu *menu, const QString &actionName);
 
+//检查数据库
+bool checkIfInAlbum(const QString &path, int UID);
+
 //获取指针背后的数据类型（即从T*中把T提出来）
 template <typename T>
 struct PointerTypeGetter {

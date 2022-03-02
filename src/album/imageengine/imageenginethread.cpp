@@ -300,7 +300,7 @@ void ImportImagesThread::runDetail()
 
         QStringList pathlistImport;
         for (auto &dbInfo : dbInfos) {
-            if (!DBManager::instance()->isImgExistInAlbum(m_UID, dbInfo.filePath, m_dbType))
+            if (!DBManager::instance()->isImgExistInAlbum(m_UID, dbInfo.filePath))
                 pathlistImport << dbInfo.filePath;
         }
         //导入相册数据库AlbumTable3

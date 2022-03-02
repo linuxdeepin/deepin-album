@@ -690,7 +690,7 @@ void ThumbnailListView::updateMenuContents()
 #ifndef tablet_PC
             m_MenuActionMap.value(tr("Print"))->setVisible(false);
 #endif
-            if (DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, paths[0], AlbumDBType::Favourite)) {
+            if (DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, paths[0])) {
                 m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
                 m_MenuActionMap.value(tr("Unfavorite"))->setEnabled(false);
             } else {
@@ -747,7 +747,7 @@ void ThumbnailListView::updateMenuContents()
 
     //非最近删除的单选
     if (1 == paths.length() && COMMON_STR_TRASH != m_imageType) {
-        if (DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, paths[0], AlbumDBType::Favourite)) {
+        if (DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, paths[0])) {
             m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
         } else {
             m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);

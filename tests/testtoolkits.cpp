@@ -250,6 +250,12 @@ void runActionFromMenu(QMenu *menu, const QString &actionName)
     }
 }
 
+bool checkIfInAlbum(const QString &path, int UID)
+{
+    QTest::qWait(1000); //调用的时候主动等待环境稳定
+    return DBManager::instance()->isImgExistInAlbum(UID, path);
+}
+
 asynchronousObject::asynchronousObject(QObject *parent): QObject(parent)
 {
 

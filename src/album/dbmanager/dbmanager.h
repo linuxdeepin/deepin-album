@@ -132,7 +132,7 @@ public:
     QString                 getAlbumNameFromUID(int UID) const;
     AlbumDBType             getAlbumDBTypeFromUID(int UID) const;
     bool                    isAllImgExistInAlbum(int UID, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom) const;
-    bool                    isImgExistInAlbum(int UID, const QString &path, AlbumDBType atype = AlbumDBType::Custom) const;
+    bool                    isImgExistInAlbum(int UID, const QString &path) const;
     bool                    insertIntoAlbum(int UID, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
     int                     createAlbum(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
     void                    removeAlbum(int UID);

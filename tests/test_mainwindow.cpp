@@ -321,6 +321,8 @@ TEST(MainWindow, allpicture)
     //------右键菜单start---------
     QTestEventList e;
     auto menu = runContextMenu(allpicview->m_pThumbnailListView->viewport(), p1);
+    auto picIndex = allpicview->m_pThumbnailListView->indexAt(p1);
+    auto path = picIndex.data(Qt::DisplayRole).value<DBImgInfo>().filePath;
     using TR_SUBORDINATE_t = PointerTypeGetter < decltype(allpicview->m_pThumbnailListView) >::type;
 
     //全屏
@@ -384,6 +386,7 @@ TEST(MainWindow, allpicture)
 
     //收藏9
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Favorite"));
+    ASSERT_EQ(checkIfInAlbum(path, DBManager::u_Favorite), true);
 
     //顺时针10
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Rotate clockwise"));
@@ -531,6 +534,8 @@ TEST(MainWindow, timelineview)
         QTest::qWait(300);
 
         auto menu = runContextMenu(timelineview->getThumbnailListView()->viewport(), pr);
+        auto index = timelineview->getThumbnailListView()->indexAt(pr);
+        auto path = index.data(Qt::DisplayRole).value<DBImgInfo>().filePath;
         using TR_SUBORDINATE_t = PointerTypeGetter < decltype(timelineview->getThumbnailListView()) >::type;
 
         //全屏
@@ -557,6 +562,7 @@ TEST(MainWindow, timelineview)
         e.simulate(timelineview->getThumbnailListView()->viewport());
         e.clear();
         runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Favorite"));
+        ASSERT_EQ(checkIfInAlbum(path, DBManager::u_Favorite), true);
         //顺时针10
         e.addMouseClick(Qt::MouseButton::LeftButton, Qt::NoModifier, pr, 50);
         e.simulate(timelineview->getThumbnailListView()->viewport());
@@ -690,6 +696,8 @@ TEST(MainWindow, AlbumView)
 
     //------右键菜单start---------
     auto menu = runContextMenu(firstThumb->viewport(), p1);
+    auto index = firstThumb->indexAt(p1);
+    auto path = index.data(Qt::DisplayRole).value<DBImgInfo>().filePath;
     using TR_SUBORDINATE_t = PointerTypeGetter < decltype(firstThumb) >::type;
 
     //全屏
@@ -710,6 +718,7 @@ TEST(MainWindow, AlbumView)
 
     //收藏9
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Favorite"));
+    ASSERT_EQ(checkIfInAlbum(path, DBManager::u_Favorite), false);
 
     //顺时针10
     runActionFromMenu(menu, TR_SUBORDINATE_t::tr("Rotate clockwise"));
@@ -881,6 +890,8 @@ TEST(MainWindow, favorite)
     QTest::qWait(200);
 
     auto menu3 = runContextMenu(t1->viewport(), p1);
+    auto index = t1->indexAt(p1);
+    auto path = index.data(Qt::DisplayRole).value<DBImgInfo>().filePath;
 
     //设为壁纸12
     runActionFromMenu(menu3, TR_SUBORDINATE_t::tr("Set as wallpaper"));
@@ -898,6 +909,7 @@ TEST(MainWindow, favorite)
 
     //收藏9
     runActionFromMenu(menu3, TR_SUBORDINATE_t::tr("Favorite"));
+    ASSERT_EQ(checkIfInAlbum(path, DBManager::u_Favorite), false);
 
     ASSERT_TRUE(w->m_pAlbumview != nullptr);
 }

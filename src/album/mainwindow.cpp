@@ -1405,7 +1405,7 @@ void MainWindow::updateCollectButton()
     if (path.isEmpty()) {
         return;
     }
-    if (DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, path, AlbumDBType::Favourite)) {
+    if (DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, path)) {
         m_collect->setToolTip(tr("Unfavorite"));
         m_collect->setIcon(QIcon::fromTheme("dcc_ccollection"));
         m_collect->setIconSize(QSize(36, 36));
@@ -1483,7 +1483,7 @@ void MainWindow::onAddToAlbum(bool isNew, int UID, const QString &path)
 void MainWindow::onAddOrRemoveToFav(const QString &path, bool isAdd)
 {
     Q_UNUSED(isAdd)
-    if (!DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, path, AlbumDBType::Favourite)) {//收藏
+    if (!DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, path)) {//收藏
         DBManager::instance()->insertIntoAlbum(DBManager::SpUID::u_Favorite, QStringList(path), AlbumDBType::Favourite);
         emit dApp->signalM->insertedIntoAlbum(DBManager::SpUID::u_Favorite, QStringList(path));
     } else { //取消收藏
@@ -1634,7 +1634,7 @@ void MainWindow::onCollectButtonClicked()
     if (path.isEmpty()) {
         return;
     }
-    if (DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, path, AlbumDBType::Favourite)) {
+    if (DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, path)) {
         DBManager::instance()->removeFromAlbum(DBManager::SpUID::u_Favorite, QStringList(path), AlbumDBType::Favourite);
         m_collect->setToolTip(tr("Favorite"));
         m_collect->setIcon(QIcon::fromTheme("dcc_collection_normal"));
@@ -2478,7 +2478,7 @@ void MainWindow::onSendAlbumName(const QString &path)
         }
     }
     bool isFav = false;
-    if (DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, path, AlbumDBType::Favourite)) {
+    if (DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, path)) {
         isFav = true;
     }
 

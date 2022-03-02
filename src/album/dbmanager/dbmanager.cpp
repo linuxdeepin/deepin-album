@@ -582,19 +582,17 @@ bool DBManager::isAllImgExistInAlbum(int UID, const QStringList &paths, AlbumDBT
     }
 }
 
-bool DBManager::isImgExistInAlbum(int UID, const QString &path, AlbumDBType atype) const
+bool DBManager::isImgExistInAlbum(int UID, const QString &path) const
 {
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     bool b = m_query->prepare("SELECT COUNT(*) FROM AlbumTable3 WHERE PathHash = :hash "
-                              "AND UID = :UID "
-                              "AND AlbumDBType =:atype ");
+                              "AND UID = :UID ");
     if (!b) {
         return false;
     }
     m_query->bindValue(":hash", utils::base::hashByString(path));
     m_query->bindValue(":UID", UID);
-    m_query->bindValue(":atype", atype);
     if (m_query->exec()) {
         m_query->first();
         return (m_query->value(0).toInt() == 1);
