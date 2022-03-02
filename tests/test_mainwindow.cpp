@@ -66,6 +66,9 @@ TEST(MainWindow, noPicTab)
         ASSERT_FALSE(batch->isVisible());
     }
 
+    //初始状态校验起始UID
+    ASSERT_EQ(DBManager::instance()->albumMaxUID >= DBManager::u_CustomStart, true);
+
     QTestEventList e;
     e.addMouseClick(Qt::MouseButton::LeftButton);
     e.simulate(w->getButG()->button(1));
