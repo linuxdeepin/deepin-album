@@ -2061,12 +2061,6 @@ void MainWindow::setTitleBarHideden(bool hide)
     }
 }
 
-void MainWindow::closeFromMenu()
-{
-    //这个函数是从overrideVfptrFun进来的，要指定obj对象
-    instance().close();
-}
-
 void MainWindow::onButtonClicked(int id)
 {
     if (0 == id) {

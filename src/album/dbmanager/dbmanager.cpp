@@ -1254,16 +1254,10 @@ void DBManager::checkDatabase()
             nameList.push_back(currentName);
         }
 
-        //3.插入特殊UID字段
-        insertSpUID("Favorite", Favourite, u_Favorite);
-        insertSpUID("Screen Capture", AutoImport, u_ScreenCapture);//使用album name的SQL语句注意加冒号
-        insertSpUID("Camera", AutoImport, u_Camera);
-        insertSpUID("Draw", AutoImport, u_Draw);
-
-        //4.初始化max uid
+        //3.初始化max uid
         albumMaxUID = u_CustomStart;
 
-        //5.写入数据库
+        //4.写入数据库
         for (auto &currentName : nameList) {
             if (!m_query->exec(QString("UPDATE AlbumTable3 SET UID = %1 WHERE AlbumName = \"%2\"").arg(albumMaxUID++).arg(currentName))) {
                 qDebug() << "update AlbumTable3 UID failed";
@@ -1273,13 +1267,13 @@ void DBManager::checkDatabase()
         uidIsInited = true;
     }
 
-    if (!uidIsInited) {
-        //预先插入特殊UID
-        insertSpUID("Favorite", Favourite, u_Favorite);
-        insertSpUID("Screen Capture", AutoImport, u_ScreenCapture);//使用album name的SQL语句注意加冒号
-        insertSpUID("Camera", AutoImport, u_Camera);
-        insertSpUID("Draw", AutoImport, u_Draw);
+    //插入特殊UID
+    insertSpUID("Favorite", Favourite, u_Favorite);
+    insertSpUID("Screen Capture", AutoImport, u_ScreenCapture);//使用album name的SQL语句注意加冒号
+    insertSpUID("Camera", AutoImport, u_Camera);
+    insertSpUID("Draw", AutoImport, u_Draw);
 
+    if (!uidIsInited) {
         //搜索当前最大ID值
         if (!m_query->exec("SELECT max(UID) FROM AlbumTable3") || !m_query->next()) {
             albumMaxUID = u_CustomStart; //没找到

@@ -111,6 +111,21 @@ void ImageLoader::updateImageLoader(const QStringList &pathlist, const QList<QIm
     emit dApp->signalM->sigUpdateImageLoader(pathlist);
 }
 
+CustomDApplication::CustomDApplication(int &argc, char *argv[])
+    : DApplication(argc, argv)
+{
+}
+
+void CustomDApplication::handleQuitAction()
+{
+    window->close();
+}
+
+void CustomDApplication::setMainWindow(MainWindow *newWindow)
+{
+    window = newWindow;
+}
+
 DApplication *Application::dAppNew = nullptr;
 Application *Application::dApp1 = nullptr;
 Application::Application()

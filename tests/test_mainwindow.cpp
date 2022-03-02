@@ -1423,20 +1423,6 @@ TEST(MainWindow, wheelEvent)
     w->wheelEvent(&event_3);
 }
 
-//从菜单关闭
-TEST(MainWindow, closeFromMenu)
-{
-    TEST_CASE_NAME("closeFromMenu")
-
-    MainWindow *w = dApp->getMainWindow();
-    stub_ext::StubExt stu;
-
-    //这里需要干掉instance，否则测试结束进行清理的时候会崩
-    stu.set_lamda(&MainWindow::instance, [w]() -> MainWindow& {
-        return *w;
-    });
-}
-
 //搜索框
 TEST(MainWindow, onSearchEditIsDisplay)
 {

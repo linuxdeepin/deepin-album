@@ -58,11 +58,13 @@ int main(int argc, char *argv[])
         setenv("XDG_CURRENT_DESKTOP", "Deepin", 1);
     }
 
-#if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
-    DApplication *dAppNew = new DApplication(argc, argv);
-#else
-    DApplication *dAppNew = DApplication::globalApplication(argc, argv);
-#endif
+    /*#if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
+        DApplication *dAppNew = new DApplication(argc, argv);
+    #else
+        DApplication *dAppNew = DApplication::globalApplication(argc, argv);
+    #endif*/
+
+    CustomDApplication *dAppNew = new CustomDApplication(argc, argv);
 
 #ifdef ENABLE_ACCESSIBILITY
 #endif
@@ -166,9 +168,10 @@ int main(int argc, char *argv[])
     // 加载第一屏图片
     qDebug() << "------" << __FUNCTION__ << "" << QThread::currentThreadId();
     ImageEngineApi::instance()->loadFirstPageThumbnails(number);
-    auto &w = MainWindow::instance(); //修改为从单例获取
+    MainWindow w;
     dApp->setMainWindow(&w);
     w.show();
+    dAppNew->setMainWindow(&w);
     Dtk::Widget::moveToCenter(&w);
 
 //#if (DTK_VERSION >= DTK_VERSION_CHECK(5, 5, 0, 0))
@@ -177,12 +180,6 @@ int main(int argc, char *argv[])
 
     if (bneedexit)
         bfirstopen = false;
-
-    //警告：这个函数只会将&DApplication::handleQuitAction的地址替换为&MainWindow::closeFromMenu
-    //     并不会将dAppNew.get()和&w两个实体变量绑定上去
-    //     因为C++只会为同一个函数生成一份拷贝，实现这个函数的人明显以为每个实体变量都会拥有单独的函数拷贝
-    Dtk::Core::DVtableHook::overrideVfptrFun(dAppNew, &DApplication::handleQuitAction,
-                                             &w, &MainWindow::closeFromMenu);
 
     return dAppNew->exec();
 }

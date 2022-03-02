@@ -64,6 +64,20 @@ private:
 //    QStringList m_pathlisttrash;
 };
 
+//使用DTK推荐的方式实现退出效果，以尝试解决崩溃日志问题
+//由于下方Application中和DApplication的关系是has a，因此直接重新定义一个基于DApplication的类，而不是改造Application
+class CustomDApplication : public DApplication
+{
+public:
+    CustomDApplication(int &argc, char *argv[]);
+    void setMainWindow(MainWindow *newWindow);
+protected:
+    void handleQuitAction() override;
+
+private:
+    MainWindow *window = nullptr;
+};
+
 class Application : public QObject
 {
     Q_OBJECT
