@@ -380,7 +380,20 @@ void LeftListView::showMenu(const QPoint &pos)
         m_MenuActionMap.value(tr("Export"))->setVisible(false);
     }
 
-    m_pMenu->popup(QCursor::pos());
+    bool needShowMenu = false;
+    for (const auto &eachAction : m_MenuActionMap) {
+        if (eachAction->isVisible()) {
+            needShowMenu = true;
+            break;
+        }
+    }
+
+    //菜单里面可能没有内容，强行显示出来会造成BUG
+    if (needShowMenu) {
+        m_pMenu->popup(QCursor::pos());
+    } else {
+        m_pMenu->setVisible(false);
+    }
 }
 
 void LeftListView::onMenuClicked(QAction *action)
