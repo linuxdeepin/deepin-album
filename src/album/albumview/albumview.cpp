@@ -1261,6 +1261,7 @@ void AlbumView::onKeyDelete()
         if (!paths.isEmpty()) {
             m_favoriteThumbnailList->clearSelection();
             DBManager::instance()->removeFromAlbum(DBManager::SpUID::u_Favorite, paths, AlbumDBType::Favourite);
+            bMoveToTrash = true;
         }
     } else if (COMMON_STR_CUSTOM == m_currentType) {
         paths = m_customThumbnailList->selectedPaths();

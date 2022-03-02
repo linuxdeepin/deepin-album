@@ -47,7 +47,7 @@
 const QString DATETIME_FORMAT_DATABASE = "yyyy.MM.dd hh:mm";
 
 enum AlbumDBType {
-    Favourite,
+    Favourite = 0,
     Custom,
     AutoImport,
     TypeCount
