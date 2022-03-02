@@ -669,7 +669,8 @@ void ThumbnailListView::updateMenuContents()
             m_MenuActionMap.value(tr("Fullscreen"))->setEnabled(false);
             m_MenuActionMap.value(tr("Slide show"))->setEnabled(false);
             m_MenuActionMap.value(tr("Export"))->setEnabled(false);
-            m_albumMenu->deleteLater();
+            if (m_albumMenu)
+                m_albumMenu->deleteLater();
             m_albumMenu = createAlbumMenu();
             if (m_albumMenu) {
                 QAction *action = m_MenuActionMap.value(tr("Export"));
@@ -722,10 +723,15 @@ void ThumbnailListView::updateMenuContents()
 #endif
     QFileInfo info(paths[0]);
 
-    if (COMMON_STR_TRASH == m_imageType || !QFileInfo(info.dir(), info.dir().path()).isWritable()) {
+    if (COMMON_STR_TRASH == m_imageType) {
         m_MenuActionMap.value(tr("Delete"))->setVisible(false);
     } else {
-        m_MenuActionMap.value(tr("Delete"))->setVisible(true);
+        if (!QFileInfo(info.dir(), info.dir().path()).isWritable()) {
+            m_MenuActionMap.value(tr("Delete"))->setVisible(false);
+        } else {
+            m_MenuActionMap.value(tr("Delete"))->setVisible(true);
+        }
+
         if (m_albumMenu)
             m_albumMenu->deleteLater();
         m_albumMenu = createAlbumMenu();
@@ -738,6 +744,7 @@ void ThumbnailListView::updateMenuContents()
             m_pMenu->insertMenu(action, m_albumMenu);
         }
     }
+
     //非最近删除的单选
     if (1 == paths.length() && COMMON_STR_TRASH != m_imageType) {
         if (DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, paths[0], AlbumDBType::Favourite)) {
