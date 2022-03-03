@@ -10,6 +10,15 @@ cp -r ./testResource/second/* ${HOME}/second/
 #模拟设备导入时使用
 mkdir -p ${HOME}/dev/
 cp -r ./testResource/dev/* ${HOME}/dev/
+#测试文件监视用
+rm -rf ${HOME}/图片/Screenshots
+cp -r ./testResource/pic/Draw ${HOME}/图片/Screenshots
+rm -rf ${HOME}/Pictures/Screenshots
+cp -r ./testResource/pic/Draw ${HOME}/Pictures/Screenshots
+rm -rf ${HOME}'/视频/Screen Recordings'
+cp -r ./testResource/pic/Draw ${HOME}'/视频/Screen Recordings'
+rm -rf ${HOME}'/Videos/Screen Recordings'
+cp -r ./testResource/pic/Draw ${HOME}'/Videos/Screen Recordings'
 
 cd ..
 rm -rf ./build-ut

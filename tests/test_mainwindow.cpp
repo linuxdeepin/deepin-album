@@ -1558,7 +1558,23 @@ TEST(MainWindow, monitor)
 {
     TEST_CASE_NAME("monitor")
 
-    //删除一次文件
-    std::system(("rm -rf " + testPath_Pictures + "/Draw/2ejqyx.jpg").toStdString().c_str());
     QTest::qWait(2000);
+
+    auto infosInVideos = utils::image::getImagesAndVideoInfo(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation) + "/Screen Recordings");
+    auto infosInPictures = utils::image::getImagesAndVideoInfo(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/Screenshots");
+
+    auto infosCount = infosInVideos.size() + infosInPictures.size();
+
+    ASSERT_EQ(DBManager::instance()->getAlbumImgsCount(DBManager::u_ScreenCapture), infosCount);
+
+    for (auto &currentInfo : infosInVideos) {
+        QFile currentFile(currentInfo.absoluteFilePath());
+        currentFile.copy(currentInfo.absoluteFilePath() + "." + currentInfo.suffix());
+    }
+
+    QFile::remove(infosInPictures[0].absoluteFilePath());
+
+    QTest::qWait(5000);
+
+    ASSERT_EQ(DBManager::instance()->getAlbumImgsCount(DBManager::u_ScreenCapture), infosCount + infosInVideos.size() - 1);
 }
