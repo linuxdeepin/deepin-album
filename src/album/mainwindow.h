@@ -205,38 +205,38 @@ public slots:
 private:
     int m_iCurrentView;
     bool m_bImport = false;
-    QWidget *m_titleBtnWidget;
-    DMenu *m_pTitleBarMenu;
+    QWidget *m_titleBtnWidget = nullptr;
+    DMenu *m_pTitleBarMenu = nullptr;
     QStackedWidget *m_pCenterWidget = nullptr;
 public:
-    AlbumView *m_pAlbumview;                    //相册照片界面视图
-    QWidget *m_pAlbumWidget;
-    AllPicView *m_pAllPicView;                  //所有照片界面视图
-    TimeLineView *m_pTimeLineView;              //时间线界面视图
-    QWidget *m_pTimeLineWidget;
-    SearchView *m_pSearchView;                  //搜索界面视图
+    AlbumView *m_pAlbumview = nullptr;                    //相册照片界面视图
+    QWidget *m_pAlbumWidget = nullptr;
+    AllPicView *m_pAllPicView = nullptr;                  //所有照片界面视图
+    TimeLineView *m_pTimeLineView = nullptr;              //时间线界面视图
+    QWidget *m_pTimeLineWidget = nullptr;
+    SearchView *m_pSearchView = nullptr;                  //搜索界面视图
     QWidget *m_pSearchViewWidget = nullptr;
-    DSearchEdit *m_pSearchEdit;
+    DSearchEdit *m_pSearchEdit = nullptr;
     ImageViewer *m_imageViewer = nullptr;       //公共库大图预览
     DIconButton *m_back = nullptr;
     DIconButton *m_collect = nullptr;
     DIconButton *m_del = nullptr;
 
 private:
-    int m_backIndex;
-    int m_backIndex_fromFullScreen;
+    int m_backIndex = 0;
+    int m_backIndex_fromFullScreen = 0;
     bool m_needBanShortcutButNotReady = false;
-    int m_pSliderPos;       //滑动条步进
+    int m_pSliderPos = 2;       //滑动条步进
 
-    QButtonGroup *btnGroup;
-    DPushButton *m_pAllPicBtn;
-    DPushButton *m_pTimeBtn;
-    DPushButton *m_pAlbumBtn;
+    QButtonGroup *btnGroup = nullptr;
+    DPushButton *m_pAllPicBtn = nullptr;
+    DPushButton *m_pTimeBtn = nullptr;
+    DPushButton *m_pAlbumBtn = nullptr;
 
-    DDialog  *m_waitdailog;
-    DProgressBar *m_importBar;
-    DLabel *m_waitlabel;
-    DLabel *m_countLabel;
+    DDialog  *m_waitdailog = nullptr;
+    DProgressBar *m_importBar = nullptr;
+    DLabel *m_waitlabel = nullptr;
+    DLabel *m_countLabel = nullptr;
 
     QTimer *m_tdeleteSaveImage = nullptr; //预览delete延时
     DBImgInfoList m_deleteInfo;//删除缓存
@@ -246,7 +246,7 @@ private:
     bool m_isFirstStart = true;
     bool m_processOptionIsEmpty = false;
     bool m_backToMaxWindow = false; //记录全屏前是normal还是max
-    QSettings *m_settings;
+    QSettings *m_settings = nullptr;
     // 所有照片空白界面时的taborder
     QList<QWidget *> m_emptyAllViewTabOrder;
     // 所有照片非空白界面时
@@ -263,9 +263,9 @@ private:
     DIconButton         *m_addImageBtn = nullptr;
 
     //启动看图插件后需要关闭的快捷键
-    QShortcut *m_CtrlUp;
-    QShortcut *m_ReCtrlUp;
-    QShortcut *m_CtrlDown;
+    QShortcut *m_CtrlUp = nullptr;
+    QShortcut *m_ReCtrlUp = nullptr;
+    QShortcut *m_CtrlDown = nullptr;
 
     MainWindow(const MainWindow &) = delete;
     MainWindow operator=(const MainWindow &) = delete;
