@@ -75,7 +75,7 @@ signals:
 public:
     DPushButton *m_pImportBtn;
     QString m_albumname;
-    int m_UID;
+    int m_UID = -1;
     DLabel *pLabel;
     DBImgInfoList m_dbInfos;
     DLabel *pNoteLabel;
