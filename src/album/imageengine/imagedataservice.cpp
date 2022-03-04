@@ -33,6 +33,7 @@
 #include "baseutils.h"
 #include "imageutils.h"
 #include "movieservice.h"
+#include "signalmanager.h"
 
 ImageDataService *ImageDataService::s_ImageDataService = nullptr;
 
@@ -123,6 +124,26 @@ ImageDataService::ImageDataService(QObject *parent) : QObject (parent)
     readThumbnailManager->moveToThread(readThread);
     readThread->start();
     connect(this, &ImageDataService::startImageLoad, readThumbnailManager, &ReadThumbnailManager::readThumbnail);
+    connect(dApp->signalM, &SignalManager::needReflushThumbnail, this, &ImageDataService::onNeedReflushThumbnail, Qt::QueuedConnection);
+}
+
+void ImageDataService::onNeedReflushThumbnail(const QStringList &paths)
+{
+    for (const auto &path : paths) {
+        //1.删除缩略图
+        QString thumbnailPath = utils::base::filePathToThumbnailPath(path);
+        QFile::remove(thumbnailPath);
+
+        //2.加进load队列
+        if (imageIsLoaded(path, false)) {
+            readThumbnailManager->addLoadPath(path);
+        }
+
+        //3.激活加载队列
+        if (!readThumbnailManager->isRunning()) {
+            emit startImageLoad();
+        }
+    }
 }
 
 QImage ImageDataService::getThumnailImageByPathRealTime(const QString &path, bool isTrashFile)
@@ -220,6 +241,10 @@ void ReadThumbnailManager::readThumbnail()
         if (thumbnailFile.exists()) {
             if (!loadStaticImageFromFile(thumbnailPath, tImg, errMsg, "PNG")) {
                 qDebug() << errMsg;
+            } else {
+                if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
+                    qDebug() << errMsg;
+                }
             }
 
             if (utils::base::isVideo(path)) {

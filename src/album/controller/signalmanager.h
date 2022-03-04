@@ -125,6 +125,9 @@ signals:
     //自动导入路径被删除
     void sigMonitorDestroyed(int UID);
 
+    //需要重新加载缩略图
+    void needReflushThumbnail(const QStringList &paths);
+
 private:
     explicit SignalManager(QObject *parent = nullptr);
 

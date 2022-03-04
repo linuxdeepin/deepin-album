@@ -1064,16 +1064,12 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     break;
     case IdRotateClockwise: {
         //发送给子线程旋转图片
-        for (int i = 0; i < paths.size(); i++) {
-            emit ImageEngineApi::instance()->sigRotateImageFile(90, paths.at(i));
-        }
+        emit ImageEngineApi::instance()->sigRotateImageFile(90, paths);
     }
     break;
     case IdRotateCounterclockwise: {
         //发送给子线程旋转图片
-        for (int i = 0; i < paths.size(); i++) {
-            emit ImageEngineApi::instance()->sigRotateImageFile(-90, paths.at(i));
-        }
+        emit ImageEngineApi::instance()->sigRotateImageFile(-90, paths);
     }
     break;
     case IdSetAsWallpaper:

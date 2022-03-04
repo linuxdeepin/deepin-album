@@ -32,6 +32,7 @@
 #include <QSqlQuery>
 #include <QStandardPaths>
 #include <QDirIterator>
+#include <QElapsedTimer>
 
 #include "movieservice.h"
 #include "imagedataservice.h"
@@ -175,17 +176,34 @@ void DBandImgOperate::loadOneImgForce(QString imagepath, bool refresh)
     emit sigOneImgReady(imagepath, pixmap);
 }
 
-void DBandImgOperate::rotateImageFile(int angel, const QString &path)
+void DBandImgOperate::rotateImageFile(int angel, const QStringList &paths)
 {
     QString errMsg;
     //如果角度为0，不选择，重新加载
     if (angel != 0) {
-        if (!UnionImage_NameSpace::rotateImageFile(angel, path, errMsg)) {
-            qDebug() << errMsg;
-            return;
+        QElapsedTimer timer;
+        timer.start();
+        QStringList loadedPaths;
+        int sendCount = 0;
+        for (const auto &eachPath : paths) {
+            if (!UnionImage_NameSpace::rotateImageFile(angel, eachPath, errMsg)) {
+                qDebug() << errMsg;
+            } else {
+                loadedPaths.push_back(eachPath);
+                if (timer.elapsed() > 500) {
+                    timer.restart();
+                    sendCount += loadedPaths.size();
+                    emit dApp->signalM->needReflushThumbnail(loadedPaths);
+                    loadedPaths.clear();
+                }
+            }
         }
-    };
-    loadOneImgForce(path, true);
+        if (sendCount != paths.size()) {
+            QStringList lastNeedReload;
+            std::copy(paths.begin() + sendCount, paths.end(), std::back_inserter(lastNeedReload));
+            emit dApp->signalM->needReflushThumbnail(lastNeedReload);
+        }
+    }
 }
 
 void DBandImgOperate::sltLoadMountFileList(const QString &path)
