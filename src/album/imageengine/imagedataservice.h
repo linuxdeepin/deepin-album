@@ -45,6 +45,9 @@ public:
     void addMovieDurationStr(const QString &path, const QString &durationStr);
     QString getMovieDurationStrByPath(const QString &path);
 
+    void stopFlushThumbnail();
+    void waitFlushThumbnailFinish();
+
 private slots:
 signals:
     void sigeUpdateListview();
@@ -84,6 +87,11 @@ public:
         return runningFlag;
     }
 
+    void stopRead()
+    {
+        stopFlag = true;
+    }
+
 public slots:
     void readThumbnail();
 
@@ -91,6 +99,7 @@ private:
     std::deque<QString> needLoadPath;
     QMutex mutex;
     std::atomic_bool runningFlag;
+    std::atomic_bool stopFlag;
 };
 
 #endif // IMAGEDATASERVICE_H

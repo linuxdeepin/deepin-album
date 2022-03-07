@@ -35,13 +35,14 @@
 #include "imagedataservice.h"
 
 ImageEngineApi *ImageEngineApi::s_ImageEngine = nullptr;
+static std::once_flag imageEngineFlag;
 
 ImageEngineApi *ImageEngineApi::instance(QObject *parent)
 {
-    Q_UNUSED(parent);
-    if (!s_ImageEngine) {
-        s_ImageEngine = new ImageEngineApi();
-    }
+    std::call_once(imageEngineFlag, [parent]() {
+        s_ImageEngine = new ImageEngineApi(parent);
+    });
+
     return s_ImageEngine;
 }
 
@@ -55,6 +56,8 @@ ImageEngineApi::~ImageEngineApi()
 #else
     QThreadPool::globalInstance()->clear();     //清除队列
     QThreadPool::globalInstance()->waitForDone();
+    m_worker->stopRotate();
+    m_worker->waitRotateStop();
 #endif
 }
 
@@ -160,6 +163,16 @@ void ImageEngineApi::loadFirstPageThumbnails(int num)
 
     m_firstPageIsLoaded = true;
     emit sigLoadFirstPageThumbnailsToView();
+}
+
+void ImageEngineApi::stopRotate()
+{
+    m_worker->stopRotate();
+}
+
+void ImageEngineApi::waitRotateStop()
+{
+    m_worker->waitRotateStop();
 }
 
 void ImageEngineApi::thumbnailLoadThread()

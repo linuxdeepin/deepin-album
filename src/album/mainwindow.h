@@ -124,6 +124,7 @@ private:
     void setTitleBarHideden(bool hide);
     void setConflictShortcutEnabled(bool enable);
     bool processOption(QStringList &paslist);
+    void waitImportantProcessBeforeExit();
 protected:
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;

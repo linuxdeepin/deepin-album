@@ -1630,6 +1630,47 @@ QButtonGroup *MainWindow::getButG()
     return (nullptr != static_cast<QButtonGroup *>(btnGroup) ? btnGroup : nullptr);
 }
 
+void MainWindow::waitImportantProcessBeforeExit()
+{
+    //0.展示蒙版阻塞效果
+    auto maskLayer = new QWidget(this);
+    maskLayer->setStyleSheet("background-color: rgba(255, 255, 255, 180);"); //设置颜色及不透明度
+    maskLayer->setFixedSize(this->size()); //设置窗口大小
+    maskLayer->setVisible(true); //显示蒙版
+    this->stackUnder(maskLayer); //将蒙版安装到主窗口
+
+    //0.1 转圈效果
+    constexpr int fixSize = 48;
+    auto spinner = new DSpinner(maskLayer);
+    spinner->setFixedSize(QSize(fixSize, fixSize)); //设置窗口大小
+    spinner->setVisible(true); //显示蒙版
+    maskLayer->stackUnder(spinner); //将转圈安装到蒙版
+    spinner->move((maskLayer->width() - fixSize) / 2, (maskLayer->height() - fixSize) / 2);
+    spinner->start();
+
+    //1.停止正在进行的工作，在次线程进行，保证蒙版效果出来
+
+    std::atomic_bool canExit;
+    canExit = false;
+
+    auto watcher = QtConcurrent::run([&canExit]() {
+        //1.1停止
+        ImageEngineApi::instance()->stopRotate();
+        ImageDataService::instance()->stopFlushThumbnail();
+
+        //1.2等待
+        ImageEngineApi::instance()->waitRotateStop();
+        ImageDataService::instance()->waitFlushThumbnailFinish();
+
+        canExit = true;
+    });
+
+    //采用轮询机制保证转圈生效
+    while (!canExit) {
+        QApplication::processEvents();
+    }
+}
+
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     saveWindowState();
@@ -1638,6 +1679,10 @@ void MainWindow::closeEvent(QCloseEvent *event)
         emit dApp->signalM->sigPauseOrStart(false);     //唤醒外设后台挂载
         event->ignore();
     } else {
+        //等待重要操作
+        waitImportantProcessBeforeExit();
+
+        //执行退出
         event->accept();
     }
 }

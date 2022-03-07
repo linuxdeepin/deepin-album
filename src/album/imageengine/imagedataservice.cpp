@@ -146,6 +146,16 @@ void ImageDataService::onNeedReflushThumbnail(const QStringList &paths)
     }
 }
 
+void ImageDataService::stopFlushThumbnail()
+{
+    readThumbnailManager->stopRead();
+}
+
+void ImageDataService::waitFlushThumbnailFinish()
+{
+    while (ImageDataService::instance()->readThumbnailManager->isRunning());
+}
+
 QImage ImageDataService::getThumnailImageByPathRealTime(const QString &path, bool isTrashFile)
 {
     QString realPath;
@@ -186,6 +196,7 @@ QImage ImageDataService::getThumnailImageByPathRealTime(const QString &path, boo
 ReadThumbnailManager::ReadThumbnailManager(QObject *parent)
     : QObject (parent)
     , runningFlag(false)
+    , stopFlag(false)
 {
 }
 
@@ -208,7 +219,7 @@ void ReadThumbnailManager::readThumbnail()
         //尝试读取队列数据
         mutex.lock();
 
-        if (needLoadPath.empty()) {
+        if (needLoadPath.empty() || stopFlag) {
             mutex.unlock();
             break;
         }
@@ -242,6 +253,8 @@ void ReadThumbnailManager::readThumbnail()
             if (!loadStaticImageFromFile(thumbnailPath, tImg, errMsg, "PNG")) {
                 qDebug() << errMsg;
             } else {
+                //不正常退出导致的缩略图损坏，删除原文件后重新尝试制作
+                QFile::remove(thumbnailPath);
                 if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
                     qDebug() << errMsg;
                 }
@@ -315,7 +328,9 @@ void ReadThumbnailManager::readThumbnail()
         DBManager::m_fileMutex.unlock();
     }
 
-    emit ImageDataService::instance()->sigeUpdateListview(); //最后让上层界面刷新
+    if (!stopFlag) {
+        emit ImageDataService::instance()->sigeUpdateListview(); //最后让上层界面刷新
+    }
 
     runningFlag = false; //告诉外面加载队列处于休眠状态
 }

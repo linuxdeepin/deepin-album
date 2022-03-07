@@ -42,6 +42,8 @@ DBandImgOperate::DBandImgOperate(QObject *parent)
     Q_UNUSED(parent);
     m_ImgPaths.clear();
     m_couldRun.store(true);
+    m_rotateNeedStop = false;
+    m_rotateIsRunning = false;
 }
 
 DBandImgOperate::~DBandImgOperate()
@@ -181,6 +183,8 @@ void DBandImgOperate::rotateImageFile(int angel, const QStringList &paths)
     QString errMsg;
     //如果角度为0，不选择，重新加载
     if (angel != 0) {
+        m_rotateIsRunning = true;
+
         QElapsedTimer timer;
         timer.start();
         QStringList loadedPaths;
@@ -197,13 +201,28 @@ void DBandImgOperate::rotateImageFile(int angel, const QStringList &paths)
                     loadedPaths.clear();
                 }
             }
+            if (m_rotateNeedStop) {
+                break;
+            }
         }
         if (sendCount != paths.size()) {
             QStringList lastNeedReload;
             std::copy(paths.begin() + sendCount, paths.end(), std::back_inserter(lastNeedReload));
             emit dApp->signalM->needReflushThumbnail(lastNeedReload);
         }
+
+        m_rotateIsRunning = false;
     }
+}
+
+void DBandImgOperate::waitRotateStop()
+{
+    while (m_rotateIsRunning);
+}
+
+void DBandImgOperate::stopRotate()
+{
+    m_rotateNeedStop = true;
 }
 
 void DBandImgOperate::sltLoadMountFileList(const QString &path)

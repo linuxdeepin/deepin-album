@@ -48,6 +48,9 @@ class DBandImgOperate : public QObject
 public:
     explicit DBandImgOperate(QObject *parent = nullptr);
     ~DBandImgOperate();
+
+    void waitRotateStop();
+    void stopRotate();
 public slots:
     void     setThreadShouldStop();
     //获取全部相片信息
@@ -77,7 +80,9 @@ public:
     int m_loadEnd = 0;
 private:
     QStringList m_ImgPaths;
-    std::atomic<bool> m_couldRun;
+    std::atomic_bool m_couldRun;
+    std::atomic_bool m_rotateNeedStop;
+    std::atomic_bool m_rotateIsRunning;
     QVector<QPixmap> m_pixmaps;
     QMap<QString, QStringList>m_PhonePicFileMap; //外部设备及其全部图片路径
 };

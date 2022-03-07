@@ -314,9 +314,9 @@ void DBManager::removeImgInfosNoSignal(const QStringList &paths)
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
 //        qDebug() << "begin transaction failed.";
     }
-    QString qs("DELETE FROM AlbumTable3 WHERE PathHash=");
+    QString qs("DELETE FROM AlbumTable3 WHERE PathHash=\"%1\"");
     for (auto &eachHash : pathHashs) {
-        if (!m_query->exec(qs + eachHash)) {
+        if (!m_query->exec(qs.arg(eachHash))) {
             ;
         }
     }
@@ -328,9 +328,9 @@ void DBManager::removeImgInfosNoSignal(const QStringList &paths)
     // Remove from image table
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
     }
-    qs = "DELETE FROM ImageTable3 WHERE PathHash=";
+    qs = "DELETE FROM ImageTable3 WHERE PathHash=\"%1\"";
     for (auto &eachHash : pathHashs) {
-        if (!m_query->exec(qs + eachHash)) {
+        if (!m_query->exec(qs.arg(eachHash))) {
         }
     }
 
