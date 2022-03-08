@@ -171,6 +171,7 @@ void BatchOperateWidget::sltSelectAll()
     m_thumbnailListView->setFocus();
     m_chooseAll->setVisible(false);
     m_cancelChooseAll->setVisible(true);
+    emit sigCancelAll(false);
 }
 //取消全选
 void BatchOperateWidget::sltUnSelectAll()
@@ -460,7 +461,7 @@ void BatchOperateWidget::batchSelectChanged(bool isBatchSelect, bool disConnectS
             m_startBatchSelect->setVisible(false);
             m_cancelBatchSelect->setVisible(true);
             //发送给时间线，刷新悬浮控件选择按钮显隐状态
-//            emit signalBatchSelectChanged(true);
+            emit signalBatchSelectChanged(true);
         } else {
             m_trashRecoveryBtn->setVisible(false);
             m_trashDeleteBtn->setVisible(false);

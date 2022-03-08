@@ -313,6 +313,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     //已导入
     m_pImportTitle = new DLabel(m_timeLineViewWidget);
     m_pImportTitle->setText(tr("Import"));
+    m_pImportTitle->setToolTip(tr("Import"));
     m_pImportTitle->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     DFontSizeManager::instance()->bind(m_pImportTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pImportTitle->setForegroundRole(DPalette::TextTitle);
@@ -324,7 +325,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_pImportTitle->setPalette(ppal_light2);
     m_pImportTitle->setGraphicsEffect(opacityEffect_light2);
     m_pImportTitle->setAutoFillBackground(true);
-    m_pImportTitle->setFixedWidth(150);//BUG#93470，手动调大控件长度（英语模式下最后那个t会部分遮挡）
+    m_pImportTitle->adjustSize();
 
     m_choseBtnItem = new DWidget(m_timeLineViewWidget);
     QHBoxLayout *btnLayout = new QHBoxLayout();
@@ -587,4 +588,9 @@ void ImportTimeLineView::updateDateNumLabel()
     } else {
         m_DateNumLabel->setToolTip("");
     }
+    //判断批量操作栏和标题栏相对位置，对标题栏进行设置
+    int size = m_batchOperateWidget->x() - (m_pImportTitle->x() + m_pImportTitle->width());
+    QString Str = utils::base::reorganizationStr(m_pImportTitle->font(), tr("Import"), m_pImportTitle->width() + size);
+
+    m_pImportTitle->setText(Str);
 }

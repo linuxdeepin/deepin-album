@@ -133,9 +133,6 @@ void AllPicView::initConnections()
     //图片旋转后更新图片
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AllPicView::updatePicsThumbnailView);
     connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::emitSliderValueChg);
-//    connect(m_pThumbnailListView, &ThumbnailListView::sigMouseMove, this, &AllPicView::updatePicNum);
-//    connect(m_pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, &AllPicView::updatePicNum);
-//    connect(m_pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, &AllPicView::updatePicNum);
 
     //缩略图选中项发生变化
     connect(m_pThumbnailListView->selectionModel(), &QItemSelectionModel::selectionChanged,
@@ -144,11 +141,8 @@ void AllPicView::initConnections()
             this, &AllPicView::sltSelectionChanged);
     //筛选显示，当先列表中内容为无结果
     connect(m_pThumbnailListView, &ThumbnailListView::sigNoPicOrNoVideo, this, &AllPicView::slotNoPicOrNoVideo);
-//    connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::sigMouseRelease, this, &AllPicView::updatePicNum);
-//    connect(m_pSearchView->m_pThumbnailListView, &ThumbnailListView::customContextMenuRequested, this, &AllPicView::updatePicNum);
     connect(m_pImportView->m_pImportBtn, &DPushButton::clicked, this, &AllPicView::onImportViewImportBtnClicked);
     connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, &AllPicView::onImportFailedToView);
-//    connect(m_pThumbnailListView, &ThumbnailListView::sigSelectAll, this, &AllPicView::updatePicNum);
     connect(dApp->signalM, &SignalManager::sigShortcutKeyDelete, this, &AllPicView::onKeyDelete);
     connect(dApp->signalM, &SignalManager::sigMonitorChanged, this, &AllPicView::monitorHaveNewFile);
 }

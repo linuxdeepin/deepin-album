@@ -203,6 +203,8 @@ private slots:
     void onTrashInfosChanged();
     //删除描述语自适应变化
     void adaptiveTrashDescritionLabel();
+    //批量操作时判断标题栏是否有遮挡情况
+    void onBatchSelectChanged(bool isBatchSelect);
     //默认导入路径已被销毁
     void onMonitorDestroyed(int UID);
 public:

@@ -74,8 +74,6 @@ public:
     void initUI();
     //初始化最近删除相关按钮
     void initTrashBtn(QHBoxLayout *hb);
-    //初始化下拉菜单
-    void initDropdown();
     //刷新按钮显隐状态
     void batchSelectChanged(bool isBatchSelect, bool disConnectSignal);
     //刷新按钮可用状态 isNoSelected:是否有选中，true为没有
@@ -90,6 +88,8 @@ protected:
 signals:
     //进入批量状态
     void signalBatchSelectChanged(bool isBatchSelect);
+    //取消全选时通知标题栏刷新
+    void sigCancelAll(bool cancel);
 public slots:
     //批量操作状态改变
     void sltBatchSelectChanged();
@@ -120,6 +120,8 @@ public slots:
     //图片/视频插入删除
     void sltListViewChanged();
 private:
+    //初始化下拉菜单
+    void initDropdown();
     //初始化信号槽
     void initConnection();
     //刷新恢复与删除按钮是否可用状态
