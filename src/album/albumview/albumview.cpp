@@ -550,8 +550,13 @@ void AlbumView::initTrashWidget()
 //    hlayoutDateLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 //    hlayoutDateLabel->setContentsMargins(0, 0, 19, 0);
     Layout1->addWidget(m_trashBatchOperateWidget);
-    connect(m_trashBatchOperateWidget, &BatchOperateWidget::signalBatchSelectChanged, this, &AlbumView::onBatchSelectChanged);
-    connect(m_trashBatchOperateWidget, &BatchOperateWidget::sigCancelAll, this, &AlbumView::onBatchSelectChanged);
+    connect(m_trashBatchOperateWidget, &BatchOperateWidget::signalBatchSelectChanged, this, &AlbumView::onBatchSelectChanged, Qt::QueuedConnection);
+    connect(m_trashBatchOperateWidget, &BatchOperateWidget::sigCancelAll, this, [ = ](bool cancel) {
+        if (QLocale::system().language() == QLocale::Uigur) {
+        } else {
+            onBatchSelectChanged(cancel);
+        }
+    }, Qt::QueuedConnection);
 
     //最近删除标题,不使用布局
     m_TrashTitleLab = new DLabel(m_pTrashWidget);
@@ -634,7 +639,12 @@ void AlbumView::initCustomAlbumWidget()
 //    hlayoutDateLabel->setContentsMargins(0, 0, 19, 0);
     pHLayout->addWidget(m_customBatchOperateWidget);
     connect(m_customBatchOperateWidget, &BatchOperateWidget::signalBatchSelectChanged, this, &AlbumView::onBatchSelectChanged, Qt::QueuedConnection);
-    connect(m_customBatchOperateWidget, &BatchOperateWidget::sigCancelAll, this, &AlbumView::onBatchSelectChanged, Qt::QueuedConnection);
+    connect(m_customBatchOperateWidget, &BatchOperateWidget::sigCancelAll, this, [ = ](bool cancel) {
+        if (QLocale::system().language() == QLocale::Uigur) {
+        } else {
+            onBatchSelectChanged(cancel);
+        }
+    }, Qt::QueuedConnection);
 
     m_customAlbumTitle = new DWidget(m_pCustomAlbumWidget);
     m_customAlbumTitle->setFocusPolicy(Qt::ClickFocus);
@@ -2389,23 +2399,118 @@ void AlbumView::adaptiveTrashDescritionLabel()
 
 void AlbumView::onBatchSelectChanged(bool isBatchSelect)
 {
-    Q_UNUSED(isBatchSelect)
-    if (m_TrashTitleLab->isVisible()) {//最近删除界面标题
+    if (QLocale::system().language() == QLocale::Uighur) {
+        if (m_favoriteBatchOperateWidget->isVisible()) {
+            if (isBatchSelect) {
+                m_pFavoriteTitle->hide();
+                m_pFavoritePicTotal->hide();
+            } else {
+                m_pFavoriteTitle->show();
+                m_pFavoriteTitle->raise();
+                m_pFavoritePicTotal->show();
+            }
+        }
+        if (m_trashBatchOperateWidget->isVisible()) {
+            if (isBatchSelect) {
+                m_TrashTitleLab->hide();
+                m_TrashDescritionLab->hide();
+            } else {
+                m_TrashTitleLab->show();
+                m_TrashTitleLab->raise();
+                m_TrashDescritionLab->show();
+            }
+        }
+        if (m_customBatchOperateWidget->isVisible()) {
+            if (isBatchSelect) {
+                m_customAlbumTitleLabel->hide();
+                m_pRightPicTotal->hide();
+            } else {
+                m_customAlbumTitleLabel->show();
+                m_customAlbumTitleLabel->raise();
+                m_pRightPicTotal->show();
+            }
+        }
+        if (m_TrashTitleLab->isVisible()) {//最近删除界面标题
+            int size = m_trashBatchOperateWidget->x() - (m_TrashTitleLab->x() + m_TrashTitleLab->width());
+            QString Str = utils::base::reorganizationStr(m_TrashTitleLab->font(), tr("Trash"), m_TrashTitleLab->width() + size);
+            if (Str.length() > 0) {
+                m_TrashTitleLab->show();
+                m_TrashTitleLab->raise();
+            } else {
+                m_TrashTitleLab->hide();
+            }
+            m_TrashTitleLab->setText(Str);
+            if (Str != tr("Trash")) {
+                m_TrashTitleLab->setToolTip(tr("Trash"));
+            } else {
+                m_TrashTitleLab->setToolTip("");
+            }
+        } else if (m_customAlbumTitleLabel->isVisible()) {//自定义相册界面标题
+            m_customAlbumTitleLabel->setText(m_currentAlbum);
+            m_customAlbumTitleLabel->adjustSize();
+            m_customAlbumTitleLabel->move(m_customAlbumTitle->width() / 2 - m_customAlbumTitleLabel->width() / 2, 0);
+            QString Str = utils::base::reorganizationStr(m_customAlbumTitleLabel->font(), m_currentAlbum,
+                                                         2 * m_customBatchOperateWidget->x() - m_customAlbumTitle->width());
+            if (Str.length() > 0) {
+                m_customAlbumTitleLabel->show();
+                m_customAlbumTitleLabel->raise();
+            } else {
+                m_customAlbumTitleLabel->hide();
+            }
+            m_customAlbumTitleLabel->setText(Str);
+            m_customAlbumTitleLabel->adjustSize();
+            m_customAlbumTitleLabel->move(m_customAlbumTitle->width() / 2 - m_customAlbumTitleLabel->width() / 2, 0);
+            m_customAlbumTitleLabel->raise();
+            if (Str != m_currentAlbum) {
+                m_customAlbumTitleLabel->setToolTip(m_currentAlbum);
+            } else {
+                m_customAlbumTitleLabel->setToolTip("");
+            }
+        } else if (m_pFavoriteTitle->isVisible()) {//我的收藏界面标题
+            int size = m_favoriteBatchOperateWidget->x() - (m_pFavoriteTitle->x() + m_pFavoriteTitle->width());
+            QString Str = utils::base::reorganizationStr(m_pFavoriteTitle->font(), tr("Favorites"), m_pFavoriteTitle->width() + size);
+            if (Str.length() > 0) {
+                m_pFavoriteTitle->show();
+                m_pFavoriteTitle->raise();
+            } else {
+                m_pFavoriteTitle->hide();
+            }
+            m_pFavoriteTitle->setText(Str);
+            if (Str != tr("Favorites")) {
+                m_pFavoriteTitle->setToolTip(tr("Favorites"));
+            } else {
+                m_pFavoriteTitle->setToolTip("");
+            }
+        }
+        return;
+    }
+    if (m_trashBatchOperateWidget->isVisible()) {//最近删除界面标题
         int size = m_trashBatchOperateWidget->x() - (m_TrashTitleLab->x() + m_TrashTitleLab->width());
         QString Str = utils::base::reorganizationStr(m_TrashTitleLab->font(), tr("Trash"), m_TrashTitleLab->width() + size);
-        if (Str.length() > 0)
-            m_TrashTitleLab->setText(Str);
+        if (Str.length() > 0) {
+            m_TrashTitleLab->show();
+            m_TrashTitleLab->raise();
+        } else {
+            m_TrashTitleLab->hide();
+        }
+        m_TrashTitleLab->setText(Str);
         if (Str != tr("Trash")) {
             m_TrashTitleLab->setToolTip(tr("Trash"));
         } else {
             m_TrashTitleLab->setToolTip("");
         }
-    } else if (m_customAlbumTitleLabel->isVisible()) {//自定义相册界面标题
+    } else if (m_customBatchOperateWidget->isVisible()) {//自定义相册界面标题
         m_customAlbumTitleLabel->setText(m_currentAlbum);
         m_customAlbumTitleLabel->adjustSize();
         m_customAlbumTitleLabel->move(m_customAlbumTitle->width() / 2 - m_customAlbumTitleLabel->width() / 2, 0);
         QString Str = utils::base::reorganizationStr(m_customAlbumTitleLabel->font(), m_currentAlbum,
                                                      2 * m_customBatchOperateWidget->x() - m_customAlbumTitle->width());
+        if (Str.length() > 0) {
+            m_customAlbumTitleLabel->show();
+            m_customAlbumTitleLabel->raise();
+        } else {
+            m_customAlbumTitleLabel->hide();
+        }
         m_customAlbumTitleLabel->setText(Str);
         m_customAlbumTitleLabel->adjustSize();
         m_customAlbumTitleLabel->move(m_customAlbumTitle->width() / 2 - m_customAlbumTitleLabel->width() / 2, 0);
@@ -2415,11 +2520,16 @@ void AlbumView::onBatchSelectChanged(bool isBatchSelect)
         } else {
             m_customAlbumTitleLabel->setToolTip("");
         }
-    } else if (m_pFavoriteTitle->isVisible()) {//我的收藏界面标题
+    } else if (m_favoriteBatchOperateWidget->isVisible()) {//我的收藏界面标题
         int size = m_favoriteBatchOperateWidget->x() - (m_pFavoriteTitle->x() + m_pFavoriteTitle->width());
         QString Str = utils::base::reorganizationStr(m_pFavoriteTitle->font(), tr("Favorites"), m_pFavoriteTitle->width() + size);
-        if (Str.length() > 0)
-            m_pFavoriteTitle->setText(Str);
+        if (Str.length() > 0) {
+            m_pFavoriteTitle->show();
+            m_pFavoriteTitle->raise();
+        } else {
+            m_pFavoriteTitle->hide();
+        }
+        m_pFavoriteTitle->setText(Str);
         if (Str != tr("Favorites")) {
             m_pFavoriteTitle->setToolTip(tr("Favorites"));
         } else {
@@ -2438,13 +2548,15 @@ void AlbumView::resizeEvent(QResizeEvent *e)
     if (nullptr != m_FavoriteTitleWidget) {
         m_FavoriteTitleWidget->setFixedSize(this->width() - m_pLeftListView->width() - magin_offset, favorite_title_height);
         m_pFavoriteTitle->move(m_FavoriteTitleWidget->width() / 2 - m_pFavoriteTitle->width() / 2, 0);
-        m_pFavoriteTitle->raise();
+        if (m_pFavoriteTitle->isVisible())
+            m_pFavoriteTitle->raise();
     }
     //最近删除
     if (nullptr != m_TrashTitleWidget) {
         m_TrashTitleWidget->setFixedSize(this->width() - m_pLeftListView->width() - magin_offset, trash_title_height);
         m_TrashTitleLab->move(m_TrashTitleWidget->width() / 2 - m_TrashTitleLab->width() / 2, 0);
-        m_TrashTitleLab->raise();
+        if (m_TrashTitleLab->isVisible())
+            m_TrashTitleLab->raise();
     }
     //设备
     if (nullptr != pPhoneWidget) {
@@ -2471,7 +2583,62 @@ void AlbumView::resizeEvent(QResizeEvent *e)
 
     adaptiveTrashDescritionLabel();
 
-    onBatchSelectChanged(false);
+    if (QLocale::system().language() == QLocale::Uighur) {
+        if (m_TrashTitleLab->isVisible()) {//最近删除界面标题
+            int size = m_trashBatchOperateWidget->x() - (m_TrashTitleLab->x() + m_TrashTitleLab->width());
+            QString Str = utils::base::reorganizationStr(m_TrashTitleLab->font(), tr("Trash"), m_TrashTitleLab->width() + size);
+            if (Str.length() > 0) {
+                m_TrashTitleLab->show();
+                m_TrashTitleLab->raise();
+            } else {
+                m_TrashTitleLab->hide();
+            }
+            m_TrashTitleLab->setText(Str);
+            if (Str != tr("Trash")) {
+                m_TrashTitleLab->setToolTip(tr("Trash"));
+            } else {
+                m_TrashTitleLab->setToolTip("");
+            }
+        } else if (m_customAlbumTitleLabel->isVisible()) {//自定义相册界面标题
+            m_customAlbumTitleLabel->setText(m_currentAlbum);
+            m_customAlbumTitleLabel->adjustSize();
+            m_customAlbumTitleLabel->move(m_customAlbumTitle->width() / 2 - m_customAlbumTitleLabel->width() / 2, 0);
+            QString Str = utils::base::reorganizationStr(m_customAlbumTitleLabel->font(), m_currentAlbum,
+                                                         2 * m_customBatchOperateWidget->x() - m_customAlbumTitle->width());
+            if (Str.length() > 0) {
+                m_customAlbumTitleLabel->show();
+                m_customAlbumTitleLabel->raise();
+            } else {
+                m_customAlbumTitleLabel->hide();
+            }
+            m_customAlbumTitleLabel->setText(Str);
+            m_customAlbumTitleLabel->adjustSize();
+            m_customAlbumTitleLabel->move(m_customAlbumTitle->width() / 2 - m_customAlbumTitleLabel->width() / 2, 0);
+            m_customAlbumTitleLabel->raise();
+            if (Str != m_currentAlbum) {
+                m_customAlbumTitleLabel->setToolTip(m_currentAlbum);
+            } else {
+                m_customAlbumTitleLabel->setToolTip("");
+            }
+        } else if (m_pFavoriteTitle->isVisible()) {//我的收藏界面标题
+            int size = m_favoriteBatchOperateWidget->x() - (m_pFavoriteTitle->x() + m_pFavoriteTitle->width());
+            QString Str = utils::base::reorganizationStr(m_pFavoriteTitle->font(), tr("Favorites"), m_pFavoriteTitle->width() + size);
+            if (Str.length() > 0) {
+                m_pFavoriteTitle->show();
+                m_pFavoriteTitle->raise();
+            } else {
+                m_pFavoriteTitle->hide();
+            }
+            m_pFavoriteTitle->setText(Str);
+            if (Str != tr("Favorites")) {
+                m_pFavoriteTitle->setToolTip(tr("Favorites"));
+            } else {
+                m_pFavoriteTitle->setToolTip("");
+            }
+        }
+    } else {
+        onBatchSelectChanged(false);
+    }
 
     QWidget::resizeEvent(e);
 }
@@ -2481,14 +2648,17 @@ void AlbumView::showEvent(QShowEvent *e)
     //我的收藏
     if (nullptr != m_FavoriteTitleWidget) {
         m_FavoriteTitleWidget->setFixedSize(this->width() - m_pLeftListView->width() - magin_offset, favorite_title_height);
+        m_pFavoriteTitle->raise();
     }
     //最近删除
     if (nullptr != m_TrashTitleWidget) {
         m_TrashTitleWidget->setFixedSize(this->width() - m_pLeftListView->width() - magin_offset, trash_title_height);
+        m_TrashTitleLab->raise();
     }
     //自定义相册
     if (nullptr != m_customAlbumTitle) {
         m_customAlbumTitle->setFixedSize(this->width() - m_pLeftListView->width() - magin_offset, custom_title_height);
+        m_customAlbumTitleLabel->raise();
     }
     //设备
     if (nullptr != pPhoneWidget) {

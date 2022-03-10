@@ -193,9 +193,18 @@ void ImportTimeLineView::slotBatchSelectChanged(bool isBatchSelect)
     if (isBatchSelect) {
         m_choseBtnItem->setVisible(true);
         m_importTimeLineListView->resetBlankItemHeight(ChoseBtn_HEIGHT + title_HEIGHT);
+        //维语特殊处理
+        if (QLocale::system().language() == QLocale::Uighur) {
+            m_DateNumLabel->hide();
+            m_pImportTitle->hide();
+        }
     } else {
         m_choseBtnItem->setVisible(false);
         m_importTimeLineListView->resetBlankItemHeight(title_HEIGHT);
+        if (QLocale::system().language() == QLocale::Uighur) {
+            m_DateNumLabel->show();
+            m_pImportTitle->show();
+        }
     }
 }
 
@@ -307,6 +316,20 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_batchOperateWidget = new BatchOperateWidget(m_importTimeLineListView, BatchOperateWidget::NullType, this);
     //进入批量状态
     connect(m_batchOperateWidget, &BatchOperateWidget::signalBatchSelectChanged, this, &ImportTimeLineView::slotBatchSelectChanged);
+    connect(m_batchOperateWidget, &BatchOperateWidget::sigCancelAll, this, [ = ](bool cancel) {
+        Q_UNUSED(cancel)
+        if (QLocale::system().language() == QLocale::Uigur)
+            return;
+        int size = m_batchOperateWidget->x() - (m_pImportTitle->x() + m_pImportTitle->width());
+        QString Str = utils::base::reorganizationStr(m_pImportTitle->font(), tr("Import"), m_pImportTitle->width() + size);
+        if (Str.length() > 0) {
+            m_pImportTitle->show();
+            m_pImportTitle->raise();
+        } else {
+            m_pImportTitle->hide();
+        }
+        m_pImportTitle->setText(Str);
+    }, Qt::QueuedConnection);
     TitleLayout->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     TitleLayout->addWidget(m_batchOperateWidget);
 
@@ -588,9 +611,16 @@ void ImportTimeLineView::updateDateNumLabel()
     } else {
         m_DateNumLabel->setToolTip("");
     }
+    if (QLocale::system().language() == QLocale::Uighur)
+        return;
     //判断批量操作栏和标题栏相对位置，对标题栏进行设置
     int size = m_batchOperateWidget->x() - (m_pImportTitle->x() + m_pImportTitle->width());
     QString Str = utils::base::reorganizationStr(m_pImportTitle->font(), tr("Import"), m_pImportTitle->width() + size);
-
+    if (Str.length() > 0) {
+        m_pImportTitle->show();
+        m_pImportTitle->raise();
+    } else {
+        m_pImportTitle->hide();
+    }
     m_pImportTitle->setText(Str);
 }
