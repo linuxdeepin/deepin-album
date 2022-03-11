@@ -237,7 +237,7 @@ void VideoInfoDialog::updateBasicInfo()
         basicInfoMap[tr("Date modified")] = info.birthTime().toString("yyyy/MM/dd HH:mm");
         basicInfoKeys.append(tr("Date modified"));
     }
-    basicInfoMap[tr("Type")] = m_movieInfo.fileType;
+    basicInfoMap[tr("Type")] = m_movieInfo.fileType.toLower();
     basicInfoKeys.append(tr("Type"));
 
     basicInfoMap[tr("File size")] = m_movieInfo.sizeStr();

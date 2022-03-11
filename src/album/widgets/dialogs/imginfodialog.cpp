@@ -292,6 +292,7 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
             if (list.count() > 0) {
                 value = list.value(list.count() - 1);
             }
+            value = value.toLower(); //统一为小写
         } else if (i->key == "DateTimeOriginal" || i->key == "DateTimeDigitized") {
             QStringList list = value.split(" ");
             if (2 == list.count()) {
