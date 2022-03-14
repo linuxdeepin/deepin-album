@@ -967,7 +967,7 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>匯出照片</translation>
+        <translation>匯出</translation>
     </message>
     <message>
         <source>Favorite</source>
