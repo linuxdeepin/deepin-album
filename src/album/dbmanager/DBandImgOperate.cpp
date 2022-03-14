@@ -206,9 +206,7 @@ void DBandImgOperate::rotateImageFile(int angel, const QStringList &paths)
             }
         }
         if (sendCount != paths.size()) {
-            QStringList lastNeedReload;
-            std::copy(paths.begin() + sendCount, paths.end(), std::back_inserter(lastNeedReload));
-            emit dApp->signalM->needReflushThumbnail(lastNeedReload);
+            emit dApp->signalM->needReflushThumbnail(loadedPaths);
         }
 
         m_rotateIsRunning = false;

@@ -1650,7 +1650,7 @@ void MainWindow::waitImportantProcessBeforeExit()
 
     //1.停止正在进行的工作，在次线程进行，保证蒙版效果出来
 
-    std::atomic_bool canExit;
+    volatile std::atomic_bool canExit;
     canExit = false;
 
     auto watcher = QtConcurrent::run([&canExit]() {
@@ -1662,11 +1662,15 @@ void MainWindow::waitImportantProcessBeforeExit()
         ImageEngineApi::instance()->waitRotateStop();
         ImageDataService::instance()->waitFlushThumbnailFinish();
 
+        //1.3强制文件写入
+        std::system("sync");
+
         canExit = true;
     });
 
     //采用轮询机制保证转圈生效
     while (!canExit) {
+        QThread::msleep(10); //降低轮询产生的CPU消耗
         QApplication::processEvents();
     }
 }

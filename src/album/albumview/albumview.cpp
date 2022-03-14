@@ -2399,6 +2399,7 @@ void AlbumView::adaptiveTrashDescritionLabel()
 
 void AlbumView::onBatchSelectChanged(bool isBatchSelect)
 {
+    //维语特殊处理
     if (QLocale::system().language() == QLocale::Uighur) {
         if (m_favoriteBatchOperateWidget->isVisible()) {
             if (isBatchSelect) {
@@ -2484,6 +2485,8 @@ void AlbumView::onBatchSelectChanged(bool isBatchSelect)
         }
         return;
     }
+
+    //顶部栏存在时的标题处理
     if (m_trashBatchOperateWidget->isVisible()) {//最近删除界面标题
         int size = m_trashBatchOperateWidget->x() - (m_TrashTitleLab->x() + m_TrashTitleLab->width());
         QString Str = utils::base::reorganizationStr(m_TrashTitleLab->font(), tr("Trash"), m_TrashTitleLab->width() + size);
@@ -2499,7 +2502,8 @@ void AlbumView::onBatchSelectChanged(bool isBatchSelect)
         } else {
             m_TrashTitleLab->setToolTip("");
         }
-    } else if (m_customBatchOperateWidget->isVisible()) {//自定义相册界面标题
+    }
+    if (m_customBatchOperateWidget->isVisible()) {//自定义相册界面标题
         m_customAlbumTitleLabel->setText(m_currentAlbum);
         m_customAlbumTitleLabel->adjustSize();
         m_customAlbumTitleLabel->move(m_customAlbumTitle->width() / 2 - m_customAlbumTitleLabel->width() / 2, 0);
@@ -2520,7 +2524,8 @@ void AlbumView::onBatchSelectChanged(bool isBatchSelect)
         } else {
             m_customAlbumTitleLabel->setToolTip("");
         }
-    } else if (m_favoriteBatchOperateWidget->isVisible()) {//我的收藏界面标题
+    }
+    if (m_favoriteBatchOperateWidget->isVisible()) {//我的收藏界面标题
         int size = m_favoriteBatchOperateWidget->x() - (m_pFavoriteTitle->x() + m_pFavoriteTitle->width());
         QString Str = utils::base::reorganizationStr(m_pFavoriteTitle->font(), tr("Favorites"), m_pFavoriteTitle->width() + size);
         if (Str.length() > 0) {
@@ -2535,6 +2540,23 @@ void AlbumView::onBatchSelectChanged(bool isBatchSelect)
         } else {
             m_pFavoriteTitle->setToolTip("");
         }
+    }
+
+    //顶部栏不存在时的标题处理（涉及样式还原）
+    if (!m_trashBatchOperateWidget->isVisible()) {//最近删除界面标题
+        m_TrashTitleLab->setText(tr("Trash"));
+        m_TrashTitleLab->show();
+        m_TrashTitleLab->raise();
+    }
+    if (!m_customBatchOperateWidget->isVisible()) {//自定义相册界面标题
+        m_customAlbumTitleLabel->setText(m_currentAlbum);
+        m_customAlbumTitleLabel->show();
+        m_customAlbumTitleLabel->raise();
+    }
+    if (!m_favoriteBatchOperateWidget->isVisible()) {//我的收藏界面标题
+        m_pFavoriteTitle->setText(tr("Favorites"));
+        m_pFavoriteTitle->show();
+        m_pFavoriteTitle->raise();
     }
 }
 
