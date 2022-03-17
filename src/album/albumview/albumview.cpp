@@ -2385,6 +2385,26 @@ void AlbumView::onTrashInfosChanged()
     updateRightView();
 }
 
+void AlbumView::restoreTitleDisplay()
+{
+    //顶部栏不存在时的标题处理（涉及样式还原）
+    if (!m_trashBatchOperateWidget->isVisible()) {//最近删除界面标题
+        m_TrashTitleLab->setText(tr("Trash"));
+        m_TrashTitleLab->show();
+        m_TrashTitleLab->raise();
+    }
+    if (!m_customBatchOperateWidget->isVisible()) {//自定义相册界面标题
+        m_customAlbumTitleLabel->setText(m_currentAlbum);
+        m_customAlbumTitleLabel->show();
+        m_customAlbumTitleLabel->raise();
+    }
+    if (!m_favoriteBatchOperateWidget->isVisible()) {//我的收藏界面标题
+        m_pFavoriteTitle->setText(tr("Favorites"));
+        m_pFavoriteTitle->show();
+        m_pFavoriteTitle->raise();
+    }
+}
+
 void AlbumView::adaptiveTrashDescritionLabel()
 {
     //然后还要看情况把旁边那个label搞成省略号
@@ -2431,7 +2451,7 @@ void AlbumView::onBatchSelectChanged(bool isBatchSelect)
                 m_pRightPicTotal->show();
             }
         }
-        if (m_TrashTitleLab->isVisible()) {//最近删除界面标题
+        if (m_TrashTitleLab->isVisible() && m_trashBatchOperateWidget->isVisible()) {//最近删除界面标题
             int size = m_trashBatchOperateWidget->x() - (m_TrashTitleLab->x() + m_TrashTitleLab->width());
             QString Str = utils::base::reorganizationStr(m_TrashTitleLab->font(), tr("Trash"), m_TrashTitleLab->width() + size);
             if (Str.length() > 0) {
@@ -2446,7 +2466,8 @@ void AlbumView::onBatchSelectChanged(bool isBatchSelect)
             } else {
                 m_TrashTitleLab->setToolTip("");
             }
-        } else if (m_customAlbumTitleLabel->isVisible()) {//自定义相册界面标题
+        }
+        if (m_customAlbumTitleLabel->isVisible() && m_customBatchOperateWidget->isVisible()) {//自定义相册界面标题
             m_customAlbumTitleLabel->setText(m_currentAlbum);
             m_customAlbumTitleLabel->adjustSize();
             m_customAlbumTitleLabel->move(m_customAlbumTitle->width() / 2 - m_customAlbumTitleLabel->width() / 2, 0);
@@ -2467,7 +2488,8 @@ void AlbumView::onBatchSelectChanged(bool isBatchSelect)
             } else {
                 m_customAlbumTitleLabel->setToolTip("");
             }
-        } else if (m_pFavoriteTitle->isVisible()) {//我的收藏界面标题
+        }
+        if (m_pFavoriteTitle->isVisible() && m_favoriteBatchOperateWidget->isVisible()) {//我的收藏界面标题
             int size = m_favoriteBatchOperateWidget->x() - (m_pFavoriteTitle->x() + m_pFavoriteTitle->width());
             QString Str = utils::base::reorganizationStr(m_pFavoriteTitle->font(), tr("Favorites"), m_pFavoriteTitle->width() + size);
             if (Str.length() > 0) {
@@ -2483,6 +2505,8 @@ void AlbumView::onBatchSelectChanged(bool isBatchSelect)
                 m_pFavoriteTitle->setToolTip("");
             }
         }
+
+        ///注意：维语处理结束后不会执行后续代码
         return;
     }
 
@@ -2542,22 +2566,7 @@ void AlbumView::onBatchSelectChanged(bool isBatchSelect)
         }
     }
 
-    //顶部栏不存在时的标题处理（涉及样式还原）
-    if (!m_trashBatchOperateWidget->isVisible()) {//最近删除界面标题
-        m_TrashTitleLab->setText(tr("Trash"));
-        m_TrashTitleLab->show();
-        m_TrashTitleLab->raise();
-    }
-    if (!m_customBatchOperateWidget->isVisible()) {//自定义相册界面标题
-        m_customAlbumTitleLabel->setText(m_currentAlbum);
-        m_customAlbumTitleLabel->show();
-        m_customAlbumTitleLabel->raise();
-    }
-    if (!m_favoriteBatchOperateWidget->isVisible()) {//我的收藏界面标题
-        m_pFavoriteTitle->setText(tr("Favorites"));
-        m_pFavoriteTitle->show();
-        m_pFavoriteTitle->raise();
-    }
+    restoreTitleDisplay();
 }
 
 void AlbumView::resizeEvent(QResizeEvent *e)
@@ -2595,14 +2604,6 @@ void AlbumView::resizeEvent(QResizeEvent *e)
     m_pStatusBar->raise();
 
     //然后还要看情况把旁边那个label搞成省略号
-    auto descritionText = utils::base::reorganizationStr(m_TrashDescritionLab->font(), m_trashNoticeFullStr, m_TrashTitleLab->x() - 30);
-    m_TrashDescritionLab->setText(descritionText);
-    if (descritionText != m_trashNoticeFullStr) {
-        m_TrashDescritionLab->setToolTip(m_trashNoticeFullStr);
-    } else {
-        m_TrashDescritionLab->setToolTip("");
-    }
-
     adaptiveTrashDescritionLabel();
 
     if (QLocale::system().language() == QLocale::Uighur) {
@@ -2658,6 +2659,7 @@ void AlbumView::resizeEvent(QResizeEvent *e)
                 m_pFavoriteTitle->setToolTip("");
             }
         }
+        restoreTitleDisplay();
     } else {
         onBatchSelectChanged(false);
     }
@@ -2688,6 +2690,8 @@ void AlbumView::showEvent(QShowEvent *e)
     }
 
     adaptiveTrashDescritionLabel();
+
+    restoreTitleDisplay();
 
     onBatchSelectChanged(false);
 

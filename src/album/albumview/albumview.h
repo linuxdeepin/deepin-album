@@ -161,6 +161,9 @@ private:
     void importComboBoxChange(QString strText);
     void getAllDeviceName();
 
+    //恢复标题显示
+    void restoreTitleDisplay();
+
 signals:
     void sigSearchEditIsDisplay(bool bIsDisp);
     void sigLoadMountImagesStart(QString mountName, QString path);
