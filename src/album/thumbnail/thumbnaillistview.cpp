@@ -1689,6 +1689,22 @@ bool ThumbnailListView::isAllSelectedSupportRotate()
     return isAllSelectedSupportRotate;
 }
 
+bool ThumbnailListView::isSelectedCanUseFavorite()
+{
+    QStringList list = selectedPaths();
+    if (list.isEmpty()) {
+        return false;
+    }
+    bool canUseFavorite = true;
+    for (const auto &path : list) {
+        if (!QFile::exists(path)) { //当有文件不存在时，不可使用收藏
+            canUseFavorite = false;
+            break;
+        }
+    }
+    return canUseFavorite;
+}
+
 bool ThumbnailListView::isSelectedCanUseDelete()
 {
     QStringList list = selectedPaths();

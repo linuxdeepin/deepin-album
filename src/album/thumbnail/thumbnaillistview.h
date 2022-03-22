@@ -133,6 +133,8 @@ public:
     bool isAllSelected(ItemType type = ItemTypeNull); //zynew
     //判断选中图片是否都可旋转
     bool isAllSelectedSupportRotate();//zynew
+    //是否可以收藏
+    bool isSelectedCanUseFavorite();
     //判断选中的图片是否可以执行删除
     bool isSelectedCanUseDelete();
     //删除选中项到相册已删除

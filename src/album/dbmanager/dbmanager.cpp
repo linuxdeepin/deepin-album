@@ -705,8 +705,10 @@ bool DBManager::insertIntoAlbum(int UID, const QStringList &paths, AlbumDBType a
     if (!m_query->prepare(qs)) {
     }
     for (auto &eachPath : paths) {
-        m_query->addBindValue(utils::base::hashByString(eachPath));
-        if (!m_query->exec()) {
+        if (QFile::exists(eachPath)) { //需要路径存在才能执行添加到相册
+            m_query->addBindValue(utils::base::hashByString(eachPath));
+            if (!m_query->exec()) {
+            }
         }
     }
 
