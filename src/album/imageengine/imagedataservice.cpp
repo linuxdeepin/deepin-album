@@ -252,7 +252,6 @@ void ReadThumbnailManager::readThumbnail()
         if (thumbnailFile.exists()) {
             if (!loadStaticImageFromFile(thumbnailPath, tImg, errMsg, "PNG")) {
                 qDebug() << errMsg;
-            } else {
                 //不正常退出导致的缩略图损坏，删除原文件后重新尝试制作
                 QFile::remove(thumbnailPath);
                 if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
