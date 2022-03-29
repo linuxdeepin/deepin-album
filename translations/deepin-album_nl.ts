@@ -256,19 +256,19 @@
     <name>DBManager</name>
     <message>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation>Schermfoto</translation>
     </message>
     <message>
         <source>Camera</source>
-        <translation type="unfinished"/>
+        <translation>Camera</translation>
     </message>
     <message>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>Tekenen</translation>
     </message>
     <message>
         <source>(copy)</source>
-        <translation type="unfinished"/>
+        <translation>(kopie)</translation>
     </message>
 </context>
 <context>
@@ -348,35 +348,35 @@
     </message>
     <message>
         <source>Are you sure you want to permanently delete this file?</source>
-        <translation type="unfinished"/>
+        <translation>Weet je zeker dat je dit bestand wilt verwijderen?</translation>
     </message>
     <message>
         <source>You cannot restore it any longer</source>
-        <translation type="unfinished"/>
+        <translation>Je kunt het nadien niet meer herstellen.</translation>
     </message>
     <message>
         <source>Are you sure you want to permanently delete %1 files?</source>
-        <translation type="unfinished"/>
+        <translation>Weet je zeker dat je %1 bestanden wilt verwijderen?</translation>
     </message>
     <message>
         <source>You cannot restore them any longer</source>
-        <translation type="unfinished"/>
+        <translation>Je kunt ze nadien niet meer herstellen.</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this file locally?</source>
-        <translation type="unfinished"/>
+        <translation>Weet je zeker dat je dit bestand lokaal wilt verwijderen?</translation>
     </message>
     <message>
         <source>You can restore it in the trash</source>
-        <translation type="unfinished"/>
+        <translation>Je kunt het nadien vanuit de prullenbak herstellen.</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 files locally?</source>
-        <translation type="unfinished"/>
+        <translation>Weet je zeker dat je %1 bestanden lokaal wilt verwijderen?</translation>
     </message>
     <message>
         <source>You can restore them in the trash</source>
-        <translation type="unfinished"/>
+        <translation>Je kunt ze nadien vanuit de prullenbak herstellen.</translation>
     </message>
 </context>
 <context>
@@ -654,23 +654,23 @@
     </message>
     <message>
         <source>Import folders</source>
-        <translation type="unfinished"/>
+        <translation>Mappen importeren</translation>
     </message>
     <message>
         <source>Import interrupted</source>
-        <translation type="unfinished"/>
+        <translation>Het importeren is onderbroken</translation>
     </message>
     <message>
         <source>Cannot add this path, please try another one</source>
-        <translation type="unfinished"/>
+        <translation>Deze locatie kan niet worden toegevoegd</translation>
     </message>
     <message>
         <source>The path already exists</source>
-        <translation type="unfinished"/>
+        <translation>Deze locatie is al toegevoegd</translation>
     </message>
     <message>
         <source>Failed to restore %1 files: file name too long</source>
-        <translation type="unfinished"/>
+        <translation>%1 bestanden kunnen niet worden hersteld omdat de bestandsnaam te lang is</translation>
     </message>
 </context>
 <context>

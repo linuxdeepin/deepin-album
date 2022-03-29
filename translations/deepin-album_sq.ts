@@ -260,7 +260,7 @@
     </message>
     <message>
         <source>Camera</source>
-        <translation type="unfinished"/>
+        <translation>Kamerë</translation>
     </message>
     <message>
         <source>Draw</source>
@@ -268,7 +268,7 @@
     </message>
     <message>
         <source>(copy)</source>
-        <translation type="unfinished"/>
+        <translation>(kopje)</translation>
     </message>
 </context>
 <context>
@@ -348,35 +348,35 @@
     </message>
     <message>
         <source>Are you sure you want to permanently delete this file?</source>
-        <translation type="unfinished"/>
+        <translation>Jeni i sigurt se doni të fshihet përgjithnjë kjo kartelë?</translation>
     </message>
     <message>
         <source>You cannot restore it any longer</source>
-        <translation type="unfinished"/>
+        <translation>S’mund të riktheni më</translation>
     </message>
     <message>
         <source>Are you sure you want to permanently delete %1 files?</source>
-        <translation type="unfinished"/>
+        <translation>Jeni i sigurt se doni të fshihen përgjithnjë %1 kartela?</translation>
     </message>
     <message>
         <source>You cannot restore them any longer</source>
-        <translation type="unfinished"/>
+        <translation>S’mund t’i riktheni më</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this file locally?</source>
-        <translation type="unfinished"/>
+        <translation>Jeni i sigurt se doni të fshihet kjo kartelë lokalisht?</translation>
     </message>
     <message>
         <source>You can restore it in the trash</source>
-        <translation type="unfinished"/>
+        <translation>Mund ta riktheni që nga hedhurinat</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 files locally?</source>
-        <translation type="unfinished"/>
+        <translation>Jeni i sigurt se doni të fshihen %1 kartela lokalisht?</translation>
     </message>
     <message>
         <source>You can restore them in the trash</source>
-        <translation type="unfinished"/>
+        <translation>Mund t’i riktheni që nga hedhurinat</translation>
     </message>
 </context>
 <context>
@@ -654,23 +654,23 @@
     </message>
     <message>
         <source>Import folders</source>
-        <translation type="unfinished"/>
+        <translation>Importo dosje</translation>
     </message>
     <message>
         <source>Import interrupted</source>
-        <translation type="unfinished"/>
+        <translation>Importimi u ndërpre</translation>
     </message>
     <message>
         <source>Cannot add this path, please try another one</source>
-        <translation type="unfinished"/>
+        <translation>S’mund të shtohet ky shteg, ju lutemi, provoni një tjetër</translation>
     </message>
     <message>
         <source>The path already exists</source>
-        <translation type="unfinished"/>
+        <translation>Shtegu ekziston tashmë </translation>
     </message>
     <message>
         <source>Failed to restore %1 files: file name too long</source>
-        <translation type="unfinished"/>
+        <translation>S’u arrit të rikthehen %1 kartela: emër kartele shumë i gjatë</translation>
     </message>
 </context>
 <context>

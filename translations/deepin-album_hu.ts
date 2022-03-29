@@ -256,19 +256,19 @@
     <name>DBManager</name>
     <message>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation>Képernyő Rögzítő</translation>
     </message>
     <message>
         <source>Camera</source>
-        <translation type="unfinished"/>
+        <translation>Kamera</translation>
     </message>
     <message>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>Rajzoló</translation>
     </message>
     <message>
         <source>(copy)</source>
-        <translation type="unfinished"/>
+        <translation>(másolás)</translation>
     </message>
 </context>
 <context>
@@ -348,35 +348,35 @@
     </message>
     <message>
         <source>Are you sure you want to permanently delete this file?</source>
-        <translation type="unfinished"/>
+        <translation>Biztos benne, hogy véglegesen törli ezt a fájlt?</translation>
     </message>
     <message>
         <source>You cannot restore it any longer</source>
-        <translation type="unfinished"/>
+        <translation>Már nem tudja visszaállítani</translation>
     </message>
     <message>
         <source>Are you sure you want to permanently delete %1 files?</source>
-        <translation type="unfinished"/>
+        <translation>Biztos benne, hogy véglegesen törli a %1 fájlt?</translation>
     </message>
     <message>
         <source>You cannot restore them any longer</source>
-        <translation type="unfinished"/>
+        <translation>Ezeket többé nem tudja visszaállítani</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this file locally?</source>
-        <translation type="unfinished"/>
+        <translation>Biztos benne, hogy helyileg törli ezt a fájlt?</translation>
     </message>
     <message>
         <source>You can restore it in the trash</source>
-        <translation type="unfinished"/>
+        <translation>Visszaállíthatja a Kukából</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 files locally?</source>
-        <translation type="unfinished"/>
+        <translation>Biztos benne, hogy helyileg törli a %1 fájlt?</translation>
     </message>
     <message>
         <source>You can restore them in the trash</source>
-        <translation type="unfinished"/>
+        <translation>Visszaállíthatja őket a Kukából</translation>
     </message>
 </context>
 <context>
@@ -654,23 +654,23 @@
     </message>
     <message>
         <source>Import folders</source>
-        <translation type="unfinished"/>
+        <translation>Mappák importálása</translation>
     </message>
     <message>
         <source>Import interrupted</source>
-        <translation type="unfinished"/>
+        <translation>Az importálás megszakadt</translation>
     </message>
     <message>
         <source>Cannot add this path, please try another one</source>
-        <translation type="unfinished"/>
+        <translation>Ezt az elérési útvonalat nem lehet hozzáadni, kérjük próbálkozzon másikkal</translation>
     </message>
     <message>
         <source>The path already exists</source>
-        <translation type="unfinished"/>
+        <translation>Az elérési útvonal már létezik</translation>
     </message>
     <message>
         <source>Failed to restore %1 files: file name too long</source>
-        <translation type="unfinished"/>
+        <translation>A %1 fájl visszaállítása sikertelen: a fájlnév túl hosszú</translation>
     </message>
 </context>
 <context>

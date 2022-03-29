@@ -256,19 +256,19 @@
     <name>DBManager</name>
     <message>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation>Zrzut Ekranu</translation>
     </message>
     <message>
         <source>Camera</source>
-        <translation type="unfinished"/>
+        <translation>Kamera</translation>
     </message>
     <message>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>Rysowanie</translation>
     </message>
     <message>
         <source>(copy)</source>
-        <translation type="unfinished"/>
+        <translation>(kopia)</translation>
     </message>
 </context>
 <context>
@@ -348,35 +348,35 @@
     </message>
     <message>
         <source>Are you sure you want to permanently delete this file?</source>
-        <translation type="unfinished"/>
+        <translation>Czy na pewno chcesz permanentnie usunąć ten plik?</translation>
     </message>
     <message>
         <source>You cannot restore it any longer</source>
-        <translation type="unfinished"/>
+        <translation>Nie można już go przywrócić</translation>
     </message>
     <message>
         <source>Are you sure you want to permanently delete %1 files?</source>
-        <translation type="unfinished"/>
+        <translation>Czy na pewno chcesz permanentnie usunąć %1 plików?</translation>
     </message>
     <message>
         <source>You cannot restore them any longer</source>
-        <translation type="unfinished"/>
+        <translation>Nie można już ich przywrócić</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this file locally?</source>
-        <translation type="unfinished"/>
+        <translation>Czy na pewno chcesz usunąć ten plik lokalnie?</translation>
     </message>
     <message>
         <source>You can restore it in the trash</source>
-        <translation type="unfinished"/>
+        <translation>Jesteś w stanie przywrócić to z kosza</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 files locally?</source>
-        <translation type="unfinished"/>
+        <translation>Czy na pewno chcesz usunąć %1 plików lokalnie?</translation>
     </message>
     <message>
         <source>You can restore them in the trash</source>
-        <translation type="unfinished"/>
+        <translation>Jesteś w stanie przywrócić je z kosza</translation>
     </message>
 </context>
 <context>
@@ -606,11 +606,11 @@
     </message>
     <message>
         <source>Page up</source>
-        <translation>Przewiń stronę w górę</translation>
+        <translation>Strona w górę</translation>
     </message>
     <message>
         <source>Page down</source>
-        <translation>Przewiń stronę w dół</translation>
+        <translation>Strona w dół</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -654,23 +654,23 @@
     </message>
     <message>
         <source>Import folders</source>
-        <translation type="unfinished"/>
+        <translation>Importuj foldery</translation>
     </message>
     <message>
         <source>Import interrupted</source>
-        <translation type="unfinished"/>
+        <translation>Import został przerwany</translation>
     </message>
     <message>
         <source>Cannot add this path, please try another one</source>
-        <translation type="unfinished"/>
+        <translation>Nie udało się dodać podanej ścieżki, spróbuj inną</translation>
     </message>
     <message>
         <source>The path already exists</source>
-        <translation type="unfinished"/>
+        <translation>Ścieżka już istnieje</translation>
     </message>
     <message>
         <source>Failed to restore %1 files: file name too long</source>
-        <translation type="unfinished"/>
+        <translation>Nie udało się przywrócić %1 plików: za długa nazwa pliku</translation>
     </message>
 </context>
 <context>
@@ -681,7 +681,7 @@
     </message>
     <message>
         <source>Type</source>
-        <translation>Rodzaj</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>File size</source>
@@ -1125,7 +1125,7 @@
     </message>
     <message>
         <source>Type</source>
-        <translation>Rodzaj</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>File size</source>

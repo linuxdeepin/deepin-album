@@ -256,19 +256,19 @@
     <name>DBManager</name>
     <message>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation>Ekran şəkli</translation>
     </message>
     <message>
         <source>Camera</source>
-        <translation type="unfinished"/>
+        <translation>Kamera</translation>
     </message>
     <message>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>Rəsm çəkin</translation>
     </message>
     <message>
         <source>(copy)</source>
-        <translation type="unfinished"/>
+        <translation>(kopya)</translation>
     </message>
 </context>
 <context>
@@ -348,35 +348,35 @@
     </message>
     <message>
         <source>Are you sure you want to permanently delete this file?</source>
-        <translation type="unfinished"/>
+        <translation>Bu faylı həmişəlik silmək istədiyinizə əminsiniz?</translation>
     </message>
     <message>
         <source>You cannot restore it any longer</source>
-        <translation type="unfinished"/>
+        <translation>Artıq onu bərpa edə bilməyəcəksiniz</translation>
     </message>
     <message>
         <source>Are you sure you want to permanently delete %1 files?</source>
-        <translation type="unfinished"/>
+        <translation>%1 faylı həmişəlik silmək istədiyinizə əminisiniz?</translation>
     </message>
     <message>
         <source>You cannot restore them any longer</source>
-        <translation type="unfinished"/>
+        <translation>Artıq onları bərpa edə bilməyəcəksiniz</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this file locally?</source>
-        <translation type="unfinished"/>
+        <translation>Siz bu faylı yerli diskdən silmək istədiyinizə əminsiniz?</translation>
     </message>
     <message>
         <source>You can restore it in the trash</source>
-        <translation type="unfinished"/>
+        <translation>Siz bunu səbətdən bərpa edə bilərsiniz</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 files locally?</source>
-        <translation type="unfinished"/>
+        <translation>%1 faylı yerli diskdən silmək istədiyinizə əminsiniz?</translation>
     </message>
     <message>
         <source>You can restore them in the trash</source>
-        <translation type="unfinished"/>
+        <translation>Siz onları səbətdən bərpa edə bilərsiniz</translation>
     </message>
 </context>
 <context>
@@ -654,23 +654,23 @@
     </message>
     <message>
         <source>Import folders</source>
-        <translation type="unfinished"/>
+        <translation>Qovluqları idxal edin</translation>
     </message>
     <message>
         <source>Import interrupted</source>
-        <translation type="unfinished"/>
+        <translation>İdxal yarımçıq kəsildi</translation>
     </message>
     <message>
         <source>Cannot add this path, please try another one</source>
-        <translation type="unfinished"/>
+        <translation>Bu yol əlavə edilə bilməz, lütfən başqa yolu yoxlayın</translation>
     </message>
     <message>
         <source>The path already exists</source>
-        <translation type="unfinished"/>
+        <translation>Bu yol artıq mövcuddur</translation>
     </message>
     <message>
         <source>Failed to restore %1 files: file name too long</source>
-        <translation type="unfinished"/>
+        <translation>%1 bərpa edilə bilmədi: fayl adı çox uzundur</translation>
     </message>
 </context>
 <context>

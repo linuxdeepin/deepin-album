@@ -256,19 +256,19 @@
     <name>DBManager</name>
     <message>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation>ئېكراننى تۇتۇش</translation>
     </message>
     <message>
         <source>Camera</source>
-        <translation type="unfinished"/>
+        <translation>كامېرا</translation>
     </message>
     <message>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>سىزمىچىلىق تاختىسى</translation>
     </message>
     <message>
         <source>(copy)</source>
-        <translation type="unfinished"/>
+        <translation>(قوشۇمچە نۇسخا)</translation>
     </message>
 </context>
 <context>
@@ -348,35 +348,35 @@
     </message>
     <message>
         <source>Are you sure you want to permanently delete this file?</source>
-        <translation type="unfinished"/>
+        <translation>بۇ ھۆججەتنى مەڭگۈلۈك ئۆچۈرەمسىز؟</translation>
     </message>
     <message>
         <source>You cannot restore it any longer</source>
-        <translation type="unfinished"/>
+        <translation>ئۆچۈرگەندىن كېيىن ئەسلىگە كەلتۈرگىلى بولمايدۇ</translation>
     </message>
     <message>
         <source>Are you sure you want to permanently delete %1 files?</source>
-        <translation type="unfinished"/>
+        <translation>بۇ %1 ھۆججەتنى مەڭگۈلۈك ئۆچۈرەمسىز؟</translation>
     </message>
     <message>
         <source>You cannot restore them any longer</source>
-        <translation type="unfinished"/>
+        <translation>ئۆچۈرگەندىن كېيىن ئەسلىگە كەلتۈرگىلى بولمايدۇ</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this file locally?</source>
-        <translation type="unfinished"/>
+        <translation>سىز بۇ ھۆججەتنى يەرلىكتىن ئۆچۈرەمسىز؟ </translation>
     </message>
     <message>
         <source>You can restore it in the trash</source>
-        <translation type="unfinished"/>
+        <translation>&quot;يېقىندا ئۆچۈرۈلگەنلىرى&apos; دىن ئەسلىگە كەلتۈرەلەيسىز</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 files locally?</source>
-        <translation type="unfinished"/>
+        <translation>بۇ %1 ھۆججەتنى يەرلىكتىن مەڭگۈلۈك ئۆچۈرەمسىز؟</translation>
     </message>
     <message>
         <source>You can restore them in the trash</source>
-        <translation type="unfinished"/>
+        <translation>&quot;يېقىندا ئۆچۈرۈلگەنلىرى&apos; دىن ئەسلىگە كەلتۈرەلەيسىز</translation>
     </message>
 </context>
 <context>
@@ -654,23 +654,23 @@
     </message>
     <message>
         <source>Import folders</source>
-        <translation type="unfinished"/>
+        <translation>ھۆججەت قىسقۇچتىن ئەكىرىش</translation>
     </message>
     <message>
         <source>Import interrupted</source>
-        <translation type="unfinished"/>
+        <translation>ئەكىرىش ئۈزۈلۈپ قالدى</translation>
     </message>
     <message>
         <source>Cannot add this path, please try another one</source>
-        <translation type="unfinished"/>
+        <translation>بۇ مۇندەرىجىنى قوللىمايدۇ، باشقا مۇندەرىجىنى سىناپ بېقىڭ</translation>
     </message>
     <message>
         <source>The path already exists</source>
-        <translation type="unfinished"/>
+        <translation>مۇندەرىجە مەۋجۇت</translation>
     </message>
     <message>
         <source>Failed to restore %1 files: file name too long</source>
-        <translation type="unfinished"/>
+        <translation>ھۆججەت نامى بەك ئۇزۇن بولغاچقا، %1 ھۆججەتنى ئەسلىگە كەلتۈرەلمىدى</translation>
     </message>
 </context>
 <context>

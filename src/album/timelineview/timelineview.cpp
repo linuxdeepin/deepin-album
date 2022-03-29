@@ -461,7 +461,7 @@ void TimeLineView::addTimelineLayout()
             num = tr("%n photos", "", photoCount);
         } else if (photoCount == 0 && videoCount > 1) {
             num = tr("%n videos", "", videoCount);
-        } else if (photoCount > 1 && videoCount > 1) {
+        } else if (photoCount >= 1 && videoCount >= 1) {
             num = tr("%n items", "", (photoCount + videoCount));
         }
 

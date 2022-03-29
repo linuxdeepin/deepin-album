@@ -256,19 +256,19 @@
     <name>DBManager</name>
     <message>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation>བཪྙན་ཡོལ་པར་ལེན།</translation>
     </message>
     <message>
         <source>Camera</source>
-        <translation type="unfinished"/>
+        <translation>པར་ཆས།</translation>
     </message>
     <message>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>རིས་གདན།</translation>
     </message>
     <message>
         <source>(copy)</source>
-        <translation type="unfinished"/>
+        <translation>(བུ་དེབ་)</translation>
     </message>
 </context>
 <context>
@@ -348,35 +348,35 @@
     </message>
     <message>
         <source>Are you sure you want to permanently delete this file?</source>
-        <translation type="unfinished"/>
+        <translation>ཡིག་ཆ་འདི་བསུབ་རྒྱུ་ཡིན་པ་ཁྱོད་ཀྱིས་གཏན་ཁེལ་ལམ།</translation>
     </message>
     <message>
         <source>You cannot restore it any longer</source>
-        <translation type="unfinished"/>
+        <translation>སུབ་རྗེས་བསྐྱར་གསོ་བྱེད་ཐབས་མེད།</translation>
     </message>
     <message>
         <source>Are you sure you want to permanently delete %1 files?</source>
-        <translation type="unfinished"/>
+        <translation>ཡིག་ཆ་%1འདི་བསུབ་རྒྱུ་ཡིན་པ་ཁྱོད་ཀྱིས་གཏན་ཁེལ་ལམ།</translation>
     </message>
     <message>
         <source>You cannot restore them any longer</source>
-        <translation type="unfinished"/>
+        <translation>སུབ་རྗེས་བསྐྱར་གསོ་བྱེད་ཐབས་མེད།</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this file locally?</source>
-        <translation type="unfinished"/>
+        <translation>ཡིག་ཆ་འདི་བསུབ་རྒྱུ་ཡིན་པ་ཁྱོད་ཀྱིས་གཏན་ཁེལ་ལམ།</translation>
     </message>
     <message>
         <source>You can restore it in the trash</source>
-        <translation type="unfinished"/>
+        <translation>ཁྱེད་ཀྱིས་“ཉེ་འཆར་སུབ་པ་”ནང་ནས་བསྐྱར་གསོ་བྱེད་ཆོག</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 files locally?</source>
-        <translation type="unfinished"/>
+        <translation>རང་ས་ནས་ཡིག་ཆ་%1འདི་བསུབ་རྒྱུ་ཡིན་པ་ཁྱོད་ཀྱིས་གཏན་ཁེལ་ལམ།</translation>
     </message>
     <message>
         <source>You can restore them in the trash</source>
-        <translation type="unfinished"/>
+        <translation>ཁྱེད་ཀྱིས་“ཉེ་འཆར་སུབ་པ་”ནང་ནས་བསྐྱར་གསོ་བྱེད་ཆོག</translation>
     </message>
 </context>
 <context>
@@ -654,23 +654,23 @@
     </message>
     <message>
         <source>Import folders</source>
-        <translation type="unfinished"/>
+        <translation>ཡིག་ཁུག་ནང་འདྲེན་བྱེད་པ།</translation>
     </message>
     <message>
         <source>Import interrupted</source>
-        <translation type="unfinished"/>
+        <translation>ནང་འདྲེན་མཚམས་ཆད་པ། </translation>
     </message>
     <message>
         <source>Cannot add this path, please try another one</source>
-        <translation type="unfinished"/>
+        <translation>ལམ་དེར་རྒྱབ་སྐྱོར་མི་བྱེད་པས། ལམ་གཞན་དག་ཚོད་ལྟ་གྱིས་དང་།</translation>
     </message>
     <message>
         <source>The path already exists</source>
-        <translation type="unfinished"/>
+        <translation>ལམ་དེ་ཡོད་ཟིན། </translation>
     </message>
     <message>
         <source>Failed to restore %1 files: file name too long</source>
-        <translation type="unfinished"/>
+        <translation>ཡིག་ཆ་%1བསྐྱར་གསོ་བྱེད་མི་ཐུབ། ཡིག་ཆའི་མིང་རིང་དྲགས་འདུག</translation>
     </message>
 </context>
 <context>

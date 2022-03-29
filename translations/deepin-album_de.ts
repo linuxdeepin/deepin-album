@@ -217,7 +217,7 @@
     </message>
     <message>
         <source>Save to:</source>
-        <translation>Speichern unter:</translation>
+        <translation>Speichern in:</translation>
     </message>
     <message>
         <source>Format:</source>
@@ -256,11 +256,11 @@
     <name>DBManager</name>
     <message>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation>Bildschirmaufnahme</translation>
     </message>
     <message>
         <source>Camera</source>
-        <translation type="unfinished"/>
+        <translation>Kamera</translation>
     </message>
     <message>
         <source>Draw</source>
@@ -268,7 +268,7 @@
     </message>
     <message>
         <source>(copy)</source>
-        <translation type="unfinished"/>
+        <translation>(Kopie)</translation>
     </message>
 </context>
 <context>
@@ -332,51 +332,51 @@
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="vanished"><numerusform>Sind Sie sicher, dass sie %n Fotos aus dem Album löschen möchten?</numerusform><numerusform>Sind Sie sicher, dass sie %n Fotos aus dem Album löschen möchten?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Sind Sie sicher, dass Sie dieses Video aus dem Album löschen möchten?</translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="vanished"><numerusform>Sind Sie sicher, dass Sie %n Videos aus dem Album löschen möchten?</numerusform><numerusform>Sind Sie sicher, dass Sie %n Videos aus dem Album löschen möchten?</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="vanished"><numerusform>Sind Sie sicher, dass sie %n Objekte aus den Alben löschen möchten?</numerusform><numerusform>Sind Sie sicher, dass sie %n Objekte aus dem Album löschen möchten?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to permanently delete this file?</source>
-        <translation type="unfinished"/>
+        <translation>Sind Sie sicher, dass Sie diese Datei endgültig löschen möchen?</translation>
     </message>
     <message>
         <source>You cannot restore it any longer</source>
-        <translation type="unfinished"/>
+        <translation>Sie können sie nicht mehr wiederherstellen</translation>
     </message>
     <message>
         <source>Are you sure you want to permanently delete %1 files?</source>
-        <translation type="unfinished"/>
+        <translation>Sind Sie sicher, dass sie endgültig %1 Dateien löschen möchten?</translation>
     </message>
     <message>
         <source>You cannot restore them any longer</source>
-        <translation type="unfinished"/>
+        <translation>Sie können sie nicht mehr wiederherstellen</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this file locally?</source>
-        <translation type="unfinished"/>
+        <translation>Sind Sie sicher, dass Sie diese Datei lokal löschen möchten?</translation>
     </message>
     <message>
         <source>You can restore it in the trash</source>
-        <translation type="unfinished"/>
+        <translation>Sie können Sie im Papierkorb wiederherstellen</translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 files locally?</source>
-        <translation type="unfinished"/>
+        <translation>Sind Sie sicher, dass Sie %1 Dateien lokal löschen möchten?</translation>
     </message>
     <message>
         <source>You can restore them in the trash</source>
-        <translation type="unfinished"/>
+        <translation>Sie können sie im Papierkorb wiederherstellen</translation>
     </message>
 </context>
 <context>
@@ -410,15 +410,15 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n Fotos</numerusform><numerusform>%n Fotos</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n Videos</numerusform><numerusform>%n Videos</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n Objekte</numerusform><numerusform>%n Objekte</numerusform></translation>
     </message>
 </context>
 <context>
@@ -479,7 +479,7 @@
     <name>Main</name>
     <message>
         <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"/>
+        <translation>Album ist ein trendiger Fotomanager zum Betrachten und Organisieren von Bildern.</translation>
     </message>
 </context>
 <context>
@@ -654,23 +654,23 @@
     </message>
     <message>
         <source>Import folders</source>
-        <translation type="unfinished"/>
+        <translation>Ordner importieren</translation>
     </message>
     <message>
         <source>Import interrupted</source>
-        <translation type="unfinished"/>
+        <translation>Import unterbrochen</translation>
     </message>
     <message>
         <source>Cannot add this path, please try another one</source>
-        <translation type="unfinished"/>
+        <translation>Der Pfad kann nicht hinzugefügt werden. Bitte versuchen Sie einen anderen</translation>
     </message>
     <message>
         <source>The path already exists</source>
-        <translation type="unfinished"/>
+        <translation>Der Pfad existiert bereits</translation>
     </message>
     <message>
         <source>Failed to restore %1 files: file name too long</source>
-        <translation type="unfinished"/>
+        <translation>%1 Dateien konnten nicht wiederhergestellt werden: Dateiname zu lang</translation>
     </message>
 </context>
 <context>
@@ -878,15 +878,15 @@
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n Fotos ausgewählt</numerusform><numerusform>%n Fotos ausgewählt</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n Videos ausgewählt</numerusform><numerusform>%n Videos ausgewählt</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n Objekte ausgewählt</numerusform><numerusform>%n Objekte ausgewählt</numerusform></translation>
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
@@ -913,7 +913,7 @@
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n Videos gefunden</numerusform><numerusform>%n Videos gefunden</numerusform></translation>
     </message>
     <message>
         <source>1 video found</source>
@@ -921,11 +921,11 @@
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n Objekte gefunden</numerusform><numerusform>%n Objekte gefunden</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n Fotos gefunden</numerusform><numerusform>%n Fotos gefunden</numerusform></translation>
     </message>
 </context>
 <context>
@@ -940,11 +940,11 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n Fotos</numerusform><numerusform>%n Fotos</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n Videos</numerusform><numerusform>%n Videos</numerusform></translation>
     </message>
     <message>
         <source>Importing: %1</source>
@@ -1050,15 +1050,15 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n Fotos</numerusform><numerusform>%n Fotos</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n Videos</numerusform><numerusform>%n Videos</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n Objekte</numerusform><numerusform>%n Objekte</numerusform></translation>
     </message>
 </context>
 <context>
@@ -1077,11 +1077,11 @@
     </message>
     <message>
         <source>Video CodecID</source>
-        <translation type="unfinished"/>
+        <translation>Videocodec-ID</translation>
     </message>
     <message>
         <source>Video CodeRate</source>
-        <translation type="unfinished"/>
+        <translation>Video-Codierungsrate</translation>
     </message>
     <message>
         <source>FPS</source>
@@ -1097,11 +1097,11 @@
     </message>
     <message>
         <source>Audio CodecID</source>
-        <translation type="unfinished"/>
+        <translation>Audiocodec-ID</translation>
     </message>
     <message>
         <source>Audio CodeRate</source>
-        <translation type="unfinished"/>
+        <translation>Audio-Codierungsrate</translation>
     </message>
     <message>
         <source>Audio digit</source>
