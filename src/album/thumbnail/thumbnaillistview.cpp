@@ -203,21 +203,19 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
 
 void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
 {
+    QRectF rect(QPointF((lastTouchBeginPos.x() - 30), (lastTouchBeginPos.y() - 30)),
+                QPointF((lastTouchBeginPos.x() + 30), (lastTouchBeginPos.y() + 30)));
+    if (rect.contains(event->pos())) {
+        return;
+    }
+
     if (touchStatus == 0) {
-        QRectF rect(QPointF((lastTouchBeginPos.x() - 30), (lastTouchBeginPos.y() - 30)),
-                    QPointF((lastTouchBeginPos.x() + 30), (lastTouchBeginPos.y() + 30)));
-        if (rect.contains(event->pos())) {
-            return;
-        } else {
-            touchStatus = 1;
-            activeClick = false;
-        }
+        touchStatus = 1;
+        activeClick = false;
     }
 
     if (touchStatus == 1) {
         if (event->source() == Qt::MouseEventSynthesizedByQt) {
-            //todo
-//            emit sigNeedMoveScorll(-(event->pos() - lastTouchBeginPos).y());
         }
     }
 
