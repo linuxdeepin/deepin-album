@@ -60,10 +60,9 @@ bool WallpaperSetter::setBackground(const QString &pictureFilePath)
     QString errMsg;
     QFileInfo info(pictureFilePath);
     QString tempWallPaperpath;
-    tempWallPaperpath = WALLPAPER_PATH + info.fileName();
+    tempWallPaperpath = WALLPAPER_PATH + info.baseName() + ".png";
     QFileInfo tempInfo(tempWallPaperpath);
     if (!UnionImage_NameSpace::loadStaticImageFromFile(pictureFilePath, tImg, errMsg)) {
-//        qDebug() << "load wallpaper path error!";
         return false;
     }
     //临时文件目录不存在，先创建临时文件目录
@@ -71,7 +70,8 @@ bool WallpaperSetter::setBackground(const QString &pictureFilePath)
     if (!tempImgDir.exists() && !tempImgDir.mkdir(tempImgDir.path())) {
         return false;
     }
-    if (!tImg.save(tempWallPaperpath, "", 100)) {
+
+    if (!tImg.save(tempWallPaperpath, "PNG", 100)) {
         return false;
     }
     if (!tempInfo.exists()) {
