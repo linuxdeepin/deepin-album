@@ -36,14 +36,6 @@
 
 #include "imageengineapi.h"
 
-namespace {
-const QString DATABASE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
-                              + QDir::separator() + "deepin" + QDir::separator() + "deepin-album" + QDir::separator();
-const QString DATABASE_NAME = "deepinalbum.db";
-const QString EMPTY_HASH_STR = utils::base::hashByString(QString(" "));
-
-}  // namespace
-
 DBManager *DBManager::m_dbManager = nullptr;
 std::once_flag DBManager::instanceFlag;
 QReadWriteLock DBManager::m_fileMutex;
@@ -60,6 +52,11 @@ DBManager *DBManager::instance()
 DBManager::DBManager(QObject *parent)
     : QObject(parent)
 {
+    //指定路径
+    DATABASE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator();
+    qDebug() << "----current DataBase path--" << DATABASE_PATH;
+    DATABASE_NAME = "deepinalbum.db";
+    EMPTY_HASH_STR = utils::base::hashByString(QString(" "));
     checkDatabase();
 }
 

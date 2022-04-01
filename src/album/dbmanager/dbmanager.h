@@ -162,6 +162,11 @@ private:
     mutable QMutex m_dbMutex; //数据库锁，用于锁定Sqlite数据库的操作权限
     mutable QSqlQuery *m_query; //将数据库查询对象统一到类成员变量，以尝试解决sqlite崩溃问题
     std::atomic_int albumMaxUID; //当前数据库中UID的最大值，用于新建UID用
+
+    //数据库相关路径
+    QString DATABASE_PATH = "";
+    QString DATABASE_NAME = "";
+    QString EMPTY_HASH_STR = "";
 };
 
 #endif // DBMANAGER_H
