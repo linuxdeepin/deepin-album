@@ -25,6 +25,7 @@
 #include <QTimer>
 #include <QColor>
 #include <QMimeData>
+#include <dgiovolumemanager.h>
 
 #if QT_VERSION >= 0x050500
 #define TIMER_SINGLESHOT(Time, Code, captured, ...) \
@@ -274,6 +275,8 @@ bool trashFile(const QString &file);
 QString getDeleteFullPath(const QString &hash, const QString &fileName);
 //同步文件拷贝，用于区分QFile::copy的异步拷贝
 bool syncCopy(const QString &srcFileName, const QString &dstFileName);
+//可重入版本的getMounts
+QList<QExplicitlySharedDataPointer<DGioMount>> getMounts_safe();
 }  // namespace base
 
 }  // namespace utils

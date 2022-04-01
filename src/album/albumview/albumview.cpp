@@ -1521,7 +1521,7 @@ const QList<QExplicitlySharedDataPointer<DGioMount>> AlbumView::getVfsMountList(
 {
     getAllDeviceName();
     QList<QExplicitlySharedDataPointer<DGioMount> > result;
-    const QList<QExplicitlySharedDataPointer<DGioMount> > mounts = DGioVolumeManager::getMounts();
+    const QList<QExplicitlySharedDataPointer<DGioMount> > mounts = utils::base::getMounts_safe();
     for (auto mount : mounts) {
         //TODO:
         //Support android phone, iPhone, and usb devices. Not support ftp, smb, non removeable disk now

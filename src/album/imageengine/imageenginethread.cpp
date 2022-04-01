@@ -216,7 +216,7 @@ void ImportImagesThread::runDetail()
         }
         // 判断当前导入路径是否为外接设备
         bool isMountFlag = false;
-        QList<QExplicitlySharedDataPointer<DGioMount>> mounts = DGioVolumeManager::getMounts();
+        auto mounts = utils::base::getMounts_safe();
         for (auto mount : mounts) {
             if (bneedstop || ImageEngineApi::instance()->closeFg()) {
                 m_obj->imageImported(false);

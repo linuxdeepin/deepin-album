@@ -668,6 +668,16 @@ bool syncCopy(const QString &srcFileName, const QString &dstFileName)
     return true;
 }
 
+//可重入版本的getMounts
+QList<QExplicitlySharedDataPointer<DGioMount>> getMounts_safe()
+{
+    static QMutex mutex;
+    mutex.lock();
+    auto result = DGioVolumeManager::getMounts();
+    mutex.unlock();
+    return result;
+}
+
 }  // namespace base
 
 }  // namespace utils
