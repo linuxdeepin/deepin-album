@@ -32,11 +32,12 @@
 #include <QtDBus>
 #include <QGuiApplication>
 #include <QScreen>
+#include <QDir>
 
 #include <unistd.h>
 
 namespace {
-const QString WALLPAPER_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "deepin" + QDir::separator() + "deepin-album" + QDir::separator() + "wallpapers" + QDir::separator();
+const QString WALLPAPER_PATH = QDir::homePath() + "/.local/share/deepin/deepin-album/wallpapers/";
 }
 
 WallpaperSetter *WallpaperSetter::m_setter = nullptr;
