@@ -560,28 +560,28 @@ void LeftListView::onApplicationHelperThemeTypeChanged()
 {
     if (COMMON_STR_RECENT_IMPORTED == m_ItemCurrentType) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
-        item->newAlbumStatus();
         item->oriAlbumStatus();
+        item->newAlbumStatus();
     }
     if (COMMON_STR_TRASH == m_ItemCurrentType) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
-        item->newAlbumStatus();
         item->oriAlbumStatus();
+        item->newAlbumStatus();
     }
     if (COMMON_STR_FAVORITES == m_ItemCurrentType) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pPhotoLibListView->itemWidget(m_pPhotoLibListView->currentItem()));
-        item->newAlbumStatus();
         item->oriAlbumStatus();
+        item->newAlbumStatus();
     }
     if (COMMON_STR_CUSTOM == m_ItemCurrentType) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pCustomizeListView->itemWidget(m_pCustomizeListView->currentItem()));
-        item->newAlbumStatus();
         item->oriAlbumStatus();
+        item->newAlbumStatus();
     }
     if (ALBUM_PATHTYPE_BY_PHONE == m_ItemCurrentType) {
         AlbumLeftTabItem *item = dynamic_cast<AlbumLeftTabItem *>(m_pMountListWidget->itemWidget(m_pMountListWidget->currentItem()));
-        item->newAlbumStatus();
         item->oriAlbumStatus();
+        item->newAlbumStatus();
     }
 }
 

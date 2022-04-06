@@ -176,6 +176,7 @@ void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeT
     m_pDate->setForegroundRole(DPalette::Text);
     m_pDate->setPalette(pal1);
     pNum_up->setPalette(pal1);
+    m_TitleItem->setPalette(pal1);
 
     for (int i = 1; i < m_mainListWidget->count(); i++) {
         TimelineItem *item = static_cast<TimelineItem *>(m_mainListWidget->itemWidget(m_mainListWidget->item(i)));
