@@ -35,7 +35,7 @@ extern "C" {
 #include <libavutil/avutil.h>
 }
 
-#define THUMBNAIL_SIZE 500
+#define THUMBNAIL_SIZE 200
 #define SEEK_TIME "00:00:01"
 
 MovieService *MovieService::m_movieService = nullptr;
@@ -67,6 +67,16 @@ MovieInfo MovieService::getMovieInfo(const QUrl &url)
 {
     MovieInfo result;
 
+    m_bufferMutex.lock();
+    auto iter = std::find_if(m_movieInfoBuffer.begin(), m_movieInfoBuffer.end(), [url](const std::pair<QUrl, MovieInfo> &data) {
+        return data.first == url;
+    });
+    if (iter != m_movieInfoBuffer.end()) {
+        m_bufferMutex.unlock();
+        return iter->second;
+    }
+    m_bufferMutex.unlock();
+
     if (url.isLocalFile()) {
         QFileInfo fi(url.toLocalFile());
 
@@ -75,6 +85,13 @@ MovieInfo MovieService::getMovieInfo(const QUrl &url)
             result = parseFromFile(fi);
         }
     }
+
+    m_bufferMutex.lock();
+    m_movieInfoBuffer.push_back(std::make_pair(url, result));
+    if (m_movieInfoBuffer.size() > 30) {
+        m_movieInfoBuffer.pop_front();
+    }
+    m_bufferMutex.unlock();
 
     return result;
 }

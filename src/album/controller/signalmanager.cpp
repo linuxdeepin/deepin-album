@@ -25,12 +25,15 @@
 #include "mainwindow.h"
 #include "imageengineapi.h"
 
+std::atomic_bool SignalManager::inAutoImport;
 SignalManager *SignalManager::m_signalManager = nullptr;
 SignalManager *SignalManager::instance()
 {
     if (m_signalManager == nullptr) {
         m_signalManager = new SignalManager;
     }
+
+    inAutoImport = false;
 
     return m_signalManager;
 }

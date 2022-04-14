@@ -28,6 +28,7 @@
 #include <QMutex>
 #include <mutex>
 #include <QDateTime>
+#include <deque>
 
 #include "baseutils.h"
 #include <libffmpegthumbnailer/videothumbnailerc.h>
@@ -130,6 +131,9 @@ private:
 
     video_thumbnailer *m_video_thumbnailer = nullptr;
     image_data *m_image_data = nullptr;
+
+    QMutex m_bufferMutex;
+    std::deque<std::pair<QUrl, MovieInfo>> m_movieInfoBuffer;
 
     mvideo_thumbnailer_create m_creat_video_thumbnailer = nullptr;
     mvideo_thumbnailer_destroy m_mvideo_thumbnailer_destroy = nullptr;

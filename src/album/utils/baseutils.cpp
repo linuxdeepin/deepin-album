@@ -21,6 +21,9 @@
 #include "baseutils.h"
 #include "imageutils.h"
 #include "application.h"
+#include "unionimage.h"
+#include "imagedataservice.h"
+#include "movieservice.h"
 #include <stdio.h>
 #include <fcntl.h>
 #include <fstream>
@@ -676,6 +679,81 @@ QList<QExplicitlySharedDataPointer<DGioMount>> getMounts_safe()
     auto result = DGioVolumeManager::getMounts();
     mutex.unlock();
     return result;
+}
+
+void multiLoadImage_helper(const QString &path)
+{
+    if (!QFileInfo(path).exists()) {
+        return;
+    }
+    using namespace UnionImage_NameSpace;
+    QImage tImg;
+    QString srcPath = path;
+    QString errMsg;
+    //读图
+    if (utils::base::isVideo(path)) {
+        tImg = MovieService::instance()->getMovieCover(QUrl::fromLocalFile(path));
+
+        //获取视频信息 demo
+        MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
+        ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
+    } else {
+        if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
+            qDebug() << errMsg;
+            ImageDataService::instance()->addImage(path, tImg);
+            return;
+        }
+    }
+    //裁切
+    if (!tImg.isNull() && 0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
+        bool cache_exist = false;
+        if (tImg.height() != 200 && tImg.width() != 200) {
+            if (tImg.height() >= tImg.width()) {
+                cache_exist = true;
+                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+            } else if (tImg.height() <= tImg.width()) {
+                cache_exist = true;
+                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+            }
+        }
+        if (!cache_exist) {
+            if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
+                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+            } else {
+                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+            }
+        }
+    }
+    if (!tImg.isNull()) {
+        int width = tImg.width();
+        int height = tImg.height();
+        if (abs((width - height) * 10 / width) >= 1) {
+            QRect rect = tImg.rect();
+            int x = rect.x() + width / 2;
+            int y = rect.y() + height / 2;
+            if (width > height) {
+                x = x - height / 2;
+                y = 0;
+                tImg = tImg.copy(x, y, height, height);
+            } else {
+                y = y - width / 2;
+                x = 0;
+                tImg = tImg.copy(x, y, width, width);
+            }
+        }
+    }
+
+    ImageDataService::instance()->addImage(path, tImg);
+}
+
+//多线程预加载图片
+//启用条件：数据库无图片，且后台没在做自动导入
+QFuture<void> multiLoadImage(const QStringList &paths)
+{
+    QFuture<void> watcher = QtConcurrent::map(paths, [](const QString & path) {
+        multiLoadImage_helper(path);
+    });
+    return watcher;
 }
 
 }  // namespace base

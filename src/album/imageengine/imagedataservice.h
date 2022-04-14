@@ -48,6 +48,8 @@ public:
     void stopFlushThumbnail();
     void waitFlushThumbnailFinish();
 
+    bool readerIsRunning();
+
 private slots:
 signals:
     void sigeUpdateListview();

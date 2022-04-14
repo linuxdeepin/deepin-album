@@ -2210,6 +2210,8 @@ void MainWindow::onImagesRemoved()
 
 void MainWindow::ImportImagesFromCustomAutoPaths()
 {
+    SignalManager::inAutoImport = true;
+
     auto customAutoImportUIDAndPaths = DBManager::instance()->getAllCustomAutoImportUIDAndPath();
 
     //first -> UID, secend -> path
@@ -2257,6 +2259,8 @@ void MainWindow::ImportImagesFromCustomAutoPaths()
             ImageEngineApi::instance()->ImportImagesFromFileList(currentPaths, eachItem.second.split('/').last(), eachItem.first, this, true, AutoImport);
         }
     }
+
+    SignalManager::inAutoImport = false;
 }
 
 void MainWindow::setConflictShortcutEnabled(bool enable)

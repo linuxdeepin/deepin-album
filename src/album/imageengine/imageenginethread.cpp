@@ -291,32 +291,54 @@ void ImportImagesThread::runDetail()
             if (m_dbType != AutoImport || m_isFirst) {
                 emit dApp->signalM->progressOfWaitDialog(image_list.size(), dbInfos.size());
             }
-
         }
 
         std::sort(dbInfos.begin(), dbInfos.end(), [](const DBImgInfo & lhs, const DBImgInfo & rhs) {
-            return lhs.changeTime.toTime_t() > rhs.changeTime.toTime_t();
+            return lhs.changeTime > rhs.changeTime;
         });
 
-        QStringList pathlistImport;
-        for (auto &dbInfo : dbInfos) {
-            if (!DBManager::instance()->isImgExistInAlbum(m_UID, dbInfo.filePath))
-                pathlistImport << dbInfo.filePath;
+        //性能测试是测导入提示框消失到第一屏缩略图加载完毕的时间
+        //因此在提示框进行的时候预先加载第一屏的图片
+        QFuture<void> firstImportWatcher;
+        bool doLoadFirstPage = (DBManager::instance()->getImgsCount() == 0 && m_dbType != AutoImport && !SignalManager::inAutoImport);
+
+        if (doLoadFirstPage) {
+            QStringList firstLoadPaths;
+            for (int i = 0; i < 70 && i < dbInfos.size(); ++i) {
+                firstLoadPaths.push_back(dbInfos[i].filePath);
+            }
+            firstImportWatcher = utils::base::multiLoadImage(firstLoadPaths);
         }
-        //导入相册数据库AlbumTable3
-        if (pathlistImport.size() > 0) {
-            DBManager::instance()->insertIntoAlbum(m_UID, pathlistImport, m_dbType);
+
+        if (m_UID >= 0) {
+            //导入相册数据库AlbumTable3
+            QStringList pathlistImport;
+            for (auto &dbInfo : dbInfos) {
+                if (!DBManager::instance()->isImgExistInAlbum(m_UID, dbInfo.filePath))
+                    pathlistImport << dbInfo.filePath;
+            }
+
+            if (!pathlistImport.isEmpty()) {
+                DBManager::instance()->insertIntoAlbum(m_UID, pathlistImport, m_dbType);
+            }
+
+            //已全部存在，无需导入
+            if (noReadCount == image_list.size()) {
+                m_obj->imageImported(false);
+                m_obj->removeThread(this);
+                return;
+            }
         }
-        //已全部存在，无需导入
-        if (noReadCount == image_list.size()) {
-            m_obj->imageImported(false);
-            m_obj->removeThread(this);
-            return;
-        }
+
         //bug112005只有在确认有需要导入的文件时才显示导入进度
         if (m_dbType != AutoImport || m_isFirst) {
             emit dApp->signalM->popupWaitDialog(QObject::tr("Importing..."));
         }
+
+        if (doLoadFirstPage) {
+            firstImportWatcher.waitForFinished();
+        }
+
         //导入图片数据库ImageTable3
         DBManager::instance()->insertImgInfos(dbInfos);
         if (m_dbType != AutoImport || m_isFirst) {

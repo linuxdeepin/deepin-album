@@ -26,6 +26,7 @@
 #include <QColor>
 #include <QMimeData>
 #include <dgiovolumemanager.h>
+#include <QtConcurrent/QtConcurrent>
 
 #if QT_VERSION >= 0x050500
 #define TIMER_SINGLESHOT(Time, Code, captured, ...) \
@@ -277,6 +278,8 @@ QString getDeleteFullPath(const QString &hash, const QString &fileName);
 bool syncCopy(const QString &srcFileName, const QString &dstFileName);
 //可重入版本的getMounts
 QList<QExplicitlySharedDataPointer<DGioMount>> getMounts_safe();
+//快速加载图片
+QFuture<void> multiLoadImage(const QStringList &paths);
 }  // namespace base
 
 }  // namespace utils

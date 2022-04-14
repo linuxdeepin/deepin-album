@@ -76,7 +76,7 @@ ImageEngineApi::ImageEngineApi(QObject *parent)
     m_qtpool.setMaxThreadCount(4);
     cacheThreadPool.setMaxThreadCount(4);
 #else
-    QThreadPool::globalInstance()->setMaxThreadCount(12);
+    QThreadPool::globalInstance()->setMaxThreadCount(QThread::idealThreadCount() - 1);
     QThreadPool::globalInstance()->setExpiryTimeout(10);
 #endif
 

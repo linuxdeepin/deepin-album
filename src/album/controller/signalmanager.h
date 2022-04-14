@@ -50,6 +50,8 @@ public:
 
     void showInfoDlg(const QString &path, ItemType type, bool isTrash);
 
+    static std::atomic_bool inAutoImport;
+
 signals:
     void hideImageView();
     void showSlidePanel(int index);

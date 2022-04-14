@@ -73,13 +73,8 @@ void ImageDataService::addImage(const QString &path, const QImage &image)
     QMutexLocker locker(&m_imgDataMutex);
 
     auto iter = std::find_if(m_AllImageMap.begin(), m_AllImageMap.end(), [path](const std::pair<QString, QImage> &pr) {
-        if (pr.first.size() != path.size()) {
+        if (pr.first != path) {
             return false;
-        }
-        for (auto rIter_lhs = pr.first.rbegin(), rIter_rhs = path.rbegin(); rIter_lhs != pr.first.rend() && rIter_rhs != path.rend(); ++rIter_lhs, ++rIter_rhs) {
-            if (*rIter_lhs != *rIter_rhs) {
-                return false;
-            }
         }
         return true;
     });
@@ -154,6 +149,11 @@ void ImageDataService::stopFlushThumbnail()
 void ImageDataService::waitFlushThumbnailFinish()
 {
     while (ImageDataService::instance()->readThumbnailManager->isRunning());
+}
+
+bool ImageDataService::readerIsRunning()
+{
+    return readThumbnailManager->isRunning();
 }
 
 QImage ImageDataService::getThumnailImageByPathRealTime(const QString &path, bool isTrashFile)
