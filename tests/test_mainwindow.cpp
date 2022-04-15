@@ -206,6 +206,11 @@ TEST(MainWindow, Picimport)
     DBImgInfoList dbInfos;
     dbInfos.push_back(DBImgInfo());
     dApp->m_imageloader->ImportImageLoader(dbInfos);
+
+    //测试快速多图制作
+    QStringList fastTestList{"~/Pictures/AlbumtestResource/2ejqyx.jpg, ~/Pictures/AlbumtestResource/album_ut_mount_point/DCIM/0jll1w.jpg"};
+    auto watcher = utils::base::multiLoadImage(fastTestList);
+    watcher.waitForFinished();
 }
 
 TEST(MainWindow, allpicture)

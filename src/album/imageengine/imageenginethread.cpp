@@ -301,9 +301,8 @@ void ImportImagesThread::runDetail()
         //因此在提示框进行的时候预先加载第一屏的图片
         QFuture<void> firstImportWatcher;
         bool doLoadFirstPage = (DBManager::instance()->getImgsCount() == 0 && m_dbType != AutoImport && !SignalManager::inAutoImport);
-
+        QStringList firstLoadPaths; //这个变量要写外面，写里面会造成提前销毁，然后在多线程加载中崩溃
         if (doLoadFirstPage) {
-            QStringList firstLoadPaths;
             for (int i = 0; i < 70 && i < dbInfos.size(); ++i) {
                 firstLoadPaths.push_back(dbInfos[i].filePath);
             }

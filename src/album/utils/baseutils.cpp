@@ -60,12 +60,6 @@ namespace base {
 const QString DATETIME_FORMAT_NORMAL = "yyyy.MM.dd";
 const QString DATETIME_FORMAT_EXIF = "yyyy:MM:dd HH:mm:ss";
 
-int stringHeight(const QFont &f, const QString &str)
-{
-    QFontMetrics fm(f);
-    return fm.boundingRect(str).height();
-}
-
 QString reorganizationStr(const QFont &font, const QString &fullStr, int maxWidth)
 {
     QFontMetrics fontWidth(font); //字体信息
@@ -399,14 +393,6 @@ QUrl UrlInfo(QString path)
     return url;
 }
 
-int daysDifferenceBetweenTime(const QDateTime &start, const QDateTime &end)
-{
-    int daysSec = 24 * 60 * 60;
-    int stime = static_cast<int>(start.toTime_t());
-    int etime = static_cast<int>(end.toTime_t());
-    return ((etime - stime) / daysSec);
-}
-
 QString audioIndex2str(const int &index)
 {
     QStringList audioList = {"mp2", "mp3", "aac", "ac3", "dts", "vorbis", "dvaudio", "wmav1", "wmav2", "mace3", "mace6",
@@ -683,24 +669,24 @@ QList<QExplicitlySharedDataPointer<DGioMount>> getMounts_safe()
 
 void multiLoadImage_helper(const QString &path)
 {
-    if (!QFileInfo(path).exists()) {
+    QString srcPath = path;
+    if (!QFileInfo(srcPath).exists()) {
         return;
     }
     using namespace UnionImage_NameSpace;
     QImage tImg;
-    QString srcPath = path;
     QString errMsg;
     //读图
-    if (utils::base::isVideo(path)) {
-        tImg = MovieService::instance()->getMovieCover(QUrl::fromLocalFile(path));
+    if (utils::base::isVideo(srcPath)) {
+        tImg = MovieService::instance()->getMovieCover(QUrl::fromLocalFile(srcPath));
 
         //获取视频信息 demo
-        MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
-        ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
+        MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(srcPath));
+        ImageDataService::instance()->addMovieDurationStr(srcPath, mi.durationStr());
     } else {
         if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
             qDebug() << errMsg;
-            ImageDataService::instance()->addImage(path, tImg);
+            ImageDataService::instance()->addImage(srcPath, tImg);
             return;
         }
     }
@@ -743,7 +729,7 @@ void multiLoadImage_helper(const QString &path)
         }
     }
 
-    ImageDataService::instance()->addImage(path, tImg);
+    ImageDataService::instance()->addImage(srcPath, tImg);
 }
 
 //多线程预加载图片

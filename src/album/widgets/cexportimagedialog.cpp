@@ -76,6 +76,10 @@ void CExportImageDialog::showMe(const QPixmap &pixmap)
     slotOnFormatChange(JPG);
     slotOnQualityChanged(m_qualitySlider->value());
 
+    //部分机型对话框会在其它地方出现，此处将其强制挪到主界面的中心
+    this->move(dApp->getMainWindow()->mapToGlobal(QPoint(0, 0)).x() + (dApp->getMainWindow()->width() / 2 - this->width() / 2),
+               dApp->getMainWindow()->mapToGlobal(QPoint(0, 0)).y() + (dApp->getMainWindow()->height() / 2 - this->height() / 2));
+
     show();
 }
 

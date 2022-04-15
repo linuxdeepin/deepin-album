@@ -30,6 +30,7 @@
 #include "ac-desktop-define.h"
 #include "mainwindow.h"
 #include "imageengineapi.h"
+#include "utils/baseutils.h"
 
 TEST(getImgsCount, db5)
 {
@@ -129,8 +130,7 @@ TEST(DBManager, AutoImport)
     auto testPath = testPath_Pictures + "/album_ut_mount_point";
 
     //预先检查是否有
-//    auto b = DBManager::instance()->checkCustomAutoImportPathIsNotified(testPath);
-//    ASSERT_EQ(b, false);
+    DBManager::instance()->checkCustomAutoImportPathIsNotified(testPath);
 
     //添加进去后再检查是否有
     int uid = DBManager::instance()->createNewCustomAutoImportPath(testPath, "album_ut_mount_point");
@@ -141,6 +141,27 @@ TEST(DBManager, AutoImport)
     //完成删除后最后检查是否有
     DBManager::instance()->removeCustomAutoImportPath(uid);
     QTest::qWait(2000);
-    auto d = DBManager::instance()->checkCustomAutoImportPathIsNotified(testPath);
-//    ASSERT_EQ(d, false);
+    DBManager::instance()->checkCustomAutoImportPathIsNotified(testPath);
+}
+
+TEST(DBManager, UpdateDateTime)
+{
+    TEST_CASE_NAME("UpdateDateTime")
+
+    QVariant date1(QString("2021.11.11 11:11"));
+    auto result1 = utils::base::analyzeDateTime(date1);
+    ASSERT_EQ(result1.second, true);
+
+    QVariant date2(QString("2022-04-14T19:44:00.000"));
+    auto result2 = utils::base::analyzeDateTime(date2);
+    ASSERT_EQ(result2.second, false);
+}
+
+TEST(DBManager, Time2str)
+{
+    TEST_CASE_NAME("Time2str")
+
+    utils::base::Time2str(utils::base::DAYSECONDS - 1);
+    utils::base::Time2str(utils::base::DAYSECONDS);
+    utils::base::Time2str(utils::base::DAYSECONDS + 1);
 }

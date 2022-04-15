@@ -223,12 +223,9 @@ const QColor LIGHT_IMG_R_BORDER_COLOR = QColor(255, 255, 255, 50);
 }
 
 namespace base {
-//时间之间相差天数
-int         daysDifferenceBetweenTime(const QDateTime &start, const QDateTime &end);
 //void        copyOneImageToClipboard(const QString &path);
 void        copyImageToClipboard(const QStringList &paths);
 void        showInFileManager(const QString &path);
-int         stringHeight(const QFont &f, const QString &str);
 QString     hashByString(const QString &str);
 QString     hashByData(const QString &str);
 QString     SpliteText(const QString &text, const QFont &font, int nLabelSize);
