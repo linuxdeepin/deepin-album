@@ -287,6 +287,12 @@ void ImgInfoDialog::updateBaseInfo(const QMap<QString, QString> &infos)
                 }
                 value = QString::number(tImg.width()) + "x" + QString::number(tImg.height());
             }
+            //重新确认图片方向
+            int orientation = UnionImage_NameSpace::getOrientation(m_path);
+            if (orientation >= 5) { //当方向值大于等于5时，表示触发了90度的旋转，此时需要对调长宽的值
+                auto data = value.split('x');
+                value = data[1] + 'x' + data[0];
+            }
         } else if (i->key.contains("FileFormat")) {
             QStringList list = value.split("/");
             if (list.count() > 0) {

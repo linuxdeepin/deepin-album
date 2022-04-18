@@ -182,11 +182,11 @@ UNIONIMAGESHARED_EXPORT bool canSave(const QString &path);
 /**
  * @brief getOrientation
  * @param path
- * @author LMH
- * @return QString
- * 获得图片的数据
+ * @author WZY
+ * @return int
+ * 获得图片的方向
  */
-UNIONIMAGESHARED_EXPORT const QString getOrientation(const QString &path);
+UNIONIMAGESHARED_EXPORT int getOrientation(const QString &path);
 
 QT_BEGIN_NAMESPACE
 
