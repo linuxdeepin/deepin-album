@@ -250,6 +250,9 @@ bool ImageEngineApi::moveImagesToTrash(QStringList files, bool typetrash, bool b
     if (!typetrash) {
         auto iter = std::remove_if(files.begin(), files.end(), [](const QString & eachFile) {
             QFileInfo info(eachFile);
+            if (info.isSymLink()) {
+                info = QFileInfo(info.readLink());
+            }
             return !QFileInfo(info.dir(), info.dir().path()).isWritable() && info.exists();
         });
         files.erase(iter, files.end());

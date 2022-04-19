@@ -719,12 +719,11 @@ void ThumbnailListView::updateMenuContents()
         m_MenuActionMap.value(tr("Fullscreen"))->setVisible(false);
     }
 #endif
-    QFileInfo info(paths[0]);
 
     if (COMMON_STR_TRASH == m_imageType) {
         m_MenuActionMap.value(tr("Delete"))->setVisible(false);
     } else {
-        if (!QFileInfo(info.dir(), info.dir().path()).isWritable()) {
+        if (!isSelectedCanUseDelete()) {
             m_MenuActionMap.value(tr("Delete"))->setVisible(false);
         } else {
             m_MenuActionMap.value(tr("Delete"))->setVisible(true);
@@ -1712,6 +1711,9 @@ bool ThumbnailListView::isSelectedCanUseDelete()
     bool isSelectedCanUseDelete = false;
     for (const auto &path : list) {
         QFileInfo info(path);
+        if (info.isSymLink()) {
+            info = QFileInfo(info.readLink());
+        }
         //路径无写权限
         if (!QFileInfo(info.dir(), info.dir().path()).isWritable()) {
             continue;
@@ -1731,8 +1733,10 @@ void ThumbnailListView::removeSelectToTrash(QStringList paths)
     DBImgInfo info;
     int count = 0;
     for (int i = 0; i < paths.size(); i++) {
-        QString path = paths.at(i);
-        QFileInfo infox(path);
+        QFileInfo infox(paths.at(i));
+        if (infox.isSymLink()) {
+            infox = QFileInfo(infox.readLink());
+        }
         //文件或者文件夹不可写
         if (!QFileInfo(infox.dir(), infox.dir().path()).isWritable()) {
             continue;
