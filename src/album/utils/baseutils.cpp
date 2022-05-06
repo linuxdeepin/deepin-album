@@ -682,7 +682,7 @@ void multiLoadImage_helper(const QString &path)
 
         //获取视频信息 demo
         MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(srcPath));
-        ImageDataService::instance()->addMovieDurationStr(srcPath, mi.durationStr());
+        ImageDataService::instance()->addMovieDurationStr(srcPath, mi.duration);
     } else {
         if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
             qDebug() << errMsg;

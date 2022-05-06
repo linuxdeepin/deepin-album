@@ -262,7 +262,7 @@ void ReadThumbnailManager::readThumbnail()
             if (utils::base::isVideo(path)) {
                 //获取视频信息 demo
                 MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
-                ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
+                ImageDataService::instance()->addMovieDurationStr(path, mi.duration);
             }
         } else {
             //读图
@@ -271,7 +271,7 @@ void ReadThumbnailManager::readThumbnail()
 
                 //获取视频信息 demo
                 MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(path));
-                ImageDataService::instance()->addMovieDurationStr(path, mi.durationStr());
+                ImageDataService::instance()->addMovieDurationStr(path, mi.duration);
             } else {
                 if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
                     qDebug() << errMsg;

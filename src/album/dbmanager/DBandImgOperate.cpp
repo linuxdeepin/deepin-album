@@ -132,14 +132,14 @@ void DBandImgOperate::loadOneImgForce(QString imagepath, bool refresh)
         if (utils::base::isVideo(imagepath)) {
             //获取视频信息 demo
             MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(imagepath));
-            ImageDataService::instance()->addMovieDurationStr(imagepath, mi.durationStr());
+            ImageDataService::instance()->addMovieDurationStr(imagepath, mi.duration);
         }
     } else {
         if (utils::base::isVideo(imagepath)) {
             tImg = MovieService::instance()->getMovieCover(QUrl::fromLocalFile(imagepath));
             //获取视频信息 demo
             MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(imagepath));
-            ImageDataService::instance()->addMovieDurationStr(imagepath, mi.durationStr());
+            ImageDataService::instance()->addMovieDurationStr(imagepath, mi.duration);
         } else {
             if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
                 qDebug() << errMsg;

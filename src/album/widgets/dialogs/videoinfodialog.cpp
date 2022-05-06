@@ -116,16 +116,16 @@ void VideoInfoDialog::updateCodecInfo()
 //    clearLayout(m_basicInfoFrameLayout);
     QMap<QString, QString> codecInfoMap;
     QList<QString> codecInfoKeys;
-    codecInfoMap[tr("Video CodecID")] = m_movieInfo.videoCodec();
+    codecInfoMap[tr("Video CodecID")] = m_movieInfo.vCodecID;
     codecInfoKeys.append(tr("Video CodecID"));
 
-    codecInfoMap[tr("Video CodeRate")] = QString::number(m_movieInfo.vCodeRate) + " kbps";
+    codecInfoMap[tr("Video CodeRate")] = m_movieInfo.vCodeRate == 0 ? "-" : QString::number(m_movieInfo.vCodeRate) + " kbps";
     codecInfoKeys.append(tr("Video CodeRate"));
 
-    codecInfoMap[tr("FPS")] = QString::number(m_movieInfo.fps) + " fps";
+    codecInfoMap[tr("FPS")] = m_movieInfo.fps == 0 ? "-" : QString::number(m_movieInfo.fps) + " fps";
     codecInfoKeys.append(tr("FPS"));
 
-    codecInfoMap[tr("Proportion")] = QString::number(static_cast<double>(m_movieInfo.proportion));
+    codecInfoMap[tr("Proportion")] = m_movieInfo.proportion <= 0 ? "-" : QString::number(m_movieInfo.proportion);
     codecInfoKeys.append(tr("Proportion"));
 
     codecInfoMap[tr("Resolution")] = m_movieInfo.resolution;
@@ -168,21 +168,20 @@ void VideoInfoDialog::updateAudioInfo()
 {
     QMap<QString, QString> audioInfoMap;
     QList<QString> audioInfoKeys;
-    audioInfoMap[tr("Audio CodecID")] = m_movieInfo.audioCodec();
+    audioInfoMap[tr("Audio CodecID")] = m_movieInfo.aCodeID;
     audioInfoKeys.append(tr("Audio CodecID"));
 
-    audioInfoMap[tr("Audio CodeRate")] = QString::number(m_movieInfo.aCodeRate) + " kbps";
+    audioInfoMap[tr("Audio CodeRate")] = m_movieInfo.aCodeRate == 0 ? "-" : QString::number(m_movieInfo.aCodeRate) + " kbps";
     audioInfoKeys.append(tr("Audio CodeRate"));
 
-    audioInfoMap[tr("Audio digit")] = QString::number(m_movieInfo.aDigit) + " bits";
+    audioInfoMap[tr("Audio digit")] = m_movieInfo.aDigit;
     audioInfoKeys.append(tr("Audio digit"));
 
-    audioInfoMap[tr("Channels")] = QString::number(m_movieInfo.channels) + tr("Channel");
+    audioInfoMap[tr("Channels")] = m_movieInfo.channels == 0 ? "-" : QString::number(m_movieInfo.channels) + tr("Channel");
     audioInfoKeys.append(tr("Channels"));
 
-    audioInfoMap[tr("Sampling")] = QString::number(m_movieInfo.sampling) + " hz";
+    audioInfoMap[tr("Sampling")] = m_movieInfo.sampling == 0 ? "-" : QString::number(m_movieInfo.sampling) + " hz";
     audioInfoKeys.append(tr("Sampling"));
-
 
     for (int i = 0; i < audioInfoKeys.size(); i++) {
         QString key = audioInfoKeys.at(i);
@@ -243,7 +242,7 @@ void VideoInfoDialog::updateBasicInfo()
     basicInfoMap[tr("File size")] = m_movieInfo.sizeStr();
     basicInfoKeys.append(tr("File size"));
 
-    basicInfoMap[tr("Duration")] = m_movieInfo.durationStr();
+    basicInfoMap[tr("Duration")] = m_movieInfo.duration;
     basicInfoKeys.append(tr("Duration"));
 
     //trash目录不显示路径
@@ -353,7 +352,7 @@ QString VideoInfoDialog::SpliteText(const QString &text, const QFont &font, int 
                 textSplite += qstrLeftData;
             } else {
                 qstrLeftData = textTotal.left(nPos);
-                textSplite += qstrLeftData + "\n";
+                textSplite += qstrLeftData + "<br>";
             }
             textTotal = textTotal.mid(nPos);
         }

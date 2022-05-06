@@ -22,36 +22,35 @@
 #include <QMetaType>
 #include <QDirIterator>
 #include <QStandardPaths>
-#include <QLibrary>
-#include <QLibraryInfo>
 #include <memory>
+#include <deque>
 
 #include "controller/signalmanager.h"
 #include "application.h"
 
-extern "C" {
-#include <libavformat/avformat.h>
-#include <libavutil/dict.h>
-#include <libavutil/avutil.h>
-}
+#include <iostream>
 
-#define THUMBNAIL_SIZE 200
 #define SEEK_TIME "00:00:01"
 
 MovieService *MovieService::m_movieService = nullptr;
 std::once_flag MovieService::instanceFlag;
-
-typedef int (*mvideo_avformat_open_input)(AVFormatContext **ps, const char *url, AVInputFormat *fmt, AVDictionary **options);
-typedef int (*mvideo_avformat_find_stream_info)(AVFormatContext *ic, AVDictionary **options);
-typedef int (*mvideo_av_find_best_stream)(AVFormatContext *ic, enum AVMediaType type, int wanted_stream_nb, int related_stream, AVCodec **decoder_ret, int flags);
-typedef AVDictionaryEntry *(*mvideo_av_dict_get)(const AVDictionary *m, const char *key, const AVDictionaryEntry *prev, int flags);
-typedef void (*mvideo_avformat_close_input)(AVFormatContext **s);
-
-static mvideo_avformat_open_input g_mvideo_avformat_open_input = nullptr;
-static mvideo_avformat_find_stream_info g_mvideo_avformat_find_stream_info = nullptr;
-static mvideo_av_find_best_stream g_mvideo_av_find_best_stream = nullptr;
-static mvideo_av_dict_get g_mvideo_av_dict_get = nullptr;
-static mvideo_avformat_close_input g_mvideo_avformat_close_input = nullptr;
+static const std::map<QString, int> audioChannelMap = {
+    { "mono",           1}, { "stereo",         2},
+    { "2.1",            3}, { "3.0",            3},
+    { "3.0(back)",      3}, { "4.0",            4},
+    { "quad",           4}, { "quad(side)",     4},
+    { "3.1",            4}, { "5.0",            5},
+    { "5.0(side)",      5}, { "4.1",            5},
+    { "5.1",            6}, { "5.1(side)",      6},
+    { "6.0",            6}, { "6.0(front)",     6},
+    { "hexagonal",      6}, { "6.1",            7},
+    { "6.1(back)",      7}, { "6.1(front)",     7},
+    { "7.0",            7}, { "7.0(front)",     7},
+    { "7.1",            8}, { "7.1(wide)",      8},
+    { "7.1(wide-side)", 8}, { "octagonal",      8},
+    { "hexadecagonal", 16}, { "downmix",        2},
+    { "22.2",          24}
+};
 
 MovieService *MovieService::instance(QObject *parent)
 {
@@ -61,6 +60,34 @@ MovieService *MovieService::instance(QObject *parent)
         m_movieService = new MovieService;
     });
     return m_movieService;
+}
+
+MovieService::MovieService(QObject *parent)
+    : QObject(parent)
+{
+    //检查ffmpeg是否存在
+    try {
+        QProcess bash;
+        bash.start("bash");
+        bash.waitForStarted();
+        bash.write("command -v ffmpeg");
+        bash.closeWriteChannel();
+        if (!bash.waitForFinished()) {
+            qWarning() << bash.errorString();
+            return;
+        }
+        auto output = bash.readAllStandardOutput();
+        if (output.isEmpty()) {
+            m_ffmpegExist = false;
+        } else {
+            resolutionExp.setPattern("[0-9]+x[0-9]+");
+            codeRateExp.setPattern("[0-9]+\\skb/s");
+            fpsExp.setPattern("[0-9]+\\sfps");
+            m_ffmpegExist = true;
+        }
+    } catch (std::logic_error &e) {
+        qWarning() << e.what();
+    }
 }
 
 MovieInfo MovieService::getMovieInfo(const QUrl &url)
@@ -79,10 +106,17 @@ MovieInfo MovieService::getMovieInfo(const QUrl &url)
 
     if (url.isLocalFile()) {
         QFileInfo fi(url.toLocalFile());
-
         if (fi.exists()) {
-            auto filePath = fi.filePath();
-            result = parseFromFile(fi);
+            if (!m_ffmpegExist) { //ffmpeg不存在，只读取基本信息
+                result.valid = true;
+                result.filePath = fi.absoluteFilePath();
+                result.fileSize = fi.size();
+                result.fileType = fi.suffix().toLower();
+                result.duration = "00:00:00";
+            } else { //ffmpeg存在，执行标准流程
+                auto filePath = fi.filePath();
+                result = parseFromFile(fi);
+            }
         }
     }
 
@@ -96,192 +130,218 @@ MovieInfo MovieService::getMovieInfo(const QUrl &url)
     return result;
 }
 
-QImage MovieService::getMovieCover(const QUrl &url)
+static QString removeBrackets(const QString &str)
 {
-    QMutexLocker locker(&m_queuqMutex);
-    if (!m_bInitThumb) {
-        initThumb();
-        m_mvideo_thumbnailer_destroy_image_data(m_image_data);
-        m_image_data = nullptr;
+    QString result;
+    if (str.isEmpty()) {
+        return result;
     }
 
-    if (m_creat_video_thumbnailer == nullptr
-            || m_mvideo_thumbnailer_destroy == nullptr
-            || m_mvideo_thumbnailer_create_image_data == nullptr
-            || m_mvideo_thumbnailer_destroy_image_data == nullptr
-            || m_mvideo_thumbnailer_generate_thumbnail_to_buffer == nullptr
-            || m_video_thumbnailer == nullptr) {
-        return QImage();
+    std::vector<std::pair<int, int>> indexes;
+    std::deque<int> stackIndex;
+
+    for (int i = 0; i != str.size(); ++i) {
+        if (str[i] == '(') {
+            stackIndex.push_back(i);
+        } else if (str[i] == ')') {
+            if (stackIndex.size() == 1) {
+                indexes.push_back({stackIndex[0], i});
+            }
+            stackIndex.pop_back();
+        } else {
+            continue;
+        }
     }
 
-    m_video_thumbnailer->thumbnail_size = static_cast<int>(THUMBNAIL_SIZE);
-    //不取第一帧，与文管影院保持一致
-//    m_video_thumbnailer->seek_time = const_cast<char *>(SEEK_TIME);
-    m_image_data = m_mvideo_thumbnailer_create_image_data();
-    QString file = QFileInfo(url.toLocalFile()).absoluteFilePath();
-    m_mvideo_thumbnailer_generate_thumbnail_to_buffer(m_video_thumbnailer, file.toUtf8().data(), m_image_data);
-    QImage img = QImage::fromData(m_image_data->image_data_ptr, static_cast<int>(m_image_data->image_data_size), "png");
-    m_mvideo_thumbnailer_destroy_image_data(m_image_data);
-    m_image_data = nullptr;
-    return img;
+    result = str;
+    for (int i = static_cast<int>(indexes.size() - 1); i >= 0; --i) {
+        auto data = indexes[i];
+        result = result.remove(data.first, data.second - data.first + 1);
+    }
+
+    return result;
+}
+
+static QString searchLineFromKeyString(const std::string &key, const QString &targetStr)
+{
+    //视频流数据
+    QTextStream dataStream(targetStr.toUtf8(), QIODevice::ReadOnly);
+    QString infoString;
+
+    //搜索
+    while (1) {
+        auto currentLine = dataStream.readLine();
+        if (currentLine.isEmpty()) {
+            break;
+        }
+
+        auto index = currentLine.toStdString().find(key);
+        if (index != std::string::npos) {
+            infoString = currentLine.right(currentLine.size() - static_cast<int>(index + key.size()));
+            infoString = removeBrackets(infoString);
+            break;
+        }
+    }
+
+    return infoString;
 }
 
 MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
 {
     struct MovieInfo mi;
-    mi.valid = false;
-    AVFormatContext *av_ctx = nullptr;
-    AVCodecParameters *video_dec_ctx = nullptr;
-    AVCodecParameters *audio_dec_ctx = nullptr;
 
-    if (!fi.exists()) {
-//        if (ok) *ok = false;
+    //使用命令行读取ffmpeg的输出
+    auto filePath = fi.absoluteFilePath();
+    QByteArray output;
+    try {
+        QProcess ffmpeg;
+        QStringList cmds{"-i", filePath, "-hide_banner"};
+        ffmpeg.start("ffmpeg", cmds, QIODevice::ReadOnly);
+        if (!ffmpeg.waitForFinished()) {
+            qWarning() << ffmpeg.errorString();
+            return mi;
+        }
+        output = ffmpeg.readAllStandardError(); //ffmpeg的视频基础信息是打在标准错误里面的，读标准输出是读不到东西的
+    } catch (std::logic_error &e) {
+        qWarning() << e.what();
         return mi;
     }
 
-    auto ret = g_mvideo_avformat_open_input(&av_ctx, fi.filePath().toUtf8().constData(), nullptr, nullptr);
-    if (ret < 0) {
-        qWarning() << "avformat: could not open input";
-//        if (ok) *ok = false;
+    //至此视频信息已保存在output中
+
+    //1.错误输入
+    QString ffmpegOut = QString::fromUtf8(output);
+    if (ffmpegOut.endsWith("Invalid data found when processing input\n")) {
         return mi;
     }
 
-    if (g_mvideo_avformat_find_stream_info(av_ctx, nullptr) < 0) {
-        qWarning() << "av_find_stream_info failed";
-//        if (ok) *ok = false;
-        return mi;
-    }
+    //2.解析数据
+    mi.valid = true;
 
-    if (av_ctx->nb_streams == 0) {
-//        if (ok) *ok = false;
-        return mi;
-    }
+    //2.1.文件信息
+    mi.filePath = filePath;
+    mi.fileType = fi.suffix().toLower();
+    mi.fileSize = fi.size();
 
-    int videoRet = -1;
-    int audioRet = -1;
-    AVStream *videoStream = nullptr;
-    AVStream *audioStream = nullptr;
-    videoRet = g_mvideo_av_find_best_stream(av_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
-    audioRet = g_mvideo_av_find_best_stream(av_ctx, AVMEDIA_TYPE_AUDIO, -1, -1, nullptr, 0);
-    if (videoRet < 0 && audioRet < 0) {
-//        if (ok) *ok = false;
-        return mi;
-    }
+    //2.2.视频流数据
+    auto videoInfoString = searchLineFromKeyString("Video: ", ffmpegOut);
+    if (!videoInfoString.isEmpty()) {
+        auto videoStreamInfo = videoInfoString.split(", ");
 
-    if (videoRet >= 0) {
-        int video_stream_index = -1;
-        video_stream_index = videoRet;
-        videoStream = av_ctx->streams[video_stream_index];
-        video_dec_ctx = videoStream->codecpar;
+        //编码格式
+        mi.vCodecID = videoStreamInfo[0].split(" ")[0];
 
-        mi.width = video_dec_ctx->width;
-        mi.height = video_dec_ctx->height;
-        mi.vCodecID = video_dec_ctx->codec_id;
-        mi.vCodeRate = video_dec_ctx->bit_rate;
+        //分辨率，长宽比
+        if (resolutionExp.indexIn(videoInfoString) > 0) {
+            mi.resolution = resolutionExp.cap(0);
 
-        if (videoStream->r_frame_rate.den != 0) {
-            mi.fps = videoStream->r_frame_rate.num / videoStream->r_frame_rate.den;
+            auto videoSize = mi.resolution.split("x");
+            int size_w = videoSize[0].toInt();
+            int size_h = videoSize[1].toInt();
+            mi.proportion = static_cast<double>(size_w) / size_h;
+        } else {
+            mi.resolution = "-";
+            mi.proportion = -1;
+        }
+
+        //码率
+        if (codeRateExp.indexIn(videoInfoString) > 0) {
+            auto codeRate = codeRateExp.cap(0);
+            mi.vCodeRate = codeRate.split(" ")[0].toInt();
+        } else {
+            mi.vCodeRate = 0;
+        }
+
+        //帧率
+        if (fpsExp.indexIn(videoInfoString) > 0) {
+            auto fps = fpsExp.cap(0);
+            mi.fps = fps.split(" ")[0].toInt();
         } else {
             mi.fps = 0;
         }
-        if (mi.height != 0) {
-            mi.proportion = static_cast<float>(mi.width) / static_cast<float>(mi.height);
-        } else {
-            mi.proportion = 0;
+    } else {
+        mi.vCodecID = "-";
+        mi.resolution = "-";
+        mi.proportion = -1;
+        mi.vCodeRate = 0;
+        mi.fps = 0;
+    }
+
+    //2.3.时长数据
+    auto timeInfoString = searchLineFromKeyString("Duration: ", ffmpegOut);
+    if (!timeInfoString.isEmpty()) {
+        mi.duration = timeInfoString.split(", ")[0].split(".")[0];
+        if (mi.duration == "N/A") {
+            mi.duration = "00:00:00";
         }
     }
-    if (audioRet >= 0) {
-        int audio_stream_index = -1;
-        audio_stream_index = audioRet;
-        audioStream = av_ctx->streams[audio_stream_index];
-        audio_dec_ctx = audioStream->codecpar;
 
-        mi.aCodeID = audio_dec_ctx->codec_id;
-        mi.aCodeRate = audio_dec_ctx->bit_rate;
-        mi.aDigit = audio_dec_ctx->format;
-        mi.channels = audio_dec_ctx->channels;
-        mi.sampling = audio_dec_ctx->sample_rate;
+    //2.4.音频数据
+    auto audioInfoString = searchLineFromKeyString("Audio: ", ffmpegOut);
+    if (!audioInfoString.isEmpty()) {
+        auto audioStreamInfo = audioInfoString.split(", ");
+        mi.aCodeID = audioStreamInfo[0].split(" ")[0];
+        mi.sampling = audioStreamInfo[1].split(" ")[0].toInt();
+        mi.channels = audioChannelMap.at(audioStreamInfo[2]);
+        mi.aDigit = audioStreamInfo[3];
+
+        if (audioStreamInfo.size() > 4) {
+            mi.aCodeRate = audioStreamInfo[4].split(" ")[0].toInt();
+        } else {
+            mi.aCodeRate = 0; //产品设计缺陷：没有对无法读出码率的项进行处理
+        }
+    } else { //产品设计缺陷：没有对无音频数据的视频进行处理
+        mi.aCodeID = "-";
+        mi.sampling = 0;
+        mi.channels = 0;
+        mi.aDigit = "-";
+        mi.aCodeRate = 0;
     }
 
-    auto duration = av_ctx->duration == AV_NOPTS_VALUE ? 0 : av_ctx->duration;
-    duration = duration + (duration <= INT64_MAX - 5000 ? 5000 : 0);
-    mi.duration = duration / AV_TIME_BASE;
-    mi.resolution = QString("%1x%2").arg(mi.width).arg(mi.height);
-    mi.title = fi.fileName(); //FIXME this
-    mi.filePath = fi.canonicalFilePath();
-    mi.creation = fi.created();
-    mi.fileSize = fi.size();
-    mi.fileType = fi.suffix();
-
-    AVDictionaryEntry *tag = nullptr;
-
-    //搜索拍摄时间
-    tag = g_mvideo_av_dict_get(av_ctx->metadata, "creation_time", tag, AV_DICT_MATCH_CASE);
-    if (tag != nullptr) {
-        mi.creation = QDateTime::fromString(tag->value, Qt::ISODate);
-    }
-
-    g_mvideo_avformat_close_input(&av_ctx);
-    mi.valid = true;
-
-//    if (ok) *ok = true;
+    //返回最终解析结果
     return mi;
 }
 
-MovieService::MovieService(QObject *parent)
-    : QObject(parent)
+QImage MovieService::getMovieCover(const QUrl &url)
 {
-    initFFmpeg();
-}
-
-void MovieService::initThumb()
-{
-    QLibrary library(libPath("libffmpegthumbnailer.so"));
-    m_creat_video_thumbnailer = (mvideo_thumbnailer_create) library.resolve("video_thumbnailer_create");
-    m_mvideo_thumbnailer_destroy = (mvideo_thumbnailer_destroy) library.resolve("video_thumbnailer_destroy");
-    m_mvideo_thumbnailer_create_image_data = (mvideo_thumbnailer_create_image_data) library.resolve("video_thumbnailer_create_image_data");
-    m_mvideo_thumbnailer_destroy_image_data = (mvideo_thumbnailer_destroy_image_data) library.resolve("video_thumbnailer_destroy_image_data");
-    m_mvideo_thumbnailer_generate_thumbnail_to_buffer = (mvideo_thumbnailer_generate_thumbnail_to_buffer) library.resolve("video_thumbnailer_generate_thumbnail_to_buffer");
-    m_video_thumbnailer = m_creat_video_thumbnailer();
-
-    if (m_mvideo_thumbnailer_destroy == nullptr
-            || m_mvideo_thumbnailer_create_image_data == nullptr
-            || m_mvideo_thumbnailer_destroy_image_data == nullptr
-            || m_mvideo_thumbnailer_generate_thumbnail_to_buffer == nullptr
-            || m_video_thumbnailer == nullptr) {
-        return;
+    QImage image;
+    if (!m_ffmpegExist) {
+        return image;
     }
 
-    m_image_data = m_mvideo_thumbnailer_create_image_data();
-    m_video_thumbnailer->thumbnail_size = 400 * qApp->devicePixelRatio();
-    m_bInitThumb = true;
-}
-
-void MovieService::initFFmpeg()
-{
-    QLibrary avcodecLibrary(libPath("libavcodec.so"));
-    QLibrary avformatLibrary(libPath("libavformat.so"));
-    QLibrary avutilLibrary(libPath("libavutil.so"));
-
-    g_mvideo_avformat_open_input = (mvideo_avformat_open_input) avformatLibrary.resolve("avformat_open_input");
-    g_mvideo_avformat_find_stream_info = (mvideo_avformat_find_stream_info) avformatLibrary.resolve("avformat_find_stream_info");
-    g_mvideo_av_find_best_stream = (mvideo_av_find_best_stream) avformatLibrary.resolve("av_find_best_stream");
-    g_mvideo_avformat_close_input = (mvideo_avformat_close_input) avformatLibrary.resolve("avformat_close_input");
-    g_mvideo_av_dict_get = (mvideo_av_dict_get) avutilLibrary.resolve("av_dict_get");
-}
-
-QString MovieService::libPath(const QString &strlib)
-{
-    QDir  dir;
-    QString path  = QLibraryInfo::location(QLibraryInfo::LibrariesPath);
-    dir.setPath(path);
-    QStringList list = dir.entryList(QStringList() << (strlib + "*"), QDir::NoDotAndDotDot | QDir::Files); //filter name with strlib
-    if (list.contains(strlib)) {
-        return strlib;
-    } else {
-        list.sort();
+    QByteArray output;
+    try {
+        QProcess ffmpeg;
+        QStringList cmds{"-nostats", "-loglevel", "0",
+                         "-i", url.toLocalFile(),
+                         "-f", "image2pipe",
+                         "-vcodec", "png",
+                         "-frames:v", "1",
+                         "-"};
+        ffmpeg.start("ffmpeg", cmds, QIODevice::ReadOnly);
+        if (!ffmpeg.waitForFinished()) {
+            qWarning() << ffmpeg.errorString();
+            return image;
+        }
+        output = ffmpeg.readAllStandardOutput();
+    } catch (std::logic_error &e) {
+        qWarning() << e.what();
+        return image;
     }
 
-    Q_ASSERT(list.size() > 0);
-    return list.last();
+    if (!output.isNull()) {
+        if (image.loadFromData(output, "png")) {
+            return image;
+        } else {
+            QString processResult(output);
+            processResult = processResult.split(QRegExp("[\n]"), QString::SkipEmptyParts).last();
+            if (!processResult.isEmpty()) {
+                if (image.loadFromData(processResult.toLocal8Bit().data(), "png")) {
+                    return image;
+                }
+            }
+        }
+    }
+
+    return image;
 }
