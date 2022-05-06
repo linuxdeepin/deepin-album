@@ -112,7 +112,7 @@ MovieInfo MovieService::getMovieInfo(const QUrl &url)
                 result.filePath = fi.absoluteFilePath();
                 result.fileSize = fi.size();
                 result.fileType = fi.suffix().toLower();
-                result.duration = "00:00:00";
+                result.duration = "-";
             } else { //ffmpeg存在，执行标准流程
                 auto filePath = fi.filePath();
                 result = parseFromFile(fi);
@@ -272,7 +272,7 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
     if (!timeInfoString.isEmpty()) {
         mi.duration = timeInfoString.split(", ")[0].split(".")[0];
         if (mi.duration == "N/A") {
-            mi.duration = "00:00:00";
+            mi.duration = "-";
         }
     }
 
@@ -288,9 +288,9 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
         if (audioStreamInfo.size() > 4) {
             mi.aCodeRate = audioStreamInfo[4].split(" ")[0].toInt();
         } else {
-            mi.aCodeRate = 0; //产品设计缺陷：没有对无法读出码率的项进行处理
+            mi.aCodeRate = 0;
         }
-    } else { //产品设计缺陷：没有对无音频数据的视频进行处理
+    } else {
         mi.aCodeID = "-";
         mi.sampling = 0;
         mi.channels = 0;

@@ -194,15 +194,6 @@ QString hashByString(const QString &str)
     return QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex();
 }
 
-/*QByteArray hashByString(const QString &str)
-{
-    if (str.isEmpty()) {
-        return "\xd4\x1d\x8c\xd9\x8f\x00\xb2\x04\xe9\x80\x09\x98\xec\xf8\x42\x7e";
-    } else {
-        return QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5);
-    }
-}*/
-
 QString hashByData(const QString &str)
 {
     QFile file(str);
@@ -217,83 +208,6 @@ QString hashByData(const QString &str)
     }
     return stHashValue;
 }
-
-//bool checkMimeData(const QMimeData *mimeData)
-//{
-//    if (1 > mimeData->urls().size()) {
-//        return false;
-//    }
-//    QList<QUrl> urlList = mimeData->urls();
-//    using namespace utils::image;
-//    for (QUrl url : urlList) {
-//        const QString path = url.toLocalFile();
-//        QFileInfo fileinfo(path);
-//        if (fileinfo.isDir()) {
-//            auto finfos =  getImagesAndVideoInfo(path, false);
-//            for (auto finfo : finfos) {
-//                if (imageSupportRead(finfo.absoluteFilePath()) || isVideo(finfo.absoluteFilePath())) {
-//                    QFileInfo info(finfo.absoluteFilePath());
-//                    QMimeDatabase db;
-//                    QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
-//                    QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
-//                    QString str = info.suffix().toLower();
-
-//                    if (str.isEmpty()) {
-//                        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
-//                            if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
-//                                return true;
-//                            } else if (str.isEmpty()) {
-//                                return true;
-//                            }
-//                        }
-//                        if (mt.name().startsWith("video/") || mt.name().startsWith("application/x-matroska")) {
-//                            return true;
-//                        }
-//                    } else {
-//                        if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-//                            if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
-//                                return true;
-//                            }
-//                        }
-//                        if (mt1.name().startsWith("video/") || mt1.name().startsWith("application/x-matroska")) {
-//                            return true;
-//                        }
-//                    }
-//                }
-//            }
-//        } else if (imageSupportRead(path) || isVideo(path)) {
-////            paths << path;
-//            QFileInfo info(path);
-//            QMimeDatabase db;
-//            QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
-//            QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
-//            QString str = info.suffix().toLower();
-//            if (str.isEmpty()) {
-//                if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
-//                    if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
-//                        return true;
-//                    } else if (str.isEmpty()) {
-//                        return true;
-//                    }
-//                }
-//                if (mt.name().startsWith("video/") || mt.name().startsWith("application/x-matroska")) {
-//                    return true;
-//                }
-//            } else {
-//                if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-//                    if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {
-//                        return true;
-//                    }
-//                }
-//                if (mt1.name().startsWith("video/") || mt1.name().startsWith("application/x-matroska")) {
-//                    return true;
-//                }
-//            }
-//            return false;
-//        }
-//    }
-//    return false;
-//}
 
 QPixmap renderSVG(const QString &filePath, const QSize &size)
 {
@@ -391,100 +305,6 @@ QUrl UrlInfo(QString path)
         url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
     }
     return url;
-}
-
-QString audioIndex2str(const int &index)
-{
-    QStringList audioList = {"mp2", "mp3", "aac", "ac3", "dts", "vorbis", "dvaudio", "wmav1", "wmav2", "mace3", "mace6",
-                             "vmdaudio", "flac", "mp3adu", "mp3on4", "shorten", "alac", "westwood_snd1", "gsm", "qdm2",
-                             "cook", "truespeech", "tta", "smackaudio", "qcelp", "wavpack", "dsicinaudio", "imc",
-                             "musepack7", "mlp", "gsm_ms", "atrac3", "ape", "nellymoser", "musepack8", "speex", "wmavoice",
-                             "wmapro", "wmalossless", "atrac3p", "eac3", "sipr", "mp1", "twinvq", "truehd", "mp4als",
-                             "atrac1", "binkaudio_rdft", "binkaudio_dct", "aac_latm", "qdmc", "celt", "g723_1", "g729",
-                             "8svx_exp", "8svx_fib", "bmv_audio", "ralf", "iac", "ilbc", "opus", "comfort_noise", "tak",
-                             "metasound", "paf_audio", "on2avc", "dss_sp", "codec2", "ffwavesynth", "sonic", "sonic_ls",
-                             "evrc", "smv", "dsd_lsbf", "dsd_msbf", "dsd_lsbf_planar", "dsd_msbf_planar", "4gv",
-                             "interplay_acm", "xma1", "xma2", "dst", "atrac3al", "atrac3pal", "dolby_e", "aptx", "aptx_hd",
-                             "sbc", "atrac9"
-                            };
-    QMap<int, QString> codecMap;
-    for (int i = 0; i < audioList.size(); i++) {
-        codecMap.insert(i + 86016, audioList[i]);
-    }
-    QString aa = codecMap[index];
-    return aa;
-}
-
-QString videoIndex2str(const int &index)
-{
-    QStringList videoList = {"none", "mpeg1video", "mpeg2video", "h261", "h263", "rv10", "rv20",
-                             "mjpeg", "mjpegb", "ljpeg", "sp5x", "jpegls", "mpeg4", "rawvideo", "msmpeg4v1",
-                             "msmpeg4v2", "msmpeg4v3", "wmv1", "wmv2", "h263p", "h263i", "flv1", "svq1",
-                             "svq3", "dvvideo", "huffyuv", "cyuv", "h264", "indeo3", "vp3", "theora",
-                             "asv1", "asv2", "ffv1", "4xm", "vcr1", "cljr", "mdec", "roq", "interplay_video",
-                             "xan_wc3", "xan_wc4", "rpza", "cinepak", "ws_vqa", "msrle", "msvideo1", "idcin",
-                             "8bps", "smc", "flic", "truemotion1", "vmdvideo", "mszh", "zlib", "qtrle", "tscc",
-                             "ulti", "qdraw", "vixl", "qpeg", "png", "ppm", "pbm", "pgm", "pgmyuv", "pam", "ffvhuff",
-                             "rv30", "rv40", "vc1", "wmv3", "loco", "wnv1", "aasc", "indeo2", "fraps", "truemotion2",
-                             "bmp", "cscd", "mmvideo", "zmbv", "avs", "smackvideo", "nuv", "kmvc", "flashsv",
-                             "cavs", "jpeg2000", "vmnc", "vp5", "vp6", "vp6f", "targa", "dsicinvideo", "tiertexseqvideo",
-                             "tiff", "gif", "dxa", "dnxhd", "thp", "sgi", "c93", "bethsoftvid", "ptx", "txd", "vp6a",
-                             "amv", "vb", "pcx", "sunrast", "indeo4", "indeo5", "mimic", "rl2", "escape124", "dirac", "bfi",
-                             "cmv", "motionpixels", "tgv", "tgq", "tqi", "aura", "aura2", "v210x", "tmv", "v210", "dpx",
-                             "mad", "frwu", "flashsv2", "cdgraphics", "r210", "anm", "binkvideo", "iff_ilbm", "kgv1",
-                             "yop", "vp8", "pictor", "ansi", "a64_multi", "a64_multi5", "r10k", "mxpeg", "lagarith",
-                             "prores", "jv", "dfa", "wmv3image", "vc1image", "utvideo", "bmv_video", "vble", "dxtory",
-                             "v410", "xwd", "cdxl", "xbm", "zerocodec", "mss1", "msa1", "tscc2", "mts2", "cllc", "mss2",
-                             "vp9", "aic", "escape130", "g2m", "webp", "hnm4_video", "hevc", "fic", "alias_pix",
-                             "brender_pix", "paf_video", "exr", "vp7", "sanm", "sgirle", "mvc1", "mvc2", "hqx", "tdsc",
-                             "hq_hqa", "hap", "dds", "dxv", "screenpresso", "rscc", "avs2"
-                            };
-    QStringList PCMList = {"pcm_s16le", "pcm_s16be", "pcm_u16le", "pcm_u16be", "pcm_s8", "pcm_u8", "pcm_mulaw"
-                           "pcm_alaw", "pcm_s32le", "pcm_s32be", "pcm_u32le", "pcm_u32be", "pcm_s24le", "pcm_s24be"
-                           "pcm_u24le", "pcm_u24be", "pcm_s24daud", "pcm_zork", "pcm_s16le_planar", "pcm_dvd"
-                           "pcm_f32be", "pcm_f32le", "pcm_f64be", "pcm_f64le", "pcm_bluray", "pcm_lxf", "s302m"
-                           "pcm_s8_planar", "pcm_s24le_planar", "pcm_s32le_planar", "pcm_s16be_planar"
-                          };
-    QStringList ADPCMList = {"adpcm_ima_qt", "adpcm_ima_wav", "adpcm_ima_dk3", "adpcm_ima_dk4"
-                             "adpcm_ima_ws", "adpcm_ima_smjpeg", "adpcm_ms", "adpcm_4xm", "adpcm_xa", "adpcm_adx"
-                             "adpcm_ea", "adpcm_g726", "adpcm_ct", "adpcm_swf", "adpcm_yamaha", "adpcm_sbpro_4"
-                             "adpcm_sbpro_3", "adpcm_sbpro_2", "adpcm_thp", "adpcm_ima_amv", "adpcm_ea_r1"
-                             "adpcm_ea_r3", "adpcm_ea_r2", "adpcm_ima_ea_sead", "adpcm_ima_ea_eacs", "adpcm_ea_xas"
-                             "adpcm_ea_maxis_xa", "adpcm_ima_iss", "adpcm_g722", "adpcm_ima_apc", "adpcm_vima"
-                            };
-    QStringList AMRList = {"amr_nb", "amr_wb"};
-    QStringList realAudioList = {"ra_144", "ra_288" };
-    QMap<int, QString> codecMap;
-    for (int i = 0; i < videoList.size(); i++) {
-        codecMap.insert(i, videoList[i]);
-    }
-    for (int i = 0; i < PCMList.size(); i++) {
-        codecMap.insert(i + 65536, PCMList[i]);
-    }
-    for (int i = 0; i < ADPCMList.size(); i++) {
-        codecMap.insert(i + 69632, ADPCMList[i]);
-    }
-    codecMap.insert(73728, "amr_nb");
-    codecMap.insert(73729, "amr_wb");
-    codecMap.insert(77824, "ra_144");
-    codecMap.insert(77825, "ra_288");
-    QString aa = codecMap[index];
-    return aa;
-}
-
-QString Time2str(const qint64 &seconds)
-{
-    QTime d(0, 0, 0);
-    if (seconds < DAYSECONDS) {
-        d = d.addSecs(static_cast<int>(seconds));
-        return d.toString("hh:mm:ss");
-    } else {
-        d = d.addSecs(static_cast<int>(seconds));
-        int add = static_cast<int>(seconds / DAYSECONDS) * 24;
-        QString dayOut =  d.toString("hh:mm:ss");
-        dayOut.replace(0, 2, QString::number(add + dayOut.left(2).toInt()));
-        return dayOut;
-    }
 }
 
 bool isVideo(QString path)

@@ -156,12 +156,3 @@ TEST(DBManager, UpdateDateTime)
     auto result2 = utils::base::analyzeDateTime(date2);
     ASSERT_EQ(result2.second, false);
 }
-
-TEST(DBManager, Time2str)
-{
-    TEST_CASE_NAME("Time2str")
-
-    utils::base::Time2str(utils::base::DAYSECONDS - 1);
-    utils::base::Time2str(utils::base::DAYSECONDS);
-    utils::base::Time2str(utils::base::DAYSECONDS + 1);
-}

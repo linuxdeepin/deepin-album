@@ -81,6 +81,12 @@ public:
     //获取视频首帧图片
     QImage getMovieCover(const QUrl &url);
 
+    //获取ffmpeg状态
+    bool ffmpegIsExist()
+    {
+        return m_ffmpegExist;
+    }
+
 private:
     explicit MovieService(QObject *parent = nullptr);
     struct MovieInfo parseFromFile(const QFileInfo &fi);

@@ -232,6 +232,9 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     //绘制视频时间
     if (data.itemType == ItemTypeVideo) {
         QString str(ImageDataService::instance()->getMovieDurationStrByPath(data.filePath));
+        if (str == "-") {
+            str = "00:00:00";
+        }
         //TODO 暂时屏蔽最近删除界面的视频时间显示，待需求明确显示位置后修改并解除屏蔽
         if (dApp->signalM->getSliderValue() > 2 && !str.isEmpty() && m_delegatetype != AlbumViewTrashType) {
             QPainterPath bp;
