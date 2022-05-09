@@ -67,6 +67,11 @@ const int VIEW_SEARCH = 3;
 const int VIEW_IMAGE = 4;
 const int VIEW_SLIDE = 5;
 
+// 窗口最小尺寸限定
+const int MAINWIDGET_MINIMUN_WIDTH = 630;
+const int MAINWIDGET_MINIMUN_HEIGHT = 300;
+const int SEARCHEDIT_MINIMUN_WIDTH = 92;
+
 }//namespace
 
 using namespace utils::common;
@@ -105,6 +110,8 @@ void MainWindow::resizeEvent(QResizeEvent *e)
     Q_UNUSED(e);
     int m_SearchEditWidth = titlebar()->width() - m_titleBtnWidget->width() - TITLEBAR_BLANK_WIDTH;
     if (m_SearchEditWidth <= 350) {
+        if (m_SearchEditWidth < SEARCHEDIT_MINIMUN_WIDTH)
+            m_SearchEditWidth = SEARCHEDIT_MINIMUN_WIDTH;
         m_pSearchEdit->setFixedSize(m_SearchEditWidth - 20, 36);
     } else {
         m_SearchEditWidth = 350;
@@ -263,7 +270,7 @@ void MainWindow::initShortcut()
 void MainWindow::initUI()
 {
     initWaitDialog();
-    setMinimumSize(880, 500);
+    setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
     resize(1300, 848);
     loadWindowState();
 }
@@ -1696,6 +1703,8 @@ void MainWindow::showEvent(QShowEvent *event)
     Q_UNUSED(event)
     int m_SearchEditWidth = titlebar()->width() - m_titleBtnWidget->width() - TITLEBAR_BLANK_WIDTH;
     if (m_SearchEditWidth <= 350) {
+        if (m_SearchEditWidth < SEARCHEDIT_MINIMUN_WIDTH)
+            m_SearchEditWidth = SEARCHEDIT_MINIMUN_WIDTH;
         m_pSearchEdit->setFixedSize(m_SearchEditWidth - 20, 36);
     } else {
         m_SearchEditWidth = 350;
