@@ -1,219 +1,103 @@
-#定义需要的cmake版本
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.1)
 
-set(CMD_NAME deepin-album)
+set(APP_BIN_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/bin/)
+set(BIN_NAME ${CMAKE_PROJECT_NAME})
+set(LIB_NAME dtkqml-${CMAKE_PROJECT_NAME})
+#list (APPEND RESOURCES ${CMAKE_PROJECT_NAME}.qrc)
 
-project(${CMD_NAME})
-
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
-
-if(DOTEST)
-    set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools Test)
-    if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
-        set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
-    else()
-        set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -fprofile-arcs -ftest-coverage -lgcov")
-    endif()
-else()
-    set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools)
-endif()
-
-find_package(Qt5 REQUIRED ${QtModule})
-
-include_directories(album)
-include_directories(album/albumview)
-include_directories(album/allpicview)
-include_directories(album/controller)
-include_directories(album/dbmanager)
-include_directories(album/dialogs)
-include_directories(album/imageengine)
-include_directories(album/importtimelineview)
-include_directories(album/importview)
-include_directories(album/searchview)
-include_directories(album/thumbnail)
-include_directories(album/timelineview)
-include_directories(album/utils)
-include_directories(album/widgets)
-include_directories(album/widgets/dialogs)
-include_directories(/usr/include)
-include_directories(/usr/include/gio-qt)
-include_directories(/usr/include/udisks2-qt5)
-include_directories(/usr/include/glib-2.0)
-include_directories(/usr/include/libimageviewer)
-include_directories(/usr/lib/x86_64-linux-gnu/glib-2.0/include)
-
-aux_source_directory(./album allSource)
-aux_source_directory(./album/albumview allSource)
-aux_source_directory(./album/allpicview allSource)
-aux_source_directory(./album/controller allSource)
-aux_source_directory(./album/dbmanager allSource)
-aux_source_directory(./album/dialogs allSource)
-aux_source_directory(./album/imageengine allSource)
-aux_source_directory(./album/importtimelineview allSource)
-aux_source_directory(./album/importview allSource)
-aux_source_directory(./album/searchview allSource)
-aux_source_directory(./album/settings/slideshow allSource)
-aux_source_directory(./album/thumbnail allSource)
-aux_source_directory(./album/timelineview allSource)
-aux_source_directory(./album/utils allSource)
-aux_source_directory(./album/widgets allSource)
-aux_source_directory(./album/widgets/dialogs allSource)
-aux_source_directory(./../libUnionImage/UnionImage allSource)
-
-FILE (GLOB allHeaders
-    "./album/module/*.h"
+# Set sources
+set(SRC
+    launcherplugin.cpp
     )
 
-set(AllQRC
-    album/resources.qrc
-    icons/icons.qrc
+# 源文件
+file(GLOB_RECURSE SRCS
+    ./src/*.h
+    ./src/*.cpp
     )
-file(GLOB TargetTsFiles LIST_DIRECTORIES false ../translations/${CMD_NAME}*.ts)
 
-set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
+file(GLOB_RECURSE QMLSRC
+    ./*.qml
+    )
+
+# Find the Qt5Quick library
+find_package(Qt5Quick CONFIG REQUIRED)
+find_package(Qt5QuickCompiler REQUIRED)
+find_package(Qt5DBus CONFIG REQUIRED)
+find_package(Qt5Concurrent CONFIG REQUIRED)
+find_package(Qt5Svg CONFIG REQUIRED)
+find_package(Qt5PrintSupport CONFIG REQUIRED)
+find_package(Qt5LinguistTools CONFIG REQUIRED)
+find_package(Qt5Sql CONFIG REQUIRED)
+find_package(PkgConfig REQUIRED)
+
+qtquick_compiler_add_resources(RCC_SOURCES ${RESOURCES})
+
+pkg_check_modules(3rd_lib REQUIRED
+    dtkwidget  gio-qt udisks2-qt5
+    )
+
+# 保证 src 目录下头文件全局可见
+include_directories(src)
+
+# 同时生成 exe 和 lib 两个文件
+# lib 文件有两个作用：
+# (1) 开发阶段本地调试使用时，lib被exe以链接库形式使用；
+# (2) 实际使用时，lib 会被安装到指定目录，lib 被 booster-dtkdeclarative 以插件形式解析
+
+
+file(GLOB TS LIST_DIRECTORIES false translations/${CMAKE_PROJECT_NAME}*.ts)
+set_source_files_properties(${TS} PROPERTIES OUTPUT_LOCATION ${PROJECT_SOURCE_DIR}/translations)
+qt5_create_translation(QM ${SRC} ${SRCS} ${RCC_SOURCES} ${QMLSRC} ${GLOB})
 
 if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
-    qt5_create_translation(LangSrcs ${allSource} ${allHeaders} ${TargetTsFiles}
-        OPTIONS )
+    qt5_create_translation(QM ${SRC} ${SRCS} ${RCC_SOURCES} ${QMLSRC} ${TS})
 endif ()
-qt5_add_translation(${TargetTsFiles})
-set_source_files_properties(${qmfiles} PROPERTIES OUTPUT_LOCATION "translations")
 
-set(LINK_DIR lib)
-link_directories(${LINK_DIR})
-
-add_executable(${PROJECT_NAME} ${allSource} ${AllQRC} ${allHeaders} ${LangSrcs} )
-
-add_compile_definitions(LITE_DIV)
-
-#------------------------------ 配置test ---------------------------------------
-
-if(DOTEST)
-    SET(PROJECT_NAME_TEST
-        ${PROJECT_NAME}_test)
-
-    include_directories(./../tests/)
-
-    aux_source_directory(./../tests/ allTestSource)
-    aux_source_directory(./../tests/albumview allTestSource)
-    aux_source_directory(./../tests/allpicview allTestSource)
-    aux_source_directory(./../tests/controller allTestSource)
-    aux_source_directory(./../tests/dbmanager allTestSource)
-    aux_source_directory(./../tests/dialogs allTestSource)
-    aux_source_directory(./../tests/imageengine allTestSource)
-    aux_source_directory(./../tests/importtimelineview allTestSource)
-    aux_source_directory(./../tests/importview allTestSource)
-    aux_source_directory(./../tests/searchview allTestSource)
-    aux_source_directory(./../tests/thumbnail allTestSource)
-    aux_source_directory(./../tests/timelineview allTestSource)
-    aux_source_directory(./../tests/utils allTestSource)
-    aux_source_directory(./../tests/widgets allTestSource)
-    aux_source_directory(./../tests/widgets/dialogs allTestSource)
-    aux_source_directory(./album/albumview allTestSource)
-    aux_source_directory(./album/allpicview allTestSource)
-    aux_source_directory(./album/controller allTestSource)
-    aux_source_directory(./album/dbmanager allTestSource)
-    aux_source_directory(./album/dialogs allTestSource)
-    aux_source_directory(./album/imageengine allTestSource)
-    aux_source_directory(./album/importtimelineview allTestSource)
-    aux_source_directory(./album/importview allTestSource)
-    aux_source_directory(./album/searchview allTestSource)
-    aux_source_directory(./album/settings/slideshow allTestSource)
-    aux_source_directory(./album/thumbnail allTestSource)
-    aux_source_directory(./album/timelineview allTestSource)
-    aux_source_directory(./album/utils allTestSource)
-    aux_source_directory(./album/widgets allTestSource)
-    aux_source_directory(./album/widgets/dialogs allTestSource)
-    aux_source_directory(./../libUnionImage/UnionImage allTestSource)
-
-    FILE(GLOB allTestSource1
-        "./album/application.cpp"
-        "./album/mainwindow.cpp"
-        "./album/fileinotify.cpp"
-        "./album/fileinotifygroup.cpp"
-        )
-
-    add_executable(${PROJECT_NAME_TEST} ${allHeaders} ${AllTestQRC} ${allTestSource} ${allTestSource1})
-    target_link_libraries(${PROJECT_NAME_TEST} gmock gtest pthread)
-
-    add_test(${PROJECT_NAME_TEST} COMMAND ${PROJECT_NAME_TEST})
-
-#------------------------------ 创建'make test'指令---------------------------------------
-    add_custom_target(test
-        COMMAND mkdir -p coverageResult
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-    add_custom_command(TARGET test
-        COMMAND echo " =================== CREAT LCOV REPROT BEGIN ==================== "
-
-        COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME_TEST}.dir --zerocounters
-        COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME}.dir --zerocounters
-        COMMAND ./${PROJECT_NAME}/${PROJECT_NAME_TEST}
-
-        COMMAND lcov --directory . --capture --output-file ./coverageResult/${PROJECT_NAME}_Coverage.info
-
-        COMMAND echo " =================== do filter begin ==================== "
-        COMMAND lcov --remove ./coverageResult/${PROJECT_NAME}_Coverage.info
-        '*/${PROJECT_NAME_TEST}_autogen/*' '*/${PROJECT_NAME}_autogen/*' '*/usr/include/*' '*/tests/*' '*/googletest/*'
-        -o ./coverageResult/${PROJECT_NAME}_Coverage.info
-        COMMAND echo " =================== do filter end ==================== "
-
-        COMMAND genhtml -o ./coverageResult/report ./coverageResult/${PROJECT_NAME}_Coverage.info
-        COMMAND echo " =================== CREAT LCOV REPROT END ==================== "
-
-#        COMMAND nohup x-www-browser ${CMAKE_BINARY_DIR}/coverageResult/report/index.html &
-
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+# Add LIB
+add_library(${LIB_NAME} SHARED
+    ${SRC}
+    ${SRCS}
+    ${RCC_SOURCES}
+    ${CMAKE_PROJECT_NAME}.qrc
+#    res.qrc
+    ${QM}
     )
-    add_dependencies(test ${PROJECT_NAME_TEST})
-endif()
 
-#------------------------------ 创建'make test'指令---------------------------------------
+# 由于 LIB 程序为本项目的功能实现部分，需要用到的第三方库都需要在此处添加。
+target_include_directories(${LIB_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS}  )
+target_link_libraries(${LIB_NAME}
+    ${DtkDeclarative_LIBRARIES}
+    Qt5::Quick
+    Qt5::PrintSupport
+    Qt5::Gui Qt5::Qml Qt5::Core Qt5::DBus Qt5::Concurrent Qt5::Svg Qt5::Sql GL pthread freeimage
+    ${3rd_lib_LIBRARIES}
+    )
 
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(3rd_lib REQUIRED
-        dtkwidget dtkcore dtkgui gio-qt udisks2-qt5
-        )
-target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS})
-if(DOTEST)
-    target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${3rd_lib_INCLUDE_DIRS})
-endif()
+# Add EXE
+add_executable(${BIN_NAME} main.cpp)
 
-target_link_libraries(${PROJECT_NAME} Qt5::WidgetsPrivate ${3rd_lib_LIBRARIES} freeimage imageviewer)
-if(DOTEST)
-    target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES} freeimage imageviewer)
-endif()
-#------------------添加第三方库end--------------------------#
+# 由于 EXE 只是作为启动程序加载 LIB 使用，一般来说，只需链接 ${LIB_NAME} 既可。
+target_link_libraries(${BIN_NAME}
+    Qt5::Quick
+    ${LIB_NAME}
+    )
 
-qt5_use_modules(${PROJECT_NAME} ${QtModule})
-if(DOTEST)
-qt5_use_modules(${PROJECT_NAME_TEST} ${QtModule})
-endif()
+set_target_properties(${BIN_NAME} PROPERTIES INSTALL_RPATH ${DTK_QML_APP_PLUGIN_PATH})
 
 set(PREFIX /usr)
-set(UnionImageDir ${PREFIX}/lib/)
-set(TranslationDir ${PREFIX}/share/${CMD_NAME}/translations/)
-set(DesktopDir ${PREFIX}/share/applications/)
-set(ManIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
 set(AppIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
-
-install(TARGETS ${PROJECT_NAME}
-        EXPORT ${PROJECT_NAME}Targets
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
-        RUNTIME DESTINATION /usr/bin
-        INCLUDES DESTINATION allHeaders)
-
-# install
-install(FILES ${LangSrcs} DESTINATION ${TranslationDir})
-install(FILES deepin-album.desktop DESTINATION ${DesktopDir})
-install(FILES album/resources/images/other/deepin-album.svg DESTINATION ${ManIconDir})
-install(FILES album/resources/images/other/deepin-album.svg DESTINATION ${AppIconDir})
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/../assets/deepin-album DESTINATION /usr/share/deepin-manual/manual-assets/application/)
-
-#set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
-#set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
-#set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+set(APPSHAREDIR  /usr/share/${CMAKE_PROJECT_NAME})
+# Add install rule
+install(TARGETS ${BIN_NAME} DESTINATION ${APP_BIN_INSTALL_DIR})
+install(TARGETS ${LIB_NAME} DESTINATION ${DTK_QML_APP_PLUGIN_PATH})
+#desktop
+install(FILES ${PROJECT_SOURCE_DIR}/src/${CMAKE_PROJECT_NAME}.desktop DESTINATION share/applications)
+#manual
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/assets/deepin-album DESTINATION /usr/share/deepin-manual/manual-assets/application/)
+#icon
+install(FILES ${PROJECT_SOURCE_DIR}/src/icon/deepin-album.svg DESTINATION ${AppIconDir})
+#translations
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/translations
+    DESTINATION ${APPSHAREDIR}
+    FILES_MATCHING PATTERN "*.qm")
