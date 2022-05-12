@@ -106,7 +106,7 @@ MovieInfo MovieService::getMovieInfo(const QUrl &url)
 
     if (url.isLocalFile()) {
         QFileInfo fi(url.toLocalFile());
-        if (fi.exists()) {
+        if (fi.exists() && fi.permission(QFile::Permission::ReadOwner)) { //存在且有读权限才能导入
             if (!m_ffmpegExist) { //ffmpeg不存在，只读取基本信息
                 result.valid = true;
                 result.filePath = fi.absoluteFilePath();
@@ -211,7 +211,8 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
 
     //1.错误输入
     QString ffmpegOut = QString::fromUtf8(output);
-    if (ffmpegOut.endsWith("Invalid data found when processing input\n")) {
+    if (ffmpegOut.endsWith("Invalid data found when processing input\n") ||
+            ffmpegOut.endsWith("Permission denied\n")) {
         return mi;
     }
 
