@@ -63,7 +63,7 @@ public slots:
     void clearAndStartLayout();
 protected:
     void resizeEvent(QResizeEvent *ev) override;
-//    void showEvent(QShowEvent *ev) override;
+    void showEvent(QShowEvent *ev) override;
 
 private:
     void initTimeLineViewWidget();

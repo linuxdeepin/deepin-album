@@ -84,6 +84,8 @@ public:
     bool isAllSelectedCollected();
 protected:
     void hideEvent(QHideEvent *event) override;
+    void showEvent(QShowEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
 signals:
     //进入批量状态

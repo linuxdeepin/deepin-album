@@ -79,7 +79,8 @@ const int RIGHT_VIEW_FAVORITE_LIST = 3;
 const int RIGHT_VIEW_SEARCH = 4;
 const int RIGHT_VIEW_PHONE = 5;
 const int RIGHT_VIEW_TIMELINE_IMPORT = 6;
-
+const int MAINWINDOW_NEEDCUT_WIDTH = 775;
+  
 static QMap<QString, const char *> i18nMap {
     {"data", "Data Disk"}
 };
@@ -1501,7 +1502,7 @@ void AlbumView::getAllDeviceName()
             goto runend1;
         }
         udispname = label;
-runend1:
+    runend1:
         blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
@@ -2389,7 +2390,13 @@ void AlbumView::restoreTitleDisplay()
 {
     //顶部栏不存在时的标题处理（涉及样式还原）
     if (!m_trashBatchOperateWidget->isVisible()) {//最近删除界面标题
-        m_TrashTitleLab->setText(tr("Trash"));
+        if (topLevelWidget()->width() <= MAINWINDOW_NEEDCUT_WIDTH) {
+            int size = m_trashBatchOperateWidget->x() - (m_TrashTitleLab->x() + m_TrashTitleLab->width());
+            QString Str = utils::base::reorganizationStr(m_TrashTitleLab->font(), tr("Trash"), m_TrashTitleLab->width() + size);
+            m_TrashTitleLab->setText(Str);
+        } else {
+            m_TrashTitleLab->setText(tr("Trash"));
+        }
         m_TrashTitleLab->show();
         m_TrashTitleLab->raise();
     }

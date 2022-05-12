@@ -41,6 +41,9 @@
 #include "batchoperatewidget.h"
 #include "noresultwidget.h"
 
+const int MAINWINDOW_NEEDCUT_WIDTH = 775;
+const int LISTVIEW_MINMUN_WIDTH = 520;
+
 ImportTimeLineView::ImportTimeLineView(DWidget *parent)
     : DWidget(parent), m_mainLayout(nullptr)
     , m_DSlider(nullptr)
@@ -557,6 +560,12 @@ void ImportTimeLineView::resizeEvent(QResizeEvent *ev)
     updateSize();
 }
 
+void ImportTimeLineView::showEvent(QShowEvent *ev)
+{
+    Q_UNUSED(ev);
+    updateSize();
+}
+
 void ImportTimeLineView::dragEnterEvent(QDragEnterEvent *e)
 {
     if (!utils::base::checkMimeUrls(e->mimeData()->urls())) {
@@ -602,6 +611,9 @@ void ImportTimeLineView::clearAllSelection()
 
 void ImportTimeLineView::updateDateNumLabel()
 {
+    if (topLevelWidget()->width() <= MAINWINDOW_NEEDCUT_WIDTH)
+        m_pImportTitle->move(topLevelWidget()->width() - LISTVIEW_MINMUN_WIDTH, 0);
+  
     auto fullStr = dateFullStr + "  " + numFullStr;
     auto resultStr = utils::base::reorganizationStr(m_DateNumLabel->font(), fullStr, m_pImportTitle->x() - 19);
     m_DateNumLabel->setText(resultStr);
@@ -617,7 +629,7 @@ void ImportTimeLineView::updateDateNumLabel()
     int size = m_batchOperateWidget->x() - (m_pImportTitle->x() + m_pImportTitle->width());
     QString Str = utils::base::reorganizationStr(m_pImportTitle->font(), tr("Import"), m_pImportTitle->width() + size);
     if (Str.length() > 0) {
-        m_pImportTitle->show();
+        m_pImportTitle->setVisible(size >= 0);
         m_pImportTitle->raise();
     } else {
         m_pImportTitle->hide();

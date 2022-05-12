@@ -55,6 +55,16 @@
 
 DWIDGET_USE_NAMESPACE
 
+const int MINIMUN_WIDTH = 304;
+const int SHOW_CANCELCHOOSEALL_BTN_BIG_WIDTH = 85;
+const int RESIZE_CANCELCHOOSEALL_BTN_BIG_WIDTH = 88;
+const int CANCELCHOOSEALL_BTN_NORMAL_WIDTH = 57;
+const int SHOW_SPACING_MINIMUM = 1;
+const int RESZIE_SPACING_MINIMUM = 4;
+const int SPACING_NORMAL = 10;
+const int BTN_MIN_WIDTH = 55;
+const int BTN_MAX_WIDTH = 100;
+const int BTN_FIX_HEIGHT = 36;
 BatchOperateWidget::BatchOperateWidget(ThumbnailListView *thumbnailListView, OperateType type, QWidget *parent)
     : QWidget(parent)
 {
@@ -384,7 +394,9 @@ void BatchOperateWidget::initTrashBtn(QHBoxLayout *hb)
     AC_SET_ACCESSIBLE_NAME(m_trashRecoveryBtn, Album_Restore_Button);
     m_trashRecoveryBtn->setText(QObject::tr("Restore"));
     m_trashRecoveryBtn->setEnabled(false);
-    m_trashRecoveryBtn->setFixedSize(100, 36);
+    m_trashRecoveryBtn->setFixedHeight(BTN_FIX_HEIGHT);
+    m_trashRecoveryBtn->setMaximumWidth(BTN_MAX_WIDTH);
+    m_trashRecoveryBtn->setMinimumWidth(BTN_FIX_HEIGHT);
     m_trashRecoveryBtn->setVisible(false);
 
     DPalette ReBtn = DApplicationHelper::instance()->palette(m_trashRecoveryBtn);
@@ -397,7 +409,9 @@ void BatchOperateWidget::initTrashBtn(QHBoxLayout *hb)
     AC_SET_OBJECT_NAME(m_trashDeleteBtn, Album_Delete_Button);
     AC_SET_ACCESSIBLE_NAME(m_trashDeleteBtn, Album_Delete_Button);
     m_trashDeleteBtn->setText(QObject::tr("Delete"));
-    m_trashDeleteBtn->setFixedSize(100, 36);
+    m_trashDeleteBtn->setFixedHeight(BTN_FIX_HEIGHT);
+    m_trashDeleteBtn->setMaximumWidth(BTN_MAX_WIDTH);
+    m_trashDeleteBtn->setMinimumWidth(BTN_FIX_HEIGHT);
     m_trashDeleteBtn->setVisible(false);
 
     DPalette DeBtn = DApplicationHelper::instance()->palette(m_trashDeleteBtn);
@@ -505,7 +519,9 @@ void BatchOperateWidget::batchSelectChanged(bool isBatchSelect, bool disConnectS
                        this, &BatchOperateWidget::sltSelectionChanged);
         }
         m_thumbnailListView->slotChangeAllSelectBtnVisible(false);
-        m_thumbnailListView->updatetimeLimeBtnText();
+        QTimer::singleShot(100, this, [ = ] {
+            m_thumbnailListView->updatetimeLimeBtnText();
+        });
         m_thumbnailListView->clearSelection();
         //发送给时间线，刷新悬浮控件选择按钮显隐状态
         emit signalBatchSelectChanged(false);
@@ -564,6 +580,31 @@ void BatchOperateWidget::hideEvent(QHideEvent *event)
     Q_UNUSED(event)
     batchSelectChanged(false, true);
     refreshBtnEnabled();
+}
+
+void BatchOperateWidget::showEvent(QShowEvent *event)
+{
+    Q_UNUSED(event)
+    if (width() <= MINIMUN_WIDTH) {
+        m_cancelChooseAll->setMinimumWidth(SHOW_CANCELCHOOSEALL_BTN_BIG_WIDTH);
+        this->layout()->setSpacing(SHOW_SPACING_MINIMUM);
+    } else {
+        m_cancelChooseAll->setMinimumWidth(CANCELCHOOSEALL_BTN_NORMAL_WIDTH);
+        this->layout()->setSpacing(SPACING_NORMAL);
+    }
+
+}
+
+void BatchOperateWidget::resizeEvent(QResizeEvent *event)
+{
+    Q_UNUSED(event)
+    if (width() <= MINIMUN_WIDTH) {
+        m_cancelChooseAll->setMinimumWidth(RESIZE_CANCELCHOOSEALL_BTN_BIG_WIDTH);
+        this->layout()->setSpacing(RESZIE_SPACING_MINIMUM);
+    } else {
+        m_cancelChooseAll->setMinimumWidth(CANCELCHOOSEALL_BTN_NORMAL_WIDTH);
+        this->layout()->setSpacing(SPACING_NORMAL);
+    }
 }
 
 void BatchOperateWidget::mouseReleaseEvent(QMouseEvent *event)
