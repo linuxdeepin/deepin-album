@@ -70,7 +70,14 @@ const int VIEW_SLIDE = 5;
 // 窗口最小尺寸限定
 const int MAINWIDGET_MINIMUN_WIDTH = 630;
 const int MAINWIDGET_MINIMUN_HEIGHT = 300;
-const int SEARCHEDIT_MINIMUN_WIDTH = 92;
+const int SEARCHEDIT_MINIMUN_WIDTH = 110;
+const int SEARCHEDIT_NORMAL_WIDTH = 350;
+const int SEARCHEDIT_SPACE = 20;
+const int BTN_HEIGHT = 36;
+const int TIMEBTN_MIN_WIDTH = 78;
+const int TIMEBTN_NORMAL_WIDTH = 110;
+const int ALBUMBTN_MIN_WIDTH = 55;
+const int ALBUMBTN_NORMAL_WIDTH = 90;
 
 }//namespace
 
@@ -109,13 +116,24 @@ void MainWindow::resizeEvent(QResizeEvent *e)
 {
     Q_UNUSED(e);
     int m_SearchEditWidth = titlebar()->width() - m_titleBtnWidget->width() - TITLEBAR_BLANK_WIDTH;
-    if (m_SearchEditWidth <= 350) {
-        if (m_SearchEditWidth < SEARCHEDIT_MINIMUN_WIDTH)
+    if (m_SearchEditWidth <= SEARCHEDIT_NORMAL_WIDTH) {
+        if (m_SearchEditWidth < SEARCHEDIT_MINIMUN_WIDTH) {
             m_SearchEditWidth = SEARCHEDIT_MINIMUN_WIDTH;
-        m_pSearchEdit->setFixedSize(m_SearchEditWidth - 20, 36);
+            m_pTimeBtn->setMaximumSize(TIMEBTN_MIN_WIDTH, BTN_HEIGHT);
+            m_pAlbumBtn->setMaximumSize(ALBUMBTN_MIN_WIDTH, BTN_HEIGHT);
+#ifndef tablet_PC
+            titlebar()->addWidget(m_pSearchEdit, Qt::AlignLeft);
+#endif
+        }
+        m_pSearchEdit->setFixedSize(m_SearchEditWidth - SEARCHEDIT_SPACE, BTN_HEIGHT);
     } else {
-        m_SearchEditWidth = 350;
-        m_pSearchEdit->setFixedSize(m_SearchEditWidth, 36);
+        m_pTimeBtn->setMaximumSize(TIMEBTN_NORMAL_WIDTH, BTN_HEIGHT);
+        m_pAlbumBtn->setMaximumSize(ALBUMBTN_NORMAL_WIDTH, BTN_HEIGHT);
+#ifndef tablet_PC
+        titlebar()->addWidget(m_pSearchEdit, Qt::AlignHCenter);
+#endif
+        m_SearchEditWidth = SEARCHEDIT_NORMAL_WIDTH;
+        m_pSearchEdit->setFixedSize(m_SearchEditWidth, BTN_HEIGHT);
     }
 }
 
@@ -370,7 +388,7 @@ void MainWindow::initTitleBar()
     // TitleBar Search
     m_pSearchEdit = new DSearchEdit(m_titleBtnWidget);
     m_pSearchEdit->lineEdit()->setFocusPolicy(Qt::ClickFocus);
-    m_pSearchEdit->setMaximumSize(350, 36);
+    m_pSearchEdit->setMaximumSize(SEARCHEDIT_NORMAL_WIDTH, 36);
     if (0 < DBManager::instance()->getImgsCount()) {
         m_pSearchEdit->setEnabled(true);
     } else {
@@ -411,6 +429,7 @@ void MainWindow::initTitleBar()
     titlebar()->addWidget(m_titleBtnWidget, Qt::AlignLeft);
 #ifndef tablet_PC
     titlebar()->addWidget(m_pSearchEdit, Qt::AlignHCenter);
+    pTitleBtnLayout->addSpacing(-6);
 #endif
 
     m_addImageBtn = new DIconButton(DStyle::SP_IncreaseElement, this);
@@ -1702,13 +1721,24 @@ void MainWindow::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event)
     int m_SearchEditWidth = titlebar()->width() - m_titleBtnWidget->width() - TITLEBAR_BLANK_WIDTH;
-    if (m_SearchEditWidth <= 350) {
-        if (m_SearchEditWidth < SEARCHEDIT_MINIMUN_WIDTH)
+    if (m_SearchEditWidth <= SEARCHEDIT_NORMAL_WIDTH) {
+        if (m_SearchEditWidth < SEARCHEDIT_MINIMUN_WIDTH) {
             m_SearchEditWidth = SEARCHEDIT_MINIMUN_WIDTH;
-        m_pSearchEdit->setFixedSize(m_SearchEditWidth - 20, 36);
+            m_pTimeBtn->setMaximumSize(TIMEBTN_MIN_WIDTH, BTN_HEIGHT);
+            m_pAlbumBtn->setMaximumSize(ALBUMBTN_MIN_WIDTH, BTN_HEIGHT);
+#ifndef tablet_PC
+            titlebar()->addWidget(m_pSearchEdit, Qt::AlignLeft);
+#endif
+        }
+        m_pSearchEdit->setFixedSize(m_SearchEditWidth - SEARCHEDIT_SPACE, BTN_HEIGHT);
     } else {
-        m_SearchEditWidth = 350;
-        m_pSearchEdit->setFixedSize(m_SearchEditWidth, 36);
+        m_pTimeBtn->setMaximumSize(TIMEBTN_NORMAL_WIDTH, BTN_HEIGHT);
+        m_pAlbumBtn->setMaximumSize(ALBUMBTN_NORMAL_WIDTH, BTN_HEIGHT);
+#ifndef tablet_PC
+        titlebar()->addWidget(m_pSearchEdit, Qt::AlignHCenter);
+#endif
+        m_SearchEditWidth = SEARCHEDIT_NORMAL_WIDTH;
+        m_pSearchEdit->setFixedSize(m_SearchEditWidth, BTN_HEIGHT);
     }
     QMetaObject::invokeMethod(this, [ = ]() {
         if (m_isFirstStart) {
