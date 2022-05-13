@@ -17,10 +17,12 @@
 
 #include <QQmlContext>
 #include <QQmlApplicationEngine>
+#include <QQuickWindow>
+#include <QDebug>
 #include <DApplication>
+
 #include "src/filecontrol.h"
 #include "src/thumbnailload.h"
-
 #include "launcherplugin.h"
 
 DWIDGET_USE_NAMESPACE
@@ -37,8 +39,6 @@ LauncherPlugin::~LauncherPlugin()
 
 }
 
-#include <QQuickWindow>
-#include <QDebug>
 int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
 {
     // 请在此处注册需要导入到QML中的C++类型
@@ -50,18 +50,20 @@ int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
     engine->addImageProvider(QLatin1String("viewImage"), load->m_viewLoad);
     FileControl *fileControl = new FileControl();
     engine->rootContext()->setContextProperty("fileControl", fileControl);
+
+    //设置为相册模式
+    fileControl->setViewerType(imageViewerSpace::ImgViewerTypeAlbum);
+//    if (!fileControl->isCheckOnly()) {
+//        return 0;
+//    }
     engine->load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine->rootObjects().isEmpty())
         return -1;
-//    auto window = qobject_cast<QQuickWindow *>(engine->rootObjects().first());
-//    if (window) {
-//        window->setIcon(QIcon("qrc:/icon/deepin-image-viewer.svg"));
-//    }
-    app->setWindowIcon(QIcon::fromTheme("deepin-image-viewer"));
-    app->setApplicationDisplayName(QObject::tr("Image Viewer"));
-//    app->setApplicationDescription(QObject::tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
-    app->setApplicationName("deepin-image-viewer");
-    app->setApplicationDisplayName(QObject::tr("Image Viewer"));
+
+    app->setWindowIcon(QIcon::fromTheme("deepin-album"));
+    app->setApplicationDisplayName(QObject::tr("Album"));
+    app->setApplicationName("deepin-album");
+    app->setApplicationDisplayName(QObject::tr("Album"));
 
     return app->exec();
 }
@@ -82,7 +84,7 @@ QGuiApplication *LauncherPlugin::createApplication(int &argc, char **argv)
     if (qEnvironmentVariableIsEmpty("XDG_CURRENT_DESKTOP")) {
         qputenv("XDG_CURRENT_DESKTOP", "Deepin");
     }
-
+    qputenv("D_POPUP_MODE", "embed");
     // 注意:请不要管理 QGuiApplication 对象的生命周期！
     DApplication *a = new DApplication(argc, argv);
     a->loadTranslator();

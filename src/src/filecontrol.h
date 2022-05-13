@@ -9,6 +9,7 @@
 #include <QMap>
 
 #include "configsetter.h"
+#include "unionimage/unionimage_global.h"
 
 class OcrInterface;
 
@@ -148,6 +149,9 @@ public:
     //判断是否是svg图片
     Q_INVOKABLE bool isSvgImage(const QString &path);
 
+    //
+    Q_INVOKABLE void setViewerType(imageViewerSpace::ImgViewerType type);
+
 signals:
     void callSavePicDone();
 
@@ -182,7 +186,9 @@ private :
 
     int m_lastSaveHeight = 0;
 
-    QStringList listsupportWallPaper;
+    QStringList m_listsupportWallPaper;
+
+    imageViewerSpace::ImgViewerType m_viewerType { imageViewerSpace::ImgViewerTypeLocal };
 };
 
 #endif // FILECONTROL_H

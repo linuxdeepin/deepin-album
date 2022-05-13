@@ -100,8 +100,8 @@ FileControl::FileControl(QObject *parent) : QObject(parent)
         });
     }
 
-    listsupportWallPaper << "bmp" << "cod" << "png" << "gif" << "ief" << "jpe" << "jpeg" << "jpg"
-                         << "jfif" << "tif" << "tiff";
+    m_listsupportWallPaper << "bmp" << "cod" << "png" << "gif" << "ief" << "jpe" << "jpeg" << "jpg"
+                           << "jfif" << "tif" << "tiff";
 }
 
 FileControl::~FileControl()
@@ -670,7 +670,7 @@ bool FileControl::isSupportSetWallpaper(const QString &path)
     QString path1 = QUrl(path).toLocalFile();
     QFileInfo fileinfo(path1);
     QString format = fileinfo.suffix().toLower();
-    if (listsupportWallPaper.contains(format)) {
+    if (m_listsupportWallPaper.contains(format)) {
         return true;
     }
     return false;
@@ -680,7 +680,11 @@ bool FileControl::isCheckOnly()
 {
     //single
     QString userName = QDir::homePath().section("/", -1, -1);
-    std::string path = ("/home/" + userName + "/.cache/deepin/deepin-image-viewer/").toStdString();
+    QString appName = "deepin-image-viewer";
+    if (m_viewerType == imageViewerSpace::ImgViewerTypeAlbum) {
+        appName = "deepin-album";
+    }
+    std::string path = ("/home/" + userName + "/.cache/deepin/" + appName + "/").toStdString();
     QDir tdir(path.c_str());
     if (!tdir.exists()) {
         bool ret =  tdir.mkpath(path.c_str());
@@ -750,4 +754,9 @@ bool FileControl::isSvgImage(const QString &path)
         bRet = true;
     }
     return bRet;
+}
+
+void FileControl::setViewerType(imageViewerSpace::ImgViewerType type)
+{
+    m_viewerType = type;
 }

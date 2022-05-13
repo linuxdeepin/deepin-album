@@ -60,7 +60,7 @@ add_library(${LIB_NAME} SHARED
     ${SRCS}
     ${RCC_SOURCES}
     ${CMAKE_PROJECT_NAME}.qrc
-#    res.qrc
+    res.qrc
     ${QM}
     )
 

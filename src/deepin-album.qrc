@@ -1,5 +1,13 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/main.qml</file>
+        <file>qml/GlobalVar.qml</file>
+        <file>qml/Sidebar.qml</file>
+        <file>qml/SidebarModel.qml</file>
+        <file>qml/ImportView.qml</file>
+        <file>qml/ThumbnailImage.qml</file>
+        <file>qml/NoPictureView.qml</file>
+        <file>qml/NewAlbumDialog.qml</file>
+        <file>qml/BottomBar.qml</file>
     </qresource>
 </RCC>
