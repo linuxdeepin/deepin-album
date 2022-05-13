@@ -51,7 +51,8 @@
 namespace {
 const int ITEM_SPACING = 4;
 const int BASE_HEIGHT = 100;
-
+const int MINIMUN_WIDTH = 442;
+  
 // const QString IMAGE_DEFAULTTYPE = "All pics";
 const QString IMAGE_DEFAULTTYPE = "All Photos";
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
@@ -86,7 +87,7 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, int U
     setContextMenuPolicy(Qt::CustomContextMenu);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
-    setMinimumWidth(500);
+    setMinimumWidth(MINIMUN_WIDTH);
     m_delegate = new ThumbnailDelegate(type, this); //绑在this上面，用于自动销毁
     m_delegate->m_imageTypeStr = m_imageType;
     setItemDelegate(m_delegate);
