@@ -23,6 +23,12 @@
 #include <QGraphicsDropShadowEffect>
 #include <QItemSelectionModel>
 
+
+const int MAINWINDOW_MIN_WIDTH = 600;
+const int MINADJUST_WIDTH = 720;
+const int RIGHTMARGIN_MAX = 100;
+const int RIGHTMARGIN_NORMAL = 0;
+const int BOTTOMMARGIN_NORMAL = 3;
 StatusBar::StatusBar(QWidget *parent)
     : DBlurEffectWidget(parent), m_pAllPicNumLabel(nullptr), m_pSlider(nullptr)
     , m_pstacklabel(nullptr), m_pimporting(nullptr), TextLabel(nullptr)
@@ -130,6 +136,12 @@ void StatusBar::initConnections()
 void StatusBar::resizeEvent(QResizeEvent *e)
 {
     Q_UNUSED(e);
+    if (width() < MAINWINDOW_MIN_WIDTH) {
+        if (topLevelWidget()->width() < MINADJUST_WIDTH)
+            layout()->setContentsMargins(0, 0, RIGHTMARGIN_MAX, BOTTOMMARGIN_NORMAL);
+        else
+            layout()->setContentsMargins(0, 0, RIGHTMARGIN_NORMAL, BOTTOMMARGIN_NORMAL);
+    }
     m_pSlider->move(width() - 214, -1);
 }
 

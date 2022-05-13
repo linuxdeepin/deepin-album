@@ -80,7 +80,8 @@ const int RIGHT_VIEW_SEARCH = 4;
 const int RIGHT_VIEW_PHONE = 5;
 const int RIGHT_VIEW_TIMELINE_IMPORT = 6;
 const int MAINWINDOW_NEEDCUT_WIDTH = 775;
-  
+const int PHONEPICTOTAL_FIX_HEIGHT = 23;
+
 static QMap<QString, const char *> i18nMap {
     {"data", "Data Disk"}
 };
@@ -764,9 +765,9 @@ void AlbumView::initPhoneWidget()
     PhonePicTotalLayout->setContentsMargins(0, 0, 0, 0);
 
     m_pPhonePicTotal = new DLabel();
-    m_pPhonePicTotal->setFixedHeight(20);
+    m_pPhonePicTotal->setFixedHeight(PHONEPICTOTAL_FIX_HEIGHT);
     if (QLocale::system().language() == QLocale::Tibetan) {
-        m_pPhonePicTotal->setFixedHeight(20 + 10);
+        m_pPhonePicTotal->setFixedHeight(PHONEPICTOTAL_FIX_HEIGHT + 10);
     }
     DFontSizeManager::instance()->bind(m_pPhonePicTotal, DFontSizeManager::T6, QFont::Medium);
     m_pPhonePicTotal->setForegroundRole(DPalette::TextTips);

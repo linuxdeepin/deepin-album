@@ -55,6 +55,7 @@
 
 DWIDGET_USE_NAMESPACE
 
+const int MAINWINDOW_MIN_WIDTH = 775;
 const int MINIMUN_WIDTH = 304;
 const int SHOW_CANCELCHOOSEALL_BTN_BIG_WIDTH = 85;
 const int RESIZE_CANCELCHOOSEALL_BTN_BIG_WIDTH = 88;
@@ -396,7 +397,7 @@ void BatchOperateWidget::initTrashBtn(QHBoxLayout *hb)
     m_trashRecoveryBtn->setEnabled(false);
     m_trashRecoveryBtn->setFixedHeight(BTN_FIX_HEIGHT);
     m_trashRecoveryBtn->setMaximumWidth(BTN_MAX_WIDTH);
-    m_trashRecoveryBtn->setMinimumWidth(BTN_FIX_HEIGHT);
+    m_trashRecoveryBtn->setMinimumWidth(BTN_MIN_WIDTH);
     m_trashRecoveryBtn->setVisible(false);
 
     DPalette ReBtn = DApplicationHelper::instance()->palette(m_trashRecoveryBtn);
@@ -411,7 +412,7 @@ void BatchOperateWidget::initTrashBtn(QHBoxLayout *hb)
     m_trashDeleteBtn->setText(QObject::tr("Delete"));
     m_trashDeleteBtn->setFixedHeight(BTN_FIX_HEIGHT);
     m_trashDeleteBtn->setMaximumWidth(BTN_MAX_WIDTH);
-    m_trashDeleteBtn->setMinimumWidth(BTN_FIX_HEIGHT);
+    m_trashDeleteBtn->setMinimumWidth(BTN_MIN_WIDTH);
     m_trashDeleteBtn->setVisible(false);
 
     DPalette DeBtn = DApplicationHelper::instance()->palette(m_trashDeleteBtn);
@@ -585,7 +586,7 @@ void BatchOperateWidget::hideEvent(QHideEvent *event)
 void BatchOperateWidget::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event)
-    if (width() <= MINIMUN_WIDTH) {
+    if (topLevelWidget()->width() <= MAINWINDOW_MIN_WIDTH) {
         m_cancelChooseAll->setMinimumWidth(SHOW_CANCELCHOOSEALL_BTN_BIG_WIDTH);
         this->layout()->setSpacing(SHOW_SPACING_MINIMUM);
     } else {
@@ -598,7 +599,7 @@ void BatchOperateWidget::showEvent(QShowEvent *event)
 void BatchOperateWidget::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event)
-    if (width() <= MINIMUN_WIDTH) {
+    if (topLevelWidget()->width() <= MAINWINDOW_MIN_WIDTH) {
         m_cancelChooseAll->setMinimumWidth(RESIZE_CANCELCHOOSEALL_BTN_BIG_WIDTH);
         this->layout()->setSpacing(RESZIE_SPACING_MINIMUM);
     } else {
