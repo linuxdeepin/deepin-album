@@ -82,6 +82,15 @@ const int RIGHT_VIEW_TIMELINE_IMPORT = 6;
 const int MAINWINDOW_NEEDCUT_WIDTH = 775;
 const int PHONEPICTOTAL_FIX_HEIGHT = 23;
 
+const int MAINWINDOW_MIN_WIDTH = 835;
+const int BTN_FIX_HEIGHT = 36;
+const int IMPORTBYPHONE_MIN_WIDTH = 58;
+const int IMPORTBYPHONE_MAX_WIDTH = 213;
+const int IMPORTALLBYPHONE_MIN_WIDTH = 94;
+const int IMPORTALLBYPHONE_MAX_WIDTH = 100;
+const int IMPORTSELBYPHONE_MIN_WIDTH = 53;
+const int IMPORTSELBYPHONE_MAX_WIDTH = 100;
+
 static QMap<QString, const char *> i18nMap {
     {"data", "Data Disk"}
 };
@@ -828,11 +837,9 @@ void AlbumView::initPhoneWidget()
     m_importSelectByPhoneBtn->setFixedSize(QSize(100, 36));
     m_importSelectByPhoneBtn->setEnabled(false);
     mainImportLayout->addWidget(importLabel);
-    mainImportLayout->addSpacing(8);
+    mainImportLayout->setSpacing(5);
     mainImportLayout->addWidget(m_importByPhoneComboBox);
-    mainImportLayout->addSpacing(15);
     mainImportLayout->addWidget(m_importAllByPhoneBtn);
-    mainImportLayout->addSpacing(5);
     mainImportLayout->addWidget(m_importSelectByPhoneBtn);
     m_importByPhoneWidget->setLayout(mainImportLayout);
 
@@ -2672,6 +2679,23 @@ void AlbumView::resizeEvent(QResizeEvent *e)
         onBatchSelectChanged(false);
     }
 
+    if (topLevelWidget()->width() <= MAINWINDOW_MIN_WIDTH) {
+        m_importByPhoneComboBox->setMinimumWidth(IMPORTBYPHONE_MIN_WIDTH);
+        m_importByPhoneComboBox->setMaximumWidth(IMPORTBYPHONE_MAX_WIDTH);
+        m_importByPhoneComboBox->setFixedHeight(BTN_FIX_HEIGHT);
+
+        m_importAllByPhoneBtn->setMinimumWidth(IMPORTALLBYPHONE_MIN_WIDTH);
+        m_importAllByPhoneBtn->setMaximumWidth(IMPORTALLBYPHONE_MAX_WIDTH);
+        m_importAllByPhoneBtn->setFixedHeight(BTN_FIX_HEIGHT);
+
+        m_importSelectByPhoneBtn->setMinimumWidth(IMPORTSELBYPHONE_MIN_WIDTH);
+        m_importSelectByPhoneBtn->setMaximumWidth(IMPORTSELBYPHONE_MAX_WIDTH);
+        m_importSelectByPhoneBtn->setFixedHeight(BTN_FIX_HEIGHT);
+    } else {
+        m_importByPhoneComboBox->setFixedSize(IMPORTBYPHONE_MAX_WIDTH, BTN_FIX_HEIGHT);
+        m_importAllByPhoneBtn->setFixedSize(IMPORTALLBYPHONE_MAX_WIDTH, BTN_FIX_HEIGHT);
+        m_importSelectByPhoneBtn->setFixedSize(IMPORTSELBYPHONE_MAX_WIDTH, BTN_FIX_HEIGHT);
+    }
     QWidget::resizeEvent(e);
 }
 
@@ -2703,5 +2727,22 @@ void AlbumView::showEvent(QShowEvent *e)
 
     onBatchSelectChanged(false);
 
+    if (topLevelWidget()->width() <= MAINWINDOW_MIN_WIDTH) {
+        m_importByPhoneComboBox->setMinimumWidth(IMPORTBYPHONE_MIN_WIDTH);
+        m_importByPhoneComboBox->setMaximumWidth(IMPORTBYPHONE_MAX_WIDTH);
+        m_importByPhoneComboBox->setFixedHeight(BTN_FIX_HEIGHT);
+
+        m_importAllByPhoneBtn->setMinimumWidth(IMPORTALLBYPHONE_MIN_WIDTH);
+        m_importAllByPhoneBtn->setMaximumWidth(IMPORTALLBYPHONE_MAX_WIDTH);
+        m_importAllByPhoneBtn->setFixedHeight(BTN_FIX_HEIGHT);
+
+        m_importSelectByPhoneBtn->setMinimumWidth(IMPORTSELBYPHONE_MIN_WIDTH);
+        m_importSelectByPhoneBtn->setMaximumWidth(IMPORTSELBYPHONE_MAX_WIDTH);
+        m_importSelectByPhoneBtn->setFixedHeight(BTN_FIX_HEIGHT);
+    } else {
+        m_importByPhoneComboBox->setFixedSize(IMPORTBYPHONE_MAX_WIDTH, BTN_FIX_HEIGHT);
+        m_importAllByPhoneBtn->setFixedSize(IMPORTALLBYPHONE_MAX_WIDTH, BTN_FIX_HEIGHT);
+        m_importSelectByPhoneBtn->setFixedSize(IMPORTSELBYPHONE_MAX_WIDTH, BTN_FIX_HEIGHT);
+    }
     QWidget::showEvent(e);
 }
