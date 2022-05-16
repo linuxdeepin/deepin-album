@@ -26,6 +26,7 @@ Rectangle{
             font.capitalization: Font.MixedCase
             text: qsTr("导入图片和视频")
             onClicked:{
+                importDialog.open()
             }
             width: 302
             height: 36

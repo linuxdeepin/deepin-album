@@ -4,10 +4,17 @@
         <file>qml/GlobalVar.qml</file>
         <file>qml/Sidebar.qml</file>
         <file>qml/SidebarModel.qml</file>
-        <file>qml/ImportView.qml</file>
         <file>qml/ThumbnailImage.qml</file>
-        <file>qml/NoPictureView.qml</file>
         <file>qml/NewAlbumDialog.qml</file>
         <file>qml/BottomBar.qml</file>
+        <file>qml/ImportView.qml</file>
+        <file>qml/NoPictureView.qml</file>
+        <file>qml/HaveImportedView.qml</file>
+        <file>qml/CollecttionVeiw.qml</file>
+        <file>qml/CustomAlbum.qml</file>
+        <file>qml/MyFavoriteView.qml</file>
+        <file>qml/RecentlyDeletedView.qml</file>
+        <file>qml/HaveImportedDelegate.qml</file>
+        <file>qml/RubberBand.qml</file>
     </qresource>
 </RCC>

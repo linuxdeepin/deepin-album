@@ -20,7 +20,11 @@ Item {
 
     property int currentViewIndex: 0// 0:打开图片界面 1:无图片界面
 
-
+    property var haveImportedPaths //所有导入的图片
 
     signal sigWindowStateChange()
+
+    onHaveImportedPathsChanged: {
+        currentViewIndex=2
+    }
 }

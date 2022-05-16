@@ -16,4 +16,9 @@ Rectangle{
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
     }
+    HaveImportedView{
+        visible: global.currentViewIndex == 2
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+    }
 }

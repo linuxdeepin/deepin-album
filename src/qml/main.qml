@@ -18,8 +18,11 @@ import QtQuick 2.11
 import QtQuick.Window 2.11
 import QtQuick.Layouts 1.11
 import QtQuick.Controls 2.4
+import QtQuick.Dialogs 1.3
+import Qt.labs.folderlistmodel 2.11
 import org.deepin.dtk 1.0 as D
 import org.deepin.dtk 1.0
+
 ApplicationWindow {
     GlobalVar{
         id: global
@@ -43,7 +46,6 @@ ApplicationWindow {
         setY(screen.height / 2 - height / 2);
     }
 
-
     onWindowStateChanged: {
         global.sigWindowStateChange()
     }
@@ -63,6 +65,26 @@ ApplicationWindow {
     //关闭的时候保存信息
     onClosing: {
         fileControl.saveSetting()
+    }
+
+    FileDialog {
+        id: importDialog
+        title: qsTr("Select pictures")
+        folder: shortcuts.pictures
+        selectMultiple: true
+        nameFilters: ["Image files (*.jpg *.png *.bmp *.gif *.ico *.jpe *.jps *.jpeg *.jng *.koala *.koa *.lbm *.iff *.mng *.pbm *.pbmraw *.pcd *.pcx *.pgm *.pgmraw *.ppm *.ppmraw *.ras *.tga *.targa *.tiff *.tif *.wbmp *.psd *.cut *.xbm *.xpm *.dds *.fax *.g3 *.sgi *.exr *.pct *.pic *.pict *.webp *.jxr *.mrw *.raf *.mef *.raw *.orf *.djvu *.or2 *.icns *.dng *.svg *.nef *.pef *.pxm *.pnm)"]
+        onAccepted: {
+//            mainView.sourcePaths = fileControl.getDirImagePath(fileDialog.fileUrls[0]);
+//            mainView.source = fileDialog.fileUrls[0]
+//            mainView.currentIndex=mainView.sourcePaths.indexOf(mainView.source)
+//            if(mainView.sourcePaths.length >0){
+
+//                mainView.setThumbnailCurrentIndex(mainView.sourcePaths.indexOf(mainView.source))
+//                console.log( "test",mainView.source)
+//                stackView.currentWidgetIndex= 1
+//            }
+            global.haveImportedPaths = importDialog.fileUrls;
+        }
     }
 
     Control {
