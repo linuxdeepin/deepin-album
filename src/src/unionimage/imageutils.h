@@ -85,6 +85,8 @@ bool                                isVaultFile(const QString &path);
 //增加该地址能否被删除的api
 bool                                isCanRemove(const QString &path);
 
+void                                getAllFileInDir(const QDir &dir, QFileInfoList &result);
+
 }  // namespace image
 
 }  // namespace utils

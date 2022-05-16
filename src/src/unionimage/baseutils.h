@@ -141,6 +141,7 @@ namespace base {
 void        copyOneImageToClipboard(const QString &path);
 void        copyImageToClipboard(const QStringList &paths);
 void        showInFileManager(const QString &path);
+QString     hashByString(const QString &str);
 int         stringWidth(const QFont &f, const QString &str);
 int         stringHeight(const QFont &f, const QString &str);
 
@@ -161,6 +162,15 @@ bool        trashFile(const QString &file);
 bool        onMountDevice(const QString &path);
 bool        mountDeviceExist(const QString &path);
 //bool        isCommandExist(const QString &command);
+
+//生成deepin-album-delete下的文件路径，hash：原始路径hash，fileName：文件名
+QString getDeleteFullPath(const QString &hash, const QString &fileName);
+
+std::pair<QDateTime, bool>          analyzeDateTime(const QVariant &data);
+
+//同步文件拷贝，用于区分QFile::copy的异步拷贝
+bool syncCopy(const QString &srcFileName, const QString &dstFileName);
+
 }  // namespace base
 
 }  // namespace utils

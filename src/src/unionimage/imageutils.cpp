@@ -582,6 +582,20 @@ bool isCanRemove(const QString &path)
     }
     return bRet;
 }
+
+void getAllFileInDir(const QDir &dir, QFileInfoList &result)
+{
+    QDir root(dir);
+    auto list = root.entryInfoList(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
+    for (const auto &eachInfo : list) {
+        if (eachInfo.isDir()) {
+            getAllFileInDir(eachInfo.absoluteFilePath(), result);
+        } else {
+            result.push_back(eachInfo);
+        }
+    }
+}
+
 }  // namespace image
 
 }  //namespace utils

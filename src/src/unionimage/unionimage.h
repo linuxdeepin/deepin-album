@@ -209,7 +209,83 @@ UNIONIMAGESHARED_EXPORT imageViewerSpace::ImageType getImageType(const QString &
  */
 UNIONIMAGESHARED_EXPORT imageViewerSpace::PathType getPathType(const QString &imagepath);
 
+/**
+ * @brief hashByString
+ * @param str
+ * @author LMH
+ * @return QString
+ * 获得路径类型
+ */
+UNIONIMAGESHARED_EXPORT QString hashByString(const QString &str);
 
+/**
+ * @brief getAllFileInDir
+ * @param dir
+ * @param result
+ * @author LMH
+ * @return void
+ * 获得路径类型
+ */
+UNIONIMAGESHARED_EXPORT void getAllFileInDir(const QDir &dir, QFileInfoList &result);
+
+/**
+ * @brief analyzeDateTime
+ * @param QVariant
+ * @author LMH
+ * @return std::pair<QDateTime, bool>
+ * 获得路径类型
+ */
+UNIONIMAGESHARED_EXPORT std::pair<QDateTime, bool> analyzeDateTime(const QVariant &data);
+
+
+/**
+ * @brief getAllFileInDir
+ * @param dir
+ * @param result
+ * @author LMH
+ * @return std::pair<QDateTime, bool>
+ * 获得路径类型
+ */
+UNIONIMAGESHARED_EXPORT void getAllFileInDir(const QDir &dir, QFileInfoList &result);
+
+/**
+ * @brief getDeleteFullPath
+ * @param hash:始路径
+ * @param fileName：文件名
+ * @author LMH
+ * @return QString
+ * 生成deepin-album-delete下的文件路径
+ */
+
+UNIONIMAGESHARED_EXPORT QString getDeleteFullPath(const QString &hash, const QString &fileName);
+
+/**
+ * @brief syncCopy
+ * @param srcFileName
+ * @param dstFileName
+ * @author LMH
+ * @return bool
+ * 同步文件拷贝，用于区分QFile::copy的异步拷贝
+ */
+UNIONIMAGESHARED_EXPORT bool syncCopy(const QString &srcFileName, const QString &dstFileName);
+
+/**
+ * @brief isVaultFile
+ * @param path
+ * @author LMH
+ * @return bool
+ * 判断是否是保险箱
+ */
+UNIONIMAGESHARED_EXPORT bool isVaultFile(const QString &path);
+
+/**
+ * @brief trashFile
+ * @param file
+ * @author LMH
+ * @return bool
+ * 判断是否是保险箱
+ */
+UNIONIMAGESHARED_EXPORT bool trashFile(const QString &file);
 
 QT_BEGIN_NAMESPACE
 

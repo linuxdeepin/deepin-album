@@ -1533,6 +1533,41 @@ QString PrivateDetectImageFormat(const QString &filepath)
     return "";
 }
 
+UNIONIMAGESHARED_EXPORT QString hashByString(const QString &str)
+{
+    return Libutils::base::hashByString(str);
+}
+
+UNIONIMAGESHARED_EXPORT void getAllFileInDir(const QDir &dir, QFileInfoList &result)
+{
+    return Libutils::image::getAllFileInDir(dir , result);
+}
+
+UNIONIMAGESHARED_EXPORT std::pair<QDateTime, bool> analyzeDateTime(const QVariant &data)
+{
+    return Libutils::base::analyzeDateTime(data);
+}
+
+UNIONIMAGESHARED_EXPORT QString getDeleteFullPath(const QString &hash, const QString &fileName)
+{
+    return Libutils::base::getDeleteFullPath(hash , fileName);
+}
+
+UNIONIMAGESHARED_EXPORT bool syncCopy(const QString &srcFileName, const QString &dstFileName)
+{
+    return Libutils::base::syncCopy(srcFileName , dstFileName);
+}
+
+UNIONIMAGESHARED_EXPORT bool isVaultFile(const QString &path)
+{
+    return Libutils::image::isVaultFile(path);
+}
+
+UNIONIMAGESHARED_EXPORT bool trashFile(const QString &file)
+{
+    return Libutils::base::trashFile(file);
+}
+
 };
 
 

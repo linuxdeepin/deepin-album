@@ -51,7 +51,6 @@
 
 #include "unionimage.h"
 
-
 namespace Libutils {
 
 namespace base {
@@ -449,6 +448,65 @@ bool mountDeviceExist(const QString &path)
 
     return QFileInfo(mountPoint).exists();
 }
+
+QString hashByString(const QString &str)
+{
+    return QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex();
+}
+
+QString getDeleteFullPath(const QString &hash, const QString &fileName)
+{
+    //防止文件过长,采用只用hash的名称;
+    return albumGlobal::DELETE_PATH + "/" + hash + "." + QFileInfo(fileName).suffix();
+}
+
+std::pair<QDateTime, bool> analyzeDateTime(const QVariant &data)
+{
+    auto str = data.toString();
+    QDateTime result = QDateTime::fromString(str, DATETIME_FORMAT_DATABASE);
+    if (!result.isValid()) {
+        result = stringToDateTime(str);
+    }
+    if (result.isValid()) {
+        return std::make_pair(result, true);
+    } else {
+        return std::make_pair(data.toDateTime(), false);
+    }
+}
+
+bool syncCopy(const QString &srcFileName, const QString &dstFileName)
+{
+    QFile src(srcFileName);
+    QFile dst(dstFileName);
+
+    src.open(QIODevice::ReadOnly);
+    dst.open(QIODevice::WriteOnly);
+
+    //0.预分配空间
+    auto fileSize = src.size();
+    if (!dst.resize(fileSize)) { //预分配空间失败
+        dst.close();
+        dst.remove();
+        return false;
+    }
+
+    //1.执行拷贝
+    dst.seek(0);
+    while (1) {
+        auto data = src.read(4 * 1024 * 1024);
+        if (data.isEmpty()) { //没有更多的数据
+            break;
+        }
+
+        dst.write(data);
+
+        //等待数据写入，这是和QFile::copy的区别
+        dst.waitForBytesWritten(30000);
+    }
+
+    return true;
+}
+
 //bool        isCommandExist(const QString &command)
 //{
 //    QProcess *proc = new QProcess;
