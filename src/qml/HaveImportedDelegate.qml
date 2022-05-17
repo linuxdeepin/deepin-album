@@ -48,9 +48,6 @@ Rectangle  {
             thumbnailMenu.popup()
 
         }
-        onDoubleClicked: {
-
-        }
     }
 
     //缩略图菜单
@@ -61,6 +58,7 @@ Rectangle  {
         MenuItem {
             text: qsTr("顺时针旋转")
             onTriggered: {
+
             }
         }
 

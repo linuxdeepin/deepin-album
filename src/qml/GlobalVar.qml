@@ -1,6 +1,7 @@
 import QtQuick 2.11
 
 Item {
+
     property var imgPaths
     property var imgCurrentPath
     property int imgCurrentIndex: 0
@@ -19,12 +20,13 @@ Item {
     property bool ctrlPressed: false//记录ctrl键是否按下
 
     property int currentViewIndex: 0// 0:打开图片界面 1:无图片界面
-
+    property int stackControlCurrent: 0// 0:相册界面 1:看图界面
     property var haveImportedPaths //所有导入的图片
 
     signal sigWindowStateChange()
 
     onHaveImportedPathsChanged: {
-        currentViewIndex=2
+        currentViewIndex = 2
     }
+
 }

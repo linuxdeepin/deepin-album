@@ -16,5 +16,28 @@
         <file>qml/RecentlyDeletedView.qml</file>
         <file>qml/HaveImportedDelegate.qml</file>
         <file>qml/RubberBand.qml</file>
+        <file>qml/ImageViewer/AlertToolTip.qml</file>
+        <file>qml/ImageViewer/FloatingNotice.qml</file>
+        <file>qml/ImageViewer/FullThumbnail.qml</file>
+        <file>qml/ImageViewer/ImageViewer.qml</file>
+        <file>qml/ImageViewer/InfomationDialog.qml</file>
+        <file>qml/ImageViewer/ListViewDelegate.qml</file>
+        <file>qml/ImageViewer/MainStack.qml</file>
+        <file>qml/ImageViewer/NavigationWidget.qml</file>
+        <file>qml/ImageViewer/OpenImageWidget.qml</file>
+        <file>qml/ImageViewer/PropertyActionItemDelegate.qml</file>
+        <file>qml/ImageViewer/PropertyItem.qml</file>
+        <file>qml/ImageViewer/PropertyItemDelegate.qml</file>
+        <file>qml/ImageViewer/ReName.qml</file>
+        <file>qml/ImageViewer/RightMenuItem.qml</file>
+        <file>qml/ImageViewer/SFadeInOut.qml</file>
+        <file>qml/ImageViewer/SliderShow.qml</file>
+        <file>qml/ImageViewer/ThumbnailButton.qml</file>
+        <file>qml/ImageViewer/ThumbnailListView.qml</file>
+        <file>qml/ImageViewer/ViewRightMenu.qml</file>
+        <file>qml/ImageViewer/ViewTopTitle.qml</file>
+        <file>qml/StackControl.qml</file>
+        <file>qml/AlbumTitle.qml</file>
+        <file>qml/MainAlbumView.qml</file>
     </qresource>
 </RCC>

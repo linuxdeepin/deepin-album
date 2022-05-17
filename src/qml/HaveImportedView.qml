@@ -199,6 +199,12 @@ GridView {
             var str = tools.getFileTime(item1.m_path, item2.m_path)
             timeChanged(str)
         }
+        onDoubleClicked: {
+            global.stackControlCurrent = 1
+            mainStack.sourcePaths = global.haveImportedPaths
+            mainStack.source = mainStack.sourcePaths[theView.currentIndex]
+            mainStack.currentWidgetIndex = 1
+        }
     }
 
     //橡皮筋控件
