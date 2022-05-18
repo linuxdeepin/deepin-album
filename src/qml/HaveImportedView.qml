@@ -200,9 +200,10 @@ GridView {
             timeChanged(str)
         }
         onDoubleClicked: {
-            global.stackControlCurrent = 1
+            //打开图片，显示在选中的那一张
             mainStack.sourcePaths = global.haveImportedPaths
-            mainStack.source = mainStack.sourcePaths[theView.currentIndex]
+            mainStack.currentIndex =theView.ism[0]
+            global.stackControlCurrent = 1
             mainStack.currentWidgetIndex = 1
         }
     }

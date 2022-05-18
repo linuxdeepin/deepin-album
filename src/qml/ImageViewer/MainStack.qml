@@ -7,6 +7,7 @@ Rectangle {
 
     property alias source: mainView.source
     property alias sourcePaths: mainView.sourcePaths
+    property alias currentIndex: mainView.currentIndex
     property alias iconName: titleRect.iconName
     property int currentWidgetIndex: 0
     Control {
