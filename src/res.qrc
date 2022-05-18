@@ -46,5 +46,6 @@
         <file>dsg/icons/nopicture2.dci</file>
         <file>dsg/icons/item.dci</file>
         <file>dsg/icons/import_left.dci</file>
+        <file>dsg/icons/back_album.dci</file>
     </qresource>
 </RCC>

@@ -152,6 +152,9 @@ public:
     //
     Q_INVOKABLE void setViewerType(imageViewerSpace::ImgViewerType type);
 
+    //提供接口，程序是否是相册模式
+    Q_INVOKABLE bool isAlbum();
+
 signals:
     void callSavePicDone();
 

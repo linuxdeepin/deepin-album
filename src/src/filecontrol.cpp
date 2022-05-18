@@ -760,3 +760,12 @@ void FileControl::setViewerType(imageViewerSpace::ImgViewerType type)
 {
     m_viewerType = type;
 }
+
+bool FileControl::isAlbum()
+{
+    bool bRet = false;
+    if(m_viewerType == imageViewerSpace::ImgViewerTypeAlbum) {
+        bRet = true;
+    }
+    return bRet;
+}

@@ -56,20 +56,42 @@ Item {
             bottomthumbnaillistView.forceActiveFocus()
         }
     }
+    IconButton {
+        id:backAlbum
+        width: fileControl.isAlbum() ? 50 : 0
+        height:  fileControl.isAlbum() ? 50 : 0
+        icon.name: "back_album"
+        icon.width: 36
+        icon.height: 36
+        anchors.left: parent.left
+        anchors.leftMargin: 15
+        anchors.top: parent.top
+        anchors.topMargin: (parent.height - height) / 2
 
+        onClicked: {
+            global.stackControlCurrent = 0
+            mainView.sourcePaths=""
+            mainView.source=""
+        }
+
+        ToolTip.delay: 500
+        ToolTip.timeout: 5000
+        ToolTip.visible: hovered
+        ToolTip.text: qsTr("Back Album")
+    }
     IconButton {
         id: previousButton
 //        visible: mainView.sourcePaths.length>1
         enabled: currentIndex>0? true:false
 
-        anchors.left: parent.left
-        anchors.leftMargin: 15
+        anchors.left: fileControl.isAlbum() ? backAlbum.right :parent.left
+        anchors.leftMargin:fileControl.isAlbum() ? 30 : 15
 
         anchors.top: parent.top
         anchors.topMargin: (parent.height - height) / 2
 
-        width:50
-        height:50
+        width: 50
+        height: 50
         icon.name: "icon_previous"
         onClicked: {
             previous();
@@ -89,7 +111,7 @@ Item {
     IconButton {
         id: nextButton
 //        visible: mainView.sourcePaths.length>1
-        enabled: currentIndex<mainView.sourcePaths.length-1? true:false
+        enabled: currentIndex < mainView.sourcePaths.length-1? true:false
         anchors.left: previousButton.right
         anchors.leftMargin: 10
 
@@ -116,7 +138,7 @@ Item {
         IconButton {
             id: fitImageButton
             anchors.left: nextButton.right
-            anchors.leftMargin:40
+            anchors.leftMargin: fileControl.isAlbum() ? 10 : 40
 
             anchors.top: parent.top
             anchors.topMargin: (parent.height - height) / 2
@@ -180,6 +202,29 @@ Item {
             ToolTip.text: qsTr("Rotate")
         }
 
+        IconButton {
+            id: collectionButton
+            width: fileControl.isAlbum() ? 50 : 0
+            height:  fileControl.isAlbum() ? 50 : 0
+            icon.name: "toolbar-collection"
+            icon.width:36
+            icon.height:36
+
+            anchors.left: fitWindowButton.right
+            anchors.leftMargin: 10
+            anchors.top: parent.top
+            anchors.topMargin: (parent.height - height) / 2
+
+            onClicked: {
+
+            }
+
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Collection")
+        }
+
 
     ListView {
         id: bottomthumbnaillistView
@@ -189,7 +234,7 @@ Item {
         preferredHighlightBegin: width/2 - 25
         preferredHighlightEnd: width/2 + 25
 
-        anchors.left: rotateButton.right
+        anchors.left: fileControl.isAlbum() ? collectionButton.right : rotateButton.right
         anchors.leftMargin: 10
 
         anchors.right: ocrButton.left
