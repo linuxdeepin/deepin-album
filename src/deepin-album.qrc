@@ -4,40 +4,41 @@
         <file>qml/GlobalVar.qml</file>
         <file>qml/Sidebar.qml</file>
         <file>qml/SidebarModel.qml</file>
-        <file>qml/ThumbnailImage.qml</file>
-        <file>qml/NewAlbumDialog.qml</file>
         <file>qml/BottomBar.qml</file>
-        <file>qml/ImportView.qml</file>
-        <file>qml/NoPictureView.qml</file>
-        <file>qml/HaveImportedView.qml</file>
-        <file>qml/CollecttionVeiw.qml</file>
-        <file>qml/CustomAlbum.qml</file>
-        <file>qml/MyFavoriteView.qml</file>
-        <file>qml/RecentlyDeletedView.qml</file>
-        <file>qml/HaveImportedDelegate.qml</file>
-        <file>qml/RubberBand.qml</file>
-        <file>qml/ImageViewer/AlertToolTip.qml</file>
-        <file>qml/ImageViewer/FloatingNotice.qml</file>
-        <file>qml/ImageViewer/FullThumbnail.qml</file>
-        <file>qml/ImageViewer/ImageViewer.qml</file>
-        <file>qml/ImageViewer/InfomationDialog.qml</file>
-        <file>qml/ImageViewer/ListViewDelegate.qml</file>
-        <file>qml/ImageViewer/MainStack.qml</file>
-        <file>qml/ImageViewer/NavigationWidget.qml</file>
-        <file>qml/ImageViewer/OpenImageWidget.qml</file>
-        <file>qml/ImageViewer/PropertyActionItemDelegate.qml</file>
-        <file>qml/ImageViewer/PropertyItem.qml</file>
-        <file>qml/ImageViewer/PropertyItemDelegate.qml</file>
-        <file>qml/ImageViewer/ReName.qml</file>
-        <file>qml/ImageViewer/RightMenuItem.qml</file>
-        <file>qml/ImageViewer/SFadeInOut.qml</file>
-        <file>qml/ImageViewer/SliderShow.qml</file>
-        <file>qml/ImageViewer/ThumbnailButton.qml</file>
-        <file>qml/ImageViewer/ThumbnailListView.qml</file>
-        <file>qml/ImageViewer/ViewRightMenu.qml</file>
-        <file>qml/ImageViewer/ViewTopTitle.qml</file>
         <file>qml/StackControl.qml</file>
         <file>qml/AlbumTitle.qml</file>
         <file>qml/MainAlbumView.qml</file>
+        <file>qml/ThumbnailImageView/CollecttionView/CollecttionView.qml</file>
+        <file>qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml</file>
+        <file>qml/ThumbnailImageView/HaveImportedView/HaveImportedDelegate.qml</file>
+        <file>qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml</file>
+        <file>qml/ThumbnailImageView/MyFavoriteView/MyFavoriteView.qml</file>
+        <file>qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml</file>
+        <file>qml/ThumbnailImageView/ThumbnailImage.qml</file>
+        <file>qml/ThumbnailImageView/NoPictureView.qml</file>
+        <file>qml/ThumbnailImageView/ImportView.qml</file>
+        <file>qml/PreviewImageViewer/AlertToolTip.qml</file>
+        <file>qml/PreviewImageViewer/FloatingNotice.qml</file>
+        <file>qml/PreviewImageViewer/FullThumbnail.qml</file>
+        <file>qml/PreviewImageViewer/ImageViewer.qml</file>
+        <file>qml/PreviewImageViewer/InfomationDialog.qml</file>
+        <file>qml/PreviewImageViewer/ListViewDelegate.qml</file>
+        <file>qml/PreviewImageViewer/MainStack.qml</file>
+        <file>qml/PreviewImageViewer/NavigationWidget.qml</file>
+        <file>qml/PreviewImageViewer/OpenImageWidget.qml</file>
+        <file>qml/PreviewImageViewer/PropertyActionItemDelegate.qml</file>
+        <file>qml/PreviewImageViewer/PropertyItem.qml</file>
+        <file>qml/PreviewImageViewer/PropertyItemDelegate.qml</file>
+        <file>qml/PreviewImageViewer/ReName.qml</file>
+        <file>qml/PreviewImageViewer/RightMenuItem.qml</file>
+        <file>qml/PreviewImageViewer/SFadeInOut.qml</file>
+        <file>qml/PreviewImageViewer/SliderShow.qml</file>
+        <file>qml/PreviewImageViewer/ThumbnailButton.qml</file>
+        <file>qml/PreviewImageViewer/ToolBarThumbnailListView.qml</file>
+        <file>qml/PreviewImageViewer/ViewRightMenu.qml</file>
+        <file>qml/PreviewImageViewer/ViewTopTitle.qml</file>
+        <file>qml/Control/NewAlbumDialog.qml</file>
+        <file>qml/Control/RubberBand.qml</file>
+        <file>qml/Control/ListView/ThumbnailListView.qml</file>
     </qresource>
 </RCC>

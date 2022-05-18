@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import "./ImageViewer"
+import "./PreviewImageViewer"
 Rectangle {
     anchors.fill: parent
     //本文件用于替代stackwidget的作用，通过改变global的0-n来切换窗口

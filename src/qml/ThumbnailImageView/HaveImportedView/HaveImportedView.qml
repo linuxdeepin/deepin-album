@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import org.deepin.dtk 1.0
+import "../../Control"
 Item {
     anchors.top: parent.top
     anchors.topMargin: 50

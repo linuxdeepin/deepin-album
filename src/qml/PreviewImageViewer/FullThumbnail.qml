@@ -17,7 +17,7 @@ Item {
     //    anchors.fill: rootItem
 
     function setThumbnailCurrentIndex(index) {
-        thumbnailListView.currentIndex = index
+        toolBarthumbnailListView.currentIndex = index
     }
 
     //左右按钮隐藏动画
@@ -220,7 +220,7 @@ Item {
         width: 50
         height: 50
         onClicked: {
-            thumbnailListView.previous();
+            toolBarthumbnailListView.previous();
         }
         Component.onCompleted: {
             floatLeftButton.x=-50
@@ -237,7 +237,7 @@ Item {
         height: 50
         icon.name:"icon_next"
         onClicked: {
-            thumbnailListView.next();
+            toolBarthumbnailListView.next();
         }
         Component.onCompleted: {
             floatRightButton.x=parent.width
@@ -282,8 +282,8 @@ Item {
         }
     }
 
-    ThumbnailListView {
-        id: thumbnailListView
+    ToolBarThumbnailListView {
+        id: toolBarthumbnailListView
         anchors.fill: thumbnailViewBackGround
 
         //         property int currentIndex: 0

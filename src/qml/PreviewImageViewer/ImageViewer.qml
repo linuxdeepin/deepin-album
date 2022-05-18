@@ -128,7 +128,7 @@ Rectangle {
     function rotateImage(x)
     {
         //view.currentItem.rotation = view.currentItem.rotation + x
-        //thumbnailListView.rotateImage(x)
+        //toolBarthumbnailListView.rotateImage(x)
         fileControl.rotateFile(source, x)
     }
     function deleteItem(item, list)
@@ -598,7 +598,7 @@ Rectangle {
                         }
 
                         onDoubleClicked: {
-                            if (!thumbnailListView.contains(msArea.mapToItem(thumbnailListView, mouse.x, mouse.y))) {
+                            if (!toolBarthumbnailListView.contains(msArea.mapToItem(toolBarthumbnailListView, mouse.x, mouse.y))) {
                                 infomationDig.hide()
                                 showFulltimer.start()
                             }
@@ -608,7 +608,7 @@ Rectangle {
                             var datla = wheel.angleDelta.y / 120
                             console.info("ctrlpressed: ", global.ctrlPressed)
                             if (global.ctrlPressed)
-                                datla > 0 ? thumbnailListView.previous() : thumbnailListView.next()
+                                datla > 0 ? toolBarthumbnailListView.previous() : toolBarthumbnailListView.next()
                             else {
                                 if (datla > 0)
                                     currentScale = currentScale / 0.9

@@ -137,7 +137,7 @@ Menu {
         text: qsTr("Delete")
         visible: fileControl.isCanDelete(source)
         onTriggered: {
-            thumbnailListView.deleteCurrentImage()
+            toolBarthumbnailListView.deleteCurrentImage()
         }
         Shortcut {
             sequence: "Delete"
@@ -145,7 +145,7 @@ Menu {
 
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
-                    thumbnailListView.deleteCurrentImage()
+                    toolBarthumbnailListView.deleteCurrentImage()
                 }
             }
         }
