@@ -11,8 +11,12 @@ Rectangle  {
     height: 100
     //选中后显示的阴影框
     //注意：在model里面加进去的变量，这边可以直接进行使用，只是部分位置不好拿到，需要使用变量
-    property string m_index: index
-    property string m_path: global.haveImportedPaths[index]
+    property string m_index
+    property string m_path
+
+    onM_pathChanged: {
+        console.log("m_path changed: ", m_path)
+    }
 
     Rectangle {
         id: selectShader
@@ -24,7 +28,7 @@ Rectangle  {
     }
 
     Image{
-        source: global.haveImportedPaths[index]
+        source: m_path
         //        fillMode: Image.PreserveApectCrop
         //        fillMode: Image.PreserveAspectCrop
         asynchronous: true

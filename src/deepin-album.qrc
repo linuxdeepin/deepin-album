@@ -10,7 +10,6 @@
         <file>qml/MainAlbumView.qml</file>
         <file>qml/ThumbnailImageView/CollecttionView/CollecttionView.qml</file>
         <file>qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml</file>
-        <file>qml/ThumbnailImageView/HaveImportedView/HaveImportedDelegate.qml</file>
         <file>qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml</file>
         <file>qml/ThumbnailImageView/MyFavoriteView/MyFavoriteView.qml</file>
         <file>qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml</file>
@@ -40,5 +39,7 @@
         <file>qml/Control/NewAlbumDialog.qml</file>
         <file>qml/Control/RubberBand.qml</file>
         <file>qml/Control/ListView/ThumbnailListView.qml</file>
+        <file>qml/Control/ListView/ThumbnailListDelegate.qml</file>
+        <file>qml/Control/ListView/ThumbnailListModel.qml</file>
     </qresource>
 </RCC>

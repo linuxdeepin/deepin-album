@@ -5,7 +5,9 @@ import QtQuick.Layouts 1.11
 import QtQml.Models 2.11
 import QtQml 2.11
 import QtQuick.Shapes 1.10
+import org.deepin.dtk 1.0
 import "../"
+import "../../"
 Item {
     id : root
 
@@ -43,9 +45,7 @@ Item {
     }
 
     //view依赖的model管理器
-    ListModel {
-        id: theModel
-    }
+    property ListModel thumbnailListModel: ThumbnailListModel {}
 
     //缩略图view的本体
     GridView {
@@ -54,10 +54,15 @@ Item {
         anchors.margins: 10
         clip: true
         interactive: false //禁用原有的交互逻辑，重新开始定制
-        model: theModel
         cellWidth: 110
         cellHeight: 110
-        delegate: numberDelegate
+        model: thumbnailListModel
+        delegate: ThumbnailListDelegate{
+            id: thumbnailListDelegate
+            m_index: index
+            m_path: thumbnailListModel.get(index).path
+        }
+
         currentIndex: -1
 
         //激活滚动条
@@ -103,14 +108,8 @@ Item {
 
             var tempArray = ism
 
-            //var itemCount = theView.children[1].list_model.count
-            //console.log("itemcount: ", itemCount, "rubberBand: ", rubberBand.rect)
-//            for (var i = 0; i < itemCount; i++) {
-//                if (rubberBand.rect().contains(children[i].rect()))
-//                    tempArray.push(i)
-//            }
-
             //统计框入了哪些index
+            //TODO: 后续考虑使用框选矩形区域判断所有item中心点是否被包含其中，来判定框入了哪些index
             for(var i = startX;i < startX + lenX;i += 10)
             {
                 for(var j = startY;j < startY + lenY;j += 10)
@@ -209,6 +208,8 @@ Item {
             }
 
             onWheel: {
+                // 滚动时，激活滚动条显示
+                vbar.active = true
                 //滚动事件
                 var datla = wheel.angleDelta.y / 2
                 parent.contentY -= datla
@@ -221,11 +222,11 @@ Item {
                     parent.contentY = parent.contentHeight - parent.height
                 }
 
-                //统计当前页面的缩略图时间范围
-                var item1 = theView.itemAt(100, 100);
-                var item2 = theView.itemAt(theView.width - 200, theView.height - 200)
-                var str = tools.getFileTime(item1.m_path, item2.m_path)
-                timeChanged(str)
+//                //统计当前页面的缩略图时间范围
+//                var item1 = theView.itemAt(100, 100);
+//                var item2 = theView.itemAt(theView.width - 200, theView.height - 200)
+//                var str = tools.getFileTime(item1.m_path, item2.m_path)
+//                timeChanged(str)
             }
         }
 
@@ -233,102 +234,6 @@ Item {
         RubberBand {
             id: rubberBand
             visible: parent.inPress
-        }
-    }
-
-    //缩略图控件的代理
-    Component {
-        id: numberDelegate
-
-        Rectangle {
-            width: 100
-            height: 100
-            color: "white"
-
-            //可以方便使用的index和路径变量
-            //注意：在model里面加进去的变量，这边可以直接进行使用，只是部分位置不好拿到，需要使用变量
-            property string m_index: index
-            property string m_path: path
-
-            //选中后显示的阴影框
-            Rectangle {
-                id: selectShader
-                anchors.fill: parent
-                radius: 5 * 2
-                color: "#AAAAAA"
-                visible: theView.ism.indexOf(parent.m_index) != -1
-                opacity: 0.4
-            }
-
-            //中心显示的缩略图
-            Image {
-                id: currentImage
-                //路径组成：推送者+单独控制的强制刷新变量+全局的强制刷新变量+分隔符+路径
-                source: "image://publisher/" + displayFlushHelper.toString() + theView.displayFlushHelper.toString() + "_" + path
-                asynchronous: true //启动异步加载，降低主界面的压力
-                height: parent.height - 14
-                width: parent.width - 14
-                anchors.centerIn: parent
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                acceptedButtons: Qt.RightButton //仅激活右键，激活左键会和view的冲突
-                onClicked: {
-                    if(theView.ism.indexOf(parent.m_index) == -1)
-                    {
-                        theView.ism = [parent.m_index]
-                    }
-
-                    thumbnailMenu.popup()
-                }
-            }
-
-            //缩略图菜单
-            Menu {
-                id: thumbnailMenu
-
-                //局部刷新例程
-                MenuItem {
-                    text: qsTr("顺时针旋转")
-                    onTriggered: {
-                        var tempArray = theView.ism
-                        for(var i = 0;i != tempArray.length;++i)
-                        {
-                            var modelData = theModel.get(tempArray[i])
-                            tools.rotate(modelData.path, 90)
-                            modelData.displayFlushHelper = Math.random()
-                        }
-                    }
-                }
-
-                //删除部分例程
-                MenuItem {
-                    text: qsTr("删除")
-                    onTriggered: {
-                        var tempArray = theView.ism
-                        tempArray.sort(function(a, b){return b - a}); //大的在前，后面方便进行remove
-                        for(var i = 0;i != tempArray.length;++i)
-                        {
-                            if(tools.trashFile(theModel.get(tempArray[i]).path))
-                            {
-                                theModel.remove(tempArray[i])
-                                tempArray.splice(0, 1)
-                                --i
-                            }
-                        }
-                        theView.ism = tempArray
-                    }
-                }
-
-                //调起文管例程
-                MenuItem {
-                    text: qsTr("在文件管理器中显示")
-                    onTriggered: {
-                        tools.displayInFileManager(path)
-                    }
-                }
-            }
         }
     }
 }
