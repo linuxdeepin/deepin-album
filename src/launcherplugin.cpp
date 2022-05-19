@@ -23,6 +23,7 @@
 
 #include "src/filecontrol.h"
 #include "src/thumbnailload.h"
+#include "src/albumControl.h"
 #include "launcherplugin.h"
 
 DWIDGET_USE_NAMESPACE
@@ -48,8 +49,13 @@ int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
     engine->rootContext()->setContextProperty("CodeImage", load);
     engine->addImageProvider(QLatin1String("ThumbnailImage"), load->m_pThumbnail);
     engine->addImageProvider(QLatin1String("viewImage"), load->m_viewLoad);
+
     FileControl *fileControl = new FileControl();
     engine->rootContext()->setContextProperty("fileControl", fileControl);
+
+    //新增相册控制模块
+    AlbumControl *albumControl = new AlbumControl();
+    engine->rootContext()->setContextProperty("albumControl", albumControl);
 
     //设置为相册模式
     fileControl->setViewerType(imageViewerSpace::ImgViewerTypeAlbum);
