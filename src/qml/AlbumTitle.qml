@@ -141,6 +141,8 @@ Rectangle {
 
         ActionButton {
 
+            visible: true
+            id: titleImportBtn
             anchors.top: parent.top
             anchors.topMargin: 0
             anchors.right: parent.right
@@ -152,9 +154,54 @@ Rectangle {
                 width: 36
                 height: 36
             }
+            onClicked :{
+                importDialog.open()
+            }
+        }
+        ActionButton {
+            id: titleCollectionBtn
+            visible: titleImportBtn.visible?false : true
+            anchors.top: parent.top
+            anchors.topMargin: 0
+            anchors.right: titleRotateBtn.left
+            width: 50
+            height: 50
+            icon {
+                name: "toolbar-collection"
+                width: 36
+                height: 36
+            }
         }
 
+        ActionButton {
+            id: titleRotateBtn
+            visible: titleImportBtn.visible?false : true
+            anchors.top: parent.top
+            anchors.topMargin: 0
+            anchors.right: titleTrashBtn.left
+            width: 50
+            height: 50
+            icon {
+                name: "felete"
+                width: 36
+                height: 36
+            }
+        }
+        ActionButton {
+            id: titleTrashBtn
+            visible: titleImportBtn.visible?false : true
+            anchors.top: parent.top
+            anchors.topMargin: 0
+            anchors.right: parent.right
+            anchors.rightMargin: 4 * parent.height
+            width: 50
+            height: 50
+            icon {
+                name: "delete"
+                width: 36
+                height: 36
+            }
+        }
     }
-
 
 }
