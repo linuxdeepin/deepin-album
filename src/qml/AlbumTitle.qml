@@ -99,6 +99,15 @@ Rectangle {
                 width: 36
                 height: 36
             }
+            onClicked: {
+                //1.图片推送器切换
+                publisher.switchLoadMode()
+
+                //2.发送全局信号，所有的缩略图强制刷新
+                global.sigThumbnailStateChange()
+
+                //3.写入配置文件，下次启动的时候图片形状按关闭的来（暂未实现）
+            }
         }
         ButtonBox {
 

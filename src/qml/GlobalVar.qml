@@ -24,6 +24,7 @@ Item {
     property var haveImportedPaths //所有导入的图片
 
     signal sigWindowStateChange()
+    signal sigThumbnailStateChange()
 
     onHaveImportedPathsChanged: {
         currentViewIndex = 2

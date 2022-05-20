@@ -5,6 +5,7 @@
 #include <QQuickWindow>
 #include <QImage>
 
+//大图预览下的小图
 class ThumbnailLoad : public QQuickImageProvider
 {
 public:
@@ -18,6 +19,7 @@ public:
     QMap <QString, QImage> m_imgMap; //缩略图
 };
 
+//大图预览的大图
 class ViewLoad : public QQuickImageProvider
 {
 public:
@@ -38,6 +40,27 @@ public:
     QString m_currentPath;
 };
 
+//缩略图
+class ImagePublisher : public QObject, public QQuickImageProvider
+{
+    Q_OBJECT
+
+public:
+    explicit ImagePublisher(QObject *parent = nullptr);
+
+    Q_INVOKABLE void switchLoadMode();
+
+protected:
+    QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
+
+private:
+    //图片裁剪策略
+    QImage clipToRect(const QImage &src);
+    QImage addPadAndScaled(const QImage &src);
+
+    //加载模式控制，requestImage是由QML引擎多线程调用，此处需要采用原子锁，防止崩溃
+    std::atomic_int m_loadMode;
+};
 
 class LoadImage : public QObject
 {
@@ -47,6 +70,7 @@ public:
 
     ThumbnailLoad *m_pThumbnail{nullptr};
     ViewLoad *m_viewLoad{nullptr};
+    ImagePublisher *m_publisher{nullptr};
     Q_INVOKABLE double getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight);
     Q_INVOKABLE bool imageIsNull(const QString &path);
     //获得当前图片的宽和高

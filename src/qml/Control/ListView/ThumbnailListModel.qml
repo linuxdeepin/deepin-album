@@ -15,7 +15,7 @@ ListModel {
         for(var i = 0; i < haveImportedPaths.length; i++){
             var data = global.haveImportedPaths[i];
 
-            thumbnailListModel.append({"path": data});
+            thumbnailListModel.append({"path": data, "displayFlushHelper" : 0});
         }
         thumbnailListModel = haveImportedPaths
     }

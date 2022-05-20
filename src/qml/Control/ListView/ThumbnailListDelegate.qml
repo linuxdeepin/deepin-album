@@ -9,7 +9,7 @@ import QtQuick.Shapes 1.10
 Rectangle  {
     width: 100
     height: 100
-    //选中后显示的阴影框
+
     //注意：在model里面加进去的变量，这边可以直接进行使用，只是部分位置不好拿到，需要使用变量
     property string m_index
     property string m_path
@@ -18,6 +18,7 @@ Rectangle  {
         console.log("m_path changed: ", m_path)
     }
 
+    //选中后显示的阴影框
     Rectangle {
         id: selectShader
         anchors.fill: parent
@@ -28,18 +29,17 @@ Rectangle  {
     }
 
     Image{
-        source: m_path
-        //        fillMode: Image.PreserveApectCrop
-        //        fillMode: Image.PreserveAspectCrop
+        source: "image://publisher/" + displayFlushHelper.toString() + theView.displayFlushHelper.toString() + "_" + path
         asynchronous: true
         anchors.centerIn: parent
-        sourceSize.width: parent.width-14
-        sourceSize.height: parent.height-14
-        width:parent.width-14
-        height:parent.height-14
+        sourceSize.width: parent.width - 14
+        sourceSize.height: parent.height - 14
+        width:parent.width - 14
+        height:parent.height - 14
         fillMode:Image.Pad
         clip: true
     }
+
     MouseArea {
         anchors.fill: parent
         acceptedButtons: Qt.RightButton //仅激活右键，激活左键会和view的冲突
@@ -49,8 +49,8 @@ Rectangle  {
             {
                 theView.ism = [parent.m_index]
             }
-            thumbnailMenu.popup()
 
+            thumbnailMenu.popup()
         }
     }
 

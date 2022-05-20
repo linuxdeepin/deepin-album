@@ -236,4 +236,8 @@ Item {
             visible: parent.inPress
         }
     }
+
+    Component.onCompleted: {
+        global.sigThumbnailStateChange.connect(fouceUpdate)
+    }
 }
