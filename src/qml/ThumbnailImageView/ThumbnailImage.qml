@@ -10,7 +10,6 @@ import "./CustomAlbum"
 import "./"
 //本文件用于替代stackwidget的作用，通过改变global的0-n来切换窗口
 Rectangle{
-
     ImportView{
         visible: global.currentViewIndex == 0
         anchors.horizontalCenter: parent.horizontalCenter
@@ -23,7 +22,8 @@ Rectangle{
     }
     HaveImportedView{
         visible: global.currentViewIndex == 2
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.topMargin: 12
+        anchors.leftMargin: 20
+        anchors.fill: parent
     }
 }

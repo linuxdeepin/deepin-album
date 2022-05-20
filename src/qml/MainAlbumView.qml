@@ -51,10 +51,10 @@ Rectangle {
     }
 
     ThumbnailImage{
-        anchors.top: root.top
+        anchors.top: titleAlubmRect.bottom
         anchors.left: leftSidebar.right
         anchors.leftMargin: 0
         width: leftSidebar.visible ? parent.width - leftSidebar.width : root.width
-        height: root.height
+        height: root.height - titleAlubmRect.height
     }
 }

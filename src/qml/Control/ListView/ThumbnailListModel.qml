@@ -24,7 +24,4 @@ ListModel {
     onHaveImportedPathsChanged: {
         loadHaveImportedDatas()
     }
-    Component.onCompleted: {
-        thumbnailListModel.loadHaveImportedDatas();
-    }
 }

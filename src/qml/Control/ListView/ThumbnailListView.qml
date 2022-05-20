@@ -9,32 +9,15 @@ import org.deepin.dtk 1.0
 import "../"
 import "../../"
 Item {
-    id : root
+    id : thumnailListView
 
     //当前区域时间区间改变信号，字符串可以直接刷新在界面上
     signal timeChanged(string str)
-
-    //整个缩略图的图片/视频统计信息改变，字符串可以直接刷新在界面上
-    signal countChanged(string str)
 
     //设置图片缩放等级，传入的参数为外部滑动条的值
     function setPicZoomLevel(level)
     {
         ;
-    }
-
-    //重设整个model，以此来刷新整个缩略图界面
-    function setPaths(paths)
-    {
-        theModel.clear()
-        for(var i = 0;i < paths.length;++i)
-        {
-            //model似乎满足JSON格式即可
-            theModel.append({path : paths[i], displayFlushHelper : 0})
-        }
-
-        //统计并对外同步当前显示的视频、图片的数量
-        countChanged(tools.getFileCountStr(paths))
     }
 
     //强制重新刷新整个缩略图界面
@@ -47,15 +30,19 @@ Item {
     //view依赖的model管理器
     property ListModel thumbnailListModel: ThumbnailListModel {}
 
+    // 缩略图Item尺寸
+    property int itemWidth: 110
+    property int itemHeight: 110
+    // 是否开启滚轮
+    property bool enableWheel: true
     //缩略图view的本体
     GridView {
         id: theView
         anchors.fill: parent
-        anchors.margins: 10
         clip: true
         interactive: false //禁用原有的交互逻辑，重新开始定制
-        cellWidth: 110
-        cellHeight: 110
+        cellWidth: itemWidth
+        cellHeight: itemHeight
         model: thumbnailListModel
         delegate: ThumbnailListDelegate{
             id: thumbnailListDelegate
@@ -68,7 +55,7 @@ Item {
         //激活滚动条
         ScrollBar.vertical: ScrollBar {
             id: vbar
-            active: true
+            active: false
         }
 
         //鼠标正在按下状态
@@ -208,25 +195,21 @@ Item {
             }
 
             onWheel: {
-                // 滚动时，激活滚动条显示
-                vbar.active = true
-                //滚动事件
-                var datla = wheel.angleDelta.y / 2
-                parent.contentY -= datla
-                if(parent.contentY < 0)
-                {
-                    parent.contentY = 0
+                if (enableWheel) {
+                    // 滚动时，激活滚动条显示
+                    vbar.active = true
+                    //滚动事件
+                    var datla = wheel.angleDelta.y / 2
+                    parent.contentY -= datla
+                    if(parent.contentY < 0)
+                    {
+                        parent.contentY = 0
+                    }
+                    else if(parent.contentY > parent.contentHeight - parent.height)
+                    {
+                        parent.contentY = parent.contentHeight - parent.height
+                    }
                 }
-                else if(parent.contentY > parent.contentHeight - parent.height)
-                {
-                    parent.contentY = parent.contentHeight - parent.height
-                }
-
-//                //统计当前页面的缩略图时间范围
-//                var item1 = theView.itemAt(100, 100);
-//                var item2 = theView.itemAt(theView.width - 200, theView.height - 200)
-//                var str = tools.getFileTime(item1.m_path, item2.m_path)
-//                timeChanged(str)
             }
         }
 

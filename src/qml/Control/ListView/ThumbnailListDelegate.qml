@@ -15,7 +15,6 @@ Rectangle  {
     property string m_path
 
     onM_pathChanged: {
-        console.log("m_path changed: ", m_path)
     }
 
     //选中后显示的阴影框
