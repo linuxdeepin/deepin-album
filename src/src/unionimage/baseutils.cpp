@@ -507,6 +507,7 @@ bool syncCopy(const QString &srcFileName, const QString &dstFileName)
     return true;
 }
 
+
 //bool        isCommandExist(const QString &command)
 //{
 //    QProcess *proc = new QProcess;

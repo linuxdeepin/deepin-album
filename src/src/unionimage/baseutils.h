@@ -24,6 +24,8 @@
 #include <QObject>
 #include <QTimer>
 #include <QColor>
+#include <QFuture>
+#include <QtConcurrent>
 
 #if QT_VERSION >= 0x050500
 #define TIMER_SINGLESHOT(Time, Code, captured...){ \

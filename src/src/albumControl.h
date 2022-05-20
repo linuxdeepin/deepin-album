@@ -2,8 +2,8 @@
 #define AlbumControl_H
 
 #include <QObject>
-
-#include "unionimage/unionimage_global.h"
+#include <QUrl>
+#include "unionimage/unionimage.h"
 
 
 class AlbumControl : public QObject
@@ -18,6 +18,9 @@ public:
 
     //获得全部路径
     Q_INVOKABLE QStringList getAllPaths();
+
+    //导入图片
+    Q_INVOKABLE void importAllImagesAndVideos(const QList< QUrl >& paths);
 
 public slots:
 

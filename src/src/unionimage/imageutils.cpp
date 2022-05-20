@@ -596,6 +596,43 @@ void getAllFileInDir(const QDir &dir, QFileInfoList &result)
     }
 }
 
+QFileInfoList getImagesAndVideoInfo(const QString &dir, bool recursive)
+{
+    QFileInfoList infos;
+
+    if (! recursive) {
+        QFileInfoList nsl;
+        getAllFileInDir(dir, nsl);
+        for (QFileInfo info : nsl) {
+            if (imageSupportRead(info.absoluteFilePath()) ||
+                    isVideo(info.absoluteFilePath())) {
+                infos << info;
+            }
+        }
+        return infos;
+    }
+
+    QDirIterator dirIterator(dir,
+                             QDir::Files,
+                             QDirIterator::Subdirectories);
+    while (dirIterator.hasNext()) {
+        dirIterator.next();
+        if ( imageSupportRead(dirIterator.fileInfo().absoluteFilePath())
+                || isVideo(dirIterator.fileInfo().absoluteFilePath())) {
+            infos << dirIterator.fileInfo();
+        }
+    }
+
+    return infos;
+}
+
+bool isVideo(QString path)
+{
+    QFileInfo temDir(path);
+    QString fileName = temDir.suffix().toLower(); //扩展名
+    return m_videoFiletypes.contains(fileName);
+}
+
 }  // namespace image
 
 }  //namespace utils

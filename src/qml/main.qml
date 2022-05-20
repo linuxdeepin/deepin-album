@@ -86,7 +86,8 @@ ApplicationWindow {
 //                console.log( "test",mainView.source)
 //                stackView.currentWidgetIndex= 1
 //            }
-            global.haveImportedPaths = importDialog.fileUrls;
+            albumControl.importAllImagesAndVideos(importDialog.fileUrls)
+            global.haveImportedPaths = albumControl.getAllPaths();
         }
     }
 

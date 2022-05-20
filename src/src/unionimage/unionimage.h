@@ -287,6 +287,34 @@ UNIONIMAGESHARED_EXPORT bool isVaultFile(const QString &path);
  */
 UNIONIMAGESHARED_EXPORT bool trashFile(const QString &file);
 
+/**
+ * @brief getImagesAndVideoInfo
+ * @param dir
+ * @author LMH
+ * @return QFileInfoList
+ * 获得info
+ */
+UNIONIMAGESHARED_EXPORT QFileInfoList getImagesAndVideoInfo(const QString &dir, bool recursive = true);
+
+
+/**
+ * @brief isVideo
+ * @param path
+ * @author LMH
+ * @return bool
+ * 判断是否是视频
+ */
+UNIONIMAGESHARED_EXPORT bool isVideo(QString path);
+
+/**
+ * @brief imageSupportRead
+ * @param path
+ * @author LMH
+ * @return bool
+ * 图片是否可以读写
+ */
+UNIONIMAGESHARED_EXPORT bool imageSupportRead(const QString &path);
+
 QT_BEGIN_NAMESPACE
 
 class UnionMovieImagePrivate;

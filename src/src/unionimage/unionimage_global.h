@@ -35,6 +35,20 @@ const QString DATETIME_FORMAT_DATABASE = "yyyy.MM.dd hh:mm";
 #define COMMON_STR_VIEW_TIMELINE "timelineview"
 #define COMMON_STR_CUSTOM "自定义"
 
+enum DelegateType {
+    NullType = 0,
+    AllPicViewType,//所有照片
+
+    TimeLineViewType,//时间线
+
+    SearchViewType,//搜索
+
+    AlbumViewImportTimeLineViewType,//相册-最近导入
+    AlbumViewTrashType,//相册-已删除
+    AlbumViewFavoriteType,//相册-收藏
+    AlbumViewCustomType,//相册-自定义
+    AlbumViewPhoneType//相册-设备
+};
 
 namespace albumGlobal {
 

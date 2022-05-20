@@ -1568,6 +1568,21 @@ UNIONIMAGESHARED_EXPORT bool trashFile(const QString &file)
     return Libutils::base::trashFile(file);
 }
 
+UNIONIMAGESHARED_EXPORT QFileInfoList getImagesAndVideoInfo(const QString &dir, bool recursive )
+{
+    return Libutils::image::getImagesAndVideoInfo(dir , recursive);
+}
+
+UNIONIMAGESHARED_EXPORT bool isVideo(QString path)
+{
+    return Libutils::image::isVideo(path);
+}
+
+UNIONIMAGESHARED_EXPORT bool imageSupportRead(const QString &path)
+{
+    return Libutils::image::imageSupportRead(path);
+}
+
 };
 
 
