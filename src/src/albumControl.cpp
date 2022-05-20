@@ -101,3 +101,75 @@ void AlbumControl::importAllImagesAndVideos(const QList< QUrl > &paths)
     }
 
 }
+
+QStringList AlbumControl::getAllTimelinesTitle(const QString &path)
+{
+    QStringList list;
+    m_timelines = DBManager::instance()->getAllTimelines();
+    m_timeLinePathsMap.clear();
+    QList<QDateTime> tmpDateList = m_timelines ;
+
+    for(QDateTime time : tmpDateList){
+        //获取当前时间照片
+        DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByTimeline(time);
+        QStringList datelist = time.toString("yyyy.MM.dd").split(".");
+        //加时间线标题
+        QString date;
+        if (datelist.count() > 2) {
+            date = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+        }
+        list << date;
+        m_timeLinePathsMap.insertMulti(date,ImgInfoList);
+    }
+
+    return list;
+}
+
+QStringList AlbumControl::getTimelinesTitlePaths(const QString &titleName)
+{
+    QStringList pathsList;
+    DBImgInfoList dbInfoList = m_timeLinePathsMap.value(titleName);
+    for(DBImgInfo info : dbInfoList){
+        pathsList << info.filePath;
+    }
+    return pathsList;
+}
+
+QStringList AlbumControl::getAllImportTimelinesTitle(const QString &path)
+{
+    QStringList list;
+    m_importTimelines = DBManager::instance()->getImportTimelines();
+    m_importTimeLinePathsMap.clear();
+    QList<QDateTime> tmpDateList = m_importTimelines ;
+
+    for(QDateTime time : tmpDateList){
+        //获取当前时间照片
+        DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByImportTimeline(time);
+        QStringList datelist = time.toString("yyyy.MM.dd").split(".");
+        //加时间线标题
+        QString date;
+        if (datelist.count() > 2) {
+            date = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+        }
+        list << date;
+        m_importTimeLinePathsMap.insertMulti(date,ImgInfoList);
+    }
+
+    return list;
+}
+
+QStringList AlbumControl::getImportTimelinesTitlePaths(const QString &titleName)
+{
+    QStringList pathsList;
+    DBImgInfoList dbInfoList = m_importTimeLinePathsMap.value(titleName);
+    for(DBImgInfo info : dbInfoList){
+        pathsList << info.filePath;
+    }
+    return pathsList;
+}
+
+int AlbumControl::getCount()
+{
+    return DBManager::instance()->getImgsCount();
+}
+
