@@ -56,7 +56,7 @@ AlbumControl::~AlbumControl()
 
 void AlbumControl::getAllInfos()
 {
-    m_infoList = DBManager::instance()->getAllInfos();
+    m_infoList = DBManager::instance()->getAllInfos(100);
 }
 
 QStringList AlbumControl::getAllPaths()
@@ -102,11 +102,50 @@ void AlbumControl::importAllImagesAndVideos(const QList< QUrl > &paths)
 
 }
 
-QStringList AlbumControl::getAllTimelinesTitle(const QString &path)
+QStringList AlbumControl::getAllTimelinesTitle()
 {
-    QStringList list;
+    return getTimelinesTitle(TimeLineEnum::All);
+}
+
+QStringList AlbumControl::getTimelinesTitlePaths(const QString &titleName)
+{
+    QStringList pathsList;
+    DBImgInfoList dblist;
+    if(m_yearDateMap.keys().contains(titleName)){
+        dblist = m_yearDateMap.value(titleName);
+    } else if (m_monthDateMap.keys().contains(titleName)) {
+        dblist = m_monthDateMap.value(titleName);
+    } else if (m_dayDateMap.keys().contains(titleName)) {
+        dblist = m_dayDateMap.value(titleName);
+    } else {
+        dblist = m_timeLinePathsMap.value(titleName);
+    }
+    for(DBImgInfo info : dblist){
+        pathsList << info.filePath;
+    }
+    return pathsList;
+}
+
+QStringList AlbumControl::getYearTimelinesTitle()
+{
+    return getTimelinesTitle(TimeLineEnum::Year);
+}
+
+QStringList AlbumControl::getMonthTimelinesTitle()
+{
+    return getTimelinesTitle(TimeLineEnum::Month);
+}
+
+QStringList AlbumControl::getDayTimelinesTitle()
+{
+    return getTimelinesTitle(TimeLineEnum::Day);
+}
+
+QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum)
+{
     m_timelines = DBManager::instance()->getAllTimelines();
-    m_timeLinePathsMap.clear();
+    QMap < QString, DBImgInfoList > tmpInfoMap;
+
     QList<QDateTime> tmpDateList = m_timelines ;
 
     for(QDateTime time : tmpDateList){
@@ -117,25 +156,40 @@ QStringList AlbumControl::getAllTimelinesTitle(const QString &path)
         QString date;
         if (datelist.count() > 2) {
             date = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+
+            switch (timeEnum) {
+            case TimeLineEnum::Year :
+                for(DBImgInfo info : ImgInfoList){
+                     tmpInfoMap[ QString(QObject::tr("%1/").arg(datelist[0])) ].push_back(info);
+                }
+                m_yearDateMap = tmpInfoMap;
+                break;
+            case TimeLineEnum::Month :
+                for(DBImgInfo info : ImgInfoList){
+                     tmpInfoMap[ QString(QObject::tr("%1/%2").arg(datelist[0]).arg(datelist[1])) ].push_back(info);
+                }
+                m_monthDateMap = tmpInfoMap;
+                break;
+            case TimeLineEnum::Day :
+                for(DBImgInfo info : ImgInfoList){
+                     tmpInfoMap[ QString(QObject::tr("%1/%2/%3").arg(datelist[0]).arg(datelist[1]).arg(datelist[2])) ].push_back(info);
+                }
+                m_dayDateMap = tmpInfoMap;
+                break;
+            default:
+                date = QString(QObject::tr("%1/%2/%3")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]);
+                tmpInfoMap.insertMulti(date,ImgInfoList);
+                m_timeLinePathsMap = tmpInfoMap;
+                break;
+            }
         }
-        list << date;
-        m_timeLinePathsMap.insertMulti(date,ImgInfoList);
     }
 
-    return list;
+    return tmpInfoMap.keys();
 }
 
-QStringList AlbumControl::getTimelinesTitlePaths(const QString &titleName)
-{
-    QStringList pathsList;
-    DBImgInfoList dbInfoList = m_timeLinePathsMap.value(titleName);
-    for(DBImgInfo info : dbInfoList){
-        pathsList << info.filePath;
-    }
-    return pathsList;
-}
 
-QStringList AlbumControl::getAllImportTimelinesTitle(const QString &path)
+QStringList AlbumControl::getAllImportTimelinesTitle()
 {
     QStringList list;
     m_importTimelines = DBManager::instance()->getImportTimelines();
