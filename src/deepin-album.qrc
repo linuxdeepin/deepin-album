@@ -42,5 +42,6 @@
         <file>qml/Control/ListView/ThumbnailListDelegate.qml</file>
         <file>qml/Control/ListView/ThumbnailListModel.qml</file>
         <file>qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml</file>
+        <file>qml/Control/ListView/RightMenuItem.qml</file>
     </qresource>
 </RCC>

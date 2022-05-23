@@ -23,6 +23,15 @@ public:
     //获得路径下的dir路径
     Q_INVOKABLE QString getDirPath(const QString &path);
 
+    //路径是否存在
+    Q_INVOKABLE bool pathExists(const QString &path);
+
+    //是否存在图片
+    Q_INVOKABLE bool haveImage(const QVariantList &urls);
+
+    //图片所在目录有写权限
+    Q_INVOKABLE bool dirCanWrite(const QString &path);
+
     //获得路径下的所有图片路径
     Q_INVOKABLE QStringList getDirImagePath(const QString &path);
 

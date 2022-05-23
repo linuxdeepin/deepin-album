@@ -17,6 +17,7 @@ Item {
     property int actionMargin: 9//应用图标距离顶栏
 
     property int rightMenuItemHeight: 32//右键菜单item的高度
+    property int rightMenuSeparatorHeight: 12//右键菜单分割层的高度
     property bool ctrlPressed: false//记录ctrl键是否按下
 
     property int currentViewIndex: 0// 0:打开图片界面 1:无图片界面
@@ -28,6 +29,14 @@ Item {
 
     onHaveImportedPathsChanged: {
         currentViewIndex = 2
+    }
+
+    //缩略图类型枚举
+    enum ThumbnailType {
+        Normal,      //普通模式
+        Trash,       //最近删除
+        CustomAlbum, //自定义相册
+        AutoImport   //自动导入路径
     }
 
 }

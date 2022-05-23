@@ -116,6 +116,22 @@ QString FileControl::getDirPath(const QString &path)
     return firstFileInfo.dir().path();
 }
 
+bool FileControl::pathExists(const QString &path)
+{
+    QUrl url(path);
+    return QFileInfo::exists(url.toLocalFile());
+}
+
+bool FileControl::haveImage(const QVariantList &urls)
+{
+    for(auto &url : urls) {
+        if(isImage(QUrl(url.toString()).toLocalFile())) {
+            return true;
+        }
+    }
+    return false;
+}
+
 QStringList FileControl::getDirImagePath(const QString &path)
 {
     if (path.isEmpty()) {
@@ -312,7 +328,7 @@ bool FileControl::isRotatable(const QString &path)
     bool bRet = false;
     QString localPath = QUrl(path).toLocalFile();
     QFileInfo info(localPath);
-    if (!info.isFile() || !info.exists() || !info.isWritable()) {
+    if (!info.isFile() || !info.exists() || !info.isWritable() || !info.isReadable()) {
         bRet = false;
     } else {
         bRet = LibUnionImage_NameSpace::isImageSupportRotate(localPath);
@@ -768,4 +784,17 @@ bool FileControl::isAlbum()
         bRet = true;
     }
     return bRet;
+}
+
+bool FileControl::dirCanWrite(const QString &path)
+{
+    bool ret = false;
+    QFileInfo info(QUrl(path).toLocalFile());
+    if (info.isSymLink()) {
+        info = QFileInfo(info.readLink());
+    }
+    if (QFileInfo(info.dir(), info.dir().path()).isWritable()) {
+        ret = true;
+    }
+    return ret;
 }
