@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QUrl>
 #include "unionimage/unionimage.h"
+#include "dbmanager/dbmanager.h"
 
 
 class AlbumControl : public QObject
@@ -45,9 +46,6 @@ public:
     //获得日创建时间线
     Q_INVOKABLE QStringList getDayTimelinesTitle();
 
-    //获得日月年所有创建时间线  0所有 1年 2月 3日
-    Q_INVOKABLE QStringList getTimelinesTitle(TimeLineEnum timeEnum);
-
     //获得全部已经导入
     Q_INVOKABLE QStringList getAllImportTimelinesTitle();
 
@@ -56,6 +54,48 @@ public:
 
     //获得图片和视频总数
     Q_INVOKABLE int getCount();
+
+    //将文件放进最近删除(添加)
+    Q_INVOKABLE void insertTrash(const QList< QUrl > &paths);
+
+    //将文件放进收藏中(添加)
+    Q_INVOKABLE void insertCollection(const QList< QUrl > &paths);
+
+    //新建相册
+    Q_INVOKABLE void createAlbum(const QString &newName);
+
+    //获得所有的自定义相册id
+    Q_INVOKABLE QList < int > getAllCustomAlbumId();
+
+    //获得所有的自定义相册名称
+    Q_INVOKABLE QList < QString > getAllCustomAlbumName();
+
+    //根据自定义相册id获取相册名称
+    Q_INVOKABLE QString getCustomAlbumByUid(const int &index);
+
+public :
+    QString getDeleteFullPath(const QString &hash, const QString &fileName);
+
+    //获得最近删除的文件
+    DBImgInfoList getTrashInfos();
+
+    //获得收藏文件
+    DBImgInfoList getCollectionInfos();
+
+    //获得画板文件
+    DBImgInfoList getDrawInfos();
+
+    //获得截图录屏文件
+    DBImgInfoList getScreenCaptureInfos();
+
+    //获得相机文件
+    DBImgInfoList getCameraInfos();
+
+    //新相册名称
+    const QString getNewAlbumName(const QString &baseName);
+
+    //获得日月年所有创建时间线  0所有 1年 2月 3日
+    QStringList getTimelinesTitle(TimeLineEnum timeEnum);
 
 public slots:
 
@@ -73,6 +113,8 @@ private :
     QMap < QString ,DBImgInfoList > m_yearDateMap; //年数据集
     QMap < QString ,DBImgInfoList > m_monthDateMap; //月数据集
     QMap < QString ,DBImgInfoList > m_dayDateMap; //日数据集
+    QMap < int ,QString > m_customAlbum; //自定义相册
+
 
 };
 

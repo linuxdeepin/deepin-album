@@ -56,7 +56,7 @@ AlbumControl::~AlbumControl()
 
 void AlbumControl::getAllInfos()
 {
-    m_infoList = DBManager::instance()->getAllInfos(100);
+    m_infoList = DBManager::instance()->getAllInfos();
 }
 
 QStringList AlbumControl::getAllPaths()
@@ -227,3 +227,121 @@ int AlbumControl::getCount()
     return DBManager::instance()->getImgsCount();
 }
 
+void AlbumControl::insertTrash(const QList< QUrl > &paths)
+{
+    QStringList tmpList;
+    for(QUrl url : paths){
+        tmpList << url.toLocalFile();
+    }
+    DBImgInfoList infos;
+    for(QString path : tmpList){
+        infos << DBManager::instance()->getInfoByPath(path);
+    }
+    DBManager::instance()->insertTrashImgInfos(infos,false);
+}
+
+void AlbumControl::insertCollection(const QList< QUrl > &paths)
+{
+    QStringList tmpList;
+    for(QUrl url : paths){
+        tmpList << url.toLocalFile();
+    }
+    DBImgInfoList infos;
+    for(QString path : tmpList){
+        infos << DBManager::instance()->getInfoByPath(path);
+    }
+}
+
+void AlbumControl::createAlbum(const QString &newName)
+{
+    QString createAlbumName = getNewAlbumName(newName);
+    int createUID = DBManager::instance()->createAlbum(createAlbumName, QStringList(" "));
+    DBManager::instance()->insertIntoAlbum(createUID, QStringList(" "));
+}
+
+QList < int > AlbumControl::getAllCustomAlbumId()
+{
+    QMap < int ,QString > customAlbum;
+    QList<std::pair<int, QString>>  tmpList = DBManager::instance()->getAllAlbumNames(Custom);
+    for( std::pair<int, QString> tmpPair :tmpList){
+       customAlbum.insert(tmpPair.first,tmpPair.second);
+    }
+    m_customAlbum = customAlbum;
+    return customAlbum.keys();
+}
+
+QList < QString > AlbumControl::getAllCustomAlbumName()
+{
+    QMap < int ,QString > customAlbum;
+    QList<std::pair<int, QString>>  tmpList = DBManager::instance()->getAllAlbumNames(Custom);
+    for( std::pair<int, QString> tmpPair :tmpList){
+       customAlbum.insert(tmpPair.first,tmpPair.second);
+    }
+    m_customAlbum = customAlbum;
+    return customAlbum.values();
+}
+
+QString AlbumControl::getCustomAlbumByUid(const int &index)
+{
+    return DBManager::instance()->getAlbumNameFromUID(index);
+}
+
+
+DBImgInfoList AlbumControl::getTrashInfos()
+{
+    DBImgInfoList allTrashInfos = DBManager::instance()->getAllTrashInfos_getRemainDays();
+    QDateTime currentTime = QDateTime::currentDateTime();
+    DBImgInfoList list;
+    for (int i = allTrashInfos.size() - 1; i >= 0; i--) {
+        DBImgInfo pinfo = allTrashInfos.at(i);
+        if (!QFile::exists(pinfo.filePath) &&
+                !QFile::exists(getDeleteFullPath(pinfo.pathHash, pinfo.getFileNameFromFilePath()))) {
+            allTrashInfos.removeAt(i);
+        } else if (pinfo.remainDays <= 0) {
+            list << pinfo;
+            allTrashInfos.removeAt(i);
+        }
+    }
+    //清理删除时间过长图片
+    if (!list.isEmpty()) {
+        QStringList image_list;
+        for (DBImgInfo info : list) {
+            image_list << info.filePath;
+        }
+        DBManager::instance()->removeTrashImgInfosNoSignal(image_list);
+    }
+    return allTrashInfos;
+}
+
+DBImgInfoList AlbumControl::getCollectionInfos()
+{
+    return DBManager::instance()->getInfosByAlbum(DBManager::SpUID::u_Favorite, false);
+}
+
+DBImgInfoList AlbumControl::getScreenCaptureInfos()
+{
+    return DBManager::instance()->getInfosByAlbum(DBManager::SpUID::u_ScreenCapture, false);
+}
+
+DBImgInfoList AlbumControl::getCameraInfos()
+{
+    return DBManager::instance()->getInfosByAlbum(DBManager::SpUID::u_Camera, false);
+}
+
+QString AlbumControl::getDeleteFullPath(const QString &hash, const QString &fileName)
+{
+    //防止文件过长,采用只用hash的名称;
+    return albumGlobal::DELETE_PATH + "/" + hash + "." + QFileInfo(fileName).suffix();
+}
+
+//需求变更：允许相册重名，空字符串返回Unnamed，其余字符串返回本名
+const QString AlbumControl::getNewAlbumName(const QString &baseName)
+{
+    QString albumName;
+    if (baseName.isEmpty()) {
+        albumName = tr("Unnamed");
+    } else {
+        albumName = baseName;
+    }
+    return static_cast<const QString>(albumName);
+}
