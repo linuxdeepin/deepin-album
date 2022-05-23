@@ -1,6 +1,10 @@
 #include "thumbnailload.h"
 #include "unionimage/unionimage.h"
+#include "configsetter.h"
 #include <QPainter>
+
+const QString SETTINGS_GROUP = "Thumbnail";
+const QString SETTINGS_DISPLAY_MODE = "ThumbnailMode";
 
 ThumbnailLoad::ThumbnailLoad()
     : QQuickImageProvider(QQuickImageProvider::Image)
@@ -218,7 +222,8 @@ ImagePublisher::ImagePublisher(QObject *parent)
     : QObject(parent)
     , QQuickImageProvider(Image)
 {
-    m_loadMode = 0;
+    //初始化的时候读取上次退出时的状态
+    m_loadMode = LibConfigSetter::instance()->value(SETTINGS_GROUP, SETTINGS_DISPLAY_MODE, 0).toInt();
 }
 
 //切换加载策略
@@ -235,6 +240,9 @@ void ImagePublisher::switchLoadMode()
         m_loadMode = 0;
         break;
     }
+
+    //切完以后保存状态
+    LibConfigSetter::instance()->setValue(SETTINGS_GROUP, SETTINGS_DISPLAY_MODE, m_loadMode.load());
 }
 
 //将图片裁剪为方图，逻辑与原来一样
