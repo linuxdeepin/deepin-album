@@ -126,6 +126,45 @@ QStringList AlbumControl::getTimelinesTitlePaths(const QString &titleName)
     return pathsList;
 }
 
+QVariantMap AlbumControl::getTimelinesTitleInfos(const QString &titleName, const int &index)
+{
+    QVariantMap map;
+    DBImgInfoList dblist;
+    if(m_yearDateMap.keys().contains(titleName)){
+        dblist = m_yearDateMap.value(titleName);
+    } else if (m_monthDateMap.keys().contains(titleName)) {
+        dblist = m_monthDateMap.value(titleName);
+    } else if (m_dayDateMap.keys().contains(titleName)) {
+        dblist = m_dayDateMap.value(titleName);
+    } else {
+        dblist = m_timeLinePathsMap.value(titleName);
+    }
+    for(DBImgInfo info : dblist){
+        QVariantMap tmpMap;
+        if(info.itemType == ItemTypePic ){
+            if(index == 2){
+                continue ;
+            }
+            tmpMap.insert("itemType","pciture");
+        } else if(info.itemType == ItemTypeVideo ){
+            if(index == 1){
+                continue ;
+            }
+            tmpMap.insert("itemType","pciture");
+        } else {
+            tmpMap.insert("itemType","other");
+        }
+        tmpMap.insert("url","file://"+info.filePath);
+        tmpMap.insert("filePath",info.filePath);
+        tmpMap.insert("pathHash",info.pathHash);
+        tmpMap.insert("remainDays",info.remainDays);
+        map.insert(info.filePath,tmpMap);
+    }
+
+    return map;
+}
+
+
 QStringList AlbumControl::getYearTimelinesTitle()
 {
     return getTimelinesTitle(TimeLineEnum::Year);

@@ -37,6 +37,9 @@ public:
     //获得某一创建时间线的全部路径
     Q_INVOKABLE QStringList getTimelinesTitlePaths(const QString &titleName);
 
+    //获得某一创建时间线的全部info  , 0:全部 1:图片 2:视频
+    Q_INVOKABLE QVariantMap getTimelinesTitleInfos(const QString &titleName,const int &index = 0);
+
     //获得年创建时间线
     Q_INVOKABLE QStringList getYearTimelinesTitle();
 
