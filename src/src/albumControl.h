@@ -34,12 +34,6 @@ public:
     //获得全部创建时间线
     Q_INVOKABLE QStringList getAllTimelinesTitle();
 
-    //获得某一创建时间线的全部路径
-    Q_INVOKABLE QStringList getTimelinesTitlePaths(const QString &titleName);
-
-    //获得某一创建时间线的全部info  , 0:全部 1:图片 2:视频
-    Q_INVOKABLE QVariantMap getTimelinesTitleInfos(const QString &titleName,const int &index = 0);
-
     //获得年创建时间线
     Q_INVOKABLE QStringList getYearTimelinesTitle();
 
@@ -49,11 +43,31 @@ public:
     //获得日创建时间线
     Q_INVOKABLE QStringList getDayTimelinesTitle();
 
+    //获得某一创建时间线的全部路径
+    Q_INVOKABLE QStringList getTimelinesTitlePaths(const QString &titleName);
+
     //获得全部已经导入
     Q_INVOKABLE QStringList getAllImportTimelinesTitle();
 
     //获得某一导入时间的全部路径
     Q_INVOKABLE QStringList getImportTimelinesTitlePaths(const QString &titleName);
+
+
+    //QVariantMap接口
+    //获得默认时间线的全部info  , 0:全部 1:图片 2:视频
+    Q_INVOKABLE QVariantMap getTimelinesTitleInfos(const int &filterType = 0);
+
+    //获得年创建时间线 0:全部 1:图片 2:视频
+    Q_INVOKABLE QVariantMap getYearTimelinesInfos(const int &filterType = 0);
+
+    //获得月创建时间线  0:全部 1:图片 2:视频
+    Q_INVOKABLE QVariantMap getMonthTimelinesInfos(const int &filterType = 0);
+
+    //获得月创建时间线  0:全部 1:图片 2:视频
+    Q_INVOKABLE QVariantMap getDayTimelinesInfos(const int &filterType = 0);
+
+    //获得某一导入时间线的全部info  , 0:全部 1:图片 2:视频
+    Q_INVOKABLE QVariantMap getImportTimelinesTitleInfos(const int &filterType = 0);
 
     //获得图片和视频总数
     Q_INVOKABLE int getCount();
@@ -108,14 +122,11 @@ public slots:
 private :
     DBImgInfoList m_infoList;  //全部已导入
 
-    //时间线数据
-    QList < QDateTime > m_timelines; //所有创建时间线
-    QMap < QString, DBImgInfoList > m_timeLinePathsMap;  //每个创建时间线的路径
-
-    //已导入（合集）数据
+    //时间线数据和已导入（合集）数据
+    QList < QDateTime > m_timelines; //所有创建时间线    
     QList < QDateTime > m_importTimelines; //所有已导入时间线
     QMap < QString, DBImgInfoList > m_importTimeLinePathsMap;  //每个已导入时间线的路径
-
+    QMap < QString, DBImgInfoList > m_timeLinePathsMap;  //每个创建时间线的路径
     QMap < QString ,DBImgInfoList > m_yearDateMap; //年数据集
     QMap < QString ,DBImgInfoList > m_monthDateMap; //月数据集
     QMap < QString ,DBImgInfoList > m_dayDateMap; //日数据集
