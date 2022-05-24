@@ -87,6 +87,14 @@ Item {
                 id: importedCheckBox
                 font: DTK.fontManager.t6
                 text: "导入于2022年5月20日11:11 共46项"
+
+                onCheckStateChanged: {
+                    if(checked) {
+                        importedGridView.selectAll(true)
+                    } else {
+                        importedGridView.selectAll(false)
+                    }
+                }
             }
 
             //缩略图网格表

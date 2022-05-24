@@ -15,14 +15,26 @@ Item {
     signal timeChanged(string str)
 
     //设置图片缩放等级，传入的参数为外部滑动条的值
-    function setPicZoomLevel(level)
-    {
+    function setPicZoomLevel(level) {
         ;
     }
 
+    //设置全选/全取消缩略图
+    function selectAll(doSelect) {
+        if(doSelect) {
+            var len = thumbnailListModel.count
+            var tempArray = theView.ism
+            for(var i = 0;i != len;++i) {
+                tempArray.push(i.toString()) //数据类型必须和代理里面的m_index对齐，否则会判断失败
+            }
+            theView.ism = tempArray
+        } else {
+            theView.ism = []
+        }
+    }
+
     //强制重新刷新整个缩略图界面
-    function fouceUpdate()
-    {
+    function fouceUpdate() {
         //QML的图片强制重刷机制：改变图片路径
         theView.displayFlushHelper = Math.random()
     }
@@ -393,7 +405,7 @@ Item {
             //删除图片
             RightMenuItem {
                 text: qsTr("Delete")
-                visible: canDelete
+                visible: theArea.canDelete
                 onTriggered: {
 
                 }
@@ -468,9 +480,9 @@ Item {
             RightMenuItem {
                 text: qsTr("Set as wallpaper")
                 id: setAsWallpaperAction
-                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash &&
-                         (fileControl.isCanReadable(thumbnailListModel.get(theView.ism[0]).path) && theView.ism.length === 1
-                          && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).path))
+                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
+                         && (theView.ism.length === 1 && fileControl.isCanReadable(thumbnailListModel.get(theView.ism[0]).path)
+                             && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).path))
                 onTriggered: {
                     fileControl.setWallpaper(thumbnailListModel.get(theView.ism[0]).path)
                 }
