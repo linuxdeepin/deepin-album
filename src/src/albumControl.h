@@ -16,7 +16,8 @@ public:
         All  = 0,
         Year = 1,
         Month  = 2,
-        Day = 3
+        Day = 3,
+        Import =4
     };
 
     explicit AlbumControl(QObject *parent = nullptr);
@@ -32,26 +33,25 @@ public:
     Q_INVOKABLE void importAllImagesAndVideos(const QList< QUrl >& paths);
 
     //获得全部创建时间线
-    Q_INVOKABLE QStringList getAllTimelinesTitle();
+    Q_INVOKABLE QStringList getAllTimelinesTitle(const int &filterType = 0 );
 
     //获得年创建时间线
-    Q_INVOKABLE QStringList getYearTimelinesTitle();
+    Q_INVOKABLE QStringList getYearTimelinesTitle(const int &filterType = 0 );
 
     //获得月创建时间线
-    Q_INVOKABLE QStringList getMonthTimelinesTitle();
+    Q_INVOKABLE QStringList getMonthTimelinesTitle(const int &filterType = 0);
 
     //获得日创建时间线
-    Q_INVOKABLE QStringList getDayTimelinesTitle();
+    Q_INVOKABLE QStringList getDayTimelinesTitle(const int &filterType = 0);
 
     //获得某一创建时间线的全部路径
-    Q_INVOKABLE QStringList getTimelinesTitlePaths(const QString &titleName);
+    Q_INVOKABLE QStringList getTimelinesTitlePaths(const QString &titleName, const int &filterType);
 
     //获得全部已经导入
-    Q_INVOKABLE QStringList getAllImportTimelinesTitle();
+    Q_INVOKABLE QStringList getAllImportTimelinesTitle(const int &filterType = 0);
 
     //获得某一导入时间的全部路径
-    Q_INVOKABLE QStringList getImportTimelinesTitlePaths(const QString &titleName);
-
+    Q_INVOKABLE QStringList getImportTimelinesTitlePaths(const QString &titleName , const int &filterType = 0);
 
     //QVariantMap接口
     //获得默认时间线的全部info  , 0:全部 1:图片 2:视频
@@ -115,7 +115,7 @@ public :
     const QString getNewAlbumName(const QString &baseName);
 
     //获得日月年所有创建时间线  0所有 1年 2月 3日
-    QStringList getTimelinesTitle(TimeLineEnum timeEnum);
+    QStringList getTimelinesTitle(TimeLineEnum timeEnum  ,const int &filterType=0 );
 
 public slots:
 
