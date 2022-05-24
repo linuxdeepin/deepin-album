@@ -345,3 +345,8 @@ const QString AlbumControl::getNewAlbumName(const QString &baseName)
     }
     return static_cast<const QString>(albumName);
 }
+
+bool AlbumControl::photoHaveFavorited(const QString &path)
+{
+    return DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, QUrl(path).toLocalFile());
+}

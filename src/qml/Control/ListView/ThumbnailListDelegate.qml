@@ -19,7 +19,7 @@ Rectangle  {
     property string m_path
 
     //缩略图类型，默认为普通模式
-    property int type: GlobalVar.ThumbnailType.Trash
+    property int type: GlobalVar.ThumbnailType.Normal
 
     onM_pathChanged: {
     }
@@ -144,7 +144,7 @@ Rectangle  {
         }
 
         //添加到相册子菜单
-        //QML缺陷：暂时无法隐藏
+        //隐藏交给后面的Component.onCompleted解决
         Menu {
             title: qsTr("Add to album")
 
@@ -299,6 +299,15 @@ Rectangle  {
             visible: theView.ism.length == 1 && !fileControl.isImage(path)
             onTriggered: {
 
+            }
+        }
+
+        Component.onCompleted: {
+            //最近删除界面下隐藏添加到相册的子菜单
+            if(type === GlobalVar.ThumbnailType.Trash) {
+                var item = itemAt(5)
+                item.visible = false
+                item.height = 0
             }
         }
     }

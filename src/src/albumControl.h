@@ -73,6 +73,9 @@ public:
     //根据自定义相册id获取相册名称
     Q_INVOKABLE QString getCustomAlbumByUid(const int &index);
 
+    //判断当前图片是否已收藏
+    Q_INVOKABLE bool photoHaveFavorited(const QString &path);
+
 public :
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 
