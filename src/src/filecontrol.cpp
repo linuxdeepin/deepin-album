@@ -366,6 +366,11 @@ bool FileControl::isCanDelete(const QString &path)
     return bRet;
 }
 
+bool FileControl::isCanPrint(const QString &path)
+{
+    QFileInfo info(QUrl(path).toLocalFile());
+    return isImage(path) && info.isReadable();
+}
 
 bool FileControl::isFile(const QString &path)
 {

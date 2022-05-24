@@ -27,6 +27,11 @@ Item {
         theView.displayFlushHelper = Math.random()
     }
 
+    //设置缩略图显示类型
+    function setType(newType) {
+        thumnailListType = newType
+    }
+
     //view依赖的model管理器
     property ListModel thumbnailListModel: ThumbnailListModel {}
 
@@ -35,6 +40,8 @@ Item {
     property int itemHeight: 110
     // 是否开启滚轮
     property bool enableWheel: true
+    //缩略图类型，默认为普通模式
+    property int thumnailListType: GlobalVar.ThumbnailType.Normal
     //缩略图view的本体
     GridView {
         id: theView
@@ -124,14 +131,71 @@ Item {
         }
 
         MouseArea {
+            id: theArea
+
             //按下时的起始坐标
             property int pressedXAxis: -1
             property int pressedYAxis: -1
 
+            //框选状态检查
+            property bool haveImage: false
+            property bool haveVideo: false
+            property bool canDelete: false
+            property bool canFavorite: false
+            property bool canRotate: true
+            property bool canPrint: true
+
             anchors.fill: parent
-            acceptedButtons: Qt.LeftButton //仅激活左键
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
 
             onPressed: {
+                if(mouse.button == Qt.RightButton) {
+                    //右键点击区域如果没有选中，则单独选中它
+                    var itemIndex = parent.getItemIndexFromAxis(mouseX, mouseY)
+                    if(itemIndex !== -1) {
+                        if(theView.ism.indexOf(itemIndex) === -1) {
+                            theView.ism = [itemIndex]
+                        }
+                    } else {
+                        theView.ism = []
+                        return
+                    }
+
+                    //已框选的图片状态检查
+                    haveImage = false
+                    haveVideo = false
+                    canDelete = false
+                    canFavorite = false
+                    canRotate = true
+                    for(var i = 0;i != theView.ism.length;++i) {
+                        var currentPath = thumbnailListModel.get(theView.ism[i]).path
+                        if(fileControl.isImage(currentPath)) { //图片
+                            haveImage = true
+                        } else if(fileControl.pathExists(currentPath)) { //视频
+                            haveVideo = true
+                        }
+
+                        if(fileControl.isCanDelete(currentPath)) {
+                            canDelete = true
+                        }
+
+                        if(!albumControl.photoHaveFavorited(currentPath)) {
+                            canFavorite = true
+                        }
+
+                        if(!fileControl.isRotatable(currentPath)) {
+                            canRotate = false
+                        }
+
+                        if(!fileControl.isCanPrint(currentPath)) {
+                            canPrint = false
+                        }
+                    }
+
+                    thumbnailMenu.popup()
+                    return
+                }
+
                 parent.inPress = true
                 pressedXAxis = mouseX
                 pressedYAxis = mouseY
@@ -148,6 +212,10 @@ Item {
             }
 
             onMouseXChanged: {
+                if(mouse.button == Qt.RightButton) {
+                    return
+                }
+
                 rubberBand.m_width = Math.abs(mouseX - pressedXAxis)
                 rubberBand.x = Math.min(mouseX, pressedXAxis)
                 if(rubberBand.m_width > 0)
@@ -163,6 +231,10 @@ Item {
             }
 
             onMouseYChanged: {
+                if(mouse.button == Qt.RightButton) {
+                    return
+                }
+
                 rubberBand.m_height = Math.abs(mouseY - pressedYAxis)
                 rubberBand.y = Math.min(mouseY, pressedYAxis)
                 if(rubberBand.m_height > 0)
@@ -178,6 +250,10 @@ Item {
             }
 
             onReleased: {
+                if(mouse.button == Qt.RightButton) {
+                    return
+                }
+
                 if(parent.rubberBandDisplayed == false)
                 {
                     var index = parent.getItemIndexFromAxis(mouseX, mouseY + parent.contentY)
@@ -217,6 +293,237 @@ Item {
         RubberBand {
             id: rubberBand
             visible: parent.inPress
+        }
+
+        //缩略图菜单
+        //注意：涉及界面切换的，需要做到从哪里进来，就退出到哪里
+        //菜单显隐逻辑有点绕，建议头脑清醒的时候再处理
+        Menu {
+            id: thumbnailMenu
+
+            //显示大图预览
+            RightMenuItem {
+                text: qsTr("View")
+                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
+                         && (theView.ism.length === 1)
+                onTriggered: {
+
+                }
+            }
+
+            //全屏预览
+            RightMenuItem {
+                text: qsTr("Fullscreen")
+                visible:  thumnailListType !== GlobalVar.ThumbnailType.Trash
+                          && (theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).path))
+                onTriggered: {
+
+                }
+            }
+
+            //调起打印接口
+            RightMenuItem {
+                text: qsTr("Print")
+                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash && theArea.canPrint
+
+                onTriggered: {
+
+                }
+            }
+
+            //幻灯片
+            RightMenuItem {
+                text: qsTr("Slide show")
+                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
+                         && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).path)) || theArea.haveImage)
+                onTriggered: {
+
+                }
+            }
+
+            MenuSeparator {
+                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
+                height: visible ? GlobalVar.rightMenuSeparatorHeight : 0
+            }
+
+            //添加到相册子菜单
+            //隐藏交给后面的Component.onCompleted解决
+            Menu {
+                title: qsTr("Add to album")
+
+                RightMenuItem {
+                    text: qsTr("New album")
+                    onTriggered: {
+
+                    }
+                }
+
+                MenuSeparator {
+                }
+
+                //这个部分需要动态读取相册的数据库情况，需要显示所有的相册，已经在目标相册里的就置灰
+                RightMenuItem {
+                    text: qsTr("TODO: 这个部分需要动态读取相册的数据库情况")
+                    onTriggered: {
+
+                    }
+                }
+            }
+
+            //导出图片为其它格式
+            RightMenuItem {
+                text: qsTr("Export")
+                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
+                         && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).path) && theArea.haveImage) || !theArea.haveVideo)
+                onTriggered: {
+
+                }
+            }
+
+            //复制图片
+            RightMenuItem {
+                text: qsTr("Copy")
+                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
+                         && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).path)) || theView.ism.length > 1)
+                onTriggered: {
+
+                }
+            }
+
+            //删除图片
+            RightMenuItem {
+                text: qsTr("Delete")
+                visible: canDelete
+                onTriggered: {
+
+                }
+            }
+
+            //从相册移除（只在自定义相册中显示）
+            RightMenuItem {
+                text: qsTr("Remove from album")
+                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
+                         && (thumnailListType === GlobalVar.ThumbnailType.CustomAlbum)
+                onTriggered: {
+
+                }
+            }
+
+            MenuSeparator {
+                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
+                height: visible ? GlobalVar.rightMenuSeparatorHeight : 0
+            }
+
+            //添加到我的收藏
+            RightMenuItem {
+                id: favoriteAction
+                text: qsTr("Favorite")
+                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash && (theArea.canFavorite)
+                onTriggered: {
+
+                }
+            }
+
+            //从我的收藏中移除
+            RightMenuItem {
+                id: unFavoriteAction
+                text: qsTr("Unfavorite")
+                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash && (!theArea.canFavorite)
+                onTriggered: {
+
+                }
+            }
+
+            MenuSeparator {
+                visible: rotateClockwiseAction.visible
+                height: visible ? GlobalVar.rightMenuSeparatorHeight : 0
+            }
+
+            //顺时针旋转
+            RightMenuItem {
+                id: rotateClockwiseAction
+                text: qsTr("Rotate clockwise")
+                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash && (theArea.canRotate)
+                onTriggered: {
+
+                }
+            }
+
+            //逆时针旋转
+            RightMenuItem {
+                text: qsTr("Rotate counterclockwise")
+                visible: rotateClockwiseAction.visible
+                onTriggered: {
+
+                }
+            }
+
+            MenuSeparator {
+                visible: (thumnailListType !== GlobalVar.ThumbnailType.Trash)
+                         && (setAsWallpaperAction.visible || displayInFileManagerAction.visible || photoInfoAction.visible || videoInfoAction.visible)
+                height: visible ? GlobalVar.rightMenuSeparatorHeight : 0
+            }
+
+            //设置为壁纸
+            RightMenuItem {
+                text: qsTr("Set as wallpaper")
+                id: setAsWallpaperAction
+                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash &&
+                         (fileControl.isCanReadable(thumbnailListModel.get(theView.ism[0]).path) && theView.ism.length === 1
+                          && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).path))
+                onTriggered: {
+                    fileControl.setWallpaper(thumbnailListModel.get(theView.ism[0]).path)
+                }
+            }
+
+            //在文件管理器中显示
+            RightMenuItem {
+                text: qsTr("Display in file manager")
+                id: displayInFileManagerAction
+                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
+                         && (theView.ism.length == 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).path))
+                onTriggered: {
+                    fileControl.displayinFileManager(thumbnailListModel.get(theView.ism[0]).path)
+                }
+            }
+
+            //恢复
+            RightMenuItem {
+                text: qsTr("Restore")
+                visible: thumnailListType === GlobalVar.ThumbnailType.Trash
+                onTriggered: {
+
+                }
+            }
+
+            //照片信息
+            RightMenuItem {
+                text: qsTr("Photo info")
+                id: photoInfoAction
+                visible: theView.ism.length == 1 && fileControl.isImage(thumbnailListModel.get(theView.ism[0]).path)
+                onTriggered: {
+
+                }
+            }
+
+            //视频信息
+            RightMenuItem {
+                text: qsTr("Video info")
+                id: videoInfoAction
+                visible: theView.ism.length == 1 && !fileControl.isImage(thumbnailListModel.get(theView.ism[0]).path)
+                onTriggered: {
+
+                }
+            }
+
+            Component.onCompleted: {
+                //最近删除界面下隐藏添加到相册的子菜单
+                if(thumnailListType === GlobalVar.ThumbnailType.Trash) {
+                    var item = itemAt(5)
+                    item.visible = false
+                    item.height = 0
+                }
+            }
         }
     }
 

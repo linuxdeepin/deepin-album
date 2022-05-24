@@ -62,6 +62,9 @@ public:
     //是否可以被删除
     Q_INVOKABLE bool isCanDelete(const QString &path);
 
+    //是否可以打印
+    Q_INVOKABLE bool isCanPrint(const QString &path);
+
     //是否是文件
     Q_INVOKABLE bool isFile(const QString &path);
 
