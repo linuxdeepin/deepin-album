@@ -85,10 +85,12 @@ Item {
             property int m_bottomMarign: 10 // 已导入列表子项下边距
             CheckBox {
                 id: importedCheckBox
+                visible: importedGridView.haveSelect
+                checked: importedGridView.haveSelectAll
                 font: DTK.fontManager.t6
                 text: "导入于2022年5月20日11:11 共46项"
 
-                onCheckStateChanged: {
+                onClicked: {
                     if(checked) {
                         importedGridView.selectAll(true)
                     } else {

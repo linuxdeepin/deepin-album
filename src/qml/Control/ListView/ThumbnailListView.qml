@@ -54,6 +54,10 @@ Item {
     property bool enableWheel: true
     //缩略图类型，默认为普通模式
     property int thumnailListType: GlobalVar.ThumbnailType.Normal
+    //存在框选项
+    property bool haveSelect: theView.ism.length > 0
+    //已框选全部缩略图
+    property bool haveSelectAll : theView.ism.length == thumbnailListModel.count
     //缩略图view的本体
     GridView {
         id: theView
@@ -115,16 +119,44 @@ Item {
             var tempArray = ism
 
             //统计框入了哪些index
-            //TODO: 后续考虑使用框选矩形区域判断所有item中心点是否被包含其中，来判定框入了哪些index
-            for(var i = startX;i < startX + lenX;i += 10)
+            //1.搜索起始图片
+            while(getItemIndexFromAxis(startX, startY) === -1) {
+                startX += 10
+                startY += 10
+            }
+
+            //2.搜索全域
+            for(var i = startX;i < startX + lenX;i += itemWidth)
             {
-                for(var j = startY;j < startY + lenY;j += 10)
+                for(var j = startY;j < startY + lenY;j += itemHeight)
                 {
                     var index = getItemIndexFromAxis(i, j)
                     if(index !== -1 && tempArray.indexOf(index) == -1)
                     {
                         tempArray.push(index)
                     }
+                }
+            }
+
+            //3.搜索右侧边框位置
+            i = startX + lenX
+            for(j = startY;j < startY + lenY;j += itemHeight)
+            {
+                index = getItemIndexFromAxis(i, j)
+                if(index !== -1 && tempArray.indexOf(index) == -1)
+                {
+                    tempArray.push(index)
+                }
+            }
+
+            //4.搜索底部边框位置
+            j = startY + lenY
+            for(i = startX;i < startX + lenX;i += itemWidth)
+            {
+                index = getItemIndexFromAxis(i, j)
+                if(index !== -1 && tempArray.indexOf(index) == -1)
+                {
+                    tempArray.push(index)
                 }
             }
 
@@ -269,9 +301,10 @@ Item {
                 if(parent.rubberBandDisplayed == false)
                 {
                     var index = parent.getItemIndexFromAxis(mouseX, mouseY + parent.contentY)
-                    if(index !== -1)
-                    {
+                    if(index !== -1) {
                         parent.ism = [index]
+                    } else {
+                        parent.ism = []
                     }
                 }
 
