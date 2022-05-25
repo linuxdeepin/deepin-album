@@ -11,21 +11,26 @@ import "../../Control/ListView"
 
 Item {
     id : importedListView
-    property int filterType :0 // 筛选类型，默认为所有
+    property int filterType :filterCombo.currentIndex // 筛选类型，默认为所有
+
     //view依赖的model管理器
     property ListModel importedListModel: ListModel {
         id: theModel
         function loadTitleInfos() {
+            console.log("imported model has refreshed.. filterType:", filterType)
+            theModel.clear()
             // 从后台获取所有已导入数据
             var titleInfos = albumControl.getImportTimelinesTitleInfos(filterType);
             for (var key in titleInfos) {
                 theModel.append({"title":key, "items":titleInfos[key]})
             }
         }
+    }
 
-        Component.onCompleted: {
-            theModel.loadTitleInfos()
-        }
+    // 筛选类型改变处理事件
+    onFilterTypeChanged: {
+        if (filterType >= 0)
+            importedListModel.loadTitleInfos()
     }
 
     //已导入列表本体
