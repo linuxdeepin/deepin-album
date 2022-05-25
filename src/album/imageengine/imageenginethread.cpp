@@ -93,7 +93,7 @@ ImportImagesThread::ImportImagesThread()
 
 ImportImagesThread::~ImportImagesThread()
 {
-    qDebug() << "ImportImagesThread destoryed";
+    qDebug() << "ImportImagesThread destroyed";
 }
 
 void ImportImagesThread::setData(QList<QUrl> &paths, const QString &albumname, int UID, ImageEngineImportObject *obj, bool bdialogselect, AlbumDBType dbType, bool isFirst)

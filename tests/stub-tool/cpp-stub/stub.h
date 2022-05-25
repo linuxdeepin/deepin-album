@@ -160,7 +160,7 @@ public:
         if (-1 == mprotect(pageof(pstub->fn), m_pagesize * 2, PROT_READ | PROT_WRITE | PROT_EXEC))
 #endif       
         {
-            throw("stub set memory protect to w+r+x faild");
+            throw("stub set memory protect to w+r+x failed");
         }
 
         if(pstub->far_jmp)
@@ -207,7 +207,7 @@ public:
         if (-1 == mprotect(pageof(pstub->fn), m_pagesize * 2, PROT_READ | PROT_WRITE | PROT_EXEC))
 #endif       
         {
-            throw("stub reset memory protect to w+r+x faild");
+            throw("stub reset memory protect to w+r+x failed");
         }
 
         if(pstub->far_jmp)
