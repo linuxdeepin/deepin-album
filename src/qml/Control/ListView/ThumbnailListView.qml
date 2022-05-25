@@ -17,7 +17,11 @@ Item {
 
     //设置图片缩放等级，传入的参数为外部滑动条的值
     function setPicZoomLevel(level) {
-        ;
+        if(level >= 0 && level <= 9) {
+            theView.cellBaseWidth = 80 + level * 10
+        } else {
+            theView.cellBaseWidth = 80
+        }
     }
 
     //设置全选/全取消缩略图
@@ -51,8 +55,8 @@ Item {
     }
 
     // 缩略图Item尺寸
-    property int itemWidth: 110
-    property int itemHeight: 110
+    property real itemWidth: realCellWidth
+    property real itemHeight: realCellWidth
     // 是否开启滚轮
     property bool enableWheel: true
     //缩略图类型，默认为普通模式
@@ -61,6 +65,10 @@ Item {
     property bool haveSelect: theView.ism.length > 0
     //已框选全部缩略图
     property bool haveSelectAll : theView.ism.length == thumbnailListModel.count
+    //缩略图动态变化（-10是右侧的边距）
+    property real cellBaseWidth: global.thumbnailSizeLevel >= 0 && global.thumbnailSizeLevel <= 9 ? 80 + global.thumbnailSizeLevel * 10 : 80
+    property int  rowSizeHint: (width - 10) / cellBaseWidth
+    property real realCellWidth: (width - 10) / rowSizeHint
     //缩略图view的本体
     GridView {
         id: theView
@@ -74,6 +82,8 @@ Item {
             id: thumbnailListDelegate
             m_index: index
             m_path: thumbnailListModel.get(index).path
+            width: itemWidth - 4
+            height: itemHeight - 4
         }
 
         currentIndex: -1
@@ -123,7 +133,9 @@ Item {
 
             //统计框入了哪些index
             //1.搜索起始图片
-            while(getItemIndexFromAxis(startX, startY) === -1) {
+            var searchEndX = startX + lenX
+            var searchEndY = startY + lenY
+            while(getItemIndexFromAxis(startX, startY) === -1 && startX < searchEndX && startY < searchEndY) {
                 startX += 10
                 startY += 10
             }

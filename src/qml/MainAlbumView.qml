@@ -45,16 +45,34 @@ Rectangle {
                 height: 36
             }
             onClicked :{
-                leftSidebar.visible=!leftSidebar.visible
+                leftSidebar.visible = !leftSidebar.visible
             }
         }
     }
 
     ThumbnailImage{
+        id: thumbnailImage
         anchors.top: titleAlubmRect.bottom
         anchors.left: leftSidebar.right
         anchors.leftMargin: 0
         width: leftSidebar.visible ? parent.width - leftSidebar.width : root.width
         height: root.height - titleAlubmRect.height
+    }
+
+    StatusBar {
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: 50
+
+        onSliderValueChanged: {
+            global.thumbnailSizeLevel = sliderValue
+            fileControl.setConfigValue("StatusBar", "sliderValue", sliderValue)
+        }
+
+        Component.onCompleted: {
+            var oldSliderValue = Number(fileControl.getConfigValue("StatusBar", "sliderValue", 0))
+            setSliderWidgetValue(oldSliderValue)
+        }
     }
 }

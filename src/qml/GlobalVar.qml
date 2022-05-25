@@ -24,6 +24,8 @@ Item {
     property int stackControlCurrent: 0// 0:相册界面 1:看图界面
     property var haveImportedPaths //所有导入的图片
 
+    property int thumbnailSizeLevel: 0 //缩略图缩放等级
+
     signal sigWindowStateChange()
     signal sigThumbnailStateChange()
 
