@@ -12,9 +12,9 @@ ComboBox {
     flat: true
 
     model: ListModel {
-        ListElement { text: "所有项目"; icon: "selectall" }
-        ListElement { text: "照片"; icon: "images" }
-        ListElement { text: "视频"; icon: "videos" }
+        ListElement { text: qsTr("All"); icon: "selectall" }
+        ListElement { text: qsTr("Photos"); icon: "images" }
+        ListElement { text: qsTr("Videos"); icon: "videos" }
     }
 }
 

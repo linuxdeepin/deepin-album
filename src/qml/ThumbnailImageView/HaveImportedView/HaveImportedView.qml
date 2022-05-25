@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import org.deepin.dtk 1.0
 import "../../Control"
-import "../../Control/ListView"
 Rectangle {
     width: parent.width
     height: parent.height
@@ -13,7 +12,7 @@ Rectangle {
         anchors.left: parent.left
         height: 30
         font: DTK.fontManager.t3
-        text: "已导入"
+        text: qsTr("Import")
 
         color: Qt.rgba(0,0,0)
 
