@@ -155,7 +155,7 @@ QVariantMap AlbumControl::getTimelinesTitleInfos(const int &filterType)
                 if(filterType == 1){
                     continue ;
                 }
-                tmpMap.insert("itemType","pciture");
+                tmpMap.insert("itemType","video");
             } else {
                 tmpMap.insert("itemType","other");
             }
@@ -198,7 +198,7 @@ QVariantMap AlbumControl::getYearTimelinesInfos(const int &filterType)
                 if(filterType == 1){
                     continue ;
                 }
-                tmpMap.insert("itemType","pciture");
+                tmpMap.insert("itemType","video");
             } else {
                 tmpMap.insert("itemType","other");
             }
@@ -239,7 +239,7 @@ QVariantMap AlbumControl::getMonthTimelinesInfos(const int &filterType)
                 if(filterType == 1){
                     continue ;
                 }
-                tmpMap.insert("itemType","pciture");
+                tmpMap.insert("itemType","video");
             } else {
                 tmpMap.insert("itemType","other");
             }
@@ -280,7 +280,7 @@ QVariantMap AlbumControl::getDayTimelinesInfos(const int &filterType)
                 if(filterType == 1){
                     continue ;
                 }
-                tmpMap.insert("itemType","pciture");
+                tmpMap.insert("itemType","video");
             } else {
                 tmpMap.insert("itemType","other");
             }
@@ -441,7 +441,7 @@ QVariantMap AlbumControl::getImportTimelinesTitleInfos(const int &filterType)
                 if(filterType == 1){
                     continue ;
                 }
-                tmpMap.insert("itemType","pciture");
+                tmpMap.insert("itemType","video");
             } else {
                 tmpMap.insert("itemType","other");
             }
@@ -456,6 +456,63 @@ QVariantMap AlbumControl::getImportTimelinesTitleInfos(const int &filterType)
         }
     }
     return reMap;
+}
+
+QVariantMap AlbumControl::getAlbumInfos(const int &albumId, const int &filterType)
+{
+    QVariantMap reMap;
+
+    DBManager::instance()->getInfosByAlbum(albumId, false);
+
+    QVariantList list;
+    DBImgInfoList dbInfoList = DBManager::instance()->getInfosByAlbum(albumId, false);
+    QString title = DBManager::instance()->getAlbumNameFromUID(albumId);
+    for(DBImgInfo info : dbInfoList){
+        QVariantMap tmpMap;
+        if(info.itemType == ItemTypePic ){
+            if(filterType == 2){
+                continue ;
+            }
+            tmpMap.insert("itemType","pciture");
+        } else if(info.itemType == ItemTypeVideo ){
+            if(filterType == 1){
+                continue ;
+            }
+            tmpMap.insert("itemType","video");
+        } else {
+            tmpMap.insert("itemType","other");
+        }
+        tmpMap.insert("url","file://"+info.filePath);
+        tmpMap.insert("filePath",info.filePath);
+        tmpMap.insert("pathHash",info.pathHash);
+        tmpMap.insert("remainDays",info.remainDays);
+        list << tmpMap;
+    }
+    if(list.count() >0){
+        reMap.insert(title , list);
+    }
+    return reMap;
+}
+
+bool AlbumControl::addCustomAlbumInfos(const int &albumId, const QList<QUrl> &urls, const int &imoprtType)
+{
+    Q_UNUSED(imoprtType);
+
+    bool bRet = false;
+    QStringList paths;
+    for(QUrl url : urls){
+        paths << url.toLocalFile();
+    }
+    AlbumDBType atype;
+    if(albumId == 0 ){
+        atype = Favourite;
+    }else if(albumId < 4){
+        atype = AutoImport;
+    }else {
+        atype = Custom;
+    }
+    bRet = DBManager::instance()->insertIntoAlbum( albumId , paths , atype );
+    return bRet;
 }
 
 int AlbumControl::getCount()

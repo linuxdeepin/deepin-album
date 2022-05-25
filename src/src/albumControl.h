@@ -87,6 +87,12 @@ public:
     //获得所有的自定义相册名称
     Q_INVOKABLE QList < QString > getAllCustomAlbumName();
 
+    //获得自定义的相册的全部info  , 0:全部 1:图片 2:视频
+    Q_INVOKABLE QVariantMap getAlbumInfos(const int &albumId ,const int &filterType = 0);
+
+    //添加到自定义相册
+    Q_INVOKABLE bool addCustomAlbumInfos(const int &albumId  ,const QList <QUrl> & urls, const int &imoprtType = 0);
+
     //根据自定义相册id获取相册名称
     Q_INVOKABLE QString getCustomAlbumByUid(const int &index);
 
