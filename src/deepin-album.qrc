@@ -40,9 +40,9 @@
         <file>qml/Control/RubberBand.qml</file>
         <file>qml/Control/ListView/ThumbnailListView.qml</file>
         <file>qml/Control/ListView/ThumbnailListDelegate.qml</file>
-        <file>qml/Control/ListView/ThumbnailListModel.qml</file>
         <file>qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml</file>
         <file>qml/Control/ListView/RightMenuItem.qml</file>
         <file>qml/StatusBar.qml</file>
+        <file>qml/Control/ListView/FilterComboBox.qml</file>
     </qresource>
 </RCC>

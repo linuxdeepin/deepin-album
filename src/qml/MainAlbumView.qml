@@ -60,10 +60,11 @@ Rectangle {
     }
 
     StatusBar {
+        id: statusBar
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        height: 50
+        height: 30
 
         onSliderValueChanged: {
             global.thumbnailSizeLevel = sliderValue

@@ -5,6 +5,8 @@ import "../../Control/ListView"
 Rectangle {
     width: parent.width
     height: parent.height
+
+    // 已导入标签
     Label {
         id:importedLabel
         anchors.top: parent.top
@@ -17,14 +19,24 @@ Rectangle {
 
     }
 
+    // 筛选下拉框
+    FilterComboBox {
+        id: filterCombo
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.rightMargin: 20
+        width: 130
+        height: 30
+    }
+
+    // 已导入列表控件
     ImportedlListView {
         id: theView
         anchors.top: importedLabel.bottom
         anchors.topMargin: 10
         width: parent.width
-        height: parent.height - importedLabel.height - m_topMargin - m_statsBarHeight
+        height: parent.height - importedLabel.height - m_topMargin - statusBar.height
 
-        property int m_statsBarHeight: 30
         property int m_topMargin: 10
     }
 }

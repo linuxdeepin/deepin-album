@@ -11,7 +11,6 @@ import "../../"
 Item {
     id : thumnailListView
     property var viewTitle
-    property var viewPaths
     //当前区域时间区间改变信号，字符串可以直接刷新在界面上
     signal timeChanged(string str)
 
@@ -49,10 +48,14 @@ Item {
         thumnailListType = newType
     }
 
-    //view依赖的model管理器
-    property ListModel thumbnailListModel: ThumbnailListModel {
-        haveImportedPaths : importedGridView.viewPaths
+    // 获取列表中项的个数
+    function count()
+    {
+        return thumbnailListModel.count
     }
+
+    //view依赖的model管理器
+    property ListModel thumbnailListModel: ListModel { }
 
     // 缩略图Item尺寸
     property real itemWidth: realCellWidth
@@ -81,7 +84,8 @@ Item {
         delegate: ThumbnailListDelegate{
             id: thumbnailListDelegate
             m_index: index
-            m_path: thumbnailListModel.get(index).path
+            m_url: thumbnailListModel.get(index).url
+            m_displayFlushHelper: "0"
             width: itemWidth - 4
             height: itemHeight - 4
         }

@@ -40,12 +40,8 @@ Rectangle {
             checked: index == 0
             backgroundVisible: false
             onClicked: {
-//                    global.currentViewIndex=number
-//                console.log(global.haveImportedPaths)
-
+                global.currentViewIndex = index + 2
             }
-
-
         }
     }
 

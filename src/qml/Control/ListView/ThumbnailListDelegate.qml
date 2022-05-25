@@ -12,11 +12,9 @@ import "../../"
 
 Rectangle {
     //注意：在model里面加进去的变量，这边可以直接进行使用，只是部分位置不好拿到，需要使用变量
-    property string m_index : index
-    property string m_path : path
-
-    onM_pathChanged: {
-    }
+    property string m_index
+    property string m_url
+    property string m_displayFlushHelper
 
     //选中后显示的阴影框
     Rectangle {
@@ -29,7 +27,8 @@ Rectangle {
     }
 
     Image {
-        source: "image://publisher/" + displayFlushHelper.toString() + theView.displayFlushHelper.toString() + "_" + path
+        source: "image://publisher/" + m_displayFlushHelper + theView.displayFlushHelper.toString() + "_" + m_url
+        //source: m_url
         asynchronous: true
         anchors.centerIn: parent
         //sourceSize固定下来不要动，否则会疯狂闪烁
