@@ -64,7 +64,7 @@ QStringList AlbumControl::getAllPaths()
     QStringList pathList;
     QStringList list = DBManager::instance()->getAllPaths();
     for(QString path : list){
-        pathList << "file://"+ path;
+        pathList << "file://" + path;
     }
     return pathList;
 }
@@ -126,7 +126,7 @@ QStringList AlbumControl::getTimelinesTitlePaths(const QString &titleName , cons
         } else if(filterType == 1 && info.itemType == ItemTypeVideo){
             continue ;
         }
-        pathsList << "file://" <<info.filePath;
+        pathsList << "file://" +info.filePath;
     }
     return pathsList;
 }
@@ -336,7 +336,7 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum ,const int &fi
     for(QDateTime time : tmpDateList){
         //获取当前时间照片
         DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByTimeline(time);
-        QStringList datelist = time.toString("yyyy.MM.dd.hh.ss").split(".");
+        QStringList datelist = time.toString("yyyy.MM.dd.hh.mm").split(".");
         //加时间线标题
         QString date;
         if (datelist.count() > 4) {
@@ -407,7 +407,7 @@ QStringList AlbumControl::getImportTimelinesTitlePaths(const QString &titleName 
         } else if(filterType == 1 && info.itemType == ItemTypeVideo){
             continue ;
         }
-        pathsList << "file://" <<info.filePath;
+        pathsList << "file://" +info.filePath;
     }
     return pathsList;
 }

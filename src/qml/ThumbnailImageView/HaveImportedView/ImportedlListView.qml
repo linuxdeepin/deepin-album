@@ -11,7 +11,8 @@ import "../../Control/ListView"
 
 Item {
     id : importedListView
-
+    property int filterType :0
+    property var titleImport :albumControl.getAllImportTimelinesTitle(filterType)
     //view依赖的model管理器
 //    ListModel {
 //        id: importedListModel
@@ -22,7 +23,7 @@ Item {
         id: theView
         clip: true
         interactive: false //禁用原有的交互逻辑，重新开始定制
-        model: 3
+        model: titleImport.length
         width: parent.width
         height: parent.height
         delegate: importedListDelegate
@@ -88,7 +89,6 @@ Item {
                 visible: importedGridView.haveSelect
                 checked: importedGridView.haveSelectAll
                 font: DTK.fontManager.t6
-                text: "导入于2022年5月20日11:11 共46项"
 
                 onClicked: {
                     if(checked) {
@@ -97,19 +97,26 @@ Item {
                         importedGridView.selectAll(false)
                     }
                 }
+                text: titleImport[m_index]
             }
 
             //缩略图网格表
             ThumbnailListView {
                 id: importedGridView
-
+                property var viewTitle: titleImport[m_index]
+                property var viewPaths: albumControl.getImportTimelinesTitlePaths(viewTitle,filterType)
                 anchors.left: parent.left
                 anchors.top: importedCheckBox.bottom
                 anchors.topMargin: m_topMarign
                 anchors.bottomMargin: m_bottomMarign
                 width: parent.width
-                height: Math.ceil(thumbnailListModel.count / Math.floor((parent.width) / itemWidth)) * itemHeight
+                height: Math.abs(Math.ceil(importedGridView.viewPaths.length / Math.floor((parent.width) / itemWidth)) * itemHeight)
+
                 enableWheel: false
+                //view依赖的model管理器
+                property ListModel thumbnailListModel: ThumbnailListModel {
+                    haveImportedPaths : importedGridView.viewPaths
+                }
             }
         }
     }

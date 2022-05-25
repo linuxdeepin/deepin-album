@@ -44,8 +44,7 @@ Item {
         thumnailListType = newType
     }
 
-    //view依赖的model管理器
-    property ListModel thumbnailListModel: ThumbnailListModel {}
+
 
     // 缩略图Item尺寸
     property int itemWidth: 110

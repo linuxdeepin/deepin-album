@@ -7,13 +7,13 @@ import org.deepin.dtk 1.0
 
 ListModel {
     id: thumbnailListModel
-    property var haveImportedPaths :global.haveImportedPaths
+    property var haveImportedPaths
     function loadHaveImportedDatas()
     {
         // TODO：后续可换为直接从后台获取数据，获得的数据类型为按Json串组成的QMap
         thumbnailListModel.clear();
         for(var i = 0; i < haveImportedPaths.length; i++){
-            var data = global.haveImportedPaths[i];
+            var data = haveImportedPaths[i];
 
             thumbnailListModel.append({"path": data, "displayFlushHelper" : 0});
         }
