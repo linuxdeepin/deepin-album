@@ -31,7 +31,10 @@ set_target_properties(unionimage PROPERTIES VERSION 1.0.0 SOVERSION 1)
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 
 qt5_use_modules(unionimage ${QtModule})
-set(PREFIX /usr)
-set(UnionImageDir ${PREFIX}/lib)
 
-install(TARGETS unionimage LIBRARY DESTINATION ${UnionImageDir})
+if (NOT CMAKE_INSTALL_LIBDIR)
+    set(CMAKE_INSTALL_LIBDIR ${CMAKE_INSTALL_PREFIX}/lib)
+endif()
+
+install(TARGETS unionimage LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
