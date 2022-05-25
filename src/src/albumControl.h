@@ -99,6 +99,15 @@ public:
     //判断当前图片是否已收藏
     Q_INVOKABLE bool photoHaveFavorited(const QString &path);
 
+    //一张图片的数据，返回Map
+    Q_INVOKABLE QVariantMap getPathsInfoMap(const QString &path);
+
+    //一张图片的数据，返回List
+    Q_INVOKABLE QStringList getPathsInfoList(const QString &path);
+
+    //一张图片的数据，返回Data
+    Q_INVOKABLE QString getPathsInfoData(const QString &path,const QString &key);
+
 public :
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 

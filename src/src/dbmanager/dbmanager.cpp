@@ -121,15 +121,21 @@ const QList<QDateTime> DBManager::getAllTimelines() const
     return times;
 }
 
-const DBImgInfoList DBManager::getInfosByTimeline(const QDateTime &timeline) const
+const DBImgInfoList DBManager::getInfosByTimeline(const QDateTime &timeline, const ItemType &filterType) const
 {
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
-
-    bool b = m_query->prepare(QString("SELECT FilePath, FileType FROM ImageTable3 "
-                                      "WHERE Time = :Date ORDER BY Time DESC"));
-    m_query->bindValue(":Date", timeline);
+    bool b=false;
+    if(filterType ==ItemTypePic || filterType==ItemTypeVideo){
+        b = m_query->prepare(QString("SELECT FilePath, FileType FROM ImageTable3 "
+                                     "WHERE Time = :Date AND FileType = :Type ORDER BY Time DESC"));
+        m_query->bindValue(":Date", timeline);
+        m_query->bindValue(":Type", filterType);
+    }else {
+        b = m_query->prepare(QString("SELECT FilePath, FileType FROM ImageTable3 "
+                                     "WHERE Time = :Date ORDER BY Time DESC"));
+    }
     if (!b || !m_query->exec()) {
     } else {
         while (m_query->next()) {
@@ -158,15 +164,23 @@ const QList<QDateTime> DBManager::getImportTimelines() const
     return importtimes;
 }
 
-const DBImgInfoList DBManager::getInfosByImportTimeline(const QDateTime &timeline) const
+const DBImgInfoList DBManager::getInfosByImportTimeline(const QDateTime &timeline,const ItemType & filterType ) const
 {
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
+    bool b=false;
+    if(filterType ==ItemTypePic || filterType==ItemTypeVideo){
+        b = m_query->prepare(QString("SELECT FilePath, FileType FROM ImageTable3 "
+                                     "WHERE STRFTIME(\"%Y-%m-%d %H:%M\", ImportTime) = STRFTIME(\"%Y-%m-%d %H:%M\", :Date) AND FileType = :Type ORDER BY Time DESC"));
+        m_query->bindValue(":Date", timeline);
+        m_query->bindValue(":Type", filterType);
+    }else {
+        b = m_query->prepare(QString("SELECT FilePath, FileType FROM ImageTable3 "
+                                     "WHERE STRFTIME(\"%Y-%m-%d %H:%M\", ImportTime) = STRFTIME(\"%Y-%m-%d %H:%M\", :Date) ORDER BY Time DESC"));
+        m_query->bindValue(":Date", timeline);
+    }
 
-    bool b = m_query->prepare(QString("SELECT FilePath, FileType FROM ImageTable3 "
-                                      "WHERE STRFTIME(\"%Y-%m-%d %H:%M\", ImportTime) = STRFTIME(\"%Y-%m-%d %H:%M\", :Date) ORDER BY Time DESC"));
-    m_query->bindValue(":Date", timeline);
     if (!b || !m_query->exec()) {
     } else {
         while (m_query->next()) {

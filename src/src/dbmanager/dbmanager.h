@@ -85,9 +85,9 @@ public:
     const QStringList       getAllPaths() const;
     const DBImgInfoList     getAllInfos(int loadCount = 0) const;
     const QList<QDateTime>  getAllTimelines() const;
-    const DBImgInfoList     getInfosByTimeline(const QDateTime &timeline) const;
+    const DBImgInfoList     getInfosByTimeline(const QDateTime &timeline,const ItemType & filterType = ItemTypeNull ) const;
     const QList<QDateTime>  getImportTimelines() const;
-    const DBImgInfoList     getInfosByImportTimeline(const QDateTime &timeline) const;
+    const DBImgInfoList     getInfosByImportTimeline(const QDateTime &timeline, const ItemType &filterType = ItemTypeNull) const;
 //    const DBImgInfo         getInfoByName(const QString &name) const;
     const DBImgInfo         getInfoByPath(const QString &path) const;
 //    const DBImgInfo         getInfoByPathHash(const QString &pathHash) const;
