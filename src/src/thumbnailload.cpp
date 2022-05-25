@@ -1,6 +1,7 @@
 #include "thumbnailload.h"
 #include "unionimage/unionimage.h"
 #include "configsetter.h"
+#include "imageengine/movieservice.h"
 #include <QPainter>
 
 const QString SETTINGS_GROUP = "Thumbnail";
@@ -330,6 +331,10 @@ QImage ImagePublisher::requestImage(const QString &id, QSize *size, const QSize 
     QImage image;
     LibUnionImage_NameSpace::loadStaticImageFromFile(url.toLocalFile(), image, error);
 
+    //如果是视频，则采用视频加载
+    if( LibUnionImage_NameSpace::isVideo(url.toLocalFile()) ){
+        image = MovieService::instance()->getMovieCover(url);
+    }
     if (m_loadMode == 0) {
         image = clipToRect(image);
     } else { //m_loadMode == 1

@@ -10,7 +10,8 @@ import "../"
 import "../../"
 Item {
     id : thumnailListView
-
+    property var viewTitle
+    property var viewPaths
     //当前区域时间区间改变信号，字符串可以直接刷新在界面上
     signal timeChanged(string str)
 
@@ -44,7 +45,10 @@ Item {
         thumnailListType = newType
     }
 
-
+    //view依赖的model管理器
+    property ListModel thumbnailListModel: ThumbnailListModel {
+        haveImportedPaths : importedGridView.viewPaths
+    }
 
     // 缩略图Item尺寸
     property int itemWidth: 110

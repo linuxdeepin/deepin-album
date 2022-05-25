@@ -79,11 +79,14 @@ Item {
         id: importedListDelegate
 
         Control {
+            id :importControl
             width: theView.width
             height: importedGridView.height + m_topMarign + m_bottomMarign + importedCheckBox.height
             property string m_index: index
             property int m_topMarign: 10 // 已导入列表子项上边距
             property int m_bottomMarign: 10 // 已导入列表子项下边距
+            property var theViewTitle: titleImport[m_index]
+            property var theViewPaths: albumControl.getImportTimelinesTitlePaths(theViewTitle,filterType)
             CheckBox {
                 id: importedCheckBox
                 visible: importedGridView.haveSelect
@@ -97,14 +100,22 @@ Item {
                         importedGridView.selectAll(false)
                     }
                 }
-                text: titleImport[m_index]
+
+            }
+            Label {
+                anchors.left :importedCheckBox.right
+                anchors.top :importedCheckBox.top
+                font: DTK.fontManager.t6
+                id: importedLabel
+                text: titleImport[m_index] +"  共"+theViewPaths.length+"项"
+
             }
 
             //缩略图网格表
             ThumbnailListView {
                 id: importedGridView
-                property var viewTitle: titleImport[m_index]
-                property var viewPaths: albumControl.getImportTimelinesTitlePaths(viewTitle,filterType)
+                viewTitle: theViewTitle
+                viewPaths: theViewPaths
                 anchors.left: parent.left
                 anchors.top: importedCheckBox.bottom
                 anchors.topMargin: m_topMarign
@@ -113,10 +124,7 @@ Item {
                 height: Math.abs(Math.ceil(importedGridView.viewPaths.length / Math.floor((parent.width) / itemWidth)) * itemHeight)
 
                 enableWheel: false
-                //view依赖的model管理器
-                property ListModel thumbnailListModel: ThumbnailListModel {
-                    haveImportedPaths : importedGridView.viewPaths
-                }
+
             }
         }
     }
