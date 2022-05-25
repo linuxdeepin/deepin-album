@@ -309,7 +309,7 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum ,const int &fi
         for(QDateTime time : tmpDateList){
             //获取当前时间照片
             DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByImportTimeline(time);
-            QStringList datelist = time.toString("yyyy.MM.dd.hh.ss").split(".");
+            QStringList datelist = time.toString("yyyy.MM.dd.hh.mm").split(".");
             //加时间线标题
             QString date;
             if (datelist.count() > 4) {
@@ -324,8 +324,13 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum ,const int &fi
                 }
             }
         }
+        //倒序
+        QStringList relist;
+        for(int i = m_importTimeLinePathsMap.keys().count()-1 ; i>=0 ; i--){
+              relist << m_importTimeLinePathsMap.keys().at(i);
+        }
 
-        return m_importTimeLinePathsMap.keys();
+        return relist;
     }
 
     //时间线
@@ -392,8 +397,13 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum ,const int &fi
             }
         }
     }
+    //倒序
+    QStringList relist;
+    for(int i = tmpInfoMap.keys().count()-1 ; i>=0 ; i--){
+          relist << tmpInfoMap.keys().at(i);
+    }
 
-    return tmpInfoMap.keys();
+    return relist;
 }
 
 

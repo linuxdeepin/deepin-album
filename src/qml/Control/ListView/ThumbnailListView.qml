@@ -371,7 +371,11 @@ Item {
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
                          && (theView.ism.length === 1)
                 onTriggered: {
-
+                    //打开图片，显示在选中的那一张
+                     mainStack.sourcePaths = viewPaths
+                     mainStack.currentIndex = theView.ism[0]
+                     global.stackControlCurrent = 1
+                     mainStack.currentWidgetIndex = 1
                 }
             }
 
