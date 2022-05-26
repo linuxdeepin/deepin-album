@@ -67,7 +67,9 @@ Item {
     //存在框选项
     property bool haveSelect: theView.ism.length > 0
     //已框选全部缩略图
-    property bool haveSelectAll : theView.ism.length == thumbnailListModel.count
+    property bool haveSelectAll: theView.ism.length == thumbnailListModel.count
+    // 已选项个数
+    property int haveSelectCount: theView.ism.length
     //缩略图动态变化（-10是右侧的边距）
     property real cellBaseWidth: global.thumbnailSizeLevel >= 0 && global.thumbnailSizeLevel <= 9 ? 80 + global.thumbnailSizeLevel * 10 : 80
     property int  rowSizeHint: (width - 10) / cellBaseWidth
