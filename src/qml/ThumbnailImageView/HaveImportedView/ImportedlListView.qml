@@ -11,7 +11,7 @@ import "../../Control/ListView"
 
 Item {
     id : importedListView
-    property int filterType :filterCombo.currentIndex // 筛选类型，默认为所有
+    property int filterType: filterCombo.currentIndex // 筛选类型，默认为所有
 
     //view依赖的model管理器
     property ListModel importedListModel: ListModel {
@@ -50,10 +50,6 @@ Item {
         }
 
         MouseArea {
-            //按下时的起始坐标
-            property int pressedXAxis: -1
-            property int pressedYAxis: -1
-
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton //仅激活左键
 
@@ -74,16 +70,11 @@ Item {
             onWheel: {
                 // 滚动时，激活滚动条显示
                 vbar.active = true
-                //滚动事件
-                var datla = wheel.angleDelta.y / 2
-                parent.contentY -= datla
-                if(parent.contentY < 0)
-                {
-                    parent.contentY = 0
-                }
-                else if(parent.contentY > parent.contentHeight - parent.height)
-                {
-                    parent.contentY = parent.contentHeight - parent.height
+                var datla = wheel.angleDelta.y
+                if( datla > 0 ) {
+                    vbar.decrease()
+                } else {
+                    vbar.increase()
                 }
             }
         }
@@ -96,18 +87,27 @@ Item {
         Control {
             id :importControl
             width: theView.width
-            height: importedGridView.height + m_topMarign + m_bottomMarign + importedCheckBox.height
+            height: importedGridView.height + m_topMarign + m_bottomMarign + importedCheckBox.height + spaceRect.height
             property string m_index: index
             property int m_topMarign: 10 // 已导入列表子项上边距
             property int m_bottomMarign: 10 // 已导入列表子项下边距
+            property int m_FilterComboOffsetY: 5
+            property int m_spaceCtrlHeight: filterCombo.y + m_FilterComboOffsetY
             property var theViewTitle: theModel.get(index).title //日期标题文本内容
             property var theViewItems: theModel.get(index).items //日期标题对应图片信息链表
+
+            Rectangle {
+                id: spaceRect
+                width: parent.width
+                height: index == 0 ? m_spaceCtrlHeight : 0
+            }
+
             CheckBox {
                 id: importedCheckBox
                 visible: importedGridView.haveSelect
                 checked: importedGridView.haveSelectAll
                 font: DTK.fontManager.t6
-
+                anchors.top: (index == 0 ? spaceRect.bottom : spaceRect.top)
                 onClicked: {
                     if(checked) {
                         importedGridView.selectAll(true)

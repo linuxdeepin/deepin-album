@@ -32,7 +32,8 @@ Rectangle {
     {
         console.info("favorites model has refreshed... filterType:", filterType)
         theView.thumbnailListModel.clear();
-        var favoriteInfos = albumControl.getImportTimelinesTitleInfos(filterType);
+        var favoriteInfos = albumControl.getAlbumInfos(0, filterType);
+        console.info("favorites model has refreshed... filterType:", filterType, " done...")
         for (var key in favoriteInfos) {
             var favoriteItems1 = favoriteInfos[key]
             for (var i = 0; i < favoriteItems1.length; i++) {

@@ -16,6 +16,9 @@ Item {
     property int showBottomY: 80
     property int actionMargin: 9//应用图标距离顶栏
 
+    property int thumbnailViewTitleHieght: 85 // 缩略图视图区域标题显示区域高度
+    property int verticalScrollBarWidth: 15 // 垂直滚动条宽度
+
     property int rightMenuItemHeight: 32//右键菜单item的高度
     property int rightMenuSeparatorHeight: 12//右键菜单分割层的高度
     property bool ctrlPressed: false//记录ctrl键是否按下

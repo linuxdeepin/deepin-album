@@ -345,16 +345,11 @@ Item {
                 if (enableWheel) {
                     // 滚动时，激活滚动条显示
                     vbar.active = true
-                    //滚动事件
-                    var datla = wheel.angleDelta.y / 2
-                    parent.contentY -= datla
-                    if(parent.contentY < 0)
-                    {
-                        parent.contentY = 0
-                    }
-                    else if(parent.contentY > parent.contentHeight - parent.height)
-                    {
-                        parent.contentY = parent.contentHeight - parent.height
+                    var datla = wheel.angleDelta.y
+                    if( datla > 0 ) {
+                        vbar.decrease()
+                    } else {
+                        vbar.increase()
                     }
                 }
             }
