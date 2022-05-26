@@ -41,6 +41,9 @@ public:
     //是否是图片
     Q_INVOKABLE bool isImage(const QString &path);
 
+    //是否是视频
+    Q_INVOKABLE bool isVideo(const QString &path);
+
     //设置壁纸
     Q_INVOKABLE void setWallpaper(const QString &imgPath);
 

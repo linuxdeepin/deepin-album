@@ -241,7 +241,7 @@ Item {
                         var currentPath = thumbnailListModel.get(theView.ism[i]).path
                         if(fileControl.isImage(currentPath)) { //图片
                             haveImage = true
-                        } else if(fileControl.pathExists(currentPath)) { //视频
+                        } else if(fileControl.isVideo(currentPath)) { //视频
                             haveVideo = true
                         }
 

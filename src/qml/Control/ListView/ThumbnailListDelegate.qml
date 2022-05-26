@@ -19,25 +19,84 @@ Rectangle {
     //选中后显示的阴影框
     Rectangle {
         id: selectShader
-        anchors.fill: parent
+        anchors.centerIn: parent
+        width: image.paintedWidth + 14
+        height: image.paintedHeight + 14
         radius: 10
         color: "#AAAAAA"
         visible: theView.ism.indexOf(parent.m_index) !== -1
         opacity: 0.4
     }
 
+    //缩略图本体
     Image {
+        id: image
         source: "image://publisher/" + m_displayFlushHelper + theView.displayFlushHelper.toString() + "_" + m_url
-        //source: m_url
         asynchronous: true
         anchors.centerIn: parent
-        //sourceSize固定下来不要动，否则会疯狂闪烁
-        sourceSize.width:  200
-        sourceSize.height: 200
         width: parent.width - 14
         height: parent.height - 14
         //使用PreserveAspectFit确保在原始比例下不会变形
         fillMode: Image.PreserveAspectFit
         clip: true
+    }
+
+    //收藏图标
+    DciIcon {
+        name: "collected"
+        visible: albumControl.photoHaveFavorited(m_url)
+        anchors.bottom: image.bottom
+        anchors.left: image.left
+        anchors.leftMargin : (image.width - image.paintedWidth) / 2 + 15
+        anchors.bottomMargin : (image.height - image.paintedHeight) / 2 + 15
+    }
+
+    //选中后显示的图标
+    DciIcon {
+        name: "select_active_1"
+        visible: selectShader.visible
+        anchors.top: image.top
+        anchors.right: image.right
+        anchors.topMargin: (image.height - image.paintedHeight) / 2 + 5
+        anchors.rightMargin : (image.width - image.paintedWidth) / 2 + 5
+    }
+
+    DciIcon {
+        name: "Inner_shadow"
+        visible: selectShader.visible
+        anchors.top: image.top
+        anchors.right: image.right
+        anchors.topMargin: (image.height - image.paintedHeight) / 2 + 5
+        anchors.rightMargin : (image.width - image.paintedWidth) / 2 + 5
+    }
+
+    DciIcon {
+        name: "shadow"
+        visible: selectShader.visible
+        anchors.top: image.top
+        anchors.right: image.right
+        anchors.topMargin: (image.height - image.paintedHeight) / 2 + 5
+        anchors.rightMargin : (image.width - image.paintedWidth) / 2 + 5
+    }
+
+    DciIcon {
+        name: "yes"
+        visible: selectShader.visible
+        anchors.top: image.top
+        anchors.right: image.right
+        anchors.topMargin: (image.height - image.paintedHeight) / 2 + 5
+        anchors.rightMargin : (image.width - image.paintedWidth) / 2 + 5
+    }
+
+    //视频时长标签
+    VideoLabel {
+        id: videoLabel
+        visible: fileControl.isVideo(m_url)
+        anchors.bottom: image.bottom
+        anchors.right: image.right
+        anchors.rightMargin : 5
+        anchors.bottomMargin : 5
+        opacity: 0.7
+        displayStr: "1:02:36"
     }
 }

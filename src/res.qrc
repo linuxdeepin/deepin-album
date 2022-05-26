@@ -47,5 +47,9 @@
         <file>dsg/icons/item.dci</file>
         <file>dsg/icons/import_left.dci</file>
         <file>dsg/icons/back_album.dci</file>
+        <file>dsg/icons/select_active_1.dci</file>
+        <file>dsg/icons/Inner_shadow.dci</file>
+        <file>dsg/icons/shadow.dci</file>
+        <file>dsg/icons/yes.dci</file>
     </qresource>
 </RCC>

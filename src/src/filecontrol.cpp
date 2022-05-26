@@ -200,6 +200,11 @@ bool FileControl::isImage(const QString &path)
     return bRet;
 }
 
+bool FileControl::isVideo(const QString &path)
+{
+    return LibUnionImage_NameSpace::isVideo(QUrl(path).toLocalFile());
+}
+
 void FileControl::setWallpaper(const QString &imgPath)
 {
     slotRotatePixCurrent();

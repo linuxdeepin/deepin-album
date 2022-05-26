@@ -293,27 +293,16 @@ QImage ImagePublisher::clipToRect(const QImage &src)
     return tImg;
 }
 
-//将图片缩小并加透明pad，最终将呈现为原始尺寸模式（从图片分类的部署代码里搬运）
+//将图片按比例缩小
 QImage ImagePublisher::addPadAndScaled(const QImage &src)
 {
     auto result = src.convertToFormat(QImage::Format_RGBA8888);
 
-    QImage temp(200, 200, result.format());
-    temp.fill(0);
-    int x = 0;
-    int y = 0;
     if (result.height() > result.width()) {
         result = result.scaledToHeight(200, Qt::SmoothTransformation);
-        x = (200 - result.width()) / 2;
     } else {
         result = result.scaledToWidth(200, Qt::SmoothTransformation);
-        y = (200 - result.height()) / 2;
     }
-    QPainter painter;
-    painter.begin(&temp);
-    painter.drawImage(x, y, result);
-    painter.end();
-    result = temp;
 
     return result;
 }
