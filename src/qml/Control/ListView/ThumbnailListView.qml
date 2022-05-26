@@ -145,9 +145,9 @@ Item {
             }
 
             //2.搜索全域
-            for(var i = startX;i < startX + lenX;i += itemWidth)
+            for(var i = startX;i < searchEndX;i += itemWidth)
             {
-                for(var j = startY;j < startY + lenY;j += itemHeight)
+                for(var j = startY;j < searchEndY;j += itemHeight)
                 {
                     var index = getItemIndexFromAxis(i, j)
                     if(index !== -1 && tempArray.indexOf(index) == -1)
@@ -158,8 +158,8 @@ Item {
             }
 
             //3.搜索右侧边框位置
-            i = startX + lenX
-            for(j = startY;j < startY + lenY;j += itemHeight)
+            i = searchEndX
+            for(j = startY;j < searchEndY;j += itemHeight)
             {
                 index = getItemIndexFromAxis(i, j)
                 if(index !== -1 && tempArray.indexOf(index) == -1)
@@ -169,14 +169,21 @@ Item {
             }
 
             //4.搜索底部边框位置
-            j = startY + lenY
-            for(i = startX;i < startX + lenX;i += itemWidth)
+            j = searchEndY
+            for(i = startX;i < searchEndX;i += itemWidth)
             {
                 index = getItemIndexFromAxis(i, j)
                 if(index !== -1 && tempArray.indexOf(index) == -1)
                 {
                     tempArray.push(index)
                 }
+            }
+
+            //5.额外搜索右下角位置
+            index = getItemIndexFromAxis(searchEndX, searchEndY)
+            if(index !== -1 && tempArray.indexOf(index) == -1)
+            {
+                tempArray.push(index)
             }
 
             //把起始位置的放进来

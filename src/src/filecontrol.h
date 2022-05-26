@@ -167,6 +167,9 @@ public:
     //提供接口，程序是否是相册模式
     Q_INVOKABLE bool isAlbum();
 
+    //检查是否可以接受当前的拖拽导入行为
+    Q_INVOKABLE bool checkMimeUrls(const QList<QUrl> &urls);
+
 signals:
     void callSavePicDone();
 

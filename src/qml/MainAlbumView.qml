@@ -76,4 +76,26 @@ Rectangle {
             setSliderWidgetValue(oldSliderValue)
         }
     }
+
+    //拖拽导入
+    DropArea {
+        anchors.fill: parent
+
+        onDropped: {
+            albumControl.importAllImagesAndVideos(drop.urls)
+        }
+
+        onEntered: {
+            if(drag.hasUrls) {
+                var urls = drag.urls
+                if(fileControl.checkMimeUrls(urls)) {
+                    drag.accepted = true
+                } else {
+                    drag.accepted = false
+                }
+            } else {
+                drag.accepted = false
+            }
+        }
+    }
 }

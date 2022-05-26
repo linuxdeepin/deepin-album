@@ -803,3 +803,26 @@ bool FileControl::dirCanWrite(const QString &path)
     }
     return ret;
 }
+
+bool FileControl::checkMimeUrls(const QList<QUrl> &urls)
+{
+    if (1 > urls.size()) {
+        return false;
+    }
+    QList<QUrl> urlList = urls;
+    for (QUrl url : urlList) {
+        const QString path = url.toLocalFile();
+        QFileInfo fileinfo(path);
+        if (fileinfo.isDir()) {
+            auto finfos = LibUnionImage_NameSpace::getImagesAndVideoInfo(path, false);
+            for (auto finfo : finfos) {
+                if (LibUnionImage_NameSpace::imageSupportRead(finfo.absoluteFilePath()) || LibUnionImage_NameSpace::isVideo(finfo.absoluteFilePath())) {
+                    return true;
+                }
+            }
+        } else if (LibUnionImage_NameSpace::imageSupportRead(path) || LibUnionImage_NameSpace::isVideo(path)) {
+            return true;
+        }
+    }
+    return false;
+}
