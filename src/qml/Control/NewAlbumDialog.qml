@@ -57,18 +57,12 @@ DialogWindow {
         height: 36
         font: DTK.fontManager.t5
         focus: true
-        maximumLength: 255-filesuffix.text.length
+        maximumLength: 255
         validator: RegExpValidator {regExp: /^[^\\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/ }
+        text: qsTr("New Albums")
         selectByMouse: true
 //        alertText: qsTr("The file already exists, please use another name")
 //        showAlert: fileControl.isShowToolTip(source,nameedit.text)
-    }
-
-    Text {
-        id: filesuffix
-        font.pixelSize: 16
-        text: ".jpg"
-        visible: false
     }
 
     Button {
@@ -98,9 +92,9 @@ DialogWindow {
         height: 36
 
         onClicked: {
-
+            albumControl.createAlbum( nameedit.text )
+            changeList=!changeList //通知刷新
             renamedialog.visible = false
-
         }
     }
 
