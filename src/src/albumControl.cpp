@@ -608,20 +608,20 @@ DBImgInfoList AlbumControl::getTrashInfos(const int &filterType)
             list << pinfo;
             allTrashInfos.removeAt(i);
         }
+        if(pinfo.itemType == ItemTypePic ){
+            if(filterType == 2){
+               allTrashInfos.removeAt(i);
+            }
+        } else if(pinfo.itemType == ItemTypeVideo ){
+            if(filterType == 1){
+                allTrashInfos.removeAt(i);
+            }
+        }
     }
     //清理删除时间过长图片
     if (!list.isEmpty()) {
         QStringList image_list;
         for (DBImgInfo info : list) {
-            if(info.itemType == ItemTypePic ){
-                if(filterType == 2){
-                    continue ;
-                }
-            } else if(info.itemType == ItemTypeVideo ){
-                if(filterType == 1){
-                    continue ;
-                }
-            }
             image_list << info.filePath;
         }
         DBManager::instance()->removeTrashImgInfosNoSignal(image_list);
@@ -734,4 +734,73 @@ QString AlbumControl::getPathsInfoData(const QString &path, const QString &key)
         value = info.importTime.toString("yyyy.MM.dd.hh.mm");
     }
     return value;
+}
+
+int AlbumControl::getCustomAlbumInfoConut(const int &albumId, const int &filterType)
+{
+    int rePicVideoConut = 0;
+    DBImgInfoList dbInfoList = DBManager::instance()->getInfosByAlbum(albumId, false);
+    for(DBImgInfo info : dbInfoList){
+        QVariantMap tmpMap;
+        if(info.itemType == ItemTypePic ){
+            if(filterType == 2){
+                continue ;
+          }
+        } else if(info.itemType == ItemTypeVideo ){
+            if(filterType == 1){
+                continue ;
+            }
+        }
+        rePicVideoConut++;
+    }
+    return rePicVideoConut;
+}
+
+int AlbumControl::getAllInfoConut(const int &filterType)
+{
+    ItemType type = ItemTypeNull;
+    if(filterType == 2){
+        type = ItemTypeVideo ;
+    }
+    if(filterType == 1){
+        type = ItemTypePic ;
+    }
+    return DBManager::instance()->getImgsCount(type);
+}
+
+int AlbumControl::getTrashInfoConut(const int &filterType)
+{
+    DBImgInfoList allTrashInfos = DBManager::instance()->getAllTrashInfos_getRemainDays();
+    int reCount = 0 ;
+    DBImgInfoList list;
+    for (int i = allTrashInfos.size() - 1; i >= 0; i--) {
+        DBImgInfo pinfo = allTrashInfos.at(i);
+        if (!QFile::exists(pinfo.filePath) &&
+                !QFile::exists(getDeleteFullPath(pinfo.pathHash, pinfo.getFileNameFromFilePath()))) {
+            allTrashInfos.removeAt(i);
+        } else if (pinfo.remainDays <= 0) {
+            list << pinfo;
+            allTrashInfos.removeAt(i);
+        }
+
+        if(pinfo.itemType == ItemTypePic ){
+            if(filterType == 2){
+                continue ;
+            }
+        } else if(pinfo.itemType == ItemTypeVideo ){
+            if(filterType == 1){
+                continue ;
+            }
+        }
+        reCount++;
+    }
+    //清理删除时间过长图片
+    if (!list.isEmpty()) {
+        QStringList image_list;
+        for (DBImgInfo info : list) {
+            image_list << info.filePath;
+        }
+        DBManager::instance()->removeTrashImgInfosNoSignal(image_list);
+    }
+    return reCount;
 }

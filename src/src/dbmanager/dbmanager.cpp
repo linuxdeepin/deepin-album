@@ -204,16 +204,33 @@ const DBImgInfo DBManager::getInfoByPath(const QString &path) const
     }
 }
 
-int DBManager::getImgsCount() const
+int DBManager::getImgsCount(const ItemType &filterType ) const
 {
     QMutexLocker mutex(&m_dbMutex);
 
     m_query->setForwardOnly(true);
-    if (m_query->exec("SELECT COUNT(*) FROM ImageTable3")) {
-        m_query->first();
-        int count = m_query->value(0).toInt();
-        return count;
+    bool b = false;
+    if(filterType == ItemTypePic || filterType == ItemTypeVideo){
+        b = m_query->prepare(QString("SELECT COUNT(*) FROM ImageTable3 "
+                                     "WHERE FileType = :Type"));
+        m_query->bindValue(":Type", filterType);
+        if (!b || !m_query->exec()) {
+        } else {
+            int count = 0;
+            while (m_query->next()) {
+                DBImgInfo info;
+                count =  m_query->value(0).toInt();
+            }
+            return count;
+        }
+    }else {
+        if (m_query->exec("SELECT COUNT(*) FROM ImageTable3")) {
+            m_query->first();
+            int count = m_query->value(0).toInt();
+            return count;
+        }
     }
+
     return 0;
 }
 

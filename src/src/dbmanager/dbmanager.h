@@ -91,7 +91,7 @@ public:
 //    const DBImgInfo         getInfoByName(const QString &name) const;
     const DBImgInfo         getInfoByPath(const QString &path) const;
 //    const DBImgInfo         getInfoByPathHash(const QString &pathHash) const;
-    int                     getImgsCount() const;
+    int                     getImgsCount(const ItemType &filterType = ItemTypeNull) const;
 //    bool                    isImgExist(const QString &path) const;
     void                    insertImgInfos(const DBImgInfoList &infos);
     void                    insertImgInfo(const DBImgInfo &info);

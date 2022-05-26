@@ -111,6 +111,15 @@ public:
     //一张图片的数据，返回Data
     Q_INVOKABLE QString getPathsInfoData(const QString &path,const QString &key);
 
+    //获得自定义相册图片count 0:我的收藏  1:截图录屏  2:相机 3:画板 4-~:其他自定义,filterType 0:全部 1:图片 2:视频
+    Q_INVOKABLE int getCustomAlbumInfoConut(const int &albumId ,const int &filterType = 0);
+
+    //全部导入的info的count filterType 0:全部 1:图片 2:视频
+    Q_INVOKABLE int getAllInfoConut(const int &filterType = 0);
+
+    //全部最近删除info的count filterType 0:全部 1:图片 2:视频
+    Q_INVOKABLE int getTrashInfoConut(const int &filterType = 0);
+
 public :
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 
