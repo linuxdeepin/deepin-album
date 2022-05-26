@@ -7,18 +7,40 @@ Rectangle {
     height: parent.height
 
     property int filterType : filterCombo.currentIndex // 筛选类型，默认所有
+    // 我的收藏标题栏区域
+    Rectangle {
+        id: favoriteTitleRect
+        width: parent.width - global.verticalScrollBarWidth
+        height: global.thumbnailViewTitleHieght - 10
+        // 我的收藏标签
+        Label {
+            id: myFavoriteLabel
+            anchors.top: parent.top
+            anchors.topMargin: 12
+            anchors.left: parent.left
+            height: 30
+            font: DTK.fontManager.t3
+            text: qsTr("Favorites")
+        }
 
-    // 我的收藏标签
-    Label {
-        id: myFavoriteLabel
-        anchors.top: parent.top
-        anchors.left: parent.left
-        height: 30
-        font: DTK.fontManager.t3
-        text: qsTr("Favorites")
+        Label {
+            id: favoriteNumLabel
+            anchors.top: myFavoriteLabel.bottom
+            anchors.topMargin: 10
+            anchors.left: parent.left
+            font: DTK.fontManager.t6
+            text: 0 + qsTr(" photos") + " " + 0 + qsTr(" videos")
+        }
 
-        color: Qt.rgba(0,0,0)
-
+        // 筛选下拉框
+        FilterComboBox {
+            id: filterCombo
+            anchors.top: myFavoriteLabel.bottom
+            anchors.topMargin: 4
+            anchors.right: parent.right
+            width: 130
+            height: 30
+        }
     }
 
     // 筛选类型改变处理事件
@@ -35,31 +57,21 @@ Rectangle {
         var favoriteInfos = albumControl.getAlbumInfos(0, filterType);
         console.info("favorites model has refreshed... filterType:", filterType, " done...")
         for (var key in favoriteInfos) {
-            var favoriteItems1 = favoriteInfos[key]
-            for (var i = 0; i < favoriteItems1.length; i++) {
-                theView.thumbnailListModel.append(favoriteItems1[i])
+            var favoriteItems = favoriteInfos[key]
+            for (var i = 0; i < favoriteItems.length; i++) {
+                theView.thumbnailListModel.append(favoriteItems[i])
             }
             break;
         }
     }
 
-    // 筛选下拉框
-    FilterComboBox {
-        id: filterCombo
-        anchors.top: parent.top
-        anchors.right: parent.right
-        anchors.rightMargin: 20
-        width: 130
-        height: 30
-    }
-
     // 缩略图列表控件
     ThumbnailListView {
         id: theView
-        anchors.top: myFavoriteLabel.bottom
+        anchors.top: favoriteTitleRect.bottom
         anchors.topMargin: 10
         width: parent.width
-        height: parent.height - myFavoriteLabel.height - m_topMargin - statusBar.height
+        height: parent.height - favoriteTitleRect.height - m_topMargin - statusBar.height
 
         property int m_topMargin: 10
     }
