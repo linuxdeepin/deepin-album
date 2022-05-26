@@ -444,11 +444,43 @@ QVariantMap AlbumControl::getAlbumInfos(const int &albumId, const int &filterTyp
 {
     QVariantMap reMap;
 
-    DBManager::instance()->getInfosByAlbum(albumId, false);
-
     QVariantList list;
     DBImgInfoList dbInfoList = DBManager::instance()->getInfosByAlbum(albumId, false);
     QString title = DBManager::instance()->getAlbumNameFromUID(albumId);
+    for(DBImgInfo info : dbInfoList){
+        QVariantMap tmpMap;
+        if(info.itemType == ItemTypePic ){
+            if(filterType == 2){
+                continue ;
+            }
+            tmpMap.insert("itemType","pciture");
+        } else if(info.itemType == ItemTypeVideo ){
+            if(filterType == 1){
+                continue ;
+            }
+            tmpMap.insert("itemType","video");
+        } else {
+            tmpMap.insert("itemType","other");
+        }
+        tmpMap.insert("url","file://"+info.filePath);
+        tmpMap.insert("filePath",info.filePath);
+        tmpMap.insert("pathHash",info.pathHash);
+        tmpMap.insert("remainDays",info.remainDays);
+        list << tmpMap;
+    }
+    if(list.count() >0){
+        reMap.insert(title , list);
+    }
+    return reMap;
+}
+
+QVariantMap AlbumControl::getTrashAlbumInfos(const int &filterType)
+{
+    QVariantMap reMap;
+
+    QVariantList list;
+    DBImgInfoList dbInfoList = getTrashInfos(filterType);
+    QString title = QObject::tr("Trash");
     for(DBImgInfo info : dbInfoList){
         QVariantMap tmpMap;
         if(info.itemType == ItemTypePic ){
@@ -562,7 +594,7 @@ QString AlbumControl::getCustomAlbumByUid(const int &index)
 }
 
 
-DBImgInfoList AlbumControl::getTrashInfos()
+DBImgInfoList AlbumControl::getTrashInfos(const int &filterType)
 {
     DBImgInfoList allTrashInfos = DBManager::instance()->getAllTrashInfos_getRemainDays();
     QDateTime currentTime = QDateTime::currentDateTime();
@@ -581,6 +613,15 @@ DBImgInfoList AlbumControl::getTrashInfos()
     if (!list.isEmpty()) {
         QStringList image_list;
         for (DBImgInfo info : list) {
+            if(info.itemType == ItemTypePic ){
+                if(filterType == 2){
+                    continue ;
+                }
+            } else if(info.itemType == ItemTypeVideo ){
+                if(filterType == 1){
+                    continue ;
+                }
+            }
             image_list << info.filePath;
         }
         DBManager::instance()->removeTrashImgInfosNoSignal(image_list);

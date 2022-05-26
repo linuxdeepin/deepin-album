@@ -87,8 +87,11 @@ public:
     //获得所有的自定义相册名称
     Q_INVOKABLE QList < QString > getAllCustomAlbumName();
 
-    //获得自定义的相册的全部info  , 0:全部 1:图片 2:视频
+    //获得自定义的相册的全部info  albumId 0:我的收藏  1:截图录屏  2:相机 3:画板 4-~:其他自定义,filterType 0:全部 1:图片 2:视频
     Q_INVOKABLE QVariantMap getAlbumInfos(const int &albumId ,const int &filterType = 0);
+
+    //获得最近删除的相册的全部info  , 0:全部 1:图片 2:视频
+    Q_INVOKABLE QVariantMap getTrashAlbumInfos(const int &filterType = 0);
 
     //添加到自定义相册
     Q_INVOKABLE bool addCustomAlbumInfos(const int &albumId  ,const QList <QUrl> & urls, const int &imoprtType = 0);
@@ -112,7 +115,7 @@ public :
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 
     //获得最近删除的文件
-    DBImgInfoList getTrashInfos();
+    DBImgInfoList getTrashInfos(const int &filterType = 0);
 
     //获得收藏文件
     DBImgInfoList getCollectionInfos();
