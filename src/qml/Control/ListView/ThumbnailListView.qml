@@ -74,6 +74,7 @@ Item {
     property real cellBaseWidth: global.thumbnailSizeLevel >= 0 && global.thumbnailSizeLevel <= 9 ? 80 + global.thumbnailSizeLevel * 10 : 80
     property int  rowSizeHint: (width - 10) / cellBaseWidth
     property real realCellWidth: (width - 10) / rowSizeHint
+
     //缩略图view的本体
     GridView {
         id: theView
@@ -375,8 +376,11 @@ Item {
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
                          && (theView.ism.length === 1)
                 onTriggered: {
-                    //打开图片，显示在选中的那一张
-                     mainStack.sourcePaths = viewPaths
+                    var openPaths = new Array
+                    for(var i=0 ; i< thumbnailListModel.count ; i++){
+                        openPaths.push(thumbnailListModel.get(i).url.toString())
+                    }
+                     mainStack.sourcePaths = openPaths
                      mainStack.currentIndex = theView.ism[0]
                      global.stackControlCurrent = 1
                      mainStack.currentWidgetIndex = 1

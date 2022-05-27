@@ -814,5 +814,5 @@ bool AlbumControl::insertIntoAlbum(int UID, const QStringList &paths)
     for (QString path : paths) {
         localPaths << QUrl(path).toLocalFile();
     }
-    DBManager::instance()->insertIntoAlbum(UID, localPaths, atype);
+    return DBManager::instance()->insertIntoAlbum( UID , localPaths , atype);
 }
