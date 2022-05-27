@@ -28,6 +28,7 @@ Item {
     property var haveImportedPaths //所有导入的图片
 
     property int thumbnailSizeLevel: 0 //缩略图缩放等级
+    property var statusBarNumText //状态栏显示的总数文本内容
 
     signal sigWindowStateChange()
     signal sigThumbnailStateChange()

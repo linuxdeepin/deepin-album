@@ -7,6 +7,20 @@ Rectangle {
     height: parent.height
 
     property int filterType : filterCombo.currentIndex // 筛选类型，默认所有
+    property var photoCountText: albumControl.getCustomAlbumInfoConut(0, 1) > 0 ? qsTr("%1 photos").arg(albumControl.getCustomAlbumInfoConut(0, 1)) : ""
+    property var videoCountText: albumControl.getCustomAlbumInfoConut(0, 2) > 0 ? qsTr("%1 videos").arg(albumControl.getCustomAlbumInfoConut(0, 2)) : ""
+    property var numLabelText: filterType == 0 ? (photoCountText + " " + videoCountText) : (filterType == 1 ? photoCountText : videoCountText)
+    onVisibleChanged: {
+        if (visible) {
+            global.statusBarNumText = numLabelText
+        }
+    }
+    onNumLabelTextChanged: {
+        if (visible) {
+            global.statusBarNumText = numLabelText
+        }
+    }
+
     // 我的收藏标题栏区域
     Rectangle {
         id: favoriteTitleRect
@@ -29,7 +43,7 @@ Rectangle {
             anchors.topMargin: 10
             anchors.left: parent.left
             font: DTK.fontManager.t6
-            text: 0 + qsTr(" photos") + " " + 0 + qsTr(" videos")
+            text: numLabelText
         }
 
         // 筛选下拉框

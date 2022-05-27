@@ -22,7 +22,7 @@ Item {
         Label {
             height: parent.height
             anchors.centerIn: parent
-            text: qsTr("xx张照片 xx个视频")
+            text: global.statusBarNumText
         }
 
         Slider {

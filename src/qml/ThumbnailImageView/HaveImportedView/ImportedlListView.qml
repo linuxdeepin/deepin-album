@@ -21,6 +21,7 @@ Item {
             theModel.clear()
             // 从后台获取所有已导入数据
             var titleInfos = albumControl.getImportTimelinesTitleInfos(filterType);
+            console.log("imported model has refreshed.. filterType:", filterType, " done...")
             for (var key in titleInfos) {
                 theModel.append({"title":key, "items":titleInfos[key]})
             }
