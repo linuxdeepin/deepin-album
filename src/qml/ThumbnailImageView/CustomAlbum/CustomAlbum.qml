@@ -10,7 +10,7 @@ Rectangle {
     property int filterType: filterCombo.currentIndex // 筛选类型，默认所有
     property var photoCountText: albumControl.getCustomAlbumInfoConut(customAlbumUId, 1) > 0 ? qsTr("%1 photos").arg(albumControl.getCustomAlbumInfoConut(customAlbumUId, 1)) : ""
     property var videoCountText: albumControl.getCustomAlbumInfoConut(customAlbumUId, 2) > 0 ? qsTr("%1 videos").arg(albumControl.getCustomAlbumInfoConut(customAlbumUId, 2)) : ""
-    property var numLabelText: filterType == 0 ? (photoCountText + " " + videoCountText) : (filterType == 1 ? photoCountText : videoCountText)
+    property var numLabelText: filterType == 0 ? (photoCountText + (videoCountText !== "" ? (" " + videoCountText) : "")) : (filterType == 1 ? photoCountText : videoCountText)
     onVisibleChanged: {
         if (visible) {
             global.statusBarNumText = numLabelText
@@ -55,6 +55,7 @@ Rectangle {
             anchors.right: parent.right
             width: 130
             height: 30
+            visible: !(numLabelText === "" && filterType === 0)
         }
     }
 
@@ -91,7 +92,19 @@ Rectangle {
         anchors.topMargin: 10
         width: parent.width
         height: parent.height - customAlbumTitleRect.height - m_topMargin - statusBar.height
-
+        visible: numLabelText !== ""
         property int m_topMargin: 10
+    }
+
+    Label {
+        anchors.top: customAlbumTitleRect.bottom
+        anchors.left: parent.left
+        anchors.bottom: theView.bottom
+        anchors.right: parent.right
+        anchors.centerIn: parent
+        visible: numLabelText === "" && filterType > 0
+        font: DTK.fontManager.t4
+        color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
+        text: qsTr("No results")
     }
 }

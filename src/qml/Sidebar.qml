@@ -23,9 +23,6 @@ Rectangle {
             width:parent.width
             id: colum
             spacing: 0
-            //        height: 300
-            ////    anchors.fill: parent
-            //   anchors.centerIn: parent
             anchors.top: parent.top
             anchors.topMargin: 69
             anchors.left: parent.left
@@ -35,7 +32,7 @@ Rectangle {
                 Layout.topMargin: 15
                 id:pictureLabel
                 height: 30
-                text: "照片库"
+                text: qsTr("Gallery")
 
                 color: Qt.rgba(0,0,0,0.3)
                 lineHeight: 20
@@ -55,6 +52,10 @@ Rectangle {
                     backgroundVisible: false
                     onClicked: {
                         global.currentViewIndex = index + 2
+                        // 导航页选中我的收藏时，设定自定相册索引为0，使用CutomAlbum控件按自定义相册界面逻辑显示我的收藏内容
+                        if (global.currentViewIndex == 4) {
+                            global.currentCustomAlbumUId = 0
+                        }
                     }
                     ButtonGroup.group: group
                 }
@@ -64,13 +65,8 @@ Rectangle {
                 spacing: 100
                 Label {
                     id:albumLabel
-                    //        anchors.top: pictureLeftlist.bottom
-                    //        anchors.topMargin: 15
-                    //        anchors.left: parent.left
-                    //        anchors.leftMargin: 20
-
                     height: 30
-                    text: "相册"
+                    text: qsTr("Albums")
                     color: Qt.rgba(0,0,0,0.3)
                 }
 
@@ -107,18 +103,18 @@ Rectangle {
 
                 model: ListModel {
                     ListElement {
-                        name: "Screen Capture"
+                        name: qsTr("Screen Capture")
                         number: "1"
                         iconName :"item"
 
                     }
                     ListElement {
-                        name: "Camera"
+                        name: qsTr("Camera")
                         number: "2"
                         iconName :"item"
                     }
                     ListElement {
-                        name: "Draw"
+                        name: qsTr("Draw")
                         number: "3"
                         iconName :"item"
                     }

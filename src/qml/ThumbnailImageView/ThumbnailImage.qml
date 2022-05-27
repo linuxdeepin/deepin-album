@@ -4,7 +4,6 @@ import QtQuick.Controls 2.4
 import QtQml 2.11
 import "./CollecttionView"
 import "./HaveImportedView"
-import "./MyFavoriteView"
 import "./RecentlyDeletedView"
 import "./CustomAlbum"
 import "./"
@@ -35,7 +34,7 @@ Rectangle{
         anchors.leftMargin: m_leftMargin
         anchors.fill: parent
     }
-    MyFavoriteView{
+    CustomAlbum{
         visible: global.currentViewIndex == 4
         anchors.topMargin: m_topMargin
         anchors.leftMargin: m_leftMargin

@@ -24,7 +24,7 @@ Item {
     property bool ctrlPressed: false//记录ctrl键是否按下
 
     property int currentViewIndex: 0// 0:打开图片界面 1:无图片界面
-    property int currentCustomAlbumUId: 0// 当前自定义相册所在UId
+    property int currentCustomAlbumUId: 0// 当前自定义相册所在UId，0:我的收藏 1:截图录屏 2:相机 3:画板 其他:自定义相册
     property int stackControlCurrent: 0// 0:相册界面 1:看图界面
     property var haveImportedPaths //所有导入的图片
 

@@ -2,23 +2,23 @@ import QtQuick 2.0
 
 ListModel {
     ListElement {
-        name: "合集"
+        name: qsTr("Collection")
         number: "0"
         iconName :"images"
 
     }
     ListElement {
-        name: "已经导入"
+        name: qsTr("Import")
         number: "1"
         iconName :"import_left"
     }
     ListElement {
-        name: "我的收藏"
+        name: qsTr("Favorites")
         number: "2"
         iconName :"collection"
     }
     ListElement {
-        name: "最近删除"
+        name: qsTr("Trash")
         number: "3"
         iconName :"trash"
     }

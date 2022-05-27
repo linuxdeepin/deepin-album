@@ -603,6 +603,10 @@ QList < QString > AlbumControl::getAllCustomAlbumName()
 
 QString AlbumControl::getCustomAlbumByUid(const int &index)
 {
+    // 从数据获取我的收藏单词不对，为保证V20数据库兼容性，在此做特殊特殊处理
+    if (0 == index)
+        return "Favorites";
+
     return DBManager::instance()->getAlbumNameFromUID(index);
 }
 
