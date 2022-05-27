@@ -8,7 +8,7 @@ Rectangle {
 
     property int filterType : filterCombo.currentIndex // 筛选类型，默认所有
     property var photoCountText: albumControl.getTrashInfoConut(1) > 0 ? qsTr("%1 photos").arg(albumControl.getTrashInfoConut(1)) : ""
-    property var videoCountText: albumControl.getTrashInfoConut(1) > 0 ? qsTr("%1 videos").arg(albumControl.getTrashInfoConut(2)) : ""
+    property var videoCountText: albumControl.getTrashInfoConut(2) > 0 ? qsTr("%1 videos").arg(albumControl.getTrashInfoConut(2)) : ""
     property var numLabelText: filterType == 0 ? (photoCountText + " " + videoCountText) : (filterType == 1 ? photoCountText : videoCountText)
     onVisibleChanged: {
         if (visible) {

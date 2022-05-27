@@ -63,7 +63,7 @@ QStringList AlbumControl::getAllPaths()
 {
     QStringList pathList;
     QStringList list = DBManager::instance()->getAllPaths();
-    for(QString path : list){
+    for (QString path : list) {
         pathList << "file://" + path;
     }
     return pathList;
@@ -73,11 +73,11 @@ void AlbumControl::importAllImagesAndVideos(const QList< QUrl > &paths)
 {
     QStringList localpaths;
     DBImgInfoList dbInfos;
-    for(QUrl path : paths){
+    for (QUrl path : paths) {
         localpaths << path.toLocalFile();
     }
     QStringList curAlbumImgPathList = getAllPaths();
-    for(QString imagePath : localpaths){
+    for (QString imagePath : localpaths) {
         bool bIsVideo = LibUnionImage_NameSpace::isVideo(imagePath);
         if (!bIsVideo && !LibUnionImage_NameSpace::imageSupportRead(imagePath)) {
             continue;
@@ -104,14 +104,14 @@ void AlbumControl::importAllImagesAndVideos(const QList< QUrl > &paths)
 
 QStringList AlbumControl::getAllTimelinesTitle(const int &filterType)
 {
-    return getTimelinesTitle(TimeLineEnum::All,filterType);
+    return getTimelinesTitle(TimeLineEnum::All, filterType);
 }
 
-QStringList AlbumControl::getTimelinesTitlePaths(const QString &titleName , const int &filterType )
+QStringList AlbumControl::getTimelinesTitlePaths(const QString &titleName, const int &filterType)
 {
     QStringList pathsList;
     DBImgInfoList dblist;
-    if(m_yearDateMap.keys().contains(titleName)){
+    if (m_yearDateMap.keys().contains(titleName)) {
         dblist = m_yearDateMap.value(titleName);
     } else if (m_monthDateMap.keys().contains(titleName)) {
         dblist = m_monthDateMap.value(titleName);
@@ -120,53 +120,52 @@ QStringList AlbumControl::getTimelinesTitlePaths(const QString &titleName , cons
     } else {
         dblist = m_timeLinePathsMap.value(titleName);
     }
-    for(DBImgInfo info : dblist){
-        if(filterType == 2 && info.itemType == ItemTypePic){
+    for (DBImgInfo info : dblist) {
+        if (filterType == 2 && info.itemType == ItemTypePic) {
             continue ;
-        } else if(filterType == 1 && info.itemType == ItemTypeVideo){
+        } else if (filterType == 1 && info.itemType == ItemTypeVideo) {
             continue ;
         }
-        pathsList << "file://" +info.filePath;
+        pathsList << "file://" + info.filePath;
     }
     return pathsList;
 }
 
 QStringList AlbumControl::getAllImportTimelinesTitle(const int &filterType)
 {
-     return getTimelinesTitle(TimeLineEnum::Import,filterType);
+    return getTimelinesTitle(TimeLineEnum::Import, filterType);
 }
 
 QVariantMap AlbumControl::getTimelinesTitleInfos(const int &filterType)
 {
     QVariantMap reMap;
-    QStringList alltitles =  getTimelinesTitle(TimeLineEnum::All,filterType);
-    for(QString titleName : alltitles)
-    {
+    QStringList alltitles =  getTimelinesTitle(TimeLineEnum::All, filterType);
+    for (QString titleName : alltitles) {
         QVariantList list;
         DBImgInfoList dbInfoList = m_timeLinePathsMap.value(titleName);
-        for(DBImgInfo info : dbInfoList){
+        for (DBImgInfo info : dbInfoList) {
             QVariantMap tmpMap;
-            if(info.itemType == ItemTypePic ){
-                if(filterType == 2){
+            if (info.itemType == ItemTypePic) {
+                if (filterType == 2) {
                     continue ;
                 }
-                tmpMap.insert("itemType","pciture");
-            } else if(info.itemType == ItemTypeVideo ){
-                if(filterType == 1){
+                tmpMap.insert("itemType", "pciture");
+            } else if (info.itemType == ItemTypeVideo) {
+                if (filterType == 1) {
                     continue ;
                 }
-                tmpMap.insert("itemType","video");
+                tmpMap.insert("itemType", "video");
             } else {
-                tmpMap.insert("itemType","other");
+                tmpMap.insert("itemType", "other");
             }
-            tmpMap.insert("url","file://"+info.filePath);
-            tmpMap.insert("filePath",info.filePath);
-            tmpMap.insert("pathHash",info.pathHash);
-            tmpMap.insert("remainDays",info.remainDays);
+            tmpMap.insert("url", "file://" + info.filePath);
+            tmpMap.insert("filePath", info.filePath);
+            tmpMap.insert("pathHash", info.pathHash);
+            tmpMap.insert("remainDays", info.remainDays);
             list << tmpMap;
         }
-        if(list.count() >0){
-            reMap.insert(titleName,list);
+        if (list.count() > 0) {
+            reMap.insert(titleName, list);
         }
     }
     return reMap;
@@ -175,40 +174,39 @@ QVariantMap AlbumControl::getTimelinesTitleInfos(const int &filterType)
 
 QStringList AlbumControl::getYearTimelinesTitle(const int &filterType)
 {
-    return getTimelinesTitle(TimeLineEnum::Year,filterType);
+    return getTimelinesTitle(TimeLineEnum::Year, filterType);
 }
 
 QVariantMap AlbumControl::getYearTimelinesInfos(const int &filterType)
 {
     QVariantMap reMap;
-    QStringList alltitles =  getTimelinesTitle(TimeLineEnum::Year,filterType);
-    for(QString titleName : alltitles)
-    {
+    QStringList alltitles =  getTimelinesTitle(TimeLineEnum::Year, filterType);
+    for (QString titleName : alltitles) {
         QVariantList list;
         DBImgInfoList dbInfoList = m_yearDateMap.value(titleName);
-        for(DBImgInfo info : dbInfoList){
+        for (DBImgInfo info : dbInfoList) {
             QVariantMap tmpMap;
-            if(info.itemType == ItemTypePic ){
-                if(filterType == 2){
+            if (info.itemType == ItemTypePic) {
+                if (filterType == 2) {
                     continue ;
                 }
-                tmpMap.insert("itemType","pciture");
-            } else if(info.itemType == ItemTypeVideo ){
-                if(filterType == 1){
+                tmpMap.insert("itemType", "pciture");
+            } else if (info.itemType == ItemTypeVideo) {
+                if (filterType == 1) {
                     continue ;
                 }
-                tmpMap.insert("itemType","video");
+                tmpMap.insert("itemType", "video");
             } else {
-                tmpMap.insert("itemType","other");
+                tmpMap.insert("itemType", "other");
             }
-            tmpMap.insert("url","file://"+info.filePath);
-            tmpMap.insert("filePath",info.filePath);
-            tmpMap.insert("pathHash",info.pathHash);
-            tmpMap.insert("remainDays",info.remainDays);
+            tmpMap.insert("url", "file://" + info.filePath);
+            tmpMap.insert("filePath", info.filePath);
+            tmpMap.insert("pathHash", info.pathHash);
+            tmpMap.insert("remainDays", info.remainDays);
             list << tmpMap;
         }
-        if(list.count() >0){
-            reMap.insert(titleName,list);
+        if (list.count() > 0) {
+            reMap.insert(titleName, list);
         }
     }
     return reMap;
@@ -216,120 +214,118 @@ QVariantMap AlbumControl::getYearTimelinesInfos(const int &filterType)
 
 QStringList AlbumControl::getMonthTimelinesTitle(const int &filterType)
 {
-    return getTimelinesTitle(TimeLineEnum::Month,filterType);
+    return getTimelinesTitle(TimeLineEnum::Month, filterType);
 }
 
 QVariantMap AlbumControl::getMonthTimelinesInfos(const int &filterType)
 {
     QVariantMap reMap;
-    QStringList alltitles =  getTimelinesTitle(TimeLineEnum::Month,filterType);
-    for(QString titleName : alltitles)
-    {
+    QStringList alltitles =  getTimelinesTitle(TimeLineEnum::Month, filterType);
+    for (QString titleName : alltitles) {
         QVariantList list;
         DBImgInfoList dbInfoList = m_monthDateMap.value(titleName);
-        for(DBImgInfo info : dbInfoList){
+        for (DBImgInfo info : dbInfoList) {
             QVariantMap tmpMap;
-            if(info.itemType == ItemTypePic ){
-                if(filterType == 2){
+            if (info.itemType == ItemTypePic) {
+                if (filterType == 2) {
                     continue ;
                 }
-                tmpMap.insert("itemType","pciture");
-            } else if(info.itemType == ItemTypeVideo ){
-                if(filterType == 1){
+                tmpMap.insert("itemType", "pciture");
+            } else if (info.itemType == ItemTypeVideo) {
+                if (filterType == 1) {
                     continue ;
                 }
-                tmpMap.insert("itemType","video");
+                tmpMap.insert("itemType", "video");
             } else {
-                tmpMap.insert("itemType","other");
+                tmpMap.insert("itemType", "other");
             }
-            tmpMap.insert("url","file://"+info.filePath);
-            tmpMap.insert("filePath",info.filePath);
-            tmpMap.insert("pathHash",info.pathHash);
-            tmpMap.insert("remainDays",info.remainDays);
+            tmpMap.insert("url", "file://" + info.filePath);
+            tmpMap.insert("filePath", info.filePath);
+            tmpMap.insert("pathHash", info.pathHash);
+            tmpMap.insert("remainDays", info.remainDays);
             list << tmpMap;
         }
-        if(list.count() >0){
-            reMap.insert(titleName,list);
+        if (list.count() > 0) {
+            reMap.insert(titleName, list);
         }
     }
     return reMap;
 }
 
-QStringList AlbumControl::getDayTimelinesTitle(const int &filterType )
+QStringList AlbumControl::getDayTimelinesTitle(const int &filterType)
 {
-    return getTimelinesTitle(TimeLineEnum::Day,filterType);
+    return getTimelinesTitle(TimeLineEnum::Day, filterType);
 }
 
 QVariantMap AlbumControl::getDayTimelinesInfos(const int &filterType)
 {
     QVariantMap reMap;
-    QStringList alltitles =  getTimelinesTitle(TimeLineEnum::Day,filterType);
-    for(QString titleName : alltitles)
-    {
+    QStringList alltitles =  getTimelinesTitle(TimeLineEnum::Day, filterType);
+    for (QString titleName : alltitles) {
         QVariantList list;
         DBImgInfoList dbInfoList = m_dayDateMap.value(titleName);
-        for(DBImgInfo info : dbInfoList){
+        for (DBImgInfo info : dbInfoList) {
             QVariantMap tmpMap;
-            if(info.itemType == ItemTypePic ){
-                if(filterType == 2){
+            if (info.itemType == ItemTypePic) {
+                if (filterType == 2) {
                     continue ;
                 }
-                tmpMap.insert("itemType","pciture");
-            } else if(info.itemType == ItemTypeVideo ){
-                if(filterType == 1){
+                tmpMap.insert("itemType", "pciture");
+            } else if (info.itemType == ItemTypeVideo) {
+                if (filterType == 1) {
                     continue ;
                 }
-                tmpMap.insert("itemType","video");
+                tmpMap.insert("itemType", "video");
             } else {
-                tmpMap.insert("itemType","other");
+                tmpMap.insert("itemType", "other");
             }
-            tmpMap.insert("url","file://"+info.filePath);
-            tmpMap.insert("filePath",info.filePath);
-            tmpMap.insert("pathHash",info.pathHash);
-            tmpMap.insert("remainDays",info.remainDays);
+            tmpMap.insert("url", "file://" + info.filePath);
+            tmpMap.insert("filePath", info.filePath);
+            tmpMap.insert("pathHash", info.pathHash);
+            tmpMap.insert("remainDays", info.remainDays);
             list << tmpMap;
         }
-        if(list.count() >0){
-            reMap.insert(titleName,list);
+        if (list.count() > 0) {
+            reMap.insert(titleName, list);
         }
     }
     return reMap;
 }
 
-QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum ,const int &filterType)
+QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum, const int &filterType)
 {
     //设置需要查询的图片视频或者是全部
     ItemType typeItem = ItemType::ItemTypeNull;
-    if(filterType == 1){
-        typeItem=ItemType::ItemTypePic;
-    }else if(filterType == 2){
-        typeItem=ItemType::ItemTypeVideo;
+    if (filterType == 1) {
+        typeItem = ItemType::ItemTypePic;
+    } else if (filterType == 2) {
+        typeItem = ItemType::ItemTypeVideo;
     }
     //已导入
-    if(timeEnum == Import){
+    if (timeEnum == Import) {
         QStringList list;
         m_importTimelines = DBManager::instance()->getImportTimelines();
         m_importTimeLinePathsMap.clear();
         QList<QDateTime> tmpDateList = m_importTimelines ;
 
-        for(QDateTime time : tmpDateList){
+        for (QDateTime time : tmpDateList) {
             //获取当前时间照片
-            DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByImportTimeline(time,typeItem);
+            DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByImportTimeline(time, typeItem);
             QStringList datelist = time.toString("yyyy.MM.dd.hh.mm").split(".");
             //加时间线标题
             QString date;
             if (datelist.count() > 4) {
-                if(ImgInfoList.size()>0){
+                if (ImgInfoList.size() > 0) {
                     date = QString(QObject::tr("%1/%2/%3/%4/%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]);
-                    m_importTimeLinePathsMap.insertMulti(date,ImgInfoList);
+                    m_importTimeLinePathsMap.insertMulti(date, ImgInfoList);
                 }
 
             }
         }
         //倒序
         QStringList relist;
-        for(int i = m_importTimeLinePathsMap.keys().count()-1 ; i>=0 ; i--){
-              relist << m_importTimeLinePathsMap.keys().at(i);
+        for (int i = m_importTimeLinePathsMap.keys().count() - 1 ; i >= 0 ; i--) {
+            relist << m_importTimeLinePathsMap.keys().at(i);
         }
 
         return relist;
@@ -340,9 +336,9 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum ,const int &fi
     QMap < QString, DBImgInfoList > tmpInfoMap;
     QList<QDateTime> tmpDateList = m_timelines ;
 
-    for(QDateTime time : tmpDateList){
+    for (QDateTime time : tmpDateList) {
         //获取当前时间照片
-        DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByTimeline(time,typeItem);
+        DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByTimeline(time, typeItem);
         QStringList datelist = time.toString("yyyy.MM.dd.hh.mm").split(".");
         //加时间线标题
         QString date;
@@ -351,26 +347,26 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum ,const int &fi
 
             switch (timeEnum) {
             case TimeLineEnum::Year :
-                if( ImgInfoList.size()>0 ){
-                    tmpInfoMap.insertMulti(QString(QObject::tr("%1/").arg(datelist[0])),ImgInfoList);
+                if (ImgInfoList.size() > 0) {
+                    tmpInfoMap.insertMulti(QString(QObject::tr("%1/").arg(datelist[0])), ImgInfoList);
                 }
                 m_yearDateMap = tmpInfoMap;
                 break;
             case TimeLineEnum::Month :
-                if( ImgInfoList.size()>0 ){
-                    tmpInfoMap.insertMulti(QString(QObject::tr("%1/%2").arg(datelist[0]).arg(datelist[1])),ImgInfoList);
+                if (ImgInfoList.size() > 0) {
+                    tmpInfoMap.insertMulti(QString(QObject::tr("%1/%2").arg(datelist[0]).arg(datelist[1])), ImgInfoList);
                 }
                 m_monthDateMap = tmpInfoMap;
                 break;
             case TimeLineEnum::Day :
-                if( ImgInfoList.size()>0 ){
-                    tmpInfoMap.insertMulti(QString(QObject::tr("%1/%2/%3").arg(datelist[0]).arg(datelist[1]).arg(datelist[2])),ImgInfoList);
+                if (ImgInfoList.size() > 0) {
+                    tmpInfoMap.insertMulti(QString(QObject::tr("%1/%2/%3").arg(datelist[0]).arg(datelist[1]).arg(datelist[2])), ImgInfoList);
                 }
                 m_dayDateMap = tmpInfoMap;
                 break;
             case TimeLineEnum::All :
-                if( ImgInfoList.size()>0 ){
-                    tmpInfoMap.insertMulti(QString(QObject::tr("%1/%2/%3/%4/%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]) ,ImgInfoList);
+                if (ImgInfoList.size() > 0) {
+                    tmpInfoMap.insertMulti(QString(QObject::tr("%1/%2/%3/%4/%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]), ImgInfoList);
                 }
                 m_timeLinePathsMap = tmpInfoMap;
                 break;
@@ -381,25 +377,25 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum ,const int &fi
     }
     //倒序
     QStringList relist;
-    for(int i = tmpInfoMap.keys().count()-1 ; i>=0 ; i--){
-          relist << tmpInfoMap.keys().at(i);
+    for (int i = tmpInfoMap.keys().count() - 1 ; i >= 0 ; i--) {
+        relist << tmpInfoMap.keys().at(i);
     }
 
     return relist;
 }
 
 
-QStringList AlbumControl::getImportTimelinesTitlePaths(const QString &titleName , const int &filterType )
+QStringList AlbumControl::getImportTimelinesTitlePaths(const QString &titleName, const int &filterType)
 {
     QStringList pathsList;
     DBImgInfoList dbInfoList = m_importTimeLinePathsMap.value(titleName);
-    for(DBImgInfo info : dbInfoList){
-        if(filterType == 2 && info.itemType == ItemTypePic){
+    for (DBImgInfo info : dbInfoList) {
+        if (filterType == 2 && info.itemType == ItemTypePic) {
             continue ;
-        } else if(filterType == 1 && info.itemType == ItemTypeVideo){
+        } else if (filterType == 1 && info.itemType == ItemTypeVideo) {
             continue ;
         }
-        pathsList << "file://" +info.filePath;
+        pathsList << "file://" + info.filePath;
     }
     return pathsList;
 }
@@ -408,33 +404,32 @@ QVariantMap AlbumControl::getImportTimelinesTitleInfos(const int &filterType)
 {
     QVariantMap reMap;
     QStringList alltitles = getAllImportTimelinesTitle(filterType);
-    for(QString titleName : alltitles)
-    {
+    for (QString titleName : alltitles) {
         QVariantList list;
         DBImgInfoList dbInfoList = m_importTimeLinePathsMap.value(titleName);
-        for(DBImgInfo info : dbInfoList){
+        for (DBImgInfo info : dbInfoList) {
             QVariantMap tmpMap;
-            if(info.itemType == ItemTypePic ){
-                if(filterType == 2){
+            if (info.itemType == ItemTypePic) {
+                if (filterType == 2) {
                     continue ;
                 }
-                tmpMap.insert("itemType","pciture");
-            } else if(info.itemType == ItemTypeVideo ){
-                if(filterType == 1){
+                tmpMap.insert("itemType", "pciture");
+            } else if (info.itemType == ItemTypeVideo) {
+                if (filterType == 1) {
                     continue ;
                 }
-                tmpMap.insert("itemType","video");
+                tmpMap.insert("itemType", "video");
             } else {
-                tmpMap.insert("itemType","other");
+                tmpMap.insert("itemType", "other");
             }
-            tmpMap.insert("url","file://"+info.filePath);
-            tmpMap.insert("filePath",info.filePath);
-            tmpMap.insert("pathHash",info.pathHash);
-            tmpMap.insert("remainDays",info.remainDays);
+            tmpMap.insert("url", "file://" + info.filePath);
+            tmpMap.insert("filePath", info.filePath);
+            tmpMap.insert("pathHash", info.pathHash);
+            tmpMap.insert("remainDays", info.remainDays);
             list << tmpMap;
         }
-        if(list.count() >0){
-            reMap.insert(titleName,list);
+        if (list.count() > 0) {
+            reMap.insert(titleName, list);
         }
     }
     return reMap;
@@ -447,29 +442,29 @@ QVariantMap AlbumControl::getAlbumInfos(const int &albumId, const int &filterTyp
     QVariantList list;
     DBImgInfoList dbInfoList = DBManager::instance()->getInfosByAlbum(albumId, false);
     QString title = DBManager::instance()->getAlbumNameFromUID(albumId);
-    for(DBImgInfo info : dbInfoList){
+    for (DBImgInfo info : dbInfoList) {
         QVariantMap tmpMap;
-        if(info.itemType == ItemTypePic ){
-            if(filterType == 2){
+        if (info.itemType == ItemTypePic) {
+            if (filterType == 2) {
                 continue ;
             }
-            tmpMap.insert("itemType","pciture");
-        } else if(info.itemType == ItemTypeVideo ){
-            if(filterType == 1){
+            tmpMap.insert("itemType", "pciture");
+        } else if (info.itemType == ItemTypeVideo) {
+            if (filterType == 1) {
                 continue ;
             }
-            tmpMap.insert("itemType","video");
+            tmpMap.insert("itemType", "video");
         } else {
-            tmpMap.insert("itemType","other");
+            tmpMap.insert("itemType", "other");
         }
-        tmpMap.insert("url","file://"+info.filePath);
-        tmpMap.insert("filePath",info.filePath);
-        tmpMap.insert("pathHash",info.pathHash);
-        tmpMap.insert("remainDays",info.remainDays);
+        tmpMap.insert("url", "file://" + info.filePath);
+        tmpMap.insert("filePath", info.filePath);
+        tmpMap.insert("pathHash", info.pathHash);
+        tmpMap.insert("remainDays", info.remainDays);
         list << tmpMap;
     }
-    if(list.count() >0){
-        reMap.insert(title , list);
+    if (list.count() > 0) {
+        reMap.insert(title, list);
     }
     return reMap;
 }
@@ -481,29 +476,29 @@ QVariantMap AlbumControl::getTrashAlbumInfos(const int &filterType)
     QVariantList list;
     DBImgInfoList dbInfoList = getTrashInfos(filterType);
     QString title = QObject::tr("Trash");
-    for(DBImgInfo info : dbInfoList){
+    for (DBImgInfo info : dbInfoList) {
         QVariantMap tmpMap;
-        if(info.itemType == ItemTypePic ){
-            if(filterType == 2){
+        if (info.itemType == ItemTypePic) {
+            if (filterType == 2) {
                 continue ;
             }
-            tmpMap.insert("itemType","pciture");
-        } else if(info.itemType == ItemTypeVideo ){
-            if(filterType == 1){
+            tmpMap.insert("itemType", "pciture");
+        } else if (info.itemType == ItemTypeVideo) {
+            if (filterType == 1) {
                 continue ;
             }
-            tmpMap.insert("itemType","video");
+            tmpMap.insert("itemType", "video");
         } else {
-            tmpMap.insert("itemType","other");
+            tmpMap.insert("itemType", "other");
         }
-        tmpMap.insert("url","file://"+info.filePath);
-        tmpMap.insert("filePath",info.filePath);
-        tmpMap.insert("pathHash",info.pathHash);
-        tmpMap.insert("remainDays",info.remainDays);
+        tmpMap.insert("url", "file://" + info.filePath);
+        tmpMap.insert("filePath", info.filePath);
+        tmpMap.insert("pathHash", info.pathHash);
+        tmpMap.insert("remainDays", info.remainDays);
         list << tmpMap;
     }
-    if(list.count() >0){
-        reMap.insert(title , list);
+    if (list.count() > 0) {
+        reMap.insert(title, list);
     }
     return reMap;
 }
@@ -514,18 +509,18 @@ bool AlbumControl::addCustomAlbumInfos(const int &albumId, const QList<QUrl> &ur
 
     bool bRet = false;
     QStringList paths;
-    for(QUrl url : urls){
+    for (QUrl url : urls) {
         paths << url.toLocalFile();
     }
     AlbumDBType atype;
-    if(albumId == 0 ){
+    if (albumId == 0) {
         atype = Favourite;
-    }else if(albumId < 4){
+    } else if (albumId < 4) {
         atype = AutoImport;
-    }else {
+    } else {
         atype = Custom;
     }
-    bRet = DBManager::instance()->insertIntoAlbum( albumId , paths , atype );
+    bRet = DBManager::instance()->insertIntoAlbum(albumId, paths, atype);
     return bRet;
 }
 
@@ -537,42 +532,42 @@ int AlbumControl::getCount()
 void AlbumControl::insertTrash(const QList< QUrl > &paths)
 {
     QStringList tmpList;
-    for(QUrl url : paths){
+    for (QUrl url : paths) {
         tmpList << url.toLocalFile();
     }
     DBImgInfoList infos;
-    for(QString path : tmpList){
+    for (QString path : tmpList) {
         infos << DBManager::instance()->getInfoByPath(path);
     }
-    DBManager::instance()->insertTrashImgInfos(infos,false);
+    DBManager::instance()->insertTrashImgInfos(infos, false);
 }
 
 void AlbumControl::removeTrashImgInfos(const QList< QUrl > &paths)
 {
     QStringList localPaths ;
-    for(QUrl path : paths){
+    for (QUrl path : paths) {
         localPaths << path.toLocalFile();
     }
-    DBManager::instance()->removeTrashImgInfos(localPaths );
+    DBManager::instance()->removeTrashImgInfos(localPaths);
 }
 
 QStringList AlbumControl::recoveryImgFromTrash(const QStringList &paths)
 {
     QStringList localPaths ;
-    for(QUrl path : paths){
+    for (QUrl path : paths) {
         localPaths << path.toLocalFile();
     }
-    return DBManager::instance()->recoveryImgFromTrash(localPaths );
+    return DBManager::instance()->recoveryImgFromTrash(localPaths);
 }
 
 void AlbumControl::insertCollection(const QList< QUrl > &paths)
 {
     QStringList tmpList;
-    for(QUrl url : paths){
+    for (QUrl url : paths) {
         tmpList << url.toLocalFile();
     }
     DBImgInfoList infos;
-    for(QString path : tmpList){
+    for (QString path : tmpList) {
         infos << DBManager::instance()->getInfoByPath(path);
     }
 }
@@ -586,10 +581,10 @@ void AlbumControl::createAlbum(const QString &newName)
 
 QList < int > AlbumControl::getAllCustomAlbumId()
 {
-    QMap < int ,QString > customAlbum;
+    QMap < int, QString > customAlbum;
     QList<std::pair<int, QString>>  tmpList = DBManager::instance()->getAllAlbumNames(Custom);
-    for( std::pair<int, QString> tmpPair :tmpList){
-       customAlbum.insert(tmpPair.first,tmpPair.second);
+    for (std::pair<int, QString> tmpPair : tmpList) {
+        customAlbum.insert(tmpPair.first, tmpPair.second);
     }
     m_customAlbum = customAlbum;
     return customAlbum.keys();
@@ -597,10 +592,10 @@ QList < int > AlbumControl::getAllCustomAlbumId()
 
 QList < QString > AlbumControl::getAllCustomAlbumName()
 {
-    QMap < int ,QString > customAlbum;
+    QMap < int, QString > customAlbum;
     QList<std::pair<int, QString>>  tmpList = DBManager::instance()->getAllAlbumNames(Custom);
-    for( std::pair<int, QString> tmpPair :tmpList){
-       customAlbum.insert(tmpPair.first,tmpPair.second);
+    for (std::pair<int, QString> tmpPair : tmpList) {
+        customAlbum.insert(tmpPair.first, tmpPair.second);
     }
     m_customAlbum = customAlbum;
     return customAlbum.values();
@@ -625,13 +620,12 @@ DBImgInfoList AlbumControl::getTrashInfos(const int &filterType)
         } else if (pinfo.remainDays <= 0) {
             list << pinfo;
             allTrashInfos.removeAt(i);
-        }
-        if(pinfo.itemType == ItemTypePic ){
-            if(filterType == 2){
-               allTrashInfos.removeAt(i);
+        } else if (pinfo.itemType == ItemTypePic) {
+            if (filterType == 2) {
+                allTrashInfos.removeAt(i);
             }
-        } else if(pinfo.itemType == ItemTypeVideo ){
-            if(filterType == 1){
+        } else if (pinfo.itemType == ItemTypeVideo) {
+            if (filterType == 1) {
                 allTrashInfos.removeAt(i);
             }
         }
@@ -690,16 +684,16 @@ QVariantMap AlbumControl::getPathsInfoMap(const QString &path)
     QVariantMap reMap;
     QString localPath = QUrl(path).toLocalFile();
     DBImgInfo info = DBManager::instance()->getInfoByPath(localPath);
-    reMap.insert("url","file://"+info.filePath);
-    reMap.insert("filePath",info.filePath);
-    reMap.insert("pathHash",info.pathHash);
-    reMap.insert("remainDays",info.remainDays);
-    if(info.itemType == ItemTypePic ){
-        reMap.insert("itemType","pciture");
-    } else if(info.itemType == ItemTypeVideo ){
-        reMap.insert("itemType","video");
+    reMap.insert("url", "file://" + info.filePath);
+    reMap.insert("filePath", info.filePath);
+    reMap.insert("pathHash", info.pathHash);
+    reMap.insert("remainDays", info.remainDays);
+    if (info.itemType == ItemTypePic) {
+        reMap.insert("itemType", "pciture");
+    } else if (info.itemType == ItemTypeVideo) {
+        reMap.insert("itemType", "video");
     } else {
-        reMap.insert("itemType","other");
+        reMap.insert("itemType", "other");
     }
     return reMap;
 }
@@ -709,13 +703,13 @@ QStringList AlbumControl::getPathsInfoList(const QString &path)
     QStringList reList;
     QString localPath = QUrl(path).toLocalFile();
     DBImgInfo info = DBManager::instance()->getInfoByPath(localPath);
-    reList << "file://" +info.filePath;
+    reList << "file://" + info.filePath;
     reList << info.filePath ;
     reList << info.pathHash ;
     reList << QString::number(info.remainDays);
-    if(info.itemType == ItemTypePic ){
+    if (info.itemType == ItemTypePic) {
         reList << "pciture";
-    } else if(info.itemType == ItemTypeVideo ){
+    } else if (info.itemType == ItemTypeVideo) {
         reList << "video";
     } else {
         reList << "other";
@@ -728,27 +722,27 @@ QString AlbumControl::getPathsInfoData(const QString &path, const QString &key)
     QString value;
     QString localPath = QUrl(path).toLocalFile();
     DBImgInfo info = DBManager::instance()->getInfoByPath(localPath);
-    if(key.contains("url")){
-        value = "file://" +info.filePath;
-    }else if (key.contains("filePath")) {
+    if (key.contains("url")) {
+        value = "file://" + info.filePath;
+    } else if (key.contains("filePath")) {
         value = info.filePath;
-    }else if (key.contains("pathHash")) {
+    } else if (key.contains("pathHash")) {
         value = info.pathHash;
-    }else if (key.contains("remainDays")) {
+    } else if (key.contains("remainDays")) {
         value = QString::number(info.remainDays);
-    }else if (key.contains("itemType")) {
-        if(info.itemType == ItemTypePic ){
+    } else if (key.contains("itemType")) {
+        if (info.itemType == ItemTypePic) {
             value = "pciture";
-        } else if(info.itemType == ItemTypeVideo ){
+        } else if (info.itemType == ItemTypeVideo) {
             value = "video";
         } else {
             value = "other";
         }
-    }else if (key.contains("time")) {
+    } else if (key.contains("time")) {
         value = info.time.toString("yyyy.MM.dd.hh.mm");
-    }else if (key.contains("changeTime")) {
+    } else if (key.contains("changeTime")) {
         value = info.changeTime.toString("yyyy.MM.dd.hh.mm");
-    }else if (key.contains("importTime")) {
+    } else if (key.contains("importTime")) {
         value = info.importTime.toString("yyyy.MM.dd.hh.mm");
     }
     return value;
@@ -758,14 +752,14 @@ int AlbumControl::getCustomAlbumInfoConut(const int &albumId, const int &filterT
 {
     int rePicVideoConut = 0;
     DBImgInfoList dbInfoList = DBManager::instance()->getInfosByAlbum(albumId, false);
-    for(DBImgInfo info : dbInfoList){
+    for (DBImgInfo info : dbInfoList) {
         QVariantMap tmpMap;
-        if(info.itemType == ItemTypePic ){
-            if(filterType == 2){
+        if (info.itemType == ItemTypePic) {
+            if (filterType == 2) {
                 continue ;
-          }
-        } else if(info.itemType == ItemTypeVideo ){
-            if(filterType == 1){
+            }
+        } else if (info.itemType == ItemTypeVideo) {
+            if (filterType == 1) {
                 continue ;
             }
         }
@@ -777,10 +771,10 @@ int AlbumControl::getCustomAlbumInfoConut(const int &albumId, const int &filterT
 int AlbumControl::getAllInfoConut(const int &filterType)
 {
     ItemType type = ItemTypeNull;
-    if(filterType == 2){
+    if (filterType == 2) {
         type = ItemTypeVideo ;
     }
-    if(filterType == 1){
+    if (filterType == 1) {
         type = ItemTypePic ;
     }
     return DBManager::instance()->getImgsCount(type);
@@ -788,66 +782,37 @@ int AlbumControl::getAllInfoConut(const int &filterType)
 
 int AlbumControl::getTrashInfoConut(const int &filterType)
 {
-    DBImgInfoList allTrashInfos = DBManager::instance()->getAllTrashInfos_getRemainDays();;
-    DBImgInfoList list;
-    for (int i = allTrashInfos.size() - 1; i >= 0; i--) {
-        DBImgInfo pinfo = allTrashInfos.at(i);
-        if (!QFile::exists(pinfo.filePath) &&
-                !QFile::exists(getDeleteFullPath(pinfo.pathHash, pinfo.getFileNameFromFilePath()))) {
-            allTrashInfos.removeAt(i);
-        } else if (pinfo.remainDays <= 0) {
-            list << pinfo;
-            allTrashInfos.removeAt(i);
-        }
-
-        if(pinfo.itemType == ItemTypePic ){
-            if(filterType == 2){
-                continue ;
-            }
-        } else if(pinfo.itemType == ItemTypeVideo ){
-            if(filterType == 1){
-                continue ;
-            }
-        }
-    }
-    //清理删除时间过长图片
-    if (!list.isEmpty()) {
-        QStringList image_list;
-        for (DBImgInfo info : list) {
-            image_list << info.filePath;
-        }
-        DBManager::instance()->removeTrashImgInfosNoSignal(image_list);
-    }
+    DBImgInfoList allTrashInfos = getTrashInfos(filterType);
     return allTrashInfos.size();
 }
 
 void AlbumControl::removeAlbum(int UID)
 {
-    DBManager::instance()->removeAlbum( UID );
+    DBManager::instance()->removeAlbum(UID);
 }
 
 void AlbumControl::removeFromAlbum(int UID, const QStringList &paths)
 {
     AlbumDBType atype = AlbumDBType::Custom;
-    if(UID == 0){
+    if (UID == 0) {
         atype = AlbumDBType::Favourite;
     }
     QStringList localPaths ;
-    for(QString path : paths){
+    for (QString path : paths) {
         localPaths << QUrl(path).toLocalFile();
     }
-    DBManager::instance()->removeFromAlbum( UID , localPaths , atype);
+    DBManager::instance()->removeFromAlbum(UID, localPaths, atype);
 }
 
 bool AlbumControl::insertIntoAlbum(int UID, const QStringList &paths)
 {
     AlbumDBType atype = AlbumDBType::Custom;
-    if(UID == 0){
+    if (UID == 0) {
         atype = AlbumDBType::Favourite;
     }
     QStringList localPaths ;
-    for(QString path : paths){
+    for (QString path : paths) {
         localPaths << QUrl(path).toLocalFile();
     }
-    DBManager::instance()->insertIntoAlbum( UID , localPaths , atype);
+    DBManager::instance()->insertIntoAlbum(UID, localPaths, atype);
 }

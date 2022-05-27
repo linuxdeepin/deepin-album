@@ -6,7 +6,7 @@ Rectangle {
     width: parent.width
     height: parent.height
 
-    property int filterType : filterCombo.currentIndex // 筛选类型，默认所有
+    property int filterType: filterCombo.currentIndex // 筛选类型，默认所有
     property var photoCountText: albumControl.getCustomAlbumInfoConut(0, 1) > 0 ? qsTr("%1 photos").arg(albumControl.getCustomAlbumInfoConut(0, 1)) : ""
     property var videoCountText: albumControl.getCustomAlbumInfoConut(0, 2) > 0 ? qsTr("%1 videos").arg(albumControl.getCustomAlbumInfoConut(0, 2)) : ""
     property var numLabelText: filterType == 0 ? (photoCountText + " " + videoCountText) : (filterType == 1 ? photoCountText : videoCountText)
