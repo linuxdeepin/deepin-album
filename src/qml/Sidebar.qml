@@ -131,6 +131,8 @@ Rectangle {
                     checked: index == 0
                     backgroundVisible: false
                     onClicked: {
+                        global.currentViewIndex = 6
+                        global.currentCustomAlbumUId = number
                     }
                     ButtonGroup.group: group
                 }
@@ -147,13 +149,15 @@ Rectangle {
 
                 model :albumControl.getAllCustomAlbumId(changeList).length
                 delegate:    ItemDelegate {
-                    text: albumControl.getAllCustomAlbumName(changeList)[index]
+                    text: albumControl.getAllCustomAlbumName()[index]
                     width: parent.width - 20
                     height : 36
                     icon.name: "item"
                     checked: index == 0
                     backgroundVisible: false
                     onClicked: {
+                        global.currentViewIndex = 6
+                        global.currentCustomAlbumUId = index + 4
                     }
                     ButtonGroup.group: group
                 }

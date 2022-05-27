@@ -47,4 +47,10 @@ Rectangle{
         anchors.leftMargin: m_leftMargin
         anchors.fill: parent
     }
+    CustomAlbum{
+        visible: global.currentViewIndex == 6
+        anchors.topMargin: m_topMargin
+        anchors.leftMargin: m_leftMargin
+        anchors.fill: parent
+    }
 }
