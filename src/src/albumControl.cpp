@@ -547,6 +547,24 @@ void AlbumControl::insertTrash(const QList< QUrl > &paths)
     DBManager::instance()->insertTrashImgInfos(infos,false);
 }
 
+void AlbumControl::removeTrashImgInfos(const QList< QUrl > &paths)
+{
+    QStringList localPaths ;
+    for(QUrl path : paths){
+        localPaths << path.toLocalFile();
+    }
+    DBManager::instance()->removeTrashImgInfos(localPaths );
+}
+
+QStringList AlbumControl::recoveryImgFromTrash(const QStringList &paths)
+{
+    QStringList localPaths ;
+    for(QUrl path : paths){
+        localPaths << path.toLocalFile();
+    }
+    return DBManager::instance()->recoveryImgFromTrash(localPaths );
+}
+
 void AlbumControl::insertCollection(const QList< QUrl > &paths)
 {
     QStringList tmpList;
@@ -770,8 +788,7 @@ int AlbumControl::getAllInfoConut(const int &filterType)
 
 int AlbumControl::getTrashInfoConut(const int &filterType)
 {
-    DBImgInfoList allTrashInfos = DBManager::instance()->getAllTrashInfos_getRemainDays();
-    int reCount = 0 ;
+    DBImgInfoList allTrashInfos = DBManager::instance()->getAllTrashInfos_getRemainDays();;
     DBImgInfoList list;
     for (int i = allTrashInfos.size() - 1; i >= 0; i--) {
         DBImgInfo pinfo = allTrashInfos.at(i);
@@ -792,7 +809,6 @@ int AlbumControl::getTrashInfoConut(const int &filterType)
                 continue ;
             }
         }
-        reCount++;
     }
     //清理删除时间过长图片
     if (!list.isEmpty()) {
@@ -802,5 +818,36 @@ int AlbumControl::getTrashInfoConut(const int &filterType)
         }
         DBManager::instance()->removeTrashImgInfosNoSignal(image_list);
     }
-    return reCount;
+    return allTrashInfos.size();
+}
+
+void AlbumControl::removeAlbum(int UID)
+{
+    DBManager::instance()->removeAlbum( UID );
+}
+
+void AlbumControl::removeFromAlbum(int UID, const QStringList &paths)
+{
+    AlbumDBType atype = AlbumDBType::Custom;
+    if(UID == 0){
+        atype = AlbumDBType::Favourite;
+    }
+    QStringList localPaths ;
+    for(QString path : paths){
+        localPaths << QUrl(path).toLocalFile();
+    }
+    DBManager::instance()->removeFromAlbum( UID , localPaths , atype);
+}
+
+bool AlbumControl::insertIntoAlbum(int UID, const QStringList &paths)
+{
+    AlbumDBType atype = AlbumDBType::Custom;
+    if(UID == 0){
+        atype = AlbumDBType::Favourite;
+    }
+    QStringList localPaths ;
+    for(QString path : paths){
+        localPaths << QUrl(path).toLocalFile();
+    }
+    DBManager::instance()->insertIntoAlbum( UID , localPaths , atype);
 }
