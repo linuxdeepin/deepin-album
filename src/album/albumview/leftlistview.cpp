@@ -57,6 +57,7 @@ LeftListView::LeftListView(QWidget *parent)
     , m_pMountLabel(nullptr), m_pMountListWidget(nullptr), m_pMountWidget(nullptr)
     , m_ItemCurrentName(COMMON_STR_RECENT_IMPORTED)
     , m_ItemCurrentType(COMMON_STR_RECENT_IMPORTED)
+    , m_currentUID(-1)
     , m_pMenu(nullptr)
 {
     //右侧菜单栏支持滑动
