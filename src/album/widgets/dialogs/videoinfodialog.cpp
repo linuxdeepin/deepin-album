@@ -377,13 +377,6 @@ bool VideoInfoDialog::event(QEvent *event)
     return QWidget::event(event);
 }
 
-void VideoInfoDialog::showEvent(QShowEvent *e)
-{
-    this->move((dApp->getMainWindow()->width() - this->width() - 50 + dApp->getMainWindow()->mapToGlobal(QPoint(0, 0)).x())
-               , 100 + dApp->getMainWindow()->mapToGlobal(QPoint(0, 0)).y());
-    return QWidget::showEvent(e);
-}
-
 void VideoInfoDialog::initUI()
 {
     //wayland背景透明问题
