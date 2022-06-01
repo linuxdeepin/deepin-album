@@ -58,7 +58,6 @@ private:
     QString     SpliteText(const QString &text, const QFont &font, int nLabelSize);
 protected:
     bool event(QEvent *event)override;
-    void showEvent(QShowEvent *e) override;
 private:
     MovieInfo m_movieInfo;
 
