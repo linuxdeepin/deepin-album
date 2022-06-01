@@ -77,7 +77,6 @@ PrintHelper::~PrintHelper()
 
 void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {
-    Q_UNUSED(parent)
     m_re->m_paths.clear();
     m_re->m_imgs.clear();
     QStringList tempExsitPaths;//保存存在的图片路径
@@ -97,8 +96,8 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 #if (DTK_VERSION_MAJOR > 5 \
     || (DTK_VERSION_MAJOR >=5 && DTK_VERSION_MINOR > 4) \
     || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH >= 10))//5.4.4暂时没有合入
-    //增加运行时版本判断
-    DPrintPreviewDialog printDialog2(nullptr);
+    //增加运行时版本判断,需要指定父指针,wayland下才能正常使用
+    DPrintPreviewDialog printDialog2(parent);
     if (DApplication::runtimeDtkVersion() >= DTK_VERSION_CHECK(5, 4, 10, 0)) {
         bool suc = printDialog2.setAsynPreview(m_re->m_imgs.size());//设置总页数，异步方式
         //单张照片设置名称,可能多选照片，但能成功加载的可能只有一张，或从相册中选中的原图片不存在
