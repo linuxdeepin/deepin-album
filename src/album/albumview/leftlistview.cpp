@@ -774,10 +774,10 @@ void LeftListView::updateAlbumItemsColor()
 
 void LeftListView::resizeEvent(QResizeEvent *e)
 {
-    DWidget::resizeEvent(e);
     // 设备左边栏
     int deviceHeight = m_pMountListWidget->count() * LEFT_VIEW_LISTITEM_HEIGHT_40;
     m_pMountListWidget->setFixedHeight(deviceHeight);
+    DScrollArea::resizeEvent(e);
 }
 
 void LeftListView::mousePressEvent(QMouseEvent *e)
