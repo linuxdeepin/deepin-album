@@ -182,7 +182,7 @@ if(DOTEST)
     target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${3rd_lib_INCLUDE_DIRS})
 endif()
 
-target_link_libraries(${PROJECT_NAME} Qt5::WidgetsPrivate ${3rd_lib_LIBRARIES} freeimage imageviewer)
+target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} freeimage imageviewer)
 if(DOTEST)
     target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES} freeimage imageviewer)
 endif()
