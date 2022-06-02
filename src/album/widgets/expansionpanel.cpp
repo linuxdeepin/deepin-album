@@ -41,9 +41,6 @@ ExpansionPanel::ExpansionPanel(QWidget *parent)
     this->setWindowFlag(Qt::Popup);
     layout = new QVBoxLayout;
 
-    //设置圆角
-    setBlurRectXRadius(18);
-    setBlurRectYRadius(18);
     setBlurEnabled(true);
     setMode(DBlurEffectWidget::GaussianBlur);
 
