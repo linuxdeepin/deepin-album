@@ -48,7 +48,11 @@ class ImagePublisher : public QObject, public QQuickImageProvider
 public:
     explicit ImagePublisher(QObject *parent = nullptr);
 
+    //切换图片显示状态
     Q_INVOKABLE void switchLoadMode();
+
+    //获得当前图片显示的状态
+    Q_INVOKABLE int getLoadMode();
 
 protected:
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;

@@ -95,13 +95,20 @@ Rectangle {
             width:50
             height:50
             icon {
-                name: "range1"
+                name: publisher.getLoadMode() == 0 ? "range1" : "range2"
                 width: 36
                 height: 36
             }
             onClicked: {
                 //1.图片推送器切换
                 publisher.switchLoadMode()
+
+                //切换图标
+                if(icon.name == "range1"){
+                    icon.name = "range2"
+                }else{
+                    icon.name = "range1"
+                }
 
                 //2.发送全局信号，所有的缩略图强制刷新
                 global.sigThumbnailStateChange()

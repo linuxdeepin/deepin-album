@@ -246,6 +246,11 @@ void ImagePublisher::switchLoadMode()
     LibConfigSetter::instance()->setValue(SETTINGS_GROUP, SETTINGS_DISPLAY_MODE, m_loadMode.load());
 }
 
+int ImagePublisher::getLoadMode()
+{
+    return m_loadMode;
+}
+
 //将图片裁剪为方图，逻辑与原来一样
 QImage ImagePublisher::clipToRect(const QImage &src)
 {

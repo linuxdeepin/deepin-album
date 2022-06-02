@@ -6,6 +6,7 @@ import QtQml.Models 2.11
 import QtQml 2.11
 import QtQuick.Shapes 1.10
 import org.deepin.dtk 1.0
+import QtGraphicalEffects 1.0
 
 import "../"
 import "../../"
@@ -36,9 +37,36 @@ Rectangle {
         anchors.centerIn: parent
         width: parent.width - 14
         height: parent.height - 14
-        //使用PreserveAspectFit确保在原始比例下不会变形
+        //使用PreserveAspectFit确保在原始比例下不变形
         fillMode: Image.PreserveAspectFit
         clip: true
+        visible: false
+    }
+
+    //圆角遮罩Rectangle
+    Rectangle {
+        id: maskRec
+        anchors.centerIn: parent
+        width: image.width
+        height: image.height
+
+        color:"transparent"
+        Rectangle {
+            anchors.centerIn: parent
+            width: image.paintedWidth
+            height: image.paintedHeight
+            color:"black"
+            radius: 10
+        }
+        visible: false
+    }
+
+    //遮罩执行
+    OpacityMask {
+        id: mask
+        anchors.fill: image
+        source: image
+        maskSource: maskRec
     }
 
     //收藏图标
