@@ -43,6 +43,7 @@
 
 const int MAINWINDOW_NEEDCUT_WIDTH = 775;
 const int LISTVIEW_MINMUN_WIDTH = 520;
+const int IMPORTTITLE_FIX_WIDTH = 90;
 
 ImportTimeLineView::ImportTimeLineView(DWidget *parent)
     : DWidget(parent), m_mainLayout(nullptr)
@@ -113,6 +114,9 @@ void ImportTimeLineView::initConnections()
     connect(m_importTimeLineListView, &ThumbnailListView::sigSelectAll, this, [ = ]() {
         m_suspensionChoseBtn->setText(QObject::tr("Unselect"));
     });
+
+    // 字体改变时,不同尺寸下同步调整标题栏区域控件显示大小
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::fontChanged, this, &ImportTimeLineView::updateSize);
 }
 
 void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
@@ -344,6 +348,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     DFontSizeManager::instance()->bind(m_pImportTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pImportTitle->setForegroundRole(DPalette::TextTitle);
     m_pImportTitle->setFixedHeight(title_HEIGHT);
+    m_pImportTitle->setFixedWidth(IMPORTTITLE_FIX_WIDTH);
     DPalette ppal_light2 = DApplicationHelper::instance()->palette(m_pImportTitle);
     ppal_light2.setBrush(DPalette::Background, ppal_light2.color(DPalette::Base));
     QGraphicsOpacityEffect *opacityEffect_light2 = new QGraphicsOpacityEffect;
@@ -613,7 +618,7 @@ void ImportTimeLineView::updateDateNumLabel()
 {
     if (topLevelWidget()->width() <= MAINWINDOW_NEEDCUT_WIDTH)
         m_pImportTitle->move(topLevelWidget()->width() - LISTVIEW_MINMUN_WIDTH, 0);
-  
+
     auto fullStr = dateFullStr + "  " + numFullStr;
     auto resultStr = utils::base::reorganizationStr(m_DateNumLabel->font(), fullStr, m_pImportTitle->x() - 19);
     m_DateNumLabel->setText(resultStr);
