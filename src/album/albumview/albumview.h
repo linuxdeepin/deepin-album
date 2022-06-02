@@ -164,6 +164,8 @@ private:
     //恢复标题显示
     void restoreTitleDisplay();
 
+    // 字体改变、尺寸改变，同步调整标题栏区域控件显示大小
+    void adjustTitleContent();
 signals:
     void sigSearchEditIsDisplay(bool bIsDisp);
     void sigLoadMountImagesStart(QString mountName, QString path);
@@ -250,6 +252,7 @@ private:
     DWidget *m_customAlbumTitle = nullptr;           //自定义相册悬浮标题
     DWidget *m_pCustomAlbumWidget = nullptr;          //自定义相册右侧展示界面外层窗口
     NoResultWidget *m_customNoResultWidget = nullptr;
+    QString m_CustomRightPicTotalFullStr;
     //我的收藏标题栏
     DWidget *m_pFavoriteWidget = nullptr;
     DWidget *m_FavoriteTitleWidget = nullptr;
@@ -257,12 +260,15 @@ private:
     DLabel *m_pFavoritePicTotal;
     BatchOperateWidget *m_favoriteBatchOperateWidget = nullptr;
     NoResultWidget *m_favoriteNoResultWidget = nullptr;
+    QString m_FavoritePicTotalFullStr;
     //外部设备
     DLabel *m_pPhoneTitle;
     DLabel *m_pPhonePicTotal;
     SearchView *m_pSearchView;
     DGioVolumeManager *m_vfsManager;
     DDiskManager *m_diskManager;
+    QString m_PhonePicTotalFullStr;
+    QString m_phoneTitleFullStr;
     //最近删除标题
     DLabel *m_TrashTitleLab = nullptr;
     DLabel *m_TrashDescritionLab = nullptr;

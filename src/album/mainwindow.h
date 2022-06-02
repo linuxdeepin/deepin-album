@@ -125,6 +125,10 @@ private:
     void setConflictShortcutEnabled(bool enable);
     bool processOption(QStringList &paslist);
     void waitImportantProcessBeforeExit();
+
+    // 字体改变、尺寸改变，同步调整标题栏区域控件显示大小
+    void adjustTitleContent();
+
 protected:
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;

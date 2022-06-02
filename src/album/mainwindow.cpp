@@ -115,26 +115,7 @@ MainWindow::~MainWindow()
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
     Q_UNUSED(e);
-    int m_SearchEditWidth = titlebar()->width() - m_titleBtnWidget->width() - TITLEBAR_BLANK_WIDTH;
-    if (m_SearchEditWidth <= SEARCHEDIT_NORMAL_WIDTH) {
-        if (m_SearchEditWidth < SEARCHEDIT_MINIMUN_WIDTH) {
-            m_SearchEditWidth = SEARCHEDIT_MINIMUN_WIDTH;
-            m_pTimeBtn->setMaximumSize(TIMEBTN_MIN_WIDTH, BTN_HEIGHT);
-            m_pAlbumBtn->setMaximumSize(ALBUMBTN_MIN_WIDTH, BTN_HEIGHT);
-#ifndef tablet_PC
-            titlebar()->addWidget(m_pSearchEdit, Qt::AlignLeft);
-#endif
-        }
-        m_pSearchEdit->setFixedSize(m_SearchEditWidth - SEARCHEDIT_SPACE, BTN_HEIGHT);
-    } else {
-        m_pTimeBtn->setMaximumSize(TIMEBTN_NORMAL_WIDTH, BTN_HEIGHT);
-        m_pAlbumBtn->setMaximumSize(ALBUMBTN_NORMAL_WIDTH, BTN_HEIGHT);
-#ifndef tablet_PC
-        titlebar()->addWidget(m_pSearchEdit, Qt::AlignHCenter);
-#endif
-        m_SearchEditWidth = SEARCHEDIT_NORMAL_WIDTH;
-        m_pSearchEdit->setFixedSize(m_SearchEditWidth, BTN_HEIGHT);
-    }
+    adjustTitleContent();
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
@@ -291,6 +272,9 @@ void MainWindow::initUI()
     setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
     resize(1300, 848);
     loadWindowState();
+
+    // 字体改变时,不同尺寸下同步调整标题栏区域控件显示大小
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::fontChanged, this, &MainWindow::adjustTitleContent);
 }
 
 //初始化等待窗口
@@ -1701,25 +1685,8 @@ void MainWindow::waitImportantProcessBeforeExit()
     }
 }
 
-void MainWindow::closeEvent(QCloseEvent *event)
+void MainWindow::adjustTitleContent()
 {
-    saveWindowState();
-    if (VIEW_IMAGE == m_pCenterWidget->currentIndex()) {
-        emit dApp->signalM->hideImageView();
-        emit dApp->signalM->sigPauseOrStart(false);     //唤醒外设后台挂载
-        event->ignore();
-    } else {
-        //等待重要操作
-        waitImportantProcessBeforeExit();
-
-        //执行退出
-        event->accept();
-    }
-}
-
-void MainWindow::showEvent(QShowEvent *event)
-{
-    Q_UNUSED(event)
     int m_SearchEditWidth = titlebar()->width() - m_titleBtnWidget->width() - TITLEBAR_BLANK_WIDTH;
     if (m_SearchEditWidth <= SEARCHEDIT_NORMAL_WIDTH) {
         if (m_SearchEditWidth < SEARCHEDIT_MINIMUN_WIDTH) {
@@ -1740,6 +1707,28 @@ void MainWindow::showEvent(QShowEvent *event)
         m_SearchEditWidth = SEARCHEDIT_NORMAL_WIDTH;
         m_pSearchEdit->setFixedSize(m_SearchEditWidth, BTN_HEIGHT);
     }
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    saveWindowState();
+    if (VIEW_IMAGE == m_pCenterWidget->currentIndex()) {
+        emit dApp->signalM->hideImageView();
+        emit dApp->signalM->sigPauseOrStart(false);     //唤醒外设后台挂载
+        event->ignore();
+    } else {
+        //等待重要操作
+        waitImportantProcessBeforeExit();
+
+        //执行退出
+        event->accept();
+    }
+}
+
+void MainWindow::showEvent(QShowEvent *event)
+{
+    Q_UNUSED(event)
+    adjustTitleContent();
     QMetaObject::invokeMethod(this, [ = ]() {
         if (m_isFirstStart) {
             if (nullptr == m_pSearchView) {
