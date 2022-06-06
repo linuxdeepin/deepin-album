@@ -54,6 +54,15 @@ Item {
         return thumbnailListModel.count
     }
 
+    // 获取所有选中的路径
+    function selectedPaths() {
+        var openPaths = []
+        for(var i=0 ; i< theView.ism.length ; i++){
+            openPaths.push(thumbnailListModel.get(theView.ism[i]).url.toString())
+        }
+        return openPaths
+    }
+
     //view依赖的model管理器
     property ListModel thumbnailListModel: ListModel { }
 
@@ -496,7 +505,7 @@ Item {
                 text: qsTr("Favorite")
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash && (theArea.canFavorite)
                 onTriggered: {
-
+                    albumControl.insertIntoAlbum(0, selectedPaths())
                 }
             }
 
@@ -506,7 +515,7 @@ Item {
                 text: qsTr("Unfavorite")
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash && (!theArea.canFavorite)
                 onTriggered: {
-
+                    albumControl.removeFromAlbum(0, selectedPaths())
                 }
             }
 

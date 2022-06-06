@@ -62,8 +62,8 @@ Rectangle {
     StatusBar {
         id: statusBar
         anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
+        anchors.left: leftSidebar.right
+        width: leftSidebar.visible ? parent.width - leftSidebar.width : root.width
         height: 30
 
         onSliderValueChanged: {
