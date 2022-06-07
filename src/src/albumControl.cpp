@@ -101,6 +101,7 @@ void AlbumControl::importAllImagesAndVideos(const QList< QUrl > &paths)
     if (dbInfos.size() > 0) {
         //导入图片数据库ImageTable3
         DBManager::instance()->insertImgInfos(dbInfos);
+        emit sigRefreshImportAlbum();
     }
 
 }
@@ -430,11 +431,15 @@ void AlbumControl::slotMonitorChanged(QStringList fileAdd, QStringList fileDelet
     //导入图片数据库ImageTable3
     DBManager::instance()->insertImgInfos(dbInfos);
 
+    emit sigRefreshCustomAlbum(UID);
+    emit sigRefreshImportAlbum();
+
 }
 
 void AlbumControl::slotMonitorDestroyed(int UID)
 {
-
+    //文件夹删除
+    emit sigDeleteCustomAlbum(UID);
 }
 
 
@@ -544,7 +549,10 @@ QVariantMap AlbumControl::getTrashAlbumInfos(const int &filterType)
         } else {
             tmpMap.insert("itemType", "other");
         }
-        tmpMap.insert("url", "file://" + info.filePath);
+
+        //设置url为删除的路径
+        QString realPath = getDeleteFullPath(LibUnionImage_NameSpace::hashByString(info.filePath) , DBImgInfo::getFileNameFromFilePath(info.filePath));
+        tmpMap.insert("url", "file://" + realPath);
         tmpMap.insert("filePath", info.filePath);
         tmpMap.insert("pathHash", info.pathHash);
         tmpMap.insert("remainDays", info.remainDays);

@@ -173,12 +173,20 @@ public :
     //是否已经处于监控
     bool checkIfNotified(const QString &dirPath);
 
+
 public slots:
     //监控到改变
     void slotMonitorChanged(QStringList fileAdd, QStringList fileDelete, QString album, int UID);
 
     //自动导入路径被删除
     void slotMonitorDestroyed(int UID);
+
+signals:
+   void sigRefreshCustomAlbum(int UID);
+   void sigRefreshImportAlbum();
+
+   //自定义相册删除
+   void sigDeleteCustomAlbum(int UID);
 
 
 private :

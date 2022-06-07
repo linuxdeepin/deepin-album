@@ -25,6 +25,7 @@ Item {
     property var selectedPaths: [] // 已选路径
     property bool bRefreshFlag: false //刷新标记，翻转一次，相关界面就刷新一次
     property bool bRefreshCustomAlbumFlag: false //刷新自定义相册(包括我的收藏)标记，翻转一次，自定义视图就刷新一次
+    property bool bRefreshImportAlbumFlag: false //刷新自定义相册(包括我的收藏)标记，翻转一次，自定义视图就刷新一次
     property int currentViewIndex: 0// 0:打开图片界面 1:无图片界面
     property int currentCustomAlbumUId: 0// 当前自定义相册所在UId，0:我的收藏 1:截图录屏 2:相机 3:画板 其他:自定义相册
     property int stackControlCurrent: 0// 0:相册界面 1:看图界面
@@ -46,6 +47,21 @@ Item {
         Trash,       //最近删除
         CustomAlbum, //自定义相册
         AutoImport   //自动导入路径
+    }
+
+    // 刷新自定义相册
+    Connections {
+        target: albumControl
+        onSigRefreshCustomAlbum: {
+            bRefreshCustomAlbumFlag = !bRefreshCustomAlbumFlag
+        }
+    }
+   // 刷新已导入
+    Connections {
+        target: albumControl
+        onSigRefreshImportAlbum: {
+            bRefreshImportAlbumFlag = !bRefreshImportAlbumFlag
+        }
     }
 
 }
