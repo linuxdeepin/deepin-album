@@ -493,6 +493,11 @@ Item {
                 onTriggered: {
                     albumControl.insertIntoAlbum(0, selectedPaths)
                     global.bRefreshFlag = !global.bRefreshFlag
+
+                    // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
+                    if (global.currentViewIndex === 4 && global.currentCustomAlbumUId == 0) {
+                        global.bRefreshCustomAlbumFlag = !global.bRefreshCustomAlbumFlag
+                    }
                 }
             }
 
@@ -504,6 +509,10 @@ Item {
                 onTriggered: {
                     albumControl.removeFromAlbum(0, selectedPaths)
                     global.bRefreshFlag = !global.bRefreshFlag
+                    // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
+                    if (global.currentViewIndex === 4 && global.currentCustomAlbumUId == 0) {
+                        global.bRefreshCustomAlbumFlag = !global.bRefreshCustomAlbumFlag
+                    }
                 }
             }
 

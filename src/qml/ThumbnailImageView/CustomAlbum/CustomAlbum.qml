@@ -7,21 +7,11 @@ Rectangle {
     height: parent.height
 
     property int customAlbumUId: global.currentCustomAlbumUId
-    property int viewIndex: global.currentViewIndex
     property int filterType: filterCombo.currentIndex // 筛选类型，默认所有
-    property var photoCountText: albumControl.getCustomAlbumInfoConut(customAlbumUId, 1) > 0 ? qsTr("%1 photos").arg(albumControl.getCustomAlbumInfoConut(customAlbumUId, 1)) : ""
-    property var videoCountText: albumControl.getCustomAlbumInfoConut(customAlbumUId, 2) > 0 ? qsTr("%1 videos").arg(albumControl.getCustomAlbumInfoConut(customAlbumUId, 2)) : ""
+    property bool refreshUIFlag: global.bRefreshCustomAlbumFlag // 外部有数据变更操作，控制刷新相关窗口
+    property var photoCountText: albumControl.getCustomAlbumInfoConut(customAlbumUId, 1, global.bRefreshCustomAlbumFlag) > 0 ? qsTr("%1 photos").arg(albumControl.getCustomAlbumInfoConut(customAlbumUId, 1)) : ""
+    property var videoCountText: albumControl.getCustomAlbumInfoConut(customAlbumUId, 2, global.bRefreshCustomAlbumFlag) > 0 ? qsTr("%1 videos").arg(albumControl.getCustomAlbumInfoConut(customAlbumUId, 2)) : ""
     property var numLabelText: filterType == 0 ? (photoCountText + (videoCountText !== "" ? (" " + videoCountText) : "")) : (filterType == 1 ? photoCountText : videoCountText)
-    onVisibleChanged: {
-        if (visible) {
-            global.statusBarNumText = numLabelText
-        }
-    }
-    onNumLabelTextChanged: {
-        if (visible) {
-            global.statusBarNumText = numLabelText
-        }
-    }
 
     // 自定义相册标题栏区域
     Rectangle {
@@ -60,15 +50,23 @@ Rectangle {
         }
     }
 
+    onVisibleChanged: {
+        if (visible) {
+            // 重载当前界面数据，同时刷新总数标签显示(做了属性绑定，会自动刷新)
+            global.bRefreshCustomAlbumFlag = !global.bRefreshCustomAlbumFlag
+            global.statusBarNumText = numLabelText
+        }
+    }
+
+    onNumLabelTextChanged: {
+        if (visible) {
+            global.statusBarNumText = numLabelText
+        }
+    }
+
     // 筛选类型改变处理事件
     onFilterTypeChanged: {
         if (filterType >= 0)
-            loadCustomAlbumItems()
-    }
-
-    // 照片库，切回到我的收藏，需要重载数据
-    onViewIndexChanged: {
-        if (viewIndex === 4)
             loadCustomAlbumItems()
     }
 
@@ -77,10 +75,17 @@ Rectangle {
         loadCustomAlbumItems()
     }
 
+    // 刷新视图内表格内容
+    onRefreshUIFlagChanged: {
+        console.log("onRefreshUIFlagChanged customAlbumUId:", customAlbumUId)
+        loadCustomAlbumItems()
+    }
+
     // 加载自定义相册数据
     function loadCustomAlbumItems()
     {
         console.info("custom album model has refreshed... filterType:", filterType)
+        theView.selectAll(false)
         theView.thumbnailListModel.clear();
         var customAlbumInfos = albumControl.getAlbumInfos(customAlbumUId, filterType);
         console.info("custom album model has refreshed... filterType:", filterType, " done...")
@@ -91,6 +96,9 @@ Rectangle {
             }
             break;
         }
+
+        global.selectedPaths = theView.selectedPaths
+        return true
     }
 
     // 缩略图列表控件
@@ -102,6 +110,18 @@ Rectangle {
         height: parent.height - customAlbumTitleRect.height - m_topMargin - statusBar.height
         visible: numLabelText !== ""
         property int m_topMargin: 10
+
+        // 监听缩略图列表选中状态，一旦改变，更新globalVar所有选中路径
+        Connections {
+            target: theView
+            onSelectedChanged: {
+                var selectedPaths = []
+                selectedPaths = theView.selectedPaths
+
+                if (parent.visible)
+                    global.selectedPaths = selectedPaths
+            }
+        }
     }
 
     Label {

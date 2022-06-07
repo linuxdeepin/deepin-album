@@ -12,6 +12,7 @@ Rectangle {
     onVisibleChanged: {
         if (visible) {
             global.statusBarNumText = numLabelText
+            theView.updateSelectedPaths()
         }
     }
     onNumLabelTextChanged: {
