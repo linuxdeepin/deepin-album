@@ -1,6 +1,8 @@
 #include "albumControl.h"
 #include "dbmanager/dbmanager.h"
 #include "imageengine/movieservice.h"
+#include "fileMonitor/fileinotifygroup.h"
+
 #include <QUrl>
 
 DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
@@ -44,9 +46,10 @@ DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
     return dbi;
 }
 
-AlbumControl::AlbumControl(QObject *parent) : QObject(parent)
+AlbumControl::AlbumControl(QObject *parent)
+    : QObject(parent)
 {
-
+    initMonitor();
 }
 
 AlbumControl::~AlbumControl()
@@ -382,6 +385,56 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum, const int &fi
     }
 
     return relist;
+}
+
+void AlbumControl::initMonitor()
+{
+    m_fileInotifygroup = new FileInotifyGroup(this) ;
+    connect(m_fileInotifygroup , &FileInotifyGroup::sigMonitorChanged,this,&AlbumControl::slotMonitorChanged);
+    connect(m_fileInotifygroup , &FileInotifyGroup::sigMonitorDestroyed,this,&AlbumControl::slotMonitorDestroyed);
+    startMonitor();
+}
+
+void AlbumControl::startMonitor()
+{
+    //启动路径监控
+    auto monitorPathsTuple = DBManager::getDefaultNotifyPaths_group();
+    const QList<QStringList> &paths = std::get<0>(monitorPathsTuple);
+    const QStringList &albumNames = std::get<1>(monitorPathsTuple);
+    const QList<int> &UIDs = std::get<2>(monitorPathsTuple);
+    for (int i = 0; i != UIDs.size(); ++i) {
+        m_fileInotifygroup->startWatch(paths.at(i), albumNames.at(i), UIDs.at(i));
+    }
+
+}
+
+bool AlbumControl::checkIfNotified(const QString &dirPath)
+{
+    return DBManager::instance()->checkCustomAutoImportPathIsNotified(dirPath);
+}
+
+void AlbumControl::slotMonitorChanged(QStringList fileAdd, QStringList fileDelete, QString album, int UID)
+{
+    //直接删除图片
+    DBManager::instance()->removeImgInfos(fileDelete);
+    AlbumDBType atype = AlbumDBType::AutoImport;
+    DBManager::instance()->insertIntoAlbum( UID , fileAdd , atype);
+
+    DBImgInfoList dbInfos;
+    for (QString path :fileAdd){
+
+        bool bIsVideo = LibUnionImage_NameSpace::isVideo(path);
+        DBImgInfo info =  getDBInfo(path, bIsVideo);
+        dbInfos << info;
+    }
+    //导入图片数据库ImageTable3
+    DBManager::instance()->insertImgInfos(dbInfos);
+
+}
+
+void AlbumControl::slotMonitorDestroyed(int UID)
+{
+
 }
 
 

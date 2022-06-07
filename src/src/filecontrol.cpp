@@ -200,12 +200,15 @@ QString FileControl::getNamePath(const  QString &oldPath, const QString &newName
 bool FileControl::isImage(const QString &path)
 {
     bool bRet = false;
-    QMimeDatabase db;
-    QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
-    QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
-    if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
-            mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-        bRet = true;
+    //路径为空直接跳出
+    if(!path.isEmpty()){
+        QMimeDatabase db;
+        QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
+        QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
+        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
+                mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+            bRet = true;
+        }
     }
     return bRet;
 }

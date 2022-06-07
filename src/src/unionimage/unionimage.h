@@ -70,6 +70,7 @@ UNIONIMAGESHARED_EXPORT QString unionImageVersion();
 UNIONIMAGESHARED_EXPORT const QStringList unionImageSupportFormat();
 UNIONIMAGESHARED_EXPORT const QStringList supportStaticFormat();
 UNIONIMAGESHARED_EXPORT const QStringList supportMovieFormat();
+UNIONIMAGESHARED_EXPORT const QStringList videoFiletypes();
 
 
 UNIONIMAGESHARED_EXPORT bool isDynamicFormat();
@@ -314,6 +315,16 @@ UNIONIMAGESHARED_EXPORT bool isVideo(QString path);
  * 图片是否可以读写
  */
 UNIONIMAGESHARED_EXPORT bool imageSupportRead(const QString &path);
+
+/**
+ * @brief getAllDirInDir
+ * @param dir
+ * @param result
+ * @author LMH
+ * @return void
+ * 获得所有路径下的路径
+ */
+UNIONIMAGESHARED_EXPORT void getAllDirInDir(const QDir &dir, QFileInfoList &result);
 
 QT_BEGIN_NAMESPACE
 

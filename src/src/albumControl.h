@@ -7,6 +7,8 @@
 #include "dbmanager/dbmanager.h"
 
 
+class FileInotifyGroup;
+
 class AlbumControl : public QObject
 {
     Q_OBJECT
@@ -162,7 +164,22 @@ public :
     //获得日月年所有创建时间线  0所有 1年 2月 3日
     QStringList getTimelinesTitle(TimeLineEnum timeEnum, const int &filterType = 0);
 
+    //初始化
+    void initMonitor();
+
+    //启动路径监控
+    void startMonitor();
+
+    //是否已经处于监控
+    bool checkIfNotified(const QString &dirPath);
+
 public slots:
+    //监控到改变
+    void slotMonitorChanged(QStringList fileAdd, QStringList fileDelete, QString album, int UID);
+
+    //自动导入路径被删除
+    void slotMonitorDestroyed(int UID);
+
 
 private :
     DBImgInfoList m_infoList;  //全部已导入
@@ -176,6 +193,8 @@ private :
     QMap < QString, DBImgInfoList > m_monthDateMap; //月数据集
     QMap < QString, DBImgInfoList > m_dayDateMap; //日数据集
     QMap < int, QString > m_customAlbum; //自定义相册
+
+    FileInotifyGroup * m_fileInotifygroup {nullptr};//固定文件夹监控
 
 
 };
