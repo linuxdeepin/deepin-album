@@ -12,18 +12,25 @@ import "../../Control/ListView"
 Item {
     id : importedListView
     property int filterType: filterCombo.currentIndex // 筛选类型，默认为所有
-
+    property var selectedPaths: []
     //view依赖的model管理器
     property ListModel importedListModel: ListModel {
         id: theModel
+        property var selectedPathObj: {"id":0, "paths":[]}
+        property var selectedPathObjs: []
         function loadTitleInfos() {
             console.log("imported model has refreshed.. filterType:", filterType)
             theModel.clear()
+            theModel.selectedPathObjs = []
             // 从后台获取所有已导入数据
             var titleInfos = albumControl.getImportTimelinesTitleInfos(filterType);
             console.log("imported model has refreshed.. filterType:", filterType, " done...")
+            var tmpPath = []
+            var i = 0
             for (var key in titleInfos) {
                 theModel.append({"title":key, "items":titleInfos[key]})
+                selectedPathObj = {"id": i++, "paths":tmpPath}
+                theModel.selectedPathObjs.push(selectedPathObj)
             }
         }
     }
@@ -32,6 +39,22 @@ Item {
     onFilterTypeChanged: {
         if (filterType >= 0)
             importedListModel.loadTitleInfos()
+    }
+
+    // 刷新已导入列表已选路径
+    function updateSelectedPaths()
+    {
+        selectedPaths = []
+        for (var i = 0; i < theModel.selectedPathObjs.length; i++) {
+            if (theModel.selectedPathObjs[i].paths.length > 0) {
+                for (var j = 0; j < theModel.selectedPathObjs[i].paths.length; j++)
+                    selectedPaths.push(theModel.selectedPathObjs[i].paths[j])
+            }
+        }
+
+        if (importedListView.visible) {
+            global.selectedPaths = selectedPaths
+        }
     }
 
     //已导入列表本体
@@ -143,6 +166,15 @@ Item {
                 // 装载数据
                 thumbnailListModel: {
                     theViewItems
+                }
+
+                // 监听缩略图子控件选中状态，一旦改变，更新已导入视图所有选中路径
+                Connections {
+                    target: importedGridView
+                    onSelectedChanged: {
+                        theModel.selectedPathObjs[m_index].paths = importedGridView.selectedPaths
+                        updateSelectedPaths()
+                    }
                 }
             }
         }

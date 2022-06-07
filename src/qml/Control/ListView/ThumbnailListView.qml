@@ -13,7 +13,7 @@ Item {
     property var viewTitle
     //当前区域时间区间改变信号，字符串可以直接刷新在界面上
     signal timeChanged(string str)
-
+    signal selectedChanged()
     //设置图片缩放等级，传入的参数为外部滑动条的值
     function setPicZoomLevel(level) {
         if(level >= 0 && level <= 9) {
@@ -54,15 +54,6 @@ Item {
         return thumbnailListModel.count
     }
 
-    // 获取所有选中的路径
-    function selectedPaths() {
-        var openPaths = []
-        for(var i=0 ; i< theView.ism.length ; i++){
-            openPaths.push(thumbnailListModel.get(theView.ism[i]).url.toString())
-        }
-        return openPaths
-    }
-
     //view依赖的model管理器
     property ListModel thumbnailListModel: ListModel { }
 
@@ -79,6 +70,8 @@ Item {
     property bool haveSelectAll: theView.ism.length == thumbnailListModel.count
     // 已选项个数
     property int haveSelectCount: theView.ism.length
+    // 已选路径
+    property var selectedPaths: new Array
     //缩略图动态变化（-10是右侧的边距）
     property real cellBaseWidth: global.thumbnailSizeLevel >= 0 && global.thumbnailSizeLevel <= 9 ? 80 + global.thumbnailSizeLevel * 10 : 80
     property int  rowSizeHint: (width - 10) / cellBaseWidth
@@ -134,6 +127,16 @@ Item {
             {
                 return -1
             }
+        }
+
+        onIsmChanged: {
+            var tmpPaths = []
+            for(var i=0 ; i < ism.length ; i++){
+                tmpPaths.push(thumbnailListModel.get(ism[i]).url.toString())
+            }
+            if (selectedPaths !== tmpPaths)
+                selectedPaths = tmpPaths
+             console.log("onIsmChanged: ", selectedPaths)
         }
 
         //刷新选中的元素
@@ -237,42 +240,21 @@ Item {
                     if(itemIndex !== -1) {
                         if(theView.ism.indexOf(itemIndex) === -1) {
                             theView.ism = [itemIndex]
+                            selectedChanged()
                         }
                     } else {
                         theView.ism = []
+                        selectedChanged()
                         return
                     }
 
                     //已框选的图片状态检查
-                    haveImage = false
-                    haveVideo = false
-                    canDelete = false
-                    canFavorite = false
-                    canRotate = true
-                    for(var i = 0;i != theView.ism.length;++i) {
-                        var currentPath = thumbnailListModel.get(theView.ism[i]).path
-                        if(fileControl.isImage(currentPath)) { //图片
-                            haveImage = true
-                        } else if(fileControl.isVideo(currentPath)) { //视频
-                            haveVideo = true
-                        }
-
-                        if(fileControl.isCanDelete(currentPath)) {
-                            canDelete = true
-                        }
-
-                        if(!albumControl.photoHaveFavorited(currentPath)) {
-                            canFavorite = true
-                        }
-
-                        if(!fileControl.isRotatable(currentPath)) {
-                            canRotate = false
-                        }
-
-                        if(!fileControl.isCanPrint(currentPath)) {
-                            canPrint = false
-                        }
-                    }
+                    haveImage = fileControl.haveImage(selectedPaths)
+                    haveVideo = fileControl.haveVideo(selectedPaths)
+                    canDelete = fileControl.isCanDelete(selectedPaths)
+                    canFavorite = albumControl.canFavorite(selectedPaths)
+                    canRotate = fileControl.isRotatable(selectedPaths)
+                    canPrint = fileControl.isCanPrint(selectedPaths)
 
                     thumbnailMenu.popup()
                     return
@@ -289,6 +271,7 @@ Item {
                     if(parent.ism.indexOf(index) == -1)
                     {
                         parent.ism = [index]
+                        selectedChanged()
                     }
                 }
             }
@@ -305,6 +288,7 @@ Item {
                     parent.ism = []
                     parent.rubberBandDisplayed = true
                     parent.flushIsm()
+                    selectedChanged()
                 }
 
                 //处理结束，记录
@@ -324,6 +308,7 @@ Item {
                     parent.ism = []
                     parent.rubberBandDisplayed = true
                     parent.flushIsm()
+                    selectedChanged()
                 }
 
                 //处理结束，记录
@@ -344,6 +329,7 @@ Item {
                     } else {
                         parent.ism = []
                     }
+                    selectedChanged()
                 }
 
                 parent.inPress = false
@@ -505,7 +491,8 @@ Item {
                 text: qsTr("Favorite")
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash && (theArea.canFavorite)
                 onTriggered: {
-                    albumControl.insertIntoAlbum(0, selectedPaths())
+                    albumControl.insertIntoAlbum(0, selectedPaths)
+                    global.bRefreshFlag = !global.bRefreshFlag
                 }
             }
 
@@ -515,7 +502,8 @@ Item {
                 text: qsTr("Unfavorite")
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash && (!theArea.canFavorite)
                 onTriggered: {
-                    albumControl.removeFromAlbum(0, selectedPaths())
+                    albumControl.removeFromAlbum(0, selectedPaths)
+                    global.bRefreshFlag = !global.bRefreshFlag
                 }
             }
 

@@ -124,8 +124,18 @@ bool FileControl::pathExists(const QString &path)
 
 bool FileControl::haveImage(const QVariantList &urls)
 {
-    for(auto &url : urls) {
-        if(isImage(QUrl(url.toString()).toLocalFile())) {
+    for (auto &url : urls) {
+        if (!url.isNull() && isImage(QUrl(url.toString()).toLocalFile())) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool FileControl::haveVideo(const QVariantList &urls)
+{
+    for (auto &url : urls) {
+        if (!url.isNull() && isVideo(QUrl(url.toString()).toLocalFile())) {
             return true;
         }
     }
@@ -328,6 +338,19 @@ void FileControl::copyImage(const QString &path)
     cb->setMimeData(newMimeData, QClipboard::Clipboard);
 }
 
+bool FileControl::isRotatable(const QStringList &pathList)
+{
+    bool bRotateable = true;
+    for (int i = 0; i < pathList.size(); i++) {
+        if (!pathList[i].isEmpty() && !isRotatable(pathList[i])) {
+            bRotateable = false;
+            break;
+        }
+    }
+
+    return bRotateable;
+}
+
 bool FileControl::isRotatable(const QString &path)
 {
     bool bRet = false;
@@ -347,6 +370,19 @@ bool FileControl::isCanWrite(const QString &path)
     QFileInfo info(localPath);
     bool bRet = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable(); //是否可写
     return bRet;
+}
+
+bool FileControl::isCanDelete(const QStringList &pathList)
+{
+    bool bCanDelete = false;
+    for (int i = 0; i < pathList.size(); i++) {
+        if (!pathList[i].isEmpty() && isCanDelete(pathList[i])) {
+            bCanDelete = true;
+            break;
+        }
+    }
+
+    return bCanDelete;
 }
 
 bool FileControl::isCanDelete(const QString &path)
@@ -369,6 +405,19 @@ bool FileControl::isCanDelete(const QString &path)
         bRet = false;
     }
     return bRet;
+}
+
+bool FileControl::isCanPrint(const QStringList &pathList)
+{
+    bool bCanPrint = true;
+    for (int i = 0; i < pathList.size(); i++) {
+        if (!pathList[i].isEmpty() && !isCanPrint(pathList[i])) {
+            bCanPrint = false;
+            break;
+        }
+    }
+
+    return bCanPrint;
 }
 
 bool FileControl::isCanPrint(const QString &path)
@@ -790,7 +839,7 @@ void FileControl::setViewerType(imageViewerSpace::ImgViewerType type)
 bool FileControl::isAlbum()
 {
     bool bRet = false;
-    if(m_viewerType == imageViewerSpace::ImgViewerTypeAlbum) {
+    if (m_viewerType == imageViewerSpace::ImgViewerTypeAlbum) {
         bRet = true;
     }
     return bRet;

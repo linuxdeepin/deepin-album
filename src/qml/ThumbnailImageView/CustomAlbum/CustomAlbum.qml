@@ -7,6 +7,7 @@ Rectangle {
     height: parent.height
 
     property int customAlbumUId: global.currentCustomAlbumUId
+    property int viewIndex: global.currentViewIndex
     property int filterType: filterCombo.currentIndex // 筛选类型，默认所有
     property var photoCountText: albumControl.getCustomAlbumInfoConut(customAlbumUId, 1) > 0 ? qsTr("%1 photos").arg(albumControl.getCustomAlbumInfoConut(customAlbumUId, 1)) : ""
     property var videoCountText: albumControl.getCustomAlbumInfoConut(customAlbumUId, 2) > 0 ? qsTr("%1 videos").arg(albumControl.getCustomAlbumInfoConut(customAlbumUId, 2)) : ""
@@ -65,6 +66,13 @@ Rectangle {
             loadCustomAlbumItems()
     }
 
+    // 照片库，切回到我的收藏，需要重载数据
+    onViewIndexChanged: {
+        if (viewIndex === 4)
+            loadCustomAlbumItems()
+    }
+
+    // 我的收藏和相册视图之间切换，需要重载数据
     onCustomAlbumUIdChanged: {
         loadCustomAlbumItems()
     }

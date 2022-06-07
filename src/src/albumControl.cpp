@@ -610,7 +610,6 @@ QString AlbumControl::getCustomAlbumByUid(const int &index)
     return DBManager::instance()->getAlbumNameFromUID(index);
 }
 
-
 DBImgInfoList AlbumControl::getTrashInfos(const int &filterType)
 {
     DBImgInfoList allTrashInfos = DBManager::instance()->getAllTrashInfos_getRemainDays();
@@ -676,6 +675,19 @@ const QString AlbumControl::getNewAlbumName(const QString &baseName)
         albumName = baseName;
     }
     return static_cast<const QString>(albumName);
+}
+
+bool AlbumControl::canFavorite(const QStringList &pathList)
+{
+    bool bCanFavorite = false;
+    for (int i = 0; i < pathList.size(); i++) {
+        if (!pathList[i].isEmpty() && !photoHaveFavorited(pathList[i])) {
+            bCanFavorite = true;
+            break;
+        }
+    }
+
+    return bCanFavorite;
 }
 
 bool AlbumControl::photoHaveFavorited(const QString &path)
@@ -818,5 +830,5 @@ bool AlbumControl::insertIntoAlbum(int UID, const QStringList &paths)
     for (QString path : paths) {
         localPaths << QUrl(path).toLocalFile();
     }
-    return DBManager::instance()->insertIntoAlbum( UID , localPaths , atype);
+    return DBManager::instance()->insertIntoAlbum(UID, localPaths, atype);
 }

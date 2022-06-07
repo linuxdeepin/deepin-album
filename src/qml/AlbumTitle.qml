@@ -155,7 +155,7 @@ Rectangle {
 
         ActionButton {
 
-            visible: true
+            visible: global.selectedPaths.length === 0
             id: titleImportBtn
             anchors.top: parent.top
             anchors.topMargin: 0
@@ -174,10 +174,11 @@ Rectangle {
         }
         ActionButton {
             id: titleCollectionBtn
-            visible: titleImportBtn.visible?false : true
+            visible: !titleImportBtn.visible && albumControl.canFavorite(global.selectedPaths)
             anchors.top: parent.top
             anchors.topMargin: 0
-            anchors.right: titleRotateBtn.left
+            anchors.right: titleRotateBtn.visible ? titleRotateBtn.left : (titleTrashBtn.visible ? titleTrashBtn.left : parent.right)
+            anchors.rightMargin: (!titleRotateBtn.visible && !titleTrashBtn) ? 4 * parent.height : 0
             width: 50
             height: 50
             icon {
@@ -185,14 +186,19 @@ Rectangle {
                 width: 36
                 height: 36
             }
+            onClicked: {
+                albumControl.insertIntoAlbum(0, global.selectedPaths)
+                global.bRefreshFlag = !global.bRefreshFlag
+            }
         }
 
         ActionButton {
             id: titleRotateBtn
-            visible: titleImportBtn.visible?false : true
+            visible: (titleImportBtn.visible ? false : true) && fileControl.isRotatable(global.selectedPaths)
             anchors.top: parent.top
             anchors.topMargin: 0
-            anchors.right: titleTrashBtn.left
+            anchors.right:  titleTrashBtn.visible ? titleTrashBtn.left : parent.right
+            anchors.rightMargin: titleTrashBtn.visible ? 0 : 4 * parent.height
             width: 50
             height: 50
             icon {
@@ -203,7 +209,7 @@ Rectangle {
         }
         ActionButton {
             id: titleTrashBtn
-            visible: titleImportBtn.visible?false : true
+            visible: (titleImportBtn.visible ? false : true) && fileControl.isCanDelete(global.selectedPaths)
             anchors.top: parent.top
             anchors.topMargin: 0
             anchors.right: parent.right

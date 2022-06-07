@@ -12,12 +12,12 @@ class AlbumControl : public QObject
     Q_OBJECT
 public:
 
-    enum TimeLineEnum{
+    enum TimeLineEnum {
         All  = 0,
         Year = 1,
         Month  = 2,
         Day = 3,
-        Import =4
+        Import = 4
     };
 
     explicit AlbumControl(QObject *parent = nullptr);
@@ -30,13 +30,13 @@ public:
     Q_INVOKABLE QStringList getAllPaths();
 
     //导入图片，导入图片接口
-    Q_INVOKABLE void importAllImagesAndVideos(const QList< QUrl >& paths);
+    Q_INVOKABLE void importAllImagesAndVideos(const QList< QUrl > &paths);
 
     //获得全部创建时间线
-    Q_INVOKABLE QStringList getAllTimelinesTitle(const int &filterType = 0 );
+    Q_INVOKABLE QStringList getAllTimelinesTitle(const int &filterType = 0);
 
     //获得年创建时间线
-    Q_INVOKABLE QStringList getYearTimelinesTitle(const int &filterType = 0 );
+    Q_INVOKABLE QStringList getYearTimelinesTitle(const int &filterType = 0);
 
     //获得月创建时间线
     Q_INVOKABLE QStringList getMonthTimelinesTitle(const int &filterType = 0);
@@ -51,7 +51,7 @@ public:
     Q_INVOKABLE QStringList getAllImportTimelinesTitle(const int &filterType = 0);
 
     //获得某一导入时间的全部路径
-    Q_INVOKABLE QStringList getImportTimelinesTitlePaths(const QString &titleName , const int &filterType = 0);
+    Q_INVOKABLE QStringList getImportTimelinesTitlePaths(const QString &titleName, const int &filterType = 0);
 
     //QVariantMap接口
     //获得默认时间线的全部info  , 0:全部 1:图片 2:视频
@@ -94,19 +94,22 @@ public:
     Q_INVOKABLE QList < QString > getAllCustomAlbumName();
 
     //获得自定义的相册的全部info  albumId 0:我的收藏  1:截图录屏  2:相机 3:画板 4-~:其他自定义,filterType 0:全部 1:图片 2:视频
-    Q_INVOKABLE QVariantMap getAlbumInfos(const int &albumId ,const int &filterType = 0);
+    Q_INVOKABLE QVariantMap getAlbumInfos(const int &albumId, const int &filterType = 0);
 
     //获得最近删除的相册的全部info  , 0:全部 1:图片 2:视频
     Q_INVOKABLE QVariantMap getTrashAlbumInfos(const int &filterType = 0);
 
     //添加到自定义相册
-    Q_INVOKABLE bool addCustomAlbumInfos(const int &albumId  ,const QList <QUrl> & urls, const int &imoprtType = 0);
+    Q_INVOKABLE bool addCustomAlbumInfos(const int &albumId, const QList <QUrl> &urls, const int &imoprtType = 0);
 
     //根据自定义相册id获取相册名称
     Q_INVOKABLE QString getCustomAlbumByUid(const int &index);
 
     //判断当前图片是否已收藏
     Q_INVOKABLE bool photoHaveFavorited(const QString &path);
+
+    //判断所传图片列表是否可收藏
+    Q_INVOKABLE bool canFavorite(const QStringList &pathList);
 
     //一张图片的数据，返回Map
     Q_INVOKABLE QVariantMap getPathsInfoMap(const QString &path);
@@ -115,10 +118,10 @@ public:
     Q_INVOKABLE QStringList getPathsInfoList(const QString &path);
 
     //一张图片的数据，返回Data
-    Q_INVOKABLE QString getPathsInfoData(const QString &path,const QString &key);
+    Q_INVOKABLE QString getPathsInfoData(const QString &path, const QString &key);
 
     //获得自定义相册图片count 0:我的收藏  1:截图录屏  2:相机 3:画板 4-~:其他自定义,filterType 0:全部 1:图片 2:视频
-    Q_INVOKABLE int getCustomAlbumInfoConut(const int &albumId ,const int &filterType = 0);
+    Q_INVOKABLE int getCustomAlbumInfoConut(const int &albumId, const int &filterType = 0);
 
     //全部导入的info的count filterType 0:全部 1:图片 2:视频
     Q_INVOKABLE int getAllInfoConut(const int &filterType = 0);
@@ -157,7 +160,7 @@ public :
     const QString getNewAlbumName(const QString &baseName);
 
     //获得日月年所有创建时间线  0所有 1年 2月 3日
-    QStringList getTimelinesTitle(TimeLineEnum timeEnum  ,const int &filterType=0 );
+    QStringList getTimelinesTitle(TimeLineEnum timeEnum, const int &filterType = 0);
 
 public slots:
 
@@ -165,14 +168,14 @@ private :
     DBImgInfoList m_infoList;  //全部已导入
 
     //时间线数据和已导入（合集）数据
-    QList < QDateTime > m_timelines; //所有创建时间线    
+    QList < QDateTime > m_timelines; //所有创建时间线
     QList < QDateTime > m_importTimelines; //所有已导入时间线
     QMap < QString, DBImgInfoList > m_importTimeLinePathsMap;  //每个已导入时间线的路径
     QMap < QString, DBImgInfoList > m_timeLinePathsMap;  //每个创建时间线的路径
-    QMap < QString ,DBImgInfoList > m_yearDateMap; //年数据集
-    QMap < QString ,DBImgInfoList > m_monthDateMap; //月数据集
-    QMap < QString ,DBImgInfoList > m_dayDateMap; //日数据集
-    QMap < int ,QString > m_customAlbum; //自定义相册
+    QMap < QString, DBImgInfoList > m_yearDateMap; //年数据集
+    QMap < QString, DBImgInfoList > m_monthDateMap; //月数据集
+    QMap < QString, DBImgInfoList > m_dayDateMap; //日数据集
+    QMap < int, QString > m_customAlbum; //自定义相册
 
 
 };

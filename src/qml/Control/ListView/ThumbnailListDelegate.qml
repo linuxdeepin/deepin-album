@@ -72,7 +72,7 @@ Rectangle {
     //收藏图标
     DciIcon {
         name: "collected"
-        visible: albumControl.photoHaveFavorited(m_url)
+        visible: albumControl.photoHaveFavorited(m_url, global.bRefreshFlag)
         anchors.bottom: image.bottom
         anchors.left: image.left
         anchors.leftMargin : (image.width - image.paintedWidth) / 2 + 15

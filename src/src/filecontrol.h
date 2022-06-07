@@ -29,6 +29,9 @@ public:
     //是否存在图片
     Q_INVOKABLE bool haveImage(const QVariantList &urls);
 
+    //是否存在视频
+    Q_INVOKABLE bool haveVideo(const QVariantList &urls);
+
     //图片所在目录有写权限
     Q_INVOKABLE bool dirCanWrite(const QString &path);
 
@@ -57,15 +60,18 @@ public:
     Q_INVOKABLE void copyImage(const QString &path);
 
     //是否可以被选旋转
+    Q_INVOKABLE bool isRotatable(const QStringList &pathList);
     Q_INVOKABLE bool isRotatable(const QString &path);
 
     //是否可以被写入
     Q_INVOKABLE bool isCanWrite(const QString &path);
 
     //是否可以被删除
+    Q_INVOKABLE bool isCanDelete(const QStringList &pathList);
     Q_INVOKABLE bool isCanDelete(const QString &path);
 
     //是否可以打印
+    Q_INVOKABLE bool isCanPrint(const QStringList &pathList);
     Q_INVOKABLE bool isCanPrint(const QString &path);
 
     //是否是文件
