@@ -506,9 +506,11 @@ void LeftListView::onPhotoLibListViewPressed(const QModelIndex &index)
         if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr) {
             m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
             m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
+            m_currentUID = -1;
         } else if (COMMON_STR_TRASH == item->m_albumNameStr) {
             m_ItemCurrentName = COMMON_STR_TRASH;
             m_ItemCurrentType = COMMON_STR_TRASH;
+            m_currentUID = -1;
         } else {
             m_ItemCurrentName = COMMON_STR_FAVORITES;
             m_ItemCurrentType = COMMON_STR_FAVORITES;
@@ -598,9 +600,11 @@ void LeftListView::onPhotoLibListViewCurrentItemChanged()
         if (COMMON_STR_RECENT_IMPORTED == item->m_albumNameStr) {
             m_ItemCurrentName = COMMON_STR_RECENT_IMPORTED;
             m_ItemCurrentType = COMMON_STR_RECENT_IMPORTED;
+            m_currentUID = -1;
         } else if (COMMON_STR_TRASH == item->m_albumNameStr) {
             m_ItemCurrentName = COMMON_STR_TRASH;
             m_ItemCurrentType = COMMON_STR_TRASH;
+            m_currentUID = -1;
         } else {
             m_ItemCurrentName = COMMON_STR_FAVORITES;
             m_ItemCurrentType = COMMON_STR_FAVORITES;
