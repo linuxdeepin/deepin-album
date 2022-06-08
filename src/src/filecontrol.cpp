@@ -201,7 +201,7 @@ bool FileControl::isImage(const QString &path)
 {
     bool bRet = false;
     //路径为空直接跳出
-    if(!path.isEmpty()){
+    if (!path.isEmpty()) {
         QMimeDatabase db;
         QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
         QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);

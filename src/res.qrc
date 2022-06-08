@@ -51,5 +51,7 @@
         <file>dsg/icons/Inner_shadow.dci</file>
         <file>dsg/icons/shadow.dci</file>
         <file>dsg/icons/yes.dci</file>
+        <file>dsg/icons/heart.dci</file>
+        <file>dsg/icons/heart_check.dci</file>
     </qresource>
 </RCC>

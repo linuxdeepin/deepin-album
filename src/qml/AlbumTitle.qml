@@ -174,20 +174,29 @@ Rectangle {
         }
         ActionButton {
             id: titleCollectionBtn
-            visible: !titleImportBtn.visible && albumControl.canFavorite(global.selectedPaths)
+            property bool canFavorite: albumControl.canFavorite(global.selectedPaths,global.bRefreshFlag)
+            visible: !titleImportBtn.visible
             anchors.top: parent.top
             anchors.topMargin: 0
             anchors.right: titleRotateBtn.visible ? titleRotateBtn.left : (titleTrashBtn.visible ? titleTrashBtn.left : parent.right)
-            anchors.rightMargin: (!titleRotateBtn.visible && !titleTrashBtn) ? 4 * parent.height : 0
+            anchors.rightMargin: (!titleRotateBtn.visible && !titleTrashBtn.visible) ? 4 * parent.height : 0
             width: 50
             height: 50
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: canFavorite ? qsTr("Favorite") : qsTr("Unfavorite")
             icon {
-                name: "toolbar-collection"
+                name: canFavorite ? "toolbar-collection2" : "toolbar-collection"
                 width: 36
                 height: 36
             }
             onClicked: {
-                albumControl.insertIntoAlbum(0, global.selectedPaths)
+                if (canFavorite)
+                    albumControl.insertIntoAlbum(0, global.selectedPaths)
+                else
+                    albumControl.removeFromAlbum(0, global.selectedPaths)
+
                 global.bRefreshFlag = !global.bRefreshFlag
             }
         }
@@ -201,6 +210,10 @@ Rectangle {
             anchors.rightMargin: titleTrashBtn.visible ? 0 : 4 * parent.height
             width: 50
             height: 50
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Rotate")
             icon {
                 name: "felete"
                 width: 36
@@ -216,6 +229,10 @@ Rectangle {
             anchors.rightMargin: 4 * parent.height
             width: 50
             height: 50
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Delete")
             icon {
                 name: "delete"
                 width: 36
