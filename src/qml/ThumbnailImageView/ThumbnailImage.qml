@@ -52,4 +52,10 @@ Rectangle{
         anchors.leftMargin: m_leftMargin
         anchors.fill: parent
     }
+    SearchView{
+        visible: global.currentViewIndex == 7
+        anchors.topMargin: m_topMargin
+        anchors.leftMargin: m_leftMargin
+        anchors.fill: parent
+    }
 }

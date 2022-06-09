@@ -53,5 +53,6 @@
         <file>dsg/icons/yes.dci</file>
         <file>dsg/icons/heart.dci</file>
         <file>dsg/icons/heart_check.dci</file>
+        <file>dsg/icons/Combined_Shape.dci</file>
     </qresource>
 </RCC>

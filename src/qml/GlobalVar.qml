@@ -36,6 +36,7 @@ Item {
 
     signal sigWindowStateChange()
     signal sigThumbnailStateChange()
+    signal sigRunSearch(int UID, string keywords) //执行搜索
 
     onHaveImportedPathsChanged: {
         currentViewIndex = 2

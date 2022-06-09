@@ -893,3 +893,26 @@ bool AlbumControl::insertIntoAlbum(int UID, const QStringList &paths)
     }
     return DBManager::instance()->insertIntoAlbum(UID, localPaths, atype);
 }
+
+QVariant AlbumControl::searchPicFromAlbum(int UID, const QString &keywords, bool useAI)
+{
+    DBImgInfoList dbInfos;
+    if(useAI) { //使用AI进行分析
+        ;
+    } else { //不使用AI分析，直接按文件路径搜索
+        if(UID == -1) {
+            dbInfos = DBManager::instance()->getInfosForKeyword(keywords);
+        } else if(UID == -2) {
+            dbInfos = DBManager::instance()->getTrashInfosForKeyword(keywords);
+        } else {
+            dbInfos = DBManager::instance()->getInfosForKeyword(UID, keywords);
+        }
+    }
+
+    QStringList paths;
+    std::transform(dbInfos.begin(), dbInfos.end(), std::back_inserter(paths), [](const DBImgInfo &info){
+        return "file://" + info.filePath;
+    });
+
+    return paths;
+}

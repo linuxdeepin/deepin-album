@@ -44,5 +44,6 @@
         <file>qml/StatusBar.qml</file>
         <file>qml/Control/FilterComboBox.qml</file>
         <file>qml/Control/ListView/VideoLabel.qml</file>
+        <file>qml/ThumbnailImageView/SearchView.qml</file>
     </qresource>
 </RCC>

@@ -13,28 +13,6 @@ Rectangle {
     anchors.leftMargin: 0
     width: leftSidebar.visible ? parent.width-leftSidebar.width : root.width
     height: 50
-    //        color:titlecontrol.ColorSelector.backgroundColor
-
-
-//    MouseArea { //为窗口添加鼠标事件
-//        anchors.fill: parent
-//        acceptedButtons: Qt.LeftButton //只处理鼠标左键
-//        property point clickPos: "0,0"
-//        onPressed: { //接收鼠标按下事件
-//            clickPos  = Qt.point(mouse.x,mouse.y)
-//            sigTitlePress()
-//        }
-//        onPositionChanged: { //鼠标按下后改变位置
-//            //鼠标偏移量
-//            var delta = Qt.point(mouse.x-clickPos.x, mouse.y-clickPos.y)
-
-//            //如果mainwindow继承自QWidget,用setPos
-//            root.setX(root.x+delta.x)
-//            root.setY(root.y+delta.y)
-//        }
-//    }
-
-
 
     TitleBar {
         id : title
@@ -144,6 +122,7 @@ Rectangle {
                 text: qsTr("All items")
             }
         }
+
         SearchEdit{
             placeholder: qsTr("Search")
             width: 240
@@ -151,6 +130,49 @@ Rectangle {
             anchors.topMargin: 7
             anchors.left: parent.left
             anchors.leftMargin: ( parent.width - width )/2
+
+            property string searchKey: ""
+            property int   beforeView: -1
+
+            //先用这个顶上吧，以前的returnPressed不支持
+            onEditingFinished: {
+                if(global.currentViewIndex != 7) {
+                    beforeView = global.currentViewIndex
+                }
+
+                //判重
+                if(text == searchKey && global.currentViewIndex == 7) {
+                    return
+                }
+                searchKey = text
+
+                //空白的时候执行退出
+                if(text == "") {
+                    global.currentViewIndex = beforeView
+                    return
+                }
+
+                //执行搜索并切出画面
+                //1.搜索
+                var UID = -1
+                switch(beforeView) {
+                default: //搜索全库
+                    break
+                case 4: //搜索我的收藏
+                    UID = 0
+                    break
+                case 5: //搜索最近删除
+                    UID = -2
+                    break
+                case 6: //搜索指定相册
+                    UID = global.currentCustomAlbumUId
+                    break;
+                }
+                global.sigRunSearch(UID, text)
+
+                //2.切出画面
+                global.currentViewIndex = 7
+            }
         }
 
         ActionButton {
