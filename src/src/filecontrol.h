@@ -59,6 +59,9 @@ public:
     //复制图片
     Q_INVOKABLE void copyImage(const QString &path);
 
+    //复制多个
+    Q_INVOKABLE void copyImage(const QStringList &paths);
+
     //是否可以被选旋转
     Q_INVOKABLE bool isRotatable(const QStringList &pathList);
     Q_INVOKABLE bool isRotatable(const QString &path);
@@ -139,6 +142,9 @@ public:
 
     //调用打印接口
     Q_INVOKABLE void showPrintDialog(const QString &path);
+
+    //打印接口，多路径
+    Q_INVOKABLE void showPrintDialog(const QStringList &paths);
 
     //设置配置文件相关值
     Q_INVOKABLE QVariant getConfigValue(const QString &group, const QString &key,

@@ -341,6 +341,32 @@ void FileControl::copyImage(const QString &path)
     cb->setMimeData(newMimeData, QClipboard::Clipboard);
 }
 
+void FileControl::copyImage(const QStringList &paths)
+{
+    //  Get clipboard
+    QClipboard *cb = qApp->clipboard();
+
+    // Ownership of the new data is transferred to the clipboard.
+    QMimeData *newMimeData = new QMimeData();
+    QByteArray gnomeFormat = QByteArray("copy\n");
+    QString text;
+    QList<QUrl> dataUrls;
+    for (QString path : paths) {
+        if (!path.isEmpty())
+            text += path + '\n';
+        dataUrls << QUrl(path);
+        gnomeFormat.append(QUrl(path).toEncoded()).append("\n");
+    }
+
+    newMimeData->setText(text.endsWith('\n') ? text.left(text.length() - 1) : text);
+    newMimeData->setUrls(dataUrls);
+    gnomeFormat.remove(gnomeFormat.length() - 1, 1);
+    newMimeData->setData("x-special/gnome-copied-files", gnomeFormat);
+
+    // Set the mimedata
+    cb->setMimeData(newMimeData, QClipboard::Clipboard);
+}
+
 bool FileControl::isRotatable(const QStringList &pathList)
 {
     bool bRotateable = true;
@@ -680,8 +706,17 @@ bool FileControl::isShowToolTip(const QString &oldPath, const QString &name)
 
 void FileControl::showPrintDialog(const QString &path)
 {
-    QString oldPath = QUrl(path).toLocalFile();
-    PrintHelper::getIntance()->showPrintDialog(QStringList(oldPath));
+    QString localPath = QUrl(path).toLocalFile();
+    PrintHelper::getIntance()->showPrintDialog(QStringList(localPath));
+}
+
+void FileControl::showPrintDialog(const QStringList &paths)
+{
+    QStringList localPaths ;
+    for (QString path : paths){
+        localPaths << QUrl(path).toLocalFile();
+    }
+    PrintHelper::getIntance()->showPrintDialog(localPaths);
 }
 
 QVariant FileControl::getConfigValue(const QString &group, const QString &key, const QVariant &defaultValue)

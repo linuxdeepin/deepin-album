@@ -414,7 +414,7 @@ Item {
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash && theArea.canPrint
 
                 onTriggered: {
-
+                    fileControl.showPrintDialog(global.selectedPaths)
                 }
             }
 
@@ -481,7 +481,7 @@ Item {
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
                          && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString())) || theView.ism.length > 1)
                 onTriggered: {
-
+                    fileControl.copyImage(global.selectedPaths)
                 }
             }
 
