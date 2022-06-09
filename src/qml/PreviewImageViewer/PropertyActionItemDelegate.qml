@@ -66,15 +66,14 @@ Control {
             LineEdit {
                 id: nameedit
                 visible: !showPicLabel.visible
-                text: fileControl.slotGetFileName(imageViewer.source)
-                anchors.fill: nameeditrect
+                text: fileControl.slotGetFileName(filePath)
                 anchors.topMargin: 5
                 anchors.leftMargin: 10
                 font.pixelSize: 16
                 focus: true
                 selectByMouse: true
                 alertText: qsTr("The file already exists, please use another name")
-                showAlert: fileControl.isShowToolTip(imageViewer.source,nameedit.text) && nameedit.visible
+                showAlert: fileControl.isShowToolTip(filePath,nameedit.text) && nameedit.visible
                 height: 20
             }
             Label {

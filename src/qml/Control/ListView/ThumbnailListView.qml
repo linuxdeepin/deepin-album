@@ -608,6 +608,7 @@ Item {
                 id: photoInfoAction
                 visible: theView.ism.length == 1 && fileControl.isImage(thumbnailListModel.get(theView.ism[0]).url.toString())
                 onTriggered: {
+                    albumInfomationDig.filePath =thumbnailListModel.get(theView.ism[0]).url.toString()
                     albumInfomationDig.show()
                 }
             }
@@ -646,6 +647,5 @@ Item {
     //info的窗口
     InfomationDialog{
         id: albumInfomationDig
-        filePath: thumbnailListModel.get(theView.ism[0]).url.toString()
     }
 }

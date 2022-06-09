@@ -625,6 +625,15 @@ QStringList AlbumControl::recoveryImgFromTrash(const QStringList &paths)
     return DBManager::instance()->recoveryImgFromTrash(localPaths);
 }
 
+void AlbumControl::deleteImgFromTrash(const QStringList &paths)
+{
+    QStringList localPaths ;
+    for (QUrl path : paths) {
+        localPaths << path.toLocalFile();
+    }
+    DBManager::instance()->removeTrashImgInfos(paths);
+}
+
 void AlbumControl::insertCollection(const QList< QUrl > &paths)
 {
     QStringList tmpList;

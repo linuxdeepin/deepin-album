@@ -83,6 +83,9 @@ public:
     //恢复文件 //返回无法恢复的文件
     Q_INVOKABLE QStringList recoveryImgFromTrash(const QStringList &paths);
 
+    //从最近删除里面删除图片
+    Q_INVOKABLE void deleteImgFromTrash(const QStringList &paths);
+
     //将文件放进收藏中(添加)
     Q_INVOKABLE void insertCollection(const QList< QUrl > &paths);
 

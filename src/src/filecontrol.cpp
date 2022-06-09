@@ -554,7 +554,10 @@ QString FileControl::slotGetFileNameSuffix(const QString &path)
 
 QString FileControl::slotGetInfo(const QString &key, const QString &path)
 {
-    Q_UNUSED(path)
+    QString localpath = QUrl(path).toLocalFile();
+    if(localpath != m_currentPath){
+        setCurrentImage(path);
+    }
     QString returnString = m_currentAllInfo.value(key);
     if (returnString.isEmpty()) {
         returnString = "-";
