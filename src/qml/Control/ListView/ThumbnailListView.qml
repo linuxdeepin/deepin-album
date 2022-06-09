@@ -500,7 +500,7 @@ Item {
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash && (theArea.canFavorite)
                 onTriggered: {
                     albumControl.insertIntoAlbum(0, selectedPaths)
-                    global.bRefreshFlag = !global.bRefreshFlag
+                    global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
 
                     // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
                     if (global.currentViewIndex === 4 && global.currentCustomAlbumUId == 0) {
@@ -516,7 +516,7 @@ Item {
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash && (!theArea.canFavorite)
                 onTriggered: {
                     albumControl.removeFromAlbum(0, selectedPaths)
-                    global.bRefreshFlag = !global.bRefreshFlag
+                    global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
                     // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
                     if (global.currentViewIndex === 4 && global.currentCustomAlbumUId == 0) {
                         global.bRefreshCustomAlbumFlag = !global.bRefreshCustomAlbumFlag
@@ -535,7 +535,7 @@ Item {
                 text: qsTr("Rotate clockwise")
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash && (theArea.canRotate)
                 onTriggered: {
-
+                    fileControl.rotateFile(global.selectedPaths, 90)
                 }
             }
 
@@ -544,7 +544,7 @@ Item {
                 text: qsTr("Rotate counterclockwise")
                 visible: rotateClockwiseAction.visible
                 onTriggered: {
-
+                    fileControl.rotateFile(global.selectedPaths, -90)
                 }
             }
 

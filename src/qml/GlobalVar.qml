@@ -23,7 +23,7 @@ Item {
     property int rightMenuSeparatorHeight: 12//右键菜单分割层的高度
     property bool ctrlPressed: false//记录ctrl键是否按下
     property var selectedPaths: [] // 已选路径
-    property bool bRefreshFlag: false //刷新标记，翻转一次，相关界面就刷新一次
+    property bool bRefreshFavoriteIconFlag: false //刷新收藏图标标记，翻转一次，图标就刷新一次
     property bool bRefreshCustomAlbumFlag: false //刷新自定义相册(包括我的收藏)标记，翻转一次，自定义视图就刷新一次
     property bool bRefreshImportAlbumFlag: false //刷新自定义相册(包括我的收藏)标记，翻转一次，自定义视图就刷新一次
     property int currentViewIndex: 0// 0:打开图片界面 1:无图片界面

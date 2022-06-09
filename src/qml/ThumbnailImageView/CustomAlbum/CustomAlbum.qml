@@ -77,7 +77,6 @@ Rectangle {
 
     // 刷新视图内表格内容
     onRefreshUIFlagChanged: {
-        console.log("onRefreshUIFlagChanged customAlbumUId:", customAlbumUId)
         loadCustomAlbumItems()
     }
 

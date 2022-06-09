@@ -91,11 +91,12 @@ public:
     //是否是静态图
     Q_INVOKABLE bool isNormalStaticImage(const QString &path);
 
-    //旋转文件
+    //旋转文件 pathList：要旋转的图片路径链表；rotateAngel: > 0 顺时针旋转， < 0 逆时针旋转
+    Q_INVOKABLE bool rotateFile(const QStringList &pathList, const int &rotateAngel);
     Q_INVOKABLE bool rotateFile(const QString &path, const int &rotateAngel);
 
-    //旋转
-    Q_INVOKABLE void slotRotatePixCurrent();
+    //执行旋转当前图片操作 bNotifyExternal: true 通知外部图片旋转完成， false: 不通知外部， 默认不通知
+    Q_INVOKABLE void excuteRotateCurrentPix(bool bNotifyExternal = false);
 
     //获取文件名
     Q_INVOKABLE QString slotGetFileName(const QString &path);
@@ -180,7 +181,7 @@ public:
     Q_INVOKABLE bool checkMimeUrls(const QList<QUrl> &urls);
 
 signals:
-    void callSavePicDone();
+    void callSavePicDone(const QString &path);
 
 public slots:
 

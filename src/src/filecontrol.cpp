@@ -87,8 +87,8 @@ FileControl::FileControl(QObject *parent) : QObject(parent)
         m_tSaveImage = new QTimer(this);
         connect(m_tSaveImage, &QTimer::timeout, this, [ = ]() {
             //保存旋转的图片
-            slotRotatePixCurrent();
-            emit callSavePicDone();
+            excuteRotateCurrentPix();
+            emit callSavePicDone("file://" + m_currentPath);
         });
     }
 
@@ -220,7 +220,7 @@ bool FileControl::isVideo(const QString &path)
 
 void FileControl::setWallpaper(const QString &imgPath)
 {
-    slotRotatePixCurrent();
+    excuteRotateCurrentPix();
     QThread *th1 = QThread::create([ = ]() {
         if (!imgPath.isNull()) {
             QString path = imgPath;
@@ -302,7 +302,7 @@ bool FileControl::displayinFileManager(const QString &path)
 
 void FileControl::copyImage(const QString &path)
 {
-    slotRotatePixCurrent();
+    excuteRotateCurrentPix();
     QString localPath = QUrl(path).toLocalFile();
 
     QClipboard *cb = qApp->clipboard();
@@ -437,7 +437,7 @@ bool FileControl::isFile(const QString &path)
 
 void FileControl::ocrImage(const QString &path)
 {
-    slotRotatePixCurrent();
+    excuteRotateCurrentPix();
     QString localPath = QUrl(path).toLocalFile();
     m_ocrInterface->openFile(localPath);
 }
@@ -486,12 +486,24 @@ bool FileControl::isNormalStaticImage(const QString &path)
     return bRet;
 }
 
+bool FileControl::rotateFile(const QStringList &pathList, const int &rotateAngel)
+{
+    bool bRet = true;
+    for (int i = 0; i < pathList.size(); i++) {
+        if (!pathList[i].isEmpty()) {
+            rotateFile(pathList[i], rotateAngel);
+        }
+    }
+
+    return bRet;
+}
+
 bool FileControl::rotateFile(const QString &path, const int &rotateAngel)
 {
     bool bRet = true;
     QString localPath = QUrl(path).toLocalFile();
     if (m_currentPath != localPath) {
-        slotRotatePixCurrent();
+        excuteRotateCurrentPix(true);
         m_currentPath = localPath;
         m_rotateAngel = rotateAngel;
     } else {
@@ -505,7 +517,7 @@ bool FileControl::rotateFile(const QString &path, const int &rotateAngel)
     return bRet;
 }
 
-void FileControl::slotRotatePixCurrent()
+void FileControl::excuteRotateCurrentPix(bool bNotifyExternal/* = false*/)
 {
     m_rotateAngel = m_rotateAngel % 360;
     if (0 != m_rotateAngel) {
@@ -519,6 +531,8 @@ void FileControl::slotRotatePixCurrent()
 
             QString erroMsg;
             LibUnionImage_NameSpace::rotateImageFIle(m_rotateAngel, m_currentPath, erroMsg);
+            if (bNotifyExternal)
+                emit callSavePicDone("file://" + m_currentPath);
         }
     }
     m_rotateAngel = 0;

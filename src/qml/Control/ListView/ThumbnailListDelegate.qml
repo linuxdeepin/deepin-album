@@ -43,6 +43,16 @@ Rectangle {
         visible: false
     }
 
+    // 图片保存完成，缩略图区域重新加载当前图片
+    Connections {
+        target: fileControl
+        onCallSavePicDone: {
+            if (path === m_url) {
+                m_displayFlushHelper = Math.random()
+            }
+        }
+    }
+
     //圆角遮罩Rectangle
     Rectangle {
         id: maskRec
@@ -72,7 +82,7 @@ Rectangle {
     //收藏图标
     DciIcon {
         name: "collected"
-        visible: albumControl.photoHaveFavorited(m_url, global.bRefreshFlag)
+        visible: albumControl.photoHaveFavorited(m_url, global.bRefreshFavoriteIconFlag)
         anchors.bottom: image.bottom
         anchors.left: image.left
         anchors.leftMargin : (image.width - image.paintedWidth) / 2 + 15
