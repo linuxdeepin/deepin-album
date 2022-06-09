@@ -11,20 +11,19 @@ import "../../Control/ListView"
 
 Item {
     id : importedListView
-    property int filterType: filterCombo.currentIndex // 筛选类型，默认为所有
     property var selectedPaths: []
     //view依赖的model管理器
     property ListModel importedListModel: ListModel {
         id: theModel
         property var selectedPathObj: {"id":0, "paths":[]}
         property var selectedPathObjs: []
-        function loadTitleInfos() {
-            console.log("imported model has refreshed.. filterType:", filterType)
+        function loadImportedInfos() {
+            console.log("imported model has refreshed.. filterType:", filterCombo.currentIndex)
             theModel.clear()
             theModel.selectedPathObjs = []
             // 从后台获取所有已导入数据
-            var titleInfos = albumControl.getImportTimelinesTitleInfos(filterType);
-            console.log("imported model has refreshed.. filterType:", filterType, " done...")
+            var titleInfos = albumControl.getImportTimelinesTitleInfos(filterCombo.currentIndex);
+            console.log("imported model has refreshed.. filterType:", filterCombo.currentIndex, " done...")
             var tmpPath = []
             var i = 0
             for (var key in titleInfos) {
@@ -33,12 +32,6 @@ Item {
                 theModel.selectedPathObjs.push(selectedPathObj)
             }
         }
-    }
-
-    // 筛选类型改变处理事件
-    onFilterTypeChanged: {
-        if (filterType >= 0)
-            importedListModel.loadTitleInfos()
     }
 
     // 刷新已导入列表已选路径

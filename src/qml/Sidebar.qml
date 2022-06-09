@@ -56,6 +56,7 @@ Rectangle {
                         if (global.currentViewIndex == 4) {
                             global.currentCustomAlbumUId = 0
                         }
+                        global.searchEditText = ""
                     }
                     ButtonGroup.group: group
                 }
@@ -129,6 +130,7 @@ Rectangle {
                     onClicked: {
                         global.currentViewIndex = 6
                         global.currentCustomAlbumUId = number
+                        global.searchEditText = ""
                     }
                     ButtonGroup.group: group
                 }

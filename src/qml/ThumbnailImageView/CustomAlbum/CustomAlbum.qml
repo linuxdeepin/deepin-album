@@ -8,10 +8,61 @@ Rectangle {
 
     property int customAlbumUId: global.currentCustomAlbumUId
     property int filterType: filterCombo.currentIndex // 筛选类型，默认所有
-    property bool refreshUIFlag: global.bRefreshCustomAlbumFlag // 外部有数据变更操作，控制刷新相关窗口
-    property var photoCountText: albumControl.getCustomAlbumInfoConut(customAlbumUId, 1, global.bRefreshCustomAlbumFlag) > 0 ? qsTr("%1 photos").arg(albumControl.getCustomAlbumInfoConut(customAlbumUId, 1)) : ""
-    property var videoCountText: albumControl.getCustomAlbumInfoConut(customAlbumUId, 2, global.bRefreshCustomAlbumFlag) > 0 ? qsTr("%1 videos").arg(albumControl.getCustomAlbumInfoConut(customAlbumUId, 2)) : ""
-    property var numLabelText: filterType == 0 ? (photoCountText + (videoCountText !== "" ? (" " + videoCountText) : "")) : (filterType == 1 ? photoCountText : videoCountText)
+    property var numLabelText: getNumLabelText(filterType)
+
+    onVisibleChanged: {
+        if (visible)
+            flushCustomAlbumView()
+    }
+
+    // 筛选类型改变处理事件
+    onFilterTypeChanged: {
+        flushCustomAlbumView()
+    }
+
+    // 我的收藏和相册视图之间切换，需要重载数据
+    onCustomAlbumUIdChanged: {
+        flushCustomAlbumView()
+    }
+
+    // 刷新自定义相册/我的收藏视图内容
+    function flushCustomAlbumView() {
+        loadCustomAlbumItems()
+        global.selectedPaths = theView.selectedPaths
+        getNumLabelText()
+    }
+
+    // 刷新总数标签
+    function getNumLabelText() {
+        var photoCountText = albumControl.getCustomAlbumInfoConut(customAlbumUId, 1) > 0 ? qsTr("%1 photos").arg(albumControl.getCustomAlbumInfoConut(customAlbumUId, 1)) : ""
+        var videoCountText = albumControl.getCustomAlbumInfoConut(customAlbumUId, 2) > 0 ? qsTr("%1 videos").arg(albumControl.getCustomAlbumInfoConut(customAlbumUId, 2)) : ""
+        var numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? (" " + videoCountText) : ""))
+                                           : (filterType == 1 ? photoCountText : videoCountText)
+        if (visible) {
+            global.statusBarNumText = numLabelText
+        }
+
+        return numLabelText
+    }
+
+    // 加载自定义相册数据
+    function loadCustomAlbumItems()
+    {
+        console.info("custom album model has refreshed... filterType:", filterType)
+        theView.selectAll(false)
+        theView.thumbnailListModel.clear();
+        var customAlbumInfos = albumControl.getAlbumInfos(customAlbumUId, filterType);
+        console.info("custom album model has refreshed... filterType:", filterType, " done...")
+        for (var key in customAlbumInfos) {
+            var customAlbumItems = customAlbumInfos[key]
+            for (var i = 0; i < customAlbumItems.length; i++) {
+                theView.thumbnailListModel.append(customAlbumItems[i])
+            }
+            break;
+        }
+
+        return true
+    }
 
     // 自定义相册标题栏区域
     Rectangle {
@@ -50,56 +101,6 @@ Rectangle {
         }
     }
 
-    onVisibleChanged: {
-        if (visible) {
-            // 重载当前界面数据，同时刷新总数标签显示(做了属性绑定，会自动刷新)
-            global.bRefreshCustomAlbumFlag = !global.bRefreshCustomAlbumFlag
-            global.statusBarNumText = numLabelText
-        }
-    }
-
-    onNumLabelTextChanged: {
-        if (visible) {
-            global.statusBarNumText = numLabelText
-        }
-    }
-
-    // 筛选类型改变处理事件
-    onFilterTypeChanged: {
-        if (filterType >= 0)
-            loadCustomAlbumItems()
-    }
-
-    // 我的收藏和相册视图之间切换，需要重载数据
-    onCustomAlbumUIdChanged: {
-        loadCustomAlbumItems()
-    }
-
-    // 刷新视图内表格内容
-    onRefreshUIFlagChanged: {
-        loadCustomAlbumItems()
-    }
-
-    // 加载自定义相册数据
-    function loadCustomAlbumItems()
-    {
-        console.info("custom album model has refreshed... filterType:", filterType)
-        theView.selectAll(false)
-        theView.thumbnailListModel.clear();
-        var customAlbumInfos = albumControl.getAlbumInfos(customAlbumUId, filterType);
-        console.info("custom album model has refreshed... filterType:", filterType, " done...")
-        for (var key in customAlbumInfos) {
-            var customAlbumItems = customAlbumInfos[key]
-            for (var i = 0; i < customAlbumItems.length; i++) {
-                theView.thumbnailListModel.append(customAlbumItems[i])
-            }
-            break;
-        }
-
-        global.selectedPaths = theView.selectedPaths
-        return true
-    }
-
     // 缩略图列表控件
     ThumbnailListView {
         id: theView
@@ -133,5 +134,9 @@ Rectangle {
         font: DTK.fontManager.t4
         color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
         text: qsTr("No results")
+    }
+
+    Component.onCompleted: {
+        global.sigFlushCustomAlbumView.connect(flushCustomAlbumView)
     }
 }

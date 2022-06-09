@@ -24,23 +24,19 @@ Item {
     property bool ctrlPressed: false//记录ctrl键是否按下
     property var selectedPaths: [] // 已选路径
     property bool bRefreshFavoriteIconFlag: false //刷新收藏图标标记，翻转一次，图标就刷新一次
-    property bool bRefreshCustomAlbumFlag: false //刷新自定义相册(包括我的收藏)标记，翻转一次，自定义视图就刷新一次
-    property bool bRefreshImportAlbumFlag: false //刷新自定义相册(包括我的收藏)标记，翻转一次，自定义视图就刷新一次
     property int currentViewIndex: 0// 0:打开图片界面 1:无图片界面
     property int currentCustomAlbumUId: 0// 当前自定义相册所在UId，0:我的收藏 1:截图录屏 2:相机 3:画板 其他:自定义相册
     property int stackControlCurrent: 0// 0:相册界面 1:看图界面 2:幻灯片
-    property var haveImportedPaths //所有导入的图片
 
     property int thumbnailSizeLevel: 0 //缩略图缩放等级
     property var statusBarNumText //状态栏显示的总数文本内容
+    property var searchEditText
 
     signal sigWindowStateChange()
     signal sigThumbnailStateChange()
     signal sigRunSearch(int UID, string keywords) //执行搜索
-
-    onHaveImportedPathsChanged: {
-        currentViewIndex = 2
-    }
+    signal sigFlushHaveImportedView() // 刷新已导入视图内容
+    signal sigFlushCustomAlbumView() // 刷新我的收藏/自定义相册视图内容
 
     //缩略图类型枚举
     enum ThumbnailType {
@@ -54,15 +50,15 @@ Item {
     Connections {
         target: albumControl
         onSigRefreshCustomAlbum: {
-            bRefreshCustomAlbumFlag = !bRefreshCustomAlbumFlag
+           sigFlushCustomAlbumView()
         }
     }
 
-    //刷新已导入
+    //数据库监听-刷新已导入
     Connections {
         target: albumControl
         onSigRefreshImportAlbum: {
-            bRefreshImportAlbumFlag = !bRefreshImportAlbumFlag
+            sigFlushHaveImportedView()
         }
     }
 }

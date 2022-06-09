@@ -45,9 +45,6 @@ ApplicationWindow {
     Component.onCompleted: {
         setX(screen.width / 2 - width / 2);
         setY(screen.height / 2 - height / 2);
-
-        //加载界面完成时去加载所有路径
-        global.haveImportedPaths = albumControl.getAllPaths()
     }
 
     onWindowStateChanged: {

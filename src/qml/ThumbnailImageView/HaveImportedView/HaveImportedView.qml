@@ -5,26 +5,35 @@ Rectangle {
     width: parent.width
     height: parent.height
 
-    property bool refreshUIFlag: global.bRefreshImportAlbumFlag // 外部有数据变更操作，控制刷新相关窗口
     property int filterType : filterCombo.currentIndex // 筛选类型，默认所有
-    property var photoCountText: albumControl.getAllInfoConut(1 , global.bRefreshImportAlbumFlag ) > 0 ? qsTr("%1 photos").arg(albumControl.getAllInfoConut(1)) : ""
-    property var videoCountText: albumControl.getAllInfoConut(2 , global.bRefreshImportAlbumFlag ) > 0 ? qsTr("%1 videos").arg(albumControl.getAllInfoConut(2)) : ""
-    property var numLabelText: filterType == 0 ? (photoCountText + " " + videoCountText) : (filterType == 1 ? photoCountText : videoCountText)
+    property var numLabelText: getNumLabelText(filterType) //总数标签显示内容
     onVisibleChanged: {
-        global.bRefreshImportAlbumFlag = !global.bRefreshImportAlbumFlag
+        flushHaveImportedView()
+    }
+
+    // 筛选类型改变处理事件
+    onFilterTypeChanged: {
+        flushHaveImportedView()
+    }
+
+    // 刷新已导入视图内容
+    function flushHaveImportedView() {
+        theView.importedListModel.loadImportedInfos()
+        theView.updateSelectedPaths()
+        getNumLabelText()
+    }
+
+    // 刷新总数标签
+    function getNumLabelText() {
+        var photoCountText = albumControl.getAllInfoConut(1) > 0 ? qsTr("%1 photos").arg(albumControl.getAllInfoConut(1)) : ""
+        var videoCountText = albumControl.getAllInfoConut(2) > 0 ? qsTr("%1 videos").arg(albumControl.getAllInfoConut(2)) : ""
+        var numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? (" " + videoCountText) : ""))
+                                           : (filterType == 1 ? photoCountText : videoCountText)
         if (visible) {
             global.statusBarNumText = numLabelText
-            theView.updateSelectedPaths()
         }
-    }
-    onNumLabelTextChanged: {
-        if (visible) {
-            global.statusBarNumText = numLabelText
-        }
-    }
-    // 刷新视图内表格内容
-    onRefreshUIFlagChanged: {
-        theView.importedListModel.loadTitleInfos()
+
+        return numLabelText
     }
 
     // 已导入视图标题栏区域
@@ -67,5 +76,9 @@ Rectangle {
         height: parent.height - statusBar.height
 
         z:2
+    }
+
+    Component.onCompleted: {
+        global.sigFlushHaveImportedView.connect(flushHaveImportedView)
     }
 }

@@ -130,6 +130,7 @@ Rectangle {
             anchors.topMargin: 7
             anchors.left: parent.left
             anchors.leftMargin: ( parent.width - width )/2
+            text: global.searchEditText
 
             property string searchKey: ""
             property int   beforeView: -1
@@ -220,7 +221,7 @@ Rectangle {
                     albumControl.removeFromAlbum(0, global.selectedPaths)
                     // 当前处于我的收藏视图，点击图片操作-取消收藏，需要重载我的收藏列表内容
                     if (global.currentViewIndex === 4 && global.currentCustomAlbumUId == 0) {
-                        global.bRefreshCustomAlbumFlag = !global.bRefreshCustomAlbumFlag
+                        global.sigFlushCustomAlbumView()
                     }
                 }
 

@@ -15,6 +15,12 @@ Rectangle {
     property int searchResultCount: 0
     property var searchResults: new Array
 
+    onVisibleChanged: {
+        if (visible) {
+            global.statusBarNumText = searchResultLabel.text
+        }
+    }
+
     function searchFromKeyword(UID, keyword) {
         //1.调起C++，执行搜索
         var searchResult = albumControl.searchPicFromAlbum(UID, keyword, false);
@@ -62,6 +68,11 @@ Rectangle {
             noResultView.visible = true
             resultView.visible = false
         }
+
+        if (visible) {
+            global.statusBarNumText = searchResultLabel.text
+        }
+        global.selectedPaths = []
     }
 
     //搜索标题
@@ -123,6 +134,18 @@ Rectangle {
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             anchors.topMargin: 10
+
+            // 监听缩略图列表选中状态，一旦改变，更新globalVar所有选中路径
+            Connections {
+                target: view
+                onSelectedChanged: {
+                    var selectedPaths = []
+                    selectedPaths = view.selectedPaths
+
+                    if (parent.visible)
+                        global.selectedPaths = selectedPaths
+                }
+            }
         }
     }
 

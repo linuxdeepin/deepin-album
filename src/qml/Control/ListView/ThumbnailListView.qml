@@ -520,7 +520,7 @@ Item {
 
                     // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
                     if (global.currentViewIndex === 4 && global.currentCustomAlbumUId == 0) {
-                        global.bRefreshCustomAlbumFlag = !global.bRefreshCustomAlbumFlag
+                        global.sigFlushCustomAlbumView()
                     }
                 }
             }
@@ -535,7 +535,7 @@ Item {
                     global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
                     // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
                     if (global.currentViewIndex === 4 && global.currentCustomAlbumUId == 0) {
-                        global.bRefreshCustomAlbumFlag = !global.bRefreshCustomAlbumFlag
+                        global.sigFlushCustomAlbumView()
                     }
                 }
             }
