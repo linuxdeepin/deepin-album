@@ -7,6 +7,7 @@
 #include <QFileInfo>
 #include <QUrl>
 #include <QFileDialog>
+#include <QProcess>
 
 DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
 {
@@ -1017,5 +1018,19 @@ QString AlbumControl::getFolder()
         fileDir = dialog.selectedFiles().first();
     }
     return fileDir;
+}
+
+void AlbumControl::openDeepinMovie(const QString &path)
+{
+    QString localPath = QUrl(path).toLocalFile();
+    QProcess *process = new QProcess(this);
+    QStringList arguments;
+    arguments << localPath;
+    bool isopen = process->startDetached("deepin-movie", arguments);
+    if (!isopen) {
+        arguments.clear();
+        arguments << "-o" << localPath ;
+        process->startDetached("dde-file-manager", arguments);
+    }
 }
 

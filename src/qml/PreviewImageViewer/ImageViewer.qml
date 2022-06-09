@@ -663,9 +663,8 @@ Rectangle {
     }
     //info的窗口
     InfomationDialog {
-
         id: infomationDig
-
+        filePath :imageViewer.source
     }
 
 

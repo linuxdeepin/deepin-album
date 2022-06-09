@@ -150,7 +150,12 @@ public:
     //输入一张图片，获得可以导出的格式
     Q_INVOKABLE bool saveAsImage( const QString &path ,const QString &saveName , int index ,const QString &fileFormat  , int pictureQuality = 100 , const QString &saveFolder = nullptr);
 
+    //获得选择路径
     Q_INVOKABLE QString getFolder();
+
+    //用影院打开视频
+    Q_INVOKABLE void openDeepinMovie(const QString &path);
+
 public :
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 

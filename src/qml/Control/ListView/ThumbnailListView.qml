@@ -8,6 +8,7 @@ import QtQuick.Shapes 1.10
 import org.deepin.dtk 1.0
 import "../"
 import "../../"
+import "../../PreviewImageViewer"
 Item {
     id : thumnailListView
     property var viewTitle
@@ -351,6 +352,21 @@ Item {
                     }
                 }
             }
+            onDoubleClicked: {
+
+                if (fileControl.isVideo(thumbnailListModel.get(theView.ism[0]).url.toString())){
+                    albumControl.openDeepinMovie(thumbnailListModel.get(theView.ism[0]).url.toString())
+                } else {
+                    var openPaths = new Array
+                    for(var i=0 ; i< thumbnailListModel.count ; i++){
+                        openPaths.push(thumbnailListModel.get(i).url.toString())
+                    }
+                     mainStack.sourcePaths = openPaths
+                     mainStack.currentIndex = theView.ism[0]
+                     global.stackControlCurrent = 1
+                     mainStack.currentWidgetIndex = 1
+                }
+            }
         }
 
         //橡皮筋控件
@@ -386,7 +402,7 @@ Item {
             RightMenuItem {
                 text: qsTr("Fullscreen")
                 visible:  thumnailListType !== GlobalVar.ThumbnailType.Trash
-                          && (theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).path))
+                          && (theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString()))
                 onTriggered: {
 
                 }
@@ -406,7 +422,7 @@ Item {
             RightMenuItem {
                 text: qsTr("Slide show")
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
-                         && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).path)) || theArea.haveImage)
+                         && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString())) || theArea.haveImage)
                 onTriggered: {
 
                 }
@@ -445,7 +461,7 @@ Item {
             RightMenuItem {
                 text: qsTr("Export")
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
-                         && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).path) && theArea.haveImage) || !theArea.haveVideo)
+                         && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString()) && theArea.haveImage) || !theArea.haveVideo)
                 onTriggered: {
 
                     var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
@@ -463,7 +479,7 @@ Item {
             RightMenuItem {
                 text: qsTr("Copy")
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
-                         && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).path)) || theView.ism.length > 1)
+                         && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString())) || theView.ism.length > 1)
                 onTriggered: {
 
                 }
@@ -559,10 +575,10 @@ Item {
                 text: qsTr("Set as wallpaper")
                 id: setAsWallpaperAction
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
-                         && (theView.ism.length === 1 && fileControl.isCanReadable(thumbnailListModel.get(theView.ism[0]).path)
-                             && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).path))
+                         && (theView.ism.length === 1 && fileControl.isCanReadable(thumbnailListModel.get(theView.ism[0]).url.toString())
+                             && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString()))
                 onTriggered: {
-                    fileControl.setWallpaper(thumbnailListModel.get(theView.ism[0]).path)
+                    fileControl.setWallpaper(thumbnailListModel.get(theView.ism[0]).url.toString())
                 }
             }
 
@@ -571,9 +587,9 @@ Item {
                 text: qsTr("Display in file manager")
                 id: displayInFileManagerAction
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
-                         && (theView.ism.length == 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).path))
+                         && (theView.ism.length == 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString()))
                 onTriggered: {
-                    fileControl.displayinFileManager(thumbnailListModel.get(theView.ism[0]).path)
+                    fileControl.displayinFileManager(thumbnailListModel.get(theView.ism[0]).url.toString())
                 }
             }
 
@@ -590,9 +606,9 @@ Item {
             RightMenuItem {
                 text: qsTr("Photo info")
                 id: photoInfoAction
-                visible: theView.ism.length == 1 && fileControl.isImage(thumbnailListModel.get(theView.ism[0]).path)
+                visible: theView.ism.length == 1 && fileControl.isImage(thumbnailListModel.get(theView.ism[0]).url.toString())
                 onTriggered: {
-
+                    albumInfomationDig.show()
                 }
             }
 
@@ -600,7 +616,7 @@ Item {
             RightMenuItem {
                 text: qsTr("Video info")
                 id: videoInfoAction
-                visible: theView.ism.length == 1 && !fileControl.isImage(thumbnailListModel.get(theView.ism[0]).path)
+                visible: theView.ism.length == 1 && !fileControl.isImage(thumbnailListModel.get(theView.ism[0]).url.toString())
                 onTriggered: {
 
                 }
@@ -624,6 +640,12 @@ Item {
     //rename窗口
     ExportDialog {
         id: exportdig
-        filePath: thumbnailListModel.get(0).url.toString()
+        filePath: thumbnailListModel.get(theView.ism[0]).url.toString()
+    }
+
+    //info的窗口
+    InfomationDialog{
+        id: albumInfomationDig
+        filePath: thumbnailListModel.get(theView.ism[0]).url.toString()
     }
 }
