@@ -3,7 +3,10 @@
 #include "imageengine/movieservice.h"
 #include "fileMonitor/fileinotifygroup.h"
 
+#include <QStandardPaths>
+#include <QFileInfo>
 #include <QUrl>
+#include <QFileDialog>
 
 DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
 {
@@ -916,3 +919,103 @@ QVariant AlbumControl::searchPicFromAlbum(int UID, const QString &keywords, bool
 
     return paths;
 }
+
+QStringList AlbumControl::imageCanExportFormat(const QString &path)
+{
+    QString localPath = QUrl(path).toLocalFile();
+    QStringList formats;
+    formats << "jpg";
+    formats << "jpeg";
+    formats << "png";
+    formats << "bmp";
+    formats << "pgm";
+    formats << "xbm";
+    formats << "xpm";
+    QFileInfo info(localPath);
+    info.suffix();
+    if(!formats.contains(info.suffix())){
+        if(!info.suffix().isEmpty())
+        formats << info.suffix();
+    }
+    return formats;
+
+}
+
+bool AlbumControl::saveAsImage(const QString &path, const QString &saveName, int index, const QString &fileFormat, int pictureQuality, const QString &saveFolder)
+{
+    bool bRet=false;
+    QString localPath = QUrl(path).toLocalFile();
+    QString savePath;
+    QString finalSaveFolder;
+    switch (index) {
+    case 0:
+        finalSaveFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+        break;
+    case 1:
+        finalSaveFolder = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+        break;
+    case 2:
+        finalSaveFolder = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
+        break;
+    case 3:
+        finalSaveFolder = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+        break;
+    case 4:
+        finalSaveFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+        break;
+    case 5:
+        finalSaveFolder = QStandardPaths::writableLocation(QStandardPaths::MusicLocation);
+        break;
+    default :
+        finalSaveFolder = saveFolder;
+        break;
+    }
+    savePath = finalSaveFolder + "/" + saveName + "."+ fileFormat;
+    QStringList formats;
+    formats << "jpg";
+    formats << "jpeg";
+    formats << "png";
+    formats << "bmp";
+    formats << "pgm";
+    formats << "xbm";
+    formats << "xpm";
+    QFileInfo info(localPath);
+    if(!formats.contains(info.suffix())){
+
+        QFileInfo fileinfo(savePath);
+        if (fileinfo.exists() && !fileinfo.isDir()) {
+            //目标位置与原图位置相同则直接返回
+            if (localPath == savePath) {
+                return true;
+            }
+            //目标位置与原图位置不同则先删除再复制
+            if (QFile::remove(savePath)) {
+                bRet = QFile::copy(localPath, savePath);
+            }
+        } else {
+            bRet = QFile::copy(localPath, savePath);
+        }
+    }else {
+        QImage m_saveImage;
+        QString errMsg;
+        LibUnionImage_NameSpace::loadStaticImageFromFile(localPath, m_saveImage, errMsg);
+        bRet = m_saveImage.save(savePath, fileFormat.toUpper().toLocal8Bit().data(), pictureQuality);
+    }
+
+
+    return bRet;
+}
+
+QString AlbumControl::getFolder()
+{
+    QFileDialog dialog;
+    QString fileDir;
+    dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
+    dialog.setViewMode(QFileDialog::Detail);
+    dialog.setFileMode(QFileDialog::DirectoryOnly);
+    if (dialog.exec()) {
+        fileDir = dialog.selectedFiles().first();
+    }
+    return fileDir;
+}
+

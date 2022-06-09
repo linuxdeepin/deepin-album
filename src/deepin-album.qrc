@@ -45,5 +45,6 @@
         <file>qml/Control/FilterComboBox.qml</file>
         <file>qml/Control/ListView/VideoLabel.qml</file>
         <file>qml/ThumbnailImageView/SearchView.qml</file>
+        <file>qml/Control/ExportDialog.qml</file>
     </qresource>
 </RCC>

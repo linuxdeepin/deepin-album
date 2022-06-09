@@ -144,6 +144,13 @@ public:
     //useAI为保留参数，false:不使用AI，只根据文件路径搜索；true:使用AI进行分析，根据关键字含义和图片内容进行搜索
     Q_INVOKABLE QVariant searchPicFromAlbum(int UID, const QString &keywords, bool useAI);
 
+    //输入一张图片，获得可以导出的格式
+    Q_INVOKABLE QStringList imageCanExportFormat(const QString &path);
+
+    //输入一张图片，获得可以导出的格式
+    Q_INVOKABLE bool saveAsImage( const QString &path ,const QString &saveName , int index ,const QString &fileFormat  , int pictureQuality = 100 , const QString &saveFolder = nullptr);
+
+    Q_INVOKABLE QString getFolder();
 public :
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 

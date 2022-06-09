@@ -448,6 +448,14 @@ Item {
                          && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).path) && theArea.haveImage) || !theArea.haveVideo)
                 onTriggered: {
 
+                    var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
+                    var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
+
+                    exportdig.setX(x)
+                    exportdig.setY(y)
+
+                    exportdig.show()
+
                 }
             }
 
@@ -611,5 +619,11 @@ Item {
 
     Component.onCompleted: {
         global.sigThumbnailStateChange.connect(fouceUpdate)
+    }
+
+    //rename窗口
+    ExportDialog {
+        id: exportdig
+        filePath: thumbnailListModel.get(0).url.toString()
     }
 }
