@@ -210,6 +210,10 @@ Rectangle {
 
             sigImageShowNormal()
         }
+
+        if (global.stackControlCurrent == 2) {
+            mainSliderShow.outSliderShow()
+        }
     }
     //缩放快捷键
     Shortcut {

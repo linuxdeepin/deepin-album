@@ -13,6 +13,7 @@ Rectangle {
 
     property string currentKeyword: ""
     property int searchResultCount: 0
+    property var searchResults: new Array
 
     function searchFromKeyword(UID, keyword) {
         //1.调起C++，执行搜索
@@ -28,10 +29,35 @@ Rectangle {
             noResultView.visible = false
             resultView.visible = true
             theModel.clear()
+            var haveVideo = false
+            var havePicture = false
             for(var i = 0;i !== searchResult.length;++i) {
                 theModel.append({url : searchResult[i], displayFlushHelper : 0})
+                if(fileControl.isVideo(searchResult[i])) {
+                    haveVideo = true
+                } else {
+                    havePicture = true
+                }
             }
             searchResultCount = searchResult.length
+            searchResults = searchResult
+            sliderPlayButton.enabled = havePicture
+
+            if(havePicture && !haveVideo) {
+                if(searchResult.length === 1) {
+                    searchResultLabel.text = qsTr("1 photo found")
+                } else {
+                    searchResultLabel.text = qsTr("%1 photos found").arg(searchResult.length)
+                }
+            } else if(haveVideo && !havePicture) {
+                if(searchResult.length === 1) {
+                    searchResultLabel.text = qsTr("1 video found")
+                } else {
+                    searchResultLabel.text = qsTr("%1 videos found").arg(searchResult.length)
+                }
+            } else {
+                searchResultLabel.text = qsTr("%1 items found").arg(searchResult.length)
+            }
         } else {
             noResultView.visible = true
             resultView.visible = false
@@ -41,7 +67,7 @@ Rectangle {
     //搜索标题
     Label {
         id: searchTitle
-        text: qsTr('"%1" 的搜索结果').arg(currentKeyword)
+        text: qsTr("Search results")
         anchors.top: parent.top
         anchors.left: parent.left
         font: DTK.fontManager.t3
@@ -64,7 +90,7 @@ Rectangle {
         //幻灯片放映按钮
         RecommandButton {
             id: sliderPlayButton
-            text: qsTr("幻灯片放映")
+            text: qsTr("Slide Show")
             icon {
                 name:"Combined_Shape"
                 width: 20
@@ -75,14 +101,13 @@ Rectangle {
             anchors.topMargin: 15
 
             onClicked: {
-                console.debug("123123")
+                stackControl.startMainSliderShow(searchResults, 0)
             }
         }
 
         //搜索结果label
         Label {
             id: searchResultLabel
-            text: qsTr('搜到 %1 项').arg(searchResultCount)
             anchors.left: sliderPlayButton.right
             anchors.verticalCenter: sliderPlayButton.verticalCenter
             font: DTK.fontManager.t6
@@ -111,18 +136,9 @@ Rectangle {
 
         Label {
             id: noResultText
-            text: qsTr("无结果")
+            text: qsTr("No search results")
             font: DTK.fontManager.t3
-            anchors.bottom: moreInfoText.top
-            anchors.bottomMargin: 10
-            anchors.horizontalCenter: moreInfoText.horizontalCenter
-            color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
-        }
-        Label {
-            id: moreInfoText
-            text: qsTr('没有 "%1" 的结果，请尝试搜索新词').arg(currentKeyword)
             anchors.centerIn: parent
-            font: DTK.fontManager.t6
             color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
         }
     }

@@ -19,19 +19,19 @@ Rectangle {
         property bool reserve: false
 
         onTriggered: {
-            sliderMainShow.indexImg++
-            if (sliderMainShow.indexImg > sliderMainShow.images.length-1) {
-                sliderMainShow.indexImg=0
+            indexImg++
+            if (indexImg > images.length-1) {
+                indexImg=0
             }
         }
     }
 
     function outSliderShow(){
         showNormal()
-        sliderMainShow.autoRun = false
-        sliderMainShow.backtrack()
+        autoRun = false
+        backtrack()
         if(stackView.currentWidgetIndex===2){
-            mainView.currentIndex=sliderMainShow.indexImg
+            mainView.currentIndex=indexImg
         }
         stackView.currentWidgetIndex=1
     }
@@ -128,9 +128,9 @@ Rectangle {
                 anchors.top: parent.top
                 anchors.topMargin: parent.height/2-height/2
                 onClicked: {
-                    sliderMainShow.indexImg--
-                    if (sliderMainShow.indexImg < 0) {
-                        sliderMainShow.indexImg=images.length-1
+                    indexImg--
+                    if (indexImg < 0) {
+                        indexImg=images.length-1
                     }
                     autoRun=false
                 }
@@ -168,9 +168,9 @@ Rectangle {
                 anchors.topMargin: parent.height/2-height/2
                 onClicked: {
                     console.log("next")
-                    sliderMainShow.indexImg++
-                    if (sliderMainShow.indexImg > sliderMainShow.images.length-1) {
-                        sliderMainShow.indexImg=0
+                    indexImg++
+                    if (indexImg > images.length-1) {
+                        indexImg=0
                     }
                     autoRun=false
                 }
