@@ -7,17 +7,53 @@ Rectangle {
     height: parent.height
 
     property int filterType : filterCombo.currentIndex // 筛选类型，默认所有
-    property var photoCountText: albumControl.getTrashInfoConut(1) > 0 ? qsTr("%1 photos").arg(albumControl.getTrashInfoConut(1)) : ""
-    property var videoCountText: albumControl.getTrashInfoConut(2) > 0 ? qsTr("%1 videos").arg(albumControl.getTrashInfoConut(2)) : ""
-    property var numLabelText: filterType == 0 ? (photoCountText + (videoCountText !== "" ? (" " + videoCountText) : "")) : (filterType == 1 ? photoCountText : videoCountText)
+    property var numLabelText: getNumLabelText(filterType)
+    property var selectedOriginPaths
+
     onVisibleChanged: {
+        if (visible) {
+            flushRecentDelView()
+        }
+    }
+
+    // 筛选类型改变处理事件
+    onFilterTypeChanged: {
+        flushRecentDelView()
+    }
+
+    // 刷新最近删除视图内容
+    function flushRecentDelView() {
+        loadRecentDelItems()
+        global.selectedPaths = theView.selectedPaths
+        getNumLabelText()
+    }
+
+    // 刷新总数标签
+    function getNumLabelText() {
+        var photoCountText = albumControl.getTrashInfoConut(1) > 0 ? qsTr("%1 photos").arg(albumControl.getTrashInfoConut(1)) : ""
+        var videoCountText = albumControl.getTrashInfoConut(2) > 0 ? qsTr("%1 videos").arg(albumControl.getTrashInfoConut(2)) : ""
+        var numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? (" " + videoCountText) : ""))
+                                           : (filterType == 1 ? photoCountText : videoCountText)
         if (visible) {
             global.statusBarNumText = numLabelText
         }
+
+        return numLabelText
     }
-    onNumLabelTextChanged: {
-        if (visible) {
-            global.statusBarNumText = numLabelText
+
+    // 加载最近删除图片数据
+    function loadRecentDelItems()
+    {
+        console.info("recently delete model has refreshed... filterType:", filterType)
+        theView.thumbnailListModel.clear();
+        var delInfos = albumControl.getTrashAlbumInfos(filterType);
+        console.info("recently delete model has refreshed... filterType:", filterType, " done...")
+        for (var key in delInfos) {
+            var delItems = delInfos[key]
+            for (var i = 0; i < delItems.length; i++) {
+                theView.thumbnailListModel.append(delItems[i])
+            }
+            break;
         }
     }
 
@@ -80,6 +116,11 @@ Rectangle {
             font: DTK.fontManager.t6
             text: qsTr("Delete Selected (%1)").arg(theView.haveSelectCount)
             visible: theView.haveSelect
+
+            onClicked: {
+                albumControl.deleteImgFromTrash(selectedOriginPaths)
+                global.sigFlushRecentDelView()
+            }
         }
 
         Button {
@@ -93,28 +134,11 @@ Rectangle {
             font: DTK.fontManager.t6
             text: qsTr("Restore Selected (%1)").arg(theView.haveSelectCount)
             visible: theView.haveSelect
-        }
-    }
 
-    // 筛选类型改变处理事件
-    onFilterTypeChanged: {
-        if (filterType >= 0)
-            loadRecentDelItems()
-    }
-
-    // 加载最近删除图片数据
-    function loadRecentDelItems()
-    {
-        console.info("recently delete model has refreshed... filterType:", filterType)
-        theView.thumbnailListModel.clear();
-        var delInfos = albumControl.getTrashAlbumInfos(filterType);
-        console.info("recently delete model has refreshed... filterType:", filterType, " done...")
-        for (var key in delInfos) {
-            var delItems = delInfos[key]
-            for (var i = 0; i < delItems.length; i++) {
-                theView.thumbnailListModel.append(delItems[i])
+            onClicked: {
+                albumControl.recoveryImgFromTrash(selectedOriginPaths)
+                global.sigFlushRecentDelView()
             }
-            break;
         }
     }
 
@@ -127,5 +151,18 @@ Rectangle {
         height: parent.height - recentDelTitleRect.height - m_topMargin - statusBar.height
 
         property int m_topMargin: 10
+
+        // 监听缩略图列表选中状态，一旦改变，更新globalVar所有选中路径
+        Connections {
+            target: theView
+            onSelectedChanged: {
+                selectedOriginPaths = []
+                selectedOriginPaths = theView.selectedOriginPaths
+            }
+        }
+    }
+
+    Component.onCompleted: {
+        global.sigFlushRecentDelView.connect(flushRecentDelView)
     }
 }

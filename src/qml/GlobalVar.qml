@@ -35,8 +35,9 @@ Item {
     signal sigWindowStateChange()
     signal sigThumbnailStateChange()
     signal sigRunSearch(int UID, string keywords) //执行搜索
-    signal sigFlushHaveImportedView() // 刷新已导入视图内容
-    signal sigFlushCustomAlbumView() // 刷新我的收藏/自定义相册视图内容
+    signal sigFlushHaveImportedView()   // 刷新已导入视图内容
+    signal sigFlushRecentDelView()      // 刷新最近删除视图内容
+    signal sigFlushCustomAlbumView()    // 刷新我的收藏/自定义相册视图内容
 
     //缩略图类型枚举
     enum ThumbnailType {

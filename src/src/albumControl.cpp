@@ -395,8 +395,8 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum, const int &fi
 void AlbumControl::initMonitor()
 {
     m_fileInotifygroup = new FileInotifyGroup(this) ;
-    connect(m_fileInotifygroup , &FileInotifyGroup::sigMonitorChanged,this,&AlbumControl::slotMonitorChanged);
-    connect(m_fileInotifygroup , &FileInotifyGroup::sigMonitorDestroyed,this,&AlbumControl::slotMonitorDestroyed);
+    connect(m_fileInotifygroup, &FileInotifyGroup::sigMonitorChanged, this, &AlbumControl::slotMonitorChanged);
+    connect(m_fileInotifygroup, &FileInotifyGroup::sigMonitorDestroyed, this, &AlbumControl::slotMonitorDestroyed);
     startMonitor();
 }
 
@@ -423,10 +423,10 @@ void AlbumControl::slotMonitorChanged(QStringList fileAdd, QStringList fileDelet
     //直接删除图片
     DBManager::instance()->removeImgInfos(fileDelete);
     AlbumDBType atype = AlbumDBType::AutoImport;
-    DBManager::instance()->insertIntoAlbum( UID , fileAdd , atype);
+    DBManager::instance()->insertIntoAlbum(UID, fileAdd, atype);
 
     DBImgInfoList dbInfos;
-    for (QString path :fileAdd){
+    for (QString path : fileAdd) {
 
         bool bIsVideo = LibUnionImage_NameSpace::isVideo(path);
         DBImgInfo info =  getDBInfo(path, bIsVideo);
@@ -555,9 +555,9 @@ QVariantMap AlbumControl::getTrashAlbumInfos(const int &filterType)
         }
 
         //设置url为删除的路径
-        QString realPath = getDeleteFullPath(LibUnionImage_NameSpace::hashByString(info.filePath) , DBImgInfo::getFileNameFromFilePath(info.filePath));
+        QString realPath = getDeleteFullPath(LibUnionImage_NameSpace::hashByString(info.filePath), DBImgInfo::getFileNameFromFilePath(info.filePath));
         tmpMap.insert("url", "file://" + realPath);
-        tmpMap.insert("filePath", info.filePath);
+        tmpMap.insert("filePath", "file://" + info.filePath);
         tmpMap.insert("pathHash", info.pathHash);
         tmpMap.insert("remainDays", info.remainDays);
         list << tmpMap;
@@ -910,12 +910,12 @@ bool AlbumControl::insertIntoAlbum(int UID, const QStringList &paths)
 QVariant AlbumControl::searchPicFromAlbum(int UID, const QString &keywords, bool useAI)
 {
     DBImgInfoList dbInfos;
-    if(useAI) { //使用AI进行分析
+    if (useAI) { //使用AI进行分析
         ;
     } else { //不使用AI分析，直接按文件路径搜索
-        if(UID == -1) {
+        if (UID == -1) {
             dbInfos = DBManager::instance()->getInfosForKeyword(keywords);
-        } else if(UID == -2) {
+        } else if (UID == -2) {
             dbInfos = DBManager::instance()->getTrashInfosForKeyword(keywords);
         } else {
             dbInfos = DBManager::instance()->getInfosForKeyword(UID, keywords);
@@ -923,7 +923,7 @@ QVariant AlbumControl::searchPicFromAlbum(int UID, const QString &keywords, bool
     }
 
     QStringList paths;
-    std::transform(dbInfos.begin(), dbInfos.end(), std::back_inserter(paths), [](const DBImgInfo &info){
+    std::transform(dbInfos.begin(), dbInfos.end(), std::back_inserter(paths), [](const DBImgInfo & info) {
         return "file://" + info.filePath;
     });
 
@@ -943,9 +943,9 @@ QStringList AlbumControl::imageCanExportFormat(const QString &path)
     formats << "xpm";
     QFileInfo info(localPath);
     info.suffix();
-    if(!formats.contains(info.suffix())){
-        if(!info.suffix().isEmpty())
-        formats << info.suffix();
+    if (!formats.contains(info.suffix())) {
+        if (!info.suffix().isEmpty())
+            formats << info.suffix();
     }
     return formats;
 
@@ -953,7 +953,7 @@ QStringList AlbumControl::imageCanExportFormat(const QString &path)
 
 bool AlbumControl::saveAsImage(const QString &path, const QString &saveName, int index, const QString &fileFormat, int pictureQuality, const QString &saveFolder)
 {
-    bool bRet=false;
+    bool bRet = false;
     QString localPath = QUrl(path).toLocalFile();
     QString savePath;
     QString finalSaveFolder;
@@ -980,7 +980,7 @@ bool AlbumControl::saveAsImage(const QString &path, const QString &saveName, int
         finalSaveFolder = saveFolder;
         break;
     }
-    savePath = finalSaveFolder + "/" + saveName + "."+ fileFormat;
+    savePath = finalSaveFolder + "/" + saveName + "." + fileFormat;
     QStringList formats;
     formats << "jpg";
     formats << "jpeg";
@@ -990,7 +990,7 @@ bool AlbumControl::saveAsImage(const QString &path, const QString &saveName, int
     formats << "xbm";
     formats << "xpm";
     QFileInfo info(localPath);
-    if(!formats.contains(info.suffix())){
+    if (!formats.contains(info.suffix())) {
 
         QFileInfo fileinfo(savePath);
         if (fileinfo.exists() && !fileinfo.isDir()) {
@@ -1005,7 +1005,7 @@ bool AlbumControl::saveAsImage(const QString &path, const QString &saveName, int
         } else {
             bRet = QFile::copy(localPath, savePath);
         }
-    }else {
+    } else {
         QImage m_saveImage;
         QString errMsg;
         LibUnionImage_NameSpace::loadStaticImageFromFile(localPath, m_saveImage, errMsg);

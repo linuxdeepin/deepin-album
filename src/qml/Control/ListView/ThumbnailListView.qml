@@ -73,6 +73,8 @@ Item {
     property int haveSelectCount: theView.ism.length
     // 已选路径
     property var selectedPaths: new Array
+    // 已选原始路径
+    property var selectedOriginPaths: new Array
     //缩略图动态变化（-10是右侧的边距）
     property real cellBaseWidth: global.thumbnailSizeLevel >= 0 && global.thumbnailSizeLevel <= 9 ? 80 + global.thumbnailSizeLevel * 10 : 80
     property int  rowSizeHint: (width - 10) / cellBaseWidth
@@ -132,11 +134,15 @@ Item {
 
         onIsmChanged: {
             var tmpPaths = []
+            var tmpOriginPaths = []
             for(var i=0 ; i < ism.length ; i++){
                 tmpPaths.push(thumbnailListModel.get(ism[i]).url.toString())
+                tmpOriginPaths.push(thumbnailListModel.get(ism[i]).filePath.toString())
             }
             if (selectedPaths !== tmpPaths)
                 selectedPaths = tmpPaths
+            if (selectedOriginPaths != tmpOriginPaths)
+                selectedOriginPaths = tmpOriginPaths
              console.log("onIsmChanged: ", selectedPaths)
         }
 

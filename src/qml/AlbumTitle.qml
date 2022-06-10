@@ -269,6 +269,9 @@ Rectangle {
                 width: 36
                 height: 36
             }
+            onClicked: {
+                albumControl.insertTrash(global.selectedPaths)
+            }
         }
     }
 
