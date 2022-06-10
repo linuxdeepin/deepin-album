@@ -353,7 +353,7 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::sigMonitorDestroyed, this, &AlbumView::onMonitorDestroyed);
 
     // 字体改变时,不同尺寸下同步调整标题栏区域控件显示大小
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::fontChanged, this, &AlbumView::adjustTitleContent);
+    connect(qApp, &QGuiApplication::fontChanged, this, &AlbumView::adjustTitleContent);
 }
 
 void AlbumView::initLeftView()
