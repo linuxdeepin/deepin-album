@@ -225,7 +225,7 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
     mi.fileSize = fi.size();
 
     //2.2.视频流数据
-    auto videoInfoString = searchLineFromKeyString("Video: ", ffmpegOut);
+    QString videoInfoString = searchLineFromKeyString("Video: ", ffmpegOut);
     if (!videoInfoString.isEmpty()) {
         auto videoStreamInfo = videoInfoString.split(", ");
 

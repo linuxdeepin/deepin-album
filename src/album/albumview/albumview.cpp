@@ -353,7 +353,7 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::sigMonitorDestroyed, this, &AlbumView::onMonitorDestroyed);
 
     // 字体改变时,不同尺寸下同步调整标题栏区域控件显示大小
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::fontChanged, this, &AlbumView::adjustTitleContent);
+    connect(qApp, &QGuiApplication::fontChanged, this, &AlbumView::adjustTitleContent);
 }
 
 void AlbumView::initLeftView()
@@ -2496,15 +2496,16 @@ void AlbumView::adjustTitleContent()
         m_pFavoritePicTotal->setToolTip("");
     }
 
-    // 自定义相册 总数label截断显示处理
-    elidedText = utils::base::reorganizationStr(m_pRightPicTotal->font(), m_CustomRightPicTotalFullStr, m_customAlbumTitleLabel->x() - 30);
-    m_pRightPicTotal->setText(elidedText);
-    if (elidedText != m_CustomRightPicTotalFullStr) {
-        m_pRightPicTotal->setToolTip(m_CustomRightPicTotalFullStr);
-    } else {
-        m_pRightPicTotal->setToolTip("");
+    if (topLevelWidget()->width() <= MAINWINDOW_DEVICE_MIN_WIDTH) {
+        // 自定义相册 总数label截断显示处理
+        elidedText = utils::base::reorganizationStr(m_pRightPicTotal->font(), m_CustomRightPicTotalFullStr, m_customAlbumTitleLabel->x() - 30);
+        m_pRightPicTotal->setText(elidedText);
+        if (elidedText != m_CustomRightPicTotalFullStr) {
+            m_pRightPicTotal->setToolTip(m_CustomRightPicTotalFullStr);
+        } else {
+            m_pRightPicTotal->setToolTip("");
+        }
     }
-
     // 设备识别 标题和总数label截断显示处理
     elidedText = utils::base::reorganizationStr(m_pPhoneTitle->font(), m_phoneTitleFullStr, m_pPhoneTitle->width());
     m_pPhoneTitle->setText(elidedText);
@@ -2725,7 +2726,14 @@ void AlbumView::onBatchSelectChanged(bool isBatchSelect)
     if (m_customBatchOperateWidget->isVisible()) {//自定义相册界面标题
         int size = m_customBatchOperateWidget->x() - (m_customAlbumTitleLabel->x() + m_customAlbumTitleLabel->width());
         QString Str = utils::base::reorganizationStr(m_customAlbumTitleLabel->font(), m_currentAlbum, m_customAlbumTitleLabel->width() + size);
-        if (Str.length() > 0) {
+        if (topLevelWidget()->width() > MAINWINDOW_NEEDCUT_WIDTH) {
+            m_customAlbumTitleLabel->setText(m_currentAlbum);
+            m_customAlbumTitleLabel->adjustSize();
+            m_customAlbumTitleLabel->move(m_customAlbumTitle->width() / 2 - m_customAlbumTitleLabel->width() / 2, 0);
+            Str = utils::base::reorganizationStr(m_customAlbumTitleLabel->font(), m_currentAlbum,
+                                                 2 * m_customBatchOperateWidget->x() - m_customAlbumTitle->width());
+        }
+        if (Str.length() > 0 && size > 10) {
             m_customAlbumTitleLabel->show();
             m_customAlbumTitleLabel->raise();
         } else {
