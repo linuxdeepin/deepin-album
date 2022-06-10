@@ -41,10 +41,11 @@ Item {
 
     //缩略图类型枚举
     enum ThumbnailType {
-        Normal,      //普通模式
-        Trash,       //最近删除
-        CustomAlbum, //自定义相册
-        AutoImport   //自动导入路径
+        Normal,       //普通模式
+        Trash,        //最近删除
+        CustomAlbum,  //自定义相册
+        AutoImport,   //自动导入路径
+        AllCollection //合集模式
     }
 
     //刷新自定义相册

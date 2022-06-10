@@ -1043,3 +1043,17 @@ void AlbumControl::openDeepinMovie(const QString &path)
     }
 }
 
+QString AlbumControl::getFileTime(const QString &path1, const QString &path2)
+{
+    auto time1 = DBManager::instance()->getFileImportTime(QUrl(path1).toLocalFile());
+    auto time2 = DBManager::instance()->getFileImportTime(QUrl(path2).toLocalFile());
+
+    auto str1 = time1.toString("yyyy/MM/dd");
+    auto str2 = time2.toString("yyyy/MM/dd");
+
+    if(time1 < time2) {
+        return str1 + "-" + str2;
+    } else {
+        return str2 + "-" + str1;
+    }
+}

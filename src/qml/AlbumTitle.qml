@@ -92,34 +92,47 @@ Rectangle {
                 global.sigThumbnailStateChange()
             }
         }
-        ButtonBox {
 
+        ButtonBox {
             anchors.top: parent.top
             anchors.topMargin: 7
             anchors.left: range1Button.right
             anchors.leftMargin: 0
-            height:36
+            height: 36
+            visible: global.currentViewIndex == 2
 
             ToolButton {
                 Layout.preferredHeight: parent.height
-                checkable: true;
-                text: qsTr("Year") ;
+                checkable: true
+                text: qsTr("Y")
                 checked: true
+                onClicked: {
+                    thumbnailImage.setCollecttionViewIndex(0)
+                }
             }
             ToolButton {
                 Layout.preferredHeight: parent.height
-                checkable: true;
-                text: qsTr("Month")
+                checkable: true
+                text: qsTr("M")
+                onClicked: {
+                    thumbnailImage.setCollecttionViewIndex(1)
+                }
             }
             ToolButton {
                 Layout.preferredHeight: parent.height
-                checkable: true;
-                text: qsTr("Day")
+                checkable: true
+                text: qsTr("D")
+                onClicked: {
+                    thumbnailImage.setCollecttionViewIndex(2)
+                }
             }
             ToolButton {
                 Layout.preferredHeight: parent.height
-                checkable: true;
-                text: qsTr("All items")
+                checkable: true
+                text: qsTr("All")
+                onClicked: {
+                    thumbnailImage.setCollecttionViewIndex(3)
+                }
             }
         }
 

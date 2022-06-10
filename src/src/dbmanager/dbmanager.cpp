@@ -1986,3 +1986,15 @@ int DBManager::getAlbumImgsCount(int UID) const
     }
     return 0;
 }
+
+QDateTime DBManager::getFileImportTime(const QString &path)
+{
+    QMutexLocker mutex(&m_dbMutex);
+    m_query->setForwardOnly(true);
+    QDateTime result;
+    if(m_query->exec(QString("SELECT Time FROM ImageTable3 WHERE FilePath=\"%1\"").arg(path))) {
+        m_query->first();
+        result = m_query->value(0).toDateTime();
+    }
+    return result;
+}

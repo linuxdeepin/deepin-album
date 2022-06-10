@@ -46,5 +46,9 @@
         <file>qml/Control/ListView/VideoLabel.qml</file>
         <file>qml/ThumbnailImageView/SearchView.qml</file>
         <file>qml/Control/ExportDialog.qml</file>
+        <file>qml/ThumbnailImageView/CollecttionView/YearCollection.qml</file>
+        <file>qml/ThumbnailImageView/CollecttionView/MonthCollection.qml</file>
+        <file>qml/ThumbnailImageView/CollecttionView/DayCollection.qml</file>
+        <file>qml/ThumbnailImageView/CollecttionView/AllCollection.qml</file>
     </qresource>
 </RCC>

@@ -148,6 +148,7 @@ public:
     const DBImgInfoList     getTrashImgInfos(const QString &key, const QString &value) const;
     int                     getTrashImgsCount() const;
     int                     getAlbumImgsCount(int UID) const;
+    QDateTime               getFileImportTime(const QString &path);
 private:
     const DBImgInfoList     getInfosByNameTimeline(const QString &value) const;
     const DBImgInfoList     getImgInfos(const QString &key, const QString &value, bool needTimeData) const;

@@ -55,6 +55,18 @@ Item {
         return thumbnailListModel.count
     }
 
+    //统计当前页面的缩略图时间范围
+    function totalTimeScope() {
+        if(thumnailListType === GlobalVar.ThumbnailType.AllCollection) { //仅在合集模式的时候激活计算，以此节省性能
+            var item1 = theView.itemAt(40, theView.contentY + 40)
+            var item2 = theView.itemAt(theView.width - 40, theView.contentY + theView.height - 40)
+            if(item1 !== null && item2 !== null) {
+                var str = albumControl.getFileTime(item1.m_url, item2.m_url)
+                timeChanged(str)
+            }
+        }
+    }
+
     //view依赖的model管理器
     property ListModel thumbnailListModel: ListModel { }
 
@@ -104,6 +116,9 @@ Item {
         ScrollBar.vertical: ScrollBar {
             id: vbar
             active: false
+            onPositionChanged: {
+                totalTimeScope()
+            }
         }
 
         //鼠标正在按下状态
@@ -350,12 +365,15 @@ Item {
                 if (enableWheel) {
                     // 滚动时，激活滚动条显示
                     vbar.active = true
-                    var datla = wheel.angleDelta.y
-                    if( datla > 0 ) {
-                        vbar.decrease()
-                    } else {
-                        vbar.increase()
+                    var datla = wheel.angleDelta.y / 2
+                    parent.contentY -= datla
+                    if(parent.contentY < 0) {
+                        parent.contentY = 0
+                    } else if(parent.contentY > parent.contentHeight - parent.height + statusBar.height) {
+                        parent.contentY = parent.contentHeight - parent.height + statusBar.height
                     }
+                } else {
+                    vbar.active = false
                 }
             }
             onDoubleClicked: {
@@ -648,6 +666,14 @@ Item {
 
     Component.onCompleted: {
         global.sigThumbnailStateChange.connect(fouceUpdate)
+    }
+
+    onVisibleChanged: {
+        totalTimeScope()
+    }
+
+    onRealCellWidthChanged: {
+        totalTimeScope()
     }
 
     //rename窗口

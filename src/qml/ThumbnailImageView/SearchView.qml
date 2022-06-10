@@ -38,7 +38,7 @@ Rectangle {
             var haveVideo = false
             var havePicture = false
             for(var i = 0;i !== searchResult.length;++i) {
-                theModel.append({url : searchResult[i], displayFlushHelper : 0})
+                theModel.append({url : searchResult[i]})
                 if(fileControl.isVideo(searchResult[i])) {
                     haveVideo = true
                 } else {

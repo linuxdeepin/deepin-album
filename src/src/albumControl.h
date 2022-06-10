@@ -159,6 +159,8 @@ public:
     //用影院打开视频
     Q_INVOKABLE void openDeepinMovie(const QString &path);
 
+    //根据输入路径生成时间范围
+    Q_INVOKABLE QString getFileTime(const QString &path1, const QString &path2);
 public :
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 
