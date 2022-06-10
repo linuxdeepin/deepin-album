@@ -52,7 +52,16 @@ Item {
     // 获取列表中项的个数
     function count()
     {
-        return thumbnailListModel.count
+        return global.objIsEmpty(thumbnailListModel) ? 0 : thumbnailListModel.count
+    }
+
+    // 获取列表中所有原始路径
+    function allOriginPaths() {
+        var originPaths = []
+        for(var i=0 ; i < count(); i++) {
+            originPaths.push(thumbnailListModel.get(i).filePath.toString())
+        }
+        return originPaths
     }
 
     //统计当前页面的缩略图时间范围
@@ -76,11 +85,11 @@ Item {
     // 是否开启滚轮
     property bool enableWheel: true
     //缩略图类型，默认为普通模式
-    property int thumnailListType: global.currentViewIndex == 5 ?GlobalVar.ThumbnailType.Trash :GlobalVar.ThumbnailType.Normal
+    property int thumnailListType: global.currentViewIndex == 5 ? GlobalVar.ThumbnailType.Trash : GlobalVar.ThumbnailType.Normal
     //存在框选项
     property bool haveSelect: theView.ism.length > 0
     //已框选全部缩略图
-    property bool haveSelectAll: theView.ism.length == thumbnailListModel.count
+    property bool haveSelectAll: theView.ism.length === count()
     // 已选项个数
     property int haveSelectCount: theView.ism.length
     // 已选路径
@@ -104,7 +113,7 @@ Item {
         delegate: ThumbnailListDelegate{
             id: thumbnailListDelegate
             m_index: index
-            m_url: thumbnailListModel.get(index).url
+            m_url: global.objIsEmpty(thumbnailListModel.get(index)) ? "" : thumbnailListModel.get(index).url
             m_displayFlushHelper: "0"
             width: itemWidth - 4
             height: itemHeight - 4
@@ -158,7 +167,7 @@ Item {
                 selectedPaths = tmpPaths
             if (selectedOriginPaths != tmpOriginPaths)
                 selectedOriginPaths = tmpOriginPaths
-             console.log("onIsmChanged: ", selectedPaths)
+             //console.log("onIsmChanged: ", selectedPaths)
         }
 
         //刷新选中的元素
@@ -693,7 +702,7 @@ Item {
     //rename窗口
     ExportDialog {
         id: exportdig
-        filePath: thumbnailListModel.get(theView.ism[0]).url.toString()
+        filePath: global.objIsEmpty(thumbnailListModel) ? "" : (global.objIsEmpty(thumbnailListModel.get(theView.ism[0])) ? "" : thumbnailListModel.get(theView.ism[0]).url.toString())
     }
 
     //info的窗口

@@ -110,8 +110,8 @@ Item {
             property int m_bottomMarign: 10 // 已导入列表子项下边距
             property int m_FilterComboOffsetY: 5
             property int m_spaceCtrlHeight: filterCombo.y + m_FilterComboOffsetY
-            property var theViewTitle: theModel.get(index).title //日期标题文本内容
-            property var theViewItems: theModel.get(index).items //日期标题对应图片信息链表
+            property var theViewTitle: global.objIsEmpty(theModel.get(index)) ? "" : theModel.get(index).title //日期标题文本内容
+            property var theViewItems: global.objIsEmpty(theModel.get(index)) ? "" : theModel.get(index).items //日期标题对应图片信息链表
 
             Rectangle {
                 id: spaceRect
@@ -152,7 +152,7 @@ Item {
                 anchors.topMargin: m_topMarign
                 anchors.bottomMargin: m_bottomMarign
                 width: parent.width
-                height: Math.abs(Math.ceil(thumbnailListModel.count / Math.floor((parent.width) / itemWidth)) * itemHeight)
+                height: Math.abs(Math.ceil(importedGridView.count() / Math.floor((parent.width) / itemWidth)) * itemHeight)
 
                 enableWheel: false
 

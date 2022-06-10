@@ -93,6 +93,10 @@ Rectangle {
             font: DTK.fontManager.t6
             text: qsTr("Delete All")
             visible: !theView.haveSelect
+            onClicked: {
+                albumControl.deleteImgFromTrash(theView.allOriginPaths())
+                global.sigFlushRecentDelView()
+            }
         }
 
         // 筛选下拉框

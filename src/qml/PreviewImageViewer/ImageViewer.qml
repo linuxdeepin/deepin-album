@@ -97,7 +97,7 @@ Rectangle {
     // 图片源发生改变，隐藏导航区域，重置图片缩放比例
     onSourceChanged: {
 
-        fileControl.slotRotatePixCurrent();
+        fileControl.excuteRotateCurrentPix();
 
         console.log("source:", mainView.source)
         fileControl.setCurrentImage(source)
