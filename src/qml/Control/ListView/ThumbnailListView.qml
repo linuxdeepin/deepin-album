@@ -460,25 +460,39 @@ Item {
             //添加到相册子菜单
             //隐藏交给后面的Component.onCompleted解决
             Menu {
+                id: addToAlbum
                 title: qsTr("Add to album")
 
                 RightMenuItem {
                     text: qsTr("New album")
                     onTriggered: {
-
+                        var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
+                        var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
+                        newAlbum.setX(x)
+                        newAlbum.setY(y)
+                        newAlbum.show()
                     }
                 }
 
                 MenuSeparator {
                 }
 
-                //这个部分需要动态读取相册的数据库情况，需要显示所有的相册，已经在目标相册里的就置灰
-                RightMenuItem {
-                    text: qsTr("TODO: 这个部分需要动态读取相册的数据库情况")
-                    onTriggered: {
+                Repeater {
+                    id: recentFilesInstantiator
+                    model: albumControl.getAllCustomAlbumId(global.albumChangeList).length
+                    delegate: RightMenuItem {
+                        text: albumControl.getAllCustomAlbumName(global.albumChangeList)[index]
 
+                        onTriggered:{
+                            albumControl.insertIntoAlbum(albumControl.getAllCustomAlbumId(global.albumChangeList)[index] , global.selectedPaths)
+                            global.currentViewIndex = 6
+                            global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[index]
+                            global.siderGroup.buttons[index].checked = true
+                        }
                     }
+
                 }
+
             }
 
             //导出图片为其它格式
@@ -685,5 +699,22 @@ Item {
     //info的窗口
     InfomationDialog{
         id: albumInfomationDig
+    }
+
+    //rename窗口
+    NewAlbumDialog {
+        id: newAlbum
+    }
+
+    Connections {
+        target: newAlbum
+        onSigCreateAlbum:
+        {
+            var index = albumControl.getAllCustomAlbumId(global.albumChangeList).length - 1
+            console.log ( index)
+            albumControl.insertIntoAlbum(albumControl.getAllCustomAlbumId(global.albumChangeList)[index] , global.selectedPaths)
+            global.currentViewIndex = 6
+            global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[index]
+        }
     }
 }

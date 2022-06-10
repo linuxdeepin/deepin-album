@@ -9,8 +9,7 @@ import org.deepin.dtk 1.0
 import "./Control"
 
 Rectangle {
-    property bool changeList: false
-    property ButtonGroup group: ButtonGroup {}
+
     width:200
     height:parent.height
     ScrollView {
@@ -58,7 +57,7 @@ Rectangle {
                         }
                         global.searchEditText = ""
                     }
-                    ButtonGroup.group: group
+                    ButtonGroup.group: global.siderGroup
                 }
             }
             RowLayout{
@@ -132,20 +131,20 @@ Rectangle {
                         global.currentCustomAlbumUId = number
                         global.searchEditText = ""
                     }
-                    ButtonGroup.group: group
+                    ButtonGroup.group: global.siderGroup
                 }
 
             }
 
             ListView{
                 id : customList
-                height:albumControl.getAllCustomAlbumId(changeList).length * 36
+                height:albumControl.getAllCustomAlbumId(global.albumChangeList).length * 42
                 width:parent.width
                 clip: true
                 visible: true
                 interactive: false //禁用原有的交互逻辑，重新开始定制
 
-                model :albumControl.getAllCustomAlbumId(changeList).length
+                model :albumControl.getAllCustomAlbumId(global.albumChangeList).length
                 delegate:    ItemDelegate {
                     text: albumControl.getAllCustomAlbumName()[index]
                     width: parent.width - 20
@@ -155,9 +154,10 @@ Rectangle {
                     backgroundVisible: false
                     onClicked: {
                         global.currentViewIndex = 6
-                        global.currentCustomAlbumUId = index + 4
+                        global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[index]
+
                     }
-                    ButtonGroup.group: group
+                    ButtonGroup.group: global.siderGroup
                 }
             }
         }

@@ -1,4 +1,5 @@
 import QtQuick 2.11
+import QtQuick.Controls 2.4
 
 Item {
 
@@ -38,6 +39,9 @@ Item {
     signal sigFlushHaveImportedView()   // 刷新已导入视图内容
     signal sigFlushRecentDelView()      // 刷新最近删除视图内容
     signal sigFlushCustomAlbumView()    // 刷新我的收藏/自定义相册视图内容
+
+    property bool albumChangeList: false //自定义相册改变
+    property ButtonGroup siderGroup: ButtonGroup {} //控制导航栏的group
 
     //缩略图类型枚举
     enum ThumbnailType {

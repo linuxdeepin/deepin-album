@@ -19,10 +19,13 @@ DialogWindow {
     minimumHeight: 190
     maximumHeight: 190
 
+
     width: 400
     height: 190
 
     icon : "deepin-album"
+
+    signal sigCreateAlbum() //创建成功信号
 
     Text {
         id: renametitle
@@ -93,8 +96,9 @@ DialogWindow {
 
         onClicked: {
             albumControl.createAlbum( nameedit.text )
-            changeList=!changeList //通知刷新
+            global.albumChangeList=!global.albumChangeList //通知刷新
             renamedialog.visible = false
+            sigCreateAlbum()
         }
     }
 
