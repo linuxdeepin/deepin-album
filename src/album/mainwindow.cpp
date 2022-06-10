@@ -274,7 +274,7 @@ void MainWindow::initUI()
     loadWindowState();
 
     // 字体改变时,不同尺寸下同步调整标题栏区域控件显示大小
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::fontChanged, this, &MainWindow::adjustTitleContent);
+    connect(qApp, &QGuiApplication::fontChanged, this, &MainWindow::adjustTitleContent);
 }
 
 //初始化等待窗口
