@@ -165,6 +165,17 @@ public:
     //获得视频信息
     Q_INVOKABLE QString getMovieInfo(const QString key ,const QString &path);
 
+    //获取指定年份的总数
+    Q_INVOKABLE int getYearCount(const QString &year);
+
+    //获取年份
+    Q_INVOKABLE QStringList getYears();
+
+    //获取指定月份的总数
+    Q_INVOKABLE int getMonthCount(const QString &year, const QString &month);
+
+    //获取月份
+    Q_INVOKABLE QStringList getMonths();
 public :
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 

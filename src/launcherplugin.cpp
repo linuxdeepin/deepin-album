@@ -50,6 +50,7 @@ int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
     engine->addImageProvider(QLatin1String("ThumbnailImage"), load->m_pThumbnail);
     engine->addImageProvider(QLatin1String("viewImage"), load->m_viewLoad);
     engine->addImageProvider(QLatin1String("publisher"), load->m_publisher);
+    engine->addImageProvider(QLatin1String("collectionPublisher"), load->m_collectionPublisher);
     engine->rootContext()->setContextProperty("publisher", load->m_publisher);
 
     FileControl *fileControl = new FileControl();

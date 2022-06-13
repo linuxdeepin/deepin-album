@@ -66,6 +66,21 @@ private:
     std::atomic_int m_loadMode;
 };
 
+//聚合图
+class CollectionPublisher : public QQuickImageProvider
+{
+public:
+    explicit CollectionPublisher();
+
+protected:
+    QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
+
+private:
+    //图片裁剪策略
+    QImage createYearImage(const QString &year); //生成年视图
+    QImage createMonthImage(const QString &year, const QString &month);//生成月视图
+};
+
 class LoadImage : public QObject
 {
     Q_OBJECT
@@ -75,6 +90,7 @@ public:
     ThumbnailLoad *m_pThumbnail{nullptr};
     ViewLoad *m_viewLoad{nullptr};
     ImagePublisher *m_publisher{nullptr};
+    CollectionPublisher *m_collectionPublisher{nullptr};
     Q_INVOKABLE double getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight);
     Q_INVOKABLE bool imageIsNull(const QString &path);
     //获得当前图片的宽和高

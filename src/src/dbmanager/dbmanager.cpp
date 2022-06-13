@@ -1998,3 +1998,59 @@ QDateTime DBManager::getFileImportTime(const QString &path)
     }
     return result;
 }
+
+QStringList DBManager::getYearPaths(const QString &year, int maxCount)
+{
+    QMutexLocker mutex(&m_dbMutex);
+    m_query->setForwardOnly(true);
+    QStringList result;
+    QString str = QString("SELECT FilePath FROM ImageTable3 WHERE Time between \"%1-01-01T00:00:00.000\" AND \"%1-12-31T23:59:59.999\" limit %2").arg(year).arg(maxCount);
+    if(m_query->exec(str)) {
+        while(m_query->next()) {
+            result.push_back(m_query->value(0).toString());
+        }
+    }
+    return result;
+}
+
+QStringList DBManager::getYears()
+{
+    QMutexLocker mutex(&m_dbMutex);
+    m_query->setForwardOnly(true);
+    QStringList result;
+    QString str = QString("SELECT DISTINCT substr(Time, 0, 5) FROM ImageTable3 ORDER BY Time DESC");
+    if(m_query->exec(str)) {
+        while(m_query->next()) {
+            result.push_back(m_query->value(0).toString());
+        }
+    }
+    return result;
+}
+
+int DBManager::getYearCount(const QString &year)
+{
+    QMutexLocker mutex(&m_dbMutex);
+    m_query->setForwardOnly(true);
+    int result = 0;
+    QString str = QString("SELECT COUNT(*) FROM ImageTable3 WHERE Time between \"%1-01-01T00:00:00.000\" AND \"%1-12-31T23:59:59.999\"").arg(year);
+    if(m_query->exec(str)) {
+        m_query->first();
+        result = m_query->value(0).toInt();
+    }
+    return result;
+}
+
+QStringList DBManager::getMonthPaths(const QString &year, const QString &month, int maxCount)
+{
+    ;
+}
+
+QStringList DBManager::getMonths()
+{
+    ;
+}
+
+int DBManager::getMonthCount(const QString &year, const QString &month)
+{
+    ;
+}

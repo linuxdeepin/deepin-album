@@ -2,6 +2,7 @@
 #include "unionimage/unionimage.h"
 #include "configsetter.h"
 #include "imageengine/movieservice.h"
+#include "dbmanager/dbmanager.h"
 #include <QPainter>
 
 const QString SETTINGS_GROUP = "Thumbnail";
@@ -55,6 +56,7 @@ LoadImage::LoadImage(QObject *parent) :
     m_pThumbnail = new ThumbnailLoad();
     m_viewLoad = new ViewLoad();
     m_publisher = new ImagePublisher(this);
+    m_collectionPublisher = new CollectionPublisher();
 }
 
 double LoadImage::getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight)
@@ -343,4 +345,64 @@ QImage ImagePublisher::requestImage(const QString &id, QSize *size, const QSize 
     } else {
         return image;
     }
+}
+
+CollectionPublisher::CollectionPublisher()
+    : QQuickImageProvider(Image)
+{
+}
+
+//id: random_Y_2022_0 random_M_2022_6
+QImage CollectionPublisher::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
+{
+    auto tokens = id.split("_");
+
+    QImage result;
+
+    if(id.size() < 4) {
+        return result;
+    }
+
+    auto type = tokens[1];
+    if(type == "Y") {
+        result = createYearImage(tokens[2]);
+    } else if(type == "M") {
+        result = createMonthImage(tokens[2], tokens[3]);
+    }
+
+    if (size != nullptr) {
+        *size = result.size();
+    }
+    if (requestedSize.width() > 0 && requestedSize.height() > 0) {
+        return result.scaled(requestedSize, Qt::KeepAspectRatio);
+    } else {
+        return result;
+    }
+}
+
+QImage CollectionPublisher::createYearImage(const QString &year)
+{
+    auto paths = DBManager::instance()->getYearPaths(year, 1);
+    if(paths.isEmpty()) {
+        return QImage();
+    }
+    auto picPath = paths.at(0);
+
+    //TODO: 智能判断当前图片是否合适：OpenCV/GAN
+    //异常处理：裂图问题
+
+    //加载原图
+    //TODO: 可应用超分放大: GAN
+    QImage image;
+    QString error;
+    LibUnionImage_NameSpace::loadStaticImageFromFile(picPath, image, error);
+    image.scaled(500, 309, Qt::KeepAspectRatioByExpanding);
+
+    return image;
+}
+
+QImage CollectionPublisher::createMonthImage(const QString &year, const QString &month)
+{
+    //SELECT * FROM ImageTable3 WHERE Time between "2013-10-01" AND "2013-11-01"
+    return QImage();
 }

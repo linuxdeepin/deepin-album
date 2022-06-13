@@ -149,6 +149,15 @@ public:
     int                     getTrashImgsCount() const;
     int                     getAlbumImgsCount(int UID) const;
     QDateTime               getFileImportTime(const QString &path);
+
+    //年聚合数据
+    QStringList             getYearPaths(const QString &year, int maxCount);
+    QStringList             getYears();
+    int                     getYearCount(const QString &year);
+    //月聚合数据
+    QStringList             getMonthPaths(const QString &year, const QString &month, int maxCount);
+    QStringList             getMonths();
+    int                     getMonthCount(const QString &year, const QString &month);
 private:
     const DBImgInfoList     getInfosByNameTimeline(const QString &value) const;
     const DBImgInfoList     getImgInfos(const QString &key, const QString &value, bool needTimeData) const;

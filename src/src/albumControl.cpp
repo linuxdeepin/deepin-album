@@ -1124,3 +1124,23 @@ QString AlbumControl::getMovieInfo(const QString key, const QString &path)
     }
     return value;
 }
+
+int AlbumControl::getYearCount(const QString &year)
+{
+    return DBManager::instance()->getYearCount(year);
+}
+
+QStringList AlbumControl::getYears()
+{
+    return DBManager::instance()->getYears();
+}
+
+int AlbumControl::getMonthCount(const QString &year, const QString &month)
+{
+    return DBManager::instance()->getMonthCount(year, month);
+}
+
+QStringList AlbumControl::getMonths()
+{
+    return DBManager::instance()->getMonths();
+}
