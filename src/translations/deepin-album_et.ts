@@ -2,392 +2,187 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="et">
 <context>
-    <name></name>
+    <name>AlbumControl</name>
     <message>
-        <source>Delete</source>
-        <translation type="unfinished">Kustuta</translation>
+        <source>Unnamed</source>
+        <translation type="unfinished">Nimetu</translation>
     </message>
     <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished">Täisekraan</translation>
+        <source>Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AlbumTitle</name>
+    <message>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Slide show</source>
-        <translation type="unfinished">Slaidiseanss</translation>
+        <source>deepin-album</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="unfinished">Ekspordi</translation>
+        <source>Y</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Copy</source>
-        <translation type="unfinished">Kopeeri</translation>
+        <source>M</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>D</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Favorite</source>
         <translation type="unfinished">Lemmik</translation>
     </message>
     <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">Pööra päripäeva</translation>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Eemalda lemmikutest</translation>
     </message>
     <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Pööra vastupäeva</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">Määra taustapildiks</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">Näita failihalduris</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="unfinished">Foto info</translation>
-    </message>
-    <message>
-        <source>Restore</source>
-        <translation type="unfinished">Taasta</translation>
-    </message>
-    <message>
-        <source>Video info</source>
+        <source>Rotate</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>Nimetu</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Tühista</translation>
-    </message>
-    <message>
-        <source>Create</source>
-        <translation>Loo</translation>
-    </message>
-    <message>
-        <source>New Album</source>
-        <translation>Uus album</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Tühista</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Kustuta</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this album?</source>
-        <translation>Oled sa kindel, et soovid seda albumit kustutada?</translation>
+        <translation type="unfinished">Kustuta</translation>
     </message>
 </context>
 <context>
-    <name>AlbumLeftTabItem</name>
+    <name>CustomAlbum</name>
     <message>
-        <source>Trash</source>
-        <translation>Prügikasti</translation>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Favorites</source>
-        <translation>Lemmikud</translation>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Import</source>
-        <translation>Impordi</translation>
+        <source>No results</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>AlbumView</name>
+    <name>DBManager</name>
     <message>
-        <source>Trash</source>
-        <translation>Prügikasti</translation>
-    </message>
-    <message>
-        <source>Favorites</source>
-        <translation>Lemmikud</translation>
-    </message>
-    <message>
-        <source>Or drag photos here</source>
-        <translation>Või lohista fotod siia</translation>
-    </message>
-    <message>
-        <source>Import All</source>
-        <translation>Impordi kõik</translation>
-    </message>
-    <message>
-        <source>Import to:</source>
+        <source>Screen Capture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Import</source>
-        <translation>Impordi</translation>
-    </message>
-    <message>
-        <source>System Disk</source>
-        <translation>Süsteemiketas</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation>Galerii</translation>
-    </message>
-    <message>
-        <source>Disk is busy, cannot eject now</source>
+        <source>Camera</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>OK</source>
-        <translation>OK</translation>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>New album</source>
-        <translation>Uus album</translation>
+        <source>(copy)</source>
+        <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>DayCollection</name>
+    <message>
+        <source>Day Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ExportDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Tühista</translation>
+        <translation type="unfinished">Tühista</translation>
     </message>
     <message>
-        <source>Ignore</source>
-        <translation>Ignoreeri</translation>
-    </message>
-    <message>
-        <source>Loading...</source>
+        <source>Confirm</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The files will be permanently deleted after the days shown on them</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Application</name>
-    <message>
-        <source>Album</source>
-        <translation>Album</translation>
-    </message>
-</context>
-<context>
-    <name>CExportImageDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Tühista</translation>
-    </message>
-    <message>
-        <source>Replace</source>
-        <translation>Asenda</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Ekspordi</translation>
-    </message>
-    <message>
-        <source>Pictures</source>
-        <translation>Pildid</translation>
-    </message>
-    <message>
-        <source>Documents</source>
-        <translation>Dokumendid</translation>
-    </message>
-    <message>
-        <source>Downloads</source>
-        <translation>Allalaadimsied</translation>
-    </message>
-    <message>
-        <source>Desktop</source>
-        <translation>Töölaud</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation>Videod</translation>
-    </message>
-    <message>
-        <source>Music</source>
-        <translation>Muusika</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>Nimi:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Save to:</source>
-        <translation>Salvesta kohta:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Format:</source>
-        <translation>Vorming:</translation>
+        <source>Pictures</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Quality:</source>
-        <translation>Kvaliteet:</translation>
+        <source>Documents</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Save</source>
-        <translation>Salvesta</translation>
+        <source>Downloads</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>gif</source>
-        <translation>gif</translation>
+        <source>Desktop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Videod</translation>
+    </message>
+    <message>
+        <source>Music</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>Vali teine kaust</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>OK</source>
-        <translation>OK</translation>
+        <source>Format:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>File name cannot be empty</source>
-        <translation>Faili nimi ei saa olla tühi</translation>
-    </message>
-    <message>
-        <source>already exists. Do you want to replace it?</source>
+        <source>Quality:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>DeepinStorage</name>
+    <name>FilterComboBox</name>
     <message>
-        <source>%1 Drive</source>
-        <translation>%1 ketas</translation>
-    </message>
-    <message>
-        <source>Blank %1 Disc</source>
+        <source>All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1 Encrypted</source>
-        <translation>%1 krüpteeritud</translation>
+        <source>Photos</source>
+        <translation type="unfinished">Fotod</translation>
     </message>
     <message>
-        <source>%1 Volume</source>
+        <source>Videos</source>
+        <translation type="unfinished">Videod</translation>
+    </message>
+</context>
+<context>
+    <name>HaveImportedView</name>
+    <message>
+        <source>%1 photos</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>Exporter</name>
     <message>
-        <source>Save</source>
-        <translation>Salvesta</translation>
-    </message>
-    <message>
-        <source>Export Photos</source>
-        <translation>Ekspordi fotod</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Tühista</translation>
-    </message>
-</context>
-<context>
-    <name>ImageEngineApi</name>
-    <message>
-        <source>Deleting...</source>
-        <translation>Kustutamine...</translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation>Taastamine...</translation>
-    </message>
-</context>
-<context>
-    <name>ImgDeleteDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Tühista</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Kustuta</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this photo from the album?</source>
+        <source>%1 videos</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-</context>
-<context>
-    <name>ImgInfoDialog</name>
-    <message>
-        <source>Basic info</source>
-        <translation>Põhiinfo</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation>Üksikasjad</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>Impordi</translation>
-    </message>
-    <message>
-        <source>1 photo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>1 video</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished">Impordi</translation>
     </message>
 </context>
 <context>
@@ -400,252 +195,43 @@
         <source>Or drag them here</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>All photos and videos</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
-    <name>LeftListView</name>
+    <name>InfomationDialog</name>
     <message>
-        <source>Slide show</source>
-        <translation>Slaidiseanss</translation>
+        <source>Basic info</source>
+        <translation type="unfinished">Põhiinfo</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Nimeta ümber</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Ekspordi</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Kustuta</translation>
-    </message>
-    <message>
-        <source>Device</source>
-        <translation>Seade</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation>Galerii</translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation>Albumid</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Uus album</translation>
-    </message>
-</context>
-<context>
-    <name>Main</name>
-    <message>
-        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MainWindow</name>
-    <message>
-        <source>Photos</source>
-        <translation>Fotod</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Täisekraan</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Abiinfo</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Näita failihalduris</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Slaidiseanss</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Kopeeri</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Määra taustapildiks</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Pööra päripäeva</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Pööra vastupäeva</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Eelmine</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Järgmine</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Lemmik</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Eemalda lemmikutest</translation>
-    </message>
-    <message>
-        <source>Rename album</source>
-        <translation>Nimeta album ümber</translation>
-    </message>
-    <message>
-        <source>Album “%1” removed</source>
-        <translation>Album “%1” on eemaldatud</translation>
-    </message>
-    <message>
-        <source>Successfully added to “%1”</source>
+        <source>File Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Import successful</source>
-        <translation>Importimine oli edukas</translation>
-    </message>
-    <message>
-        <source>Import failed</source>
-        <translation>Importimine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Export failed</source>
-        <translation>Eksportimine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Export successful</source>
-        <translation>Eksporditud</translation>
-    </message>
-    <message>
-        <source>All Photos</source>
-        <translation>Kõik fotod</translation>
-    </message>
-    <message>
-        <source>Timelines</source>
-        <translation>Ajateljed</translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation>Albumid</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen/slideshow</source>
-        <translation>Välju täisekraanist/slaidiseansist</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Näita otseteesid</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Vaata</translation>
-    </message>
-    <message>
-        <source>Select all</source>
-        <translation>Vali kõik</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
+        <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Zoom out</source>
+        <source>Resolution ratio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>New album</source>
-        <translation>Uus album</translation>
-    </message>
-    <message>
-        <source>Page up</source>
+        <source>Suffix</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Page down</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>Seaded</translation>
-    </message>
-    <message>
-        <source>Importing...</source>
-        <translation>Importimine</translation>
-    </message>
-    <message>
-        <source>All photos and videos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import Photos and Videos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No photos or videos found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Export photos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import photos/videos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">Kustuta</translation>
-    </message>
-    <message>
-        <source>Photo/Video info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import photos and videos</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MetadataName</name>
-    <message>
-        <source>Flash</source>
-        <translation>Välk</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Liik</translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation>Failisuurus</translation>
-    </message>
-    <message>
-        <source>Dimensions</source>
-        <translation>Mõõdud</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Pildistamise kuupäev</translation>
+        <translation type="unfinished">Pildistamise kuupäev</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Muutmise kuupäev</translation>
+        <translation type="unfinished">Muutmise kuupäev</translation>
     </message>
     <message>
-        <source>Exposure mode</source>
+        <source>Details</source>
+        <translation type="unfinished">Üksikasjad</translation>
+    </message>
+    <message>
+        <source>Aperture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -653,197 +239,191 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Focal length</source>
+        <translation type="unfinished">Fookuskaugus</translation>
+    </message>
+    <message>
+        <source>ISO</source>
+        <translation type="unfinished">ISO</translation>
+    </message>
+    <message>
+        <source>Exposure mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Exposure time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Aperture</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Focal length</source>
-        <translation>Fookuskaugus</translation>
-    </message>
-    <message>
-        <source>ISO</source>
-        <translation>ISO</translation>
-    </message>
-    <message>
-        <source>Max aperture</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Metering mode</source>
-        <translation>Mõõtmise režiim</translation>
-    </message>
-    <message>
-        <source>White balance</source>
-        <translation>Valge tasakaal</translation>
+        <source>Flash</source>
+        <translation type="unfinished">Välk</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Vägu kompensatsioon</translation>
+        <translation type="unfinished">Vägu kompensatsioon</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Kaamera mudel</translation>
-    </message>
-    <message>
-        <source>Lens model</source>
-        <translation>Läätse mudel</translation>
+        <source>Max Aperture</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Värviruum</translation>
+        <translation type="unfinished">Värviruum</translation>
     </message>
     <message>
-        <source>Tag</source>
-        <translation>Silt</translation>
+        <source>Metering mode</source>
+        <translation type="unfinished">Mõõtmise režiim</translation>
     </message>
     <message>
-        <source>Name</source>
+        <source>White balance</source>
+        <translation type="unfinished">Valge tasakaal</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation type="unfinished">Kaamera mudel</translation>
+    </message>
+    <message>
+        <source>Lens model</source>
+        <translation type="unfinished">Läätse mudel</translation>
+    </message>
+</context>
+<context>
+    <name>LauncherPlugin</name>
+    <message>
+        <source>Main</source>
+        <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>NoResultWidget</name>
+    <name>MonthCollection</name>
     <message>
-        <source>No results</source>
+        <source>Month Collection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>PathManager</name>
+    <name>NewAlbumDialog</name>
     <message>
-        <source>System Disk</source>
-        <translation>Süsteemiketas</translation>
+        <source>Cancel</source>
+        <translation type="unfinished">Tühista</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NoPictureView</name>
+    <message>
+        <source>No pictures and videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenImageWidget</name>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PropertyActionItemDelegate</name>
+    <message>
+        <source>The file already exists, please use another name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <source>Select</source>
-        <translation>Vali</translation>
-    </message>
-    <message>
-        <source>Unselect</source>
-        <translation>Tühista valik</translation>
-    </message>
-    <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
     </message>
     <message>
-        <source>Imported on</source>
+        <source>Album</source>
+        <translation type="unfinished">Album</translation>
+    </message>
+    <message>
+        <source>%1/%2/%3/%4/%5</source>
+        <translation type="unfinished">%1/%2/%3/%4/%5</translation>
+    </message>
+    <message>
+        <source>%1/</source>
+        <translation type="unfinished">%1/</translation>
+    </message>
+    <message>
+        <source>%1/%2</source>
+        <translation type="unfinished">%1/%2</translation>
+    </message>
+    <message>
+        <source>Trash</source>
+        <translation type="unfinished">Prügikasti</translation>
+    </message>
+    <message>
+        <source>day</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ReName</name>
+    <message>
+        <source>Input a new name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> %1-%2-%3 %4</source>
-        <translation> %1-%2-%3 %4</translation>
-    </message>
-    <message>
-        <source>Imported on </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unselect All</source>
+        <source>The file already exists, please use another name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Tühista</translation>
+        <translation type="unfinished">Tühista</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation>Taasta</translation>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>RecentlyDeletedView</name>
     <message>
-        <source>Delete</source>
-        <translation>Kustuta</translation>
-    </message>
-    <message>
-        <source>All</source>
+        <source>%1 photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Photos</source>
-        <translation>Fotod</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation>Videod</translation>
-    </message>
-    <message>
-        <source>No results</source>
+        <source>%1 videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Favorite</source>
-        <translation>Lemmik</translation>
+        <source>Trash</source>
+        <translation type="unfinished">Prügikasti</translation>
     </message>
     <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Pööra vastupäeva</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Pööra päripäeva</translation>
-    </message>
-    <message>
-        <source>Importing...</source>
-        <translation>Importimine...</translation>
-    </message>
-    <message>
-        <source>%1/%2 items imported</source>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1/%2 items deleted</source>
+        <source>Delete All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1 items imported, %2 items failed</source>
+        <source>Delete Selected (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1 photo selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>1 video selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The photo/video already exists</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n items selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>%1 items imported, %2 items exist already</source>
+        <source>Restore Selected (%1)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -865,62 +445,85 @@
         <source>1 photo found</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n videos found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
     <message>
         <source>1 video found</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n items found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>%1 photos found</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n photos found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>%1 videos found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>StatusBar</name>
+    <name>Sidebar</name>
     <message>
-        <source>1 photo</source>
+        <source>Gallery</source>
+        <translation type="unfinished">Galerii</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation type="unfinished">Albumid</translation>
+    </message>
+    <message>
+        <source>Screen Capture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1 video</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Importing: %1</source>
+        <source>Camera</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Exporting: %1</source>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SidebarModel</name>
+    <message>
+        <source>Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished">Impordi</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation type="unfinished">Lemmikud</translation>
+    </message>
+    <message>
+        <source>Trash</source>
+        <translation type="unfinished">Prügikasti</translation>
+    </message>
+</context>
+<context>
+    <name>SliderShow</name>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished">Eelmine</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Järgmine</translation>
+    </message>
+    <message>
+        <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1002,41 +605,44 @@
         <source>Video info</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>days</source>
-        <translation type="unfinished">päeva</translation>
-    </message>
 </context>
 <context>
-    <name>TimeLineView</name>
+    <name>ToolBarThumbnailListView</name>
     <message>
-        <source>1 photo</source>
+        <source>Back Album</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1 video</source>
+        <source>Previous</source>
+        <translation type="unfinished">Eelmine</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Järgmine</translation>
+    </message>
+    <message>
+        <source>Original size</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>Fit to window</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Kustuta</translation>
     </message>
 </context>
 <context>
@@ -1047,10 +653,6 @@
     </message>
     <message>
         <source>Codec info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Audio info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1090,27 +692,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Sampling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Date modified</source>
-        <translation type="unfinished">Muutmise kuupäev</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation type="unfinished">Liik</translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation type="unfinished">Failisuurus</translation>
-    </message>
-    <message>
-        <source>Duration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1118,15 +700,111 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date captured</source>
         <translation type="unfinished">Pildistamise kuupäev</translation>
     </message>
     <message>
-        <source>Name</source>
+        <source>File Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Suffix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ViewRightMenu</name>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Täisekraan</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">Prindi</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Slaidiseanss</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Kopeeri</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">Nimeta ümber</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Kustuta</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Pööra päripäeva</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Pööra vastupäeva</translation>
+    </message>
+    <message>
+        <source>Show navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Määra taustapildiks</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Näita failihalduris</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ViewTopTitle</name>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>deepin-image-viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>YearCollection</name>
+    <message>
+        <source>Year Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <source>Select pictures</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

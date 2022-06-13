@@ -24,7 +24,7 @@ Rectangle{
         RecommandButton{
             id: openPictureBtn
             font.capitalization: Font.MixedCase
-            text: qsTr("导入图片和视频")
+            text: qsTr("Import Photos and Videos")
             onClicked:{
                 importDialog.open()
             }
@@ -41,7 +41,7 @@ Rectangle{
             anchors.topMargin: 20
             anchors.left : parent.left
             anchors.leftMargin: -width/2
-            text:qsTr("您也可以拖拽图片和视频到此")
+            text:qsTr("Or drag them here")
         }
     }
 }

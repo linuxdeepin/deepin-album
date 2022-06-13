@@ -2,398 +2,187 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="lv">
 <context>
-    <name></name>
+    <name>AlbumControl</name>
     <message>
-        <source>Delete</source>
-        <translation type="unfinished">Dzēst</translation>
+        <source>Unnamed</source>
+        <translation type="unfinished">Nenosaukts</translation>
     </message>
     <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished">Pilnekrāna režīms</translation>
+        <source>Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AlbumTitle</name>
+    <message>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Slide show</source>
-        <translation type="unfinished">Slaidrāde</translation>
+        <source>deepin-album</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="unfinished">Eksportēt</translation>
+        <source>Y</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Copy</source>
-        <translation type="unfinished">Kopēt</translation>
+        <source>M</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>D</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Favorite</source>
         <translation type="unfinished">Pievienot izlasei</translation>
     </message>
     <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">Pagrieziet pulksteņrādītāja virzienā</translation>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Noņemt no izlases</translation>
     </message>
     <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Pagrieziet pretēji pulksteņrādītāja virzienam</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">Iestatīt kā fona attēlu</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">Apskatīt failu pārvaldniekā</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="unfinished">Fotoattēla informācija</translation>
-    </message>
-    <message>
-        <source>Restore</source>
-        <translation type="unfinished">Atjaunot</translation>
-    </message>
-    <message>
-        <source>Video info</source>
+        <source>Rotate</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>Nenosaukts</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Atcelt</translation>
-    </message>
-    <message>
-        <source>Create</source>
-        <translation>Izveidot</translation>
-    </message>
-    <message>
-        <source>New Album</source>
-        <translation>Jauns albums</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Atcelt</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Dzēst</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this album?</source>
-        <translation>Vai tiešām vēlaties dzēst šo albumu?</translation>
+        <translation type="unfinished">Dzēst</translation>
     </message>
 </context>
 <context>
-    <name>AlbumLeftTabItem</name>
+    <name>CustomAlbum</name>
     <message>
-        <source>Trash</source>
-        <translation>Miskaste</translation>
-    </message>
-    <message>
-        <source>Favorites</source>
-        <translation>Izlase</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Importēt</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumView</name>
-    <message>
-        <source>Trash</source>
-        <translation>Miskaste</translation>
-    </message>
-    <message>
-        <source>Favorites</source>
-        <translation>Izlase</translation>
-    </message>
-    <message>
-        <source>Or drag photos here</source>
-        <translation>Vai ievelciet fotoattēlus šeit</translation>
-    </message>
-    <message>
-        <source>Import All</source>
-        <translation>Importēt visu</translation>
-    </message>
-    <message>
-        <source>Import to:</source>
-        <translation>Importēt uz:</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Importēt</translation>
-    </message>
-    <message>
-        <source>System Disk</source>
-        <translation>Sistēmas disks</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation>Galerija</translation>
-    </message>
-    <message>
-        <source>Disk is busy, cannot eject now</source>
-        <translation>Disks ir aizņemts, nevar šobrīd izņemt</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>Labi</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Jauns albums</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Atcelt</translation>
-    </message>
-    <message>
-        <source>Ignore</source>
-        <translation>Ignorēt</translation>
-    </message>
-    <message>
-        <source>Loading...</source>
+        <source>%1 photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The files will be permanently deleted after the days shown on them</source>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No results</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>Application</name>
+    <name>DBManager</name>
     <message>
-        <source>Album</source>
-        <translation>Albums</translation>
+        <source>Screen Capture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>CExportImageDialog</name>
+    <name>DayCollection</name>
+    <message>
+        <source>Day Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ExportDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Atcelt</translation>
+        <translation type="unfinished">Atcelt</translation>
     </message>
     <message>
-        <source>Replace</source>
-        <translation>Aizvietot</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Eksportēt</translation>
-    </message>
-    <message>
-        <source>Pictures</source>
-        <translation>Attēli</translation>
-    </message>
-    <message>
-        <source>Documents</source>
-        <translation>Dokumenti</translation>
-    </message>
-    <message>
-        <source>Downloads</source>
-        <translation>Lejupielādes</translation>
-    </message>
-    <message>
-        <source>Desktop</source>
-        <translation>Darbavirsma</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation>Video</translation>
-    </message>
-    <message>
-        <source>Music</source>
-        <translation>Mūzika</translation>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>Nosaukums</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Save to:</source>
-        <translation>Saglabāt: </translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Format:</source>
-        <translation>Formāts:</translation>
+        <source>Pictures</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Quality:</source>
-        <translation>Kvalitāte: </translation>
+        <source>Documents</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Save</source>
-        <translation>Saglabāt</translation>
+        <source>Downloads</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>gif</source>
-        <translation>gif</translation>
+        <source>Desktop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Video</translation>
+    </message>
+    <message>
+        <source>Music</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>Atlasīt citu mapi</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>Labi</translation>
-    </message>
-    <message>
-        <source>File name cannot be empty</source>
-        <translation>Faila nosaukums nevar būt tukšs</translation>
-    </message>
-    <message>
-        <source>already exists. Do you want to replace it?</source>
-        <translation>jau eksistē. Vai vēlaties to aizvietot?</translation>
-    </message>
-</context>
-<context>
-    <name>DeepinStorage</name>
-    <message>
-        <source>%1 Drive</source>
-        <translation>%1 Disks</translation>
-    </message>
-    <message>
-        <source>Blank %1 Disc</source>
-        <translation>Tukšs %1 Disks</translation>
-    </message>
-    <message>
-        <source>%1 Encrypted</source>
-        <translation>%1 Šifrēts</translation>
-    </message>
-    <message>
-        <source>%1 Volume</source>
-        <translation>%1 Sējums</translation>
-    </message>
-</context>
-<context>
-    <name>Exporter</name>
-    <message>
-        <source>Save</source>
-        <translation>Saglabāt</translation>
-    </message>
-    <message>
-        <source>Export Photos</source>
-        <translation>Exportēt Attēlus</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Atcelt</translation>
-    </message>
-</context>
-<context>
-    <name>ImageEngineApi</name>
-    <message>
-        <source>Deleting...</source>
-        <translation>Tiek dzēsts...</translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation>Atjauno...</translation>
-    </message>
-</context>
-<context>
-    <name>ImgDeleteDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Atcelt</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Dzēst</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Vai tiešām vēlaties dzēst šo fotoattēlu no albuma?</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this video from the album?</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-</context>
-<context>
-    <name>ImgInfoDialog</name>
     <message>
-        <source>Basic info</source>
-        <translation>Pamatinformācija</translation>
+        <source>Format:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Details</source>
-        <translation>Informācija</translation>
-    </message>
-    <message>
-        <source>Image info</source>
+        <source>Quality:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>ImportTimeLineView</name>
+    <name>FilterComboBox</name>
+    <message>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Photos</source>
+        <translation type="unfinished">Fotoattēli</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Video</translation>
+    </message>
+</context>
+<context>
+    <name>HaveImportedView</name>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>Import</source>
-        <translation>Importēt</translation>
-    </message>
-    <message>
-        <source>1 photo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>1 video</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished">Importēt</translation>
     </message>
 </context>
 <context>
@@ -406,453 +195,235 @@
         <source>Or drag them here</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>All photos and videos</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
-    <name>LeftListView</name>
+    <name>InfomationDialog</name>
     <message>
-        <source>Slide show</source>
-        <translation>Slaidrāde</translation>
+        <source>Basic info</source>
+        <translation type="unfinished">Pamatinformācija</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Pārsaukt</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Eksportēt</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Dzēst</translation>
-    </message>
-    <message>
-        <source>Device</source>
-        <translation>Ierīce</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation>Galerija</translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation>Albumi</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Jauns albums</translation>
-    </message>
-</context>
-<context>
-    <name>Main</name>
-    <message>
-        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MainWindow</name>
-    <message>
-        <source>Photos</source>
-        <translation>Fotoattēli</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Pilnekrāna režīms</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Palīdzība</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Apskatīt failu pārvaldniekā</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Slaidrāde</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Kopēt</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Iestatīt kā fona attēlu</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Pagrieziet pulksteņrādītāja virzienā</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Pagrieziet pretēji pulksteņrādītāja virzienam</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Iepriekšējais</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Nākamais</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Pievienot izlasei</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Noņemt no izlases</translation>
-    </message>
-    <message>
-        <source>Rename album</source>
-        <translation>Pārsaukt albumu</translation>
-    </message>
-    <message>
-        <source>Album “%1” removed</source>
-        <translation>Albums “%1” izdzēsts</translation>
-    </message>
-    <message>
-        <source>Successfully added to “%1”</source>
-        <translation>Veiksmīgi pievienots “%1”</translation>
-    </message>
-    <message>
-        <source>Import successful</source>
-        <translation>Veiksmīgs imports</translation>
-    </message>
-    <message>
-        <source>Import failed</source>
-        <translation>Imports neizdevās</translation>
-    </message>
-    <message>
-        <source>Export failed</source>
-        <translation>Eksports neizdevās</translation>
-    </message>
-    <message>
-        <source>Export successful</source>
-        <translation>Veiksmīgs eksports</translation>
-    </message>
-    <message>
-        <source>All Photos</source>
-        <translation>Visi Fotoattēli</translation>
-    </message>
-    <message>
-        <source>Timelines</source>
-        <translation>Laika skalas</translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation>Albumi</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen/slideshow</source>
-        <translation>Pārtraukt pilnekrāna režīmu/slaidrādi</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Rādīt saīsnes</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Apskatīt</translation>
-    </message>
-    <message>
-        <source>Select all</source>
-        <translation>Atlasīt visu</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation>Pietuvināt</translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation>Attālināt</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Jauns albums</translation>
-    </message>
-    <message>
-        <source>Page up</source>
-        <translation>Lapa uz augšu</translation>
-    </message>
-    <message>
-        <source>Page down</source>
-        <translation>Lapa uz leju</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>Iestatījumi</translation>
-    </message>
-    <message>
-        <source>Importing...</source>
-        <translation>Tiek importēts...</translation>
-    </message>
-    <message>
-        <source>All photos and videos</source>
+        <source>File Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Import Photos and Videos</source>
+        <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>No photos or videos found</source>
+        <source>Resolution ratio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export photos</source>
+        <source>Suffix</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import photos/videos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">Dzēst</translation>
-    </message>
-    <message>
-        <source>Photo/Video info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import photos and videos</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MetadataName</name>
-    <message>
-        <source>Flash</source>
-        <translation>Zibspūldze</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Tips</translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation>Faila izmērs</translation>
-    </message>
-    <message>
-        <source>Dimensions</source>
-        <translation>Izmēri</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Uzņemšanas datums</translation>
+        <translation type="unfinished">Uzņemšanas datums</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Izmainīšanas datums</translation>
+        <translation type="unfinished">Izmainīšanas datums</translation>
     </message>
     <message>
-        <source>Exposure mode</source>
-        <translation>Ekspozīcijas režīms</translation>
-    </message>
-    <message>
-        <source>Exposure program</source>
-        <translation>Ekspozīcijas programma</translation>
-    </message>
-    <message>
-        <source>Exposure time</source>
-        <translation>Ekspozīcijas laiks</translation>
+        <source>Details</source>
+        <translation type="unfinished">Informācija</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Apertūra</translation>
+        <translation type="unfinished">Apertūra</translation>
+    </message>
+    <message>
+        <source>Exposure program</source>
+        <translation type="unfinished">Ekspozīcijas programma</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Fokusa attālums</translation>
+        <translation type="unfinished">Fokusa attālums</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation>ISO</translation>
+        <translation type="unfinished">ISO</translation>
     </message>
     <message>
-        <source>Max aperture</source>
-        <translation>Maksimālā apertūra</translation>
+        <source>Exposure mode</source>
+        <translation type="unfinished">Ekspozīcijas režīms</translation>
     </message>
     <message>
-        <source>Metering mode</source>
-        <translation>Mērīšanas režīms</translation>
+        <source>Exposure time</source>
+        <translation type="unfinished">Ekspozīcijas laiks</translation>
     </message>
     <message>
-        <source>White balance</source>
-        <translation>Baltā balanss</translation>
+        <source>Flash</source>
+        <translation type="unfinished">Zibspūldze</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Zibspuldzes kompensācija</translation>
+        <translation type="unfinished">Zibspuldzes kompensācija</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Kameras modelis</translation>
-    </message>
-    <message>
-        <source>Lens model</source>
-        <translation>Objektīva modelis</translation>
+        <source>Max Aperture</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Krāsu telpa</translation>
+        <translation type="unfinished">Krāsu telpa</translation>
     </message>
     <message>
-        <source>Tag</source>
-        <translation>Birka</translation>
+        <source>Metering mode</source>
+        <translation type="unfinished">Mērīšanas režīms</translation>
     </message>
     <message>
-        <source>Name</source>
+        <source>White balance</source>
+        <translation type="unfinished">Baltā balanss</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation type="unfinished">Kameras modelis</translation>
+    </message>
+    <message>
+        <source>Lens model</source>
+        <translation type="unfinished">Objektīva modelis</translation>
+    </message>
+</context>
+<context>
+    <name>LauncherPlugin</name>
+    <message>
+        <source>Main</source>
+        <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>NoResultWidget</name>
+    <name>MonthCollection</name>
     <message>
-        <source>No results</source>
+        <source>Month Collection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>PathManager</name>
+    <name>NewAlbumDialog</name>
     <message>
-        <source>System Disk</source>
-        <translation>Sistēmas disks</translation>
+        <source>Cancel</source>
+        <translation type="unfinished">Atcelt</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NoPictureView</name>
+    <message>
+        <source>No pictures and videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenImageWidget</name>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PropertyActionItemDelegate</name>
+    <message>
+        <source>The file already exists, please use another name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <source>Select</source>
-        <translation>Atlasīt</translation>
-    </message>
-    <message>
-        <source>Unselect</source>
-        <translation>Noņemt atlasi</translation>
-    </message>
-    <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
     </message>
     <message>
-        <source>Imported on</source>
-        <translation>Importēts uz</translation>
+        <source>Album</source>
+        <translation type="unfinished">Albums</translation>
     </message>
     <message>
-        <source> %1-%2-%3 %4</source>
-        <translation> %1-%2-%3 %4</translation>
+        <source>%1/%2/%3/%4/%5</source>
+        <translation type="unfinished">%1/%2/%3/%4/%5</translation>
     </message>
     <message>
-        <source>Imported on </source>
-        <translation>Importēts uz</translation>
+        <source>%1/</source>
+        <translation type="unfinished">%1/</translation>
     </message>
     <message>
-        <source>Select All</source>
+        <source>%1/%2</source>
+        <translation type="unfinished">%1/%2</translation>
+    </message>
+    <message>
+        <source>Trash</source>
+        <translation type="unfinished">Miskaste</translation>
+    </message>
+    <message>
+        <source>day</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ReName</name>
+    <message>
+        <source>Input a new name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Unselect All</source>
+        <source>The file already exists, please use another name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Atcelt</translation>
+        <translation type="unfinished">Atcelt</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation>Atjaunot</translation>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>RecentlyDeletedView</name>
     <message>
-        <source>Delete</source>
-        <translation>Dzēst</translation>
-    </message>
-    <message>
-        <source>All</source>
+        <source>%1 photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Photos</source>
-        <translation>Fotoattēli</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation>Video</translation>
-    </message>
-    <message>
-        <source>No results</source>
+        <source>%1 videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Favorite</source>
-        <translation>Pievienot izlasei</translation>
+        <source>Trash</source>
+        <translation type="unfinished">Miskaste</translation>
     </message>
     <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Pagrieziet pretēji pulksteņrādītāja virzienam</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Pagrieziet pulksteņrādītāja virzienā</translation>
-    </message>
-    <message>
-        <source>Importing...</source>
-        <translation>Tiek importēts...</translation>
-    </message>
-    <message>
-        <source>%1/%2 items imported</source>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1/%2 items deleted</source>
+        <source>Delete All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1 items imported, %2 items failed</source>
+        <source>Delete Selected (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1 photo selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>1 video selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The photo/video already exists</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n items selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>%1 items imported, %2 items exist already</source>
+        <source>Restore Selected (%1)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -874,67 +445,85 @@
         <source>1 photo found</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n videos found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
     <message>
         <source>1 video found</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n items found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>%1 photos found</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n photos found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>%1 videos found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>StatusBar</name>
+    <name>Sidebar</name>
     <message>
-        <source>1 photo</source>
+        <source>Gallery</source>
+        <translation type="unfinished">Galerija</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation type="unfinished">Albumi</translation>
+    </message>
+    <message>
+        <source>Screen Capture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1 video</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Importing: %1</source>
+        <source>Camera</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Exporting: %1</source>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SidebarModel</name>
+    <message>
+        <source>Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished">Importēt</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation type="unfinished">Izlase</translation>
+    </message>
+    <message>
+        <source>Trash</source>
+        <translation type="unfinished">Miskaste</translation>
+    </message>
+</context>
+<context>
+    <name>SliderShow</name>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished">Iepriekšējais</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Nākamais</translation>
+    </message>
+    <message>
+        <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1016,44 +605,44 @@
         <source>Video info</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>days</source>
-        <translation type="unfinished">dienas</translation>
-    </message>
 </context>
 <context>
-    <name>TimeLineView</name>
+    <name>ToolBarThumbnailListView</name>
     <message>
-        <source>1 photo</source>
+        <source>Back Album</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1 video</source>
+        <source>Previous</source>
+        <translation type="unfinished">Iepriekšējais</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Nākamais</translation>
+    </message>
+    <message>
+        <source>Original size</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>Fit to window</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Dzēst</translation>
     </message>
 </context>
 <context>
@@ -1064,10 +653,6 @@
     </message>
     <message>
         <source>Codec info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Audio info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1107,27 +692,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Sampling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Date modified</source>
-        <translation type="unfinished">Izmainīšanas datums</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation type="unfinished">Tips</translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation type="unfinished">Faila izmērs</translation>
-    </message>
-    <message>
-        <source>Duration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1135,15 +700,111 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date captured</source>
         <translation type="unfinished">Uzņemšanas datums</translation>
     </message>
     <message>
-        <source>Name</source>
+        <source>File Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Suffix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ViewRightMenu</name>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Pilnekrāna režīms</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">Printēt</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Slaidrāde</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Kopēt</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">Pārsaukt</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Dzēst</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Pagrieziet pulksteņrādītāja virzienā</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Pagrieziet pretēji pulksteņrādītāja virzienam</translation>
+    </message>
+    <message>
+        <source>Show navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Iestatīt kā fona attēlu</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Apskatīt failu pārvaldniekā</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ViewTopTitle</name>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>deepin-image-viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>YearCollection</name>
+    <message>
+        <source>Year Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <source>Select pictures</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -1,896 +1,430 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ms">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ms">
 <context>
-    <name/>
+    <name>AlbumControl</name>
     <message>
-        <source>Delete</source>
-        <translation type="vanished">Padam</translation>
+        <source>Unnamed</source>
+        <translation type="unfinished">Tidak bernama</translation>
     </message>
     <message>
-        <source>Fullscreen</source>
-        <translation type="vanished">Skrin penuh</translation>
+        <source>Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AlbumTitle</name>
+    <message>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished">Album ialah sebuah pengurus bergaya untuk melihat dan mengurus gambar dan video.</translation>
     </message>
     <message>
-        <source>Slide show</source>
-        <translation type="vanished">Persembahan slaid</translation>
+        <source>deepin-album</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">Eksport</translation>
+        <source>Y</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Copy</source>
-        <translation type="vanished">Salin</translation>
+        <source>M</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>D</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation type="unfinished">Semua</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="vanished">Kegemaran</translation>
+        <translation type="unfinished">Kegemaran</translation>
     </message>
     <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Putar ikut jam</translation>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Nyahgemar</translation>
     </message>
     <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Putar lawan jam</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="vanished">Tetap sebagai kertas dinding</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="vanished">Papar dalam pengurus fail</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Maklumat foto</translation>
-    </message>
-    <message>
-        <source>Video info</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Restore</source>
-        <translation type="vanished">Pulih</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>Tidak bernama</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Batal</translation>
-    </message>
-    <message>
-        <source>Create</source>
-        <translation>Cipta</translation>
-    </message>
-    <message>
-        <source>New Album</source>
-        <translation>Album Baharu</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Batal</translation>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Padam</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this album?</source>
-        <translation>Anda pasti mahu memadam album ini?</translation>
+        <translation type="unfinished">Padam</translation>
     </message>
 </context>
 <context>
-    <name>AlbumLeftTabItem</name>
+    <name>CustomAlbum</name>
     <message>
-        <source>Trash</source>
-        <translation>Tong Sampah</translation>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Favorites</source>
-        <translation>Kegemaran</translation>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Import</source>
-        <translation>Import</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumView</name>
-    <message>
-        <source>Trash</source>
-        <translation>Tong Sampah</translation>
-    </message>
-    <message>
-        <source>Favorites</source>
-        <translation>Kegemaran</translation>
-    </message>
-    <message>
-        <source>Or drag photos here</source>
-        <translation>Atau seret foto di sini</translation>
-    </message>
-    <message>
-        <source>Import All</source>
-        <translation>Import Semua</translation>
-    </message>
-    <message>
-        <source>Import to:</source>
-        <translation>Import ke:</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Import</translation>
-    </message>
-    <message>
-        <source>System Disk</source>
-        <translation>Cakera Sistem</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation>Galeri</translation>
-    </message>
-    <message>
-        <source>Disk is busy, cannot eject now</source>
-        <translation>Cakera sibuk, tidak dapat lenting sekarang</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Album baharu</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Batal</translation>
-    </message>
-    <message>
-        <source>Ignore</source>
-        <translation>Abai</translation>
-    </message>
-    <message>
-        <source>Loading...</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>The files will be permanently deleted after the days shown on them</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>Application</name>
-    <message>
-        <source>Album</source>
-        <translation>Album</translation>
-    </message>
-</context>
-<context>
-    <name>CExportImageDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Batal</translation>
-    </message>
-    <message>
-        <source>Replace</source>
-        <translation>Ganti</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Eksport</translation>
-    </message>
-    <message>
-        <source>Pictures</source>
-        <translation>Gambar</translation>
-    </message>
-    <message>
-        <source>Documents</source>
-        <translation>Dokumen</translation>
-    </message>
-    <message>
-        <source>Downloads</source>
-        <translation>Muat turun</translation>
-    </message>
-    <message>
-        <source>Desktop</source>
-        <translation>Atas Meja</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation>Video</translation>
-    </message>
-    <message>
-        <source>Music</source>
-        <translation>Muzik</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation>Nama:</translation>
-    </message>
-    <message>
-        <source>Save to:</source>
-        <translation>Simpan ke:</translation>
-    </message>
-    <message>
-        <source>Format:</source>
-        <translation>Format:</translation>
-    </message>
-    <message>
-        <source>Quality:</source>
-        <translation>Kualiti:</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Simpan</translation>
-    </message>
-    <message>
-        <source>gif</source>
-        <translation>gif</translation>
-    </message>
-    <message>
-        <source>Select other directories</source>
-        <translation>Pilih direktori lain</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>File name cannot be empty</source>
-        <translation>Nama fail tidak boleh kosong</translation>
-    </message>
-    <message>
-        <source>already exists. Do you want to replace it?</source>
-        <translation>sudah wujud. Anda mahu menggantikannya?</translation>
+        <source>No results</source>
+        <translation type="unfinished">Tiada keputusan</translation>
     </message>
 </context>
 <context>
     <name>DBManager</name>
     <message>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Camera</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>(copy)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>DeepinStorage</name>
+    <name>DayCollection</name>
     <message>
-        <source>%1 Drive</source>
-        <translation>Pemacu %1</translation>
-    </message>
-    <message>
-        <source>Blank %1 Disc</source>
-        <translation>Cakera %1 Kosong</translation>
-    </message>
-    <message>
-        <source>%1 Encrypted</source>
-        <translation>%1 Disulitkan</translation>
-    </message>
-    <message>
-        <source>%1 Volume</source>
-        <translation>Volum %1</translation>
+        <source>Day Collection</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>Exporter</name>
-    <message>
-        <source>Save</source>
-        <translation>Simpan</translation>
-    </message>
-    <message>
-        <source>Export Photos</source>
-        <translation>Eksport Foto</translation>
-    </message>
+    <name>ExportDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Batal</translation>
+        <translation type="unfinished">Batal</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Documents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloads</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Desktop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Video</translation>
+    </message>
+    <message>
+        <source>Music</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select other directories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Format:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quality:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>ImageEngineApi</name>
+    <name>FilterComboBox</name>
     <message>
-        <source>Deleting...</source>
-        <translation>Memadam...</translation>
+        <source>All</source>
+        <translation type="unfinished">Semua</translation>
     </message>
     <message>
-        <source>Restoring...</source>
-        <translation>Memulihkan...</translation>
+        <source>Photos</source>
+        <translation type="unfinished">Foto</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Video</translation>
     </message>
 </context>
 <context>
-    <name>ImgDeleteDialog</name>
+    <name>HaveImportedView</name>
     <message>
-        <source>Cancel</source>
-        <translation>Batal</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Padam</translation>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure you want to delete this photo from the album?</source>
-        <translation type="vanished">Anda pasti mahu memadam foto ini dari album?</translation>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished"><numerusform></numerusform></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to permanently delete this file?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>You cannot restore it any longer</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Are you sure you want to permanently delete %1 files?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>You cannot restore them any longer</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this file locally?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>You can restore it in the trash</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Are you sure you want to delete %1 files locally?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>You can restore them in the trash</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>ImgInfoDialog</name>
-    <message>
-        <source>Basic info</source>
-        <translation>Maklumat asas</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation>Perincian</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>Import</translation>
-    </message>
-    <message>
-        <source>1 photo</source>
-        <translation>1 foto</translation>
-    </message>
-    <message>
-        <source>1 video</source>
-        <translation>1 video</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation><numerusform>%n foto</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n items</source>
-        <translation><numerusform>%n item</numerusform></translation>
+        <translation type="unfinished">Import</translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>Import Photos and Videos</source>
-        <translation>Import Foto dan Video</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Or drag them here</source>
-        <translation>Atau seret di sini</translation>
-    </message>
-    <message>
-        <source>All photos and videos</source>
-        <translation>Semua foto dan video</translation>
-    </message>
-    <message>
-        <source>No photos or videos found</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>LeftListView</name>
+    <name>InfomationDialog</name>
     <message>
-        <source>Slide show</source>
-        <translation>Persembahan slaid</translation>
+        <source>Basic info</source>
+        <translation type="unfinished">Maklumat asas</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Nama semula</translation>
+        <source>File Name</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation>Eksport</translation>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete</source>
-        <translation>Padam</translation>
+        <source>Resolution ratio</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Device</source>
-        <translation>Peranti</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation>Galeri</translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation>Album</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Album baharu</translation>
-    </message>
-</context>
-<context>
-    <name>Main</name>
-    <message>
-        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation>Album ialah sebuah pengurus bergaya untuk melihat dan mengurus gambar dan video.</translation>
-    </message>
-</context>
-<context>
-    <name>MainWindow</name>
-    <message>
-        <source>Photos</source>
-        <translation>Foto</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Skrin penuh</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Bantuan</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Papar dalam pengurus fail</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Persembahan slaid</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Salin</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Tetap sebagai kertas dinding</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Putar ikut jam</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Putar lawan jam</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Terdahulu</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Berikutnya</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Kegemaran</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Nyahgemar</translation>
-    </message>
-    <message>
-        <source>Rename album</source>
-        <translation>Nama semula album</translation>
-    </message>
-    <message>
-        <source>Album “%1” removed</source>
-        <translation>Album “%1” dibuang</translation>
-    </message>
-    <message>
-        <source>Successfully added to “%1”</source>
-        <translation>Berjaya ditambah ke dalam &quot;%1&quot;</translation>
-    </message>
-    <message>
-        <source>Import successful</source>
-        <translation>Import berjaya</translation>
-    </message>
-    <message>
-        <source>Import failed</source>
-        <translation>Import gagal</translation>
-    </message>
-    <message>
-        <source>Export failed</source>
-        <translation>Eksport gagal</translation>
-    </message>
-    <message>
-        <source>Export successful</source>
-        <translation>Eksport berjaya</translation>
-    </message>
-    <message>
-        <source>All Photos</source>
-        <translation>Semua Foto</translation>
-    </message>
-    <message>
-        <source>Timelines</source>
-        <translation>Garis Masa</translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation>Album</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen/slideshow</source>
-        <translation>Keluar skrin penuh/persembahan slaid</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Papar pintasan</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Lihat</translation>
-    </message>
-    <message>
-        <source>Select all</source>
-        <translation>Pilih semua</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation>Zum masuk</translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation>Zum keluar</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Album baharu</translation>
-    </message>
-    <message>
-        <source>Page up</source>
-        <translation>Halaman atas</translation>
-    </message>
-    <message>
-        <source>Page down</source>
-        <translation>Halaman bawah</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>Tetapan</translation>
-    </message>
-    <message>
-        <source>Importing...</source>
-        <translation>Mengimport...</translation>
-    </message>
-    <message>
-        <source>All photos and videos</source>
-        <translation>Semua foto dan video</translation>
-    </message>
-    <message>
-        <source>Import Photos and Videos</source>
-        <translation>Import Foto dan Video</translation>
-    </message>
-    <message>
-        <source>No photos or videos found</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Export photos</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Import photos/videos</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Padam</translation>
-    </message>
-    <message>
-        <source>Photo/Video info</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Import photos and videos</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Import folders</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Import interrupted</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Cannot add this path, please try another one</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>The path already exists</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Failed to restore %1 files: file name too long</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>MetadataName</name>
-    <message>
-        <source>Flash</source>
-        <translation>Denyar</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Jenis</translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation>Saiz fail</translation>
-    </message>
-    <message>
-        <source>Dimensions</source>
-        <translation>Dimensi</translation>
+        <source>Suffix</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Tarikh ditangkap</translation>
+        <translation type="unfinished">Tarikh ditangkap</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Tarikh diubah suai</translation>
+        <translation type="unfinished">Tarikh diubah suai</translation>
     </message>
     <message>
-        <source>Exposure mode</source>
-        <translation>Mod dedahan</translation>
-    </message>
-    <message>
-        <source>Exposure program</source>
-        <translation>Program dedahan</translation>
-    </message>
-    <message>
-        <source>Exposure time</source>
-        <translation>Masa dedahan</translation>
+        <source>Details</source>
+        <translation type="unfinished">Perincian</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Bukaan</translation>
+        <translation type="unfinished">Bukaan</translation>
+    </message>
+    <message>
+        <source>Exposure program</source>
+        <translation type="unfinished">Program dedahan</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Panjang fokus</translation>
+        <translation type="unfinished">Panjang fokus</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation>ISO</translation>
+        <translation type="unfinished">ISO</translation>
     </message>
     <message>
-        <source>Max aperture</source>
-        <translation>Bukaan maks.</translation>
+        <source>Exposure mode</source>
+        <translation type="unfinished">Mod dedahan</translation>
     </message>
     <message>
-        <source>Metering mode</source>
-        <translation>Mod pemeteran</translation>
+        <source>Exposure time</source>
+        <translation type="unfinished">Masa dedahan</translation>
     </message>
     <message>
-        <source>White balance</source>
-        <translation>Imbangan putih</translation>
+        <source>Flash</source>
+        <translation type="unfinished">Denyar</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Pemampasan denyar</translation>
+        <translation type="unfinished">Pemampasan denyar</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Model kamera</translation>
-    </message>
-    <message>
-        <source>Lens model</source>
-        <translation>Model kanta</translation>
+        <source>Max Aperture</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Ruang warna</translation>
+        <translation type="unfinished">Ruang warna</translation>
     </message>
     <message>
-        <source>Tag</source>
-        <translation>Tag</translation>
+        <source>Metering mode</source>
+        <translation type="unfinished">Mod pemeteran</translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation type="unfinished"/>
+        <source>White balance</source>
+        <translation type="unfinished">Imbangan putih</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation type="unfinished">Model kamera</translation>
+    </message>
+    <message>
+        <source>Lens model</source>
+        <translation type="unfinished">Model kanta</translation>
     </message>
 </context>
 <context>
-    <name>NoResultWidget</name>
+    <name>LauncherPlugin</name>
     <message>
-        <source>No results</source>
-        <translation>Tiada keputusan</translation>
+        <source>Main</source>
+        <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>PathManager</name>
+    <name>MonthCollection</name>
     <message>
-        <source>System Disk</source>
-        <translation>Cakera Sistem</translation>
+        <source>Month Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NewAlbumDialog</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Batal</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NoPictureView</name>
+    <message>
+        <source>No pictures and videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenImageWidget</name>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PropertyActionItemDelegate</name>
+    <message>
+        <source>The file already exists, please use another name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <source>Select</source>
-        <translation>Pilih</translation>
-    </message>
-    <message>
-        <source>Unselect</source>
-        <translation>Nyahpilih</translation>
-    </message>
-    <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
     </message>
     <message>
-        <source>Imported on</source>
-        <translation>Diimport pada</translation>
+        <source>Album</source>
+        <translation type="unfinished">Album</translation>
     </message>
     <message>
-        <source> %1-%2-%3 %4</source>
-        <translation> %1-%2-%3 %4</translation>
+        <source>%1/%2/%3/%4/%5</source>
+        <translation type="unfinished">%1/%2/%3/%4/%5</translation>
     </message>
     <message>
-        <source>Imported on </source>
-        <translation>Diimport pada</translation>
+        <source>%1/</source>
+        <translation type="unfinished">%1/</translation>
     </message>
     <message>
-        <source>Select All</source>
-        <translation>Pilih Semua</translation>
+        <source>%1/%2</source>
+        <translation type="unfinished">%1/%2</translation>
     </message>
     <message>
-        <source>Unselect All</source>
-        <translation>Nyahpilih Semua</translation>
+        <source>Trash</source>
+        <translation type="unfinished">Tong Sampah</translation>
+    </message>
+    <message>
+        <source>day</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ReName</name>
+    <message>
+        <source>Input a new name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The file already exists, please use another name</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Batal</translation>
+        <translation type="unfinished">Batal</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation>Pulih</translation>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RecentlyDeletedView</name>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete</source>
-        <translation>Padam</translation>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>All</source>
-        <translation>Semua</translation>
+        <source>Trash</source>
+        <translation type="unfinished">Tong Sampah</translation>
     </message>
     <message>
-        <source>Photos</source>
-        <translation>Foto</translation>
+        <source>The files will be permanently deleted after the days shown on them</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Videos</source>
-        <translation>Video</translation>
+        <source>Delete All</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>No results</source>
-        <translation>Tiada keputusan</translation>
+        <source>Delete Selected (%1)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Favorite</source>
-        <translation>Kegemaran</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Putar lawan jam</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Putar ikut jam</translation>
-    </message>
-    <message>
-        <source>Importing...</source>
-        <translation>Mengimport...</translation>
-    </message>
-    <message>
-        <source>%1/%2 items imported</source>
-        <translation>%1/%2 item diimport</translation>
-    </message>
-    <message>
-        <source>%1/%2 items deleted</source>
-        <translation>%1/%2 item dipadamkan</translation>
-    </message>
-    <message>
-        <source>%1 items imported, %2 items failed</source>
-        <translation>%1 item diimport, %2 item gagal</translation>
-    </message>
-    <message>
-        <source>1 photo selected</source>
-        <translation>1 foto terpilih</translation>
-    </message>
-    <message>
-        <source>1 video selected</source>
-        <translation>1 video terpilih</translation>
-    </message>
-    <message>
-        <source>The photo/video already exists</source>
-        <translation>Foto/video sudah wujud</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos selected</source>
-        <translation><numerusform>%n foto terpilih</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos selected</source>
-        <translation><numerusform>%n video terpilih</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n items selected</source>
-        <translation><numerusform>%n item terpilih</numerusform></translation>
-    </message>
-    <message>
-        <source>%1 items imported, %2 items exist already</source>
-        <translation>%1 item diimport, %2 item sudah ada</translation>
+        <source>Restore Selected (%1)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -911,48 +445,86 @@
         <source>1 photo found</source>
         <translation>1 foto ditemui</translation>
     </message>
-    <message numerus="yes">
-        <source>%n videos found</source>
-        <translation><numerusform>%n video ditemui</numerusform></translation>
-    </message>
     <message>
         <source>1 video found</source>
         <translation>1 video ditemui</translation>
     </message>
-    <message numerus="yes">
-        <source>%n items found</source>
-        <translation><numerusform>%n item ditemui</numerusform></translation>
+    <message>
+        <source>%1 photos found</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n photos found</source>
-        <translation type="unfinished"><numerusform></numerusform></translation>
+    <message>
+        <source>%1 videos found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>StatusBar</name>
+    <name>Sidebar</name>
     <message>
-        <source>1 photo</source>
-        <translation>1 foto</translation>
-    </message>
-    <message>
-        <source>1 video</source>
-        <translation>1 video</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation><numerusform>%n foto</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform></translation>
+        <source>Gallery</source>
+        <translation type="unfinished">Galeri</translation>
     </message>
     <message>
-        <source>Importing: %1</source>
-        <translation type="unfinished"/>
+        <source>Albums</source>
+        <translation type="unfinished">Album</translation>
     </message>
     <message>
-        <source>Exporting: %1</source>
-        <translation type="unfinished"/>
+        <source>Screen Capture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SidebarModel</name>
+    <message>
+        <source>Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished">Import</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation type="unfinished">Kegemaran</translation>
+    </message>
+    <message>
+        <source>Trash</source>
+        <translation type="unfinished">Tong Sampah</translation>
+    </message>
+</context>
+<context>
+    <name>SliderShow</name>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished">Terdahulu</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Berikutnya</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1031,34 +603,46 @@
     </message>
     <message>
         <source>Video info</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>days</source>
-        <translation>hari</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>TimeLineView</name>
+    <name>ToolBarThumbnailListView</name>
     <message>
-        <source>1 photo</source>
-        <translation>1 foto</translation>
+        <source>Back Album</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1 video</source>
-        <translation>1 video</translation>
+        <source>Previous</source>
+        <translation type="unfinished">Terdahulu</translation>
     </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation><numerusform>%n foto</numerusform></translation>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Berikutnya</translation>
     </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform></translation>
+    <message>
+        <source>Original size</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n items</source>
-        <translation><numerusform>%n item</numerusform></translation>
+    <message>
+        <source>Fit to window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Padam</translation>
     </message>
 </context>
 <context>
@@ -1069,87 +653,159 @@
     </message>
     <message>
         <source>Codec info</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Audio info</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Video CodecID</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Video CodeRate</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>FPS</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Proportion</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Audio CodecID</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Audio CodeRate</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Audio digit</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Channels</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Channel</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Sampling</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Date modified</source>
-        <translation>Tarikh diubah suai</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Jenis</translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation>Saiz fail</translation>
-    </message>
-    <message>
-        <source>Duration</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Path</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Date captured</source>
         <translation>Tarikh ditangkap</translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation type="unfinished"/>
+        <source>File Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Suffix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ViewRightMenu</name>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Skrin penuh</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">Cetak</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Persembahan slaid</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Salin</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">Nama semula</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Padam</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Putar ikut jam</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Putar lawan jam</translation>
+    </message>
+    <message>
+        <source>Show navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Tetap sebagai kertas dinding</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Papar dalam pengurus fail</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ViewTopTitle</name>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>deepin-image-viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>YearCollection</name>
+    <message>
+        <source>Year Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <source>Select pictures</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

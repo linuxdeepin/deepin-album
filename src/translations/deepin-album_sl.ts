@@ -1,255 +1,77 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sl">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="sl">
 <context>
-    <name/>
+    <name>AlbumControl</name>
     <message>
-        <source>Delete</source>
-        <translation type="vanished">Izbriši</translation>
+        <source>Unnamed</source>
+        <translation type="unfinished">brez imena</translation>
     </message>
     <message>
-        <source>Fullscreen</source>
-        <translation type="vanished">Celozaslonsko</translation>
+        <source>Channel</source>
+        <translation type="unfinished">Kanal</translation>
+    </message>
+</context>
+<context>
+    <name>AlbumTitle</name>
+    <message>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished">Album je moderen upravljalnik za pregledovanje in organizacijo slik in videev</translation>
     </message>
     <message>
-        <source>Slide show</source>
-        <translation type="vanished">Diaprojekcija</translation>
+        <source>deepin-album</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">Izvozi</translation>
+        <source>Y</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Copy</source>
-        <translation type="vanished">Kopiraj</translation>
+        <source>M</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>D</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation type="unfinished">Vse</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="vanished">Priljubljeno</translation>
+        <translation type="unfinished">Priljubljeno</translation>
     </message>
     <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Obrni proti smeri urinega kazalca</translation>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Nepriljubljeno</translation>
     </message>
     <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Obrni proti smeri urinega kazalca</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="vanished">Določi kot ozadje namizja</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="vanished">Prikaži v upravljalniku datotek</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Podatki o sliki</translation>
-    </message>
-    <message>
-        <source>Video info</source>
-        <translation type="vanished">Podatki o videu</translation>
-    </message>
-    <message>
-        <source>Restore</source>
-        <translation type="vanished">Obnovi</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>brez imena</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Prekini</translation>
-    </message>
-    <message>
-        <source>Create</source>
-        <translation>Ustvari</translation>
-    </message>
-    <message>
-        <source>New Album</source>
-        <translation>Nov album</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Prekini</translation>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Izbriši</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this album?</source>
-        <translation>Ali ste prepričani, da želite izbrisati ta album?</translation>
+        <translation type="unfinished">Izbriši</translation>
     </message>
 </context>
 <context>
-    <name>AlbumLeftTabItem</name>
+    <name>CustomAlbum</name>
     <message>
-        <source>Trash</source>
-        <translation>Smetnjak</translation>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Favorites</source>
-        <translation>Priljubljeno</translation>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Import</source>
-        <translation>Uvozi</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumView</name>
-    <message>
-        <source>Trash</source>
-        <translation>Smetnjak</translation>
-    </message>
-    <message>
-        <source>Favorites</source>
-        <translation>Priljubljeno</translation>
-    </message>
-    <message>
-        <source>Or drag photos here</source>
-        <translation>ali povlecite slike sem</translation>
-    </message>
-    <message>
-        <source>Import All</source>
-        <translation>Uvozi vse</translation>
-    </message>
-    <message>
-        <source>Import to:</source>
-        <translation>Uvozi v:</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Uvozi</translation>
-    </message>
-    <message>
-        <source>System Disk</source>
-        <translation>Sistemski disk</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation>Galerija</translation>
-    </message>
-    <message>
-        <source>Disk is busy, cannot eject now</source>
-        <translation>Disk deluje in ga trenutno ni mogoče izvreči</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>V redu</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Nov album</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Prekini</translation>
-    </message>
-    <message>
-        <source>Ignore</source>
-        <translation>Prezri</translation>
-    </message>
-    <message>
-        <source>Loading...</source>
-        <translation>Nalaganje...</translation>
-    </message>
-    <message>
-        <source>The files will be permanently deleted after the days shown on them</source>
-        <translation>Datoteke bodo trajno izbrisane po preteku prikazanega števila dni</translation>
-    </message>
-</context>
-<context>
-    <name>Application</name>
-    <message>
-        <source>Album</source>
-        <translation>Album</translation>
-    </message>
-</context>
-<context>
-    <name>CExportImageDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Prekini</translation>
-    </message>
-    <message>
-        <source>Replace</source>
-        <translation>Zamenjaj</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Izvozi</translation>
-    </message>
-    <message>
-        <source>Pictures</source>
-        <translation>Slike</translation>
-    </message>
-    <message>
-        <source>Documents</source>
-        <translation>Dokumenti</translation>
-    </message>
-    <message>
-        <source>Downloads</source>
-        <translation>Prenosi</translation>
-    </message>
-    <message>
-        <source>Desktop</source>
-        <translation>Namizje</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation>Video posnetki</translation>
-    </message>
-    <message>
-        <source>Music</source>
-        <translation>Glasba</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation>Ime:</translation>
-    </message>
-    <message>
-        <source>Save to:</source>
-        <translation>Shrani v:</translation>
-    </message>
-    <message>
-        <source>Format:</source>
-        <translation>Format:</translation>
-    </message>
-    <message>
-        <source>Quality:</source>
-        <translation>Kakovost:</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Shrani</translation>
-    </message>
-    <message>
-        <source>gif</source>
-        <translation>gif</translation>
-    </message>
-    <message>
-        <source>Select other directories</source>
-        <translation>Izberi druge mape</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>V redu</translation>
-    </message>
-    <message>
-        <source>File name cannot be empty</source>
-        <translation>e more biti prazno</translation>
-    </message>
-    <message>
-        <source>already exists. Do you want to replace it?</source>
-        <translation>že obstaja. Jo želite zamenjati?</translation>
+        <source>No results</source>
+        <translation type="unfinished">Ni rezultatov</translation>
     </message>
 </context>
 <context>
@@ -272,625 +94,337 @@
     </message>
 </context>
 <context>
-    <name>DeepinStorage</name>
+    <name>DayCollection</name>
     <message>
-        <source>%1 Drive</source>
-        <translation>%1 pogon</translation>
-    </message>
-    <message>
-        <source>Blank %1 Disc</source>
-        <translation>Prazen %1 disk</translation>
-    </message>
-    <message>
-        <source>%1 Encrypted</source>
-        <translation>%1 šifrirano</translation>
-    </message>
-    <message>
-        <source>%1 Volume</source>
-        <translation>%1 nosilec</translation>
+        <source>Day Collection</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>Exporter</name>
-    <message>
-        <source>Save</source>
-        <translation>Shrani</translation>
-    </message>
-    <message>
-        <source>Export Photos</source>
-        <translation>Izvozi slike</translation>
-    </message>
+    <name>ExportDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Prekini</translation>
+        <translation type="unfinished">Prekini</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Documents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloads</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Desktop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Video posnetki</translation>
+    </message>
+    <message>
+        <source>Music</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select other directories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Format:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quality:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>ImageEngineApi</name>
+    <name>FilterComboBox</name>
     <message>
-        <source>Deleting...</source>
-        <translation>Brisanje...</translation>
+        <source>All</source>
+        <translation type="unfinished">Vse</translation>
     </message>
     <message>
-        <source>Restoring...</source>
-        <translation>Obnavljanje...</translation>
+        <source>Photos</source>
+        <translation type="unfinished">Slike</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Video posnetki</translation>
     </message>
 </context>
 <context>
-    <name>ImgDeleteDialog</name>
+    <name>HaveImportedView</name>
     <message>
-        <source>Cancel</source>
-        <translation>Prekini</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Izbriši</translation>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure you want to delete this photo from the album?</source>
-        <translation type="vanished">Ali ste prepričani, da želite odstraniti to sliko iz albuma?</translation>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="vanished"><numerusform>Ali res želite izbrisati %n sliko iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n sliki iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n slike iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n slik iz albumov?</numerusform></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="vanished">Ali želite izbrisati ta video iz albuma?</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="vanished"><numerusform>Ali res želite izbrisati %n video iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n videa iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n videe iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n videev iz albumov?</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="vanished"><numerusform>Ali res želite izbrisati %n predmet iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n predmeta iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n predmete iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n predmetov iz albumov?</numerusform></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to permanently delete this file?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>You cannot restore it any longer</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Are you sure you want to permanently delete %1 files?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>You cannot restore them any longer</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this file locally?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>You can restore it in the trash</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Are you sure you want to delete %1 files locally?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>You can restore them in the trash</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>ImgInfoDialog</name>
-    <message>
-        <source>Basic info</source>
-        <translation>Osnovni podatki</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation>Podrobnosti</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Podatki o sliki</translation>
-    </message>
-</context>
-<context>
-    <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>Uvozi</translation>
-    </message>
-    <message>
-        <source>1 photo</source>
-        <translation>ena slika</translation>
-    </message>
-    <message>
-        <source>1 video</source>
-        <translation>en video</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation><numerusform>%n slika</numerusform><numerusform>%n sliki</numerusform><numerusform>%n slike</numerusform><numerusform>%n slik</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videi</numerusform><numerusform>%n videev</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n items</source>
-        <translation><numerusform>%1 predmet</numerusform><numerusform>%1 predmeta</numerusform><numerusform>%1 predmeti</numerusform><numerusform>%1 predmetov</numerusform></translation>
+        <translation type="unfinished">Uvozi</translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>Import Photos and Videos</source>
-        <translation>Uvozite slike in videe</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Or drag them here</source>
-        <translation>Ali jih povlecite sem</translation>
-    </message>
-    <message>
-        <source>All photos and videos</source>
-        <translation>Vse slike in videi</translation>
-    </message>
-    <message>
-        <source>No photos or videos found</source>
-        <translation>Ni najdenih slik ali videev</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>LeftListView</name>
+    <name>InfomationDialog</name>
     <message>
-        <source>Slide show</source>
-        <translation>Diaprojekcija</translation>
+        <source>Basic info</source>
+        <translation type="unfinished">Osnovni podatki</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Preimenuj</translation>
+        <source>File Name</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation>Izvozi</translation>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete</source>
-        <translation>Izbriši</translation>
+        <source>Resolution ratio</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Device</source>
-        <translation>Naprava</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation>Galerija</translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation>Albumi</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Nov album</translation>
-    </message>
-</context>
-<context>
-    <name>Main</name>
-    <message>
-        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation>Album je moderen upravljalnik za pregledovanje in organizacijo slik in videev</translation>
-    </message>
-</context>
-<context>
-    <name>MainWindow</name>
-    <message>
-        <source>Photos</source>
-        <translation>Slike</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Celozaslonsko</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>omoč</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Prikaži v upravljalniku datotek</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Diaprojekcija</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Kopiraj</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Določi kot ozadje namizja</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Obrni proti smeri urinega kazalca</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Obrni proti smeri urinega kazalca</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Nazaj</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Naprej</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Priljubljeno</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Nepriljubljeno</translation>
-    </message>
-    <message>
-        <source>Rename album</source>
-        <translation>Preimenuj album</translation>
-    </message>
-    <message>
-        <source>Album “%1” removed</source>
-        <translation>Album “%1” je bil odstranjen</translation>
-    </message>
-    <message>
-        <source>Successfully added to “%1”</source>
-        <translation>Uspešno dodano k &quot;%1&quot;</translation>
-    </message>
-    <message>
-        <source>Import successful</source>
-        <translation>Uvažanje je uspelo</translation>
-    </message>
-    <message>
-        <source>Import failed</source>
-        <translation>Uvažanje ni uspelo</translation>
-    </message>
-    <message>
-        <source>Export failed</source>
-        <translation>Izvažanje ni uspelo</translation>
-    </message>
-    <message>
-        <source>Export successful</source>
-        <translation>Izvažanje je uspelo</translation>
-    </message>
-    <message>
-        <source>All Photos</source>
-        <translation>Vse slike</translation>
-    </message>
-    <message>
-        <source>Timelines</source>
-        <translation>Časovnice</translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation>Albumi</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen/slideshow</source>
-        <translation>Zapri celozaslonski način/diaprojekcijo</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Prikaži bljižnice</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Prikaz</translation>
-    </message>
-    <message>
-        <source>Select all</source>
-        <translation>Izberi vse</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation>Približaj</translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation>Oddalji</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Nov album</translation>
-    </message>
-    <message>
-        <source>Page up</source>
-        <translation>Prejšnja stran</translation>
-    </message>
-    <message>
-        <source>Page down</source>
-        <translation>Naslednja stran</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>Nastavitve</translation>
-    </message>
-    <message>
-        <source>Importing...</source>
-        <translation>Uvažanje...</translation>
-    </message>
-    <message>
-        <source>All photos and videos</source>
-        <translation>Vse slike in videi</translation>
-    </message>
-    <message>
-        <source>Import Photos and Videos</source>
-        <translation>Uvozi slike in videe</translation>
-    </message>
-    <message>
-        <source>No photos or videos found</source>
-        <translation>Ni najdenih slik ali videev</translation>
-    </message>
-    <message>
-        <source>Export photos</source>
-        <translation>Izvozi slike</translation>
-    </message>
-    <message>
-        <source>Import photos/videos</source>
-        <translation>Uvozi slike/videe</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Izbriši</translation>
-    </message>
-    <message>
-        <source>Photo/Video info</source>
-        <translation>Podatki o sliki/videu</translation>
-    </message>
-    <message>
-        <source>Import photos and videos</source>
-        <translation>Uvoz slik in videa</translation>
-    </message>
-    <message>
-        <source>Import folders</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Import interrupted</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Cannot add this path, please try another one</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>The path already exists</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Failed to restore %1 files: file name too long</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>MetadataName</name>
-    <message>
-        <source>Flash</source>
-        <translation>Bliskavica</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Vrsta</translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation>Velikost datoteke</translation>
-    </message>
-    <message>
-        <source>Dimensions</source>
-        <translation>Dimenzije</translation>
+        <source>Suffix</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Datum snemanja</translation>
+        <translation type="unfinished">Datum snemanja</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Datum spremembe</translation>
+        <translation type="unfinished">Datum spremembe</translation>
     </message>
     <message>
-        <source>Exposure mode</source>
-        <translation>Način osvetljevanja</translation>
-    </message>
-    <message>
-        <source>Exposure program</source>
-        <translation>Progam osvetljevanja</translation>
-    </message>
-    <message>
-        <source>Exposure time</source>
-        <translation>Čas osvetljevanja</translation>
+        <source>Details</source>
+        <translation type="unfinished">Podrobnosti</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Zaslonka</translation>
+        <translation type="unfinished">Zaslonka</translation>
+    </message>
+    <message>
+        <source>Exposure program</source>
+        <translation type="unfinished">Progam osvetljevanja</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Goriščna razdalja</translation>
+        <translation type="unfinished">Goriščna razdalja</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation>ISO</translation>
+        <translation type="unfinished">ISO</translation>
     </message>
     <message>
-        <source>Max aperture</source>
-        <translation>Največja zaslonka</translation>
+        <source>Exposure mode</source>
+        <translation type="unfinished">Način osvetljevanja</translation>
     </message>
     <message>
-        <source>Metering mode</source>
-        <translation>Način merjenja</translation>
+        <source>Exposure time</source>
+        <translation type="unfinished">Čas osvetljevanja</translation>
     </message>
     <message>
-        <source>White balance</source>
-        <translation>Ravnovesje beline</translation>
+        <source>Flash</source>
+        <translation type="unfinished">Bliskavica</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Kompenzacija bliskavice</translation>
+        <translation type="unfinished">Kompenzacija bliskavice</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Model fotoaparata</translation>
-    </message>
-    <message>
-        <source>Lens model</source>
-        <translation>Model objektiva</translation>
+        <source>Max Aperture</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Barvni prostor</translation>
+        <translation type="unfinished">Barvni prostor</translation>
     </message>
     <message>
-        <source>Tag</source>
-        <translation>Oznaka</translation>
+        <source>Metering mode</source>
+        <translation type="unfinished">Način merjenja</translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation>Ime</translation>
+        <source>White balance</source>
+        <translation type="unfinished">Ravnovesje beline</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation type="unfinished">Model fotoaparata</translation>
+    </message>
+    <message>
+        <source>Lens model</source>
+        <translation type="unfinished">Model objektiva</translation>
     </message>
 </context>
 <context>
-    <name>NoResultWidget</name>
+    <name>LauncherPlugin</name>
     <message>
-        <source>No results</source>
-        <translation>Ni rezultatov</translation>
+        <source>Main</source>
+        <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>PathManager</name>
+    <name>MonthCollection</name>
     <message>
-        <source>System Disk</source>
-        <translation>Sistemski disk</translation>
+        <source>Month Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NewAlbumDialog</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Prekini</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NoPictureView</name>
+    <message>
+        <source>No pictures and videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenImageWidget</name>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PropertyActionItemDelegate</name>
+    <message>
+        <source>The file already exists, please use another name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <source>Select</source>
-        <translation>Izberi</translation>
-    </message>
-    <message>
-        <source>Unselect</source>
-        <translation>Odstrani iz izbora</translation>
-    </message>
-    <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
     </message>
     <message>
-        <source>Imported on</source>
-        <translation>Uvoženo</translation>
+        <source>Album</source>
+        <translation type="unfinished">Album</translation>
     </message>
     <message>
-        <source> %1-%2-%3 %4</source>
-        <translation> %1-%2-%3 %4</translation>
+        <source>%1/%2/%3/%4/%5</source>
+        <translation type="unfinished">%1/%2/%3/%4/%5</translation>
     </message>
     <message>
-        <source>Imported on </source>
-        <translation>Uvoženo</translation>
+        <source>%1/</source>
+        <translation type="unfinished">%1/</translation>
     </message>
     <message>
-        <source>Select All</source>
-        <translation>Izberi vse</translation>
+        <source>%1/%2</source>
+        <translation type="unfinished">%1/%2</translation>
     </message>
     <message>
-        <source>Unselect All</source>
-        <translation>Prekliči izbor</translation>
+        <source>Trash</source>
+        <translation type="unfinished">Smetnjak</translation>
+    </message>
+    <message>
+        <source>day</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ReName</name>
+    <message>
+        <source>Input a new name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The file already exists, please use another name</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Prekini</translation>
+        <translation type="unfinished">Prekini</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation>Obnovi</translation>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RecentlyDeletedView</name>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete</source>
-        <translation>Izbriši</translation>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>All</source>
-        <translation>Vse</translation>
+        <source>Trash</source>
+        <translation type="unfinished">Smetnjak</translation>
     </message>
     <message>
-        <source>Photos</source>
-        <translation>Slike</translation>
+        <source>The files will be permanently deleted after the days shown on them</source>
+        <translation type="unfinished">Datoteke bodo trajno izbrisane po preteku prikazanega števila dni</translation>
     </message>
     <message>
-        <source>Videos</source>
-        <translation>Video posnetki</translation>
+        <source>Delete All</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>No results</source>
-        <translation>Ni rezultatov</translation>
+        <source>Delete Selected (%1)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Favorite</source>
-        <translation>Priljubljeno</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Obrni proti smeri urinega kazalca</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Obrni proti smeri urinega kazalca</translation>
-    </message>
-    <message>
-        <source>Importing...</source>
-        <translation>Uvažanje...</translation>
-    </message>
-    <message>
-        <source>%1/%2 items imported</source>
-        <translation>%1%2 uvoženih predmetov</translation>
-    </message>
-    <message>
-        <source>%1/%2 items deleted</source>
-        <translation>%1%2 izbrisanih predmetov</translation>
-    </message>
-    <message>
-        <source>%1 items imported, %2 items failed</source>
-        <translation>%1 uvoženih predmetov, %2 predmetov ni uspelo</translation>
-    </message>
-    <message>
-        <source>1 photo selected</source>
-        <translation>ena izbrana slika</translation>
-    </message>
-    <message>
-        <source>1 video selected</source>
-        <translation>1 izbran video</translation>
-    </message>
-    <message>
-        <source>The photo/video already exists</source>
-        <translation>Slika/video že obstaja</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos selected</source>
-        <translation><numerusform>%1 izbrana slika</numerusform><numerusform>%1 izbrani sliki</numerusform><numerusform>%1 izbrane slike</numerusform><numerusform>%1 izbranih slik</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos selected</source>
-        <translation><numerusform>%1 izbran video</numerusform><numerusform>%1 izbrana videa</numerusform><numerusform>%1 izbrani videi</numerusform><numerusform>%1 izbranih videev</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n items selected</source>
-        <translation><numerusform>%1 izbran predmet</numerusform><numerusform>%1 izbrana predmeta</numerusform><numerusform>%1 izbrani predmeti</numerusform><numerusform>%1 izbranih predmetov</numerusform></translation>
-    </message>
-    <message>
-        <source>%1 items imported, %2 items exist already</source>
-        <translation>%1 uvoženih predmetov, %2 predmetov že obstaja</translation>
+        <source>Restore Selected (%1)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -911,48 +445,86 @@
         <source>1 photo found</source>
         <translation>en najdena slika</translation>
     </message>
-    <message numerus="yes">
-        <source>%n videos found</source>
-        <translation><numerusform>%1 najden video</numerusform><numerusform>%1 najdena videa</numerusform><numerusform>%1 najdeni videi</numerusform><numerusform>%1 najdenih videev</numerusform></translation>
-    </message>
     <message>
         <source>1 video found</source>
         <translation>en najden video</translation>
     </message>
-    <message numerus="yes">
-        <source>%n items found</source>
-        <translation><numerusform>%1 najden predmet</numerusform><numerusform>%1 najdena predmeta</numerusform><numerusform>%1 najdeni predmeti</numerusform><numerusform>%1 najdenih predmetov</numerusform></translation>
+    <message>
+        <source>%1 photos found</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n photos found</source>
-        <translation><numerusform>%1 najdenih slika</numerusform><numerusform>%1 najdenih sliki</numerusform><numerusform>%1 najdenih slike</numerusform><numerusform>%1 najdenih slik</numerusform></translation>
+    <message>
+        <source>%1 videos found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>StatusBar</name>
+    <name>Sidebar</name>
     <message>
-        <source>1 photo</source>
-        <translation>ena slika</translation>
-    </message>
-    <message>
-        <source>1 video</source>
-        <translation>en video</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation><numerusform>%1 najdena slika</numerusform><numerusform>%1 najdeni sliki</numerusform><numerusform>%1 najdene slike</numerusform><numerusform>%1 najdenih slik</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videi</numerusform><numerusform>%n videev</numerusform></translation>
+        <source>Gallery</source>
+        <translation type="unfinished">Galerija</translation>
     </message>
     <message>
-        <source>Importing: %1</source>
-        <translation>Uvažanje: %1</translation>
+        <source>Albums</source>
+        <translation type="unfinished">Albumi</translation>
     </message>
     <message>
-        <source>Exporting: %1</source>
-        <translation>Izvažanje: %1</translation>
+        <source>Screen Capture</source>
+        <translation type="unfinished">Zajemi Zaslon</translation>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished">Kamera</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished">Riši</translation>
+    </message>
+</context>
+<context>
+    <name>SidebarModel</name>
+    <message>
+        <source>Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished">Uvozi</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation type="unfinished">Priljubljeno</translation>
+    </message>
+    <message>
+        <source>Trash</source>
+        <translation type="unfinished">Smetnjak</translation>
+    </message>
+</context>
+<context>
+    <name>SliderShow</name>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished">Nazaj</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Naprej</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1033,32 +605,44 @@
         <source>Video info</source>
         <translation>Podatki o videu</translation>
     </message>
-    <message>
-        <source>days</source>
-        <translation>dni</translation>
-    </message>
 </context>
 <context>
-    <name>TimeLineView</name>
+    <name>ToolBarThumbnailListView</name>
     <message>
-        <source>1 photo</source>
-        <translation>ena slika</translation>
+        <source>Back Album</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1 video</source>
-        <translation>en video</translation>
+        <source>Previous</source>
+        <translation type="unfinished">Nazaj</translation>
     </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation><numerusform>%n slika</numerusform><numerusform>%n sliki</numerusform><numerusform>%n slike</numerusform><numerusform>%n slik</numerusform></translation>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Naprej</translation>
     </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videi</numerusform><numerusform>%n videev</numerusform></translation>
+    <message>
+        <source>Original size</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n items</source>
-        <translation><numerusform>%1 predmet</numerusform><numerusform>%1 predmeta</numerusform><numerusform>%1 predmeti</numerusform><numerusform>%1 predmetov</numerusform></translation>
+    <message>
+        <source>Fit to window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Izbriši</translation>
     </message>
 </context>
 <context>
@@ -1070,10 +654,6 @@
     <message>
         <source>Codec info</source>
         <translation>Podatki o kodeku</translation>
-    </message>
-    <message>
-        <source>Audio info</source>
-        <translation>Podatki o zvoku</translation>
     </message>
     <message>
         <source>Video CodecID</source>
@@ -1112,44 +692,120 @@
         <translation>ali</translation>
     </message>
     <message>
-        <source>Channel</source>
-        <translation>Kanal</translation>
-    </message>
-    <message>
         <source>Sampling</source>
         <translation>Vzorčenje</translation>
-    </message>
-    <message>
-        <source>Date modified</source>
-        <translation>Datum spremembe</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Vrsta</translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation>Velikost datoteke</translation>
-    </message>
-    <message>
-        <source>Duration</source>
-        <translation>Čas trajanja</translation>
     </message>
     <message>
         <source>Path</source>
         <translation>Pot</translation>
     </message>
     <message>
-        <source>Video info</source>
-        <translation>Podatki o videu</translation>
-    </message>
-    <message>
         <source>Date captured</source>
         <translation>Datum snemanja</translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation>Ime</translation>
+        <source>File Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Suffix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ViewRightMenu</name>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Celozaslonsko</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">Tiskanje</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Diaprojekcija</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Kopiraj</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">Preimenuj</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Izbriši</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Obrni proti smeri urinega kazalca</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Obrni proti smeri urinega kazalca</translation>
+    </message>
+    <message>
+        <source>Show navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Določi kot ozadje namizja</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Prikaži v upravljalniku datotek</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished">Podatki o sliki</translation>
+    </message>
+</context>
+<context>
+    <name>ViewTopTitle</name>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>deepin-image-viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>YearCollection</name>
+    <message>
+        <source>Year Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <source>Select pictures</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

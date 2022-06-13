@@ -69,7 +69,6 @@ Rectangle {
     }
 
     function showFloatLabel() {
-        console.info("scale value:", currenImageScale.toFixed(0))
         if(currenImageScale.toFixed(0) > 2000 && currenImageScale.toFixed(0) <= 3000){
             floatLabel.displayStr = "2000%"
         }else if(currenImageScale.toFixed(0)<2 && currenImageScale.toFixed(0) >=0 ){

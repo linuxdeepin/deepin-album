@@ -1,255 +1,77 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="hu">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="hu">
 <context>
-    <name/>
+    <name>AlbumControl</name>
     <message>
-        <source>Delete</source>
-        <translation type="vanished">Törlés</translation>
+        <source>Unnamed</source>
+        <translation type="unfinished">Névtelen</translation>
     </message>
     <message>
-        <source>Fullscreen</source>
-        <translation type="vanished">Teljes képernyő</translation>
+        <source>Channel</source>
+        <translation type="unfinished">Csatorna</translation>
+    </message>
+</context>
+<context>
+    <name>AlbumTitle</name>
+    <message>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished">Az Album egy divatos képkezelő képek nézegetésére és rendszerezésére</translation>
     </message>
     <message>
-        <source>Slide show</source>
-        <translation type="vanished">Diavetítés</translation>
+        <source>deepin-album</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">Exportálás</translation>
+        <source>Y</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Copy</source>
-        <translation type="vanished">Másolás</translation>
+        <source>M</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>D</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation type="unfinished">Összes</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="vanished">Kedvenc</translation>
+        <translation type="unfinished">Kedvenc</translation>
     </message>
     <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">Forgatás az óramutató járásával megegyezően</translation>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Eltávolítás a kedvencekből</translation>
     </message>
     <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">Forgatás az óramutató járásával ellentétes irányba</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="vanished">Beállítás háttérképként</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="vanished">Megjelenítés a fájlkezelőben</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">Kép tulajdonságai</translation>
-    </message>
-    <message>
-        <source>Video info</source>
-        <translation type="vanished">Videó tulajdonságai</translation>
-    </message>
-    <message>
-        <source>Restore</source>
-        <translation type="vanished">Helyreállítás</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>Névtelen</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Mégsem</translation>
-    </message>
-    <message>
-        <source>Create</source>
-        <translation>Létrehozás</translation>
-    </message>
-    <message>
-        <source>New Album</source>
-        <translation>Új album</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Mégsem</translation>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Törlés</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this album?</source>
-        <translation>Biztos, hogy törölni szeretné ezt az albumot?</translation>
+        <translation type="unfinished">Törlés</translation>
     </message>
 </context>
 <context>
-    <name>AlbumLeftTabItem</name>
+    <name>CustomAlbum</name>
     <message>
-        <source>Trash</source>
-        <translation>Kuka</translation>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Favorites</source>
-        <translation>Kedvencek</translation>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Import</source>
-        <translation>Importálás</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumView</name>
-    <message>
-        <source>Trash</source>
-        <translation>Kuka</translation>
-    </message>
-    <message>
-        <source>Favorites</source>
-        <translation>Kedvencek</translation>
-    </message>
-    <message>
-        <source>Or drag photos here</source>
-        <translation>Vagy húzza a képeket ide</translation>
-    </message>
-    <message>
-        <source>Import All</source>
-        <translation>Összes importálása</translation>
-    </message>
-    <message>
-        <source>Import to:</source>
-        <translation>Importálás ide:</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Importálás</translation>
-    </message>
-    <message>
-        <source>System Disk</source>
-        <translation>Rendszerlemez</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation>Galéria</translation>
-    </message>
-    <message>
-        <source>Disk is busy, cannot eject now</source>
-        <translation>A lemez használatban, nem lehet most kiadni</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Új album</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Mégsem</translation>
-    </message>
-    <message>
-        <source>Ignore</source>
-        <translation>Kihagyás</translation>
-    </message>
-    <message>
-        <source>Loading...</source>
-        <translation>Betöltés...</translation>
-    </message>
-    <message>
-        <source>The files will be permanently deleted after the days shown on them</source>
-        <translation>A fájlok véglegesen törlődnek a megjelenített napok után</translation>
-    </message>
-</context>
-<context>
-    <name>Application</name>
-    <message>
-        <source>Album</source>
-        <translation>Album</translation>
-    </message>
-</context>
-<context>
-    <name>CExportImageDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Mégsem</translation>
-    </message>
-    <message>
-        <source>Replace</source>
-        <translation>Csere</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Exportálás</translation>
-    </message>
-    <message>
-        <source>Pictures</source>
-        <translation>Képek</translation>
-    </message>
-    <message>
-        <source>Documents</source>
-        <translation>Dokumentumok</translation>
-    </message>
-    <message>
-        <source>Downloads</source>
-        <translation>Letöltések</translation>
-    </message>
-    <message>
-        <source>Desktop</source>
-        <translation>Asztal</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation>Videók</translation>
-    </message>
-    <message>
-        <source>Music</source>
-        <translation>Zene</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation>Név:</translation>
-    </message>
-    <message>
-        <source>Save to:</source>
-        <translation>Mentés ide:</translation>
-    </message>
-    <message>
-        <source>Format:</source>
-        <translation>Formátum:</translation>
-    </message>
-    <message>
-        <source>Quality:</source>
-        <translation>Minőség:</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Mentés</translation>
-    </message>
-    <message>
-        <source>gif</source>
-        <translation>gif</translation>
-    </message>
-    <message>
-        <source>Select other directories</source>
-        <translation>Más könyvtárak kiválasztása</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>File name cannot be empty</source>
-        <translation>A fájlnév nem lehet üres</translation>
-    </message>
-    <message>
-        <source>already exists. Do you want to replace it?</source>
-        <translation>Már létezik. Szeretné felülírni?</translation>
+        <source>No results</source>
+        <translation type="unfinished">Nincs keresési eredmény</translation>
     </message>
 </context>
 <context>
@@ -272,625 +94,337 @@
     </message>
 </context>
 <context>
-    <name>DeepinStorage</name>
+    <name>DayCollection</name>
     <message>
-        <source>%1 Drive</source>
-        <translation>%1 lemez</translation>
-    </message>
-    <message>
-        <source>Blank %1 Disc</source>
-        <translation>Üres %1 lemez</translation>
-    </message>
-    <message>
-        <source>%1 Encrypted</source>
-        <translation>%1 titkosítva</translation>
-    </message>
-    <message>
-        <source>%1 Volume</source>
-        <translation>%1 hangerő</translation>
+        <source>Day Collection</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>Exporter</name>
-    <message>
-        <source>Save</source>
-        <translation>Mentés</translation>
-    </message>
-    <message>
-        <source>Export Photos</source>
-        <translation>Képek exportálása</translation>
-    </message>
+    <name>ExportDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Mégsem</translation>
+        <translation type="unfinished">Mégsem</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Documents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloads</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Desktop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Videók</translation>
+    </message>
+    <message>
+        <source>Music</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select other directories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Format:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quality:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>ImageEngineApi</name>
+    <name>FilterComboBox</name>
     <message>
-        <source>Deleting...</source>
-        <translation>Törlés...</translation>
+        <source>All</source>
+        <translation type="unfinished">Összes</translation>
     </message>
     <message>
-        <source>Restoring...</source>
-        <translation>Visszaállítás...</translation>
+        <source>Photos</source>
+        <translation type="unfinished">Képek</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Videók</translation>
     </message>
 </context>
 <context>
-    <name>ImgDeleteDialog</name>
+    <name>HaveImportedView</name>
     <message>
-        <source>Cancel</source>
-        <translation>Mégsem</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Törlés</translation>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure you want to delete this photo from the album?</source>
-        <translation type="vanished">Biztos, hogy törölni szeretné ezt a képet az albumból?</translation>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="vanished"><numerusform>Biztos, hogy törölni szeretne %n képet az albumból?</numerusform><numerusform>Biztos, hogy törölni szeretne %n képet az albumból?</numerusform></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="vanished">Biztos, hogy törölni szeretné ezt a videót az albumból?</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="vanished"><numerusform>Biztos, hogy törölni szeretne %n videót az albumból?</numerusform><numerusform>Biztos, hogy törölni szeretne %n videót az albumból?</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="vanished"><numerusform>Biztos, hogy törölni szeretne %n elemet az albumból?</numerusform><numerusform>Biztos, hogy törölni szeretne %n elemet az albumból?</numerusform></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to permanently delete this file?</source>
-        <translation>Biztos benne, hogy véglegesen törli ezt a fájlt?</translation>
-    </message>
-    <message>
-        <source>You cannot restore it any longer</source>
-        <translation>Már nem tudja visszaállítani</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to permanently delete %1 files?</source>
-        <translation>Biztos benne, hogy véglegesen törli a %1 fájlt?</translation>
-    </message>
-    <message>
-        <source>You cannot restore them any longer</source>
-        <translation>Ezeket többé nem tudja visszaállítani</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this file locally?</source>
-        <translation>Biztos benne, hogy helyileg törli ezt a fájlt?</translation>
-    </message>
-    <message>
-        <source>You can restore it in the trash</source>
-        <translation>Visszaállíthatja a Kukából</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete %1 files locally?</source>
-        <translation>Biztos benne, hogy helyileg törli a %1 fájlt?</translation>
-    </message>
-    <message>
-        <source>You can restore them in the trash</source>
-        <translation>Visszaállíthatja őket a Kukából</translation>
-    </message>
-</context>
-<context>
-    <name>ImgInfoDialog</name>
-    <message>
-        <source>Basic info</source>
-        <translation>Alapvető információk</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation>Részletek</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Kép információk</translation>
-    </message>
-</context>
-<context>
-    <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>Importálás</translation>
-    </message>
-    <message>
-        <source>1 photo</source>
-        <translation>1 kép</translation>
-    </message>
-    <message>
-        <source>1 video</source>
-        <translation>1 videó</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation><numerusform>%n kép(ek)</numerusform><numerusform>%n kép(ek)</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation><numerusform>%n videó(k)</numerusform><numerusform>%n videó(k)</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n items</source>
-        <translation><numerusform>%n elem(ek)</numerusform><numerusform>%n elem(ek)</numerusform></translation>
+        <translation type="unfinished">Importálás</translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>Import Photos and Videos</source>
-        <translation>Képek és Videók importálása</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Or drag them here</source>
-        <translation>Vagy húzza ide a fájlokat</translation>
-    </message>
-    <message>
-        <source>All photos and videos</source>
-        <translation>Összes Kép és Videó</translation>
-    </message>
-    <message>
-        <source>No photos or videos found</source>
-        <translation>Nem található kép vagy videó</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>LeftListView</name>
+    <name>InfomationDialog</name>
     <message>
-        <source>Slide show</source>
-        <translation>Diavetítés</translation>
+        <source>Basic info</source>
+        <translation type="unfinished">Alapvető információk</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Átnevezés</translation>
+        <source>File Name</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation>Exportálás</translation>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete</source>
-        <translation>Törlés</translation>
+        <source>Resolution ratio</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Device</source>
-        <translation>Eszköz</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation>Galéria</translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation>Albumok</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Új album</translation>
-    </message>
-</context>
-<context>
-    <name>Main</name>
-    <message>
-        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation>Az Album egy divatos képkezelő képek nézegetésére és rendszerezésére</translation>
-    </message>
-</context>
-<context>
-    <name>MainWindow</name>
-    <message>
-        <source>Photos</source>
-        <translation>Képek</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Teljes képernyő</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Segítség</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Megjelenítés a fájlkezelőben</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Diavetítés</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Másolás</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Beállítás háttérképként</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Forgatás az óramutató járásával megegyezően</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Előző</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Következő</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Kedvenc</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Eltávolítás a kedvencekből</translation>
-    </message>
-    <message>
-        <source>Rename album</source>
-        <translation>Album átnevezése</translation>
-    </message>
-    <message>
-        <source>Album “%1” removed</source>
-        <translation>A “%1” album eltávolítva</translation>
-    </message>
-    <message>
-        <source>Successfully added to “%1”</source>
-        <translation>Sikeresen hozzáadva a következőhöz: „%1”</translation>
-    </message>
-    <message>
-        <source>Import successful</source>
-        <translation>Az importálás sikeres</translation>
-    </message>
-    <message>
-        <source>Import failed</source>
-        <translation>Az importálás sikertelen</translation>
-    </message>
-    <message>
-        <source>Export failed</source>
-        <translation>Az exportálás sikertelen</translation>
-    </message>
-    <message>
-        <source>Export successful</source>
-        <translation>Az exportálás sikeres</translation>
-    </message>
-    <message>
-        <source>All Photos</source>
-        <translation>Minden kép</translation>
-    </message>
-    <message>
-        <source>Timelines</source>
-        <translation>Idővonalak</translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation>Albumok</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen/slideshow</source>
-        <translation>Kilépés a teljes képernyős módból vagy a diavetítésből</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Gyorsbillentyűk megjelenítése</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Nézet</translation>
-    </message>
-    <message>
-        <source>Select all</source>
-        <translation>Összes kijelölése</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation>Nagyítás</translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation>Kicsinyítés</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Új album</translation>
-    </message>
-    <message>
-        <source>Page up</source>
-        <translation>Lapozás felfelé</translation>
-    </message>
-    <message>
-        <source>Page down</source>
-        <translation>Lapozás lefelé</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>Beállítások</translation>
-    </message>
-    <message>
-        <source>Importing...</source>
-        <translation>Importálás...</translation>
-    </message>
-    <message>
-        <source>All photos and videos</source>
-        <translation>Összes Kép és Videó</translation>
-    </message>
-    <message>
-        <source>Import Photos and Videos</source>
-        <translation>Képek és Videók importálása</translation>
-    </message>
-    <message>
-        <source>No photos or videos found</source>
-        <translation>Nem található kép vagy videó</translation>
-    </message>
-    <message>
-        <source>Export photos</source>
-        <translation>Képek exportálása</translation>
-    </message>
-    <message>
-        <source>Import photos/videos</source>
-        <translation>Képek/Videók importálása</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Törlés</translation>
-    </message>
-    <message>
-        <source>Photo/Video info</source>
-        <translation>Kép/Videó tulajdonságai</translation>
-    </message>
-    <message>
-        <source>Import photos and videos</source>
-        <translation>Képek és Videók importálása</translation>
-    </message>
-    <message>
-        <source>Import folders</source>
-        <translation>Mappák importálása</translation>
-    </message>
-    <message>
-        <source>Import interrupted</source>
-        <translation>Az importálás megszakadt</translation>
-    </message>
-    <message>
-        <source>Cannot add this path, please try another one</source>
-        <translation>Ezt az elérési útvonalat nem lehet hozzáadni, kérjük próbálkozzon másikkal</translation>
-    </message>
-    <message>
-        <source>The path already exists</source>
-        <translation>Az elérési útvonal már létezik</translation>
-    </message>
-    <message>
-        <source>Failed to restore %1 files: file name too long</source>
-        <translation>A %1 fájl visszaállítása sikertelen: a fájlnév túl hosszú</translation>
-    </message>
-</context>
-<context>
-    <name>MetadataName</name>
-    <message>
-        <source>Flash</source>
-        <translation>Vaku</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Tipus</translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation>Fájlméret</translation>
-    </message>
-    <message>
-        <source>Dimensions</source>
-        <translation>Méretek</translation>
+        <source>Suffix</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Rögzítés dátuma</translation>
+        <translation type="unfinished">Rögzítés dátuma</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Módosítás ideje</translation>
+        <translation type="unfinished">Módosítás ideje</translation>
     </message>
     <message>
-        <source>Exposure mode</source>
-        <translation>Expozíciós mód</translation>
-    </message>
-    <message>
-        <source>Exposure program</source>
-        <translation>Expozíciós program</translation>
-    </message>
-    <message>
-        <source>Exposure time</source>
-        <translation>Expozíciós idő</translation>
+        <source>Details</source>
+        <translation type="unfinished">Részletek</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Rekeszérték</translation>
+        <translation type="unfinished">Rekeszérték</translation>
+    </message>
+    <message>
+        <source>Exposure program</source>
+        <translation type="unfinished">Expozíciós program</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Gyújtótávolság</translation>
+        <translation type="unfinished">Gyújtótávolság</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation>ISO</translation>
+        <translation type="unfinished">ISO</translation>
     </message>
     <message>
-        <source>Max aperture</source>
-        <translation>Maximális rekesz</translation>
+        <source>Exposure mode</source>
+        <translation type="unfinished">Expozíciós mód</translation>
     </message>
     <message>
-        <source>Metering mode</source>
-        <translation>Mérési mód</translation>
+        <source>Exposure time</source>
+        <translation type="unfinished">Expozíciós idő</translation>
     </message>
     <message>
-        <source>White balance</source>
-        <translation>Fehéregyensúly</translation>
+        <source>Flash</source>
+        <translation type="unfinished">Vaku</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Vaku kompenzálása</translation>
+        <translation type="unfinished">Vaku kompenzálása</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Kamera típusa</translation>
-    </message>
-    <message>
-        <source>Lens model</source>
-        <translation>Lencse típusa</translation>
+        <source>Max Aperture</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Színtér</translation>
+        <translation type="unfinished">Színtér</translation>
     </message>
     <message>
-        <source>Tag</source>
-        <translation>Címke</translation>
+        <source>Metering mode</source>
+        <translation type="unfinished">Mérési mód</translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation>Név</translation>
+        <source>White balance</source>
+        <translation type="unfinished">Fehéregyensúly</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation type="unfinished">Kamera típusa</translation>
+    </message>
+    <message>
+        <source>Lens model</source>
+        <translation type="unfinished">Lencse típusa</translation>
     </message>
 </context>
 <context>
-    <name>NoResultWidget</name>
+    <name>LauncherPlugin</name>
     <message>
-        <source>No results</source>
-        <translation>Nincs keresési eredmény</translation>
+        <source>Main</source>
+        <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>PathManager</name>
+    <name>MonthCollection</name>
     <message>
-        <source>System Disk</source>
-        <translation>Rendszerlemez</translation>
+        <source>Month Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NewAlbumDialog</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Mégsem</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NoPictureView</name>
+    <message>
+        <source>No pictures and videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenImageWidget</name>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PropertyActionItemDelegate</name>
+    <message>
+        <source>The file already exists, please use another name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <source>Select</source>
-        <translation>Kijelölés</translation>
-    </message>
-    <message>
-        <source>Unselect</source>
-        <translation>Kijelölés megszüntetése</translation>
-    </message>
-    <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
     </message>
     <message>
-        <source>Imported on</source>
-        <translation>Importálva ide</translation>
+        <source>Album</source>
+        <translation type="unfinished">Album</translation>
     </message>
     <message>
-        <source> %1-%2-%3 %4</source>
-        <translation> %1-%2-%3 %4</translation>
+        <source>%1/%2/%3/%4/%5</source>
+        <translation type="unfinished">%1/%2/%3/%4/%5</translation>
     </message>
     <message>
-        <source>Imported on </source>
-        <translation>Importálva ide</translation>
+        <source>%1/</source>
+        <translation type="unfinished">%1/</translation>
     </message>
     <message>
-        <source>Select All</source>
-        <translation>Összes kijelölése</translation>
+        <source>%1/%2</source>
+        <translation type="unfinished">%1/%2</translation>
     </message>
     <message>
-        <source>Unselect All</source>
-        <translation>Összes kijelölésének megszüntetése</translation>
+        <source>Trash</source>
+        <translation type="unfinished">Kuka</translation>
+    </message>
+    <message>
+        <source>day</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ReName</name>
+    <message>
+        <source>Input a new name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The file already exists, please use another name</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Mégsem</translation>
+        <translation type="unfinished">Mégsem</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation>Helyreállítás</translation>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RecentlyDeletedView</name>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete</source>
-        <translation>Törlés</translation>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>All</source>
-        <translation>Összes</translation>
+        <source>Trash</source>
+        <translation type="unfinished">Kuka</translation>
     </message>
     <message>
-        <source>Photos</source>
-        <translation>Képek</translation>
+        <source>The files will be permanently deleted after the days shown on them</source>
+        <translation type="unfinished">A fájlok véglegesen törlődnek a megjelenített napok után</translation>
     </message>
     <message>
-        <source>Videos</source>
-        <translation>Videók</translation>
+        <source>Delete All</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>No results</source>
-        <translation>Nincs keresési eredmény</translation>
+        <source>Delete Selected (%1)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Favorite</source>
-        <translation>Kedvenc</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Forgatás az óramutató járásával megegyezően</translation>
-    </message>
-    <message>
-        <source>Importing...</source>
-        <translation>Importálás...</translation>
-    </message>
-    <message>
-        <source>%1/%2 items imported</source>
-        <translation>%1/%2 elem importálva</translation>
-    </message>
-    <message>
-        <source>%1/%2 items deleted</source>
-        <translation>%1/%2 elem törölve</translation>
-    </message>
-    <message>
-        <source>%1 items imported, %2 items failed</source>
-        <translation>%1 elem importálva, %2 elem importálása sikertelen</translation>
-    </message>
-    <message>
-        <source>1 photo selected</source>
-        <translation>1 kép kijelölve</translation>
-    </message>
-    <message>
-        <source>1 video selected</source>
-        <translation>1 videó kijelölve</translation>
-    </message>
-    <message>
-        <source>The photo/video already exists</source>
-        <translation>A kép/videó már létezik</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos selected</source>
-        <translation><numerusform>%n kép(ek) kijelölve</numerusform><numerusform>%n kép(ek) kijelölve</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos selected</source>
-        <translation><numerusform>%n videó kijelölve</numerusform><numerusform>%n videó kijelölve</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n items selected</source>
-        <translation><numerusform>%n elem(ek) kijelölve</numerusform><numerusform>%n elem(ek) kijelölve</numerusform></translation>
-    </message>
-    <message>
-        <source>%1 items imported, %2 items exist already</source>
-        <translation>%1 elem importálva, %2 elem már létezik</translation>
+        <source>Restore Selected (%1)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -911,48 +445,86 @@
         <source>1 photo found</source>
         <translation>1 képet sikerült találni</translation>
     </message>
-    <message numerus="yes">
-        <source>%n videos found</source>
-        <translation><numerusform>%n videót sikerült találni</numerusform><numerusform>%n videót sikerült találni</numerusform></translation>
-    </message>
     <message>
         <source>1 video found</source>
         <translation>1 videót sikerült találni</translation>
     </message>
-    <message numerus="yes">
-        <source>%n items found</source>
-        <translation><numerusform>%n elemet sikerült találni</numerusform><numerusform>%n elemet sikerült találni</numerusform></translation>
+    <message>
+        <source>%1 photos found</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n photos found</source>
-        <translation><numerusform>%n képe(ke)t sikerült találni</numerusform><numerusform>%n képe(ke)t sikerült találni</numerusform></translation>
+    <message>
+        <source>%1 videos found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>StatusBar</name>
+    <name>Sidebar</name>
     <message>
-        <source>1 photo</source>
-        <translation>1 kép</translation>
-    </message>
-    <message>
-        <source>1 video</source>
-        <translation>1 videó</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation><numerusform>%n kép(ek)</numerusform><numerusform>%n kép(ek)</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation><numerusform>%n videó(k)</numerusform><numerusform>%n videó(k)</numerusform></translation>
+        <source>Gallery</source>
+        <translation type="unfinished">Galéria</translation>
     </message>
     <message>
-        <source>Importing: %1</source>
-        <translation>Importálás: %1</translation>
+        <source>Albums</source>
+        <translation type="unfinished">Albumok</translation>
     </message>
     <message>
-        <source>Exporting: %1</source>
-        <translation>Exportálás: %1</translation>
+        <source>Screen Capture</source>
+        <translation type="unfinished">Képernyő Rögzítő</translation>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished">Kamera</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished">Rajzoló</translation>
+    </message>
+</context>
+<context>
+    <name>SidebarModel</name>
+    <message>
+        <source>Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished">Importálás</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation type="unfinished">Kedvencek</translation>
+    </message>
+    <message>
+        <source>Trash</source>
+        <translation type="unfinished">Kuka</translation>
+    </message>
+</context>
+<context>
+    <name>SliderShow</name>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished">Előző</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Következő</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1033,32 +605,44 @@
         <source>Video info</source>
         <translation>Videó tulajdonságai</translation>
     </message>
-    <message>
-        <source>days</source>
-        <translation>napok</translation>
-    </message>
 </context>
 <context>
-    <name>TimeLineView</name>
+    <name>ToolBarThumbnailListView</name>
     <message>
-        <source>1 photo</source>
-        <translation>1 kép</translation>
+        <source>Back Album</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1 video</source>
-        <translation>1 videó</translation>
+        <source>Previous</source>
+        <translation type="unfinished">Előző</translation>
     </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation><numerusform>%n kép(ek)</numerusform><numerusform>%n kép(ek)</numerusform></translation>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Következő</translation>
     </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation><numerusform>%n videó(k)</numerusform><numerusform>%n videó(k)</numerusform></translation>
+    <message>
+        <source>Original size</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n items</source>
-        <translation><numerusform>%n elem(ek)</numerusform><numerusform>%n elem(ek)</numerusform></translation>
+    <message>
+        <source>Fit to window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Törlés</translation>
     </message>
 </context>
 <context>
@@ -1070,10 +654,6 @@
     <message>
         <source>Codec info</source>
         <translation>Kodek tulajdonságai</translation>
-    </message>
-    <message>
-        <source>Audio info</source>
-        <translation>Audió tulajdonságai</translation>
     </message>
     <message>
         <source>Video CodecID</source>
@@ -1112,44 +692,120 @@
         <translation>Csatornák</translation>
     </message>
     <message>
-        <source>Channel</source>
-        <translation>Csatorna</translation>
-    </message>
-    <message>
         <source>Sampling</source>
         <translation>Mintavétel</translation>
-    </message>
-    <message>
-        <source>Date modified</source>
-        <translation>Módosítás ideje</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Tipus</translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation>Fájlméret</translation>
-    </message>
-    <message>
-        <source>Duration</source>
-        <translation>Időtartam</translation>
     </message>
     <message>
         <source>Path</source>
         <translation>Elérési útvonal</translation>
     </message>
     <message>
-        <source>Video info</source>
-        <translation>Videó tulajdonságai</translation>
-    </message>
-    <message>
         <source>Date captured</source>
         <translation>Rögzítés dátuma</translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation>Név</translation>
+        <source>File Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Suffix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ViewRightMenu</name>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Teljes képernyő</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">Nyomtatás</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Diavetítés</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Másolás</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">Átnevezés</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Törlés</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Forgatás az óramutató járásával megegyezően</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Forgatás az óramutató járásával ellentétes irányba</translation>
+    </message>
+    <message>
+        <source>Show navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Beállítás háttérképként</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Megjelenítés a fájlkezelőben</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished">Kép információk</translation>
+    </message>
+</context>
+<context>
+    <name>ViewTopTitle</name>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>deepin-image-viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>YearCollection</name>
+    <message>
+        <source>Year Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <source>Select pictures</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

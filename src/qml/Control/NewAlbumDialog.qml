@@ -35,7 +35,7 @@ DialogWindow {
         anchors.leftMargin: 46
         anchors.top: parent.top
         font.pixelSize: 16
-        text: qsTr("新建相册")
+        text: qsTr("New Album")
         verticalAlignment: Text.AlignBottom
         horizontalAlignment: Text.AlignHCenter
     }
@@ -48,7 +48,7 @@ DialogWindow {
         anchors.leftMargin: 0
         anchors.top: nameedit.top
         anchors.topMargin:5
-        text:qsTr("名称:")
+        text:qsTr("Name:")
     }
     LineEdit {
         id: nameedit
@@ -62,7 +62,7 @@ DialogWindow {
         focus: true
         maximumLength: 255
         validator: RegExpValidator {regExp: /^[^\\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/ }
-        text: qsTr("New Albums")
+        text: qsTr("New Album")
         selectByMouse: true
 //        alertText: qsTr("The file already exists, please use another name")
 //        showAlert: fileControl.isShowToolTip(source,nameedit.text)

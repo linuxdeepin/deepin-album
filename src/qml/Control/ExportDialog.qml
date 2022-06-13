@@ -41,7 +41,7 @@ DialogWindow {
         anchors.leftMargin: 0
         anchors.top: nameedit.top
         anchors.topMargin:0
-        text:qsTr("文件名:")
+        text:qsTr("Name:")
     }
     LineEdit {
         id: nameedit
@@ -70,7 +70,7 @@ DialogWindow {
         anchors.leftMargin: 0
         anchors.top: nameLabel.bottom
         anchors.topMargin:10
-        text:qsTr("保存到:")
+        text:qsTr("Save to:")
     }
 
     ComboBox{
@@ -85,13 +85,13 @@ DialogWindow {
 
         textRole: "key"
         model: ListModel {
-            ListElement { key: "图片"; value: 0 }
-            ListElement { key: "文档"; value: 1 }
-            ListElement { key: "下载"; value: 2 }
-            ListElement { key: "桌面"; value: 3 }
-            ListElement { key: "视频"; value: 4 }
-            ListElement { key: "音乐"; value: 5 }
-            ListElement { key: "选择其他目录"; value: 6 }
+            ListElement { key: qsTr("Pictures"); value: 0 }
+            ListElement { key: qsTr("Documents"); value: 1 }
+            ListElement { key: qsTr("Downloads"); value: 2 }
+            ListElement { key: qsTr("Desktop"); value: 3 }
+            ListElement { key: qsTr("Videos"); value: 4 }
+            ListElement { key: qsTr("Music"); value: 5 }
+            ListElement { key: qsTr("Select other directories"); value: 6 }
         }
         delegate:    ItemDelegate {
             text: key
@@ -108,7 +108,7 @@ DialogWindow {
                     if(tmpFolder.length >0){
                         key = tmpFolder
                     }else{
-                        key = "选择其他目录"
+                        key = qsTr("Select other directories")
                     }
                     exportdialog.flags = Qt.Window | Qt.WindowCloseButtonHint | Qt.WindowStaysOnTopHint
 
@@ -130,7 +130,7 @@ DialogWindow {
         anchors.leftMargin: 0
         anchors.top: saveLabel.bottom
         anchors.topMargin:10
-        text:qsTr("文件格式:")
+        text:qsTr("Format:")
     }
 
     ComboBox{
@@ -165,7 +165,7 @@ DialogWindow {
         anchors.leftMargin: 0
         anchors.top: fileFormatLabel.bottom
         anchors.topMargin:10
-        text:qsTr("图片质量:")
+        text:qsTr("Quality:")
     }
 
     Slider{

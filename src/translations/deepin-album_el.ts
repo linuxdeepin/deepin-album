@@ -2,392 +2,187 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="el">
 <context>
-    <name></name>
+    <name>AlbumControl</name>
+    <message>
+        <source>Unnamed</source>
+        <translation type="unfinished">Χώρις όνομα</translation>
+    </message>
+    <message>
+        <source>Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AlbumTitle</name>
+    <message>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>deepin-album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Y</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>M</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>D</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Αγαπημένο</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Αφαίρεση από τα αγαπημένα</translation>
+    </message>
+    <message>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>Delete</source>
         <translation type="unfinished">Διαγραφή</translation>
     </message>
+</context>
+<context>
+    <name>CustomAlbum</name>
     <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished">Πλήρης Οθόνη</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished">Προβολή εικονών</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="unfinished">Εξαγωγή</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">Αντιγραφή</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">Περιστροφή δεξιόστροφα</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Περιστροφή αριστερόστροφα</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">Ορισμός ως ταπετσαρία</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">Προβολή στον διαχειριστή αρχείων</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="unfinished">Πληροφορίες φωτογραφίας</translation>
-    </message>
-    <message>
-        <source>Restore</source>
-        <translation type="unfinished">Επαναφορά</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
+        <source>%1 photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video info</source>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No results</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>AlbumCreateDialog</name>
+    <name>DBManager</name>
     <message>
-        <source>Unnamed</source>
-        <translation>Χώρις όνομα</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Απόρριψη</translation>
-    </message>
-    <message>
-        <source>Create</source>
-        <translation>Δημιουργία</translation>
-    </message>
-    <message>
-        <source>New Album</source>
-        <translation>Νέο Άλμπουμ</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Απόρριψη</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Διαγραφή</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this album?</source>
-        <translation>Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το άλμπουμ;</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumLeftTabItem</name>
-    <message>
-        <source>Trash</source>
-        <translation>Κάδος Απορριμμάτων</translation>
-    </message>
-    <message>
-        <source>Favorites</source>
-        <translation>Αγαπημένα</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Εισαγωγή</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumView</name>
-    <message>
-        <source>Trash</source>
-        <translation>Κάδος Απορριμμάτων</translation>
-    </message>
-    <message>
-        <source>Favorites</source>
-        <translation>Αγαπημένα</translation>
-    </message>
-    <message>
-        <source>Or drag photos here</source>
-        <translation>Ή σύρτε φωτογραφίες εδώ</translation>
-    </message>
-    <message>
-        <source>Import All</source>
-        <translation>Εισαγωγή όλων</translation>
-    </message>
-    <message>
-        <source>Import to:</source>
-        <translation>Εισαγωγή σε:</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Εισαγωγή</translation>
-    </message>
-    <message>
-        <source>System Disk</source>
-        <translation>Δίσκος Συστήματος</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation>Γκαλερί</translation>
-    </message>
-    <message>
-        <source>Disk is busy, cannot eject now</source>
-        <translation>Ο δίσκος είναι απασχολημένος, αδυναμία εξαγωγής</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>ΟΚ</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Νέο άλμπουμ</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Απόρριψη</translation>
-    </message>
-    <message>
-        <source>Ignore</source>
-        <translation>Αγνόηση</translation>
-    </message>
-    <message>
-        <source>Loading...</source>
+        <source>Screen Capture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The files will be permanently deleted after the days shown on them</source>
+        <source>Camera</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>(copy)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>Application</name>
+    <name>DayCollection</name>
     <message>
-        <source>Album</source>
-        <translation>Άλμπουμ</translation>
+        <source>Day Collection</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>CExportImageDialog</name>
+    <name>ExportDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Απόρριψη</translation>
+        <translation type="unfinished">Απόρριψη</translation>
     </message>
     <message>
-        <source>Replace</source>
-        <translation>Αντικατάσταση</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Εξαγωγή</translation>
-    </message>
-    <message>
-        <source>Pictures</source>
-        <translation>Εικόνες</translation>
-    </message>
-    <message>
-        <source>Documents</source>
-        <translation>Έγγραφα</translation>
-    </message>
-    <message>
-        <source>Downloads</source>
-        <translation>Λήψεις</translation>
-    </message>
-    <message>
-        <source>Desktop</source>
-        <translation>Επιφάνει Εργασίας</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation>Βίντεο</translation>
-    </message>
-    <message>
-        <source>Music</source>
-        <translation>Μουσική</translation>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>Όνομα:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Save to:</source>
-        <translation>Αποθήκευση σε:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Format:</source>
-        <translation>Τύπος αρχείου:</translation>
+        <source>Pictures</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Quality:</source>
-        <translation>Ποιότητα</translation>
+        <source>Documents</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Save</source>
-        <translation>Αποθήκευση</translation>
+        <source>Downloads</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>gif</source>
-        <translation>gif</translation>
+        <source>Desktop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Βίντεο</translation>
+    </message>
+    <message>
+        <source>Music</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>Επιλογή άλλων διευθύνσεων</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>ΟΚ</translation>
-    </message>
-    <message>
-        <source>File name cannot be empty</source>
-        <translation>Το όνομα αρχείου δεν μπορεί να είναι κενό</translation>
-    </message>
-    <message>
-        <source>already exists. Do you want to replace it?</source>
-        <translation>ήδη υπάρχει. Θέλετε να το αντικαταστήσετε;</translation>
-    </message>
-</context>
-<context>
-    <name>DeepinStorage</name>
-    <message>
-        <source>%1 Drive</source>
-        <translation>%1 Δίσκος</translation>
-    </message>
-    <message>
-        <source>Blank %1 Disc</source>
-        <translation>Κενός %1 Δίσκος</translation>
-    </message>
-    <message>
-        <source>%1 Encrypted</source>
-        <translation>%1 Κρυπτογραφημένος</translation>
-    </message>
-    <message>
-        <source>%1 Volume</source>
-        <translation>%1 Τόμος</translation>
-    </message>
-</context>
-<context>
-    <name>Exporter</name>
-    <message>
-        <source>Save</source>
-        <translation>Αποθήκευση</translation>
-    </message>
-    <message>
-        <source>Export Photos</source>
-        <translation>Εξαγωγή Φωτογραφιών</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Απόρριψη</translation>
-    </message>
-</context>
-<context>
-    <name>ImageEngineApi</name>
-    <message>
-        <source>Deleting...</source>
-        <translation>Διαγραφή...</translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation>Επαναφορά...</translation>
-    </message>
-</context>
-<context>
-    <name>ImgDeleteDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Απόρριψη</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Διαγραφή</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Είστε σίγουροι ότι θέλετε να διαγράψετε αυτήν την φωτογραφία απο το άλμπουμ;</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this video from the album?</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-</context>
-<context>
-    <name>ImgInfoDialog</name>
     <message>
-        <source>Basic info</source>
-        <translation>Βασικές πληροφορίες</translation>
+        <source>Format:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Details</source>
-        <translation>Λεπτομέριες</translation>
-    </message>
-    <message>
-        <source>Image info</source>
+        <source>Quality:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>ImportTimeLineView</name>
+    <name>FilterComboBox</name>
+    <message>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Photos</source>
+        <translation type="unfinished">Φωτογραφίες</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Βίντεο</translation>
+    </message>
+</context>
+<context>
+    <name>HaveImportedView</name>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>Import</source>
-        <translation>Εισαγωγή</translation>
-    </message>
-    <message>
-        <source>1 photo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>1 video</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished">Εισαγωγή</translation>
     </message>
 </context>
 <context>
@@ -400,450 +195,235 @@
         <source>Or drag them here</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>All photos and videos</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
-    <name>LeftListView</name>
+    <name>InfomationDialog</name>
     <message>
-        <source>Slide show</source>
-        <translation>Προβολή εικονών</translation>
+        <source>Basic info</source>
+        <translation type="unfinished">Βασικές πληροφορίες</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Μετονομασία</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Εξαγωγή</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Διαγραφή</translation>
-    </message>
-    <message>
-        <source>Device</source>
-        <translation>Συσκευή</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation>Γκαλερί</translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation>Άλμπουμ</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Νέο άλμπουμ</translation>
-    </message>
-</context>
-<context>
-    <name>Main</name>
-    <message>
-        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MainWindow</name>
-    <message>
-        <source>Photos</source>
-        <translation>Φωτογραφίες</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Πλήρης Οθόνη</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Βοήθεια</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Προβολή στον διαχειριστή αρχείων</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Προβολή εικονών</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Αντιγραφή</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Ορισμός ως ταπετσαρία</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Περιστροφή δεξιόστροφα</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Περιστροφή αριστερόστροφα</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Προηγούμενο</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Επόμενο</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Προσθήκη στα αγαπημένα</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Αφαίρεση από τα αγαπημένα</translation>
-    </message>
-    <message>
-        <source>Rename album</source>
-        <translation>Μετονομασία άλμπουμ</translation>
-    </message>
-    <message>
-        <source>Album “%1” removed</source>
-        <translation>Το Άλμπουμ “%1” αφαιρέθηκε</translation>
-    </message>
-    <message>
-        <source>Successfully added to “%1”</source>
-        <translation>Επιτυχώς προστέθηκε στο “%1”</translation>
-    </message>
-    <message>
-        <source>Import successful</source>
-        <translation>Επιτυχία εισαγωγής</translation>
-    </message>
-    <message>
-        <source>Import failed</source>
-        <translation>Αποτυχία εισαγωγής </translation>
-    </message>
-    <message>
-        <source>Export failed</source>
-        <translation>Αποτυχία εξαγωγής</translation>
-    </message>
-    <message>
-        <source>Export successful</source>
-        <translation>Επιτυχία εισαγωγής</translation>
-    </message>
-    <message>
-        <source>All Photos</source>
-        <translation>Όλες οι Φωτογραφίες</translation>
-    </message>
-    <message>
-        <source>Timelines</source>
-        <translation>Χρονοδιαγράμματα</translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation>Άλμπουμ</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen/slideshow</source>
-        <translation>Έξοδος πλήρης οθόνης/παρουσίασης</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Προβολή συντομεύσεων</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Προβολή</translation>
-    </message>
-    <message>
-        <source>Select all</source>
-        <translation>Επιλογή όλων</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation>Μεγεύθυνση</translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation>Σμίκρυνση</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Νέο άλμπουμ</translation>
-    </message>
-    <message>
-        <source>Page up</source>
-        <translation>Σελίδα πάνω</translation>
-    </message>
-    <message>
-        <source>Page down</source>
-        <translation>Σελίδα κάτω</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>Ρυθμίσεις</translation>
-    </message>
-    <message>
-        <source>Importing...</source>
-        <translation>Εισαγωγή...</translation>
-    </message>
-    <message>
-        <source>All photos and videos</source>
+        <source>File Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Import Photos and Videos</source>
+        <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>No photos or videos found</source>
+        <source>Resolution ratio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export photos</source>
+        <source>Suffix</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import photos/videos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">Διαγραφή</translation>
-    </message>
-    <message>
-        <source>Photo/Video info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import photos and videos</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MetadataName</name>
-    <message>
-        <source>Flash</source>
-        <translation>Φλας</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Τύπος</translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation>Μέγεθος αρχείου</translation>
-    </message>
-    <message>
-        <source>Dimensions</source>
-        <translation>Διαστάσεις</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Ημερομηνία λήψης</translation>
+        <translation type="unfinished">Ημερομηνία λήψης</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Ημερομηνία τροποποίησης</translation>
+        <translation type="unfinished">Ημερομηνία τροποποίησης</translation>
     </message>
     <message>
-        <source>Exposure mode</source>
-        <translation>Ρυθμίσεις έκθεσης</translation>
-    </message>
-    <message>
-        <source>Exposure program</source>
-        <translation>Πρόγραμμα έκθεσης</translation>
-    </message>
-    <message>
-        <source>Exposure time</source>
-        <translation>Χρόνος έκθεσης</translation>
+        <source>Details</source>
+        <translation type="unfinished">Λεπτομέριες</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Διάφραγμα</translation>
+        <translation type="unfinished">Διάφραγμα</translation>
+    </message>
+    <message>
+        <source>Exposure program</source>
+        <translation type="unfinished">Πρόγραμμα έκθεσης</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Εστιακή απόσταση</translation>
+        <translation type="unfinished">Εστιακή απόσταση</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation>ISO</translation>
+        <translation type="unfinished">ISO</translation>
     </message>
     <message>
-        <source>Max aperture</source>
-        <translation>Μέγιστο διάφραγμα</translation>
+        <source>Exposure mode</source>
+        <translation type="unfinished">Ρυθμίσεις έκθεσης</translation>
     </message>
     <message>
-        <source>Metering mode</source>
-        <translation>Λειτουργία μέτρησης</translation>
+        <source>Exposure time</source>
+        <translation type="unfinished">Χρόνος έκθεσης</translation>
     </message>
     <message>
-        <source>White balance</source>
-        <translation>Ισορροπία λευκού</translation>
+        <source>Flash</source>
+        <translation type="unfinished">Φλας</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Αντιστάθμιση Φλας</translation>
+        <translation type="unfinished">Αντιστάθμιση Φλας</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Μοντέλο κάμερας</translation>
-    </message>
-    <message>
-        <source>Lens model</source>
-        <translation>Μοντέλο φακών</translation>
+        <source>Max Aperture</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Χρωματικός χώρος</translation>
+        <translation type="unfinished">Χρωματικός χώρος</translation>
     </message>
     <message>
-        <source>Tag</source>
-        <translation>Ετικέτα</translation>
+        <source>Metering mode</source>
+        <translation type="unfinished">Λειτουργία μέτρησης</translation>
     </message>
     <message>
-        <source>Name</source>
+        <source>White balance</source>
+        <translation type="unfinished">Ισορροπία λευκού</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation type="unfinished">Μοντέλο κάμερας</translation>
+    </message>
+    <message>
+        <source>Lens model</source>
+        <translation type="unfinished">Μοντέλο φακών</translation>
+    </message>
+</context>
+<context>
+    <name>LauncherPlugin</name>
+    <message>
+        <source>Main</source>
+        <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>NoResultWidget</name>
+    <name>MonthCollection</name>
     <message>
-        <source>No results</source>
+        <source>Month Collection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>PathManager</name>
+    <name>NewAlbumDialog</name>
     <message>
-        <source>System Disk</source>
-        <translation>Δίσκος Συστήματος</translation>
+        <source>Cancel</source>
+        <translation type="unfinished">Απόρριψη</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NoPictureView</name>
+    <message>
+        <source>No pictures and videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenImageWidget</name>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PropertyActionItemDelegate</name>
+    <message>
+        <source>The file already exists, please use another name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <source>Select</source>
-        <translation>Επιλογή</translation>
-    </message>
-    <message>
-        <source>Unselect</source>
-        <translation>Απόριψη επιλογής</translation>
-    </message>
-    <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
     </message>
     <message>
-        <source>Imported on</source>
-        <translation>Εισάχθηκαν σε</translation>
+        <source>Album</source>
+        <translation type="unfinished">Άλμπουμ</translation>
     </message>
     <message>
-        <source> %1-%2-%3 %4</source>
-        <translation> %1-%2-%3 %4</translation>
+        <source>%1/%2/%3/%4/%5</source>
+        <translation type="unfinished">%1/%2/%3/%4/%5</translation>
     </message>
     <message>
-        <source>Imported on </source>
-        <translation>Εισάχθηκαν σε</translation>
+        <source>%1/</source>
+        <translation type="unfinished">%1/</translation>
     </message>
     <message>
-        <source>Select All</source>
+        <source>%1/%2</source>
+        <translation type="unfinished">%1/%2</translation>
+    </message>
+    <message>
+        <source>Trash</source>
+        <translation type="unfinished">Κάδος Απορριμμάτων</translation>
+    </message>
+    <message>
+        <source>day</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ReName</name>
+    <message>
+        <source>Input a new name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Unselect All</source>
+        <source>The file already exists, please use another name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Απόρριψη</translation>
+        <translation type="unfinished">Απόρριψη</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation>Επαναφορά</translation>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>RecentlyDeletedView</name>
     <message>
-        <source>Delete</source>
-        <translation>Διαγραφή</translation>
-    </message>
-    <message>
-        <source>All</source>
+        <source>%1 photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Photos</source>
-        <translation>Φωτογραφίες</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation>Βίντεο</translation>
-    </message>
-    <message>
-        <source>No results</source>
+        <source>%1 videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Favorite</source>
-        <translation>Προσθήκη στα αγαπημένα</translation>
+        <source>Trash</source>
+        <translation type="unfinished">Κάδος Απορριμμάτων</translation>
     </message>
     <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Περιστροφή αριστερόστροφα</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Περιστροφή δεξιόστροφα</translation>
-    </message>
-    <message>
-        <source>Importing...</source>
-        <translation>Εισαγωγή...</translation>
-    </message>
-    <message>
-        <source>%1/%2 items imported</source>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1/%2 items deleted</source>
+        <source>Delete All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1 items imported, %2 items failed</source>
+        <source>Delete Selected (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1 photo selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>1 video selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The photo/video already exists</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n items selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>%1 items imported, %2 items exist already</source>
+        <source>Restore Selected (%1)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -865,62 +445,85 @@
         <source>1 photo found</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n videos found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
     <message>
         <source>1 video found</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n items found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>%1 photos found</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n photos found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>%1 videos found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>StatusBar</name>
+    <name>Sidebar</name>
     <message>
-        <source>1 photo</source>
+        <source>Gallery</source>
+        <translation type="unfinished">Γκαλερί</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation type="unfinished">Άλμπουμ</translation>
+    </message>
+    <message>
+        <source>Screen Capture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1 video</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Importing: %1</source>
+        <source>Camera</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Exporting: %1</source>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SidebarModel</name>
+    <message>
+        <source>Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished">Εισαγωγή</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation type="unfinished">Αγαπημένα</translation>
+    </message>
+    <message>
+        <source>Trash</source>
+        <translation type="unfinished">Κάδος Απορριμμάτων</translation>
+    </message>
+</context>
+<context>
+    <name>SliderShow</name>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished">Προηγούμενο</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Επόμενο</translation>
+    </message>
+    <message>
+        <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1002,41 +605,44 @@
         <source>Video info</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>days</source>
-        <translation type="unfinished">Ημέρες</translation>
-    </message>
 </context>
 <context>
-    <name>TimeLineView</name>
+    <name>ToolBarThumbnailListView</name>
     <message>
-        <source>1 photo</source>
+        <source>Back Album</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1 video</source>
+        <source>Previous</source>
+        <translation type="unfinished">Προηγούμενο</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Επόμενο</translation>
+    </message>
+    <message>
+        <source>Original size</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>Fit to window</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Διαγραφή</translation>
     </message>
 </context>
 <context>
@@ -1047,10 +653,6 @@
     </message>
     <message>
         <source>Codec info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Audio info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1090,27 +692,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Sampling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Date modified</source>
-        <translation type="unfinished">Ημερομηνία τροποποίησης</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation type="unfinished">Τύπος</translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation type="unfinished">Μέγεθος αρχείου</translation>
-    </message>
-    <message>
-        <source>Duration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1118,15 +700,111 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date captured</source>
         <translation type="unfinished">Ημερομηνία λήψης</translation>
     </message>
     <message>
-        <source>Name</source>
+        <source>File Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Suffix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ViewRightMenu</name>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Πλήρης Οθόνη</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">Εκτύπωση</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Προβολή εικονών</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Αντιγραφή</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">Μετονομασία</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Διαγραφή</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Περιστροφή δεξιόστροφα</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Περιστροφή αριστερόστροφα</translation>
+    </message>
+    <message>
+        <source>Show navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Ορισμός ως ταπετσαρία</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Προβολή στον διαχειριστή αρχείων</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ViewTopTitle</name>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>deepin-image-viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>YearCollection</name>
+    <message>
+        <source>Year Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <source>Select pictures</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

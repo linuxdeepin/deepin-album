@@ -81,7 +81,7 @@ DialogWindow {
                         corners: RoundRectangle.BottomLeftCorner
                     }
                     PropertyItemDelegate {
-                        title: qsTr("Resolution ratio")
+                        title: qsTr("Duration")
                         description: albumControl.getMovieInfo("Duration",filePath)
                         Layout.fillWidth: true
                     }

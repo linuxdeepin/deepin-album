@@ -1,255 +1,77 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="bo">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="bo">
 <context>
-    <name/>
+    <name>AlbumControl</name>
     <message>
-        <source>Delete</source>
-        <translation type="vanished">སུབ་པ།</translation>
+        <source>Unnamed</source>
+        <translation type="unfinished">མིང་བཏགས་མེད་པའི་པར་ཁུག</translation>
     </message>
     <message>
-        <source>Fullscreen</source>
-        <translation type="vanished">ཡོལ་གང་།</translation>
+        <source>Channel</source>
+        <translation type="unfinished">སྒྲ་ལམ།</translation>
+    </message>
+</context>
+<context>
+    <name>AlbumTitle</name>
+    <message>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished">པར་ཁུག་ནི་ཐབས་ལམ་མང་པོའི་སྒོ་ནས་པར་དང་བརྙན་ལ་བལྟ་བ་དང་། དོ་དམ་བྱེད་པ། སྟབས་བདེའི་རྩོམ་སྒྲིག་བྱེད་པའི་པར་ཁུག་དོ་དམ་གྱི་ཡོ་བྱད་ཅིག་ཡིན།</translation>
     </message>
     <message>
-        <source>Slide show</source>
-        <translation type="vanished">སྒྲོན་བརྙན་སྟོན་པ།</translation>
+        <source>deepin-album</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="vanished">ཕྱིར་འདྲེན།</translation>
+        <source>Y</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Copy</source>
-        <translation type="vanished">པར་སློག</translation>
+        <source>M</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>D</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation type="unfinished">རྣམ་གྲངས་ཆ་ཚང་།</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="vanished">བསྡུ་ཉར།</translation>
+        <translation type="unfinished">བསྡུ་ཉར།</translation>
     </message>
     <message>
-        <source>Rotate clockwise</source>
-        <translation type="vanished">གཡས་སྐོར་བརྒྱབ།</translation>
+        <source>Unfavorite</source>
+        <translation type="unfinished">བསྡུ་ཉར་བྱེད་པ་འདོར་བ།</translation>
     </message>
     <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="vanished">གཡོན་སྐོར་བརྒྱབ།</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="vanished">རྒྱབ་ཤོག་ཏུ་བྱེད་པ།</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="vanished">ཡིག་ཆ་དོ་དམ་བྱེད་ཆས་ཁྲོད་མངོན་སྟོན་བྱེད།</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="vanished">པར་གྱི་ཆ་འཕྲིན།</translation>
-    </message>
-    <message>
-        <source>Video info</source>
-        <translation type="vanished">བརྙན་གྱི་ཆ་འཕྲིན།</translation>
-    </message>
-    <message>
-        <source>Restore</source>
-        <translation type="vanished">སོར་ཆུད།</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>མིང་བཏགས་མེད་པའི་པར་ཁུག</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>འདོར་བ།</translation>
-    </message>
-    <message>
-        <source>Create</source>
-        <translation>གསར་འཛུགས།</translation>
-    </message>
-    <message>
-        <source>New Album</source>
-        <translation>པར་ཁུག་གསར་འཛུགས།</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>འདོར་བ།</translation>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>སུབ་པ།</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this album?</source>
-        <translation>པར་ཁུག་འདི་བསུབ་རྒྱུ་ཡིན་པ་ཁྱོད་ཀྱིས་གཏན་ཁེལ་ལམ།</translation>
+        <translation type="unfinished">སུབ་པ།</translation>
     </message>
 </context>
 <context>
-    <name>AlbumLeftTabItem</name>
+    <name>CustomAlbum</name>
     <message>
-        <source>Trash</source>
-        <translation>ཉེ་ཆར་བསུབས་པ།</translation>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Favorites</source>
-        <translation>ངའི་བསྡུ་ཉར།</translation>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Import</source>
-        <translation>ནང་འདྲེན་བྱས་ཟིན།</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumView</name>
-    <message>
-        <source>Trash</source>
-        <translation>ཉེ་ཆར་བསུབས་པ།</translation>
-    </message>
-    <message>
-        <source>Favorites</source>
-        <translation>ངའི་བསྡུ་ཉར།</translation>
-    </message>
-    <message>
-        <source>Or drag photos here</source>
-        <translation>ཁྱོད་ཀྱིས་པར་འདིར་འཐེན་ཡང་ཆོག</translation>
-    </message>
-    <message>
-        <source>Import All</source>
-        <translation>ཚང་མ་ནང་འདྲེན་བྱེད།</translation>
-    </message>
-    <message>
-        <source>Import to:</source>
-        <translation>ནང་འདྲེན་བྱེད།</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>ནང་འདྲེན།</translation>
-    </message>
-    <message>
-        <source>System Disk</source>
-        <translation>རྒྱུད་ཁོངས་སྡེར།</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation>པར་མཛོད།</translation>
-    </message>
-    <message>
-        <source>Disk is busy, cannot eject now</source>
-        <translation>སྡུད་སྡེར་གྱི་ཡིག་ཆ་གཞན་གྱིས་བཟུང་ཡོད་པས། ཕྱིར་འདོན་ཐབས་བྲལ།</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>ཆོག</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>པར་ཁུག་གསར་འཛུགས།</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>འདོར་བ།</translation>
-    </message>
-    <message>
-        <source>Ignore</source>
-        <translation>སྣང་མེད་གཏོང་།</translation>
-    </message>
-    <message>
-        <source>Loading...</source>
-        <translation>སྣོན་འཇུག་བྱེད་བཞིན་ཡོད་པས། ཏོག་ཙམ་སྒུག་རོགས།</translation>
-    </message>
-    <message>
-        <source>The files will be permanently deleted after the days shown on them</source>
-        <translation>ཡིག་ཆ་མ་བསུབ་གོང་ཉིན་གྲངས་ལྷག་མ་མཐོང་ཐུབ། དེ་རྗེས་རྦད་དེ་བསུབ་པ་ཡིན།</translation>
-    </message>
-</context>
-<context>
-    <name>Application</name>
-    <message>
-        <source>Album</source>
-        <translation>པར་ཁུག</translation>
-    </message>
-</context>
-<context>
-    <name>CExportImageDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>འདོར་བ།</translation>
-    </message>
-    <message>
-        <source>Replace</source>
-        <translation>བརྗེ་བ།</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>ཕྱིར་འདྲེན།</translation>
-    </message>
-    <message>
-        <source>Pictures</source>
-        <translation>པར་རིས།</translation>
-    </message>
-    <message>
-        <source>Documents</source>
-        <translation>ཡིག་ཆ།</translation>
-    </message>
-    <message>
-        <source>Downloads</source>
-        <translation>ཕབ་ལེན།</translation>
-    </message>
-    <message>
-        <source>Desktop</source>
-        <translation>ཅོག་ངོས།</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation>བརྙན་འཕྲིན།</translation>
-    </message>
-    <message>
-        <source>Music</source>
-        <translation>རོལ་མོ།</translation>
-    </message>
-    <message>
-        <source>Name:</source>
-        <translation>ཡིག་ཆའི་མིང་།</translation>
-    </message>
-    <message>
-        <source>Save to:</source>
-        <translation>ཉར་ཚགས་བྱེད།</translation>
-    </message>
-    <message>
-        <source>Format:</source>
-        <translation>ཡིག་ཆའི་རྣམ་གཞག</translation>
-    </message>
-    <message>
-        <source>Quality:</source>
-        <translation>པར་གྱི་སྤུས་ཚད།</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>ཉར་ཚགས།</translation>
-    </message>
-    <message>
-        <source>gif</source>
-        <translation>gif</translation>
-    </message>
-    <message>
-        <source>Select other directories</source>
-        <translation>དཀར་ཆག་གཞན་ཞིག་འདེམས།</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>ཆོག</translation>
-    </message>
-    <message>
-        <source>File name cannot be empty</source>
-        <translation>ཡིག་ཆའི་མིང་སྟོང་པ་ཡིན་མི་རུང་།</translation>
-    </message>
-    <message>
-        <source>already exists. Do you want to replace it?</source>
-        <translation>འདུག ཁྱོད་ཀྱི་བརྗེ་རྒྱུ་གཏན་ཁེལ་ལམ།</translation>
+        <source>No results</source>
+        <translation type="unfinished">འབྲས་བུ་མེད།</translation>
     </message>
 </context>
 <context>
@@ -272,625 +94,337 @@
     </message>
 </context>
 <context>
-    <name>DeepinStorage</name>
+    <name>DayCollection</name>
     <message>
-        <source>%1 Drive</source>
-        <translation>སྐུལ་ཆས་%1</translation>
-    </message>
-    <message>
-        <source>Blank %1 Disc</source>
-        <translation>འོད་སྡེར་སྟོང་པ་%1</translation>
-    </message>
-    <message>
-        <source>%1 Encrypted</source>
-        <translation>གསང་སྡོམ་%1</translation>
-    </message>
-    <message>
-        <source>%1 Volume</source>
-        <translation>བམ་པོ་%1</translation>
+        <source>Day Collection</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>Exporter</name>
-    <message>
-        <source>Save</source>
-        <translation>ཉར་ཚགས།</translation>
-    </message>
-    <message>
-        <source>Export Photos</source>
-        <translation>པར་ཕྱིར་འདོན་པ།</translation>
-    </message>
+    <name>ExportDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>འདོར་བ།</translation>
+        <translation type="unfinished">འདོར་བ།</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Documents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloads</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Desktop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">བརྙན་འཕྲིན།</translation>
+    </message>
+    <message>
+        <source>Music</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select other directories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Format:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quality:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>ImageEngineApi</name>
+    <name>FilterComboBox</name>
     <message>
-        <source>Deleting...</source>
-        <translation>སུབ་བཞིན་པ།</translation>
+        <source>All</source>
+        <translation type="unfinished">རྣམ་གྲངས་ཆ་ཚང་།</translation>
     </message>
     <message>
-        <source>Restoring...</source>
-        <translation>པར་སོར་ཆུད་བཞིན་ཡོད།</translation>
+        <source>Photos</source>
+        <translation type="unfinished">པར།</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">བརྙན་འཕྲིན།</translation>
     </message>
 </context>
 <context>
-    <name>ImgDeleteDialog</name>
+    <name>HaveImportedView</name>
     <message>
-        <source>Cancel</source>
-        <translation>འདོར་བ།</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>སུབ་པ།</translation>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure you want to delete this photo from the album?</source>
-        <translation type="vanished">ཁྱོད་ཀྱི་པར་ཁུག་ལས་པར་འདི་བསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</translation>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="vanished"><numerusform>ཁྱོད་ཀྱི་པར་ཁུག་ལས་པར་འདི་%nབསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</numerusform></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="vanished">ཁྱོད་ཀྱི་པར་ཁུག་ལས་བརྙན་འདི་བསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="vanished"><numerusform>ཁྱོད་ཀྱི་པར་ཁུག་ལས་བརྙན་འདི་%nབསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="vanished"><numerusform>ཁྱོད་ཀྱི་པར་ཁུག་ལས་རྣམ་གྲངས་འདི་%nབསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</numerusform></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to permanently delete this file?</source>
-        <translation>ཡིག་ཆ་འདི་བསུབ་རྒྱུ་ཡིན་པ་ཁྱོད་ཀྱིས་གཏན་ཁེལ་ལམ།</translation>
-    </message>
-    <message>
-        <source>You cannot restore it any longer</source>
-        <translation>སུབ་རྗེས་བསྐྱར་གསོ་བྱེད་ཐབས་མེད།</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to permanently delete %1 files?</source>
-        <translation>ཡིག་ཆ་%1འདི་བསུབ་རྒྱུ་ཡིན་པ་ཁྱོད་ཀྱིས་གཏན་ཁེལ་ལམ།</translation>
-    </message>
-    <message>
-        <source>You cannot restore them any longer</source>
-        <translation>སུབ་རྗེས་བསྐྱར་གསོ་བྱེད་ཐབས་མེད།</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this file locally?</source>
-        <translation>ཡིག་ཆ་འདི་བསུབ་རྒྱུ་ཡིན་པ་ཁྱོད་ཀྱིས་གཏན་ཁེལ་ལམ།</translation>
-    </message>
-    <message>
-        <source>You can restore it in the trash</source>
-        <translation>ཁྱེད་ཀྱིས་“ཉེ་འཆར་སུབ་པ་”ནང་ནས་བསྐྱར་གསོ་བྱེད་ཆོག</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete %1 files locally?</source>
-        <translation>རང་ས་ནས་ཡིག་ཆ་%1འདི་བསུབ་རྒྱུ་ཡིན་པ་ཁྱོད་ཀྱིས་གཏན་ཁེལ་ལམ།</translation>
-    </message>
-    <message>
-        <source>You can restore them in the trash</source>
-        <translation>ཁྱེད་ཀྱིས་“ཉེ་འཆར་སུབ་པ་”ནང་ནས་བསྐྱར་གསོ་བྱེད་ཆོག</translation>
-    </message>
-</context>
-<context>
-    <name>ImgInfoDialog</name>
-    <message>
-        <source>Basic info</source>
-        <translation>གཞི་རྩའི་ཆ་འཕྲིན།</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation>ཞིབ་ཕྲའི་ཆ་འཕྲིན།</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>པར་གྱི་ཆ་འཕྲིན།</translation>
-    </message>
-</context>
-<context>
-    <name>ImportTimeLineView</name>
     <message>
         <source>Import</source>
-        <translation>ནང་འདྲེན་བྱས་ཟིན།</translation>
-    </message>
-    <message>
-        <source>1 photo</source>
-        <translation>ཁྱོན་པར་1།</translation>
-    </message>
-    <message>
-        <source>1 video</source>
-        <translation>ཁྱོན་བརྙན་1།</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation><numerusform>ཁྱོན་པར་%n།</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation><numerusform>ཁྱོན་བརྙན་%n།</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n items</source>
-        <translation><numerusform>ཁྱོན་%n།</numerusform></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImportView</name>
     <message>
         <source>Import Photos and Videos</source>
-        <translation>པར་དང་བརྙན་ནང་དུ་འདྲེན་པ།</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Or drag them here</source>
-        <translation>ཁྱེད་ཀྱིས་པར་དང་བརྙན་འདིར་འདྲུད་ཀྱང་ཆོག</translation>
-    </message>
-    <message>
-        <source>All photos and videos</source>
-        <translation>པར་དང་བརྙན་ཆ་ཚང་།</translation>
-    </message>
-    <message>
-        <source>No photos or videos found</source>
-        <translation>པར་དང་བརྙན་གྱི་ཡིག་ཆ་མ་རྙེད།</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>LeftListView</name>
+    <name>InfomationDialog</name>
     <message>
-        <source>Slide show</source>
-        <translation>སྒྲོན་བརྙན་སྟོན་པ།</translation>
+        <source>Basic info</source>
+        <translation type="unfinished">གཞི་རྩའི་ཆ་འཕྲིན།</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>མིང་ཡང་བསྐྱར་འདོགས་པ།</translation>
+        <source>File Name</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation>ཕྱིར་འདྲེན།</translation>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete</source>
-        <translation>སུབ་པ།</translation>
+        <source>Resolution ratio</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Device</source>
-        <translation>སྒྲིག་ཆས།</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation>པར་མཛོད།</translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation>པར་ཁུག</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>པར་ཁུག་གསར་འཛུགས།</translation>
-    </message>
-</context>
-<context>
-    <name>Main</name>
-    <message>
-        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation>པར་ཁུག་ནི་ཐབས་ལམ་མང་པོའི་སྒོ་ནས་པར་དང་བརྙན་ལ་བལྟ་བ་དང་། དོ་དམ་བྱེད་པ། སྟབས་བདེའི་རྩོམ་སྒྲིག་བྱེད་པའི་པར་ཁུག་དོ་དམ་གྱི་ཡོ་བྱད་ཅིག་ཡིན།</translation>
-    </message>
-</context>
-<context>
-    <name>MainWindow</name>
-    <message>
-        <source>Photos</source>
-        <translation>པར།</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>ཡོལ་གང་།</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>རོགས་རམ།</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>ཡིག་ཆ་དོ་དམ་བྱེད་ཆས་ཁྲོད་མངོན་སྟོན་བྱེད།</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>སྒྲོན་བརྙན་སྟོན་པ།</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>པར་སློག</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>རྒྱབ་ཤོག་ཏུ་བྱེད་པ།</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>གཡས་སྐོར་བརྒྱབ།</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>གཡོན་སྐོར་བརྒྱབ།</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>པར་གོང་མ།</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>པར་འོག་མ།</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>བསྡུ་ཉར།</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>བསྡུ་ཉར་བྱེད་པ་འདོར་བ།</translation>
-    </message>
-    <message>
-        <source>Rename album</source>
-        <translation>པར་ཁུག་མིང་བསྐྱར་དུ་འདོགས་པ།</translation>
-    </message>
-    <message>
-        <source>Album “%1” removed</source>
-        <translation>པར་ཁུག་%1བསུབས་ཟིན།</translation>
-    </message>
-    <message>
-        <source>Successfully added to “%1”</source>
-        <translation> “%1”ནང་སྣོན་ཐུབ་པ།</translation>
-    </message>
-    <message>
-        <source>Import successful</source>
-        <translation>ནང་འདྲེན་ལེགས་གྲུབ་བྱུང་བ།</translation>
-    </message>
-    <message>
-        <source>Import failed</source>
-        <translation>ནང་དུ་འདྲེན་མ་ཐུབ།</translation>
-    </message>
-    <message>
-        <source>Export failed</source>
-        <translation>ཕྱིར་འདྲེན་མ་ཐུབ།</translation>
-    </message>
-    <message>
-        <source>Export successful</source>
-        <translation>ཕྱིར་འདྲེན་ལེགས་གྲུབ་བྱུང་བ།</translation>
-    </message>
-    <message>
-        <source>All Photos</source>
-        <translation>པར་ཆ་ཚང་།</translation>
-    </message>
-    <message>
-        <source>Timelines</source>
-        <translation>དུས་ཚོད་ཀྱི་ཐིག</translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation>པར་ཁུག</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen/slideshow</source>
-        <translation>ཡོལ་གང་ནས་ཕྱིར་འཐོན།/སྒྲོན་བརྙན་སྟོན་པ།</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>མྱུར་མཐེབ་མངོན་སྟོན།</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>པར་ལྟ་བཤེར།</translation>
-    </message>
-    <message>
-        <source>Select all</source>
-        <translation>པར་ཆ་ཚང་འདེམས་པ།</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation>པར་ཆེ་རུ་གཏོང་བ།</translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation>པར་ཆུང་དུ་གཏོང་བ།</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>པར་ཁུག་གསར་འཛུགས།</translation>
-    </message>
-    <message>
-        <source>Page up</source>
-        <translation>བརྙན་ཡོལ་གོང་མ།</translation>
-    </message>
-    <message>
-        <source>Page down</source>
-        <translation>བརྙན་ཡོལ་རྗེས་མ།</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>སྒྲིག་འགོད།</translation>
-    </message>
-    <message>
-        <source>Importing...</source>
-        <translation>པར་ནང་དུ་འདྲེན་བཞིན་ཡོད་པས། ཏོག་ཙམ་སྒུག་རོགས།</translation>
-    </message>
-    <message>
-        <source>All photos and videos</source>
-        <translation>པར་དང་བརྙན་ཆ་ཚང་།</translation>
-    </message>
-    <message>
-        <source>Import Photos and Videos</source>
-        <translation>པར་དང་བརྙན་ནང་དུ་འདྲེན་པ།</translation>
-    </message>
-    <message>
-        <source>No photos or videos found</source>
-        <translation>པར་དང་བརྙན་གྱི་ཡིག་ཆ་མ་རྙེད།</translation>
-    </message>
-    <message>
-        <source>Export photos</source>
-        <translation>པར་ཕྱིར་འདོན་པ།</translation>
-    </message>
-    <message>
-        <source>Import photos/videos</source>
-        <translation>པར་དང་བརྙན་ནང་དུ་འདྲེན་པ།</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>སུབ་པ།</translation>
-    </message>
-    <message>
-        <source>Photo/Video info</source>
-        <translation>པར་དང་བརྙན་གྱི་ཆ་འཕྲིན།</translation>
-    </message>
-    <message>
-        <source>Import photos and videos</source>
-        <translation>པར་དང་བརྙན་ནང་དུ་འདྲེན་པ།</translation>
-    </message>
-    <message>
-        <source>Import folders</source>
-        <translation>ཡིག་ཁུག་ནང་འདྲེན་བྱེད་པ།</translation>
-    </message>
-    <message>
-        <source>Import interrupted</source>
-        <translation>ནང་འདྲེན་མཚམས་ཆད་པ། </translation>
-    </message>
-    <message>
-        <source>Cannot add this path, please try another one</source>
-        <translation>ལམ་དེར་རྒྱབ་སྐྱོར་མི་བྱེད་པས། ལམ་གཞན་དག་ཚོད་ལྟ་གྱིས་དང་།</translation>
-    </message>
-    <message>
-        <source>The path already exists</source>
-        <translation>ལམ་དེ་ཡོད་ཟིན། </translation>
-    </message>
-    <message>
-        <source>Failed to restore %1 files: file name too long</source>
-        <translation>ཡིག་ཆ་%1བསྐྱར་གསོ་བྱེད་མི་ཐུབ། ཡིག་ཆའི་མིང་རིང་དྲགས་འདུག</translation>
-    </message>
-</context>
-<context>
-    <name>MetadataName</name>
-    <message>
-        <source>Flash</source>
-        <translation>འཁྱུག་སྒྲོན།</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>པར་གྱི་རིགས།</translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation>ཡིག་ཆའི་ཆེ་ཆུང་།</translation>
-    </message>
-    <message>
-        <source>Dimensions</source>
-        <translation>པར་གྱི་རིང་ཐུང་།</translation>
+        <source>Suffix</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>པར་རྒྱག་པའི་ཚེས་གྲངས།</translation>
+        <translation type="unfinished">པར་རྒྱག་པའི་ཚེས་གྲངས།</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>ཚེས་གྲངས་བཟོ་བཅོས།</translation>
+        <translation type="unfinished">ཚེས་གྲངས་བཟོ་བཅོས།</translation>
     </message>
     <message>
-        <source>Exposure mode</source>
-        <translation>འོད་ཕོག་པའི་དཔེ་རྣམ།</translation>
-    </message>
-    <message>
-        <source>Exposure program</source>
-        <translation>འོད་ཕོག་བྱ་རིམ།</translation>
-    </message>
-    <message>
-        <source>Exposure time</source>
-        <translation>འོད་ཕོག་པའི་དུས་ཚོད།</translation>
+        <source>Details</source>
+        <translation type="unfinished">ཞིབ་ཕྲའི་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>འོད་ཁུང་ཆེ་ཆུང་།</translation>
+        <translation type="unfinished">འོད་ཁུང་ཆེ་ཆུང་།</translation>
+    </message>
+    <message>
+        <source>Exposure program</source>
+        <translation type="unfinished">འོད་ཕོག་བྱ་རིམ།</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>མདོ་ཐག</translation>
+        <translation type="unfinished">མདོ་ཐག</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation>ISOའོད་ལེན་ཚད།</translation>
+        <translation type="unfinished">ISOའོད་ལེན་ཚད།</translation>
     </message>
     <message>
-        <source>Max aperture</source>
-        <translation>འོད་ཁུང་གི་གྲངས་ཐང་ཆེ་ཤོས།</translation>
+        <source>Exposure mode</source>
+        <translation type="unfinished">འོད་ཕོག་པའི་དཔེ་རྣམ།</translation>
     </message>
     <message>
-        <source>Metering mode</source>
-        <translation>འོད་འཇལ་དཔེ་རྣམ།</translation>
+        <source>Exposure time</source>
+        <translation type="unfinished">འོད་ཕོག་པའི་དུས་ཚོད།</translation>
     </message>
     <message>
-        <source>White balance</source>
-        <translation>དཀར་སྙོམས།</translation>
+        <source>Flash</source>
+        <translation type="unfinished">འཁྱུག་སྒྲོན།</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>འཁྱུག་སྒྲོན་ཁ་གསབ།</translation>
+        <translation type="unfinished">འཁྱུག་སྒྲོན་ཁ་གསབ།</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>པར་ཆས་ཀྱི་བཟོ་དབྱིབས།</translation>
-    </message>
-    <message>
-        <source>Lens model</source>
-        <translation>པར་ཆས་ཀྱི་ཤེལ་སྒོའི་བཟོ་དབྱིབས།</translation>
+        <source>Max Aperture</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>ཚོས་གཞིའི་བར་སྟོང་།</translation>
+        <translation type="unfinished">ཚོས་གཞིའི་བར་སྟོང་།</translation>
     </message>
     <message>
-        <source>Tag</source>
-        <translation>མཚོན་རྟགས།</translation>
+        <source>Metering mode</source>
+        <translation type="unfinished">འོད་འཇལ་དཔེ་རྣམ།</translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation>ཡིག་ཆའི་མིང་།</translation>
+        <source>White balance</source>
+        <translation type="unfinished">དཀར་སྙོམས།</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation type="unfinished">པར་ཆས་ཀྱི་བཟོ་དབྱིབས།</translation>
+    </message>
+    <message>
+        <source>Lens model</source>
+        <translation type="unfinished">པར་ཆས་ཀྱི་ཤེལ་སྒོའི་བཟོ་དབྱིབས།</translation>
     </message>
 </context>
 <context>
-    <name>NoResultWidget</name>
+    <name>LauncherPlugin</name>
     <message>
-        <source>No results</source>
-        <translation>འབྲས་བུ་མེད།</translation>
+        <source>Main</source>
+        <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>PathManager</name>
+    <name>MonthCollection</name>
     <message>
-        <source>System Disk</source>
-        <translation>རྒྱུད་ཁོངས་སྡེར།</translation>
+        <source>Month Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NewAlbumDialog</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">འདོར་བ།</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NoPictureView</name>
+    <message>
+        <source>No pictures and videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenImageWidget</name>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PropertyActionItemDelegate</name>
+    <message>
+        <source>The file already exists, please use another name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <source>Select</source>
-        <translation>འདེམས་པ།</translation>
-    </message>
-    <message>
-        <source>Unselect</source>
-        <translation>འདེམས་པ་འདོར་བ།</translation>
-    </message>
-    <message>
         <source>%1/%2/%3</source>
         <translation>%1/ལོའི་ཟླ་%2/ཚེས་%3ཉིན།</translation>
     </message>
     <message>
-        <source>Imported on</source>
-        <translation>་་་་་དུ་ནང་འདྲེན་བྱེད།</translation>
+        <source>Album</source>
+        <translation type="unfinished">པར་ཁུག</translation>
     </message>
     <message>
-        <source> %1-%2-%3 %4</source>
-        <translation>%1/ལོའི་ཟླ་%2/ཚེས་%3ཉིན། %4</translation>
+        <source>%1/%2/%3/%4/%5</source>
+        <translation type="unfinished">%1/ལོའི་ཟླ་%2/ཚེས་%3ཉིན། {1/%2/%3/%4/%5?}</translation>
     </message>
     <message>
-        <source>Imported on </source>
-        <translation>ལ་འདྲེན་འཇུག་བྱེད།</translation>
+        <source>%1/</source>
+        <translation type="unfinished">%1/ལོའི་ཟླ་%2/ཚེས་%3ཉིན། {1/?}</translation>
     </message>
     <message>
-        <source>Select All</source>
-        <translation>ཚང་མ་འདེམས་པ།</translation>
+        <source>%1/%2</source>
+        <translation type="unfinished">%1/ལོའི་ཟླ་%2/ཚེས་%3ཉིན། {1/%2?}</translation>
     </message>
     <message>
-        <source>Unselect All</source>
-        <translation>ཚང་མ་འདེམས་པ་མེད་པར་བཟོ་བ།</translation>
+        <source>Trash</source>
+        <translation type="unfinished">ཉེ་ཆར་བསུབས་པ།</translation>
+    </message>
+    <message>
+        <source>day</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ReName</name>
+    <message>
+        <source>Input a new name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The file already exists, please use another name</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>འདོར་བ།</translation>
+        <translation type="unfinished">འདོར་བ།</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation>སོར་ཆུད།</translation>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RecentlyDeletedView</name>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Delete</source>
-        <translation>སུབ་པ།</translation>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>All</source>
-        <translation>རྣམ་གྲངས་ཆ་ཚང་།</translation>
+        <source>Trash</source>
+        <translation type="unfinished">ཉེ་ཆར་བསུབས་པ།</translation>
     </message>
     <message>
-        <source>Photos</source>
-        <translation>པར།</translation>
+        <source>The files will be permanently deleted after the days shown on them</source>
+        <translation type="unfinished">ཡིག་ཆ་མ་བསུབ་གོང་ཉིན་གྲངས་ལྷག་མ་མཐོང་ཐུབ། དེ་རྗེས་རྦད་དེ་བསུབ་པ་ཡིན།</translation>
     </message>
     <message>
-        <source>Videos</source>
-        <translation>བརྙན་འཕྲིན།</translation>
+        <source>Delete All</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>No results</source>
-        <translation>འབྲས་བུ་མེད།</translation>
+        <source>Delete Selected (%1)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Favorite</source>
-        <translation>བསྡུ་ཉར།</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>གཡོན་སྐོར་བརྒྱབ།</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>གཡས་སྐོར་བརྒྱབ།</translation>
-    </message>
-    <message>
-        <source>Importing...</source>
-        <translation>པར་ནང་དུ་འདྲེན་བཞིན་ཡོད་པས། ཏོག་ཙམ་སྒུག་རོགས།</translation>
-    </message>
-    <message>
-        <source>%1/%2 items imported</source>
-        <translation>%1/%2དྲངས་ཟིན།</translation>
-    </message>
-    <message>
-        <source>%1/%2 items deleted</source>
-        <translation>%1/%2བསུབས་ཟིན།</translation>
-    </message>
-    <message>
-        <source>%1 items imported, %2 items failed</source>
-        <translation>རྣམ་གྲངས་%1དྲངས་ཟིན། རྣམ་གྲངས་%2འདྲེན་མི་ཐུབ།</translation>
-    </message>
-    <message>
-        <source>1 photo selected</source>
-        <translation>པར་1བདམས་ཟིན།</translation>
-    </message>
-    <message>
-        <source>1 video selected</source>
-        <translation>བརྙན་1བདམས་ཟིན།</translation>
-    </message>
-    <message>
-        <source>The photo/video already exists</source>
-        <translation>པར་དང་བརྙན་ཡོད་པ།</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos selected</source>
-        <translation><numerusform>པར་%nབདམས་ཟིན།</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos selected</source>
-        <translation><numerusform>བརྙན་%nབདམས་ཟིན།</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n items selected</source>
-        <translation><numerusform>%nབདམས་ཟིན།</numerusform></translation>
-    </message>
-    <message>
-        <source>%1 items imported, %2 items exist already</source>
-        <translation>རྣམ་གྲངས་%1དྲངས་ཟིན། རྣམ་གྲངས་%2འདུག</translation>
+        <source>Restore Selected (%1)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -911,48 +445,86 @@
         <source>1 photo found</source>
         <translation>ཁྱོན་པར་1རྙེད་པ།</translation>
     </message>
-    <message numerus="yes">
-        <source>%n videos found</source>
-        <translation><numerusform>ཁྱོན་བརྙན་%nརྙེད་པ།</numerusform></translation>
-    </message>
     <message>
         <source>1 video found</source>
         <translation>ཁྱོན་བརྙན་1རྙེད་པ།</translation>
     </message>
-    <message numerus="yes">
-        <source>%n items found</source>
-        <translation><numerusform>ཁྱོན་%nརྙེད་པ།</numerusform></translation>
+    <message>
+        <source>%1 photos found</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n photos found</source>
-        <translation><numerusform>ཁྱོན་པར་%nརྙེད་པ།</numerusform></translation>
+    <message>
+        <source>%1 videos found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>StatusBar</name>
+    <name>Sidebar</name>
     <message>
-        <source>1 photo</source>
-        <translation>ཁྱོན་པར་1།</translation>
-    </message>
-    <message>
-        <source>1 video</source>
-        <translation>ཁྱོན་བརྙན་1།</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation><numerusform>པར་%n</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation><numerusform>བརྙན་%n</numerusform></translation>
+        <source>Gallery</source>
+        <translation type="unfinished">པར་མཛོད།</translation>
     </message>
     <message>
-        <source>Importing: %1</source>
-        <translation>འདྲེན་བཞིན་པ། %1</translation>
+        <source>Albums</source>
+        <translation type="unfinished">པར་ཁུག</translation>
     </message>
     <message>
-        <source>Exporting: %1</source>
-        <translation>འདོན་བཞིན་པ། %1</translation>
+        <source>Screen Capture</source>
+        <translation type="unfinished">བཪྙན་ཡོལ་པར་ལེན།</translation>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished">པར་ཆས།</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished">རིས་གདན།</translation>
+    </message>
+</context>
+<context>
+    <name>SidebarModel</name>
+    <message>
+        <source>Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation type="unfinished">ངའི་བསྡུ་ཉར།</translation>
+    </message>
+    <message>
+        <source>Trash</source>
+        <translation type="unfinished">ཉེ་ཆར་བསུབས་པ།</translation>
+    </message>
+</context>
+<context>
+    <name>SliderShow</name>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished">པར་གོང་མ།</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">པར་འོག་མ།</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1033,32 +605,44 @@
         <source>Video info</source>
         <translation>བརྙན་གྱི་ཆ་འཕྲིན།</translation>
     </message>
-    <message>
-        <source>days</source>
-        <translation>ཉིན།</translation>
-    </message>
 </context>
 <context>
-    <name>TimeLineView</name>
+    <name>ToolBarThumbnailListView</name>
     <message>
-        <source>1 photo</source>
-        <translation>ཁྱོན་པར་1།</translation>
+        <source>Back Album</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1 video</source>
-        <translation>ཁྱོན་བརྙན་1།</translation>
+        <source>Previous</source>
+        <translation type="unfinished">པར་གོང་མ།</translation>
     </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation><numerusform>ཁྱོན་པར་%n</numerusform></translation>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">པར་འོག་མ།</translation>
     </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation><numerusform>ཁྱོན་བརྙན་%n</numerusform></translation>
+    <message>
+        <source>Original size</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n items</source>
-        <translation><numerusform>ཁྱོན་%n</numerusform></translation>
+    <message>
+        <source>Fit to window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">སུབ་པ།</translation>
     </message>
 </context>
 <context>
@@ -1070,10 +654,6 @@
     <message>
         <source>Codec info</source>
         <translation>རིམ་སྒྲིག་ཆ་འཕྲིན།</translation>
-    </message>
-    <message>
-        <source>Audio info</source>
-        <translation>སྒྲ་ཟློས་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <source>Video CodecID</source>
@@ -1112,44 +692,120 @@
         <translation>སྒྲ་ལམ་གྱི་ཁ་གྲངས།</translation>
     </message>
     <message>
-        <source>Channel</source>
-        <translation>སྒྲ་ལམ།</translation>
-    </message>
-    <message>
         <source>Sampling</source>
         <translation>དཔེ་དབྱིབས་བསྡུ་གྲངས།</translation>
-    </message>
-    <message>
-        <source>Date modified</source>
-        <translation>ཚེས་གྲངས་བཟོ་བཅོས།</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>པར་གྱི་རིགས།</translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation>ཡིག་ཆའི་ཆེ་ཆུང་།</translation>
-    </message>
-    <message>
-        <source>Duration</source>
-        <translation>དུས་ཚོད་རིང་ཐུང་།</translation>
     </message>
     <message>
         <source>Path</source>
         <translation>ཡིག་ཆའི་འགྲོ་ལམ།</translation>
     </message>
     <message>
-        <source>Video info</source>
-        <translation>བརྙན་གྱི་ཆ་འཕྲིན།</translation>
-    </message>
-    <message>
         <source>Date captured</source>
         <translation>པར་རྒྱག་པའི་ཚེས་གྲངས།</translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation>ཡིག་ཆའི་མིང་།</translation>
+        <source>File Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Suffix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ViewRightMenu</name>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">ཡོལ་གང་།</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">པར་འདེབས།</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">སྒྲོན་བརྙན་སྟོན་པ།</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">པར་སློག</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">མིང་ཡང་བསྐྱར་འདོགས་པ།</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">སུབ་པ།</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">གཡས་སྐོར་བརྒྱབ།</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">གཡོན་སྐོར་བརྒྱབ།</translation>
+    </message>
+    <message>
+        <source>Show navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">རྒྱབ་ཤོག་ཏུ་བྱེད་པ།</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">ཡིག་ཆ་དོ་དམ་བྱེད་ཆས་ཁྲོད་མངོན་སྟོན་བྱེད།</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished">པར་གྱི་ཆ་འཕྲིན།</translation>
+    </message>
+</context>
+<context>
+    <name>ViewTopTitle</name>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>deepin-image-viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>YearCollection</name>
+    <message>
+        <source>Year Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <source>Select pictures</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

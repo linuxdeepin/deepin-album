@@ -2,392 +2,187 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="br">
 <context>
-    <name></name>
+    <name>AlbumControl</name>
     <message>
-        <source>Delete</source>
-        <translation type="unfinished">Dilemel</translation>
+        <source>Unnamed</source>
+        <translation type="unfinished">Dizanvet</translation>
     </message>
     <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished">Skramm-leun</translation>
+        <source>Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AlbumTitle</name>
+    <message>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Slide show</source>
-        <translation type="unfinished">Diaporama</translation>
+        <source>deepin-album</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="unfinished">Ezporzhiañ</translation>
+        <source>Y</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Copy</source>
-        <translation type="unfinished">Eilañ</translation>
+        <source>M</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>D</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Favorite</source>
         <translation type="unfinished">Sined</translation>
     </message>
     <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished">Treiñ er memes tu hag an horolaj</translation>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Disinedet</translation>
     </message>
     <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Treiñ en tu enep eus an horolaj</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished">Termeniñ evel paper-moger</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished">Diskouez er merer restroù</translation>
-    </message>
-    <message>
-        <source>Photo info</source>
-        <translation type="unfinished">Titouroù ar skeudenn</translation>
-    </message>
-    <message>
-        <source>Restore</source>
-        <translation type="unfinished">Adsevel</translation>
-    </message>
-    <message>
-        <source>Video info</source>
+        <source>Rotate</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>Dizanvet</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Nullañ</translation>
-    </message>
-    <message>
-        <source>Create</source>
-        <translation>Krouiñ</translation>
-    </message>
-    <message>
-        <source>New Album</source>
-        <translation>Albom nevez</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Nullañ</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Dilemel</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this album?</source>
-        <translation>Ha fellout a ra deoc&apos;h dilemel an albom-mañ?</translation>
+        <translation type="unfinished">Dilemel</translation>
     </message>
 </context>
 <context>
-    <name>AlbumLeftTabItem</name>
+    <name>CustomAlbum</name>
     <message>
-        <source>Trash</source>
-        <translation>Pod-lastez</translation>
-    </message>
-    <message>
-        <source>Favorites</source>
-        <translation>Sinedoù</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Emporzhiañ</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumView</name>
-    <message>
-        <source>Trash</source>
-        <translation>Pod-lastez</translation>
-    </message>
-    <message>
-        <source>Favorites</source>
-        <translation>Sinedoù</translation>
-    </message>
-    <message>
-        <source>Or drag photos here</source>
-        <translation>Pe laoskit fotoioù amañ</translation>
-    </message>
-    <message>
-        <source>Import All</source>
-        <translation>Emporzhiañ pep-tra</translation>
-    </message>
-    <message>
-        <source>Import to:</source>
-        <translation>Emporzhiañ davet:</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation>Emporzhiañ</translation>
-    </message>
-    <message>
-        <source>System Disk</source>
-        <translation>Disk sistem</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation>Katalog</translation>
-    </message>
-    <message>
-        <source>Disk is busy, cannot eject now</source>
-        <translation>Ac&apos;hubet eo an disk, n&apos;heller ket strinkañ anezhañ er-maez</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>Mat eo</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Albom nevez</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Nullañ</translation>
-    </message>
-    <message>
-        <source>Ignore</source>
-        <translation>Na ober van</translation>
-    </message>
-    <message>
-        <source>Loading...</source>
+        <source>%1 photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The files will be permanently deleted after the days shown on them</source>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No results</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>Application</name>
+    <name>DBManager</name>
     <message>
-        <source>Album</source>
-        <translation>Albom</translation>
+        <source>Screen Capture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>CExportImageDialog</name>
+    <name>DayCollection</name>
+    <message>
+        <source>Day Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ExportDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Nullañ</translation>
+        <translation type="unfinished">Nullañ</translation>
     </message>
     <message>
-        <source>Replace</source>
-        <translation>Erlec&apos;hiañ</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Ezporzhiañ</translation>
-    </message>
-    <message>
-        <source>Pictures</source>
-        <translation>Skeudennoù</translation>
-    </message>
-    <message>
-        <source>Documents</source>
-        <translation>Teuliadoù</translation>
-    </message>
-    <message>
-        <source>Downloads</source>
-        <translation>Pellgargadennoù</translation>
-    </message>
-    <message>
-        <source>Desktop</source>
-        <translation>Burev</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation>Videoioù</translation>
-    </message>
-    <message>
-        <source>Music</source>
-        <translation>Sonerezh</translation>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>Anv:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Save to:</source>
-        <translation>Enrollañ e-barzh:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Format:</source>
-        <translation>Furmad:</translation>
+        <source>Pictures</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Quality:</source>
-        <translation>Kalite:</translation>
+        <source>Documents</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Save</source>
-        <translation>Enrollañ</translation>
+        <source>Downloads</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>gif</source>
-        <translation>gif</translation>
+        <source>Desktop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Videoioù</translation>
+    </message>
+    <message>
+        <source>Music</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select other directories</source>
-        <translation>Diuzañ ar c&apos;havlec&apos;hioù</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>Mat eo</translation>
-    </message>
-    <message>
-        <source>File name cannot be empty</source>
-        <translation>N&apos;hall ket bezañ goullo anv ar restr</translation>
-    </message>
-    <message>
-        <source>already exists. Do you want to replace it?</source>
-        <translation>a zo anezhañ/anezhi endeo. Ha fellout a ra deoc&apos;h e vefe erlec&apos;hiet?</translation>
-    </message>
-</context>
-<context>
-    <name>DeepinStorage</name>
-    <message>
-        <source>%1 Drive</source>
-        <translation>%1 Lenner</translation>
-    </message>
-    <message>
-        <source>Blank %1 Disc</source>
-        <translation>Disk %1 goullo</translation>
-    </message>
-    <message>
-        <source>%1 Encrypted</source>
-        <translation>%1 Enkriptet</translation>
-    </message>
-    <message>
-        <source>%1 Volume</source>
-        <translation>%1 Live-son</translation>
-    </message>
-</context>
-<context>
-    <name>Exporter</name>
-    <message>
-        <source>Save</source>
-        <translation>Enrollañ</translation>
-    </message>
-    <message>
-        <source>Export Photos</source>
-        <translation>Ezporzhiañ ar fotoioù</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Nullañ</translation>
-    </message>
-</context>
-<context>
-    <name>ImageEngineApi</name>
-    <message>
-        <source>Deleting...</source>
-        <translation>O tilemel...</translation>
-    </message>
-    <message>
-        <source>Restoring...</source>
-        <translation>Oc&apos;h adsevel...</translation>
-    </message>
-</context>
-<context>
-    <name>ImgDeleteDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Nullañ</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Dilemel</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Ha sur oc&apos;h da gaout c&apos;hoant da zilelem ar foto-mañ diwar an albom-mañ?</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this video from the album?</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-</context>
-<context>
-    <name>ImgInfoDialog</name>
     <message>
-        <source>Basic info</source>
-        <translation>Titouroù diazez</translation>
+        <source>Format:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Details</source>
-        <translation>Munudoù</translation>
-    </message>
-    <message>
-        <source>Image info</source>
+        <source>Quality:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>ImportTimeLineView</name>
+    <name>FilterComboBox</name>
+    <message>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Photos</source>
+        <translation type="unfinished">Fotoioù</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Videoioù</translation>
+    </message>
+</context>
+<context>
+    <name>HaveImportedView</name>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>Import</source>
-        <translation>Emporzhiañ</translation>
-    </message>
-    <message>
-        <source>1 photo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>1 video</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation type="unfinished">Emporzhiañ</translation>
     </message>
 </context>
 <context>
@@ -400,450 +195,235 @@
         <source>Or drag them here</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>All photos and videos</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
-    <name>LeftListView</name>
+    <name>InfomationDialog</name>
     <message>
-        <source>Slide show</source>
-        <translation>Diaporama</translation>
+        <source>Basic info</source>
+        <translation type="unfinished">Titouroù diazez</translation>
     </message>
     <message>
-        <source>Rename</source>
-        <translation>Adenvel</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation>Ezporzhiañ</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Dilemel</translation>
-    </message>
-    <message>
-        <source>Device</source>
-        <translation>Aparailh</translation>
-    </message>
-    <message>
-        <source>Gallery</source>
-        <translation>Katalog</translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation>Albomoù</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Albom nevez</translation>
-    </message>
-</context>
-<context>
-    <name>Main</name>
-    <message>
-        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MainWindow</name>
-    <message>
-        <source>Photos</source>
-        <translation>Fotoioù</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Skramm-leun</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation>Skoazell</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Diskouez er merer restroù</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Diaporama</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Eilañ</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Termeniñ evel paper-moger</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Treiñ er memes tu hag an horolaj</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Treiñ en tu enep eus an horolaj</translation>
-    </message>
-    <message>
-        <source>Previous</source>
-        <translation>Kent</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation>Da-heul</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Sined</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Disinedet</translation>
-    </message>
-    <message>
-        <source>Rename album</source>
-        <translation>Adenvel an albom</translation>
-    </message>
-    <message>
-        <source>Album “%1” removed</source>
-        <translation>Albom “%1” dilamet</translation>
-    </message>
-    <message>
-        <source>Successfully added to “%1”</source>
-        <translation>Ouzhpennet gant berzh da &quot;%1&quot;</translation>
-    </message>
-    <message>
-        <source>Import successful</source>
-        <translation>Emporzhiet gant berzh</translation>
-    </message>
-    <message>
-        <source>Import failed</source>
-        <translation>Emporzhiañ c&apos;hwitet</translation>
-    </message>
-    <message>
-        <source>Export failed</source>
-        <translation>Ezporzhiañ c&apos;hwitet</translation>
-    </message>
-    <message>
-        <source>Export successful</source>
-        <translation>Ezporzhiet gant berzh</translation>
-    </message>
-    <message>
-        <source>All Photos</source>
-        <translation>An holl skeudennoù</translation>
-    </message>
-    <message>
-        <source>Timelines</source>
-        <translation>Eurvezhioù</translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation>Albomoù</translation>
-    </message>
-    <message>
-        <source>Exit fullscreen/slideshow</source>
-        <translation>Kuitaat ar skramm-leun/diaporama</translation>
-    </message>
-    <message>
-        <source>Display shortcuts</source>
-        <translation>Diskouez ar berradurioù</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Gweled</translation>
-    </message>
-    <message>
-        <source>Select all</source>
-        <translation>Diuzañ pep-tra</translation>
-    </message>
-    <message>
-        <source>Zoom in</source>
-        <translation>Zoumañ</translation>
-    </message>
-    <message>
-        <source>Zoom out</source>
-        <translation>Dizoumañ</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Albom nevez</translation>
-    </message>
-    <message>
-        <source>Page up</source>
-        <translation>Pajenn gent</translation>
-    </message>
-    <message>
-        <source>Page down</source>
-        <translation>Pajenn war-draoñ</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>Arventennoù</translation>
-    </message>
-    <message>
-        <source>Importing...</source>
-        <translation>Oc&apos;h emporzhiañ...</translation>
-    </message>
-    <message>
-        <source>All photos and videos</source>
+        <source>File Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Import Photos and Videos</source>
+        <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>No photos or videos found</source>
+        <source>Resolution ratio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export photos</source>
+        <source>Suffix</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import photos/videos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished">Dilemel</translation>
-    </message>
-    <message>
-        <source>Photo/Video info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import photos and videos</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MetadataName</name>
-    <message>
-        <source>Flash</source>
-        <translation>Flash</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Doare</translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation>Ment ar restr</translation>
-    </message>
-    <message>
-        <source>Dimensions</source>
-        <translation>Mentoù</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Deiziad an dapadenn</translation>
+        <translation type="unfinished">Deiziad an dapadenn</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Deiziad ar c&apos;hemm</translation>
+        <translation type="unfinished">Deiziad ar c&apos;hemm</translation>
     </message>
     <message>
-        <source>Exposure mode</source>
-        <translation>Mod tapadenn</translation>
-    </message>
-    <message>
-        <source>Exposure program</source>
-        <translation>Program an dapadenn</translation>
-    </message>
-    <message>
-        <source>Exposure time</source>
-        <translation>Padelezh an dapadenn</translation>
+        <source>Details</source>
+        <translation type="unfinished">Munudoù</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Digeriñ</translation>
+        <translation type="unfinished">Digeriñ</translation>
+    </message>
+    <message>
+        <source>Exposure program</source>
+        <translation type="unfinished">Program an dapadenn</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Hirded ar fokal</translation>
+        <translation type="unfinished">Hirded ar fokal</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation>ISO</translation>
+        <translation type="unfinished">ISO</translation>
     </message>
     <message>
-        <source>Max aperture</source>
-        <translation>Digoret d&apos;ar maksimom</translation>
+        <source>Exposure mode</source>
+        <translation type="unfinished">Mod tapadenn</translation>
     </message>
     <message>
-        <source>Metering mode</source>
-        <translation>Mod muzuliañ</translation>
+        <source>Exposure time</source>
+        <translation type="unfinished">Padelezh an dapadenn</translation>
     </message>
     <message>
-        <source>White balance</source>
-        <translation>Balañs al livioù gwenn</translation>
+        <source>Flash</source>
+        <translation type="unfinished">Flash</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Kempouezañ flash</translation>
+        <translation type="unfinished">Kempouezañ flash</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Model ar mekanik foto</translation>
-    </message>
-    <message>
-        <source>Lens model</source>
-        <translation>Model lentilh</translation>
+        <source>Max Aperture</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Spas al livioù</translation>
+        <translation type="unfinished">Spas al livioù</translation>
     </message>
     <message>
-        <source>Tag</source>
-        <translation>Liketenn</translation>
+        <source>Metering mode</source>
+        <translation type="unfinished">Mod muzuliañ</translation>
     </message>
     <message>
-        <source>Name</source>
+        <source>White balance</source>
+        <translation type="unfinished">Balañs al livioù gwenn</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation type="unfinished">Model ar mekanik foto</translation>
+    </message>
+    <message>
+        <source>Lens model</source>
+        <translation type="unfinished">Model lentilh</translation>
+    </message>
+</context>
+<context>
+    <name>LauncherPlugin</name>
+    <message>
+        <source>Main</source>
+        <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>NoResultWidget</name>
+    <name>MonthCollection</name>
     <message>
-        <source>No results</source>
+        <source>Month Collection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>PathManager</name>
+    <name>NewAlbumDialog</name>
     <message>
-        <source>System Disk</source>
-        <translation>Disk sistem</translation>
+        <source>Cancel</source>
+        <translation type="unfinished">Nullañ</translation>
+    </message>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NoPictureView</name>
+    <message>
+        <source>No pictures and videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OpenImageWidget</name>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PropertyActionItemDelegate</name>
+    <message>
+        <source>The file already exists, please use another name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <source>Select</source>
-        <translation>Diuzañ</translation>
-    </message>
-    <message>
-        <source>Unselect</source>
-        <translation>Diziuzañ</translation>
-    </message>
-    <message>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
     </message>
     <message>
-        <source>Imported on</source>
-        <translation>Emporzhiet e-barzh</translation>
+        <source>Album</source>
+        <translation type="unfinished">Albom</translation>
     </message>
     <message>
-        <source> %1-%2-%3 %4</source>
-        <translation> %1-%2-%3 %4</translation>
+        <source>%1/%2/%3/%4/%5</source>
+        <translation type="unfinished">%1/%2/%3/%4/%5</translation>
     </message>
     <message>
-        <source>Imported on </source>
+        <source>%1/</source>
+        <translation type="unfinished">%1/</translation>
+    </message>
+    <message>
+        <source>%1/%2</source>
+        <translation type="unfinished">%1/%2</translation>
+    </message>
+    <message>
+        <source>Trash</source>
+        <translation type="unfinished">Pod-lastez</translation>
+    </message>
+    <message>
+        <source>day</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ReName</name>
+    <message>
+        <source>Input a new name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Select All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unselect All</source>
+        <source>The file already exists, please use another name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Nullañ</translation>
+        <translation type="unfinished">Nullañ</translation>
     </message>
     <message>
-        <source>Restore</source>
-        <translation>Adsevel</translation>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>RecentlyDeletedView</name>
     <message>
-        <source>Delete</source>
-        <translation>Dilemel</translation>
-    </message>
-    <message>
-        <source>All</source>
+        <source>%1 photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Photos</source>
-        <translation>Fotoioù</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation>Videoioù</translation>
-    </message>
-    <message>
-        <source>No results</source>
+        <source>%1 videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Favorite</source>
-        <translation>Sined</translation>
+        <source>Trash</source>
+        <translation type="unfinished">Pod-lastez</translation>
     </message>
     <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Treiñ en tu enep eus an horolaj</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Treiñ er memes tu hag an horolaj</translation>
-    </message>
-    <message>
-        <source>Importing...</source>
-        <translation>Oc&apos;h emporzhiañ...</translation>
-    </message>
-    <message>
-        <source>%1/%2 items imported</source>
+        <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1/%2 items deleted</source>
+        <source>Delete All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1 items imported, %2 items failed</source>
+        <source>Delete Selected (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1 photo selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>1 video selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The photo/video already exists</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n items selected</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>%1 items imported, %2 items exist already</source>
+        <source>Restore Selected (%1)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -865,62 +445,85 @@
         <source>1 photo found</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n videos found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
     <message>
         <source>1 video found</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n items found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>%1 photos found</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n photos found</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>%1 videos found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>StatusBar</name>
+    <name>Sidebar</name>
     <message>
-        <source>1 photo</source>
+        <source>Gallery</source>
+        <translation type="unfinished">Katalog</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation type="unfinished">Albomoù</translation>
+    </message>
+    <message>
+        <source>Screen Capture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1 video</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Importing: %1</source>
+        <source>Camera</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Exporting: %1</source>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SidebarModel</name>
+    <message>
+        <source>Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished">Emporzhiañ</translation>
+    </message>
+    <message>
+        <source>Favorites</source>
+        <translation type="unfinished">Sinedoù</translation>
+    </message>
+    <message>
+        <source>Trash</source>
+        <translation type="unfinished">Pod-lastez</translation>
+    </message>
+</context>
+<context>
+    <name>SliderShow</name>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished">Kent</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Da-heul</translation>
+    </message>
+    <message>
+        <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1002,41 +605,44 @@
         <source>Video info</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>days</source>
-        <translation type="unfinished">devezhioù</translation>
-    </message>
 </context>
 <context>
-    <name>TimeLineView</name>
+    <name>ToolBarThumbnailListView</name>
     <message>
-        <source>1 photo</source>
+        <source>Back Album</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1 video</source>
+        <source>Previous</source>
+        <translation type="unfinished">Kent</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Da-heul</translation>
+    </message>
+    <message>
+        <source>Original size</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>Fit to window</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Dilemel</translation>
     </message>
 </context>
 <context>
@@ -1047,10 +653,6 @@
     </message>
     <message>
         <source>Codec info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Audio info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1090,27 +692,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Sampling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Date modified</source>
-        <translation type="unfinished">Deiziad ar c&apos;hemm</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation type="unfinished">Doare</translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation type="unfinished">Ment ar restr</translation>
-    </message>
-    <message>
-        <source>Duration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1118,15 +700,111 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date captured</source>
         <translation type="unfinished">Deiziad an dapadenn</translation>
     </message>
     <message>
-        <source>Name</source>
+        <source>File Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Suffix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ViewRightMenu</name>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Skramm-leun</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">Moullañ</translation>
+    </message>
+    <message>
+        <source>Extract text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Diaporama</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Eilañ</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">Adenvel</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Dilemel</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Treiñ er memes tu hag an horolaj</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Treiñ en tu enep eus an horolaj</translation>
+    </message>
+    <message>
+        <source>Show navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide navigation window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Termeniñ evel paper-moger</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Diskouez er merer restroù</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ViewTopTitle</name>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>deepin-image-viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>YearCollection</name>
+    <message>
+        <source>Year Collection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <source>Select pictures</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
