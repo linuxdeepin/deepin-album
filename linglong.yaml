@@ -1,0 +1,43 @@
+package:
+  id: org.deepin.album
+  name: "deepin-album"
+  version: 6.0.1
+  kind: app
+  description: |
+    album for deepin os.
+
+runtime:
+  id: org.deepin.Runtime
+  version: 20.5.0
+
+#libxtst ffmpeg vlc
+depends:
+  - id: "dde-qt-dbus-factory" 
+    version: 5.5.12
+  - id: qtmpris
+    version: 0.1.0.1
+  - id: gio-qt
+    version: 0.0.11
+  - id: freeimage
+    version: 3.18.0
+  - id: "udisks2-qt5"
+    version: 5.0.3
+  - id: qtdbusextended
+    version: 0.0.3
+
+source:
+  kind: local
+  #url: "http://gerrit.uniontech.com/deepin-album"
+  #version: develop/snipe
+  #commit: 2aea7f15ad1ea2f327af1e45b4243e080afee2a2
+
+build:
+  kind: manual
+  manual:
+    configure: |
+      mkdir build
+      cd build
+      cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} ..
+      make -j6
+      make test
+      make -j install

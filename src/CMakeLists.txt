@@ -86,16 +86,16 @@ target_link_libraries(${BIN_NAME}
 
 set_target_properties(${BIN_NAME} PROPERTIES INSTALL_RPATH ${DTK_QML_APP_PLUGIN_PATH})
 
-set(PREFIX /usr)
+set(PREFIX ${CMAKE_INSTALL_PREFIX})
 set(AppIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
-set(APPSHAREDIR  /usr/share/${CMAKE_PROJECT_NAME})
+set(APPSHAREDIR  ${CMAKE_INSTALL_PREFIX}/share/${CMAKE_PROJECT_NAME})
 # Add install rule
 install(TARGETS ${BIN_NAME} DESTINATION ${APP_BIN_INSTALL_DIR})
 install(TARGETS ${LIB_NAME} DESTINATION ${DTK_QML_APP_PLUGIN_PATH})
 #desktop
 install(FILES ${PROJECT_SOURCE_DIR}/src/${CMAKE_PROJECT_NAME}.desktop DESTINATION share/applications)
 #manual
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/assets/deepin-album DESTINATION /usr/share/deepin-manual/manual-assets/application/)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/assets/deepin-album DESTINATION ${CMAKE_INSTALL_PREFIX}/share/deepin-manual/manual-assets/application/)
 #icon
 install(FILES ${PROJECT_SOURCE_DIR}/src/icon/deepin-album.svg DESTINATION ${AppIconDir})
 #translations
