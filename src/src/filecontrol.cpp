@@ -135,7 +135,7 @@ bool FileControl::haveImage(const QVariantList &urls)
 bool FileControl::haveVideo(const QVariantList &urls)
 {
     for (auto &url : urls) {
-        if (!url.isNull() && isVideo(QUrl(url.toString()).toLocalFile())) {
+        if (!url.isNull() && isVideo(url.toString())) {
             return true;
         }
     }

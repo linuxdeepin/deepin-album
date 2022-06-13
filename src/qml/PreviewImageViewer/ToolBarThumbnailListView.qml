@@ -69,6 +69,7 @@ Item {
         anchors.topMargin: (parent.height - height) / 2
 
         onClicked: {
+            showNormal()
             global.stackControlCurrent = 0
             mainView.sourcePaths=""
             mainView.source=""

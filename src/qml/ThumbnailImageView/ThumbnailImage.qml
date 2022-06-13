@@ -7,6 +7,9 @@ import "./HaveImportedView"
 import "./RecentlyDeletedView"
 import "./CustomAlbum"
 import "./"
+
+import "./../Control"
+import "./../PreviewImageViewer"
 //本文件用于替代stackwidget的作用，通过改变global的0-n来切换窗口
 
 Rectangle{
@@ -63,5 +66,35 @@ Rectangle{
         anchors.topMargin: m_topMargin
         anchors.leftMargin: m_leftMargin
         anchors.fill: parent
+    }
+    //rename窗口
+    ExportDialog {
+        id: exportdig
+    }
+    //info的窗口
+    InfomationDialog{
+        id: albumInfomationDig
+    }
+
+    //rename窗口
+    NewAlbumDialog {
+        id: newAlbum
+    }
+
+    //视频info窗口
+    VideoInfoDialog{
+        id: videoInfomationDig
+    }
+
+    Connections {
+        target: newAlbum
+        onSigCreateAlbum:
+        {
+            var index = albumControl.getAllCustomAlbumId(global.albumChangeList).length - 1
+            console.log ( index)
+            albumControl.insertIntoAlbum(albumControl.getAllCustomAlbumId(global.albumChangeList)[index] , global.selectedPaths)
+            global.currentViewIndex = 6
+            global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[index]
+        }
     }
 }

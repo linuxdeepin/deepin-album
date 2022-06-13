@@ -386,7 +386,7 @@ Item {
                 }
             }
             onDoubleClicked: {
-
+                //如果是影视，则采用打开视频
                 if (fileControl.isVideo(thumbnailListModel.get(theView.ism[0]).url.toString())){
                     albumControl.openDeepinMovie(thumbnailListModel.get(theView.ism[0]).url.toString())
                 } else {
@@ -394,10 +394,10 @@ Item {
                     for(var i=0 ; i< thumbnailListModel.count ; i++){
                         openPaths.push(thumbnailListModel.get(i).url.toString())
                     }
-                     mainStack.sourcePaths = openPaths
-                     mainStack.currentIndex = theView.ism[0]
-                     global.stackControlCurrent = 1
-                     mainStack.currentWidgetIndex = 1
+                    mainStack.sourcePaths = openPaths
+                    mainStack.currentIndex = theView.ism[0]
+                    mainStack.currentWidgetIndex = 1
+                    global.stackControlCurrent = 1
                 }
             }
         }
@@ -420,14 +420,19 @@ Item {
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
                          && (theView.ism.length === 1)
                 onTriggered: {
-                    var openPaths = new Array
-                    for(var i=0 ; i< thumbnailListModel.count ; i++){
-                        openPaths.push(thumbnailListModel.get(i).url.toString())
+                    //如果是影视，则采用打开视频
+                    if (fileControl.isVideo(thumbnailListModel.get(theView.ism[0]).url.toString())){
+                        albumControl.openDeepinMovie(thumbnailListModel.get(theView.ism[0]).url.toString())
+                    } else {
+                        var openPaths = new Array
+                        for(var i=0 ; i< thumbnailListModel.count ; i++){
+                            openPaths.push(thumbnailListModel.get(i).url.toString())
+                        }
+                        mainStack.sourcePaths = openPaths
+                        mainStack.currentIndex = theView.ism[0]
+                        mainStack.currentWidgetIndex = 1
+                        global.stackControlCurrent = 1
                     }
-                     mainStack.sourcePaths = openPaths
-                     mainStack.currentIndex = theView.ism[0]
-                     global.stackControlCurrent = 1
-                     mainStack.currentWidgetIndex = 1
                 }
             }
 
@@ -436,7 +441,25 @@ Item {
                 text: qsTr("Fullscreen")
                 visible:  thumnailListType !== GlobalVar.ThumbnailType.Trash
                           && (theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString()))
+                          && fileControl.isImage(thumbnailListModel.get(theView.ism[0]).url.toString())
                 onTriggered: {
+                    showFullScreen()
+                    //如果是影视，则采用打开视频
+                    if (fileControl.isVideo(thumbnailListModel.get(theView.ism[0]).url.toString())){
+                        albumControl.openDeepinMovie(thumbnailListModel.get(theView.ism[0]).url.toString())
+                    } else {
+                        var openPaths = new Array
+                        for(var i=0 ; i< thumbnailListModel.count ; i++){
+                            openPaths.push(thumbnailListModel.get(i).url.toString())
+                        }
+                        mainStack.sourcePaths = openPaths
+                        mainStack.currentIndex = theView.ism[0]
+                        mainStack.currentWidgetIndex = 1
+                        global.stackControlCurrent = 1
+
+                    }
+
+
 
                 }
             }
@@ -456,6 +479,7 @@ Item {
                 text: qsTr("Slide show")
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
                          && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString())) || theArea.haveImage)
+                         && fileControl.isImage(thumbnailListModel.get(theView.ism[0]).url.toString())
                 onTriggered: {
 
                 }
@@ -469,6 +493,7 @@ Item {
             //添加到相册子菜单
             //隐藏交给后面的Component.onCompleted解决
             Menu {
+                enabled: thumnailListType !== GlobalVar.ThumbnailType.Trash
                 id: addToAlbum
                 title: qsTr("Add to album")
 
@@ -494,9 +519,9 @@ Item {
 
                         onTriggered:{
                             albumControl.insertIntoAlbum(albumControl.getAllCustomAlbumId(global.albumChangeList)[index] , global.selectedPaths)
-                            global.currentViewIndex = 6
                             global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[index]
                             global.siderGroup.buttons[index].checked = true
+                            global.currentViewIndex = 6
                         }
                     }
 
@@ -510,13 +535,11 @@ Item {
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
                          && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString()) && theArea.haveImage) || !theArea.haveVideo)
                 onTriggered: {
-
+                    exportdig.filePath = global.objIsEmpty(thumbnailListModel) ? "" : (global.objIsEmpty(thumbnailListModel.get(theView.ism[0])) ? "" : thumbnailListModel.get(theView.ism[0]).url.toString())
                     var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
                     var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
-
                     exportdig.setX(x)
                     exportdig.setY(y)
-
                     exportdig.show()
 
                 }
@@ -527,6 +550,7 @@ Item {
                 text: qsTr("Copy")
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
                          && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString())) || theView.ism.length > 1)
+                 && fileControl.isImage(thumbnailListModel.get(theView.ism[0]).url.toString())
                 onTriggered: {
                     fileControl.copyImage(global.selectedPaths)
                 }
@@ -628,8 +652,7 @@ Item {
                 text: qsTr("Set as wallpaper")
                 id: setAsWallpaperAction
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
-                         && (theView.ism.length === 1 && fileControl.isCanReadable(thumbnailListModel.get(theView.ism[0]).url.toString())
-                             && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString()))
+                         && (theView.ism.length === 1 && fileControl.isSupportSetWallpaper(thumbnailListModel.get(theView.ism[0]).url.toString()))
                 onTriggered: {
                     fileControl.setWallpaper(thumbnailListModel.get(theView.ism[0]).url.toString())
                 }
@@ -700,36 +723,4 @@ Item {
         totalTimeScope()
     }
 
-    //rename窗口
-    ExportDialog {
-        id: exportdig
-        filePath: global.objIsEmpty(thumbnailListModel) ? "" : (global.objIsEmpty(thumbnailListModel.get(theView.ism[0])) ? "" : thumbnailListModel.get(theView.ism[0]).url.toString())
-    }
-
-    //info的窗口
-    InfomationDialog{
-        id: albumInfomationDig
-    }
-
-    //rename窗口
-    NewAlbumDialog {
-        id: newAlbum
-    }
-
-    //视频info窗口
-    VideoInfoDialog{
-        id: videoInfomationDig
-    }
-
-    Connections {
-        target: newAlbum
-        onSigCreateAlbum:
-        {
-            var index = albumControl.getAllCustomAlbumId(global.albumChangeList).length - 1
-            console.log ( index)
-            albumControl.insertIntoAlbum(albumControl.getAllCustomAlbumId(global.albumChangeList)[index] , global.selectedPaths)
-            global.currentViewIndex = 6
-            global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[index]
-        }
-    }
 }

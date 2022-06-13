@@ -85,7 +85,6 @@ ApplicationWindow {
 //                stackView.currentWidgetIndex= 1
 //            }
             albumControl.importAllImagesAndVideos(importDialog.fileUrls)
-            global.haveImportedPaths = albumControl.getAllPaths();
         }
     }
 
