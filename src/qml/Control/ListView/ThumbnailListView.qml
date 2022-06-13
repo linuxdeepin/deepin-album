@@ -661,7 +661,7 @@ Item {
                 id: photoInfoAction
                 visible: theView.ism.length == 1 && fileControl.isImage(thumbnailListModel.get(theView.ism[0]).url.toString())
                 onTriggered: {
-                    albumInfomationDig.filePath =thumbnailListModel.get(theView.ism[0]).url.toString()
+                    albumInfomationDig.filePath = thumbnailListModel.get(theView.ism[0]).url.toString()
                     albumInfomationDig.show()
                 }
             }
@@ -672,7 +672,8 @@ Item {
                 id: videoInfoAction
                 visible: theView.ism.length == 1 && !fileControl.isImage(thumbnailListModel.get(theView.ism[0]).url.toString())
                 onTriggered: {
-
+                    videoInfomationDig.filePath = thumbnailListModel.get(theView.ism[0]).url.toString()
+                    videoInfomationDig.show()
                 }
             }
 
@@ -713,6 +714,11 @@ Item {
     //rename窗口
     NewAlbumDialog {
         id: newAlbum
+    }
+
+    //视频info窗口
+    VideoInfoDialog{
+        id: videoInfomationDig
     }
 
     Connections {

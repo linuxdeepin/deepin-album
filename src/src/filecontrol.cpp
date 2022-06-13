@@ -578,6 +578,11 @@ QString FileControl::slotGetFileNameSuffix(const QString &path)
     return info.fileName();
 }
 
+QString FileControl::slotGetFileLocalPath(const QString &path)
+{
+    return QUrl(path).toLocalFile();
+}
+
 QString FileControl::slotGetInfo(const QString &key, const QString &path)
 {
     QString localpath = QUrl(path).toLocalFile();

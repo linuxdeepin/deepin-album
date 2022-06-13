@@ -4,6 +4,7 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.11
 import org.deepin.dtk 1.0 as D
 import org.deepin.dtk 1.0
+import "../PreviewImageViewer"
 //DialogWindow {
 
 //}
@@ -66,17 +67,22 @@ DialogWindow {
                     }
                     corners: RoundRectangle.TopCorner
                 }
+                PropertyActionItemDelegate {
+                    Layout.fillWidth: true
+                    title: qsTr("Date captured")
+                    description: albumControl.getMovieInfo("DateTimeOriginal",filePath)
+                }
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 1
                     PropertyItemDelegate {
                         title: qsTr("Size")
-                        description: fileControl.slotGetInfo("FileSize",filePath)
+                        description: albumControl.getMovieInfo("Size",filePath)
                         corners: RoundRectangle.BottomLeftCorner
                     }
                     PropertyItemDelegate {
                         title: qsTr("Resolution ratio")
-                        description: fileControl.slotGetInfo("Dimension",filePath)
+                        description: albumControl.getMovieInfo("Duration",filePath)
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
@@ -90,21 +96,14 @@ DialogWindow {
                 spacing: 1
                 PropertyActionItemDelegate {
                     Layout.fillWidth: true
-                    title: qsTr("Date captured")
-                    description: fileControl.slotGetInfo("DateTimeOriginal",filePath)
-                    corners: RoundRectangle.TopCorner
-                }
-
-                PropertyActionItemDelegate {
-                    Layout.fillWidth: true
-                    title: qsTr("Date modified")
-                    description: fileControl.slotGetInfo("DateTimeDigitized",filePath)
-                    corners: RoundRectangle.BottomCorner
+                    title: qsTr("Path")
+                    description: albumControl.getMovieInfo("Path",filePath)
+                    corners: RoundRectangle.TopCorner | RoundRectangle.BottomCorner
                 }
             }
         }
         PropertyItem {
-            title: qsTr("Details")
+            title: qsTr("Codec info")
             ColumnLayout {
                 spacing: 1
                 RowLayout {
@@ -112,20 +111,20 @@ DialogWindow {
                     spacing: 1
                     PropertyItemDelegate {
                         contrlImplicitWidth:66
-                        title: qsTr("Aperture")
-                        description: fileControl.slotGetInfo("ApertureValue",filePath)
+                        title: qsTr("Video CodecID")
+                        description: albumControl.getMovieInfo("Video CodecID",filePath)
                         corners: RoundRectangle.TopLeftCorner
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth:106
-                        title: qsTr("Exposure program")
-                        description: fileControl.slotGetInfo("ExposureProgram",filePath)
+                        title: qsTr("Video CodeRate")
+                        description: albumControl.getMovieInfo("Video CodeRate",filePath)
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth:86
-                        title: qsTr("Focal length")
-                        description: fileControl.slotGetInfo("FocalLength",filePath)
+                        title: qsTr("FPS")
+                        description: albumControl.getMovieInfo("FPS",filePath)
                         corners: RoundRectangle.TopRightCorner
                     }
                 }
@@ -135,75 +134,67 @@ DialogWindow {
                     spacing: 1
                     PropertyItemDelegate {
                         contrlImplicitWidth: 66
-                        title: qsTr("ISO")
-                        description: fileControl.slotGetInfo("ISOSpeedRatings",filePath)
+                        title: qsTr("Proportion")
+                        description: albumControl.getMovieInfo("Proportion",filePath)
+                        corners: RoundRectangle.BottomLeftCorner
 
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth: 106
-                        title: qsTr("Exposure mode")
-                        description: fileControl.slotGetInfo("ExposureMode",filePath)
+                        title: qsTr("Resolution")
+                        description: albumControl.getMovieInfo("Resolution",filePath)
                         Layout.fillWidth: true
-                    }
-                    PropertyItemDelegate {
-                        contrlImplicitWidth: 86
-                        title: qsTr("Exposure time")
-                        description: fileControl.slotGetInfo("ExposureTime",filePath)
-                    }
-                }
-                RowLayout {
-                    Layout.fillWidth: true
-                    spacing: 1
-                    PropertyItemDelegate {
-                        contrlImplicitWidth:66
-                        title: qsTr("Flash")
-                        description: fileControl.slotGetInfo("Flash",filePath)
-                    }
-                    PropertyItemDelegate {
-                        contrlImplicitWidth:106
-                        title: qsTr("Flash compensation")
-                        description: fileControl.slotGetInfo("FlashExposureComp",filePath)
-                        Layout.fillWidth: true
-                    }
-                    PropertyItemDelegate {
-                        contrlImplicitWidth:86
-                        title: qsTr("Max Aperture")
-                        description: fileControl.slotGetInfo("MaxApertureValue",filePath)
-                    }
-                }
-                RowLayout {
-                    Layout.fillWidth: true
-                    spacing: 1
-                    PropertyItemDelegate {
-                        contrlImplicitWidth:66
-                        title: qsTr("Colorspace")
-                        description: fileControl.slotGetInfo("ColorSpace",filePath)
-                        corners: RoundRectangle.BottomLeftCorner
-                    }
-                    PropertyItemDelegate {
-                        contrlImplicitWidth:106
-                        title: qsTr("Metering mode")
-                        description: fileControl.slotGetInfo("MeteringMode",filePath)
-                        Layout.fillWidth: true
-                    }
-                    PropertyItemDelegate {
-                        contrlImplicitWidth:86
-                        title: qsTr("White balance")
-                        description: fileControl.slotGetInfo("WhiteBalance",filePath)
                         corners: RoundRectangle.BottomRightCorner
                     }
                 }
             }
+        }
 
-            PropertyItemDelegate {
-                title: qsTr("Camera model")
-                description: fileControl.slotGetInfo("Model",filePath)
-                corners: RoundRectangle.AllCorner
-            }
-            PropertyItemDelegate {
-                title: qsTr("Lens model")
-                description: fileControl.slotGetInfo("LensType",filePath)
-                corners: RoundRectangle.AllCorner
+        PropertyItem {
+            title: qsTr("Video CodecID")
+            ColumnLayout {
+                spacing: 1
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: 1
+                    PropertyItemDelegate {
+                        contrlImplicitWidth:66
+                        title: qsTr("Audio CodecID")
+                        description: albumControl.getMovieInfo("Audio CodecID",filePath)
+                        corners: RoundRectangle.TopLeftCorner
+                    }
+                    PropertyItemDelegate {
+                        contrlImplicitWidth:106
+                        title: qsTr("Audio CodeRate")
+                        description: albumControl.getMovieInfo("Audio CodeRate",filePath)
+                        Layout.fillWidth: true
+                    }
+                    PropertyItemDelegate {
+                        contrlImplicitWidth:86
+                        title: qsTr("Audio digit")
+                        description: albumControl.getMovieInfo("Audio digit",filePath)
+                        corners: RoundRectangle.TopRightCorner
+                    }
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: 1
+                    PropertyItemDelegate {
+                        contrlImplicitWidth: 66
+                        title: qsTr("Channels")
+                        description: albumControl.getMovieInfo("Channels",filePath)
+                        corners: RoundRectangle.BottomLeftCorner
+
+                    }
+                    PropertyItemDelegate {
+                        contrlImplicitWidth: 106
+                        title: qsTr("Sampling")
+                        description: albumControl.getMovieInfo("Sampling",filePath)
+                        Layout.fillWidth: true
+                        corners: RoundRectangle.BottomRightCorner
+                    }
+                }
             }
         }
     }

@@ -107,6 +107,9 @@ public:
     //获取文件名及其后缀
     Q_INVOKABLE QString slotGetFileNameSuffix(const QString &path);
 
+    //获得本地路径
+    Q_INVOKABLE QString slotGetFileLocalPath(const QString &path);
+
     //获取某项info
     Q_INVOKABLE QString slotGetInfo(const QString &key, const QString &path);
 

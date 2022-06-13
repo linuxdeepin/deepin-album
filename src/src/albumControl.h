@@ -5,7 +5,7 @@
 #include <QUrl>
 #include "unionimage/unionimage.h"
 #include "dbmanager/dbmanager.h"
-
+#include "imageengine/movieservice.h"
 
 class FileInotifyGroup;
 
@@ -161,6 +161,10 @@ public:
 
     //根据输入路径生成时间范围
     Q_INVOKABLE QString getFileTime(const QString &path1, const QString &path2);
+
+    //获得视频信息
+    Q_INVOKABLE QString getMovieInfo(const QString key ,const QString &path);
+
 public :
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 
@@ -194,7 +198,8 @@ public :
     //是否已经处于监控
     bool checkIfNotified(const QString &dirPath);
 
-
+    //获得数据库信息
+    DBImgInfo getDBInfo(const QString &srcpath, bool isVideo);
 public slots:
     //监控到改变
     void slotMonitorChanged(QStringList fileAdd, QStringList fileDelete, QString album, int UID);
@@ -222,6 +227,7 @@ private :
     QMap < QString, DBImgInfoList > m_monthDateMap; //月数据集
     QMap < QString, DBImgInfoList > m_dayDateMap; //日数据集
     QMap < int, QString > m_customAlbum; //自定义相册
+    QMap < QString, MovieInfo> m_movieInfos; //movieInfo的合集
 
     FileInotifyGroup * m_fileInotifygroup {nullptr};//固定文件夹监控
 

@@ -50,5 +50,6 @@
         <file>qml/ThumbnailImageView/CollecttionView/MonthCollection.qml</file>
         <file>qml/ThumbnailImageView/CollecttionView/DayCollection.qml</file>
         <file>qml/ThumbnailImageView/CollecttionView/AllCollection.qml</file>
+        <file>qml/Control/VideoInfoDialog.qml</file>
     </qresource>
 </RCC>

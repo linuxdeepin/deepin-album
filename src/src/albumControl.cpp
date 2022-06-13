@@ -1,6 +1,5 @@
 #include "albumControl.h"
 #include "dbmanager/dbmanager.h"
-#include "imageengine/movieservice.h"
 #include "fileMonitor/fileinotifygroup.h"
 
 #include <QStandardPaths>
@@ -9,7 +8,20 @@
 #include <QFileDialog>
 #include <QProcess>
 
-DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
+
+
+AlbumControl::AlbumControl(QObject *parent)
+    : QObject(parent)
+{
+    initMonitor();
+}
+
+AlbumControl::~AlbumControl()
+{
+
+}
+
+DBImgInfo AlbumControl::getDBInfo(const QString &srcpath, bool isVideo)
 {
     using namespace LibUnionImage_NameSpace;
     QFileInfo srcfi(srcpath);
@@ -20,6 +32,8 @@ DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
         dbi.itemType = ItemTypeVideo;
         //获取视频信息
         MovieInfo movieInfo = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(srcpath));
+        //对视频信息缓存
+        m_movieInfos[srcpath]=movieInfo;
 
         dbi.changeTime = srcfi.lastModified();
 
@@ -49,18 +63,6 @@ DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
     }
     return dbi;
 }
-
-AlbumControl::AlbumControl(QObject *parent)
-    : QObject(parent)
-{
-    initMonitor();
-}
-
-AlbumControl::~AlbumControl()
-{
-
-}
-
 void AlbumControl::getAllInfos()
 {
     m_infoList = DBManager::instance()->getAllInfos();
@@ -1056,4 +1058,69 @@ QString AlbumControl::getFileTime(const QString &path1, const QString &path2)
     } else {
         return str2 + "-" + str1;
     }
+}
+
+QString AlbumControl::getMovieInfo(const QString key, const QString &path)
+{
+    QString value="";
+    if(!path.isEmpty()){
+        QString localPath = QUrl(path).toLocalFile();
+        if (!m_movieInfos.keys().contains(localPath)){
+            MovieInfo movieInfo = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(localPath));
+            //对视频信息缓存
+            m_movieInfos[localPath]= movieInfo;
+        }
+        MovieInfo movieInfo = m_movieInfos.value(localPath);
+        if(QString("Video CodecID").contains(key)){
+            value = movieInfo.vCodecID;
+        }
+        else if(QString("Video CodeRate").contains(key)){
+            value = movieInfo.vCodeRate == 0 ? "-" : QString::number(movieInfo.vCodeRate) + " kbps";
+        }
+        else if(QString("FPS").contains(key)){
+            value = movieInfo.fps == 0 ? "-" : QString::number(movieInfo.fps) + " fps";
+        }
+        else if(QString("Proportion").contains(key)){
+            value = movieInfo.proportion <= 0 ? "-" : QString::number(movieInfo.proportion);
+        }
+        else if(QString("Resolution").contains(key)){
+            value = movieInfo.resolution;
+        }
+        else if(QString("Audio CodecID").contains(key)){
+            value = movieInfo.aCodeID;
+        }
+        else if(QString("Audio CodeRate").contains(key)){
+            value = movieInfo.aCodeRate == 0 ? "-" : QString::number(movieInfo.aCodeRate) + " kbps";
+        }
+        else if(QString("Audio digit").contains(key)){
+            value = movieInfo.aDigit;
+        }
+        else if(QString("Channels").contains(key)){
+            value = movieInfo.channels == 0 ? "-" : QString::number(movieInfo.channels) + tr("Channel");
+        }
+        else if(QString("Sampling").contains(key)){
+            value = movieInfo.sampling == 0 ? "-" : QString::number(movieInfo.sampling) + " hz";
+        }
+        else if(QString("DateTimeOriginal").contains(key)){
+            QFileInfo info(localPath);
+            if (info.lastModified().isValid()) {
+                value = info.lastModified().toString("yyyy/MM/dd HH:mm");
+            } else if (info.birthTime().isValid()) {
+                value = info.birthTime().toString("yyyy/MM/dd HH:mm");
+            }
+        }
+        else if(QString("Type").contains(key)){
+            value = movieInfo.fileType.toLower();
+        }
+        else if(QString("Size").contains(key)){
+            value = movieInfo.sizeStr();
+        }
+        else if(QString("Duration").contains(key)){
+            value = movieInfo.duration;
+        }
+        else if(QString("Path").contains(key)){
+            value = movieInfo.filePath;
+        }
+    }
+    return value;
 }
