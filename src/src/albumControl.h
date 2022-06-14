@@ -6,6 +6,15 @@
 #include "unionimage/unionimage.h"
 #include "dbmanager/dbmanager.h"
 #include "imageengine/movieservice.h"
+#include <dgiovolumemanager.h>
+#include <dgiofile.h>
+#include <dgiofileinfo.h>
+#include <dgiovolume.h>
+#include <dgiomount.h>
+#include <ddiskmanager.h>
+#include <dblockdevice.h>
+#include <ddiskdevice.h>
+
 
 class FileInotifyGroup;
 
@@ -176,6 +185,18 @@ public:
 
     //获取月份
     Q_INVOKABLE QStringList getMonths();
+
+    //获取设备名称
+    Q_INVOKABLE QStringList getDeviceNames();
+
+    //获取设备路径
+    Q_INVOKABLE QStringList getDevicePaths();
+
+    //通过设备路径获得设备名称
+    Q_INVOKABLE QString getDeviceName(const QString & devicePath);
+
+    //获取设备的图片
+    Q_INVOKABLE QStringList getDevicePicPaths(const QString &path );
 public :
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 
@@ -211,12 +232,34 @@ public :
 
     //获得数据库信息
     DBImgInfo getDBInfo(const QString &srcpath, bool isVideo);
+
+    //初始化设备监控
+    void initDeviceMonitor();
+
+    //寻找手机里面是否有图片
+    bool findPicturePathByPhone(QString &path);
+
+    //可重入版本的getMounts
+    QList<QExplicitlySharedDataPointer<DGioMount>> getMounts();
+
 public slots:
     //监控到改变
     void slotMonitorChanged(QStringList fileAdd, QStringList fileDelete, QString album, int UID);
 
     //自动导入路径被删除
     void slotMonitorDestroyed(int UID);
+
+    //设备增加
+    void onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount);
+
+    //设备减少
+    void onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount);
+
+    //加载设备路径的数据
+    void sltLoadMountFileList(const QString &path);
+
+    //获得设备合集
+    const QList<QExplicitlySharedDataPointer<DGioMount>> getVfsMountList();
 
 signals:
    void sigRefreshCustomAlbum(int UID);
@@ -225,6 +268,7 @@ signals:
    //自定义相册删除
    void sigDeleteCustomAlbum(int UID);
 
+   void sigMountsChange();
 
 private :
     DBImgInfoList m_infoList;  //全部已导入
@@ -241,6 +285,13 @@ private :
     QMap < QString, MovieInfo> m_movieInfos; //movieInfo的合集
 
     FileInotifyGroup * m_fileInotifygroup {nullptr};//固定文件夹监控
+
+    DGioVolumeManager *m_vfsManager {nullptr};//手机设备监控
+    DDiskManager *m_diskManager {nullptr};//U盘设备监控
+    QList<QExplicitlySharedDataPointer<DGioMount>> m_mounts;     //外部设备挂载
+    QMap<QString, QString> m_durlAndNameMap;
+    QMap<QString, QStringList> m_PhonePicFileMap; //外部设备及其全部图片路径
+    std::atomic_bool m_couldRun;
 
 
 };

@@ -36,6 +36,8 @@ Item {
     property bool albumChangeList: false //自定义相册改变
     property ButtonGroup siderGroup: ButtonGroup {} //控制导航栏的group
 
+    property bool deviceChangeList: false //设备相册改变
+
     function objIsEmpty(obj) {
         var ret = (String(obj) === "undefined" || String(obj) === "null")
         //console.log("obj is", ret ? "empty." : "not empty.", "objStr:", String(obj))
@@ -71,6 +73,14 @@ Item {
         target: albumControl
         onSigRefreshImportAlbum: {
             sigFlushHaveImportedView()
+        }
+    }
+
+    //数据库监听-刷新设备
+    Connections {
+        target: albumControl
+        onSigMountsChange: {
+            deviceChangeList = !deviceChangeList
         }
     }
 }

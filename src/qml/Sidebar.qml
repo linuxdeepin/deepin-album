@@ -60,6 +60,44 @@ Rectangle {
                     ButtonGroup.group: global.siderGroup
                 }
             }
+
+            RowLayout{
+                Layout.alignment: Qt.AlignCenter
+                spacing: 100
+
+                visible: albumControl.getDevicePaths(global.deviceChangeList).length>0 ?true :false
+                Label {
+                    id:deviceLabel
+                    height: 30
+                    text: qsTr("Device")
+                    color: Qt.rgba(0,0,0,0.3)
+                }
+            }
+
+            ListView{
+                id : deviceList
+                height:albumControl.getDevicePaths(global.deviceChangeList).length *42
+                width:parent.width
+                clip: true
+                visible: true
+                interactive: false //禁用原有的交互逻辑，重新开始定制
+
+                model :albumControl.getDevicePaths(global.deviceChangeList).length
+                delegate:    ItemDelegate {
+                    text: albumControl.getDeviceNames(global.deviceChangeList)[index]
+                    width: parent.width - 20
+                    height : 36
+                    icon.name: "item"
+                    checked: index == 0
+                    backgroundVisible: false
+                    onClicked: {
+//                            global.currentViewIndex = 6
+//                            global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[index]
+                    }
+                    ButtonGroup.group: global.siderGroup
+                }
+            }
+
             RowLayout{
                 Layout.alignment: Qt.AlignCenter
                 spacing: 100

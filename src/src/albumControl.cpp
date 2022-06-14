@@ -7,13 +7,16 @@
 #include <QUrl>
 #include <QFileDialog>
 #include <QProcess>
-
-
+#include <QRegularExpression>
+#include <QDirIterator>
+#include <QCoreApplication>
 
 AlbumControl::AlbumControl(QObject *parent)
     : QObject(parent)
 {
     initMonitor();
+    initDeviceMonitor();
+
 }
 
 AlbumControl::~AlbumControl()
@@ -63,6 +66,62 @@ DBImgInfo AlbumControl::getDBInfo(const QString &srcpath, bool isVideo)
     }
     return dbi;
 }
+
+void AlbumControl::initDeviceMonitor()
+{
+    m_vfsManager = new DGioVolumeManager(this);
+    m_diskManager = new DDiskManager(this);
+
+    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumControl::onVfsMountChangedAdd);
+    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, &AlbumControl::onVfsMountChangedRemove);
+    connect(m_vfsManager, &DGioVolumeManager::volumeAdded, [](QExplicitlySharedDataPointer<DGioVolume> vol) {
+        if (vol->volumeMonitorName().contains(QRegularExpression("(MTP|GPhoto2|Afc)$"))) {
+            vol->mount();
+        }
+    });
+
+    QList<QExplicitlySharedDataPointer<DGioMount> > list = getVfsMountList();
+    for( auto mount : list ){
+        onVfsMountChangedAdd(mount);
+    }
+}
+
+bool AlbumControl::findPicturePathByPhone(QString &path)
+{
+    QDir dir(path);
+    if (!dir.exists()) return false;
+    QFileInfoList fileInfoList = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
+    QFileInfo tempFileInfo;
+    foreach (tempFileInfo, fileInfoList) {
+        //针对ptp模式
+        if (tempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0) {
+            path = tempFileInfo.absoluteFilePath();
+            return true;
+        } else {        //针对MTP模式
+            //  return true;
+            QDir subDir;
+            subDir.setPath(tempFileInfo.absoluteFilePath());
+            QFileInfoList subFileInfoList = subDir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
+            for (QFileInfo subTempFileInfo : subFileInfoList) {
+                if (subTempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0) {
+                    path = subTempFileInfo.absoluteFilePath();
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+QList<QExplicitlySharedDataPointer<DGioMount> > AlbumControl::getMounts()
+{
+    static QMutex mutex;
+    mutex.lock();
+    auto result = DGioVolumeManager::getMounts();
+    mutex.unlock();
+    return result;
+}
+
 void AlbumControl::getAllInfos()
 {
     m_infoList = DBManager::instance()->getAllInfos();
@@ -448,6 +507,135 @@ void AlbumControl::slotMonitorDestroyed(int UID)
     emit sigDeleteCustomAlbum(UID);
 }
 
+void AlbumControl::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount)
+{
+    qDebug() << "挂载设备增加：" << mount->name();
+
+    QString uri = mount->getRootFile()->uri();
+    QString scheme = QUrl(uri).scheme();
+    if ((scheme == "file" /*&& mount->canEject()*/) ||  //usb device
+            (scheme == "gphoto2") ||                //phone photo
+            //(scheme == "afc") ||                  //iPhone document
+            (scheme == "mtp")) {                    //android file
+        qDebug() << "mount.name" << mount->name() << " scheme type:" << scheme;
+        for (auto mountLoop : m_mounts) {
+            QString uriLoop = mountLoop->getRootFile()->uri();
+            if (uri == uriLoop) {
+                qDebug() << "Already has this device in mount list. uri:" << uriLoop;
+                return;
+            }
+        }
+        QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
+        QString strPath = LocationFile->path();
+        if (strPath.isEmpty()) {
+            qDebug() << "onVfsMountChangedAdd() strPath.isEmpty()";
+        }
+        QString rename = "";
+        qDebug()<<QUrl(mount->getRootFile()->uri()) ;
+        rename = m_durlAndNameMap[mount->getRootFile()->path()];
+        if ("" == rename) {
+            rename = mount->name();
+        }
+        if ("" == rename) {
+            rename = mount->name();
+        }
+        m_durlAndNameMap[mount->getRootFile()->path()] = rename ;
+        //判断路径是否存在
+        bool bFind = false;
+        QDir dir(strPath);
+        if (!dir.exists()) {
+            qDebug() << "onLoadMountImagesStart() !dir.exists()";
+            bFind = false;
+        } else {
+            bFind = true;
+        }
+        //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,再调用findPicturePathByPhone函数搜索DCIM文件目录
+        if (!strPath.contains("/media/")) {
+            bFind = findPicturePathByPhone(strPath);
+        }
+        qDebug()<<bFind;
+        //路径存在
+        if(bFind){
+            m_mounts << mount;
+            //挂在路径
+            sltLoadMountFileList(strPath);
+            //名称
+            rename ;
+        }
+    }
+     emit sigMountsChange();
+}
+
+void AlbumControl::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount)
+{
+    QString uri = mount->getRootFile()->uri();
+    QString strPath = mount->getDefaultLocationFile()->path();
+    m_durlAndNameMap.erase(m_durlAndNameMap.find(mount->getRootFile()->path()));
+    m_PhonePicFileMap.erase(m_PhonePicFileMap.find(mount->getRootFile()->path()));
+
+    for (auto mountLoop : m_mounts) {
+        QString uriLoop = mountLoop->getRootFile()->uri();
+        if (uri == uriLoop) {
+            qDebug() << "Already has this device in mount list. uri:" << uriLoop;
+            m_mounts.removeOne(mountLoop);
+            break;
+        }
+    }
+    emit sigMountsChange();
+}
+
+void AlbumControl::sltLoadMountFileList(const QString &path)
+{
+    QString strPath = path;
+    if (!m_PhonePicFileMap.contains(strPath)) {
+        //获取所选文件类型过滤器
+        QStringList filters;
+        for (QString i : LibUnionImage_NameSpace::unionImageSupportFormat()) {
+            filters << "*." + i;
+        }
+
+        for (QString i : LibUnionImage_NameSpace::videoFiletypes()) {
+            filters << "*." + i;
+        }
+        //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
+        QDirIterator dir_iterator(strPath,
+                                  filters,
+                                  QDir::Files | QDir::NoSymLinks,
+                                  QDirIterator::Subdirectories);
+        QStringList allfiles;
+        while (dir_iterator.hasNext()) {
+            dir_iterator.next();
+            QFileInfo fileInfo = dir_iterator.fileInfo();
+            allfiles << fileInfo.filePath();
+        }
+        //重置标志位，可以执行线程
+        m_PhonePicFileMap[strPath] = allfiles;
+        //发送信号
+    } else {
+        //已加载过的设备，直接发送缓存的路径
+    }
+}
+
+const QList<QExplicitlySharedDataPointer<DGioMount> > AlbumControl::getVfsMountList()
+{
+    QList<QExplicitlySharedDataPointer<DGioMount> > result;
+    const QList<QExplicitlySharedDataPointer<DGioMount> > mounts = getMounts();
+    for (auto mount : mounts) {
+        //TODO:
+        //Support android phone, iPhone, and usb devices. Not support ftp, smb, non removeable disk now
+        QString scheme = QUrl(mount->getRootFile()->uri()).scheme();
+        if ((scheme == "file" /*&& mount->canEject()*/) ||  //usb device
+                (scheme == "gphoto2") ||                //phone photo
+                //(scheme == "afc") ||                    //iPhone document
+                (scheme == "mtp")) {                    //android file
+            qDebug() << "getVfsMountList() mount.name" << mount->name() << " scheme type:" << scheme;
+            result.append(mount);
+        } else {
+            qDebug() <<  mount->name() << " scheme type:" << scheme << "is not supported by album.";
+        }
+    }
+    return result;
+}
 
 QStringList AlbumControl::getImportTimelinesTitlePaths(const QString &titleName, const int &filterType)
 {
@@ -1143,4 +1331,29 @@ int AlbumControl::getMonthCount(const QString &year, const QString &month)
 QStringList AlbumControl::getMonths()
 {
     return DBManager::instance()->getMonths();
+}
+
+QStringList AlbumControl::getDeviceNames()
+{
+    return m_durlAndNameMap.values();
+}
+
+QStringList AlbumControl::getDevicePaths()
+{
+    return m_durlAndNameMap.keys();
+}
+
+QString AlbumControl::getDeviceName(const QString &devicePath)
+{
+    return m_durlAndNameMap.value(devicePath);
+}
+
+QStringList AlbumControl::getDevicePicPaths(const QString &path)
+{
+    QStringList pathsList;
+    QStringList list = m_PhonePicFileMap.value(path);
+    for(QString path : list ){
+        pathsList << "file://" + path;
+    }
+    return pathsList;
 }
