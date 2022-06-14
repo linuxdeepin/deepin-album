@@ -52,7 +52,7 @@ namespace {
 const int ITEM_SPACING = 4;
 const int BASE_HEIGHT = 100;
 const int MINIMUN_WIDTH = 442;
-  
+
 // const QString IMAGE_DEFAULTTYPE = "All pics";
 const QString IMAGE_DEFAULTTYPE = "All Photos";
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
@@ -1046,7 +1046,14 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
     }
     break;
     case IdAddToFavorites:
-        m_batchOperateWidget->sltCollectSelect(true); //参数未使用，true false随便传
+        if (m_batchOperateWidget)
+            m_batchOperateWidget->sltCollectSelect(true); //参数未使用，true false随便传
+        else {
+            QStringList paths = selectedPaths();
+            DBManager::instance()->insertIntoAlbum(DBManager::SpUID::u_Favorite, paths, AlbumDBType::Favourite);
+            emit dApp->signalM->insertedIntoAlbum(DBManager::SpUID::u_Favorite, paths);
+            setFocus();
+        }
         break;
     case IdRemoveFromFavorites:
         DBManager::instance()->removeFromAlbum(DBManager::SpUID::u_Favorite, paths, AlbumDBType::Favourite);
