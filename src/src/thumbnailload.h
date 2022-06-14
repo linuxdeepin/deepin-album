@@ -76,9 +76,20 @@ protected:
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
 
 private:
+    //图片输出尺寸（黄金矩形）
+    static constexpr int outputWidth  = 500;
+    static constexpr int outputHeight = 309;
+
     //图片裁剪策略
     QImage createYearImage(const QString &year); //生成年视图
     QImage createMonthImage(const QString &year, const QString &month);//生成月视图
+
+    //月视图裁剪逻辑
+    QImage createMonth_2(const std::vector<QImage> &images);
+    QImage createMonth_3(const std::vector<QImage> &images);
+    QImage createMonth_4(const std::vector<QImage> &images);
+    QImage createMonth_5(const std::vector<QImage> &images);
+    QImage createMonth_6(const std::vector<QImage> &images);
 };
 
 class LoadImage : public QObject

@@ -388,21 +388,194 @@ QImage CollectionPublisher::createYearImage(const QString &year)
     }
     auto picPath = paths.at(0);
 
-    //TODO: 智能判断当前图片是否合适：OpenCV/GAN
-    //异常处理：裂图问题
+    //TODO: 异常处理：裂图问题
 
     //加载原图
-    //TODO: 可应用超分放大: GAN
     QImage image;
     QString error;
     LibUnionImage_NameSpace::loadStaticImageFromFile(picPath, image, error);
-    image.scaled(500, 309, Qt::KeepAspectRatioByExpanding);
+    image.scaled(outputWidth, outputHeight, Qt::KeepAspectRatioByExpanding);
 
     return image;
 }
 
 QImage CollectionPublisher::createMonthImage(const QString &year, const QString &month)
 {
-    //SELECT * FROM ImageTable3 WHERE Time between "2013-10-01" AND "2013-11-01"
-    return QImage();
+    auto paths = DBManager::instance()->getMonthPaths(year, month, 6);
+    if(paths.isEmpty()) {
+        return QImage();
+    }
+
+    //1.加载原图
+    std::vector<QImage> images;
+    std::transform(paths.begin(), paths.end(), std::back_inserter(images), [](const QString &path){
+        QImage image;
+        QString error;
+        LibUnionImage_NameSpace::loadStaticImageFromFile(path, image, error);
+        image.scaled(outputWidth, outputHeight, Qt::KeepAspectRatioByExpanding);
+        return image;
+    });
+
+    //2.拼接图片
+    QImage result;
+    switch (images.size()) {
+    case 1:
+        result = images[0];
+        break;
+    case 2:
+        result = createMonth_2(images);
+        break;
+    case 3:
+        result = createMonth_3(images);
+        break;
+    case 4:
+        result = createMonth_4(images);
+        break;
+    case 5:
+        result = createMonth_5(images);
+        break;
+    case 6:
+        result = createMonth_6(images);
+        break;
+    default:
+        result = images[0];
+        break;
+    }
+
+    //3.返回图片
+    return result;
+}
+
+QImage CollectionPublisher::createMonth_2(const std::vector<QImage> &images)
+{
+    //左右摆放
+
+    //初始化画布
+    QImage result(outputWidth, outputHeight, QImage::Format_RGB888);
+    result.fill(Qt::white);
+
+    //初始化原始图片
+    QImage images_0 = images[0].scaled(outputWidth / 2, outputHeight, Qt::KeepAspectRatioByExpanding);
+    QImage images_1 = images[1].scaled(outputWidth / 2, outputHeight, Qt::KeepAspectRatioByExpanding);
+
+    //绘制
+    QPainter painter;
+    painter.begin(&result);
+    painter.drawImage(0, 0, images_0);
+    painter.drawImage(outputWidth / 2, 0, images_1);
+    painter.end();
+
+    return result;
+}
+
+QImage CollectionPublisher::createMonth_3(const std::vector<QImage> &images)
+{
+    //左1右2
+
+    //初始化画布
+    QImage result(outputWidth, outputHeight, QImage::Format_RGB888);
+    result.fill(Qt::white);
+
+    //初始化原始图片
+    QImage images_0 = images[0].scaled(outputWidth / 2, outputHeight, Qt::KeepAspectRatioByExpanding);
+    QImage images_1 = images[1].scaled(outputWidth / 2, outputHeight / 2, Qt::KeepAspectRatioByExpanding);
+    QImage images_2 = images[2].scaled(outputWidth / 2, outputHeight / 2, Qt::KeepAspectRatioByExpanding);
+
+    //绘制
+    QPainter painter;
+    painter.begin(&result);
+    painter.drawImage(0, 0, images_0);
+    painter.drawImage(outputWidth / 2, 0, images_1);
+    painter.drawImage(outputWidth / 2, outputHeight / 2, images_2);
+    painter.end();
+
+    return result;
+}
+
+QImage CollectionPublisher::createMonth_4(const std::vector<QImage> &images)
+{
+    //左2右2
+
+    //初始化画布
+    QImage result(outputWidth, outputHeight, QImage::Format_RGB888);
+    result.fill(Qt::white);
+
+    //初始化原始图片
+    QImage images_0 = images[0].scaled(outputWidth / 2, outputHeight / 2, Qt::KeepAspectRatioByExpanding);
+    QImage images_1 = images[1].scaled(outputWidth / 2, outputHeight / 2, Qt::KeepAspectRatioByExpanding);
+    QImage images_2 = images[2].scaled(outputWidth / 2, outputHeight / 2, Qt::KeepAspectRatioByExpanding);
+    QImage images_3 = images[3].scaled(outputWidth / 2, outputHeight / 2, Qt::KeepAspectRatioByExpanding);
+
+    //绘制
+    QPainter painter;
+    painter.begin(&result);
+    painter.drawImage(0, 0, images_0);
+    painter.drawImage(outputWidth / 2, 0, images_1);
+    painter.drawImage(0, outputHeight / 2, images_2);
+    painter.drawImage(outputWidth / 2, outputHeight / 2, images_3);
+    painter.end();
+
+    return result;
+}
+
+QImage CollectionPublisher::createMonth_5(const std::vector<QImage> &images)
+{
+    //上1下4
+
+    //初始化画布
+    QImage result(outputWidth, outputHeight, QImage::Format_RGB888);
+    result.fill(Qt::white);
+    constexpr int splitPos = static_cast<int>(outputHeight * 0.618);
+    constexpr int splitPos_2 = static_cast<int>(outputHeight * (1 - 0.618));
+
+    //初始化原始图片
+    QImage images_0 = images[0].scaled(outputWidth, splitPos, Qt::KeepAspectRatioByExpanding);
+    QImage images_1 = images[1].scaled(outputWidth / 4, splitPos_2, Qt::KeepAspectRatioByExpanding);
+    QImage images_2 = images[2].scaled(outputWidth / 4, splitPos_2, Qt::KeepAspectRatioByExpanding);
+    QImage images_3 = images[3].scaled(outputWidth / 4, splitPos_2, Qt::KeepAspectRatioByExpanding);
+    QImage images_4 = images[4].scaled(outputWidth / 4, splitPos_2, Qt::KeepAspectRatioByExpanding);
+
+    //绘制
+    QPainter painter;
+    painter.begin(&result);
+    painter.drawImage(0, 0, images_0);
+    painter.drawImage(0, splitPos, images_1);
+    painter.drawImage(outputWidth / 4 * 1, splitPos, images_2);
+    painter.drawImage(outputWidth / 4 * 2, splitPos, images_3);
+    painter.drawImage(outputWidth / 4 * 3, splitPos, images_4);
+    painter.end();
+
+    return result;
+}
+
+QImage CollectionPublisher::createMonth_6(const std::vector<QImage> &images)
+{
+    //上1下5
+
+    //初始化画布
+    QImage result(outputWidth, outputHeight, QImage::Format_RGB888);
+    result.fill(Qt::white);
+    constexpr int splitPos = static_cast<int>(outputHeight * 0.618);
+    constexpr int splitPos_2 = static_cast<int>(outputHeight * (1 - 0.618));
+
+    //初始化原始图片
+    QImage images_0 = images[0].scaled(outputWidth, splitPos, Qt::KeepAspectRatioByExpanding);
+    QImage images_1 = images[1].scaled(outputWidth / 5, splitPos_2, Qt::KeepAspectRatioByExpanding);
+    QImage images_2 = images[2].scaled(outputWidth / 5, splitPos_2, Qt::KeepAspectRatioByExpanding);
+    QImage images_3 = images[3].scaled(outputWidth / 5, splitPos_2, Qt::KeepAspectRatioByExpanding);
+    QImage images_4 = images[4].scaled(outputWidth / 5, splitPos_2, Qt::KeepAspectRatioByExpanding);
+    QImage images_5 = images[5].scaled(outputWidth / 5, splitPos_2, Qt::KeepAspectRatioByExpanding);
+
+    //绘制
+    QPainter painter;
+    painter.begin(&result);
+    painter.drawImage(0, 0, images_0);
+    painter.drawImage(0, splitPos, images_1);
+    painter.drawImage(outputWidth / 5 * 1, splitPos, images_2);
+    painter.drawImage(outputWidth / 5 * 2, splitPos, images_3);
+    painter.drawImage(outputWidth / 5 * 3, splitPos, images_4);
+    painter.drawImage(outputWidth / 5 * 4, splitPos, images_5);
+    painter.end();
+
+    return result;
 }

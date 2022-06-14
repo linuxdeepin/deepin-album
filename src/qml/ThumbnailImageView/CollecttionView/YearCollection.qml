@@ -80,7 +80,7 @@ Item {
                 anchors.top: image.top
                 anchors.left: image.left
                 radius: 18
-                width: image.width - 2 //-2以贴合图片
+                width: image.width
                 height: yearLabel.height + yearLabel.anchors.topMargin + itemCountLabel.height + itemCountLabel.anchors.topMargin + 5
                 gradient: Gradient {
                     GradientStop { position: 0.0; color: "#61000000" }
