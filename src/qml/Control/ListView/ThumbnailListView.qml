@@ -287,7 +287,9 @@ Item {
                     canRotate = fileControl.isRotatable(selectedPaths)
                     canPrint = fileControl.isCanPrint(selectedPaths)
 
-                    thumbnailMenu.popup()
+                    if(global.currentViewIndex != 8){
+                        thumbnailMenu.popup()
+                    }
                     return
                 }
 
@@ -386,18 +388,20 @@ Item {
                 }
             }
             onDoubleClicked: {
-                //如果是影视，则采用打开视频
-                if (fileControl.isVideo(thumbnailListModel.get(theView.ism[0]).url.toString())){
-                    albumControl.openDeepinMovie(thumbnailListModel.get(theView.ism[0]).url.toString())
-                } else {
-                    var openPaths = new Array
-                    for(var i=0 ; i< thumbnailListModel.count ; i++){
-                        openPaths.push(thumbnailListModel.get(i).url.toString())
+                if(mouse.button == Qt.LeftButton) {
+                    //如果是影视，则采用打开视频
+                    if (fileControl.isVideo(thumbnailListModel.get(theView.ism[0]).url.toString())){
+                        albumControl.openDeepinMovie(thumbnailListModel.get(theView.ism[0]).url.toString())
+                    } else {
+                        var openPaths = new Array
+                        for(var i=0 ; i< thumbnailListModel.count ; i++){
+                            openPaths.push(thumbnailListModel.get(i).url.toString())
+                        }
+                        mainStack.sourcePaths = openPaths
+                        mainStack.currentIndex = theView.ism[0]
+                        mainStack.currentWidgetIndex = 1
+                        global.stackControlCurrent = 1
                     }
-                    mainStack.sourcePaths = openPaths
-                    mainStack.currentIndex = theView.ism[0]
-                    mainStack.currentWidgetIndex = 1
-                    global.stackControlCurrent = 1
                 }
             }
         }

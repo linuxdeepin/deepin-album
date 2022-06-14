@@ -197,6 +197,16 @@ public:
 
     //获取设备的图片
     Q_INVOKABLE QStringList getDevicePicPaths(const QString &path );
+
+    //获得device路径
+    Q_INVOKABLE QVariantMap getDeviceAlbumInfos(const QString &devicePath, const int &filterType = 0);
+
+    //获得设备相册的图片和视频数量
+    Q_INVOKABLE int getDeviceAlbumInfoConut(const QString &devicePath, const int &filterType);
+
+    //手机照片导入 0为已导入，1-n为自定义相册
+    Q_INVOKABLE void importFromMountDevice(const QStringList &paths ,const int &index = 0);
+
 public :
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 
@@ -292,6 +302,7 @@ private :
     QMap<QString, QString> m_durlAndNameMap;
     QMap<QString, QStringList> m_PhonePicFileMap; //外部设备及其全部图片路径
     std::atomic_bool m_couldRun;
+    bool m_bneedstop=false;
 
 
 };

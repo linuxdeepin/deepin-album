@@ -326,6 +326,16 @@ UNIONIMAGESHARED_EXPORT bool imageSupportRead(const QString &path);
  */
 UNIONIMAGESHARED_EXPORT void getAllDirInDir(const QDir &dir, QFileInfoList &result);
 
+
+/**
+ * @brief isImage
+ * @param path
+ * @author LMH
+ * @return bool
+ * 判断是否是图片
+ */
+UNIONIMAGESHARED_EXPORT bool isImage(const QString &path);
+
 QT_BEGIN_NAMESPACE
 
 class UnionMovieImagePrivate;

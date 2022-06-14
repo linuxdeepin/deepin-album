@@ -37,6 +37,11 @@ Item {
     property ButtonGroup siderGroup: ButtonGroup {} //控制导航栏的group
 
     property bool deviceChangeList: false //设备相册改变
+    property int deviceCurrentIndex: 0 //设备index
+    property string deviceCurrentName: albumControl.getDeviceName(deviceCurrentPath) //设备当前名称
+    property string deviceCurrentPath: "" //设备当前P
+
+
 
     function objIsEmpty(obj) {
         var ret = (String(obj) === "undefined" || String(obj) === "null")

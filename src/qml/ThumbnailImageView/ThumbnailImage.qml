@@ -6,6 +6,7 @@ import "./CollecttionView"
 import "./HaveImportedView"
 import "./RecentlyDeletedView"
 import "./CustomAlbum"
+import "./DeviceAlbum"
 import "./"
 
 import "./../Control"
@@ -67,6 +68,13 @@ Rectangle{
         anchors.leftMargin: m_leftMargin
         anchors.fill: parent
     }
+    DeviceAlbum{
+        visible: global.currentViewIndex == 8
+        anchors.topMargin: m_topMargin
+        anchors.leftMargin: m_leftMargin
+        anchors.fill: parent
+    }
+
     //rename窗口
     ExportDialog {
         id: exportdig

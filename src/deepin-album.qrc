@@ -51,5 +51,6 @@
         <file>qml/ThumbnailImageView/CollecttionView/DayCollection.qml</file>
         <file>qml/ThumbnailImageView/CollecttionView/AllCollection.qml</file>
         <file>qml/Control/VideoInfoDialog.qml</file>
+        <file>qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml</file>
     </qresource>
 </RCC>

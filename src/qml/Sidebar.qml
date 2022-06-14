@@ -91,8 +91,8 @@ Rectangle {
                     checked: index == 0
                     backgroundVisible: false
                     onClicked: {
-//                            global.currentViewIndex = 6
-//                            global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[index]
+                        global.currentViewIndex = 8
+                        global.deviceCurrentPath=albumControl.getDevicePaths(global.deviceChangeList)[index]
                     }
                     ButtonGroup.group: global.siderGroup
                 }

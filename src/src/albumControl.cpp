@@ -1357,3 +1357,117 @@ QStringList AlbumControl::getDevicePicPaths(const QString &path)
     }
     return pathsList;
 }
+
+QVariantMap AlbumControl::getDeviceAlbumInfos(const QString &devicePath, const int &filterType)
+{
+    QVariantMap reMap;
+    QVariantList listVar;
+    QStringList list = getDevicePicPaths(devicePath);
+    QString title = devicePath;
+    for(QString path : list){
+        QVariantMap tmpMap;
+        if ( LibUnionImage_NameSpace::isImage(QUrl(path).toLocalFile())) {
+            if (filterType == 2) {
+                continue ;
+            }
+            tmpMap.insert("itemType", "pciture");
+        } else if (LibUnionImage_NameSpace::isVideo(QUrl(path).toLocalFile())) {
+            if (filterType == 1) {
+                continue ;
+            }
+            tmpMap.insert("itemType", "video");
+        } else {
+            tmpMap.insert("itemType", "other");
+        }
+        tmpMap.insert("url", path);
+        tmpMap.insert("filePath", QUrl(path).toLocalFile());
+        tmpMap.insert("pathHash", "");
+        tmpMap.insert("remainDays", "");
+        listVar << tmpMap;
+    }
+    if (listVar.count() > 0) {
+        reMap.insert(title, listVar);
+    }
+    return reMap;
+}
+
+int AlbumControl::getDeviceAlbumInfoConut(const QString &devicePath, const int &filterType)
+{
+    int rePicVideoConut = 0;
+    QStringList list = getDevicePicPaths(devicePath);
+    for (QString path : list) {
+        QVariantMap tmpMap;
+        if (LibUnionImage_NameSpace::isImage(QUrl(path).toLocalFile())) {
+            if (filterType == 2) {
+                continue ;
+            }
+        } else if (LibUnionImage_NameSpace::isVideo(QUrl(path).toLocalFile())) {
+            if (filterType == 1) {
+                continue ;
+            }
+        }
+        rePicVideoConut++;
+    }
+    return rePicVideoConut;
+}
+
+
+void AlbumControl::importFromMountDevice(const QStringList &paths, const int &index)
+{
+    QStringList localPaths;
+    for(QString path : paths){
+        localPaths <<QUrl(path).toLocalFile();
+    }
+    QStringList newPathList;
+    DBImgInfoList dbInfos;
+    QString strHomePath = QDir::homePath();
+    //获取系统现在的时间
+    QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
+    QString basePath = QString("%1%2%3%4").arg(strHomePath, "/Pictures/", tr("Pictures/"),strDate);
+    QDir dir;
+    if (!dir.exists(basePath)) {
+        dir.mkpath(basePath);
+    }
+    for (QString strPath : localPaths) {
+        //取出文件名称
+        QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
+        QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
+        QString strNewPath = QString("%1%2%3%4%5%6").arg(basePath, "/", nameList.first(),
+                                                         QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()), ".", nameList.last());
+        //判断新路径下是否存在目标文件，若不存在，继续循环
+        if (!dir.exists(strPath)) {
+            continue;
+        }
+        //判断新路径下是否存在目标文件，若存在，先删除掉
+        if (dir.exists(strNewPath)) {
+            dir.remove(strNewPath);
+        }
+        newPathList << strNewPath;
+        QFileInfo fi(strNewPath);
+        //复制失败的图片不算在成功导入
+        if (QFile::copy(strPath, strNewPath)) {
+            dbInfos << getDBInfo(strNewPath, LibUnionImage_NameSpace::isVideo(strNewPath));
+        } else {
+            newPathList.removeOne(strNewPath);
+        }
+
+    }
+    if (!dbInfos.isEmpty()) {
+        QStringList pathslist;
+        int idblen = dbInfos.length();
+        for (int i = 0; i < idblen; i++) {
+            if (m_bneedstop) {
+                return;
+            }
+            pathslist << dbInfos[i].filePath;
+        }
+
+        if (index > 0) {
+            DBManager::instance()->insertIntoAlbum(index, pathslist);
+            emit sigRefreshCustomAlbum(index);
+        }
+        DBManager::instance()->insertImgInfos(dbInfos);
+        emit sigRefreshImportAlbum();
+    }
+
+}
