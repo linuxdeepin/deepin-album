@@ -1,15 +1,17 @@
 import QtQuick 2.11
 import QtQuick.Window 2.11
 import QtQuick.Controls 2.4
-import QtQuick 2.0
 import QtQuick.Window 2.11
 import QtQuick.Layouts 1.11
 import QtQuick.Controls 2.0
 import org.deepin.dtk 1.0
 import "./Control"
+import "./PreviewImageViewer"
 
 Rectangle {
 
+    property int currentCustomIndex: 0
+    signal sigRename
     width:200
     height:parent.height
     ScrollView {
@@ -25,7 +27,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.topMargin: 69
             anchors.left: parent.left
-            anchors.leftMargin: 20
+            anchors.leftMargin: 10
             Label {
                 Layout.alignment: Qt.AlignTop
                 Layout.topMargin: 15
@@ -44,11 +46,25 @@ Rectangle {
                 implicitHeight: contentHeight
                 model: SidebarModel {}
                 delegate:ItemDelegate {
-                    text: name
-                    width: parent.width
-                    icon.name: iconName
+                    id :picItem
+                    width: 180
+                    height: 36
                     checked: index == 0
                     backgroundVisible: false
+                    DciIcon {
+                        id: siderIconPic
+                        anchors.left: picItem.left; anchors.leftMargin: 10
+                        anchors.verticalCenter: picItem.verticalCenter
+                        name: iconName
+                        sourceSize: Qt.size(20, 20)
+                    }
+                    Label {
+                        id: songNamePic
+                        width: 100
+                        anchors.left: siderIconPic.right; anchors.leftMargin: 10
+                        anchors.verticalCenter: picItem.verticalCenter
+                        text: name
+                    }
                     onClicked: {
                         global.currentViewIndex = index + 2
                         // 导航页选中我的收藏时，设定自定相册索引为0，使用CutomAlbum控件按自定义相册界面逻辑显示我的收藏内容
@@ -135,7 +151,6 @@ Rectangle {
                 id : fixedList
                 height:3 * 36
                 width:parent.width
-                clip: true
                 visible: true
                 interactive: false //禁用原有的交互逻辑，重新开始定制
 
@@ -158,18 +173,49 @@ Rectangle {
                     }
                 }
                 delegate:    ItemDelegate {
-                    text: name
-                    width: parent.width - 20
+                    id:sysitem
+                    width: 180
                     height : 36
-                    icon.name: iconName
-                    checked: index == 0
                     backgroundVisible: false
+                    checked: index == 0
+                    DciIcon {
+                        id: siderIcon1
+                        anchors.left: sysitem.left; anchors.leftMargin: 10
+                        anchors.verticalCenter: sysitem.verticalCenter
+                        name: iconName
+                        sourceSize: Qt.size(20, 20)
+                    }
+                    Label {
+                        id: songName1
+                        width: 100
+                        anchors.left: siderIcon1.right; anchors.leftMargin: 10
+                        anchors.verticalCenter: sysitem.verticalCenter
+                        text: name
+                    }
+
                     onClicked: {
                         global.currentViewIndex = 6
                         global.currentCustomAlbumUId = number
                         global.searchEditText = ""
                     }
                     ButtonGroup.group: global.siderGroup
+                    MouseArea {
+
+                        anchors.fill: parent
+                        acceptedButtons:Qt.RightButton
+
+                        enabled: true;
+
+                        onClicked: {
+                            if(mouse.button == Qt.RightButton) {
+                                sysItem.checked=true
+                                global.currentViewIndex = 6
+                                global.currentCustomAlbumUId = number
+                                global.searchEditText = ""
+                                systemMenu.popup()
+                            }
+                        }
+                    }
                 }
 
             }
@@ -178,24 +224,166 @@ Rectangle {
                 id : customList
                 height:albumControl.getAllCustomAlbumId(global.albumChangeList).length * 42
                 width:parent.width
-                clip: true
                 visible: true
                 interactive: false //禁用原有的交互逻辑，重新开始定制
 
                 model :albumControl.getAllCustomAlbumId(global.albumChangeList).length
                 delegate:    ItemDelegate {
-                    text: albumControl.getAllCustomAlbumName()[index]
-                    width: parent.width - 20
+                    id:item
+                    width: 180
                     height : 36
-                    icon.name: "item"
-                    checked: index == 0
                     backgroundVisible: false
-                    onClicked: {
-                        global.currentViewIndex = 6
-                        global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[index]
-
+                    DciIcon {
+                        id: siderIcon
+                        anchors.left: item.left; anchors.leftMargin: 10
+                        anchors.verticalCenter: item.verticalCenter
+                        name: "item"
+                        sourceSize: Qt.size(20, 20)
                     }
+                    Label {
+                        id: songName
+                        width: 100
+                        anchors.left: siderIcon.right; anchors.leftMargin: 10
+                        anchors.verticalCenter: item.verticalCenter
+                        text: albumControl.getAllCustomAlbumName()[index]
+                    }
+                    LineEdit {
+                        id :keyLineEdit
+                        visible: false
+
+                        height :36
+                        width :180
+                        text:albumControl.getAllCustomAlbumName()[index]
+
+                        onEditingFinished: {
+                            item.checked = true;
+                            songName.visible = true;
+                            siderIcon.visible = true;
+                            keyLineEdit.visible = false;
+                            albumControl.renameAlbum( global.currentCustomAlbumUId, keyLineEdit.text)
+                            if(keyLineEdit.text !== "" ){
+                                songName.text = keyLineEdit.text;
+                            }
+                        }
+                        onActiveFocusChanged: {
+//                            EventsFilter.setEnabled(!activeFocus)
+                        }
+                    }
+                    //刷新自定义相册
+                    Connections {
+                        target: leftSidebar
+                        onSigRename: {
+                           if (currentCustomIndex ==index){
+                               item.rename();
+                           }
+                        }
+                    }
+
+                    function enableRename(){
+//
+                        item.checked = true;
+                        keyLineEdit.text = songName.text;
+                        keyLineEdit.forceActiveFocus()
+                        songName.visible = false;
+                        siderIcon.visible = false;
+                        keyLineEdit.visible = true;
+                        item.checked = false;
+                    }
+                    function rename(){
+                        enableRename();
+                        keyLineEdit.selectAll();
+                    }
+                    // 屏蔽空格响应
+                    Keys.onSpacePressed: { event.accepted=false; }
+                    Keys.onReleased: { event.accepted=(event.key===Qt.Key_Space); }
+
                     ButtonGroup.group: global.siderGroup
+                    MouseArea {
+                        anchors.fill: parent
+                        acceptedButtons:  Qt.LeftButton | Qt.RightButton
+
+                        onClicked: {
+                            currentCustomIndex=index
+                            item.checked=true
+                            global.currentViewIndex = 6
+                            global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[index]
+                            item.forceActiveFocus();
+                            if(mouse.button == Qt.RightButton) {
+                                customMenu.popup()
+                            }
+                        }
+                        onDoubleClicked:{
+                           item.rename();
+                        }
+                    }
+                }
+
+            }
+        }
+        Menu {
+            id: systemMenu
+
+            //显示大图预览
+            RightMenuItem {
+                text: qsTr("Slide show")
+                visible: albumControl.getAlbumPaths(global.currentCustomAlbumUId).length >0
+                onTriggered: {
+                    stackControl.startMainSliderShow(albumControl.getAlbumPaths(global.currentCustomAlbumUId), 0)
+                }
+            }
+
+            MenuSeparator {
+            }
+
+            RightMenuItem {
+                text: qsTr("Export")
+                visible:  albumControl.getAlbumPaths(global.currentCustomAlbumUId).length >0
+                onTriggered: {
+                    albumControl.getFolders(albumControl.getAlbumPaths(global.currentCustomAlbumUId))
+                }
+            }
+        }
+        Menu {
+            id: customMenu
+
+            //显示大图预览
+            RightMenuItem {
+                text: qsTr("Slide show")
+                visible: albumControl.getAlbumPaths(global.currentCustomAlbumUId).length >0
+                onTriggered: {
+                    stackControl.startMainSliderShow(albumControl.getAlbumPaths(global.currentCustomAlbumUId), 0)
+                }
+            }
+
+            RightMenuItem {
+                text: qsTr("New album")
+                onTriggered: {
+
+                }
+            }
+            RightMenuItem {
+                text: qsTr("Rename")
+                onTriggered: {
+//                    customList.itemAt(currentCustomIndex).rename();
+                    sigRename();
+
+                }
+            }
+
+            MenuSeparator {
+            }
+
+            RightMenuItem {
+                text: qsTr("Export")
+                visible: albumControl.getAlbumPaths(global.currentCustomAlbumUId).length >0
+                onTriggered: {
+                    albumControl.getFolders(albumControl.getAlbumPaths(global.currentCustomAlbumUId))
+                }
+            }
+            RightMenuItem {
+                text: qsTr("Delete")
+                onTriggered: {
+
                 }
             }
         }

@@ -486,6 +486,13 @@ Item {
                          && fileControl.isImage(thumbnailListModel.get(theView.ism[0]).url.toString())
                 onTriggered: {
 
+                    var openPaths = new Array
+                    for(var i=0 ; i< thumbnailListModel.count ; i++){
+                        openPaths.push(thumbnailListModel.get(i).url.toString())
+                    }
+
+                    stackControl.startMainSliderShow(openPaths, openPaths.indexOf(thumbnailListModel.get(theView.ism[0]).url.toString()))
+
                 }
             }
 
@@ -539,13 +546,16 @@ Item {
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
                          && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString()) && theArea.haveImage) || !theArea.haveVideo)
                 onTriggered: {
-                    exportdig.filePath = global.objIsEmpty(thumbnailListModel) ? "" : (global.objIsEmpty(thumbnailListModel.get(theView.ism[0])) ? "" : thumbnailListModel.get(theView.ism[0]).url.toString())
-                    var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
-                    var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
-                    exportdig.setX(x)
-                    exportdig.setY(y)
-                    exportdig.show()
-
+                    if (global.selectedPaths.length > 1){
+                        albumControl.getFolders(global.selectedPaths);
+                    } else{
+                        exportdig.filePath = global.objIsEmpty(thumbnailListModel) ? "" : (global.objIsEmpty(thumbnailListModel.get(theView.ism[0])) ? "" : thumbnailListModel.get(theView.ism[0]).url.toString())
+                        var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
+                        var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
+                        exportdig.setX(x)
+                        exportdig.setY(y)
+                        exportdig.show()
+                    }
                 }
             }
 

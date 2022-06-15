@@ -865,6 +865,27 @@ QList < QString > AlbumControl::getAllCustomAlbumName()
     return customAlbum.values();
 }
 
+QStringList AlbumControl::getAlbumPaths(const int &albumId, const int &filterType)
+{
+    QStringList relist;
+    DBImgInfoList dbInfoList = DBManager::instance()->getInfosByAlbum(albumId, false);
+    QString title = DBManager::instance()->getAlbumNameFromUID(albumId);
+    for (DBImgInfo info : dbInfoList) {
+        QVariantMap tmpMap;
+        if (info.itemType == ItemTypePic) {
+            if (filterType == 2) {
+                continue ;
+            }
+        } else if (info.itemType == ItemTypeVideo) {
+            if (filterType == 1) {
+                continue ;
+            }
+        }
+        relist <<"file://" + info.filePath;
+    }
+    return relist;
+}
+
 QString AlbumControl::getCustomAlbumByUid(const int &index)
 {
     // 从数据获取我的收藏单词不对，为保证V20数据库兼容性，在此做特殊特殊处理
@@ -1097,6 +1118,11 @@ bool AlbumControl::insertIntoAlbum(int UID, const QStringList &paths)
     return DBManager::instance()->insertIntoAlbum(UID, localPaths, atype);
 }
 
+void AlbumControl::renameAlbum(int UID, const QString &newName)
+{
+    DBManager::instance()->renameAlbum( UID, newName);
+}
+
 QVariant AlbumControl::searchPicFromAlbum(int UID, const QString &keywords, bool useAI)
 {
     DBImgInfoList dbInfos;
@@ -1217,6 +1243,45 @@ QString AlbumControl::getFolder()
         fileDir = dialog.selectedFiles().first();
     }
     return fileDir;
+}
+
+bool AlbumControl::getFolders(const QStringList &paths)
+{
+    bool bRet = true;
+    QFileDialog dialog;
+    QString fileDir;
+    dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
+    dialog.setViewMode(QFileDialog::Detail);
+    dialog.setFileMode(QFileDialog::DirectoryOnly);
+    if (dialog.exec()) {
+        fileDir = dialog.selectedFiles().first();
+    }
+    QStringList localPaths;
+    for(QString path : paths){
+        localPaths << QUrl(path).toLocalFile();
+    }
+    if(!fileDir.isEmpty()){
+
+        for(QString path :localPaths){
+
+            QString savePath = fileDir + "/" + QFileInfo(path).completeBaseName() + "." + QFileInfo(path).completeSuffix();
+            QFileInfo fileinfo(savePath);
+            if (fileinfo.exists() && !fileinfo.isDir()) {
+                //目标位置与原图位置相同则直接返回
+                if (path == savePath) {
+                    return true;
+                }
+                //目标位置与原图位置不同则先删除再复制
+                if (QFile::remove(savePath)) {
+                    bRet = QFile::copy(path, savePath);
+                }
+            } else {
+                bRet = QFile::copy(path, savePath);
+            }
+        }
+
+    }
+    return bRet;
 }
 
 void AlbumControl::openDeepinMovie(const QString &path)
