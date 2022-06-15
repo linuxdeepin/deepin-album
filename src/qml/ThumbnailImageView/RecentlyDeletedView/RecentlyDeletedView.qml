@@ -95,6 +95,7 @@ Rectangle {
             visible: !theView.haveSelect
             onClicked: {
                 albumControl.deleteImgFromTrash(theView.allOriginPaths())
+                theView.selectAll(false)
                 global.sigFlushRecentDelView()
             }
         }
@@ -123,6 +124,7 @@ Rectangle {
 
             onClicked: {
                 albumControl.deleteImgFromTrash(selectedOriginPaths)
+                theView.selectAll(false)
                 global.sigFlushRecentDelView()
             }
         }
@@ -141,6 +143,7 @@ Rectangle {
 
             onClicked: {
                 albumControl.recoveryImgFromTrash(selectedOriginPaths)
+                theView.selectAll(false)
                 global.sigFlushRecentDelView()
             }
         }

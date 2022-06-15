@@ -74,8 +74,6 @@ Rectangle {
         anchors.top: parent.top
         width: parent.width
         height: parent.height - statusBar.height
-
-        z:2
     }
 
     Component.onCompleted: {

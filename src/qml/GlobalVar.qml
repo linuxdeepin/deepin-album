@@ -65,6 +65,13 @@ Item {
         AllCollection //合集模式
     }
 
+    // 框选超出边界朝向类型
+    enum RectScrollDirType {
+        NoType,   // 框选没有朝向
+        ToTop,    // 框选超出边界朝上
+        ToBottom  // 框选超出边界朝下
+    }
+
     //刷新自定义相册
     Connections {
         target: albumControl
