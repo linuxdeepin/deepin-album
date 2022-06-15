@@ -14,6 +14,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.leftMargin: 0
         visible: true
+        z: thumbnailImage.z + 1
         ActionButton {
             visible: leftSidebar.visible ? true : false
             id: appTitleIconLeft

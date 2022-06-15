@@ -158,6 +158,9 @@ public:
     QStringList             getMonthPaths(const QString &year, const QString &month, int maxCount);
     QStringList             getMonths();
     int                     getMonthCount(const QString &year, const QString &month);
+    //日聚合数据
+    QStringList             getDayPaths(const QString &day);
+    QStringList             getDays();
 private:
     const DBImgInfoList     getInfosByNameTimeline(const QString &value) const;
     const DBImgInfoList     getImgInfos(const QString &key, const QString &value, bool needTimeData) const;

@@ -1534,5 +1534,16 @@ void AlbumControl::importFromMountDevice(const QStringList &paths, const int &in
         DBManager::instance()->insertImgInfos(dbInfos);
         emit sigRefreshImportAlbum();
     }
+}
 
+//获取指定日期的照片路径
+QStringList AlbumControl::getDayPaths(const QString &day)
+{
+    return DBManager::instance()->getDayPaths(day);
+}
+
+//获取日期
+QStringList AlbumControl::getDays()
+{
+    return DBManager::instance()->getDays();
 }

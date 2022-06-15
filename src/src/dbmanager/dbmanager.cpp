@@ -2080,3 +2080,31 @@ int DBManager::getMonthCount(const QString &year, const QString &month)
     }
     return result;
 }
+
+QStringList DBManager::getDayPaths(const QString &day)
+{
+    QMutexLocker mutex(&m_dbMutex);
+    m_query->setForwardOnly(true);
+    QStringList result;
+    QString str = QString("SELECT FilePath FROM ImageTable3 WHERE substr(Time, 0, 11) = \"%1\"").arg(day);
+    if(m_query->exec(str)) {
+        while(m_query->next()) {
+            result.push_back("file://" + m_query->value(0).toString());
+        }
+    }
+    return result;
+}
+
+QStringList DBManager::getDays()
+{
+    QMutexLocker mutex(&m_dbMutex);
+    m_query->setForwardOnly(true);
+    QStringList result;
+    QString str = QString("SELECT DISTINCT substr(Time, 0, 11) FROM ImageTable3 ORDER BY Time DESC");
+    if(m_query->exec(str)) {
+        while(m_query->next()) {
+            result.push_back(m_query->value(0).toString());
+        }
+    }
+    return result;
+}

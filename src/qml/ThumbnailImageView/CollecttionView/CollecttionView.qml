@@ -1,4 +1,5 @@
-import QtQuick 2.0
+import QtQuick 2.11
+import QtQuick.Controls 2.4
 
 Item {
     id: root
@@ -8,27 +9,25 @@ Item {
         currentViewIndex = index
     }
 
-    YearCollection {
-        id: yearCollection
-        visible: currentViewIndex == 0
+    SwipeView {
+        id: swipeView
         anchors.fill: parent
-    }
+        currentIndex: currentViewIndex
 
-    MonthCollection {
-        id: monthCollection
-        visible: currentViewIndex == 1
-        anchors.fill: parent
-    }
+        YearCollection {
+            id: yearCollection
+        }
 
-    DayCollection {
-        id: dayCollection
-        visible: currentViewIndex == 2
-        anchors.fill: parent
-    }
+        MonthCollection {
+            id: monthCollection
+        }
 
-    AllCollection {
-        id: allCollection
-        visible: currentViewIndex == 3
-        anchors.fill: parent
+        DayCollection {
+            id: dayCollection
+        }
+
+        AllCollection {
+            id: allCollection
+        }
     }
 }

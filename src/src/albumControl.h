@@ -216,6 +216,12 @@ public:
     //手机照片导入 0为已导入，1-n为自定义相册
     Q_INVOKABLE void importFromMountDevice(const QStringList &paths ,const int &index = 0);
 
+    
+    //获取指定日期的照片路径
+    Q_INVOKABLE QStringList getDayPaths(const QString &day);
+
+    //获取日期
+    Q_INVOKABLE QStringList getDays();
 public :
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 

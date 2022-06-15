@@ -22,17 +22,20 @@ Item {
         model: theModel
         clip: true
         delegate: theDelegate
-        spacing: 10
+        spacing: 20
 
-        anchors.fill: parent
+        width: parent.width / 3 * 2
+        height: parent.height
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
     }
 
     Component {
         id: theDelegate
 
         Rectangle {
-            width: 500
-            height: 309
+            width: theView.width
+            height: theView.height / 3 * 2
             radius: 18
 
             //圆角遮罩Rectangle
