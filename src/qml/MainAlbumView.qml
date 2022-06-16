@@ -1,4 +1,5 @@
-import QtQuick 2.0
+import QtQuick 2.11
+import QtQuick.Window 2.11
 import org.deepin.dtk 1.0
 import "./ThumbnailImageView"
 Rectangle {
@@ -58,6 +59,15 @@ Rectangle {
         anchors.leftMargin: 0
         width: leftSidebar.visible ? parent.width - leftSidebar.width : root.width
         height: root.height - titleAlubmRect.height
+        signal escKeyPressed()
+
+        Shortcut {
+            enabled: true
+            sequence: "Esc"
+            onActivated: {
+                thumbnailImage.escKeyPressed()
+            }
+        }
     }
 
     StatusBar {

@@ -36,6 +36,7 @@ Item {
         } else {
             theView.ism = []
         }
+        selectedChanged()
     }
 
     //强制重新刷新整个缩略图界面
@@ -72,6 +73,15 @@ Item {
             if(item1 !== null && item2 !== null) {
                 var str = albumControl.getFileTime(item1.m_url, item2.m_url)
                 timeChanged(str)
+            }
+        }
+    }
+
+    Connections {
+        target: thumbnailImage
+        onEscKeyPressed: {
+            if (haveSelect) {
+                selectAll(false)
             }
         }
     }
@@ -360,7 +370,11 @@ Item {
                     if(index !== -1) {
                         parent.ism = [index]
                     } else {
-                        parent.ism = []
+                        // 应用主窗口被置灰过，第一次点击空白区域，不执行清空选择操作，第二次才清空选择状态
+                        if (!global.windowDisActived) {
+                            parent.ism = []
+                        }
+                        global.windowDisActived = false
                     }
                     selectedChanged()
                 }

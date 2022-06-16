@@ -51,6 +51,12 @@ ApplicationWindow {
         global.sigWindowStateChange()
     }
 
+    onActiveChanged: {
+        // 记录应用主窗口是否被置灰过
+        if (!root.active)
+            global.windowDisActived = true
+    }
+
     onWidthChanged: {
         if(root.visibility!=Window.FullScreen && root.visibility !=Window.Maximized){
             fileControl.setSettingWidth(width)

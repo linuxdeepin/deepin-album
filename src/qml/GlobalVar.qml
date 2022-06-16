@@ -40,8 +40,7 @@ Item {
     property int deviceCurrentIndex: 0 //设备index
     property string deviceCurrentName: albumControl.getDeviceName(deviceCurrentPath) //设备当前名称
     property string deviceCurrentPath: "" //设备当前P
-
-
+    property bool windowDisActived: false
 
     function objIsEmpty(obj) {
         var ret = (String(obj) === "undefined" || String(obj) === "null")
