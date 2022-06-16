@@ -2,13 +2,17 @@ import QtQuick 2.11
 import QtQuick.Window 2.11
 import org.deepin.dtk 1.0
 import "./ThumbnailImageView"
+import "./Control"
 Rectangle {
     anchors.fill: parent
     AlbumTitle{
         id:titleAlubmRect
         z:100
     }
-
+    //rename窗口
+    NewAlbumDialog {
+        id: newAlbum
+    }
     Sidebar{
         id : leftSidebar
         width: visible ? 200 : 0

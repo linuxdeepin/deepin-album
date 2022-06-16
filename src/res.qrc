@@ -54,5 +54,10 @@
         <file>dsg/icons/heart.dci</file>
         <file>dsg/icons/heart_check.dci</file>
         <file>dsg/icons/Combined_Shape.dci</file>
+        <file>dsg/icons/camera.dci</file>
+        <file>dsg/icons/iphone.dci</file>
+        <file>dsg/icons/arrow.dci</file>
+        <file>dsg/icons/draw.dci</file>
+        <file>dsg/icons/screenshot.dci</file>
     </qresource>
 </RCC>

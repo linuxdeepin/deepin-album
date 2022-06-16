@@ -38,10 +38,13 @@ public:
     Q_INVOKABLE void getAllInfos();
 
     //获得全部导入的路径
-    Q_INVOKABLE QStringList getAllPaths();
+    Q_INVOKABLE QStringList getAllPaths(const int &filterType = 0);
+
+    //获得全部导入的路径
+    Q_INVOKABLE QVariantList getAlbumAllInfos(const int &filterType = 0);
 
     //导入图片，导入图片接口
-    Q_INVOKABLE void importAllImagesAndVideos(const QList< QUrl > &paths);
+    Q_INVOKABLE void importAllImagesAndVideos(const QStringList &paths);
 
     //获得全部创建时间线
     Q_INVOKABLE QStringList getAllTimelinesTitle(const int &filterType = 0);
@@ -81,7 +84,7 @@ public:
     Q_INVOKABLE QVariantMap getImportTimelinesTitleInfos(const int &filterType = 0);
 
     //获得图片和视频总数
-    Q_INVOKABLE int getCount();
+    Q_INVOKABLE int getAllCount(const int &filterType = 0);
 
     //将文件放进最近删除(添加)
     Q_INVOKABLE void insertTrash(const QList< QUrl > &paths);
@@ -155,6 +158,9 @@ public:
     //添加某相册中的图片 0:我的收藏  1:截图录屏  2:相机 3:画板 4-~:其他自定义   paths:需要删除的图片地址
     Q_INVOKABLE bool insertIntoAlbum(int UID, const QStringList &paths);
 
+    //添加某相册中的图片 0:我的收藏  1:截图录屏  2:相机 3:画板 4-~:其他自定义   paths:需要删除的图片地址
+    Q_INVOKABLE bool insertImportIntoAlbum(int UID, const QStringList &paths);
+
     //修改相册名称
     Q_INVOKABLE void renameAlbum(int UID, const QString &newName);
 
@@ -222,6 +228,25 @@ public:
 
     //获取日期
     Q_INVOKABLE QStringList getDays();
+
+    //获得导入相册的数量
+    Q_INVOKABLE int getImportAlubumCount();
+
+    //获得所有id
+    Q_INVOKABLE QList < int > getImportAlubumAllId();
+
+    //获得所有路径
+    Q_INVOKABLE QStringList getImportAlubumAllPaths();
+
+    //获得所有名称
+    Q_INVOKABLE QStringList getImportAlubumAllNames();
+
+    //删除自定义导入相册
+    Q_INVOKABLE void removeCustomAutoImportPath(int uid);
+
+    //创建自定义导入相册
+    Q_INVOKABLE void createNewCustomAutoImportAlbum(const QString &path ="");
+
 public :
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 
@@ -294,6 +319,8 @@ signals:
    void sigDeleteCustomAlbum(int UID);
 
    void sigMountsChange();
+
+   void sigRefreshSlider();
 
 private :
     DBImgInfoList m_infoList;  //全部已导入

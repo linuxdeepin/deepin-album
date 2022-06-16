@@ -29,8 +29,48 @@ Rectangle {
             websiteLink: DTK.deepinWebsitelLink
             license: qsTr(String("%1 is released under %2").arg(productName).arg("GPLV3"))
         }
+        menu: Menu {
+               x: 0; y: 0
+               Action {
+                   id: equalizerControl
+                   text: qsTr("New album")
+                   onTriggered: {
+                       var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
+                       var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
+                       newAlbum.setX(x)
+                       newAlbum.setY(y)
+
+                       newAlbum.show()
+
+                   }
+               }
+               MenuItem {
+                   id: settingsControl
+                   text: qsTr("Import folders")
+                   onTriggered: {
+                       albumControl.createNewCustomAutoImportAlbum()
+                   }
+               }
+               MenuSeparator { }
+               ThemeMenu { }
+               MenuSeparator { }
+               HelpAction { }
+               AboutAction {
+                   aboutDialog: AboutDialog {
+                       icon: "deepin-album"
+                       width: 400
+                       modality: Qt.NonModal
+                       version: qsTr(String("Version: %1").arg(Qt.application.version))
+                       description: qsTr("Album is a fashion manager for viewing and organizing photos and videos.")
+                       productName: qsTr("deepin-album")
+                       websiteName: DTK.deepinWebsiteName
+                       websiteLink: DTK.deepinWebsitelLink
+                       license: qsTr(String("%1 is released under %2").arg(productName).arg("GPLV3"))
+                   }
+               }
+               QuitAction { }
+           }
         ActionButton {
-//            visible: leftSidebar.x == 0 ? false : true
             id: appTitleIcon
             anchors.top: parent.top
             anchors.topMargin: 0
@@ -46,7 +86,6 @@ Rectangle {
         }
 
         ActionButton {
-//            visible: leftSidebar.x == 0 ? false : true
             id: showHideleftSidebarButton
             anchors.top: parent.top
             anchors.topMargin: 0
@@ -60,7 +99,6 @@ Rectangle {
                 height: 36
             }
             onClicked :{
-                //                leftSidebar.visible = !leftSidebar.visible
                 if(!leftSidebar.x == 0 ){
                     showSliderAnimation.start()
                 }

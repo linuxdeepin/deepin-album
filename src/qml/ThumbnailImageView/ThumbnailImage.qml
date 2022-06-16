@@ -84,11 +84,6 @@ Rectangle{
         id: albumInfomationDig
     }
 
-    //rename窗口
-    NewAlbumDialog {
-        id: newAlbum
-    }
-
     //视频info窗口
     VideoInfoDialog{
         id: videoInfomationDig

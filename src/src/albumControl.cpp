@@ -10,13 +10,14 @@
 #include <QRegularExpression>
 #include <QDirIterator>
 #include <QCoreApplication>
+#include <QFuture>
+#include <QtConcurrent>
 
 AlbumControl::AlbumControl(QObject *parent)
     : QObject(parent)
 {
     initMonitor();
     initDeviceMonitor();
-
 }
 
 AlbumControl::~AlbumControl()
@@ -127,17 +128,66 @@ void AlbumControl::getAllInfos()
     m_infoList = DBManager::instance()->getAllInfos();
 }
 
-QStringList AlbumControl::getAllPaths()
+QStringList AlbumControl::getAllPaths(const int &filterType)
 {
     QStringList pathList;
-    QStringList list = DBManager::instance()->getAllPaths();
+    ItemType type = ItemType::ItemTypePic;
+    switch (filterType) {
+    case 0:
+        type = ItemType::ItemTypeNull;
+        break;
+    case 1:
+        type = ItemType::ItemTypePic;
+        break;
+    case 2:
+        type = ItemType::ItemTypeVideo;
+        break;
+    }
+    QStringList list = DBManager::instance()->getAllPaths(type);
     for (QString path : list) {
         pathList << "file://" + path;
     }
     return pathList;
 }
 
-void AlbumControl::importAllImagesAndVideos(const QList< QUrl > &paths)
+QVariantList AlbumControl::getAlbumAllInfos(const int &filterType)
+{
+    QVariantList reinfoList;
+    ItemType type = ItemType::ItemTypePic;
+    switch (filterType) {
+    case 0:
+        type = ItemType::ItemTypeNull;
+        break;
+    case 1:
+        type = ItemType::ItemTypePic;
+        break;
+    case 2:
+        type = ItemType::ItemTypeVideo;
+        break;
+    }
+    DBImgInfoList infoList = DBManager::instance()->getAllInfosSort(type);
+    for(DBImgInfo info : infoList){
+        if(QFileInfo(info.filePath).exists()){
+            QVariantMap reMap;
+            reMap.insert("url", "file://" + info.filePath);
+            reMap.insert("filePath", info.filePath);
+            reMap.insert("pathHash", info.pathHash);
+            reMap.insert("remainDays", info.remainDays);
+
+            if (info.itemType == ItemTypePic) {
+                reMap.insert("itemType", "pciture");
+            } else if (info.itemType == ItemTypeVideo) {
+                reMap.insert("itemType", "video");
+            } else {
+                reMap.insert("itemType", "other");
+            }
+            reinfoList << reMap;
+        }
+    }
+    return reinfoList;
+}
+
+void AlbumControl::importAllImagesAndVideos(const QStringList &paths)
 {
     QStringList localpaths;
     DBImgInfoList dbInfos;
@@ -472,6 +522,55 @@ void AlbumControl::startMonitor()
         m_fileInotifygroup->startWatch(paths.at(i), albumNames.at(i), UIDs.at(i));
     }
 
+    QMap <int ,QString> customAutoImportUIDAndPaths = DBManager::instance()->getAllCustomAutoImportUIDAndPath();
+    for (QString &eachItem : customAutoImportUIDAndPaths) {
+        //0.先检查路径是否存在，不存在直接移除
+        QFileInfo info(eachItem);
+        int uid = customAutoImportUIDAndPaths.key(eachItem);
+        if (!info.exists() || !info.isDir()) {
+            DBManager::instance()->removeCustomAutoImportPath(customAutoImportUIDAndPaths.key(eachItem));
+            continue;
+        }
+
+        //1.获取原有的路径
+        auto originPaths = DBManager::instance()->getPathsByAlbum(uid);
+
+        //2.获取现在的路径
+        QFileInfoList infos = LibUnionImage_NameSpace::getImagesAndVideoInfo(eachItem, false);
+        QStringList currentPaths;
+        std::transform(infos.begin(), infos.end(), std::back_inserter(currentPaths), [](const QFileInfo & info) {
+            return info.isSymLink() ? info.readLink() : info.absoluteFilePath();
+        });
+
+        //3.1获取已不存在的路径
+        QFuture<QString> watcher = QtConcurrent::filtered(originPaths, [currentPaths](const QString & path) {
+            return !currentPaths.contains(path);
+        });
+        watcher.waitForFinished();
+        QStringList deleteFiles(watcher.results());
+
+        //3.2移除已导入的路径
+        auto watcher2 = QtConcurrent::filter(currentPaths, [originPaths](const QString & path) {
+            return !originPaths.contains(path);
+        });
+        watcher2.waitForFinished();
+
+
+        //4.删除不存在的路径
+        if (!deleteFiles.isEmpty()) {
+             DBManager::instance()->removeImgInfos(deleteFiles);
+        }
+
+        //5.执行导入
+        if (!currentPaths.isEmpty()) {
+            QStringList urls;
+            for (QString path : currentPaths){
+                urls << QUrl::fromLocalFile(path).toString();
+            }
+            importAllImagesAndVideos(urls);
+            insertImportIntoAlbum(uid,urls);
+        }
+    }
 }
 
 bool AlbumControl::checkIfNotified(const QString &dirPath)
@@ -779,9 +878,15 @@ bool AlbumControl::addCustomAlbumInfos(const int &albumId, const QList<QUrl> &ur
     return bRet;
 }
 
-int AlbumControl::getCount()
+int AlbumControl::getAllCount(const int &filterType )
 {
-    return DBManager::instance()->getImgsCount();
+    ItemType typeItem = ItemType::ItemTypeNull;
+    if (filterType == 1) {
+        typeItem = ItemType::ItemTypePic;
+    } else if (filterType == 2) {
+        typeItem = ItemType::ItemTypeVideo;
+    }
+    return DBManager::instance()->getImgsCount(typeItem);
 }
 
 void AlbumControl::insertTrash(const QList< QUrl > &paths)
@@ -795,6 +900,9 @@ void AlbumControl::insertTrash(const QList< QUrl > &paths)
         infos << DBManager::instance()->getInfoByPath(path);
     }
     DBManager::instance()->insertTrashImgInfos(infos, false);
+    //新增删除主相册数据库
+    DBManager::instance()->removeImgInfos(tmpList);
+    sigRefreshCustomAlbum(0);
 }
 
 void AlbumControl::removeTrashImgInfos(const QList< QUrl > &paths)
@@ -890,7 +998,7 @@ QString AlbumControl::getCustomAlbumByUid(const int &index)
 {
     // 从数据获取我的收藏单词不对，为保证V20数据库兼容性，在此做特殊特殊处理
     if (0 == index)
-        return "Favorites";
+        return tr("Favorites");
 
     return DBManager::instance()->getAlbumNameFromUID(index);
 }
@@ -1108,6 +1216,19 @@ void AlbumControl::removeFromAlbum(int UID, const QStringList &paths)
 bool AlbumControl::insertIntoAlbum(int UID, const QStringList &paths)
 {
     AlbumDBType atype = AlbumDBType::Custom;
+    if (UID == 0) {
+        atype = AlbumDBType::Favourite;
+    }
+    QStringList localPaths ;
+    for (QString path : paths) {
+        localPaths << QUrl(path).toLocalFile();
+    }
+    return DBManager::instance()->insertIntoAlbum(UID, localPaths, atype);
+}
+
+bool AlbumControl::insertImportIntoAlbum(int UID, const QStringList &paths)
+{
+    AlbumDBType atype = AlbumDBType::AutoImport;
     if (UID == 0) {
         atype = AlbumDBType::Favourite;
     }
@@ -1546,4 +1667,57 @@ QStringList AlbumControl::getDayPaths(const QString &day)
 QStringList AlbumControl::getDays()
 {
     return DBManager::instance()->getDays();
+}
+
+int AlbumControl::getImportAlubumCount()
+{
+    QMap <int ,QString> customAutoImportUIDAndPaths = DBManager::instance()->getAllCustomAutoImportUIDAndPath();
+    return customAutoImportUIDAndPaths.count();
+}
+
+QList<int> AlbumControl::getImportAlubumAllId()
+{
+    QMap <int ,QString> customAutoImportUIDAndPaths = DBManager::instance()->getAllCustomAutoImportUIDAndPath();
+    return customAutoImportUIDAndPaths.keys();
+}
+
+QStringList AlbumControl::getImportAlubumAllPaths()
+{
+    QMap <int ,QString> customAutoImportUIDAndPaths = DBManager::instance()->getAllCustomAutoImportUIDAndPath();
+    return customAutoImportUIDAndPaths.values();
+}
+
+QStringList AlbumControl::getImportAlubumAllNames()
+{
+    return DBManager::instance()->getAllCustomAutoImportNames();
+}
+
+void AlbumControl::removeCustomAutoImportPath(int uid)
+{
+    return DBManager::instance()->removeCustomAutoImportPath(uid);
+}
+
+void AlbumControl::createNewCustomAutoImportAlbum(const QString &path)
+{
+    QString folder = path;
+    if(!QFileInfo(folder).isDir()){
+        folder = getFolder();
+    }
+    //自定义自动导入路径的相册名是文件夹最后一级的名字
+    QString albumName = folder.split('/').last();
+    int UID = DBManager::instance()->createNewCustomAutoImportPath( folder , albumName );
+
+    //1.获取所有图片和视频
+    QFileInfoList infos = LibUnionImage_NameSpace::getImagesAndVideoInfo(folder, false);
+    QStringList importFiles;
+    std::transform(infos.begin(), infos.end(), std::back_inserter(importFiles), [](const QFileInfo & info) {
+        return info.absoluteFilePath();
+    });
+    QStringList urls;
+    for (QString path : importFiles){
+        urls << QUrl::fromLocalFile(path).toString();
+    }
+    importAllImagesAndVideos(urls);
+    insertImportIntoAlbum(UID,urls);
+    emit sigRefreshSlider();
 }

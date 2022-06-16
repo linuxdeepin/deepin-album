@@ -55,6 +55,12 @@ Item {
     signal sigFlushRecentDelView()      // 刷新最近删除视图内容
     signal sigFlushCustomAlbumView()    // 刷新我的收藏/自定义相册视图内容
 
+    Component.onCompleted: {
+        if( albumControl.getAllCount()>0 ){
+            currentViewIndex = 2
+        }
+    }
+
     //缩略图类型枚举
     enum ThumbnailType {
         Normal,       //普通模式
@@ -94,4 +100,16 @@ Item {
             deviceChangeList = !deviceChangeList
         }
     }
+
+    //左侧菜单栏刷新
+    Connections {
+        target: albumControl
+        onSigRefreshSlider: {
+            albumChangeList = !albumChangeList
+        }
+    }
+
+
+
+
 }

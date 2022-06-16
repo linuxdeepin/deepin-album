@@ -103,7 +103,7 @@ Rectangle {
                     text: albumControl.getDeviceNames(global.deviceChangeList)[index]
                     width: parent.width - 20
                     height : 36
-                    icon.name: "item"
+                    icon.name: "iphone"
                     checked: index == 0
                     backgroundVisible: false
                     onClicked: {
@@ -158,18 +158,18 @@ Rectangle {
                     ListElement {
                         name: qsTr("Screen Capture")
                         number: "1"
-                        iconName :"item"
+                        iconName :"screenshot"
 
                     }
                     ListElement {
                         name: qsTr("Camera")
                         number: "2"
-                        iconName :"item"
+                        iconName :"camera"
                     }
                     ListElement {
                         name: qsTr("Draw")
                         number: "3"
-                        iconName :"item"
+                        iconName :"draw"
                     }
                 }
                 delegate:    ItemDelegate {
@@ -219,6 +219,60 @@ Rectangle {
                 }
 
             }
+
+            ListView{
+                id : importList
+                height:albumControl.getImportAlubumCount(global.albumChangeList) * 36
+                width:parent.width
+                visible: true
+                interactive: false //禁用原有的交互逻辑，重新开始定制
+
+                model: albumControl.getImportAlubumCount(global.albumChangeList)
+                delegate:    ItemDelegate {
+                    id:importitem
+                    width: 180
+                    height : 36
+                    backgroundVisible: false
+                    checked: index == 0
+                    DciIcon {
+                        id: imIcon
+                        anchors.left: importitem.left; anchors.leftMargin: 10
+                        anchors.verticalCenter: importitem.verticalCenter
+                        name: "draw"
+                        sourceSize: Qt.size(20, 20)
+                    }
+                    Label {
+                        id: songNameIm
+                        width: 100
+                        anchors.left: imIcon.right; anchors.leftMargin: 10
+                        anchors.verticalCenter: importitem.verticalCenter
+                        text:albumControl.getImportAlubumAllNames(global.albumChangeList)[index]
+                    }
+
+                    onClicked: {
+                        global.currentViewIndex = 6
+                        global.currentCustomAlbumUId = albumControl.getImportAlubumAllId(global.albumChangeList)[index]
+                        global.searchEditText = ""
+                    }
+                    ButtonGroup.group: global.siderGroup
+                    MouseArea {
+
+                        anchors.fill: parent
+                        acceptedButtons:Qt.RightButton
+
+                        enabled: true;
+
+                        onClicked: {
+
+                            if(mouse.button == Qt.RightButton) {
+                                importMenu.popup()
+                            }
+                        }
+                    }
+                }
+
+            }
+
 
             ListView{
                 id : customList
@@ -341,6 +395,42 @@ Rectangle {
                 }
             }
         }
+
+        Menu {
+            id: importMenu
+
+            //显示大图预览
+            RightMenuItem {
+                text: qsTr("Slide show")
+                visible: albumControl.getAlbumPaths(global.currentCustomAlbumUId).length >0
+                onTriggered: {
+                    stackControl.startMainSliderShow(albumControl.getAlbumPaths(global.currentCustomAlbumUId), 0)
+                }
+            }
+
+            MenuSeparator {
+            }
+
+            RightMenuItem {
+                text: qsTr("Export")
+                visible: albumControl.getAlbumPaths(global.currentCustomAlbumUId).length >0
+                onTriggered: {
+                    albumControl.getFolders(albumControl.getAlbumPaths(global.currentCustomAlbumUId))
+                }
+            }
+            RightMenuItem {
+                text: qsTr("Delete")
+                onTriggered: {
+                    albumControl.removeAlbum(global.currentCustomAlbumUId)
+                    albumControl.removeCustomAutoImportPath(global.currentCustomAlbumUId)
+                    //前往已导入
+                    global.currentViewIndex == 3
+                    global.albumChangeList=!global.albumChangeList
+                }
+            }
+        }
+
+
         Menu {
             id: customMenu
 
@@ -389,9 +479,6 @@ Rectangle {
                 }
             }
         }
-        //rename窗口
-        NewAlbumDialog {
-            id: newAlbum
-        }
+
     }
 }

@@ -82,8 +82,9 @@ public:
     static QReadWriteLock m_fileMutex; //文件锁，用于锁定已导入文件的操作权限
 
     // TableImage
-    const QStringList       getAllPaths() const;
+    const QStringList       getAllPaths(const ItemType &filterType = ItemTypeNull) const;
     const DBImgInfoList     getAllInfos(int loadCount = 0) const;
+    const DBImgInfoList     getAllInfosSort(const ItemType &filterType = ItemTypeNull) const;
     const QList<QDateTime>  getAllTimelines() const;
     const DBImgInfoList     getInfosByTimeline(const QDateTime &timeline,const ItemType & filterType = ItemTypeNull ) const;
     const QList<QDateTime>  getImportTimelines() const;
@@ -109,7 +110,9 @@ public:
     //删除自定义自动导入路径，需要以UID为删除依据
     void removeCustomAutoImportPath(int UID);
     //获取所有需要监控的路径
-    std::map<int, QString> getAllCustomAutoImportUIDAndPath();
+    QMap <int ,QString> getAllCustomAutoImportUIDAndPath();
+    //获取所有需要监控的名称
+    QStringList getAllCustomAutoImportNames();
 
     // TableAlbum
     const QMultiMap<QString, QString> getAllPathAlbumNames() const;

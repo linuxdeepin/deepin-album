@@ -62,19 +62,33 @@ DBManager::DBManager(QObject *parent)
     checkDatabase();
 }
 
-const QStringList DBManager::getAllPaths() const
+const QStringList DBManager::getAllPaths(const ItemType &filterType) const
 {
     QMutexLocker mutex(&m_dbMutex);
     QStringList paths;
 
     m_query->setForwardOnly(true);
-    if (!m_query->exec("SELECT FilePath FROM ImageTable3")) {
-        return paths;
-    } else {
+    if(filterType ==ItemTypePic || filterType==ItemTypeVideo){
+        bool b = m_query->prepare("SELECT FilePath FROM ImageTable3 WHERE FileType = :Type") ;
+        m_query->bindValue(":Type", filterType);
+        if (!b || ! m_query->exec()) {
+            return paths;
+        }
         while (m_query->next()) {
             paths << m_query->value(0).toString();
         }
     }
+
+    else {
+        if (!m_query->exec("SELECT FilePath FROM ImageTable3")) {
+            return paths;
+        } else {
+            while (m_query->next()) {
+                paths << m_query->value(0).toString();
+            }
+        }
+    }
+
 
     return paths;
 }
@@ -89,6 +103,34 @@ const DBImgInfoList DBManager::getAllInfos(int loadCount)const
         b = m_query->prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc");
     } else {
         b = m_query->prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc limit 80");
+    }
+    if (!b || ! m_query->exec()) {
+        return infos;
+    } else {
+        while (m_query->next()) {
+            DBImgInfo info;
+            info.filePath = m_query->value(0).toString();
+            info.time = m_query->value(3).toDateTime();
+            info.changeTime = m_query->value(4).toDateTime();
+            info.importTime = m_query->value(5).toDateTime();
+            info.itemType = static_cast<ItemType>(m_query->value(6).toInt());
+            infos << info;
+        }
+    }
+    return infos;
+}
+
+const DBImgInfoList DBManager::getAllInfosSort(const ItemType &filterType) const
+{
+    QMutexLocker mutex(&m_dbMutex);
+    DBImgInfoList infos;
+    m_query->setForwardOnly(true);
+    bool b = false;
+    if (filterType == ItemTypeNull) {
+        b = m_query->prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 ORDER BY Time DESC");
+    } else {
+        b = m_query->prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 WHERE FileType = :Type ORDER BY Time DESC");
+         m_query->bindValue(":Type", filterType);
     }
     if (!b || ! m_query->exec()) {
         return infos;
@@ -1089,9 +1131,9 @@ void DBManager::removeCustomAutoImportPath(int UID)
 //    emit dApp->signalM->imagesRemovedPar(paths);
 }
 
-std::map<int, QString> DBManager::getAllCustomAutoImportUIDAndPath()
+QMap <int ,QString> DBManager::getAllCustomAutoImportUIDAndPath()
 {
-    std::map<int, QString> result;
+    QMap <int ,QString> result;
 
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
@@ -1101,7 +1143,25 @@ std::map<int, QString> DBManager::getAllCustomAutoImportUIDAndPath()
     }
 
     while (m_query->next()) {
-        result.insert(std::make_pair(m_query->value(0).toInt(), m_query->value(1).toString()));
+        result.insert(m_query->value(0).toInt(), m_query->value(1).toString());
+    }
+
+    return result;
+}
+
+QStringList DBManager::getAllCustomAutoImportNames()
+{
+    QStringList result;
+
+    QMutexLocker mutex(&m_dbMutex);
+    m_query->setForwardOnly(true);
+
+    if (!m_query->exec("SELECT AlbumName FROM CustomAutoImportPathTable3")) {
+        return result;
+    }
+
+    while (m_query->next()) {
+        result.push_back(m_query->value(0).toString());
     }
 
     return result;
