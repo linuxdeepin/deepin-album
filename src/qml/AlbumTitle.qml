@@ -9,9 +9,9 @@ import org.deepin.dtk 1.0
 Rectangle {
 
     anchors.top : root.top
-    anchors.left : leftSidebar.right
+    anchors.left : parent.left
     anchors.leftMargin: 0
-    width: leftSidebar.visible ? parent.width-leftSidebar.width : root.width
+    width:  root.width
     height: 50
 
     TitleBar {
@@ -30,13 +30,13 @@ Rectangle {
             license: qsTr(String("%1 is released under %2").arg(productName).arg("GPLV3"))
         }
         ActionButton {
-            visible: leftSidebar.visible ? false : true
+//            visible: leftSidebar.x == 0 ? false : true
             id: appTitleIcon
             anchors.top: parent.top
             anchors.topMargin: 0
             anchors.left: parent.left
             anchors.leftMargin: 0
-            width :  leftSidebar.visible ? 0 : 50
+            width :  50
             height : 50
             icon {
                 name: "deepin-album"
@@ -46,13 +46,13 @@ Rectangle {
         }
 
         ActionButton {
-            visible: leftSidebar.visible ? false : true
+//            visible: leftSidebar.x == 0 ? false : true
             id: showHideleftSidebarButton
             anchors.top: parent.top
             anchors.topMargin: 0
             anchors.left: appTitleIcon.right
             anchors.leftMargin: 0
-            width :  leftSidebar.visible ? 0 : 50
+            width :   50
             height : 50
             icon {
                 name: "topleft"
@@ -60,7 +60,13 @@ Rectangle {
                 height: 36
             }
             onClicked :{
-                leftSidebar.visible = !leftSidebar.visible
+                //                leftSidebar.visible = !leftSidebar.visible
+                if(!leftSidebar.x == 0 ){
+                    showSliderAnimation.start()
+                }
+                else{
+                    hideSliderAnimation.start()
+                }
             }
         }
 
@@ -69,7 +75,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.topMargin: 0
             anchors.left: showHideleftSidebarButton.right
-            anchors.leftMargin: 0
+            anchors.leftMargin: - leftSidebar.x/2
             width:50
             height:50
             icon {

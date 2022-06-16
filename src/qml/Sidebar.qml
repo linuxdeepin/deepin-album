@@ -245,7 +245,7 @@ Rectangle {
                         width: 100
                         anchors.left: siderIcon.right; anchors.leftMargin: 10
                         anchors.verticalCenter: item.verticalCenter
-                        text: albumControl.getAllCustomAlbumName()[index]
+                        text: albumControl.getAllCustomAlbumName(global.albumChangeList)[index]
                     }
                     LineEdit {
                         id :keyLineEdit
@@ -253,7 +253,7 @@ Rectangle {
 
                         height :36
                         width :180
-                        text:albumControl.getAllCustomAlbumName()[index]
+                        text:albumControl.getAllCustomAlbumName(global.albumChangeList)[index]
 
                         onEditingFinished: {
                             item.checked = true;
@@ -261,9 +261,7 @@ Rectangle {
                             siderIcon.visible = true;
                             keyLineEdit.visible = false;
                             albumControl.renameAlbum( global.currentCustomAlbumUId, keyLineEdit.text)
-                            if(keyLineEdit.text !== "" ){
-                                songName.text = keyLineEdit.text;
-                            }
+                            global.albumChangeList=!global.albumChangeList
                         }
                         onActiveFocusChanged: {
 //                            EventsFilter.setEnabled(!activeFocus)
@@ -358,15 +356,18 @@ Rectangle {
             RightMenuItem {
                 text: qsTr("New album")
                 onTriggered: {
+                    var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
+                    var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
+                    newAlbum.setX(x)
+                    newAlbum.setY(y)
 
+                    newAlbum.show()
                 }
             }
             RightMenuItem {
                 text: qsTr("Rename")
                 onTriggered: {
-//                    customList.itemAt(currentCustomIndex).rename();
                     sigRename();
-
                 }
             }
 
@@ -383,7 +384,8 @@ Rectangle {
             RightMenuItem {
                 text: qsTr("Delete")
                 onTriggered: {
-
+                    albumControl.removeAlbum(global.currentCustomAlbumUId)
+                    global.albumChangeList=!global.albumChangeList
                 }
             }
         }
