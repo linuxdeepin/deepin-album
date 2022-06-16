@@ -90,6 +90,9 @@ private:
     QImage createMonth_4(const std::vector<QImage> &images);
     QImage createMonth_5(const std::vector<QImage> &images);
     QImage createMonth_6(const std::vector<QImage> &images);
+
+    //辅助裁剪函数
+    QImage clipHelper(const QImage &image, int width, int height);
 };
 
 class LoadImage : public QObject

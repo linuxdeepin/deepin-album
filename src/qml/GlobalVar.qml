@@ -54,6 +54,7 @@ Item {
     signal sigFlushHaveImportedView()   // 刷新已导入视图内容
     signal sigFlushRecentDelView()      // 刷新最近删除视图内容
     signal sigFlushCustomAlbumView()    // 刷新我的收藏/自定义相册视图内容
+    signal sigCollectionViewIndexChanged(int index) //合集页面发生改变
 
     Component.onCompleted: {
         if( albumControl.getAllCount()>0 ){

@@ -146,6 +146,7 @@ Rectangle {
             visible: global.currentViewIndex == 2
 
             ToolButton {
+                id:yButton
                 Layout.preferredHeight: parent.height
                 checkable: true
                 text: qsTr("Y")
@@ -155,6 +156,7 @@ Rectangle {
                 }
             }
             ToolButton {
+                id:mButton
                 Layout.preferredHeight: parent.height
                 checkable: true
                 text: qsTr("M")
@@ -163,6 +165,7 @@ Rectangle {
                 }
             }
             ToolButton {
+                id:dButton
                 Layout.preferredHeight: parent.height
                 checkable: true
                 text: qsTr("D")
@@ -171,12 +174,34 @@ Rectangle {
                 }
             }
             ToolButton {
+                id:allButton
                 Layout.preferredHeight: parent.height
                 checkable: true
                 text: qsTr("All")
                 onClicked: {
                     thumbnailImage.setCollecttionViewIndex(3)
                 }
+            }
+
+            function setChecked(index) {
+                switch (index) {
+                case 0:
+                    yButton.checked = true
+                    break
+                case 1:
+                    mButton.checked = true
+                    break
+                case 2:
+                    dButton.checked = true
+                    break
+                case 3:
+                    allButton.checked = true
+                    break
+                }
+            }
+
+            Component.onCompleted: {
+                global.sigCollectionViewIndexChanged.connect(setChecked)
             }
         }
 

@@ -37,6 +37,7 @@ Rectangle{
         anchors.topMargin: m_topMargin
         anchors.leftMargin: m_leftMargin
         anchors.fill: parent
+        anchors.bottomMargin: statusBar.height
     }
     HaveImportedView{
         visible: global.currentViewIndex == 3

@@ -11,6 +11,8 @@ import "../../"
 Item {
     id: root
 
+    signal yearClicked(string year)
+
     ListModel {
         id: theModel
     }
@@ -63,8 +65,7 @@ Item {
                 anchors.fill: parent
                 width: parent.width
                 height: parent.height
-                //使用PreserveAspectFit确保在原始比例下不变形
-                fillMode: Image.PreserveAspectFit
+                fillMode: Image.PreserveAspectCrop
                 clip: true
                 visible: false
             }
@@ -110,6 +111,13 @@ Item {
                 anchors.top: yearLabel.bottom
                 anchors.topMargin: 5
                 anchors.left: yearLabel.left
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: { //double click 切换动画不生效
+                    yearClicked(year)
+                }
             }
         }
     }

@@ -11,6 +11,47 @@ import "../../"
 Item {
     id: root
 
+    //搬运自缩略图控件内部，width多减个10是因为timeLineLabel的leftMargin
+    /*property real cellBaseWidth: global.thumbnailSizeLevel >= 0 && global.thumbnailSizeLevel <= 9 ? 80 + global.thumbnailSizeLevel * 10 : 80
+    property int  rowSizeHint: (theView.width - 10 - 10) / cellBaseWidth
+    property real realCellWidth: (theView.width - 10 - 10) / rowSizeHint*/
+
+    //风险：月视图切日视图无法正常定位
+    function scrollToMonth(year, month) {
+        /*var distance = 0
+        for(var i = 0;i != theModel.count;++i) {
+            var modelObj = theModel.get(i)
+            var token = modelObj.dayToken
+            var dates = token.split("-")
+            if(year === dates[0] && month === dates[1]) {
+                break
+            }
+
+            var paths = albumControl.getDayPaths(token)
+
+            var currentLength = timeLineLabel_invisible.height + selectAllBox_invisible.height +
+                    (Math.abs(Math.ceil(paths.length / Math.floor((theView.width) / realCellWidth)) * realCellWidth))
+
+            distance += currentLength
+
+            console.debug(i, paths.length)
+        }
+        theView.contentY = distance*/
+    }
+
+    Label {
+        id: timeLineLabel_invisible
+        font: DTK.fontManager.t3
+        visible: false
+        text: "123123"
+    }
+
+    CheckBox {
+        id: selectAllBox_invisible
+        visible: false
+        text: "123123"
+    }
+
     //dayToken: 日期令牌，用于获取其它数据
     ListModel {
         id: theModel
@@ -30,7 +71,6 @@ Item {
         Rectangle {
             id: delegateRect
             width: theView.width
-            //height: 500
 
             property string m_dayToken: dayToken
 
@@ -104,6 +144,8 @@ Item {
 
                 delegateRect.height = timeLineLabel.height + selectAllBox.height +
                         (Math.abs(Math.ceil(paths.length / Math.floor((delegateRect.width) / theSubView.itemWidth)) * theSubView.itemHeight))
+
+                //console.debug(index, delegateRect.height)
             }
         }
     }

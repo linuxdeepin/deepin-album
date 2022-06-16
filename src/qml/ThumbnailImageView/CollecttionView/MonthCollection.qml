@@ -11,6 +11,20 @@ import "../../"
 Item {
     id: root
 
+    signal monthClicked(string year, string month)
+
+    function scrollToYear(year) {
+        //搜索index
+        for(var i = 0;i !== theModel.count;++i) {
+            if(theModel.get(i).year === year) {
+                break
+            }
+        }
+
+        //计算偏移
+        theView.contentY = (theView.height / 3 * 2 + theView.spacing) * i
+    }
+
     ListModel {
         id: theModel
     }
@@ -63,8 +77,7 @@ Item {
                 anchors.fill: parent
                 width: parent.width
                 height: parent.height
-                //使用PreserveAspectFit确保在原始比例下不变形
-                fillMode: Image.PreserveAspectFit
+                fillMode: Image.PreserveAspectCrop
                 clip: true
                 visible: false
             }
@@ -121,6 +134,13 @@ Item {
                 anchors.rightMargin: 10
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 10
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    monthClicked(year, month)
+                }
             }
         }
     }

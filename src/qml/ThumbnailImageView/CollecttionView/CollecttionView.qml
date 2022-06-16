@@ -29,5 +29,25 @@ Item {
         AllCollection {
             id: allCollection
         }
+
+        onCurrentIndexChanged: {
+            currentViewIndex = currentIndex
+            global.sigCollectionViewIndexChanged(currentIndex)
+        }
+    }
+
+    function onYearClicked(year) {
+        setIndex(1)
+        monthCollection.scrollToYear(year)
+    }
+
+    function onMonthClicked(year, month) {
+        setIndex(2)
+        dayCollection.scrollToMonth(year, month)
+    }
+
+    Component.onCompleted: {
+        yearCollection.yearClicked.connect(onYearClicked)
+        monthCollection.monthClicked.connect(onMonthClicked)
     }
 }

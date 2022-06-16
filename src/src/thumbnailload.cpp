@@ -446,6 +446,47 @@ QImage CollectionPublisher::createMonthImage(const QString &year, const QString 
     return result;
 }
 
+//KeepAspectRatioByExpanding，但是保留中间，Qt是裁的右侧或下侧
+QImage CollectionPublisher::clipHelper(const QImage &image, int width, int height)
+{
+    QImage temp;
+    double x = 0;
+    double y = 0;
+
+    double resizeW = 0;
+    double resizeH = 0;
+    double widthF = width;
+    double heightF = height;
+    if(image.width() > image.height()) {
+        resizeH = heightF;
+        resizeW = image.width() / (image.height() / heightF);
+        if(resizeW < widthF) {
+            resizeH = resizeH * widthF / resizeW;
+            resizeW = widthF;
+            y = (resizeH - heightF) / 2;
+        } else {
+            x = (resizeW - widthF) / 2;
+        }
+    } else {
+        resizeW = widthF;
+        resizeH = image.height() / (image.width() / widthF);
+        if(resizeH < heightF) {
+            resizeW = resizeW * heightF / resizeH;
+            resizeH = heightF;
+            x = (resizeW - widthF) / 2;
+        } else {
+            y = (resizeH - heightF) / 2;
+        }
+    }
+
+    temp = image.scaled(static_cast<int>(resizeW), static_cast<int>(resizeH));
+
+    QRect rect(static_cast<int>(x), static_cast<int>(y), width, height);
+    QImage result(width, height, QImage::Format_RGB888);
+    result = temp.copy(rect);
+    return result;
+}
+
 QImage CollectionPublisher::createMonth_2(const std::vector<QImage> &images)
 {
     //左右摆放
@@ -455,8 +496,8 @@ QImage CollectionPublisher::createMonth_2(const std::vector<QImage> &images)
     result.fill(Qt::white);
 
     //初始化原始图片
-    QImage images_0 = images[0].scaled(outputWidth / 2, outputHeight, Qt::KeepAspectRatioByExpanding);
-    QImage images_1 = images[1].scaled(outputWidth / 2, outputHeight, Qt::KeepAspectRatioByExpanding);
+    QImage images_0 = clipHelper(images[0], outputWidth / 2, outputHeight);
+    QImage images_1 = clipHelper(images[1], outputWidth / 2, outputHeight);
 
     //绘制
     QPainter painter;
@@ -477,9 +518,9 @@ QImage CollectionPublisher::createMonth_3(const std::vector<QImage> &images)
     result.fill(Qt::white);
 
     //初始化原始图片
-    QImage images_0 = images[0].scaled(outputWidth / 2, outputHeight, Qt::KeepAspectRatioByExpanding);
-    QImage images_1 = images[1].scaled(outputWidth / 2, outputHeight / 2, Qt::KeepAspectRatioByExpanding);
-    QImage images_2 = images[2].scaled(outputWidth / 2, outputHeight / 2, Qt::KeepAspectRatioByExpanding);
+    QImage images_0 = clipHelper(images[0], outputWidth / 2, outputHeight);
+    QImage images_1 = clipHelper(images[1], outputWidth / 2, outputHeight / 2);
+    QImage images_2 = clipHelper(images[2], outputWidth / 2, outputHeight / 2);
 
     //绘制
     QPainter painter;
@@ -501,10 +542,10 @@ QImage CollectionPublisher::createMonth_4(const std::vector<QImage> &images)
     result.fill(Qt::white);
 
     //初始化原始图片
-    QImage images_0 = images[0].scaled(outputWidth / 2, outputHeight / 2, Qt::KeepAspectRatioByExpanding);
-    QImage images_1 = images[1].scaled(outputWidth / 2, outputHeight / 2, Qt::KeepAspectRatioByExpanding);
-    QImage images_2 = images[2].scaled(outputWidth / 2, outputHeight / 2, Qt::KeepAspectRatioByExpanding);
-    QImage images_3 = images[3].scaled(outputWidth / 2, outputHeight / 2, Qt::KeepAspectRatioByExpanding);
+    QImage images_0 = clipHelper(images[0], outputWidth / 2, outputHeight / 2);
+    QImage images_1 = clipHelper(images[1], outputWidth / 2, outputHeight / 2);
+    QImage images_2 = clipHelper(images[2], outputWidth / 2, outputHeight / 2);
+    QImage images_3 = clipHelper(images[3], outputWidth / 2, outputHeight / 2);
 
     //绘制
     QPainter painter;
@@ -529,11 +570,11 @@ QImage CollectionPublisher::createMonth_5(const std::vector<QImage> &images)
     constexpr int splitPos_2 = static_cast<int>(outputHeight * (1 - 0.618));
 
     //初始化原始图片
-    QImage images_0 = images[0].scaled(outputWidth, splitPos, Qt::KeepAspectRatioByExpanding);
-    QImage images_1 = images[1].scaled(outputWidth / 4, splitPos_2, Qt::KeepAspectRatioByExpanding);
-    QImage images_2 = images[2].scaled(outputWidth / 4, splitPos_2, Qt::KeepAspectRatioByExpanding);
-    QImage images_3 = images[3].scaled(outputWidth / 4, splitPos_2, Qt::KeepAspectRatioByExpanding);
-    QImage images_4 = images[4].scaled(outputWidth / 4, splitPos_2, Qt::KeepAspectRatioByExpanding);
+    QImage images_0 = clipHelper(images[0], outputWidth, splitPos);
+    QImage images_1 = clipHelper(images[1], outputWidth / 4, splitPos_2);
+    QImage images_2 = clipHelper(images[2], outputWidth / 4, splitPos_2);
+    QImage images_3 = clipHelper(images[3], outputWidth / 4, splitPos_2);
+    QImage images_4 = clipHelper(images[4], outputWidth / 4, splitPos_2);
 
     //绘制
     QPainter painter;
@@ -559,12 +600,12 @@ QImage CollectionPublisher::createMonth_6(const std::vector<QImage> &images)
     constexpr int splitPos_2 = static_cast<int>(outputHeight * (1 - 0.618));
 
     //初始化原始图片
-    QImage images_0 = images[0].scaled(outputWidth, splitPos, Qt::KeepAspectRatioByExpanding);
-    QImage images_1 = images[1].scaled(outputWidth / 5, splitPos_2, Qt::KeepAspectRatioByExpanding);
-    QImage images_2 = images[2].scaled(outputWidth / 5, splitPos_2, Qt::KeepAspectRatioByExpanding);
-    QImage images_3 = images[3].scaled(outputWidth / 5, splitPos_2, Qt::KeepAspectRatioByExpanding);
-    QImage images_4 = images[4].scaled(outputWidth / 5, splitPos_2, Qt::KeepAspectRatioByExpanding);
-    QImage images_5 = images[5].scaled(outputWidth / 5, splitPos_2, Qt::KeepAspectRatioByExpanding);
+    QImage images_0 = clipHelper(images[0], outputWidth, splitPos);
+    QImage images_1 = clipHelper(images[1], outputWidth / 5, splitPos_2);
+    QImage images_2 = clipHelper(images[2], outputWidth / 5, splitPos_2);
+    QImage images_3 = clipHelper(images[3], outputWidth / 5, splitPos_2);
+    QImage images_4 = clipHelper(images[4], outputWidth / 5, splitPos_2);
+    QImage images_5 = clipHelper(images[5], outputWidth / 5, splitPos_2);
 
     //绘制
     QPainter painter;
