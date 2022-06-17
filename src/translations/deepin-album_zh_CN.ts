@@ -11,6 +11,14 @@
         <source>Channel</source>
         <translation>声道</translation>
     </message>
+    <message>
+        <source>Favorites</source>
+        <translation>我的收藏</translation>
+    </message>
+    <message>
+        <source>Pictures/</source>
+        <translation>图片</translation>
+    </message>
 </context>
 <context>
     <name>AlbumTitle</name>
@@ -24,15 +32,15 @@
     </message>
     <message>
         <source>Y</source>
-        <translation type="unfinished"></translation>
+        <translation>年</translation>
     </message>
     <message>
         <source>M</source>
-        <translation type="unfinished"></translation>
+        <translation>月</translation>
     </message>
     <message>
         <source>D</source>
-        <translation type="unfinished"></translation>
+        <translation>日</translation>
     </message>
     <message>
         <source>All</source>
@@ -57,6 +65,14 @@
     <message>
         <source>Delete</source>
         <translation>删除</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation>新建相册</translation>
+    </message>
+    <message>
+        <source>Import folders</source>
+        <translation>导入文件夹</translation>
     </message>
 </context>
 <context>
@@ -96,8 +112,55 @@
 <context>
     <name>DayCollection</name>
     <message>
-        <source>Day Collection</source>
-        <translation type="unfinished"></translation>
+        <source>1 photo </source>
+        <translation>一张图 </translation>
+    </message>
+    <message>
+        <source>%1 photos </source>
+        <translation>共%1张图片 </translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation>一个视频</translation>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation>共%1个视频</translation>
+    </message>
+    <message>
+        <source>%1Year%2Month%3Day</source>
+        <translation>%1年%2月%3日</translation>
+    </message>
+</context>
+<context>
+    <name>DeviceAlbum</name>
+    <message>
+        <source>%1 photos</source>
+        <translation>共%1张照片</translation>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation>共%1个视频</translation>
+    </message>
+    <message>
+        <source>Import to:</source>
+        <translation>导入到:</translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation>导入</translation>
+    </message>
+    <message>
+        <source>Import %1 items</source>
+        <translation>导入%1项</translation>
+    </message>
+    <message>
+        <source>Import All</source>
+        <translation>导入全部</translation>
+    </message>
+    <message>
+        <source>No results</source>
+        <translation>无结果</translation>
     </message>
 </context>
 <context>
@@ -292,14 +355,18 @@
     <message>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>MonthCollection</name>
     <message>
-        <source>Month Collection</source>
-        <translation type="unfinished"></translation>
+        <source>Year</source>
+        <translation>年</translation>
+    </message>
+    <message>
+        <source>Month</source>
+        <translation>月</translation>
     </message>
 </context>
 <context>
@@ -343,7 +410,7 @@
     <name>PropertyActionItemDelegate</name>
     <message>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>这个文件名已经被占用,请使用其他名称</translation>
     </message>
 </context>
 <context>
@@ -483,6 +550,30 @@
     <message>
         <source>Draw</source>
         <translation>画板</translation>
+    </message>
+    <message>
+        <source>Device</source>
+        <translation>设备</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>幻灯片放映</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>导出</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation>新建相册</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>重命名</translation>
     </message>
 </context>
 <context>
@@ -787,25 +878,29 @@
     <name>ViewTopTitle</name>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>deepin-image-viewer</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>YearCollection</name>
     <message>
-        <source>Year Collection</source>
-        <translation type="unfinished"></translation>
+        <source>Year</source>
+        <translation>年</translation>
+    </message>
+    <message>
+        <source>Items</source>
+        <translation>项</translation>
     </message>
 </context>
 <context>
     <name>main</name>
     <message>
         <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>选择图片</translation>
     </message>
 </context>
 </TS>

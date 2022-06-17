@@ -11,6 +11,14 @@
         <source>Channel</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Favorites</source>
+        <translation type="unfinished">Kegemaran</translation>
+    </message>
+    <message>
+        <source>Pictures/</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AlbumTitle</name>
@@ -58,6 +66,14 @@
         <source>Delete</source>
         <translation type="unfinished">Padam</translation>
     </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">Album baharu</translation>
+    </message>
+    <message>
+        <source>Import folders</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CustomAlbum</name>
@@ -96,8 +112,55 @@
 <context>
     <name>DayCollection</name>
     <message>
-        <source>Day Collection</source>
+        <source>1 photo </source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 photos </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1Year%2Month%3Day</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DeviceAlbum</name>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished">Import</translation>
+    </message>
+    <message>
+        <source>Import %1 items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No results</source>
+        <translation type="unfinished">Tiada keputusan</translation>
     </message>
 </context>
 <context>
@@ -298,7 +361,11 @@
 <context>
     <name>MonthCollection</name>
     <message>
-        <source>Month Collection</source>
+        <source>Year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Month</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -483,6 +550,30 @@
     <message>
         <source>Draw</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Persembahan slaid</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Eksport</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Padam</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">Album baharu</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">Nama semula</translation>
     </message>
 </context>
 <context>
@@ -797,7 +888,11 @@
 <context>
     <name>YearCollection</name>
     <message>
-        <source>Year Collection</source>
+        <source>Year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Items</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

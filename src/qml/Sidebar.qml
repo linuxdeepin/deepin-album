@@ -238,7 +238,7 @@ Rectangle {
                         id: imIcon
                         anchors.left: importitem.left; anchors.leftMargin: 10
                         anchors.verticalCenter: importitem.verticalCenter
-                        name: "draw"
+                        name: "custom"
                         sourceSize: Qt.size(20, 20)
                     }
                     Label {

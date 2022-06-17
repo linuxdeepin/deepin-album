@@ -11,6 +11,14 @@
         <source>Channel</source>
         <translation type="unfinished">Canale</translation>
     </message>
+    <message>
+        <source>Favorites</source>
+        <translation type="unfinished">Preferiti</translation>
+    </message>
+    <message>
+        <source>Pictures/</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AlbumTitle</name>
@@ -59,6 +67,14 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <source>Delete</source>
         <translation type="unfinished">Elimina</translation>
     </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">Nuovo album</translation>
+    </message>
+    <message>
+        <source>Import folders</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CustomAlbum</name>
@@ -97,8 +113,55 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
 <context>
     <name>DayCollection</name>
     <message>
-        <source>Day Collection</source>
+        <source>1 photo </source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 photos </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1Year%2Month%3Day</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DeviceAlbum</name>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished">Importa</translation>
+    </message>
+    <message>
+        <source>Import %1 items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No results</source>
+        <translation type="unfinished">Nessun risultato</translation>
     </message>
 </context>
 <context>
@@ -299,7 +362,11 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
 <context>
     <name>MonthCollection</name>
     <message>
-        <source>Month Collection</source>
+        <source>Year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Month</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -484,6 +551,30 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     <message>
         <source>Draw</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Presentazione</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Esporta</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Elimina</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">Nuovo album</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">Rinomina</translation>
     </message>
 </context>
 <context>
@@ -798,7 +889,11 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
 <context>
     <name>YearCollection</name>
     <message>
-        <source>Year Collection</source>
+        <source>Year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Items</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

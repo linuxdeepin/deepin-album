@@ -140,7 +140,7 @@ Item {
 
                 //3.刷新标题
                 var dates = m_dayToken.split("-")
-                timeLineLabel.text = qsTr("%1年%2月%3日").arg(dates[0]).arg(Number(dates[1])).arg(Number(dates[2]))
+                timeLineLabel.text = qsTr("%1Year%2Month%3Day").arg(dates[0]).arg(Number(dates[1])).arg(Number(dates[2]))
 
                 delegateRect.height = timeLineLabel.height + selectAllBox.height +
                         (Math.abs(Math.ceil(paths.length / Math.floor((delegateRect.width) / theSubView.itemWidth)) * theSubView.itemHeight))

@@ -95,7 +95,7 @@ Item {
             Label {
                 id: yearLabel
                 font: DTK.fontManager.t3
-                text: year + qsTr("年")
+                text: year + qsTr("Year")
                 color: "#FFFFFF"
                 anchors.top: image.top
                 anchors.topMargin: 25
@@ -106,7 +106,7 @@ Item {
             Label {
                 id: itemCountLabel
                 font: DTK.fontManager.t6
-                text: itemCount + qsTr("项")
+                text: itemCount + qsTr("Items")
                 color: yearLabel.color
                 anchors.top: yearLabel.bottom
                 anchors.topMargin: 5
