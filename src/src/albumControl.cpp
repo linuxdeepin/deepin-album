@@ -167,7 +167,6 @@ QVariantList AlbumControl::getAlbumAllInfos(const int &filterType)
     }
     DBImgInfoList infoList = DBManager::instance()->getAllInfosSort(type);
     for (DBImgInfo info : infoList) {
-        //if (QFileInfo(info.filePath).exists()) {
         QVariantMap reMap;
         reMap.insert("url", "file://" + info.filePath);
         reMap.insert("filePath", info.filePath);
@@ -219,6 +218,39 @@ void AlbumControl::importAllImagesAndVideos(const QStringList &paths)
         emit sigRefreshImportAlbum();
     }
 
+}
+
+void AlbumControl::importAllImagesAndVideosUrl(const QList<QUrl> &paths)
+{
+    QStringList localpaths;
+    DBImgInfoList dbInfos;
+    for (QUrl path : paths) {
+        localpaths << path.toLocalFile();
+    }
+    QStringList curAlbumImgPathList = getAllPaths();
+    for (QString imagePath : localpaths) {
+        bool bIsVideo = LibUnionImage_NameSpace::isVideo(imagePath);
+        if (!bIsVideo && !LibUnionImage_NameSpace::imageSupportRead(imagePath)) {
+            continue;
+        }
+        QFileInfo srcfi(imagePath);
+        if (!srcfi.exists()) {  //当前文件不存在
+            continue;
+        }
+        if (curAlbumImgPathList.contains(imagePath)) {
+        }
+        DBImgInfo info =  getDBInfo(imagePath, bIsVideo);
+        dbInfos << info;
+    }
+    std::sort(dbInfos.begin(), dbInfos.end(), [](const DBImgInfo & lhs, const DBImgInfo & rhs) {
+        return lhs.changeTime > rhs.changeTime;
+    });
+    //已全部存在，无需导入
+    if (dbInfos.size() > 0) {
+        //导入图片数据库ImageTable3
+        DBManager::instance()->insertImgInfos(dbInfos);
+        emit sigRefreshImportAlbum();
+    }
 }
 
 QStringList AlbumControl::getAllTimelinesTitle(const int &filterType)
@@ -571,6 +603,14 @@ void AlbumControl::startMonitor()
             insertImportIntoAlbum(uid, urls);
         }
     }
+    QStringList pathlist = DBManager::instance()->getAllPaths();
+    QStringList needDeletes ;
+    for(QString path : pathlist){
+        if(!QFileInfo(path).exists()){
+            needDeletes << path;
+        }
+    }
+    DBManager::instance()->removeImgInfos(needDeletes);
 }
 
 bool AlbumControl::checkIfNotified(const QString &dirPath)

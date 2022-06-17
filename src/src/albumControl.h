@@ -46,6 +46,9 @@ public:
     //导入图片，导入图片接口
     Q_INVOKABLE void importAllImagesAndVideos(const QStringList &paths);
 
+    //导入图片，导入图片接口urls
+    Q_INVOKABLE void importAllImagesAndVideosUrl(const QList <QUrl> &paths);
+
     //获得全部创建时间线
     Q_INVOKABLE QStringList getAllTimelinesTitle(const int &filterType = 0);
 

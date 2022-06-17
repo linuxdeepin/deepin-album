@@ -124,7 +124,7 @@ Rectangle {
         anchors.fill: parent
 
         onDropped: {
-            albumControl.importAllImagesAndVideos(drop.urls)
+            albumControl.importAllImagesAndVideosUrl(drop.urls)
         }
 
         onEntered: {
