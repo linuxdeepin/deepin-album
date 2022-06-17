@@ -17,7 +17,9 @@ Item {
     property real realCellWidth: (theView.width - 10 - 10) / rowSizeHint*/
 
     //风险：月视图切日视图无法正常定位
+    //屏蔽部分代码已验证计算结果和theDelegate内部计算的值一致，未知原因导致无法滚动到指定位置
     function scrollToMonth(year, month) {
+        vbar.position = 0
         /*var distance = 0
         for(var i = 0;i != theModel.count;++i) {
             var modelObj = theModel.get(i)
@@ -34,12 +36,13 @@ Item {
 
             distance += currentLength
 
-            console.debug(i, paths.length)
+            //console.debug("scroll", i, currentLength)
         }
-        theView.contentY = distance*/
+        //theView.contentY = distance
+        vbar.position = distance / theView.contentY*/
     }
 
-    Label {
+    /*Label {
         id: timeLineLabel_invisible
         font: DTK.fontManager.t3
         visible: false
@@ -50,7 +53,7 @@ Item {
         id: selectAllBox_invisible
         visible: false
         text: "123123"
-    }
+    }*/
 
     //dayToken: 日期令牌，用于获取其它数据
     ListModel {
@@ -62,7 +65,28 @@ Item {
         model: theModel
         anchors.fill: parent
         delegate: theDelegate
-        //interactive: false
+        interactive: false
+
+        ScrollBar.vertical: ScrollBar {
+            id: vbar
+            active: false
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            acceptedButtons: Qt.NoButton
+            onWheel: {
+                vbar.active = true
+                var datla = wheel.angleDelta.y / 2
+                parent.contentY -= datla
+
+                if(vbar.position < 0) {
+                    vbar.position = 0
+                } else if(vbar.position > 1 - parent.height / parent.contentHeight) {
+                    vbar.position = 1 - parent.height / parent.contentHeight
+                }
+            }
+        }
     }
 
     Component {
@@ -85,9 +109,16 @@ Item {
 
             CheckBox {
                 id: selectAllBox
-                checked: false
                 anchors.top: timeLineLabel.bottom
                 anchors.left: timeLineLabel.left
+                checked: theSubView.haveSelectAll
+                onClicked: {
+                    if(checked) {
+                        theSubView.selectAll(true)
+                    } else {
+                        theSubView.selectAll(false)
+                    }
+                }
             }
 
             ListModel {
@@ -101,6 +132,7 @@ Item {
                 anchors.left: selectAllBox.left
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
+                enableWheel: false
 
                 width: parent.width
                 height: Math.abs(Math.ceil(theSubView.count() / Math.floor((parent.width) / itemWidth)) * itemHeight)
@@ -145,7 +177,8 @@ Item {
                 delegateRect.height = timeLineLabel.height + selectAllBox.height +
                         (Math.abs(Math.ceil(paths.length / Math.floor((delegateRect.width) / theSubView.itemWidth)) * theSubView.itemHeight))
 
-                //console.debug(index, delegateRect.height)
+                //console.debug("delegate", index, delegateRect.height)
+
             }
         }
     }

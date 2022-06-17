@@ -13,6 +13,7 @@ Item {
         id: swipeView
         anchors.fill: parent
         currentIndex: currentViewIndex
+        interactive: false
 
         YearCollection {
             id: yearCollection
