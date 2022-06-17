@@ -76,6 +76,8 @@ Item {
             anchors.fill: parent
             acceptedButtons: Qt.NoButton
             onWheel: {
+                if (parent.contentHeight <= parent.height)
+                    return
                 vbar.active = true
                 var datla = wheel.angleDelta.y / 2
                 parent.contentY -= datla

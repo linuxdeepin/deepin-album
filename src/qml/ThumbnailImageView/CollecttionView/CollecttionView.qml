@@ -34,6 +34,7 @@ Item {
         onCurrentIndexChanged: {
             currentViewIndex = currentIndex
             global.sigCollectionViewIndexChanged(currentIndex)
+            allCollection.flushTotalTimeScope()
         }
     }
 

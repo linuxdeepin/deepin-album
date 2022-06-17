@@ -34,6 +34,11 @@ Item {
         loadAllCollectionItems()
         global.selectedPaths = theView.selectedPaths
         getNumLabelText()
+        theView.totalTimeScope()
+    }
+
+    function flushTotalTimeScope() {
+        theView.totalTimeScope()
     }
 
     // 刷新总数标签

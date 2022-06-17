@@ -68,11 +68,14 @@ Item {
     //统计当前页面的缩略图时间范围
     function totalTimeScope() {
         if(thumnailListType === GlobalVar.ThumbnailType.AllCollection) { //仅在合集模式的时候激活计算，以此节省性能
-            var item1 = theView.itemAt(40, theView.contentY + 40)
-            var item2 = theView.itemAt(theView.width - 40, theView.contentY + theView.height - 40)
-            if(item1 !== null && item2 !== null) {
-                var str = albumControl.getFileTime(item1.m_url, item2.m_url)
+            var visilbeIndexs = theView.flushRectSel(0, 0, theView.width, theView.height)
+            if (visilbeIndexs.length > 0 && visilbeIndexs[0] !== "-1") {
+                var url1 = thumbnailListModel.get(visilbeIndexs[0]).url
+                var url2 = thumbnailListModel.get(visilbeIndexs[visilbeIndexs.length - 1]).url
+                var str = albumControl.getFileTime(url1, url2)
                 timeChanged(str)
+            } else {
+                timeChanged("")
             }
         }
     }
@@ -182,14 +185,8 @@ Item {
 
         //刷新选中的元素
         //此函数会极大影响框选时的性能表现
-        function flushIsm()
-        {
-            var startX = rubberBand.x
-            var startY = rubberBand.y + contentY //rubberBand.y是相对于parent窗口的坐标，itemAt的时候是用的view的内部坐标，因此要加上滚动偏移
-            var lenX = Math.max(rubberBand.m_width, 1)
-            var lenY = Math.max(rubberBand.m_height, 1)
-
-            var tempArray = ism
+        function flushRectSel(startX, startY, lenX, lenY) {
+            var tempArray = []
 
             //统计框入了哪些index
             //1.搜索起始图片
@@ -252,8 +249,8 @@ Item {
                 }
             }
 
-            //刷新整个view的选择效果
-            ism = tempArray
+            console.log("flushRectSel:", tempArray)
+            return tempArray
         }
 
         MouseArea {
@@ -330,7 +327,7 @@ Item {
                 {
                     parent.ism = []
                     parent.rubberBandDisplayed = true
-                    parent.flushIsm()
+                    parent.ism = parent.flushRectSel(rubberBand.x, rubberBand.y+parent.contentY, Math.max(rubberBand.m_width, 1), Math.max(rubberBand.m_height, 1))
                     selectedChanged()
                 }
 
@@ -350,7 +347,7 @@ Item {
                 {
                     parent.ism = []
                     parent.rubberBandDisplayed = true
-                    parent.flushIsm()
+                    parent.ism = parent.flushRectSel(rubberBand.x, rubberBand.y+parent.contentY, Math.max(rubberBand.m_width, 1), Math.max(rubberBand.m_height, 1))
                     selectedChanged()
                 }
 
@@ -748,10 +745,6 @@ Item {
 
     Component.onCompleted: {
         global.sigThumbnailStateChange.connect(fouceUpdate)
-    }
-
-    onVisibleChanged: {
-        totalTimeScope()
     }
 
     onRealCellWidthChanged: {
