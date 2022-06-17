@@ -80,9 +80,9 @@ MovieService::MovieService(QObject *parent)
         if (output.isEmpty()) {
             m_ffmpegExist = false;
         } else {
-            resolutionExp.setPattern("[0-9]+x[0-9]+");
-            codeRateExp.setPattern("[0-9]+\\skb/s");
-            fpsExp.setPattern("[0-9]+\\sfps");
+            resolutionPattern = "[0-9]+x[0-9]+";
+            codeRatePattern = "[0-9]+\\skb/s";
+            fpsPattern = "[0-9]+\\sfps";
             m_ffmpegExist = true;
         }
     } catch (std::logic_error &e) {
@@ -225,7 +225,7 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
     mi.fileSize = fi.size();
 
     //2.2.视频流数据
-    QString videoInfoString = searchLineFromKeyString("Video: ", ffmpegOut);
+    auto videoInfoString = searchLineFromKeyString("Video: ", ffmpegOut);
     if (!videoInfoString.isEmpty()) {
         auto videoStreamInfo = videoInfoString.split(", ");
 
@@ -233,6 +233,7 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
         mi.vCodecID = videoStreamInfo[0].split(" ")[0];
 
         //分辨率，长宽比
+        QRegExp resolutionExp(resolutionPattern);
         if (resolutionExp.indexIn(videoInfoString) > 0) {
             mi.resolution = resolutionExp.cap(0);
 
@@ -246,6 +247,7 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
         }
 
         //码率
+        QRegExp codeRateExp(codeRatePattern);
         if (codeRateExp.indexIn(videoInfoString) > 0) {
             auto codeRate = codeRateExp.cap(0);
             mi.vCodeRate = codeRate.split(" ")[0].toInt();
@@ -254,6 +256,7 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
         }
 
         //帧率
+        QRegExp fpsExp(fpsPattern);
         if (fpsExp.indexIn(videoInfoString) > 0) {
             auto fps = fpsExp.cap(0);
             mi.fps = fps.split(" ")[0].toInt();

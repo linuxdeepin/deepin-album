@@ -99,9 +99,9 @@ private:
     QMutex m_bufferMutex;
     std::deque<std::pair<QUrl, MovieInfo>> m_movieInfoBuffer;
 
-    QRegExp resolutionExp;
-    QRegExp codeRateExp;
-    QRegExp fpsExp;
+    QString resolutionPattern;
+    QString codeRatePattern;
+    QString fpsPattern;
 };
 
 #endif // MOVIESERVICE_H
