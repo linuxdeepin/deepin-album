@@ -32,7 +32,7 @@ Rectangle {
     //缩略图本体
     Image {
         id: image
-        source: "image://publisher/" + m_displayFlushHelper + theView.displayFlushHelper.toString() + "_" + m_url
+        source: m_url !== "" ? "image://publisher/" + m_displayFlushHelper + theView.displayFlushHelper.toString() + "_" + m_url : ""
         asynchronous: true
         anchors.centerIn: parent
         width: parent.width - 14

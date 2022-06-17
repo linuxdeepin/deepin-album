@@ -172,7 +172,7 @@ public:
     Q_INVOKABLE QStringList imageCanExportFormat(const QString &path);
 
     //输入一张图片，获得可以导出的格式
-    Q_INVOKABLE bool saveAsImage( const QString &path ,const QString &saveName , int index ,const QString &fileFormat  , int pictureQuality = 100 , const QString &saveFolder = nullptr);
+    Q_INVOKABLE bool saveAsImage(const QString &path, const QString &saveName, int index, const QString &fileFormat, int pictureQuality = 100, const QString &saveFolder = nullptr);
 
     //获得选择路径
     Q_INVOKABLE QString getFolder();
@@ -187,7 +187,7 @@ public:
     Q_INVOKABLE QString getFileTime(const QString &path1, const QString &path2);
 
     //获得视频信息
-    Q_INVOKABLE QString getMovieInfo(const QString key ,const QString &path);
+    Q_INVOKABLE QString getMovieInfo(const QString key, const QString &path);
 
     //获取指定年份的总数
     Q_INVOKABLE int getYearCount(const QString &year);
@@ -208,10 +208,10 @@ public:
     Q_INVOKABLE QStringList getDevicePaths();
 
     //通过设备路径获得设备名称
-    Q_INVOKABLE QString getDeviceName(const QString & devicePath);
+    Q_INVOKABLE QString getDeviceName(const QString &devicePath);
 
     //获取设备的图片
-    Q_INVOKABLE QStringList getDevicePicPaths(const QString &path );
+    Q_INVOKABLE QStringList getDevicePicPaths(const QString &path);
 
     //获得device路径
     Q_INVOKABLE QVariantMap getDeviceAlbumInfos(const QString &devicePath, const int &filterType = 0);
@@ -220,9 +220,9 @@ public:
     Q_INVOKABLE int getDeviceAlbumInfoConut(const QString &devicePath, const int &filterType);
 
     //手机照片导入 0为已导入，1-n为自定义相册
-    Q_INVOKABLE void importFromMountDevice(const QStringList &paths ,const int &index = 0);
+    Q_INVOKABLE void importFromMountDevice(const QStringList &paths, const int &index = 0);
 
-    
+
     //获取指定日期的照片路径
     Q_INVOKABLE QStringList getDayPaths(const QString &day);
 
@@ -245,7 +245,7 @@ public:
     Q_INVOKABLE void removeCustomAutoImportPath(int uid);
 
     //创建自定义导入相册
-    Q_INVOKABLE void createNewCustomAutoImportAlbum(const QString &path ="");
+    Q_INVOKABLE void createNewCustomAutoImportAlbum(const QString &path = "");
 
 public :
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
@@ -312,15 +312,16 @@ public slots:
     const QList<QExplicitlySharedDataPointer<DGioMount>> getVfsMountList();
 
 signals:
-   void sigRefreshCustomAlbum(int UID);
-   void sigRefreshImportAlbum();
+    void sigRefreshAllCollection();
+    void sigRefreshCustomAlbum(int UID);
+    void sigRefreshImportAlbum();
 
-   //自定义相册删除
-   void sigDeleteCustomAlbum(int UID);
+    //自定义相册删除
+    void sigDeleteCustomAlbum(int UID);
 
-   void sigMountsChange();
+    void sigMountsChange();
 
-   void sigRefreshSlider();
+    void sigRefreshSlider();
 
 private :
     DBImgInfoList m_infoList;  //全部已导入
@@ -336,7 +337,7 @@ private :
     QMap < int, QString > m_customAlbum; //自定义相册
     QMap < QString, MovieInfo> m_movieInfos; //movieInfo的合集
 
-    FileInotifyGroup * m_fileInotifygroup {nullptr};//固定文件夹监控
+    FileInotifyGroup *m_fileInotifygroup {nullptr}; //固定文件夹监控
 
     DGioVolumeManager *m_vfsManager {nullptr};//手机设备监控
     DDiskManager *m_diskManager {nullptr};//U盘设备监控
@@ -344,7 +345,7 @@ private :
     QMap<QString, QString> m_durlAndNameMap;
     QMap<QString, QStringList> m_PhonePicFileMap; //外部设备及其全部图片路径
     std::atomic_bool m_couldRun;
-    bool m_bneedstop=false;
+    bool m_bneedstop = false;
 
 
 };

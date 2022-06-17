@@ -388,19 +388,23 @@ Item {
 
             onWheel: {
                 if (enableWheel) {
+                    if (parent.contentHeight <= parent.height)
+                        return
+
                     // 滚动时，激活滚动条显示
                     vbar.active = true
                     var datla = wheel.angleDelta.y / 2
                     parent.contentY -= datla
                     if(parent.contentY < 0) {
                         parent.contentY = 0
-                    } else if(parent.contentY > parent.contentHeight - parent.height + statusBar.height) {
-                        parent.contentY = parent.contentHeight - parent.height + statusBar.height
+                    } else if ((parent.contentY > (parent.contentHeight - parent.height))) {
+                        parent.contentY = parent.contentHeight - parent.height
                     }
                 } else {
                     vbar.active = false
                 }
             }
+
             onDoubleClicked: {
                 if(mouse.button == Qt.LeftButton) {
                     //如果是影视，则采用打开视频
@@ -592,7 +596,8 @@ Item {
                     if ( thumnailListType !== GlobalVar.ThumbnailType.Trash ){
                         albumControl.insertTrash(global.selectedPaths)
                     } else {
-                        albumControl.deleteImgFromTrash(global.selectedPaths)
+                        albumControl.deleteImgFromTrash(selectedOriginPaths)
+                        selectAll(false)
                         global.sigFlushRecentDelView()
                     }
 
@@ -702,7 +707,9 @@ Item {
                 text: qsTr("Restore")
                 visible: thumnailListType === GlobalVar.ThumbnailType.Trash
                 onTriggered: {
-
+                    albumControl.recoveryImgFromTrash(selectedOriginPaths)
+                    selectAll(false)
+                    global.sigFlushRecentDelView()
                 }
             }
 

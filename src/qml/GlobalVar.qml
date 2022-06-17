@@ -30,8 +30,8 @@ Item {
     property int stackControlCurrent: 0// 0:相册界面 1:看图界面 2:幻灯片
 
     property int thumbnailSizeLevel: 0 //缩略图缩放等级
-    property var statusBarNumText //状态栏显示的总数文本内容
-    property var searchEditText
+    property string statusBarNumText: "" //状态栏显示的总数文本内容
+    property string searchEditText: ""
 
     property bool albumChangeList: false //自定义相册改变
     property ButtonGroup siderGroup: ButtonGroup {} //控制导航栏的group
@@ -51,6 +51,7 @@ Item {
     signal sigWindowStateChange()
     signal sigThumbnailStateChange()
     signal sigRunSearch(int UID, string keywords) //执行搜索
+    signal sigFlushAllCollectionView()   // 刷新合集所有项目视图内容
     signal sigFlushHaveImportedView()   // 刷新已导入视图内容
     signal sigFlushRecentDelView()      // 刷新最近删除视图内容
     signal sigFlushCustomAlbumView()    // 刷新我的收藏/自定义相册视图内容
@@ -83,6 +84,14 @@ Item {
         target: albumControl
         onSigRefreshCustomAlbum: {
            sigFlushCustomAlbumView()
+        }
+    }
+
+    //数据库监听-刷新合集所有项目
+    Connections {
+        target: albumControl
+        onSigRefreshAllCollection: {
+            sigFlushAllCollectionView()
         }
     }
 

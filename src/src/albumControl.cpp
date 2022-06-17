@@ -37,7 +37,7 @@ DBImgInfo AlbumControl::getDBInfo(const QString &srcpath, bool isVideo)
         //获取视频信息
         MovieInfo movieInfo = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(srcpath));
         //对视频信息缓存
-        m_movieInfos[srcpath]=movieInfo;
+        m_movieInfos[srcpath] = movieInfo;
 
         dbi.changeTime = srcfi.lastModified();
 
@@ -82,7 +82,7 @@ void AlbumControl::initDeviceMonitor()
     });
 
     QList<QExplicitlySharedDataPointer<DGioMount> > list = getVfsMountList();
-    for( auto mount : list ){
+    for (auto mount : list) {
         onVfsMountChangedAdd(mount);
     }
 }
@@ -166,23 +166,23 @@ QVariantList AlbumControl::getAlbumAllInfos(const int &filterType)
         break;
     }
     DBImgInfoList infoList = DBManager::instance()->getAllInfosSort(type);
-    for(DBImgInfo info : infoList){
-        if(QFileInfo(info.filePath).exists()){
-            QVariantMap reMap;
-            reMap.insert("url", "file://" + info.filePath);
-            reMap.insert("filePath", info.filePath);
-            reMap.insert("pathHash", info.pathHash);
-            reMap.insert("remainDays", info.remainDays);
+    for (DBImgInfo info : infoList) {
+        //if (QFileInfo(info.filePath).exists()) {
+        QVariantMap reMap;
+        reMap.insert("url", "file://" + info.filePath);
+        reMap.insert("filePath", info.filePath);
+        reMap.insert("pathHash", info.pathHash);
+        reMap.insert("remainDays", info.remainDays);
 
-            if (info.itemType == ItemTypePic) {
-                reMap.insert("itemType", "pciture");
-            } else if (info.itemType == ItemTypeVideo) {
-                reMap.insert("itemType", "video");
-            } else {
-                reMap.insert("itemType", "other");
-            }
-            reinfoList << reMap;
+        if (info.itemType == ItemTypePic) {
+            reMap.insert("itemType", "pciture");
+        } else if (info.itemType == ItemTypeVideo) {
+            reMap.insert("itemType", "video");
+        } else {
+            reMap.insert("itemType", "other");
         }
+        reinfoList << reMap;
+        //}
     }
     return reinfoList;
 }
@@ -522,7 +522,7 @@ void AlbumControl::startMonitor()
         m_fileInotifygroup->startWatch(paths.at(i), albumNames.at(i), UIDs.at(i));
     }
 
-    QMap <int ,QString> customAutoImportUIDAndPaths = DBManager::instance()->getAllCustomAutoImportUIDAndPath();
+    QMap <int, QString> customAutoImportUIDAndPaths = DBManager::instance()->getAllCustomAutoImportUIDAndPath();
     for (QString &eachItem : customAutoImportUIDAndPaths) {
         //0.先检查路径是否存在，不存在直接移除
         QFileInfo info(eachItem);
@@ -558,17 +558,17 @@ void AlbumControl::startMonitor()
 
         //4.删除不存在的路径
         if (!deleteFiles.isEmpty()) {
-             DBManager::instance()->removeImgInfos(deleteFiles);
+            DBManager::instance()->removeImgInfos(deleteFiles);
         }
 
         //5.执行导入
         if (!currentPaths.isEmpty()) {
             QStringList urls;
-            for (QString path : currentPaths){
+            for (QString path : currentPaths) {
                 urls << QUrl::fromLocalFile(path).toString();
             }
             importAllImagesAndVideos(urls);
-            insertImportIntoAlbum(uid,urls);
+            insertImportIntoAlbum(uid, urls);
         }
     }
 }
@@ -630,7 +630,7 @@ void AlbumControl::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> 
             qDebug() << "onVfsMountChangedAdd() strPath.isEmpty()";
         }
         QString rename = "";
-        qDebug()<<QUrl(mount->getRootFile()->uri()) ;
+        qDebug() << QUrl(mount->getRootFile()->uri()) ;
         rename = m_durlAndNameMap[mount->getRootFile()->path()];
         if ("" == rename) {
             rename = mount->name();
@@ -652,9 +652,9 @@ void AlbumControl::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> 
         if (!strPath.contains("/media/")) {
             bFind = findPicturePathByPhone(strPath);
         }
-        qDebug()<<bFind;
+        qDebug() << bFind;
         //路径存在
-        if(bFind){
+        if (bFind) {
             m_mounts << mount;
             //挂在路径
             sltLoadMountFileList(strPath);
@@ -662,7 +662,7 @@ void AlbumControl::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> 
             rename ;
         }
     }
-     emit sigMountsChange();
+    emit sigMountsChange();
 }
 
 void AlbumControl::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount)
@@ -878,7 +878,7 @@ bool AlbumControl::addCustomAlbumInfos(const int &albumId, const QList<QUrl> &ur
     return bRet;
 }
 
-int AlbumControl::getAllCount(const int &filterType )
+int AlbumControl::getAllCount(const int &filterType)
 {
     ItemType typeItem = ItemType::ItemTypeNull;
     if (filterType == 1) {
@@ -886,7 +886,9 @@ int AlbumControl::getAllCount(const int &filterType )
     } else if (filterType == 2) {
         typeItem = ItemType::ItemTypeVideo;
     }
-    return DBManager::instance()->getImgsCount(typeItem);
+    int nCount = DBManager::instance()->getImgsCount(typeItem);
+    qDebug() << QString("AlbumControl::getAllCount: %1").arg(nCount);
+    return nCount;
 }
 
 void AlbumControl::insertTrash(const QList< QUrl > &paths)
@@ -902,7 +904,10 @@ void AlbumControl::insertTrash(const QList< QUrl > &paths)
     DBManager::instance()->insertTrashImgInfos(infos, false);
     //新增删除主相册数据库
     DBManager::instance()->removeImgInfos(tmpList);
+    // 通知前端刷新相关界面，包括自定义相册/我的收藏/合集-所有项目/已导入
     sigRefreshCustomAlbum(0);
+    sigRefreshAllCollection();
+    sigRefreshImportAlbum();
 }
 
 void AlbumControl::removeTrashImgInfos(const QList< QUrl > &paths)
@@ -989,7 +994,7 @@ QStringList AlbumControl::getAlbumPaths(const int &albumId, const int &filterTyp
                 continue ;
             }
         }
-        relist <<"file://" + info.filePath;
+        relist << "file://" + info.filePath;
     }
     return relist;
 }
@@ -1241,7 +1246,7 @@ bool AlbumControl::insertImportIntoAlbum(int UID, const QStringList &paths)
 
 void AlbumControl::renameAlbum(int UID, const QString &newName)
 {
-    DBManager::instance()->renameAlbum( UID, newName);
+    DBManager::instance()->renameAlbum(UID, newName);
 }
 
 QVariant AlbumControl::searchPicFromAlbum(int UID, const QString &keywords, bool useAI)
@@ -1378,12 +1383,12 @@ bool AlbumControl::getFolders(const QStringList &paths)
         fileDir = dialog.selectedFiles().first();
     }
     QStringList localPaths;
-    for(QString path : paths){
+    for (QString path : paths) {
         localPaths << QUrl(path).toLocalFile();
     }
-    if(!fileDir.isEmpty()){
+    if (!fileDir.isEmpty()) {
 
-        for(QString path :localPaths){
+        for (QString path : localPaths) {
 
             QString savePath = fileDir + "/" + QFileInfo(path).completeBaseName() + "." + QFileInfo(path).completeSuffix();
             QFileInfo fileinfo(savePath);
@@ -1427,7 +1432,7 @@ QString AlbumControl::getFileTime(const QString &path1, const QString &path2)
     auto str1 = time1.toString("yyyy/MM/dd");
     auto str2 = time2.toString("yyyy/MM/dd");
 
-    if(time1 < time2) {
+    if (time1 < time2) {
         return str1 + "-" + str2;
     } else {
         return str2 + "-" + str1;
@@ -1436,63 +1441,49 @@ QString AlbumControl::getFileTime(const QString &path1, const QString &path2)
 
 QString AlbumControl::getMovieInfo(const QString key, const QString &path)
 {
-    QString value="";
-    if(!path.isEmpty()){
+    QString value = "";
+    if (!path.isEmpty()) {
         QString localPath = QUrl(path).toLocalFile();
-        if (!m_movieInfos.keys().contains(localPath)){
+        if (!m_movieInfos.keys().contains(localPath)) {
             MovieInfo movieInfo = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(localPath));
             //对视频信息缓存
-            m_movieInfos[localPath]= movieInfo;
+            m_movieInfos[localPath] = movieInfo;
         }
         MovieInfo movieInfo = m_movieInfos.value(localPath);
-        if(QString("Video CodecID").contains(key)){
+        if (QString("Video CodecID").contains(key)) {
             value = movieInfo.vCodecID;
-        }
-        else if(QString("Video CodeRate").contains(key)){
+        } else if (QString("Video CodeRate").contains(key)) {
             value = movieInfo.vCodeRate == 0 ? "-" : QString::number(movieInfo.vCodeRate) + " kbps";
-        }
-        else if(QString("FPS").contains(key)){
+        } else if (QString("FPS").contains(key)) {
             value = movieInfo.fps == 0 ? "-" : QString::number(movieInfo.fps) + " fps";
-        }
-        else if(QString("Proportion").contains(key)){
+        } else if (QString("Proportion").contains(key)) {
             value = movieInfo.proportion <= 0 ? "-" : QString::number(movieInfo.proportion);
-        }
-        else if(QString("Resolution").contains(key)){
+        } else if (QString("Resolution").contains(key)) {
             value = movieInfo.resolution;
-        }
-        else if(QString("Audio CodecID").contains(key)){
+        } else if (QString("Audio CodecID").contains(key)) {
             value = movieInfo.aCodeID;
-        }
-        else if(QString("Audio CodeRate").contains(key)){
+        } else if (QString("Audio CodeRate").contains(key)) {
             value = movieInfo.aCodeRate == 0 ? "-" : QString::number(movieInfo.aCodeRate) + " kbps";
-        }
-        else if(QString("Audio digit").contains(key)){
+        } else if (QString("Audio digit").contains(key)) {
             value = movieInfo.aDigit;
-        }
-        else if(QString("Channels").contains(key)){
+        } else if (QString("Channels").contains(key)) {
             value = movieInfo.channels == 0 ? "-" : QString::number(movieInfo.channels) + tr("Channel");
-        }
-        else if(QString("Sampling").contains(key)){
+        } else if (QString("Sampling").contains(key)) {
             value = movieInfo.sampling == 0 ? "-" : QString::number(movieInfo.sampling) + " hz";
-        }
-        else if(QString("DateTimeOriginal").contains(key)){
+        } else if (QString("DateTimeOriginal").contains(key)) {
             QFileInfo info(localPath);
             if (info.lastModified().isValid()) {
                 value = info.lastModified().toString("yyyy/MM/dd HH:mm");
             } else if (info.birthTime().isValid()) {
                 value = info.birthTime().toString("yyyy/MM/dd HH:mm");
             }
-        }
-        else if(QString("Type").contains(key)){
+        } else if (QString("Type").contains(key)) {
             value = movieInfo.fileType.toLower();
-        }
-        else if(QString("Size").contains(key)){
+        } else if (QString("Size").contains(key)) {
             value = movieInfo.sizeStr();
-        }
-        else if(QString("Duration").contains(key)){
+        } else if (QString("Duration").contains(key)) {
             value = movieInfo.duration;
-        }
-        else if(QString("Path").contains(key)){
+        } else if (QString("Path").contains(key)) {
             value = movieInfo.filePath;
         }
     }
@@ -1538,7 +1529,7 @@ QStringList AlbumControl::getDevicePicPaths(const QString &path)
 {
     QStringList pathsList;
     QStringList list = m_PhonePicFileMap.value(path);
-    for(QString path : list ){
+    for (QString path : list) {
         pathsList << "file://" + path;
     }
     return pathsList;
@@ -1550,9 +1541,9 @@ QVariantMap AlbumControl::getDeviceAlbumInfos(const QString &devicePath, const i
     QVariantList listVar;
     QStringList list = getDevicePicPaths(devicePath);
     QString title = devicePath;
-    for(QString path : list){
+    for (QString path : list) {
         QVariantMap tmpMap;
-        if ( LibUnionImage_NameSpace::isImage(QUrl(path).toLocalFile())) {
+        if (LibUnionImage_NameSpace::isImage(QUrl(path).toLocalFile())) {
             if (filterType == 2) {
                 continue ;
             }
@@ -1601,15 +1592,15 @@ int AlbumControl::getDeviceAlbumInfoConut(const QString &devicePath, const int &
 void AlbumControl::importFromMountDevice(const QStringList &paths, const int &index)
 {
     QStringList localPaths;
-    for(QString path : paths){
-        localPaths <<QUrl(path).toLocalFile();
+    for (QString path : paths) {
+        localPaths << QUrl(path).toLocalFile();
     }
     QStringList newPathList;
     DBImgInfoList dbInfos;
     QString strHomePath = QDir::homePath();
     //获取系统现在的时间
     QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
-    QString basePath = QString("%1%2%3%4").arg(strHomePath, "/Pictures/", tr("Pictures/"),strDate);
+    QString basePath = QString("%1%2%3%4").arg(strHomePath, "/Pictures/", tr("Pictures/"), strDate);
     QDir dir;
     if (!dir.exists(basePath)) {
         dir.mkpath(basePath);
@@ -1671,19 +1662,19 @@ QStringList AlbumControl::getDays()
 
 int AlbumControl::getImportAlubumCount()
 {
-    QMap <int ,QString> customAutoImportUIDAndPaths = DBManager::instance()->getAllCustomAutoImportUIDAndPath();
+    QMap <int, QString> customAutoImportUIDAndPaths = DBManager::instance()->getAllCustomAutoImportUIDAndPath();
     return customAutoImportUIDAndPaths.count();
 }
 
 QList<int> AlbumControl::getImportAlubumAllId()
 {
-    QMap <int ,QString> customAutoImportUIDAndPaths = DBManager::instance()->getAllCustomAutoImportUIDAndPath();
+    QMap <int, QString> customAutoImportUIDAndPaths = DBManager::instance()->getAllCustomAutoImportUIDAndPath();
     return customAutoImportUIDAndPaths.keys();
 }
 
 QStringList AlbumControl::getImportAlubumAllPaths()
 {
-    QMap <int ,QString> customAutoImportUIDAndPaths = DBManager::instance()->getAllCustomAutoImportUIDAndPath();
+    QMap <int, QString> customAutoImportUIDAndPaths = DBManager::instance()->getAllCustomAutoImportUIDAndPath();
     return customAutoImportUIDAndPaths.values();
 }
 
@@ -1700,12 +1691,12 @@ void AlbumControl::removeCustomAutoImportPath(int uid)
 void AlbumControl::createNewCustomAutoImportAlbum(const QString &path)
 {
     QString folder = path;
-    if(!QFileInfo(folder).isDir()){
+    if (!QFileInfo(folder).isDir()) {
         folder = getFolder();
     }
     //自定义自动导入路径的相册名是文件夹最后一级的名字
     QString albumName = folder.split('/').last();
-    int UID = DBManager::instance()->createNewCustomAutoImportPath( folder , albumName );
+    int UID = DBManager::instance()->createNewCustomAutoImportPath(folder, albumName);
 
     //1.获取所有图片和视频
     QFileInfoList infos = LibUnionImage_NameSpace::getImagesAndVideoInfo(folder, false);
@@ -1714,10 +1705,10 @@ void AlbumControl::createNewCustomAutoImportAlbum(const QString &path)
         return info.absoluteFilePath();
     });
     QStringList urls;
-    for (QString path : importFiles){
+    for (QString path : importFiles) {
         urls << QUrl::fromLocalFile(path).toString();
     }
     importAllImagesAndVideos(urls);
-    insertImportIntoAlbum(UID,urls);
+    insertImportIntoAlbum(UID, urls);
     emit sigRefreshSlider();
 }

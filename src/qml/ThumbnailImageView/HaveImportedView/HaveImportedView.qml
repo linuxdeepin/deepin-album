@@ -6,7 +6,7 @@ Rectangle {
     height: parent.height
 
     property int filterType : filterCombo.currentIndex // 筛选类型，默认所有
-    property var numLabelText: getNumLabelText(filterType) //总数标签显示内容
+    property string numLabelText: "" //总数标签显示内容
     onVisibleChanged: {
         flushHaveImportedView()
     }
@@ -27,13 +27,11 @@ Rectangle {
     function getNumLabelText() {
         var photoCountText = albumControl.getAllInfoConut(1) > 0 ? qsTr("%1 photos").arg(albumControl.getAllInfoConut(1)) : ""
         var videoCountText = albumControl.getAllInfoConut(2) > 0 ? qsTr("%1 videos").arg(albumControl.getAllInfoConut(2)) : ""
-        var numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? (" " + videoCountText) : ""))
+        numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? (" " + videoCountText) : ""))
                                            : (filterType == 1 ? photoCountText : videoCountText)
         if (visible) {
             global.statusBarNumText = numLabelText
         }
-
-        return numLabelText
     }
 
     // 已导入视图标题栏区域

@@ -8,7 +8,7 @@ Rectangle {
 
     property int customAlbumUId: global.currentCustomAlbumUId
     property int filterType: filterCombo.currentIndex // 筛选类型，默认所有
-    property var numLabelText: getNumLabelText(filterType)
+    property string numLabelText: "" //总数标签显示内容
 
     onVisibleChanged: {
         if (visible)
@@ -36,13 +36,11 @@ Rectangle {
     function getNumLabelText() {
         var photoCountText = albumControl.getCustomAlbumInfoConut(customAlbumUId, 1) > 0 ? qsTr("%1 photos").arg(albumControl.getCustomAlbumInfoConut(customAlbumUId, 1)) : ""
         var videoCountText = albumControl.getCustomAlbumInfoConut(customAlbumUId, 2) > 0 ? qsTr("%1 videos").arg(albumControl.getCustomAlbumInfoConut(customAlbumUId, 2)) : ""
-        var numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? (" " + videoCountText) : ""))
+        numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? (" " + videoCountText) : ""))
                                            : (filterType == 1 ? photoCountText : videoCountText)
         if (visible) {
             global.statusBarNumText = numLabelText
         }
-
-        return numLabelText
     }
 
     // 加载自定义相册数据

@@ -7,7 +7,7 @@ Rectangle {
     height: parent.height
 
     property int filterType : filterCombo.currentIndex // 筛选类型，默认所有
-    property var numLabelText: getNumLabelText(filterType)
+    property string numLabelText: ""
     property var selectedOriginPaths
 
     onVisibleChanged: {
@@ -32,13 +32,11 @@ Rectangle {
     function getNumLabelText() {
         var photoCountText = albumControl.getTrashInfoConut(1) > 0 ? qsTr("%1 photos").arg(albumControl.getTrashInfoConut(1)) : ""
         var videoCountText = albumControl.getTrashInfoConut(2) > 0 ? qsTr("%1 videos").arg(albumControl.getTrashInfoConut(2)) : ""
-        var numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? (" " + videoCountText) : ""))
+        numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? (" " + videoCountText) : ""))
                                            : (filterType == 1 ? photoCountText : videoCountText)
         if (visible) {
             global.statusBarNumText = numLabelText
         }
-
-        return numLabelText
     }
 
     // 加载最近删除图片数据
