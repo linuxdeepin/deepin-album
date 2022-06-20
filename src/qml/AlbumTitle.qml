@@ -292,7 +292,7 @@ Rectangle {
             ToolTip.visible: hovered
             ToolTip.text: canFavorite ? qsTr("Favorite") : qsTr("Unfavorite")
             icon {
-                name: canFavorite ? "toolbar-collection2" : "toolbar-collection"
+                name: canFavorite ? "toolbar-collection" : "toolbar-collection2"
                 width: 36
                 height: 36
             }
