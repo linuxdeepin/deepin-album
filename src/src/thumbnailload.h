@@ -4,6 +4,9 @@
 #include <QQuickImageProvider>
 #include <QQuickWindow>
 #include <QImage>
+#include <QMutex>
+
+#include <deque>
 
 //大图预览下的小图
 class ThumbnailLoad : public QQuickImageProvider
@@ -64,6 +67,15 @@ private:
 
     //加载模式控制，requestImage是由QML引擎多线程调用，此处需要采用原子锁，防止崩溃
     std::atomic_int m_loadMode;
+
+    //图片缓存操作
+    QImage getImage(const QUrl &url);
+
+    //图片缓存buffer
+    //first: url, second: images
+    QMutex imageBuffer_mutex;
+    static constexpr size_t QUEUE_MAX_LEN = 150;
+    std::deque<std::pair<QString, std::vector<QImage>>> imageBuffer;
 };
 
 //聚合图

@@ -314,6 +314,50 @@ QImage ImagePublisher::addPadAndScaled(const QImage &src)
     return result;
 }
 
+QImage ImagePublisher::getImage(const QUrl &url)
+{
+    //1.检查缓存区有没有
+    imageBuffer_mutex.lock();
+    auto iter = std::find_if(imageBuffer.begin(), imageBuffer.end(), [url](const std::pair<QString, std::vector<QImage>> &imageData){
+        return url == imageData.first;
+    });
+
+    //缓存区有，直接返回数据
+    //注意此处的临界区，由于imageBuffer改变后，迭代器大概率会失效，因此临界区需要到取出迭代器内的数据为止
+    if(iter != imageBuffer.end()) {
+        auto data = *iter;
+        imageBuffer_mutex.unlock();
+        return data.second.at(static_cast<size_t>(m_loadMode));
+    }
+
+    //2.缓存区没有，重新制作图片
+    imageBuffer_mutex.unlock();
+
+    QImage image;
+    if(LibUnionImage_NameSpace::isVideo(url.toLocalFile())) {
+        image = MovieService::instance()->getMovieCover(url);
+    } else {
+        QString error;
+        LibUnionImage_NameSpace::loadStaticImageFromFile(url.toLocalFile(), image, error);
+    }
+
+    std::pair<QString, std::vector<QImage>> imageData;
+    imageData.first = url.url();
+    imageData.second.push_back(clipToRect(image));
+    imageData.second.push_back(addPadAndScaled(image));
+
+    //3.存入缓存区
+    imageBuffer_mutex.lock();
+    if(imageBuffer.size() > QUEUE_MAX_LEN) {
+        imageBuffer.pop_front();
+    }
+    imageBuffer.push_back(imageData);
+    imageBuffer_mutex.unlock();
+
+    //4.返回新加载的数据
+    return imageData.second.at(static_cast<size_t>(m_loadMode));
+}
+
 //图片请求类
 //警告：这个函数将会被多线程执行，需要确保它是可重入的
 QImage ImagePublisher::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
@@ -323,19 +367,7 @@ QImage ImagePublisher::requestImage(const QString &id, QSize *size, const QSize 
 
     QUrl url(id.mid(startIndex));
 
-    QString error;
-    QImage image;
-    LibUnionImage_NameSpace::loadStaticImageFromFile(url.toLocalFile(), image, error);
-
-    //如果是视频，则采用视频加载
-    if( LibUnionImage_NameSpace::isVideo(url.toLocalFile()) ){
-        image = MovieService::instance()->getMovieCover(url);
-    }
-    if (m_loadMode == 0) {
-        image = clipToRect(image);
-    } else { //m_loadMode == 1
-        image = addPadAndScaled(image);
-    }
+    QImage image = getImage(url);
 
     if (size != nullptr) {
         *size = image.size();
