@@ -25,6 +25,25 @@ Item {
         theView.contentY = (theView.height / 3 * 2 + theView.spacing) * i
     }
 
+    function flushModel() {
+        //0.清理
+        theModel.clear()
+
+        //1.获取月份
+        var monthArray = albumControl.getMonths()
+        var yearMonthArray = new Array
+        for(var j = 0;j !== monthArray.length;++j) {
+            var data = monthArray[j].split("-")
+            yearMonthArray.push(data)
+        }
+
+        //2.获取item count并构建model
+        for(var i = 0;i !== monthArray.length;++i) {
+            var itemCount = albumControl.getMonthCount(yearMonthArray[i][0], yearMonthArray[i][1])
+            theModel.append({year: yearMonthArray[i][0], month: yearMonthArray[i][1], itemCount: itemCount})
+        }
+    }
+
     ListModel {
         id: theModel
     }
@@ -147,20 +166,7 @@ Item {
     }
 
     Component.onCompleted: {
-        var monthArray = new Array
-        var countArray = new Array
-        //1.获取月份
-        monthArray = albumControl.getMonths()
-        var yearMonthArray = new Array
-        for(var j = 0;j != monthArray.length;++j) {
-            var data = monthArray[j].split("-")
-            yearMonthArray.push(data)
-        }
-
-        //2.获取item count并构建model
-        for(var i = 0;i != monthArray.length;++i) {
-            var itemCount = albumControl.getMonthCount(yearMonthArray[i][0], yearMonthArray[i][1])
-            theModel.append({year: yearMonthArray[i][0], month: yearMonthArray[i][1], itemCount: itemCount})
-        }
+        flushModel()
+        global.sigFlushAllCollectionView.connect(flushModel)
     }
 }

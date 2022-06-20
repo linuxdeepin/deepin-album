@@ -13,6 +13,20 @@ Item {
 
     signal yearClicked(string year)
 
+    function flushModel() {
+        //0.清理
+        theModel.clear()
+
+        //1.获取年份
+        var yearArray = albumControl.getYears()
+
+        //2.获取item count并构建model
+        for(var i = 0;i !== yearArray.length;++i) {
+            var itemCount = albumControl.getYearCount(yearArray[i])
+            theModel.append({year: yearArray[i], itemCount: itemCount})
+        }
+    }
+
     ListModel {
         id: theModel
     }
@@ -124,15 +138,7 @@ Item {
     }
 
     Component.onCompleted: {
-        var yearArray = new Array
-        var countArray = new Array
-        //1.获取年份
-        yearArray = albumControl.getYears()
-
-        //2.获取item count并构建model
-        for(var i = 0;i != yearArray.length;++i) {
-            var itemCount = albumControl.getYearCount(yearArray[i])
-            theModel.append({year: yearArray[i], itemCount: itemCount})
-        }
+        flushModel()
+        global.sigFlushAllCollectionView.connect(flushModel)
     }
 }

@@ -18,12 +18,6 @@ Item {
         dateRangeLabel.text = str
     }
 
-    onVisibleChanged: {
-        if (visible) {
-            flushAllCollectionView()
-        }
-    }
-
     // 筛选类型改变处理事件
     onFilterTypeChanged: {
         flushAllCollectionView()

@@ -55,6 +55,19 @@ Item {
         text: "123123"
     }*/
 
+    function flushModel() {
+        //0.清理
+        theModel.clear()
+
+        //1.获取日期
+        var days = albumControl.getDays()
+
+        //2.构建model
+        for (var i = 0;i !== days.length;++i) {
+            theModel.append({dayToken: days[i]})
+        }
+    }
+
     //dayToken: 日期令牌，用于获取其它数据
     ListModel {
         id: theModel
@@ -186,12 +199,7 @@ Item {
     }
 
     Component.onCompleted: {
-        //1.获取日期
-        var days = albumControl.getDays()
-
-        //2.构建model
-        for (var i = 0;i !== days.length;++i) {
-            theModel.append({dayToken: days[i]})
-        }
+        flushModel()
+        global.sigFlushAllCollectionView.connect(flushModel)
     }
 }

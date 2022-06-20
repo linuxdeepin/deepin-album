@@ -216,6 +216,7 @@ void AlbumControl::importAllImagesAndVideos(const QStringList &paths)
         //导入图片数据库ImageTable3
         DBManager::instance()->insertImgInfos(dbInfos);
         emit sigRefreshImportAlbum();
+        emit sigRefreshAllCollection();
     }
 
 }
@@ -250,6 +251,7 @@ void AlbumControl::importAllImagesAndVideosUrl(const QList<QUrl> &paths)
         //导入图片数据库ImageTable3
         DBManager::instance()->insertImgInfos(dbInfos);
         emit sigRefreshImportAlbum();
+        emit sigRefreshAllCollection();
     }
 }
 
@@ -637,6 +639,7 @@ void AlbumControl::slotMonitorChanged(QStringList fileAdd, QStringList fileDelet
 
     emit sigRefreshCustomAlbum(UID);
     emit sigRefreshImportAlbum();
+    emit sigRefreshAllCollection();
 
 }
 
@@ -1684,6 +1687,7 @@ void AlbumControl::importFromMountDevice(const QStringList &paths, const int &in
         }
         DBManager::instance()->insertImgInfos(dbInfos);
         emit sigRefreshImportAlbum();
+        emit sigRefreshAllCollection();
     }
 }
 
