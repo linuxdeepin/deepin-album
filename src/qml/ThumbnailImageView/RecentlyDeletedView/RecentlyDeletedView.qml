@@ -90,7 +90,7 @@ Rectangle {
             flat: true
             font: DTK.fontManager.t6
             text: qsTr("Delete All")
-            visible: !theView.haveSelect
+            visible: !theView.haveSelect && theView.count()
             onClicked: {
                 albumControl.deleteImgFromTrash(theView.allOriginPaths())
                 theView.selectAll(false)
@@ -106,7 +106,7 @@ Rectangle {
             anchors.right: parent.right
             width: 130
             height: 30
-            visible: !theView.haveSelect
+            visible: !theView.haveSelect && numLabelText !== ""
         }
 
         WarningButton {
