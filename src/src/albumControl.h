@@ -37,6 +37,12 @@ public:
     //获得全部导入的DBImgInfoList
     Q_INVOKABLE void getAllInfos();
 
+    //获得支持导入的格式
+    Q_INVOKABLE QString getAllFilters();
+
+    //卸载设备
+    Q_INVOKABLE QString unMountDevice(const QString & devicePath);
+
     //获得全部导入的路径
     Q_INVOKABLE QStringList getAllPaths(const int &filterType = 0);
 

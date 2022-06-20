@@ -96,18 +96,44 @@ Rectangle {
                 id : deviceList
                 height:albumControl.getDevicePaths(global.deviceChangeList).length *42
                 width:parent.width
-                clip: true
                 visible: true
                 interactive: false //禁用原有的交互逻辑，重新开始定制
 
                 model :albumControl.getDevicePaths(global.deviceChangeList).length
                 delegate:    ItemDelegate {
-                    text: albumControl.getDeviceNames(global.deviceChangeList)[index]
-                    width: parent.width - 20
+                    id: deviccItem
+                    width: 180
                     height : 36
-                    icon.name: "iphone"
-                    checked: index == 0
                     backgroundVisible: false
+                    checked: index == 0
+                    DciIcon {
+                        id: deviceIcon
+                        anchors.left: deviccItem.left; anchors.leftMargin: 10
+                        anchors.verticalCenter: deviccItem.verticalCenter
+                        name: "iphone"
+                        sourceSize: Qt.size(20, 20)
+                    }
+                    Label {
+                        id: deviceName
+                        width: 100
+                        anchors.left: deviceIcon.right; anchors.leftMargin: 10
+                        anchors.verticalCenter: deviccItem.verticalCenter
+                        text: albumControl.getDeviceNames(global.deviceChangeList)[index]
+                    }
+                    ActionButton {
+                        anchors.left: deviceName.right; anchors.leftMargin: 10
+                        anchors.verticalCenter: deviccItem.verticalCenter
+                        width: 10
+                        height:  10
+                        icon.name: "arrow"
+                        icon.width: 10
+                        icon.height: 10
+                        onClicked:{
+                            albumControl.unMountDevice(albumControl.getDevicePaths(global.deviceChangeList)[index])
+
+                        }
+                    }
+
                     onClicked: {
                         global.currentViewIndex = 8
                         global.deviceCurrentPath=albumControl.getDevicePaths(global.deviceChangeList)[index]
@@ -115,6 +141,7 @@ Rectangle {
                     }
                     ButtonGroup.group: global.siderGroup
                 }
+
             }
 
             RowLayout{

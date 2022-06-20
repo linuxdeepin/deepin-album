@@ -128,6 +128,38 @@ void AlbumControl::getAllInfos()
     m_infoList = DBManager::instance()->getAllInfos();
 }
 
+QString AlbumControl::getAllFilters()
+{
+    QStringList sList;
+    for (const QString &i : LibUnionImage_NameSpace::unionImageSupportFormat())
+        sList << ("*." + i);
+    //添加视频过滤
+    for (const QString &i : LibUnionImage_NameSpace::videoFiletypes())
+        sList << "*." + i;
+    QString filter = tr("All photos and videos");
+    filter.append('(');
+    filter.append(sList.join(" "));
+    filter.append(')');
+    return filter;
+}
+
+QString AlbumControl::unMountDevice(const QString &devicePath)
+{
+    //查找对应的挂载
+    for (QExplicitlySharedDataPointer<DGioMount> mountLoop : m_mounts) {
+        QString uriLoop = mountLoop->getRootFile()->path();
+        if (devicePath == uriLoop) {
+            qDebug() << "Already has this device in mount list. uri:" << uriLoop;
+            m_mounts.removeOne(mountLoop);
+            m_durlAndNameMap.remove(devicePath);
+            m_PhonePicFileMap.remove(devicePath);
+            mountLoop->unmount();
+            break;
+        }
+    }
+    emit sigMountsChange();
+}
+
 QStringList AlbumControl::getAllPaths(const int &filterType)
 {
     QStringList pathList;
@@ -230,18 +262,44 @@ void AlbumControl::importAllImagesAndVideosUrl(const QList<QUrl> &paths)
     }
     QStringList curAlbumImgPathList = getAllPaths();
     for (QString imagePath : localpaths) {
-        bool bIsVideo = LibUnionImage_NameSpace::isVideo(imagePath);
-        if (!bIsVideo && !LibUnionImage_NameSpace::imageSupportRead(imagePath)) {
-            continue;
+        if (QDir(imagePath).exists()){
+            //获取所选文件类型过滤器
+            QStringList filters;
+            for (QString i : LibUnionImage_NameSpace::unionImageSupportFormat()) {
+                filters << "*." + i;
+            }
+
+            for (QString i : LibUnionImage_NameSpace::videoFiletypes()) {
+                filters << "*." + i;
+            }
+            //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
+            QDirIterator dir_iterator(imagePath,
+                    filters,
+                    QDir::Files | QDir::NoSymLinks,
+                    QDirIterator::Subdirectories);
+            QList<QUrl> allfiles;
+            while (dir_iterator.hasNext()) {
+                dir_iterator.next();
+                QFileInfo fileInfo = dir_iterator.fileInfo();
+                allfiles << "file://" + fileInfo.filePath();
+            }
+            if(!allfiles.isEmpty()){
+                importAllImagesAndVideosUrl(allfiles);
+            }
+        }else {
+            bool bIsVideo = LibUnionImage_NameSpace::isVideo(imagePath);
+            if (!bIsVideo && !LibUnionImage_NameSpace::imageSupportRead(imagePath)) {
+                continue;
+            }
+            QFileInfo srcfi(imagePath);
+            if (!srcfi.exists()) {  //当前文件不存在
+                continue;
+            }
+            if (curAlbumImgPathList.contains(imagePath)) {
+            }
+            DBImgInfo info =  getDBInfo(imagePath, bIsVideo);
+            dbInfos << info;
         }
-        QFileInfo srcfi(imagePath);
-        if (!srcfi.exists()) {  //当前文件不存在
-            continue;
-        }
-        if (curAlbumImgPathList.contains(imagePath)) {
-        }
-        DBImgInfo info =  getDBInfo(imagePath, bIsVideo);
-        dbInfos << info;
     }
     std::sort(dbInfos.begin(), dbInfos.end(), [](const DBImgInfo & lhs, const DBImgInfo & rhs) {
         return lhs.changeTime > rhs.changeTime;

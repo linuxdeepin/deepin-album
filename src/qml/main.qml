@@ -76,10 +76,10 @@ ApplicationWindow {
 
     FileDialog {
         id: importDialog
-        title: qsTr("Select pictures")
+        title: qsTr("All photos and videos")
         folder: shortcuts.pictures
         selectMultiple: true
-        nameFilters: ["Image files (*.jpg *.png *.bmp *.gif *.ico *.jpe *.jps *.jpeg *.jng *.koala *.koa *.lbm *.iff *.mng *.pbm *.pbmraw *.pcd *.pcx *.pgm *.pgmraw *.ppm *.ppmraw *.ras *.tga *.targa *.tiff *.tif *.wbmp *.psd *.cut *.xbm *.xpm *.dds *.fax *.g3 *.sgi *.exr *.pct *.pic *.pict *.webp *.jxr *.mrw *.raf *.mef *.raw *.orf *.djvu *.or2 *.icns *.dng *.svg *.nef *.pef *.pxm *.pnm)"]
+        nameFilters: albumControl.getAllFilters()
         onAccepted: {
             albumControl.importAllImagesAndVideosUrl(importDialog.fileUrls)
         }
