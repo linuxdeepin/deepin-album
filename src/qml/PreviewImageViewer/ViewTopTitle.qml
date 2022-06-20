@@ -1,5 +1,6 @@
 import QtQuick 2.11
 import QtQuick.Window 2.11
+import QtQuick.Layouts 1.11
 import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
 
@@ -64,14 +65,27 @@ Rectangle {
     TitleBar {
         id :title
         anchors.fill:parent
+        windowButtonGroup: WindowButtonGroupEx {
+            Layout.alignment: Qt.AlignRight
+            Layout.fillHeight: true
+            embedMode: title.embedMode
+            textColor: title.textColor
+            fullScreenButtonVisible: title.fullScreenButtonVisible
+            Component.onCompleted: {
+                title.toggleWindowState.connect(maxOrWinded)
+            }
+        }
+
         aboutDialog: AboutDialog{
-            icon:"deepin-image-viewer"
-//                productIcon:"deepin-image-viewer"
+            icon: !fileControl.isAlbum() ? "deepin-image-viewer"
+                                               : "deepin-album"
             width:400
             modality:Qt.NonModal
             version:qsTr(String("Version: %1").arg(Qt.application.version))
-            description:qsTr("Image Viewer is an image viewing tool with fashion interface and smooth performance.")
-            productName:qsTr("deepin-image-viewer")
+            description: !fileControl.isAlbum() ? qsTr("Image Viewer is an image viewing tool with fashion interface and smooth performance.")
+                                                      : qsTr("Album is a fashion manager for viewing and organizing photos and videos.")
+            productName: !fileControl.isAlbum() ? qsTr("deepin-image-viewer")
+                                                     : qsTr("deepin-album")
             websiteName:DTK.deepinWebsiteName
             websiteLink:DTK.deepinWebsitelLink
             license:qsTr(String("%1 is released under %2").arg(productName).arg("GPLV3"))

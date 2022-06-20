@@ -424,6 +424,7 @@ Item {
                             openPaths.push(thumbnailListModel.get(i).url.toString())
                         }
                         mainStack.sourcePaths = openPaths
+                        mainStack.currentIndex = -1
                         mainStack.currentIndex = theView.ism[0]
                         mainStack.currentWidgetIndex = 1
                         global.stackControlCurrent = 1

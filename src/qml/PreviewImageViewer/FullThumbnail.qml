@@ -270,8 +270,9 @@ Item {
     FloatingPanel {
         id: thumbnailViewBackGround
 
-        width: parent.width - 30 < 500+sourcePaths.length*50 ? parent.width - 30 : 500+sourcePaths.length*50
+        width: parent.width - 30 < 500 + albumBtnWidth + sourcePaths.length*50 ? parent.width - 30 : 500 + albumBtnWidth + sourcePaths.length*50
         height: 70
+        property var albumBtnWidth: fileControl.isAlbum() ? 40 * 2 : 0
 
         anchors.right: parent.right
         anchors.rightMargin: (parent.width-width)/2

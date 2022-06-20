@@ -17,24 +17,36 @@ Item {
     }
 
     function deleteCurrentImage(){
-
+        var tmpPath = source
+        var tmpPaths = []
+        tmpPaths.push(tmpPath)
         if (mainView.sourcePaths.length - 1 > bottomthumbnaillistView.currentIndex) {
-            var tempPathIndex=bottomthumbnaillistView.currentIndex
-            var tmpPath=source
+            var tempPathIndex = bottomthumbnaillistView.currentIndex
             //需要保存临时变量，重置后赋值
             imageViewer.sourcePaths = fileControl.removeList(sourcePaths,tempPathIndex)
             imageViewer.swipeIndex=tempPathIndex
-            fileControl.deleteImagePath(tmpPath)
+            if (!fileControl.isAlbum())
+                fileControl.deleteImagePath(tmpPath)
+            else {
+                albumControl.insertTrash(tmpPaths)
+            }
         }else if(mainView.sourcePaths.length - 1 == 0){
             stackView.currentWidgetIndex=0
             root.title=""
-            fileControl.deleteImagePath(imageViewer.sourcePaths[0])
+            if (!fileControl.isAlbum())
+                fileControl.deleteImagePath(imageViewer.sourcePaths[0])
+            else {
+                global.stackControlCurrent = 0
+                albumControl.insertTrash(tmpPaths)
+            }
             imageViewer.sourcePaths=fileControl.removeList(sourcePaths,0)
-
         }else{
             bottomthumbnaillistView.currentIndex--
             imageViewer.source = imageViewer.sourcePaths[bottomthumbnaillistView.currentIndex]
-            fileControl.deleteImagePath(sourcePaths[bottomthumbnaillistView.currentIndex+1])
+            if (!fileControl.isAlbum())
+                fileControl.deleteImagePath(sourcePaths[bottomthumbnaillistView.currentIndex+1])
+            else
+                albumControl.insertTrash(tmpPaths)
             imageViewer.sourcePaths = fileControl.removeList(imageViewer.sourcePaths,bottomthumbnaillistView.currentIndex+1)
         }
     }
@@ -205,9 +217,11 @@ Item {
 
         IconButton {
             id: collectionButton
+            property bool canFavorite: !albumControl.photoHaveFavorited(source, global.bRefreshFavoriteIconFlag)
             width: fileControl.isAlbum() ? 50 : 0
             height:  fileControl.isAlbum() ? 50 : 0
-            icon.name: "toolbar-collection"
+            visible: fileControl.isAlbum()
+            icon.name: canFavorite ? "toolbar-collection" : "toolbar-collection2"
             icon.width:36
             icon.height:36
 
@@ -217,13 +231,21 @@ Item {
             anchors.topMargin: (parent.height - height) / 2
 
             onClicked: {
+                var paths = []
+                paths.push(source)
+                if (canFavorite)
+                    albumControl.insertIntoAlbum(0, paths)
+                else {
+                    albumControl.removeFromAlbum(0, paths)
+                }
 
+                global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
             }
 
             ToolTip.delay: 500
             ToolTip.timeout: 5000
             ToolTip.visible: hovered
-            ToolTip.text: qsTr("Collection")
+            ToolTip.text: canFavorite ? qsTr("Favorite") : qsTr("Unfavorite")
         }
 
 

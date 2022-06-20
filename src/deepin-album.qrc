@@ -52,5 +52,6 @@
         <file>qml/ThumbnailImageView/CollecttionView/AllCollection.qml</file>
         <file>qml/Control/VideoInfoDialog.qml</file>
         <file>qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml</file>
+        <file>qml/PreviewImageViewer/WindowButtonGroupEx.qml</file>
     </qresource>
 </RCC>

@@ -60,5 +60,6 @@
         <file>dsg/icons/draw.dci</file>
         <file>dsg/icons/screenshot.dci</file>
         <file>dsg/icons/custom.dci</file>
+        <file>res/close_hover.svg</file>
     </qresource>
 </RCC>

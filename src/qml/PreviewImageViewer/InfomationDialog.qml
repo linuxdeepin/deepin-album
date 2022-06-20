@@ -22,7 +22,7 @@ DialogWindow {
 
     visible: false
 
-    property string filePath : ""
+    property var filePath
 
     property string fileName: fileControl.slotGetFileNameSuffix(filePath)
 

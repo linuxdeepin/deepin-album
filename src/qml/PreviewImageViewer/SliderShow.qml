@@ -39,7 +39,7 @@ Rectangle {
     SFadeInOut {
         id: fadeInOutImage
         anchors.fill: parent
-        imageSource: images[indexImg]
+        imageSource: images.length > 0 ? images[indexImg] : ""
         width: parent.width
         height: parent.width
     }

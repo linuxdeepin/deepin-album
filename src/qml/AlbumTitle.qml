@@ -353,6 +353,7 @@ Rectangle {
             }
             onClicked: {
                 albumControl.insertTrash(global.selectedPaths)
+                global.sigFlushRecentDelView()
             }
         }
     }
