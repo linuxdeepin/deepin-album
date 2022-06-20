@@ -119,7 +119,25 @@ Item {
         }
     }
 
-
-
-
+    onCurrentViewIndexChanged: {
+        if(albumControl.getAllCount() <= 0) {
+            switch (currentViewIndex) {
+            case 0:
+            case 1:
+                break
+            case 2:
+            case 3:
+            case 4:
+                currentViewIndex = 0
+                break
+            case 5:
+            case 6:
+            case 7:
+                currentViewIndex = 1
+                break
+            default:
+                currentViewIndex = 0
+            }
+        }
+    }
 }
