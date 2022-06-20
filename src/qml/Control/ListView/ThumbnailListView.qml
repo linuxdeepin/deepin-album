@@ -65,6 +65,15 @@ Item {
         return originPaths
     }
 
+    // 获取列表中所有原始url
+    function allOriginUrls() {
+        var originPaths = []
+        for(var i=0 ; i < count(); i++) {
+            originPaths.push(thumbnailListModel.get(i).url.toString())
+        }
+        return originPaths
+    }
+
     //统计当前页面的缩略图时间范围
     function totalTimeScope() {
         if(thumnailListType === GlobalVar.ThumbnailType.AllCollection) { //仅在合集模式的时候激活计算，以此节省性能
@@ -185,8 +194,14 @@ Item {
 
         //刷新选中的元素
         //此函数会极大影响框选时的性能表现
-        function flushRectSel(startX, startY, lenX, lenY) {
-            var tempArray = []
+        function flushIsm()
+        {
+            var startX = rubberBand.x
+            var startY = rubberBand.y + contentY //rubberBand.y是相对于parent窗口的坐标，itemAt的时候是用的view的内部坐标，因此要加上滚动偏移
+            var lenX = Math.max(rubberBand.m_width, 1)
+            var lenY = Math.max(rubberBand.m_height, 1)
+
+            var tempArray = ism
 
             //统计框入了哪些index
             //1.搜索起始图片
@@ -249,8 +264,8 @@ Item {
                 }
             }
 
-            console.log("flushRectSel:", tempArray)
-            return tempArray
+            //刷新整个view的选择效果
+            ism = tempArray
         }
 
         MouseArea {
@@ -272,8 +287,6 @@ Item {
             acceptedButtons: Qt.LeftButton | Qt.RightButton
 
             onPressed: {
-                forceActiveFocus()
-
                 if(mouse.button == Qt.RightButton) {
                     //右键点击区域如果没有选中，则单独选中它
                     var itemIndex = parent.getItemIndexFromAxis(mouseX, mouseY)
@@ -329,7 +342,7 @@ Item {
                 {
                     parent.ism = []
                     parent.rubberBandDisplayed = true
-                    parent.ism = parent.flushRectSel(rubberBand.x, rubberBand.y+parent.contentY, Math.max(rubberBand.m_width, 1), Math.max(rubberBand.m_height, 1))
+                    parent.flushIsm()
                     selectedChanged()
                 }
 
@@ -349,7 +362,7 @@ Item {
                 {
                     parent.ism = []
                     parent.rubberBandDisplayed = true
-                    parent.ism = parent.flushRectSel(rubberBand.x, rubberBand.y+parent.contentY, Math.max(rubberBand.m_width, 1), Math.max(rubberBand.m_height, 1))
+                    parent.flushIsm()
                     selectedChanged()
                 }
 
@@ -387,23 +400,19 @@ Item {
 
             onWheel: {
                 if (enableWheel) {
-                    if (parent.contentHeight <= parent.height)
-                        return
-
                     // 滚动时，激活滚动条显示
                     vbar.active = true
                     var datla = wheel.angleDelta.y / 2
                     parent.contentY -= datla
                     if(parent.contentY < 0) {
                         parent.contentY = 0
-                    } else if ((parent.contentY > (parent.contentHeight - parent.height))) {
-                        parent.contentY = parent.contentHeight - parent.height
+                    } else if(parent.contentY > parent.contentHeight - parent.height + statusBar.height) {
+                        parent.contentY = parent.contentHeight - parent.height + statusBar.height
                     }
                 } else {
                     vbar.active = false
                 }
             }
-
             onDoubleClicked: {
                 if(mouse.button == Qt.LeftButton) {
                     //如果是影视，则采用打开视频
@@ -595,8 +604,7 @@ Item {
                     if ( thumnailListType !== GlobalVar.ThumbnailType.Trash ){
                         albumControl.insertTrash(global.selectedPaths)
                     } else {
-                        albumControl.deleteImgFromTrash(selectedOriginPaths)
-                        selectAll(false)
+                        albumControl.deleteImgFromTrash(global.selectedPaths)
                         global.sigFlushRecentDelView()
                     }
 
@@ -706,9 +714,7 @@ Item {
                 text: qsTr("Restore")
                 visible: thumnailListType === GlobalVar.ThumbnailType.Trash
                 onTriggered: {
-                    albumControl.recoveryImgFromTrash(selectedOriginPaths)
-                    selectAll(false)
-                    global.sigFlushRecentDelView()
+
                 }
             }
 
@@ -747,6 +753,10 @@ Item {
 
     Component.onCompleted: {
         global.sigThumbnailStateChange.connect(fouceUpdate)
+    }
+
+    onVisibleChanged: {
+        totalTimeScope()
     }
 
     onRealCellWidthChanged: {

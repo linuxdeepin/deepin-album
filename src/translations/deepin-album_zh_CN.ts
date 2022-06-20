@@ -19,6 +19,10 @@
         <source>Pictures/</source>
         <translation>图片</translation>
     </message>
+    <message>
+        <source>All photos and videos</source>
+        <translation>所有图片和视频</translation>
+    </message>
 </context>
 <context>
     <name>AlbumTitle</name>
@@ -73,6 +77,21 @@
     <message>
         <source>Import folders</source>
         <translation>导入文件夹</translation>
+    </message>
+</context>
+<context>
+    <name>AllCollection</name>
+    <message>
+        <source>%1 photos</source>
+        <translation>共%1张照片</translation>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation>共%1个视频</translation>
+    </message>
+    <message>
+        <source>%1 items selected (%2)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -148,7 +167,7 @@
     </message>
     <message>
         <source>Import</source>
-        <translation>导入</translation>
+        <translation>已导入</translation>
     </message>
     <message>
         <source>Import %1 items</source>
@@ -161,6 +180,10 @@
     <message>
         <source>No results</source>
         <translation>无结果</translation>
+    </message>
+    <message>
+        <source>New Album</source>
+        <translation>新建相册</translation>
     </message>
 </context>
 <context>
@@ -899,8 +922,8 @@
 <context>
     <name>main</name>
     <message>
-        <source>Select pictures</source>
-        <translation>选择图片</translation>
+        <source>All photos and videos</source>
+        <translation>所有图片和视频</translation>
     </message>
 </context>
 </TS>

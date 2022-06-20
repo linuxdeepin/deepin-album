@@ -113,15 +113,21 @@ Rectangle {
                 id: filterCombo
                 width: 180
                 height: 36
-                displayText : currentIndex == 0 ?qsTr("Import") : albumControl.getAllCustomAlbumName(global.albumChangeList)[currentIndex-1]
-                model: albumControl.getAllCustomAlbumId(global.albumChangeList).length+1
+                displayText : currentIndex == 0?qsTr("Import") : currentIndex == 1? qsTr("New Album")  :albumControl.getAllCustomAlbumName(global.albumChangeList)[currentIndex-2]
+                model: albumControl.getAllCustomAlbumId(global.albumChangeList).length+2
                 delegate: MenuItem {
-                    text: index == 0?qsTr("Import") :albumControl.getAllCustomAlbumName(global.albumChangeList)[index-1]
+                    text: index == 0?qsTr("Import") : index == 1? qsTr("New Album")  :albumControl.getAllCustomAlbumName(global.albumChangeList)[index-2]
                     onTriggered:{
                         if(index == 0 ){
                             currentImportIndex = 0
+                        }else if(index == 1){
+                            var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
+                            var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
+                            newAlbum.setX(x)
+                            newAlbum.setY(y)
+                            newAlbum.show()
                         }else {
-                            currentImportIndex = index + 3
+                            currentImportIndex = index + 2
                         }
                     }
                     highlighted: filterCombo.highlightedIndex === index
@@ -134,7 +140,11 @@ Rectangle {
                 font.capitalization: Font.MixedCase
                 text: global.selectedPaths.length >0 ?qsTr("Import %1 items").arg(global.selectedPaths.length) :qsTr("Import All")
                 onClicked:{
-                    albumControl.importFromMountDevice(global.selectedPaths,currentImportIndex)
+                    if(global.selectedPaths.length >0){
+                        albumControl.importFromMountDevice(global.selectedPaths,currentImportIndex)
+                    }else{
+                        albumControl.importFromMountDevice(theView.allOriginUrls(),currentImportIndex)
+                    }
                 }
                 width: 114
                 height: 36

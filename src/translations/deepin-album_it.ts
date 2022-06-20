@@ -19,6 +19,10 @@
         <source>Pictures/</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>All photos and videos</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AlbumTitle</name>
@@ -73,6 +77,21 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     </message>
     <message>
         <source>Import folders</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AllCollection</name>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -162,6 +181,10 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     <message>
         <source>No results</source>
         <translation type="unfinished">Nessun risultato</translation>
+    </message>
+    <message>
+        <source>New Album</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -900,7 +923,7 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
 <context>
     <name>main</name>
     <message>
-        <source>Select pictures</source>
+        <source>All photos and videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

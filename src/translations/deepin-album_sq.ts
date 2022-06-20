@@ -19,6 +19,10 @@
         <source>Pictures/</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>All photos and videos</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AlbumTitle</name>
@@ -72,6 +76,21 @@
     </message>
     <message>
         <source>Import folders</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AllCollection</name>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -161,6 +180,10 @@
     <message>
         <source>No results</source>
         <translation type="unfinished">Pa përfundime</translation>
+    </message>
+    <message>
+        <source>New Album</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -899,7 +922,7 @@
 <context>
     <name>main</name>
     <message>
-        <source>Select pictures</source>
+        <source>All photos and videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
