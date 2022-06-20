@@ -605,8 +605,8 @@ void AlbumControl::startMonitor()
     }
     QStringList pathlist = DBManager::instance()->getAllPaths();
     QStringList needDeletes ;
-    for(QString path : pathlist){
-        if(!QFileInfo(path).exists()){
+    for (QString path : pathlist) {
+        if (!QFileInfo(path).exists()) {
             needDeletes << path;
         }
     }
@@ -927,7 +927,6 @@ int AlbumControl::getAllCount(const int &filterType)
         typeItem = ItemType::ItemTypeVideo;
     }
     int nCount = DBManager::instance()->getImgsCount(typeItem);
-    qDebug() << QString("AlbumControl::getAllCount: %1").arg(nCount);
     return nCount;
 }
 

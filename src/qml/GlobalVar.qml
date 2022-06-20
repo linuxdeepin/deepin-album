@@ -58,7 +58,7 @@ Item {
     signal sigCollectionViewIndexChanged(int index) //合集页面发生改变
 
     Component.onCompleted: {
-        if( albumControl.getAllCount()>0 ){
+        if( albumControl.getAllCount() > 0 ){
             currentViewIndex = 2
         }
     }

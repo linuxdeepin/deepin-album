@@ -9,6 +9,22 @@ Item {
         currentViewIndex = index
     }
 
+    onVisibleChanged: {
+        if (visible) {
+            console.log("11111")
+            flushTimeScopetimer.start(10)
+        }
+    }
+
+    Timer {
+        id: flushTimeScopetimer
+        running: false
+        repeat: false
+        onTriggered: {
+            allCollection.flushTotalTimeScope()
+        }
+    }
+
     SwipeView {
         id: swipeView
         anchors.fill: parent
