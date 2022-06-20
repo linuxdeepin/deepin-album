@@ -140,6 +140,7 @@ Item {
                 anchors.fill: parent
                 onClicked: {
                     monthClicked(year, month)
+                    forceActiveFocus()
                 }
             }
         }

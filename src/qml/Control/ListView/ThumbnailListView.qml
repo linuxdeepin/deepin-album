@@ -272,6 +272,8 @@ Item {
             acceptedButtons: Qt.LeftButton | Qt.RightButton
 
             onPressed: {
+                forceActiveFocus()
+
                 if(mouse.button == Qt.RightButton) {
                     //右键点击区域如果没有选中，则单独选中它
                     var itemIndex = parent.getItemIndexFromAxis(mouseX, mouseY)

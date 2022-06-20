@@ -72,6 +72,8 @@ Rectangle {
                             global.currentCustomAlbumUId = 0
                         }
                         global.searchEditText = ""
+
+                        forceActiveFocus()
                     }
                     ButtonGroup.group: global.siderGroup
                 }
@@ -109,6 +111,7 @@ Rectangle {
                     onClicked: {
                         global.currentViewIndex = 8
                         global.deviceCurrentPath=albumControl.getDevicePaths(global.deviceChangeList)[index]
+                        forceActiveFocus()
                     }
                     ButtonGroup.group: global.siderGroup
                 }
@@ -144,6 +147,7 @@ Rectangle {
                         newAlbum.setY(y)
 
                         newAlbum.show()
+                        forceActiveFocus()
                     }
                 }
             }
@@ -197,6 +201,7 @@ Rectangle {
                         global.currentViewIndex = 6
                         global.currentCustomAlbumUId = number
                         global.searchEditText = ""
+                        forceActiveFocus()
                     }
                     ButtonGroup.group: global.siderGroup
                     MouseArea {
@@ -214,6 +219,8 @@ Rectangle {
                                 global.searchEditText = ""
                                 systemMenu.popup()
                             }
+
+                            forceActiveFocus()
                         }
                     }
                 }
@@ -253,6 +260,7 @@ Rectangle {
                         global.currentViewIndex = 6
                         global.currentCustomAlbumUId = albumControl.getImportAlubumAllId(global.albumChangeList)[index]
                         global.searchEditText = ""
+                        forceActiveFocus()
                     }
                     ButtonGroup.group: global.siderGroup
                     MouseArea {
@@ -267,6 +275,8 @@ Rectangle {
                             if(mouse.button == Qt.RightButton) {
                                 importMenu.popup()
                             }
+
+                            forceActiveFocus()
                         }
                     }
                 }
@@ -363,6 +373,7 @@ Rectangle {
                             if(mouse.button == Qt.RightButton) {
                                 customMenu.popup()
                             }
+                            forceActiveFocus()
                         }
                         onDoubleClicked:{
                            item.rename();

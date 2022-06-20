@@ -117,6 +117,7 @@ Item {
                 anchors.fill: parent
                 onClicked: { //double click 切换动画不生效
                     yearClicked(year)
+                    forceActiveFocus()
                 }
             }
         }

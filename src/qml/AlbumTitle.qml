@@ -218,7 +218,7 @@ Rectangle {
             property int   beforeView: -1
 
             //先用这个顶上吧，以前的returnPressed不支持
-            onEditingFinished: {
+            onAccepted: {
                 if(global.currentViewIndex != 7) {
                     beforeView = global.currentViewIndex
                 }
