@@ -327,6 +327,7 @@ signals:
     void sigRefreshAllCollection();
     void sigRefreshCustomAlbum(int UID);
     void sigRefreshImportAlbum();
+    void sigRefreshSearchView();
 
     //自定义相册删除
     void sigDeleteCustomAlbum(int UID);

@@ -34,11 +34,12 @@ Rectangle {
         if(searchResult.length > 0) {
             noResultView.visible = false
             resultView.visible = true
+            view.selectAll(false)
             theModel.clear()
             var haveVideo = false
             var havePicture = false
             for(var i = 0;i !== searchResult.length;++i) {
-                theModel.append({url : searchResult[i]})
+                theModel.append({url : searchResult[i], filePath: searchResult[i].replace("file://", "")})
                 if(fileControl.isVideo(searchResult[i])) {
                     haveVideo = true
                 } else {
@@ -72,7 +73,7 @@ Rectangle {
         if (visible) {
             global.statusBarNumText = searchResultLabel.text
         }
-        global.selectedPaths = []
+        global.selectedPaths = view.selectedPaths
     }
 
     //搜索标题

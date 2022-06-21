@@ -1008,6 +1008,7 @@ void AlbumControl::insertTrash(const QList< QUrl > &paths)
     sigRefreshCustomAlbum(0);
     sigRefreshAllCollection();
     sigRefreshImportAlbum();
+    sigRefreshSearchView();
 }
 
 void AlbumControl::removeTrashImgInfos(const QList< QUrl > &paths)

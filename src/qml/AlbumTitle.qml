@@ -99,7 +99,7 @@ Rectangle {
                 height: 36
             }
             onClicked :{
-                if(!leftSidebar.x == 0 ){
+                if(!leftSidebar.x === 0 ){
                     showSliderAnimation.start()
                 }
                 else{
@@ -205,7 +205,15 @@ Rectangle {
             }
         }
 
+        Connections {
+            target: global
+            onSigFlushSearchView: {
+                searchEdit.executeSearch(true)
+            }
+        }
+
         SearchEdit{
+            id: searchEdit
             placeholder: qsTr("Search")
             width: 240
             anchors.top: parent.top
@@ -219,12 +227,16 @@ Rectangle {
 
             //先用这个顶上吧，以前的returnPressed不支持
             onAccepted: {
-                if(global.currentViewIndex != 7) {
+                executeSearch(false)
+            }
+
+            function executeSearch(bForce) {
+                if(global.currentViewIndex !== 7) {
                     beforeView = global.currentViewIndex
                 }
 
                 //判重
-                if(text == searchKey && global.currentViewIndex == 7) {
+                if(text == searchKey && global.currentViewIndex === 7 && !bForce) {
                     return
                 }
                 searchKey = text

@@ -107,7 +107,7 @@ Item {
     // 是否开启滚轮
     property bool enableWheel: true
     //缩略图类型，默认为普通模式
-    property int thumnailListType: global.currentViewIndex == 5 ? GlobalVar.ThumbnailType.Trash : GlobalVar.ThumbnailType.Normal
+    property int thumnailListType: global.currentViewIndex === 5 ? GlobalVar.ThumbnailType.Trash : GlobalVar.ThumbnailType.Normal
     //存在框选项
     property bool haveSelect: theView.ism.length > 0
     //已框选全部缩略图

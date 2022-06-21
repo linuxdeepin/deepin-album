@@ -56,6 +56,7 @@ Item {
     signal sigFlushRecentDelView()      // 刷新最近删除视图内容
     signal sigFlushCustomAlbumView()    // 刷新我的收藏/自定义相册视图内容
     signal sigCollectionViewIndexChanged(int index) //合集页面发生改变
+    signal sigFlushSearchView() // 刷新搜索结果视图内容
 
     Component.onCompleted: {
         if( albumControl.getAllCount() > 0 ){
@@ -100,6 +101,15 @@ Item {
         target: albumControl
         onSigRefreshImportAlbum: {
             sigFlushHaveImportedView()
+        }
+    }
+
+    //数据库监听-刷新搜索结果
+    Connections {
+        target: albumControl
+        onSigRefreshSearchView: {
+            if (global.currentViewIndex === 7)
+                sigFlushSearchView()
         }
     }
 
