@@ -143,7 +143,7 @@ Rectangle {
             anchors.left: range1Button.right
             anchors.leftMargin: 0
             height: 36
-            visible: global.currentViewIndex == 2
+            visible: global.currentViewIndex == 2 && albumControl.getYears().length !== 0
 
             ToolButton {
                 id:yButton
