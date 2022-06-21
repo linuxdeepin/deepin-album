@@ -25,6 +25,7 @@
 #include "src/thumbnailload.h"
 #include "src/albumControl.h"
 #include "launcherplugin.h"
+#include "config.h"
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
@@ -101,7 +102,7 @@ QGuiApplication *LauncherPlugin::createApplication(int &argc, char **argv)
     DApplication *a = new DApplication(argc, argv);
     a->loadTranslator();
     a->setApplicationLicense("GPLV3");
-    a->setApplicationVersion("1.0.0");
+    a->setApplicationVersion(DApplication::buildVersion(VERSION));
     a->setOrganizationName("deepin");
     a->setApplicationName("deepin-album");
     a->setApplicationDisplayName(QObject::tr("Album"));

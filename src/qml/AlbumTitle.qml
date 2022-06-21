@@ -65,7 +65,7 @@ Rectangle {
                        productName: qsTr("deepin-album")
                        websiteName: DTK.deepinWebsiteName
                        websiteLink: DTK.deepinWebsitelLink
-                       license: qsTr(String("%1 is released under %2").arg(productName).arg("GPLV3"))
+                       license: qsTr("%1 is released under %2").arg(productName).arg("GPLV3")
                    }
                }
                QuitAction { }
