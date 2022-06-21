@@ -224,39 +224,9 @@ double ViewLoad::getFitWindowScale(const QString &path, double WindowWidth, doub
 ImagePublisher::ImagePublisher(QObject *parent)
     : QObject(parent)
     , QQuickImageProvider(Image)
-    , m_default(LibUnionImage_NameSpace::renderSVG(":/res/picture_default_light.svg", QSize(60, 45)))
-    , m_videoDefault(LibUnionImage_NameSpace::renderSVG(":/res/video_default_light.svg", QSize(60, 45)))
-    , m_damaged(LibUnionImage_NameSpace::renderSVG(":/res/picture damaged_light.svg", QSize(60, 45)))
 {
     //初始化的时候读取上次退出时的状态
     m_loadMode = LibConfigSetter::instance()->value(SETTINGS_GROUP, SETTINGS_DISPLAY_MODE, 0).toInt();
-
-    m_whiteImage =  QImage (QSize(150,150),QImage::Format_ARGB32);
-    for(int i=0;i<150;i++){
-        for(int j=0;j<150;j++){
-            m_whiteImage.setPixelColor(i,j,QColor(255,255,255));
-        }
-    }
-    m_videoDefaultImage = m_whiteImage;
-    QPainter painter;
-    painter.begin(&m_videoDefaultImage);
-    painter.setPen(Qt::white);
-    painter.drawPixmap(m_videoDefaultImage.width()/2-m_videoDefault.width()/2, m_videoDefaultImage.height()/2-m_videoDefault.height()/2, m_videoDefault);
-    painter.end();
-
-    m_defaultImage = m_whiteImage;
-    QPainter painter1;
-    painter1.begin(&m_defaultImage);
-    painter1.setPen(Qt::white);
-    painter1.drawPixmap(m_defaultImage.width()/2-m_default.width()/2, m_defaultImage.height()/2-m_default.height()/2, m_default);
-    painter1.end();
-
-    m_damagedImage = m_whiteImage;
-    QPainter painter2;
-    painter2.begin(&m_damagedImage);
-    painter2.setPen(Qt::white);
-    painter2.drawPixmap(m_videoDefaultImage.width()/2-m_damaged.width()/2, m_videoDefaultImage.height()/2-m_damaged.height()/2, m_damaged);
-    painter2.end();
 }
 
 //切换加载策略
@@ -344,56 +314,6 @@ QImage ImagePublisher::addPadAndScaled(const QImage &src)
     return result;
 }
 
-QImage ImagePublisher::getImage(const QUrl &url)
-{
-    //1.检查缓存区有没有
-    imageBuffer_mutex.lock();
-    auto iter = std::find_if(imageBuffer.begin(), imageBuffer.end(), [url](const std::pair<QString, std::vector<QImage>> &imageData){
-        return url == imageData.first;
-    });
-
-    //缓存区有，直接返回数据
-    //注意此处的临界区，由于imageBuffer改变后，迭代器大概率会失效，因此临界区需要到取出迭代器内的数据为止
-    if(iter != imageBuffer.end()) {
-        auto data = *iter;
-        imageBuffer_mutex.unlock();
-        return data.second.at(static_cast<size_t>(m_loadMode));
-    }
-
-    //2.缓存区没有，重新制作图片
-    imageBuffer_mutex.unlock();
-
-    QImage image;
-    if(LibUnionImage_NameSpace::isVideo(url.toLocalFile())) {
-        image = MovieService::instance()->getMovieCover(url);
-        if(image.isNull()){
-            image = m_videoDefaultImage;
-        }
-    } else {
-        QString error;
-        LibUnionImage_NameSpace::loadStaticImageFromFile(url.toLocalFile(), image, error);
-        if(image.isNull()){
-            image = m_damagedImage;
-        }
-    }
-
-    std::pair<QString, std::vector<QImage>> imageData;
-    imageData.first = url.url();
-    imageData.second.push_back(clipToRect(image));
-    imageData.second.push_back(addPadAndScaled(image));
-
-    //3.存入缓存区
-    imageBuffer_mutex.lock();
-    if(imageBuffer.size() > QUEUE_MAX_LEN) {
-        imageBuffer.pop_front();
-    }
-    imageBuffer.push_back(imageData);
-    imageBuffer_mutex.unlock();
-
-    //4.返回新加载的数据
-    return imageData.second.at(static_cast<size_t>(m_loadMode));
-}
-
 //图片请求类
 //警告：这个函数将会被多线程执行，需要确保它是可重入的
 QImage ImagePublisher::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
@@ -403,7 +323,19 @@ QImage ImagePublisher::requestImage(const QString &id, QSize *size, const QSize 
 
     QUrl url(id.mid(startIndex));
 
-    QImage image = getImage(url);
+    QString error;
+    QImage image;
+    LibUnionImage_NameSpace::loadStaticImageFromFile(url.toLocalFile(), image, error);
+
+    //如果是视频，则采用视频加载
+    if( LibUnionImage_NameSpace::isVideo(url.toLocalFile()) ){
+        image = MovieService::instance()->getMovieCover(url);
+    }
+    if (m_loadMode == 0) {
+        image = clipToRect(image);
+    } else { //m_loadMode == 1
+        image = addPadAndScaled(image);
+    }
 
     if (size != nullptr) {
         *size = image.size();

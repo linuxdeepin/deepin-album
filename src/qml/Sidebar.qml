@@ -201,6 +201,7 @@ Rectangle {
                         newAlbum.setX(x)
                         newAlbum.setY(y)
                         newAlbum.setNormalEdit()
+                        newAlbum.isChangeView = true
                         newAlbum.show()
                         forceActiveFocus()
                     }
@@ -284,7 +285,6 @@ Rectangle {
                         target: leftSidebar
                         onTodoDraw: {
                            if (number == 3){
-                               console.log("xsaxasdasda282")
                                sysitem.checked=true
                                global.currentViewIndex = 6
                                global.currentCustomAlbumUId = number
@@ -415,7 +415,6 @@ Rectangle {
                     Connections {
                         target: leftSidebar
                         onSigDeleteItem: {
-
                             if(currentCustomIndex >= albumControl.getAllCustomAlbumId(global.albumChangeList).length ){
                                 currentCustomIndex = albumControl.getAllCustomAlbumId(global.albumChangeList).length -1
                             }
@@ -426,14 +425,26 @@ Rectangle {
                                 item.forceActiveFocus();
                                 forceActiveFocus()
                             }
-
-
-
-
                         }
                     }
-
-
+                    Connections {
+                        target: newAlbum
+                        onSigCreateAlbum: {
+                            console.log(global.currentViewIndex)
+                            if(global.currentViewIndex  == 6){
+                                console.log(global.currentViewIndex)
+                                for(var i=0 ; i < albumControl.getAllCustomAlbumId(global.albumChangeList).length; i++) {
+                                    if(albumControl.getAllCustomAlbumId(global.albumChangeList)[i] == global.currentCustomAlbumUId ){
+                                        if(i == index){
+                                            item.checked=true
+                                            item.forceActiveFocus();
+                                            forceActiveFocus()
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
 
                     function enableRename(){
 //
@@ -555,6 +566,7 @@ Rectangle {
                     var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
                     newAlbum.setX(x)
                     newAlbum.setY(y)
+                    newAlbum.isChangeView = true
                     newAlbum.setNormalEdit()
                     newAlbum.show()
                 }
@@ -581,12 +593,6 @@ Rectangle {
                 onTriggered: {
                     albumControl.removeAlbum(global.currentCustomAlbumUId)
                     global.albumChangeList=!global.albumChangeList
-
-                    //                            item.checked=true
-                    //                            global.currentViewIndex = 6
-                    //                            global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[customList.currentIndex]
-                    //                            item.forceActiveFocus();
-                    //                            forceActiveFocus()
                     sigDeleteItem()
                     if(albumControl.getAllCustomAlbumId(global.albumChangeList).length == 0){
                         todoDraw()

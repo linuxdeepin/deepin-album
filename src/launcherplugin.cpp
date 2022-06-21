@@ -56,15 +56,18 @@ int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
     FileControl *fileControl = new FileControl();
     engine->rootContext()->setContextProperty("fileControl", fileControl);
 
+    //禁止多开
+    if (!fileControl->isCheckOnly()) {
+        return 0;
+    }
+
     //新增相册控制模块
     AlbumControl *albumControl = new AlbumControl();
     engine->rootContext()->setContextProperty("albumControl", albumControl);
 
     //设置为相册模式
     fileControl->setViewerType(imageViewerSpace::ImgViewerTypeAlbum);
-//    if (!fileControl->isCheckOnly()) {
-//        return 0;
-//    }
+
     engine->load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine->rootObjects().isEmpty())
         return -1;

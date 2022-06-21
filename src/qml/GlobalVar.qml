@@ -130,6 +130,7 @@ Item {
     }
 
     onCurrentViewIndexChanged: {
+        console.log("currentViewIndex   :",currentViewIndex)
         if(albumControl.getAllCount() <= 0) {
             switch (currentViewIndex) {
             case 0:

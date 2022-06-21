@@ -13,7 +13,7 @@ DialogWindow {
     flags: Qt.Window | Qt.WindowCloseButtonHint | Qt.WindowStaysOnTopHint
     title: " "
     visible: false
-
+    property bool isChangeView: false
 
     minimumWidth: 400
     maximumWidth: 400

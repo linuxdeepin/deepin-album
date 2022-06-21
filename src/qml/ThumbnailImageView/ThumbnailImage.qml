@@ -95,9 +95,13 @@ Rectangle{
         onSigCreateAlbum:
         {
             var index = albumControl.getAllCustomAlbumId(global.albumChangeList).length - 1
-            console.log ( index)
-            albumControl.insertIntoAlbum(albumControl.getAllCustomAlbumId(global.albumChangeList)[index] , global.selectedPaths)
-            global.currentViewIndex = 6
+            if(newAlbum.isChangeView){
+                global.currentViewIndex = 6
+            }
+            else{
+                albumControl.insertIntoAlbum(albumControl.getAllCustomAlbumId(global.albumChangeList)[index] , global.selectedPaths)
+            }
+
             global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[index]
         }
     }

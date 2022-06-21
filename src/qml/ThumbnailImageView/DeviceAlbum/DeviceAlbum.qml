@@ -125,10 +125,11 @@ Rectangle {
                             var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
                             newAlbum.setX(x)
                             newAlbum.setY(y)
+                            newAlbum.isChangeView = false
                             newAlbum.setNormalEdit()
                             newAlbum.show()
                         }else {
-                            currentImportIndex = index + 2
+                            currentImportIndex = index -2
                         }
                     }
                     highlighted: filterCombo.highlightedIndex === index
@@ -142,9 +143,9 @@ Rectangle {
                 text: global.selectedPaths.length >0 ?qsTr("Import %1 items").arg(global.selectedPaths.length) :qsTr("Import All")
                 onClicked:{
                     if(global.selectedPaths.length >0){
-                        albumControl.importFromMountDevice(global.selectedPaths,currentImportIndex)
+                        albumControl.importFromMountDevice(global.selectedPaths,albumControl.getAllCustomAlbumId(global.albumChangeList)[currentImportIndex])
                     }else{
-                        albumControl.importFromMountDevice(theView.allOriginUrls(),currentImportIndex)
+                        albumControl.importFromMountDevice(theView.allOriginUrls(),albumControl.getAllCustomAlbumId(global.albumChangeList)[currentImportIndex])
                     }
                 }
                 width: 114
