@@ -12,6 +12,10 @@ Rectangle {
 
     property int currentCustomIndex: 0
     signal sigRename
+    signal backCollection
+    signal changeDevice
+    signal sigDeleteItem
+    signal todoDraw
     width:200
     height:parent.height
     ScrollView {
@@ -76,6 +80,20 @@ Rectangle {
                         forceActiveFocus()
                     }
                     ButtonGroup.group: global.siderGroup
+
+                    //刷新自定义相册
+                    Connections {
+                        target: leftSidebar
+                        onBackCollection: {
+                            if(number == "0"){
+                                console.log(name)
+                                picItem.checked=true
+                                global.currentViewIndex =  2
+                                global.searchEditText = ""
+                                forceActiveFocus()
+                            }
+                        }
+                    }
                 }
             }
 
@@ -129,8 +147,18 @@ Rectangle {
                         icon.width: 10
                         icon.height: 10
                         onClicked:{
-                            albumControl.unMountDevice(albumControl.getDevicePaths(global.deviceChangeList)[index])
+                            if (albumControl.getDevicePaths(global.deviceChangeList).length == 1){
+                                backCollection();
+                            }else{
+                                if(index -1>= 0){
+                                    global.deviceCurrentPath=albumControl.getDevicePaths(global.deviceChangeList)[index-1]
+                                }else{
 
+                                }
+
+                               forceActiveFocus()
+                            }
+                            albumControl.unMountDevice(albumControl.getDevicePaths(global.deviceChangeList)[index])
                         }
                     }
 
@@ -250,6 +278,22 @@ Rectangle {
                             forceActiveFocus()
                         }
                     }
+
+                    //刷新自定义相册
+                    Connections {
+                        target: leftSidebar
+                        onTodoDraw: {
+                           if (number == 3){
+                               console.log("xsaxasdasda282")
+                               sysitem.checked=true
+                               global.currentViewIndex = 6
+                               global.currentCustomAlbumUId = number
+                               global.searchEditText = ""
+                               forceActiveFocus()
+                           }
+                        }
+                    }
+
                 }
 
             }
@@ -367,6 +411,29 @@ Rectangle {
                            }
                         }
                     }
+
+                    Connections {
+                        target: leftSidebar
+                        onSigDeleteItem: {
+
+                            if(currentCustomIndex >= albumControl.getAllCustomAlbumId(global.albumChangeList).length ){
+                                currentCustomIndex = albumControl.getAllCustomAlbumId(global.albumChangeList).length -1
+                            }
+                            if (currentCustomIndex ==index){
+                                item.checked=true
+                                global.currentViewIndex = 6
+                                global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[currentCustomIndex]
+                                item.forceActiveFocus();
+                                forceActiveFocus()
+                            }
+
+
+
+
+                        }
+                    }
+
+
 
                     function enableRename(){
 //
@@ -514,6 +581,16 @@ Rectangle {
                 onTriggered: {
                     albumControl.removeAlbum(global.currentCustomAlbumUId)
                     global.albumChangeList=!global.albumChangeList
+
+                    //                            item.checked=true
+                    //                            global.currentViewIndex = 6
+                    //                            global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[customList.currentIndex]
+                    //                            item.forceActiveFocus();
+                    //                            forceActiveFocus()
+                    sigDeleteItem()
+                    if(albumControl.getAllCustomAlbumId(global.albumChangeList).length == 0){
+                        todoDraw()
+                    }
                 }
             }
         }

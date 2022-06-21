@@ -1630,6 +1630,11 @@ UNIONIMAGESHARED_EXPORT bool isImage(const QString &path)
     return bRet;
 }
 
+UNIONIMAGESHARED_EXPORT QPixmap renderSVG(const QString &path,const QSize & size)
+{
+    return Libutils::base::renderSVG(path,size);
+}
+
 };
 
 

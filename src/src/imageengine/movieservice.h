@@ -29,6 +29,7 @@
 #include <QDateTime>
 #include <deque>
 #include <QRegExp>
+#include <QPixmap>
 
 #include <mutex>
 
@@ -103,6 +104,7 @@ private:
     QRegExp resolutionExp;
     QRegExp codeRateExp;
     QRegExp fpsExp;
+
 };
 
 #endif // MOVIESERVICE_H

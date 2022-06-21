@@ -41,7 +41,7 @@ public:
     Q_INVOKABLE QString getAllFilters();
 
     //卸载设备
-    Q_INVOKABLE QString unMountDevice(const QString & devicePath);
+    Q_INVOKABLE void unMountDevice(const QString & devicePath);
 
     //获得全部导入的路径
     Q_INVOKABLE QStringList getAllPaths(const int &filterType = 0);
@@ -255,6 +255,9 @@ public:
 
     //创建自定义导入相册
     Q_INVOKABLE void createNewCustomAutoImportAlbum(const QString &path = "");
+
+    //获得视频时长
+    Q_INVOKABLE QString getVideoTime(const QString &path = "");
 
 public :
     QString getDeleteFullPath(const QString &hash, const QString &fileName);

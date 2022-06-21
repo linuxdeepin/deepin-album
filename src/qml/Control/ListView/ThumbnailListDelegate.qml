@@ -135,6 +135,6 @@ Rectangle {
         anchors.rightMargin : 5
         anchors.bottomMargin : 5
         opacity: 0.7
-        displayStr: "1:02:36"
+        displayStr: albumControl.getVideoTime(m_url)
     }
 }

@@ -76,6 +76,14 @@ private:
     QMutex imageBuffer_mutex;
     static constexpr size_t QUEUE_MAX_LEN = 150;
     std::deque<std::pair<QString, std::vector<QImage>>> imageBuffer;
+
+    QPixmap m_default;//图片默认图片
+    QPixmap m_videoDefault;//视频默认图片
+    QPixmap m_damaged;//损坏图片
+    QImage m_whiteImage;
+    QImage m_defaultImage;
+    QImage m_videoDefaultImage;
+    QImage m_damagedImage;
 };
 
 //聚合图

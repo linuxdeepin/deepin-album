@@ -336,6 +336,16 @@ UNIONIMAGESHARED_EXPORT void getAllDirInDir(const QDir &dir, QFileInfoList &resu
  */
 UNIONIMAGESHARED_EXPORT bool isImage(const QString &path);
 
+
+/**
+ * @brief renderSVG
+ * @param path
+ * @author LMH
+ * @return QPixmap
+ * 判断是否是图片
+ */
+UNIONIMAGESHARED_EXPORT QPixmap renderSVG(const QString &path,const QSize & size);
+
 QT_BEGIN_NAMESPACE
 
 class UnionMovieImagePrivate;

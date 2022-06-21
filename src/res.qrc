@@ -61,5 +61,8 @@
         <file>dsg/icons/screenshot.dci</file>
         <file>dsg/icons/custom.dci</file>
         <file>res/close_hover.svg</file>
+        <file>res/video_default_light.svg</file>
+        <file>res/picture damaged_light.svg</file>
+        <file>res/picture_default_light.svg</file>
     </qresource>
 </RCC>

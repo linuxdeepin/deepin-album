@@ -27,6 +27,8 @@
 #include <QProcess>
 #include <QDebug>
 #include <QImage>
+#include <QPainter>
+#include "unionimage/unionimage.h"
 
 #include <iostream>
 
@@ -89,6 +91,11 @@ MovieService::MovieService(QObject *parent)
     } catch (std::logic_error &e) {
         qWarning() << e.what();
     }
+
+
+
+
+
 }
 
 MovieInfo MovieService::getMovieInfo(const QUrl &url)
@@ -343,6 +350,9 @@ QImage MovieService::getMovieCover(const QUrl &url)
                 }
             }
         }
+    }
+    if(image.isNull()){
+        image = QImage(":/res/video_default_light.svg");
     }
 
     return image;

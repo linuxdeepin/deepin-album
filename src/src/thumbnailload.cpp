@@ -224,9 +224,39 @@ double ViewLoad::getFitWindowScale(const QString &path, double WindowWidth, doub
 ImagePublisher::ImagePublisher(QObject *parent)
     : QObject(parent)
     , QQuickImageProvider(Image)
+    , m_default(LibUnionImage_NameSpace::renderSVG(":/res/picture_default_light.svg", QSize(60, 45)))
+    , m_videoDefault(LibUnionImage_NameSpace::renderSVG(":/res/video_default_light.svg", QSize(60, 45)))
+    , m_damaged(LibUnionImage_NameSpace::renderSVG(":/res/picture damaged_light.svg", QSize(60, 45)))
 {
     //初始化的时候读取上次退出时的状态
     m_loadMode = LibConfigSetter::instance()->value(SETTINGS_GROUP, SETTINGS_DISPLAY_MODE, 0).toInt();
+
+    m_whiteImage =  QImage (QSize(150,150),QImage::Format_ARGB32);
+    for(int i=0;i<150;i++){
+        for(int j=0;j<150;j++){
+            m_whiteImage.setPixelColor(i,j,QColor(255,255,255));
+        }
+    }
+    m_videoDefaultImage = m_whiteImage;
+    QPainter painter;
+    painter.begin(&m_videoDefaultImage);
+    painter.setPen(Qt::white);
+    painter.drawPixmap(m_videoDefaultImage.width()/2-m_videoDefault.width()/2, m_videoDefaultImage.height()/2-m_videoDefault.height()/2, m_videoDefault);
+    painter.end();
+
+    m_defaultImage = m_whiteImage;
+    QPainter painter1;
+    painter1.begin(&m_defaultImage);
+    painter1.setPen(Qt::white);
+    painter1.drawPixmap(m_defaultImage.width()/2-m_default.width()/2, m_defaultImage.height()/2-m_default.height()/2, m_default);
+    painter1.end();
+
+    m_damagedImage = m_whiteImage;
+    QPainter painter2;
+    painter2.begin(&m_damagedImage);
+    painter2.setPen(Qt::white);
+    painter2.drawPixmap(m_videoDefaultImage.width()/2-m_damaged.width()/2, m_videoDefaultImage.height()/2-m_damaged.height()/2, m_damaged);
+    painter2.end();
 }
 
 //切换加载策略
@@ -336,9 +366,15 @@ QImage ImagePublisher::getImage(const QUrl &url)
     QImage image;
     if(LibUnionImage_NameSpace::isVideo(url.toLocalFile())) {
         image = MovieService::instance()->getMovieCover(url);
+        if(image.isNull()){
+            image = m_videoDefaultImage;
+        }
     } else {
         QString error;
         LibUnionImage_NameSpace::loadStaticImageFromFile(url.toLocalFile(), image, error);
+        if(image.isNull()){
+            image = m_damagedImage;
+        }
     }
 
     std::pair<QString, std::vector<QImage>> imageData;

@@ -143,7 +143,7 @@ QString AlbumControl::getAllFilters()
     return filter;
 }
 
-QString AlbumControl::unMountDevice(const QString &devicePath)
+void AlbumControl::unMountDevice(const QString &devicePath)
 {
     //查找对应的挂载
     for (QExplicitlySharedDataPointer<DGioMount> mountLoop : m_mounts) {
@@ -1812,4 +1812,14 @@ void AlbumControl::createNewCustomAutoImportAlbum(const QString &path)
     importAllImagesAndVideos(urls);
     insertImportIntoAlbum(UID, urls);
     emit sigRefreshSlider();
+}
+
+QString AlbumControl::getVideoTime(const QString &path)
+{
+    QString reString;
+    reString = MovieService::instance()->getMovieInfo(QUrl(path)).duration;
+    if(reString=="-"){
+        reString ="00:00:00";
+    }
+    return reString;
 }
