@@ -78,6 +78,10 @@
         <source>Import folders</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AllCollection</name>
@@ -589,6 +593,18 @@
     </message>
     <message>
         <source>%1 items found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 photos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos selected</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

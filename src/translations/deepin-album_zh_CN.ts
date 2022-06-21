@@ -78,6 +78,10 @@
         <source>Import folders</source>
         <translation>导入文件夹</translation>
     </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation>%1在%2许可下发布。</translation>
+    </message>
 </context>
 <context>
     <name>AllCollection</name>
@@ -581,15 +585,27 @@
     </message>
     <message>
         <source>%1 photos found</source>
-        <translation>%1 图片找到</translation>
+        <translation>共找到%1张照片</translation>
     </message>
     <message>
         <source>%1 videos found</source>
-        <translation>%1 视频找到</translation>
+        <translation>共找到%1个视频</translation>
     </message>
     <message>
         <source>%1 items found</source>
-        <translation>%1 选项找到</translation>
+        <translation>共找到%1项</translation>
+    </message>
+    <message>
+        <source>%1 items selected</source>
+        <translation>已选择%1项</translation>
+    </message>
+    <message>
+        <source>%1 photos selected</source>
+        <translation>已选择%1张照片</translation>
+    </message>
+    <message>
+        <source>%1 videos selected</source>
+        <translation>已选择%1个视频</translation>
     </message>
 </context>
 <context>

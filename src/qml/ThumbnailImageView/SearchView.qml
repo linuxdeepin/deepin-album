@@ -14,6 +14,9 @@ Rectangle {
     property string currentKeyword: ""
     property int searchResultCount: 0
     property var searchResults: new Array
+    property string numLabelText: ""
+    property string selectedText: getSelectedText(selectedPaths)
+    property alias selectedPaths: view.selectedPaths
 
     onVisibleChanged: {
         if (visible) {
@@ -73,9 +76,32 @@ Rectangle {
         if (visible) {
             global.statusBarNumText = searchResultLabel.text
         }
+        numLabelText = searchResultLabel.text
         global.selectedPaths = view.selectedPaths
     }
 
+    // 刷新选中项目标签内容
+    function getSelectedText(paths) {
+        var photoCount = fileControl.photoCount(paths)
+        var videoCount = fileControl.videoCount(paths)
+        var selectedNumText = ""
+        if (photoCount && videoCount)
+            selectedNumText = qsTr("%1 items selected").arg(photoCount + videoCount)
+        else if (photoCount && videoCount === 0)
+            selectedNumText = qsTr("%1 photos selected").arg(photoCount)
+        else if (photoCount === 0 && videoCount)
+            selectedNumText = qsTr("%1 videos selected").arg(videoCount)
+        else
+            selectedNumText = ""
+
+        if (selectedNumText === "") {
+            selectedNumText = numLabelText
+        }
+
+        if (visible)
+            global.statusBarNumText = selectedNumText
+        return selectedNumText
+    }
     //搜索标题
     Label {
         id: searchTitle

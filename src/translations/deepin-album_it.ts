@@ -79,6 +79,10 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <source>Import folders</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>%1 is released under %2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AllCollection</name>
@@ -590,6 +594,18 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     </message>
     <message>
         <source>%1 items found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 photos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos selected</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
