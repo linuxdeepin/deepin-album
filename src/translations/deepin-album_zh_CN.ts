@@ -83,30 +83,42 @@
     <name>AllCollection</name>
     <message>
         <source>%1 photos</source>
-        <translation>共%1张照片</translation>
+        <translation>%1张照片</translation>
     </message>
     <message>
         <source>%1 videos</source>
-        <translation>共%1个视频</translation>
+        <translation>%1个视频</translation>
     </message>
     <message>
         <source>%1 items selected (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>已选择%1项 (%2)</translation>
     </message>
 </context>
 <context>
     <name>CustomAlbum</name>
     <message>
         <source>%1 photos</source>
-        <translation>共%1张照片</translation>
+        <translation>%1张照片</translation>
     </message>
     <message>
         <source>%1 videos</source>
-        <translation>共%1个视频</translation>
+        <translation>%1个视频</translation>
     </message>
     <message>
         <source>No results</source>
         <translation>无结果</translation>
+    </message>
+    <message>
+        <source>%1 items selected</source>
+        <translation>已选择%1项</translation>
+    </message>
+    <message>
+        <source>%1 photos selected</source>
+        <translation>已选择%1张照片</translation>
+    </message>
+    <message>
+        <source>%1 videos selected</source>
+        <translation>已选择%1个视频</translation>
     </message>
 </context>
 <context>
@@ -132,19 +144,19 @@
     <name>DayCollection</name>
     <message>
         <source>1 photo </source>
-        <translation>一张图 </translation>
+        <translation>1张照片 </translation>
     </message>
     <message>
         <source>%1 photos </source>
-        <translation>共%1张图片 </translation>
+        <translation>%1张照片 </translation>
     </message>
     <message>
         <source>1 video</source>
-        <translation>一个视频</translation>
+        <translation>1个视频</translation>
     </message>
     <message>
         <source>%1 videos</source>
-        <translation>共%1个视频</translation>
+        <translation>%1个视频</translation>
     </message>
     <message>
         <source>%1Year%2Month%3Day</source>
@@ -269,6 +281,18 @@
     <message>
         <source>Import</source>
         <translation>已导入</translation>
+    </message>
+    <message>
+        <source>%1 items selected</source>
+        <translation>已选择%1项</translation>
+    </message>
+    <message>
+        <source>%1 photos selected</source>
+        <translation>已选择%1张照片</translation>
+    </message>
+    <message>
+        <source>%1 videos selected</source>
+        <translation>已选择%1个视频</translation>
     </message>
 </context>
 <context>
@@ -520,6 +544,18 @@
         <source>Restore Selected (%1)</source>
         <translation>恢复选中(%1)</translation>
     </message>
+    <message>
+        <source>%1 items selected</source>
+        <translation>已选择%1项</translation>
+    </message>
+    <message>
+        <source>%1 photos selected</source>
+        <translation>已选择%1张照片</translation>
+    </message>
+    <message>
+        <source>%1 videos selected</source>
+        <translation>已选择%1个视频</translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>
@@ -751,16 +787,20 @@
         <translation>旋转</translation>
     </message>
     <message>
-        <source>Collection</source>
-        <translation>合集</translation>
-    </message>
-    <message>
         <source>Extract text</source>
         <translation>图文识别</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>删除</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation>收藏</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation>取消收藏</translation>
     </message>
 </context>
 <context>
@@ -910,6 +950,14 @@
     <message>
         <source>deepin-image-viewer</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation>相册是一款可多种方式浏览、整理照片和视频的管理工具。</translation>
+    </message>
+    <message>
+        <source>deepin-album</source>
+        <translation>相册</translation>
     </message>
 </context>
 <context>

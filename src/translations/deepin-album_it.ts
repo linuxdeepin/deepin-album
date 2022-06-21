@@ -109,6 +109,18 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <source>No results</source>
         <translation type="unfinished">Nessun risultato</translation>
     </message>
+    <message>
+        <source>%1 items selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 photos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DBManager</name>
@@ -270,6 +282,18 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     <message>
         <source>Import</source>
         <translation type="unfinished">Importa</translation>
+    </message>
+    <message>
+        <source>%1 items selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 photos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos selected</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -521,6 +545,18 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <source>Restore Selected (%1)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>%1 items selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 photos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>
@@ -752,16 +788,20 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Collection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Extract text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Delete</source>
         <translation type="unfinished">Elimina</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Agg. ai preferiti</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Sposta dai preferiti</translation>
     </message>
 </context>
 <context>
@@ -910,6 +950,15 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     </message>
     <message>
         <source>deepin-image-viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished">Album è un gestore per la visualizzazione e l&apos;organizzazione di foto e video.
+Localizzazione italiana a cura di Massimo A. Carofano</translation>
+    </message>
+    <message>
+        <source>deepin-album</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

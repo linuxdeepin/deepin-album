@@ -108,6 +108,18 @@
         <source>No results</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>%1 items selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 photos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DBManager</name>
@@ -269,6 +281,18 @@
     <message>
         <source>Import</source>
         <translation type="unfinished">នាំចូល</translation>
+    </message>
+    <message>
+        <source>%1 items selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 photos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos selected</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -520,6 +544,18 @@
         <source>Restore Selected (%1)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>%1 items selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 photos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>
@@ -751,16 +787,20 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Collection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Extract text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Delete</source>
         <translation type="unfinished">លុប</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">ចំណូលចិត្ត</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">មិនចូលចិត្ត</translation>
     </message>
 </context>
 <context>
@@ -909,6 +949,14 @@
     </message>
     <message>
         <source>deepin-image-viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>deepin-album</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

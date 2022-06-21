@@ -108,6 +108,18 @@
         <source>No results</source>
         <translation type="unfinished">Nic nenalezeno</translation>
     </message>
+    <message>
+        <source>%1 items selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 photos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DBManager</name>
@@ -268,6 +280,18 @@
     </message>
     <message>
         <source>Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 photos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos selected</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -520,6 +544,18 @@
         <source>Restore Selected (%1)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>%1 items selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 photos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SearchView</name>
@@ -751,16 +787,20 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Collection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Extract text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Delete</source>
         <translation type="unfinished">Smazat</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Přidat do oblíbených</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Odebrat z oblíbených</translation>
     </message>
 </context>
 <context>
@@ -909,6 +949,14 @@
     </message>
     <message>
         <source>deepin-image-viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Album is a fashion manager for viewing and organizing photos and videos.</source>
+        <translation type="unfinished">Album je šikovný správce pro zobrazování a uspořádávání fotek a videí</translation>
+    </message>
+    <message>
+        <source>deepin-album</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
