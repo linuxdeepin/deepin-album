@@ -410,6 +410,10 @@
         <source>Name:</source>
         <translation>文件名：</translation>
     </message>
+    <message>
+        <source>Unnamed</source>
+        <translation>未命名相册</translation>
+    </message>
 </context>
 <context>
     <name>NoPictureView</name>

@@ -14,11 +14,11 @@ DialogWindow {
     title: " "
     visible: false
 
+
     minimumWidth: 400
     maximumWidth: 400
     minimumHeight: 190
     maximumHeight: 190
-
 
     width: 400
     height: 190
@@ -26,6 +26,13 @@ DialogWindow {
     icon : "deepin-album"
 
     signal sigCreateAlbum() //创建成功信号
+
+    function setNormalEdit()
+    {
+        //重新设置焦点和名称
+        nameedit.focus=true
+        nameedit.text=qsTr("Unnamed")
+    }
 
     Text {
         id: renametitle
@@ -62,11 +69,12 @@ DialogWindow {
         focus: true
         maximumLength: 255
         validator: RegExpValidator {regExp: /^[^\\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/ }
-        text: qsTr("New Album")
+        text: qsTr("Unnamed")
         selectByMouse: true
 //        alertText: qsTr("The file already exists, please use another name")
 //        showAlert: fileControl.isShowToolTip(source,nameedit.text)
     }
+
 
     Button {
         id: cancelbtn
@@ -90,7 +98,7 @@ DialogWindow {
         anchors.left: cancelbtn.right
         anchors.leftMargin: 10
         text: qsTr("Confirm")
-        enabled: true
+        enabled: nameedit.text !=""? true :false
         width: 185
         height: 36
 

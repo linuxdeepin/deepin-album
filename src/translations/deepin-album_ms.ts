@@ -410,6 +410,10 @@
         <source>Name:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Unnamed</source>
+        <translation type="unfinished">Tidak bernama</translation>
+    </message>
 </context>
 <context>
     <name>NoPictureView</name>

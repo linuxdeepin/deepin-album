@@ -411,6 +411,10 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <source>Name:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Unnamed</source>
+        <translation type="unfinished">Senza nome</translation>
+    </message>
 </context>
 <context>
     <name>NoPictureView</name>
