@@ -113,7 +113,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.topMargin: 0
             anchors.left: showHideleftSidebarButton.right
-            anchors.leftMargin: - leftSidebar.x/2
+            anchors.leftMargin: 0/*- leftSidebar.x/2*/
             width:50
             height:50
             icon {
