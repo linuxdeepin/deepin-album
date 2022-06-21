@@ -606,7 +606,7 @@ Item {
                     if ( thumnailListType !== GlobalVar.ThumbnailType.Trash ){
                         albumControl.insertTrash(global.selectedPaths)
                     } else {
-                        albumControl.deleteImgFromTrash(global.selectedOriginPaths)
+                        albumControl.deleteImgFromTrash(selectedOriginPaths)
                         selectAll(false)
                         global.sigFlushRecentDelView()
                     }

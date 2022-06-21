@@ -11,6 +11,7 @@ Rectangle {
     property string selectedText: getSelectedText(selectedPaths)
     property alias selectedPaths: theView.selectedPaths
     property var selectedOriginPaths
+    property int totalCount: 0
 
     onVisibleChanged: {
         if (visible) {
@@ -28,6 +29,7 @@ Rectangle {
         loadRecentDelItems()
         global.selectedPaths = theView.selectedPaths
         getNumLabelText()
+        totalCount = albumControl.getTrashInfoConut(1) +  albumControl.getTrashInfoConut(2)
     }
 
     // 刷新总数标签
@@ -131,7 +133,7 @@ Rectangle {
             anchors.right: parent.right
             width: 130
             height: 30
-            visible: !theView.haveSelect && numLabelText !== ""
+            visible: !theView.haveSelect && totalCount > 0
         }
 
         WarningButton {

@@ -24,6 +24,8 @@ Rectangle {
         theView.importedListModel.loadImportedInfos()
         theView.updateSelectedPaths()
         getNumLabelText()
+
+        filterCombo.visible = albumControl.getAllInfoConut(1) > 0 || albumControl.getAllInfoConut(2)
     }
 
     // 刷新总数标签
