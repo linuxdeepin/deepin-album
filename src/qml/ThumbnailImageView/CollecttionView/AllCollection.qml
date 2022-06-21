@@ -49,7 +49,7 @@ Item {
     // 刷新选择项数标签
     function getSelectedNum(paths) {
         console.log("selected count:", selectedPaths.length)
-        var selectedNumText = selectedPaths.length == 0 ? "" : qsTr("%1 items selected (%2)").arg(selectedPaths.length).arg(numLabelText)
+        var selectedNumText = selectedPaths.length == 0 ? numLabelText : qsTr("%1 items selected (%2)").arg(selectedPaths.length).arg(numLabelText)
         if (visible)
             global.statusBarNumText = selectedNumText
         return selectedNumText

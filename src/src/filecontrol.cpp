@@ -218,6 +218,28 @@ bool FileControl::isVideo(const QString &path)
     return LibUnionImage_NameSpace::isVideo(QUrl(path).toLocalFile());
 }
 
+int FileControl::photoCount(const QStringList &paths)
+{
+    int nCount = 0;
+    for (int i = 0; i < paths.size(); i++) {
+        if (isImage(paths[i]))
+            nCount++;
+    }
+
+    return nCount;
+}
+
+int FileControl::videoCount(const QStringList &paths)
+{
+    int nCount = 0;
+    for (int i = 0; i < paths.size(); i++) {
+        if (isVideo(paths[i]))
+            nCount++;
+    }
+
+    return nCount;
+}
+
 void FileControl::setWallpaper(const QString &imgPath)
 {
     excuteRotateCurrentPix();
@@ -586,7 +608,7 @@ QString FileControl::slotGetFileLocalPath(const QString &path)
 QString FileControl::slotGetInfo(const QString &key, const QString &path)
 {
     QString localpath = QUrl(path).toLocalFile();
-    if(localpath != m_currentPath){
+    if (localpath != m_currentPath) {
         setCurrentImage(path);
     }
     QString returnString = m_currentAllInfo.value(key);
@@ -718,7 +740,7 @@ void FileControl::showPrintDialog(const QString &path)
 void FileControl::showPrintDialog(const QStringList &paths)
 {
     QStringList localPaths ;
-    for (QString path : paths){
+    for (QString path : paths) {
         localPaths << QUrl(path).toLocalFile();
     }
     PrintHelper::getIntance()->showPrintDialog(localPaths);

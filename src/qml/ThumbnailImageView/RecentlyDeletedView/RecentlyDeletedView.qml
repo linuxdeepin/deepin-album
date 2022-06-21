@@ -8,6 +8,8 @@ Rectangle {
 
     property int filterType : filterCombo.currentIndex // 筛选类型，默认所有
     property string numLabelText: ""
+    property string selectedText: getSelectedText(selectedPaths)
+    property alias selectedPaths: theView.selectedPaths
     property var selectedOriginPaths
 
     onVisibleChanged: {
@@ -37,6 +39,29 @@ Rectangle {
         if (visible) {
             global.statusBarNumText = numLabelText
         }
+    }
+
+    // 刷新选中项目标签内容
+    function getSelectedText(paths) {
+        var photoCount = fileControl.photoCount(paths)
+        var videoCount = fileControl.videoCount(paths)
+        var selectedNumText = ""
+        if (photoCount && videoCount)
+            selectedNumText = qsTr("%1 items selected").arg(photoCount + videoCount)
+        else if (photoCount && videoCount === 0)
+            selectedNumText = qsTr("%1 photos selected").arg(photoCount)
+        else if (photoCount === 0 && videoCount)
+            selectedNumText = qsTr("%1 videos selected").arg(videoCount)
+        else
+            selectedNumText = ""
+
+        if (selectedNumText === "") {
+            selectedNumText = numLabelText
+        }
+
+        if (visible)
+            global.statusBarNumText = selectedNumText
+        return selectedNumText
     }
 
     // 加载最近删除图片数据

@@ -37,14 +37,15 @@ Item {
     // 刷新已导入列表已选路径
     function updateSelectedPaths()
     {
-        selectedPaths = []
+        var tmpPaths = []
         for (var i = 0; i < theModel.selectedPathObjs.length; i++) {
             if (theModel.selectedPathObjs[i].paths.length > 0) {
                 for (var j = 0; j < theModel.selectedPathObjs[i].paths.length; j++)
-                    selectedPaths.push(theModel.selectedPathObjs[i].paths[j])
+                    tmpPaths.push(theModel.selectedPathObjs[i].paths[j])
             }
         }
 
+        selectedPaths = tmpPaths
         if (importedListView.visible) {
             global.selectedPaths = selectedPaths
         }

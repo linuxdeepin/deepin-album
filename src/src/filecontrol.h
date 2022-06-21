@@ -47,6 +47,12 @@ public:
     //是否是视频
     Q_INVOKABLE bool isVideo(const QString &path);
 
+    //获取路径中包含的视频数量
+    Q_INVOKABLE int photoCount(const QStringList &paths);
+
+    //获取路径中包含的视频数量
+    Q_INVOKABLE int videoCount(const QStringList &paths);
+
     //设置壁纸
     Q_INVOKABLE void setWallpaper(const QString &imgPath);
 
