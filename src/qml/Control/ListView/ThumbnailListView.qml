@@ -192,16 +192,10 @@ Item {
              //console.log("onIsmChanged: ", selectedPaths)
         }
 
-        //刷新选中的元素
+        //获取框选区域内所有项的索引值
         //此函数会极大影响框选时的性能表现
-        function flushIsm()
-        {
-            var startX = rubberBand.x
-            var startY = rubberBand.y + contentY //rubberBand.y是相对于parent窗口的坐标，itemAt的时候是用的view的内部坐标，因此要加上滚动偏移
-            var lenX = Math.max(rubberBand.m_width, 1)
-            var lenY = Math.max(rubberBand.m_height, 1)
-
-            var tempArray = ism
+        function flushRectSel(startX, startY, lenX, lenY) {
+            var tempArray = []
 
             //统计框入了哪些index
             //1.搜索起始图片
@@ -264,8 +258,8 @@ Item {
                 }
             }
 
-            //刷新整个view的选择效果
-            ism = tempArray
+            console.log("flushRectSel:", tempArray)
+            return tempArray
         }
 
         MouseArea {
@@ -287,6 +281,8 @@ Item {
             acceptedButtons: Qt.LeftButton | Qt.RightButton
 
             onPressed: {
+                forceActiveFocus()
+
                 if(mouse.button == Qt.RightButton) {
                     //右键点击区域如果没有选中，则单独选中它
                     var itemIndex = parent.getItemIndexFromAxis(mouseX, mouseY)
@@ -342,7 +338,7 @@ Item {
                 {
                     parent.ism = []
                     parent.rubberBandDisplayed = true
-                    parent.flushIsm()
+                    parent.ism = parent.flushRectSel(rubberBand.x, rubberBand.y+parent.contentY, Math.max(rubberBand.m_width, 1), Math.max(rubberBand.m_height, 1))
                     selectedChanged()
                 }
 
@@ -362,7 +358,7 @@ Item {
                 {
                     parent.ism = []
                     parent.rubberBandDisplayed = true
-                    parent.flushIsm()
+                    parent.ism = parent.flushRectSel(rubberBand.x, rubberBand.y+parent.contentY, Math.max(rubberBand.m_width, 1), Math.max(rubberBand.m_height, 1))
                     selectedChanged()
                 }
 
@@ -400,6 +396,9 @@ Item {
 
             onWheel: {
                 if (enableWheel) {
+                    if (parent.contentHeight <= parent.height)
+                        return
+
                     // 滚动时，激活滚动条显示
                     vbar.active = true
                     var datla = wheel.angleDelta.y / 2
@@ -413,6 +412,7 @@ Item {
                     vbar.active = false
                 }
             }
+
             onDoubleClicked: {
                 if(mouse.button == Qt.LeftButton) {
                     //如果是影视，则采用打开视频
@@ -606,7 +606,8 @@ Item {
                     if ( thumnailListType !== GlobalVar.ThumbnailType.Trash ){
                         albumControl.insertTrash(global.selectedPaths)
                     } else {
-                        albumControl.deleteImgFromTrash(global.selectedPaths)
+                        albumControl.deleteImgFromTrash(global.selectedOriginPaths)
+                        selectAll(false)
                         global.sigFlushRecentDelView()
                     }
 
@@ -716,7 +717,9 @@ Item {
                 text: qsTr("Restore")
                 visible: thumnailListType === GlobalVar.ThumbnailType.Trash
                 onTriggered: {
-
+                    albumControl.recoveryImgFromTrash(selectedOriginPaths)
+                    selectAll(false)
+                    global.sigFlushRecentDelView()
                 }
             }
 
@@ -755,10 +758,6 @@ Item {
 
     Component.onCompleted: {
         global.sigThumbnailStateChange.connect(fouceUpdate)
-    }
-
-    onVisibleChanged: {
-        totalTimeScope()
     }
 
     onRealCellWidthChanged: {
