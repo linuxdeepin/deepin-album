@@ -30,8 +30,10 @@ Item {
             width: 160
             height: parent.height
             anchors.right: parent.right
+            visible: !(global.currentViewIndex === 2 && thumbnailImage.m_CollecttionCurrentViewIndex < 2)
             from: 0
             value: 0
+            stepSize: 1
             to: 9
             anchors.rightMargin: 50
         }

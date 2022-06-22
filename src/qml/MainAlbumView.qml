@@ -110,11 +110,11 @@ Rectangle {
 
         onSliderValueChanged: {
             global.thumbnailSizeLevel = sliderValue
-            fileControl.setConfigValue("StatusBar", "sliderValue", sliderValue)
+            fileControl.setConfigValue("", "album-zoomratio", sliderValue)
         }
 
         Component.onCompleted: {
-            var oldSliderValue = Number(fileControl.getConfigValue("StatusBar", "sliderValue", 0))
+            var oldSliderValue = Number(fileControl.getConfigValue("", "album-zoomratio", 4))
             setSliderWidgetValue(oldSliderValue)
         }
     }

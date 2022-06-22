@@ -25,22 +25,42 @@
 #include <QFileInfo>
 #include <QProcess>
 
-const QString CONFIG_PATH =   QDir::homePath() +
-                              "/.config/deepin/deepin-image-viewer/config.conf";
+const QString CONFIG_PATH_IMAGE_VIEWER =   QDir::homePath() +
+                                           "/.config/deepin/deepin-image-viewer/config.conf";
+const QString CONFIG_PATH_ALBUM =   QDir::homePath() +
+                                    "/.config/deepin/deepin-album/config.conf";
 
 LibConfigSetter::LibConfigSetter(QObject *parent) : QObject(parent)
+    , m_viewType(imageViewerSpace::ImgViewerTypeNull)
 {
-    m_settings = new QSettings(CONFIG_PATH, QSettings::IniFormat, this);
+
 }
 
 LibConfigSetter *LibConfigSetter::m_setter = nullptr;
 LibConfigSetter *LibConfigSetter::instance()
 {
-    if (! m_setter) {
+    if (!m_setter) {
         m_setter = new LibConfigSetter();
     }
 
     return m_setter;
+}
+
+void LibConfigSetter::loadConfig(imageViewerSpace::ImgViewerType type)
+{
+    if (m_viewType == type)
+        return;
+
+    m_viewType = type;
+    m_settings = new QSettings(imageViewerSpace::ImgViewerTypeAlbum == type ? CONFIG_PATH_ALBUM : CONFIG_PATH_IMAGE_VIEWER, QSettings::IniFormat, this);
+
+//    if (imageViewerSpace::ImgViewerTypeAlbum == m_viewType) {
+//        if (!m_settings->contains("album-zoomratio")) {
+//            m_settings->setValue("album-zoomratio", 4);
+//        }
+//    } else if (imageViewerSpace::ImgViewerTypeLocal == m_viewType) {
+
+//    }
 }
 
 void LibConfigSetter::setValue(const QString &group, const QString &key,

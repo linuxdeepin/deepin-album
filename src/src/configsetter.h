@@ -21,6 +21,8 @@
 #ifndef CONFIGSETTER_H
 #define CONFIGSETTER_H
 
+#include "unionimage/unionimage_global.h"
+
 #include <QObject>
 #include <QSettings>
 #include <QMutex>
@@ -30,6 +32,7 @@ class LibConfigSetter : public QObject
     Q_OBJECT
 public:
     static LibConfigSetter *instance();
+    void loadConfig(imageViewerSpace::ImgViewerType type);
     void setValue(const QString &group, const QString &key,
                   const QVariant &value);
     QVariant value(const QString &group, const QString &key,
@@ -44,6 +47,7 @@ private:
     explicit LibConfigSetter(QObject *parent = nullptr);
 
 private:
+    imageViewerSpace::ImgViewerType m_viewType;
     static LibConfigSetter *m_setter;
     QSettings *m_settings;
     QMutex m_mutex;

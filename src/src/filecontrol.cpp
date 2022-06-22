@@ -762,10 +762,10 @@ int FileControl::getlastWidth()
     int defaultW = 0;
 
     QDesktopWidget *dw = QApplication::desktop();
-    if (double(dw->geometry().width()) * 0.60 < MAINWIDGET_MINIMUN_WIDTH) {
+    if (double(dw->screenGeometry().width()) * 0.60 < MAINWIDGET_MINIMUN_WIDTH) {
         defaultW = MAINWIDGET_MINIMUN_WIDTH;
     } else {
-        defaultW = int(double(dw->geometry().width()) * 0.60);
+        defaultW = int(double(dw->screenGeometry().width()) * 0.60);
     }
 
     const int ww = getConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
@@ -781,10 +781,10 @@ int FileControl::getlastHeight()
     int defaultH = 0;
 
     QDesktopWidget *dw = QApplication::desktop();
-    if (double(dw->geometry().height()) * 0.60 < MAINWIDGET_MINIMUN_HEIGHT) {
+    if (double(dw->screenGeometry().height()) * 0.60 < MAINWIDGET_MINIMUN_HEIGHT) {
         defaultH = MAINWIDGET_MINIMUN_HEIGHT;
     } else {
-        defaultH = int(double(dw->geometry().height()) * 0.60);
+        defaultH = int(double(dw->screenGeometry().height()) * 0.60);
     }
     const int wh = getConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(defaultH)).toInt();
 

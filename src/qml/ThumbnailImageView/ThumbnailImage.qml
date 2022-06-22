@@ -16,6 +16,7 @@ import "./../PreviewImageViewer"
 Rectangle{
     property int m_topMargin: 0
     property int m_leftMargin: 20
+    property int m_CollecttionCurrentViewIndex: collecttionView.currentViewIndex
 
     function setCollecttionViewIndex(index) {
         collecttionView.setIndex(index)

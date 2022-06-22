@@ -43,6 +43,9 @@ LauncherPlugin::~LauncherPlugin()
 
 int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
 {
+    // 配置文件加载
+    LibConfigSetter::instance()->loadConfig(imageViewerSpace::ImgViewerTypeAlbum);
+
     // 请在此处注册需要导入到QML中的C++类型
     // 例如： engine->rootContext()->setContextProperty("Utils", new Utils);
     //后端缩略图加载
