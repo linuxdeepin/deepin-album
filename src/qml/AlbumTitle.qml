@@ -99,7 +99,8 @@ Rectangle {
                 height: 36
             }
             onClicked :{
-                if(!leftSidebar.x === 0 ){
+                console.log("leftSidebar.x:",leftSidebar.x)
+                if(leftSidebar.x !== 0 ){
                     showSliderAnimation.start()
                 }
                 else{
@@ -114,6 +115,7 @@ Rectangle {
             anchors.topMargin: 0
             anchors.left: showHideleftSidebarButton.right
             anchors.leftMargin: 0/*- leftSidebar.x/2*/
+            enabled: albumControl.getYears(global.bRefreshRangeBtnState).length > 0
             width:50
             height:50
             icon {

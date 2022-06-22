@@ -11,7 +11,6 @@ Item {
 
     onVisibleChanged: {
         if (visible) {
-            console.log("11111")
             flushTimeScopetimer.start(10)
         }
     }
