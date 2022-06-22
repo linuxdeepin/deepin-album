@@ -189,6 +189,9 @@ public:
     //选择路径导出视频
     Q_INVOKABLE bool getFolders(const QStringList &paths);
 
+    //选择路径导出文件及目录
+    Q_INVOKABLE bool exportFolders(const QStringList &paths,const QString& dir);
+
     //用影院打开视频
     Q_INVOKABLE void openDeepinMovie(const QString &path);
 
@@ -335,6 +338,8 @@ signals:
     void sigMountsChange();
 
     void sigRefreshSlider();
+
+    void sigAddDevice(const QString &path);
 
 private :
     DBImgInfoList m_infoList;  //全部已导入

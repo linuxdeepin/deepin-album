@@ -16,6 +16,8 @@ Rectangle {
     signal changeDevice
     signal sigDeleteItem
     signal todoDraw
+    property var devicePath : albumControl.getDevicePaths(global.deviceChangeList)
+    property var albumPaths : albumControl.getAlbumPaths(global.currentCustomAlbumUId)
     width:200
     height:parent.height
     ScrollView {
@@ -101,7 +103,7 @@ Rectangle {
                 Layout.alignment: Qt.AlignCenter
                 spacing: 100
 
-                visible: albumControl.getDevicePaths(global.deviceChangeList).length>0 ?true :false
+                visible: devicePath.length>0 ?true :false
                 Label {
                     id:deviceLabel
                     height: 30
@@ -112,12 +114,12 @@ Rectangle {
 
             ListView{
                 id : deviceList
-                height:albumControl.getDevicePaths(global.deviceChangeList).length *42
+                height:devicePath.length *42
                 width:parent.width
                 visible: true
                 interactive: false //禁用原有的交互逻辑，重新开始定制
 
-                model :albumControl.getDevicePaths(global.deviceChangeList).length
+                model :devicePath.length
                 delegate:    ItemDelegate {
                     id: deviccItem
                     width: 180
@@ -147,26 +149,38 @@ Rectangle {
                         icon.width: 10
                         icon.height: 10
                         onClicked:{
-                            if (albumControl.getDevicePaths(global.deviceChangeList).length == 1){
+                            if (devicePath.length == 1){
                                 backCollection();
                             }else{
                                 if(index -1>= 0){
-                                    global.deviceCurrentPath=albumControl.getDevicePaths(global.deviceChangeList)[index-1]
+                                    global.deviceCurrentPath=devicePath[index-1]
                                 }else{
 
                                 }
 
                                forceActiveFocus()
                             }
-                            albumControl.unMountDevice(albumControl.getDevicePaths(global.deviceChangeList)[index])
+                            albumControl.unMountDevice(devicePath[index])
+                        }
+                    }
+                    // 图片保存完成，缩略图区域重新加载当前图片
+                    Connections {
+                        target: albumControl
+                        onSigAddDevice: {
+                            console.log(path)
+                            if (path === albumControl.getDevicePaths(global.deviceChangeList)[index]) {
+                                deviccItem.checked =true
+                            }
+                        }
+                    }
+                    onCheckedChanged: {
+                        if(deviccItem.checked ==true){
+                            global.currentViewIndex = 8
+                            global.deviceCurrentPath=devicePath[index]
+                            forceActiveFocus()
                         }
                     }
 
-                    onClicked: {
-                        global.currentViewIndex = 8
-                        global.deviceCurrentPath=albumControl.getDevicePaths(global.deviceChangeList)[index]
-                        forceActiveFocus()
-                    }
                     ButtonGroup.group: global.siderGroup
                 }
 
@@ -268,12 +282,12 @@ Rectangle {
                         enabled: true;
 
                         onClicked: {
+                            sysitem.checked=true
+                            global.currentViewIndex = 6
+                            global.currentCustomAlbumUId = number
+                            global.searchEditText = ""
                             if(mouse.button == Qt.RightButton) {
-                                sysItem.checked=true
-                                global.currentViewIndex = 6
-                                global.currentCustomAlbumUId = number
-                                global.searchEditText = ""
-                                systemMenu.popup()
+                                customMenu.popup()
                             }
 
                             forceActiveFocus()
@@ -395,7 +409,7 @@ Rectangle {
                             songName.visible = true;
                             siderIcon.visible = true;
                             keyLineEdit.visible = false;
-                            albumControl.renameAlbum( global.currentCustomAlbumUId, keyLineEdit.text)
+                            albumControl.renameAlbum( albumControl.getAllCustomAlbumId(global.albumChangeList)[index], keyLineEdit.text)
                             global.albumChangeList=!global.albumChangeList
                         }
                         onActiveFocusChanged: {
@@ -494,9 +508,9 @@ Rectangle {
             //显示大图预览
             RightMenuItem {
                 text: qsTr("Slide show")
-                visible: albumControl.getAlbumPaths(global.currentCustomAlbumUId).length >0
+                visible: albumPaths.length >0
                 onTriggered: {
-                    stackControl.startMainSliderShow(albumControl.getAlbumPaths(global.currentCustomAlbumUId), 0)
+                    stackControl.startMainSliderShow(albumPaths, 0)
                 }
             }
 
@@ -505,9 +519,9 @@ Rectangle {
 
             RightMenuItem {
                 text: qsTr("Export")
-                visible:  albumControl.getAlbumPaths(global.currentCustomAlbumUId).length >0
+                visible:  albumPaths.length >0
                 onTriggered: {
-                    albumControl.getFolders(albumControl.getAlbumPaths(global.currentCustomAlbumUId))
+                    albumControl.exportFolders(albumPaths,albumControl.getCustomAlbumByUid(global.currentCustomAlbumUId))
                 }
             }
         }
@@ -518,9 +532,9 @@ Rectangle {
             //显示大图预览
             RightMenuItem {
                 text: qsTr("Slide show")
-                visible: albumControl.getAlbumPaths(global.currentCustomAlbumUId).length >0
+                visible: albumPaths.length >0
                 onTriggered: {
-                    stackControl.startMainSliderShow(albumControl.getAlbumPaths(global.currentCustomAlbumUId), 0)
+                    stackControl.startMainSliderShow(albumPaths, 0)
                 }
             }
 
@@ -529,9 +543,9 @@ Rectangle {
 
             RightMenuItem {
                 text: qsTr("Export")
-                visible: albumControl.getAlbumPaths(global.currentCustomAlbumUId).length >0
+                visible: albumPaths.length >0
                 onTriggered: {
-                    albumControl.getFolders(albumControl.getAlbumPaths(global.currentCustomAlbumUId))
+                    albumControl.exportFolders(albumPaths,albumControl.getCustomAlbumByUid(global.currentCustomAlbumUId))
                 }
             }
             RightMenuItem {
@@ -553,14 +567,15 @@ Rectangle {
             //显示大图预览
             RightMenuItem {
                 text: qsTr("Slide show")
-                visible: albumControl.getAlbumPaths(global.currentCustomAlbumUId).length >0
+                visible: albumPaths.length >0
                 onTriggered: {
-                    stackControl.startMainSliderShow(albumControl.getAlbumPaths(global.currentCustomAlbumUId), 0)
+                    stackControl.startMainSliderShow(albumPaths, 0)
                 }
             }
 
             RightMenuItem {
                 text: qsTr("New album")
+                visible: global.currentCustomAlbumUId > 3 ?true : false
                 onTriggered: {
                     var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
                     var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
@@ -573,6 +588,7 @@ Rectangle {
             }
             RightMenuItem {
                 text: qsTr("Rename")
+                visible: global.currentCustomAlbumUId > 3 ?true : false
                 onTriggered: {
                     sigRename();
                 }
@@ -583,13 +599,14 @@ Rectangle {
 
             RightMenuItem {
                 text: qsTr("Export")
-                visible: albumControl.getAlbumPaths(global.currentCustomAlbumUId).length >0
+                visible: albumPaths.length >0
                 onTriggered: {
-                    albumControl.getFolders(albumControl.getAlbumPaths(global.currentCustomAlbumUId))
+                    albumControl.exportFolders(albumPaths,albumControl.getCustomAlbumByUid(global.currentCustomAlbumUId))
                 }
             }
             RightMenuItem {
                 text: qsTr("Delete")
+                visible: global.currentCustomAlbumUId > 3 ?true : false
                 onTriggered: {
                     albumControl.removeAlbum(global.currentCustomAlbumUId)
                     global.albumChangeList=!global.albumChangeList

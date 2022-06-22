@@ -759,11 +759,12 @@ void AlbumControl::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> 
             m_mounts << mount;
             //挂在路径
             sltLoadMountFileList(strPath);
-            //名称
-            rename ;
+
+            emit sigMountsChange();
+            //发送新增
+            emit sigAddDevice(mount->getRootFile()->path());
         }
     }
-    emit sigMountsChange();
 }
 
 void AlbumControl::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount)
@@ -1081,6 +1082,7 @@ QList < QString > AlbumControl::getAllCustomAlbumName()
 
 QStringList AlbumControl::getAlbumPaths(const int &albumId, const int &filterType)
 {
+    qDebug()<<"1085" << albumId;
     QStringList relist;
     DBImgInfoList dbInfoList = DBManager::instance()->getInfosByAlbum(albumId, false);
     QString title = DBManager::instance()->getAlbumNameFromUID(albumId);
@@ -1507,6 +1509,49 @@ bool AlbumControl::getFolders(const QStringList &paths)
             }
         }
 
+    }
+    return bRet;
+}
+
+bool AlbumControl::exportFolders(const QStringList &paths, const QString &dir)
+{
+    bool bRet = true;
+    QFileDialog dialog;
+    QString fileDir;
+    dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
+    dialog.setViewMode(QFileDialog::Detail);
+    dialog.setFileMode(QFileDialog::DirectoryOnly);
+    if (dialog.exec()) {
+        fileDir = dialog.selectedFiles().first();
+    }
+    QStringList localPaths;
+    for (QString path : paths) {
+        localPaths << QUrl(path).toLocalFile();
+    }
+    if (!fileDir.isEmpty()) {
+
+        QString newDir=fileDir+"/"+dir;
+        QDir a;
+        a.mkdir(newDir);
+
+
+        for (QString path : localPaths) {
+
+            QString savePath = newDir + "/" + QFileInfo(path).completeBaseName() + "." + QFileInfo(path).completeSuffix();
+            QFileInfo fileinfo(savePath);
+            if (fileinfo.exists() && !fileinfo.isDir()) {
+                //目标位置与原图位置相同则直接返回
+                if (path == savePath) {
+                    return true;
+                }
+                //目标位置与原图位置不同则先删除再复制
+                if (QFile::remove(savePath)) {
+                    bRet = QFile::copy(path, savePath);
+                }
+            } else {
+                bRet = QFile::copy(path, savePath);
+            }
+        }
     }
     return bRet;
 }
