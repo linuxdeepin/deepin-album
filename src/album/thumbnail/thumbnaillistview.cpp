@@ -755,6 +755,9 @@ void ThumbnailListView::updateMenuContents()
         if (m_batchOperateWidget && !m_batchOperateWidget->isAllSelectedCollected()) {
             m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
             m_MenuActionMap.value(tr("Favorite"))->setVisible(true);
+        } else if (!m_batchOperateWidget && !DBManager::instance()->isAllImgExistInAlbum(DBManager::SpUID::u_Favorite, paths, AlbumDBType::Favourite)) {
+            m_MenuActionMap.value(tr("Unfavorite"))->setVisible(false);
+            m_MenuActionMap.value(tr("Favorite"))->setVisible(true);
         } else {
             m_MenuActionMap.value(tr("Favorite"))->setVisible(false);
             m_MenuActionMap.value(tr("Unfavorite"))->setVisible(true);
