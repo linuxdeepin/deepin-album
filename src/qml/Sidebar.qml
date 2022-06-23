@@ -76,7 +76,7 @@ Rectangle {
                     onClicked: {
                         global.currentViewIndex = index + 2
                         // 导航页选中我的收藏时，设定自定相册索引为0，使用CutomAlbum控件按自定义相册界面逻辑显示我的收藏内容
-                        if (global.currentViewIndex == 4) {
+                        if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite) {
                             global.currentCustomAlbumUId = 0
                         }
                         global.searchEditText = ""
@@ -92,7 +92,7 @@ Rectangle {
                             if(number == "0"){
                                 console.log(name)
                                 picItem.checked=true
-                                global.currentViewIndex =  2
+                                global.currentViewIndex = GlobalVar.ThumbnailViewType.Collecttion
                                 global.searchEditText = ""
                                 forceActiveFocus()
                             }
@@ -177,7 +177,7 @@ Rectangle {
                     }
                     onCheckedChanged: {
                         if(deviccItem.checked ==true){
-                            global.currentViewIndex = 8
+                            global.currentViewIndex = GlobalVar.ThumbnailViewType.Device
                             global.deviceCurrentPath=devicePath[index]
                             forceActiveFocus()
                         }
@@ -270,7 +270,7 @@ Rectangle {
                     }
 
                     onClicked: {
-                        global.currentViewIndex = 6
+                        global.currentViewIndex = GlobalVar.ThumbnailViewType.CustomAlbum
                         global.currentCustomAlbumUId = number
                         global.searchEditText = ""
                         forceActiveFocus()
@@ -285,7 +285,7 @@ Rectangle {
 
                         onClicked: {
                             sysitem.checked=true
-                            global.currentViewIndex = 6
+                            global.currentViewIndex = GlobalVar.ThumbnailViewType.CustomAlbum
                             global.currentCustomAlbumUId = number
                             global.searchEditText = ""
                             if(mouse.button == Qt.RightButton) {
@@ -302,7 +302,7 @@ Rectangle {
                         onTodoDraw: {
                            if (number == 3){
                                sysitem.checked=true
-                               global.currentViewIndex = 6
+                               global.currentViewIndex = GlobalVar.ThumbnailViewType.CustomAlbum
                                global.currentCustomAlbumUId = number
                                global.searchEditText = ""
                                forceActiveFocus()
@@ -352,7 +352,7 @@ Rectangle {
                     }
                     onCheckedChanged: {
                         if(importitem.checked ==true){
-                            global.currentViewIndex = 6
+                            global.currentViewIndex = GlobalVar.ThumbnailViewType.CustomAlbum
                             global.currentCustomAlbumUId = albumControl.getImportAlubumAllId(global.albumChangeList)[index]
                             global.searchEditText = ""
                             forceActiveFocus()
@@ -366,9 +366,9 @@ Rectangle {
                             if(currentImportCustomIndex >= albumControl.getImportAlubumAllId(global.albumChangeList).length ){
                                 currentImportCustomIndex = albumControl.getImportAlubumAllId(global.albumChangeList).length -1
                             }
-                            if (currentImportCustomIndex ==index){
-                                importitem.checked=true
-                                global.currentViewIndex = 6
+                            if (currentImportCustomIndex === index){
+                                importitem.checked = true
+                                global.currentViewIndex = GlobalVar.ThumbnailViewType.CustomAlbum
                                 global.currentCustomAlbumUId = albumControl.getImportAlubumAllId(global.albumChangeList)[currentCustomIndex]
                                 importitem.forceActiveFocus();
                                 forceActiveFocus()
@@ -463,9 +463,9 @@ Rectangle {
                             if(currentCustomIndex >= albumControl.getAllCustomAlbumId(global.albumChangeList).length ){
                                 currentCustomIndex = albumControl.getAllCustomAlbumId(global.albumChangeList).length -1
                             }
-                            if (currentCustomIndex ==index){
+                            if (currentCustomIndex === index){
                                 item.checked=true
-                                global.currentViewIndex = 6
+                                global.currentViewIndex = GlobalVar.ThumbnailViewType.CustomAlbum
                                 global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[currentCustomIndex]
                                 item.forceActiveFocus();
                                 forceActiveFocus()
@@ -476,7 +476,7 @@ Rectangle {
                         target: newAlbum
                         onSigCreateAlbum: {
                             console.log(global.currentViewIndex)
-                            if(global.currentViewIndex  == 6){
+                            if(global.currentViewIndex === GlobalVar.ThumbnailViewType.CustomAlbum){
                                 console.log(global.currentViewIndex)
                                 for(var i=0 ; i < albumControl.getAllCustomAlbumId(global.albumChangeList).length; i++) {
                                     if(albumControl.getAllCustomAlbumId(global.albumChangeList)[i] == global.currentCustomAlbumUId ){
@@ -517,7 +517,7 @@ Rectangle {
                         onClicked: {
                             currentCustomIndex=index
                             item.checked=true
-                            global.currentViewIndex = 6
+                            global.currentViewIndex = GlobalVar.ThumbnailViewType.CustomAlbum
                             global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[index]
                             item.forceActiveFocus();
                             if(mouse.button == Qt.RightButton) {

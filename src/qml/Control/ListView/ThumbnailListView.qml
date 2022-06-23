@@ -76,7 +76,7 @@ Item {
 
     //统计当前页面的缩略图时间范围
     function totalTimeScope() {
-        if(thumnailListType === GlobalVar.ThumbnailType.AllCollection && global.currentViewIndex === 2 && collecttionView.currentViewIndex === 3) { //仅在合集模式的时候激活计算，以此节省性能
+        if(thumnailListType === GlobalVar.ThumbnailType.AllCollection && global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion && collecttionView.currentViewIndex === 3) { //仅在合集模式的时候激活计算，以此节省性能
             var visilbeIndexs = theView.flushRectSel(0, 0, theView.width, theView.height)
             if (visilbeIndexs.length > 0 && visilbeIndexs[0] !== "-1") {
                 var url1 = thumbnailListModel.get(visilbeIndexs[0]).url
@@ -107,7 +107,7 @@ Item {
     // 是否开启滚轮
     property bool enableWheel: true
     //缩略图类型，默认为普通模式
-    property int thumnailListType: global.currentViewIndex === 5 ? GlobalVar.ThumbnailType.Trash : GlobalVar.ThumbnailType.Normal
+    property int thumnailListType: global.currentViewIndex === GlobalVar.ThumbnailViewType.RecentlyDeleted ? GlobalVar.ThumbnailType.Trash : GlobalVar.ThumbnailType.Normal
     //存在框选项
     property bool haveSelect: theView.ism.length > 0
     //已框选全部缩略图
@@ -305,7 +305,7 @@ Item {
                     canRotate = fileControl.isRotatable(selectedPaths)
                     canPrint = fileControl.isCanPrint(selectedPaths)
 
-                    if(global.currentViewIndex != 8){
+                    if(global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device){
                         thumbnailMenu.popup()
                     }
                     return
@@ -561,7 +561,7 @@ Item {
                             albumControl.insertIntoAlbum(albumControl.getAllCustomAlbumId(global.albumChangeList)[index] , global.selectedPaths)
                             global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[index]
                             global.siderGroup.buttons[index].checked = true
-                            global.currentViewIndex = 6
+                            global.currentViewIndex = GlobalVar.ThumbnailViewType.CustomAlbum
                         }
                     }
 
@@ -640,7 +640,7 @@ Item {
                     global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
 
                     // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
-                    if (global.currentViewIndex === 4 && global.currentCustomAlbumUId == 0) {
+                    if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId === 0) {
                         global.sigFlushCustomAlbumView()
                     }
                 }
@@ -655,7 +655,7 @@ Item {
                     albumControl.removeFromAlbum(0, selectedPaths)
                     global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
                     // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
-                    if (global.currentViewIndex === 4 && global.currentCustomAlbumUId == 0) {
+                    if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId === 0) {
                         global.sigFlushCustomAlbumView()
                     }
                 }

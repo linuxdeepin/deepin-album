@@ -26,7 +26,7 @@ Item {
     property var selectedPaths: [] // 已选路径
     property bool bRefreshFavoriteIconFlag: false //刷新收藏图标标记，翻转一次，图标就刷新一次
     property bool bRefreshRangeBtnState: false //刷新显示比例图标激活状态标记，翻转一次，图标就刷新一次
-    property int currentViewIndex: 0// 0:打开图片界面 1:无图片界面
+    property int currentViewIndex: 0// 0:导入图片视图 1:无图片视图 2:合集视图 3:已导入视图 4:我的收藏视图 5:最近删除视图 6:系统/自定义相册视图 7:搜索结果视图 8:设备视图
     property int currentCustomAlbumUId: 0// 当前自定义相册所在UId，0:我的收藏 1:截图录屏 2:相机 3:画板 其他:自定义相册
     property int stackControlCurrent: 0// 0:相册界面 1:看图界面 2:幻灯片
 
@@ -61,8 +61,20 @@ Item {
 
     Component.onCompleted: {
         if( albumControl.getAllCount() > 0 ){
-            currentViewIndex = 2
+            currentViewIndex = GlobalVar.ThumbnailViewType.Collecttion
         }
+    }
+
+    enum ThumbnailViewType {
+        Import = 0,            // 导入图片视图
+        NoPicture,             // 无图片视图
+        Collecttion,           // 合集视图
+        HaveImported,          // 已导入视图
+        Favorite,              // 我的收藏视图
+        RecentlyDeleted,       // 最近删除视图
+        CustomAlbum,           // 系统/自定义相册视图
+        SearchResult,          // 搜索结果视图
+        Device                 // 设备视图
     }
 
     //缩略图类型枚举
@@ -110,7 +122,7 @@ Item {
     Connections {
         target: albumControl
         onSigRefreshSearchView: {
-            if (global.currentViewIndex === 7)
+            if (global.currentViewIndex === GlobalVar.ThumbnailViewType.SearchResult)
                 sigFlushSearchView()
         }
     }
@@ -132,24 +144,25 @@ Item {
     }
 
     onCurrentViewIndexChanged: {
-        console.log("currentViewIndex   :",currentViewIndex)
+        console.log("currentViewIndex   :", currentViewIndex)
         if(albumControl.getAllCount() <= 0) {
             switch (currentViewIndex) {
-            case 0:
-            case 1:
-                break
-            case 2:
-            case 3:
-            case 4:
-                currentViewIndex = 0
-                break
-            case 5:
-            case 6:
-            case 7:
-                currentViewIndex = 1
-                break
-            default:
-                currentViewIndex = 0
+                case GlobalVar.ThumbnailViewType.Import:
+                case GlobalVar.ThumbnailViewType.NoPicture:
+                    break
+                case GlobalVar.ThumbnailViewType.Collecttion:
+                case GlobalVar.ThumbnailViewType.HaveImported:
+                    currentViewIndex = GlobalVar.ThumbnailViewType.Import
+                    break
+                case GlobalVar.ThumbnailViewType.CustomAlbum:
+                    // 若为自定义相册，应显示导入图片视图
+                    if (currentCustomAlbumUId > 3)
+                        currentViewIndex = GlobalVar.ThumbnailViewType.NoPicture
+                    break
+                case GlobalVar.ThumbnailViewType.RecentlyDeleted:
+                case GlobalVar.ThumbnailViewType.SearchResult:
+                    currentViewIndex = GlobalVar.ThumbnailViewType.NoPicture
+                    break
             }
         }
     }

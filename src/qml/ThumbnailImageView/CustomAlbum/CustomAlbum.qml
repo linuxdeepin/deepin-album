@@ -2,6 +2,7 @@ import QtQuick 2.0
 import org.deepin.dtk 1.0
 import "../../Control"
 import "../../Control/ListView"
+import "../../"
 Rectangle {
     width: parent.width
     height: parent.height
@@ -15,7 +16,7 @@ Rectangle {
     property bool isCustom: albumControl.isCustomAlbum(customAlbumUId)
 
     Rectangle{
-        visible: global.currentViewIndex == 6 && numLabelText =="" && isCustom
+        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.CustomAlbum && numLabelText =="" && isCustom
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         ActionButton {
@@ -190,16 +191,30 @@ Rectangle {
         }
     }
 
+    // 仅在系统相册筛选无内容时显示
     Label {
         anchors.top: customAlbumTitleRect.bottom
         anchors.left: parent.left
         anchors.bottom: theView.bottom
         anchors.right: parent.right
         anchors.centerIn: parent
-        visible: numLabelText === "" && filterType > 0
+        visible: numLabelText === "" && filterType > 0 && global.currentCustomAlbumUId > 0 && global.currentCustomAlbumUId < 4
         font: DTK.fontManager.t4
         color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
         text: qsTr("No results")
+    }
+
+    // 仅在系统相册没有图片或视频时显示
+    Label {
+        anchors.top: customAlbumTitleRect.bottom
+        anchors.left: parent.left
+        anchors.bottom: theView.bottom
+        anchors.right: parent.right
+        anchors.centerIn: parent
+        visible: numLabelText === "" && filterType == 0 && global.currentCustomAlbumUId > 0 && global.currentCustomAlbumUId < 4
+        font: DTK.fontManager.t4
+        color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
+        text: qsTr("No photos or videos found")
     }
 
     Component.onCompleted: {

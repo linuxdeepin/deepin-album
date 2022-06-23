@@ -145,7 +145,7 @@ Rectangle {
             anchors.left: range1Button.right
             anchors.leftMargin: 0
             height: 36
-            visible: global.currentViewIndex == 2 && albumControl.getYears().length !== 0
+            visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion && albumControl.getYears().length !== 0
 
             ToolButton {
                 id:yButton
@@ -233,12 +233,12 @@ Rectangle {
             }
 
             function executeSearch(bForce) {
-                if(global.currentViewIndex !== 7) {
+                if(global.currentViewIndex !== GlobalVar.ThumbnailViewType.SearchResult) {
                     beforeView = global.currentViewIndex
                 }
 
                 //判重
-                if(text == searchKey && global.currentViewIndex === 7 && !bForce) {
+                if(text == searchKey && global.currentViewIndex === GlobalVar.ThumbnailViewType.SearchResult && !bForce) {
                     return
                 }
                 searchKey = text
@@ -268,7 +268,7 @@ Rectangle {
                 global.sigRunSearch(UID, text)
 
                 //2.切出画面
-                global.currentViewIndex = 7
+                global.currentViewIndex = GlobalVar.ThumbnailViewType.SearchResult
             }
         }
 
@@ -316,7 +316,7 @@ Rectangle {
                 else {
                     albumControl.removeFromAlbum(0, global.selectedPaths)
                     // 当前处于我的收藏视图，点击图片操作-取消收藏，需要重载我的收藏列表内容
-                    if (global.currentViewIndex === 4 && global.currentCustomAlbumUId == 0) {
+                    if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId == 0) {
                         global.sigFlushCustomAlbumView()
                     }
                 }
