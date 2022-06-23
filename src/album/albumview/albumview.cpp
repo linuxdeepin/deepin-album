@@ -2417,6 +2417,8 @@ void AlbumView::restoreTitleDisplay()
     //顶部栏不存在时的标题处理（涉及样式还原）
     if (!m_trashBatchOperateWidget->isVisible()) {//最近删除界面标题
         m_TrashTitleLab->setText(tr("Trash"));
+        // 最近删除内容被清空后，顶部操作栏隐藏，需要重新调整"最近删除"标题显示大小
+        m_TrashTitleLab->adjustSize();
         m_TrashTitleLab->show();
         m_TrashTitleLab->raise();
     }
