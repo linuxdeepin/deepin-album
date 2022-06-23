@@ -18,3 +18,5 @@ add_subdirectory(src)
 
 # Unit Tests
 #add_subdirectory(tests)
+TARGET_COMPILE_DEFINITIONS(deepin-album
+  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
