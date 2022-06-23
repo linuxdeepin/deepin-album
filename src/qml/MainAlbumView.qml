@@ -125,6 +125,9 @@ Rectangle {
 
         onDropped: {
             albumControl.importAllImagesAndVideosUrl(drop.urls)
+            if(global.currentViewIndex == 6 && albumControl.isCustomAlbum(global.currentCustomAlbumUId)){
+                albumControl.addCustomAlbumInfos(global.currentCustomAlbumUId,drop.urls)
+            }
         }
 
         onEntered: {

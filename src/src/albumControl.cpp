@@ -838,6 +838,11 @@ const QList<QExplicitlySharedDataPointer<DGioMount> > AlbumControl::getVfsMountL
     return result;
 }
 
+bool AlbumControl::isCustomAlbum(int uid)
+{
+    return getAllCustomAlbumId().contains(uid);
+}
+
 QStringList AlbumControl::getImportTimelinesTitlePaths(const QString &titleName, const int &filterType)
 {
     QStringList pathsList;
@@ -959,10 +964,41 @@ QVariantMap AlbumControl::getTrashAlbumInfos(const int &filterType)
     return reMap;
 }
 
-bool AlbumControl::addCustomAlbumInfos(const int &albumId, const QList<QUrl> &urls, const int &imoprtType)
+bool AlbumControl::addCustomAlbumInfos( int albumId, const QList<QUrl> &urls)
 {
-    Q_UNUSED(imoprtType);
+    QStringList localpaths;
+    DBImgInfoList dbInfos;
+    for (QUrl path : urls) {
+        localpaths << path.toLocalFile();
+    }
+    QStringList curAlbumImgPathList = getAllPaths();
+    for (QString imagePath : localpaths) {
+        if (QDir(imagePath).exists()){
+            //获取所选文件类型过滤器
+            QStringList filters;
+            for (QString i : LibUnionImage_NameSpace::unionImageSupportFormat()) {
+                filters << "*." + i;
+            }
 
+            for (QString i : LibUnionImage_NameSpace::videoFiletypes()) {
+                filters << "*." + i;
+            }
+            //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
+            QDirIterator dir_iterator(imagePath,
+                    filters,
+                    QDir::Files | QDir::NoSymLinks,
+                    QDirIterator::Subdirectories);
+            QList<QUrl> allfiles;
+            while (dir_iterator.hasNext()) {
+                dir_iterator.next();
+                QFileInfo fileInfo = dir_iterator.fileInfo();
+                allfiles << "file://" + fileInfo.filePath();
+            }
+            if(!allfiles.isEmpty()){
+                addCustomAlbumInfos(albumId,allfiles);
+            }
+        }
+    }
     bool bRet = false;
     QStringList paths;
     for (QUrl url : urls) {
@@ -977,6 +1013,7 @@ bool AlbumControl::addCustomAlbumInfos(const int &albumId, const QList<QUrl> &ur
         atype = Custom;
     }
     bRet = DBManager::instance()->insertIntoAlbum(albumId, paths, atype);
+    emit sigRefreshCustomAlbum (albumId);
     return bRet;
 }
 

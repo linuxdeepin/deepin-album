@@ -99,7 +99,7 @@ private:
     static std::once_flag instanceFlag;
     bool m_ffmpegExist = false;
     QMutex m_bufferMutex;
-    std::deque<std::pair<QUrl, MovieInfo>> m_movieInfoBuffer;
+    QMap<QUrl, MovieInfo> m_movieInfoBuffer;
 
     QRegExp resolutionExp;
     QRegExp codeRateExp;

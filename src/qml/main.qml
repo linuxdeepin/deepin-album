@@ -82,6 +82,9 @@ ApplicationWindow {
         nameFilters: albumControl.getAllFilters()
         onAccepted: {
             albumControl.importAllImagesAndVideosUrl(importDialog.fileUrls)
+            if(global.currentViewIndex == 6 && albumControl.isCustomAlbum(global.currentCustomAlbumUId)){
+                albumControl.addCustomAlbumInfos(global.currentCustomAlbumUId,importDialog.fileUrls)
+            }
         }
     }
 

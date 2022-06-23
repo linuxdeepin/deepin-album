@@ -129,7 +129,7 @@ public:
     Q_INVOKABLE QVariantMap getTrashAlbumInfos(const int &filterType = 0);
 
     //添加到自定义相册
-    Q_INVOKABLE bool addCustomAlbumInfos(const int &albumId, const QList <QUrl> &urls, const int &imoprtType = 0);
+    Q_INVOKABLE bool addCustomAlbumInfos(int albumId, const QList <QUrl> &urls);
 
     //根据自定义相册id获取相册名称
     Q_INVOKABLE QString getCustomAlbumByUid(const int &index);
@@ -234,7 +234,6 @@ public:
     //手机照片导入 0为已导入，1-n为自定义相册
     Q_INVOKABLE void importFromMountDevice(const QStringList &paths, const int &index = 0);
 
-
     //获取指定日期的照片路径
     Q_INVOKABLE QStringList getDayPaths(const QString &day);
 
@@ -262,6 +261,8 @@ public:
     //获得视频时长
     Q_INVOKABLE QString getVideoTime(const QString &path = "");
 
+    //判断是否是自定义相册
+    Q_INVOKABLE bool isCustomAlbum(int uid);
 public :
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 

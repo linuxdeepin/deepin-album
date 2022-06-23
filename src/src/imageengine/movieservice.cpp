@@ -100,18 +100,10 @@ MovieService::MovieService(QObject *parent)
 
 MovieInfo MovieService::getMovieInfo(const QUrl &url)
 {
-    MovieInfo result;
-
-    m_bufferMutex.lock();
-    auto iter = std::find_if(m_movieInfoBuffer.begin(), m_movieInfoBuffer.end(), [url](const std::pair<QUrl, MovieInfo> &data) {
-        return data.first == url;
-    });
-    if (iter != m_movieInfoBuffer.end()) {
-        m_bufferMutex.unlock();
-        return iter->second;
+    if(m_movieInfoBuffer.keys().contains(url)){
+        return m_movieInfoBuffer[url];
     }
-    m_bufferMutex.unlock();
-
+    MovieInfo result;
     if (url.isLocalFile()) {
         QFileInfo fi(url.toLocalFile());
         if (fi.exists() && fi.permission(QFile::Permission::ReadOwner)) { //存在且有读权限才能导入
@@ -127,14 +119,9 @@ MovieInfo MovieService::getMovieInfo(const QUrl &url)
             }
         }
     }
-
-    m_bufferMutex.lock();
-    m_movieInfoBuffer.push_back(std::make_pair(url, result));
-    if (m_movieInfoBuffer.size() > 30) {
-        m_movieInfoBuffer.pop_front();
-    }
-    m_bufferMutex.unlock();
-
+    m_movieInfoBuffer[url]=result;
+//    if (m_movieInfoBuffer.size() > 1000) {
+//    }
     return result;
 }
 

@@ -7,10 +7,53 @@ Rectangle {
     height: parent.height
 
     property int customAlbumUId: global.currentCustomAlbumUId
+    property int totalPictrueAndVideos: 0
     property int filterType: filterCombo.currentIndex // 筛选类型，默认所有
     property string numLabelText: "" //总数标签显示内容
     property string selectedText: getSelectedText(selectedPaths)
     property alias selectedPaths: theView.selectedPaths
+    property bool isCustom: albumControl.isCustomAlbum(customAlbumUId)
+
+    Rectangle{
+        visible: global.currentViewIndex == 6 && numLabelText =="" && isCustom
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        ActionButton {
+            id: openViewImageIcon
+            anchors.top: parent.top
+            anchors.topMargin: -70
+            anchors.left : parent.left
+            anchors.leftMargin: -width/2
+
+            icon {
+                name:"nopicture2"
+                width: 140
+                height: 140
+            }
+        }
+        RecommandButton{
+            id: openPictureBtn
+            font.capitalization: Font.MixedCase
+            text: qsTr("Import Photos and Videos")
+            onClicked:{
+                importDialog.open()
+            }
+            width: 302
+            height: 36
+            anchors.top:openViewImageIcon.bottom
+            anchors.topMargin:10
+
+            anchors.left : parent.left
+            anchors.leftMargin: -width/2
+        }
+        Label{
+            anchors.top:openPictureBtn.bottom
+            anchors.topMargin: 20
+            anchors.left : parent.left
+            anchors.leftMargin: -width/2
+            text:qsTr("Or drag them here")
+        }
+    }
 
     onVisibleChanged: {
         if (visible)
