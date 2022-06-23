@@ -339,6 +339,8 @@ signals:
 
     void sigRefreshSlider();
 
+    void sigAddCustomAlbum(const int &UID);
+
     void sigAddDevice(const QString &path);
 
 private :

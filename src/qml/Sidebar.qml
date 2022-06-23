@@ -11,10 +11,12 @@ import "./PreviewImageViewer"
 Rectangle {
 
     property int currentCustomIndex: 0
+    property int currentImportCustomIndex :0
     signal sigRename
     signal backCollection
     signal changeDevice
     signal sigDeleteItem
+    signal sigDeleteCustomItem
     signal todoDraw
     property var devicePath : albumControl.getDevicePaths(global.deviceChangeList)
     property var albumPaths : albumControl.getAlbumPaths(global.currentCustomAlbumUId)
@@ -340,13 +342,40 @@ Rectangle {
                         anchors.verticalCenter: importitem.verticalCenter
                         text:albumControl.getImportAlubumAllNames(global.albumChangeList)[index]
                     }
-
-                    onClicked: {
-                        global.currentViewIndex = 6
-                        global.currentCustomAlbumUId = albumControl.getImportAlubumAllId(global.albumChangeList)[index]
-                        global.searchEditText = ""
-                        forceActiveFocus()
+                    Connections {
+                        target: albumControl
+                        onSigAddCustomAlbum: {
+                            if (UID === albumControl.getImportAlubumAllId(global.deviceChangeList)[index]) {
+                                importitem.checked =true
+                            }
+                        }
                     }
+                    onCheckedChanged: {
+                        if(importitem.checked ==true){
+                            global.currentViewIndex = 6
+                            global.currentCustomAlbumUId = albumControl.getImportAlubumAllId(global.albumChangeList)[index]
+                            global.searchEditText = ""
+                            forceActiveFocus()
+                        }
+                    }
+                    Connections {
+                        target: leftSidebar
+                        onSigDeleteCustomItem: {
+                            console.log(currentImportCustomIndex)
+                            console.log(albumControl.getImportAlubumAllId(global.albumChangeList).length)
+                            if(currentImportCustomIndex >= albumControl.getImportAlubumAllId(global.albumChangeList).length ){
+                                currentImportCustomIndex = albumControl.getImportAlubumAllId(global.albumChangeList).length -1
+                            }
+                            if (currentImportCustomIndex ==index){
+                                importitem.checked=true
+                                global.currentViewIndex = 6
+                                global.currentCustomAlbumUId = albumControl.getImportAlubumAllId(global.albumChangeList)[currentCustomIndex]
+                                importitem.forceActiveFocus();
+                                forceActiveFocus()
+                            }
+                        }
+                    }
+
                     ButtonGroup.group: global.siderGroup
                     MouseArea {
 
@@ -356,6 +385,8 @@ Rectangle {
                         enabled: true;
 
                         onClicked: {
+                            currentImportCustomIndex = index
+                            importitem.checked =true
 
                             if(mouse.button == Qt.RightButton) {
                                 importMenu.popup()
@@ -553,9 +584,13 @@ Rectangle {
                 onTriggered: {
                     albumControl.removeAlbum(global.currentCustomAlbumUId)
                     albumControl.removeCustomAutoImportPath(global.currentCustomAlbumUId)
-                    //前往已导入
-                    global.currentViewIndex == 3
                     global.albumChangeList=!global.albumChangeList
+                    sigDeleteCustomItem()
+
+                    console.log(albumControl.getImportAlubumCount(global.albumChangeList))
+                    if(albumControl.getImportAlubumCount(global.albumChangeList) == 0){
+                        todoDraw()
+                    }
                 }
             }
         }

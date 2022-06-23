@@ -92,14 +92,27 @@ Item {
     Component.onCompleted: {
 
         var tempPath =fileControl.parseCommandlineGetPath("x");
-
         mainView.sourcePaths = fileControl.getDirImagePath(tempPath);
         mainView.source=tempPath
         if(mainView.sourcePaths.length >0){
             mainView.setThumbnailCurrentIndex(mainView.sourcePaths.indexOf(mainView.source))
 
             stackView.currentWidgetIndex= 1
+            //如果是影视，则采用打开视频
+            if (fileControl.isVideo(tempPath)){
+                albumControl.openDeepinMovie(tempPath)
+            } else {
+                var openPaths = new Array
+
+                    openPaths.push(tempPath)
+                mainStack.sourcePaths = openPaths
+                mainStack.currentIndex = 0
+                mainStack.currentWidgetIndex = 1
+                global.stackControlCurrent = 1
+            }
         }
+
+
     }
 
 }

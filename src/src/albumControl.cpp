@@ -1737,63 +1737,69 @@ int AlbumControl::getDeviceAlbumInfoConut(const QString &devicePath, const int &
 
 void AlbumControl::importFromMountDevice(const QStringList &paths, const int &index)
 {
-    QStringList localPaths;
-    for (QString path : paths) {
-        localPaths << QUrl(path).toLocalFile();
-    }
-    QStringList newPathList;
-    DBImgInfoList dbInfos;
-    QString strHomePath = QDir::homePath();
-    //获取系统现在的时间
-    QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
-    QString basePath = QString("%1%2%3%4").arg(strHomePath, "/Pictures/", tr("Pictures/"), strDate);
-    QDir dir;
-    if (!dir.exists(basePath)) {
-        dir.mkpath(basePath);
-    }
-    for (QString strPath : localPaths) {
-        //取出文件名称
-        QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
-        QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
-        QString strNewPath = QString("%1%2%3%4%5%6").arg(basePath, "/", nameList.first(),
-                                                         QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()), ".", nameList.last());
-        //判断新路径下是否存在目标文件，若不存在，继续循环
-        if (!dir.exists(strPath)) {
-            continue;
+    //采用线程执行导入
+    QThread *thread = QThread::create([=]{
+        QStringList localPaths;
+        for (QString path : paths) {
+            localPaths << QUrl(path).toLocalFile();
         }
-        //判断新路径下是否存在目标文件，若存在，先删除掉
-        if (dir.exists(strNewPath)) {
-            dir.remove(strNewPath);
+        QStringList newPathList;
+        DBImgInfoList dbInfos;
+        QString strHomePath = QDir::homePath();
+        //获取系统现在的时间
+        QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
+        QString basePath = QString("%1%2%3%4").arg(strHomePath, "/Pictures/", tr("Pictures/"), strDate);
+        QDir dir;
+        if (!dir.exists(basePath)) {
+            dir.mkpath(basePath);
         }
-        newPathList << strNewPath;
-        QFileInfo fi(strNewPath);
-        //复制失败的图片不算在成功导入
-        if (QFile::copy(strPath, strNewPath)) {
-            dbInfos << getDBInfo(strNewPath, LibUnionImage_NameSpace::isVideo(strNewPath));
-        } else {
-            newPathList.removeOne(strNewPath);
-        }
-
-    }
-    if (!dbInfos.isEmpty()) {
-        QStringList pathslist;
-        int idblen = dbInfos.length();
-        for (int i = 0; i < idblen; i++) {
-            if (m_bneedstop) {
-                return;
+        for (QString strPath : localPaths) {
+            //取出文件名称
+            QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
+            QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
+            QString strNewPath = QString("%1%2%3%4%5%6").arg(basePath, "/", nameList.first(),
+                                                             QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()), ".", nameList.last());
+            //判断新路径下是否存在目标文件，若不存在，继续循环
+            if (!dir.exists(strPath)) {
+                continue;
             }
-            pathslist << dbInfos[i].filePath;
+            //判断新路径下是否存在目标文件，若存在，先删除掉
+            if (dir.exists(strNewPath)) {
+                dir.remove(strNewPath);
+            }
+            newPathList << strNewPath;
+            QFileInfo fi(strNewPath);
+            //复制失败的图片不算在成功导入
+            if (QFile::copy(strPath, strNewPath)) {
+                dbInfos << getDBInfo(strNewPath, LibUnionImage_NameSpace::isVideo(strNewPath));
+            } else {
+                newPathList.removeOne(strNewPath);
+            }
+
         }
+        if (!dbInfos.isEmpty()) {
+            QStringList pathslist;
+            int idblen = dbInfos.length();
+            for (int i = 0; i < idblen; i++) {
+                if (m_bneedstop) {
+                    return;
+                }
+                pathslist << dbInfos[i].filePath;
+            }
 
 
-        DBManager::instance()->insertImgInfos(dbInfos);
-        if (index > 0) {
-            DBManager::instance()->insertIntoAlbum(index, pathslist);
-            emit sigRefreshCustomAlbum(index);
+            DBManager::instance()->insertImgInfos(dbInfos);
+            if (index > 0) {
+                DBManager::instance()->insertIntoAlbum(index, pathslist);
+                emit sigRefreshCustomAlbum(index);
+            }
+            emit sigRefreshImportAlbum();
+            emit sigRefreshAllCollection();
         }
-        emit sigRefreshImportAlbum();
-        emit sigRefreshAllCollection();
-    }
+    });
+    thread->start();
+    connect(thread,&QThread::destroyed,thread,&QObject::deleteLater);
+
 }
 
 //获取指定日期的照片路径
@@ -1859,6 +1865,8 @@ void AlbumControl::createNewCustomAutoImportAlbum(const QString &path)
     importAllImagesAndVideos(urls);
     insertImportIntoAlbum(UID, urls);
     emit sigRefreshSlider();
+    emit sigAddCustomAlbum(UID);
+
 }
 
 QString AlbumControl::getVideoTime(const QString &path)
