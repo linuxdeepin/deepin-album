@@ -136,5 +136,13 @@ Rectangle {
         anchors.bottomMargin : 5
         opacity: 0.7
         displayStr: albumControl.getVideoTime(m_url)
+        Connections {
+            target: albumControl
+            onSigRefreashVideoTime: {
+                if (url === m_url) {
+                    videoLabel.displayStr = videoTimeStr
+                }
+            }
+        }
     }
 }

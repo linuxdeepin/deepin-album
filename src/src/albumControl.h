@@ -344,6 +344,8 @@ signals:
 
     void sigAddDevice(const QString &path);
 
+    void sigRefreashVideoTime(const QString& url ,const QString& videoTimeStr);
+
 private :
     DBImgInfoList m_infoList;  //全部已导入
 
@@ -367,6 +369,7 @@ private :
     QMap<QString, QStringList> m_PhonePicFileMap; //外部设备及其全部图片路径
     std::atomic_bool m_couldRun;
     bool m_bneedstop = false;
+    QMutex m_mutex;
 
 
 };
