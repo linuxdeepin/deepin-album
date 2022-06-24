@@ -41,7 +41,7 @@ public:
     Q_INVOKABLE QString getAllFilters();
 
     //卸载设备
-    Q_INVOKABLE void unMountDevice(const QString & devicePath);
+    Q_INVOKABLE void unMountDevice(const QString &devicePath);
 
     //获得全部导入的路径
     Q_INVOKABLE QStringList getAllPaths(const int &filterType = 0);
@@ -112,6 +112,12 @@ public:
 
     //新建相册
     Q_INVOKABLE void createAlbum(const QString &newName);
+
+    //获得所有的普通自动导入相册id
+    Q_INVOKABLE QList < int > getAllNormlAutoImportAlbumId();
+
+    //获得所有的系统自动导入相册id
+    Q_INVOKABLE QList < int > getAllSystemAutoImportAlbumId();
 
     //获得所有的自定义相册id
     Q_INVOKABLE QList < int > getAllCustomAlbumId();
@@ -190,7 +196,7 @@ public:
     Q_INVOKABLE bool getFolders(const QStringList &paths);
 
     //选择路径导出文件及目录
-    Q_INVOKABLE bool exportFolders(const QStringList &paths,const QString& dir);
+    Q_INVOKABLE bool exportFolders(const QStringList &paths, const QString &dir);
 
     //用影院打开视频
     Q_INVOKABLE void openDeepinMovie(const QString &path);
@@ -260,6 +266,12 @@ public:
 
     //获得视频时长
     Q_INVOKABLE QString getVideoTime(const QString &path = "");
+
+    //判断是否是系统自动导入相册(截图录屏、相机、画板)
+    Q_INVOKABLE bool isSystemAutoImportAlbum(int uid);
+
+    //判断是否是普通自动导入相册
+    Q_INVOKABLE bool isNormalAutoImportAlbum(int uid);
 
     //判断是否是自定义相册
     Q_INVOKABLE bool isCustomAlbum(int uid);
@@ -344,7 +356,7 @@ signals:
 
     void sigAddDevice(const QString &path);
 
-    void sigRefreashVideoTime(const QString& url ,const QString& videoTimeStr);
+    void sigRefreashVideoTime(const QString &url, const QString &videoTimeStr);
 
 private :
     DBImgInfoList m_infoList;  //全部已导入

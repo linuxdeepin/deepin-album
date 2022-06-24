@@ -262,7 +262,7 @@ void AlbumControl::importAllImagesAndVideosUrl(const QList<QUrl> &paths)
     }
     QStringList curAlbumImgPathList = getAllPaths();
     for (QString imagePath : localpaths) {
-        if (QDir(imagePath).exists()){
+        if (QDir(imagePath).exists()) {
             //获取所选文件类型过滤器
             QStringList filters;
             for (QString i : LibUnionImage_NameSpace::unionImageSupportFormat()) {
@@ -274,19 +274,19 @@ void AlbumControl::importAllImagesAndVideosUrl(const QList<QUrl> &paths)
             }
             //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
             QDirIterator dir_iterator(imagePath,
-                    filters,
-                    QDir::Files | QDir::NoSymLinks,
-                    QDirIterator::Subdirectories);
+                                      filters,
+                                      QDir::Files | QDir::NoSymLinks,
+                                      QDirIterator::Subdirectories);
             QList<QUrl> allfiles;
             while (dir_iterator.hasNext()) {
                 dir_iterator.next();
                 QFileInfo fileInfo = dir_iterator.fileInfo();
                 allfiles << "file://" + fileInfo.filePath();
             }
-            if(!allfiles.isEmpty()){
+            if (!allfiles.isEmpty()) {
                 importAllImagesAndVideosUrl(allfiles);
             }
-        }else {
+        } else {
             bool bIsVideo = LibUnionImage_NameSpace::isVideo(imagePath);
             if (!bIsVideo && !LibUnionImage_NameSpace::imageSupportRead(imagePath)) {
                 continue;
@@ -838,9 +838,21 @@ const QList<QExplicitlySharedDataPointer<DGioMount> > AlbumControl::getVfsMountL
     return result;
 }
 
+bool AlbumControl::isSystemAutoImportAlbum(int uid)
+{
+    return getAllSystemAutoImportAlbumId().contains(uid);
+}
+
+bool AlbumControl::isNormalAutoImportAlbum(int uid)
+{
+    return getAllNormlAutoImportAlbumId().contains(uid);
+}
+
 bool AlbumControl::isCustomAlbum(int uid)
 {
-    return getAllCustomAlbumId().contains(uid);
+    bool bCustom = getAllCustomAlbumId().contains(uid);
+    qDebug() << "isCustomAlbum:" << bCustom;
+    return bCustom;
 }
 
 QStringList AlbumControl::getImportTimelinesTitlePaths(const QString &titleName, const int &filterType)
@@ -964,7 +976,7 @@ QVariantMap AlbumControl::getTrashAlbumInfos(const int &filterType)
     return reMap;
 }
 
-bool AlbumControl::addCustomAlbumInfos( int albumId, const QList<QUrl> &urls)
+bool AlbumControl::addCustomAlbumInfos(int albumId, const QList<QUrl> &urls)
 {
     QStringList localpaths;
     DBImgInfoList dbInfos;
@@ -973,7 +985,7 @@ bool AlbumControl::addCustomAlbumInfos( int albumId, const QList<QUrl> &urls)
     }
     QStringList curAlbumImgPathList = getAllPaths();
     for (QString imagePath : localpaths) {
-        if (QDir(imagePath).exists()){
+        if (QDir(imagePath).exists()) {
             //获取所选文件类型过滤器
             QStringList filters;
             for (QString i : LibUnionImage_NameSpace::unionImageSupportFormat()) {
@@ -985,17 +997,17 @@ bool AlbumControl::addCustomAlbumInfos( int albumId, const QList<QUrl> &urls)
             }
             //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
             QDirIterator dir_iterator(imagePath,
-                    filters,
-                    QDir::Files | QDir::NoSymLinks,
-                    QDirIterator::Subdirectories);
+                                      filters,
+                                      QDir::Files | QDir::NoSymLinks,
+                                      QDirIterator::Subdirectories);
             QList<QUrl> allfiles;
             while (dir_iterator.hasNext()) {
                 dir_iterator.next();
                 QFileInfo fileInfo = dir_iterator.fileInfo();
                 allfiles << "file://" + fileInfo.filePath();
             }
-            if(!allfiles.isEmpty()){
-                addCustomAlbumInfos(albumId,allfiles);
+            if (!allfiles.isEmpty()) {
+                addCustomAlbumInfos(albumId, allfiles);
             }
         }
     }
@@ -1013,7 +1025,7 @@ bool AlbumControl::addCustomAlbumInfos( int albumId, const QList<QUrl> &urls)
         atype = Custom;
     }
     bRet = DBManager::instance()->insertIntoAlbum(albumId, paths, atype);
-    emit sigRefreshCustomAlbum (albumId);
+    emit sigRefreshCustomAlbum(albumId);
     return bRet;
 }
 
@@ -1095,6 +1107,28 @@ void AlbumControl::createAlbum(const QString &newName)
     DBManager::instance()->insertIntoAlbum(createUID, QStringList(" "));
 }
 
+QList<int> AlbumControl::getAllNormlAutoImportAlbumId()
+{
+    QMap < int, QString > autoImportAlbum;
+    QList<std::pair<int, QString>>  tmpList = DBManager::instance()->getAllAlbumNames(AutoImport);
+    for (std::pair<int, QString> tmpPair : tmpList) {
+        if (tmpPair.first > 3)
+            autoImportAlbum.insert(tmpPair.first, tmpPair.second);
+    }
+    return autoImportAlbum.keys();
+}
+
+QList<int> AlbumControl::getAllSystemAutoImportAlbumId()
+{
+    QMap < int, QString > systemAlbum;
+    QList<std::pair<int, QString>>  tmpList = DBManager::instance()->getAllAlbumNames(AutoImport);
+    for (std::pair<int, QString> tmpPair : tmpList) {
+        if (tmpPair.first > 0 && tmpPair.first <= 3)
+            systemAlbum.insert(tmpPair.first, tmpPair.second);
+    }
+    return systemAlbum.keys();
+}
+
 QList < int > AlbumControl::getAllCustomAlbumId()
 {
     QMap < int, QString > customAlbum;
@@ -1119,7 +1153,7 @@ QList < QString > AlbumControl::getAllCustomAlbumName()
 
 QStringList AlbumControl::getAlbumPaths(const int &albumId, const int &filterType)
 {
-    qDebug()<<"1085" << albumId;
+    qDebug() << "1085" << albumId;
     QStringList relist;
     DBImgInfoList dbInfoList = DBManager::instance()->getInfosByAlbum(albumId, false);
     QString title = DBManager::instance()->getAlbumNameFromUID(albumId);
@@ -1567,7 +1601,7 @@ bool AlbumControl::exportFolders(const QStringList &paths, const QString &dir)
     }
     if (!fileDir.isEmpty()) {
 
-        QString newDir=fileDir+"/"+dir;
+        QString newDir = fileDir + "/" + dir;
         QDir a;
         a.mkdir(newDir);
 
@@ -1775,9 +1809,10 @@ int AlbumControl::getDeviceAlbumInfoConut(const QString &devicePath, const int &
 void AlbumControl::importFromMountDevice(const QStringList &paths, const int &index)
 {
     //采用线程执行导入
-    QThread *thread = QThread::create([=]{
+    QThread *thread = QThread::create([ = ] {
         QStringList localPaths;
-        for (QString path : paths) {
+        for (QString path : paths)
+        {
             localPaths << QUrl(path).toLocalFile();
         }
         QStringList newPathList;
@@ -1787,10 +1822,12 @@ void AlbumControl::importFromMountDevice(const QStringList &paths, const int &in
         QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
         QString basePath = QString("%1%2%3%4").arg(strHomePath, "/Pictures/", tr("Pictures/"), strDate);
         QDir dir;
-        if (!dir.exists(basePath)) {
+        if (!dir.exists(basePath))
+        {
             dir.mkpath(basePath);
         }
-        for (QString strPath : localPaths) {
+        for (QString strPath : localPaths)
+        {
             //取出文件名称
             QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
             QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
@@ -1814,7 +1851,8 @@ void AlbumControl::importFromMountDevice(const QStringList &paths, const int &in
             }
 
         }
-        if (!dbInfos.isEmpty()) {
+        if (!dbInfos.isEmpty())
+        {
             QStringList pathslist;
             int idblen = dbInfos.length();
             for (int i = 0; i < idblen; i++) {
@@ -1835,7 +1873,7 @@ void AlbumControl::importFromMountDevice(const QStringList &paths, const int &in
         }
     });
     thread->start();
-    connect(thread,&QThread::destroyed,thread,&QObject::deleteLater);
+    connect(thread, &QThread::destroyed, thread, &QObject::deleteLater);
 
 }
 
@@ -1909,17 +1947,18 @@ void AlbumControl::createNewCustomAutoImportAlbum(const QString &path)
 QString AlbumControl::getVideoTime(const QString &path)
 {
     //采用线程执行导入
-    QThread *thread = QThread::create([=]{
+    QThread *thread = QThread::create([ = ] {
         m_mutex.lock();
         QString reString;
         reString = MovieService::instance()->getMovieInfo(QUrl(path)).duration;
-        if(reString=="-"){
-            reString ="00:00:00";
+        if (reString == "-")
+        {
+            reString = "00:00:00";
         }
-        emit sigRefreashVideoTime(path,reString);
+        emit sigRefreashVideoTime(path, reString);
         m_mutex.unlock();
     });
     thread->start();
-    connect(thread,&QThread::destroyed,thread,&QObject::deleteLater);
+    connect(thread, &QThread::destroyed, thread, &QObject::deleteLater);
     return "00:00:00";
 }

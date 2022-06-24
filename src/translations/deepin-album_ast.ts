@@ -124,6 +124,10 @@
         <source>%1 videos selected</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DBManager</name>

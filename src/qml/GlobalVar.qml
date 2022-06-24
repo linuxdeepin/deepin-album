@@ -60,9 +60,7 @@ Item {
     signal sigFlushSearchView() // 刷新搜索结果视图内容
 
     Component.onCompleted: {
-        if( albumControl.getAllCount() > 0 ){
-            currentViewIndex = GlobalVar.ThumbnailViewType.Collecttion
-        }
+        currentViewIndex = GlobalVar.ThumbnailViewType.Collecttion
     }
 
     enum ThumbnailViewType {
@@ -154,12 +152,10 @@ Item {
                 case GlobalVar.ThumbnailViewType.HaveImported:
                     currentViewIndex = GlobalVar.ThumbnailViewType.Import
                     break
-                case GlobalVar.ThumbnailViewType.CustomAlbum:
-                    // 若为自定义相册，应显示导入图片视图
-                    if (currentCustomAlbumUId > 3)
-                        currentViewIndex = GlobalVar.ThumbnailViewType.NoPicture
-                    break
                 case GlobalVar.ThumbnailViewType.RecentlyDeleted:
+                    if (albumControl.getTrashInfoConut(1) === 0 && albumControl.getTrashInfoConut(2) === 0)
+                        currentViewIndex = GlobalVar.ThumbnailViewType.NoPicture
+                    break;
                 case GlobalVar.ThumbnailViewType.SearchResult:
                     currentViewIndex = GlobalVar.ThumbnailViewType.NoPicture
                     break

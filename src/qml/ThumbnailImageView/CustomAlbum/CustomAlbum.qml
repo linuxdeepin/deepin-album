@@ -13,48 +13,8 @@ Rectangle {
     property string numLabelText: "" //总数标签显示内容
     property string selectedText: getSelectedText(selectedPaths)
     property alias selectedPaths: theView.selectedPaths
-    property bool isCustom: albumControl.isCustomAlbum(customAlbumUId)
-
-    Rectangle{
-        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.CustomAlbum && numLabelText =="" && isCustom
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-        ActionButton {
-            id: openViewImageIcon
-            anchors.top: parent.top
-            anchors.topMargin: -70
-            anchors.left : parent.left
-            anchors.leftMargin: -width/2
-
-            icon {
-                name:"nopicture2"
-                width: 140
-                height: 140
-            }
-        }
-        RecommandButton{
-            id: openPictureBtn
-            font.capitalization: Font.MixedCase
-            text: qsTr("Import Photos and Videos")
-            onClicked:{
-                importDialog.open()
-            }
-            width: 302
-            height: 36
-            anchors.top:openViewImageIcon.bottom
-            anchors.topMargin:10
-
-            anchors.left : parent.left
-            anchors.leftMargin: -width/2
-        }
-        Label{
-            anchors.top:openPictureBtn.bottom
-            anchors.topMargin: 20
-            anchors.left : parent.left
-            anchors.leftMargin: -width/2
-            text:qsTr("Or drag them here")
-        }
-    }
+    property bool isSystemAutoImport: albumControl.isSystemAutoImportAlbum(customAlbumUId)
+    property bool isNormalAutoImport: albumControl.isNormalAutoImportAlbum(customAlbumUId)
 
     onVisibleChanged: {
         if (visible)
@@ -69,6 +29,10 @@ Rectangle {
     // 我的收藏和相册视图之间切换，需要重载数据
     onCustomAlbumUIdChanged: {
         flushCustomAlbumView()
+
+        // 自定义相册，若没有数据，显示导入图片视图
+        if (albumControl.isCustomAlbum(customAlbumUId) && numLabelText === "" && filterType === 0)
+            global.currentViewIndex = GlobalVar.ThumbnailViewType.Import
     }
 
     // 刷新自定义相册/我的收藏视图内容
@@ -191,27 +155,27 @@ Rectangle {
         }
     }
 
-    // 仅在系统相册筛选无内容时显示
+    // 仅在自动导入相册筛选无内容时，显示无结果
     Label {
         anchors.top: customAlbumTitleRect.bottom
         anchors.left: parent.left
         anchors.bottom: theView.bottom
         anchors.right: parent.right
         anchors.centerIn: parent
-        visible: numLabelText === "" && filterType > 0 && global.currentCustomAlbumUId > 0 && global.currentCustomAlbumUId < 4
+        visible: numLabelText === "" && filterType > 0 && (isSystemAutoImport || isNormalAutoImport)
         font: DTK.fontManager.t4
         color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
         text: qsTr("No results")
     }
 
-    // 仅在系统相册没有图片或视频时显示
+    // 仅在自动导入相册无内容时，显示没有图片或视频时显示
     Label {
         anchors.top: customAlbumTitleRect.bottom
         anchors.left: parent.left
         anchors.bottom: theView.bottom
         anchors.right: parent.right
         anchors.centerIn: parent
-        visible: numLabelText === "" && filterType == 0 && global.currentCustomAlbumUId > 0 && global.currentCustomAlbumUId < 4
+        visible: numLabelText === "" && filterType == 0 && (isSystemAutoImport || isNormalAutoImport)
         font: DTK.fontManager.t4
         color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
         text: qsTr("No photos or videos found")

@@ -124,6 +124,10 @@
         <source>%1 videos selected</source>
         <translation>已选择%1个视频</translation>
     </message>
+    <message>
+        <source>No photos or videos found</source>
+        <translation>未发现照片或视频文件</translation>
+    </message>
 </context>
 <context>
     <name>DBManager</name>
