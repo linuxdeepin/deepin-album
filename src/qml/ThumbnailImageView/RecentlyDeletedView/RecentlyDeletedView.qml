@@ -2,6 +2,9 @@ import QtQuick 2.0
 import org.deepin.dtk 1.0
 import "../../Control"
 import "../../Control/ListView"
+import "../../"
+import "../"
+
 Rectangle {
     width: parent.width
     height: parent.height
@@ -192,6 +195,12 @@ Rectangle {
                 selectedOriginPaths = theView.selectedOriginPaths
             }
         }
+    }
+
+    // 若没有数据，显示无图片视图
+    NoPictureView {
+        anchors.fill: parent
+        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.RecentlyDeleted && numLabelText === "" && filterType === 0
     }
 
     Component.onCompleted: {

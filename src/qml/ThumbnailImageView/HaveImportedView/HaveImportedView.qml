@@ -1,6 +1,9 @@
 import QtQuick 2.0
 import org.deepin.dtk 1.0
 import "../../Control"
+import "../../"
+import "../"
+
 Rectangle {
     width: parent.width
     height: parent.height
@@ -100,6 +103,12 @@ Rectangle {
         anchors.top: parent.top
         width: parent.width
         height: parent.height - statusBar.height
+    }
+
+    // 若没有数据，显示导入图片视图
+    ImportView {
+        anchors.fill: parent
+        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.HaveImported && numLabelText === "" && filterType === 0
     }
 
     Component.onCompleted: {

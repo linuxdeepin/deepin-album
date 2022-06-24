@@ -3,6 +3,8 @@ import org.deepin.dtk 1.0
 import "../../Control"
 import "../../Control/ListView"
 import "../../"
+import "../"
+
 Rectangle {
     width: parent.width
     height: parent.height
@@ -13,6 +15,7 @@ Rectangle {
     property string numLabelText: "" //总数标签显示内容
     property string selectedText: getSelectedText(selectedPaths)
     property alias selectedPaths: theView.selectedPaths
+    property bool isCustom : albumControl.isCustomAlbum(customAlbumUId)
     property bool isSystemAutoImport: albumControl.isSystemAutoImportAlbum(customAlbumUId)
     property bool isNormalAutoImport: albumControl.isNormalAutoImportAlbum(customAlbumUId)
 
@@ -29,10 +32,6 @@ Rectangle {
     // 我的收藏和相册视图之间切换，需要重载数据
     onCustomAlbumUIdChanged: {
         flushCustomAlbumView()
-
-        // 自定义相册，若没有数据，显示导入图片视图
-        if (albumControl.isCustomAlbum(customAlbumUId) && numLabelText === "" && filterType === 0)
-            global.currentViewIndex = GlobalVar.ThumbnailViewType.Import
     }
 
     // 刷新自定义相册/我的收藏视图内容
@@ -179,6 +178,12 @@ Rectangle {
         font: DTK.fontManager.t4
         color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
         text: qsTr("No photos or videos found")
+    }
+
+    // 自定义相册，若没有数据，显示导入图片视图
+    ImportView {
+        anchors.fill: parent
+        visible: global.currentViewIndex === 6 && numLabelText ==="" && isCustom
     }
 
     Component.onCompleted: {

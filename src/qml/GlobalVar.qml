@@ -149,13 +149,8 @@ Item {
                 case GlobalVar.ThumbnailViewType.NoPicture:
                     break
                 case GlobalVar.ThumbnailViewType.Collecttion:
-                case GlobalVar.ThumbnailViewType.HaveImported:
                     currentViewIndex = GlobalVar.ThumbnailViewType.Import
                     break
-                case GlobalVar.ThumbnailViewType.RecentlyDeleted:
-                    if (albumControl.getTrashInfoConut(1) === 0 && albumControl.getTrashInfoConut(2) === 0)
-                        currentViewIndex = GlobalVar.ThumbnailViewType.NoPicture
-                    break;
                 case GlobalVar.ThumbnailViewType.SearchResult:
                     currentViewIndex = GlobalVar.ThumbnailViewType.NoPicture
                     break
