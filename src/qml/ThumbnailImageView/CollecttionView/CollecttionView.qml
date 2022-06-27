@@ -12,6 +12,7 @@ Item {
     onVisibleChanged: {
         if (visible) {
             flushTimeScopetimer.start(10)
+            global.selectedPaths = []
         }
     }
 
