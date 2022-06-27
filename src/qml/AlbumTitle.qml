@@ -115,7 +115,7 @@ Rectangle {
             anchors.topMargin: 0
             anchors.left: showHideleftSidebarButton.right
             anchors.leftMargin: 0/*- leftSidebar.x/2*/
-            enabled: albumControl.getYears(global.bRefreshRangeBtnState).length > 0
+            enabled: global.statusBarNumText !== ""
             width:50
             height:50
             icon {
