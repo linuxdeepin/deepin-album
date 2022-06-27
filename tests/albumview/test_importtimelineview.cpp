@@ -130,7 +130,7 @@ TEST(ImportTimeLineView, Picimport)
         list << listtemp.at(0) + "/second";
     }
 
-    qDebug() << "Picture count = " << list.size() << list.at(0);
+    qDebug() << "Picture count = " << list.size() << (list.isEmpty() ? QString("") : list.at(0));
     MainWindow *w = dApp->getMainWindow();
     w->getButG();
     w->allPicBtnClicked();
