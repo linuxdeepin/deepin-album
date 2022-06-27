@@ -275,7 +275,10 @@ public:
 
     //判断是否是自定义相册
     Q_INVOKABLE bool isCustomAlbum(int uid);
-public :
+
+    //判断默认路径是否存在
+    Q_INVOKABLE bool isDefaultPathExists(int uid);
+public:
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 
     //获得最近删除的文件

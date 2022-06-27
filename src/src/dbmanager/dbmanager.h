@@ -63,8 +63,8 @@ public:
     //特殊UID
     //-1,不属于任意相册
     //0,我的收藏
-    //1,监控路径：Camera
-    //2,监控路径：Screen Capture
+    //1,监控路径：Screen Capture
+    //2,监控路径：Camera
     //3,监控路径：Draw
 
     enum SpUID {

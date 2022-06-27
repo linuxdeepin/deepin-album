@@ -225,35 +225,22 @@ Rectangle {
             }
             ListView{
                 id : fixedList
-                height:3 * 36
+                height:fixedListModel.count * 36
                 width:parent.width
                 visible: true
                 interactive: false //禁用原有的交互逻辑，重新开始定制
 
-                model: ListModel {
-                    ListElement {
-                        name: qsTr("Screen Capture")
-                        number: "1"
-                        iconName :"screenshot"
-
-                    }
-                    ListElement {
-                        name: qsTr("Camera")
-                        number: "2"
-                        iconName :"camera"
-                    }
-                    ListElement {
-                        name: qsTr("Draw")
-                        number: "3"
-                        iconName :"draw"
-                    }
+                ListModel {
+                    id: fixedListModel
                 }
+
+                model: fixedListModel
+
                 delegate:    ItemDelegate {
                     id:sysitem
                     width: 180
                     height : 36
                     backgroundVisible: false
-                    checked: index == 0
                     DciIcon {
                         id: siderIcon1
                         anchors.left: sysitem.left; anchors.leftMargin: 10
@@ -309,9 +296,23 @@ Rectangle {
                            }
                         }
                     }
-
                 }
 
+                Component.onCompleted: {
+                    //根据文件夹情况刷新当前的默认路径相册显示
+                    //1: 截图，2: 相机，3: 画板
+                    if(albumControl.isDefaultPathExists(1)) {
+                        fixedListModel.append({name: qsTr("Screen Capture"), number: "1", iconName :"screenshot"})
+                    }
+
+                    if(albumControl.isDefaultPathExists(2)) {
+                        fixedListModel.append({name: qsTr("Camera"), number: "2", iconName :"camera"})
+                    }
+
+                    if(albumControl.isDefaultPathExists(3)) {
+                        fixedListModel.append({name: qsTr("Draw"), number: "3", iconName :"draw"})
+                    }
+                }
             }
 
             ListView{

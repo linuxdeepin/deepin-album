@@ -855,6 +855,11 @@ bool AlbumControl::isCustomAlbum(int uid)
     return bCustom;
 }
 
+bool AlbumControl::isDefaultPathExists(int uid)
+{
+    return DBManager::defaultNotifyPathExists(uid);
+}
+
 QStringList AlbumControl::getImportTimelinesTitlePaths(const QString &titleName, const int &filterType)
 {
     QStringList pathsList;
