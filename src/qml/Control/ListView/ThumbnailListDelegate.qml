@@ -134,7 +134,7 @@ Rectangle {
         anchors.rightMargin : 5
         anchors.bottomMargin : 5
         opacity: 0.7
-        displayStr: albumControl.getVideoTime(m_url)
+        displayStr: fileControl.isVideo(m_url) ? albumControl.getVideoTime(m_url) : "00:00:00"
         Connections {
             target: albumControl
             onSigRefreashVideoTime: {
