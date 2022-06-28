@@ -1951,19 +1951,22 @@ void AlbumControl::createNewCustomAutoImportAlbum(const QString &path)
 
 QString AlbumControl::getVideoTime(const QString &path)
 {
-    //采用线程执行导入
-    QThread *thread = QThread::create([ = ] {
-        m_mutex.lock();
-        QString reString;
-        reString = MovieService::instance()->getMovieInfo(QUrl(path)).duration;
-        if (reString == "-")
-        {
-            reString = "00:00:00";
-        }
-        emit sigRefreashVideoTime(path, reString);
-        m_mutex.unlock();
-    });
-    thread->start();
-    connect(thread, &QThread::destroyed, thread, &QObject::deleteLater);
-    return "00:00:00";
+    if(LibUnionImage_NameSpace::isVideo(QUrl(path).toLocalFile())) {
+        //采用线程执行导入
+        QThread *thread = QThread::create([ = ] {
+            m_mutex.lock();
+            QString reString;
+            reString = MovieService::instance()->getMovieInfo(QUrl(path)).duration;
+            if (reString == "-")
+            {
+                reString = "00:00:00";
+            }
+            emit sigRefreashVideoTime(path, reString);
+            m_mutex.unlock();
+        });
+        thread->start();
+        connect(thread, &QThread::destroyed, thread, &QObject::deleteLater);
+    } else {
+        return "00:00:00";
+    }
 }
