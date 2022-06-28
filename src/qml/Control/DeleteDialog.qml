@@ -86,7 +86,6 @@ DialogWindow {
         anchors.left: cancelbtn.right
         anchors.leftMargin: 10
         text: qsTr("Delete")
-        enabled: nameedit.text !== "" ? true : false
         width: 185
         height: 36
 

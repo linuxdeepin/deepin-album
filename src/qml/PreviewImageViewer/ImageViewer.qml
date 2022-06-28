@@ -213,6 +213,16 @@ Rectangle {
         if (global.stackControlCurrent == 2) {
             mainSliderShow.outSliderShow()
         }
+
+        // 在相册主界面进入全屏，按Esc需要回到相册主界面
+        if (global.stackControlLastCurrent === 0) {
+            global.stackControlCurrent = global.stackControlLastCurrent
+            global.stackControlLastCurrent = -1
+            root.title = ""
+        }
+
+        // 强制刷新一次图片
+        mainView.source=""
     }
     //缩放快捷键
     Shortcut {

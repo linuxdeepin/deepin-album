@@ -14,7 +14,8 @@ Rectangle {
     property alias selectedPaths: theView.selectedPaths
 
     onVisibleChanged: {
-        flushHaveImportedView()
+        if (visible)
+            flushHaveImportedView()
     }
 
     // 筛选类型改变处理事件

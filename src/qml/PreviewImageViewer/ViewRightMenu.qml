@@ -17,13 +17,16 @@ Menu {
 
         onTriggered : showFulltimer.start()
         Shortcut {
+            enabled: stackView.visible
             sequence : "F11"
-            onActivated : root.visibility != Window.FullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
+            onActivated : {
+                root.visibility !== Window.FullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
+            }
         }
         Shortcut {
-            enabled: root.visibility == Window.FullScreen ? true : false
+            enabled: (root.visibility === Window.FullScreen && stackView.visible) ? true : false
             sequence :  "Esc"
-            onActivated : root.visibility != Window.FullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
+            onActivated : root.visibility !== Window.FullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
         }
     }
 

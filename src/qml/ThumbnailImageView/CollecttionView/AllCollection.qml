@@ -95,7 +95,7 @@ Item {
             anchors.right: parent.right
             width: 130
             height: 30
-            visible: !(numLabelText === "" && filterType === 0)
+            //visible: !(numLabelText === "" && filterType === 0)
         }
     }
 

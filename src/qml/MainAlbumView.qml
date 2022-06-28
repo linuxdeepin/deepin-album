@@ -92,7 +92,7 @@ Rectangle {
         signal escKeyPressed()
 
         Shortcut {
-            enabled: true
+            enabled: global.stackControlCurrent === 0
             sequence: "Esc"
             onActivated: {
                 thumbnailImage.escKeyPressed()

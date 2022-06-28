@@ -91,5 +91,4 @@ ApplicationWindow {
     StackControl{
         id: stackControl
     }
-
 }

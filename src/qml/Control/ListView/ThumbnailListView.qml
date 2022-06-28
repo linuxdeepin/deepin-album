@@ -100,6 +100,23 @@ Item {
         }
     }
 
+    function imageFullScreen() {
+        if (root.visibility !== Window.FullScreen && selectedPaths.length !== 0) {
+            showFullScreen()
+            var openPaths = []
+            for(var i=0 ; i< thumbnailListModel.count ; i++){
+                openPaths.push(thumbnailListModel.get(i).url.toString())
+            }
+            console.log("openPaths:", openPaths, "theView.ism[0]:",theView.ism[0])
+            mainStack.sourcePaths = openPaths
+            mainStack.currentIndex = -1
+            mainStack.currentIndex = theView.ism[0]
+            mainStack.currentWidgetIndex = 1
+            global.stackControlLastCurrent = global.stackControlCurrent
+            global.stackControlCurrent = 1
+        }
+    }
+
     Connections {
         target: thumbnailImage
         onEscKeyPressed: {
@@ -485,24 +502,16 @@ Item {
                           && (theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString()))
                           && fileControl.isImage(thumbnailListModel.get(theView.ism[0]).url.toString())
                 onTriggered: {
-                    showFullScreen()
-                    //如果是影视，则采用打开视频
-                    if (fileControl.isVideo(thumbnailListModel.get(theView.ism[0]).url.toString())){
-                        albumControl.openDeepinMovie(thumbnailListModel.get(theView.ism[0]).url.toString())
-                    } else {
-                        var openPaths = new Array
-                        for(var i=0 ; i< thumbnailListModel.count ; i++){
-                            openPaths.push(thumbnailListModel.get(i).url.toString())
-                        }
-                        mainStack.sourcePaths = openPaths
-                        mainStack.currentIndex = theView.ism[0]
-                        mainStack.currentWidgetIndex = 1
-                        global.stackControlCurrent = 1
-
+                    imageFullScreen()
+                }
+                Shortcut {
+                    enabled: theView.activeFocus
+                    autoRepeat: false
+                    sequence : "F11"
+                    onActivated : {
+                        console.log("thumbnailListView F11..")
+                        imageFullScreen()
                     }
-
-
-
                 }
             }
 
