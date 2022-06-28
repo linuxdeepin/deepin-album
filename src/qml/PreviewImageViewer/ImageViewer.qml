@@ -104,7 +104,10 @@ Rectangle {
         idNavWidget.visible = false
         fitWindow()
 
-        root.title = fileControl.slotGetFileName(source) + fileControl.slotFileSuffix(source)
+        if (source !== "")
+            root.title = fileControl.slotGetFileName(source) + fileControl.slotFileSuffix(source)
+        else
+            root.title = ""
 
         showFloatLabel()
 
