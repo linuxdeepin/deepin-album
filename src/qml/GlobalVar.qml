@@ -60,6 +60,7 @@ Item {
     signal sigFlushCustomAlbumView()    // 刷新我的收藏/自定义相册视图内容
     signal sigCollectionViewIndexChanged(int index) //合集页面发生改变
     signal sigFlushSearchView() // 刷新搜索结果视图内容
+    signal sigThumbnailSizeLevelChanged()
 
     Component.onCompleted: {
         currentViewIndex = GlobalVar.ThumbnailViewType.Collecttion
@@ -168,5 +169,9 @@ Item {
             sigFlushRecentDelView()
             sigFlushCustomAlbumView()
         }
+    }
+
+    onThumbnailSizeLevelChanged: {
+        sigThumbnailSizeLevelChanged()
     }
 }

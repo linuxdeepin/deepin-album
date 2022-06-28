@@ -39,7 +39,6 @@ Rectangle {
         height: parent.height - 14
         //使用PreserveAspectFit确保在原始比例下不变形
         fillMode: Image.PreserveAspectFit
-        clip: true
         visible: false
     }
 

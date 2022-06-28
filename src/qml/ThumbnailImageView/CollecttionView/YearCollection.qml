@@ -80,7 +80,6 @@ Item {
                 width: parent.width
                 height: parent.height
                 fillMode: Image.PreserveAspectCrop
-                clip: true
                 visible: false
             }
 

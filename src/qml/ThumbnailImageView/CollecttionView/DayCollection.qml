@@ -153,11 +153,12 @@ Item {
                 height: Math.abs(Math.ceil(theSubView.count() / Math.floor((parent.width) / itemWidth)) * itemHeight)
             }
 
-            Component.onCompleted: {
+            function flushView() {
                 var picTotal = 0
                 var videoTotal = 0
                 //1.刷新图片显示
                 var paths = albumControl.getDayPaths(m_dayToken)
+                viewModel.clear()
                 for (var i = 0;i !== paths.length;++i) {
                     viewModel.append({url: paths[i]})
 
@@ -190,10 +191,14 @@ Item {
                 timeLineLabel.text = qsTr("%1Year%2Month%3Day").arg(dates[0]).arg(Number(dates[1])).arg(Number(dates[2]))
 
                 delegateRect.height = timeLineLabel.height + selectAllBox.height +
-                        (Math.abs(Math.ceil(paths.length / Math.floor((delegateRect.width) / theSubView.itemWidth)) * theSubView.itemHeight))
+                        (Math.abs(Math.ceil(paths.length / Math.floor((delegateRect.width) / theSubView.itemWidth)) * theSubView.itemHeight) + 10)
 
                 //console.debug("delegate", index, delegateRect.height)
+            }
 
+            Component.onCompleted: {
+                flushView()
+                global.sigThumbnailSizeLevelChanged.connect(flushView)
             }
         }
     }
