@@ -578,22 +578,48 @@ Rectangle {
                     albumControl.exportFolders(albumPaths,albumControl.getCustomAlbumByUid(global.currentCustomAlbumUId))
                 }
             }
+
             RightMenuItem {
                 text: qsTr("Delete")
                 onTriggered: {
-                    albumControl.removeAlbum(global.currentCustomAlbumUId)
-                    albumControl.removeCustomAutoImportPath(global.currentCustomAlbumUId)
-                    global.albumChangeList=!global.albumChangeList
-                    sigDeleteCustomItem()
-
-                    console.log(albumControl.getImportAlubumCount(global.albumChangeList))
-                    if(albumControl.getImportAlubumCount(global.albumChangeList) == 0){
-                        todoDraw()
-                    }
+                    removeAlbumDialog.deleteType = 1
+                    removeAlbumDialog.show()
                 }
             }
         }
 
+        //删除相册窗口
+        RemoveAlbumDialog {
+            id: removeAlbumDialog
+        }
+
+        //删除执行函数，type由调用位置设置，用于模拟回调函数
+        function doDeleteAlbum(type) {
+            if(type === 0) {
+                albumControl.removeAlbum(global.currentCustomAlbumUId)
+                global.albumChangeList=!global.albumChangeList
+                sigDeleteItem()
+                if(albumControl.getAllCustomAlbumId(global.albumChangeList).length === 0){
+                    todoDraw()
+                }
+            } else if(type === 1) {
+                albumControl.removeAlbum(global.currentCustomAlbumUId)
+                albumControl.removeCustomAutoImportPath(global.currentCustomAlbumUId)
+                global.albumChangeList=!global.albumChangeList
+                sigDeleteCustomItem()
+                if(albumControl.getImportAlubumCount(global.albumChangeList) === 0){
+                    todoDraw()
+                }
+            }
+
+            //删完以后要执行界面跳转
+            global.siderGroup.buttons[0].checked = true;
+            global.currentViewIndex = 2
+        }
+
+        Component.onCompleted: {
+            removeAlbumDialog.sigDoRemoveAlbum.connect(doDeleteAlbum)
+        }
 
         Menu {
             id: customMenu
@@ -620,6 +646,7 @@ Rectangle {
                     newAlbum.show()
                 }
             }
+
             RightMenuItem {
                 text: qsTr("Rename")
                 visible: global.currentCustomAlbumUId > 3 ?true : false
@@ -638,16 +665,13 @@ Rectangle {
                     albumControl.exportFolders(albumPaths,albumControl.getCustomAlbumByUid(global.currentCustomAlbumUId))
                 }
             }
+
             RightMenuItem {
                 text: qsTr("Delete")
                 visible: global.currentCustomAlbumUId > 3 ?true : false
                 onTriggered: {
-                    albumControl.removeAlbum(global.currentCustomAlbumUId)
-                    global.albumChangeList=!global.albumChangeList
-                    sigDeleteItem()
-                    if(albumControl.getAllCustomAlbumId(global.albumChangeList).length === 0){
-                        todoDraw()
-                    }
+                    removeAlbumDialog.deleteType = 0
+                    removeAlbumDialog.show()
                 }
             }
         }
