@@ -316,8 +316,8 @@ Rectangle {
                 else {
                     albumControl.removeFromAlbum(0, global.selectedPaths)
                     // 当前处于我的收藏视图，点击图片操作-取消收藏，需要重载我的收藏列表内容
-                    if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId == 0) {
-                        global.sigFlushCustomAlbumView()
+                    if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId === 0) {
+                        global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
                     }
                 }
 

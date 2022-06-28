@@ -21,24 +21,26 @@ Rectangle {
 
     onVisibleChanged: {
         if (visible)
-            flushCustomAlbumView()
+            flushCustomAlbumView(global.currentCustomAlbumUId)
     }
 
     // 筛选类型改变处理事件
     onFilterTypeChanged: {
-        flushCustomAlbumView()
+        flushCustomAlbumView(global.currentCustomAlbumUId)
     }
 
     // 我的收藏和相册视图之间切换，需要重载数据
     onCustomAlbumUIdChanged: {
-        flushCustomAlbumView()
+        flushCustomAlbumView(global.currentCustomAlbumUId)
     }
 
     // 刷新自定义相册/我的收藏视图内容
-    function flushCustomAlbumView() {
-        loadCustomAlbumItems()
-        global.selectedPaths = theView.selectedPaths
-        getNumLabelText()
+    function flushCustomAlbumView(customAlbumUId) {
+        if (customAlbumUId === global.currentCustomAlbumUId || customAlbumUId === -1) {
+            loadCustomAlbumItems()
+            global.selectedPaths = theView.selectedPaths
+            getNumLabelText()
+        }
     }
 
     // 刷新总数标签

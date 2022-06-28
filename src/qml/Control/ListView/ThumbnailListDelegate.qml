@@ -79,13 +79,27 @@ Rectangle {
     }
 
     //收藏图标
-    DciIcon {
-        name: "collected"
+    ActionButton {
         visible: albumControl.photoHaveFavorited(m_url, global.bRefreshFavoriteIconFlag)
         anchors.bottom: image.bottom
         anchors.left: image.left
-        anchors.leftMargin : (image.width - image.paintedWidth) / 2 + 15
-        anchors.bottomMargin : (image.height - image.paintedHeight) / 2 + 15
+        anchors.leftMargin : (image.width - image.paintedWidth) / 2 + 5
+        anchors.bottomMargin : (image.height - image.paintedHeight) / 2 + 5
+
+        icon {
+            name: "collected"
+        }
+
+        onClicked: {
+            var paths = []
+            paths.push(m_url)
+            albumControl.removeFromAlbum(0, paths)
+            global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+            // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
+            if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId === 0) {
+                global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
+            }
+        }
     }
 
     //选中后显示的图标

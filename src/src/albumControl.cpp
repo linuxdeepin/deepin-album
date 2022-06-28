@@ -1060,7 +1060,7 @@ void AlbumControl::insertTrash(const QList< QUrl > &paths)
     //新增删除主相册数据库
     DBManager::instance()->removeImgInfos(tmpList);
     // 通知前端刷新相关界面，包括自定义相册/我的收藏/合集-所有项目/已导入
-    sigRefreshCustomAlbum(0);
+    sigRefreshCustomAlbum(-1);
     sigRefreshAllCollection();
     sigRefreshImportAlbum();
     sigRefreshSearchView();
@@ -1871,7 +1871,7 @@ void AlbumControl::importFromMountDevice(const QStringList &paths, const int &in
             DBManager::instance()->insertImgInfos(dbInfos);
             if (index > 0) {
                 DBManager::instance()->insertIntoAlbum(index, pathslist);
-                emit sigRefreshCustomAlbum(index);
+                emit sigRefreshCustomAlbum(-1);
             }
             emit sigRefreshImportAlbum();
             emit sigRefreshAllCollection();

@@ -107,7 +107,6 @@ Item {
             for(var i=0 ; i< thumbnailListModel.count ; i++){
                 openPaths.push(thumbnailListModel.get(i).url.toString())
             }
-            console.log("openPaths:", openPaths, "theView.ism[0]:",theView.ism[0])
             mainStack.sourcePaths = openPaths
             mainStack.currentIndex = -1
             mainStack.currentIndex = theView.ism[0]
@@ -351,6 +350,9 @@ Item {
                     {
                         parent.ism = [index]
                         selectedChanged()
+                    } else if (parent.ism.indexOf(index) >= 0)
+                    {
+                        mouse.accepted = false
                     }
                 }
             }
@@ -664,7 +666,7 @@ Item {
 
                     // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
                     if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId === 0) {
-                        global.sigFlushCustomAlbumView()
+                        global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
                     }
                 }
             }
@@ -679,7 +681,7 @@ Item {
                     global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
                     // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
                     if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId === 0) {
-                        global.sigFlushCustomAlbumView()
+                        global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
                     }
                 }
             }

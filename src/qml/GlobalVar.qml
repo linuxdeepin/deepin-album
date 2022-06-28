@@ -58,7 +58,7 @@ Item {
     signal sigFlushAllCollectionView()   // 刷新合集所有项目视图内容
     signal sigFlushHaveImportedView()   // 刷新已导入视图内容
     signal sigFlushRecentDelView()      // 刷新最近删除视图内容
-    signal sigFlushCustomAlbumView()    // 刷新我的收藏/自定义相册视图内容
+    signal sigFlushCustomAlbumView(int customAlbumUId)    //刷新我的收藏/自定义相册视图内容 customAlbumUId: >= 0 刷新指定视图，-1: 默认刷新所有视图
     signal sigCollectionViewIndexChanged(int index) //合集页面发生改变
     signal sigFlushSearchView() // 刷新搜索结果视图内容
     signal sigThumbnailSizeLevelChanged()
@@ -99,7 +99,7 @@ Item {
     Connections {
         target: albumControl
         onSigRefreshCustomAlbum: {
-           sigFlushCustomAlbumView()
+           sigFlushCustomAlbumView(UID)
         }
     }
 
@@ -168,7 +168,7 @@ Item {
             sigFlushAllCollectionView()
             sigFlushHaveImportedView()
             sigFlushRecentDelView()
-            sigFlushCustomAlbumView()
+            sigFlushCustomAlbumView(-1)
         }
     }
 

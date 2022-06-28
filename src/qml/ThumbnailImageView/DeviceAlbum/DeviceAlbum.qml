@@ -52,11 +52,11 @@ Rectangle {
     // 加载自定义相册数据
     function loadCustomAlbumItems()
     {
-        console.info("custom album model has refreshed... filterType:", filterType)
+        console.info("device album model has refreshed... filterType:", filterType)
         theView.selectAll(false)
         theView.thumbnailListModel.clear();
         var customAlbumInfos = albumControl.getDeviceAlbumInfos(devicePath, filterType);
-        console.info("custom album model has refreshed... filterType:", filterType, " done...")
+        console.info("device album model has refreshed... filterType:", filterType, " done...")
         for (var key in customAlbumInfos) {
             var customAlbumItems = customAlbumInfos[key]
             for (var i = 0; i < customAlbumItems.length; i++) {
