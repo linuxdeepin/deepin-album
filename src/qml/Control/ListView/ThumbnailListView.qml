@@ -89,6 +89,17 @@ Item {
         }
     }
 
+    //执行图片删除操作
+    function runDeleteImg() {
+        if ( thumnailListType !== GlobalVar.ThumbnailType.Trash ){
+            albumControl.insertTrash(global.selectedPaths)
+        } else {
+            albumControl.deleteImgFromTrash(selectedOriginPaths)
+            selectAll(false)
+            global.sigFlushRecentDelView()
+        }
+    }
+
     Connections {
         target: thumbnailImage
         onEscKeyPressed: {
@@ -608,14 +619,13 @@ Item {
                 text: qsTr("Delete")
                 visible: theArea.canDelete
                 onTriggered: {
-                    if ( thumnailListType !== GlobalVar.ThumbnailType.Trash ){
-                        albumControl.insertTrash(global.selectedPaths)
+                    if(thumnailListType === GlobalVar.ThumbnailType.Trash) {
+                        deleteDialog.setDisplay(thumnailListType === GlobalVar.ThumbnailType.Trash, selectedOriginPaths.length)
                     } else {
-                        albumControl.deleteImgFromTrash(selectedOriginPaths)
-                        selectAll(false)
-                        global.sigFlushRecentDelView()
+                        deleteDialog.setDisplay(thumnailListType === GlobalVar.ThumbnailType.Trash, global.selectedPaths.length)
                     }
 
+                    deleteDialog.show()
                 }
             }
 
@@ -763,6 +773,7 @@ Item {
 
     Component.onCompleted: {
         global.sigThumbnailStateChange.connect(fouceUpdate)
+        deleteDialog.sigDoDeleteImg.connect(runDeleteImg)
     }
 
     onRealCellWidthChanged: {

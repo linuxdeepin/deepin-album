@@ -53,5 +53,6 @@
         <file>qml/Control/VideoInfoDialog.qml</file>
         <file>qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml</file>
         <file>qml/PreviewImageViewer/WindowButtonGroupEx.qml</file>
+        <file>qml/Control/DeleteDialog.qml</file>
     </qresource>
 </RCC>

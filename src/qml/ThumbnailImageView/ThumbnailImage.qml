@@ -78,6 +78,11 @@ Rectangle{
         anchors.fill: parent
     }
 
+    //delete窗口
+    DeleteDialog {
+        id: deleteDialog
+    }
+
     //rename窗口
     ExportDialog {
         id: exportdig
