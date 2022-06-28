@@ -94,17 +94,20 @@ Rectangle{
 
     Connections {
         target: newAlbum
-        onSigCreateAlbum:
-        {
+        onSigCreateAlbum: {
+            //获取新相册index
             var index = albumControl.getAllCustomAlbumId(global.albumChangeList).length - 1
-            if(newAlbum.isChangeView){
+
+            //插入图片
+            albumControl.insertIntoAlbum(albumControl.getAllCustomAlbumId(global.albumChangeList)[index] , global.selectedPaths)
+
+            //切换视图
+            if(newAlbum.isChangeView) {
                 global.currentViewIndex = 6
             }
-            else{
-                albumControl.insertIntoAlbum(albumControl.getAllCustomAlbumId(global.albumChangeList)[index] , global.selectedPaths)
-            }
-
             global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[index]
+
+            global.haveCreateAlbum = true
         }
     }
 }

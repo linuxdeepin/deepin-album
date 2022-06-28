@@ -397,9 +397,7 @@ Rectangle {
                         }
                     }
                 }
-
             }
-
 
             ListView{
                 id : customList
@@ -480,7 +478,7 @@ Rectangle {
                             if(global.currentViewIndex === GlobalVar.ThumbnailViewType.CustomAlbum){
                                 console.log(global.currentViewIndex)
                                 for(var i=0 ; i < albumControl.getAllCustomAlbumId(global.albumChangeList).length; i++) {
-                                    if(albumControl.getAllCustomAlbumId(global.albumChangeList)[i] == global.currentCustomAlbumUId ){
+                                    if(albumControl.getAllCustomAlbumId(global.albumChangeList)[i] === global.currentCustomAlbumUId ){
                                         if(i == index){
                                             item.checked=true
                                             item.forceActiveFocus();
@@ -647,12 +645,11 @@ Rectangle {
                     albumControl.removeAlbum(global.currentCustomAlbumUId)
                     global.albumChangeList=!global.albumChangeList
                     sigDeleteItem()
-                    if(albumControl.getAllCustomAlbumId(global.albumChangeList).length == 0){
+                    if(albumControl.getAllCustomAlbumId(global.albumChangeList).length === 0){
                         todoDraw()
                     }
                 }
             }
         }
-
     }
 }

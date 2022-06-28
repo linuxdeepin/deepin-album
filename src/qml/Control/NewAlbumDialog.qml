@@ -98,13 +98,13 @@ DialogWindow {
         anchors.left: cancelbtn.right
         anchors.leftMargin: 10
         text: qsTr("Confirm")
-        enabled: nameedit.text !=""? true :false
+        enabled: nameedit.text !== "" ? true : false
         width: 185
         height: 36
 
         onClicked: {
             albumControl.createAlbum( nameedit.text )
-            global.albumChangeList=!global.albumChangeList //通知刷新
+            global.albumChangeList = !global.albumChangeList //通知刷新
             renamedialog.visible = false
             sigCreateAlbum()
         }

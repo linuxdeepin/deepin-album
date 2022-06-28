@@ -558,15 +558,19 @@ Item {
                         text: albumControl.getAllCustomAlbumName(global.albumChangeList)[index]
 
                         onTriggered:{
-                            albumControl.insertIntoAlbum(albumControl.getAllCustomAlbumId(global.albumChangeList)[index] , global.selectedPaths)
-                            global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[index]
-                            global.siderGroup.buttons[index].checked = true
+                            //未知原因导致global.siderGroup.buttons内部index混乱，先这样规避
+                            var realIndex = index
+                            if(global.haveCreateAlbum) {
+                                realIndex += 4
+                            }
+
+                            albumControl.insertIntoAlbum(albumControl.getAllCustomAlbumId(global.albumChangeList)[realIndex] , global.selectedPaths)
+                            global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[realIndex]
+                            global.siderGroup.buttons[realIndex].checked = true
                             global.currentViewIndex = GlobalVar.ThumbnailViewType.CustomAlbum
                         }
                     }
-
                 }
-
             }
 
             //导出图片为其它格式

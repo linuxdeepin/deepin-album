@@ -43,6 +43,8 @@ Item {
     property string deviceCurrentPath: "" //设备当前P
     property bool windowDisActived: false
 
+    property bool haveCreateAlbum: false //未知原因导致global.siderGroup.buttons内部index混乱，先这样规避
+
     function objIsEmpty(obj) {
         var ret = (String(obj) === "undefined" || String(obj) === "null")
         //console.log("obj is", ret ? "empty." : "not empty.", "objStr:", String(obj))
