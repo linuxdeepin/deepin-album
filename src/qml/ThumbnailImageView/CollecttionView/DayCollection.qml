@@ -76,7 +76,8 @@ Item {
     ListView {
         id: theView
         model: theModel
-        anchors.fill: parent
+        width: parent.width
+        height: parent.height
         delegate: theDelegate
         interactive: false
 
@@ -110,6 +111,7 @@ Item {
         Rectangle {
             id: delegateRect
             width: theView.width
+            height: timeLineLabel.height + timeLineLabel.anchors.topMargin + selectAllBox.height + theSubView.height
 
             property string m_dayToken: dayToken
 
@@ -145,10 +147,7 @@ Item {
                 thumbnailListModel: viewModel
                 anchors.top: selectAllBox.bottom
                 anchors.left: selectAllBox.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
                 enableWheel: false
-
                 width: parent.width
                 height: Math.abs(Math.ceil(theSubView.count() / Math.floor((parent.width) / itemWidth)) * itemHeight)
             }
@@ -189,11 +188,6 @@ Item {
                 //3.刷新标题
                 var dates = m_dayToken.split("-")
                 timeLineLabel.text = qsTr("%1Year%2Month%3Day").arg(dates[0]).arg(Number(dates[1])).arg(Number(dates[2]))
-
-                delegateRect.height = timeLineLabel.height + selectAllBox.height +
-                        (Math.abs(Math.ceil(paths.length / Math.floor((delegateRect.width) / theSubView.itemWidth)) * theSubView.itemHeight) + 10)
-
-                //console.debug("delegate", index, delegateRect.height)
             }
 
             Component.onCompleted: {
