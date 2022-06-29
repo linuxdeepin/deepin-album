@@ -74,43 +74,6 @@ Rectangle {
         anchors.fill: parent
     }
 
-    DropArea {
-        id: dropArea;
-        anchors.fill: parent;
-        onEntered: {
-            background.color = "gray";
-            drag.accept (Qt.CopyAction);
-            console.log("onEntered");
-        }
-        onDropped: {
-            console.log ("onDropped");
-            var DropImagePath =""
-            if(drop.hasUrls){
-                for(var i = 0; i < drop.urls.length; i++){
-                    console.log(drop.urls[i]);
-                    if(fileControl.isImage(drop.urls[i])){
-                        mainView.sourcePaths = fileControl.getDirImagePath(drop.urls[i]);
-                        mainView.source = drop.urls[i]
-                        mainView.currentIndex=mainView.sourcePaths.indexOf(mainView.source)
-                        if(mainView.sourcePaths.length >0){
-
-                            mainView.setThumbnailCurrentIndex(mainView.sourcePaths.indexOf(mainView.source))
-                            console.log( "test",mainView.source)
-                            stackView.currentWidgetIndex= 1
-                        }
-                        i =drop.urls.length
-                        return
-                    }
-                }
-            }
-
-
-        }
-        onExited: {
-            bckground.color = "white";
-            console.log ("onExited");
-        }
-    }
 //    interactive: false
 //    currentIndex: currentWidgetIndex
 
