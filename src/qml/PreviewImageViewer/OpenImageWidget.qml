@@ -112,7 +112,12 @@ Item {
             }
         }
 
-
+        // 若在文管菜单使用相册打开图片文件，应该将选择的图片导入相册中
+        if (fileControl.isAlbum() && tempPath !== "") {
+            var paths = []
+            paths.push(tempPath)
+            albumControl.importAllImagesAndVideos(paths)
+        }
     }
 
 }
