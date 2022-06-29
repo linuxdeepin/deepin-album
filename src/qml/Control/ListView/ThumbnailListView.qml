@@ -76,8 +76,10 @@ Item {
 
     //统计当前页面的缩略图时间范围
     function totalTimeScope() {
-        if(thumnailListType === GlobalVar.ThumbnailType.AllCollection && global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion && collecttionView.currentViewIndex === 3) { //仅在合集模式的时候激活计算，以此节省性能
-            var visilbeIndexs = theView.flushRectSel(0, 0, theView.width, theView.height)
+        if(thumnailListType === GlobalVar.ThumbnailType.AllCollection &&
+                global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion &&
+                collecttionView.currentViewIndex === 3) { //仅在合集模式的时候激活计算，以此节省性能
+            var visilbeIndexs = theView.flushRectSel(0, theView.contentY, theView.width, theView.height)
             if (visilbeIndexs.length > 0 && visilbeIndexs[0] !== "-1") {
                 var url1 = thumbnailListModel.get(visilbeIndexs[0]).url
                 var url2 = thumbnailListModel.get(visilbeIndexs[visilbeIndexs.length - 1]).url
