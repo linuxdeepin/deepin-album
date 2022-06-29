@@ -53,6 +53,7 @@ Rectangle {
                 width: parent.width-20
                 implicitHeight: contentHeight
                 model: SidebarModel {}
+                interactive: false //禁用原有的交互逻辑，重新开始定制
                 delegate:ItemDelegate {
                     id :picItem
                     width: 180
