@@ -83,9 +83,9 @@ MovieService::MovieService(QObject *parent)
         if (output.isEmpty()) {
             m_ffmpegExist = false;
         } else {
-            resolutionExp.setPattern("[0-9]+x[0-9]+");
-            codeRateExp.setPattern("[0-9]+\\skb/s");
-            fpsExp.setPattern("[0-9]+\\sfps");
+            resolutionPattern = "[0-9]+x[0-9]+";
+            codeRatePattern = "[0-9]+\\skb/s";
+            fpsPattern = "[0-9]+\\sfps";
             m_ffmpegExist = true;
         }
     } catch (std::logic_error &e) {
@@ -100,7 +100,7 @@ MovieService::MovieService(QObject *parent)
 
 MovieInfo MovieService::getMovieInfo(const QUrl &url)
 {
-    if(m_movieInfoBuffer.keys().contains(url)){
+    if (m_movieInfoBuffer.keys().contains(url)) {
         return m_movieInfoBuffer[url];
     }
     MovieInfo result;
@@ -119,7 +119,7 @@ MovieInfo MovieService::getMovieInfo(const QUrl &url)
             }
         }
     }
-    m_movieInfoBuffer[url]=result;
+    m_movieInfoBuffer[url] = result;
 //    if (m_movieInfoBuffer.size() > 1000) {
 //    }
     return result;
@@ -228,6 +228,7 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
         mi.vCodecID = videoStreamInfo[0].split(" ")[0];
 
         //分辨率，长宽比
+        QRegExp resolutionExp(resolutionPattern);
         if (resolutionExp.indexIn(videoInfoString) > 0) {
             mi.resolution = resolutionExp.cap(0);
 
@@ -241,6 +242,7 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
         }
 
         //码率
+        QRegExp codeRateExp(codeRatePattern);
         if (codeRateExp.indexIn(videoInfoString) > 0) {
             auto codeRate = codeRateExp.cap(0);
             mi.vCodeRate = codeRate.split(" ")[0].toInt();
@@ -249,6 +251,7 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
         }
 
         //帧率
+        QRegExp fpsExp(fpsPattern);
         if (fpsExp.indexIn(videoInfoString) > 0) {
             auto fps = fpsExp.cap(0);
             mi.fps = fps.split(" ")[0].toInt();
@@ -338,7 +341,7 @@ QImage MovieService::getMovieCover(const QUrl &url)
             }
         }
     }
-    if(image.isNull()){
+    if (image.isNull()) {
         image = QImage(":/res/video_default_light.svg");
     }
 

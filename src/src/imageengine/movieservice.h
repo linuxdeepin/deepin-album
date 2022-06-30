@@ -101,9 +101,9 @@ private:
     QMutex m_bufferMutex;
     QMap<QUrl, MovieInfo> m_movieInfoBuffer;
 
-    QRegExp resolutionExp;
-    QRegExp codeRateExp;
-    QRegExp fpsExp;
+    QString resolutionPattern;
+    QString codeRatePattern;
+    QString fpsPattern;
 
 };
 
