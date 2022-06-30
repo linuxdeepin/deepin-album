@@ -23,6 +23,18 @@
         <source>All photos and videos</source>
         <translation>所有图片和视频</translation>
     </message>
+    <message>
+        <source>Screen Capture</source>
+        <translation>截图录屏</translation>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation>相机</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation>画板</translation>
+    </message>
 </context>
 <context>
     <name>AlbumTitle</name>
@@ -80,7 +92,7 @@
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation>%1在%2许可下发布。</translation>
+        <translation>%1在%2许可下发布</translation>
     </message>
 </context>
 <context>
@@ -172,14 +184,57 @@
     </message>
 </context>
 <context>
+    <name>DeleteDialog</name>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation>您确定要永久删除此文件吗？</translation>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation>删除后不可恢复</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation>您确定要永久删除这%1个文件吗？</translation>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation>删除后不可恢复</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation>您确定要从本地删除此文件吗？</translation>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation>您可以在“最近删除”中进行恢复</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 file locally?</source>
+        <translation>您确定要从本地删除这%1个文件吗？</translation>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation>您可以在“最近删除”中进行恢复</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+</context>
+<context>
     <name>DeviceAlbum</name>
     <message>
         <source>%1 photos</source>
-        <translation>共%1张照片</translation>
+        <translation>%1张照片</translation>
     </message>
     <message>
         <source>%1 videos</source>
-        <translation>共%1个视频</translation>
+        <translation>%1个视频</translation>
     </message>
     <message>
         <source>Import to:</source>
@@ -280,11 +335,11 @@
     <name>HaveImportedView</name>
     <message>
         <source>%1 photos</source>
-        <translation>共%1张照片</translation>
+        <translation>%1张照片</translation>
     </message>
     <message>
         <source>%1 videos</source>
-        <translation>共%1个视频</translation>
+        <translation>%1个视频</translation>
     </message>
     <message>
         <source>Import</source>
@@ -526,11 +581,11 @@
     <name>RecentlyDeletedView</name>
     <message>
         <source>%1 photos</source>
-        <translation>共%1张照片</translation>
+        <translation>%1张照片</translation>
     </message>
     <message>
         <source>%1 videos</source>
-        <translation>共%1个视频</translation>
+        <translation>%1个视频</translation>
     </message>
     <message>
         <source>Trash</source>
@@ -563,6 +618,21 @@
     <message>
         <source>%1 videos selected</source>
         <translation>已选择%1个视频</translation>
+    </message>
+</context>
+<context>
+    <name>RemoveAlbumDialog</name>
+    <message>
+        <source>Are you sure you want to delete this album?</source>
+        <translation>您确定要删除此相册吗？</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
     </message>
 </context>
 <context>

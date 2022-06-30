@@ -23,6 +23,18 @@
         <source>All photos and videos</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Screen Capture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AlbumTitle</name>
@@ -170,6 +182,49 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     <message>
         <source>%1Year%2Month%3Day</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DeleteDialog</name>
+    <message>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 file locally?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annulla</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Elimina</translation>
     </message>
 </context>
 <context>
@@ -564,6 +619,21 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     <message>
         <source>%1 videos selected</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RemoveAlbumDialog</name>
+    <message>
+        <source>Are you sure you want to delete this album?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annulla</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Elimina</translation>
     </message>
 </context>
 <context>

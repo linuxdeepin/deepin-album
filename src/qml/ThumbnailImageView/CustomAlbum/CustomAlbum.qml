@@ -47,7 +47,7 @@ Rectangle {
     function getNumLabelText() {
         var photoCountText = albumControl.getCustomAlbumInfoConut(customAlbumUId, 1) > 0 ? qsTr("%1 photos").arg(albumControl.getCustomAlbumInfoConut(customAlbumUId, 1)) : ""
         var videoCountText = albumControl.getCustomAlbumInfoConut(customAlbumUId, 2) > 0 ? qsTr("%1 videos").arg(albumControl.getCustomAlbumInfoConut(customAlbumUId, 2)) : ""
-        numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? (" " + videoCountText) : ""))
+        numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? ((photoCountText !== "" ? " " : "") + videoCountText) : ""))
                                            : (filterType == 1 ? photoCountText : videoCountText)
         if (visible) {
             global.statusBarNumText = numLabelText

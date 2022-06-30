@@ -1180,9 +1180,15 @@ QStringList AlbumControl::getAlbumPaths(const int &albumId, const int &filterTyp
 
 QString AlbumControl::getCustomAlbumByUid(const int &index)
 {
-    // 从数据获取我的收藏单词不对，为保证V20数据库兼容性，在此做特殊特殊处理
+    // 我的收藏和系统相册名称为固定名称，可直接根据索引获取，以便做翻译处理
     if (0 == index)
         return tr("Favorites");
+    else if (1 == index)
+        return tr("Screen Capture");
+    else if (2 == index)
+        return tr("Camera");
+    else if (3 == index)
+        return tr("Draw");
 
     return DBManager::instance()->getAlbumNameFromUID(index);
 }

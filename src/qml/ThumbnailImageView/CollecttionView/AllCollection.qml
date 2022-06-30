@@ -39,7 +39,7 @@ Item {
     function getNumLabelText() {
         var photoCountText = albumControl.getAllCount(1) > 0 ? qsTr("%1 photos").arg(albumControl.getAllCount(1)) : ""
         var videoCountText = albumControl.getAllCount(2) > 0 ? qsTr("%1 videos").arg(albumControl.getAllCount(2)) : ""
-        numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? (", " + videoCountText) : ""))
+        numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? ((photoCountText !== "" ? ", " : "") + videoCountText) : ""))
                                            : (filterType == 1 ? photoCountText : videoCountText)
         if (visible) {
             global.statusBarNumText = numLabelText
