@@ -154,16 +154,6 @@ Item {
         }
     }
 
-    onStackControlCurrentChanged: {
-        // 从看图界面退出，需要刷新各个视图内容
-        if (stackControlCurrent === 0) {
-            sigFlushAllCollectionView()
-            sigFlushHaveImportedView()
-            sigFlushRecentDelView()
-            sigFlushCustomAlbumView(-1)
-        }
-    }
-
     onThumbnailSizeLevelChanged: {
         sigThumbnailSizeLevelChanged()
     }

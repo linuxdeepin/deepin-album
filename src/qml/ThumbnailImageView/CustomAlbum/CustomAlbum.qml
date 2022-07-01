@@ -31,7 +31,8 @@ Rectangle {
 
     // 我的收藏和相册视图之间切换，需要重载数据
     onCustomAlbumUIdChanged: {
-        flushCustomAlbumView(global.currentCustomAlbumUId)
+        if (visible)
+            flushCustomAlbumView(global.currentCustomAlbumUId)
     }
 
     // 刷新自定义相册/我的收藏视图内容
@@ -80,11 +81,11 @@ Rectangle {
     // 加载自定义相册数据
     function loadCustomAlbumItems()
     {
-        console.info("custom album model has refreshed... filterType:", filterType)
+        console.info("custom album model has refreshed... filterType:", filterType, "customAlbumUId:", customAlbumUId)
         theView.selectAll(false)
         theView.thumbnailListModel.clear();
         var customAlbumInfos = albumControl.getAlbumInfos(customAlbumUId, filterType);
-        console.info("custom album model has refreshed... filterType:", filterType, " done...")
+        console.info("custom album model has refreshed... filterType:", filterType, "customAlbumUId:", customAlbumUId, " done...")
         for (var key in customAlbumInfos) {
             var customAlbumItems = customAlbumInfos[key]
             for (var i = 0; i < customAlbumItems.length; i++) {

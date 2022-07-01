@@ -851,7 +851,6 @@ bool AlbumControl::isNormalAutoImportAlbum(int uid)
 bool AlbumControl::isCustomAlbum(int uid)
 {
     bool bCustom = getAllCustomAlbumId().contains(uid);
-    qDebug() << "isCustomAlbum:" << bCustom;
     return bCustom;
 }
 

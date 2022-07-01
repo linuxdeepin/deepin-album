@@ -198,6 +198,17 @@ Rectangle {
     function escBack()
     {
         showNormal()
+        // 在相册主界面进入全屏，按Esc需要回到相册主界面
+        if (global.stackControlLastCurrent === 0) {
+            global.stackControlCurrent = global.stackControlLastCurrent
+            global.stackControlLastCurrent = -1
+            // 强制刷新一次图片
+            mainView.sourcePaths = ""
+            mainView.source = ""
+            root.title = ""
+            return
+        }
+
         showfullAnimation.start()
         //如果是初始界面只正常大小
         if (stackView.currentWidgetIndex != 0) {
@@ -215,13 +226,6 @@ Rectangle {
 
         if (global.stackControlCurrent == 2) {
             mainSliderShow.outSliderShow()
-        }
-
-        // 在相册主界面进入全屏，按Esc需要回到相册主界面
-        if (global.stackControlLastCurrent === 0) {
-            global.stackControlCurrent = global.stackControlLastCurrent
-            global.stackControlLastCurrent = -1
-            root.title = ""
         }
 
         // 强制刷新一次图片
