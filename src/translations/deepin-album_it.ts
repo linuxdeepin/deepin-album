@@ -263,6 +263,21 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     </message>
 </context>
 <context>
+    <name>DeviceLoadDialog</name>
+    <message>
+        <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annulla</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ExportDialog</name>
     <message>
         <source>Cancel</source>

@@ -16,22 +16,22 @@ Rectangle {
 
     onVisibleChanged: {
         if (visible)
-            flushCustomAlbumView()
+            flushDeviceAlbumView()
     }
 
     // 筛选类型改变处理事件
     onFilterTypeChanged: {
-        flushCustomAlbumView()
+        flushDeviceAlbumView()
     }
 
-    // 我的收藏和相册视图之间切换，需要重载数据
+    // 设备之间切换，需要重载数据
     onDevicePathChanged: {
-        flushCustomAlbumView()
+        flushDeviceAlbumView()
     }
 
-    // 刷新自定义相册/我的收藏视图内容
-    function flushCustomAlbumView() {
-        loadCustomAlbumItems()
+    // 刷新设备视图内容
+    function flushDeviceAlbumView() {
+        loadDeviceAlbumItems()
         global.selectedPaths = theView.selectedPaths
         getNumLabelText()
     }
@@ -49,8 +49,8 @@ Rectangle {
         return numLabelText
     }
 
-    // 加载自定义相册数据
-    function loadCustomAlbumItems()
+    // 加载设备相册数据
+    function loadDeviceAlbumItems()
     {
         console.info("device album model has refreshed... filterType:", filterType)
         theView.selectAll(false)
@@ -68,14 +68,26 @@ Rectangle {
         return true
     }
 
-    // 自定义相册标题栏区域
+    DeviceLoadDialog {
+        id: devloaddig
+    }
+
+    // 新增挂载设备，显示正在加载对话框
+    Connections {
+        target: albumControl
+        onSigAddDevice: {
+            devloaddig.show()
+        }
+    }
+
+    // 设备相册标题栏区域
     Rectangle {
-        id: customAlbumTitleRect
+        id: deviceAlbumTitleRect
         width: parent.width - global.verticalScrollBarWidth
         height: global.thumbnailViewTitleHieght - 10
-        // 相册名称标签
+        // 设备名称标签
         Label {
-            id: customAlbumLabel
+            id: deviceAlbumLabel
             anchors.top: parent.top
             anchors.topMargin: 12
             anchors.left: parent.left
@@ -85,15 +97,15 @@ Rectangle {
         }
 
         Label {
-            id: customAlbumNumLabel
-            anchors.top: customAlbumLabel.bottom
+            id: deviceAlbumNumLabel
+            anchors.top: deviceAlbumLabel.bottom
             anchors.topMargin: 10
             anchors.left: parent.left
             font: DTK.fontManager.t6
             text: numLabelText
         }
         Row{
-            anchors.top: customAlbumLabel.bottom
+            anchors.top: deviceAlbumLabel.bottom
             anchors.topMargin: 4
             anchors.right: parent.right
             spacing: 10
@@ -157,10 +169,10 @@ Rectangle {
     // 缩略图列表控件
     ThumbnailListView {
         id: theView
-        anchors.top: customAlbumTitleRect.bottom
+        anchors.top: deviceAlbumTitleRect.bottom
         anchors.topMargin: 10
         width: parent.width
-        height: parent.height - customAlbumTitleRect.height - m_topMargin - statusBar.height
+        height: parent.height - deviceAlbumTitleRect.height - m_topMargin - statusBar.height
         visible: numLabelText !== ""
         property int m_topMargin: 10
 
@@ -178,7 +190,7 @@ Rectangle {
     }
 
     Label {
-        anchors.top: customAlbumTitleRect.bottom
+        anchors.top: deviceAlbumTitleRect.bottom
         anchors.left: parent.left
         anchors.bottom: theView.bottom
         anchors.right: parent.right
@@ -187,9 +199,5 @@ Rectangle {
         font: DTK.fontManager.t4
         color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
         text: qsTr("No results")
-    }
-
-    Component.onCompleted: {
-        global.sigFlushCustomAlbumView.connect(flushCustomAlbumView)
     }
 }

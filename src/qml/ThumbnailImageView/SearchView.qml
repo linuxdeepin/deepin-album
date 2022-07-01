@@ -187,7 +187,7 @@ Rectangle {
         Label {
             id: noResultText
             text: qsTr("No search results")
-            font: DTK.fontManager.t3
+            font: DTK.fontManager.t4
             anchors.centerIn: parent
             color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
         }

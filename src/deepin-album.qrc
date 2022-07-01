@@ -55,5 +55,6 @@
         <file>qml/PreviewImageViewer/WindowButtonGroupEx.qml</file>
         <file>qml/Control/DeleteDialog.qml</file>
         <file>qml/Control/RemoveAlbumDialog.qml</file>
+        <file>qml/Control/DeviceLoadDialog.qml</file>
     </qresource>
 </RCC>

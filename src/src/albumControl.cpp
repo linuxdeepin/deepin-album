@@ -1877,7 +1877,7 @@ void AlbumControl::importFromMountDevice(const QStringList &paths, const int &in
             DBManager::instance()->insertImgInfos(dbInfos);
             if (index > 0) {
                 DBManager::instance()->insertIntoAlbum(index, pathslist);
-                emit sigRefreshCustomAlbum(-1);
+                emit sigRefreshCustomAlbum(index);
             }
             emit sigRefreshImportAlbum();
             emit sigRefreshAllCollection();

@@ -18,7 +18,7 @@ Rectangle {
     signal sigDeleteItem
     signal sigDeleteCustomItem
     signal todoDraw
-    property var devicePath : albumControl.getDevicePaths(global.deviceChangeList)
+    property var devicePaths : albumControl.getDevicePaths()
     property var albumPaths : albumControl.getAlbumPaths(global.currentCustomAlbumUId)
     width:200
     height:parent.height
@@ -106,7 +106,7 @@ Rectangle {
                 Layout.alignment: Qt.AlignCenter
                 spacing: 100
 
-                visible: devicePath.length>0 ?true :false
+                visible: devicePaths.length>0 ?true :false
                 Label {
                     id:deviceLabel
                     height: 30
@@ -115,14 +115,24 @@ Rectangle {
                 }
             }
 
+            // 数据库监听-刷新设备列表
+            Connections {
+                target: albumControl
+                onSigMountsChange: {
+                    devicePaths = albumControl.getDevicePaths()
+                    if (devicePaths.length === 0)
+                        backCollection()
+                }
+            }
+
             ListView{
                 id : deviceList
-                height:devicePath.length *42
+                height:devicePaths.length *42
                 width:parent.width
                 visible: true
                 interactive: false //禁用原有的交互逻辑，重新开始定制
 
-                model :devicePath.length
+                model :devicePaths.length
                 delegate:    ItemDelegate {
                     id: deviccItem
                     width: 180
@@ -152,25 +162,24 @@ Rectangle {
                         icon.width: 10
                         icon.height: 10
                         onClicked:{
-                            if (devicePath.length == 1){
+                            if (devicePaths.length === 1){
                                 backCollection();
                             }else{
                                 if(index -1>= 0){
-                                    global.deviceCurrentPath=devicePath[index-1]
+                                    global.deviceCurrentPath=devicePaths[index-1]
                                 }else{
 
                                 }
 
                                forceActiveFocus()
                             }
-                            albumControl.unMountDevice(devicePath[index])
+                            albumControl.unMountDevice(devicePaths[index])
                         }
                     }
                     // 图片保存完成，缩略图区域重新加载当前图片
                     Connections {
                         target: albumControl
                         onSigAddDevice: {
-                            console.log(path)
                             if (path === albumControl.getDevicePaths(global.deviceChangeList)[index]) {
                                 deviccItem.checked =true
                             }
@@ -179,7 +188,7 @@ Rectangle {
                     onCheckedChanged: {
                         if(deviccItem.checked ==true){
                             global.currentViewIndex = GlobalVar.ThumbnailViewType.Device
-                            global.deviceCurrentPath=devicePath[index]
+                            global.deviceCurrentPath=devicePaths[index]
                             forceActiveFocus()
                         }
                     }
@@ -347,7 +356,7 @@ Rectangle {
                     Connections {
                         target: albumControl
                         onSigAddCustomAlbum: {
-                            if (UID === albumControl.getImportAlubumAllId(global.deviceChangeList)[index]) {
+                            if (UID === albumControl.getImportAlubumAllId(global.albumChangeList)[index]) {
                                 importitem.checked =true
                             }
                         }

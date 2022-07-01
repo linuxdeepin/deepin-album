@@ -294,7 +294,7 @@ Rectangle {
         ActionButton {
             id: titleCollectionBtn
             property bool canFavorite: albumControl.canFavorite(global.selectedPaths,global.bRefreshFavoriteIconFlag)
-            visible: !titleImportBtn.visible
+            visible: !titleImportBtn.visible && global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device
             anchors.top: parent.top
             anchors.topMargin: 0
             anchors.right: titleRotateBtn.visible ? titleRotateBtn.left : (titleTrashBtn.visible ? titleTrashBtn.left : parent.right)

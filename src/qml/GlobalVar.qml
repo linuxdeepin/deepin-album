@@ -129,14 +129,6 @@ Item {
         }
     }
 
-    //数据库监听-刷新设备
-    Connections {
-        target: albumControl
-        onSigMountsChange: {
-            deviceChangeList = !deviceChangeList
-        }
-    }
-
     //左侧菜单栏刷新
     Connections {
         target: albumControl

@@ -262,6 +262,21 @@
     </message>
 </context>
 <context>
+    <name>DeviceLoadDialog</name>
+    <message>
+        <source>Loading...</source>
+        <translation>正在加载，请稍候...</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>忽略</translation>
+    </message>
+</context>
+<context>
     <name>ExportDialog</name>
     <message>
         <source>Cancel</source>
