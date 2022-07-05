@@ -1225,6 +1225,9 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
     int h = reader.size().height();
     h = h > 0 ? h : static_cast<int>(FreeImage_GetHeight(dib));
     admMap.insert("Dimension", QString::number(w) + "x" + QString::number(h));
+    // 记录图片宽高
+    admMap.insert("Width", QString::number(w));
+    admMap.insert("Height", QString::number(h));
 
     admMap.insert("FileName", info.fileName());
     //应该使用qfileinfo的格式
@@ -1562,7 +1565,7 @@ UNIONIMAGESHARED_EXPORT QString hashByString(const QString &str)
 
 UNIONIMAGESHARED_EXPORT void getAllFileInDir(const QDir &dir, QFileInfoList &result)
 {
-    return Libutils::image::getAllFileInDir(dir , result);
+    return Libutils::image::getAllFileInDir(dir, result);
 }
 
 UNIONIMAGESHARED_EXPORT std::pair<QDateTime, bool> analyzeDateTime(const QVariant &data)
@@ -1572,12 +1575,12 @@ UNIONIMAGESHARED_EXPORT std::pair<QDateTime, bool> analyzeDateTime(const QVarian
 
 UNIONIMAGESHARED_EXPORT QString getDeleteFullPath(const QString &hash, const QString &fileName)
 {
-    return Libutils::base::getDeleteFullPath(hash , fileName);
+    return Libutils::base::getDeleteFullPath(hash, fileName);
 }
 
 UNIONIMAGESHARED_EXPORT bool syncCopy(const QString &srcFileName, const QString &dstFileName)
 {
-    return Libutils::base::syncCopy(srcFileName , dstFileName);
+    return Libutils::base::syncCopy(srcFileName, dstFileName);
 }
 
 UNIONIMAGESHARED_EXPORT bool isVaultFile(const QString &path)
@@ -1590,9 +1593,9 @@ UNIONIMAGESHARED_EXPORT bool trashFile(const QString &file)
     return Libutils::base::trashFile(file);
 }
 
-UNIONIMAGESHARED_EXPORT QFileInfoList getImagesAndVideoInfo(const QString &dir, bool recursive )
+UNIONIMAGESHARED_EXPORT QFileInfoList getImagesAndVideoInfo(const QString &dir, bool recursive)
 {
-    return Libutils::image::getImagesAndVideoInfo(dir , recursive);
+    return Libutils::image::getImagesAndVideoInfo(dir, recursive);
 }
 
 UNIONIMAGESHARED_EXPORT bool isVideo(QString path)
@@ -1633,9 +1636,9 @@ UNIONIMAGESHARED_EXPORT bool isImage(const QString &path)
     return bRet;
 }
 
-UNIONIMAGESHARED_EXPORT QPixmap renderSVG(const QString &path,const QSize & size)
+UNIONIMAGESHARED_EXPORT QPixmap renderSVG(const QString &path, const QSize &size)
 {
-    return Libutils::base::renderSVG(path,size);
+    return Libutils::base::renderSVG(path, size);
 }
 
 };

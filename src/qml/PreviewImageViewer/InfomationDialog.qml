@@ -57,6 +57,7 @@ DialogWindow {
             ColumnLayout {
                 spacing: 1
                 PropertyActionItemDelegate {
+                    id: fileNameProp
                     Layout.fillWidth: true
                     title: qsTr("File Name")
                     description: fileName
@@ -207,8 +208,14 @@ DialogWindow {
             }
         }
     }
+
     onVisibleChanged: {
         setX(root.x+root.width-width-leftX)
         setY(root.y+topY)
     }
+
+    // 窗口关闭时复位组件状态
+        onClosing: {
+            fileNameProp.reset();
+        }
 }

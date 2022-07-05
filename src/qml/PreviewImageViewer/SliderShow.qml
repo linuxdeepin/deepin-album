@@ -3,7 +3,7 @@ import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
 
 Rectangle {
-
+    id: sliderShow
     property int indexImg
     property var images:[]
     property int modelCount
@@ -24,6 +24,10 @@ Rectangle {
                 indexImg=0
             }
         }
+    }
+
+    function restart() {
+        fadeInOutImage.restart()
     }
 
     function outSliderShow(){
@@ -196,24 +200,27 @@ Rectangle {
                 ToolTip.visible: hovered
                 ToolTip.text: qsTr("Exit")
             }
-
         }
     }
     Menu {
         x: 250; y: 600
         id: sliderMenu
-        //        model: ObjectModelProxy {
-        //            id: proxyModel
-        //            property string filterText
-        //            filterAcceptsItem: function(item) {
-        //                return item.text.includes(filterText)
-        //            }
-        //            sourceModel: option_menu.contentModel
-        //        }
+
         MenuItem {
             text:autoRun ?qsTr("Pause") : qsTr("Play")
             onTriggered: {
                 autoRun=!autoRun
+            }
+        }
+
+        // 添加处理快捷键，播放幻灯片时暂停/播放
+        Shortcut {
+            id: pauseShortCut
+            sequence: "Space"
+            // 进行幻灯片播放时允许响应空格快捷键处理暂停/播放
+            enabled: sliderShow.visible
+            onActivated: {
+                autoRun = !autoRun
             }
         }
 

@@ -103,10 +103,6 @@ Item {
 
     //判断工具栏和标题栏的显示隐藏
     function animationAll(){
-        //        hideBottomAnimation.stop()
-        //        hideTopTitleAnimation.stop()
-        //        showRightButtonAnimation.stop()
-        //        hideRightButtonAnimation.stop()
         if(root.visibility == Window.FullScreen ){
             if(imageViewerArea.mouseY > height-100){
                 showBottomAnimation.start()
@@ -267,7 +263,7 @@ Item {
 
     }
 
-    FloatingPanel {
+    Rectangle {
         id: thumbnailViewBackGround
 
         width: parent.width - 30 < 500 + albumBtnWidth + sourcePaths.length*50 ? parent.width - 30 : 500 + albumBtnWidth + sourcePaths.length*50
@@ -277,9 +273,19 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: (parent.width-width)/2
 
-        Component.onCompleted: {
+        radius: panel.radius
+        opacity: 0.5
 
-            animationAll()
+        // 调整 FloatingPanel 内部的 BoxShadow 计算区域
+        FloatingPanel {
+            id: panel
+            width: parent.width
+            height: parent.height
+            anchors.fill: parent
+
+            Component.onCompleted: {
+                animationAll()
+            }
         }
     }
 

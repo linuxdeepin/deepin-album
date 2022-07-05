@@ -21,15 +21,16 @@ Rectangle {
     /*: showImg.source*/
     property var sourcePaths
 
+    // 当前源图片宽度
     property int currentSourceWidth : 0;
-
+    // 当前源图片高度
     property int currentSourceHeight : 0;
 
     property int index: 0
     property alias swipeIndex: view.currentIndex
 
-    //是否显示和隐藏导航栏
-    property bool  isNavShow : true
+    //是否显示和隐藏导航栏，从配置文件中读取初始配置
+    property bool  isNavShow: fileControl.isEnableNavigation()
 
     property double  currentScale : 1.0
 
@@ -50,12 +51,14 @@ Rectangle {
     property int normalWidth: 0
     property int normalHeight: 0
 
+    // 记录放大图片(在qml中像素)和显示窗口像素的比值，用于蒙皮获取准确区域
+    property real viewImageWidthRatio : 0
+    property real viewImageHeightRatio : 0
+
     signal sigWheelChange
     signal sigImageShowFullScreen
     signal sigImageShowNormal
     signal sigSourceChange
-
-    //    color: "#F8F8F8"
 
     color: backcontrol.ColorSelector.backgroundColor
     ViewRightMenu {
@@ -84,25 +87,42 @@ Rectangle {
     }
 
     onCurrentScaleChanged: {
-        idNavWidget.setRectPec(currentScale)
-
         if(currenImageScale>2000){
             currentScale = 20 * CodeImage.getFitWindowScale(source,root.width, root.height)
         } else if(currenImageScale<2 &&currenImageScale>0){
             currentScale = 0.02 * CodeImage.getFitWindowScale(source,root.width, root.height)
         }
+
+        // 设置隐藏导航窗口时，不处理展示
+        if (isNavShow)
+        {
+            // 缩放比例变更时（图像适应窗口、全屏展示...），根据缩放比例判断是否需要显示导航窗口
+            idNavWidget.visible = currentScale > 1
+            // 设置缩放后更新导航窗口
+            idNavWidget.setRectPec(currentScale, viewImageWidthRatio, viewImageHeightRatio)
+        }
     }
 
     // 图片源发生改变，隐藏导航区域，重置图片缩放比例
     onSourceChanged: {
-
+        // 保存之前文件的旋转操作
         fileControl.excuteRotateCurrentPix();
 
         console.log("source:", mainView.source)
         fileControl.setCurrentImage(source)
-
+        // 默认隐藏导航区域
         idNavWidget.visible = false
-        fitWindow()
+        // 判断图片大小是否超过了允许显示的展示区域
+        if (fileControl.getFitWindowScale(root.width, root.height - titleRect.height * 2) > 1) {
+            fitWindow()
+        }
+        else {
+            fitImage()
+        }
+
+        // 设置标题栏
+        root.title = fileControl.slotGetFileName(source) + fileControl.slotFileSuffix(source)
+        // 显示缩放比例提示框
 
         if (source !== "")
             root.title = fileControl.slotGetFileName(source) + fileControl.slotFileSuffix(source)
@@ -113,26 +133,74 @@ Rectangle {
 
         sigSourceChange();
 
+        // 重设工具/菜单栏的隐藏/弹出
         mainView.animationAll()
 
     }
 
+    // 部分图片存在加载图片过程，重设图片大小调整到图片加载完成后处理 Image.Ready --> onImageReady()
+    function onImageReady()
+    {
+        // 取得图片的真实大小，部分格式不支持直接获取图片数据，若数据异常，需要从加载缓存中读取
+        currentSourceWidth = fileControl.getCurrentImageWidth()
+        currentSourceHeight = fileControl.getCurrentImageHeight()
+        if ((currentSourceWidth <= 0)
+                || (currentSourceHeight <= 0)) {
+            currentSourceWidth = CodeImage.getImageWidth(source)
+            currentSourceHeight = CodeImage.getImageHeight(source)
+        }
+
+        // 判断图片大小是否超过了允许显示的展示区域
+        if (currentSourceHeight > root.height - titleRect.height * 2
+                || currentSourceWidth > root.width) {
+            fitWindow()
+        }
+        else {
+            fitImage()
+        }
+    }
 
     function fitImage()
     {
-        currentScale = CodeImage.getFitWindowScale(source,root.width, root.height);
+        if (fileControl.getCurrentImageWidth() <= 0
+                || fileControl.getCurrentImageHeight() <= 0) {
+            // 图片数据异常需要从加载完成图片信息中获取
+            currentScale = CodeImage.getFitWindowScale(source, root.width, root.height)
+        } else {
+            currentScale = fileControl.getFitWindowScale(root.width, root.height)
+        }
     }
 
     function fitWindow()
     {
-        currentScale = root.visibility == Window.FullScreen ? 1.0 : 1.0 * (root.height - titleRect.height * 2) / root.height
+        // 调整位置，图片恢复显示到中心
+        sigSourceChange()
+
+        // 根据图片大小进行调整，使得对较长图片能顶满看图左右两侧边框
+        if (Window.FullScreen == root.visibility) {
+            currentScale = 1.0
+        } else {
+            // 将图片调整在 root.width x enableRootHeight 的区域显示
+            var enableRootHeight = (root.height - titleRect.height * 2)
+            var imageRatio = fileControl.getCurrentImageHeight() / fileControl.getCurrentImageWidth()
+            var rootRatio = enableRootHeight / root.width
+
+            // 取得当前图片相对显示宽度
+            var curViewImageHeight = root.width * imageRatio
+            // 判断高度是否无需调整(即图片高度小于展示区域高度，则无需继续压缩显示区域)
+            var useHeight = (curViewImageHeight / rootRatio) <= root.width
+
+            currentScale = useHeight ? 1.0 : enableRootHeight / root.height
+        }
     }
+
     function rotateImage(x)
     {
         //view.currentItem.rotation = view.currentItem.rotation + x
         //toolBarthumbnailListView.rotateImage(x)
         fileControl.rotateFile(source, x)
     }
+
     function deleteItem(item, list)
     {
         // 先遍历list里面的每一个元素，对比item与每个元素的id是否相等，再利用splice的方法删除
@@ -142,6 +210,7 @@ Rectangle {
             }
         }
     }
+
     function startSliderShow()
     {
         if (sourcePaths.length > 0) {
@@ -154,9 +223,9 @@ Rectangle {
             sliderMainShow.modelCount = sourcePaths.length
             sliderMainShow.autoRun = true
             sliderMainShow.indexImg = view.currentIndex
+            sliderMainShow.restart()
             stackView.currentWidgetIndex = 2
         }
-
     }
 
     PropertyAnimation {
@@ -265,29 +334,20 @@ Rectangle {
 
     SwipeView {
         id: view
-//        interactive:false
         currentIndex: sourcePaths.indexOf(source)
         width: parent.width
         height: parent.height
-        //        anchors.centerIn: parent
+        clip: true
 
         //初始打开和点击缩略图切换都不会再有滑动效果
         Component.onCompleted:{
             contentItem.highlightMoveDuration = 0       //将移动时间设为0
         }
 
-
-        clip: true
-        //onCurrentIndexChanged: {
-        //    view.currentItem.rotation=0
-        ////    view.currentItem.source=
-        //}
-
         Repeater {
             model: sourcePaths.length
 
             Loader {
-
                 active: SwipeView.isCurrentItem || SwipeView.isNextItem
                         || SwipeView.isPreviousItem
                 sourceComponent: Rectangle {
@@ -330,12 +390,9 @@ Rectangle {
                         onStatusChanged: {
                             msArea.changeRectXY()
 
-                            if (showImg.status === Image.Ready)
-                                console.log('Ready')
-                            if (showImg.status === Image.Loading)
-                                console.log('Loading')
-                            if (showImg.status === Image.Null)
-                                console.info('Null')
+                            if (Image.Ready === showImg.status) {
+                                onImageReady()
+                            }
                         }
                     }
 
@@ -359,6 +416,10 @@ Rectangle {
 
                         onStatusChanged: {
                             msArea.changeRectXY()
+
+                            if (Image.Ready === showSvgImg.status) {
+                                onImageReady()
+                            }
                         }
                     }
 
@@ -379,6 +440,10 @@ Rectangle {
 
                         onStatusChanged: {
                             msArea.changeRectXY()
+
+                            if (Image.Ready === showAnimatedImg.status) {
+                                onImageReady()
+                            }
                         }
                     }
 
@@ -400,7 +465,8 @@ Rectangle {
                         anchors.verticalCenter: parent.verticalCenter
                         width:48
                         height:48
-                        visible: showImg.status === Image.Loading && !CodeImage.imageIsNull(sourcePaths[index])
+                        // 判断展示图片状态是否异常
+                        visible: showImg.status === Image.Error || CodeImage.imageIsNull(sourcePaths[index])
                     }
 
 
@@ -409,6 +475,14 @@ Rectangle {
                         onSigTitlePress: {
                             infomationDig.hide()
                             msArea.forceActiveFocus()
+                        }
+
+                        onWidthChagned: {
+                            fitWindow()
+                        }
+
+                        onHeightChanged: {
+                            fitWindow()
                         }
                     }
 
@@ -518,6 +592,10 @@ Rectangle {
                                     drag.maximumX = 0
                                     drag.minimumX = 0
                                 }
+
+                                // 计算显示的 显示窗口 / 图片像素 的比值
+                                viewImageWidthRatio = root.width / (realWidth * currentScale)
+                                viewImageHeightRatio = root.height / (realHeight * currentScale)
                             }
 
                             if (showAnimatedImg.x >= drag.maximumX) {
@@ -626,8 +704,9 @@ Rectangle {
 
                         onWheel: {
                             var datla = wheel.angleDelta.y / 120
-                            console.info("ctrlpressed: ", global.ctrlPressed)
-                            if (global.ctrlPressed)
+                            // 通过Keys缓存的状态可能不准确，在焦点移出时release事件没有正确捕获，
+                            // 修改为通过当前事件传入的按键按下信息判断
+                            if (Qt.ControlModifier & wheel.modifiers)
                                 datla > 0 ? toolBarthumbnailListView.previous() : toolBarthumbnailListView.next()
                             else {
                                 if (datla > 0)
@@ -694,6 +773,7 @@ Rectangle {
         anchors.leftMargin: 15
         visible: false
     }
+
     onHeightChanged: {
         if(root.height<=global.minHideHeight ){
             idNavWidget.visible=false
@@ -706,7 +786,11 @@ Rectangle {
         }
     }
 
-
+    // 导航窗口显示配置变更时触发
+    onIsNavShowChanged: {
+        // 保存设置信息
+        fileControl.setEnableNavigation(isNavShow)
+    }
 }
 
 

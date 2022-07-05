@@ -11,18 +11,17 @@ Item {
     property int albumMinHeight: 300
     property int albumMinWidth: 628
 
-    property int minHideHeight: 428
+    property int minHideHeight: 425 //调整窗口高度小于425px时，隐藏工具栏和标题栏
     property int floatMargin: 60
     property int titleHeight: 50
     property int showBottomY: 80
-    property int actionMargin: 9//应用图标距离顶栏
+    property int actionMargin: 9    //应用图标距离顶栏
 
     property int thumbnailViewTitleHieght: 85 // 缩略图视图区域标题显示区域高度
     property int verticalScrollBarWidth: 15 // 垂直滚动条宽度
 
     property int rightMenuItemHeight: 32//右键菜单item的高度
     property int rightMenuSeparatorHeight: 12//右键菜单分割层的高度
-    property bool ctrlPressed: false//记录ctrl键是否按下
     property var selectedPaths: [] // 已选路径
     property bool bRefreshFavoriteIconFlag: false //刷新收藏图标标记，翻转一次，图标就刷新一次
     property bool bRefreshRangeBtnState: false //刷新显示比例图标激活状态标记，翻转一次，图标就刷新一次

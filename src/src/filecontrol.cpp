@@ -34,6 +34,8 @@
 const QString SETTINGS_GROUP = "MAINWINDOW";
 const QString SETTINGS_WINSIZE_W_KEY = "WindowWidth";
 const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";
+// 是否显示导航窗口
+const QString SETTINGS_ENABLE_NAVIGATION = "EnableNavigation";
 const int MAINWIDGET_MINIMUN_HEIGHT = 300;
 const int MAINWIDGET_MINIMUN_WIDTH = 628;
 
@@ -680,6 +682,8 @@ int FileControl::getCurrentImageWidth()
     int width = -1;
     if (m_currentReader) {
         width = m_currentReader->size().width();
+        if (width <= 0)
+            width = m_currentAllInfo.value("Width").toInt();
     }
 
     return width;
@@ -690,6 +694,8 @@ int FileControl::getCurrentImageHeight()
     int height = -1;
     if (m_currentReader) {
         height = m_currentReader->size().height();
+        if (height <= 0)
+            height = m_currentAllInfo.value("Height").toInt();
     }
     return height;
 }
@@ -812,6 +818,16 @@ void FileControl::setSettingHeight(int height)
 
 }
 
+void FileControl::setEnableNavigation(bool b)
+{
+    setConfigValue(SETTINGS_GROUP, SETTINGS_ENABLE_NAVIGATION, b);
+}
+
+bool FileControl::isEnableNavigation()
+{
+    return getConfigValue(SETTINGS_GROUP, SETTINGS_ENABLE_NAVIGATION, true).toBool();
+}
+
 void FileControl::saveSetting()
 {
     if (m_lastSaveWidth != m_windowWidth) {
@@ -829,7 +845,8 @@ bool FileControl::isSupportSetWallpaper(const QString &path)
     QString path1 = QUrl(path).toLocalFile();
     QFileInfo fileinfo(path1);
     QString format = fileinfo.suffix().toLower();
-    if (m_listsupportWallPaper.contains(format)) {
+    if (m_listsupportWallPaper.contains(format)
+            && fileinfo.isReadable()) {
         return true;
     }
     return false;

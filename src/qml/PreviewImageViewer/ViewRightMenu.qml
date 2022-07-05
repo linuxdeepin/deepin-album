@@ -39,6 +39,7 @@ Menu {
         }
         Shortcut {
             sequence: "Ctrl+P"
+            enabled: !CodeImage.imageIsNull(source)
             onActivated:  {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
@@ -47,7 +48,7 @@ Menu {
             }
         }
     }
-//imageIsNull
+
     RightMenuItem {
         text: qsTr("Extract text")
         visible: fileControl.isCanSupportOcr(source) && !CodeImage.imageIsNull(source)
@@ -56,6 +57,7 @@ Menu {
         }
         Shortcut {
             sequence: "Alt+O"
+            enabled: fileControl.isCanSupportOcr(source) && !CodeImage.imageIsNull(source)
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
@@ -85,7 +87,10 @@ Menu {
     }
 
 
-    MenuSeparator { }
+    MenuSeparator {
+        id: firstSeparator
+    }
+
     RightMenuItem {
 
         text: qsTr("Copy")
@@ -97,6 +102,7 @@ Menu {
         }
         Shortcut {
             sequence: "Ctrl+C"
+            enabled: fileControl.isCanReadable(source)
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
@@ -121,6 +127,8 @@ Menu {
         }
         Shortcut {
             sequence: "F2"
+            // 判断文件是否允许重命名
+            enabled: fileControl.isCanRename(source)
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
@@ -138,6 +146,7 @@ Menu {
 
     RightMenuItem {
         text: qsTr("Delete")
+        enabled: fileControl.isCanDelete(source)
         visible: fileControl.isCanDelete(source)
         onTriggered: {
             toolBarthumbnailListView.deleteCurrentImage()
@@ -154,7 +163,13 @@ Menu {
         }
     }
 
-    MenuSeparator { }
+    // 不允许无读写权限时上方选项已屏蔽，不展示此分割条
+    MenuSeparator {
+        // 不显示分割条时调整高度，防止菜单项间距不齐
+        height: visible ? firstSeparator.height : 0
+        visible: fileControl.isCanReadable(source)
+                 || fileControl.isCanDelete(source)
+    }
 
     RightMenuItem {
         text: qsTr("Rotate clockwise")
@@ -165,6 +180,7 @@ Menu {
 
         Shortcut {
             sequence: "Ctrl+R"
+            enabled: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source)
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
@@ -182,6 +198,7 @@ Menu {
         }
         Shortcut {
             sequence: "Ctrl+Shift+R"
+            enabled: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source)
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
@@ -208,7 +225,8 @@ Menu {
                 imageViewer.isNavShow = true
                 idNavWidget.visible = true
                 if(m_NavX === 0 && m_NavY === 0) {
-                    idNavWidget.setRectPec(view.currentItem.scale) //初始蒙皮
+                    // 设置蒙皮信息
+                    idNavWidget.setRectPec(view.currentItem.scale, imageViewer.viewImageWidthRatio, imageViewer.viewImageHeightRatio)
                 } else {
                     idNavWidget.setRectLocation(m_NavX, m_NavY)
                 }
@@ -224,7 +242,8 @@ Menu {
             fileControl.setWallpaper(source)
         }
         Shortcut {
-            sequence: "Ctrl+F"
+            sequence: "Ctrl+F9"
+            enabled: fileControl.isSupportSetWallpaper(source)
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
