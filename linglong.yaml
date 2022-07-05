@@ -27,11 +27,24 @@ depends:
     type: runtime
   - id: freeimage
     version: 3.18.0
+    type: runtime
   - id: "udisks2-qt5"
     version: 5.0.3
     type: runtime
   - id: qtdbusextended
     version: 0.0.3
+  - id: jxrlib
+    version: 1.1.1
+    type: runtime
+  - id: openexr
+    version: 2.2.1.4
+    type: runtime
+  - id: ilmbase
+    version: 2.2.1
+    type: runtime
+  - id: libraw
+    version: 0.19.2
+    type: runtime
 
 source:
   kind: local
