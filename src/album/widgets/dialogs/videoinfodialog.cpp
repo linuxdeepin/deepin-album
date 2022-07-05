@@ -67,10 +67,8 @@ void VideoInfoDialog::setVideoInfo(const QString &path)
     m_maxFieldWidth = width() - m_title_maxwidth - 20 * 2 - 10 * 2;
     updateBasicInfo();
 
-    if (MovieService::instance()->ffmpegIsExist()) {
-        updateCodecInfo();
-        updateAudioInfo();
-    }
+    updateCodecInfo();
+    updateAudioInfo();
 
     m_expandGroup.clear();
 
@@ -80,23 +78,21 @@ void VideoInfoDialog::setVideoInfo(const QString &path)
         m_expandGroup.at(0)->setExpand(true);
     }
 
-    if (MovieService::instance()->ffmpegIsExist()) {
-        if (m_containCodecInfo) {
-            appendExpandWidget(tr("Codec info"));
-            int index = m_expandGroup.size() > 0 ? (m_expandGroup.size() - 1) : 0;
-            m_expandGroup.at(index)->setContent(m_codecInfoFrame);
-            m_expandGroup.at(index)->setExpand(true);
-            //音频编码等信息默认隐藏
-            m_expandGroup.at(index)->setExpand(false);//疑似DDrawer的BUG，直接false会显示不全
-        }
+    if (m_containCodecInfo) {
+        appendExpandWidget(tr("Codec info"));
+        int index = m_expandGroup.size() > 0 ? (m_expandGroup.size() - 1) : 0;
+        m_expandGroup.at(index)->setContent(m_codecInfoFrame);
+        m_expandGroup.at(index)->setExpand(true);
+        //音频编码等信息默认隐藏
+        m_expandGroup.at(index)->setExpand(false);//疑似DDrawer的BUG，直接false会显示不全
+    }
 
-        if (m_containAudioInfo) {
-            appendExpandWidget(tr("Audio info"));
-            int index = m_expandGroup.size() > 0 ? (m_expandGroup.size() - 1) : 0;
-            m_expandGroup.at(index)->setContent(m_audioInfoFrame);
-            m_expandGroup.at(index)->setExpand(true);
-            m_expandGroup.at(index)->setExpand(false);//疑似DDrawer的BUG，直接false会显示不全
-        }
+    if (m_containAudioInfo) {
+        appendExpandWidget(tr("Audio info"));
+        int index = m_expandGroup.size() > 0 ? (m_expandGroup.size() - 1) : 0;
+        m_expandGroup.at(index)->setContent(m_audioInfoFrame);
+        m_expandGroup.at(index)->setExpand(true);
+        m_expandGroup.at(index)->setExpand(false);//疑似DDrawer的BUG，直接false会显示不全
     }
 
     //剔除多余不需要的焦点
@@ -409,26 +405,24 @@ void VideoInfoDialog::initUI()
     m_basicInfoFrameLayout->setLabelAlignment(Qt::AlignLeft);
     m_basicInfoFrame->setLayout(m_basicInfoFrameLayout);
 
-    if (MovieService::instance()->ffmpegIsExist()) {
-        //编码信息
-        m_codecInfoFrame = new QFrame(this);
-        m_codecInfoFrame->setFixedWidth(280);
-        m_codecInfoFrameLayout = new QFormLayout();
-        m_codecInfoFrameLayout->setVerticalSpacing(7);
-        m_codecInfoFrameLayout->setHorizontalSpacing(16);
-        m_codecInfoFrameLayout->setContentsMargins(10, 1, 7, 10);
-        m_codecInfoFrameLayout->setLabelAlignment(Qt::AlignLeft);
-        m_codecInfoFrame->setLayout(m_codecInfoFrameLayout);
-        //音频流信息
-        m_audioInfoFrame = new QFrame(this);
-        m_audioInfoFrame->setFixedWidth(280);
-        m_audioInfoFrameLayout = new QFormLayout();
-        m_audioInfoFrameLayout->setVerticalSpacing(7);
-        m_audioInfoFrameLayout->setHorizontalSpacing(16);
-        m_audioInfoFrameLayout->setContentsMargins(10, 1, 7, 10);
-        m_audioInfoFrameLayout->setLabelAlignment(Qt::AlignLeft);
-        m_audioInfoFrame->setLayout(m_audioInfoFrameLayout);
-    }
+    //编码信息
+    m_codecInfoFrame = new QFrame(this);
+    m_codecInfoFrame->setFixedWidth(280);
+    m_codecInfoFrameLayout = new QFormLayout();
+    m_codecInfoFrameLayout->setVerticalSpacing(7);
+    m_codecInfoFrameLayout->setHorizontalSpacing(16);
+    m_codecInfoFrameLayout->setContentsMargins(10, 1, 7, 10);
+    m_codecInfoFrameLayout->setLabelAlignment(Qt::AlignLeft);
+    m_codecInfoFrame->setLayout(m_codecInfoFrameLayout);
+    //音频流信息
+    m_audioInfoFrame = new QFrame(this);
+    m_audioInfoFrame->setFixedWidth(280);
+    m_audioInfoFrameLayout = new QFormLayout();
+    m_audioInfoFrameLayout->setVerticalSpacing(7);
+    m_audioInfoFrameLayout->setHorizontalSpacing(16);
+    m_audioInfoFrameLayout->setContentsMargins(10, 1, 7, 10);
+    m_audioInfoFrameLayout->setLabelAlignment(Qt::AlignLeft);
+    m_audioInfoFrame->setLayout(m_audioInfoFrameLayout);
 
     DWidget *content = new DWidget();
     addContent(content);
