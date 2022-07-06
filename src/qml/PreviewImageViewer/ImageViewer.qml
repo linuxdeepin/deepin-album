@@ -477,7 +477,7 @@ Rectangle {
                             msArea.forceActiveFocus()
                         }
 
-                        onWidthChagned: {
+                        onWidthChanged: {
                             fitWindow()
                         }
 

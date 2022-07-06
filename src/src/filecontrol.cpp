@@ -648,7 +648,8 @@ QString FileControl::slotFileSuffix(const QString &path, bool ret)
 {
     QString returnSuffix = "";
 
-    if (!path.isEmpty() && QFile::exists(path)) {
+    QString localPath = QUrl(path).toLocalFile();
+    if (!path.isEmpty() && QFile::exists(localPath)) {
         QString tmppath = path;
         QFileInfo info(tmppath);
         if (ret) {

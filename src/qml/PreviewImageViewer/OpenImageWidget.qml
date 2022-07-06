@@ -74,7 +74,7 @@ Item {
     FolderListModel
     {
         id: foldermodel
-        folder: "file://" + platform.picturesLocation()
+        folder: ""/*"file://" + platform.picturesLocation()*/
         showDirs: false
         showDotAndDotDot: false
         nameFilters: ["*.dng", "*.nef", "*.bmp", "*.gif", "*.ico", "*.jpeg", "*.jpg", "*.pbm", "*.pgm","*.png",  "*.pnm", "*.ppm",
