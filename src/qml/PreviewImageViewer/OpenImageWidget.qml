@@ -74,7 +74,7 @@ Item {
     FolderListModel
     {
         id: foldermodel
-        folder: ""/*"file://" + platform.picturesLocation()*/
+        folder: "file://" + platform.picturesLocation()
         showDirs: false
         showDotAndDotDot: false
         nameFilters: ["*.dng", "*.nef", "*.bmp", "*.gif", "*.ico", "*.jpeg", "*.jpg", "*.pbm", "*.pgm","*.png",  "*.pnm", "*.ppm",
@@ -92,21 +92,23 @@ Item {
     Component.onCompleted: {
 
         var tempPath =fileControl.parseCommandlineGetPath("x");
-        mainView.sourcePaths = fileControl.getDirImagePath(tempPath);
-        mainView.source=tempPath
-        if(mainView.sourcePaths.length >0){
+        var tempPaths = []
+        tempPaths.push(tempPath)
+
+        if (!fileControl.isAlbum())
+            mainView.sourcePaths = fileControl.getDirImagePath(tempPath);
+        else
+            mainView.sourcePaths = tempPaths
+
+        mainView.source = tempPath
+
+        if(mainView.sourcePaths.length > 0 && tempPath !== ""){
             mainView.setThumbnailCurrentIndex(mainView.sourcePaths.indexOf(mainView.source))
-
-            stackView.currentWidgetIndex= 1
-            //如果是影视，则采用打开视频
             if (fileControl.isVideo(tempPath)){
-                albumControl.openDeepinMovie(tempPath)
-            } else {
-                var openPaths = new Array
-
-                    openPaths.push(tempPath)
-                mainStack.sourcePaths = openPaths
-                mainStack.currentIndex = 0
+                root.title = ""
+                //TODO： V20右键打开视频文件，不会调影院播放，因此该功能同步V20，若V23要求使用影院播放，放开下面代码即可
+                //albumControl.openDeepinMovie(tempPath)
+            } else if (fileControl.isImage(tempPath)){
                 mainStack.currentWidgetIndex = 1
                 global.stackControlCurrent = 1
             }
@@ -114,9 +116,7 @@ Item {
 
         // 若在文管菜单使用相册打开图片文件，应该将选择的图片导入相册中
         if (fileControl.isAlbum() && tempPath !== "") {
-            var paths = []
-            paths.push(tempPath)
-            albumControl.importAllImagesAndVideos(paths)
+            albumControl.importAllImagesAndVideos(tempPaths)
         }
     }
 

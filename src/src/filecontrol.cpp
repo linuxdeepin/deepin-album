@@ -500,10 +500,10 @@ QString FileControl::parseCommandlineGetPath(const QString &path)
     for (QString path : arguments) {
         path = UrlInfo(path).toLocalFile();
         if (QFileInfo(path).isFile()) {
-            bool bRet = isImage(path);
-            if (bRet) {
-                filepath += "file://";
-                filepath += path;
+            QString filepath = "";
+            filepath += "file://";
+            filepath += path;
+            if (isImage(filepath) || isVideo(filepath)) {
                 return filepath;
             }
         }

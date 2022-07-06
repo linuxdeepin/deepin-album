@@ -296,7 +296,7 @@ Item {
             target: imageViewer
             onSwipeIndexChanged: {
                 bottomthumbnaillistView.currentIndex = imageViewer.swipeIndex
-                currentIndex= imageViewer.swipeIndex
+                currentIndex = imageViewer.swipeIndex
                 bottomthumbnaillistView.forceActiveFocus()
             }
         }

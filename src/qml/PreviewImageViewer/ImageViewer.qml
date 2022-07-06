@@ -121,14 +121,12 @@ Rectangle {
         }
 
         // 设置标题栏
-        root.title = fileControl.slotGetFileName(source) + fileControl.slotFileSuffix(source)
-        // 显示缩放比例提示框
-
         if (source !== "")
             root.title = fileControl.slotGetFileName(source) + fileControl.slotFileSuffix(source)
         else
             root.title = ""
 
+        // 显示缩放比例提示框
         showFloatLabel()
 
         sigSourceChange();
