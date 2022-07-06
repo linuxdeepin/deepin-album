@@ -16,6 +16,7 @@ Rectangle {
     property string m_index
     property string m_url
     property string m_displayFlushHelper
+    property var m_favoriteBtn: itemFavoriteBtn
 
     //选中后显示的阴影框
     Rectangle {
@@ -80,6 +81,7 @@ Rectangle {
 
     //收藏图标
     ActionButton {
+        id: itemFavoriteBtn
         visible: albumControl.photoHaveFavorited(m_url, global.bRefreshFavoriteIconFlag)
         anchors.bottom: image.bottom
         anchors.left: image.left

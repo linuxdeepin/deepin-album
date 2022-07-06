@@ -352,15 +352,22 @@ Item {
                     {
                         parent.ism = [index]
                         selectedChanged()
-                    } else if (parent.ism.indexOf(index) >= 0)
-                    {
-                        mouse.accepted = false
+                    } else if (parent.ism.indexOf(index) >= 0) {
+                        var item = parent.itemAt(mouseX, mouseY + parent.contentY)
+                        if (item !== null) {
+                            var pos = theArea.mapToItem(item, mouseX, mouseY + parent.contentY)
+                            var subItem = item.childAt(pos.x, pos.y)
+                            // 判断是否点击的鼠标位置是否在收藏按钮上，若在，则不接受鼠标事件，让代理中的收藏按钮相应点击事件
+                            if (subItem !== null && item.m_favoriteBtn === subItem) {
+                                mouse.accepted = false
+                            }
+                        }
                     }
                 }
             }
 
             onMouseXChanged: {
-                if(mouse.button == Qt.RightButton) {
+                if(mouse.button == Qt.RightButton || pressedXAxis < 0) {
                     return
                 }
 
@@ -380,7 +387,7 @@ Item {
             }
 
             onMouseYChanged: {
-                if(mouse.button == Qt.RightButton) {
+                if(mouse.button == Qt.RightButton || pressedYAxis < 0) {
                     return
                 }
 
@@ -447,19 +454,23 @@ Item {
 
             onDoubleClicked: {
                 if(mouse.button == Qt.LeftButton) {
-                    //如果是影视，则采用打开视频
-                    if (fileControl.isVideo(thumbnailListModel.get(theView.ism[0]).url.toString())){
-                        albumControl.openDeepinMovie(thumbnailListModel.get(theView.ism[0]).url.toString())
-                    } else {
-                        var openPaths = new Array
-                        for(var i=0 ; i< thumbnailListModel.count ; i++){
-                            openPaths.push(thumbnailListModel.get(i).url.toString())
+                    if (theView.ism.length > 0) {
+                        //如果是影视，则采用打开视频
+                        if (fileControl.isVideo(thumbnailListModel.get(theView.ism[0]).url.toString())){
+                            albumControl.openDeepinMovie(thumbnailListModel.get(theView.ism[0]).url.toString())
+                        } else {
+                            var openPaths = new Array
+                            for(var i=0 ; i< thumbnailListModel.count ; i++){
+                                openPaths.push(thumbnailListModel.get(i).url.toString())
+                            }
+                            mainStack.sourcePaths = openPaths
+                            mainStack.currentIndex = -1
+                            mainStack.currentIndex = theView.ism[0]
+                            mainStack.currentWidgetIndex = 1
+                            global.stackControlCurrent = 1
                         }
-                        mainStack.sourcePaths = openPaths
-                        mainStack.currentIndex = -1
-                        mainStack.currentIndex = theView.ism[0]
-                        mainStack.currentWidgetIndex = 1
-                        global.stackControlCurrent = 1
+                        pressedXAxis = -1
+                        pressedYAxis = -1
                     }
                 }
             }
