@@ -175,7 +175,7 @@ endif()
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(3rd_lib REQUIRED
-        dtkwidget dtkcore dtkgui gio-qt udisks2-qt5
+        dtkwidget dtkcore dtkgui gio-qt udisks2-qt5 libimageviewer
         )
 target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS})
 if(DOTEST)
