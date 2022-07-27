@@ -449,8 +449,9 @@ Rectangle {
                             songName.visible = true;
                             siderIcon.visible = true;
                             keyLineEdit.visible = false;
-                            albumControl.renameAlbum( albumControl.getAllCustomAlbumId(global.albumChangeList)[index], keyLineEdit.text)
-                            global.albumChangeList=!global.albumChangeList
+                            if (keyLineEdit.text !== "" && albumControl.renameAlbum(albumControl.getAllCustomAlbumId(global.albumChangeList)[index], keyLineEdit.text)) {
+                                global.albumChangeList=!global.albumChangeList
+                            }
                         }
                         onActiveFocusChanged: {
 //                            EventsFilter.setEnabled(!activeFocus)

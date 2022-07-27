@@ -86,7 +86,7 @@ public:
     const DBImgInfoList     getAllInfos(int loadCount = 0) const;
     const DBImgInfoList     getAllInfosSort(const ItemType &filterType = ItemTypeNull) const;
     const QList<QDateTime>  getAllTimelines() const;
-    const DBImgInfoList     getInfosByTimeline(const QDateTime &timeline,const ItemType & filterType = ItemTypeNull ) const;
+    const DBImgInfoList     getInfosByTimeline(const QDateTime &timeline, const ItemType &filterType = ItemTypeNull) const;
     const QList<QDateTime>  getImportTimelines() const;
     const DBImgInfoList     getInfosByImportTimeline(const QDateTime &timeline, const ItemType &filterType = ItemTypeNull) const;
 //    const DBImgInfo         getInfoByName(const QString &name) const;
@@ -110,7 +110,7 @@ public:
     //删除自定义自动导入路径，需要以UID为删除依据
     void removeCustomAutoImportPath(int UID);
     //获取所有需要监控的路径
-    QMap <int ,QString> getAllCustomAutoImportUIDAndPath();
+    QMap <int, QString> getAllCustomAutoImportUIDAndPath();
     //获取所有需要监控的名称
     QStringList getAllCustomAutoImportNames();
 
@@ -139,7 +139,7 @@ public:
     int                     createAlbum(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
     void                    removeAlbum(int UID);
     void                    removeFromAlbum(int UID, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
-    void                    renameAlbum(int UID, const QString &newAlbum, AlbumDBType atype = AlbumDBType::Custom);
+    bool                    renameAlbum(int UID, const QString &newAlbum, AlbumDBType atype = AlbumDBType::Custom);
     // TabelTrash
     const DBImgInfoList     getAllTrashInfos(bool needTimeData) const;
     const DBImgInfoList     getAllTrashInfos_getRemainDays() const;

@@ -177,7 +177,7 @@ public:
     Q_INVOKABLE bool insertImportIntoAlbum(int UID, const QStringList &paths);
 
     //修改相册名称
-    Q_INVOKABLE void renameAlbum(int UID, const QString &newName);
+    Q_INVOKABLE bool renameAlbum(int UID, const QString &newName);
 
     //使用关键字在指定位置执行搜索 UID:相册的标识符，-1表示进行全数据库搜索，-2表示搜索最近删除；keywords:搜索依据
     //useAI为保留参数，false:不使用AI，只根据文件路径搜索；true:使用AI进行分析，根据关键字含义和图片内容进行搜索

@@ -1428,7 +1428,7 @@ bool AlbumControl::insertImportIntoAlbum(int UID, const QStringList &paths)
     return DBManager::instance()->insertIntoAlbum(UID, localPaths, atype);
 }
 
-void AlbumControl::renameAlbum(int UID, const QString &newName)
+bool AlbumControl::renameAlbum(int UID, const QString &newName)
 {
     DBManager::instance()->renameAlbum(UID, newName);
 }

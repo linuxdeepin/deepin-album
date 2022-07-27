@@ -68,7 +68,7 @@ const QStringList DBManager::getAllPaths(const ItemType &filterType) const
     QStringList paths;
 
     m_query->setForwardOnly(true);
-    if(filterType ==ItemTypePic || filterType==ItemTypeVideo){
+    if (filterType == ItemTypePic || filterType == ItemTypeVideo) {
         bool b = m_query->prepare("SELECT FilePath FROM ImageTable3 WHERE FileType = :Type") ;
         m_query->bindValue(":Type", filterType);
         if (!b || ! m_query->exec()) {
@@ -130,7 +130,7 @@ const DBImgInfoList DBManager::getAllInfosSort(const ItemType &filterType) const
         b = m_query->prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 ORDER BY Time DESC");
     } else {
         b = m_query->prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 WHERE FileType = :Type ORDER BY Time DESC");
-         m_query->bindValue(":Type", filterType);
+        m_query->bindValue(":Type", filterType);
     }
     if (!b || ! m_query->exec()) {
         return infos;
@@ -168,13 +168,13 @@ const DBImgInfoList DBManager::getInfosByTimeline(const QDateTime &timeline, con
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
-    bool b=false;
-    if(filterType ==ItemTypePic || filterType==ItemTypeVideo){
+    bool b = false;
+    if (filterType == ItemTypePic || filterType == ItemTypeVideo) {
         b = m_query->prepare(QString("SELECT FilePath, FileType FROM ImageTable3 "
                                      "WHERE Time = :Date AND FileType = :Type ORDER BY Time DESC"));
         m_query->bindValue(":Date", timeline);
         m_query->bindValue(":Type", filterType);
-    }else {
+    } else {
         b = m_query->prepare(QString("SELECT FilePath, FileType FROM ImageTable3 "
                                      "WHERE Time = :Date ORDER BY Time DESC"));
     }
@@ -206,18 +206,18 @@ const QList<QDateTime> DBManager::getImportTimelines() const
     return importtimes;
 }
 
-const DBImgInfoList DBManager::getInfosByImportTimeline(const QDateTime &timeline,const ItemType & filterType ) const
+const DBImgInfoList DBManager::getInfosByImportTimeline(const QDateTime &timeline, const ItemType &filterType) const
 {
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
-    bool b=false;
-    if(filterType ==ItemTypePic || filterType==ItemTypeVideo){
+    bool b = false;
+    if (filterType == ItemTypePic || filterType == ItemTypeVideo) {
         b = m_query->prepare(QString("SELECT FilePath, FileType FROM ImageTable3 "
                                      "WHERE STRFTIME(\"%Y-%m-%d %H:%M\", ImportTime) = STRFTIME(\"%Y-%m-%d %H:%M\", :Date) AND FileType = :Type ORDER BY Time DESC"));
         m_query->bindValue(":Date", timeline);
         m_query->bindValue(":Type", filterType);
-    }else {
+    } else {
         b = m_query->prepare(QString("SELECT FilePath, FileType FROM ImageTable3 "
                                      "WHERE STRFTIME(\"%Y-%m-%d %H:%M\", ImportTime) = STRFTIME(\"%Y-%m-%d %H:%M\", :Date) ORDER BY Time DESC"));
         m_query->bindValue(":Date", timeline);
@@ -246,13 +246,13 @@ const DBImgInfo DBManager::getInfoByPath(const QString &path) const
     }
 }
 
-int DBManager::getImgsCount(const ItemType &filterType ) const
+int DBManager::getImgsCount(const ItemType &filterType) const
 {
     QMutexLocker mutex(&m_dbMutex);
 
     m_query->setForwardOnly(true);
     bool b = false;
-    if(filterType == ItemTypePic || filterType == ItemTypeVideo){
+    if (filterType == ItemTypePic || filterType == ItemTypeVideo) {
         b = m_query->prepare(QString("SELECT COUNT(*) FROM ImageTable3 "
                                      "WHERE FileType = :Type"));
         m_query->bindValue(":Type", filterType);
@@ -265,7 +265,7 @@ int DBManager::getImgsCount(const ItemType &filterType ) const
             }
             return count;
         }
-    }else {
+    } else {
         if (m_query->exec("SELECT COUNT(*) FROM ImageTable3")) {
             m_query->first();
             int count = m_query->value(0).toInt();
@@ -840,11 +840,14 @@ void DBManager::removeFromAlbum(int UID, const QStringList &paths, AlbumDBType a
 //    }
 }
 
-void DBManager::renameAlbum(int UID, const QString &newAlbum, AlbumDBType atype)
+bool DBManager::renameAlbum(int UID, const QString &newAlbum, AlbumDBType atype)
 {
     QMutexLocker mutex(&m_dbMutex);
     if (!m_query->exec(QString("UPDATE AlbumTable3 SET AlbumName=\"%1\" WHERE UID=%2 AND AlbumDBType=%3").arg(newAlbum).arg(UID).arg(atype))) {
+        return false;
     }
+
+    return true;
 }
 
 const DBImgInfoList DBManager::getInfosByNameTimeline(const QString &value) const
@@ -1131,9 +1134,9 @@ void DBManager::removeCustomAutoImportPath(int UID)
 //    emit dApp->signalM->imagesRemovedPar(paths);
 }
 
-QMap <int ,QString> DBManager::getAllCustomAutoImportUIDAndPath()
+QMap <int, QString> DBManager::getAllCustomAutoImportUIDAndPath()
 {
-    QMap <int ,QString> result;
+    QMap <int, QString> result;
 
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
@@ -2052,7 +2055,7 @@ QDateTime DBManager::getFileImportTime(const QString &path)
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     QDateTime result;
-    if(m_query->exec(QString("SELECT Time FROM ImageTable3 WHERE FilePath=\"%1\"").arg(path))) {
+    if (m_query->exec(QString("SELECT Time FROM ImageTable3 WHERE FilePath=\"%1\"").arg(path))) {
         m_query->first();
         result = m_query->value(0).toDateTime();
     }
@@ -2065,8 +2068,8 @@ QStringList DBManager::getYearPaths(const QString &year, int maxCount)
     m_query->setForwardOnly(true);
     QStringList result;
     QString str = QString("SELECT FilePath FROM ImageTable3 WHERE Time between \"%1-01-01T00:00:00.000\" AND \"%1-12-31T23:59:59.999\" limit %2").arg(year).arg(maxCount);
-    if(m_query->exec(str)) {
-        while(m_query->next()) {
+    if (m_query->exec(str)) {
+        while (m_query->next()) {
             result.push_back(m_query->value(0).toString());
         }
     }
@@ -2079,8 +2082,8 @@ QStringList DBManager::getYears()
     m_query->setForwardOnly(true);
     QStringList result;
     QString str = QString("SELECT DISTINCT substr(Time, 0, 5) FROM ImageTable3 ORDER BY Time DESC");
-    if(m_query->exec(str)) {
-        while(m_query->next()) {
+    if (m_query->exec(str)) {
+        while (m_query->next()) {
             result.push_back(m_query->value(0).toString());
         }
     }
@@ -2093,7 +2096,7 @@ int DBManager::getYearCount(const QString &year)
     m_query->setForwardOnly(true);
     int result = 0;
     QString str = QString("SELECT COUNT(*) FROM ImageTable3 WHERE Time between \"%1-01-01T00:00:00.000\" AND \"%1-12-31T23:59:59.999\"").arg(year);
-    if(m_query->exec(str)) {
+    if (m_query->exec(str)) {
         m_query->first();
         result = m_query->value(0).toInt();
     }
@@ -2106,8 +2109,8 @@ QStringList DBManager::getMonthPaths(const QString &year, const QString &month, 
     m_query->setForwardOnly(true);
     QStringList result;
     QString str = QString("SELECT FilePath FROM ImageTable3 WHERE Time between \"%1-%2-01\" AND \"%1-%2-32\" limit %3").arg(year).arg(month).arg(maxCount);
-    if(m_query->exec(str)) {
-        while(m_query->next()) {
+    if (m_query->exec(str)) {
+        while (m_query->next()) {
             result.push_back(m_query->value(0).toString());
         }
     }
@@ -2120,8 +2123,8 @@ QStringList DBManager::getMonths()
     m_query->setForwardOnly(true);
     QStringList result;
     QString str = QString("SELECT DISTINCT substr(Time, 0, 8) FROM ImageTable3 ORDER BY Time DESC");
-    if(m_query->exec(str)) {
-        while(m_query->next()) {
+    if (m_query->exec(str)) {
+        while (m_query->next()) {
             result.push_back(m_query->value(0).toString());
         }
     }
@@ -2134,7 +2137,7 @@ int DBManager::getMonthCount(const QString &year, const QString &month)
     m_query->setForwardOnly(true);
     int result = 0;
     QString str = QString("SELECT COUNT(*) FROM ImageTable3 WHERE Time between \"%1-%2-01\" AND \"%1-%2-32\"").arg(year).arg(month);
-    if(m_query->exec(str)) {
+    if (m_query->exec(str)) {
         m_query->first();
         result = m_query->value(0).toInt();
     }
@@ -2147,8 +2150,8 @@ QStringList DBManager::getDayPaths(const QString &day)
     m_query->setForwardOnly(true);
     QStringList result;
     QString str = QString("SELECT FilePath FROM ImageTable3 WHERE substr(Time, 0, 11) = \"%1\"").arg(day);
-    if(m_query->exec(str)) {
-        while(m_query->next()) {
+    if (m_query->exec(str)) {
+        while (m_query->next()) {
             result.push_back("file://" + m_query->value(0).toString());
         }
     }
@@ -2161,8 +2164,8 @@ QStringList DBManager::getDays()
     m_query->setForwardOnly(true);
     QStringList result;
     QString str = QString("SELECT DISTINCT substr(Time, 0, 11) FROM ImageTable3 ORDER BY Time DESC");
-    if(m_query->exec(str)) {
-        while(m_query->next()) {
+    if (m_query->exec(str)) {
+        while (m_query->next()) {
             result.push_back(m_query->value(0).toString());
         }
     }
