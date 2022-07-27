@@ -95,6 +95,14 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <source>%1 is released under %2</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Album</source>
+        <translation type="unfinished">Album</translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AllCollection</name>

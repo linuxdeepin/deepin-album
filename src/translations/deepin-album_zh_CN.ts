@@ -94,6 +94,14 @@
         <source>%1 is released under %2</source>
         <translation>%1在%2许可下发布</translation>
     </message>
+    <message>
+        <source>Album</source>
+        <translation>相册</translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation>版本：</translation>
+    </message>
 </context>
 <context>
     <name>AllCollection</name>

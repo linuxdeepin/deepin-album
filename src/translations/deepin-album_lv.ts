@@ -94,6 +94,14 @@
         <source>%1 is released under %2</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Album</source>
+        <translation type="unfinished">Albums</translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AllCollection</name>

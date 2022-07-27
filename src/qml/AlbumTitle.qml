@@ -57,14 +57,16 @@ Rectangle {
                HelpAction { }
                AboutAction {
                    aboutDialog: AboutDialog {
-                       icon: "deepin-album"
-                       width: 400
-                       modality: Qt.NonModal
-                       version: qsTr(String("Version: %1").arg(Qt.application.version))
+                       maximumWidth: 360
+                       maximumHeight: 362
+                       minimumWidth: 360
+                       minimumHeight: 362
+                       productName: qsTr("Album")
+                       productIcon: "deepin-album"
+                       version: qsTr("Version:") + "%1".arg(Qt.application.version)
                        description: qsTr("Album is a fashion manager for viewing and organizing photos and videos.")
-                       productName: qsTr("deepin-album")
-                       websiteName: DTK.deepinWebsiteName
-                       websiteLink: DTK.deepinWebsitelLink
+                       websiteName: "www.chinauos.com"
+                       websiteLink: "https://www.chinauos.com/"
                        license: qsTr("%1 is released under %2").arg(productName).arg("GPLV3")
                    }
                }
