@@ -146,28 +146,9 @@ void DBandImgOperate::loadOneImgForce(QString imagepath, bool refresh)
                 return;
             }
         }
-
     }
 
-    if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
-        bool cache_exist = false;
-        if (tImg.height() != 200 && tImg.width() != 200) {
-            if (tImg.height() >= tImg.width()) {
-                cache_exist = true;
-                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
-            } else if (tImg.height() <= tImg.width()) {
-                cache_exist = true;
-                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
-            }
-        }
-        if (!cache_exist) {
-            if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
-                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
-            } else {
-                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
-            }
-        }
-    }
+    tImg = utils::base::getThumbnailFromImage(tImg, 200);
 
     if (!file.exists()) {
         utils::base::mkMutiDir(thumbnailPath.mid(0, thumbnailPath.lastIndexOf('/')));

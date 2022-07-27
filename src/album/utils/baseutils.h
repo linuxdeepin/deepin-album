@@ -272,6 +272,10 @@ bool syncCopy(const QString &srcFileName, const QString &dstFileName);
 QList<QExplicitlySharedDataPointer<DGioMount>> getMounts_safe();
 //快速加载图片
 QFuture<void> multiLoadImage(const QStringList &paths);
+//快速平滑缩放
+QImage cheatScaled(const QImage &srcImg, int size, int side);
+//从图片提取缩略图
+QImage getThumbnailFromImage(const QImage &srcImg, int size);
 }  // namespace base
 
 }  // namespace utils
