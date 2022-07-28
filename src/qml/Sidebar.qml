@@ -20,6 +20,7 @@ Rectangle {
     signal todoDraw
     property var devicePaths : albumControl.getDevicePaths()
     property var albumPaths : albumControl.getAlbumPaths(global.currentCustomAlbumUId)
+
     width:200
     height:parent.height
     ScrollView {
@@ -233,6 +234,8 @@ Rectangle {
                     }
                 }
             }
+
+            // 系统相册列表
             ListView{
                 id : fixedList
                 height:fixedListModel.count * 36
@@ -286,7 +289,8 @@ Rectangle {
                             global.currentCustomAlbumUId = number
                             global.searchEditText = ""
                             if(mouse.button == Qt.RightButton) {
-                                customMenu.popup()
+                                if (albumPaths.length > 0)
+                                    systemMenu.popup()
                             }
 
                             forceActiveFocus()
@@ -325,6 +329,7 @@ Rectangle {
                 }
             }
 
+            // 拖拽图片文件夹导入的相册列表
             ListView{
                 id : importList
                 height:albumControl.getImportAlubumCount(global.albumChangeList) * 36
@@ -409,6 +414,7 @@ Rectangle {
                 }
             }
 
+            // 用户自定义的相册列表
             ListView{
                 id : customList
                 height:albumControl.getAllCustomAlbumId(global.albumChangeList).length * 42
@@ -502,7 +508,6 @@ Rectangle {
                     }
 
                     function enableRename(){
-//
                         item.checked = true;
                         keyLineEdit.text = songName.text;
                         keyLineEdit.forceActiveFocus()
@@ -573,18 +578,19 @@ Rectangle {
             //显示大图预览
             RightMenuItem {
                 text: qsTr("Slide show")
-                visible: albumPaths.length >0
+                visible: albumPaths.length > 0
                 onTriggered: {
                     stackControl.startMainSliderShow(albumPaths, 0)
                 }
             }
 
             MenuSeparator {
+                visible: albumPaths.length > 0
             }
 
             RightMenuItem {
                 text: qsTr("Export")
-                visible: albumPaths.length >0
+                visible: albumPaths.length > 0
                 onTriggered: {
                     albumControl.exportFolders(albumPaths,albumControl.getCustomAlbumByUid(global.currentCustomAlbumUId))
                 }
@@ -638,7 +644,7 @@ Rectangle {
             //显示大图预览
             RightMenuItem {
                 text: qsTr("Slide show")
-                visible: albumPaths.length >0
+                visible: albumPaths.length > 0
                 onTriggered: {
                     stackControl.startMainSliderShow(albumPaths, 0)
                 }
@@ -646,7 +652,7 @@ Rectangle {
 
             RightMenuItem {
                 text: qsTr("New album")
-                visible: global.currentCustomAlbumUId > 3 ?true : false
+                visible: global.currentCustomAlbumUId > 3 ? true : false
                 onTriggered: {
                     var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
                     var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
@@ -660,7 +666,7 @@ Rectangle {
 
             RightMenuItem {
                 text: qsTr("Rename")
-                visible: global.currentCustomAlbumUId > 3 ?true : false
+                visible: global.currentCustomAlbumUId > 3 ? true : false
                 onTriggered: {
                     sigRename();
                 }
@@ -671,7 +677,7 @@ Rectangle {
 
             RightMenuItem {
                 text: qsTr("Export")
-                visible: albumPaths.length >0
+                visible: albumPaths.length > 0
                 onTriggered: {
                     albumControl.exportFolders(albumPaths,albumControl.getCustomAlbumByUid(global.currentCustomAlbumUId))
                 }
@@ -679,7 +685,7 @@ Rectangle {
 
             RightMenuItem {
                 text: qsTr("Delete")
-                visible: global.currentCustomAlbumUId > 3 ?true : false
+                visible: global.currentCustomAlbumUId > 3 ? true : false
                 onTriggered: {
                     removeAlbumDialog.deleteType = 0
                     removeAlbumDialog.show()
