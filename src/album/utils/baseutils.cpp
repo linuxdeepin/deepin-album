@@ -491,10 +491,8 @@ QImage cheatScaled(const QImage &srcImg, int size, int side)
 {
     QImage tImg;
     if (side == 0) {//w
-        tImg = srcImg.scaledToWidth(size * 4, Qt::FastTransformation);
         tImg = srcImg.scaledToWidth(size, Qt::SmoothTransformation);
     } else {//h
-        tImg = srcImg.scaledToHeight(size * 4, Qt::FastTransformation);
         tImg = srcImg.scaledToHeight(size, Qt::SmoothTransformation);
     }
     return tImg;
