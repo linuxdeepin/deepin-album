@@ -37,6 +37,9 @@
 ImageEngineApi *ImageEngineApi::s_ImageEngine = nullptr;
 static std::once_flag imageEngineFlag;
 
+//所需最少处理线程数(某些双核或更低配置机器上，需要分配足够处理线程，否则会导致QtConcurrent请求不到线程资源)
+#define MINI_NEED_IDEAL_THREAD_COUNT 4
+
 ImageEngineApi *ImageEngineApi::instance(QObject *parent)
 {
     std::call_once(imageEngineFlag, [parent]() {
@@ -76,7 +79,11 @@ ImageEngineApi::ImageEngineApi(QObject *parent)
     m_qtpool.setMaxThreadCount(4);
     cacheThreadPool.setMaxThreadCount(4);
 #else
-    QThreadPool::globalInstance()->setMaxThreadCount(QThread::idealThreadCount() - 1);
+    qDebug() << "QThread::idealThreadCount():" << QThread::idealThreadCount();
+    if (QThread::idealThreadCount() < MINI_NEED_IDEAL_THREAD_COUNT)
+        QThreadPool::globalInstance()->setMaxThreadCount(MINI_NEED_IDEAL_THREAD_COUNT);
+    else
+        QThreadPool::globalInstance()->setMaxThreadCount(QThread::idealThreadCount() - 1);
     QThreadPool::globalInstance()->setExpiryTimeout(10);
 #endif
 
