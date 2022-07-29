@@ -88,16 +88,7 @@ void ImageLoader::updateImageLoader(const QStringList &pathlist, const QList<QIm
             tImg = images.at(i);
         }
 
-        //修改：将QPixmap的变形操作放在QImage里完成
-        if (0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
-            if (tImg.height() != 140 && tImg.width() != 140) {
-                if (tImg.height() >= tImg.width()) {
-                    tImg = tImg.scaledToWidth(140,  Qt::FastTransformation);
-                } else if (tImg.height() <= tImg.width()) {
-                    tImg = tImg.scaledToHeight(140,  Qt::FastTransformation);
-                }
-            }
-        }
+        tImg = utils::base::getThumbnailFromImage(tImg, 200);
         QString spath = albumGlobal::CACHE_PATH + pathlist.at(i);
         utils::base::mkMutiDir(spath.mid(0, spath.lastIndexOf('/')));
         tImg.save(spath, "PNG");

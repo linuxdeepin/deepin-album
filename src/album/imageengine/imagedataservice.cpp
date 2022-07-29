@@ -280,46 +280,11 @@ void ReadThumbnailManager::readThumbnail()
                     continue;
                 }
             }
-            //裁切
-            if (!tImg.isNull() && 0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
-                bool cache_exist = false;
-                if (tImg.height() != 200 && tImg.width() != 200) {
-                    if (tImg.height() >= tImg.width()) {
-                        cache_exist = true;
-                        tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
-                    } else if (tImg.height() <= tImg.width()) {
-                        cache_exist = true;
-                        tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
-                    }
-                }
-                if (!cache_exist) {
-                    if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
-                        tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
-                    } else {
-                        tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
-                    }
-                }
-            }
-            utils::base::mkMutiDir(thumbnailPath.mid(0, thumbnailPath.lastIndexOf('/')));
         }
         if (!tImg.isNull()) {
-            int width = tImg.width();
-            int height = tImg.height();
-            if (abs((width - height) * 10 / width) >= 1) {
-                QRect rect = tImg.rect();
-                int x = rect.x() + width / 2;
-                int y = rect.y() + height / 2;
-                if (width > height) {
-                    x = x - height / 2;
-                    y = 0;
-                    tImg = tImg.copy(x, y, height, height);
-                } else {
-                    y = y - width / 2;
-                    x = 0;
-                    tImg = tImg.copy(x, y, width, width);
-                }
-            }
+            tImg = utils::base::getThumbnailFromImage(tImg, 200);
             if (!thumbnailFile.exists()) {
+                utils::base::mkMutiDir(thumbnailPath.mid(0, thumbnailPath.lastIndexOf('/')));
                 tImg.save(thumbnailPath, "PNG"); //保存裁好的缩略图，下次读的时候直接刷进去
             }
         }

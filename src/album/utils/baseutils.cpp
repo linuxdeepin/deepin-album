@@ -487,6 +487,62 @@ QList<QExplicitlySharedDataPointer<DGioMount>> getMounts_safe()
     return result;
 }
 
+QImage cheatScaled(const QImage &srcImg, int size, int side)
+{
+    QImage tImg;
+    if (side == 0) {//w
+        tImg = srcImg.scaledToWidth(size, Qt::SmoothTransformation);
+    } else {//h
+        tImg = srcImg.scaledToHeight(size, Qt::SmoothTransformation);
+    }
+    return tImg;
+}
+
+QImage getThumbnailFromImage(const QImage &srcImg, int size)
+{
+    QImage tImg(srcImg);
+
+    if (!tImg.isNull() && 0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
+        bool cache_exist = false;
+        if (tImg.height() != size && tImg.width() != size) {
+            if (tImg.height() >= tImg.width()) {
+                cache_exist = true;
+                tImg = cheatScaled(tImg, size, 0);
+            } else if (tImg.height() <= tImg.width()) {
+                cache_exist = true;
+                tImg = cheatScaled(tImg, size, 1);
+            }
+        }
+        if (!cache_exist) {
+            if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
+                tImg = cheatScaled(tImg, size, 0);
+            } else {
+                tImg = cheatScaled(tImg, size, 1);
+            }
+        }
+    }
+    if (!tImg.isNull()) {
+        int width = tImg.width();
+        int height = tImg.height();
+        if (abs((width - height) * 10 / width) >= 1) {
+            QRect rect = tImg.rect();
+            int x = rect.x() + width / 2;
+            int y = rect.y() + height / 2;
+            if (width > height) {
+                x = x - height / 2;
+                y = 0;
+                tImg = tImg.copy(x, y, height, height);
+            } else {
+                y = y - width / 2;
+                x = 0;
+                tImg = tImg.copy(x, y, width, width);
+            }
+        }
+    }
+
+    return tImg;
+}
+
 void multiLoadImage_helper(const QString &path)
 {
     QString srcPath = path;
@@ -511,43 +567,7 @@ void multiLoadImage_helper(const QString &path)
         }
     }
     //裁切
-    if (!tImg.isNull() && 0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
-        bool cache_exist = false;
-        if (tImg.height() != 200 && tImg.width() != 200) {
-            if (tImg.height() >= tImg.width()) {
-                cache_exist = true;
-                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
-            } else if (tImg.height() <= tImg.width()) {
-                cache_exist = true;
-                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
-            }
-        }
-        if (!cache_exist) {
-            if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
-                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
-            } else {
-                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
-            }
-        }
-    }
-    if (!tImg.isNull()) {
-        int width = tImg.width();
-        int height = tImg.height();
-        if (abs((width - height) * 10 / width) >= 1) {
-            QRect rect = tImg.rect();
-            int x = rect.x() + width / 2;
-            int y = rect.y() + height / 2;
-            if (width > height) {
-                x = x - height / 2;
-                y = 0;
-                tImg = tImg.copy(x, y, height, height);
-            } else {
-                y = y - width / 2;
-                x = 0;
-                tImg = tImg.copy(x, y, width, width);
-            }
-        }
-    }
+    tImg = getThumbnailFromImage(tImg, 200);
 
     ImageDataService::instance()->addImage(srcPath, tImg);
 }
