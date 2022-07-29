@@ -34,6 +34,8 @@
 #include "albumgloabl.h"
 #include "imagedataservice.h"
 
+#define MINI_NEED_IDEAL_THREAD_COUNT 4
+
 ImageEngineApi *ImageEngineApi::s_ImageEngine = nullptr;
 static std::once_flag imageEngineFlag;
 
@@ -76,7 +78,10 @@ ImageEngineApi::ImageEngineApi(QObject *parent)
     m_qtpool.setMaxThreadCount(4);
     cacheThreadPool.setMaxThreadCount(4);
 #else
-    QThreadPool::globalInstance()->setMaxThreadCount(QThread::idealThreadCount() - 1);
+    if (QThread::idealThreadCount() < MINI_NEED_IDEAL_THREAD_COUNT)
+        QThreadPool::globalInstance()->setMaxThreadCount(MINI_NEED_IDEAL_THREAD_COUNT);
+    else
+        QThreadPool::globalInstance()->setMaxThreadCount(QThread::idealThreadCount() - 1);
     QThreadPool::globalInstance()->setExpiryTimeout(10);
 #endif
 
