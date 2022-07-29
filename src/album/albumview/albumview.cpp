@@ -1527,7 +1527,8 @@ void AlbumView::getAllDeviceName()
         }
         udispname = label;
     runend1:
-        blk->mount({});
+        // 不能强制挂载，否则卸载不了
+        //blk->mount({});
         QByteArrayList qbl = blk->mountPoints();
         QString mountPoint = "file://";
         QList<QByteArray>::iterator qb = qbl.begin();
