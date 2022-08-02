@@ -39,9 +39,10 @@
 #include <QStandardPaths>
 #include <QSettings>
 #include <QThread>
-
+#include "eventlogutils.h"
 #include "imagedataservice.h"
 #include "baseutils.h"
+#include "config.h"
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
@@ -168,6 +169,14 @@ int main(int argc, char *argv[])
     // 加载第一屏图片
     qDebug() << "------" << __FUNCTION__ << "" << QThread::currentThreadId();
     ImageEngineApi::instance()->loadFirstPageThumbnails(number);
+
+    //埋点记录启动数据
+    QJsonObject objStartEvent{
+        {"tid", Eventlogutils::StartUp},
+        {"vsersion", VERSION},
+        {"mode", 1},
+    };
+    Eventlogutils::GetInstance()->writeLogs(objStartEvent);
     MainWindow w;
     dApp->setMainWindow(&w);
     w.show();
