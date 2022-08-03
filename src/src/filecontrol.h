@@ -92,7 +92,7 @@ public:
 //    Q_INVOKABLE double fitImage(int imgWidth, int windowWidth);
 
     //解析命令行
-    Q_INVOKABLE QString parseCommandlineGetPath(const QString &path)  ;
+    Q_INVOKABLE QStringList parseCommandlineGetPaths();
 
     //是否是动态图
     Q_INVOKABLE bool isDynamicImage(const QString &path);

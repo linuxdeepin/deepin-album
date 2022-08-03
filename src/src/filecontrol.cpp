@@ -492,9 +492,9 @@ void FileControl::ocrImage(const QString &path)
     m_ocrInterface->openFile(localPath);
 }
 
-QString FileControl::parseCommandlineGetPath(const QString &path)
+QStringList FileControl::parseCommandlineGetPaths()
 {
-    Q_UNUSED(path)
+    QStringList paths;
     QString filepath = "";
     QStringList arguments = QCoreApplication::arguments();
     for (QString path : arguments) {
@@ -504,12 +504,12 @@ QString FileControl::parseCommandlineGetPath(const QString &path)
             filepath += "file://";
             filepath += path;
             if (isImage(filepath) || isVideo(filepath)) {
-                return filepath;
+                paths.push_back(filepath);
             }
         }
     }
 
-    return filepath;
+    return paths;
 }
 
 bool FileControl::isDynamicImage(const QString &path)

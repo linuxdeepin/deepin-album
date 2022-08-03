@@ -91,9 +91,12 @@ Item {
     }
     Component.onCompleted: {
 
-        var tempPath =fileControl.parseCommandlineGetPath("x");
+        var tempPath = ""
         var tempPaths = []
-        tempPaths.push(tempPath)
+        tempPaths = fileControl.parseCommandlineGetPaths()
+
+        if (tempPaths.length > 0)
+            tempPath = tempPaths[0]
 
         if (!fileControl.isAlbum())
             mainView.sourcePaths = fileControl.getDirImagePath(tempPath);
