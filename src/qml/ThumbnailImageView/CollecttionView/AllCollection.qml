@@ -105,6 +105,8 @@ Item {
         anchors.topMargin: m_topMargin
         width: parent.width
         height: parent.height - allCollectionTitleRect.height - m_topMargin - statusBar.height
+        thumnailListType: GlobalVar.ThumbnailType.AllCollection
+
         visible: true
         property int m_topMargin: 10
 
@@ -124,7 +126,5 @@ Item {
     Component.onCompleted: {
         theView.timeChanged.connect(setDateRange)
         global.sigFlushAllCollectionView.connect(flushAllCollectionView)
-
-        theView.setType(GlobalVar.ThumbnailType.AllCollection)
     }
 }

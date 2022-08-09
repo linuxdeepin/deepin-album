@@ -45,11 +45,6 @@ Item {
         theView.displayFlushHelper = Math.random()
     }
 
-    //设置缩略图显示类型
-    function setType(newType) {
-        thumnailListType = newType
-    }
-
     // 获取列表中项的个数
     function count()
     {
@@ -135,8 +130,8 @@ Item {
     property real itemHeight: realCellWidth
     // 是否开启滚轮
     property bool enableWheel: true
-    //缩略图类型，默认为普通模式
-    property int thumnailListType: global.currentViewIndex === GlobalVar.ThumbnailViewType.RecentlyDeleted ? GlobalVar.ThumbnailType.Trash : GlobalVar.ThumbnailType.Normal
+    //缩略图显示类型，默认为普通模式
+    property int thumnailListType: GlobalVar.ThumbnailType.Normal
     //存在框选项
     property bool haveSelect: theView.ism.length > 0
     //已框选全部缩略图
@@ -647,7 +642,8 @@ Item {
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
                          && (thumnailListType === GlobalVar.ThumbnailType.CustomAlbum)
                 onTriggered: {
-
+                    albumControl.removeFromAlbum(global.currentCustomAlbumUId, selectedPaths)
+                    global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
                 }
             }
 
