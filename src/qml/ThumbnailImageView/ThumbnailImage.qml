@@ -111,8 +111,6 @@ Rectangle{
                 global.currentViewIndex = 6
             }
             global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[index]
-
-            global.haveCreateAlbum = true
         }
     }
 }

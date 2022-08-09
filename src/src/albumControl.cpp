@@ -1051,6 +1051,7 @@ void AlbumControl::insertTrash(const QList< QUrl > &paths)
     for (QUrl url : paths) {
         tmpList << url.toLocalFile();
     }
+
     DBImgInfoList infos;
     for (QString path : tmpList) {
         infos << DBManager::instance()->getInfoByPath(path);
@@ -1272,9 +1273,27 @@ bool AlbumControl::canFavorite(const QStringList &pathList)
     return bCanFavorite;
 }
 
+bool AlbumControl::canAddToCustomAlbum(const int &albumId, const QStringList &pathList)
+{
+    bool bCanAddToCustom = false;
+    for (int i = 0; i < pathList.size(); i++) {
+        if (!pathList[i].isEmpty() && !photoHaveAddedToCustomAlbum(albumId, pathList[i])) {
+            bCanAddToCustom = true;
+            break;
+        }
+    }
+
+    return bCanAddToCustom;
+}
+
 bool AlbumControl::photoHaveFavorited(const QString &path)
 {
     return DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, QUrl(path).toLocalFile());
+}
+
+bool AlbumControl::photoHaveAddedToCustomAlbum(int albumId, const QString &path)
+{
+    return DBManager::instance()->isImgExistInAlbum(albumId, QUrl(path).toLocalFile());
 }
 
 QVariantMap AlbumControl::getPathsInfoMap(const QString &path)

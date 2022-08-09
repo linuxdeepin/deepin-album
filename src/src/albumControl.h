@@ -143,8 +143,14 @@ public:
     //判断当前图片是否已收藏
     Q_INVOKABLE bool photoHaveFavorited(const QString &path);
 
+    // 判断当前图片是否已添加到指定自定义相册
+    Q_INVOKABLE bool photoHaveAddedToCustomAlbum(int albumId, const QString &path);
+
     //判断所传图片列表是否可收藏
     Q_INVOKABLE bool canFavorite(const QStringList &pathList);
+
+    //判断所传图片列表是否可添加到自定义相册
+    Q_INVOKABLE bool canAddToCustomAlbum(const int &albumId, const QStringList &pathList);
 
     //一张图片的数据，返回Map
     Q_INVOKABLE QVariantMap getPathsInfoMap(const QString &path);

@@ -591,18 +591,11 @@ Item {
                     model: albumControl.getAllCustomAlbumId(global.albumChangeList).length
                     delegate: RightMenuItem {
                         text: albumControl.getAllCustomAlbumName(global.albumChangeList)[index]
-
+                        enabled: albumControl.canAddToCustomAlbum(albumControl.getAllCustomAlbumId()[index], global.selectedPaths)
                         onTriggered:{
-                            //未知原因导致global.siderGroup.buttons内部index混乱，先这样规避
-                            var realIndex = index
-                            if(global.haveCreateAlbum) {
-                                realIndex += 4
-                            }
-
-                            albumControl.insertIntoAlbum(albumControl.getAllCustomAlbumId(global.albumChangeList)[realIndex] , global.selectedPaths)
-                            global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[realIndex]
-                            global.siderGroup.buttons[realIndex].checked = true
-                            global.currentViewIndex = GlobalVar.ThumbnailViewType.CustomAlbum
+                            // 获取所选自定义相册的Id，根据Id添加到对应自定义相册
+                            var customAlbumId = albumControl.getAllCustomAlbumId()[index]
+                            albumControl.insertIntoAlbum(customAlbumId , global.selectedPaths)
                         }
                     }
                 }
@@ -643,12 +636,7 @@ Item {
                 text: qsTr("Delete")
                 visible: theArea.canDelete
                 onTriggered: {
-                    if(thumnailListType === GlobalVar.ThumbnailType.Trash) {
-                        deleteDialog.setDisplay(thumnailListType === GlobalVar.ThumbnailType.Trash, selectedOriginPaths.length)
-                    } else {
-                        deleteDialog.setDisplay(thumnailListType === GlobalVar.ThumbnailType.Trash, global.selectedPaths.length)
-                    }
-
+                    deleteDialog.setDisplay(thumnailListType === GlobalVar.ThumbnailType.Trash, selectedOriginPaths.length)
                     deleteDialog.show()
                 }
             }

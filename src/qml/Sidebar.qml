@@ -628,10 +628,6 @@ Rectangle {
                     todoDraw()
                 }
             }
-
-            //删完以后要执行界面跳转
-            global.siderGroup.buttons[0].checked = true;
-            global.currentViewIndex = 2
         }
 
         Component.onCompleted: {
