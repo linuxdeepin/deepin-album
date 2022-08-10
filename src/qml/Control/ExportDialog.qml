@@ -55,7 +55,7 @@ DialogWindow {
         focus: true
         maximumLength: 255
         validator: RegExpValidator {regExp: /^[^\\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/ }
-        text: fileControl.slotGetFileName(filePath)
+        text: ""
         selectByMouse: true
 //        alertText: qsTr("The file already exists, please use another name")
 //        showAlert: fileControl.isShowToolTip(source,nameedit.text)
@@ -223,15 +223,32 @@ DialogWindow {
         height: 32
 
         onClicked: {
-            albumControl.saveAsImage(filePath , saveName , saveIndex , savefileFormat ,pictureQuality ,saveFolder)
+            if (saveName === "") {
+                exportdialog.visible = false
+                emptyWarningDig.show()
+                return
+            }
+
+            var bRet = albumControl.saveAsImage(filePath , saveName , saveIndex , savefileFormat ,pictureQuality ,saveFolder)
             exportdialog.visible=false
+            if (bRet)
+                DTK.sendMessage(thumbnailImage, qsTr("Export successful"), "checked")
+            else
+                DTK.sendMessage(thumbnailImage, qsTr("Export failed"), "warning")
+
         }
     }
 
     onVisibleChanged: {
-        console.log(width)
+        // 窗口显示时，重置显示内容
+        if (visible) {
+            nameedit.text = fileControl.slotGetFileName(filePath)
+            saveCombox.currentIndex = 0
+            formatCombox.currentIndex = 0
+            piczSlider.value = 100
+        }
+
         setX(root.x  + root.width / 2 - width / 2)
         setY(root.y  + root.height / 2 - height / 2)
     }
-
 }

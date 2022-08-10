@@ -35,6 +35,14 @@ ApplicationWindow {
     id: root
     title: ""
 
+    D.MessageManager.layout: Column {
+        anchors {
+            bottom: parent.bottom
+            bottomMargin: global.statusBarHeight + 5
+            horizontalCenter: parent.horizontalCenter
+        }
+    }
+
     visible: true
     minimumHeight: global.minHeight
     minimumWidth: global.minWidth

@@ -56,5 +56,6 @@
         <file>qml/Control/DeleteDialog.qml</file>
         <file>qml/Control/RemoveAlbumDialog.qml</file>
         <file>qml/Control/DeviceLoadDialog.qml</file>
+        <file>qml/Control/EmptyWarningDialog.qml</file>
     </qresource>
 </RCC>

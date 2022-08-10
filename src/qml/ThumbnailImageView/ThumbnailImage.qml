@@ -83,10 +83,15 @@ Rectangle{
         id: deleteDialog
     }
 
-    //rename窗口
+    //export窗口
     ExportDialog {
         id: exportdig
     }
+
+    EmptyWarningDialog {
+        id: emptyWarningDig
+    }
+
     //info的窗口
     InfomationDialog{
         id: albumInfomationDig

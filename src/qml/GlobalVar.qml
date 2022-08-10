@@ -17,6 +17,8 @@ Item {
     property int showBottomY: 80
     property int actionMargin: 9    //应用图标距离顶栏
 
+    property int statusBarHeight: 30 //状态栏高度
+
     property int thumbnailViewTitleHieght: 85 // 缩略图视图区域标题显示区域高度
     property int verticalScrollBarWidth: 15 // 垂直滚动条宽度
 

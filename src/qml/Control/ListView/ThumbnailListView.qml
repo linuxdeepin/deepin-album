@@ -583,14 +583,17 @@ Item {
 
                 Repeater {
                     id: recentFilesInstantiator
+                    property bool bRreshEnableState: false
                     model: albumControl.getAllCustomAlbumId(global.albumChangeList).length
                     delegate: RightMenuItem {
                         text: albumControl.getAllCustomAlbumName(global.albumChangeList)[index]
-                        enabled: albumControl.canAddToCustomAlbum(albumControl.getAllCustomAlbumId()[index], global.selectedPaths)
+                        enabled: albumControl.canAddToCustomAlbum(albumControl.getAllCustomAlbumId()[index], global.selectedPaths, recentFilesInstantiator.bRreshEnableState)
                         onTriggered:{
                             // 获取所选自定义相册的Id，根据Id添加到对应自定义相册
                             var customAlbumId = albumControl.getAllCustomAlbumId()[index]
                             albumControl.insertIntoAlbum(customAlbumId , global.selectedPaths)
+                            DTK.sendMessage(thumbnailImage, qsTr("Successfully added to “%1”").arg(albumControl.getAllCustomAlbumName(global.albumChangeList)[index]), "checked")
+                            recentFilesInstantiator.bRreshEnableState = !recentFilesInstantiator.bRreshEnableState
                         }
                     }
                 }
@@ -603,13 +606,13 @@ Item {
                          && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString()) && theArea.haveImage) || !theArea.haveVideo)
                 onTriggered: {
                     if (global.selectedPaths.length > 1){
-                        albumControl.getFolders(global.selectedPaths);
+                        var bRet = albumControl.getFolders(global.selectedPaths)
+                        if (bRet)
+                            DTK.sendMessage(thumbnailImage, qsTr("Export successful"), "checked")
+                        else
+                            DTK.sendMessage(thumbnailImage, qsTr("Export failed"), "warning")
                     } else{
                         exportdig.filePath = global.objIsEmpty(thumbnailListModel) ? "" : (global.objIsEmpty(thumbnailListModel.get(theView.ism[0])) ? "" : thumbnailListModel.get(theView.ism[0]).url.toString())
-                        var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
-                        var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
-                        exportdig.setX(x)
-                        exportdig.setY(y)
                         exportdig.show()
                     }
                 }

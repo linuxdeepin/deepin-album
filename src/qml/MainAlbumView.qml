@@ -106,7 +106,7 @@ Rectangle {
         anchors.left: leftSidebar.right
 //        width: leftSidebar.x == 0 ? parent.width - leftSidebar.width : root.width
         width: parent.width - leftSidebar.x - 200
-        height: 30
+        height: global.statusBarHeight
 
         onSliderValueChanged: {
             global.thumbnailSizeLevel = sliderValue
