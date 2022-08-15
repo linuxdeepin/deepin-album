@@ -18,3 +18,4 @@ Depends: ${shlibs:Depends}, ${misc:Depends}
 Multi-Arch: same
 Description: Image processing for album
   A Image processing library for album.
+Recommends: uos-reporter, deepin-event-log
