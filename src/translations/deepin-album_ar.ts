@@ -268,6 +268,10 @@
         <source>New Album</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Import successful</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DeviceLoadDialog</name>
@@ -281,6 +285,17 @@
     </message>
     <message>
         <source>Ignore</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>EmptyWarningDialog</name>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File name cannot be empty!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -336,6 +351,14 @@
     </message>
     <message>
         <source>Quality:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export successful</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export failed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -751,9 +774,10 @@
         <source>Rename</source>
         <translation type="unfinished">إعادة تسمية</translation>
     </message>
-</context>
-<context>
-    <name>SidebarModel</name>
+    <message>
+        <source>Album “%1” removed</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>Collection</source>
         <translation type="unfinished"></translation>
@@ -769,6 +793,10 @@
     <message>
         <source>Trash</source>
         <translation type="unfinished">سلة المحذوفات</translation>
+    </message>
+    <message>
+        <source>Add album</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -870,6 +898,18 @@
     </message>
     <message>
         <source>Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Successfully added to “%1”</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export successful</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export failed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

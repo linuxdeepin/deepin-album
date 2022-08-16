@@ -20,7 +20,7 @@ DialogWindow {
             Layout.alignment: Qt.AlignHCenter
             horizontalAlignment: Text.AlignHCenter
             font: DTK.fontManager.t5
-            text: "File name cannot be empty!"
+            text: qsTr("File name cannot be empty!")
             wrapMode: Text.WordWrap
             Layout.fillWidth: true
         }

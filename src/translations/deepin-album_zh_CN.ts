@@ -268,6 +268,10 @@
         <source>New Album</source>
         <translation>新建相册</translation>
     </message>
+    <message>
+        <source>Import successful</source>
+        <translation>导入成功</translation>
+    </message>
 </context>
 <context>
     <name>DeviceLoadDialog</name>
@@ -282,6 +286,17 @@
     <message>
         <source>Ignore</source>
         <translation>忽略</translation>
+    </message>
+</context>
+<context>
+    <name>EmptyWarningDialog</name>
+    <message>
+        <source>OK</source>
+        <translation>确定</translation>
+    </message>
+    <message>
+        <source>File name cannot be empty!</source>
+        <translation>文件名不能为空！</translation>
     </message>
 </context>
 <context>
@@ -337,6 +352,14 @@
     <message>
         <source>Quality:</source>
         <translation>照片质量：</translation>
+    </message>
+    <message>
+        <source>Export successful</source>
+        <translation>导出成功</translation>
+    </message>
+    <message>
+        <source>Export failed</source>
+        <translation>导出失败</translation>
     </message>
 </context>
 <context>
@@ -751,9 +774,10 @@
         <source>Rename</source>
         <translation>重命名</translation>
     </message>
-</context>
-<context>
-    <name>SidebarModel</name>
+    <message>
+        <source>Album “%1” removed</source>
+        <translation>已成功删除“%1”相册</translation>
+    </message>
     <message>
         <source>Collection</source>
         <translation>合集</translation>
@@ -769,6 +793,10 @@
     <message>
         <source>Trash</source>
         <translation>最近删除</translation>
+    </message>
+    <message>
+        <source>Add album</source>
+        <translation>创建相册</translation>
     </message>
 </context>
 <context>
@@ -871,6 +899,18 @@
     <message>
         <source>Video info</source>
         <translation>视频信息</translation>
+    </message>
+    <message>
+        <source>Successfully added to “%1”</source>
+        <translation>成功添加到“%1”</translation>
+    </message>
+    <message>
+        <source>Export successful</source>
+        <translation>导出成功</translation>
+    </message>
+    <message>
+        <source>Export failed</source>
+        <translation>导出失败</translation>
     </message>
 </context>
 <context>
