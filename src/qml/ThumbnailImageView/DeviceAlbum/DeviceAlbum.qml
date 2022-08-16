@@ -15,8 +15,10 @@ Rectangle {
     property var numLabelText: getNumLabelText(filterType)
 
     onVisibleChanged: {
-        if (visible)
+        if (visible) {
+            console.log("device show...")
             flushDeviceAlbumView()
+        }
     }
 
     // 筛选类型改变处理事件
@@ -26,6 +28,7 @@ Rectangle {
 
     // 设备之间切换，需要重载数据
     onDevicePathChanged: {
+        console.log("onDevicePathChanged...")
         flushDeviceAlbumView()
     }
 

@@ -10,6 +10,7 @@ Rectangle {
     height: parent.height
 
     property int customAlbumUId: global.currentCustomAlbumUId
+    property string customAlbumName: "" //相册名称显示内容
     property int totalPictrueAndVideos: 0
     property int filterType: filterCombo.currentIndex // 筛选类型，默认所有
     property string numLabelText: "" //总数标签显示内容
@@ -31,9 +32,18 @@ Rectangle {
 
     // 我的收藏和相册视图之间切换，需要重载数据
     onCustomAlbumUIdChanged: {
-        if (visible)
+        if (visible) {
+            flushAlbumName(global.currentCustomAlbumUId, albumControl.getCustomAlbumByUid(global.currentCustomAlbumUId))
             flushCustomAlbumView(global.currentCustomAlbumUId)
+        }
     }
+
+    // 刷新自定义相册名称
+    function flushAlbumName(UID, name) {
+        if (UID === global.currentCustomAlbumUId) {
+            customAlbumName = name
+        }
+}
 
     // 刷新自定义相册/我的收藏视图内容
     function flushCustomAlbumView(customAlbumUId) {
@@ -110,7 +120,7 @@ Rectangle {
             anchors.left: parent.left
             height: 30
             font: DTK.fontManager.t3
-            text: qsTr(albumControl.getCustomAlbumByUid(customAlbumUId))
+            text: qsTr(customAlbumName)
         }
 
         Label {
@@ -193,5 +203,6 @@ Rectangle {
 
     Component.onCompleted: {
         global.sigFlushCustomAlbumView.connect(flushCustomAlbumView)
+        global.onSigCustomAlbumNameChaged.connect(flushAlbumName)
     }
 }

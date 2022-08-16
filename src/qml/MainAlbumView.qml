@@ -3,6 +3,7 @@ import QtQuick.Window 2.11
 import org.deepin.dtk 1.0
 import "./ThumbnailImageView"
 import "./Control"
+import "./SideBar"
 Rectangle {
     anchors.fill: parent
     AlbumTitle{
@@ -13,54 +14,23 @@ Rectangle {
     NewAlbumDialog {
         id: newAlbum
     }
+    // 侧边导航栏
     Sidebar{
         id : leftSidebar
         width: visible ? 200 : 0
-//        anchors.left: parent.left
-//        anchors.leftMargin: 0
+        anchors.top: parent.top
+        anchors.topMargin: 69
+        anchors.bottom: parent.bottom
+
         visible: true
         z: thumbnailImage.z + 1
-//        ActionButton {
-//            visible: leftSidebar.x == 0 ? true : false
-//            id: appTitleIconLeft
-//            anchors.top:parent.top
-//            anchors.topMargin: 0
-//            anchors.left: parent.left
-//            anchors.leftMargin: 0
-//            width :  leftSidebar.x == 0 ? 50 : 0
-//            height : 50
-//            icon {
-//                name: "deepin-album"
-//                width: 36
-//                height: 36
-//            }
-//        }
 
-//        ActionButton {
-//            visible: leftSidebar.x == 0 ? true : false
-//            id: showHideleftSidebarLeftButton
-//            anchors.top:parent.top
-//            anchors.topMargin: 0
-//            anchors.left: appTitleIconLeft.right
-//            anchors.leftMargin: 0
-//            width :  leftSidebar.x == 0 ? 50 : 0
-//            height : 50
-//            icon {
-//                name: "topleft"
-//                width: 36
-//                height: 36
-//            }
-//            onClicked :{
-////                leftSidebar.visible = !leftSidebar.visible
-//                if(!leftSidebar.x == 0 ){
-//                    showSliderAnimation.start()
-//                }
-//                else{
-//                    hideSliderAnimation.start()
-//                }
-//            }
+//        Rectangle {
+//            anchors.fill: parent
+//            color: Qt.rgba(0.3,0.3,0.3,0.3)
 //        }
     }
+
     //左右按钮隐藏动画
     NumberAnimation {
         id :hideSliderAnimation
@@ -84,6 +54,7 @@ Rectangle {
 
     ThumbnailImage{
         id: thumbnailImage
+        clip: true
         anchors.top: titleAlubmRect.bottom
         anchors.left: leftSidebar.right
         anchors.leftMargin: 0

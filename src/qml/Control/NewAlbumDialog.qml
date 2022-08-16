@@ -7,6 +7,8 @@ import QtQuick.Layouts 1.11
 import org.deepin.dtk 1.0 as D
 import org.deepin.dtk 1.0
 
+import "../"
+
 DialogWindow {
     id: renamedialog
     modality: Qt.WindowModal
@@ -14,7 +16,7 @@ DialogWindow {
     title: " "
     visible: false
     property bool isChangeView: false
-
+    property bool importSelected: false
     minimumWidth: 400
     maximumWidth: 400
     minimumHeight: 190
@@ -25,7 +27,7 @@ DialogWindow {
 
     icon : "deepin-album"
 
-    signal sigCreateAlbum() //创建成功信号
+    signal sigCreateAlbumDone() //创建相册完成信号
 
     function setNormalEdit()
     {
@@ -103,15 +105,28 @@ DialogWindow {
         height: 36
 
         onClicked: {
-            albumControl.createAlbum( nameedit.text )
-            global.albumChangeList = !global.albumChangeList //通知刷新
+            albumControl.createAlbum(nameedit.text )
+            global.albumChangeList = !global.albumChangeList
             renamedialog.visible = false
-            sigCreateAlbum()
+
+            // 获取新相册index
+            var index = albumControl.getAllCustomAlbumId().length - 1
+
+            // 导入已选图片
+            if (importSelected) {
+                albumControl.insertIntoAlbum(albumControl.getAllCustomAlbumId()[index] , global.selectedPaths)
+            }
+
+            // 切换到对应相册视图
+            if (isChangeView) {
+                global.currentViewIndex = GlobalVar.ThumbnailViewType.CustomAlbum
+                global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId()[index]
+                sigCreateAlbumDone()
+            }
         }
     }
 
     onVisibleChanged: {
-        console.log(width)
         setX(root.x  + root.width / 2 - width / 2)
         setY(root.y  + root.height / 2 - height / 2)
     }

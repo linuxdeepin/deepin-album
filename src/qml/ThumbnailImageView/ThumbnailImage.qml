@@ -101,21 +101,4 @@ Rectangle{
     VideoInfoDialog{
         id: videoInfomationDig
     }
-
-    Connections {
-        target: newAlbum
-        onSigCreateAlbum: {
-            //获取新相册index
-            var index = albumControl.getAllCustomAlbumId(global.albumChangeList).length - 1
-
-            //插入图片
-            albumControl.insertIntoAlbum(albumControl.getAllCustomAlbumId(global.albumChangeList)[index] , global.selectedPaths)
-
-            //切换视图
-            if(newAlbum.isChangeView) {
-                global.currentViewIndex = 6
-            }
-            global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId(global.albumChangeList)[index]
-        }
-    }
 }

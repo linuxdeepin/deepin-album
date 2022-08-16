@@ -568,11 +568,8 @@ Item {
                 RightMenuItem {
                     text: qsTr("New album")
                     onTriggered: {
-                        var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
-                        var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
-                        newAlbum.setX(x)
-                        newAlbum.setY(y)
-                        newAlbum.isChangeView = true
+                        newAlbum.isChangeView = false
+                        newAlbum.importSelected = true
                         newAlbum.setNormalEdit()
                         newAlbum.show()
                     }

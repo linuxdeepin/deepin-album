@@ -36,6 +36,7 @@ Item {
     property string statusBarNumText: "" //状态栏显示的总数文本内容
     property string searchEditText: ""
 
+    property bool albumImportChangeList: false //自动导入相册改变
     property bool albumChangeList: false //自定义相册改变
     property ButtonGroup siderGroup: ButtonGroup {} //控制导航栏的group
 
@@ -61,6 +62,7 @@ Item {
     signal sigCollectionViewIndexChanged(int index) //合集页面发生改变
     signal sigFlushSearchView() // 刷新搜索结果视图内容
     signal sigThumbnailSizeLevelChanged()
+    signal sigCustomAlbumNameChaged(int UID, string name) // 刷新自定义相册视图的相册名称
 
     Component.onCompleted: {
         currentViewIndex = GlobalVar.ThumbnailViewType.Collecttion
@@ -128,11 +130,11 @@ Item {
         }
     }
 
-    //左侧菜单栏刷新
+    // 自动导入相册有新增相册，刷新自动导入相册列表
     Connections {
         target: albumControl
         onSigRefreshSlider: {
-            albumChangeList = !albumChangeList
+            albumImportChangeList = !albumImportChangeList
         }
     }
 

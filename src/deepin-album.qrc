@@ -2,8 +2,6 @@
     <qresource prefix="/">
         <file>qml/main.qml</file>
         <file>qml/GlobalVar.qml</file>
-        <file>qml/Sidebar.qml</file>
-        <file>qml/SidebarModel.qml</file>
         <file>qml/BottomBar.qml</file>
         <file>qml/StackControl.qml</file>
         <file>qml/AlbumTitle.qml</file>
@@ -57,5 +55,8 @@
         <file>qml/Control/RemoveAlbumDialog.qml</file>
         <file>qml/Control/DeviceLoadDialog.qml</file>
         <file>qml/Control/EmptyWarningDialog.qml</file>
+        <file>qml/SideBar/Sidebar.qml</file>
+        <file>qml/SideBar/SideBarItem.qml</file>
+        <file>qml/SideBar/SideBarItemDelegate.qml</file>
     </qresource>
 </RCC>

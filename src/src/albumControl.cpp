@@ -1564,7 +1564,7 @@ bool AlbumControl::saveAsImage(const QString &path, const QString &saveName, int
 QString AlbumControl::getFolder()
 {
     QFileDialog dialog;
-    QString fileDir;
+    QString fileDir("");
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     dialog.setViewMode(QFileDialog::Detail);
     dialog.setFileMode(QFileDialog::DirectoryOnly);
@@ -1952,6 +1952,11 @@ void AlbumControl::createNewCustomAutoImportAlbum(const QString &path)
     if (!QFileInfo(folder).isDir()) {
         folder = getFolder();
     }
+
+    // 点击取消，不再执行自动导入相册流程
+    if (folder.isEmpty())
+        return;
+
     //自定义自动导入路径的相册名是文件夹最后一级的名字
     QString albumName = folder.split('/').last();
     int UID = DBManager::instance()->createNewCustomAutoImportPath(folder, albumName);

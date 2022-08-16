@@ -64,5 +64,6 @@
         <file>res/video_default_light.svg</file>
         <file>res/picture damaged_light.svg</file>
         <file>res/picture_default_light.svg</file>
+        <file>dsg/icons/list_add.dci</file>
     </qresource>
 </RCC>

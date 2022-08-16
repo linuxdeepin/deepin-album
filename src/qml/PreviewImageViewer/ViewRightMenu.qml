@@ -152,9 +152,9 @@ Menu {
             toolBarthumbnailListView.deleteCurrentImage()
         }
         Shortcut {
+            enabled: stackView.visible
             sequence: "Delete"
             onActivated: {
-
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
                     toolBarthumbnailListView.deleteCurrentImage()
