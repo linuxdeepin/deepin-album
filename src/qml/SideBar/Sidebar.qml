@@ -91,6 +91,7 @@ ScrollView {
 
     // 删除自动导入相册
     function deleteImportAlbum() {
+        var delAlbumName = albumControl.getImportAlubumAllNames()[currentImportCustomIndex]
         albumControl.removeAlbum(global.currentCustomAlbumUId)
         albumControl.removeCustomAutoImportPath(global.currentCustomAlbumUId)
         global.albumImportChangeList = !global.albumImportChangeList
@@ -105,6 +106,8 @@ ScrollView {
             importSideBar.view.currentItem.forceActiveFocus()
         }
 
+        DTK.sendMessage(thumbnailImage, qsTr("Album “%1” removed").arg(qsTr(delAlbumName)), "checked")
+
         // 自动导入相册被清空，返回到上一级相册
         if(albumControl.getImportAlubumCount() === 0){
             backSystemAlbum()
@@ -113,6 +116,7 @@ ScrollView {
 
     // 删除自定义相册
     function deleteCustomAlbum() {
+        var delAlbumName = albumControl.getCustomAlbumByUid(global.currentCustomAlbumUId)
         albumControl.removeAlbum(global.currentCustomAlbumUId)
         global.albumChangeList = !global.albumChangeList
         if(currentCustomIndex >= albumControl.getAllCustomAlbumId().length ){
@@ -125,6 +129,9 @@ ScrollView {
             global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId()[currentCustomIndex]
             customSideBar.view.currentItem.forceActiveFocus()
         }
+
+        DTK.sendMessage(thumbnailImage, qsTr("Album “%1” removed").arg(qsTr(delAlbumName)), "checked")
+
         // 自定义相册被清空，返回到上一级相册
         if(albumControl.getAllCustomAlbumId().length === 0){
             backSystemAlbum()

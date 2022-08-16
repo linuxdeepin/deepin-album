@@ -53,10 +53,6 @@ ColumnLayout {
         return -1
     }
 
-//    Rectangle {
-//        anchors.fill: parent
-//        color: Qt.rgba(0.1,0.1,0.1,0.1)
-//    }
     RowLayout {
         id: siderTitle
         visible: showTitle
