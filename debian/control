@@ -11,6 +11,7 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libimageeditor (>= 1.0.16)
 Description: Album for UOS
   Album is a fashion photo manager for viewing and organizing pictures.
+Recommends: uos-reporter,  deepin-event-log
 
 Package: libunionimage1
 Architecture: any
@@ -18,4 +19,3 @@ Depends: ${shlibs:Depends}, ${misc:Depends}
 Multi-Arch: same
 Description: Image processing for album
   A Image processing library for album.
-Recommends: uos-reporter, deepin-event-log
