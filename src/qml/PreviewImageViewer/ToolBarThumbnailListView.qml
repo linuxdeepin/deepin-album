@@ -1,4 +1,5 @@
 import QtQuick 2.11
+import QtQuick.Window 2.11
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.11
 import QtGraphicalEffects 1.0
@@ -91,6 +92,20 @@ Item {
         ToolTip.timeout: 5000
         ToolTip.visible: hovered
         ToolTip.text: qsTr("Back Album")
+
+        Shortcut {
+            enabled: backAlbum.visible
+                     && global.stackControlCurrent === 1
+                     && fileControl.isAlbum()
+                     && root.visibility !== Window.FullScreen
+            sequence: "Esc"
+            onActivated: {
+                showNormal()
+                global.stackControlCurrent = 0
+                mainView.sourcePaths=""
+                mainView.source=""
+            }
+        }
     }
     IconButton {
         id: previousButton
@@ -111,6 +126,7 @@ Item {
         }
 
         Shortcut{
+            enabled: stackView.enabled
             sequence: "Left"
             onActivated: previous();
         }
@@ -138,6 +154,7 @@ Item {
             next();
         }
         Shortcut{
+            enabled: stackView.enabled
             sequence: "Right"
             onActivated: next();
         }

@@ -194,6 +194,7 @@ Rectangle {
             onSelectedChanged: {
                 selectedOriginPaths = []
                 selectedOriginPaths = theView.selectedOriginPaths
+                global.selectedPaths = theView.selectedPaths
             }
         }
     }

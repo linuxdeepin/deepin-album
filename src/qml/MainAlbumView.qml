@@ -60,15 +60,6 @@ Rectangle {
         anchors.leftMargin: 0
         width: parent.width - leftSidebar.x - 200
         height: root.height - titleAlubmRect.height
-        signal escKeyPressed()
-
-        Shortcut {
-            enabled: global.stackControlCurrent === 0
-            sequence: "Esc"
-            onActivated: {
-                thumbnailImage.escKeyPressed()
-            }
-        }
     }
 
     StatusBar {

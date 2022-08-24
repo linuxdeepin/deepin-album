@@ -39,7 +39,7 @@ Menu {
         }
         Shortcut {
             sequence: "Ctrl+P"
-            enabled: !CodeImage.imageIsNull(source)
+            enabled: !CodeImage.imageIsNull(source) && stackView.visible
             onActivated:  {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
@@ -75,6 +75,7 @@ Menu {
             showfullAnimation.start()
         }
         Shortcut {
+            enabled: stackView.visible
             sequence: "F5"
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex != 0)
@@ -102,7 +103,7 @@ Menu {
         }
         Shortcut {
             sequence: "Ctrl+C"
-            enabled: fileControl.isCanReadable(source)
+            enabled: fileControl.isCanReadable(source) && stackView.visible
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
@@ -180,7 +181,7 @@ Menu {
 
         Shortcut {
             sequence: "Ctrl+R"
-            enabled: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source)
+            enabled: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source) && stackView.visible
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
@@ -198,7 +199,7 @@ Menu {
         }
         Shortcut {
             sequence: "Ctrl+Shift+R"
-            enabled: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source)
+            enabled: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source) && stackView.visible
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
@@ -243,7 +244,7 @@ Menu {
         }
         Shortcut {
             sequence: "Ctrl+F9"
-            enabled: fileControl.isSupportSetWallpaper(source)
+            enabled: fileControl.isSupportSetWallpaper(source) && stackView.visible
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
@@ -260,6 +261,7 @@ Menu {
             fileControl.displayinFileManager(source)
         }
         Shortcut {
+            enabled: stackView.visible
             sequence: "Alt+D"
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
@@ -277,6 +279,7 @@ Menu {
             infomationDig.show()
         }
         Shortcut {
+            enabled: stackView.visible
             sequence: "Ctrl+I"
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)

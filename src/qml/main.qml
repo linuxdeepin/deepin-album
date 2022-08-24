@@ -28,6 +28,10 @@ ApplicationWindow {
     GlobalVar{
         id: global
     }
+    MenuItemStates {
+        id: menuItemStates
+    }
+
     signal sigTitlePress
 
     // 设置 dtk 风格窗口
@@ -93,6 +97,7 @@ ApplicationWindow {
             if(global.currentViewIndex == 6 && albumControl.isCustomAlbum(global.currentCustomAlbumUId)){
                 albumControl.addCustomAlbumInfos(global.currentCustomAlbumUId,importDialog.fileUrls)
             }
+            DTK.sendMessage(stackControl, qsTr("Import successful"), "checked")
         }
     }
 

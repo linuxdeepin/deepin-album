@@ -26,15 +26,17 @@ Item {
 
     //设置全选/全取消缩略图
     function selectAll(doSelect) {
-        if(doSelect) {
-            var len = thumbnailListModel.count
-            var tempArray = theView.ism
-            for(var i = 0;i != len;++i) {
-                tempArray.push(i.toString()) //数据类型必须和代理里面的m_index对齐，否则会判断失败
+        if (theView.visible) {
+            if(doSelect) {
+                var len = thumbnailListModel.count
+                var tempArray = theView.ism
+                for(var i = 0;i != len;++i) {
+                    tempArray.push(i.toString()) //数据类型必须和代理里面的m_index对齐，否则会判断失败
+                }
+                theView.ism = tempArray
+            } else {
+                theView.ism = []
             }
-            theView.ism = tempArray
-        } else {
-            theView.ism = []
         }
         selectedChanged()
     }
@@ -97,11 +99,32 @@ Item {
         }
     }
 
-    function imageFullScreen() {
+    // 查看图片
+    function executeViewImage() {
+        if (thumnailListType !== GlobalVar.ThumbnailType.Trash
+                && (theView.ism.length === 1)) {
+            //如果是影视，则采用打开视频
+            if (fileControl.isVideo(thumbnailListModel.get(theView.ism[0]).url.toString())){
+                albumControl.openDeepinMovie(thumbnailListModel.get(theView.ism[0]).url.toString())
+            } else {
+                var openPaths = new Array
+                for(var i = 0 ; i< thumbnailListModel.count ; i++){
+                    openPaths.push(thumbnailListModel.get(i).url.toString())
+                }
+                mainStack.sourcePaths = openPaths
+                mainStack.currentIndex = theView.ism[0]
+                mainStack.currentWidgetIndex = 1
+                global.stackControlCurrent = 1
+            }
+        }
+    }
+
+    // 执行全屏预览
+    function executeFullScreen() {
         if (root.visibility !== Window.FullScreen && selectedPaths.length !== 0) {
             showFullScreen()
             var openPaths = []
-            for(var i=0 ; i< thumbnailListModel.count ; i++){
+            for(var i=0 ; i< thumbnailListModel.count; i++){
                 openPaths.push(thumbnailListModel.get(i).url.toString())
             }
             mainStack.sourcePaths = openPaths
@@ -110,6 +133,53 @@ Item {
             mainStack.currentWidgetIndex = 1
             global.stackControlLastCurrent = global.stackControlCurrent
             global.stackControlCurrent = 1
+        }
+    }
+
+    // 执行导出图片
+    function excuteExport() {
+        if (global.selectedPaths.length > 1) {
+            var bRet = albumControl.getFolders(global.selectedPaths)
+            if (bRet)
+                DTK.sendMessage(thumbnailImage, qsTr("Export successful"), "checked")
+            else
+                DTK.sendMessage(thumbnailImage, qsTr("Export failed"), "warning")
+        } else{
+            exportdig.filePath = global.objIsEmpty(thumbnailListModel) ? "" : (global.objIsEmpty(thumbnailListModel.get(theView.ism[0])) ? "" : thumbnailListModel.get(theView.ism[0]).url.toString())
+            exportdig.show()
+        }
+    }
+
+    // 执行照片信息查看
+    function executeViewPhotoInfo() {
+        albumInfomationDig.filePath = global.selectedPaths[0]
+        albumInfomationDig.show()
+    }
+
+    // 执行视频信息查看
+    function executeViewVideoInfo() {
+        videoInfomationDig.filePath = global.selectedPaths[0]
+        videoInfomationDig.show()
+    }
+
+    // 执行收藏操作
+    function executeFavorite() {
+        albumControl.insertIntoAlbum(0, global.selectedPaths)
+        global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+
+        // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
+        if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId === 0) {
+            global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
+        }
+    }
+
+    // 执行取消收藏操作
+    function executeUnFavorite() {
+        albumControl.removeFromAlbum(0, global.selectedPaths)
+        global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+        // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
+        if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId === 0) {
+            global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
         }
     }
 
@@ -188,6 +258,8 @@ Item {
         //辅助强制刷新变量
         property double displayFlushHelper: 0
 
+        // 滚动滑块Delta值
+        property int scrollDelta: 60
         //通过坐标获取item
         function getItemIndexFromAxis(x, y)
         {
@@ -213,7 +285,6 @@ Item {
                 selectedPaths = tmpPaths
             if (selectedOriginPaths != tmpOriginPaths)
                 selectedOriginPaths = tmpOriginPaths
-             //console.log("onIsmChanged: ", selectedPaths)
         }
 
         //获取框选区域内所有项的索引值
@@ -286,20 +357,30 @@ Item {
             return tempArray
         }
 
+        function executeScrollBar(delta) {
+            if (enableWheel && visible) {
+                if (theView.contentHeight <= theView.height)
+                    return
+
+                // 滚动时，激活滚动条显示
+                vbar.active = true
+                theView.contentY -= delta
+                if(theView.contentY < 0) {
+                    theView.contentY = 0
+                } else if(theView.contentY > theView.contentHeight - theView.height + statusBar.height) {
+                    theView.contentY = theView.contentHeight - theView.height + statusBar.height
+                }
+            } else {
+                vbar.active = false
+            }
+        }
+
         MouseArea {
             id: theArea
 
             //按下时的起始坐标
             property int pressedXAxis: -1
             property int pressedYAxis: -1
-
-            //框选状态检查
-            property bool haveImage: false
-            property bool haveVideo: false
-            property bool canDelete: false
-            property bool canFavorite: false
-            property bool canRotate: true
-            property bool canPrint: true
 
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton | Qt.RightButton
@@ -320,14 +401,6 @@ Item {
                         selectedChanged()
                         return
                     }
-
-                    //已框选的图片状态检查
-                    haveImage = fileControl.haveImage(selectedPaths)
-                    haveVideo = fileControl.haveVideo(selectedPaths)
-                    canDelete = fileControl.isCanDelete(selectedPaths)
-                    canFavorite = albumControl.canFavorite(selectedPaths)
-                    canRotate = fileControl.isRotatable(selectedPaths)
-                    canPrint = fileControl.isCanPrint(selectedPaths)
 
                     if(global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device){
                         thumbnailMenu.popup()
@@ -429,22 +502,8 @@ Item {
             }
 
             onWheel: {
-                if (enableWheel) {
-                    if (parent.contentHeight <= parent.height)
-                        return
-
-                    // 滚动时，激活滚动条显示
-                    vbar.active = true
-                    var datla = wheel.angleDelta.y / 2
-                    parent.contentY -= datla
-                    if(parent.contentY < 0) {
-                        parent.contentY = 0
-                    } else if(parent.contentY > parent.contentHeight - parent.height + statusBar.height) {
-                        parent.contentY = parent.contentHeight - parent.height + statusBar.height
-                    }
-                } else {
-                    vbar.active = false
-                }
+                var datla = wheel.angleDelta.y / 2
+                theView.executeScrollBar(datla)
             }
 
             onDoubleClicked: {
@@ -471,6 +530,46 @@ Item {
             }
         }
 
+        Keys.onPressed: {
+            switch (event.key) {
+            case Qt.Key_Return:
+            case Qt.Key_Enter:
+                if (menuItemStates.canView)
+                    executeViewImage()
+                break;
+            case Qt.Key_Period:
+                if (!menuItemStates.isInTrash) {
+                    if (menuItemStates.canFavorite)
+                        executeFavorite()
+                    else
+                        executeUnFavorite()
+                }
+                break;
+            default:
+            break;
+            }
+        }
+
+        Connections {
+            target: global
+            onSigSelectAll: {
+                if (theView.visible)
+                    selectAll(bSel)
+            }
+
+            onSigPageUp: {
+                if (theView.visible) {
+                    theView.executeScrollBar(theView.scrollDelta)
+                }
+            }
+
+            onSigPageDown: {
+                if (theView.visible) {
+                    theView.executeScrollBar(-theView.scrollDelta)
+                }
+            }
+        }
+
         //橡皮筋控件
         RubberBand {
             id: rubberBand
@@ -486,41 +585,25 @@ Item {
             //显示大图预览
             RightMenuItem {
                 text: qsTr("View")
-                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
-                         && (theView.ism.length === 1)
+                visible: menuItemStates.canView
                 onTriggered: {
-                    //如果是影视，则采用打开视频
-                    if (fileControl.isVideo(thumbnailListModel.get(theView.ism[0]).url.toString())){
-                        albumControl.openDeepinMovie(thumbnailListModel.get(theView.ism[0]).url.toString())
-                    } else {
-                        var openPaths = new Array
-                        for(var i=0 ; i< thumbnailListModel.count ; i++){
-                            openPaths.push(thumbnailListModel.get(i).url.toString())
-                        }
-                        mainStack.sourcePaths = openPaths
-                        mainStack.currentIndex = theView.ism[0]
-                        mainStack.currentWidgetIndex = 1
-                        global.stackControlCurrent = 1
-                    }
+                    executeViewImage()
                 }
             }
 
             //全屏预览
             RightMenuItem {
                 text: qsTr("Fullscreen")
-                visible:  thumnailListType !== GlobalVar.ThumbnailType.Trash
-                          && (theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString()))
-                          && fileControl.isImage(thumbnailListModel.get(theView.ism[0]).url.toString())
+                visible:  menuItemStates.canFullScreen
                 onTriggered: {
-                    imageFullScreen()
+                    executeFullScreen()
                 }
                 Shortcut {
-                    enabled: theView.activeFocus
+                    enabled: theView.activeFocus && menuItemStates.canFullScreen
                     autoRepeat: false
                     sequence : "F11"
                     onActivated : {
-                        console.log("thumbnailListView F11..")
-                        imageFullScreen()
+                        executeFullScreen()
                     }
                 }
             }
@@ -528,28 +611,39 @@ Item {
             //调起打印接口
             RightMenuItem {
                 text: qsTr("Print")
-                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash && theArea.canPrint
+                visible: menuItemStates.canPrint
 
                 onTriggered: {
                     fileControl.showPrintDialog(global.selectedPaths)
+                }
+
+                Shortcut {
+                    enabled: theView.activeFocus && menuItemStates.canPrint
+                    autoRepeat: false
+                    sequence : "Ctrl+P"
+                    onActivated : {
+                        fileControl.showPrintDialog(global.selectedPaths)
+                    }
                 }
             }
 
             //幻灯片
             RightMenuItem {
                 text: qsTr("Slide show")
-                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
-                         && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString())) || theArea.haveImage)
-                         && fileControl.isImage(thumbnailListModel.get(theView.ism[0]).url.toString())
+                visible: menuItemStates.canSlideShow
                 onTriggered: {
+                    var openPaths = thumnailListView.allOriginUrls()
+                    stackControl.startMainSliderShow(openPaths, openPaths.indexOf(selectedPaths[0]))
+                }
 
-                    var openPaths = new Array
-                    for(var i=0 ; i< thumbnailListModel.count ; i++){
-                        openPaths.push(thumbnailListModel.get(i).url.toString())
+                Shortcut {
+                    enabled: theView.activeFocus && menuItemStates.canSlideShow
+                    autoRepeat: false
+                    sequence : "F5"
+                    onActivated : {
+                        var openPaths = thumnailListView.allOriginUrls()
+                        stackControl.startMainSliderShow(openPaths, openPaths.indexOf(thumbnailListModel.get(theView.ism[0]).url.toString()))
                     }
-
-                    stackControl.startMainSliderShow(openPaths, openPaths.indexOf(thumbnailListModel.get(theView.ism[0]).url.toString()))
-
                 }
             }
 
@@ -602,15 +696,15 @@ Item {
                 visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
                          && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString()) && theArea.haveImage) || !theArea.haveVideo)
                 onTriggered: {
-                    if (global.selectedPaths.length > 1){
-                        var bRet = albumControl.getFolders(global.selectedPaths)
-                        if (bRet)
-                            DTK.sendMessage(thumbnailImage, qsTr("Export successful"), "checked")
-                        else
-                            DTK.sendMessage(thumbnailImage, qsTr("Export failed"), "warning")
-                    } else{
-                        exportdig.filePath = global.objIsEmpty(thumbnailListModel) ? "" : (global.objIsEmpty(thumbnailListModel.get(theView.ism[0])) ? "" : thumbnailListModel.get(theView.ism[0]).url.toString())
-                        exportdig.show()
+                    excuteExport()
+                }
+
+                Shortcut {
+                    enabled: theView.activeFocus && menuItemStates.canExport
+                    autoRepeat: false
+                    sequence : "Ctrl+E"
+                    onActivated : {
+                       excuteExport()
                     }
                 }
             }
@@ -618,9 +712,7 @@ Item {
             //复制图片
             RightMenuItem {
                 text: qsTr("Copy")
-                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
-                         && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString())) || theView.ism.length > 1)
-                 && fileControl.isImage(thumbnailListModel.get(theView.ism[0]).url.toString())
+                visible: menuItemStates.canCopy
                 onTriggered: {
                     fileControl.copyImage(global.selectedPaths)
                 }
@@ -629,7 +721,7 @@ Item {
             //删除图片
             RightMenuItem {
                 text: qsTr("Delete")
-                visible: theArea.canDelete
+                visible: menuItemStates.canDelete
                 onTriggered: {
                     deleteDialog.setDisplay(thumnailListType === GlobalVar.ThumbnailType.Trash, selectedOriginPaths.length)
                     deleteDialog.show()
@@ -656,15 +748,9 @@ Item {
             RightMenuItem {
                 id: favoriteAction
                 text: qsTr("Favorite")
-                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash && (theArea.canFavorite)
+                visible: !menuItemStates.isInTrash && menuItemStates.canFavorite
                 onTriggered: {
-                    albumControl.insertIntoAlbum(0, selectedPaths)
-                    global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
-
-                    // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
-                    if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId === 0) {
-                        global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
-                    }
+                    executeFavorite()
                 }
             }
 
@@ -672,27 +758,21 @@ Item {
             RightMenuItem {
                 id: unFavoriteAction
                 text: qsTr("Unfavorite")
-                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash && (!theArea.canFavorite)
+                visible: !menuItemStates.isInTrash && !menuItemStates.canFavorite
                 onTriggered: {
-                    albumControl.removeFromAlbum(0, selectedPaths)
-                    global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
-                    // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
-                    if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId === 0) {
-                        global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
-                    }
+                    executeUnFavorite()
                 }
             }
 
             MenuSeparator {
-                visible: rotateClockwiseAction.visible
+                visible: menuItemStates.canRotate
                 height: visible ? GlobalVar.rightMenuSeparatorHeight : 0
             }
 
             //顺时针旋转
             RightMenuItem {
-                id: rotateClockwiseAction
                 text: qsTr("Rotate clockwise")
-                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash && (theArea.canRotate)
+                visible: menuItemStates.canRotate
                 onTriggered: {
                     fileControl.rotateFile(global.selectedPaths, 90)
                 }
@@ -701,14 +781,14 @@ Item {
             //逆时针旋转
             RightMenuItem {
                 text: qsTr("Rotate counterclockwise")
-                visible: rotateClockwiseAction.visible
+                visible: menuItemStates.canRotate
                 onTriggered: {
                     fileControl.rotateFile(global.selectedPaths, -90)
                 }
             }
 
             MenuSeparator {
-                visible: (thumnailListType !== GlobalVar.ThumbnailType.Trash)
+                visible: !menuItemStates.isInTrash
                          && (setAsWallpaperAction.visible || displayInFileManagerAction.visible || photoInfoAction.visible || videoInfoAction.visible)
                 height: visible ? GlobalVar.rightMenuSeparatorHeight : 0
             }
@@ -717,10 +797,18 @@ Item {
             RightMenuItem {
                 text: qsTr("Set as wallpaper")
                 id: setAsWallpaperAction
-                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
-                         && (theView.ism.length === 1 && fileControl.isSupportSetWallpaper(thumbnailListModel.get(theView.ism[0]).url.toString()))
+                visible: menuItemStates.canWallpaper
                 onTriggered: {
-                    fileControl.setWallpaper(thumbnailListModel.get(theView.ism[0]).url.toString())
+                    fileControl.setWallpaper(global.selectedPaths[0])
+                }
+
+                Shortcut {
+                    enabled: theView.activeFocus && menuItemStates.canWallpaper
+                    autoRepeat: false
+                    sequence : "Ctrl+F9"
+                    onActivated : {
+                        fileControl.setWallpaper(global.selectedPaths[0])
+                    }
                 }
             }
 
@@ -728,10 +816,18 @@ Item {
             RightMenuItem {
                 text: qsTr("Display in file manager")
                 id: displayInFileManagerAction
-                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
-                         && (theView.ism.length == 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString()))
+                visible: menuItemStates.canDisplayInFolder
                 onTriggered: {
-                    fileControl.displayinFileManager(thumbnailListModel.get(theView.ism[0]).url.toString())
+                    fileControl.displayinFileManager(global.selectedPaths[0])
+                }
+
+                Shortcut {
+                    enabled: theView.activeFocus && menuItemStates.canDisplayInFolder
+                    autoRepeat: false
+                    sequence : "Alt+D"
+                    onActivated : {
+                        fileControl.displayinFileManager(global.selectedPaths[0])
+                    }
                 }
             }
 
@@ -750,10 +846,18 @@ Item {
             RightMenuItem {
                 text: qsTr("Photo info")
                 id: photoInfoAction
-                visible: theView.ism.length == 1 && fileControl.isImage(thumbnailListModel.get(theView.ism[0]).url.toString())
+                visible: theView.activeFocus && menuItemStates.canViewPhotoInfo
                 onTriggered: {
-                    albumInfomationDig.filePath = thumbnailListModel.get(theView.ism[0]).url.toString()
-                    albumInfomationDig.show()
+                    executeViewPhotoInfo()
+                }
+
+                Shortcut {
+                    enabled: theView.activeFocus && menuItemStates.canViewPhotoInfo
+                    autoRepeat: false
+                    sequence : "Ctrl+I"
+                    onActivated : {
+                        executeViewPhotoInfo()
+                    }
                 }
             }
 
@@ -761,10 +865,18 @@ Item {
             RightMenuItem {
                 text: qsTr("Video info")
                 id: videoInfoAction
-                visible: theView.ism.length == 1 && !fileControl.isImage(thumbnailListModel.get(theView.ism[0]).url.toString())
+                visible: theView.activeFocus && menuItemStates.canViewVideoInfo
                 onTriggered: {
-                    videoInfomationDig.filePath = thumbnailListModel.get(theView.ism[0]).url.toString()
-                    videoInfomationDig.show()
+                    executeViewVideoInfo()
+                }
+
+                Shortcut {
+                    enabled: theView.activeFocus && menuItemStates.canViewVideoInfo
+                    autoRepeat: false
+                    sequence : "Ctrl+I"
+                    onActivated : {
+                        executeViewVideoInfo()
+                    }
                 }
             }
 

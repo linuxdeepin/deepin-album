@@ -292,6 +292,15 @@ Rectangle {
             onClicked :{
                 importDialog.open()
             }
+
+            Shortcut {
+                enabled: global.stackControlCurrent === 0
+                autoRepeat: false
+                sequence : "Ctrl+O"
+                onActivated : {
+                   importDialog.open()
+                }
+            }
         }
         ActionButton {
             id: titleCollectionBtn

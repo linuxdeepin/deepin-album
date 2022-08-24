@@ -40,6 +40,9 @@ public:
     //获得支持导入的格式
     Q_INVOKABLE QString getAllFilters();
 
+    //获得支持导入的图片格式
+    Q_INVOKABLE QString getAllImageFilters();
+
     //卸载设备
     Q_INVOKABLE void unMountDevice(const QString &devicePath);
 
@@ -284,6 +287,10 @@ public:
 
     //判断默认路径是否存在
     Q_INVOKABLE bool isDefaultPathExists(int uid);
+
+    // 显示快捷键提示界面
+    Q_INVOKABLE void ctrlShiftSlashShortcut(int x, int y, int w, int h);
+
 public:
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 
@@ -347,6 +354,9 @@ public slots:
 
     //获得设备合集
     const QList<QExplicitlySharedDataPointer<DGioMount>> getVfsMountList();
+
+private:
+    QJsonObject createShorcutJson();
 
 signals:
     void sigRefreshAllCollection();

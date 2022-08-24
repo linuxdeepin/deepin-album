@@ -123,4 +123,9 @@ Control {
         radius: Style.control.radius
         corners: control.corners
     }
+
+    // 复位当前属性编辑组件，关闭编辑框
+    function reset() {
+        showPicLabel.visible = true;
+    }
 }

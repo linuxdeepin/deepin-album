@@ -229,6 +229,15 @@ Rectangle {
             onTriggered: {
                 outSliderShow()
             }
+
+            Shortcut {
+                enabled: sliderShow.visible
+                autoRepeat: false
+                sequence : "Esc"
+                onActivated : {
+                    outSliderShow()
+                }
+            }
         }
     }
 }

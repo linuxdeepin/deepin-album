@@ -10,6 +10,8 @@ Item {
     }
 
     onVisibleChanged: {
+        allCollection.clearSelecteds()
+
         if (visible) {
             flushTimeScopetimer.start(10)
             global.selectedPaths = []
@@ -50,6 +52,12 @@ Item {
         onCurrentIndexChanged: {
             currentViewIndex = currentIndex
             global.sigCollectionViewIndexChanged(currentIndex)
+
+            // 保证日聚合和所有照片视图互斥显示，以便列表控件全选逻辑只在显示的视图中生效
+            dayCollection.visible = currentViewIndex === 2
+            allCollection.clearSelecteds()
+            allCollection.visible = currentViewIndex === 3
+
             allCollection.flushTotalTimeScope()
         }
     }
@@ -65,6 +73,10 @@ Item {
     }
 
     Component.onCompleted: {
+        // 保证日聚合和所有照片视图互斥显示，以便列表控件全选逻辑只在显示的视图中生效
+        dayCollection.visible = currentViewIndex === 2
+        allCollection.visible = currentViewIndex === 3
+
         yearCollection.yearClicked.connect(onYearClicked)
         monthCollection.monthClicked.connect(onMonthClicked)
     }

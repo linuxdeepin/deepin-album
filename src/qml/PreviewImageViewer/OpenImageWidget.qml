@@ -45,11 +45,10 @@ Item {
         }
     }
     Shortcut {
+        enabled: stackView.currentWidgetIndex != 2 && stackView.visible
         sequence: "Ctrl+O"
         onActivated:{
-            if(stackView.currentWidgetIndex!= 2){
-                fileDialog.open()
-            }
+            fileDialog.open()
         }
     }
     FileDialog {
@@ -57,16 +56,20 @@ Item {
         title: qsTr("Select pictures")
         folder: shortcuts.pictures
         selectMultiple: true
-        nameFilters: albumControl.getAllFilters()
+        nameFilters: ["Image files (*.jpg *.png *.bmp *.gif *.ico *.jpe *.jps *.jpeg *.jng *.koala *.koa *.lbm *.iff *.mng *.pbm *.pbmraw *.pcd *.pcx *.pgm *.pgmraw *.ppm *.ppmraw *.ras *.tga *.targa *.tiff *.tif *.wbmp *.psd *.cut *.xbm *.xpm *.dds *.fax *.g3 *.sgi *.exr *.pct *.pic *.pict *.webp *.jxr *.mrw *.raf *.mef *.raw *.orf *.djvu *.or2 *.icns *.dng *.svg *.nef *.pef *.pxm *.pnm)"]
         onAccepted: {
             mainView.sourcePaths = fileControl.getDirImagePath(fileDialog.fileUrls[0]);
             mainView.source = fileDialog.fileUrls[0]
-            mainView.currentIndex=mainView.sourcePaths.indexOf(mainView.source)
-            if(mainView.sourcePaths.length >0){
+            if(mainView.sourcePaths.length > 0){
 
                 mainView.setThumbnailCurrentIndex(mainView.sourcePaths.indexOf(mainView.source))
-                console.log( "test",mainView.source)
                 stackView.currentWidgetIndex= 1
+            }
+
+            // 将选择的图片导入相册中
+            if (fileControl.isAlbum() && mainView.source !== "") {
+                albumControl.importAllImagesAndVideos(mainView.sourcePaths)
+                DTK.sendMessage(mainView, qsTr("Import successful"), "checked")
             }
         }
     }

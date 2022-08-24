@@ -1,7 +1,9 @@
-import QtQuick 2.0
-import org.deepin.dtk 1.0
+import QtQuick 2.9
+import QtQml.Models 2.11
+import QtQuick.Window 2.2
 import QtQuick.Controls 2.4
-import QtQml 2.11
+import org.deepin.dtk.impl 1.0 as D
+
 import "./CollecttionView"
 import "./HaveImportedView"
 import "./RecentlyDeletedView"
@@ -18,6 +20,7 @@ Rectangle{
     property int m_topMargin: 0
     property int m_leftMargin: 20
     property int m_CollecttionCurrentViewIndex: collecttionView.currentViewIndex
+    signal escKeyPressed()
 
     function setCollecttionViewIndex(index) {
         collecttionView.setIndex(index)
@@ -42,6 +45,7 @@ Rectangle{
         anchors.bottomMargin: statusBar.height
     }
     HaveImportedView{
+        id: haveImportedView
         visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.HaveImported
         anchors.topMargin: m_topMargin
         anchors.leftMargin: m_leftMargin
@@ -100,5 +104,108 @@ Rectangle{
     //视频info窗口
     VideoInfoDialog{
         id: videoInfomationDig
+    }
+
+    Shortcut {
+        enabled: global.stackControlCurrent === 0
+        autoRepeat: false
+        sequence: "Esc"
+        onActivated: {
+            escKeyPressed()
+        }
+    }
+
+    Shortcut {
+        enabled: true
+        autoRepeat: false
+        sequence : "Ctrl+A"
+        onActivated : {
+            global.sigSelectAll(true)
+        }
+    }
+
+    Shortcut {
+        enabled: visible && menuItemStates.canCopy
+        autoRepeat: false
+        sequence : "Ctrl+C"
+        onActivated : {
+            fileControl.copyImage(global.selectedPaths)
+        }
+    }
+
+    Shortcut {
+        enabled: visible && menuItemStates.canDelete
+        autoRepeat: false
+        sequence : "Delete"
+        onActivated : {
+            deleteDialog.setDisplay(menuItemStates.isInTrash, global.selectedPaths.length)
+            deleteDialog.show()
+        }
+    }
+
+    Shortcut {
+        enabled: visible && menuItemStates.canRotate
+        autoRepeat: false
+        sequence : "Ctrl+R"
+        onActivated : {
+            fileControl.rotateFile(global.selectedPaths, 90)
+        }
+    }
+
+    Shortcut {
+        enabled: visible && menuItemStates.canRotate
+        autoRepeat: false
+        sequence : "Ctrl+Shift+R"
+        onActivated : {
+            fileControl.rotateFile(global.selectedPaths, -90)
+        }
+    }
+
+    Shortcut {
+        enabled: visible
+        autoRepeat: true
+        sequence : "Page Up"
+        onActivated : {
+            global.sigPageUp()
+        }
+    }
+
+    Shortcut {
+        enabled: visible
+        autoRepeat: true
+        sequence : "Page Down"
+        onActivated : {
+            global.sigPageDown()
+        }
+    }
+
+    Shortcut {
+        enabled: visible && leftSidebar.visible
+        autoRepeat: false
+        sequence: "Ctrl+Shift+N"
+        onActivated: {
+            newAlbum.setNormalEdit()
+            newAlbum.isChangeView = true
+            newAlbum.show()
+            forceActiveFocus()
+        }
+    }
+
+    Shortcut {
+        enabled: true
+        autoRepeat: false
+        sequence: "F1"
+        onActivated: {
+            D.ApplicationHelper.handleHelpAction()
+        }
+    }
+
+    Shortcut {
+        enabled: true
+        autoRepeat: false
+        sequence: "Ctrl+Shift+/"
+        onActivated: {
+            albumControl.ctrlShiftSlashShortcut(root.x, root.y, root.width, root.height)
+        }
     }
 }

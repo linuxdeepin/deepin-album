@@ -63,6 +63,9 @@ Item {
     signal sigFlushSearchView() // 刷新搜索结果视图内容
     signal sigThumbnailSizeLevelChanged()
     signal sigCustomAlbumNameChaged(int UID, string name) // 刷新自定义相册视图的相册名称
+    signal sigSelectAll(bool bSel)
+    signal sigPageUp()
+    signal sigPageDown()
 
     Component.onCompleted: {
         currentViewIndex = GlobalVar.ThumbnailViewType.Collecttion
@@ -157,5 +160,9 @@ Item {
 
     onThumbnailSizeLevelChanged: {
         sigThumbnailSizeLevelChanged()
+    }
+
+    onSelectedPathsChanged: {
+        menuItemStates.updateMenuItemStates()
     }
 }

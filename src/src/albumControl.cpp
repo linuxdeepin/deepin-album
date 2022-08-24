@@ -12,6 +12,7 @@
 #include <QCoreApplication>
 #include <QFuture>
 #include <QtConcurrent>
+#include <QApplication>
 
 AlbumControl::AlbumControl(QObject *parent)
     : QObject(parent)
@@ -137,6 +138,18 @@ QString AlbumControl::getAllFilters()
     for (const QString &i : LibUnionImage_NameSpace::videoFiletypes())
         sList << "*." + i;
     QString filter = tr("All photos and videos");
+    filter.append('(');
+    filter.append(sList.join(" "));
+    filter.append(')');
+    return filter;
+}
+
+QString AlbumControl::getAllImageFilters()
+{
+    QStringList sList;
+    for (const QString &i : LibUnionImage_NameSpace::unionImageSupportFormat())
+        sList << ("*." + i);
+    QString filter = tr("Image files");
     filter.append('(');
     filter.append(sList.join(" "));
     filter.append(')');
@@ -838,6 +851,156 @@ const QList<QExplicitlySharedDataPointer<DGioMount> > AlbumControl::getVfsMountL
     return result;
 }
 
+QJsonObject AlbumControl::createShorcutJson()
+{
+    //Translations
+    QJsonObject shortcut1;
+    shortcut1.insert("name", "Window sizing");
+    shortcut1.insert("value", "Ctrl+Alt+F");
+    QJsonObject shortcut2;
+    shortcut2.insert("name", tr("Fullscreen"));
+    shortcut2.insert("value", "F11");
+    QJsonObject shortcut3;
+    shortcut3.insert("name", tr("Exit fullscreen/slideshow"));
+    shortcut3.insert("value", "Esc");
+    QJsonObject shortcut4;
+    shortcut4.insert("name", "Close application");
+    shortcut4.insert("value", "Alt+F4");
+    QJsonObject shortcut5;
+    shortcut5.insert("name", tr("Help"));
+    shortcut5.insert("value", "F1");
+    QJsonObject shortcut6;
+    shortcut6.insert("name", tr("Display shortcuts"));
+    shortcut6.insert("value", "Ctrl+Shift+?");
+    QJsonObject shortcut7;
+    shortcut7.insert("name", tr("Display in file manager"));
+    shortcut7.insert("value", "Alt+D");
+    QJsonObject shortcut8;
+    shortcut8.insert("name", tr("Slide show"));
+    shortcut8.insert("value", "F5");
+    QJsonObject shortcut9;
+    shortcut9.insert("name", tr("View"));
+    shortcut9.insert("value", "Enter");
+    QJsonObject shortcut10;
+    shortcut10.insert("name", tr("Export photos"));
+    shortcut10.insert("value", "Ctrl+E");
+    QJsonObject shortcut11;
+    shortcut11.insert("name", tr("Import photos/videos"));
+    shortcut11.insert("value", "Ctrl+O");
+    QJsonObject shortcut12;
+    shortcut12.insert("name", tr("Select all"));
+    shortcut12.insert("value", "Ctrl+A");
+    QJsonObject shortcut13;
+    shortcut13.insert("name", tr("Copy"));
+    shortcut13.insert("value", "Ctrl+C");
+    QJsonObject shortcut14;
+    shortcut14.insert("name", tr("Delete"));
+    shortcut14.insert("value", "Delete");
+    QJsonObject shortcut15;
+    shortcut15.insert("name", tr("Photo/Video info"));
+    shortcut15.insert("value", "Ctrl+I");
+    QJsonObject shortcut16;
+    shortcut16.insert("name", tr("Set as wallpaper"));
+    shortcut16.insert("value", "Ctrl+F9");
+    QJsonObject shortcut17;
+    shortcut17.insert("name", tr("Rotate clockwise"));
+    shortcut17.insert("value", "Ctrl+R");
+    QJsonObject shortcut18;
+    shortcut18.insert("name", tr("Rotate counterclockwise"));
+    shortcut18.insert("value", "Ctrl+Shift+R");
+    QJsonObject shortcut19;
+    shortcut19.insert("name", " ");
+    shortcut19.insert("value", "  ");
+    QJsonObject shortcut20;
+    shortcut20.insert("name", tr("Zoom in"));
+    shortcut20.insert("value", "Ctrl+'+'");
+    QJsonObject shortcut21;
+    shortcut21.insert("name", tr("Zoom out"));
+    shortcut21.insert("value", "Ctrl+'-'");
+    QJsonObject shortcut22;
+    shortcut22.insert("name", tr("Previous"));
+    shortcut22.insert("value", "Left");
+    QJsonObject shortcut23;
+    shortcut23.insert("name", tr("Next"));
+    shortcut23.insert("value", "Right");
+    QJsonObject shortcut24;
+    shortcut24.insert("name", tr("Favorite"));
+    shortcut24.insert("value", ".");
+    QJsonObject shortcut25;
+    shortcut25.insert("name", tr("Unfavorite"));
+    shortcut25.insert("value", ".");
+    QJsonObject shortcut26;
+    shortcut26.insert("name", tr("New album"));
+    shortcut26.insert("value", "Ctrl+Shift+N");
+    QJsonObject shortcut27;
+    shortcut27.insert("name", tr("Rename album"));
+    shortcut27.insert("value", "F2");
+    QJsonObject shortcut28;
+    shortcut28.insert("name", tr("Page up"));
+    shortcut28.insert("value", "PageUp");
+    QJsonObject shortcut29;
+    shortcut29.insert("name", tr("Page down"));
+    shortcut29.insert("value", "PageDown");
+
+
+
+    QJsonArray shortcutArray1;
+    shortcutArray1.append(shortcut2);
+    shortcutArray1.append(shortcut8);
+    shortcutArray1.append(shortcut3);
+    shortcutArray1.append(shortcut9);
+    shortcutArray1.append(shortcut10);
+    shortcutArray1.append(shortcut11);
+    shortcutArray1.append(shortcut12);
+    shortcutArray1.append(shortcut13);
+    shortcutArray1.append(shortcut14);
+    shortcutArray1.append(shortcut15);
+    shortcutArray1.append(shortcut16);
+    shortcutArray1.append(shortcut17);
+    shortcutArray1.append(shortcut18);
+    shortcutArray1.append(shortcut7);
+//    shortcutArray1.append(shortcut19);
+    shortcutArray1.append(shortcut20);
+    shortcutArray1.append(shortcut21);
+    shortcutArray1.append(shortcut28);
+    shortcutArray1.append(shortcut29);
+    shortcutArray1.append(shortcut22);
+    shortcutArray1.append(shortcut23);
+    shortcutArray1.append(shortcut24);
+    shortcutArray1.append(shortcut25);
+    QJsonArray shortcutArray2;
+    shortcutArray2.append(shortcut26);
+    shortcutArray2.append(shortcut27);
+    QJsonArray shortcutArray3;
+    shortcutArray3.append(shortcut5);
+    shortcutArray3.append(shortcut6);
+
+//    shortcutArray.append(shortcut1);
+//    shortcutArray.append(shortcut4);
+
+    QJsonObject shortcut_group1;
+//    shortcut_group.insert("groupName", tr("热键"));
+//    shortcut_group.insert("groupName", tr("Hotkey"));
+    shortcut_group1.insert("groupName", tr("Photos"));
+    shortcut_group1.insert("groupItems", shortcutArray1);
+    QJsonObject shortcut_group2;
+    shortcut_group2.insert("groupName", tr("Albums"));
+    shortcut_group2.insert("groupItems", shortcutArray2);
+    QJsonObject shortcut_group3;
+    shortcut_group3.insert("groupName", tr("Settings"));
+    shortcut_group3.insert("groupItems", shortcutArray3);
+
+    QJsonArray shortcutArrayall;
+    shortcutArrayall.append(shortcut_group1);
+    shortcutArrayall.append(shortcut_group2);
+    shortcutArrayall.append(shortcut_group3);
+
+    QJsonObject main_shortcut;
+    main_shortcut.insert("shortcut", shortcutArrayall);
+
+    return main_shortcut;
+}
+
 bool AlbumControl::isSystemAutoImportAlbum(int uid)
 {
     return getAllSystemAutoImportAlbumId().contains(uid);
@@ -857,6 +1020,23 @@ bool AlbumControl::isCustomAlbum(int uid)
 bool AlbumControl::isDefaultPathExists(int uid)
 {
     return DBManager::defaultNotifyPathExists(uid);
+}
+
+void AlbumControl::ctrlShiftSlashShortcut(int x, int y, int w, int h)
+{
+    QRect rect = QRect(x, y, w, h);
+    QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
+    QStringList shortcutString;
+    QJsonObject json = createShorcutJson();
+
+    QString param1 = "-j=" + QString(QJsonDocument(json).toJson());
+    QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
+    shortcutString << param1 << param2;
+
+    QProcess *shortcutViewProcess = new QProcess(this);
+    shortcutViewProcess->startDetached("deepin-shortcut-viewer", shortcutString);
+
+    connect(shortcutViewProcess, SIGNAL(finished(int)), shortcutViewProcess, SLOT(deleteLater()));
 }
 
 QStringList AlbumControl::getImportTimelinesTitlePaths(const QString &titleName, const int &filterType)

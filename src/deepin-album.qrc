@@ -58,5 +58,6 @@
         <file>qml/SideBar/Sidebar.qml</file>
         <file>qml/SideBar/SideBarItem.qml</file>
         <file>qml/SideBar/SideBarItemDelegate.qml</file>
+        <file>qml/MenuItemStates.qml</file>
     </qresource>
 </RCC>

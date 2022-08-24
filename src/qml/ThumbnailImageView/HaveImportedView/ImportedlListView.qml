@@ -98,6 +98,23 @@ Item {
         }
     }
 
+    Connections {
+        target: global
+        onSigPageUp: {
+            if (visible) {
+                vbar.active = true
+                vbar.decrease()
+            }
+        }
+
+        onSigPageDown: {
+            if (visible) {
+                vbar.active = true
+                vbar.increase()
+            }
+        }
+    }
+
     //已导入列表代理控件
     Component {
         id: importedListDelegate

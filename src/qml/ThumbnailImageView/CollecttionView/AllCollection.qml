@@ -23,6 +23,14 @@ Item {
         flushAllCollectionView()
     }
 
+    // 清空已选内容
+    function clearSelecteds()
+    {
+        theView.selectAll(false)
+        selectedPaths = []
+        global.selectedPaths = selectedPaths
+    }
+
     // 刷新所有项目视图内容
     function flushAllCollectionView() {
         loadAllCollectionItems()

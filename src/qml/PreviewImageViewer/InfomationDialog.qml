@@ -210,12 +210,12 @@ DialogWindow {
     }
 
     onVisibleChanged: {
-        setX(root.x+root.width-width-leftX)
-        setY(root.y+topY)
+        setX(root.x + root.width / 2 - width / 2)
+        setY(root.y + root.height / 2 - height / 2)
     }
 
     // 窗口关闭时复位组件状态
-        onClosing: {
-            fileNameProp.reset();
-        }
+    onClosing: {
+        fileNameProp.reset();
+    }
 }

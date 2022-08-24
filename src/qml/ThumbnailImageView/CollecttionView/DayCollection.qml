@@ -11,6 +11,7 @@ import "../../"
 Item {
     id: root
 
+    property int scrollDelta: 60
     //搬运自缩略图控件内部，width多减个10是因为timeLineLabel的leftMargin
     /*property real cellBaseWidth: global.thumbnailSizeLevel >= 0 && global.thumbnailSizeLevel <= 9 ? 80 + global.thumbnailSizeLevel * 10 : 80
     property int  rowSizeHint: (theView.width - 10 - 10) / cellBaseWidth
@@ -68,6 +69,20 @@ Item {
         }
     }
 
+    function executeScrollBar(delta) {
+        if (theView.contentHeight <= theView.height)
+            return
+
+        vbar.active = true
+        theView.contentY -= delta
+
+        if(vbar.position < 0) {
+            vbar.position = 0
+        } else if(vbar.position > 1 - theView.height / theView.contentHeight) {
+            vbar.position = 1 - theView.height / theView.contentHeight
+        }
+    }
+
     //dayToken: 日期令牌，用于获取其它数据
     ListModel {
         id: theModel
@@ -90,17 +105,23 @@ Item {
             anchors.fill: parent
             acceptedButtons: Qt.NoButton
             onWheel: {
-                if (parent.contentHeight <= parent.height)
-                    return
-                vbar.active = true
                 var datla = wheel.angleDelta.y / 2
-                parent.contentY -= datla
+                executeScrollBar(datla)
+            }
+        }
+    }
 
-                if(vbar.position < 0) {
-                    vbar.position = 0
-                } else if(vbar.position > 1 - parent.height / parent.contentHeight) {
-                    vbar.position = 1 - parent.height / parent.contentHeight
-                }
+    Connections {
+        target: global
+        onSigPageUp: {
+            if (visible) {
+                executeScrollBar(scrollDelta)
+            }
+        }
+
+        onSigPageDown: {
+            if (visible) {
+                executeScrollBar(-scrollDelta)
             }
         }
     }
