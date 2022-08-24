@@ -14,6 +14,95 @@
 #include <QtConcurrent>
 #include <QApplication>
 
+namespace {
+static QMap<QString, const char *> i18nMap {
+    {"data", "Data Disk"}
+};
+const QString ddeI18nSym = QStringLiteral("_dde_");
+
+static std::initializer_list<std::pair<QString, QString>> opticalmediakeys {
+    {"optical",                "Optical"},
+    {"optical_cd",             "CD-ROM"},
+    {"optical_cd_r",           "CD-R"},
+    {"optical_cd_rw",          "CD-RW"},
+    {"optical_dvd",            "DVD-ROM"},
+    {"optical_dvd_r",          "DVD-R"},
+    {"optical_dvd_rw",         "DVD-RW"},
+    {"optical_dvd_ram",        "DVD-RAM"},
+    {"optical_dvd_plus_r",     "DVD+R"},
+    {"optical_dvd_plus_rw",    "DVD+RW"},
+    {"optical_dvd_plus_r_dl",  "DVD+R/DL"},
+    {"optical_dvd_plus_rw_dl", "DVD+RW/DL"},
+    {"optical_bd",             "BD-ROM"},
+    {"optical_bd_r",           "BD-R"},
+    {"optical_bd_re",          "BD-RE"},
+    {"optical_hddvd",          "HD DVD-ROM"},
+    {"optical_hddvd_r",        "HD DVD-R"},
+    {"optical_hddvd_rw",       "HD DVD-RW"},
+    {"optical_mo",             "MO"}
+};
+static QVector<std::pair<QString, QString>> opticalmediakv(opticalmediakeys);
+static QMap<QString, QString> opticalmediamap(opticalmediakeys);
+
+} //namespace
+
+QString sizeString(const QString &str)
+{
+    int begin_pos = str.indexOf('.');
+
+    if (begin_pos < 0)
+        return str;
+
+    QString size = str;
+
+    while (size.count() - 1 > begin_pos) {
+        if (!size.endsWith('0'))
+            return size;
+
+        size = size.left(size.count() - 1);
+    }
+
+    return size.left(size.count() - 1);
+}
+
+QString formatSize(qint64 num, bool withUnitVisible = true, int precision = 1, int forceUnit = -1, QStringList unitList = QStringList())
+{
+    if (num < 0) {
+        qWarning() << "Negative number passed to formatSize():" << num;
+        num = 0;
+    }
+
+    bool isForceUnit = (forceUnit >= 0);
+    QStringList list;
+    qreal fileSize(num);
+
+    if (unitList.size() == 0) {
+        list << " B" << " KB" << " MB" << " GB" << " TB"; // should we use KiB since we use 1024 here?
+    } else {
+        list = unitList;
+    }
+
+    QStringListIterator i(list);
+    QString unit = i.hasNext() ? i.next() : QStringLiteral(" B");
+
+    int index = 0;
+    while (i.hasNext()) {
+        if (fileSize < 1024 && !isForceUnit) {
+            break;
+        }
+
+        if (isForceUnit && index == forceUnit) {
+            break;
+        }
+
+        unit = i.next();
+        fileSize /= 1024;
+        index++;
+    }
+    QString unitString = withUnitVisible ? unit : QString();
+    return QString("%1%2").arg(sizeString(QString::number(fileSize, 'f', precision)), unitString);
+}
+
 AlbumControl::AlbumControl(QObject *parent)
     : QObject(parent)
 {
@@ -73,6 +162,7 @@ void AlbumControl::initDeviceMonitor()
 {
     m_vfsManager = new DGioVolumeManager(this);
     m_diskManager = new DDiskManager(this);
+    m_diskManager->setWatchChanges(true);
 
     connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumControl::onVfsMountChangedAdd);
     connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, &AlbumControl::onVfsMountChangedRemove);
@@ -81,6 +171,9 @@ void AlbumControl::initDeviceMonitor()
             vol->mount();
         }
     });
+
+    connect(m_diskManager, &DDiskManager::fileSystemAdded, this, &AlbumControl::onFileSystemAdded);
+    connect(m_diskManager, &DDiskManager::blockDeviceAdded, this, &AlbumControl::onBlockDeviceAdded);
 
     QList<QExplicitlySharedDataPointer<DGioMount> > list = getVfsMountList();
     for (auto mount : list) {
@@ -724,6 +817,7 @@ void AlbumControl::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> 
 {
     qDebug() << "挂载设备增加：" << mount->name();
 
+    //Support android phone, iPhone, and usb devices. Not support ftp, smb mount, non removeable disk now
     QString uri = mount->getRootFile()->uri();
     QString scheme = QUrl(uri).scheme();
     if ((scheme == "file" /*&& mount->canEject()*/) ||  //usb device
@@ -744,15 +838,13 @@ void AlbumControl::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> 
             qDebug() << "onVfsMountChangedAdd() strPath.isEmpty()";
         }
         QString rename = "";
-        qDebug() << QUrl(mount->getRootFile()->uri()) ;
-        rename = m_durlAndNameMap[mount->getRootFile()->path()];
+        qDebug() << mount->getRootFile()->path();
+        rename = m_blkPath2DeviceNameMap[mount->getRootFile()->path()];
         if ("" == rename) {
             rename = mount->name();
         }
-        if ("" == rename) {
-            rename = mount->name();
-        }
-        m_durlAndNameMap[mount->getRootFile()->path()] = rename ;
+        m_durlAndNameMap[mount->getRootFile()->path()] = rename;
+
         //判断路径是否存在
         bool bFind = false;
         QDir dir(strPath);
@@ -766,11 +858,12 @@ void AlbumControl::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> 
         if (!strPath.contains("/media/")) {
             bFind = findPicturePathByPhone(strPath);
         }
-        qDebug() << bFind;
+
+        m_mounts = getVfsMountList();
+
         //路径存在
         if (bFind) {
-            m_mounts << mount;
-            //挂在路径
+            //挂载路径，加载文件信息
             sltLoadMountFileList(strPath);
 
             emit sigMountsChange();
@@ -784,18 +877,35 @@ void AlbumControl::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMoun
 {
     QString uri = mount->getRootFile()->uri();
     QString strPath = mount->getDefaultLocationFile()->path();
+    if (!strPath.contains("/media/")) {
+        findPicturePathByPhone(strPath);
+    }
     m_durlAndNameMap.erase(m_durlAndNameMap.find(mount->getRootFile()->path()));
-    m_PhonePicFileMap.erase(m_PhonePicFileMap.find(mount->getRootFile()->path()));
 
-    for (auto mountLoop : m_mounts) {
-        QString uriLoop = mountLoop->getRootFile()->uri();
-        if (uri == uriLoop) {
-            qDebug() << "Already has this device in mount list. uri:" << uriLoop;
-            m_mounts.removeOne(mountLoop);
+    m_mounts = getVfsMountList();
+    if (m_PhonePicFileMap.contains(strPath))
+        m_PhonePicFileMap.remove(strPath);
+
+    for (auto endmount : m_mounts) {
+        if (uri == endmount->getRootFile()->uri()) {
+            qDebug() << "Already has this device in mount list. uri:" << uri;
+            m_mounts.removeOne(endmount);
             break;
         }
     }
+
     emit sigMountsChange();
+}
+
+void AlbumControl::onFileSystemAdded(const QString &dbusPath)
+{
+    DBlockDevice *blDev = DDiskManager::createBlockDevice(dbusPath);
+    blDev->mount({});
+}
+
+void AlbumControl::onBlockDeviceAdded(const QString &blks)
+{
+    updateDeviceName(blks);
 }
 
 void AlbumControl::sltLoadMountFileList(const QString &path)
@@ -832,6 +942,7 @@ void AlbumControl::sltLoadMountFileList(const QString &path)
 
 const QList<QExplicitlySharedDataPointer<DGioMount> > AlbumControl::getVfsMountList()
 {
+    getAllDeviceName();
     QList<QExplicitlySharedDataPointer<DGioMount> > result;
     const QList<QExplicitlySharedDataPointer<DGioMount> > mounts = getMounts();
     for (auto mount : mounts) {
@@ -999,6 +1110,81 @@ QJsonObject AlbumControl::createShorcutJson()
     main_shortcut.insert("shortcut", shortcutArrayall);
 
     return main_shortcut;
+}
+
+void AlbumControl::getAllDeviceName()
+{
+    m_blkPath2DeviceNameMap.clear();
+    QStringList blDevList = DDiskManager::blockDevices(QVariantMap());
+    for (const QString &blks : blDevList) {
+        updateDeviceName(blks);
+    }
+}
+
+void AlbumControl::updateDeviceName(const QString &blks)
+{
+    QSharedPointer<DBlockDevice> blk(DDiskManager::createBlockDevice(blks));
+    QScopedPointer<DDiskDevice> drv1(DDiskManager::createDiskDevice(blk->drive()));
+    if (!blk->hasFileSystem() && !drv1->mediaCompatibility().join(" ").contains("optical") && !blk->isEncrypted()) {
+        return;
+    }
+    if ((blk->hintIgnore() && !blk->isEncrypted()) || blk->cryptoBackingDevice().length() > 1) {
+        return;
+    }
+    DBlockDevice *pblk = blk.data();
+    QByteArrayList mps = blk->mountPoints();
+    qulonglong size = blk->size();
+    QString label = blk->idLabel();
+    QString fs = blk->idType();
+    QString udispname = "";
+    if (label.startsWith(ddeI18nSym)) {
+        QString i18nKey = label.mid(ddeI18nSym.size(), label.size() - ddeI18nSym.size());
+        udispname = qApp->translate("DeepinStorage", i18nMap.value(i18nKey, i18nKey.toUtf8().constData()));
+        goto runend;
+    }
+
+    if (mps.contains(QByteArray("/\0", 2))) {
+        udispname = QCoreApplication::translate("PathManager", "System Disk");
+        goto runend;
+    }
+    if (label.length() == 0) {
+        QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(pblk->drive()));
+        if (!drv->mediaAvailable() && drv->mediaCompatibility().join(" ").contains("optical")) {
+            QString maxmediacompat;
+            for (auto i = opticalmediakv.rbegin(); i != opticalmediakv.rend(); ++i) {
+                if (drv->mediaCompatibility().contains(i->first)) {
+                    maxmediacompat = i->second;
+                    break;
+                }
+            }
+            udispname = QCoreApplication::translate("DeepinStorage", "%1 Drive").arg(maxmediacompat);
+            goto runend;
+        }
+        if (drv->opticalBlank()) {
+            udispname = QCoreApplication::translate("DeepinStorage", "Blank %1 Disc").arg(opticalmediamap[drv->media()]);
+            goto runend;
+        }
+        if (pblk->isEncrypted() && !blk) {
+            udispname = QCoreApplication::translate("DeepinStorage", "%1 Encrypted").arg(formatSize(qint64(size)));
+            goto runend;
+        }
+        udispname = QCoreApplication::translate("DeepinStorage", "%1 Volume").arg(formatSize(qint64(size)));
+        goto runend;
+    }
+    udispname = label;
+
+runend:
+    //blk->mount({});
+    QString strPath = "";
+    QByteArrayList qbl = blk->mountPoints();
+    QString mountPoint = "";
+    QList<QByteArray>::iterator qb = qbl.begin();
+    while (qb != qbl.end()) {
+        mountPoint += (*qb);
+        ++qb;
+    }
+    m_blkPath2DeviceNameMap[mountPoint] = udispname;
+    return;
 }
 
 bool AlbumControl::isSystemAutoImportAlbum(int uid)

@@ -349,6 +349,11 @@ public slots:
     //设备减少
     void onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount);
 
+    // 硬盘文件系统有增加
+    void onFileSystemAdded(const QString &dbusPath);
+    // 块设备有增加
+    void onBlockDeviceAdded(const QString &blks);
+
     //加载设备路径的数据
     void sltLoadMountFileList(const QString &path);
 
@@ -357,6 +362,9 @@ public slots:
 
 private:
     QJsonObject createShorcutJson();
+
+    void getAllDeviceName();
+    void updateDeviceName(const QString &blks);
 
 signals:
     void sigRefreshAllCollection();
@@ -397,12 +405,11 @@ private :
     DDiskManager *m_diskManager {nullptr};//U盘设备监控
     QList<QExplicitlySharedDataPointer<DGioMount>> m_mounts;     //外部设备挂载
     QMap<QString, QString> m_durlAndNameMap;
+    QMap<QString, QString> m_blkPath2DeviceNameMap;
     QMap<QString, QStringList> m_PhonePicFileMap; //外部设备及其全部图片路径
     std::atomic_bool m_couldRun;
     bool m_bneedstop = false;
     QMutex m_mutex;
-
-
 };
 
 #endif // AlbumControl_H
