@@ -834,6 +834,7 @@ void AlbumControl::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> 
         }
         QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
         QString strPath = LocationFile->path();
+        qDebug() << "mount->getDefaultLocationFile()->path():" << strPath;
         if (strPath.isEmpty()) {
             qDebug() << "onVfsMountChangedAdd() strPath.isEmpty()";
         }
