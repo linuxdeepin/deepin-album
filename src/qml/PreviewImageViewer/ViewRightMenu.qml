@@ -24,7 +24,7 @@ Menu {
             }
         }
         Shortcut {
-            enabled: (root.visibility === Window.FullScreen && stackView.visible) ? true : false
+            enabled: (root.visibility === Window.FullScreen && stackView.visible && stackView.currentWidgetIndex !== 2) ? true : false
             sequence :  "Esc"
             onActivated : root.visibility !== Window.FullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
         }

@@ -846,7 +846,7 @@ Item {
             RightMenuItem {
                 text: qsTr("Photo info")
                 id: photoInfoAction
-                visible: theView.activeFocus && menuItemStates.canViewPhotoInfo
+                visible: menuItemStates.canViewPhotoInfo
                 onTriggered: {
                     executeViewPhotoInfo()
                 }
@@ -865,7 +865,7 @@ Item {
             RightMenuItem {
                 text: qsTr("Video info")
                 id: videoInfoAction
-                visible: theView.activeFocus && menuItemStates.canViewVideoInfo
+                visible: menuItemStates.canViewVideoInfo
                 onTriggered: {
                     executeViewVideoInfo()
                 }
