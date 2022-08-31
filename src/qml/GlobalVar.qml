@@ -33,6 +33,8 @@ Item {
     property int stackControlLastCurrent: -1 //记录上一次显示的主界面索引 0:相册界面 1:看图界面 2:幻灯片
 
     property int thumbnailSizeLevel: 0 //缩略图缩放等级
+    property real cellBaseWidth: thumbnailSizeLevel >= 0 && thumbnailSizeLevel <= 9 ? 80 + thumbnailSizeLevel * 10 : 80
+    property int thumbnailListRightMargin: 10
     property string statusBarNumText: "" //状态栏显示的总数文本内容
     property string searchEditText: ""
 

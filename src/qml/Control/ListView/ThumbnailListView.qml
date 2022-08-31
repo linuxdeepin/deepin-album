@@ -212,10 +212,9 @@ Item {
     property var selectedPaths: new Array
     // 已选原始路径
     property var selectedOriginPaths: new Array
-    //缩略图动态变化（-10是右侧的边距）
-    property real cellBaseWidth: global.thumbnailSizeLevel >= 0 && global.thumbnailSizeLevel <= 9 ? 80 + global.thumbnailSizeLevel * 10 : 80
-    property int  rowSizeHint: (width - 10) / cellBaseWidth
-    property real realCellWidth: (width - 10) / rowSizeHint
+    //缩略图动态变化
+    property int  rowSizeHint: (width - global.thumbnailListRightMargin) / global.cellBaseWidth
+    property real realCellWidth: (width - global.thumbnailListRightMargin) / rowSizeHint
 
     //缩略图view的本体
     GridView {

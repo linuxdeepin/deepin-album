@@ -12,60 +12,52 @@ Item {
     id: root
 
     property int scrollDelta: 60
-    //搬运自缩略图控件内部，width多减个10是因为timeLineLabel的leftMargin
-    /*property real cellBaseWidth: global.thumbnailSizeLevel >= 0 && global.thumbnailSizeLevel <= 9 ? 80 + global.thumbnailSizeLevel * 10 : 80
-    property int  rowSizeHint: (theView.width - 10 - 10) / cellBaseWidth
-    property real realCellWidth: (theView.width - 10 - 10) / rowSizeHint*/
+    property int timeLineLblHeight: 36
+    property int timeLineLblMargin: 10
+    property int selAllCheckBoxHeight: 22
+    property int rowSizeHint: (width - global.thumbnailListRightMargin) / global.cellBaseWidth
+    property real realCellWidth : (width - global.thumbnailListRightMargin) / rowSizeHint
+    property var dayHeights: []
 
-    //风险：月视图切日视图无法正常定位
-    //屏蔽部分代码已验证计算结果和theDelegate内部计算的值一致，未知原因导致无法滚动到指定位置
+    //月视图切日视图
     function scrollToMonth(year, month) {
-        vbar.position = 0
-        /*var distance = 0
-        for(var i = 0;i != theModel.count;++i) {
+        vbar.active = true
+        var targetY = 0
+        theView.contentY = 0
+        for (var i = 0; i < theModel.count; i++) {
             var modelObj = theModel.get(i)
             var token = modelObj.dayToken
             var dates = token.split("-")
             if(year === dates[0] && month === dates[1]) {
                 break
             }
-
-            var paths = albumControl.getDayPaths(token)
-
-            var currentLength = timeLineLabel_invisible.height + selectAllBox_invisible.height +
-                    (Math.abs(Math.ceil(paths.length / Math.floor((theView.width) / realCellWidth)) * realCellWidth))
-
-            distance += currentLength
-
-            //console.debug("scroll", i, currentLength)
+            targetY += dayHeights[i]
         }
-        //theView.contentY = distance
-        vbar.position = distance / theView.contentY*/
-    }
 
-    /*Label {
-        id: timeLineLabel_invisible
-        font: DTK.fontManager.t3
-        visible: false
-        text: "123123"
+        // 当日视图滚到底部时，theview的originY会发生改变，将会导致contentY的定位值异常
+        // 因此实际滚动值需要通过originY来修正
+        theView.contentY = targetY + theView.originY
     }
-
-    CheckBox {
-        id: selectAllBox_invisible
-        visible: false
-        text: "123123"
-    }*/
 
     function flushModel() {
         //0.清理
         theModel.clear()
-
+        dayHeights = []
         //1.获取日期
         var days = albumControl.getDays()
 
         //2.构建model
+        var dayHeight = 0
+        var listHeight = 0
+        var dayPaths
         for (var i = 0;i !== days.length;++i) {
             theModel.append({dayToken: days[i]})
+
+            // 计算每个日期列表高度
+            dayPaths = albumControl.getDayPaths(days[i])
+            listHeight = Math.abs(Math.ceil(dayPaths.length / Math.floor(width / realCellWidth)) * realCellWidth)
+            dayHeight = timeLineLblHeight + timeLineLblMargin + selAllCheckBoxHeight + listHeight
+            dayHeights.push(dayHeight)
         }
     }
 
@@ -130,23 +122,26 @@ Item {
         id: theDelegate
 
         Rectangle {
+            //color: index%2 === 0 ? Qt.rgba(0.9,0.8,0.3,0.1) : Qt.rgba(0.9,0.0,0.0,0.1)
             id: delegateRect
             width: theView.width
-            height: timeLineLabel.height + timeLineLabel.anchors.topMargin + selectAllBox.height + theSubView.height
+            height: timeLineLblHeight + timeLineLblMargin + selAllCheckBoxHeight + theSubView.height
 
             property string m_dayToken: dayToken
 
             Label {
                 id: timeLineLabel
                 font: DTK.fontManager.t3
+                height: timeLineLblHeight
                 anchors.top: parent.top
-                anchors.topMargin: 10
+                anchors.topMargin: timeLineLblMargin
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: timeLineLblMargin
             }
 
             CheckBox {
                 id: selectAllBox
+                height: selAllCheckBoxHeight
                 anchors.top: timeLineLabel.bottom
                 anchors.left: timeLineLabel.left
                 checked: theSubView.haveSelectAll
