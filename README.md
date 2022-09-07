@@ -1,4 +1,4 @@
-# album
+# Deepin Album
 
 Deepin  Album is a photo management tool with fashionable appearance and smooth performance, which supports viewing and managing multiple image formats. You can arrange your photos by date timeline, add them to your collection, or categorize them into different albums to keep them in order.
 
@@ -47,9 +47,9 @@ _The **master** branch is current development branch, build dependencies may cha
 
 1. Make sure you have installed all dependencies.
 
-_Package name may be different between distros, if dde-file-manager is available from your distro, check the packaging script delivered from your distro is a better idea._
+_Package name may be different between distros, if deepin-album is available from your distro, check the packaging script delivered from your distro is a better idea._
 
-Assume you are using [Deepin](https://distrowatch.com/table.php?distribution=deepin) or other debian-based distro which got dde-file-manager delivered:
+Assume you are using [Deepin](https://distrowatch.com/table.php?distribution=deepin) or other debian-based distro which got deepin-album delivered:
 
 ``` shell
 $ apt build-dep deepin-album
@@ -79,7 +79,7 @@ Execute `deepin-album`
 
 ## Documentations
 
- - [User Documentation](https://wikidev.uniontech.com/index.php?title=%E7%9B%B8%E5%86%8C) | [用户文档](https://wikidev.uniontech.com/index.php?title=%E7%9B%B8%E5%86%8C)
+ - [User Documentation](https://wikidev.uniontech.com/index.php?title=%E7%9B%B8%E5%86%8C)
 
 ## Getting help
 
@@ -93,9 +93,8 @@ Execute `deepin-album`
 
 We encourage you to report issues and contribute changes
 
- - [Contribution guide for developers](https://github.com/linuxdeepin/developer-center/wiki/Contribution-Guidelines-for-Developers-en) (English)
- - [开发者代码贡献指南](https://github.com/linuxdeepin/developer-center/wiki/Contribution-Guidelines-for-Developers) (中文)
+ - [Contribution guide for developers](https://github.com/linuxdeepin/developer-center/wiki/Contribution-Guidelines-for-Developers-en)
 
 ## License
 
-deepin-album is licensed under [GPLv3](
+deepin-album is licensed under [GPL-3.0-or-later](LICENSE.txt)
