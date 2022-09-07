@@ -8,6 +8,7 @@ import QtQuick.Controls 2.1
 Item {
 //    id: root
 
+    signal rectSelChanged()
     //选择框当前的大小
     property int m_width: 0
     property int m_height: 0
@@ -18,9 +19,54 @@ Item {
     property int m_lastWidth: 0
     property int m_lastHeight: 0
 
+    property alias selAreaY: selArea.y
+    property int x1
+    property int y1
+    property int x2
+    property int y2
+
+    property int m_left: Math.min(x1, x2)
+    property int m_right: Math.max(x1, x2)
+    property int m_top: Math.min(y1, y2)
+    property int m_bottom: Math.max(y1, y2)
+
     visible: false
 
+    onX2Changed: {
+        updateRect()
+    }
+
+    onY2Changed: {
+        updateRect()
+    }
+
+    function updateRect() {
+        if (x1 > x2)  {
+            selArea.x = x2
+        }
+        else
+            selArea.x = x1
+
+        if (y1 > y2)
+            selArea.y = y2
+        else
+            selArea.y = y1
+
+        m_width = Math.abs(x1 - x2)
+        m_height = Math.abs(y1 - y2)
+
+        rectSelChanged()
+    }
+
+    function clearRect() {
+        x1 = -1
+        y1 = -1
+        x2 = -1
+        y2 = -1
+    }
+
     Rectangle {
+        id: selArea
         width: m_width
         height: m_height
 

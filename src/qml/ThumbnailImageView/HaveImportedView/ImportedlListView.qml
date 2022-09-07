@@ -8,29 +8,51 @@ import QtQuick.Shapes 1.10
 import org.deepin.dtk 1.0
 
 import "../../Control/ListView"
-
+import "../../Control"
+import "../../"
 Item {
     id : importedListView
     property var selectedPaths: []
+    property int filterComboOffsetY: 5
+    property int spaceCtrlHeight: filterCombo.y + filterComboOffsetY
+    property int importCheckboxHeight: 26
+    property int listMargin: 10 // 已导入列表子项上、下边距
+    property int rowSizeHint: (width - global.thumbnailListRightMargin) / global.cellBaseWidth
+    property real realCellWidth : (width - global.thumbnailListRightMargin) / rowSizeHint
+
     //view依赖的model管理器
     property ListModel importedListModel: ListModel {
         id: theModel
         property var selectedPathObj: {"id":0, "paths":[]}
         property var selectedPathObjs: []
+        property var dayHeights: []
         function loadImportedInfos() {
             console.log("imported model has refreshed.. filterType:", filterCombo.currentIndex)
             theModel.clear()
             theModel.selectedPathObjs = []
+            theModel.dayHeights = []
             // 从后台获取所有已导入数据
             var titleInfos = albumControl.getImportTimelinesTitleInfos(filterCombo.currentIndex);
             console.log("imported model has refreshed.. filterType:", filterCombo.currentIndex, " done...")
             var tmpPath = []
             var i = 0
+            var dayHeight = 0
+            var listHeight = 0
+            theView.listContentHeight = 0
             for (var key in titleInfos) {
                 theModel.append({"title":key, "items":titleInfos[key]})
-                selectedPathObj = {"id": i++, "paths":tmpPath}
+                selectedPathObj = {"id": i, "paths":tmpPath}
                 theModel.selectedPathObjs.push(selectedPathObj)
+
+                // 计算每个日期列表高度
+                listHeight = Math.abs(Math.ceil(titleInfos[key].length / Math.floor(importedListView.width / realCellWidth)) * realCellWidth)
+                dayHeight = listHeight + listMargin * 2 + importCheckboxHeight + (i === 0 ? spaceCtrlHeight : 0)
+                dayHeights.push(dayHeight)
+                theView.listContentHeight += dayHeight
+                i++
             }
+
+            console.log("dayHeights:", dayHeights, "theView.listContentHeight:", theView.listContentHeight)
         }
     }
 
@@ -60,7 +82,13 @@ Item {
         width: parent.width
         height: parent.height
         delegate: importedListDelegate
-
+        //鼠标正在按下状态
+        property bool inPress: false
+        //橡皮筋显隐状态
+        property bool rubberBandDisplayed: false
+        property var scrollDirType: GlobalVar.RectScrollDirType.NoType
+        property var listContentHeight
+        property int rectSelScrollOffset: 30
         //激活滚动条
         ScrollBar.vertical: ScrollBar {
             id: vbar
@@ -68,31 +96,195 @@ Item {
         }
 
         MouseArea {
-            anchors.fill: parent
+            anchors.fill: parent.contentItem
             acceptedButtons: Qt.LeftButton //仅激活左键
+
+            id: theMouseArea
+            //按下时的起始坐标
+            property int pressedXAxis: -1
+            property int pressedYAxis: -1
 
             // 已导入列表不处理鼠标，穿透到缩略图列表处理鼠标事件，以便框选生效
             onPressed: {
-                mouse.accepted = false
-            }
-            onReleased: {
-                mouse.accepted = false
+                if(mouse.button == Qt.RightButton) {
+                    mouse.accepted = false
+                    return
+                }
+
+
+                theView.scrollDirType = GlobalVar.RectScrollDirType.NoType
+                parent.inPress = true
+                pressedXAxis = mouse.x
+                pressedYAxis = mouse.y
+                rubberBand.x1 = mouse.x
+                rubberBand.y1 = mouse.y
+                parent.rubberBandDisplayed = false
+
+                mouse.accepted = true
             }
             onMouseXChanged: {
-                mouse.accepted = false
+                if(mouse.button == Qt.RightButton) {
+                    mouse.accepted = false
+                    return
+                }
+
+                rubberBand.x2 = mouse.x
+                if(rubberBand.m_width > 0)
+                {
+                    //                    parent.ism = []
+                    parent.rubberBandDisplayed = true
+                    //                    parent.flushIsm()
+                    //                    selectedChanged()
+                }
+
+                mouse.accepted = true
             }
             onMouseYChanged: {
-                mouse.accepted = false
-            }
+                if(mouse.button == Qt.RightButton) {
+                    mouse.accepted = false
+                    return
+                }
 
+                // 刷新矩形第二锚点，内部触发updateRect，保证y2值标记为矩形底部坐标
+                rubberBand.y2 = mouse.y
+
+                // 确定滚动延展方向（向上还是向下）
+                var parentY = mapToItem(theView, mouse.x, mouse.y).y
+                if (parentY > theView.height) {
+                    // 选择框超出ListView底部，ListView准备向下滚动
+                    theView.scrollDirType = GlobalVar.RectScrollDirType.ToBottom
+                } else if (parentY < 0) {
+                    // 选择框超出ListView顶部，ListView准备向上滚动
+                    theView.scrollDirType = GlobalVar.RectScrollDirType.ToTop
+                } else {
+                    if (rectScrollTimer.running)
+                        rectScrollTimer.stop()
+
+//                    rubberBand.y2 = mouse.y
+                }
+
+                if(rubberBand.m_height > 0)
+                {
+                    //                    parent.ism = []
+                    parent.rubberBandDisplayed = true
+                    //                    parent.flushIsm()
+                    //                    selectedChanged()
+                }
+
+                mouse.accepted = true
+            }
+            onReleased: {
+                if(mouse.button == Qt.RightButton) {
+                    mouse.accepted = false
+                    return
+                }
+
+                if(parent.rubberBandDisplayed === false)
+                {
+                    //                    var index = parent.getItemIndexFromAxis(mouseX, mouseY + parent.contentY)
+                    //                    if(index !== -1) {
+                    //                        parent.ism = [index]
+                    //                    } else {
+                    //                        parent.ism = []
+                    //                    }
+                    //                    selectedChanged()
+                }
+
+                theView.scrollDirType = GlobalVar.RectScrollDirType.NoType
+                parent.inPress = false
+                pressedXAxis = -1
+                pressedYAxis = -1
+                rubberBand.clearRect()
+
+                mouse.accepted = true
+            }
             onWheel: {
                 // 滚动时，激活滚动条显示
                 vbar.active = true
                 var datla = wheel.angleDelta.y
+                console.log("onWhell, delta:", datla)
                 if( datla > 0 ) {
                     vbar.decrease()
                 } else {
                     vbar.increase()
+                }
+                if (theView.atYEnd) {
+                    console.log("at end..")
+                }
+            }
+
+            //橡皮筋控件
+            RubberBand {
+                id: rubberBand
+                visible: theView.inPress
+            }
+
+//            Rectangle {
+//                x: 100+theView.originX
+//                y: 200+theView.originY
+//                width: 100
+//                height:1000
+//                color: Qt.rgba(1,0,0,0.1)
+//            }
+        }
+
+        Timer {
+            id: rectScrollTimer
+            interval: 100
+            running: theView.scrollDirType !== GlobalVar.RectScrollDirType.NoType
+            repeat: true
+            onTriggered: {
+                // 选择框向下延展滚动
+                if (theView.scrollDirType === GlobalVar.RectScrollDirType.ToBottom) {
+                    var newY2 = rubberBand.y2 + theView.rectSelScrollOffset
+                    if (newY2 <= theView.listContentHeight) {
+                        rubberBand.y2 = newY2
+                        theView.contentY = theView.contentY + theView.rectSelScrollOffset + theView.originY
+                    } else {
+                        // 选择框底部最大值为内容区域底部
+                        theView.contentY = theView.listContentHeight - theView.height
+                        rubberBand.y2 = theView.listContentHeight
+                        rectScrollTimer.stop()
+                    }
+                } else if (theView.scrollDirType === GlobalVar.RectScrollDirType.ToTop) {
+                    if (rubberBand.m_top < 0) {
+                        rectScrollTimer.stop()
+                        return
+                    }
+
+                    // 矩形顶部向上延展
+                    if (theView.contentY <= rubberBand.m_bottom || rubberBand.m_bottom === rubberBand.m_top) {
+                        var newTop = rubberBand.m_top - theView.rectSelScrollOffset
+                        if (newTop > 0) {
+                            rubberBand.y2 = newTop
+                            theView.contentY = theView.contentY - theView.rectSelScrollOffset + theView.originY
+                        } else {
+                            // 选择框顶部最小值为内容区域顶部
+                            rubberBand.y2 = 0
+                            theView.contentY = 0 + theView.originY
+
+                            if(rubberBand.m_height > 0)
+                            {
+                                //                    parent.ism = []
+                                parent.rubberBandDisplayed = true
+                                //                    parent.flushIsm()
+                                //                    selectedChanged()
+                            }
+
+                            rectScrollTimer.stop()
+                        }
+                    } else {
+                        // 矩形框底部向上收缩
+                        var newBottom = rubberBand.m_bottom - theView.rectSelScrollOffset
+                        if (newBottom > rubberBand.m_top) {
+                            rubberBand.y2 = newBottom
+                            theView.contentY = theView.contentY - theView.rectSelScrollOffset + theView.originY
+                        } else {
+                            var srcollOffset = Math.abs(rubberBand.y1 - rubberBand.y2)
+                            rubberBand.y2 = rubberBand.y1
+                            theView.contentY = theView.contentY - srcollOffset + theView.originY
+                        }
+                    }
                 }
             }
         }
@@ -121,24 +313,22 @@ Item {
 
         Control {
             id :importControl
+            z: 2
             width: theView.width
-            height: importedGridView.height + m_topMarign + m_bottomMarign + importedCheckBox.height + spaceRect.height
+            height: importedGridView.height + importedListView.listMargin * 2 + importedListView.importCheckboxHeight + spaceRect.height
             property string m_index: index
-            property int m_topMarign: 10 // 已导入列表子项上边距
-            property int m_bottomMarign: 10 // 已导入列表子项下边距
-            property int m_FilterComboOffsetY: 5
-            property int m_spaceCtrlHeight: filterCombo.y + m_FilterComboOffsetY
             property var theViewTitle: global.objIsEmpty(theModel.get(index)) ? "" : theModel.get(index).title //日期标题文本内容
             property var theViewItems: global.objIsEmpty(theModel.get(index)) ? "" : theModel.get(index).items //日期标题对应图片信息链表
 
             Rectangle {
                 id: spaceRect
                 width: parent.width
-                height: index == 0 ? m_spaceCtrlHeight : 0
+                height: index == 0 ? importedListView.spaceCtrlHeight : 0
             }
 
             CheckBox {
                 id: importedCheckBox
+                height: importedListView.importCheckboxHeight
                 visible: importedGridView.haveSelect
                 checked: importedGridView.haveSelectAll
                 font: DTK.fontManager.t6
@@ -167,8 +357,8 @@ Item {
                 viewTitle: theViewTitle
                 anchors.left: parent.left
                 anchors.top: importedCheckBox.bottom
-                anchors.topMargin: m_topMarign
-                anchors.bottomMargin: m_bottomMarign
+                anchors.topMargin: importedListView.listMargin
+                anchors.bottomMargin: importedListView.listMargin
                 width: parent.width
                 height: Math.abs(Math.ceil(importedGridView.count() / Math.floor((parent.width) / itemWidth)) * itemHeight)
 
@@ -177,6 +367,22 @@ Item {
                 // 装载数据
                 thumbnailListModel: {
                     theViewItems
+                }
+
+                Connections {
+                    target: rubberBand
+                    onRectSelChanged: {
+                        var pos1 = theMouseArea.mapToItem(importedGridView, rubberBand.m_left, rubberBand.m_top)
+                        if (pos1.y < 0)
+                            pos1.y = 0
+                        var pos2 = theMouseArea.mapToItem(importedGridView, rubberBand.m_right, rubberBand.m_bottom)
+                        if (pos2.y > importedGridView.height)
+                            pos2.y = importedGridView.height
+                        console.log("pos1:", pos1, "pos2:", pos2)
+                        if (importedGridView.contains(pos1) && importedGridView.contains(pos2)) {
+                            importedGridView.flushRectSel(pos1.x, pos1.y, Math.abs(pos1.x - pos2.x), Math.abs(pos1.y - pos2.y))
+                        }
+                    }
                 }
 
                 // 监听缩略图子控件选中状态，一旦改变，更新已导入视图所有选中路径

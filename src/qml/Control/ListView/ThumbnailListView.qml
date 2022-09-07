@@ -183,6 +183,10 @@ Item {
         }
     }
 
+    function flushRectSel(x,y,w,h) {
+        theView.ism = theView.flushRectSel(x, y + theView.contentY, w, h)
+    }
+
     Connections {
         target: thumbnailImage
         onEscKeyPressed: {
