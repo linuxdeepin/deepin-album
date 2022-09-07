@@ -123,6 +123,11 @@ DialogWindow {
                 global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId()[index]
                 sigCreateAlbumDone()
             }
+
+            //侧边栏如果是关闭状态，侧边栏会自动打开
+            if (leftSidebar.x !== 0) {
+                showSliderAnimation.start()
+            }
         }
     }
 

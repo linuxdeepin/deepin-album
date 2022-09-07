@@ -138,6 +138,13 @@ ScrollView {
         }
     }
 
+    //侧边栏如果是关闭状态，侧边栏会自动打开
+    function autoShowSliderAnimation() {
+        if (leftSidebar.x !== 0) {
+            showSliderAnimation.start()
+        }
+    }
+
     Column {
         id: column
         spacing: 0
@@ -195,7 +202,7 @@ ScrollView {
                             forceActiveFocus()
                         }
                         albumControl.unMountDevice(sidebarScrollView.devicePaths[index])
-                    }
+                    }                
                 }
             }
 
@@ -209,6 +216,8 @@ ScrollView {
                             break
                         }
                     }
+
+                    autoShowSliderAnimation()
                 }
             }
 
@@ -219,6 +228,8 @@ ScrollView {
                     global.searchEditText = ""
                     forceActiveFocus()
                 }
+
+                autoShowSliderAnimation()
             }
         }
 
@@ -301,6 +312,8 @@ ScrollView {
                             break
                         }
                     }
+
+                    autoShowSliderAnimation()
                 }
             }
 
