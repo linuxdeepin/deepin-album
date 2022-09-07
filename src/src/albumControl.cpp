@@ -1226,6 +1226,17 @@ void AlbumControl::ctrlShiftSlashShortcut(int x, int y, int w, int h)
     connect(shortcutViewProcess, SIGNAL(finished(int)), shortcutViewProcess, SLOT(deleteLater()));
 }
 
+QRect AlbumControl::rect(QPoint p1, QPoint p2)
+{
+    QRect rt = QRect(p1, p2);
+    return rt;
+}
+
+QRect AlbumControl::intersected(QRect r1, QRect r2)
+{
+    return r1.intersected(r2);
+}
+
 QStringList AlbumControl::getImportTimelinesTitlePaths(const QString &titleName, const int &filterType)
 {
     QStringList pathsList;
@@ -1860,7 +1871,6 @@ QStringList AlbumControl::imageCanExportFormat(const QString &path)
             formats << info.suffix();
     }
     return formats;
-
 }
 
 bool AlbumControl::saveAsImage(const QString &path, const QString &saveName, int index, const QString &fileFormat, int pictureQuality, const QString &saveFolder)

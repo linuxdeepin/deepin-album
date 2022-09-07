@@ -291,6 +291,11 @@ public:
     // 显示快捷键提示界面
     Q_INVOKABLE void ctrlShiftSlashShortcut(int x, int y, int w, int h);
 
+    // 根据两点获取矩形区域
+    Q_INVOKABLE QRect rect(QPoint p1, QPoint p2);
+
+    // 获取两个矩形的相交矩形区域
+    Q_INVOKABLE QRect intersected(QRect r1, QRect r2);
 public:
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 

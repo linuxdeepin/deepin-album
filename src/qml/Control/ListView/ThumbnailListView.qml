@@ -184,7 +184,20 @@ Item {
     }
 
     function flushRectSel(x,y,w,h) {
-        theView.ism = theView.flushRectSel(x, y + theView.contentY, w, h)
+        if (theView.contains(x,y) && theView.contains(x+w, y+h) && w !== 0 && h !== 0)
+            theView.ism = theView.flushRectSel(x, y + theView.contentY, w, h)
+        else
+            theView.ism = []
+        selectedChanged()
+    }
+
+    function intersected(x,y,w,h) {
+        var pos = []
+        var pos1 = Qt.point(0,0)
+        var pos2 = Qt.point(width,height)
+        pos.push(pos1)
+        pos.push(pos2)
+        return pos
     }
 
     Connections {

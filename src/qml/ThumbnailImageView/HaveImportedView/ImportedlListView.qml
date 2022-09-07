@@ -84,8 +84,7 @@ Item {
         delegate: importedListDelegate
         //鼠标正在按下状态
         property bool inPress: false
-        //橡皮筋显隐状态
-        property bool rubberBandDisplayed: false
+        //框选滚动方向
         property var scrollDirType: GlobalVar.RectScrollDirType.NoType
         property var listContentHeight
         property int rectSelScrollOffset: 30
@@ -100,9 +99,6 @@ Item {
             acceptedButtons: Qt.LeftButton //仅激活左键
 
             id: theMouseArea
-            //按下时的起始坐标
-            property int pressedXAxis: -1
-            property int pressedYAxis: -1
 
             // 已导入列表不处理鼠标，穿透到缩略图列表处理鼠标事件，以便框选生效
             onPressed: {
@@ -111,15 +107,12 @@ Item {
                     return
                 }
 
-
                 theView.scrollDirType = GlobalVar.RectScrollDirType.NoType
                 parent.inPress = true
-                pressedXAxis = mouse.x
-                pressedYAxis = mouse.y
                 rubberBand.x1 = mouse.x
                 rubberBand.y1 = mouse.y
-                parent.rubberBandDisplayed = false
-
+                rubberBand.x2 = mouse.x
+                rubberBand.y2 = mouse.y
                 mouse.accepted = true
             }
             onMouseXChanged: {
@@ -129,13 +122,6 @@ Item {
                 }
 
                 rubberBand.x2 = mouse.x
-                if(rubberBand.m_width > 0)
-                {
-                    //                    parent.ism = []
-                    parent.rubberBandDisplayed = true
-                    //                    parent.flushIsm()
-                    //                    selectedChanged()
-                }
 
                 mouse.accepted = true
             }
@@ -159,16 +145,6 @@ Item {
                 } else {
                     if (rectScrollTimer.running)
                         rectScrollTimer.stop()
-
-//                    rubberBand.y2 = mouse.y
-                }
-
-                if(rubberBand.m_height > 0)
-                {
-                    //                    parent.ism = []
-                    parent.rubberBandDisplayed = true
-                    //                    parent.flushIsm()
-                    //                    selectedChanged()
                 }
 
                 mouse.accepted = true
@@ -179,21 +155,8 @@ Item {
                     return
                 }
 
-                if(parent.rubberBandDisplayed === false)
-                {
-                    //                    var index = parent.getItemIndexFromAxis(mouseX, mouseY + parent.contentY)
-                    //                    if(index !== -1) {
-                    //                        parent.ism = [index]
-                    //                    } else {
-                    //                        parent.ism = []
-                    //                    }
-                    //                    selectedChanged()
-                }
-
                 theView.scrollDirType = GlobalVar.RectScrollDirType.NoType
                 parent.inPress = false
-                pressedXAxis = -1
-                pressedYAxis = -1
                 rubberBand.clearRect()
 
                 mouse.accepted = true
@@ -247,14 +210,14 @@ Item {
                         rectScrollTimer.stop()
                     }
                 } else if (theView.scrollDirType === GlobalVar.RectScrollDirType.ToTop) {
-                    if (rubberBand.m_top < 0) {
+                    if (rubberBand.top() < 0) {
                         rectScrollTimer.stop()
                         return
                     }
 
                     // 矩形顶部向上延展
-                    if (theView.contentY <= rubberBand.m_bottom || rubberBand.m_bottom === rubberBand.m_top) {
-                        var newTop = rubberBand.m_top - theView.rectSelScrollOffset
+                    if (theView.contentY <= rubberBand.bottom() || rubberBand.bottom() === rubberBand.top()) {
+                        var newTop = rubberBand.top() - theView.rectSelScrollOffset
                         if (newTop > 0) {
                             rubberBand.y2 = newTop
                             theView.contentY = theView.contentY - theView.rectSelScrollOffset + theView.originY
@@ -263,20 +226,12 @@ Item {
                             rubberBand.y2 = 0
                             theView.contentY = 0 + theView.originY
 
-                            if(rubberBand.m_height > 0)
-                            {
-                                //                    parent.ism = []
-                                parent.rubberBandDisplayed = true
-                                //                    parent.flushIsm()
-                                //                    selectedChanged()
-                            }
-
                             rectScrollTimer.stop()
                         }
                     } else {
                         // 矩形框底部向上收缩
-                        var newBottom = rubberBand.m_bottom - theView.rectSelScrollOffset
-                        if (newBottom > rubberBand.m_top) {
+                        var newBottom = rubberBand.bottom() - theView.rectSelScrollOffset
+                        if (newBottom > rubberBand.top()) {
                             rubberBand.y2 = newBottom
                             theView.contentY = theView.contentY - theView.rectSelScrollOffset + theView.originY
                         } else {
@@ -372,16 +327,12 @@ Item {
                 Connections {
                     target: rubberBand
                     onRectSelChanged: {
-                        var pos1 = theMouseArea.mapToItem(importedGridView, rubberBand.m_left, rubberBand.m_top)
-                        if (pos1.y < 0)
-                            pos1.y = 0
-                        var pos2 = theMouseArea.mapToItem(importedGridView, rubberBand.m_right, rubberBand.m_bottom)
-                        if (pos2.y > importedGridView.height)
-                            pos2.y = importedGridView.height
-                        console.log("pos1:", pos1, "pos2:", pos2)
-                        if (importedGridView.contains(pos1) && importedGridView.contains(pos2)) {
-                            importedGridView.flushRectSel(pos1.x, pos1.y, Math.abs(pos1.x - pos2.x), Math.abs(pos1.y - pos2.y))
-                        }
+                        var pos1 = theMouseArea.mapToItem(importedGridView, rubberBand.left(), rubberBand.top())
+                        var pos2 = theMouseArea.mapToItem(importedGridView, rubberBand.right(), rubberBand.bottom())
+                        var rectsel = albumControl.rect(pos1, pos2)
+                        var rectList = Qt.rect(0, 0, importedGridView.width, importedGridView.height)
+                        var rect = albumControl.intersected(rectList, rectsel)
+                        importedGridView.flushRectSel(rect.x, rect.y, rect.width, rect.height)
                     }
                 }
 

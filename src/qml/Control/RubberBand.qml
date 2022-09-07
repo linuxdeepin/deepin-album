@@ -19,16 +19,10 @@ Item {
     property int m_lastWidth: 0
     property int m_lastHeight: 0
 
-    property alias selAreaY: selArea.y
-    property int x1
-    property int y1
-    property int x2
-    property int y2
-
-    property int m_left: Math.min(x1, x2)
-    property int m_right: Math.max(x1, x2)
-    property int m_top: Math.min(y1, y2)
-    property int m_bottom: Math.max(y1, y2)
+    property int x1: -1
+    property int y1: -1
+    property int x2: -1
+    property int y2: -1
 
     visible: false
 
@@ -38,6 +32,26 @@ Item {
 
     onY2Changed: {
         updateRect()
+    }
+
+    function isValid() {
+        return x1 >=0 && y1 >= 0 && x2 >= 0 && y2 >= 0
+    }
+
+    function left() {
+        return Math.min(x1, x2)
+    }
+
+    function top() {
+        return Math.min(y1, y2)
+    }
+
+    function right() {
+        return Math.max(x1, x2)
+    }
+
+    function bottom() {
+        return Math.max(y1, y2)
     }
 
     function updateRect() {
@@ -55,7 +69,8 @@ Item {
         m_width = Math.abs(x1 - x2)
         m_height = Math.abs(y1 - y2)
 
-        rectSelChanged()
+        if (isValid())
+            rectSelChanged()
     }
 
     function clearRect() {
