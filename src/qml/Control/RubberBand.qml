@@ -35,7 +35,7 @@ Item {
     }
 
     function isValid() {
-        return x1 >=0 && y1 >= 0 && x2 >= 0 && y2 >= 0
+        return x1 !== -1 && y1 !== -1 && x2 !== -1 && y2 !== -1
     }
 
     function left() {

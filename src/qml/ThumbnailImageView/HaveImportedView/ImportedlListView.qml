@@ -12,6 +12,7 @@ import "../../Control"
 import "../../"
 Item {
     id : importedListView
+    signal rectSelTitleChanged(rect rt)
     property var selectedPaths: []
     property int filterComboOffsetY: 5
     property int spaceCtrlHeight: filterCombo.y + filterComboOffsetY
@@ -70,6 +71,16 @@ Item {
         selectedPaths = tmpPaths
         if (importedListView.visible) {
             global.selectedPaths = selectedPaths
+        }
+    }
+
+    // 通知已导入视图标题栏区域，调整色差校正框选框大小
+    Connections {
+        target: rubberBand
+        onRectSelChanged: {
+            var pos1 = theView.contentItem.mapToItem(importedListView, rubberBand.left(), rubberBand.top())
+            var pos2 = theView.contentItem.mapToItem(importedListView, rubberBand.right(), rubberBand.bottom())
+            rectSelTitleChanged(albumControl.rect(pos1, pos2))
         }
     }
 
@@ -159,6 +170,9 @@ Item {
                 parent.inPress = false
                 rubberBand.clearRect()
 
+                // 清除标题栏色差矫校正框选框
+                rectSelTitleChanged(albumControl.rect(Qt.point(0, 0), Qt.point(0, 0)))
+
                 mouse.accepted = true
             }
             onWheel: {
@@ -181,14 +195,6 @@ Item {
                 id: rubberBand
                 visible: theView.inPress
             }
-
-//            Rectangle {
-//                x: 100+theView.originX
-//                y: 200+theView.originY
-//                width: 100
-//                height:1000
-//                color: Qt.rgba(1,0,0,0.1)
-//            }
         }
 
         Timer {

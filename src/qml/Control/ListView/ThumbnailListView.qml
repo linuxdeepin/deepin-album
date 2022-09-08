@@ -369,7 +369,7 @@ Item {
                 }
             }
 
-            console.log("flushRectSel:", tempArray)
+            //console.log("flushRectSel:", tempArray)
             return tempArray
         }
 

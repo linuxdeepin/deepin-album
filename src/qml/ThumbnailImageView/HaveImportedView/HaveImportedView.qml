@@ -13,6 +13,8 @@ Rectangle {
     property string selectedText: getSelectedText(selectedPaths)
     property alias selectedPaths: theView.selectedPaths
 
+    property real titleOpacity: 0.7
+
     onVisibleChanged: {
         if (visible)
             flushHaveImportedView()
@@ -71,7 +73,7 @@ Rectangle {
         id: importedTitleRect
         width: parent.width - global.verticalScrollBarWidth
         height: global.thumbnailViewTitleHieght
-        color: Qt.rgba(255,255,255,0.7)
+        color: Qt.rgba(255, 255, 255, titleOpacity)
         z:3
 
         // 已导入标签
@@ -95,6 +97,25 @@ Rectangle {
             anchors.right: parent.right
             width: 130
             height: 30
+        }
+    }
+
+    // 增加标题栏色差校正框选框，用于解决标题栏吸顶导致的框选框色差问题
+    Rectangle {
+        id: rectTitleSelArea
+        color: "#1E90FF"
+        opacity: 0.4 * (titleOpacity + 0.002)
+        z: 4
+        Connections {
+            target: theView
+            onRectSelTitleChanged: {
+                var rectTitle = Qt.rect(0, 0, importedTitleRect.width, importedTitleRect.height)
+                var rectTopSel = albumControl.intersected(rt, rectTitle)
+                rectTitleSelArea.x = rectTopSel.x
+                rectTitleSelArea.y = rectTopSel.y
+                rectTitleSelArea.width = rectTopSel.width - 1
+                rectTitleSelArea.height = rectTopSel.height
+            }
         }
     }
 
