@@ -22,6 +22,7 @@ Item {
     property int thumbnailViewTitleHieght: 85 // 缩略图视图区域标题显示区域高度
     property int verticalScrollBarWidth: 15 // 垂直滚动条宽度
 
+    property int rectSelScrollStep: 30 // 框选滚动步进
     property int rightMenuItemHeight: 32//右键菜单item的高度
     property int rightMenuSeparatorHeight: 12//右键菜单分割层的高度
     property var selectedPaths: [] // 已选路径

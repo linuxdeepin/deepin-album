@@ -52,8 +52,6 @@ Item {
                 theView.listContentHeight += dayHeight
                 i++
             }
-
-            console.log("dayHeights:", dayHeights, "theView.listContentHeight:", theView.listContentHeight)
         }
     }
 
@@ -98,7 +96,7 @@ Item {
         //框选滚动方向
         property var scrollDirType: GlobalVar.RectScrollDirType.NoType
         property var listContentHeight
-        property int rectSelScrollOffset: 30
+        property int rectSelScrollOffset: global.rectSelScrollStep
         //激活滚动条
         ScrollBar.vertical: ScrollBar {
             id: vbar
@@ -111,7 +109,6 @@ Item {
 
             id: theMouseArea
 
-            // 已导入列表不处理鼠标，穿透到缩略图列表处理鼠标事件，以便框选生效
             onPressed: {
                 if(mouse.button == Qt.RightButton) {
                     mouse.accepted = false
