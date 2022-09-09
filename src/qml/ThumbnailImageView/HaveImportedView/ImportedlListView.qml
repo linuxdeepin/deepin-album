@@ -305,7 +305,7 @@ Item {
                 anchors.top :importedCheckBox.top
                 font: DTK.fontManager.t6
                 id: importedLabel
-                text: theViewTitle +" 共" + importedGridView.count() + "项"
+                text: theViewTitle + " " + (importedGridView.count() === 1 ? qsTr("1 item") : qsTr("%1 items").arg(importedGridView.count()))
 
             }
 

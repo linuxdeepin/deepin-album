@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="el">
+<TS version="2.0" language="el">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -33,6 +33,126 @@
     </message>
     <message>
         <source>Draw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Πλήρης Οθόνη</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen/slideshow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Προβολή στον διαχειριστή αρχείων</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Προβολή εικονών</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished">Προβολή</translation>
+    </message>
+    <message>
+        <source>Export photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Αντιγραφή</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Διαγραφή</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Ορισμός ως ταπετσαρία</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Περιστροφή δεξιόστροφα</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Περιστροφή αριστερόστροφα</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished">Προηγούμενο</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Επόμενο</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Αγαπημένο</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Αφαίρεση από τα αγαπημένα</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">Νέο άλμπουμ</translation>
+    </message>
+    <message>
+        <source>Rename album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Page up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Page down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Photos</source>
+        <translation type="unfinished">Φωτογραφίες</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation type="unfinished">Άλμπουμ</translation>
+    </message>
+    <message>
+        <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -188,6 +308,41 @@
     </message>
     <message>
         <source>%1Year%2Month%3Day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 photos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DeepinStorage</name>
+    <message>
+        <source>%1 Drive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blank %1 Disc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 Encrypted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 Volume</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -416,6 +571,17 @@
     </message>
 </context>
 <context>
+    <name>ImportedlListView</name>
+    <message>
+        <source>1 item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
@@ -563,6 +729,17 @@
     </message>
     <message>
         <source>Select pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import successful</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PathManager</name>
+    <message>
+        <source>System Disk</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1128,6 +1305,10 @@
     <name>main</name>
     <message>
         <source>All photos and videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import successful</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

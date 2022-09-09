@@ -35,6 +35,126 @@
         <source>Draw</source>
         <translation>画板</translation>
     </message>
+    <message>
+        <source>Image files</source>
+        <translation>图片文件</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation>全屏</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen/slideshow</source>
+        <translation>退出全屏/幻灯片放映</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>帮助</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>在文件管理器中显示</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>幻灯片放映</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation>查看</translation>
+    </message>
+    <message>
+        <source>Export photos</source>
+        <translation>导出照片</translation>
+    </message>
+    <message>
+        <source>Import photos/videos</source>
+        <translation>导入照片和视频</translation>
+    </message>
+    <message>
+        <source>Select all</source>
+        <translation>全选</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>复制</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+    <message>
+        <source>Photo/Video info</source>
+        <translation>照片/视频信息</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>设为壁纸</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>顺时针旋转</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>逆时针旋转</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>放大照片</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>缩小照片</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>上一张</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>下一张</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation>收藏</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation>取消收藏</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation>新建相册</translation>
+    </message>
+    <message>
+        <source>Rename album</source>
+        <translation>重命名相册</translation>
+    </message>
+    <message>
+        <source>Page up</source>
+        <translation>向上滚动一屏</translation>
+    </message>
+    <message>
+        <source>Page down</source>
+        <translation>向下滚动一屏</translation>
+    </message>
+    <message>
+        <source>Photos</source>
+        <translation>照片</translation>
+    </message>
+    <message>
+        <source>Albums</source>
+        <translation>相册</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>设置</translation>
+    </message>
 </context>
 <context>
     <name>AlbumTitle</name>
@@ -189,6 +309,41 @@
     <message>
         <source>%1Year%2Month%3Day</source>
         <translation>%1年%2月%3日</translation>
+    </message>
+    <message>
+        <source>%1 photos</source>
+        <translation>%1张照片</translation>
+    </message>
+    <message>
+        <source>%1 items selected</source>
+        <translation>已选择%1项</translation>
+    </message>
+    <message>
+        <source>%1 photos selected</source>
+        <translation>已选择%1张照片</translation>
+    </message>
+    <message>
+        <source>%1 videos selected</source>
+        <translation>已选择%1个视频</translation>
+    </message>
+</context>
+<context>
+    <name>DeepinStorage</name>
+    <message>
+        <source>%1 Drive</source>
+        <translation>%1驱动器</translation>
+    </message>
+    <message>
+        <source>Blank %1 Disc</source>
+        <translation>空白%1光盘</translation>
+    </message>
+    <message>
+        <source>%1 Encrypted</source>
+        <translation>%1已加密</translation>
+    </message>
+    <message>
+        <source>%1 Volume</source>
+        <translation>%1卷</translation>
     </message>
 </context>
 <context>
@@ -416,6 +571,18 @@
     </message>
 </context>
 <context>
+    <name>ImportedlListView</name>
+    <message>
+        <source>1 item</source>
+        <translatorcomment>共 %1项</translatorcomment>
+        <translation>共 1项</translation>
+    </message>
+    <message>
+        <source>%1 items</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
@@ -564,6 +731,18 @@
     <message>
         <source>Select pictures</source>
         <translation>选择图片</translation>
+    </message>
+    <message>
+        <source>Import successful</source>
+        <translatorcomment>导入成功</translatorcomment>
+        <translation>导入成功</translation>
+    </message>
+</context>
+<context>
+    <name>PathManager</name>
+    <message>
+        <source>System Disk</source>
+        <translation>系统盘</translation>
     </message>
 </context>
 <context>
@@ -1128,7 +1307,11 @@
     <name>main</name>
     <message>
         <source>All photos and videos</source>
-        <translation>所有图片和视频</translation>
+        <translation>所有照片和视频</translation>
+    </message>
+    <message>
+        <source>Import successful</source>
+        <translation>导入成功</translation>
     </message>
 </context>
 </TS>
