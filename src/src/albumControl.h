@@ -296,6 +296,9 @@ public:
 
     // 获取两个矩形的相交矩形区域
     Q_INVOKABLE QRect intersected(QRect r1, QRect r2);
+
+    // url路径转为本地路径
+    Q_INVOKABLE QString localPath(QString url);
 public:
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 

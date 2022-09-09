@@ -1237,6 +1237,11 @@ QRect AlbumControl::intersected(QRect r1, QRect r2)
     return r1.intersected(r2);
 }
 
+QString AlbumControl::localPath(QString url)
+{
+    return QUrl(url).toLocalFile();
+}
+
 QStringList AlbumControl::getImportTimelinesTitlePaths(const QString &titleName, const int &filterType)
 {
     QStringList pathsList;

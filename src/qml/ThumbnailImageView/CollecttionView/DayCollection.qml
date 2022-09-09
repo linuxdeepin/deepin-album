@@ -19,6 +19,58 @@ Item {
     property real realCellWidth : (width - global.thumbnailListRightMargin) / rowSizeHint
     property var dayHeights: []
 
+    property var selectedPaths: []
+    property string numLabelText: "" //总数标签显示内容
+    property string selectedText: getSelectedText(selectedPaths)
+
+    property int currentColletionIndex: collecttionView.currentViewIndex
+
+    Connections {
+        target: collecttionView
+        onFlushDayViewStatusText: {
+            if (visible) {
+                if (selectedPaths.length > 0)
+                    getSelectedText(selectedPaths)
+                else
+                    getNumLabelText()
+            }
+        }
+    }
+
+    // 刷新总数标签
+    function getNumLabelText() {
+        var photoCountText = albumControl.getAllInfoConut(1) > 0 ? qsTr("%1 photos").arg(albumControl.getAllInfoConut(1)) : ""
+        var videoCountText = albumControl.getAllInfoConut(2) > 0 ? qsTr("%1 videos").arg(albumControl.getAllInfoConut(2)) : ""
+        numLabelText = photoCountText + (videoCountText !== "" ? ((photoCountText !== "" ? " " : "") + videoCountText) : "")
+
+        if (visible) {
+            global.statusBarNumText = numLabelText
+        }
+    }
+
+    // 刷新选中项目标签内容
+    function getSelectedText(paths) {
+        var photoCount = fileControl.photoCount(paths)
+        var videoCount = fileControl.videoCount(paths)
+        var selectedNumText = ""
+        if (photoCount && videoCount)
+            selectedNumText = qsTr("%1 items selected").arg(photoCount + videoCount)
+        else if (photoCount && videoCount === 0)
+            selectedNumText = qsTr("%1 photos selected").arg(photoCount)
+        else if (photoCount === 0 && videoCount)
+            selectedNumText = qsTr("%1 videos selected").arg(videoCount)
+        else
+            selectedNumText = ""
+
+        if (selectedNumText === "") {
+            selectedNumText = numLabelText
+        }
+
+        if (visible)
+            global.statusBarNumText = selectedNumText
+        return selectedNumText
+    }
+
     //月视图切日视图
     function scrollToMonth(year, month) {
         vbar.active = true
@@ -42,6 +94,7 @@ Item {
     function flushModel() {
         //0.清理
         theModel.clear()
+        theModel.selectedPathObjs = []
         dayHeights = []
         //1.获取日期
         var days = albumControl.getDays()
@@ -53,6 +106,11 @@ Item {
         var dayPaths
         for (var i = 0;i !== days.length;++i) {
             theModel.append({dayToken: days[i]})
+
+            // 当前日期列表选中数据初始化
+            dayPaths = []
+            theModel.selectedPathObj = {"id": i, "paths": dayPaths}
+            theModel.selectedPathObjs.push(theModel.selectedPathObj)
 
             // 计算每个日期列表高度
             dayPaths = albumControl.getDayPaths(days[i])
@@ -77,9 +135,28 @@ Item {
         }
     }
 
+    // 刷新日视图列表已选路径
+    function updateSelectedPaths()
+    {
+        var tmpPaths = []
+        for (var i = 0; i < theModel.selectedPathObjs.length; i++) {
+            if (theModel.selectedPathObjs[i].paths.length > 0) {
+                for (var j = 0; j < theModel.selectedPathObjs[i].paths.length; j++)
+                    tmpPaths.push(theModel.selectedPathObjs[i].paths[j])
+            }
+        }
+
+        selectedPaths = tmpPaths
+        if (visible) {
+            global.selectedPaths = selectedPaths
+        }
+    }
+
     //dayToken: 日期令牌，用于获取其它数据
     ListModel {
         id: theModel
+        property var selectedPathObj: {"id":0, "paths":[]}
+        property var selectedPathObjs: []
     }
 
     ListView {
@@ -309,6 +386,15 @@ Item {
                         theSubView.flushRectSel(rect.x, rect.y, rect.width, rect.height)
                     }
                 }
+
+                // 监听缩略图子控件选中状态，一旦改变，更新日视图所有选中路径
+                Connections {
+                    target: theSubView
+                    onSelectedChanged: {
+                        theModel.selectedPathObjs[index].paths = theSubView.selectedPaths
+                        updateSelectedPaths()
+                    }
+                }
             }
 
             function flushView() {
@@ -318,7 +404,7 @@ Item {
                 var paths = albumControl.getDayPaths(m_dayToken)
                 viewModel.clear()
                 for (var i = 0;i !== paths.length;++i) {
-                    viewModel.append({url: paths[i]})
+                    viewModel.append({url: paths[i], filePath: albumControl.localPath(paths[i])})
 
                     //顺便统计下图片和视频的数量
                     if(fileControl.isImage(paths[i])) {

@@ -5,8 +5,15 @@ Item {
     id: root
     property int currentViewIndex: 0
 
+    // 通知日视图刷新状态栏提示信息
+    signal flushDayViewStatusText()
+
     function setIndex(index) {
+
         currentViewIndex = index
+
+        if (currentViewIndex === 2)
+            flushDayViewStatusText()
     }
 
     onVisibleChanged: {
