@@ -451,7 +451,9 @@ bool mountDeviceExist(const QString &path)
 
 QString hashByString(const QString &str)
 {
-    return QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex();
+    QString hashString = QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex();
+    qDebug() << QString("baseutils::hashByString str:%1 hash:%2").arg(str).arg(hashString);
+    return hashString;
 }
 
 QString getDeleteFullPath(const QString &hash, const QString &fileName)

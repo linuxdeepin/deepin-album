@@ -1671,7 +1671,9 @@ bool AlbumControl::canAddToCustomAlbum(const int &albumId, const QStringList &pa
 
 bool AlbumControl::photoHaveFavorited(const QString &path)
 {
-    return DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, QUrl(path).toLocalFile());
+    bool bRet = DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, QUrl(path).toLocalFile());
+    qDebug() << QString("AlbumControl::photoHaveFavorited path:%1 bRet:%2").arg(path).arg(bRet);
+    return bRet;
 }
 
 bool AlbumControl::photoHaveAddedToCustomAlbum(int albumId, const QString &path)

@@ -35,6 +35,7 @@ Item {
         canViewPhotoInfo = global.selectedPaths.length === 1 && fileControl.isImage(global.selectedPaths[0])
         canViewVideoInfo = global.selectedPaths.length === 1 && !fileControl.isImage(global.selectedPaths[0])
         canWallpaper = global.selectedPaths.length === 1 && fileControl.isSupportSetWallpaper(global.selectedPaths[0]) && !isInTrash
+        canFavorite = albumControl.canFavorite(global.selectedPaths) && !isInTrash
         canRotate = fileControl.isRotatable(global.selectedPaths)
         canDisplayInFolder = global.selectedPaths.length === 1 && fileControl.pathExists(global.selectedPaths[0]) && !isInTrash
         canPrint = fileControl.isCanPrint(global.selectedPaths) && global.selectedPaths.length === 1 && !isInTrash
