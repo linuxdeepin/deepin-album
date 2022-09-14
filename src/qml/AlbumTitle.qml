@@ -100,8 +100,9 @@ Rectangle {
                 width: 36
                 height: 36
             }
+            ToolTip.visible: hovered
+            ToolTip.text: leftSidebar.x !== 0 ? qsTr("Show Side Bar") : qsTr("Hide Side Bar")
             onClicked :{
-                console.log("leftSidebar.x:",leftSidebar.x)
                 if(leftSidebar.x !== 0 ){
                     showSliderAnimation.start()
                 }
