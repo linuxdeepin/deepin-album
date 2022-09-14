@@ -189,6 +189,7 @@ Item {
         property int rectSelScrollOffset: global.rectSelScrollStep
 
         signal sigUnSelectAll()
+        signal dbClicked(string url)
 
         //激活滚动条
         ScrollBar.vertical: ScrollBar {
@@ -214,6 +215,15 @@ Item {
                 rubberBand.y1 = mouse.y
                 rubberBand.x2 = mouse.x
                 rubberBand.y2 = mouse.y
+                mouse.accepted = true
+            }
+            onDoubleClicked: {
+                if (global.selectedPaths.length > 0)
+                    theView.dbClicked(global.selectedPaths[0])
+
+                parent.inPress = false
+                rubberBand.clearRect()
+
                 mouse.accepted = true
             }
             onMouseXChanged: {
@@ -418,6 +428,15 @@ Item {
                     target: theView
                     onSigUnSelectAll: {
                         theSubView.selectAll(false)
+                    }
+                }
+
+                Connections {
+                    target: theView
+                    onDbClicked: {
+                        var openPaths = theSubView.allOriginUrls()
+                        if (openPaths.indexOf(url) !== -1)
+                            theSubView.executeViewImage()
                     }
                 }
             }

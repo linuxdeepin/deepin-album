@@ -98,6 +98,7 @@ Item {
         property var scrollDirType: GlobalVar.RectScrollDirType.NoType
         property var listContentHeight
         property int rectSelScrollOffset: global.rectSelScrollStep
+        signal dbClicked(string url)
         //激活滚动条
         ScrollBar.vertical: ScrollBar {
             id: vbar
@@ -124,6 +125,16 @@ Item {
                 rubberBand.y2 = mouse.y
                 mouse.accepted = true
             }
+            onDoubleClicked: {
+                if (global.selectedPaths.length > 0)
+                    theView.dbClicked(global.selectedPaths[0])
+
+                parent.inPress = false
+                rubberBand.clearRect()
+
+                mouse.accepted = true
+            }
+
             onMouseXChanged: {
                 if(mouse.button == Qt.RightButton) {
                     mouse.accepted = false
@@ -353,6 +364,15 @@ Item {
                     target: importedListView
                     onSigUnSelectAll: {
                         importedGridView.selectAll(false)
+                    }
+                }
+
+                Connections {
+                    target: theView
+                    onDbClicked: {
+                        var openPaths = importedGridView.allOriginUrls()
+                        if (openPaths.indexOf(url) !== -1)
+                            importedGridView.executeViewImage()
                     }
                 }
             }
