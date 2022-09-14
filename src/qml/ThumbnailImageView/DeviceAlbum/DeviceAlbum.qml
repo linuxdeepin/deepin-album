@@ -83,6 +83,17 @@ Rectangle {
         }
     }
 
+    // 导入重复图片提示
+    Connections {
+        target: albumControl
+        onSigRepeatUrls: {
+            if (visible && global.currentCustomAlbumUId !== 0) {
+                theView.selectedPaths = urls
+                global.selectedPaths = selectedPaths
+            }
+        }
+    }
+
     // 设备相册标题栏区域
     Rectangle {
         id: deviceAlbumTitleRect

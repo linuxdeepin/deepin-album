@@ -15,6 +15,17 @@ Rectangle {
 
     property real titleOpacity: 0.7
 
+    Connections {
+        target: albumControl
+        onSigRepeatUrls: {
+            if (visible) {
+                theView.sigUnSelectAll()
+                theView.selectedPaths = urls
+                global.selectedPaths = selectedPaths
+            }
+        }
+    }
+
     onVisibleChanged: {
         if (visible)
             flushHaveImportedView()

@@ -93,11 +93,12 @@ ApplicationWindow {
         selectMultiple: true
         nameFilters: albumControl.getAllFilters()
         onAccepted: {
-            albumControl.importAllImagesAndVideosUrl(importDialog.fileUrls)
-            if(global.currentViewIndex == 6 && albumControl.isCustomAlbum(global.currentCustomAlbumUId)){
-                albumControl.addCustomAlbumInfos(global.currentCustomAlbumUId,importDialog.fileUrls)
+            if (albumControl.importAllImagesAndVideosUrl(importDialog.fileUrls)) {
+                if(global.currentViewIndex == 6 && albumControl.isCustomAlbum(global.currentCustomAlbumUId)){
+                    albumControl.addCustomAlbumInfos(global.currentCustomAlbumUId,importDialog.fileUrls)
+                }
+                DTK.sendMessage(stackControl, qsTr("Import successful"), "checked")
             }
-            DTK.sendMessage(stackControl, qsTr("Import successful"), "checked")
         }
     }
 

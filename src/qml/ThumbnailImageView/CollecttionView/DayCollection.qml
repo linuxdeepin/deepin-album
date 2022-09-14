@@ -37,6 +37,21 @@ Item {
         }
     }
 
+    Connections {
+        target: albumControl
+        onSigRepeatUrls: {
+            if (visible && collecttionView.currentViewIndex === 2) {
+                theView.sigUnSelectAll()
+                selectedPaths = urls
+                if (selectedPaths.length > 0)
+                    getSelectedText(selectedPaths)
+                else
+                    getNumLabelText()
+                global.selectedPaths = selectedPaths
+            }
+        }
+    }
+
     // 刷新总数标签
     function getNumLabelText() {
         var photoCountText = albumControl.getAllInfoConut(1) > 0 ? qsTr("%1 photos").arg(albumControl.getAllInfoConut(1)) : ""
@@ -172,6 +187,9 @@ Item {
         property var scrollDirType: GlobalVar.RectScrollDirType.NoType
         property var listContentHeight
         property int rectSelScrollOffset: global.rectSelScrollStep
+
+        signal sigUnSelectAll()
+
         //激活滚动条
         ScrollBar.vertical: ScrollBar {
             id: vbar
@@ -393,6 +411,13 @@ Item {
                     onSelectedChanged: {
                         theModel.selectedPathObjs[index].paths = theSubView.selectedPaths
                         updateSelectedPaths()
+                    }
+                }
+
+                Connections {
+                    target: theView
+                    onSigUnSelectAll: {
+                        theSubView.selectAll(false)
                     }
                 }
             }

@@ -26,7 +26,7 @@ Rectangle {
         height: image.paintedHeight + 14
         radius: 10
         color: "#AAAAAA"
-        visible: theView.ism.indexOf(parent.m_index) !== -1
+        visible: theView.ism.indexOf(parent.m_index) !== -1 || global.selectedPaths.indexOf(m_url) !== -1
         opacity: 0.4
     }
 

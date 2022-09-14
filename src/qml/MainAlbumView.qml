@@ -86,9 +86,18 @@ Rectangle {
         anchors.fill: parent
 
         onDropped: {
-            albumControl.importAllImagesAndVideosUrl(drop.urls)
             if(global.currentViewIndex == 6 && albumControl.isCustomAlbum(global.currentCustomAlbumUId)){
-                albumControl.addCustomAlbumInfos(global.currentCustomAlbumUId,drop.urls)
+                var albumPaths = albumControl.getAlbumPaths(global.currentCustomAlbumUId)
+                var urls = []
+                for (var i = 0; i < drop.urls.length; i++) {
+                    urls.push(drop.urls[i])
+                }
+                if (!albumControl.checkRepeatUrls(albumPaths, urls)) {
+                    albumControl.importAllImagesAndVideosUrl(drop.urls, false)
+                    albumControl.addCustomAlbumInfos(global.currentCustomAlbumUId,drop.urls)
+                }
+            } else {
+                albumControl.importAllImagesAndVideosUrl(drop.urls, true)
             }
         }
 
@@ -96,7 +105,16 @@ Rectangle {
             if(drag.hasUrls) {
                 var urls = drag.urls
                 if(fileControl.checkMimeUrls(urls)) {
-                    drag.accepted = true
+                    if (global.currentViewIndex === GlobalVar.ThumbnailViewType.CustomAlbum) {
+                        // 仅自定义相册允许拖拽导入
+                        drag.accepted = albumControl.isCustomAlbum(global.currentCustomAlbumUId)
+                    } else if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Import
+                               || global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion
+                               || global.currentViewIndex === GlobalVar.ThumbnailViewType.HaveImported) {
+                        drag.accepted = true
+                    } else {
+                        drag.accepted = false
+                    }
                 } else {
                     drag.accepted = false
                 }

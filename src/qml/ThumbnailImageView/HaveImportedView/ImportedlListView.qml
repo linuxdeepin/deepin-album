@@ -13,6 +13,7 @@ import "../../"
 Item {
     id : importedListView
     signal rectSelTitleChanged(rect rt)
+    signal sigUnSelectAll()
     property var selectedPaths: []
     property int filterComboOffsetY: 5
     property int spaceCtrlHeight: filterCombo.y + filterComboOffsetY
@@ -345,6 +346,13 @@ Item {
                     onSelectedChanged: {
                         theModel.selectedPathObjs[m_index].paths = importedGridView.selectedPaths
                         updateSelectedPaths()
+                    }
+                }
+
+                Connections {
+                    target: importedListView
+                    onSigUnSelectAll: {
+                        importedGridView.selectAll(false)
                     }
                 }
             }

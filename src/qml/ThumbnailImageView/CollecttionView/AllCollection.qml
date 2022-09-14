@@ -78,6 +78,16 @@ Item {
         return true
     }
 
+    Connections {
+        target: albumControl
+        onSigRepeatUrls: {
+            if (visible && collecttionView.currentViewIndex === 3) {
+                theView.selectAll(false)
+                selectedPaths = urls
+                global.selectedPaths = selectedPaths
+            }
+        }
+    }
 
     // 所有项目标题栏区域
     Rectangle {

@@ -46,6 +46,9 @@ public:
     //卸载设备
     Q_INVOKABLE void unMountDevice(const QString &devicePath);
 
+    //获得全部导入的url路径
+    Q_INVOKABLE QStringList getAllUrlPaths(const int &filterType = 0);
+
     //获得全部导入的路径
     Q_INVOKABLE QStringList getAllPaths(const int &filterType = 0);
 
@@ -53,10 +56,10 @@ public:
     Q_INVOKABLE QVariantList getAlbumAllInfos(const int &filterType = 0);
 
     //导入图片，导入图片接口
-    Q_INVOKABLE void importAllImagesAndVideos(const QStringList &paths);
+    Q_INVOKABLE bool importAllImagesAndVideos(const QStringList &paths);
 
     //导入图片，导入图片接口urls
-    Q_INVOKABLE void importAllImagesAndVideosUrl(const QList <QUrl> &paths);
+    Q_INVOKABLE bool importAllImagesAndVideosUrl(const QList <QUrl> &paths, bool checkRepeat = true);
 
     //获得全部创建时间线
     Q_INVOKABLE QStringList getAllTimelinesTitle(const int &filterType = 0);
@@ -299,6 +302,9 @@ public:
 
     // url路径转为本地路径
     Q_INVOKABLE QString localPath(QString url);
+
+    // 检查是否有重复路径
+    Q_INVOKABLE bool checkRepeatUrls(QStringList imported, QStringList urls);
 public:
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 
@@ -392,6 +398,8 @@ signals:
     void sigAddDevice(const QString &path);
 
     void sigRefreashVideoTime(const QString &url, const QString &videoTimeStr);
+
+    void sigRepeatUrls(const QStringList &urls);
 
 private :
     DBImgInfoList m_infoList;  //全部已导入

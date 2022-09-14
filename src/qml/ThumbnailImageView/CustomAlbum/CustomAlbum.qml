@@ -107,6 +107,17 @@ Rectangle {
         return true
     }
 
+    Connections {
+        target: albumControl
+        onSigRepeatUrls: {
+            if (visible && global.currentCustomAlbumUId !== 0) {
+                theView.selectAll(false)
+                theView.selectedPaths = urls
+                global.selectedPaths = urls
+            }
+        }
+    }
+
     // 自定义相册标题栏区域
     Rectangle {
         id: customAlbumTitleRect

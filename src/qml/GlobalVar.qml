@@ -1,5 +1,6 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
+import org.deepin.dtk 1.0
 
 Item {
 
@@ -141,6 +142,14 @@ Item {
         target: albumControl
         onSigRefreshSlider: {
             albumImportChangeList = !albumImportChangeList
+        }
+    }
+
+    // 导入重复文件提示
+    Connections {
+        target: albumControl
+        onSigRepeatUrls: {
+            DTK.sendMessage(stackControl, qsTr("The photo/video already exists"), "warning")
         }
     }
 
