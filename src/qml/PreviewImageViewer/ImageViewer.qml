@@ -454,9 +454,18 @@ Rectangle {
                             width: 151
                             height: 151
                         }
-                        visible: CodeImage.imageIsNull(sourcePaths[index])
+                        visible: (showImg.status === Image.Error || CodeImage.imageIsNull(sourcePaths[index])) && fileControl.imageIsExist(sourcePaths[index]) && !fileControl.isAlbum()
 
                     }
+
+                    Label {
+                        id: damageLabel
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: qsTr("You have no permission to view the image")
+                        visible: fileControl.isAlbum()
+                    }
+
                     BusyIndicator {
                         running: true
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -464,7 +473,7 @@ Rectangle {
                         width:48
                         height:48
                         // 判断展示图片状态是否异常
-                        visible: showImg.status === Image.Error || CodeImage.imageIsNull(sourcePaths[index])
+                        visible: showImg.status === Image.Loading && !CodeImage.imageIsNull(sourcePaths[index])
                     }
 
 

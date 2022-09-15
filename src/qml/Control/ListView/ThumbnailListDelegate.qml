@@ -22,8 +22,8 @@ Rectangle {
     Rectangle {
         id: selectShader
         anchors.centerIn: parent
-        width: image.paintedWidth + 14
-        height: image.paintedHeight + 14
+        width: parent.width
+        height: parent.height
         radius: 10
         color: "#AAAAAA"
         visible: theView.ism.indexOf(parent.m_index) !== -1 || global.selectedPaths.indexOf(m_url) !== -1
@@ -41,6 +41,18 @@ Rectangle {
         //使用PreserveAspectFit确保在原始比例下不变形
         fillMode: Image.PreserveAspectFit
         visible: false
+    }
+
+    ActionButton {
+        id: damageIcon
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        icon {
+            name: "photo_breach"
+            width: image.width
+            height: image.height
+        }
+        visible: image.status === Image.Error
     }
 
     // 图片保存完成，缩略图区域重新加载当前图片
@@ -110,8 +122,8 @@ Rectangle {
         visible: selectShader.visible
         anchors.top: image.top
         anchors.right: image.right
-        anchors.topMargin: (image.height - image.paintedHeight) / 2 + 5
-        anchors.rightMargin : (image.width - image.paintedWidth) / 2 + 5
+        anchors.topMargin: 5
+        anchors.rightMargin : 5
     }
 
     DciIcon {
@@ -119,8 +131,8 @@ Rectangle {
         visible: selectShader.visible
         anchors.top: image.top
         anchors.right: image.right
-        anchors.topMargin: (image.height - image.paintedHeight) / 2 + 5
-        anchors.rightMargin : (image.width - image.paintedWidth) / 2 + 5
+        anchors.topMargin: 5
+        anchors.rightMargin : 5
     }
 
     DciIcon {
@@ -128,8 +140,8 @@ Rectangle {
         visible: selectShader.visible
         anchors.top: image.top
         anchors.right: image.right
-        anchors.topMargin: (image.height - image.paintedHeight) / 2 + 5
-        anchors.rightMargin : (image.width - image.paintedWidth) / 2 + 5
+        anchors.topMargin: 5
+        anchors.rightMargin : 5
     }
 
     DciIcon {
@@ -137,8 +149,8 @@ Rectangle {
         visible: selectShader.visible
         anchors.top: image.top
         anchors.right: image.right
-        anchors.topMargin: (image.height - image.paintedHeight) / 2 + 5
-        anchors.rightMargin : (image.width - image.paintedWidth) / 2 + 5
+        anchors.topMargin: 5
+        anchors.rightMargin : 5
     }
 
     //视频时长标签
