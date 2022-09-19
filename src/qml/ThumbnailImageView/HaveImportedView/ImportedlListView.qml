@@ -188,14 +188,20 @@ Item {
                 // 滚动时，激活滚动条显示
                 vbar.active = true
                 var datla = wheel.angleDelta.y
-                console.log("onWhell, delta:", datla)
-                if( datla > 0 ) {
-                    vbar.decrease()
+                if (Qt.ControlModifier & wheel.modifiers) {
+                    // 按住ctrl，缩放缩略图
+                    var curValue = statusBar.sliderValue
+                    if (datla > 0)
+                        statusBar.setSliderWidgetValue(curValue + 1)
+                    else
+                        statusBar.setSliderWidgetValue(curValue - 1)
                 } else {
-                    vbar.increase()
-                }
-                if (theView.atYEnd) {
-                    console.log("at end..")
+                    // 正常滚动显示缩略图内容
+                    if( datla > 0 ) {
+                        vbar.decrease()
+                    } else {
+                        vbar.increase()
+                    }
                 }
             }
 

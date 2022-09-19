@@ -275,7 +275,17 @@ Item {
 
             onWheel: {
                 var datla = wheel.angleDelta.y / 2
-                executeScrollBar(datla)
+                if (Qt.ControlModifier & wheel.modifiers) {
+                    // 按住ctrl，缩放缩略图
+                    var curValue = statusBar.sliderValue
+                    if (datla > 0)
+                        statusBar.setSliderWidgetValue(curValue + 1)
+                    else
+                        statusBar.setSliderWidgetValue(curValue - 1)
+                } else {
+                    // 正常滚动显示缩略图内容
+                    executeScrollBar(datla)
+                }
             }
 
             //橡皮筋控件
@@ -477,11 +487,6 @@ Item {
                 //3.刷新标题
                 var dates = m_dayToken.split("-")
                 timeLineLabel.text = qsTr("%1Year%2Month%3Day").arg(dates[0]).arg(Number(dates[1])).arg(Number(dates[2]))
-            }
-
-            Component.onCompleted: {
-                flushView()
-                global.sigThumbnailSizeLevelChanged.connect(flushView)
             }
         }
     }

@@ -188,6 +188,12 @@ Item {
             theView.ism = theView.flushRectSel(x, y + theView.contentY, w, h)
         else
             theView.ism = []
+
+        // 跨区域框选后，需要手动激活列表焦点，这样快捷键才能生效
+        if (theView.ism.length > 0) {
+            theView.forceActiveFocus()
+        }
+
         selectedChanged()
     }
 
@@ -519,7 +525,17 @@ Item {
 
             onWheel: {
                 var datla = wheel.angleDelta.y / 2
-                theView.executeScrollBar(datla)
+                if (Qt.ControlModifier & wheel.modifiers) {
+                    // 按住ctrl，缩放缩略图
+                    var curValue = statusBar.sliderValue
+                    if (datla > 0)
+                        statusBar.setSliderWidgetValue(curValue + 1)
+                    else
+                        statusBar.setSliderWidgetValue(curValue - 1)
+                } else {
+                    // 正常滚动显示缩略图内容
+                    theView.executeScrollBar(datla)
+                }
             }
 
             onDoubleClicked: {

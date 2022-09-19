@@ -463,7 +463,7 @@ Rectangle {
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.verticalCenter: parent.verticalCenter
                         text: qsTr("You have no permission to view the image")
-                        visible: fileControl.isAlbum()
+                        visible: (showImg.status === Image.Error || CodeImage.imageIsNull(sourcePaths[index])) && fileControl.imageIsExist(sourcePaths[index]) && fileControl.isAlbum()
                     }
 
                     BusyIndicator {
