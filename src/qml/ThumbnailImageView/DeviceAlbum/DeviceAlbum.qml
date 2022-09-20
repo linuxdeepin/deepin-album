@@ -14,6 +14,7 @@ Rectangle {
     property int currentImportIndex: 0
     property var numLabelText: getNumLabelText(filterType)
     property string selectedText: getSelectedText(selectedPaths)
+    property alias selectedPaths: theView.selectedPaths
 
     onVisibleChanged: {
         if (visible) {

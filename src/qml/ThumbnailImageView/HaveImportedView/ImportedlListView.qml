@@ -305,10 +305,11 @@ Item {
             CheckBox {
                 id: importedCheckBox
                 height: importedListView.importCheckboxHeight
-                visible: importedGridView.haveSelect
+                visible: selectedPaths.length > 0
                 checked: importedGridView.haveSelectAll
                 font: DTK.fontManager.t6
                 anchors.top: (index == 0 ? spaceRect.bottom : spaceRect.top)
+                //text: qsTr("Imported in %1   %2").arg(theViewTitle).arg(importedGridView.count() === 1 ? qsTr("1 item") : qsTr("%1 items").arg(importedGridView.count()))
                 onClicked: {
                     if(checked) {
                         importedGridView.selectAll(true)
@@ -321,10 +322,10 @@ Item {
             Label {
                 anchors.left :importedCheckBox.visible ? importedCheckBox.right : parent.left
                 anchors.top :importedCheckBox.top
+                topPadding: 1
                 font: DTK.fontManager.t6
                 id: importedLabel
-                text: theViewTitle + " " + (importedGridView.count() === 1 ? qsTr("1 item") : qsTr("%1 items").arg(importedGridView.count()))
-
+                text: qsTr("Imported in %1   %2").arg(theViewTitle).arg(importedGridView.count() === 1 ? qsTr("1 item") : qsTr("%1 items").arg(importedGridView.count()))
             }
 
             //缩略图网格表

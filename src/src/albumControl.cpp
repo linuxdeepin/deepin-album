@@ -685,7 +685,7 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum, const int &fi
             QString date;
             if (datelist.count() > 4) {
                 if (ImgInfoList.size() > 0) {
-                    date = QString(QObject::tr("%1/%2/%3/%4/%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]);
+                    date = QString(QObject::tr("%1-%2-%3-%4:%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]);
                     m_importTimeLinePathsMap.insertMulti(date, ImgInfoList);
                 }
 
@@ -712,7 +712,7 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum, const int &fi
         //加时间线标题
         QString date;
         if (datelist.count() > 4) {
-            date = QString(QObject::tr("%1/%2/%3/%4/%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]);
+            date = QString(QObject::tr("%1-%2-%3-%4:%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]);
 
             switch (timeEnum) {
             case TimeLineEnum::Year :
@@ -735,7 +735,7 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum, const int &fi
                 break;
             case TimeLineEnum::All :
                 if (ImgInfoList.size() > 0) {
-                    tmpInfoMap.insertMulti(QString(QObject::tr("%1/%2/%3/%4/%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]), ImgInfoList);
+                    tmpInfoMap.insertMulti(QString(QObject::tr("%1-%2-%3-%4:%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]), ImgInfoList);
                 }
                 m_timeLinePathsMap = tmpInfoMap;
                 break;

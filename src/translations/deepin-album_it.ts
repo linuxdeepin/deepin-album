@@ -224,11 +224,11 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Show Side Bar</source>
+        <source>Show side pane</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Hide Side Bar</source>
+        <source>Hide side pane</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -583,6 +583,10 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <source>%1 items</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Imported in %1   %2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>InfomationDialog</name>
@@ -764,10 +768,6 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <translation type="unfinished">Album</translation>
     </message>
     <message>
-        <source>%1/%2/%3/%4/%5</source>
-        <translation type="unfinished">%1/%2/%3/%4/%5</translation>
-    </message>
-    <message>
         <source>%1/</source>
         <translation type="unfinished">%1/</translation>
     </message>
@@ -782,6 +782,10 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     <message>
         <source>day</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1-%2-%3-%4:%5</source>
+        <translation type="unfinished">%1-%2-%3-%4:%5</translation>
     </message>
 </context>
 <context>

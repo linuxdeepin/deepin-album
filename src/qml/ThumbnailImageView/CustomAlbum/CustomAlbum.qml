@@ -185,7 +185,7 @@ Rectangle {
         anchors.bottom: theView.bottom
         anchors.right: parent.right
         anchors.centerIn: parent
-        visible: numLabelText === "" && filterType == 0 && (isSystemAutoImport || isNormalAutoImport)
+        visible: numLabelText === "" && filterType === 0 && (isSystemAutoImport || isNormalAutoImport)
         font: DTK.fontManager.t4
         color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
         text: qsTr("No photos or videos found")

@@ -223,11 +223,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Show Side Bar</source>
+        <source>Show side pane</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Hide Side Bar</source>
+        <source>Hide side pane</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -582,6 +582,10 @@
         <source>%1 items</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Imported in %1   %2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>InfomationDialog</name>
@@ -763,10 +767,6 @@
         <translation type="unfinished">པར་ཁུག</translation>
     </message>
     <message>
-        <source>%1/%2/%3/%4/%5</source>
-        <translation type="unfinished">%1/ལོའི་ཟླ་%2/ཚེས་%3ཉིན། {1/%2/%3/%4/%5?}</translation>
-    </message>
-    <message>
         <source>%1/</source>
         <translation type="unfinished">%1/ལོའི་ཟླ་%2/ཚེས་%3ཉིན། {1/?}</translation>
     </message>
@@ -781,6 +781,10 @@
     <message>
         <source>day</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1-%2-%3-%4:%5</source>
+        <translation type="unfinished">%1/ལོའི་ཟླ་%2/ཚེས་%3ཉིན། {1-%2-%3-%4:%5?}</translation>
     </message>
 </context>
 <context>

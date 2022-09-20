@@ -223,12 +223,12 @@
         <translation>版本：</translation>
     </message>
     <message>
-        <source>Show Side Bar</source>
-        <translation>显示导航栏</translation>
+        <source>Show side pane</source>
+        <translation>展开侧边栏</translation>
     </message>
     <message>
-        <source>Hide Side Bar</source>
-        <translation>隐藏导航栏</translation>
+        <source>Hide side pane</source>
+        <translation>关闭侧边栏</translation>
     </message>
 </context>
 <context>
@@ -576,12 +576,15 @@
     <name>ImportedlListView</name>
     <message>
         <source>1 item</source>
-        <translatorcomment>共 %1项</translatorcomment>
-        <translation>共 1项</translation>
+        <translation>共1项</translation>
     </message>
     <message>
         <source>%1 items</source>
-        <translation></translation>
+        <translation>共%1项</translation>
+    </message>
+    <message>
+        <source>Imported in %1   %2</source>
+        <translation>导入于%1   %2</translation>
     </message>
 </context>
 <context>
@@ -765,10 +768,6 @@
         <translation>相册</translation>
     </message>
     <message>
-        <source>%1/%2/%3/%4/%5</source>
-        <translation>%1年%2月%3日 %4 : %5</translation>
-    </message>
-    <message>
         <source>%1/</source>
         <translation>%1年</translation>
     </message>
@@ -783,6 +782,10 @@
     <message>
         <source>day</source>
         <translation>日</translation>
+    </message>
+    <message>
+        <source>%1-%2-%3-%4:%5</source>
+        <translation>%1年%2月%3日%4:%5</translation>
     </message>
 </context>
 <context>

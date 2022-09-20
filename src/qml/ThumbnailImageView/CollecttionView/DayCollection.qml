@@ -376,6 +376,7 @@ Item {
                 anchors.top: timeLineLabel.bottom
                 anchors.left: timeLineLabel.left
                 checked: theSubView.haveSelectAll
+                visible: selectedPaths.length > 0
                 onClicked: {
                     if(checked) {
                         theSubView.selectAll(true)
@@ -383,6 +384,14 @@ Item {
                         theSubView.selectAll(false)
                     }
                 }
+            }
+
+            Label {
+                id: numLabelTitle
+                height: selAllCheckBoxHeight
+                anchors.top: timeLineLabel.bottom
+                anchors.left: selectAllBox.visible ? selectAllBox.right : timeLineLabel.left
+                topPadding: -1
             }
 
             ListModel {
@@ -467,7 +476,7 @@ Item {
                     str += qsTr("%1 videos").arg(videoTotal)
                 }
 
-                selectAllBox.text = str
+                numLabelTitle.text = str
 
                 //3.刷新标题
                 var dates = m_dayToken.split("-")
