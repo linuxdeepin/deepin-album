@@ -210,55 +210,55 @@ Item {
                 id: rubberBand
                 visible: theView.inPress
             }
-        }
 
-        Timer {
-            id: rectScrollTimer
-            interval: 100
-            running: theView.scrollDirType !== GlobalVar.RectScrollDirType.NoType
-            repeat: true
-            onTriggered: {
-                // 选择框向下延展滚动
-                if (theView.scrollDirType === GlobalVar.RectScrollDirType.ToBottom) {
-                    var newY2 = rubberBand.y2 + theView.rectSelScrollOffset
-                    if (newY2 <= theView.listContentHeight) {
-                        rubberBand.y2 = newY2
-                        theView.contentY = theView.contentY + theView.rectSelScrollOffset + theView.originY
-                    } else {
-                        // 选择框底部最大值为内容区域底部
-                        theView.contentY = theView.listContentHeight - theView.height
-                        rubberBand.y2 = theView.listContentHeight
-                        rectScrollTimer.stop()
-                    }
-                } else if (theView.scrollDirType === GlobalVar.RectScrollDirType.ToTop) {
-                    if (rubberBand.top() < 0) {
-                        rectScrollTimer.stop()
-                        return
-                    }
-
-                    // 矩形顶部向上延展
-                    if (theView.contentY <= rubberBand.bottom() || rubberBand.bottom() === rubberBand.top()) {
-                        var newTop = rubberBand.top() - theView.rectSelScrollOffset
-                        if (newTop > 0) {
-                            rubberBand.y2 = newTop
-                            theView.contentY = theView.contentY - theView.rectSelScrollOffset + theView.originY
+            Timer {
+                id: rectScrollTimer
+                interval: 100
+                running: theView.scrollDirType !== GlobalVar.RectScrollDirType.NoType
+                repeat: true
+                onTriggered: {
+                    // 选择框向下延展滚动
+                    if (theView.scrollDirType === GlobalVar.RectScrollDirType.ToBottom) {
+                        var newY2 = rubberBand.y2 + theView.rectSelScrollOffset
+                        if (newY2 <= theView.listContentHeight) {
+                            rubberBand.y2 = newY2
+                            theView.contentY = theView.contentY + theView.rectSelScrollOffset + theView.originY
                         } else {
-                            // 选择框顶部最小值为内容区域顶部
-                            rubberBand.y2 = 0
-                            theView.contentY = 0 + theView.originY
-
+                            // 选择框底部最大值为内容区域底部
+                            theView.contentY = theView.listContentHeight - theView.height
+                            rubberBand.y2 = theView.listContentHeight
                             rectScrollTimer.stop()
                         }
-                    } else {
-                        // 矩形框底部向上收缩
-                        var newBottom = rubberBand.bottom() - theView.rectSelScrollOffset
-                        if (newBottom > rubberBand.top()) {
-                            rubberBand.y2 = newBottom
-                            theView.contentY = theView.contentY - theView.rectSelScrollOffset + theView.originY
+                    } else if (theView.scrollDirType === GlobalVar.RectScrollDirType.ToTop) {
+                        if (rubberBand.top() < 0) {
+                            rectScrollTimer.stop()
+                            return
+                        }
+
+                        // 矩形顶部向上延展
+                        if (theView.contentY <= rubberBand.bottom() || rubberBand.bottom() === rubberBand.top()) {
+                            var newTop = rubberBand.top() - theView.rectSelScrollOffset
+                            if (newTop > 0) {
+                                rubberBand.y2 = newTop
+                                theView.contentY = theView.contentY - theView.rectSelScrollOffset + theView.originY
+                            } else {
+                                // 选择框顶部最小值为内容区域顶部
+                                rubberBand.y2 = 0
+                                theView.contentY = 0 + theView.originY
+
+                                rectScrollTimer.stop()
+                            }
                         } else {
-                            var srcollOffset = Math.abs(rubberBand.y1 - rubberBand.y2)
-                            rubberBand.y2 = rubberBand.y1
-                            theView.contentY = theView.contentY - srcollOffset + theView.originY
+                            // 矩形框底部向上收缩
+                            var newBottom = rubberBand.bottom() - theView.rectSelScrollOffset
+                            if (newBottom > rubberBand.top()) {
+                                rubberBand.y2 = newBottom
+                                theView.contentY = theView.contentY - theView.rectSelScrollOffset + theView.originY
+                            } else {
+                                var srcollOffset = Math.abs(rubberBand.y1 - rubberBand.y2)
+                                rubberBand.y2 = rubberBand.y1
+                                theView.contentY = theView.contentY - srcollOffset + theView.originY
+                            }
                         }
                     }
                 }

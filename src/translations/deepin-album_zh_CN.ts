@@ -222,6 +222,14 @@
         <source>Version:</source>
         <translation>版本：</translation>
     </message>
+    <message>
+        <source>Show Side Bar</source>
+        <translation>显示导航栏</translation>
+    </message>
+    <message>
+        <source>Hide Side Bar</source>
+        <translation>隐藏导航栏</translation>
+    </message>
 </context>
 <context>
     <name>AllCollection</name>
@@ -253,20 +261,12 @@
         <translation>无结果</translation>
     </message>
     <message>
-        <source>%1 items selected</source>
-        <translation>已选择%1项</translation>
-    </message>
-    <message>
-        <source>%1 photos selected</source>
-        <translation>已选择%1张照片</translation>
-    </message>
-    <message>
-        <source>%1 videos selected</source>
-        <translation>已选择%1个视频</translation>
-    </message>
-    <message>
         <source>No photos or videos found</source>
         <translation>未发现照片或视频文件</translation>
+    </message>
+    <message>
+        <source>%1 items selected (%2)</source>
+        <translation>已选择%1项 (%2)</translation>
     </message>
 </context>
 <context>
@@ -315,16 +315,8 @@
         <translation>%1张照片</translation>
     </message>
     <message>
-        <source>%1 items selected</source>
-        <translation>已选择%1项</translation>
-    </message>
-    <message>
-        <source>%1 photos selected</source>
-        <translation>已选择%1张照片</translation>
-    </message>
-    <message>
-        <source>%1 videos selected</source>
-        <translation>已选择%1个视频</translation>
+        <source>%1 items selected (%2)</source>
+        <translation>已选择%1项 (%2)</translation>
     </message>
 </context>
 <context>
@@ -426,6 +418,10 @@
     <message>
         <source>Import successful</source>
         <translation>导入成功</translation>
+    </message>
+    <message>
+        <source>%1 items selected (%2)</source>
+        <translation>已选择%1项 (%2)</translation>
     </message>
 </context>
 <context>
@@ -533,6 +529,13 @@
     </message>
 </context>
 <context>
+    <name>GlobalVar</name>
+    <message>
+        <source>The photo/video already exists</source>
+        <translation>照片/视频已存在</translation>
+    </message>
+</context>
+<context>
     <name>HaveImportedView</name>
     <message>
         <source>%1 photos</source>
@@ -547,16 +550,15 @@
         <translation>已导入</translation>
     </message>
     <message>
-        <source>%1 items selected</source>
-        <translation>已选择%1项</translation>
+        <source>%1 items selected (%2)</source>
+        <translation>已选择%1项 (%2)</translation>
     </message>
+</context>
+<context>
+    <name>ImageViewer</name>
     <message>
-        <source>%1 photos selected</source>
-        <translation>已选择%1张照片</translation>
-    </message>
-    <message>
-        <source>%1 videos selected</source>
-        <translation>已选择%1个视频</translation>
+        <source>You have no permission to view the image</source>
+        <translation>您没有权限查看此文件</translation>
     </message>
 </context>
 <context>
@@ -833,16 +835,8 @@
         <translation>恢复选中(%1)</translation>
     </message>
     <message>
-        <source>%1 items selected</source>
-        <translation>已选择%1项</translation>
-    </message>
-    <message>
-        <source>%1 photos selected</source>
-        <translation>已选择%1张照片</translation>
-    </message>
-    <message>
-        <source>%1 videos selected</source>
-        <translation>已选择%1个视频</translation>
+        <source>%1 items selected (%2)</source>
+        <translation>已选择%1项 (%2)</translation>
     </message>
 </context>
 <context>

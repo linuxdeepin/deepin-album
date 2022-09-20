@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ug">
+<TS version="2.1" language="ug">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -222,6 +222,14 @@
         <source>Version:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Show Side Bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide Side Bar</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AllCollection</name>
@@ -253,19 +261,11 @@
         <translation type="unfinished">نەتىجە يوق</translation>
     </message>
     <message>
-        <source>%1 items selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 photos selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 videos selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>No photos or videos found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -315,15 +315,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1 items selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 photos selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 videos selected</source>
+        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -425,6 +417,10 @@
     </message>
     <message>
         <source>Import successful</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -533,6 +529,13 @@
     </message>
 </context>
 <context>
+    <name>GlobalVar</name>
+    <message>
+        <source>The photo/video already exists</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>HaveImportedView</name>
     <message>
         <source>%1 photos</source>
@@ -547,15 +550,14 @@
         <translation type="unfinished">ئەكىرىش</translation>
     </message>
     <message>
-        <source>%1 items selected</source>
+        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>ImageViewer</name>
     <message>
-        <source>%1 photos selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 videos selected</source>
+        <source>You have no permission to view the image</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -831,15 +833,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1 items selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 photos selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 videos selected</source>
+        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

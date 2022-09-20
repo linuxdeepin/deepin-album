@@ -56,24 +56,9 @@ Rectangle {
         }
     }
 
-    // 刷新选中项目标签内容
+    // 刷新选中项数标签
     function getSelectedText(paths) {
-        var photoCount = fileControl.photoCount(paths)
-        var videoCount = fileControl.videoCount(paths)
-        var selectedNumText = ""
-        if (photoCount && videoCount)
-            selectedNumText = qsTr("%1 items selected").arg(photoCount + videoCount)
-        else if (photoCount && videoCount === 0)
-            selectedNumText = qsTr("%1 photos selected").arg(photoCount)
-        else if (photoCount === 0 && videoCount)
-            selectedNumText = qsTr("%1 videos selected").arg(videoCount)
-        else
-            selectedNumText = ""
-
-        if (selectedNumText === "") {
-            selectedNumText = numLabelText
-        }
-
+        var selectedNumText = selectedPaths.length === 0 ? numLabelText : qsTr("%1 items selected (%2)").arg(selectedPaths.length).arg(numLabelText)
         if (visible)
             global.statusBarNumText = selectedNumText
         return selectedNumText

@@ -65,22 +65,7 @@ Item {
 
     // 刷新选中项目标签内容
     function getSelectedText(paths) {
-        var photoCount = fileControl.photoCount(paths)
-        var videoCount = fileControl.videoCount(paths)
-        var selectedNumText = ""
-        if (photoCount && videoCount)
-            selectedNumText = qsTr("%1 items selected").arg(photoCount + videoCount)
-        else if (photoCount && videoCount === 0)
-            selectedNumText = qsTr("%1 photos selected").arg(photoCount)
-        else if (photoCount === 0 && videoCount)
-            selectedNumText = qsTr("%1 videos selected").arg(videoCount)
-        else
-            selectedNumText = ""
-
-        if (selectedNumText === "") {
-            selectedNumText = numLabelText
-        }
-
+        var selectedNumText = selectedPaths.length === 0 ? numLabelText : qsTr("%1 items selected (%2)").arg(selectedPaths.length).arg(numLabelText)
         if (visible)
             global.statusBarNumText = selectedNumText
         return selectedNumText
@@ -487,6 +472,10 @@ Item {
                 //3.刷新标题
                 var dates = m_dayToken.split("-")
                 timeLineLabel.text = qsTr("%1Year%2Month%3Day").arg(dates[0]).arg(Number(dates[1])).arg(Number(dates[2]))
+            }
+
+            Component.onCompleted: {
+                flushView()
             }
         }
     }

@@ -13,6 +13,7 @@ Rectangle {
     property int filterType: 0
     property int currentImportIndex: 0
     property var numLabelText: getNumLabelText(filterType)
+    property string selectedText: getSelectedText(selectedPaths)
 
     onVisibleChanged: {
         if (visible) {
@@ -50,6 +51,14 @@ Rectangle {
         }
 
         return numLabelText
+    }
+
+    // 刷新选中项数标签
+    function getSelectedText(paths) {
+        var selectedNumText = selectedPaths.length === 0 ? numLabelText : qsTr("%1 items selected (%2)").arg(selectedPaths.length).arg(numLabelText)
+        if (visible)
+            global.statusBarNumText = selectedNumText
+        return selectedNumText
     }
 
     // 加载设备相册数据
