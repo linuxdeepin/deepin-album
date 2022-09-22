@@ -47,8 +47,8 @@ License: CC-BY-4.0
 # assets resources
 Files: assets/* src/icons/* tests/testResource/* src/album/resources/* 
        src/album/widgets/dialogs/resources/images/*
-Copyright: None
-License: GPL-3.0-or-later
+Copyright: UnionTech Software Technology Co., Ltd.
+License: CC-BY-4.0
 
 # translations
 Files: translations/*
