@@ -103,12 +103,13 @@ void ImgInfoDialog::initUI()
     //title
     DLabel *title = new DLabel(this);
     title->setText(tr("Image info"));
-    title->setGeometry(this->x() + (this->width() - title->width()) / 2, this->y(), 112, 50);
+    title->setGeometry(this->x() + 100 / 2, this->y(), width()-100, 50);
     title->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     DFontSizeManager::instance()->bind(title, DFontSizeManager::T6);
     DPalette pa = DApplicationHelper::instance()->palette(title);
     pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
     title->setPalette(pa);
+    title->setWordWrap(true); //自动换行
 
     setContentsMargins(0, 0, 0, 0);
 
