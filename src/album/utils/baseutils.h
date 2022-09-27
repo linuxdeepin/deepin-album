@@ -248,6 +248,8 @@ QString reorganizationStr(const QFont &font, const QString &fullStr, int maxWidt
 bool isVaultFile(const QString &path);
 //移动至回收站，抄的看图的代码，看图抄的文管的代码
 bool trashFile(const QString &file);
+//彻底删除，删除回收站对应的文件
+bool delTrashFile(const QString &file);
 //生成deepin-album-delete下的文件路径，hash：原始路径hash，fileName：文件名
 QString getDeleteFullPath(const QString &hash, const QString &fileName);
 //同步文件拷贝，用于区分QFile::copy的异步拷贝

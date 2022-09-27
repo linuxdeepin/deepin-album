@@ -1627,6 +1627,7 @@ void DBManager::removeTrashImgInfos(const QStringList &paths)
     for (int i = 0; i != paths.size(); ++i) {
         auto deletePath = utils::base::getDeleteFullPath(pathHashs[i], DBImgInfo::getFileNameFromFilePath(paths[i]));
         QFile::remove(deletePath);
+        utils::base::delTrashFile(paths[i]);
     }
 
     mutex.unlock();

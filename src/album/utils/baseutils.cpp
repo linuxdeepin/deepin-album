@@ -421,6 +421,36 @@ bool trashFile(const QString &file)
     return true;
 }
 
+//彻底删除，删除回收站对应的文件
+bool delTrashFile(const QString &file)
+{
+    QString trashPath;
+    QString trashInfoPath;
+    QString trashFilesPath;
+
+    QString home = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+    trashPath = home + "/.local/share/Trash";
+    trashInfoPath = trashPath + "/info";
+    trashFilesPath = trashPath + "/files";
+
+    QFileInfo originalInfo(file);
+    QString trashname = getNotExistsTrashFileName(originalInfo.fileName());
+    QString infopath = trashInfoPath + "/" + trashname + ".trashinfo";
+    QString filepath = trashFilesPath + "/" + trashname;
+
+    trashname = originalInfo.baseName() + ".";
+    if (!originalInfo.completeSuffix().isEmpty()) {
+        trashname += originalInfo.completeSuffix();
+    }
+    infopath = trashInfoPath + "/" + trashname + ".trashinfo";
+    filepath = trashFilesPath + "/" + trashname;
+
+    std::remove(infopath.toStdString().c_str());
+    std::remove(filepath.toStdString().c_str());
+
+    return true;
+}
+
 QString getDeleteFullPath(const QString &hash, const QString &fileName)
 {
     //防止文件过长,采用只用hash的名称;
