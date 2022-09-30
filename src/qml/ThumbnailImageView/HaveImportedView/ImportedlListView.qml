@@ -14,6 +14,8 @@ Item {
     id : importedListView
     signal rectSelTitleChanged(rect rt)
     signal sigUnSelectAll()
+    signal sigListViewPressed(int x, int y)
+    signal sigListViewReleased(int x, int y)
     property var selectedPaths: []
     property int filterComboOffsetY: 5
     property int spaceCtrlHeight: filterCombo.y + filterComboOffsetY
@@ -21,6 +23,8 @@ Item {
     property int listMargin: 10 // 已导入列表子项上、下边距
     property int rowSizeHint: (width - global.thumbnailListRightMargin) / global.cellBaseWidth
     property real realCellWidth : (width - global.thumbnailListRightMargin) / rowSizeHint
+
+    property bool checkBoxClicked: false
 
     //view依赖的model管理器
     property ListModel importedListModel: ListModel {
@@ -117,6 +121,12 @@ Item {
                     return
                 }
 
+                var gPos = theMouseArea.mapToGlobal(mouse.x, mouse.y)
+                sigListViewPressed(gPos.x, gPos.y)
+                if (checkBoxClicked) {
+                    mouse.accepted = false
+                    return
+                }
                 theView.scrollDirType = GlobalVar.RectScrollDirType.NoType
                 parent.inPress = true
                 rubberBand.x1 = mouse.x
@@ -166,6 +176,9 @@ Item {
                     if (rectScrollTimer.running)
                         rectScrollTimer.stop()
                 }
+
+                var gPos = theMouseArea.mapToGlobal(mouse.x, mouse.y)
+                sigListViewReleased(gPos.x, gPos.y)
 
                 mouse.accepted = true
             }
@@ -317,7 +330,26 @@ Item {
                         importedGridView.selectAll(false)
                     }
                 }
+                Connections {
+                    target: importedListView
+                    onSigListViewPressed: {
+                        var object = importedCheckBox.mapFromGlobal(x,y)
+                        if (importedCheckBox.contains(object)) {
+                            checkBoxClicked = true
+                            if (importedCheckBox.checkState === Qt.Checked) {
+                                importedCheckBox.checkState = Qt.Unchecked
+                                importedGridView.selectAll(false)
+                            } else {
+                                importedCheckBox.checkState = Qt.Checked
+                                importedGridView.selectAll(true)
+                            }
+                        }
+                    }
 
+                    onSigListViewReleased: {
+                        checkBoxClicked = false
+                    }
+                }
             }
             Label {
                 anchors.left :importedCheckBox.visible ? importedCheckBox.right : parent.left
