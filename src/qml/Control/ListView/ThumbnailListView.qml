@@ -29,7 +29,7 @@ Item {
         if (theView.visible) {
             if(doSelect) {
                 var len = thumbnailListModel.count
-                var tempArray = theView.ism
+                var tempArray = []
                 for(var i = 0;i != len;++i) {
                     tempArray.push(i.toString()) //数据类型必须和代理里面的m_index对齐，否则会判断失败
                 }
