@@ -59,6 +59,9 @@ public:
     //设置线程循环跳出
     void     setThreadShouldStop();
 
+    //启动同步回收站与最近删除线程
+    void StartSynRecycleBinToTrashThread();
+
 private slots:
     void sltImageFilesImported(void *imgobject, QStringList &filelist);
 signals:
@@ -85,6 +88,8 @@ signals:
     void sigLoadMountFileList(QString path);
     //同步设备卸载
     void sigDeciveUnMount(const QString &path);
+    //发送更新信号给[最近删除]
+    void sigTrashUpdate();
 public:
     int m_FirstPageScreen = 0;
     QStringList m_imgLoaded;//已经加载过的图片，防止多次加载
@@ -102,6 +107,8 @@ private:
 
     DBandImgOperate *m_worker = nullptr;
     QMutex m_dataMutex;
+
+    SynRecycleBinToTrashThread *threadSynRBT = nullptr; //同步线程-同步回收站与最近删除
 };
 
 #endif // IMAGEENGINEAPI_H
