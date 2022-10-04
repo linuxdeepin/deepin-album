@@ -29,7 +29,7 @@
 #include <QTextStream>
 #include <QtMath>
 #include <QRegularExpression>
-#include <qsettings.h>
+#include <QSettings>
 
 #include <DApplication>
 #include <DDesktopServices>
