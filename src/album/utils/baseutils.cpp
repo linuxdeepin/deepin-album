@@ -29,6 +29,7 @@
 #include <QTextStream>
 #include <QtMath>
 #include <QRegularExpression>
+#include <qsettings.h>
 
 #include <DApplication>
 #include <DDesktopServices>
@@ -435,20 +436,66 @@ bool delTrashFile(const QString &file)
 
     QFileInfo originalInfo(file);
     QString trashname = getNotExistsTrashFileName(originalInfo.fileName());
-    QString infopath = trashInfoPath + "/" + trashname + ".trashinfo";
-    QString filepath = trashFilesPath + "/" + trashname;
 
-    trashname = originalInfo.baseName() + ".";
-    if (!originalInfo.completeSuffix().isEmpty()) {
-        trashname += originalInfo.completeSuffix();
+    //restore filepath
+    QString fileRestorePath = QString(originalInfo.absoluteFilePath().toUtf8().toPercentEncoding("/"));
+
+    //查找info里所有与目标文件同名的文件列表
+    QDir dirTrashInfo(trashInfoPath);
+    QStringList trashInfofilelist = dirTrashInfo.entryList(QDir::NoDotAndDotDot | QDir::Files);
+    QStringList filterTrashInfofilelist = trashInfofilelist.filter(originalInfo.baseName() + ".");
+
+    //根据目标文件后缀名，做进一步筛选
+    filterTrashInfofilelist = filterTrashInfofilelist.filter("." + originalInfo.completeSuffix() + ".trashinfo");
+
+    //遍历trashinfo同名文件，验证目标文件是否在其中
+    for (int i = 0; i < filterTrashInfofilelist.size(); i++) {
+        QString filterTrashInfofilePath = trashInfoPath + "/" + filterTrashInfofilelist[i];
+        QSettings setting(filterTrashInfofilePath, QSettings::IniFormat);
+        QString path = setting.value("Trash Info/Path").toString();
+        if (path == fileRestorePath) {
+            std::remove(filterTrashInfofilePath.toStdString().c_str());
+            QString filepath = filterTrashInfofilelist[i];
+            filepath = trashFilesPath + "/" + filepath.remove(".trashinfo");
+            std::remove(filepath.toStdString().c_str());
+            return true;
+        }
     }
-    infopath = trashInfoPath + "/" + trashname + ".trashinfo";
-    filepath = trashFilesPath + "/" + trashname;
 
-    std::remove(infopath.toStdString().c_str());
-    std::remove(filepath.toStdString().c_str());
+    return false;
+}
 
-    return true;
+bool isFileInTrash(const QString &file)
+{
+    QString trashPath;
+    QString trashInfoPath;
+    bool isFileIn = false;
+
+    QString home = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+    trashPath = home + "/.local/share/Trash";
+    trashInfoPath = trashPath + "/info";
+
+    QFileInfo originalInfo(file);
+    // restore filepath
+    QString fileRestorePath = QString(originalInfo.absoluteFilePath().toUtf8().toPercentEncoding("/"));
+
+    //查找回收站里所有与目标文件同名的文件列表
+    QDir dirTrashInfo(trashInfoPath);
+    QStringList trashInfofilelist = dirTrashInfo.entryList(QDir::NoDotAndDotDot | QDir::Files);
+    QStringList filterTrashInfofilelist = trashInfofilelist.filter(originalInfo.baseName() + ".");
+
+    //遍历同名文件，验证目标文件是否在其中
+    for (int i = 0; i < filterTrashInfofilelist.size(); i++) {
+        QString filterTrashInfofilePath = trashInfoPath + "/" + filterTrashInfofilelist[i];
+        QSettings setting(filterTrashInfofilePath, QSettings::IniFormat);
+        QString path = setting.value("Trash Info/Path").toString();
+        if (path == fileRestorePath) {
+            isFileIn = true;
+            break;
+        }
+    }
+
+    return isFileIn;
 }
 
 QString getDeleteFullPath(const QString &hash, const QString &fileName)

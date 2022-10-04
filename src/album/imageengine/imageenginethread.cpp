@@ -645,3 +645,42 @@ void RefreshTrashThread::runDetail()
         }
     }
 }
+
+SynRecycleBinToTrashThread::SynRecycleBinToTrashThread()
+{
+}
+
+SynRecycleBinToTrashThread::~SynRecycleBinToTrashThread()
+{
+}
+
+void SynRecycleBinToTrashThread::runDetail()
+{
+    int i = 0;
+    QStringList removepaths;
+    DBImgInfoList allTrashInfos;
+    DBImgInfo pinfo;
+
+    while (!bneedstop) {
+        removepaths.clear();
+
+        //遍历表:最近删除TrashTable3
+        allTrashInfos = DBManager::instance()->getAllTrashInfos_getRemainDays();
+        for (i = 0; i < allTrashInfos.size(); i++) {
+            pinfo = allTrashInfos.at(i);
+            if (!utils::base::isFileInTrash(pinfo.filePath)) {
+                //最近删除里的文件已不在回收站里，则删除
+                removepaths.append(pinfo.filePath);
+            }
+        }
+
+        //删除
+        if (0 < removepaths.length()) {
+            DBManager::instance()->removeTrashImgInfosNoSignal(removepaths);
+            emit sigTrashUpdate();
+        }
+
+        //休息一秒
+        QThread::sleep(1);
+    }
+}

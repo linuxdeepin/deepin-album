@@ -272,3 +272,18 @@ bool ImageEngineApi::recoveryImagesFromTrash(QStringList files)
 #endif
     return true;
 }
+
+void ImageEngineApi::StartSynRecycleBinToTrashThread()
+{
+    if (threadSynRBT) {
+        threadSynRBT->needStop(nullptr);
+    }
+    threadSynRBT = new SynRecycleBinToTrashThread;
+
+    connect(threadSynRBT, &SynRecycleBinToTrashThread::sigTrashUpdate, this, &ImageEngineApi::sigTrashUpdate);
+#ifdef NOGLOBAL
+    m_qtpool.start(thread);
+#else
+    QThreadPool::globalInstance()->start(threadSynRBT);
+#endif
+}
