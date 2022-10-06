@@ -131,5 +131,21 @@ private:
     DBImgInfoList m_fileinfolist;
 };
 
+//同步回收站与最近删除(删除、恢复回收站文件，需要最近删除中的文件同步删除)
+class SynRecycleBinToTrashThread : public ImageEngineThreadObject
+{
+    Q_OBJECT
+public:
+    SynRecycleBinToTrashThread();
+    ~SynRecycleBinToTrashThread() override;
+
+protected:
+    void runDetail() override;
+
+signals:
+    //发送更新信号给[最近删除]
+    void sigTrashUpdate();
+};
+
 
 #endif // IMAGEENGINETHREAD_H

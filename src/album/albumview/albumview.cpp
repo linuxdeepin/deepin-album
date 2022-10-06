@@ -162,6 +162,9 @@ AlbumView::AlbumView()
     m_spinner = new DSpinner(this);
     m_spinner->setFixedSize(40, 40);
     m_spinner->hide();
+
+    ImageEngineApi::instance()->StartSynRecycleBinToTrashThread();
+    connect(ImageEngineApi::instance(), &ImageEngineApi::sigTrashUpdate, this, &AlbumView::onTrashUpdate);
 }
 
 AlbumView::~AlbumView()
@@ -2756,4 +2759,11 @@ void AlbumView::showEvent(QShowEvent *e)
 {
     adjustTitleContent();
     QWidget::showEvent(e);
+}
+
+void AlbumView::onTrashUpdate()
+{
+    if (m_pRightTrashThumbnailList->isVisible()) {
+        updateRightTrashView();
+    }
 }
