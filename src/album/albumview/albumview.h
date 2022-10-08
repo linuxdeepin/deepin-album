@@ -181,6 +181,7 @@ private slots:
     void onImportFailedToView();
     void onWaitDailogTimeout();
     void onLeftListViewMountListWidgetClicked(const QModelIndex &index);
+    void onTrashUpdate();
 
     //接收到设备中文件列表加载完成信号
     void sltLoadMountFileList(const QString &path, QStringList fileList);

@@ -1696,6 +1696,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
         if (QFile::rename(deletePath, recoveryName)) { //尝试正常恢复
             successedHashs.push_back(pathHashs[i]); //正常恢复成功
             succesedPaths.insert(pathHashs[i], recoveryName);
+            utils::base::delTrashFile(paths[i]); //同步删除回收站数据
         } else { //正常恢复失败，尝试恢复至内部路径
             if (!internalRecoveryDir.exists()) { //检查文件夹是否存在，不存在则创建
                 internalRecoveryDir.mkpath(internalRecoveryPath);
@@ -1724,6 +1725,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
             if (QFile::rename(deletePath, recoveryName)) {
                 successedHashs.push_back(pathHashs[i]); //恢复至内部路径
                 succesedPaths.insert(pathHashs[i], recoveryName);
+                utils::base::delTrashFile(paths[i]); //同步删除回收站数据
             } else { //TODO：极端特殊情况：使用内部恢复路径恢复失败
                 continue;
             }
