@@ -11,6 +11,8 @@ import "../../"
 Item {
     id: root
 
+    signal sigListViewPressed(int x, int y)
+    signal sigListViewReleased(int x, int y)
     property int scrollDelta: 60
     property int timeLineLblHeight: 36
     property int timeLineLblMargin: 10
@@ -24,6 +26,8 @@ Item {
     property string selectedText: getSelectedText(selectedPaths)
 
     property int currentColletionIndex: collecttionView.currentViewIndex
+
+    property bool checkBoxClicked: false
 
     Connections {
         target: collecttionView
@@ -194,6 +198,13 @@ Item {
                     return
                 }
 
+                var gPos = theMouseArea.mapToGlobal(mouse.x, mouse.y)
+                sigListViewPressed(gPos.x, gPos.y)
+                if (checkBoxClicked) {
+                    mouse.accepted = false
+                    return
+                }
+
                 theView.scrollDirType = GlobalVar.RectScrollDirType.NoType
                 parent.inPress = true
                 rubberBand.x1 = mouse.x
@@ -254,6 +265,9 @@ Item {
                 theView.scrollDirType = GlobalVar.RectScrollDirType.NoType
                 parent.inPress = false
                 rubberBand.clearRect()
+
+                var gPos = theMouseArea.mapToGlobal(mouse.x, mouse.y)
+                sigListViewReleased(gPos.x, gPos.y)
 
                 mouse.accepted = true
             }
@@ -383,6 +397,27 @@ Item {
                     } else {
                         theSubView.selectAll(false)
                     }
+                }
+            }
+
+            Connections {
+                target: root
+                onSigListViewPressed: {
+                    var object = selectAllBox.mapFromGlobal(x,y)
+                    if (selectAllBox.contains(object)) {
+                        checkBoxClicked = true
+                        if (selectAllBox.checkState === Qt.Checked) {
+                            selectAllBox.checkState = Qt.Unchecked
+                            theSubView.selectAll(false)
+                        } else {
+                            selectAllBox.checkState = Qt.Checked
+                            theSubView.selectAll(true)
+                        }
+                    }
+                }
+
+                onSigListViewReleased: {
+                    checkBoxClicked = false
                 }
             }
 
