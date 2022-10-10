@@ -2,6 +2,8 @@
 #include "dbmanager/dbmanager.h"
 #include "fileMonitor/fileinotifygroup.h"
 
+#include <DDialog>
+#include <DMessageBox>
 #include <QStandardPaths>
 #include <QFileInfo>
 #include <QUrl>
@@ -13,6 +15,8 @@
 #include <QFuture>
 #include <QtConcurrent>
 #include <QApplication>
+
+DWIDGET_USE_NAMESPACE
 
 namespace {
 static QMap<QString, const char *> i18nMap {
@@ -251,15 +255,83 @@ QString AlbumControl::getAllImageFilters()
 
 void AlbumControl::unMountDevice(const QString &devicePath)
 {
-    //查找对应的挂载
-    for (QExplicitlySharedDataPointer<DGioMount> mountLoop : m_mounts) {
-        QString uriLoop = mountLoop->getRootFile()->path();
+    QStringList blDevList = DDiskManager::blockDevices(QVariantMap());
+    QSharedPointer<DBlockDevice> blkget;
+    QString mountPoint = "";
+    for (const QString &blks : blDevList) {
+        QSharedPointer<DBlockDevice> blk(DDiskManager::createBlockDevice(blks));
+        QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blk->drive()));
+        if (!blk->hasFileSystem() && !drv->mediaCompatibility().join(" ").contains("optical") && !blk->isEncrypted()) {
+            continue;
+        }
+        if ((blk->hintIgnore() && !blk->isEncrypted()) || blk->cryptoBackingDevice().length() > 1) {
+            continue;
+        }
+        QByteArrayList qbl = blk->mountPoints();
+        mountPoint = "";
+        QList<QByteArray>::iterator qb = qbl.begin();
+        while (qb != qbl.end()) {
+            mountPoint += (*qb);
+            ++qb;
+        }
+        if (mountPoint.contains(devicePath, Qt::CaseSensitive)) {
+            blkget = blk;
+            break;
+        } else {
+            mountPoint = "";
+        }
+    }
+
+    //查找对应的挂载，从硬盘卸载外接设备，如U盘等
+    for (QExplicitlySharedDataPointer<DGioMount> mount : m_mounts) {
+        QString uriLoop = mount->getRootFile()->path();
         if (devicePath == uriLoop) {
-            qDebug() << "Already has this device in mount list. uri:" << uriLoop;
-            m_mounts.removeOne(mountLoop);
-            m_durlAndNameMap.remove(devicePath);
-            m_PhonePicFileMap.remove(devicePath);
-            mountLoop->unmount();
+            QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
+            if (LocationFile->path().compare(devicePath) == 0 && mount->canUnmount() && !blkget.isNull()) { //增加blkget为空判断，某些情况下卸载设备会导致程序闪退
+                QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blkget->drive()));
+                QScopedPointer<DBlockDevice> cbblk(DDiskManager::createBlockDevice(blkget->cryptoBackingDevice()));
+                if (!drv->removable()) {
+                    DDialog msgbox;
+                    msgbox.setFixedWidth(400);
+                    msgbox.setIcon(DMessageBox::standardIcon(DMessageBox::Critical));
+                    msgbox.setTextFormat(Qt::AutoText);
+                    msgbox.setMessage(tr("Disk is busy, cannot eject now"));
+                    msgbox.insertButton(1, tr("OK"), false, DDialog::ButtonNormal);
+                    auto ret = msgbox.exec();
+                    Q_UNUSED(ret);
+                    return;
+                }
+                bool err = false;
+                if (!blkget->mountPoints().empty()) {
+                    blkget->unmount({});
+                    err |= blkget->lastError().isValid();
+                }
+                if (blkget->cryptoBackingDevice().length() > 1) {
+                    cbblk->lock({});
+                    err |= cbblk->lastError().isValid();
+                    drv.reset(DDiskManager::createDiskDevice(cbblk->drive()));
+                }
+                if (drv->canPowerOff()) {
+                    drv->powerOff({});
+                }
+                err |= drv->lastError().isValid();
+                if (err) {
+                    DDialog msgbox;
+                    msgbox.setFixedWidth(400);
+                    msgbox.setIcon(DMessageBox::standardIcon(DMessageBox::Critical));
+                    msgbox.setTextFormat(Qt::AutoText);
+                    msgbox.setMessage(tr("Disk is busy, cannot eject now"));
+                    msgbox.insertButton(1, tr("OK"), false, DDialog::ButtonNormal);
+                    auto ret = msgbox.exec();
+                    Q_UNUSED(ret);
+                    return;
+                } else {
+                    m_mounts.removeOne(mount);
+                    m_durlAndNameMap.remove(devicePath);
+                    m_PhonePicFileMap.remove(devicePath);
+                }
+                break;
+            }
             break;
         }
     }
