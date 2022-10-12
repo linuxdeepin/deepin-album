@@ -536,8 +536,12 @@ bool AlbumControl::importAllImagesAndVideosUrl(const QList<QUrl> &paths, bool ch
     if (dbInfos.size() > 0) {
         //导入图片数据库ImageTable3
         DBManager::instance()->insertImgInfos(dbInfos);
-        emit sigRefreshImportAlbum();
+
+        // 通知前端刷新相关界面，包括自定义相册/我的收藏/合集-所有项目/已导入
+        emit sigRefreshCustomAlbum(-1);
         emit sigRefreshAllCollection();
+        emit sigRefreshImportAlbum();
+        emit sigRefreshSearchView();
     }
 
     return true;

@@ -86,7 +86,7 @@ Rectangle {
         anchors.fill: parent
 
         onDropped: {
-            if(global.currentViewIndex == 6 && albumControl.isCustomAlbum(global.currentCustomAlbumUId)){
+            if(global.currentViewIndex == 6 && albumControl.isCustomAlbum(global.currentCustomAlbumUId)) {
                 var albumPaths = albumControl.getAlbumPaths(global.currentCustomAlbumUId)
                 var urls = []
                 for (var i = 0; i < drop.urls.length; i++) {
@@ -97,7 +97,9 @@ Rectangle {
                     albumControl.addCustomAlbumInfos(global.currentCustomAlbumUId,drop.urls)
                 }
             } else {
-                albumControl.importAllImagesAndVideosUrl(drop.urls, true)
+                if(albumControl.importAllImagesAndVideosUrl(drop.urls, true)) {
+                    DTK.sendMessage(stackControl, qsTr("Import successful"), "checked")
+                }
             }
         }
 
