@@ -1985,6 +1985,7 @@ bool AlbumControl::insertImportIntoAlbum(int UID, const QStringList &paths)
 bool AlbumControl::renameAlbum(int UID, const QString &newName)
 {
     DBManager::instance()->renameAlbum(UID, newName);
+    return true;
 }
 
 QVariant AlbumControl::searchPicFromAlbum(int UID, const QString &keywords, bool useAI)
@@ -2368,6 +2369,25 @@ int AlbumControl::getDeviceAlbumInfoConut(const QString &devicePath, const int &
     return rePicVideoConut;
 }
 
+QList<int> AlbumControl::getPicVideoCountFromPaths(const QStringList &paths)
+{
+    int countPic = 0;
+    int countVideo = 0;
+    QList<int> ret;
+
+    for (QString path : paths) {
+        if (LibUnionImage_NameSpace::isImage(QUrl(path).toLocalFile())) {
+            countPic++;
+        } else if (LibUnionImage_NameSpace::isVideo(QUrl(path).toLocalFile())) {
+            countVideo++;
+        }
+    }
+
+    ret.append(countPic);
+    ret.append(countVideo);
+
+    return ret;
+}
 
 void AlbumControl::importFromMountDevice(const QStringList &paths, const int &index)
 {
