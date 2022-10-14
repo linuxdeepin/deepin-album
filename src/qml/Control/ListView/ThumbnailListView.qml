@@ -12,9 +12,35 @@ import "../../PreviewImageViewer"
 Item {
     id : thumnailListView
     property var viewTitle
+
+    //view依赖的model管理器
+    property ListModel thumbnailListModel: ListModel { }
+
+    // 缩略图Item尺寸
+    property real itemWidth: realCellWidth
+    property real itemHeight: realCellWidth
+    // 是否开启滚轮
+    property bool enableWheel: true
+    //缩略图显示类型，默认为普通模式
+    property int thumnailListType: GlobalVar.ThumbnailType.Normal
+    //存在框选项
+    property bool haveSelect: theView.ism.length > 0
+    //已框选全部缩略图
+    property bool haveSelectAll: theView.ism.length === count()
+    // 已选项个数
+    property int haveSelectCount: theView.ism.length
+    // 已选路径
+    property var selectedPaths: new Array
+    // 已选原始路径
+    property var selectedOriginPaths: new Array
+    //缩略图动态变化
+    property int  rowSizeHint: (width - global.thumbnailListRightMargin) / global.cellBaseWidth
+    property real realCellWidth: (width - global.thumbnailListRightMargin) / rowSizeHint
+
     //当前区域时间区间改变信号，字符串可以直接刷新在界面上
     signal timeChanged(string str)
     signal selectedChanged()
+
     //设置图片缩放等级，传入的参数为外部滑动条的值
     function setPicZoomLevel(level) {
         if(level >= 0 && level <= 9) {
@@ -214,30 +240,6 @@ Item {
             }
         }
     }
-
-    //view依赖的model管理器
-    property ListModel thumbnailListModel: ListModel { }
-
-    // 缩略图Item尺寸
-    property real itemWidth: realCellWidth
-    property real itemHeight: realCellWidth
-    // 是否开启滚轮
-    property bool enableWheel: true
-    //缩略图显示类型，默认为普通模式
-    property int thumnailListType: GlobalVar.ThumbnailType.Normal
-    //存在框选项
-    property bool haveSelect: theView.ism.length > 0
-    //已框选全部缩略图
-    property bool haveSelectAll: theView.ism.length === count()
-    // 已选项个数
-    property int haveSelectCount: theView.ism.length
-    // 已选路径
-    property var selectedPaths: new Array
-    // 已选原始路径
-    property var selectedOriginPaths: new Array
-    //缩略图动态变化
-    property int  rowSizeHint: (width - global.thumbnailListRightMargin) / global.cellBaseWidth
-    property real realCellWidth: (width - global.thumbnailListRightMargin) / rowSizeHint
 
     //缩略图view的本体
     GridView {

@@ -74,7 +74,8 @@ Item {
 
             Image {
                 id: image
-                source: "image://collectionPublisher/" + theView.displayFlushHelper.toString() + "_Y_" + year + "_0"
+                //因为新版本的Qt的图片缓存机制，导致相同路径的图片只会加载一次,source要改变才能刷新图片，所以尾部添加itemCount。如果需要数量相同也能刷新，则在尾部添加随机数
+                source: "image://collectionPublisher/" + theView.displayFlushHelper.toString() + "_Y_" + year + "_0" + "_" + itemCount
                 asynchronous: true
                 anchors.fill: parent
                 width: parent.width
