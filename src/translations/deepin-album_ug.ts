@@ -155,6 +155,14 @@
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Disk is busy, cannot eject now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AlbumTitle</name>
@@ -241,10 +249,6 @@
         <source>%1 videos</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>%1 items selected (%2)</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>CustomAlbum</name>
@@ -262,10 +266,6 @@
     </message>
     <message>
         <source>No photos or videos found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -312,10 +312,6 @@
     </message>
     <message>
         <source>%1 photos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -417,10 +413,6 @@
     </message>
     <message>
         <source>Import successful</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -534,6 +526,18 @@
         <source>The photo/video already exists</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items selected (%2)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>HaveImportedView</name>
@@ -548,10 +552,6 @@
     <message>
         <source>Import</source>
         <translation type="unfinished">ئەكىرىش</translation>
-    </message>
-    <message>
-        <source>%1 items selected (%2)</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -683,6 +683,13 @@
     <message>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MainAlbumView</name>
+    <message>
+        <source>Import successful</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -836,10 +843,6 @@
         <source>Restore Selected (%1)</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>%1 items selected (%2)</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>RemoveAlbumDialog</name>
@@ -888,18 +891,6 @@
     </message>
     <message>
         <source>%1 items found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 items selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 photos selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 videos selected</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1086,6 +1077,97 @@
     <message>
         <source>Export failed</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ThumbnailListView(副本)</name>
+    <message>
+        <source>Export successful</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished">كۆرۈش</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">تولۇق ئېكران</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">بېسىپ چىقىرىش</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">تام تەسۋىر</translation>
+    </message>
+    <message>
+        <source>Add to album</source>
+        <translation type="unfinished">ئالبومغا قوشۇش</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">يىڭى ئالبۇم</translation>
+    </message>
+    <message>
+        <source>Successfully added to “%1”</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">چىقىرىش</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">كۆچۈرۈش</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">ئۆچۈرۈش</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="unfinished">ئالبومغا قايتا نام بېرىش</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">ياقتۇرغانلىرىم</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">ياقمىغانلىرى</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">سائەت يۆنىلىشىدە ئايلىنىدۇ</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">سائەتكە قارشى يۆنىلىشنى ئايلاندۇرۇڭ</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">تام قەغىزى قىلىپ تەڭشەڭ</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">ھۆججەت باشقۇرغۇچتا كۆرسىتىلىدۇ</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">ئەسلىگە كەلتۈرۈش</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">سۈرەت ئۇچۇرى</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished">سىن ئۇچۇرى</translation>
     </message>
 </context>
 <context>

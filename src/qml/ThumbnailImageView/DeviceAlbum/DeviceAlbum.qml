@@ -56,7 +56,7 @@ Rectangle {
 
     // 刷新选中项数标签
     function getSelectedText(paths) {
-        var selectedNumText = selectedPaths.length === 0 ? numLabelText : qsTr("%1 items selected (%2)").arg(selectedPaths.length).arg(numLabelText)
+        var selectedNumText = global.getSelectedNumText(paths, numLabelText)
         if (visible)
             global.statusBarNumText = selectedNumText
         return selectedNumText

@@ -55,16 +55,8 @@ Item {
     }
 
     // 刷新选择项数标签
-    function getSelectedNum(paths) {
-        var ret = albumControl.getPicVideoCountFromPaths(selectedPaths)
-        var countPic = ret[0]
-        var countVideo = ret[1]
-
-        var photoCountText = countPic > 0 ? (qsTr("%1 photos").arg(countPic)) : ""
-        var videoCountText = countVideo > 0 ? qsTr("%1 videos").arg(countVideo) : ""
-        var photoVideoCountText = photoCountText + (videoCountText !== "" ? ((photoCountText !== "" ? " " : "") + videoCountText) : "")
-
-        var selectedNumText = selectedPaths.length == 0 ? numLabelText : qsTr("%1 items selected (%2)").arg(selectedPaths.length).arg(photoVideoCountText)
+    function getSelectedNum(paths) {   
+        var selectedNumText = global.getSelectedNumText(paths, numLabelText)
         if (visible)
             global.statusBarNumText = selectedNumText
         return selectedNumText

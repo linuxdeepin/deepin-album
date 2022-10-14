@@ -177,4 +177,17 @@ Item {
     onSelectedPathsChanged: {
         menuItemStates.updateMenuItemStates()
     }
+
+    function getSelectedNumText(paths, text) {
+        var ret = albumControl.getPicVideoCountFromPaths(paths)
+        var countPic = ret[0]
+        var countVideo = ret[1]
+
+        var photoCountText = countPic > 0 ? (qsTr("%1 photos").arg(countPic)) : ""
+        var videoCountText = countVideo > 0 ? qsTr("%1 videos").arg(countVideo) : ""
+        var photoVideoCountText = photoCountText + (videoCountText !== "" ? ((photoCountText !== "" ? " " : "") + videoCountText) : "")
+
+        var selectedNumText = paths.length === 0 ? text : qsTr("%1 items selected (%2)").arg(paths.length).arg(photoVideoCountText)
+        return selectedNumText
+    }
 }

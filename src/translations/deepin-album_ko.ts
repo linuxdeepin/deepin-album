@@ -155,6 +155,14 @@
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Disk is busy, cannot eject now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AlbumTitle</name>
@@ -241,10 +249,6 @@
         <source>%1 videos</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>%1 items selected (%2)</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>CustomAlbum</name>
@@ -262,10 +266,6 @@
     </message>
     <message>
         <source>No photos or videos found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -312,10 +312,6 @@
     </message>
     <message>
         <source>%1 photos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -417,10 +413,6 @@
     </message>
     <message>
         <source>Import successful</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -534,6 +526,18 @@
         <source>The photo/video already exists</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items selected (%2)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>HaveImportedView</name>
@@ -548,10 +552,6 @@
     <message>
         <source>Import</source>
         <translation type="unfinished">가져오기</translation>
-    </message>
-    <message>
-        <source>%1 items selected (%2)</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -683,6 +683,13 @@
     <message>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MainAlbumView</name>
+    <message>
+        <source>Import successful</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -836,10 +843,6 @@
         <source>Restore Selected (%1)</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>%1 items selected (%2)</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>RemoveAlbumDialog</name>
@@ -888,18 +891,6 @@
     </message>
     <message>
         <source>%1 items found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 items selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 photos selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 videos selected</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1085,6 +1076,97 @@
     </message>
     <message>
         <source>Export failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ThumbnailListView(副本)</name>
+    <message>
+        <source>Export successful</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished">보기</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">전체 화면</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">인쇄</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">슬라이드 쇼</translation>
+    </message>
+    <message>
+        <source>Add to album</source>
+        <translation type="unfinished">앨범에 추가</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">새 앨범</translation>
+    </message>
+    <message>
+        <source>Successfully added to “%1”</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">내보내기</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">복사</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">삭제</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="unfinished">앨범에서 제거</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">즐겨찾기</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">즐겨찾기 해제</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">시계 방향으로 회전</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">시계 반대 방향으로 회전</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">배경화면으로 설정</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">파일 관리자에 표시</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">복원</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">사진 정보</translation>
+    </message>
+    <message>
+        <source>Video info</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

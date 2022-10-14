@@ -155,6 +155,14 @@
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Disk is busy, cannot eject now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AlbumTitle</name>
@@ -241,10 +249,6 @@
         <source>%1 videos</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>%1 items selected (%2)</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>CustomAlbum</name>
@@ -262,10 +266,6 @@
     </message>
     <message>
         <source>No photos or videos found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -312,10 +312,6 @@
     </message>
     <message>
         <source>%1 photos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -417,10 +413,6 @@
     </message>
     <message>
         <source>Import successful</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -534,6 +526,18 @@
         <source>The photo/video already exists</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items selected (%2)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>HaveImportedView</name>
@@ -548,10 +552,6 @@
     <message>
         <source>Import</source>
         <translation type="unfinished">នាំចូល</translation>
-    </message>
-    <message>
-        <source>%1 items selected (%2)</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -683,6 +683,13 @@
     <message>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MainAlbumView</name>
+    <message>
+        <source>Import successful</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -836,10 +843,6 @@
         <source>Restore Selected (%1)</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>%1 items selected (%2)</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>RemoveAlbumDialog</name>
@@ -888,18 +891,6 @@
     </message>
     <message>
         <source>%1 items found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 items selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 photos selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 videos selected</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1085,6 +1076,97 @@
     </message>
     <message>
         <source>Export failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ThumbnailListView(副本)</name>
+    <message>
+        <source>Export successful</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished">មើល</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">ពេញ​អេក្រង់</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">បោះពុម្ព</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">បញ្ចាំងស្លាយ</translation>
+    </message>
+    <message>
+        <source>Add to album</source>
+        <translation type="unfinished">បន្ថែមទៅអាល់ប៊ុម</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">អាល់ប៊ុមថ្មី</translation>
+    </message>
+    <message>
+        <source>Successfully added to “%1”</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">នាំចេញ</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">ចម្លង</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">លុប</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="unfinished">យកចេញពីអាល់ប៊ុម</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">ចំណូលចិត្ត</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">មិនចូលចិត្ត</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">បង្វិលតាមទ្រនិចនាឡិកា</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">បង្វិលច្រាសទ្រនិចនាឡិកា</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">កំណត់ជាផ្ទាំងរូបភាព</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">បង្ហាញនៅក្នុងកម្មវិធីគ្រប់គ្រងឯកសារ</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">ស្តារ</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">ព័ត៌មានរូបថត</translation>
+    </message>
+    <message>
+        <source>Video info</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

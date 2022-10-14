@@ -69,7 +69,7 @@ Item {
 
     // 刷新选中项目标签内容
     function getSelectedText(paths) {
-        var selectedNumText = selectedPaths.length === 0 ? numLabelText : qsTr("%1 items selected (%2)").arg(selectedPaths.length).arg(numLabelText)
+        var selectedNumText = global.getSelectedNumText(paths, numLabelText)
         if (visible)
             global.statusBarNumText = selectedNumText
         return selectedNumText

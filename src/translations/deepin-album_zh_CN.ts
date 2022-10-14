@@ -155,6 +155,14 @@
         <source>Settings</source>
         <translation>设置</translation>
     </message>
+    <message>
+        <source>Disk is busy, cannot eject now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">确定</translation>
+    </message>
 </context>
 <context>
     <name>AlbumTitle</name>
@@ -243,7 +251,7 @@
     </message>
     <message>
         <source>%1 items selected (%2)</source>
-        <translation>已选择%1项 (%2)</translation>
+        <translation type="vanished">已选择%1项 (%2)</translation>
     </message>
 </context>
 <context>
@@ -266,7 +274,7 @@
     </message>
     <message>
         <source>%1 items selected (%2)</source>
-        <translation>已选择%1项 (%2)</translation>
+        <translation type="vanished">已选择%1项 (%2)</translation>
     </message>
 </context>
 <context>
@@ -316,7 +324,7 @@
     </message>
     <message>
         <source>%1 items selected (%2)</source>
-        <translation>已选择%1项 (%2)</translation>
+        <translation type="vanished">已选择%1项 (%2)</translation>
     </message>
 </context>
 <context>
@@ -421,7 +429,7 @@
     </message>
     <message>
         <source>%1 items selected (%2)</source>
-        <translation>已选择%1项 (%2)</translation>
+        <translation type="vanished">已选择%1项 (%2)</translation>
     </message>
 </context>
 <context>
@@ -534,6 +542,18 @@
         <source>The photo/video already exists</source>
         <translation>照片/视频已存在</translation>
     </message>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished">%1张照片</translation>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation type="unfinished">%1个视频</translation>
+    </message>
+    <message>
+        <source>%1 items selected (%2)</source>
+        <translation type="unfinished">已选择%1项 (%2)</translation>
+    </message>
 </context>
 <context>
     <name>HaveImportedView</name>
@@ -551,7 +571,7 @@
     </message>
     <message>
         <source>%1 items selected (%2)</source>
-        <translation>已选择%1项 (%2)</translation>
+        <translation type="vanished">已选择%1项 (%2)</translation>
     </message>
 </context>
 <context>
@@ -684,6 +704,13 @@
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>MainAlbumView</name>
+    <message>
+        <source>Import successful</source>
+        <translation type="unfinished">导入成功</translation>
     </message>
 </context>
 <context>
@@ -839,7 +866,7 @@
     </message>
     <message>
         <source>%1 items selected (%2)</source>
-        <translation>已选择%1项 (%2)</translation>
+        <translation type="vanished">已选择%1项 (%2)</translation>
     </message>
 </context>
 <context>
@@ -893,15 +920,15 @@
     </message>
     <message>
         <source>%1 items selected</source>
-        <translation>已选择%1项</translation>
+        <translation type="vanished">已选择%1项</translation>
     </message>
     <message>
         <source>%1 photos selected</source>
-        <translation>已选择%1张照片</translation>
+        <translation type="vanished">已选择%1张照片</translation>
     </message>
     <message>
         <source>%1 videos selected</source>
-        <translation>已选择%1个视频</translation>
+        <translation type="vanished">已选择%1个视频</translation>
     </message>
 </context>
 <context>
@@ -1087,6 +1114,97 @@
     <message>
         <source>Export failed</source>
         <translation>导出失败</translation>
+    </message>
+</context>
+<context>
+    <name>ThumbnailListView(副本)</name>
+    <message>
+        <source>Export successful</source>
+        <translation type="unfinished">导出成功</translation>
+    </message>
+    <message>
+        <source>Export failed</source>
+        <translation type="unfinished">导出失败</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished">查看</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">全屏</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">打印</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">幻灯片放映</translation>
+    </message>
+    <message>
+        <source>Add to album</source>
+        <translation type="unfinished">添加到相册</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">新建相册</translation>
+    </message>
+    <message>
+        <source>Successfully added to “%1”</source>
+        <translation type="unfinished">成功添加到“%1”</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">导出</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">复制</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">删除</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="unfinished">从相册中移除</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">收藏</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">取消收藏</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">顺时针旋转</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">逆时针旋转</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">设为壁纸</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">在文件管理器中显示</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">恢复</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">照片信息</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished">视频信息</translation>
     </message>
 </context>
 <context>

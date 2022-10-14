@@ -155,6 +155,14 @@
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Disk is busy, cannot eject now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AlbumTitle</name>
@@ -242,10 +250,6 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <source>%1 videos</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>%1 items selected (%2)</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>CustomAlbum</name>
@@ -263,10 +267,6 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     </message>
     <message>
         <source>No photos or videos found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -313,10 +313,6 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     </message>
     <message>
         <source>%1 photos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -418,10 +414,6 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 items selected (%2)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -535,6 +527,18 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <source>The photo/video already exists</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 items selected (%2)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>HaveImportedView</name>
@@ -549,10 +553,6 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     <message>
         <source>Import</source>
         <translation type="unfinished">Importa</translation>
-    </message>
-    <message>
-        <source>%1 items selected (%2)</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -684,6 +684,13 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     <message>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MainAlbumView</name>
+    <message>
+        <source>Import successful</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -837,10 +844,6 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <source>Restore Selected (%1)</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>%1 items selected (%2)</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>RemoveAlbumDialog</name>
@@ -889,18 +892,6 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     </message>
     <message>
         <source>%1 items found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 items selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 photos selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 videos selected</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1087,6 +1078,97 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     <message>
         <source>Export failed</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ThumbnailListView(副本)</name>
+    <message>
+        <source>Export successful</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished">Visualizza</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Tutto schermo</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished">Stampa</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished">Presentazione</translation>
+    </message>
+    <message>
+        <source>Add to album</source>
+        <translation type="unfinished">Aggiungi all&apos;album</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished">Nuovo album</translation>
+    </message>
+    <message>
+        <source>Successfully added to “%1”</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="unfinished">Esporta</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Copia</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Elimina</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="unfinished">Rimuovi dall&apos;album</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished">Agg. ai preferiti</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished">Sposta dai preferiti</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Ruota in senso orario</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Ruota in senso antiorario</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Imposta come sfondo</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Visualizza nel File Manager</translation>
+    </message>
+    <message>
+        <source>Restore</source>
+        <translation type="unfinished">Ripristina</translation>
+    </message>
+    <message>
+        <source>Photo info</source>
+        <translation type="unfinished">Info immagine</translation>
+    </message>
+    <message>
+        <source>Video info</source>
+        <translation type="unfinished">Video info</translation>
     </message>
 </context>
 <context>
