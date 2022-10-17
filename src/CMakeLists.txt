@@ -35,7 +35,7 @@ find_package(PkgConfig REQUIRED)
 qtquick_compiler_add_resources(RCC_SOURCES ${RESOURCES})
 
 pkg_check_modules(3rd_lib REQUIRED
-    dtkwidget  gio-qt udisks2-qt5
+    dtkwidget  gio-qt udisks2-qt5 libavformat
     )
 
 # 保证 src 目录下头文件全局可见

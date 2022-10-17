@@ -2234,7 +2234,12 @@ QString AlbumControl::getMovieInfo(const QString key, const QString &path)
         if (QString("Video CodecID").contains(key)) {
             value = movieInfo.vCodecID;
         } else if (QString("Video CodeRate").contains(key)) {
-            value = movieInfo.vCodeRate == 0 ? "-" : QString::number(movieInfo.vCodeRate) + " kbps";
+            if(movieInfo.vCodeRate == 0) {
+                value = "-";
+            } else {
+                value = movieInfo.vCodeRate > 1000 ? QString::number(movieInfo.vCodeRate / 1000) + " kbps"
+                                                   : QString::number(movieInfo.vCodeRate) + " bps";
+            }
         } else if (QString("FPS").contains(key)) {
             value = movieInfo.fps == 0 ? "-" : QString::number(movieInfo.fps) + " fps";
         } else if (QString("Proportion").contains(key)) {
@@ -2244,9 +2249,14 @@ QString AlbumControl::getMovieInfo(const QString key, const QString &path)
         } else if (QString("Audio CodecID").contains(key)) {
             value = movieInfo.aCodeID;
         } else if (QString("Audio CodeRate").contains(key)) {
-            value = movieInfo.aCodeRate == 0 ? "-" : QString::number(movieInfo.aCodeRate) + " kbps";
+            if(movieInfo.aCodeRate == 0) {
+                value = "-";
+            } else {
+                value = movieInfo.aCodeRate > 1000 ? QString::number(movieInfo.aCodeRate / 1000) + " kbps"
+                                                   : QString::number(movieInfo.aCodeRate) + " bps";
+            }
         } else if (QString("Audio digit").contains(key)) {
-            value = movieInfo.aDigit;
+            value = movieInfo.aDigit == 0 ? "-" : QString::number(movieInfo.aDigit);
         } else if (QString("Channels").contains(key)) {
             value = movieInfo.channels == 0 ? "-" : QString::number(movieInfo.channels) + tr("Channel");
         } else if (QString("Sampling").contains(key)) {

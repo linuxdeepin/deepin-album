@@ -49,20 +49,39 @@ depends:
   - id: libraw
     version: 0.19.2
     type: runtime
+  - id: ffmpeg
+    version: 4.1.8
+    type: runtime
+  - id: ffmpegthumbnailer
+    version: 2.1.1
+    type: runtime
+  - id: libvpx
+    version: 1.7.0.1
+    type: runtime
+  - id: crystalhd
+    version: 0.0.1
+    type: runtime
+  - id: davs2
+    version: 1.7.1
+    type: runtime
+  - id: aom
+    version: 1.0.0.1
+    type: runtime
+  - id: codec2
+    version: 0.8.1
+    type: runtime
+  - id: x264
+    version: 0.155.2917
+    type: runtime
+  - id: x265
+    version: 2.9
+    type: runtime
+  - id: xavs2
+    version: 1.4.1
+    type: runtime
 
 source:
   kind: local
-  #url: "http://gerrit.uniontech.com/deepin-album"
-  #version: develop/snipe
-  #commit: 2aea7f15ad1ea2f327af1e45b4243e080afee2a2
 
 build:
-  kind: manual
-  manual:
-    configure: |
-      mkdir build
-      cd build
-      cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} ${extra_args} ..
-      make -j6
-      #make test
-      make -j install
+  kind: cmake
