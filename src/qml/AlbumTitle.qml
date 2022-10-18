@@ -121,14 +121,14 @@ Rectangle {
             enabled: global.statusBarNumText !== ""
             width:50
             height:50
-            icon {
-                name: publisher.getLoadMode() == 0 ? "range1" : "range2"
+            icon { 
+                name: asynImageProvider.getLoadMode() == 0 ? "range1" : "range2"
                 width: 36
                 height: 36
             }
             onClicked: {
                 //1.图片推送器切换
-                publisher.switchLoadMode()
+                asynImageProvider.switchLoadMode()
 
                 //切换图标
                 if(icon.name == "range1"){

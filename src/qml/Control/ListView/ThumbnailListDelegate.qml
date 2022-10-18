@@ -32,9 +32,9 @@ Rectangle {
 
     //缩略图本体
     Image {
-        id: image
-        source: m_url !== "" ? "image://publisher/" + m_displayFlushHelper + theView.displayFlushHelper.toString() + "_" + m_url : ""
-        asynchronous: true
+        id: image 
+        source: m_url !== "" ? "image://asynImageProvider/" + m_displayFlushHelper + theView.displayFlushHelper.toString() + "_" + m_url : ""
+        asynchronous: false
         anchors.centerIn: parent
         width: parent.width - 14
         height: parent.height - 14
@@ -43,16 +43,22 @@ Rectangle {
         visible: false
     }
 
-    ActionButton {
+    Loader {
         id: damageIcon
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-        icon {
-            name: "photo_breach"
-            width: image.width
-            height: image.height
+
+        anchors.centerIn: parent
+
+        // 判断是否加载错误图片状态组件
+        active: image.status === Image.Error
+        sourceComponent: ActionButton {
+            anchors.centerIn: parent
+
+            icon {
+                name: "photo_breach"
+                width: 151
+                height: 151
+            }
         }
-        visible: image.status === Image.Error
     }
 
     // 图片保存完成，缩略图区域重新加载当前图片

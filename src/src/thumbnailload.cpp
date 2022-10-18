@@ -57,6 +57,7 @@ LoadImage::LoadImage(QObject *parent) :
     m_viewLoad = new ViewLoad();
     m_publisher = new ImagePublisher(this);
     m_collectionPublisher = new CollectionPublisher();
+    m_asynImageProvider = new AsyncImageProvider();
 }
 
 double LoadImage::getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight)
@@ -340,6 +341,7 @@ QImage ImagePublisher::requestImage(const QString &id, QSize *size, const QSize 
     if (size != nullptr) {
         *size = image.size();
     }
+
     if (requestedSize.width() > 0 && requestedSize.height() > 0) {
         return image.scaled(requestedSize, Qt::KeepAspectRatio);
     } else {
@@ -619,4 +621,125 @@ QImage CollectionPublisher::createMonth_6(const std::vector<QImage> &images)
     painter.end();
 
     return result;
+}
+
+void AsyncImageResponse::run()
+{
+    //id的前几个字符是强制刷新用的，需要排除出去
+    auto startIndex = m_id.indexOf('_') + 1;
+
+    QUrl url(m_id.mid(startIndex));
+
+    QString error;
+    LibUnionImage_NameSpace::loadStaticImageFromFile(url.toLocalFile(), m_image, error);
+
+    //如果是视频，则采用视频加载
+    if( LibUnionImage_NameSpace::isVideo(url.toLocalFile()) ){
+        m_image = MovieService::instance()->getMovieCover(url);
+    }
+
+    if (m_loadMode == 0) {
+        m_image = clipToRect(m_image);
+    } else { //m_loadMode == 1
+        m_image = addPadAndScaled(m_image);
+    }
+
+    if (m_requestedSize.width() > 0 && m_requestedSize.height() > 0) {
+        m_image = m_image.scaled(m_requestedSize, Qt::KeepAspectRatio);
+    }
+
+    emit finished();
+}
+
+//将图片裁剪为方图，逻辑与原来一样
+QImage AsyncImageResponse::clipToRect(const QImage &src)
+{
+    auto tImg = src;
+
+    if (!tImg.isNull() && 0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
+        bool cache_exist = false;
+        if (tImg.height() != 200 && tImg.width() != 200) {
+            if (tImg.height() >= tImg.width()) {
+                cache_exist = true;
+                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+            } else if (tImg.height() <= tImg.width()) {
+                cache_exist = true;
+                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+            }
+        }
+        if (!cache_exist) {
+            if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
+                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+            } else {
+                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+            }
+        }
+    }
+
+    if (!tImg.isNull()) {
+        int width = tImg.width();
+        int height = tImg.height();
+        if (abs((width - height) * 10 / width) >= 1) {
+            QRect rect = tImg.rect();
+            int x = rect.x() + width / 2;
+            int y = rect.y() + height / 2;
+            if (width > height) {
+                x = x - height / 2;
+                y = 0;
+                tImg = tImg.copy(x, y, height, height);
+            } else {
+                y = y - width / 2;
+                x = 0;
+                tImg = tImg.copy(x, y, width, width);
+            }
+        }
+    }
+
+    return tImg;
+}
+
+//将图片按比例缩小
+QImage AsyncImageResponse::addPadAndScaled(const QImage &src)
+{
+    auto result = src.convertToFormat(QImage::Format_RGBA8888);
+
+    if (result.height() > result.width()) {
+        result = result.scaledToHeight(200, Qt::SmoothTransformation);
+    } else {
+        result = result.scaledToWidth(200, Qt::SmoothTransformation);
+    }
+
+    return result;
+}
+
+AsyncImageProvider::AsyncImageProvider(QObject *parent)
+    : QObject(parent)
+    , QQuickAsyncImageProvider()
+{
+    //初始化的时候读取上次退出时的状态
+    m_loadMode = LibConfigSetter::instance()->value(SETTINGS_GROUP, SETTINGS_DISPLAY_MODE, 0).toInt();
+}
+
+//切换加载策略
+void AsyncImageProvider::switchLoadMode()
+{
+    switch (m_loadMode) {
+    case 0:
+        m_loadMode = 1;
+        break;
+    case 1:
+        m_loadMode = 0;
+        break;
+    default:
+        m_loadMode = 0;
+        break;
+    }
+
+    //切完以后保存状态
+    LibConfigSetter::instance()->setValue(SETTINGS_GROUP, SETTINGS_DISPLAY_MODE, m_loadMode.load());
+}
+
+int AsyncImageProvider::getLoadMode()
+{
+    return m_loadMode;
 }

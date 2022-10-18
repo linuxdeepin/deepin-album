@@ -67,10 +67,17 @@ Item {
         selectedChanged()
     }
 
+    onVisibleChanged: {
+        if (visible) {
+            theView.displayFlushHelper = asynImageProvider.getLoadMode()
+        }
+    }
+
     //强制重新刷新整个缩略图界面
     function fouceUpdate() {
-        //QML的图片强制重刷机制：改变图片路径
-        theView.displayFlushHelper = Math.random()
+        if (visible) {
+            theView.displayFlushHelper = asynImageProvider.getLoadMode()
+        }
     }
 
     // 获取列表中项的个数
@@ -250,6 +257,7 @@ Item {
         cellWidth: itemWidth
         cellHeight: itemHeight
         model: thumbnailListModel
+        cacheBuffer:200*2
         delegate: ThumbnailListDelegate{
             id: thumbnailListDelegate
             m_index: index
@@ -279,8 +287,8 @@ Item {
         //橡皮筋显隐状态
         property bool rubberBandDisplayed: false
 
-        //辅助强制刷新变量
-        property double displayFlushHelper: 0
+        //指定缩略图模式
+        property double displayFlushHelper: asynImageProvider.getLoadMode()
 
         // 滚动滑块Delta值
         property int scrollDelta: 60

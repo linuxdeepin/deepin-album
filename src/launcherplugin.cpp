@@ -55,6 +55,9 @@ int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
     engine->addImageProvider(QLatin1String("viewImage"), load->m_viewLoad);
     engine->addImageProvider(QLatin1String("publisher"), load->m_publisher);
     engine->addImageProvider(QLatin1String("collectionPublisher"), load->m_collectionPublisher);
+    engine->addImageProvider(QLatin1String("asynImageProvider"), load->m_asynImageProvider);
+
+    engine->rootContext()->setContextProperty("asynImageProvider", load->m_asynImageProvider);
     engine->rootContext()->setContextProperty("publisher", load->m_publisher);
 
     FileControl *fileControl = new FileControl();

@@ -5,6 +5,7 @@
 #include <QQuickWindow>
 #include <QImage>
 #include <QMutex>
+#include <QThreadPool>
 
 #include <deque>
 
@@ -115,6 +116,69 @@ private:
     QImage clipHelper(const QImage &image, int width, int height);
 };
 
+//异步缩略图_start
+class AsyncImageResponse : public QQuickImageResponse, public QRunnable
+{
+public:
+    AsyncImageResponse(const QString &id, const QSize &requestedSize)
+    : m_id(id), m_requestedSize(requestedSize)
+    {
+        setAutoDelete(false);
+    }
+
+    QQuickTextureFactory *textureFactory() const override
+    {
+        return QQuickTextureFactory::textureFactoryForImage(m_image);
+    }
+
+    void run() override;
+
+    void setLoadMode(int mod)
+    {
+        m_loadMode = mod;
+    }
+
+private:
+    //图片裁剪策略
+    QImage clipToRect(const QImage &src);
+    QImage addPadAndScaled(const QImage &src);
+
+private:
+    QString m_id;
+    QSize m_requestedSize;
+    QImage m_image;
+
+    int m_loadMode;
+};
+
+class AsyncImageProvider : public QObject, public QQuickAsyncImageProvider
+{
+    Q_OBJECT
+public:
+    explicit AsyncImageProvider(QObject *parent = nullptr);
+
+    QQuickImageResponse *requestImageResponse(const QString &id, const QSize &requestedSize) override
+    {
+      AsyncImageResponse *response = new AsyncImageResponse(id, requestedSize);
+      response->setLoadMode(m_loadMode);
+      pool.start(response);
+      return response;
+    }
+
+    //切换图片显示状态
+    Q_INVOKABLE void switchLoadMode();
+
+    //获得当前图片显示的状态
+    Q_INVOKABLE int getLoadMode();
+
+private:
+    //加载模式控制，requestImage是由QML引擎多线程调用，此处需要采用原子锁，防止崩溃
+    std::atomic_int m_loadMode;
+
+    QThreadPool pool;
+};
+//异步缩略图_end
+
 class LoadImage : public QObject
 {
     Q_OBJECT
@@ -125,6 +189,7 @@ public:
     ViewLoad *m_viewLoad{nullptr};
     ImagePublisher *m_publisher{nullptr};
     CollectionPublisher *m_collectionPublisher{nullptr};
+    AsyncImageProvider *m_asynImageProvider{nullptr};
     Q_INVOKABLE double getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight);
     Q_INVOKABLE bool imageIsNull(const QString &path);
     //获得当前图片的宽和高
