@@ -6,6 +6,8 @@ import QtQuick.Dialogs 1.3
 import Qt.labs.folderlistmodel 2.11
 import org.deepin.dtk 1.0
 
+import "./Control"
+
 Rectangle {
 
     anchors.top : root.top
@@ -391,8 +393,8 @@ Rectangle {
                 height: 36
             }
             onClicked: {
-                albumControl.insertTrash(global.selectedPaths)
-                global.sigFlushRecentDelView()
+                deleteDialog.setDisplay(GlobalVar.FileDeleteType.TrashSel, global.selectedPaths.length)
+                deleteDialog.show()
             }
         }
     }

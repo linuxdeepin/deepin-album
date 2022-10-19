@@ -103,6 +103,13 @@ Item {
         ToBottom  // 框选超出边界朝下
     }
 
+    // 文件删除类型
+    enum FileDeleteType {
+        Normal,   // 普通删除
+        TrashSel, // 最近删除-选中删除
+        TrashAll  // 最近删除-全部删除
+    }
+
     //刷新自定义相册
     Connections {
         target: albumControl

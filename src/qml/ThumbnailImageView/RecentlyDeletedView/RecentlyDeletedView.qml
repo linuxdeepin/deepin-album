@@ -70,6 +70,13 @@ Rectangle {
         }
     }
 
+    //执行图片删除操作
+    function runAllDeleteImg() {
+        albumControl.deleteImgFromTrash(theView.allOriginPaths())
+        theView.selectAll(false)
+        global.sigFlushRecentDelView()
+    }
+
     // 最近删除标题栏区域
     Rectangle {
         id: recentDelTitleRect
@@ -107,9 +114,8 @@ Rectangle {
             text: qsTr("Delete All")
             visible: !theView.haveSelect && theView.count()
             onClicked: {
-                albumControl.deleteImgFromTrash(theView.allOriginPaths())
-                theView.selectAll(false)
-                global.sigFlushRecentDelView()
+                deleteDialog.setDisplay(GlobalVar.FileDeleteType.TrashAll, theView.allOriginPaths().length)
+                deleteDialog.show()
             }
         }
 
@@ -136,9 +142,8 @@ Rectangle {
             visible: theView.haveSelect
 
             onClicked: {
-                albumControl.deleteImgFromTrash(selectedOriginPaths)
-                theView.selectAll(false)
-                global.sigFlushRecentDelView()
+                deleteDialog.setDisplay(GlobalVar.FileDeleteType.TrashSel, selectedOriginPaths.length)
+                deleteDialog.show()
             }
         }
 
@@ -200,5 +205,6 @@ Rectangle {
 
     Component.onCompleted: {
         global.sigFlushRecentDelView.connect(flushRecentDelView)
+        deleteDialog.sigDoAllDeleteImg.connect(runAllDeleteImg)
     }
 }

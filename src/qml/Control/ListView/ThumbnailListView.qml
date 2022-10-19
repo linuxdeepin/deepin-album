@@ -765,7 +765,7 @@ Item {
                 text: qsTr("Delete")
                 visible: menuItemStates.canDelete
                 onTriggered: {
-                    deleteDialog.setDisplay(thumnailListType === GlobalVar.ThumbnailType.Trash, selectedOriginPaths.length)
+                    deleteDialog.setDisplay(thumnailListType === GlobalVar.ThumbnailType.Trash ? GlobalVar.FileDeleteType.TrashSel : GlobalVar.FileDeleteType.Normal, selectedOriginPaths.length)
                     deleteDialog.show()
                 }
             }

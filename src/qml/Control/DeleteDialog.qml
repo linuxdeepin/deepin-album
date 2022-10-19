@@ -6,6 +6,8 @@ import QtQuick.Layouts 1.11
 
 import org.deepin.dtk 1.0
 
+import "../"
+
 DialogWindow {
     id: deleteDialog
     modality: Qt.WindowModal
@@ -23,24 +25,28 @@ DialogWindow {
 
     icon : "deepin-album"
 
-    signal sigDoDeleteImg()
+    property int type: 0
 
-    function setDisplay(isTrash, count) {
-        if(isTrash) {
-            if(count === 1) {
-                deleteTitle.text = qsTr("Are you sure you want to permanently delete this file?")
-                deleteTips.text  = qsTr("You cannot restore it any longer")
-            } else {
-                deleteTitle.text = qsTr("Are you sure you want to permanently delete %1 files?").arg(count)
-                deleteTips.text  = qsTr("You cannot restore them any longer")
-            }
-        } else {
+    signal sigDoDeleteImg()
+    signal sigDoAllDeleteImg()
+
+    function setDisplay(deltype, count) {
+        type = deltype
+        if(deltype === GlobalVar.FileDeleteType.Normal) {
             if(count === 1) {
                 deleteTitle.text = qsTr("Are you sure you want to delete this file locally?")
                 deleteTips.text  = qsTr("You can restore it in the trash")
             } else {
                 deleteTitle.text = qsTr("Are you sure you want to delete %1 file locally?").arg(count)
                 deleteTips.text  = qsTr("You can restore them in the trash")
+            }
+        } else {
+            if(count === 1) {
+                deleteTitle.text = qsTr("Are you sure you want to permanently delete this file?")
+                deleteTips.text  = qsTr("You cannot restore it any longer")
+            } else {
+                deleteTitle.text = qsTr("Are you sure you want to permanently delete %1 files?").arg(count)
+                deleteTips.text  = qsTr("You cannot restore them any longer")
             }
         }
     }
@@ -91,7 +97,16 @@ DialogWindow {
 
         onClicked: {
             deleteDialog.visible = false
-            sigDoDeleteImg()
+            switch (type) {
+                case GlobalVar.FileDeleteType.Normal:
+                case GlobalVar.FileDeleteType.TrashSel:
+                    sigDoDeleteImg()
+                    break
+                case GlobalVar.FileDeleteType.TrashAll:
+                    sigDoAllDeleteImg()
+                    break
+            }
+
         }
     }
 

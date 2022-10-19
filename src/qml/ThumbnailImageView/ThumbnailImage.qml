@@ -77,11 +77,6 @@ Rectangle{
         anchors.fill: parent
     }
 
-    //delete窗口
-    DeleteDialog {
-        id: deleteDialog
-    }
-
     //export窗口
     ExportDialog {
         id: exportdig
@@ -133,7 +128,7 @@ Rectangle{
         autoRepeat: false
         sequence : "Delete"
         onActivated : {
-            deleteDialog.setDisplay(menuItemStates.isInTrash, global.selectedPaths.length)
+            deleteDialog.setDisplay(menuItemStates.isInTrash ? GlobalVar.FileDeleteType.TrashSel : GlobalVar.FileDeleteType.Normal, global.selectedPaths.length)
             deleteDialog.show()
         }
     }
