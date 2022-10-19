@@ -114,6 +114,14 @@ Item {
             height: 30
             //visible: !(numLabelText === "" && filterType === 0)
         }
+
+        MouseArea {
+            anchors.fill: parent
+            onPressed: {
+                theView.selectAll(false)
+                mouse.accepted = false
+            }
+        }
     }
 
     ThumbnailListView {
