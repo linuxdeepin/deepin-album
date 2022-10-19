@@ -143,12 +143,14 @@ Rectangle {
         }
 
         ButtonBox {
+            id: collectionBtnBox
             anchors.top: parent.top
             anchors.topMargin: 7
             anchors.left: range1Button.right
             anchors.leftMargin: 0
             height: 36
-            visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion && albumControl.getYears().length !== 0
+            property bool refreshVisilbe: false
+            visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion && albumControl.getYears(refreshVisilbe).length !== 0
 
             ToolButton {
                 id:yButton
@@ -214,6 +216,15 @@ Rectangle {
             target: global
             onSigFlushSearchView: {
                 searchEdit.executeSearch(true)
+            }
+        }
+
+        Connections {
+            target: albumControl
+            onSigRefreshAllCollection: {
+                if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion) {
+                    collectionBtnBox.refreshVisilbe = !collectionBtnBox.refreshVisilbe
+                }
             }
         }
 

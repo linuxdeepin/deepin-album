@@ -55,8 +55,8 @@ Rectangle {
 
             icon {
                 name: "photo_breach"
-                width: 151
-                height: 151
+                width: image.width
+                height: image.height
             }
         }
     }

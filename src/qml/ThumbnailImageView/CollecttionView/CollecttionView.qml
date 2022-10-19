@@ -1,5 +1,7 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
+import "../"
+import "../../"
 
 Item {
     id: root
@@ -67,6 +69,12 @@ Item {
 
             allCollection.flushTotalTimeScope()
         }
+    }
+
+    // 若没有数据，显示导入图片视图
+    ImportView {
+        anchors.fill: parent
+        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion && allCollection.numLabelText ===""
     }
 
     function onYearClicked(year) {

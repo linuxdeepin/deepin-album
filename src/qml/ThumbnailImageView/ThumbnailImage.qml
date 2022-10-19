@@ -26,11 +26,6 @@ Rectangle{
         collecttionView.setIndex(index)
     }
 
-    ImportView{
-        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Import
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-    }
     NoPictureView{
         visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.NoPicture
         anchors.horizontalCenter: parent.horizontalCenter
