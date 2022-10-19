@@ -320,8 +320,8 @@ Rectangle {
             visible: !titleImportBtn.visible && global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device
             anchors.top: parent.top
             anchors.topMargin: 0
-            anchors.right: titleRotateBtn.visible ? titleRotateBtn.left : (titleTrashBtn.visible ? titleTrashBtn.left : parent.right)
-            anchors.rightMargin: (!titleRotateBtn.visible && !titleTrashBtn.visible) ? 4 * parent.height : 0
+            anchors.right: titleRotateBtn.left
+            anchors.rightMargin: 0
             width: 50
             height: 50
             ToolTip.delay: 500
@@ -350,11 +350,12 @@ Rectangle {
 
         ActionButton {
             id: titleRotateBtn
-            visible: (titleImportBtn.visible ? false : true) && fileControl.isRotatable(global.selectedPaths)
+            visible: (titleImportBtn.visible ? false : true)
+            enabled: fileControl.isRotatable(global.selectedPaths)
             anchors.top: parent.top
             anchors.topMargin: 0
-            anchors.right:  titleTrashBtn.visible ? titleTrashBtn.left : parent.right
-            anchors.rightMargin: titleTrashBtn.visible ? 0 : 4 * parent.height
+            anchors.right:  titleTrashBtn.left
+            anchors.rightMargin: 0
             width: 50
             height: 50
             ToolTip.delay: 500
@@ -372,7 +373,8 @@ Rectangle {
         }
         ActionButton {
             id: titleTrashBtn
-            visible: (titleImportBtn.visible ? false : true) && fileControl.isCanDelete(global.selectedPaths)
+            visible: (titleImportBtn.visible ? false : true)
+            enabled: fileControl.isCanDelete(global.selectedPaths)
             anchors.top: parent.top
             anchors.topMargin: 0
             anchors.right: parent.right
