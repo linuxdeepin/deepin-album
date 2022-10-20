@@ -422,7 +422,7 @@ Item {
 
                 if(mouse.button == Qt.RightButton) {
                     //右键点击区域如果没有选中，则单独选中它
-                    var itemIndex = parent.getItemIndexFromAxis(mouseX, mouseY)
+                    var itemIndex = parent.getItemIndexFromAxis(mouseX, mouseY + parent.contentY)
                     if(itemIndex !== -1) {
                         if(theView.ism.indexOf(itemIndex) === -1) {
                             theView.ism = [itemIndex]
