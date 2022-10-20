@@ -167,9 +167,14 @@ Rectangle {
         }
 
         MouseArea {
+            id: theMouseArea
             anchors.fill: parent
             onPressed: {
-                theView.selectAll(false)
+                var gPos = theMouseArea.mapToGlobal(mouse.x, mouse.y)
+                if (!restoreSelectedBtn.contains(restoreSelectedBtn.mapFromGlobal(gPos.x, gPos.y))
+                        && !delSelectedBtn.contains(delSelectedBtn.mapFromGlobal(gPos.x, gPos.y))) {
+                    theView.selectAll(false)
+                }
                 mouse.accepted = false
             }
         }

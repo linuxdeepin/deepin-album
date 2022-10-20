@@ -187,7 +187,8 @@ Item {
         }
 
         MouseArea {
-            anchors.fill: parent.contentItem
+            // 鼠标区域需要包含空白区域，否则点击空白区域会拖动相册应用
+            anchors.fill: parent.contentHeight > parent.height ? parent.contentItem : parent
             acceptedButtons: Qt.LeftButton
 
             id: theMouseArea
@@ -245,7 +246,8 @@ Item {
                 var parentY = mapToItem(theView, mouse.x, mouse.y).y
                 if (parentY > theView.height) {
                     // 选择框超出ListView底部，ListView准备向下滚动
-                    theView.scrollDirType = GlobalVar.RectScrollDirType.ToBottom
+                    if (parent.contentHeight > parent.height)
+                        theView.scrollDirType = GlobalVar.RectScrollDirType.ToBottom
                 } else if (parentY < 0) {
                     // 选择框超出ListView顶部，ListView准备向上滚动
                     theView.scrollDirType = GlobalVar.RectScrollDirType.ToTop
