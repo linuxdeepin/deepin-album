@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <dapplicationhelper.h>
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QScopedPointer>
@@ -28,6 +30,10 @@ int main(int argc, char *argv[])
     LauncherPlugin plugin;
     QScopedPointer<QGuiApplication> app(plugin.createApplication(argc, argv));
     QQmlApplicationEngine engine;
+
+    if (!DGuiApplicationHelper::instance()->setSingleInstance(app->applicationName(), DGuiApplicationHelper::UserScope)) {
+        exit(0);
+    }
 
     return plugin.main(app.get(), &engine);
 }

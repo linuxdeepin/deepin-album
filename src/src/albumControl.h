@@ -6,6 +6,7 @@
 #include "unionimage/unionimage.h"
 #include "dbmanager/dbmanager.h"
 #include "imageengine/movieservice.h"
+
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
@@ -377,6 +378,9 @@ public slots:
     //获得设备合集
     const QList<QExplicitlySharedDataPointer<DGioMount>> getVfsMountList();
 
+    //外部使用相册打开图片
+    void onNewAPPOpen(qint64 pid, const QStringList &arguments);
+
 private:
     QJsonObject createShorcutJson();
 
@@ -403,6 +407,9 @@ signals:
     void sigRefreashVideoTime(const QString &url, const QString &videoTimeStr);
 
     void sigRepeatUrls(const QStringList &urls);
+
+    //发送打开看图查看图片信号
+    void sigOpenImageFromFiles(const QStringList &paths);
 
 private :
     DBImgInfoList m_infoList;  //全部已导入

@@ -92,19 +92,18 @@ Item {
             //           }
         }
     }
-    Component.onCompleted: {
 
+    //打开看图查看图片
+    function openAndImportImages(paths) {
         var tempPath = ""
-        var tempPaths = []
-        tempPaths = fileControl.parseCommandlineGetPaths()
 
-        if (tempPaths.length > 0)
-            tempPath = tempPaths[0]
+        if (paths.length > 0)
+            tempPath = paths[0]
 
         if (!fileControl.isAlbum())
             mainView.sourcePaths = fileControl.getDirImagePath(tempPath);
         else
-            mainView.sourcePaths = tempPaths
+            mainView.sourcePaths = paths
 
         mainView.source = tempPath
 
@@ -122,8 +121,21 @@ Item {
 
         // 若在文管菜单使用相册打开图片文件，应该将选择的图片导入相册中
         if (fileControl.isAlbum() && tempPath !== "") {
-            albumControl.importAllImagesAndVideos(tempPaths)
+            albumControl.importAllImagesAndVideos(paths)
         }
     }
 
+    Connections {
+        target: albumControl
+        onSigOpenImageFromFiles: {
+            openAndImportImages(paths)
+        }
+    }
+
+    Component.onCompleted: {
+        var tempPaths = []
+        tempPaths = fileControl.parseCommandlineGetPaths()
+
+        openAndImportImages(tempPaths)
+    }
 }
