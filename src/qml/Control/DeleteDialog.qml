@@ -51,6 +51,11 @@ DialogWindow {
         }
     }
 
+    //不显示弹窗直接删除
+    function deleteDirectly() {
+        sigDoDeleteImg()
+    }
+
     Text {
         id: deleteTitle
         anchors.top: parent.top

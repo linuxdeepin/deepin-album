@@ -127,9 +127,13 @@ Rectangle{
         enabled: visible && menuItemStates.canDelete
         autoRepeat: false
         sequence : "Delete"
-        onActivated : {
-            deleteDialog.setDisplay(menuItemStates.isInTrash ? GlobalVar.FileDeleteType.TrashSel : GlobalVar.FileDeleteType.Normal, global.selectedPaths.length)
-            deleteDialog.show()
+        onActivated : {          
+            if (menuItemStates.isInTrash) {
+                deleteDialog.setDisplay(menuItemStates.isInTrash ? GlobalVar.FileDeleteType.TrashSel : GlobalVar.FileDeleteType.Normal, global.selectedPaths.length)
+                deleteDialog.show()
+            } else {
+                deleteDialog.deleteDirectly()
+            }
         }
     }
 
@@ -166,26 +170,6 @@ Rectangle{
         sequence : "Page Down"
         onActivated : {
             global.sigPageDown()
-        }
-    }
-
-    Shortcut {
-        enabled: visible
-        autoRepeat: false
-        sequence : "Ctrl+="
-        onActivated : {
-            var curValue = statusBar.sliderValue
-            statusBar.setSliderWidgetValue(curValue + 1)
-        }
-    }
-
-    Shortcut {
-        enabled: visible
-        autoRepeat: false
-        sequence : "Ctrl+-"
-        onActivated : {
-            var curValue = statusBar.sliderValue
-            statusBar.setSliderWidgetValue(curValue - 1)
         }
     }
 
