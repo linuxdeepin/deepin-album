@@ -300,6 +300,7 @@ Rectangle {
     }
     //缩放快捷键
     Shortcut {
+        enabled: visible
         sequence: "Ctrl+="
         onActivated: {
             currentScale =  currentScale / 0.9
@@ -307,6 +308,7 @@ Rectangle {
     }
 
     Shortcut {
+        enabled: visible
         sequence: "Ctrl+-"
         onActivated: {
             currentScale =  currentScale * 0.9
