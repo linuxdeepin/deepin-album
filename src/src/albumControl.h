@@ -183,7 +183,7 @@ public:
     //删除某相册中的图片 0:我的收藏  1:截图录屏  2:相机 3:画板 4-~:其他自定义   paths:需要删除的图片地址
     Q_INVOKABLE void removeFromAlbum(int UID, const QStringList &paths);
 
-    //添加某相册中的图片 0:我的收藏  1:截图录屏  2:相机 3:画板 4-~:其他自定义   paths:需要删除的图片地址
+    //添加某相册中的图片 0:我的收藏  1:截图录屏  2:相机 3:画板 4-~:其他自定义   paths:需要添加的图片地址
     Q_INVOKABLE bool insertIntoAlbum(int UID, const QStringList &paths);
 
     //添加某相册中的图片 0:我的收藏  1:截图录屏  2:相机 3:画板 4-~:其他自定义   paths:需要删除的图片地址

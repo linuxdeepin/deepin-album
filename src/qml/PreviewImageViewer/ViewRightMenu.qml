@@ -11,6 +11,8 @@ Menu {
 
     maxVisibleItems: 20
 
+    property bool canFavorite: albumControl.canFavorite(imageViewer.source, global.bRefreshFavoriteIconFlag)
+
     RightMenuItem {
         id : right_fullscreen
         text: root.visibility != Window.FullScreen ? qsTr("Fullscreen") : qsTr("Exit fullscreen")
@@ -164,6 +166,32 @@ Menu {
         }
     }
 
+    MenuSeparator {
+        visible: !menuItemStates.isInTrash
+        // 不显示分割条时调整高度，防止菜单项间距不齐
+        height: visible ? firstSeparator.height : 0
+    }
+
+    //添加到我的收藏
+    RightMenuItem {
+        id: favoriteAction
+        text: qsTr("Favorite")
+        visible: !menuItemStates.isInTrash && canFavorite
+        onTriggered: {
+            executeFavorite()
+        }
+    }
+
+    //从我的收藏中移除
+    RightMenuItem {
+        id: unFavoriteAction
+        text: qsTr("Unfavorite")
+        visible: !menuItemStates.isInTrash && !canFavorite
+        onTriggered: {
+            executeUnFavorite()
+        }
+    }
+
     // 不允许无读写权限时上方选项已屏蔽，不展示此分割条
     MenuSeparator {
         // 不显示分割条时调整高度，防止菜单项间距不齐
@@ -288,5 +316,17 @@ Menu {
                 }
             }
         }
+    }
+
+    // 执行收藏操作
+    function executeFavorite() {
+        albumControl.insertIntoAlbum(0, imageViewer.source)
+        global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+    }
+
+    // 执行取消收藏操作
+    function executeUnFavorite() {
+        albumControl.removeFromAlbum(0, imageViewer.source)
+        global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
     }
 }
