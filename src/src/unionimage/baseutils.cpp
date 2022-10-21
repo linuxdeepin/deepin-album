@@ -308,6 +308,7 @@ bool trashFile(const QString &file)
     QString trashname = getNotExistsTrashFileName(originalInfo.fileName());
     QString infopath = trashInfoPath + "/" + trashname + ".trashinfo";
     QString filepath = trashFilesPath + "/" + trashname;
+
     int nr = 1;
     while (QFileInfo(infopath).exists() || QFileInfo(filepath).exists()) {
         nr++;
@@ -315,9 +316,13 @@ bool trashFile(const QString &file)
         if (!originalInfo.completeSuffix().isEmpty()) {
             trashname += QString(".") + originalInfo.completeSuffix();
         }
+        //转为hash值去替换,避免文件名长度超出限制
+        QString hash = LibUnionImage_NameSpace::hashByString(trashname);
+        trashname = hash + QString(".") + originalInfo.completeSuffix();
         infopath = trashInfoPath + "/" + trashname + ".trashinfo";
         filepath = trashFilesPath + "/" + trashname;
     }
+
     QFile infoFile(infopath);
     if (infoFile.open(QIODevice::WriteOnly)) {
         infoFile.write(infoStr.toUtf8());
