@@ -50,26 +50,28 @@ TEST(allPic, picdelete)
     [ = ]() {
         QMetaObject::invokeMethod(w, [ = ]() {
             ImgDeleteDialog *dialog = qobject_cast<ImgDeleteDialog *>(qApp->activeModalWidget());
-            QTestEventList e;
-            e.addKeyPress(Qt::Key::Key_Tab);
-            e.simulate(dialog->getButton(0));
-            QTest::qWait(200);
+            if (dialog) {
+                QTestEventList e;
+                e.addKeyPress(Qt::Key::Key_Tab);
+                e.simulate(dialog->getButton(0));
+                QTest::qWait(200);
 
-            e.simulate(dialog->getButton(1));
-            QTest::qWait(200);
+                e.simulate(dialog->getButton(1));
+                QTest::qWait(200);
 
-            QWidget *closeButton =  dialog->findChild<QWidget *>("DTitlebarDWindowCloseButton");
-            e.simulate(closeButton);
-            QTest::qWait(200);
+                QWidget *closeButton =  dialog->findChild<QWidget *>("DTitlebarDWindowCloseButton");
+                e.simulate(closeButton);
+                QTest::qWait(200);
 
-            e.simulate(dialog->getButton(0));
-            QTest::qWait(200);
+                e.simulate(dialog->getButton(0));
+                QTest::qWait(200);
 
-            e.clear();
-            e.addKeyPress(Qt::Key::Key_Escape);//这个会让它退出去，不需要执行done
-            e.simulate(dialog);
+                e.clear();
+                e.addKeyPress(Qt::Key::Key_Escape);//这个会让它退出去，不需要执行done
+                e.simulate(dialog);
+            }
+
         }, Qt::QueuedConnection);
-
     });
 }
 
