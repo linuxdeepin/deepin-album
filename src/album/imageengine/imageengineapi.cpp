@@ -34,6 +34,9 @@ ImageEngineApi *ImageEngineApi::instance(QObject *parent)
 
 ImageEngineApi::~ImageEngineApi()
 {
+    qDebug() << __FUNCTION__ << "---";
+    StopSynRecycleBinToTrashThread();
+
 #ifdef NOGLOBAL
     m_qtpool.clear();
     m_qtpool.waitForDone();
@@ -286,4 +289,12 @@ void ImageEngineApi::StartSynRecycleBinToTrashThread()
 #else
     QThreadPool::globalInstance()->start(threadSynRBT);
 #endif
+}
+
+void ImageEngineApi::StopSynRecycleBinToTrashThread()
+{
+    if (threadSynRBT) {
+        threadSynRBT->needStop(nullptr);
+        threadSynRBT = nullptr;
+    }
 }

@@ -90,6 +90,7 @@ MainWindow::MainWindow()
 MainWindow::~MainWindow()
 {
     emit dApp->signalM->sigPauseOrStart(false); //唤醒外设后台挂载,防止析构时线程挂起卡住页面无法退出
+    ImageEngineApi::instance()->StopSynRecycleBinToTrashThread();
     ImageEngineApi::instance()->close();
     QThreadPool::globalInstance()->clear();
     QThreadPool::globalInstance()->waitForDone();

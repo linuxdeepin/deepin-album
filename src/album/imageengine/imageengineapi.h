@@ -62,6 +62,9 @@ public:
     //启动同步回收站与最近删除线程
     void StartSynRecycleBinToTrashThread();
 
+    //停止同步回收站与最近删除线程
+    void StopSynRecycleBinToTrashThread();
+
 private slots:
     void sltImageFilesImported(void *imgobject, QStringList &filelist);
 signals:
