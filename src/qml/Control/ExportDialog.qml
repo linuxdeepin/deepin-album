@@ -29,6 +29,7 @@ DialogWindow {
     property string savefileFormat: formatCombox.displayText
     property int pictureQuality: piczSlider.value
     property string saveFolder: ""
+    property var messageToId: thumbnailImage
 
     icon : "deepin-album"
 
@@ -232,9 +233,9 @@ DialogWindow {
             var bRet = albumControl.saveAsImage(filePath , saveName , saveIndex , savefileFormat ,pictureQuality ,saveFolder)
             exportdialog.visible=false
             if (bRet)
-                DTK.sendMessage(thumbnailImage, qsTr("Export successful"), "checked")
+                DTK.sendMessage(messageToId, qsTr("Export successful"), "checked")
             else
-                DTK.sendMessage(thumbnailImage, qsTr("Export failed"), "warning")
+                DTK.sendMessage(messageToId, qsTr("Export failed"), "warning")
 
         }
     }
@@ -250,5 +251,10 @@ DialogWindow {
 
         setX(root.x  + root.width / 2 - width / 2)
         setY(root.y  + root.height / 2 - height / 2)
+    }
+
+    function setParameter(path, toId) {
+        filePath = path
+        messageToId = toId
     }
 }

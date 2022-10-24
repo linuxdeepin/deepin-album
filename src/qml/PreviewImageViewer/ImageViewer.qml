@@ -5,6 +5,8 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.11
 import org.deepin.dtk 1.0
 
+import "../Control"
+
 Rectangle {
 
     // Indicates the minimum number of zooms
@@ -771,7 +773,10 @@ Rectangle {
         filePath :imageViewer.source
     }
 
-
+    //export窗口
+    ExportDialog {
+        id: exportdig
+    }
 
     //导航窗口
     NavigationWidget {

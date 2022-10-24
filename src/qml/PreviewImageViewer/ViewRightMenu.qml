@@ -12,6 +12,7 @@ Menu {
     maxVisibleItems: 20
 
     property bool canFavorite: albumControl.canFavorite(imageViewer.source, global.bRefreshFavoriteIconFlag)
+    property bool canExport: fileControl.pathExists(source) && fileControl.isImage(source) && !fileControl.isVideo(source)
 
     RightMenuItem {
         id : right_fullscreen
@@ -92,6 +93,23 @@ Menu {
 
     MenuSeparator {
         id: firstSeparator
+    }
+
+    //导出图片为其它格式
+    RightMenuItem {
+        text: qsTr("Export")
+        visible: canExport && !menuItemStates.isInTrash && fileControl.isAlbum()
+        onTriggered: {
+            excuteExport()
+        }
+
+        Shortcut {
+            enabled: stackView.visible && canExport && !menuItemStates.isInTrash && fileControl.isAlbum()
+            sequence : "Ctrl+E"
+            onActivated : {
+               excuteExport()
+            }
+        }
     }
 
     RightMenuItem {
@@ -328,5 +346,19 @@ Menu {
     function executeUnFavorite() {
         albumControl.removeFromAlbum(0, imageViewer.source)
         global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+    }
+
+    // 执行导出图片
+    function excuteExport() {
+        if (global.selectedPaths.length > 1) {
+            var bRet = albumControl.getFolders(global.selectedPaths)
+            if (bRet)
+                DTK.sendMessage(thumbnailImage, qsTr("Export successful"), "checked")
+            else
+                DTK.sendMessage(thumbnailImage, qsTr("Export failed"), "warning")
+        } else{
+            exportdig.setParameter(imageViewer.source, imageViewer)
+            exportdig.show()
+        }
     }
 }

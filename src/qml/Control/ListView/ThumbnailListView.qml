@@ -178,7 +178,7 @@ Item {
             else
                 DTK.sendMessage(thumbnailImage, qsTr("Export failed"), "warning")
         } else{
-            exportdig.filePath = global.objIsEmpty(thumbnailListModel) ? "" : (global.objIsEmpty(thumbnailListModel.get(theView.ism[0])) ? "" : thumbnailListModel.get(theView.ism[0]).url.toString())
+            exportdig.setParameter(global.objIsEmpty(thumbnailListModel) ? "" : (global.objIsEmpty(thumbnailListModel.get(theView.ism[0])) ? "" : thumbnailListModel.get(theView.ism[0]).url.toString()), thumbnailImage)
             exportdig.show()
         }
     }
