@@ -298,7 +298,7 @@ Rectangle {
         }
 
         // 强制刷新一次图片
-        mainView.source=""
+        //mainView.source=""
     }
     //缩放快捷键
     Shortcut {
