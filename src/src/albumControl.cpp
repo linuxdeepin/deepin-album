@@ -115,7 +115,7 @@ AlbumControl::AlbumControl(QObject *parent)
     initMonitor();
     initDeviceMonitor();
 
-     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::newProcessInstance, this, &AlbumControl::onNewAPPOpen);
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::newProcessInstance, this, &AlbumControl::onNewAPPOpen);
 }
 
 AlbumControl::~AlbumControl()
@@ -1369,6 +1369,12 @@ QRect AlbumControl::intersected(QRect r1, QRect r2)
     return r1.intersected(r2);
 }
 
+int AlbumControl::manhattanLength(QPoint p1, QPoint p2)
+{
+    QPoint point(p1 - p2);
+    return point.manhattanLength();
+}
+
 QString AlbumControl::localPath(QString url)
 {
     return QUrl(url).toLocalFile();
@@ -2238,11 +2244,11 @@ QString AlbumControl::getMovieInfo(const QString key, const QString &path)
         if (QString("Video CodecID").contains(key)) {
             value = movieInfo.vCodecID;
         } else if (QString("Video CodeRate").contains(key)) {
-            if(movieInfo.vCodeRate == 0) {
+            if (movieInfo.vCodeRate == 0) {
                 value = "-";
             } else {
                 value = movieInfo.vCodeRate > 1000 ? QString::number(movieInfo.vCodeRate / 1000) + " kbps"
-                                                   : QString::number(movieInfo.vCodeRate) + " bps";
+                        : QString::number(movieInfo.vCodeRate) + " bps";
             }
         } else if (QString("FPS").contains(key)) {
             value = movieInfo.fps == 0 ? "-" : QString::number(movieInfo.fps) + " fps";
@@ -2253,11 +2259,11 @@ QString AlbumControl::getMovieInfo(const QString key, const QString &path)
         } else if (QString("Audio CodecID").contains(key)) {
             value = movieInfo.aCodeID;
         } else if (QString("Audio CodeRate").contains(key)) {
-            if(movieInfo.aCodeRate == 0) {
+            if (movieInfo.aCodeRate == 0) {
                 value = "-";
             } else {
                 value = movieInfo.aCodeRate > 1000 ? QString::number(movieInfo.aCodeRate / 1000) + " kbps"
-                                                   : QString::number(movieInfo.aCodeRate) + " bps";
+                        : QString::number(movieInfo.aCodeRate) + " bps";
             }
         } else if (QString("Audio digit").contains(key)) {
             value = movieInfo.aDigit == 0 ? "-" : QString::number(movieInfo.aDigit);

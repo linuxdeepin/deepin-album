@@ -216,11 +216,33 @@ Item {
         }
     }
 
-    function flushRectSel(x,y,w,h) {
-        if (theView.contains(x,y) && theView.contains(x+w, y+h) && w !== 0 && h !== 0)
-            theView.ism = theView.flushRectSel(x, y + theView.contentY, w, h)
-        else
-            theView.ism = []
+    // 提供给合集日视图和已导入视图使用，用来刷新
+    function flushRectSel(x,y,w,h,ctrl,mousePress, inPress) {
+        if (theView.contains(x,y) && theView.contains(x+w, y+h) && w !== 0 && h !== 0) {
+            // 按住Ctrl，鼠标点击事件释放时，处理点选逻辑
+            if (ctrl && mousePress) {
+                if (!inPress) {
+                    var rectSel = theView.flushRectSel(x, y + theView.contentY, w, h)
+                    if (rectSel.length === 1) {
+                        if (theView.ism.indexOf(rectSel[0]) === -1) {
+                            theView.ism.push(rectSel[0])
+                        } else {
+                            var removeIsm = theView.ism
+                            removeIsm.splice(removeIsm.indexOf(rectSel[0]), 1)
+                            theView.ism = removeIsm
+
+                        }
+                    }
+                }
+            } else {
+                theView.ism = theView.flushRectSel(x, y + theView.contentY, w, h)
+            }
+        } else {
+            // 1.按住ctrl，鼠标垮区域框选时，需要清空框选区域外的已选项
+            // 2.不按住ctrl，鼠标单选，需要清空其他列表的已选项
+            if (!ctrl && mousePress || ctrl && !mousePress)
+                theView.ism = []
+        }
 
         // 跨区域框选后，需要手动激活列表焦点，这样快捷键才能生效
         if (theView.ism.length > 0) {
@@ -450,7 +472,11 @@ Item {
                 {
                     if(parent.ism.indexOf(index) == -1)
                     {
-                        parent.ism = [index]
+                        // 按住ctrl，连续多选
+                        if (Qt.ControlModifier & mouse.modifiers)
+                            parent.ism.push(index)
+                        else
+                            parent.ism = [index]
                         selectedChanged()
                     } else if (parent.ism.indexOf(index) >= 0) {
                         var item = parent.itemAt(mouseX, mouseY + parent.contentY)
@@ -460,7 +486,16 @@ Item {
                             // 判断是否点击的鼠标位置是否在收藏按钮上，若在，则不接受鼠标事件，让代理中的收藏按钮相应点击事件
                             if (subItem !== null && item.m_favoriteBtn === subItem) {
                                 mouse.accepted = false
+                                return
                             }
+                        }
+
+                        // 按住ctrl，点击在已选项，取消当前已选项
+                        if (Qt.ControlModifier & mouse.modifiers) {
+                            var removeIsm = parent.ism
+                            removeIsm.splice(removeIsm.indexOf(index), 1)
+                            parent.ism = removeIsm
+                            selectedChanged()
                         }
                     }
                 }
@@ -476,8 +511,8 @@ Item {
                 if(rubberBand.m_width > 0)
                 {
                     parent.ism = []
-                    parent.rubberBandDisplayed = true
                     parent.ism = parent.flushRectSel(rubberBand.x, rubberBand.y+parent.contentY, Math.max(rubberBand.m_width, 1), Math.max(rubberBand.m_height, 1))
+                    parent.rubberBandDisplayed = true
                     selectedChanged()
                 }
 
@@ -496,8 +531,8 @@ Item {
                 if(rubberBand.m_height > 0)
                 {
                     parent.ism = []
-                    parent.rubberBandDisplayed = true
                     parent.ism = parent.flushRectSel(rubberBand.x, rubberBand.y+parent.contentY, Math.max(rubberBand.m_width, 1), Math.max(rubberBand.m_height, 1))
+                    parent.rubberBandDisplayed = true
                     selectedChanged()
                 }
 
@@ -514,14 +549,17 @@ Item {
                 if(parent.rubberBandDisplayed == false)
                 {
                     var index = parent.getItemIndexFromAxis(mouseX, mouseY + parent.contentY)
-                    if(index !== -1) {
-                        parent.ism = [index]
+                    if (index !== -1) {
+                        if (!(Qt.ControlModifier & mouse.modifiers))
+                            parent.ism = [index]
                     } else {
                         // 应用主窗口被置灰过，第一次点击空白区域，不执行清空选择操作，第二次才清空选择状态
-                        if (!global.windowDisActived) {
-                            parent.ism = []
+                        if(parent.getItemIndexFromAxis(mouseX, mouseY + parent.contentY) === -1) {
+                            if (!global.windowDisActived && !(Qt.ControlModifier & mouse.modifiers)) {
+                                parent.ism = []
+                            }
+                            global.windowDisActived = false
                         }
-                        global.windowDisActived = false
                     }
                     selectedChanged()
                 }

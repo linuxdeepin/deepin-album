@@ -174,6 +174,26 @@ Rectangle{
     }
 
     Shortcut {
+        enabled: visible
+        autoRepeat: false
+        sequence : "Ctrl+="
+        onActivated : {
+            var curValue = statusBar.sliderValue
+            statusBar.setSliderWidgetValue(curValue + 1)
+        }
+    }
+
+    Shortcut {
+        enabled: visible
+        autoRepeat: false
+        sequence : "Ctrl+-"
+        onActivated : {
+            var curValue = statusBar.sliderValue
+            statusBar.setSliderWidgetValue(curValue - 1)
+        }
+    }
+
+    Shortcut {
         enabled: visible && leftSidebar.visible
         autoRepeat: false
         sequence: "Ctrl+Shift+N"

@@ -114,6 +114,8 @@ Item {
             anchors.fill: parent.contentHeight > parent.height ? parent.contentItem : parent
             acceptedButtons: Qt.LeftButton //仅激活左键
 
+            property bool ctrlPressed: false // 记录ctrl是否按下
+
             id: theMouseArea
 
             onPressed: {
@@ -128,6 +130,9 @@ Item {
                     mouse.accepted = false
                     return
                 }
+
+                ctrlPressed = Qt.ControlModifier & mouse.modifiers
+
                 theView.scrollDirType = GlobalVar.RectScrollDirType.NoType
                 parent.inPress = true
                 rubberBand.x1 = mouse.x
@@ -190,8 +195,16 @@ Item {
                     return
                 }
 
-                theView.scrollDirType = GlobalVar.RectScrollDirType.NoType
                 parent.inPress = false
+
+                // ctrl按下，鼠标点击事件释放时，需要再发送一次框选改变信号，用来在鼠标释放时实现ctrl取消选中的功能
+                if ((Qt.ControlModifier & mouse.modifiers) && rubberBand.width < 3 & rubberBand.height < 3) {
+                    rubberBand.rectSelChanged()
+                }
+
+                ctrlPressed = false
+
+                theView.scrollDirType = GlobalVar.RectScrollDirType.NoType
                 rubberBand.clearRect()
 
                 // 清除标题栏色差矫校正框选框
@@ -388,7 +401,8 @@ Item {
                         var rectsel = albumControl.rect(pos1, pos2)
                         var rectList = Qt.rect(0, 0, importedGridView.width, importedGridView.height)
                         var rect = albumControl.intersected(rectList, rectsel)
-                        importedGridView.flushRectSel(rect.x, rect.y, rect.width, rect.height)
+                        var bDetectMousePrees = albumControl.manhattanLength(pos1, pos2) < 3 // 识别此次框选事件是否为鼠标点击事件，以便在列表控件处理ctrl按键相关的操作
+                        importedGridView.flushRectSel(rect.x, rect.y, rect.width, rect.height, theMouseArea.ctrlPressed, bDetectMousePrees, theView.inPress)
                     }
                 }
 
