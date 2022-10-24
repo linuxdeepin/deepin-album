@@ -1561,7 +1561,9 @@ TEST(MainWindow, monitor)
         currentFile.copy(currentInfo.absoluteFilePath() + "." + currentInfo.suffix());
     }
 
-    QFile::remove(infosInPictures[0].absoluteFilePath());
+    if (infosInPictures.size() > 0) {
+        QFile::remove(infosInPictures[0].absoluteFilePath());
+    }
 
     QTest::qWait(5000);
 
