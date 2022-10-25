@@ -11,7 +11,6 @@ Menu {
 
     maxVisibleItems: 20
 
-    property bool canFavorite: albumControl.canFavorite(imageViewer.source, global.bRefreshFavoriteIconFlag)
     property bool canExport: fileControl.pathExists(source) && fileControl.isImage(source) && !fileControl.isVideo(source)
 
     RightMenuItem {
@@ -184,8 +183,9 @@ Menu {
         }
     }
 
+    //分割条-收藏
     MenuSeparator {
-        visible: !menuItemStates.isInTrash
+        visible: !menuItemStates.isInTrash && fileControl.isAlbum()
         // 不显示分割条时调整高度，防止菜单项间距不齐
         height: visible ? firstSeparator.height : 0
     }
@@ -194,9 +194,9 @@ Menu {
     RightMenuItem {
         id: favoriteAction
         text: qsTr("Favorite")
-        visible: !menuItemStates.isInTrash && canFavorite
+        visible: !menuItemStates.isInTrash && imageViewer.canFavorite && fileControl.isAlbum()
         onTriggered: {
-            executeFavorite()
+            imageViewer.executeFavorite()
         }
     }
 
@@ -204,9 +204,9 @@ Menu {
     RightMenuItem {
         id: unFavoriteAction
         text: qsTr("Unfavorite")
-        visible: !menuItemStates.isInTrash && !canFavorite
+        visible: !menuItemStates.isInTrash && !imageViewer.canFavorite && fileControl.isAlbum()
         onTriggered: {
-            executeUnFavorite()
+            imageViewer.executeUnFavorite()
         }
     }
 
@@ -334,18 +334,6 @@ Menu {
                 }
             }
         }
-    }
-
-    // 执行收藏操作
-    function executeFavorite() {
-        albumControl.insertIntoAlbum(0, imageViewer.source)
-        global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
-    }
-
-    // 执行取消收藏操作
-    function executeUnFavorite() {
-        albumControl.removeFromAlbum(0, imageViewer.source)
-        global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
     }
 
     // 执行导出图片

@@ -57,6 +57,9 @@ Rectangle {
     property real viewImageWidthRatio : 0
     property real viewImageHeightRatio : 0
 
+    //判断图片是否可收藏
+    property bool canFavorite: albumControl.canFavorite(source, global.bRefreshFavoriteIconFlag)
+
     signal sigWheelChange
     signal sigImageShowFullScreen
     signal sigImageShowNormal
@@ -300,6 +303,33 @@ Rectangle {
         // 强制刷新一次图片
         //mainView.source=""
     }
+
+    // 执行收藏操作
+    function executeFavorite() {
+        albumControl.insertIntoAlbum(0, imageViewer.source)
+        global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+    }
+
+    // 执行取消收藏操作
+    function executeUnFavorite() {
+        albumControl.removeFromAlbum(0, imageViewer.source)
+        global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+    }
+
+    //收藏/取消收藏
+    Shortcut {
+        enabled: visible
+        sequence: "."
+        onActivated: {
+            if (!menuItemStates.isInTrash && fileControl.isAlbum()) {
+                if (canFavorite)
+                    executeFavorite()
+                else
+                    executeUnFavorite()
+            }
+        }
+    }
+
     //缩放快捷键
     Shortcut {
         enabled: visible
