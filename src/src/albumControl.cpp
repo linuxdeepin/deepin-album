@@ -451,7 +451,7 @@ bool AlbumControl::importAllImagesAndVideos(const QStringList &paths)
     });
 
     //已全部存在，无需导入
-    if (noReadCount == localpaths.size()) {
+    if (noReadCount == localpaths.size() && localpaths.size() > 0) {
         QStringList urlPaths;
         for (QString path : localpaths) {
             urlPaths.push_back("file://" + path);
@@ -527,7 +527,7 @@ bool AlbumControl::importAllImagesAndVideosUrl(const QList<QUrl> &paths, bool ch
     });
 
     //已全部存在，无需导入
-    if (noReadCount == localpaths.size() && checkRepeat) {
+    if (noReadCount == localpaths.size() && localpaths.size() > 0 && checkRepeat) {
         QStringList urlPaths;
         for (QString path : localpaths) {
             urlPaths.push_back("file://" + path);
