@@ -244,8 +244,6 @@ DialogWindow {
         // 窗口显示时，重置显示内容
         if (visible) {
             nameedit.text = fileControl.slotGetFileName(filePath)
-            saveCombox.currentIndex = 0
-            formatCombox.currentIndex = 0
             piczSlider.value = 100
         }
 
