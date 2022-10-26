@@ -172,8 +172,8 @@ Menu {
             toolBarthumbnailListView.deleteCurrentImage()
         }
         Shortcut {
-            enabled: stackView.visible
             sequence: "Delete"
+	    enabled: fileControl.isCanDelete(source) && stackView.visible
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {

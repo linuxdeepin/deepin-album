@@ -62,14 +62,15 @@ Rectangle {
     }
 
     // 图片保存完成，缩略图区域重新加载当前图片
-    Connections {
+    // hcq temp modify
+    /*Connections {
         target: fileControl
         onCallSavePicDone: {
             if (path === m_url) {
                 m_displayFlushHelper = Math.random()
             }
         }
-    }
+    }*/
 
     //圆角遮罩Rectangle
     Rectangle {

@@ -18,14 +18,15 @@ Item {
     property int showBottomY: 80
     property int actionMargin: 9    //应用图标距离顶栏
 
+    property int rightMenuItemHeight: 32//右键菜单item的高度
+    property int rightMenuSeparatorHeight: 12//右键菜单分割层的高度
+
     property int statusBarHeight: 30 //状态栏高度
 
     property int thumbnailViewTitleHieght: 85 // 缩略图视图区域标题显示区域高度
     property int verticalScrollBarWidth: 15 // 垂直滚动条宽度
 
     property int rectSelScrollStep: 30 // 框选滚动步进
-    property int rightMenuItemHeight: 32//右键菜单item的高度
-    property int rightMenuSeparatorHeight: 12//右键菜单分割层的高度
     property var selectedPaths: [] // 已选路径
     property bool bRefreshFavoriteIconFlag: false //刷新收藏图标标记，翻转一次，图标就刷新一次
     property bool bRefreshRangeBtnState: false //刷新显示比例图标激活状态标记，翻转一次，图标就刷新一次

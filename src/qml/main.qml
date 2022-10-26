@@ -33,7 +33,6 @@ ApplicationWindow {
     }
 
     signal sigTitlePress
-
     // 设置 dtk 风格窗口
     D.DWindow.enabled: true
     id: root
@@ -84,6 +83,7 @@ ApplicationWindow {
     //关闭的时候保存信息
     onClosing: {
         fileControl.saveSetting()
+        fileControl.terminateShortcutPanelProcess() //结束快捷键面板进程
     }
 
     FileDialog {

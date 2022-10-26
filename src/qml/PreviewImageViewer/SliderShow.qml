@@ -200,8 +200,10 @@ Rectangle {
                 ToolTip.visible: hovered
                 ToolTip.text: qsTr("Exit")
             }
+            
         }
     }
+
     Menu {
         x: 250; y: 600
         id: sliderMenu
@@ -211,16 +213,16 @@ Rectangle {
             onTriggered: {
                 autoRun=!autoRun
             }
-        }
 
-        // 添加处理快捷键，播放幻灯片时暂停/播放
-        Shortcut {
-            id: pauseShortCut
-            sequence: "Space"
-            // 进行幻灯片播放时允许响应空格快捷键处理暂停/播放
-            enabled: sliderShow.visible
-            onActivated: {
-                autoRun = !autoRun
+            // 添加处理快捷键，播放幻灯片时暂停/播放
+            Shortcut {
+                id: pauseShortCut
+                sequence: "Space"
+                // 进行幻灯片播放时允许响应空格快捷键处理暂停/播放
+                enabled: sliderShow.visible
+                onActivated: {
+                    autoRun = !autoRun
+                }
             }
         }
 

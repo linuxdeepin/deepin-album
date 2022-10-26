@@ -15,17 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "launcherplugin.h"
+#include "src/filecontrol.h"
+#include "src/thumbnailload.h"
+#include "src/cursortool.h"
+#include "src/albumControl.h"
+#include "config.h"
+
+#include <DApplication>
+
 #include <QQmlContext>
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
 #include <QDebug>
-#include <DApplication>
-
-#include "src/filecontrol.h"
-#include "src/thumbnailload.h"
-#include "src/albumControl.h"
-#include "launcherplugin.h"
-#include "config.h"
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
@@ -43,6 +45,11 @@ LauncherPlugin::~LauncherPlugin()
 
 int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
 {
+    app->setWindowIcon(QIcon::fromTheme("deepin-album"));
+    app->setApplicationDisplayName(QObject::tr("Album"));
+    app->setApplicationName("deepin-album");
+    app->setApplicationDisplayName(QObject::tr("Album"));
+
     // 配置文件加载
     LibConfigSetter::instance()->loadConfig(imageViewerSpace::ImgViewerTypeAlbum);
 
@@ -53,6 +60,9 @@ int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
     engine->rootContext()->setContextProperty("CodeImage", load);
     engine->addImageProvider(QLatin1String("ThumbnailImage"), load->m_pThumbnail);
     engine->addImageProvider(QLatin1String("viewImage"), load->m_viewLoad);
+    // 后端多页图加载
+    engine->addImageProvider(QLatin1String("multiimage"), load->m_multiLoad);
+
     engine->addImageProvider(QLatin1String("publisher"), load->m_publisher);
     engine->addImageProvider(QLatin1String("collectionPublisher"), load->m_collectionPublisher);
     engine->addImageProvider(QLatin1String("asynImageProvider"), load->m_asynImageProvider);
@@ -62,6 +72,18 @@ int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
 
     FileControl *fileControl = new FileControl();
     engine->rootContext()->setContextProperty("fileControl", fileControl);
+    // 关联文件处理（需要保证优先处理，onImageFileChanged已做多线程安全）
+    QObject::connect(fileControl, &FileControl::requestImageFileChanged,
+    load, [&](const QString & filePath, bool isMultiImage, bool isExist) {
+        // 更新缓存信息
+        load->onImageFileChanged(filePath, isMultiImage, isExist);
+        // 处理完成后加载图片
+        emit fileControl->imageFileChanged(filePath, isMultiImage, isExist);
+    });
+
+    // 光标位置查询工具
+    CursorTool *cursorTool = new CursorTool();
+    engine->rootContext()->setContextProperty("cursorTool", cursorTool);
 
     //禁止多开
     if (!fileControl->isCheckOnly()) {
@@ -78,11 +100,6 @@ int LauncherPlugin::main(QGuiApplication *app, QQmlApplicationEngine *engine)
     engine->load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine->rootObjects().isEmpty())
         return -1;
-
-    app->setWindowIcon(QIcon::fromTheme("deepin-album"));
-    app->setApplicationDisplayName(QObject::tr("Album"));
-    app->setApplicationName("deepin-album");
-    app->setApplicationDisplayName(QObject::tr("Album"));
 
     return app->exec();
 }

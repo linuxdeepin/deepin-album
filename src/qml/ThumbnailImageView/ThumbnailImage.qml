@@ -215,7 +215,7 @@ Rectangle{
     }
 
     Shortcut {
-        enabled: true
+        enabled: visible
         autoRepeat: false
         sequence: "Ctrl+Shift+/"
         onActivated: {

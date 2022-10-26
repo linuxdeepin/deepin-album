@@ -29,7 +29,7 @@ DialogWindow {
     property string savefileFormat: formatCombox.displayText
     property int pictureQuality: piczSlider.value
     property string saveFolder: ""
-    property var messageToId: thumbnailImage
+    property var messageToId
 
     icon : "deepin-album"
 

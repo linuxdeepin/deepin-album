@@ -22,7 +22,11 @@ DialogWindow {
 
     visible: false
 
-    property var filePath
+    property string filePath: ""
+
+    onFilePathChanged: {
+        console.log("informationdialog filepath:", filePath)
+    }
 
     property string fileName: fileControl.slotGetFileNameSuffix(filePath)
 
@@ -59,13 +63,12 @@ DialogWindow {
                 PropertyActionItemDelegate {
                     id: fileNameProp
                     Layout.fillWidth: true
-                    title: qsTr("File Name")
+                    title: qsTr("File name")
                     description: fileName
                     iconName: "action_edit"
                     onClicked: {
 
                     }
-                    corners: RoundRectangle.TopCorner
                 }
                 RowLayout {
                     Layout.fillWidth: true
@@ -76,12 +79,12 @@ DialogWindow {
                         corners: RoundRectangle.BottomLeftCorner
                     }
                     PropertyItemDelegate {
-                        title: qsTr("Resolution ratio")
+                        title: qsTr("Dimensions")
                         description: fileControl.slotGetInfo("Dimension",filePath)
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
-                        title: qsTr("Suffix")
+                        title: qsTr("Type")
                         description: fileControl.slotFileSuffix(filePath,false)
                         corners: RoundRectangle.BottomRightCorner
                     }
@@ -168,7 +171,7 @@ DialogWindow {
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth:86
-                        title: qsTr("Max Aperture")
+                        title: qsTr("Max aperture")
                         description: fileControl.slotGetInfo("MaxApertureValue",filePath)
                     }
                 }
@@ -197,7 +200,7 @@ DialogWindow {
             }
 
             PropertyItemDelegate {
-                title: qsTr("Camera model")
+                title: qsTr("Device model")
                 description: fileControl.slotGetInfo("Model",filePath)
                 corners: RoundRectangle.AllCorner
             }
@@ -210,12 +213,16 @@ DialogWindow {
     }
 
     onVisibleChanged: {
-        setX(root.x + root.width / 2 - width / 2)
-        setY(root.y + root.height / 2 - height / 2)
+        setX(root.x+root.width-width-leftX)
+        setY(root.y+topY)
     }
 
     // 窗口关闭时复位组件状态
     onClosing: {
+        fileNameProp.reset();
+    }
+    // 图片变更时复位组件状态(切换时关闭重命名框)
+    onFileNameChanged: {
         fileNameProp.reset();
     }
 }

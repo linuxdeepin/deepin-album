@@ -7,6 +7,8 @@ import org.deepin.dtk 1.0
 
 Item {
     property int currentIndex: 0
+    // 用于外部获取当前缩略图栏内容的长度，用于布局
+    property alias listContentWidth: bottomthumbnaillistView.contentWidth
 
     onCurrentIndexChanged: {
         bottomthumbnaillistView.currentIndex = currentIndex
@@ -41,6 +43,7 @@ Item {
                 albumControl.insertTrash(tmpPaths)
             }
             imageViewer.sourcePaths=fileControl.removeList(sourcePaths,0)
+
         }else{
             bottomthumbnaillistView.currentIndex--
             imageViewer.source = imageViewer.sourcePaths[bottomthumbnaillistView.currentIndex]
@@ -53,15 +56,36 @@ Item {
     }
 
     function previous (){
+        // 判断是否为多页图,多页图只进行页面替换
+        if (imageViewer.currentIsMultiImage) {
+            if (imageViewer.frameIndex != 0) {
+                imageViewer.frameIndex--
+                return
+            }
+        }
+
         if (bottomthumbnaillistView.currentIndex > 0) {
             bottomthumbnaillistView.currentIndex--
             source = mainView.sourcePaths[bottomthumbnaillistView.currentIndex]
             imageViewer.index = currentIndex
+
+            // 向前移动的图像需要特殊判断，若为多页图，调整显示最后一张图
+            if (fileControl.isMultiImage(source)) {
+                imageViewer.frameIndex = fileControl.getImageCount(source) - 1;
+            }
             bottomthumbnaillistView.forceActiveFocus()
         }
     }
 
     function next (){
+        // 判断是否为多页图,多页图只进行页面替换
+        if (imageViewer.currentIsMultiImage) {
+            if (imageViewer.frameIndex < imageViewer.frameCount - 1) {
+                imageViewer.frameIndex++
+                return
+            }
+        }
+
         if (mainView.sourcePaths.length - 1 > bottomthumbnaillistView.currentIndex) {
             bottomthumbnaillistView.currentIndex++
             source = mainView.sourcePaths[bottomthumbnaillistView.currentIndex]
@@ -109,17 +133,16 @@ Item {
     }
     IconButton {
         id: previousButton
-//        visible: mainView.sourcePaths.length>1
-        enabled: currentIndex>0? true:false
-
+        enabled: currentIndex > 0
+                 || imageViewer.frameIndex > 0
         anchors.left: fileControl.isAlbum() ? backAlbum.right :parent.left
-        anchors.leftMargin:fileControl.isAlbum() ? 30 : 15
+        anchors.leftMargin: fileControl.isAlbum() ? 30 : 15
 
         anchors.top: parent.top
         anchors.topMargin: (parent.height - height) / 2
 
-        width: 50
-        height: 50
+        width:50
+        height:50
         icon.name: "icon_previous"
         onClicked: {
             previous();
@@ -139,8 +162,8 @@ Item {
     }
     IconButton {
         id: nextButton
-//        visible: mainView.sourcePaths.length>1
-        enabled: currentIndex < mainView.sourcePaths.length-1? true:false
+        enabled: currentIndex < mainView.sourcePaths.length - 1
+                 || imageViewer.frameIndex < imageViewer.frameCount - 1
         anchors.left: previousButton.right
         anchors.leftMargin: 10
 
@@ -268,6 +291,7 @@ Item {
 
     ListView {
         id: bottomthumbnaillistView
+
         // 使用范围模式，允许高亮缩略图在preferredHighlightBegin~End的范围外，使缩略图填充空白区域
         highlightRangeMode: ListView.ApplyRange
         highlightFollowsCurrentItem: true
@@ -293,10 +317,9 @@ Item {
 
         //滑动联动主视图
         onCurrentIndexChanged: {
-            mainView.currentIndex=currentIndex
-
+            mainView.currentIndex = currentIndex
             source = mainView.sourcePaths[currentIndex]
-            if(currentItem){
+            if (currentItem) {
                 currentItem.forceActiveFocus()
             }
 
@@ -304,7 +327,7 @@ Item {
             if (0 == currentIndex) {
                 positionViewAtBeginning()
             } else {
-                // 尽可能将高亮缩略图显示在列表中心
+                // 尽可能将高亮缩略图显示在列表中
                 positionViewAtIndex(currentIndex, ListView.Center)
             }
         }
@@ -312,9 +335,46 @@ Item {
         Connections {
             target: imageViewer
             onSwipeIndexChanged: {
-                bottomthumbnaillistView.currentIndex = imageViewer.swipeIndex
-                currentIndex = imageViewer.swipeIndex
+                var imageSwipeIndex = imageViewer.swipeIndex
+                if (currentIndex - imageSwipeIndex == 1) {
+                    // 向前切换当通过拖动等方式时，调整多页图索引为最后一张图片
+                    var curSource = sourcePaths[imageSwipeIndex]
+                    if (fileControl.isMultiImage(curSource)) {
+                        imageViewer.frameIndex = fileControl.getImageCount(curSource) - 1
+                    }
+                } else {
+                    // 其它情况均设置为首张图片
+                    imageViewer.frameIndex = 0
+                }
+
+                bottomthumbnaillistView.currentIndex = imageSwipeIndex
+                currentIndex= imageSwipeIndex
                 bottomthumbnaillistView.forceActiveFocus()
+            }
+
+            onIsFullNormalSwitchStateChanged: {
+                // 当缩放界面时，缩略图栏重新进行了布局计算，导致高亮缩略图可能不居中
+                if (0 == bottomthumbnaillistView.currentIndex) {
+                    bottomthumbnaillistView.positionViewAtBeginning()
+                } else {
+                    // 尽可能将高亮缩略图显示在列表中
+                    bottomthumbnaillistView.positionViewAtIndex(bottomthumbnaillistView.currentIndex, ListView.Center)
+                }
+            }
+
+            // 接收当前视图旋转角度变更信号
+            onCurrentRotateChanged: {
+                if (bottomthumbnaillistView.currentItem) {
+                    // 计算旋转角度，限制在旋转梯度为90度，以45度为分界点
+                    var rotateAngle = imageViewer.currentRotate;
+                    // 区分正反旋转方向
+                    var isClockWise = rotateAngle > 0
+                    // 计算绝对角度值
+                    rotateAngle = Math.floor((Math.abs(rotateAngle) + 45) / 90) * 90;
+
+                    // 设置当前展示的图片的旋转方向，仅在90度方向旋转，不会跟随旋转角度(特指在触摸状态下)
+                    bottomthumbnaillistView.currentItem.rotation = isClockWise ? rotateAngle : -rotateAngle
+                }
             }
         }
 
@@ -325,13 +385,20 @@ Item {
         delegate: ListViewDelegate {
         }
 
-        // 添加两组空的表头表尾用于占位，防止在边界的高亮缩略图被遮挡
+         // 添加两组空的表头表尾用于占位，防止在边界的高亮缩略图被遮挡
         header: Rectangle {
             width: 10
         }
 
         footer: Rectangle {
             width: 10
+        }
+
+        Behavior on x {
+            NumberAnimation {
+                duration: 50
+                easing.type: Easing.OutQuint
+            }
         }
 
         Behavior on y {

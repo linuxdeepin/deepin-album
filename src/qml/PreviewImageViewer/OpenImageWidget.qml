@@ -48,21 +48,30 @@ Item {
         enabled: stackView.currentWidgetIndex != 2 && stackView.visible
         sequence: "Ctrl+O"
         onActivated:{
-            fileDialog.open()
+            if(stackView.currentWidgetIndex!= 2){
+                fileDialog.open()
+            }
         }
     }
+
     FileDialog {
         id: fileDialog
         title: qsTr("Select pictures")
         folder: shortcuts.pictures
         selectMultiple: true
+//        nameFilters: ["Image files (*.jpg *.png *.bmp *.gif)"]
+
         nameFilters: ["Image files (*.jpg *.png *.bmp *.gif *.ico *.jpe *.jps *.jpeg *.jng *.koala *.koa *.lbm *.iff *.mng *.pbm *.pbmraw *.pcd *.pcx *.pgm *.pgmraw *.ppm *.ppmraw *.ras *.tga *.targa *.tiff *.tif *.wbmp *.psd *.cut *.xbm *.xpm *.dds *.fax *.g3 *.sgi *.exr *.pct *.pic *.pict *.webp *.jxr *.mrw *.raf *.mef *.raw *.orf *.djvu *.or2 *.icns *.dng *.svg *.nef *.pef *.pxm *.pnm)"]
         onAccepted: {
             mainView.sourcePaths = fileControl.getDirImagePath(fileDialog.fileUrls[0]);
             mainView.source = fileDialog.fileUrls[0]
-            if(mainView.sourcePaths.length > 0){
+            mainView.currentIndex=mainView.sourcePaths.indexOf(mainView.source)
+            if(mainView.sourcePaths.length >0){
+                // 记录当前读取的图片信息
+                fileControl.resetImageFiles(mainView.sourcePaths)
 
                 mainView.setThumbnailCurrentIndex(mainView.sourcePaths.indexOf(mainView.source))
+                console.log( "test",mainView.source)
                 stackView.currentWidgetIndex= 1
             }
 
@@ -77,7 +86,7 @@ Item {
     FolderListModel
     {
         id: foldermodel
-        folder: "file://" + platform.picturesLocation()
+        folder: "file://" + escape(platform.picturesLocation()) //不明确这个模块的作用,暂时使用这种方式来转换字符串和URL
         showDirs: false
         showDotAndDotDot: false
         nameFilters: ["*.dng", "*.nef", "*.bmp", "*.gif", "*.ico", "*.jpeg", "*.jpg", "*.pbm", "*.pgm","*.png",  "*.pnm", "*.ppm",

@@ -59,5 +59,6 @@
         <file>qml/SideBar/SideBarItem.qml</file>
         <file>qml/SideBar/SideBarItemDelegate.qml</file>
         <file>qml/MenuItemStates.qml</file>
+        <file>qml/PreviewImageViewer/MultiImageListView.qml</file>
     </qresource>
 </RCC>

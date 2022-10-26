@@ -51,6 +51,7 @@
 
 #include "unionimage.h"
 
+
 namespace Libutils {
 
 namespace base {
@@ -308,7 +309,6 @@ bool trashFile(const QString &file)
     QString trashname = getNotExistsTrashFileName(originalInfo.fileName());
     QString infopath = trashInfoPath + "/" + trashname + ".trashinfo";
     QString filepath = trashFilesPath + "/" + trashname;
-
     int nr = 1;
     while (QFileInfo(infopath).exists() || QFileInfo(filepath).exists()) {
         nr++;
@@ -322,7 +322,6 @@ bool trashFile(const QString &file)
         infopath = trashInfoPath + "/" + trashname + ".trashinfo";
         filepath = trashFilesPath + "/" + trashname;
     }
-
     QFile infoFile(infopath);
     if (infoFile.open(QIODevice::WriteOnly)) {
         infoFile.write(infoStr.toUtf8());

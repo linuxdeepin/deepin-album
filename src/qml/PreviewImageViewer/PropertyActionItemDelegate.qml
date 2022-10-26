@@ -30,6 +30,25 @@ Control {
     property int corners: RoundRectangle.NoneCorner
     property string iconName
     signal clicked()
+
+    function dealShowPicLabelClick() {
+        if (showPicLabel.visible) {
+            showPicLabel.visible = false;
+            // 每次显示编辑框时显示为图片名称
+            nameedit.text = fileControl.slotGetFileName(imageViewer.source)
+        } else {
+            if (!fileControl.isShowToolTip(imageViewer.source,nameedit.text) && nameedit.text.length > 0) {
+                var name = nameedit.text
+                //bool返回值判断是否成功
+                if (fileControl.slotFileReName(name,imageViewer.source)) {
+                    imageViewer.sourcePaths = fileControl.renameOne(imageViewer.sourcePaths, imageViewer.source, fileControl.getNamePath(imageViewer.source, name))
+                    imageViewer.source = fileControl.getNamePath(imageViewer.source, name)
+                }
+            }
+            showPicLabel.visible = true
+        }
+    }
+
     property Component action: ActionButton {
         visible: control.iconName
         Layout.alignment: Qt.AlignRight
@@ -40,21 +59,10 @@ Control {
         }
 
         onClicked: {
-            if (showPicLabel.visible) {
-                showPicLabel.visible = false;
-            } else {
-                if (!fileControl.isShowToolTip(imageViewer.source,nameedit.text) && nameedit.text.length > 0) {
-                    var name = nameedit.text
-                    //bool返回值判断是否成功
-                    if (fileControl.slotFileReName(name,imageViewer.source)) {
-                        imageViewer.sourcePaths = fileControl.renameOne(imageViewer.sourcePaths, imageViewer.source, fileControl.getNamePath(imageViewer.source, name))
-                        imageViewer.source = fileControl.getNamePath(imageViewer.source, name)
-                    }
-                }
-                showPicLabel.visible = true
-            }
+            dealShowPicLabelClick()
         }
     }
+
     padding: 5
     contentItem: ColumnLayout {
         Label {
@@ -75,6 +83,12 @@ Control {
                 alertText: qsTr("The file already exists, please use another name")
                 showAlert: fileControl.isShowToolTip(filePath,nameedit.text) && nameedit.visible
                 height: 20
+
+                Keys.onPressed: {
+                    if(event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
+                        dealShowPicLabelClick()
+                    }
+                }
             }
             Label {
                 id:showPicLabel

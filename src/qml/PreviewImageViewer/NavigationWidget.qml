@@ -19,10 +19,11 @@ Rectangle {
 
     signal changeShowImgPostions(var x, var y)
 
-    //初始状态以中心向两边延展
+    // 初始状态以中心向两边延展
     function setRectPec(scale, viewWidthRatio, viewHeightRatio) {
         if(scale <= 1)
             return
+
         // 需要计算viewport矩形在图片上的映射，再投影到蒙皮上
         // 取得原始图片调整后的大小
         var imgw = 0
@@ -81,8 +82,17 @@ Rectangle {
             width: parent.width
             height: parent.height
             asynchronous: true
-            source: imageViewer.source !== "" ? "image://viewImage/" + imageViewer.source
-                                              : ""
+
+            // 多页图使用不同图像加载类
+            source: {
+                if (!visible) {
+                    return ""
+                } else {
+                    return imageViewer.currentIsMultiImage
+                            ? "image://multiimage/" + imageViewer.source + "#frame_" + imageViewer.frameIndex
+                            : "image://viewImage/" + imageViewer.source
+                }
+            }
         }
     }
     //test 前端获取后端加载到的图像数据，放开以下代码在缩放时会有弹窗显示后端加载的图像
