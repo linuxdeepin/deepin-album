@@ -67,6 +67,21 @@ Item {
         selectedChanged()
     }
 
+    //初始化选中ism
+    function initIsm(paths) {
+        var tempArray = []
+        for(var i = 0; i != thumbnailListModel.count; ++i) {
+            var path = thumbnailListModel.get(i).url
+            for(var j = 0; j !== paths.length; ++j) {
+                if (paths[j] === path) {
+                    tempArray.push(i.toString()) //数据类型必须和代理里面的m_index对齐，否则会判断失败
+                    break;
+                }
+            }
+        }
+        theView.ism = tempArray
+    }
+
     onVisibleChanged: {
         if (visible) {
             theView.displayFlushHelper = asynImageProvider.getLoadMode()

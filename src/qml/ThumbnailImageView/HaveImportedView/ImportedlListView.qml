@@ -131,6 +131,12 @@ Item {
                     return
                 }
 
+                //取消全选，初始化选中数据
+                global.selectedPaths = []
+                for (var i = 0; i != theModel.count; ++i) {
+                    theModel.selectedPathObjs[i].paths.length = 0
+                }
+
                 ctrlPressed = Qt.ControlModifier & mouse.modifiers
 
                 theView.scrollDirType = GlobalVar.RectScrollDirType.NoType
@@ -309,6 +315,23 @@ Item {
                 vbar.increase()
             }
         }
+
+        //处理全选消息
+        onSigSelectAll: {
+            if (visible) {
+                var paths = []
+                for (var i = 0; i != theModel.count; ++i) {
+                    var array = theModel.get(i).items
+                    //清空
+                    theModel.selectedPathObjs[i].paths.length = 0
+                    for (var j = 0; j < array.count; ++j) {
+                        paths.push(array.get(j).url)
+                        theModel.selectedPathObjs[i].paths[j] = array.get(j).url
+                    }
+                }
+                global.selectedPaths = paths
+            }
+        }
     }
 
     //已导入列表代理控件
@@ -429,6 +452,10 @@ Item {
                         if (openPaths.indexOf(url) !== -1)
                             importedGridView.executeViewImage()
                     }
+                }
+
+                Component.onCompleted: {
+                    importedGridView.initIsm(theModel.selectedPathObjs[index].paths)
                 }
             }
         }
