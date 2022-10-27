@@ -95,6 +95,7 @@ FileControl::FileControl(QObject *parent) : QObject(parent)
         connect(m_tSaveImage, &QTimer::timeout, this, [ = ]() {
             //保存旋转的图片
             slotRotatePixCurrent();
+            emit callSavePicDone(QUrl::fromLocalFile(m_currentPath).toString());
         });
     }
 
@@ -563,7 +564,7 @@ bool FileControl::rotateFile(const QString &path, const int &rotateAngel)
     bool bRet = true;
     QString localPath = QUrl(path).toLocalFile();
     if (m_currentPath != localPath) {
-        slotRotatePixCurrent();
+        slotRotatePixCurrent(true);
         m_currentPath = localPath;
         m_rotateAngel = rotateAngel;
     } else {
@@ -572,7 +573,7 @@ bool FileControl::rotateFile(const QString &path, const int &rotateAngel)
 
     // 减少频繁的触发旋转进行文件读取写入操作
     m_tSaveImage->setSingleShot(true);
-    m_tSaveImage->start(200);
+    m_tSaveImage->start(100);
 
     return bRet;
 }
@@ -581,7 +582,7 @@ bool FileControl::rotateFile(const QString &path, const int &rotateAngel)
  * @brief 立即保存旋转图片，通过定时器延后触发或图片切换时手动触发
  * @note 当前通过保存图片后，监控文件变更触发更新图片的信号
  */
-void FileControl::slotRotatePixCurrent()
+void FileControl::slotRotatePixCurrent(bool bNotifyExternal/* = false*/)
 {
     // 由QML调用(切换图片)时，停止定时器，防止二次触发
     if (m_tSaveImage->isActive()) {
@@ -601,7 +602,9 @@ void FileControl::slotRotatePixCurrent()
             QString erroMsg;
             LibUnionImage_NameSpace::rotateImageFIle(m_rotateAngel, m_currentPath, erroMsg);
 
-            // 保存文件后发送图片更新更新信号，通过监控文件变更触发
+            // 保存文件后向外部(比如相册缩略图列表)发送图片更新信号，通知外部刷新图片内容
+            if (bNotifyExternal)
+                emit callSavePicDone(QUrl::fromLocalFile(m_currentPath).toString());
         }
     }
     m_rotateAngel = 0;

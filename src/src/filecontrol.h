@@ -107,7 +107,7 @@ public:
     Q_INVOKABLE bool rotateFile(const QString &path, const int &rotateAngel);
 
     //旋转
-    Q_INVOKABLE void slotRotatePixCurrent();
+    Q_INVOKABLE void slotRotatePixCurrent(bool bNotifyExternal = false);
 
     //判断宽高是否互换
     Q_INVOKABLE bool isReverseHeightWidth();
@@ -231,6 +231,8 @@ signals:
     void requestImageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
     // 缓存更新处理完成后，更新文件变更信号（被移动、替换、删除等）
     void imageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
+    // 通知相册刷新缩略图内容
+    void callSavePicDone(const QString &path);
 
 private:
     // 当处理的图片文件被移动、替换、删除时触发
