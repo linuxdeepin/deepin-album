@@ -1241,7 +1241,7 @@ Rectangle {
     InfomationDialog {
 
         id: infomationDig
-
+        filePath: imageViewer.source // 使用属性绑定来设置informationDialog要展示的文件路径
     }
 
     //export窗口
