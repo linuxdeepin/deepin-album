@@ -987,7 +987,11 @@ bool FileControl::isCanRename(const QString &path)
 bool FileControl::isCanReadable(const QString &path)
 {
     bool bRet = false;
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = path;
+    if (path.startsWith("file://")) {
+        localPath = QUrl(path).toLocalFile();
+    }
+
     QFileInfo info(localPath);
     if (info.isReadable()) {
         bRet = true;

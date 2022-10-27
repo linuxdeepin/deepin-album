@@ -484,6 +484,8 @@ Rectangle {
             property bool curSourceIsExist: fileControl.imageIsExist(curImageSource)
             // 用于标识当前图片是否为空
             property bool curSourceIsNullImage: CodeImage.imageIsNull(curImageSource)
+            // 用于标识当前图片是否可读
+            property bool curSourceIsReadalbe: fileControl.isCanReadable(curImageSource)
             // 用于标识当前图片是否为普通静态图片
             property bool curSourceIsNormalStaticImage: fileControl.isNormalStaticImage(curImageSource)
             // 用于标识当前图片是否为多页图
@@ -638,7 +640,16 @@ Rectangle {
                 }
 
                 // 判断展示图片状态是否异常
-                visible: (showImg.status === Image.Error || flickableL.curSourceIsNullImage) && flickableL.curSourceIsExist
+                visible: (showImg.status === Image.Error || flickableL.curSourceIsNullImage) && flickableL.curSourceIsExist && !fileControl.isAlbum()
+            }
+
+            // 相册应用内显示没有权限查看标签
+            Label {
+                id: damageLabel
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                text: qsTr("You have no permission to view the image")
+                visible: (showImg.status === Image.Error || flickableL.curSourceIsNullImage) && flickableL.curSourceIsExist && !flickableL.curSourceIsReadalbe && fileControl.isAlbum()
             }
 
             // 图片丢失视图，当图片未发现时触发
