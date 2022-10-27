@@ -98,6 +98,8 @@ ApplicationWindow {
                     albumControl.addCustomAlbumInfos(global.currentCustomAlbumUId,importDialog.fileUrls)
                 }
                 DTK.sendMessage(stackControl, qsTr("Import successful"), "checked")
+            } else {
+                DTK.sendMessage(stackControl, qsTr("Import failed"), "warning")
             }
         }
     }

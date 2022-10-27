@@ -428,6 +428,15 @@ bool AlbumControl::importAllImagesAndVideos(const QStringList &paths)
     for (QUrl path : paths) {
         localpaths << path.toLocalFile();
     }
+
+    //判断文件是否可读
+    for (QString imagePath : localpaths) {
+        QFileInfo info(imagePath);
+        if (!info.isReadable()) {
+            return false;
+        }
+    }
+
     QStringList curAlbumImgPathList = getAllUrlPaths();
     int noReadCount = 0; //记录已存在于相册中的数量，若全部存在，则不进行导入操作
     for (QString imagePath : localpaths) {
@@ -475,9 +484,19 @@ bool AlbumControl::importAllImagesAndVideosUrl(const QList<QUrl> &paths, bool ch
 {
     QStringList localpaths;
     DBImgInfoList dbInfos;
+
     for (QUrl path : paths) {
         localpaths << path.toLocalFile();
     }
+
+    //判断文件是否可读
+    for (QString imagePath : localpaths) {
+        QFileInfo info(imagePath);
+        if (!info.isReadable()) {
+            return false;
+        }
+    }
+
     QStringList curAlbumImgPathList = getAllUrlPaths();
     int noReadCount = 0; //记录已存在于相册中的数量，若全部存在，则不进行导入操作
     for (QString imagePath : localpaths) {
