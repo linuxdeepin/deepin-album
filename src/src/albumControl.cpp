@@ -1612,7 +1612,12 @@ void AlbumControl::insertTrash(const QList< QUrl > &paths)
 {
     QStringList tmpList;
     for (QUrl url : paths) {
-        tmpList << url.toLocalFile();
+        QString imagePath = url.toLocalFile();
+        QFileInfo info(imagePath);
+        //判断文件是否可写
+        if (info.isWritable()) {
+            tmpList << imagePath;
+        }
     }
 
     DBImgInfoList infos;
