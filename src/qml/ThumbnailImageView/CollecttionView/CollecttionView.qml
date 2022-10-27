@@ -75,6 +75,12 @@ Item {
     ImportView {
         anchors.fill: parent
         visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion && allCollection.numLabelText ===""
+
+        onVisibleChanged: {
+            if (visible) {
+                global.statusBarNumText = ""
+            }
+        }
     }
 
     function onYearClicked(year) {
