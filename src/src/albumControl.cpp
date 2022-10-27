@@ -513,7 +513,7 @@ bool AlbumControl::importAllImagesAndVideosUrl(const QList<QUrl> &paths, bool ch
             //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
             QDirIterator dir_iterator(imagePath,
                                       filters,
-                                      QDir::Files | QDir::NoSymLinks,
+                                      QDir::Files /*| QDir::NoSymLinks*/,
                                       QDirIterator::Subdirectories);
             QList<QUrl> allfiles;
             while (dir_iterator.hasNext()) {
