@@ -41,15 +41,26 @@ Rectangle {
         //使用PreserveAspectFit确保在原始比例下不变形
         fillMode: Image.PreserveAspectFit
         visible: false
+
+        //由于qml图片加载状态值在使用QQuickAsyncImageProvider异步加载方式后有异常（图片加载错误没有设置错误状态），暂时自定义类型进行判断错误状态
+        property bool bLoadError: false
+
+        onStatusChanged: {
+            if (status === Image.Ready && sourceSize === Qt.size(0, 0)) {
+                bLoadError = true;
+            } else {
+                bLoadError = false;
+            }
+        }
     }
 
     Loader {
-        id: damageIcon
-
+        id: damageIconLoader
         anchors.centerIn: parent
 
         // 判断是否加载错误图片状态组件
-        active: image.status === Image.Error
+        //active: image.status === Image.Error
+        active: image.bLoadError
         sourceComponent: ActionButton {
             anchors.centerIn: parent
 
