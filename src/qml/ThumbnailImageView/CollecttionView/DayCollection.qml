@@ -54,6 +54,14 @@ Item {
                 global.selectedPaths = selectedPaths
             }
         }
+
+        //收到导入完成消息
+        onSigImportFinished: {
+            if (visible) {
+                //刷新数量显示
+                getNumLabelText()
+            }
+        }
     }
 
     // 刷新总数标签

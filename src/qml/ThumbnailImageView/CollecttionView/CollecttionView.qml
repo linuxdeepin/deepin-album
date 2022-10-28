@@ -24,6 +24,11 @@ Item {
         if (visible) {
             flushTimeScopetimer.start(10)
             global.selectedPaths = []
+
+            //年月视图不显示底栏数量
+            if (currentViewIndex === 0 || currentViewIndex ===1) {
+                global.statusBarNumText = ""
+            }
         }
     }
 
@@ -68,6 +73,11 @@ Item {
             allCollection.visible = currentViewIndex === 3
 
             allCollection.flushTotalTimeScope()
+
+            //年月视图不显示底栏数量
+            if (currentViewIndex === 0 || currentViewIndex ===1) {
+                global.statusBarNumText = ""
+            }
         }
     }
 

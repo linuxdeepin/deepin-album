@@ -396,6 +396,9 @@ signals:
     void sigRefreshImportAlbum();
     void sigRefreshSearchView();
 
+    //发送导入完成信号
+    void sigImportFinished();
+
     //自定义相册删除
     void sigDeleteCustomAlbum(int UID);
 

@@ -477,6 +477,9 @@ bool AlbumControl::importAllImagesAndVideos(const QStringList &paths)
         emit sigRefreshAllCollection();
     }
 
+    //发送导入完成信号
+    emit sigImportFinished();
+
     return true;
 }
 
@@ -566,6 +569,9 @@ bool AlbumControl::importAllImagesAndVideosUrl(const QList<QUrl> &paths, bool ch
         emit sigRefreshImportAlbum();
         emit sigRefreshSearchView();
     }
+
+    //发送导入完成信号
+    emit sigImportFinished();
 
     return true;
 }
