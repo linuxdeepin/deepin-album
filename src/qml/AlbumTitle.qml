@@ -354,6 +354,7 @@ Rectangle {
             id: titleRotateBtn
             visible: (titleImportBtn.visible ? false : true)
             enabled: fileControl.isRotatable(global.selectedPaths)
+            ColorSelector.disabled: !fileControl.isRotatable(global.selectedPaths)
             anchors.top: parent.top
             anchors.topMargin: 0
             anchors.right:  titleTrashBtn.left
@@ -377,6 +378,7 @@ Rectangle {
             id: titleTrashBtn
             visible: (titleImportBtn.visible ? false : true)
             enabled: fileControl.isCanDelete(global.selectedPaths)
+            ColorSelector.disabled: !fileControl.isCanDelete(global.selectedPaths)
             anchors.top: parent.top
             anchors.topMargin: 0
             anchors.right: parent.right
