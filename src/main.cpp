@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     app->setApplicationName("deepin-album");
     app->setApplicationDisplayName(QObject::tr("Album"));
     app->setProductIcon(QIcon::fromTheme("deepin-album"));
-    app->setApplicationDescription(QObject::tr("Main", "Album is a fashion manager for viewing and organizing photos and videos."));
+    //app->setApplicationDescription(QObject::tr("Main", "Album is a fashion manager for viewing and organizing photos and videos."));
     app->setWindowIcon(QIcon::fromTheme("deepin-album"));
 
     QQmlApplicationEngine engine;

@@ -395,7 +395,7 @@ Item {
                 topPadding: 1
                 font: DTK.fontManager.t6
                 id: importedLabel
-                text: qsTr("Imported in %1   %2").arg(theViewTitle).arg(importedGridView.count() === 1 ? qsTr("1 item") : qsTr("%1 items").arg(importedGridView.count()))
+                text: qsTr("Imported on") + " " + theViewTitle + " " + (importedGridView.count() === 1 ? qsTr("1 item") : qsTr("%1 items").arg(importedGridView.count()))
             }
 
             //缩略图网格表

@@ -261,7 +261,7 @@ struct ItemInfo {
     int imgOriginalHeight = 0;           //原图大小,导入图片子线程中读取
     int imgWidth = 0;
     int imgHeight = 0;
-    QString remainDays = QObject::tr("day");
+    //QString remainDays = QObject::tr("day");
     bool isSelected;
     ItemInfoType itemType = ItemTypePic;//类型，空白，图片，视频
     QImage image = QImage();

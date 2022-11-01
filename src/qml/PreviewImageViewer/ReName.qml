@@ -40,7 +40,7 @@ DialogWindow {
         anchors.leftMargin: 46
         anchors.top: parent.top
         font.pixelSize: 16
-        text: qsTr("Input a new name")
+        //text: qsTr("Input a new name")
         verticalAlignment: Text.AlignBottom
         horizontalAlignment: Text.AlignHCenter
     }

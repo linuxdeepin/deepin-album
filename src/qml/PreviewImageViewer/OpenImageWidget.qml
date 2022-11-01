@@ -31,7 +31,7 @@ Item {
 
             id: openFileBtn
             font.capitalization: Font.MixedCase
-            text: qsTr("Open Image")
+            //text: qsTr("Open Image")
 
             onClicked: fileDialog.open()
             width: 300

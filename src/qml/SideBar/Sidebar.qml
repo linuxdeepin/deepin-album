@@ -256,7 +256,7 @@ ScrollView {
                     sourceSize: Qt.size(21, 21)
                 }
                 ToolTip.visible: hovered
-                ToolTip.text: qsTr("Add album")
+                ToolTip.text: qsTr("Add an album")
                 onClicked: {
                     newAlbum.setNormalEdit()
                     newAlbum.isChangeView = true

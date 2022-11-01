@@ -77,15 +77,14 @@ Rectangle {
         }
 
         aboutDialog: AboutDialog{
-            icon: !fileControl.isAlbum() ? "deepin-image-viewer"
-                                               : "deepin-album"
+            icon: !fileControl.isAlbum() ? "deepin-image-viewer" : "deepin-album"
             width:400
             modality:Qt.NonModal
             version:qsTr(String("Version: %1").arg(Qt.application.version))
-            description: !fileControl.isAlbum() ? qsTr("Image Viewer is an image viewing tool with fashion interface and smooth performance.")
-                                                      : qsTr("Album is a fashion manager for viewing and organizing photos and videos.")
-            productName: !fileControl.isAlbum() ? qsTr("deepin-image-viewer")
-                                                     : qsTr("deepin-album")
+            description: !fileControl.isAlbum() ? "Image Viewer is an image viewing tool with fashion interface and smooth performance."
+                                                      : qsTr("Album is a stylish management tool for viewing and organizing photos and videos.")
+            productName: !fileControl.isAlbum() ? "Image Viewer"
+                                                     : qsTr("Album")
             websiteName:DTK.deepinWebsiteName
             websiteLink:DTK.deepinWebsitelLink
             license:qsTr(String("%1 is released under %2.").arg(productName).arg("GPLV3"))

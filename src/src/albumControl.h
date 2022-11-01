@@ -41,9 +41,6 @@ public:
     //获得支持导入的格式
     Q_INVOKABLE QString getAllFilters();
 
-    //获得支持导入的图片格式
-    Q_INVOKABLE QString getAllImageFilters();
-
     //卸载设备
     Q_INVOKABLE void unMountDevice(const QString &devicePath);
 

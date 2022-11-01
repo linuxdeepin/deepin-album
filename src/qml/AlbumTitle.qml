@@ -25,8 +25,8 @@ Rectangle {
             width: 400
             modality: Qt.NonModal
             version: qsTr(String("Version: %1").arg(Qt.application.version))
-            description: qsTr("Album is a fashion manager for viewing and organizing photos and videos.")
-            productName: qsTr("deepin-album")
+            //description: qsTr("Album is a fashion manager for viewing and organizing photos and videos.")
+            //productName: qsTr("deepin-album") 好像不写也能在about里面正确显示出来
             websiteName: DTK.deepinWebsiteName
             websiteLink: DTK.deepinWebsitelLink
             license: qsTr(String("%1 is released under %2.").arg(productName).arg("GPLV3"))
@@ -66,7 +66,7 @@ Rectangle {
                        productName: qsTr("Album")
                        productIcon: "deepin-album"
                        version: qsTr("Version:") + "%1".arg(Qt.application.version)
-                       description: qsTr("Album is a fashion manager for viewing and organizing photos and videos.")
+                       description: qsTr("Album is a stylish management tool for viewing and organizing photos and videos.")
                        websiteName: "www.chinauos.com"
                        websiteLink: "https://www.chinauos.com/"
                        license: qsTr("%1 is released under %2").arg(productName).arg("GPLV3")
@@ -123,6 +123,8 @@ Rectangle {
             enabled: global.statusBarNumText !== ""
             width:50
             height:50
+            ToolTip.visible: hovered
+            ToolTip.text: icon.name === "range1" ? qsTr("Original ratio") : qsTr("Square thumbnails")
             icon { 
                 name: asynImageProvider.getLoadMode() == 0 ? "range1" : "range2"
                 width: 36
@@ -133,7 +135,7 @@ Rectangle {
                 asynImageProvider.switchLoadMode()
 
                 //切换图标
-                if(icon.name == "range1"){
+                if(icon.name === "range1"){
                     icon.name = "range2"
                 }else{
                     icon.name = "range1"

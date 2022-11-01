@@ -59,7 +59,7 @@ DialogWindow {
                 spacing: 1
                 PropertyActionItemDelegate {
                     Layout.fillWidth: true
-                    title: qsTr("File Name")
+                    title: qsTr("File name")
                     description: fileName
                     iconName: "action_edit"
                     onClicked: {
@@ -86,7 +86,7 @@ DialogWindow {
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
-                        title: qsTr("Suffix")
+                        title: qsTr("Type")
                         description: fileControl.slotFileSuffix(filePath,false)
                         corners: RoundRectangle.BottomRightCorner
                     }

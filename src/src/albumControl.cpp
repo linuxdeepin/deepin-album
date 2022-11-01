@@ -245,18 +245,6 @@ QString AlbumControl::getAllFilters()
     return filter;
 }
 
-QString AlbumControl::getAllImageFilters()
-{
-    QStringList sList;
-    for (const QString &i : LibUnionImage_NameSpace::unionImageSupportFormat())
-        sList << ("*." + i);
-    QString filter = tr("Image files");
-    filter.append('(');
-    filter.append(sList.join(" "));
-    filter.append(')');
-    return filter;
-}
-
 void AlbumControl::unMountDevice(const QString &devicePath)
 {
     QStringList blDevList = DDiskManager::blockDevices(QVariantMap());
@@ -790,10 +778,9 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum, const int &fi
             QString date;
             if (datelist.count() > 4) {
                 if (ImgInfoList.size() > 0) {
-                    date = QString(QObject::tr("%1-%2-%3-%4:%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]);
+                    date = QString(QObject::tr("%1/%2/%3 %4:%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]);
                     m_importTimeLinePathsMap.insertMulti(date, ImgInfoList);
                 }
-
             }
         }
         //倒序
@@ -815,14 +802,14 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum, const int &fi
         DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByTimeline(time, typeItem);
         QStringList datelist = time.toString("yyyy.MM.dd.hh.mm").split(".");
         //加时间线标题
-        QString date;
+        //QString date;
         if (datelist.count() > 4) {
-            date = QString(QObject::tr("%1-%2-%3-%4:%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]);
+            //date = QString(QObject::tr("%1-%2-%3-%4:%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]);
 
             switch (timeEnum) {
             case TimeLineEnum::Year :
                 if (ImgInfoList.size() > 0) {
-                    tmpInfoMap.insertMulti(QString(QObject::tr("%1/").arg(datelist[0])), ImgInfoList);
+                    tmpInfoMap.insertMulti(QString(QObject::tr("%1").arg(datelist[0])), ImgInfoList);
                 }
                 m_yearDateMap = tmpInfoMap;
                 break;
@@ -840,7 +827,7 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum, const int &fi
                 break;
             case TimeLineEnum::All :
                 if (ImgInfoList.size() > 0) {
-                    tmpInfoMap.insertMulti(QString(QObject::tr("%1-%2-%3-%4:%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]), ImgInfoList);
+                    tmpInfoMap.insertMulti(QString(QObject::tr("%1/%2/%3 %4:%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]), ImgInfoList);
                 }
                 m_timeLinePathsMap = tmpInfoMap;
                 break;
@@ -2453,7 +2440,7 @@ void AlbumControl::importFromMountDevice(const QStringList &paths, const int &in
         QString strHomePath = QDir::homePath();
         //获取系统现在的时间
         QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
-        QString basePath = QString("%1%2%3%4").arg(strHomePath, "/Pictures/", tr("Pictures/"), strDate);
+        QString basePath = QString("%1%2%3/%4").arg(strHomePath, "/Pictures/", tr("Pictures"), strDate);
         QDir dir;
         if (!dir.exists(basePath))
         {

@@ -37,7 +37,7 @@ DialogWindow {
                 deleteTitle.text = qsTr("Are you sure you want to delete this file locally?")
                 deleteTips.text  = qsTr("You can restore it in the trash")
             } else {
-                deleteTitle.text = qsTr("Are you sure you want to delete %1 file locally?").arg(count)
+                deleteTitle.text = qsTr("Are you sure you want to delete %1 files locally?").arg(count)
                 deleteTips.text  = qsTr("You can restore them in the trash")
             }
         } else {

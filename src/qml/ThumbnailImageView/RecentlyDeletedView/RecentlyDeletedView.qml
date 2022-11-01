@@ -37,8 +37,28 @@ Rectangle {
 
     // 刷新总数标签
     function getNumLabelText() {
-        var photoCountText = albumControl.getTrashInfoConut(1) > 0 ? qsTr("%1 photos").arg(albumControl.getTrashInfoConut(1)) : ""
-        var videoCountText = albumControl.getTrashInfoConut(2) > 0 ? qsTr("%1 videos").arg(albumControl.getTrashInfoConut(2)) : ""
+        //QML的翻译不支持%n的特性，只能拆成这种代码
+
+        var photoCountText = ""
+        var photoCount = albumControl.getTrashInfoConut(1)
+        if(photoCount === 0) {
+            photoCountText = ""
+        } else if(photoCount === 1) {
+            photoCountText = qsTr("1 photo")
+        } else {
+            photoCountText = qsTr("%1 photos").arg(photoCount)
+        }
+
+        var videoCountText = ""
+        var videoCount = albumControl.getTrashInfoConut(2)
+        if(videoCount === 0) {
+            videoCountText = ""
+        } else if(videoCount === 1) {
+            videoCountText = qsTr("1 video")
+        } else {
+            videoCountText = qsTr("%1 videos").arg(videoCount)
+        }
+
         numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? ((photoCountText !== "" ? " " : "") + videoCountText) : ""))
                                            : (filterType == 1 ? photoCountText : videoCountText)
         if (visible) {

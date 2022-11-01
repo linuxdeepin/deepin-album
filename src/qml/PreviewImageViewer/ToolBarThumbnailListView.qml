@@ -115,7 +115,7 @@ Item {
         ToolTip.delay: 500
         ToolTip.timeout: 5000
         ToolTip.visible: hovered
-        ToolTip.text: qsTr("Back Album")
+        ToolTip.text: qsTr("Back to Album")
 
         Shortcut {
             enabled: backAlbum.visible

@@ -109,7 +109,7 @@ Item {
             Label {
                 id: yearLabel
                 font: DTK.fontManager.t3
-                text: year + qsTr("Year")
+                text: qsTr("%1").arg(year)
                 color: "#FFFFFF"
                 anchors.top: image.top
                 anchors.topMargin: 25
@@ -120,7 +120,7 @@ Item {
             Label {
                 id: itemCountLabel
                 font: DTK.fontManager.t6
-                text: itemCount + qsTr("Items")
+                text: itemCount > 1 ? qsTr("%1 items").arg(itemCount) : qsTr("1 item") //itemCount为0的时候不会显示出来
                 color: yearLabel.color
                 anchors.top: yearLabel.bottom
                 anchors.topMargin: 5

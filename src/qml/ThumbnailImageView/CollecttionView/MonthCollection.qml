@@ -126,7 +126,7 @@ Item {
             Label {
                 id: monthLabel
                 font: DTK.fontManager.t3
-                text: year + qsTr("Year") + Number(month) + qsTr("Month")
+                text: qsTr("%1/%2").arg(year).arg(Number(month))
                 color: "#FFFFFF"
                 anchors.top: image.top
                 anchors.topMargin: 25

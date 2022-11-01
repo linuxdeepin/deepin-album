@@ -43,8 +43,28 @@ Rectangle {
 
     // 刷新总数标签
     function getNumLabelText() {
-        var photoCountText = albumControl.getDeviceAlbumInfoConut(devicePath, 1) > 0 ? qsTr("%1 photos").arg(albumControl.getDeviceAlbumInfoConut(devicePath, 1)) : ""
-        var videoCountText = albumControl.getDeviceAlbumInfoConut(devicePath, 2) > 0 ? qsTr("%1 videos").arg(albumControl.getDeviceAlbumInfoConut(devicePath, 2)) : ""
+        //QML的翻译不支持%n的特性，只能拆成这种代码
+
+        var photoCountText = ""
+        var photoCount = albumControl.getDeviceAlbumInfoConut(devicePath, 1)
+        if(photoCount === 0) {
+            photoCountText = ""
+        } else if(photoCount === 1) {
+            photoCountText = qsTr("1 photo")
+        } else {
+            photoCountText = qsTr("%1 photos").arg(photoCount)
+        }
+
+        var videoCountText = ""
+        var videoCount = albumControl.getDeviceAlbumInfoConut(devicePath, 2)
+        if(videoCount === 0) {
+            videoCountText = ""
+        } else if(videoCount === 1) {
+            videoCountText = qsTr("1 video")
+        } else {
+            videoCountText = qsTr("%1 videos").arg(videoCount)
+        }
+
         var numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? ((photoCountText !== "" ? " " : "") + videoCountText) : ""))
                                            : (filterType == 1 ? photoCountText : videoCountText)
         if (visible) {
@@ -176,10 +196,12 @@ Rectangle {
             RecommandButton{
                 id: openPictureBtn
                 font.capitalization: Font.MixedCase
-                text: global.selectedPaths.length >0 ?qsTr("Import %1 items").arg(global.selectedPaths.length) :qsTr("Import All")
+                text: global.selectedPaths.length === 0 ? qsTr("Import All")
+                                                       : global.selectedPaths.length === 1 ? qsTr("Import 1 Item")
+                                                       : qsTr("Import %1 Items").arg(global.selectedPaths.length)
                 onClicked:{
-                    if(global.selectedPaths.length >0){
-                        albumControl.importFromMountDevice(global.selectedPaths,albumControl.getAllCustomAlbumId(global.albumChangeList)[currentImportIndex])
+                    if(global.selectedPaths.length > 0){
+                    	albumControl.importFromMountDevice(global.selectedPaths,albumControl.getAllCustomAlbumId(global.albumChangeList)[currentImportIndex])
                     }else{
                         albumControl.importFromMountDevice(theView.allOriginUrls(),albumControl.getAllCustomAlbumId(global.albumChangeList)[currentImportIndex])
                     }

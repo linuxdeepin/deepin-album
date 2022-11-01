@@ -66,8 +66,28 @@ Item {
 
     // 刷新总数标签
     function getNumLabelText() {
-        var photoCountText = albumControl.getAllInfoConut(1) > 0 ? qsTr("%1 photos").arg(albumControl.getAllInfoConut(1)) : ""
-        var videoCountText = albumControl.getAllInfoConut(2) > 0 ? qsTr("%1 videos").arg(albumControl.getAllInfoConut(2)) : ""
+        //QML的翻译不支持%n的特性，只能拆成这种代码
+
+        var photoCountText = ""
+        var photoCount = albumControl.getAllInfoConut(1)
+        if(photoCount === 0) {
+            photoCountText = ""
+        } else if(photoCount === 1) {
+            photoCountText = qsTr("1 photo")
+        } else {
+            photoCountText = qsTr("%1 photos").arg(photoCount)
+        }
+
+        var videoCountText = ""
+        var videoCount = albumControl.getAllInfoConut(2)
+        if(videoCount === 0) {
+            videoCountText = ""
+        } else if(videoCount === 1) {
+            videoCountText = qsTr("1 video")
+        } else {
+            videoCountText = qsTr("%1 videos").arg(videoCount)
+        }
+
         numLabelText = photoCountText + (videoCountText !== "" ? ((photoCountText !== "" ? " " : "") + videoCountText) : "")
 
         if (visible) {
@@ -538,7 +558,7 @@ Item {
 
                 //3.刷新标题
                 var dates = m_dayToken.split("-")
-                timeLineLabel.text = qsTr("%1Year%2Month%3Day").arg(dates[0]).arg(Number(dates[1])).arg(Number(dates[2]))
+                timeLineLabel.text = qsTr("%1/%2/%3").arg(dates[0]).arg(Number(dates[1])).arg(Number(dates[2]))
             }
 
             Component.onCompleted: {

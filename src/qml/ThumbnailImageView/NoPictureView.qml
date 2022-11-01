@@ -26,7 +26,7 @@ Rectangle{
             anchors.topMargin: 20
             anchors.left : parent.left
             anchors.leftMargin: -width/2
-            text:qsTr("No pictures and videos")
+            text:qsTr("No photos or videos found")
         }
     }
 }
