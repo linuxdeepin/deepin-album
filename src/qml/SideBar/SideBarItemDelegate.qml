@@ -57,6 +57,7 @@ ItemDelegate {
         width: 180
         visible: false;
         maximumLength: 30
+        validator: RegExpValidator {regExp: /^[^\\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/ }
         onEditingFinished: {
             item.checked = true;
             songName.visible = true;
