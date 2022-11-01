@@ -32,7 +32,7 @@ Rectangle {
 
     //缩略图本体
     Image {
-        id: image 
+        id: image
         source: m_url !== "" ? "image://asynImageProvider/" + m_displayFlushHelper + theView.displayFlushHelper.toString() + "_" + m_url : ""
         asynchronous: false
         anchors.centerIn: parent
@@ -63,7 +63,7 @@ Rectangle {
         active: image.bLoadError
         sourceComponent: ActionButton {
             anchors.centerIn: parent
-
+            ColorSelector.hovered: false
             icon {
                 name: "photo_breach"
                 width: image.width
