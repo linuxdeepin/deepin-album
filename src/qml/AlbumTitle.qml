@@ -89,7 +89,7 @@ Rectangle {
             }
         }
 
-        ActionButton {
+        ToolButton {
             id: showHideleftSidebarButton
             anchors.top: parent.top
             anchors.topMargin: 0
@@ -114,7 +114,7 @@ Rectangle {
             }
         }
 
-        ActionButton {
+        ToolButton {
             id: range1Button
             anchors.top: parent.top
             anchors.topMargin: 0
@@ -288,7 +288,7 @@ Rectangle {
             }
         }
 
-        ActionButton {
+        ToolButton {
 
             visible: global.selectedPaths.length === 0
             id: titleImportBtn
@@ -316,7 +316,7 @@ Rectangle {
                 }
             }
         }
-        ActionButton {
+        ToolButton {
             id: titleCollectionBtn
             property bool canFavorite: albumControl.canFavorite(global.selectedPaths,global.bRefreshFavoriteIconFlag)
             visible: !titleImportBtn.visible && global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device
@@ -330,6 +330,7 @@ Rectangle {
             ToolTip.timeout: 5000
             ToolTip.visible: hovered
             ToolTip.text: canFavorite ? qsTr("Favorite") : qsTr("Unfavorite")
+            DciIcon.mode: DTK.ControlState.HoveredState
             icon {
                 name: canFavorite ? "toolbar-collection" : "toolbar-collection2"
                 width: 36
@@ -350,7 +351,7 @@ Rectangle {
             }
         }
 
-        ActionButton {
+        ToolButton {
             id: titleRotateBtn
             visible: (titleImportBtn.visible ? false : true)
             enabled: fileControl.isRotatable(global.selectedPaths)
@@ -374,7 +375,7 @@ Rectangle {
                 fileControl.rotateFile(global.selectedPaths, -90)
             }
         }
-        ActionButton {
+        ToolButton {
             id: titleTrashBtn
             visible: (titleImportBtn.visible ? false : true)
             enabled: fileControl.isCanDelete(global.selectedPaths)
