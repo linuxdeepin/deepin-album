@@ -20,17 +20,6 @@ Rectangle {
         id : title
         anchors.fill: parent
         width: parent.width
-        aboutDialog: AboutDialog {
-            icon: "deepin-album"
-            width: 400
-            modality: Qt.NonModal
-            version: qsTr(String("Version: %1").arg(Qt.application.version))
-            //description: qsTr("Album is a fashion manager for viewing and organizing photos and videos.")
-            //productName: qsTr("deepin-album") 好像不写也能在about里面正确显示出来
-            websiteName: DTK.deepinWebsiteName
-            websiteLink: DTK.deepinWebsitelLink
-            license: qsTr(String("%1 is released under %2.").arg(productName).arg("GPLV3"))
-        }
         menu: Menu {
                x: 0; y: 0
                Action {
@@ -67,8 +56,8 @@ Rectangle {
                        productIcon: "deepin-album"
                        version: qsTr("Version:") + "%1".arg(Qt.application.version)
                        description: qsTr("Album is a stylish management tool for viewing and organizing photos and videos.")
-                       websiteName: "www.chinauos.com"
-                       websiteLink: "https://www.chinauos.com/"
+                       websiteName: DTK.deepinWebsiteName
+                       websiteLink: DTK.deepinWebsiteLink
                        license: qsTr("%1 is released under %2").arg(productName).arg("GPLV3")
                    }
                }
