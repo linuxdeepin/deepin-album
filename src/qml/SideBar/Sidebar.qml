@@ -106,7 +106,7 @@ ScrollView {
             importSideBar.view.currentItem.forceActiveFocus()
         }
 
-        DTK.sendMessage(thumbnailImage, qsTr("Album “%1” removed").arg(qsTr(delAlbumName)), "checked")
+        DTK.sendMessage(thumbnailImage, qsTr("Album “%1” removed").arg(qsTr(delAlbumName)), "notify_checked")
 
         // 自动导入相册被清空，返回到上一级相册
         if(albumControl.getImportAlubumCount() === 0){
@@ -130,7 +130,7 @@ ScrollView {
             customSideBar.view.currentItem.forceActiveFocus()
         }
 
-        DTK.sendMessage(thumbnailImage, qsTr("Album “%1” removed").arg(qsTr(delAlbumName)), "checked")
+        DTK.sendMessage(thumbnailImage, qsTr("Album “%1” removed").arg(qsTr(delAlbumName)), "notify_checked")
 
         // 自定义相册被清空，返回到上一级相册
         if(albumControl.getAllCustomAlbumId().length === 0){

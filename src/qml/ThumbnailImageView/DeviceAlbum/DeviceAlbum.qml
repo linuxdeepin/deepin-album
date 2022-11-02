@@ -205,7 +205,7 @@ Rectangle {
                     }else{
                         albumControl.importFromMountDevice(theView.allOriginUrls(),albumControl.getAllCustomAlbumId(global.albumChangeList)[currentImportIndex])
                     }
-                    DTK.sendMessage(thumbnailImage, qsTr("Import successful"), "checked")
+                    DTK.sendMessage(thumbnailImage, qsTr("Import successful"), "notify_checked")
                 }
                 width: 114
                 height: 36

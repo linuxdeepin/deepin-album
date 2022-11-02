@@ -103,7 +103,7 @@ Rectangle {
                 }
             } else {
                 if(albumControl.importAllImagesAndVideosUrl(drop.urls, true)) {
-                    DTK.sendMessage(stackControl, qsTr("Import successful"), "checked")
+                    DTK.sendMessage(stackControl, qsTr("Import successful"), "notify_checked")
                 }
             }
         }

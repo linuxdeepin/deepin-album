@@ -341,7 +341,7 @@ Menu {
         if (global.selectedPaths.length > 1) {
             var bRet = albumControl.getFolders(global.selectedPaths)
             if (bRet)
-                DTK.sendMessage(thumbnailImage, qsTr("Export successful"), "checked")
+                DTK.sendMessage(thumbnailImage, qsTr("Export successful"), "notify_checked")
             else
                 DTK.sendMessage(thumbnailImage, qsTr("Export failed"), "warning")
         } else{

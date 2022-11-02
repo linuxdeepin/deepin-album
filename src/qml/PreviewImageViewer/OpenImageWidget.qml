@@ -78,7 +78,7 @@ Item {
             // 将选择的图片导入相册中
             if (fileControl.isAlbum() && mainView.source !== "") {
                 if (albumControl.importAllImagesAndVideos(mainView.sourcePaths)) {
-                    DTK.sendMessage(mainView, qsTr("Import successful"), "checked")
+                    DTK.sendMessage(mainView, qsTr("Import successful"), "notify_checked")
                 } else {
                     DTK.sendMessage(mainView, qsTr("Import failed"), "warning")
                 }

@@ -189,7 +189,7 @@ Item {
         if (global.selectedPaths.length > 1) {
             var bRet = albumControl.getFolders(global.selectedPaths)
             if (bRet)
-                DTK.sendMessage(thumbnailImage, qsTr("Export successful"), "checked")
+                DTK.sendMessage(thumbnailImage, qsTr("Export successful"), "notify_checked")
             else
                 DTK.sendMessage(thumbnailImage, qsTr("Export failed"), "warning")
         } else{
@@ -778,7 +778,7 @@ Item {
                             // 获取所选自定义相册的Id，根据Id添加到对应自定义相册
                             var customAlbumId = albumControl.getAllCustomAlbumId()[index]
                             albumControl.insertIntoAlbum(customAlbumId , global.selectedPaths)
-                            DTK.sendMessage(thumbnailImage, qsTr("Successfully added to “%1”").arg(albumControl.getAllCustomAlbumName(global.albumChangeList)[index]), "checked")
+                            DTK.sendMessage(thumbnailImage, qsTr("Successfully added to “%1”").arg(albumControl.getAllCustomAlbumName(global.albumChangeList)[index]), "notify_checked")
                             recentFilesInstantiator.bRreshEnableState = !recentFilesInstantiator.bRreshEnableState
                         }
                     }

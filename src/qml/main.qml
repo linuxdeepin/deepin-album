@@ -97,7 +97,7 @@ ApplicationWindow {
                 if(global.currentViewIndex == 6 && albumControl.isCustomAlbum(global.currentCustomAlbumUId)){
                     albumControl.addCustomAlbumInfos(global.currentCustomAlbumUId,importDialog.fileUrls)
                 }
-                DTK.sendMessage(stackControl, qsTr("Import successful"), "checked")
+                DTK.sendMessage(stackControl, qsTr("Import successful"), "notify_checked")
             } else {
                 DTK.sendMessage(stackControl, qsTr("Import failed"), "warning")
             }

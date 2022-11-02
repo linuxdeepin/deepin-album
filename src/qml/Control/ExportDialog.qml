@@ -233,7 +233,7 @@ DialogWindow {
             var bRet = albumControl.saveAsImage(filePath , saveName , saveIndex , savefileFormat ,pictureQuality ,saveFolder)
             exportdialog.visible=false
             if (bRet)
-                DTK.sendMessage(messageToId, qsTr("Export successful"), "checked")
+                DTK.sendMessage(messageToId, qsTr("Export successful"), "notify_checked")
             else
                 DTK.sendMessage(messageToId, qsTr("Export failed"), "warning")
 
