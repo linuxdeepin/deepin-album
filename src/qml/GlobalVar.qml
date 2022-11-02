@@ -197,11 +197,16 @@ Item {
             selectedNumText = qsTr("1 item selected (1 photo)")
         } else if(paths.length === 1 && videoCount === 1) {
             selectedNumText = qsTr("1 item selected (1 video)")
-        } else {
-            var photoText = photoCount > 0 ? qsTr("%1 photos").arg(photoCount) : ""
-            var videoText = videoCount > 0 ? qsTr("%1 videos").arg(videoCount) : ""
-            var detailText = photoText + ((videoText !== "" && photoText !== "") ? (qsTr(", ") + videoText) : "")
-            selectedNumText = qsTr("%1 items selected (%2)").arg(photoCount + videoCount).arg(detailText)
+        } else if(photoCount > 1 && videoCount === 0) {
+            selectedNumText = qsTr("%1 items selected (%1 photos)").arg(photoCount).arg(photoCount)
+        } else if(videoCount > 1 && photoCount === 0) {
+            selectedNumText = qsTr("%1 items selected (%1 videos)").arg(videoCount).arg(videoCount)
+        } else if (photoCount === 1 && videoCount > 1) {
+            selectedNumText = qsTr("%1 items selected (1 photo, %2 videos)").arg(photoCount + videoCount).arg(videoCount)
+        } else if (videoCount === 1 && photoCount > 1) {
+            selectedNumText = qsTr("%1 items selected (%2 photos, 1 video)").arg(photoCount + videoCount).arg(photoCount)
+        } else if (photoCount > 1 && videoCount > 1){
+            selectedNumText = qsTr("%1 items selected (%2 photos, %3 videos)").arg(photoCount + videoCount).arg(photoCount).arg(videoCount)
         }
 
         return selectedNumText

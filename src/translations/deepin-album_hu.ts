@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="hu">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -839,27 +837,44 @@
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="201"/>
-        <source>%1 photos</source>
-        <translation type="unfinished">%1 kép(ek)</translation>
-    </message>
-    <message>
-        <location filename="../qml/GlobalVar.qml" line="202"/>
-        <source>%1 videos</source>
-        <translation type="unfinished">%1 videó(k)</translation>
+        <source>%1 items selected (%1 photos)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="203"/>
-        <source>, </source>
-        <translation type="unfinished"></translation>
+        <source>%1 items selected (%1 videos)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/GlobalVar.qml" line="204"/>
-        <source>%1 items selected (%2)</source>
-        <translation type="unfinished"></translation>
+        <location filename="../qml/GlobalVar.qml" line="205"/>
+        <source>%1 items selected (1 photo, %2 videos)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
+        <location filename="../qml/GlobalVar.qml" line="207"/>
+        <source>%1 items selected (%2 photos, 1 video)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 photo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/GlobalVar.qml" line="209"/>
         <source>%1 items selected (%2 photos, %3 videos)</source>
-        <translation type="vanished">%1 elem kijelölve (%2 fénykép, %3 videó)</translation>
+        <translation>%1 elem kijelölve (%2 fénykép, %3 videó)</translation>
     </message>
 </context>
 <context>
@@ -895,7 +910,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageViewer.qml" line="651"/>
         <source>You have no permission to view the image</source>
-        <translation type="unfinished"></translation>
+        <translation>Nincs jogosultsága megtekinteni ezt a képet</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ImageViewer.qml" line="687"/>
@@ -1115,7 +1130,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="83"/>
         <source>Import failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Az importálás sikertelen</translation>
     </message>
 </context>
 <context>
@@ -1829,7 +1844,7 @@
     <message>
         <location filename="../qml/main.qml" line="102"/>
         <source>Import failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Az importálás sikertelen</translation>
     </message>
 </context>
 </TS>

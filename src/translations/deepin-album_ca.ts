@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ca">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ca">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -226,7 +224,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="69"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;Àlbum és una eina de gestió elegant per veure i organitzar fotografies i vídeos.</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="72"/>
@@ -246,12 +244,12 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="127"/>
         <source>Original ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>Ràtio original</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="127"/>
         <source>Square thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation>Miniatures quadrades</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="163"/>
@@ -550,12 +548,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="200"/>
         <source>Import 1 Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Importa 1 element</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="201"/>
         <source>Import %1 Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Importa %1 elements</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="208"/>
@@ -764,7 +762,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="1240"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Obre</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="1244"/>
@@ -799,7 +797,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="1300"/>
         <source>Live Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Text viu</translation>
     </message>
 </context>
 <context>
@@ -830,32 +828,53 @@
     <message>
         <location filename="../qml/GlobalVar.qml" line="197"/>
         <source>1 item selected (1 photo)</source>
-        <translation type="unfinished"></translation>
+        <translation>1 element seleccionat (1 foto)</translation>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="199"/>
         <source>1 item selected (1 video)</source>
-        <translation type="unfinished"></translation>
+        <translation>1 element seleccionat (1 vídeo)</translation>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="201"/>
-        <source>%1 photos</source>
-        <translation type="unfinished">%1 fotografies</translation>
-    </message>
-    <message>
-        <location filename="../qml/GlobalVar.qml" line="202"/>
-        <source>%1 videos</source>
-        <translation type="unfinished">%1 vídeos</translation>
+        <source>%1 items selected (%1 photos)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="203"/>
-        <source>, </source>
-        <translation type="unfinished"></translation>
+        <source>%1 items selected (%1 videos)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/GlobalVar.qml" line="204"/>
-        <source>%1 items selected (%2)</source>
-        <translation type="unfinished"></translation>
+        <location filename="../qml/GlobalVar.qml" line="205"/>
+        <source>%1 items selected (1 photo, %2 videos)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/GlobalVar.qml" line="207"/>
+        <source>%1 items selected (%2 photos, 1 video)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 photos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 photo</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1 video</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/GlobalVar.qml" line="209"/>
+        <source>%1 items selected (%2 photos, %3 videos)</source>
+        <translation>%1 elements seleccionats (%2 fotos, %3 vídeos)</translation>
     </message>
 </context>
 <context>
@@ -891,12 +910,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageViewer.qml" line="651"/>
         <source>You have no permission to view the image</source>
-        <translation type="unfinished"></translation>
+        <translation>No teniu permís per veure la imatge.</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ImageViewer.qml" line="687"/>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>No s&apos;ha trobat el fitxer d&apos;imatge.</translation>
     </message>
 </context>
 <context>
@@ -940,7 +959,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InfomationDialog.qml" line="66"/>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom del fitxer</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InfomationDialog.qml" line="77"/>
@@ -1035,7 +1054,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InfomationDialog.qml" line="203"/>
         <source>Device model</source>
-        <translation type="unfinished"></translation>
+        <translation>Model del dispositiu</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InfomationDialog.qml" line="208"/>
@@ -1111,7 +1130,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="83"/>
         <source>Import failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Ha fallat importar-ho.</translation>
     </message>
 </context>
 <context>
@@ -1136,12 +1155,12 @@
         <location filename="../src/albumControl.cpp" line="781"/>
         <location filename="../src/albumControl.cpp" line="830"/>
         <source>%1/%2/%3 %4:%5</source>
-        <translation type="unfinished">%3/%2/%1 {1/%2/%3 %4:%5?}</translation>
+        <translation>%3/%2/%1 %4.%5</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="812"/>
         <source>%1</source>
-        <translation type="unfinished">%3/%2/%1 {1?}</translation>
+        <translation>%1</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="818"/>
@@ -1337,7 +1356,7 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="259"/>
         <source>Add an album</source>
-        <translation type="unfinished"></translation>
+        <translation>Afegeix un àlbum</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="285"/>
@@ -1534,7 +1553,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="118"/>
         <source>Back to Album</source>
-        <translation type="unfinished"></translation>
+        <translation>Torna a l&apos;Àlbum</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="160"/>
@@ -1592,7 +1611,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="62"/>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom del fitxer</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="72"/>
@@ -1784,7 +1803,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="85"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;Àlbum és una eina de gestió elegant per veure i organitzar fotografies i vídeos.</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="87"/>
@@ -1797,7 +1816,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="112"/>
         <source>%1</source>
-        <translation type="unfinished">%3/%2/%1 {1?}</translation>
+        <translation>%1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="123"/>
@@ -1825,7 +1844,7 @@
     <message>
         <location filename="../qml/main.qml" line="102"/>
         <source>Import failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Ha fallat importar-ho.</translation>
     </message>
 </context>
 </TS>

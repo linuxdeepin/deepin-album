@@ -839,22 +839,27 @@
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="201"/>
-        <source>%1 photos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/GlobalVar.qml" line="202"/>
-        <source>%1 videos</source>
+        <source>%1 items selected (%1 photos)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="203"/>
-        <source>, </source>
+        <source>%1 items selected (%1 videos)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/GlobalVar.qml" line="204"/>
-        <source>%1 items selected (%2)</source>
+        <location filename="../qml/GlobalVar.qml" line="205"/>
+        <source>%1 items selected (1 photo, %2 videos)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/GlobalVar.qml" line="207"/>
+        <source>%1 items selected (%2 photos, 1 video)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/GlobalVar.qml" line="209"/>
+        <source>%1 items selected (%2 photos, %3 videos)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
