@@ -198,9 +198,9 @@ Item {
         } else if(paths.length === 1 && videoCount === 1) {
             selectedNumText = qsTr("1 item selected (1 video)")
         } else if(photoCount > 1 && videoCount === 0) {
-            selectedNumText = qsTr("%1 items selected (%1 photos)").arg(photoCount).arg(photoCount)
+            selectedNumText = qsTr("%1 items selected (%1 photos)").arg(photoCount)
         } else if(videoCount > 1 && photoCount === 0) {
-            selectedNumText = qsTr("%1 items selected (%1 videos)").arg(videoCount).arg(videoCount)
+            selectedNumText = qsTr("%1 items selected (%1 videos)").arg(videoCount)
         } else if (photoCount === 1 && videoCount > 1) {
             selectedNumText = qsTr("%1 items selected (1 photo, %2 videos)").arg(photoCount + videoCount).arg(videoCount)
         } else if (videoCount === 1 && photoCount > 1) {

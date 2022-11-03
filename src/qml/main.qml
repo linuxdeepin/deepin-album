@@ -93,8 +93,10 @@ ApplicationWindow {
         selectMultiple: true
         nameFilters: albumControl.getAllFilters()
         onAccepted: {
-            if (albumControl.importAllImagesAndVideosUrl(importDialog.fileUrls)) {
-                if(global.currentViewIndex == 6 && albumControl.isCustomAlbum(global.currentCustomAlbumUId)){
+            var bIsCustomAlbumImport = global.currentViewIndex == 6 && albumControl.isCustomAlbum(global.currentCustomAlbumUId)
+            //自定义相册不需要判重
+            if (albumControl.importAllImagesAndVideosUrl(importDialog.fileUrls, !bIsCustomAlbumImport)) {
+                if(bIsCustomAlbumImport){
                     albumControl.addCustomAlbumInfos(global.currentCustomAlbumUId,importDialog.fileUrls)
                 }
                 DTK.sendMessage(stackControl, qsTr("Import successful"), "notify_checked")
