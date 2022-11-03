@@ -68,5 +68,6 @@
         <file>res/picture_damaged_58.svg</file>
         <file>res/icon_import_photo.svg</file>
         <file>dsg/icons/notify_checked.dci</file>
+        <file>dsg/icons/warning.dci</file>
     </qresource>
 </RCC>
