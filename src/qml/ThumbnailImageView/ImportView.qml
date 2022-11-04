@@ -24,10 +24,7 @@ Rectangle{
         RecommandButton{
             id: openPictureBtn
             font.capitalization: Font.MixedCase
-            text: qsTr("Import Photos and Videos")
-            onClicked:{
-                importDialog.open()
-            }
+            text: qsTr("Import Photos and Videos") 
             width: 302
             height: 36
             anchors.top:openViewImageIcon.bottom
@@ -35,6 +32,10 @@ Rectangle{
 
             anchors.left : parent.left
             anchors.leftMargin: -width/2
+
+            onClicked:{
+                importDialog.open()
+            }
         }
         Label{
             anchors.top:openPictureBtn.bottom

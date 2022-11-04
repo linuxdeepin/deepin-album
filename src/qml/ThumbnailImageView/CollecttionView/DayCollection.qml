@@ -567,6 +567,16 @@ Item {
         }
     }
 
+    onVisibleChanged: {
+        // 窗口显示时，重置显示内容
+        if (visible) {
+            //清除选中状态
+            theView.sigUnSelectAll()
+            selectedPaths = []
+            global.selectedPaths = []
+        }
+    }
+
     Component.onCompleted: {
         flushModel()
         global.sigFlushAllCollectionView.connect(flushModel)

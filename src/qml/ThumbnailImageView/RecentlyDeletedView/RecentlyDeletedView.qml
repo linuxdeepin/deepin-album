@@ -18,6 +18,10 @@ Rectangle {
 
     onVisibleChanged: {
         if (visible) {
+            //清除选中状态
+            theView.selectedPaths = [];
+            theView.selectAll(false)
+
             flushRecentDelView()
         }
     }
