@@ -37,7 +37,7 @@ ConfigSetter *ConfigSetter::instance()
 void ConfigSetter::setValue(const QString &group, const QString &key,
                             const QVariant &value)
 {
-//    QMutexLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mutex);
 
     m_settings->beginGroup(group);
     m_settings->setValue(key, value);
