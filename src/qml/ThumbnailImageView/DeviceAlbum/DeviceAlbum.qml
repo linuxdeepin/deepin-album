@@ -149,9 +149,9 @@ Rectangle {
             text: numLabelText
         }
         Row{
-            anchors.top: deviceAlbumLabel.bottom
-            anchors.topMargin: 4
+            anchors.bottom: parent.bottom
             anchors.right: parent.right
+            height: 36
             spacing: 10
             // 筛选下拉框
             Rectangle{
