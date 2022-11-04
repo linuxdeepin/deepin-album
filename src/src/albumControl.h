@@ -96,6 +96,9 @@ public:
     //获得某一导入时间线的全部info  , 0:全部 1:图片 2:视频
     Q_INVOKABLE QVariantMap getImportTimelinesTitleInfos(const int &filterType = 0);
 
+    //获得某一导入时间线的全部info  ,倒序， 0:全部 1:图片 2:视频
+    Q_INVOKABLE QVariantList getImportTimelinesTitleInfosReverse(const int &filterType = 0);
+
     //获得图片和视频总数
     Q_INVOKABLE int getAllCount(const int &filterType = 0);
 

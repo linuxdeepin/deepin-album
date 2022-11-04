@@ -37,25 +37,30 @@ Item {
             theModel.clear()
             theModel.selectedPathObjs = []
             theModel.dayHeights = []
-            // 从后台获取所有已导入数据
-            var titleInfos = albumControl.getImportTimelinesTitleInfos(filterCombo.currentIndex);
+            // 从后台获取所有已导入数据,倒序
+            var titleInfos = albumControl.getImportTimelinesTitleInfosReverse(filterCombo.currentIndex);
             console.log("imported model has refreshed.. filterType:", filterCombo.currentIndex, " done...")
             var tmpPath = []
             var i = 0
             var dayHeight = 0
             var listHeight = 0
             theView.listContentHeight = 0
-            for (var key in titleInfos) {
-                theModel.append({"title":key, "items":titleInfos[key]})
-                selectedPathObj = {"id": i, "paths":tmpPath}
-                theModel.selectedPathObjs.push(selectedPathObj)
 
-                // 计算每个日期列表高度
-                listHeight = Math.abs(Math.ceil(titleInfos[key].length / Math.floor(importedListView.width / realCellWidth)) * realCellWidth)
-                dayHeight = listHeight + listMargin * 2 + importCheckboxHeight + (i === 0 ? spaceCtrlHeight : 0)
-                dayHeights.push(dayHeight)
-                theView.listContentHeight += dayHeight
-                i++
+            for (var j = 0; j < titleInfos.length; j++) {
+                var listItem = titleInfos[j]
+
+                for (var key in listItem) {
+                    theModel.append({"title":key, "items":listItem[key]})
+                    selectedPathObj = {"id": i, "paths":tmpPath}
+                    theModel.selectedPathObjs.push(selectedPathObj)
+
+                    // 计算每个日期列表高度
+                    listHeight = Math.abs(Math.ceil(listItem[key].length / Math.floor(importedListView.width / realCellWidth)) * realCellWidth)
+                    dayHeight = listHeight + listMargin * 2 + importCheckboxHeight + (i === 0 ? spaceCtrlHeight : 0)
+                    dayHeights.push(dayHeight)
+                    theView.listContentHeight += dayHeight
+                    i++
+                }
             }
         }
     }

@@ -1462,7 +1462,24 @@ QVariantMap AlbumControl::getImportTimelinesTitleInfos(const int &filterType)
             reMap.insert(titleName, list);
         }
     }
+
     return reMap;
+}
+
+QVariantList AlbumControl::getImportTimelinesTitleInfosReverse(const int &filterType)
+{
+    QVariantMap reMap = getImportTimelinesTitleInfos(filterType);
+
+    QVariantList reList;
+    if (reMap.size()) {
+        for (auto it = --reMap.end(); it != --reMap.begin(); it--) {
+            QVariantMap tmpMap;
+            tmpMap.insert(it.key(), it.value());
+            reList.push_back(tmpMap);
+        }
+    }
+
+    return reList;
 }
 
 QVariantMap AlbumControl::getAlbumInfos(const int &albumId, const int &filterType)
