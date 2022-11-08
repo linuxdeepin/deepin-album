@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sq">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="sq">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -171,7 +173,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1765"/>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1767"/>
@@ -181,7 +183,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1769"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1834"/>
@@ -365,7 +367,7 @@
         <location filename="../src/dbmanager/dbmanager.cpp" line="466"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="491"/>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="450"/>
@@ -378,7 +380,7 @@
         <location filename="../src/dbmanager/dbmanager.cpp" line="451"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="501"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="1790"/>
@@ -802,7 +804,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="1300"/>
         <source>Live Text</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -923,17 +925,17 @@
 <context>
     <name>ImportedlListView</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="403"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="404"/>
         <source>Imported on</source>
         <translation>Importuar më</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="403"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="404"/>
         <source>1 item</source>
         <translation>1 objekt</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="403"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="404"/>
         <source>%1 items</source>
         <translation>%1 objekte</translation>
     </message>
@@ -1228,12 +1230,12 @@
         <translation>Fshiji Krejt</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="165"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="174"/>
         <source>Delete Selected (%1)</source>
         <translation>Fshiji të Përzgjedhurat (%1)</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="183"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="192"/>
         <source>Restore Selected (%1)</source>
         <translation>Rikthe të Përzgjedhurat (%1)</translation>
     </message>
@@ -1350,7 +1352,7 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="285"/>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="289"/>
@@ -1360,7 +1362,7 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="293"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="400"/>
@@ -1425,6 +1427,14 @@
     </message>
 </context>
 <context>
+    <name>ThumbnailListDelegate</name>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="224"/>
+        <source>days</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ThumbnailListView</name>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="192"/>
@@ -1437,102 +1447,102 @@
         <translation>Eksportimi dështoi</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="682"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="678"/>
         <source>View</source>
         <translation>Shihni</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="691"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="687"/>
         <source>Fullscreen</source>
         <translation>Sa krejt ekrani</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="708"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="704"/>
         <source>Print</source>
         <translation>Shtype</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="727"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="723"/>
         <source>Slide show</source>
         <translation>Shfaqje si diapozitiva</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="755"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="751"/>
         <source>Add to album</source>
         <translation>Shtoje te albumi </translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="758"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="754"/>
         <source>New album</source>
         <translation>Album i ri</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="781"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="777"/>
         <source>Successfully added to “%1”</source>
         <translation>U shtua me sukses te “%1”</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="790"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="786"/>
         <source>Export</source>
         <translation>Eksporto</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="809"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="805"/>
         <source>Copy</source>
         <translation>Kopjoje</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="818"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="814"/>
         <source>Delete</source>
         <translation>Fshije</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="828"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="824"/>
         <source>Remove from album</source>
         <translation>Hiqe nga albumi</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="845"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="841"/>
         <source>Favorite</source>
         <translation>Vëre si të parapëlqyer</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="855"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="851"/>
         <source>Unfavorite</source>
         <translation>Hiqe nga të parapëlqyerat</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="869"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="865"/>
         <source>Rotate clockwise</source>
         <translation>Rrotulloje në kahun orar</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="878"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="874"/>
         <source>Rotate counterclockwise</source>
         <translation>Rrotulloje në kahun anti-orar</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="893"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="889"/>
         <source>Set as wallpaper</source>
         <translation>Vëre si sfond</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="912"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="908"/>
         <source>Display in file manager</source>
         <translation>Shfaqe te përgjegjës kartelash</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="931"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="927"/>
         <source>Restore</source>
         <translation>Riktheje</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="942"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="938"/>
         <source>Photo info</source>
         <translation>Të dhëna fotoje</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="961"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="957"/>
         <source>Video info</source>
         <translation>Hollësi videoje</translation>
     </message>
@@ -1671,7 +1681,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="174"/>
         <source>Audio digit</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="185"/>
@@ -1681,7 +1691,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="192"/>
         <source>Sampling</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

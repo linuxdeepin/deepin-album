@@ -302,6 +302,7 @@ Item {
             m_displayFlushHelper: "0"
             width: itemWidth - 4
             height: itemHeight - 4
+            remainDays: global.objIsEmpty(thumbnailListModel.get(index)) ? "" : thumbnailListModel.get(index).remainDays
         }
 
         currentIndex: -1

@@ -2589,7 +2589,7 @@ void AlbumControl::createNewCustomAutoImportAlbum(const QString &path)
 QString AlbumControl::getVideoTime(const QString &path)
 {
     if (!LibUnionImage_NameSpace::isVideo(QUrl(path).toLocalFile()))
-        return "00:00:00";
+        return "00:00";
 
     //采用线程执行导入
     QThread *thread = QThread::create([ = ] {
@@ -2598,14 +2598,19 @@ QString AlbumControl::getVideoTime(const QString &path)
         reString = MovieService::instance()->getMovieInfo(QUrl(path)).duration;
         if (reString == "-")
         {
-            reString = "00:00:00";
+            reString = "00:00";
         }
+
+        if (reString.left(2) == "00") {
+            reString = reString.right(5);
+        }
+
         emit sigRefreashVideoTime(path, reString);
         m_mutex.unlock();
     });
     thread->start();
     connect(thread, &QThread::destroyed, thread, &QObject::deleteLater);
-    return "00:00:00";
+    return "00:00";
 }
 
 //外部使用相册打开图片

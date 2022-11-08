@@ -17,6 +17,7 @@ Rectangle {
     property string m_url
     property string m_displayFlushHelper
     property var m_favoriteBtn: itemFavoriteBtn
+    property string remainDays
 
     //选中后显示的阴影框
     Rectangle {
@@ -211,6 +212,20 @@ Rectangle {
         anchors.rightMargin : 5
     }
 
+    //剩余天数标签
+    VideoLabel {
+        id: labelRemainDays
+        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.RecentlyDeleted
+        anchors.bottom: image.bottom
+        anchors.left: image.left
+        anchors.leftMargin : 5
+        anchors.bottomMargin : 5
+        opacity: 0.7
+        displayStr: remainDays + qsTr("days")
+        height: 22
+        width: 44
+    }
+
     //视频时长标签
     VideoLabel {
         id: videoLabel
@@ -220,7 +235,10 @@ Rectangle {
         anchors.rightMargin : 5
         anchors.bottomMargin : 5
         opacity: 0.7
-        displayStr: fileControl.isVideo(m_url) ? albumControl.getVideoTime(m_url) : "00:00:00"
+        displayStr: fileControl.isVideo(m_url) ? albumControl.getVideoTime(m_url) : "00:00"
+        height: 22
+        width: displayStr.length === 5 ? 44 : 64
+
         Connections {
             target: albumControl
             onSigRefreashVideoTime: {

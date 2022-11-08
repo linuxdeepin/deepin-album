@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="es">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="es">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -923,17 +925,17 @@
 <context>
     <name>ImportedlListView</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="403"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="404"/>
         <source>Imported on</source>
         <translation>Importar en</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="403"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="404"/>
         <source>1 item</source>
         <translation>1 elemento</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="403"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="404"/>
         <source>%1 items</source>
         <translation>%1 elementos</translation>
     </message>
@@ -1228,12 +1230,12 @@
         <translation>Borrar todo</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="165"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="174"/>
         <source>Delete Selected (%1)</source>
         <translation>Borrar lo seleccionado (%1)</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="183"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="192"/>
         <source>Restore Selected (%1)</source>
         <translation>Restaurar seleccionado (%1)</translation>
     </message>
@@ -1425,6 +1427,14 @@
     </message>
 </context>
 <context>
+    <name>ThumbnailListDelegate</name>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="224"/>
+        <source>days</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ThumbnailListView</name>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="192"/>
@@ -1437,102 +1447,102 @@
         <translation>Error al exportar</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="682"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="678"/>
         <source>View</source>
         <translation>Ver</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="691"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="687"/>
         <source>Fullscreen</source>
         <translation>Pantalla completa</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="708"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="704"/>
         <source>Print</source>
         <translation>Imprimir</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="727"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="723"/>
         <source>Slide show</source>
         <translation>Presentación</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="755"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="751"/>
         <source>Add to album</source>
         <translation>Añadir al álbum</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="758"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="754"/>
         <source>New album</source>
         <translation>Nuevo álbum</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="781"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="777"/>
         <source>Successfully added to “%1”</source>
         <translation>Correctamente añadido a &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="790"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="786"/>
         <source>Export</source>
         <translation>Exportar</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="809"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="805"/>
         <source>Copy</source>
         <translation>Copiar</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="818"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="814"/>
         <source>Delete</source>
         <translation>Borrar</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="828"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="824"/>
         <source>Remove from album</source>
         <translation>Quitar del álbum</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="845"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="841"/>
         <source>Favorite</source>
         <translation>Añadir a favoritos</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="855"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="851"/>
         <source>Unfavorite</source>
         <translation>Quitar de favoritos</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="869"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="865"/>
         <source>Rotate clockwise</source>
         <translation>Girar hacia la derecha</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="878"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="874"/>
         <source>Rotate counterclockwise</source>
         <translation>Girar hacia la izquierda</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="893"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="889"/>
         <source>Set as wallpaper</source>
         <translation>Establecer como fondo de pantalla</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="912"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="908"/>
         <source>Display in file manager</source>
         <translation>Mostrar en el administrador de archivos</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="931"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="927"/>
         <source>Restore</source>
         <translation>Restaurar</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="942"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="938"/>
         <source>Photo info</source>
         <translation>Información de la foto</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="961"/>
+        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="957"/>
         <source>Video info</source>
         <translation>Inf de video</translation>
     </message>

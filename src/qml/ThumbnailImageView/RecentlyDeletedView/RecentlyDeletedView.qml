@@ -126,20 +126,29 @@ Rectangle {
             text: qsTr("The files will be permanently deleted after the days shown on them")
         }
 
-        WarningButton {
+        //删除全部按钮
+        Label {
             id: delAllBtn
             anchors.top: parent.top
             anchors.topMargin: 12
             anchors.right: parent.right
-            width: 140
+            width: 56
             height: 36
-            flat: true
             font: DTK.fontManager.t6
             text: qsTr("Delete All")
             visible: !theView.haveSelect && theView.count()
-            onClicked: {
-                deleteDialog.setDisplay(GlobalVar.FileDeleteType.TrashAll, theView.allOriginPaths().length)
-                deleteDialog.show()
+            color: mouseAreaDelAllBtn.containsMouse ? "#FF5736" : "#FD6E52"
+
+
+            MouseArea {
+                id: mouseAreaDelAllBtn
+                anchors.fill: parent
+                hoverEnabled: true
+
+                onClicked: {
+                    deleteDialog.setDisplay(GlobalVar.FileDeleteType.TrashAll, theView.allOriginPaths().length)
+                    deleteDialog.show()
+                }
             }
         }
 
