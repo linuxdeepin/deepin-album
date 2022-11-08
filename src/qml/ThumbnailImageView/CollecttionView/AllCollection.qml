@@ -36,11 +36,21 @@ Item {
         loadAllCollectionItems()
         global.selectedPaths = theView.selectedPaths
         getNumLabelText()
-        theView.totalTimeScope()
+        totalTimepScopeTimer.start()
     }
 
     function flushTotalTimeScope() {
         theView.totalTimeScope()
+    }
+
+    // 筛选相册内容后，使用定时器延迟刷新时间范围标签内容
+    Timer {
+        id: totalTimepScopeTimer
+        interval: 100
+        repeat: false
+        onTriggered: {
+            theView.totalTimeScope()
+        }
     }
 
     // 刷新总数标签
@@ -75,7 +85,7 @@ Item {
     }
 
     // 刷新选择项数标签
-    function getSelectedNum(paths) {   
+    function getSelectedNum(paths) {
         var selectedNumText = global.getSelectedNumText(paths, numLabelText)
         if (visible)
             global.statusBarNumText = selectedNumText
