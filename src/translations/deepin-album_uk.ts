@@ -164,37 +164,37 @@
         <translation>Параметри</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1746"/>
+        <location filename="../src/albumControl.cpp" line="1763"/>
         <source>Favorites</source>
         <translation>Вибрані</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1748"/>
+        <location filename="../src/albumControl.cpp" line="1765"/>
         <source>Screen Capture</source>
         <translation>Захолення з екрана</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1750"/>
+        <location filename="../src/albumControl.cpp" line="1767"/>
         <source>Camera</source>
         <translation>Камера</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1752"/>
+        <location filename="../src/albumControl.cpp" line="1769"/>
         <source>Draw</source>
         <translation>Малювання</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1817"/>
+        <location filename="../src/albumControl.cpp" line="1834"/>
         <source>Unnamed</source>
         <translation>Без назви</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2288"/>
+        <location filename="../src/albumControl.cpp" line="2305"/>
         <source>Channel</source>
         <translation>Канал</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2443"/>
+        <location filename="../src/albumControl.cpp" line="2460"/>
         <source>Pictures</source>
         <translation>Зображення</translation>
     </message>
@@ -202,97 +202,97 @@
 <context>
     <name>AlbumTitle</name>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="38"/>
+        <location filename="../qml/AlbumTitle.qml" line="27"/>
         <source>New album</source>
         <translation>Новий альбом</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="51"/>
+        <location filename="../qml/AlbumTitle.qml" line="40"/>
         <source>Import folders</source>
         <translation>Імпортувати теки</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="66"/>
+        <location filename="../qml/AlbumTitle.qml" line="55"/>
         <source>Album</source>
         <translation>Альбом</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="68"/>
+        <location filename="../qml/AlbumTitle.qml" line="57"/>
         <source>Version:</source>
         <translation>Версія:</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="69"/>
+        <location filename="../qml/AlbumTitle.qml" line="58"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
         <translation>«Альбом» — стильний інструмент керування для перегляду і упорядковування фотографій і відео.</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="72"/>
+        <location filename="../qml/AlbumTitle.qml" line="61"/>
         <source>%1 is released under %2</source>
         <translation>%1 випущено за умов дотримання %2</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="106"/>
+        <location filename="../qml/AlbumTitle.qml" line="95"/>
         <source>Show side pane</source>
         <translation>Показати бічну панель</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="106"/>
+        <location filename="../qml/AlbumTitle.qml" line="95"/>
         <source>Hide side pane</source>
         <translation>Приховати бічну панель</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="127"/>
+        <location filename="../qml/AlbumTitle.qml" line="116"/>
         <source>Original ratio</source>
         <translation>Початкове співвідношення</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="127"/>
+        <location filename="../qml/AlbumTitle.qml" line="116"/>
         <source>Square thumbnails</source>
         <translation>Квадратні мініатюри</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="163"/>
+        <location filename="../qml/AlbumTitle.qml" line="152"/>
         <source>Y</source>
         <translation>Р</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="173"/>
+        <location filename="../qml/AlbumTitle.qml" line="162"/>
         <source>M</source>
         <translation>М</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="182"/>
+        <location filename="../qml/AlbumTitle.qml" line="171"/>
         <source>D</source>
         <translation>Д</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="191"/>
+        <location filename="../qml/AlbumTitle.qml" line="180"/>
         <source>All</source>
         <translation>Усе</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="237"/>
+        <location filename="../qml/AlbumTitle.qml" line="226"/>
         <source>Search</source>
         <translation>Шукати</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="334"/>
+        <location filename="../qml/AlbumTitle.qml" line="323"/>
         <source>Favorite</source>
         <translation>Додати до вибраних</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="334"/>
+        <location filename="../qml/AlbumTitle.qml" line="323"/>
         <source>Unfavorite</source>
         <translation>Вилучити з вибраних</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="370"/>
+        <location filename="../qml/AlbumTitle.qml" line="359"/>
         <source>Rotate</source>
         <translation>Обертати</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="394"/>
+        <location filename="../qml/AlbumTitle.qml" line="383"/>
         <source>Delete</source>
         <translation>Вилучити</translation>
     </message>
@@ -318,6 +318,11 @@
         <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="67"/>
         <source>%1 videos</source>
         <translation>%1 відео</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="181"/>
+        <source>No results</source>
+        <translation>Немає результатів</translation>
     </message>
 </context>
 <context>
@@ -838,38 +843,22 @@
     <message>
         <location filename="../qml/GlobalVar.qml" line="201"/>
         <source>%1 items selected (%1 photos)</source>
-        <translation type="unfinished"/>
+        <translation>Позначено %1 записів (%1 фотографій)</translation>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="203"/>
         <source>%1 items selected (%1 videos)</source>
-        <translation type="unfinished"/>
+        <translation>Позначено %1 записів (%1 відео)</translation>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="205"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
-        <translation type="unfinished"/>
+        <translation>Позначено %1 записів (1 фотографію, %2 відео)</translation>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="207"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>%1 photos</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>1 photo</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>%1 videos</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>Позначено %1 записів (%2 фотографій, 1 відео)</translation>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="209"/>
@@ -926,7 +915,7 @@
         <translation>Імпортуйте фотографії та відео</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/ImportView.qml" line="44"/>
+        <location filename="../qml/ThumbnailImageView/ImportView.qml" line="45"/>
         <source>Or drag them here</source>
         <translation>Або перетягніть їх сюди</translation>
     </message>
@@ -934,17 +923,17 @@
 <context>
     <name>ImportedlListView</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="398"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="403"/>
         <source>Imported on</source>
         <translation>Імпортовано</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="398"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="403"/>
         <source>1 item</source>
         <translation>1 запис</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="398"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="403"/>
         <source>%1 items</source>
         <translation>%1 записів</translation>
     </message>
@@ -1173,7 +1162,7 @@
         <translation>%1/%2/%3</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1508"/>
+        <location filename="../src/albumControl.cpp" line="1525"/>
         <source>Trash</source>
         <translation>Смітник</translation>
     </message>
@@ -1204,47 +1193,47 @@
 <context>
     <name>RecentlyDeletedView</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="47"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="51"/>
         <source>1 photo</source>
         <translation>1 фотографія</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="49"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="53"/>
         <source>%1 photos</source>
         <translation>%1 фотографій</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="57"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="61"/>
         <source>1 video</source>
         <translation>1 відео</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="59"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="63"/>
         <source>%1 videos</source>
         <translation>%1 відео</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="113"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="117"/>
         <source>Trash</source>
         <translation>Смітник</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="122"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="126"/>
         <source>The files will be permanently deleted after the days shown on them</source>
         <translation>Кількість днів, за яку файли буде остаточно вилучено, показано на мініатюрах</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="134"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="138"/>
         <source>Delete All</source>
         <translation>Вилучити всі</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="161"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="165"/>
         <source>Delete Selected (%1)</source>
         <translation>Вилучити позначені (%1)</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="179"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="183"/>
         <source>Restore Selected (%1)</source>
         <translation>Відновити позначені (%1)</translation>
     </message>
@@ -1837,12 +1826,12 @@
         <translation>Усі фотографії і відео</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="100"/>
+        <location filename="../qml/main.qml" line="102"/>
         <source>Import successful</source>
         <translation>Успішне імпортування</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="102"/>
+        <location filename="../qml/main.qml" line="104"/>
         <source>Import failed</source>
         <translation>Імпортування зазнало невдачі</translation>
     </message>

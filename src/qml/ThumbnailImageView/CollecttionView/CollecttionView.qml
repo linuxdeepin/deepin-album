@@ -84,7 +84,7 @@ Item {
     // 若没有数据，显示导入图片视图
     ImportView {
         anchors.fill: parent
-        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion && allCollection.numLabelText ===""
+        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion && allCollection.numLabelText === "" && albumControl.getAllCount() === 0
 
         onVisibleChanged: {
             if (visible) {

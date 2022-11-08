@@ -152,7 +152,7 @@ Item {
         height: parent.height - allCollectionTitleRect.height - m_topMargin - statusBar.height
         thumnailListType: GlobalVar.ThumbnailType.AllCollection
 
-        visible: true
+        visible: numLabelText !== ""
         property int m_topMargin: 10
 
         // 监听缩略图列表选中状态，一旦改变，更新globalVar所有选中路径
@@ -166,6 +166,19 @@ Item {
                     global.selectedPaths = selectedPaths
             }
         }
+    }
+
+    // 仅在自动导入相册无内容时，显示没有图片或视频时显示
+    Label {
+        anchors.top: allCollectionTitleRect.bottom
+        anchors.left: parent.left
+        anchors.bottom: theView.bottom
+        anchors.right: parent.right
+        anchors.centerIn: parent
+        visible: numLabelText === "" && albumControl.getAllCount() !== 0
+        font: DTK.fontManager.t4
+        color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
+        text: qsTr("No results")
     }
 
     Component.onCompleted: {

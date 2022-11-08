@@ -164,37 +164,37 @@
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1746"/>
+        <location filename="../src/albumControl.cpp" line="1763"/>
         <source>Favorites</source>
         <translation>我的收藏</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1748"/>
+        <location filename="../src/albumControl.cpp" line="1765"/>
         <source>Screen Capture</source>
         <translation>截图录屏</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1750"/>
+        <location filename="../src/albumControl.cpp" line="1767"/>
         <source>Camera</source>
         <translation>相机</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1752"/>
+        <location filename="../src/albumControl.cpp" line="1769"/>
         <source>Draw</source>
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1817"/>
+        <location filename="../src/albumControl.cpp" line="1834"/>
         <source>Unnamed</source>
         <translation>未命名相册</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2288"/>
+        <location filename="../src/albumControl.cpp" line="2305"/>
         <source>Channel</source>
         <translation>声道</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2443"/>
+        <location filename="../src/albumControl.cpp" line="2460"/>
         <source>Pictures</source>
         <translation>图片</translation>
     </message>
@@ -202,97 +202,97 @@
 <context>
     <name>AlbumTitle</name>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="38"/>
+        <location filename="../qml/AlbumTitle.qml" line="27"/>
         <source>New album</source>
         <translation>新建相册</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="51"/>
+        <location filename="../qml/AlbumTitle.qml" line="40"/>
         <source>Import folders</source>
         <translation>从文件夹导入</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="66"/>
+        <location filename="../qml/AlbumTitle.qml" line="55"/>
         <source>Album</source>
         <translation>相册</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="68"/>
+        <location filename="../qml/AlbumTitle.qml" line="57"/>
         <source>Version:</source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="69"/>
+        <location filename="../qml/AlbumTitle.qml" line="58"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
         <translation>相册是一款可多种方式浏览、整理照片和视频的管理工具。</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="72"/>
+        <location filename="../qml/AlbumTitle.qml" line="61"/>
         <source>%1 is released under %2</source>
         <translation>%1遵循%2协议发布</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="106"/>
+        <location filename="../qml/AlbumTitle.qml" line="95"/>
         <source>Show side pane</source>
         <translation>展开侧边栏</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="106"/>
+        <location filename="../qml/AlbumTitle.qml" line="95"/>
         <source>Hide side pane</source>
         <translation>关闭侧边栏</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="127"/>
+        <location filename="../qml/AlbumTitle.qml" line="116"/>
         <source>Original ratio</source>
         <translation>显示为原始比例</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="127"/>
+        <location filename="../qml/AlbumTitle.qml" line="116"/>
         <source>Square thumbnails</source>
         <translation>显示为方图</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="163"/>
+        <location filename="../qml/AlbumTitle.qml" line="152"/>
         <source>Y</source>
         <translation>年</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="173"/>
+        <location filename="../qml/AlbumTitle.qml" line="162"/>
         <source>M</source>
         <translation>月</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="182"/>
+        <location filename="../qml/AlbumTitle.qml" line="171"/>
         <source>D</source>
         <translation>日</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="191"/>
+        <location filename="../qml/AlbumTitle.qml" line="180"/>
         <source>All</source>
         <translation>所有项目</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="237"/>
+        <location filename="../qml/AlbumTitle.qml" line="226"/>
         <source>Search</source>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="334"/>
+        <location filename="../qml/AlbumTitle.qml" line="323"/>
         <source>Favorite</source>
         <translation>收藏</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="334"/>
+        <location filename="../qml/AlbumTitle.qml" line="323"/>
         <source>Unfavorite</source>
         <translation>取消收藏</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="370"/>
+        <location filename="../qml/AlbumTitle.qml" line="359"/>
         <source>Rotate</source>
         <translation>旋转</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="394"/>
+        <location filename="../qml/AlbumTitle.qml" line="383"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
@@ -318,6 +318,11 @@
         <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="67"/>
         <source>%1 videos</source>
         <translation>共%1个视频</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="181"/>
+        <source>No results</source>
+        <translation>无结果</translation>
     </message>
 </context>
 <context>
@@ -856,22 +861,6 @@
         <translation>已选择%1项（%2张照片，1个视频）</translation>
     </message>
     <message>
-        <source>%1 photos</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>1 photo</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>%1 videos</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>1 video</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../qml/GlobalVar.qml" line="209"/>
         <source>%1 items selected (%2 photos, %3 videos)</source>
         <translation>已选择%1项（%2张照片，%3个视频）</translation>
@@ -926,7 +915,7 @@
         <translation>导入照片和视频</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/ImportView.qml" line="44"/>
+        <location filename="../qml/ThumbnailImageView/ImportView.qml" line="45"/>
         <source>Or drag them here</source>
         <translation>您也可以拖拽照片和视频到此</translation>
     </message>
@@ -934,17 +923,17 @@
 <context>
     <name>ImportedlListView</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="398"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="403"/>
         <source>Imported on</source>
         <translation>导入于</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="398"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="403"/>
         <source>1 item</source>
         <translation>共1项</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="398"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="403"/>
         <source>%1 items</source>
         <translation>共%1项</translation>
     </message>
@@ -1173,7 +1162,7 @@
         <translation>%1年%2月%3日</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1508"/>
+        <location filename="../src/albumControl.cpp" line="1525"/>
         <source>Trash</source>
         <translation>最近删除</translation>
     </message>
@@ -1204,47 +1193,47 @@
 <context>
     <name>RecentlyDeletedView</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="47"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="51"/>
         <source>1 photo</source>
         <translation>共1张照片</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="49"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="53"/>
         <source>%1 photos</source>
         <translation>共%1张照片</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="57"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="61"/>
         <source>1 video</source>
         <translation>共1个视频</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="59"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="63"/>
         <source>%1 videos</source>
         <translation>共%1个视频</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="113"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="117"/>
         <source>Trash</source>
         <translation>最近删除</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="122"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="126"/>
         <source>The files will be permanently deleted after the days shown on them</source>
         <translation>文件在删除前会显示剩余天数，之后将永久删除</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="134"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="138"/>
         <source>Delete All</source>
         <translation>全部删除</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="161"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="165"/>
         <source>Delete Selected (%1)</source>
         <translation>删除%1项</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="179"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="183"/>
         <source>Restore Selected (%1)</source>
         <translation>恢复%1项</translation>
     </message>
@@ -1837,12 +1826,12 @@
         <translation>所有照片和视频</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="100"/>
+        <location filename="../qml/main.qml" line="102"/>
         <source>Import successful</source>
         <translation>导入成功</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="102"/>
+        <location filename="../qml/main.qml" line="104"/>
         <source>Import failed</source>
         <translation>导入失败</translation>
     </message>

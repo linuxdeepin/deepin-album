@@ -164,135 +164,135 @@
         <translation>Rregullime</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1746"/>
+        <location filename="../src/albumControl.cpp" line="1763"/>
         <source>Favorites</source>
         <translation>Të parapëlqyerit</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1748"/>
+        <location filename="../src/albumControl.cpp" line="1765"/>
         <source>Screen Capture</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1750"/>
+        <location filename="../src/albumControl.cpp" line="1767"/>
         <source>Camera</source>
         <translation>Kamerë</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1752"/>
+        <location filename="../src/albumControl.cpp" line="1769"/>
         <source>Draw</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1817"/>
+        <location filename="../src/albumControl.cpp" line="1834"/>
         <source>Unnamed</source>
         <translation>I paemër</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2288"/>
+        <location filename="../src/albumControl.cpp" line="2305"/>
         <source>Channel</source>
         <translation>Kanal</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2443"/>
+        <location filename="../src/albumControl.cpp" line="2460"/>
         <source>Pictures</source>
-        <translation type="unfinished"/>
+        <translation>Foto</translation>
     </message>
 </context>
 <context>
     <name>AlbumTitle</name>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="38"/>
+        <location filename="../qml/AlbumTitle.qml" line="27"/>
         <source>New album</source>
         <translation>Album i ri</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="51"/>
+        <location filename="../qml/AlbumTitle.qml" line="40"/>
         <source>Import folders</source>
         <translation>Importo dosje</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="66"/>
+        <location filename="../qml/AlbumTitle.qml" line="55"/>
         <source>Album</source>
         <translation>Album</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="68"/>
+        <location filename="../qml/AlbumTitle.qml" line="57"/>
         <source>Version:</source>
         <translation>Version:</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="69"/>
+        <location filename="../qml/AlbumTitle.qml" line="58"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
         <translation>Album-i është  një mjet i hijshëm administrimi për të parë dhe sistemuar foto dhe video.</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="72"/>
+        <location filename="../qml/AlbumTitle.qml" line="61"/>
         <source>%1 is released under %2</source>
         <translation>%1 hidhet në qarkullim sipas %2</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="106"/>
+        <location filename="../qml/AlbumTitle.qml" line="95"/>
         <source>Show side pane</source>
         <translation>Shfaq kuadrat anësor</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="106"/>
+        <location filename="../qml/AlbumTitle.qml" line="95"/>
         <source>Hide side pane</source>
         <translation>Fshihe kuadratin anësor</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="127"/>
+        <location filename="../qml/AlbumTitle.qml" line="116"/>
         <source>Original ratio</source>
         <translation>Përpjestimi origjinal</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="127"/>
+        <location filename="../qml/AlbumTitle.qml" line="116"/>
         <source>Square thumbnails</source>
         <translation>Miniatura katrore</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="163"/>
+        <location filename="../qml/AlbumTitle.qml" line="152"/>
         <source>Y</source>
         <translation>V</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="173"/>
+        <location filename="../qml/AlbumTitle.qml" line="162"/>
         <source>M</source>
         <translation>M</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="182"/>
+        <location filename="../qml/AlbumTitle.qml" line="171"/>
         <source>D</source>
         <translation>D</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="191"/>
+        <location filename="../qml/AlbumTitle.qml" line="180"/>
         <source>All</source>
         <translation>Krejt</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="237"/>
+        <location filename="../qml/AlbumTitle.qml" line="226"/>
         <source>Search</source>
         <translation>Kërko</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="334"/>
+        <location filename="../qml/AlbumTitle.qml" line="323"/>
         <source>Favorite</source>
         <translation>Vëre si të parapëlqyer</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="334"/>
+        <location filename="../qml/AlbumTitle.qml" line="323"/>
         <source>Unfavorite</source>
         <translation>Hiqe nga të parapëlqyerat</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="370"/>
+        <location filename="../qml/AlbumTitle.qml" line="359"/>
         <source>Rotate</source>
         <translation>Rrotulloje</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="394"/>
+        <location filename="../qml/AlbumTitle.qml" line="383"/>
         <source>Delete</source>
         <translation>Fshije</translation>
     </message>
@@ -318,6 +318,11 @@
         <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="67"/>
         <source>%1 videos</source>
         <translation>%1 video</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="181"/>
+        <source>No results</source>
+        <translation>Pa përfundime</translation>
     </message>
 </context>
 <context>
@@ -838,38 +843,22 @@
     <message>
         <location filename="../qml/GlobalVar.qml" line="201"/>
         <source>%1 items selected (%1 photos)</source>
-        <translation type="unfinished"/>
+        <translation>%1 objekte të përzgjedhur (%1 foto)</translation>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="203"/>
         <source>%1 items selected (%1 videos)</source>
-        <translation type="unfinished"/>
+        <translation>%1 objekte të përzgjedhur (%1 video)</translation>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="205"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
-        <translation type="unfinished"/>
+        <translation>%1 objekte të përzgjedhur (1 foto, %2 video)</translation>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="207"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>%1 photos</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>1 photo</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>%1 videos</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>%1 objekte të përzgjedhur (%2 foto, 1 video)</translation>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="209"/>
@@ -926,7 +915,7 @@
         <translation>Importoni Foto dhe Video</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/ImportView.qml" line="44"/>
+        <location filename="../qml/ThumbnailImageView/ImportView.qml" line="45"/>
         <source>Or drag them here</source>
         <translation>Ose tërhiqini këtu</translation>
     </message>
@@ -934,17 +923,17 @@
 <context>
     <name>ImportedlListView</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="398"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="403"/>
         <source>Imported on</source>
         <translation>Importuar më</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="398"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="403"/>
         <source>1 item</source>
         <translation>1 objekt</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="398"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="403"/>
         <source>%1 items</source>
         <translation>%1 objekte</translation>
     </message>
@@ -1173,7 +1162,7 @@
         <translation>%1/%2/%3</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1508"/>
+        <location filename="../src/albumControl.cpp" line="1525"/>
         <source>Trash</source>
         <translation>Shpjere te hedhurinat</translation>
     </message>
@@ -1204,47 +1193,47 @@
 <context>
     <name>RecentlyDeletedView</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="47"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="51"/>
         <source>1 photo</source>
         <translation>1 foto</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="49"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="53"/>
         <source>%1 photos</source>
         <translation>%1 foto</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="57"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="61"/>
         <source>1 video</source>
         <translation>1 video</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="59"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="63"/>
         <source>%1 videos</source>
         <translation>%1 video</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="113"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="117"/>
         <source>Trash</source>
         <translation>Shpjere te hedhurinat</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="122"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="126"/>
         <source>The files will be permanently deleted after the days shown on them</source>
         <translation>Kartelat do të fshihen përgjithmonë, pas ditëve të treguara në to</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="134"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="138"/>
         <source>Delete All</source>
         <translation>Fshiji Krejt</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="161"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="165"/>
         <source>Delete Selected (%1)</source>
         <translation>Fshiji të Përzgjedhurat (%1)</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="179"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="183"/>
         <source>Restore Selected (%1)</source>
         <translation>Rikthe të Përzgjedhurat (%1)</translation>
     </message>
@@ -1837,12 +1826,12 @@
         <translation>Krejt fotot dhe videot</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="100"/>
+        <location filename="../qml/main.qml" line="102"/>
         <source>Import successful</source>
         <translation>Importim i suksesshëm</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="102"/>
+        <location filename="../qml/main.qml" line="104"/>
         <source>Import failed</source>
         <translation>Importimi dështoi</translation>
     </message>
