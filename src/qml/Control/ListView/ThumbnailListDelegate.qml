@@ -108,28 +108,69 @@ Rectangle {
         maskSource: maskRec
     }
 
+    MouseArea {
+        id:mouseAreaTopParentRect
+        anchors.fill: parent
+        hoverEnabled: true
+        propagateComposedEvents: true
+
+        //属性：是否hover
+        property bool bHovered: false
+
+        onClicked: {
+            //允许鼠标事件传递给子控件处理,否则鼠标点击缩略图收藏图标不能正常工作
+            mouse.accepted = false
+        }
+
+        onEntered: {
+            bHovered = true
+        }
+
+        onExited: {
+            bHovered = false
+        }
+    }
+
     //收藏图标
     ActionButton {
         id: itemFavoriteBtn
-        visible: albumControl.photoHaveFavorited(m_url, global.bRefreshFavoriteIconFlag)
+        visible: albumControl.photoHaveFavorited(m_url, global.bRefreshFavoriteIconFlag) || mouseAreaTopParentRect.bHovered
         anchors.bottom: image.bottom
         anchors.left: image.left
         anchors.leftMargin : (image.width - image.paintedWidth) / 2 + 5
         anchors.bottomMargin : (image.height - image.paintedHeight) / 2 + 5
+        hoverEnabled: false  //设置为false，可以解决鼠标移动到图标附近时，图标闪烁问题
 
         icon {
-            name: "collected"
+            name: albumControl.photoHaveFavorited(m_url, global.bRefreshFavoriteIconFlag) ? "collected" : "collection2"
         }
 
-        onClicked: {
-            var paths = []
-            paths.push(m_url)
-            albumControl.removeFromAlbum(0, paths)
-            global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
-            // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
-            if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId === 0) {
-                global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
+        MouseArea {
+            id:mouseAreaFavoriteBtn
+            anchors.fill: itemFavoriteBtn
+            propagateComposedEvents: true
+
+            onClicked: {
+                var paths = []
+                paths.push(m_url)
+
+                if (albumControl.photoHaveFavorited(m_url, global.bRefreshFavoriteIconFlag)) {
+                    //取消收藏
+                    albumControl.removeFromAlbum(0, paths)
+                } else {
+                    //收藏
+                    albumControl.insertIntoAlbum(0, paths)
+                }
+
+                global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+                // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
+                if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId === 0) {
+                    global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
+                }
+
+                mouse.accepted = true
             }
+
         }
     }
 

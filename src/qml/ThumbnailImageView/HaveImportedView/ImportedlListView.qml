@@ -84,10 +84,10 @@ Item {
 
     // 通知已导入视图标题栏区域，调整色差校正框选框大小
     Connections {
-        target: rubberBand
+        target: rubberBandImport
         onRectSelChanged: {
-            var pos1 = theView.contentItem.mapToItem(importedListView, rubberBand.left(), rubberBand.top())
-            var pos2 = theView.contentItem.mapToItem(importedListView, rubberBand.right(), rubberBand.bottom())
+            var pos1 = theView.contentItem.mapToItem(importedListView, rubberBandImport.left(), rubberBandImport.top())
+            var pos2 = theView.contentItem.mapToItem(importedListView, rubberBandImport.right(), rubberBandImport.bottom())
             rectSelTitleChanged(albumControl.rect(pos1, pos2))
         }
     }
@@ -102,7 +102,7 @@ Item {
         height: parent.height
         delegate: importedListDelegate
         //鼠标正在按下状态
-        property bool inPress: false
+        property bool inPress: theMouseArea.pressedButtons & Qt.LeftButton
         //框选滚动方向
         property var scrollDirType: GlobalVar.RectScrollDirType.NoType
         property var listContentHeight
@@ -115,13 +115,19 @@ Item {
         }
 
         MouseArea {
+            id: theMouseArea
             // 鼠标区域需要包含空白区域，否则点击空白区域会拖动相册应用
             anchors.fill: parent.contentHeight > parent.height ? parent.contentItem : parent
             acceptedButtons: Qt.LeftButton //仅激活左键
+            propagateComposedEvents: true
 
             property bool ctrlPressed: false // 记录ctrl是否按下
 
-            id: theMouseArea
+            onClicked: {
+                //允许鼠标事件传递给子控件处理,否则鼠标点击缩略图收藏图标不能正常工作
+                //注意：不能传递onPressed、onReleased等基础事件，会有bug；合成事件onClicked等可以传递
+                mouse.accepted = false
+            }
 
             onPressed: {
                 if(mouse.button == Qt.RightButton) {
@@ -145,21 +151,18 @@ Item {
                 ctrlPressed = Qt.ControlModifier & mouse.modifiers
 
                 theView.scrollDirType = GlobalVar.RectScrollDirType.NoType
-                parent.inPress = true
-                rubberBand.x1 = mouse.x
-                rubberBand.y1 = mouse.y
-                rubberBand.x2 = mouse.x
-                rubberBand.y2 = mouse.y
-                mouse.accepted = true
+
+                rubberBandImport.x1 = mouse.x
+                rubberBandImport.y1 = mouse.y
+                rubberBandImport.x2 = mouse.x
+                rubberBandImport.y2 = mouse.y
             }
+
             onDoubleClicked: {
                 if (global.selectedPaths.length > 0)
                     theView.dbClicked(global.selectedPaths[0])
 
-                parent.inPress = false
-                rubberBand.clearRect()
-
-                mouse.accepted = true
+                rubberBandImport.clearRect()
             }
 
             onMouseXChanged: {
@@ -168,10 +171,11 @@ Item {
                     return
                 }
 
-                rubberBand.x2 = mouse.x
-
-                mouse.accepted = true
+                if (parent.inPress) {
+                    rubberBandImport.x2 = mouse.x
+                }
             }
+
             onMouseYChanged: {
                 if(mouse.button == Qt.RightButton) {
                     mouse.accepted = false
@@ -179,7 +183,9 @@ Item {
                 }
 
                 // 刷新矩形第二锚点，内部触发updateRect，保证y2值标记为矩形底部坐标
-                rubberBand.y2 = mouse.y
+                if (parent.inPress) {
+                    rubberBandImport.y2 = mouse.y
+                }
 
                 // 确定滚动延展方向（向上还是向下）
                 var parentY = mapToItem(theView, mouse.x, mouse.y).y
@@ -197,31 +203,26 @@ Item {
 
                 var gPos = theMouseArea.mapToGlobal(mouse.x, mouse.y)
                 sigListViewReleased(gPos.x, gPos.y)
-
-                mouse.accepted = true
             }
+
             onReleased: {
                 if(mouse.button == Qt.RightButton) {
                     mouse.accepted = false
                     return
                 }
 
-                parent.inPress = false
-
                 // ctrl按下，鼠标点击事件释放时，需要再发送一次框选改变信号，用来在鼠标释放时实现ctrl取消选中的功能
-                if ((Qt.ControlModifier & mouse.modifiers) && rubberBand.width < 3 & rubberBand.height < 3) {
-                    rubberBand.rectSelChanged()
+                if ((Qt.ControlModifier & mouse.modifiers) && rubberBandImport.width < 3 & rubberBandImport.height < 3) {
+                    rubberBandImport.rectSelChanged()
                 }
 
                 ctrlPressed = false
 
                 theView.scrollDirType = GlobalVar.RectScrollDirType.NoType
-                rubberBand.clearRect()
+                rubberBandImport.clearRect()
 
                 // 清除标题栏色差矫校正框选框
                 rectSelTitleChanged(albumControl.rect(Qt.point(0, 0), Qt.point(0, 0)))
-
-                mouse.accepted = true
             }
             onWheel: {
                 // 滚动时，激活滚动条显示
@@ -246,7 +247,7 @@ Item {
 
             //橡皮筋控件
             RubberBand {
-                id: rubberBand
+                id: rubberBandImport
                 visible: theView.inPress
             }
 
@@ -258,51 +259,51 @@ Item {
                 onTriggered: {
                     // 选择框向下延展滚动
                     if (theView.scrollDirType === GlobalVar.RectScrollDirType.ToBottom) {
-                        var newY2 = rubberBand.y2 + theView.rectSelScrollOffset
+                        var newY2 = rubberBandImport.y2 + theView.rectSelScrollOffset
                         if (newY2 <= theView.listContentHeight) {
-                            rubberBand.y2 = newY2
+                            rubberBandImport.y2 = newY2
                             theView.contentY = theView.contentY + theView.rectSelScrollOffset + theView.originY
                         } else {
                             // 选择框底部最大值为内容区域底部
                             theView.contentY = theView.listContentHeight - theView.height
-                            rubberBand.y2 = theView.listContentHeight
+                            rubberBandImport.y2 = theView.listContentHeight
                             rectScrollTimer.stop()
                         }
                     } else if (theView.scrollDirType === GlobalVar.RectScrollDirType.ToTop) {
-                        if (rubberBand.top() < 0) {
+                        if (rubberBandImport.top() < 0) {
                             rectScrollTimer.stop()
                             return
                         }
 
                         // 矩形顶部向上延展
-                        if (theView.contentY <= rubberBand.bottom() || rubberBand.bottom() === rubberBand.top()) {
-                            var newTop = rubberBand.top() - theView.rectSelScrollOffset
+                        if (theView.contentY <= rubberBandImport.bottom() || rubberBandImport.bottom() === rubberBandImport.top()) {
+                            var newTop = rubberBandImport.top() - theView.rectSelScrollOffset
                             if (newTop > 0) {
-                                rubberBand.y2 = newTop
+                                rubberBandImport.y2 = newTop
                                 theView.contentY = theView.contentY - theView.rectSelScrollOffset + theView.originY
                             } else {
                                 // 选择框顶部最小值为内容区域顶部
-                                rubberBand.y2 = 0
+                                rubberBandImport.y2 = 0
                                 theView.contentY = 0 + theView.originY
 
                                 rectScrollTimer.stop()
                             }
                         } else {
                             // 矩形框底部向上收缩
-                            var newBottom = rubberBand.bottom() - theView.rectSelScrollOffset
-                            if (newBottom > rubberBand.top()) {
-                                rubberBand.y2 = newBottom
+                            var newBottom = rubberBandImport.bottom() - theView.rectSelScrollOffset
+                            if (newBottom > rubberBandImport.top()) {
+                                rubberBandImport.y2 = newBottom
                                 theView.contentY = theView.contentY - theView.rectSelScrollOffset + theView.originY
                             } else {
-                                var srcollOffset = Math.abs(rubberBand.y1 - rubberBand.y2)
-                                rubberBand.y2 = rubberBand.y1
+                                var srcollOffset = Math.abs(rubberBandImport.y1 - rubberBandImport.y2)
+                                rubberBandImport.y2 = rubberBandImport.y1
                                 theView.contentY = theView.contentY - srcollOffset + theView.originY
                             }
                         }
                     }
                 }
             }
-        }
+        }//MouseArea
     }
 
     Connections {
@@ -422,10 +423,10 @@ Item {
                 }
 
                 Connections {
-                    target: rubberBand
+                    target: rubberBandImport
                     onRectSelChanged: {
-                        var pos1 = theMouseArea.mapToItem(importedGridView, rubberBand.left(), rubberBand.top())
-                        var pos2 = theMouseArea.mapToItem(importedGridView, rubberBand.right(), rubberBand.bottom())
+                        var pos1 = theMouseArea.mapToItem(importedGridView, rubberBandImport.left(), rubberBandImport.top())
+                        var pos2 = theMouseArea.mapToItem(importedGridView, rubberBandImport.right(), rubberBandImport.bottom())
                         var rectsel = albumControl.rect(pos1, pos2)
                         var rectList = Qt.rect(0, 0, importedGridView.width, importedGridView.height)
                         var rect = albumControl.intersected(rectList, rectsel)

@@ -453,6 +453,12 @@ Item {
 
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton | Qt.RightButton
+            propagateComposedEvents: true
+
+            onClicked: {
+                //允许鼠标事件传递给子控件处理,否则鼠标点击缩略图收藏图标不能正常工作
+                mouse.accepted = false
+            }
 
             onPressed: {
                 forceActiveFocus()
@@ -494,17 +500,6 @@ Item {
                             parent.ism = [index]
                         selectedChanged()
                     } else if (parent.ism.indexOf(index) >= 0) {
-                        var item = parent.itemAt(mouseX, mouseY + parent.contentY)
-                        if (item !== null) {
-                            var pos = theArea.mapToItem(item, mouseX, mouseY + parent.contentY)
-                            var subItem = item.childAt(pos.x, pos.y)
-                            // 判断是否点击的鼠标位置是否在收藏按钮上，若在，则不接受鼠标事件，让代理中的收藏按钮相应点击事件
-                            if (subItem !== null && item.m_favoriteBtn === subItem) {
-                                mouse.accepted = false
-                                return
-                            }
-                        }
-
                         // 按住ctrl，点击在已选项，取消当前已选项
                         if (Qt.ControlModifier & mouse.modifiers) {
                             var removeIsm = parent.ism
