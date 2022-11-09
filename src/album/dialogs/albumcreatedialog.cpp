@@ -95,6 +95,7 @@ void AlbumCreateDialog::initUI()
     edit->setClearButtonEnabled(false);
     edit->setFixedSize(360, 36);
     edit->move(10, 79);
+    edit->lineEdit()->setMaxLength(255);
     DFontSizeManager::instance()->bind(edit, DFontSizeManager::T6, QFont::DemiBold);
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Create"), true, DDialog::ButtonRecommend);
