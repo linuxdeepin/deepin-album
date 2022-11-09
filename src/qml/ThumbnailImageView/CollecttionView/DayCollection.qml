@@ -218,10 +218,18 @@ Item {
             // 鼠标区域需要包含空白区域，否则点击空白区域会拖动相册应用
             anchors.fill: parent.contentHeight > parent.height ? parent.contentItem : parent
             acceptedButtons: Qt.LeftButton
+            propagateComposedEvents: true
 
             property bool ctrlPressed: false //记录ctrl是否按下
 
             id: theMouseArea
+
+            onClicked: {
+                //允许鼠标事件传递给子控件处理,否则鼠标点击缩略图收藏图标不能正常工作
+                //同时propagateComposedEvents需设置为true
+                //注意：不能传递onPressed、onReleased等基础事件，会有bug；合成事件onClicked等可以传递
+                mouse.accepted = false
+            }
 
             onPressed: {
                 if(mouse.button == Qt.RightButton) {
