@@ -176,8 +176,7 @@ void AlbumLeftTabItem::initUI()
     m_pLineEdit->lineEdit()->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
 
     m_pLineEdit->setVisible(false);
-//    m_pLineEdit->setMaxLength(64);
-    m_pLineEdit->lineEdit()->setMaxLength(64);
+    m_pLineEdit->lineEdit()->setMaxLength(255);
 
     m_pLineEdit->setClearButtonEnabled(false);
 
