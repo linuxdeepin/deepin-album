@@ -221,7 +221,7 @@ Rectangle {
         anchors.leftMargin : 5
         anchors.bottomMargin : 5
         opacity: 0.7
-        displayStr: remainDays + qsTr("days")
+        displayStr: remainDays > 1 ? (remainDays + qsTr("days")) : (remainDays + qsTr("day"))
         height: 22
         width: 44
     }

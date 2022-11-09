@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="zh_CN">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -302,27 +300,27 @@
 <context>
     <name>AllCollection</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="55"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="65"/>
         <source>1 photo</source>
         <translation>共1张照片</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="57"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="67"/>
         <source>%1 photos</source>
         <translation>共%1张照片</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="65"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="75"/>
         <source>1 video</source>
         <translation>共1个视频</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="67"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="77"/>
         <source>%1 videos</source>
         <translation>共%1个视频</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="181"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="191"/>
         <source>No results</source>
         <translation>无结果</translation>
     </message>
@@ -1431,6 +1429,11 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="224"/>
         <source>days</source>
+        <translation>天</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="224"/>
+        <source>day</source>
         <translation>天</translation>
     </message>
 </context>

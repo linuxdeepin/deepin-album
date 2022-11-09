@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="cs">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="cs">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -226,7 +224,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="58"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="61"/>
@@ -246,12 +244,12 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="116"/>
         <source>Original ratio</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="116"/>
         <source>Square thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="152"/>
@@ -302,27 +300,27 @@
 <context>
     <name>AllCollection</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="55"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="65"/>
         <source>1 photo</source>
         <translation>1 fotka</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="57"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="67"/>
         <source>%1 photos</source>
         <translation>%1 fotek</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="65"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="75"/>
         <source>1 video</source>
         <translation>1 video</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="67"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="77"/>
         <source>%1 videos</source>
         <translation>%1 videí</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="181"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="191"/>
         <source>No results</source>
         <translation>Nic nenalezeno</translation>
     </message>
@@ -555,12 +553,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="200"/>
         <source>Import 1 Item</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="201"/>
         <source>Import %1 Items</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="208"/>
@@ -769,7 +767,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="1240"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="1244"/>
@@ -779,7 +777,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="1268"/>
         <source>Image Viewing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="1272"/>
@@ -804,7 +802,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="1300"/>
         <source>Live Text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -835,37 +833,37 @@
     <message>
         <location filename="../qml/GlobalVar.qml" line="197"/>
         <source>1 item selected (1 photo)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="199"/>
         <source>1 item selected (1 video)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="201"/>
         <source>%1 items selected (%1 photos)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="203"/>
         <source>%1 items selected (%1 videos)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="205"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="207"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="209"/>
         <source>%1 items selected (%2 photos, %3 videos)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -906,7 +904,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageViewer.qml" line="687"/>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -950,7 +948,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InfomationDialog.qml" line="66"/>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InfomationDialog.qml" line="77"/>
@@ -1045,7 +1043,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InfomationDialog.qml" line="203"/>
         <source>Device model</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InfomationDialog.qml" line="208"/>
@@ -1146,12 +1144,12 @@
         <location filename="../src/albumControl.cpp" line="781"/>
         <location filename="../src/albumControl.cpp" line="830"/>
         <source>%1/%2/%3 %4:%5</source>
-        <translation type="unfinished">%1/%2/%3 %4:%5</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="812"/>
         <source>%1</source>
-        <translation type="unfinished">%1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="818"/>
@@ -1347,7 +1345,7 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="259"/>
         <source>Add an album</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="285"/>
@@ -1431,7 +1429,12 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="224"/>
         <source>days</source>
-        <translation type="unfinished"></translation>
+        <translation>dní</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="224"/>
+        <source>day</source>
+        <translation>den</translation>
     </message>
 </context>
 <context>
@@ -1552,7 +1555,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="118"/>
         <source>Back to Album</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="160"/>
@@ -1610,7 +1613,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="62"/>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="72"/>
@@ -1802,7 +1805,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="85"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="87"/>
@@ -1815,7 +1818,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="112"/>
         <source>%1</source>
-        <translation type="unfinished">%1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="123"/>

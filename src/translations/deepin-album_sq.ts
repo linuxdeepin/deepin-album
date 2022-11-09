@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sq">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sq">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -173,7 +171,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1765"/>
         <source>Screen Capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1767"/>
@@ -183,7 +181,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1769"/>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1834"/>
@@ -302,27 +300,27 @@
 <context>
     <name>AllCollection</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="55"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="65"/>
         <source>1 photo</source>
         <translation>1 foto</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="57"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="67"/>
         <source>%1 photos</source>
         <translation>%1 foto</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="65"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="75"/>
         <source>1 video</source>
         <translation>1 video</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="67"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="77"/>
         <source>%1 videos</source>
         <translation>%1 video</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="181"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="191"/>
         <source>No results</source>
         <translation>Pa përfundime</translation>
     </message>
@@ -367,7 +365,7 @@
         <location filename="../src/dbmanager/dbmanager.cpp" line="466"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="491"/>
         <source>Screen Capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="450"/>
@@ -380,7 +378,7 @@
         <location filename="../src/dbmanager/dbmanager.cpp" line="451"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="501"/>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="1790"/>
@@ -804,7 +802,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="1300"/>
         <source>Live Text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1352,7 +1350,7 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="285"/>
         <source>Screen Capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="289"/>
@@ -1362,7 +1360,7 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="293"/>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="400"/>
@@ -1431,7 +1429,12 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="224"/>
         <source>days</source>
-        <translation type="unfinished"></translation>
+        <translation>ditë</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="224"/>
+        <source>day</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1681,7 +1684,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="174"/>
         <source>Audio digit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="185"/>
@@ -1691,7 +1694,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="192"/>
         <source>Sampling</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

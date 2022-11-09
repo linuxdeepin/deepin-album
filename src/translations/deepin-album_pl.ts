@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pl">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -302,27 +300,27 @@
 <context>
     <name>AllCollection</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="55"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="65"/>
         <source>1 photo</source>
         <translation>1 zdjęcie</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="57"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="67"/>
         <source>%1 photos</source>
         <translation>%1 zdjęć</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="65"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="75"/>
         <source>1 video</source>
         <translation>1 film</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="67"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="77"/>
         <source>%1 videos</source>
         <translation>%1 filmów</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="181"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="191"/>
         <source>No results</source>
         <translation>Brak wyników</translation>
     </message>
@@ -1431,7 +1429,12 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="224"/>
         <source>days</source>
-        <translation type="unfinished"></translation>
+        <translation>dni</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="224"/>
+        <source>day</source>
+        <translation>dzień</translation>
     </message>
 </context>
 <context>

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pt">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pt">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -302,27 +300,27 @@
 <context>
     <name>AllCollection</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="55"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="65"/>
         <source>1 photo</source>
         <translation>1 foto</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="57"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="67"/>
         <source>%1 photos</source>
         <translation>%1 fotos</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="65"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="75"/>
         <source>1 video</source>
         <translation>1 vídeo</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="67"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="77"/>
         <source>%1 videos</source>
         <translation>%1 vídeos</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="181"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="191"/>
         <source>No results</source>
         <translation>Sem resultados</translation>
     </message>
@@ -845,22 +843,22 @@
     <message>
         <location filename="../qml/GlobalVar.qml" line="201"/>
         <source>%1 items selected (%1 photos)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="203"/>
         <source>%1 items selected (%1 videos)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="205"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="207"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="209"/>
@@ -1431,7 +1429,12 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="224"/>
         <source>days</source>
-        <translation type="unfinished"></translation>
+        <translation>dias</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="224"/>
+        <source>day</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
