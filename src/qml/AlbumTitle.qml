@@ -472,6 +472,8 @@ Rectangle {
 
             Component.onCompleted: {
                 rightLayout.anchors.leftMargin = title.width <= global.needHideSideBarWidth ? layoutLeftMargin_AlignLeft : layoutLeftMargin_AlignRight
+                // 第一次打开相册，默认显示所有项目界面
+                collectionCombo.setCurrentIndex(3)
             }
         }
     }
