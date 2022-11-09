@@ -183,7 +183,7 @@ Rectangle {
                     id: range1Button
                     Layout.preferredWidth: 36
                     Layout.preferredHeight: 36
-                    enabled: global.statusBarNumText !== ""
+                    enabled: global.statusBarNumText !== "" && !(global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion &&  collectionCombo.currentIndex === 0)
                     ToolTip.visible: hovered
                     ToolTip.text: icon.name === "range1" ? qsTr("Original ratio") : qsTr("Square thumbnails")
                     icon {
