@@ -7,10 +7,12 @@ Item {
     property var imgPaths
     property var imgCurrentPath
     property int imgCurrentIndex: 0
-    property int minHeight: 300
-    property int minWidth: 628
+    property int minHeight: 520
+    property int minWidth: 724
     property int albumMinHeight: 300
     property int albumMinWidth: 628
+
+    property int needHideSideBarWidth: 783 //需要隐藏侧边栏的时，主界面宽度
 
     property int minHideHeight: 425 //调整窗口高度小于425px时，隐藏工具栏和标题栏
     property int floatMargin: 60

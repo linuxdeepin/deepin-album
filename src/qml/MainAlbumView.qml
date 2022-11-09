@@ -6,6 +6,7 @@ import "./Control"
 import "./SideBar"
 Rectangle {
     anchors.fill: parent
+    property int lastWidth: 0
     AlbumTitle{
         id:titleAlubmRect
         z:100
@@ -30,10 +31,24 @@ Rectangle {
         visible: true
         z: thumbnailImage.z + 1
 
-//        Rectangle {
-//            anchors.fill: parent
-//            color: Qt.rgba(0.3,0.3,0.3,0.3)
-//        }
+        Component.onCompleted: {
+            x =  parent.width <= global.needHideSideBarWidth ? -200 : 0
+        }
+    }
+
+    // 侧边栏跟随窗口尺寸展开/收起
+    onWidthChanged: {
+        if (width <= global.needHideSideBarWidth) {
+            if (leftSidebar.x === 0 && (lastWidth > width)) {
+                hideSliderAnimation.start()
+            }
+        } else {
+            if (leftSidebar.x < 0 && (lastWidth < width)) {
+                showSliderAnimation.start()
+            }
+        }
+
+        lastWidth = width
     }
 
     //左右按钮隐藏动画
