@@ -158,6 +158,9 @@ void AlbumLeftTabItem::initUI()
     m_nameLabel->setForegroundRole(DPalette::TextTitle);
 //    m_nameLabel->setPalette(pa);
 
+    // 设置标签不显示多文本
+    m_nameLabel->setTextFormat(Qt::PlainText);
+
     m_pLineEdit->setParent(pWidget);
     m_pLineEdit->setGeometry(QRect(0, 0, 120, 40));
     if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr) {
