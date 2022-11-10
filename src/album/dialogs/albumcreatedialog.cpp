@@ -96,6 +96,12 @@ void AlbumCreateDialog::initUI()
     edit->setFixedSize(360, 36);
     edit->move(10, 79);
     edit->lineEdit()->setMaxLength(utils::common::ALBUM_NAME_MAX_LENGTH);
+
+    // 相册名称限制特殊字符输入
+    QRegExp regExp("[^/\\\\\\[\\]:|<>+=;,?*'\"]+");
+    QRegExpValidator *pattern = new QRegExpValidator(regExp, this);
+    edit->lineEdit()->setValidator(pattern);
+
     DFontSizeManager::instance()->bind(edit, DFontSizeManager::T6, QFont::DemiBold);
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Create"), true, DDialog::ButtonRecommend);

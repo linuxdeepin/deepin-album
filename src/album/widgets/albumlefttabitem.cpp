@@ -178,6 +178,11 @@ void AlbumLeftTabItem::initUI()
     m_pLineEdit->setVisible(false);
     m_pLineEdit->lineEdit()->setMaxLength(utils::common::ALBUM_NAME_MAX_LENGTH);
 
+    // 相册名称限制特殊字符输入
+    QRegExp regExp("[^/\\\\\\[\\]:|<>+=;,?*'\"]+");
+    QRegExpValidator *pattern = new QRegExpValidator(regExp, this);
+    m_pLineEdit->lineEdit()->setValidator(pattern);
+
     m_pLineEdit->setClearButtonEnabled(false);
 
     pHBoxLayout->addWidget(pImageLabel, Qt::AlignVCenter);
