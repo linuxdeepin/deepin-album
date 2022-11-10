@@ -1785,15 +1785,16 @@ void AlbumView::importFromMountDevice(const QStringList &paths)
 
     ImageEngineApi::instance()->importImageFilesFromMount(albumName, UID, paths, this); //执行导入
 
-    for (int i = 0; i < m_pLeftListView->m_pMountListWidget->count(); i++) {
-        QListWidgetItem *pListWidgetItem = m_pLeftListView->m_pMountListWidget->item(i);
-        AlbumLeftTabItem *pAlbumLeftTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pMountListWidget->itemWidget(pListWidgetItem));
-        if (!pAlbumLeftTabItem) continue;
-        if (UID == pAlbumLeftTabItem->m_UID) { //切换条件用UID同步
-            m_pLeftListView->m_pMountListWidget->setCurrentRow(i);
-            break;
-        }
-    }
+    //修复bug164385，注释以下代码
+//    for (int i = 0; i < m_pLeftListView->m_pMountListWidget->count(); i++) {
+//        QListWidgetItem *pListWidgetItem = m_pLeftListView->m_pMountListWidget->item(i);
+//        AlbumLeftTabItem *pAlbumLeftTabItem = dynamic_cast<AlbumLeftTabItem *>(m_pLeftListView->m_pMountListWidget->itemWidget(pListWidgetItem));
+//        if (!pAlbumLeftTabItem) continue;
+//        if (UID == pAlbumLeftTabItem->m_UID) { //切换条件用UID同步
+//            m_pLeftListView->m_pMountListWidget->setCurrentRow(i);
+//            break;
+//        }
+//    }
 }
 
 bool AlbumView::imageMountImported(QStringList &filelist)
