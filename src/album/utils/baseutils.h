@@ -82,7 +82,7 @@ const int SHADOW_BORDER_RADIUS = 14;
 const int BORDER_WIDTH = 0;
 const int BORDER_WIDTH_SELECTED = 7;
 const int THUMBNAIL_MAX_SCALE_SIZE = 192;
-
+const int ALBUM_NAME_MAX_LENGTH = 255;
 
 const QColor DARK_BACKGROUND_COLOR = QColor("#252525");
 const QColor DARK_BACKGROUND_COLOR2 = QColor(0, 0, 0, 76);

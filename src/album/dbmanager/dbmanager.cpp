@@ -635,19 +635,23 @@ int DBManager::createAlbum(const QString &album, const QStringList &paths, Album
     m_query->setForwardOnly(true);
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
     }
-    auto qs = QString("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, \"%1\", ?, %2, %3)").arg(album).arg(atype).arg(currentUID);
+    auto qs = QString("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, ?, ?, %1, %2)").arg(atype).arg(currentUID);
     bool b = m_query->prepare(qs);
     if (!b) {
+        qDebug() << m_query->lastError().text();
         return -1;
     }
 
     for (auto &eachHash : pathHashs) {
+        m_query->addBindValue(album);
         m_query->addBindValue(eachHash);
         if (!m_query->exec()) {
+            qDebug() << m_query->lastError().text();
         }
     }
 
     if (!m_query->exec("COMMIT")) {
+        qDebug() << m_query->lastError().text();
     }
 
     //FIXME: Don't insert the repeated filepath into the same album
@@ -681,12 +685,12 @@ bool DBManager::insertIntoAlbum(int UID, const QStringList &paths, AlbumDBType a
     }
 
     QString qs = QString("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, AlbumDBType, UID, PathHash)"
-                         " VALUES (null, \"%1\", %2, %3, ?)")
-                 .arg(album).arg(atype).arg(UID);
+                         " VALUES (null, ?, %1, %2, ?)").arg(atype).arg(UID);
     if (!m_query->prepare(qs)) {
     }
     for (auto &eachPath : paths) {
         if (QFile::exists(eachPath)) { //需要路径存在才能执行添加到相册
+            m_query->addBindValue(album);
             m_query->addBindValue(utils::base::hashByString(eachPath));
             if (!m_query->exec()) {
             }
@@ -754,7 +758,13 @@ void DBManager::removeFromAlbum(int UID, const QStringList &paths, AlbumDBType a
 void DBManager::renameAlbum(int UID, const QString &newAlbum, AlbumDBType atype)
 {
     QMutexLocker mutex(&m_dbMutex);
-    if (!m_query->exec(QString("UPDATE AlbumTable3 SET AlbumName=\"%1\" WHERE UID=%2 AND AlbumDBType=%3").arg(newAlbum).arg(UID).arg(atype))) {
+
+    QString qs = QString("UPDATE AlbumTable3 SET AlbumName=:name WHERE UID=%1 AND AlbumDBType=%2").arg(UID).arg(atype);
+    if (!m_query->prepare(qs)) {
+    }
+    m_query->bindValue(":name", newAlbum);
+
+    if (!m_query->exec()) {
     }
 }
 
@@ -961,15 +971,24 @@ int DBManager::createNewCustomAutoImportPath(const QString &path, const QString 
     //1.新建相册
     int UID = albumMaxUID++;
 
-    if (!m_query->exec(QString("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, \"%1\", \"%2\", %3, %4)")
-                       .arg(albumName).arg("7215ee9c7d9dc229d2921a40e899ec5f").arg(AutoImport).arg(UID))) {
+    QString qs1 = QString("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, ?, \"%1\", %2, %3)")
+                  .arg("7215ee9c7d9dc229d2921a40e899ec5f").arg(AutoImport).arg(UID);
+    if (!m_query->prepare(qs1)) {
+    }
+    m_query->addBindValue(albumName);
+
+    if (!m_query->exec()) {
         return -1;
     }
 
     //2.新建保存路径
+    QString qs2 = QString("INSERT INTO CustomAutoImportPathTable3 (UID, FullPath, AlbumName) VALUES (%1, ?, ?)").arg(UID);
+    if (!m_query->prepare(qs2)) {
+    }
+    m_query->addBindValue(path);
+    m_query->addBindValue(albumName);
 
-    if (!m_query->exec(QString("INSERT INTO CustomAutoImportPathTable3 (UID, FullPath, AlbumName) VALUES (%1, \"%2\", \"%3\")")
-                       .arg(UID).arg(path).arg(albumName))) {
+    if (!m_query->exec()) {
         return -1;
     }
 
