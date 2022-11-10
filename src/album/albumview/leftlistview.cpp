@@ -64,7 +64,6 @@ void LeftListView::initConnections()
     connect(m_pCustomizeListView, &LeftListWidget::sigMouseReleaseEvent, this, &LeftListView::onCustomListViewPressed);
     connect(m_pMountListWidget, &LeftListWidget::sigMouseReleaseEvent, this, &LeftListView::onMountListViewPressed);
 
-
     connect(m_pCustomizeListView, &QListView::customContextMenuRequested, this, &LeftListView::showMenu);
     connect(m_pMenu, &DMenu::triggered, this, &LeftListView::onMenuClicked);
     connect(m_pAddListBtn, &DPushButton::clicked, this, &LeftListView::onAddListBtnClicked);
@@ -75,7 +74,6 @@ void LeftListView::initConnections()
     connect(m_pPhotoLibListView, &LeftListWidget::sigMouseMoveEvent, this, &LeftListView::onMouseMove);
     connect(m_pCustomizeListView, &LeftListWidget::sigMouseMoveEvent, this, &LeftListView::onMouseMove);
     connect(m_pMountListWidget, &LeftListWidget::sigMouseMoveEvent, this, &LeftListView::onMouseMove);
-
 
     connect(m_pPhotoLibListView, &DListWidget::currentItemChanged, this, &LeftListView::onPhotoLibListViewCurrentItemChanged);
     connect(m_pCustomizeListView, &DListWidget::currentItemChanged, this, &LeftListView::onCustomizeListViewCurrentItemChanged);
@@ -595,6 +593,8 @@ void LeftListView::onPhotoLibListViewCurrentItemChanged()
             m_currentUID = DBManager::u_Favorite;
         }
     }
+
+    onPhotoLibListViewPressed(QModelIndex());
 }
 
 void LeftListView::onCustomizeListViewCurrentItemChanged()
@@ -615,6 +615,8 @@ void LeftListView::onCustomizeListViewCurrentItemChanged()
         }
         m_ItemCurrentType = COMMON_STR_CUSTOM;
     }
+
+    onCustomListViewPressed(QModelIndex());
 }
 
 void LeftListView::onMountListWidgetCurrentItemChanged()
@@ -635,6 +637,8 @@ void LeftListView::onMountListWidgetCurrentItemChanged()
         }
         m_ItemCurrentType = ALBUM_PATHTYPE_BY_PHONE;
     }
+
+    onMountListViewPressed(QModelIndex());
 }
 
 void LeftListView::onAddListBtnClicked()
