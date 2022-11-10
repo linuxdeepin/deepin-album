@@ -307,6 +307,7 @@ void SearchView::onSlideShow(const QString &path)
     info.fullScreen = true;
     info.slideShow = true;
     info.viewType = utils::common::VIEW_SEARCH_SRN;
+    info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
     emit dApp->signalM->startSlideShow(info);
 }
 
