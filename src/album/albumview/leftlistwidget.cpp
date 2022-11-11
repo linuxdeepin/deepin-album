@@ -62,11 +62,18 @@ void LeftListWidget::dragEnterEvent(QDragEnterEvent *event)
 }
 
 void LeftListWidget::mousePressEvent(QMouseEvent *e)
-{
+{ 
     QModelIndex index = indexAt(e->pos());
     if (!index.isValid()) {
         emit sigMousePressIsNoValid();
     }
+
+    //屏蔽双击与重复点击
+    if (!index.isValid() || m_indexLastPress == index.row()) {
+        return;
+    }
+    m_indexLastPress = index.row();
+
     DListWidget::mousePressEvent(e);
 }
 
@@ -125,4 +132,14 @@ void LeftListWidget::SaveRename(QPoint p)
             }
         }
     }
+}
+
+void LeftListWidget::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    //没有选中项，则重置m_indexLastPress
+    if (selected.indexes().length() == 0) {
+        m_indexLastPress = -1;
+    }
+
+    DListWidget::selectionChanged(selected, deselected);
 }
