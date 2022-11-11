@@ -94,7 +94,8 @@ const QList<QDateTime> DBManager::getAllTimelines() const
     QMutexLocker mutex(&m_dbMutex);
     QList<QDateTime> times;
     m_query->setForwardOnly(true);
-    if (!m_query->exec("SELECT DISTINCT Time FROM ImageTable3 ORDER BY Time DESC")) {
+    // 时间线界面按日期展示相册内容，所以从数据库筛选出日期即可，不用筛选出具体时间
+    if (!m_query->exec("SELECT DISTINCT substr(Time, 0, 11)  FROM ImageTable3 ORDER BY Time DESC")) {
         return times;
     } else {
         while (m_query->next()) {
@@ -110,9 +111,10 @@ const DBImgInfoList DBManager::getInfosByTimeline(const QDateTime &timeline) con
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
 
-    bool b = m_query->prepare(QString("SELECT FilePath, FileType FROM ImageTable3 "
-                                      "WHERE Time = :Date ORDER BY Time DESC"));
-    m_query->bindValue(":Date", timeline);
+    // 使用模糊搜索获取对应日期的图片或视频
+    QString sqlStr = QString("SELECT FilePath, FileType FROM ImageTable3 "
+                             "WHERE Time LIKE \"%%1%\" ORDER BY Time DESC").arg(timeline.date().toString(Qt::ISODate));
+    bool b = m_query->prepare(sqlStr);
     if (!b || !m_query->exec()) {
     } else {
         while (m_query->next()) {
