@@ -96,6 +96,13 @@ void AlbumCreateDialog::initUI()
     edit->setFixedSize(360, 36);
     edit->move(10, 79);
     edit->lineEdit()->setMaxLength(utils::common::ALBUM_NAME_MAX_LENGTH);
+
+    // 相册名称不能包含正斜杠/，与文件路径分割符冲突，否则导出的相册会保存在以"/"之前的字串命名的目录中
+    // 相关bug见：https://pms.uniontech.com/bug-view-163885.html
+    QRegExp regExp("[^/]+");
+    QRegExpValidator *pattern = new QRegExpValidator(regExp, this);
+    edit->lineEdit()->setValidator(pattern);
+
     DFontSizeManager::instance()->bind(edit, DFontSizeManager::T6, QFont::DemiBold);
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Create"), true, DDialog::ButtonRecommend);
