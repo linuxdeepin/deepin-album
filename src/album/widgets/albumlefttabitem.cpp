@@ -417,3 +417,9 @@ void AlbumLeftTabItem::newAlbumStatus()
     pImageLabel->setPixmap(pixmap);
     m_nameLabel->setForegroundRole(DPalette::HighlightedText);
 }
+
+//解决bug165483,屏蔽该函数
+void AlbumLeftTabItem::mouseReleaseEvent(QMouseEvent *e)
+{
+    Q_UNUSED(e)
+}

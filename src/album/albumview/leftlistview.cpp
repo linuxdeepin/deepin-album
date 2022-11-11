@@ -199,7 +199,7 @@ void LeftListView::initUI()
 
         AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName.second, albumName.first, "AutoImport");
         pAlbumLeftTabItem->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_160 /*+ 8*/);
-        pAlbumLeftTabItem->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
+        pAlbumLeftTabItem->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40); 
         m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     }
 
@@ -593,8 +593,6 @@ void LeftListView::onPhotoLibListViewCurrentItemChanged()
             m_currentUID = DBManager::u_Favorite;
         }
     }
-
-    onPhotoLibListViewPressed(QModelIndex());
 }
 
 void LeftListView::onCustomizeListViewCurrentItemChanged()
@@ -615,8 +613,6 @@ void LeftListView::onCustomizeListViewCurrentItemChanged()
         }
         m_ItemCurrentType = COMMON_STR_CUSTOM;
     }
-
-    onCustomListViewPressed(QModelIndex());
 }
 
 void LeftListView::onMountListWidgetCurrentItemChanged()
@@ -637,8 +633,6 @@ void LeftListView::onMountListWidgetCurrentItemChanged()
         }
         m_ItemCurrentType = ALBUM_PATHTYPE_BY_PHONE;
     }
-
-    onMountListViewPressed(QModelIndex());
 }
 
 void LeftListView::onAddListBtnClicked()

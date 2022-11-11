@@ -28,6 +28,8 @@ public:
     void setExternalDevicesMountPath(QString strPath);
     QString getalbumname();
 
+    void mouseReleaseEvent(QMouseEvent *e) override;
+
 private:
     void initConnections();
     void initUI();

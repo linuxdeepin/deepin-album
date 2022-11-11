@@ -23,6 +23,8 @@ public:
     //重命名状态下，接收外层ListView的点击事件确认保存已修改的内容
     void SaveRename(QPoint p);
 
+    virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+
 protected:
     void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
@@ -34,7 +36,9 @@ signals:
     void sigMousePressIsNoValid();
     void sigMouseMoveEvent();
     void sigMouseReleaseEvent(QModelIndex index);
-
+private:
+    //最近点击item的索引
+    int m_indexLastPress = -1;
 };
 
 #endif  // LEFTLISTWIDGET_H
