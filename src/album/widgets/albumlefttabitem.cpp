@@ -181,6 +181,12 @@ void AlbumLeftTabItem::initUI()
     m_pLineEdit->setVisible(false);
     m_pLineEdit->lineEdit()->setMaxLength(utils::common::ALBUM_NAME_MAX_LENGTH);
 
+    // 相册名称不能包含正斜杠/，与文件路径分割符冲突，否则导出的相册会保存在以"/"之前的字串命名的目录中
+    // 相关bug见：https://pms.uniontech.com/bug-view-163885.html
+    QRegExp regExp("[^/]+");
+    QRegExpValidator *pattern = new QRegExpValidator(regExp, this);
+    m_pLineEdit->lineEdit()->setValidator(pattern);
+
     m_pLineEdit->setClearButtonEnabled(false);
 
     pHBoxLayout->addWidget(pImageLabel, Qt::AlignVCenter);
