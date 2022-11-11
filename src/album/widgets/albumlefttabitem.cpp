@@ -123,41 +123,15 @@ void AlbumLeftTabItem::initUI()
 
     m_nameLabel = new DDlabel(pWidget);
     m_nameLabel->setGeometry(QRect(16, 0, 118, 40));
-
-    QFontMetrics elideFont(m_nameLabel->font());
-    if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr) {
-        DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
-        m_nameLabel->Settext(tr("Import"));
-        AC_SET_OBJECT_NAME(m_nameLabel, Album_Import_Label);
-        AC_SET_ACCESSIBLE_NAME(m_nameLabel, Album_Import_Label);
-    } else if (COMMON_STR_TRASH == m_albumNameStr) {
-        DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
-        m_nameLabel->Settext(tr("Trash"));
-        AC_SET_OBJECT_NAME(m_nameLabel, Album_Trash_Label);
-        AC_SET_ACCESSIBLE_NAME(m_nameLabel, Album_Trash_Label);
-    } else if (COMMON_STR_FAVORITES == m_albumNameStr) {
-        DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
-        m_nameLabel->Settext(tr("Favorites"));
-        AC_SET_OBJECT_NAME(m_nameLabel, Album_Fav_Label);
-        AC_SET_ACCESSIBLE_NAME(m_nameLabel, Album_Fav_Label);
-    } else {
-        DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
-        m_nameLabel->Settext(m_albumNameStr);
-        AC_SET_OBJECT_NAME(m_nameLabel, m_albumNameStr);
-        AC_SET_ACCESSIBLE_NAME(m_nameLabel, m_albumNameStr);
-    }
     m_nameLabel->setAlignment(Qt::AlignVCenter);
-
     QFont ft = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft.setFamily("SourceHanSansSC");
     ft.setWeight(QFont::Medium);
     m_nameLabel->setFont(ft);
-
 //    DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);
 //    pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
     m_nameLabel->setForegroundRole(DPalette::TextTitle);
 //    m_nameLabel->setPalette(pa);
-
     // 设置标签不显示多文本
     m_nameLabel->setTextFormat(Qt::PlainText);
 
@@ -177,31 +151,52 @@ void AlbumLeftTabItem::initUI()
     m_pLineEdit->lineEdit()->setTextMargins(5, 0, 0, 0);
 //    m_pLineEdit->setAlignment(Qt::AlignVCenter| Qt::AlignLeft);
     m_pLineEdit->lineEdit()->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-
     m_pLineEdit->setVisible(false);
     m_pLineEdit->lineEdit()->setMaxLength(utils::common::ALBUM_NAME_MAX_LENGTH);
-
-    // 相册名称不能包含正斜杠/，与文件路径分割符冲突，否则导出的相册会保存在以"/"之前的字串命名的目录中
-    // 相关bug见：https://pms.uniontech.com/bug-view-163885.html
-    QRegExp regExp("[^/]+");
-    QRegExpValidator *pattern = new QRegExpValidator(regExp, this);
-    m_pLineEdit->lineEdit()->setValidator(pattern);
-
     m_pLineEdit->setClearButtonEnabled(false);
 
     pHBoxLayout->addWidget(pImageLabel, Qt::AlignVCenter);
     pHBoxLayout->addWidget(pWidget, Qt::AlignVCenter);
 
-
     m_unMountBtn = new MountExternalBtn(m_nameLabel);
     //外部设备插入，需要添加卸载按钮
     if (ALBUM_PATHTYPE_BY_PHONE == m_albumTypeStr || ALBUM_PATHTYPE_BY_U == m_albumTypeStr) {
         QPixmap pixmapMount;
-        pixmapMount = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_exit_normal.svg", QSize(24, 24));
+        const int width = 24;
+        pixmapMount = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_exit_normal.svg", QSize(width, width));
         m_unMountBtn->setPixmap(pixmapMount);
-        pHBoxLayout->addWidget(m_unMountBtn);
-        //m_unMountBtn->move(92, 9);
+        pHBoxLayout->addWidget(m_unMountBtn); 
+
+        //调整m_nameLabel、m_pLineEdit宽度
+        QRect rect = m_nameLabel->geometry();
+        m_nameLabel->setGeometry(rect.x(), rect.y(), rect.width() - width - rect.x(), rect.height());
+        rect = m_pLineEdit->geometry();
+        m_pLineEdit->setGeometry(rect.x(), rect.y(), rect.width() - width, rect.height());
     }
+
+    QFontMetrics elideFont(m_nameLabel->font());
+    if (COMMON_STR_RECENT_IMPORTED == m_albumNameStr) {
+        DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
+        m_nameLabel->Settext(tr("Import"));
+        AC_SET_OBJECT_NAME(m_nameLabel, Album_Import_Label);
+        AC_SET_ACCESSIBLE_NAME(m_nameLabel, Album_Import_Label);
+    } else if (COMMON_STR_TRASH == m_albumNameStr) {
+        DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
+        m_nameLabel->Settext(tr("Trash"));
+        AC_SET_OBJECT_NAME(m_nameLabel, Album_Trash_Label);
+        AC_SET_ACCESSIBLE_NAME(m_nameLabel, Album_Trash_Label);
+    } else if (COMMON_STR_FAVORITES == m_albumNameStr) {
+        DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
+        m_nameLabel->Settext(tr("Favorites"));
+        AC_SET_OBJECT_NAME(m_nameLabel, Album_Fav_Label);
+        AC_SET_ACCESSIBLE_NAME(m_nameLabel, Album_Fav_Label);
+    } else {
+        DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
+        m_nameLabel->Settext(elideFont.elidedText(m_albumNameStr, Qt::ElideRight, m_nameLabel->width()));
+        AC_SET_OBJECT_NAME(m_nameLabel, m_albumNameStr);
+        AC_SET_ACCESSIBLE_NAME(m_nameLabel, m_albumNameStr);
+    }
+
     this->setLayout(pHBoxLayout);
 }
 
@@ -241,7 +236,8 @@ void AlbumLeftTabItem::onCheckNameValid()
         //由于m_nameLabel->text()的值还是原来的值，此处修改为直接使用上面获取的lineedit的值
         newNameStr = AlbumCreateDialog::getNewAlbumName(newNameStr);
         QFontMetrics elideFont(m_nameLabel->font());
-        m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
+        //m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
+        m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, m_nameLabel->width()));
         m_nameLabel->oldstr = newNameStr;
         QFont ft;
         ft.setPixelSize(14);
@@ -256,7 +252,8 @@ void AlbumLeftTabItem::onCheckNameValid()
         emit dApp->signalM->sigUpdataAlbumRightTitle(m_albumNameStr);
     } else if (OPE_MODE_ADDNEWALBUM == m_opeMode) {
         QFontMetrics elideFont(m_nameLabel->font());
-        m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
+        //m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
+        m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, m_nameLabel->width()));
         m_nameLabel->oldstr = newNameStr;
         QFont ft;
         ft.setPixelSize(14);
