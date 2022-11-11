@@ -2301,6 +2301,7 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
     //线程已处理完成数据，通知等待窗口计时自动隐藏
     QTimer::singleShot(1500, this, [ = ] {
         m_waitDeviceScandialog->close();
+        m_pRightPhoneThumbnailList->setFocus();
     });
     QString strPath;
     QString phoneTitle;
