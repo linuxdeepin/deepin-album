@@ -1982,6 +1982,19 @@ void AlbumView::updatePicNum()
     }
 }
 
+void AlbumView::updateTotalLabelNum()
+{
+    if (COMMON_STR_FAVORITES == m_currentType) {
+        //重置数量显示
+        resetLabelCount(m_favoriteThumbnailList->getAppointTypeItemCount(ItemTypePic)
+                        , m_favoriteThumbnailList->getAppointTypeItemCount(ItemTypeVideo), m_pFavoritePicTotal);
+    } else if (COMMON_STR_CUSTOM == m_currentType) {
+        //重置数量显示
+        resetLabelCount(m_customThumbnailList->getAppointTypeItemCount(ItemTypePic)
+                        , m_customThumbnailList->getAppointTypeItemCount(ItemTypeVideo), m_pRightPicTotal);
+    }
+}
+
 void AlbumView::restorePicNum()
 {
     int photoCount = 0;
@@ -2366,6 +2379,7 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
 //筛选显示，当先列表中内容为无结果
 void AlbumView::slotNoPicOrNoVideo(bool isNoResult)
 {
+    qDebug() << "1....";
     if (sender() == m_customThumbnailList) {
         m_customNoResultWidget->setVisible(isNoResult);
         m_customThumbnailList->setVisible(!isNoResult);
@@ -2386,6 +2400,7 @@ void AlbumView::slotNoPicOrNoVideo(bool isNoResult)
         m_pStatusBar->m_pAllPicNumLabel->setText(QObject::tr("No results"));
     } else {
         updatePicNum();
+        updateTotalLabelNum();
     }
 }
 

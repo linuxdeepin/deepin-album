@@ -82,6 +82,7 @@ public:
     void SearchReturnUpdate();
     void restorePicNum();
     void updatePicNum();
+    void updateTotalLabelNum();
     void updateRightView();
     void updateAlbumView(int UID);
     void updateDeviceLeftList();
