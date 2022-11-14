@@ -932,8 +932,7 @@ void AlbumView::updateAlbumView(int UID)
 
 void AlbumView::updateDeviceLeftList()
 {
-    bool tempB = false;
-    m_mounts.count() > 0 ? tempB = true : tempB = false;
+    bool tempB = m_pLeftListView->m_pMountListWidget->count() > 0;
     // 有设备接入时，左边栏显示设备item
     m_pLeftListView->m_pMountListWidget->setVisible(tempB);
     m_pLeftListView->m_pMountWidget->setVisible(tempB);
