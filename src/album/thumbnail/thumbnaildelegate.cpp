@@ -257,7 +257,8 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     }
 
     //绘制心形图标
-    if (COMMON_STR_FAVORITES == m_imageTypeStr) {
+    //if (COMMON_STR_FAVORITES == m_imageTypeStr) {
+    if (DBManager::instance()->isAllImgExistInAlbum(DBManager::SpUID::u_Favorite, QStringList(data.filePath), AlbumDBType::Favourite)) {
         QPainterPath bp;
         bp.addRoundedRect(backgroundRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
         painter->setClipPath(bp);

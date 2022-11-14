@@ -912,6 +912,7 @@ void AlbumView::updateRightView()
     } else if (ALBUM_PATHTYPE_BY_PHONE == m_currentType) {
         m_itemClicked = true;
         updateRightMountView();
+        m_pRightPhoneThumbnailList->setFocus();
         setAcceptDrops(false);
         emit sigSearchEditIsDisplay(false);
     }
