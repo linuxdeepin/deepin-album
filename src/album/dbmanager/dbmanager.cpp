@@ -841,7 +841,7 @@ const DBImgInfoList DBManager::getInfosForKeyword(int UID, const QString &keywor
 
     DBImgInfoList infos;
 
-    QString queryStr = "SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time, i.ChangeTime, i.ImportTime "
+    QString queryStr = "SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time, i.ChangeTime, i.ImportTime, i.FileType "
                        "FROM ImageTable3 AS i "
                        "inner join AlbumTable3 AS a on i.PathHash=a.PathHash AND a.UID=:UID "
                        "WHERE i.FileName like '%" + keywords + "%' ORDER BY Time DESC"; //OR Time like '%" + keywords + "%' 移除按时间搜索
@@ -859,6 +859,7 @@ const DBImgInfoList DBManager::getInfosForKeyword(int UID, const QString &keywor
             info.time = m_query->value(3).toDateTime();
             info.changeTime = m_query->value(4).toDateTime();
             info.importTime = m_query->value(5).toDateTime();
+            info.itemType = ItemType(m_query->value(6).toInt());
             infos << info;
         }
     }
