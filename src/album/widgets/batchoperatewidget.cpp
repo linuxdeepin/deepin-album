@@ -87,6 +87,7 @@ void BatchOperateWidget::initConnection()
     connect(m_cancelBatchSelect, &DCommandLinkButton::clicked, this, &BatchOperateWidget::sltBatchSelectChanged);
     //筛选条件变化
     connect(m_ToolButton, &FilterWidget::currentItemChanged, this, &BatchOperateWidget::sltCurrentFilterChanged);
+    connect(m_ToolButton, &FilterWidget::sigWidthChanged, this, &BatchOperateWidget::sigFilterBtnWidthChanged);
     //点击最近删除恢复按钮
     connect(m_trashRecoveryBtn, &DPushButton::clicked, this, &BatchOperateWidget::onTrashRecoveryBtnClicked);
     //点击最近删除中删除按钮

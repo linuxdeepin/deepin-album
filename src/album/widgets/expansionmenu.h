@@ -32,6 +32,7 @@ class FilterWidget : public QWidget
 public:
     explicit FilterWidget(QWidget *parent);
     ~FilterWidget() override;
+    void resizeEvent(QResizeEvent *e) override;
 
     void setIcon(QIcon icon);
     void setText(QString text);
@@ -46,6 +47,7 @@ protected:
 signals:
     void clicked();
     void currentItemChanged(ExpansionPanel::FilteData &data);
+    void sigWidthChanged(int width);
 public:
     FilterLabel        *m_btn = nullptr;
     FilterLabel        *m_leftLabel = nullptr;

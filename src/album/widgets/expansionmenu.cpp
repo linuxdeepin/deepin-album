@@ -117,6 +117,12 @@ bool FilterWidget::eventFilter(QObject *obj, QEvent *event)
     return QWidget::eventFilter(obj, event);
 }
 
+void FilterWidget::resizeEvent(QResizeEvent *e)
+{
+    sigWidthChanged(this->width());
+    QWidget::resizeEvent(e);
+}
+
 
 ExpansionMenu::ExpansionMenu(QWidget *parent)
     : QObject(parent)
