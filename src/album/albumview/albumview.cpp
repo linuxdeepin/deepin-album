@@ -650,6 +650,7 @@ void AlbumView::initCustomAlbumWidget()
             onBatchSelectChanged(cancel);
         }
     }, Qt::QueuedConnection);
+    connect(m_customBatchOperateWidget, &BatchOperateWidget::sigFilterBtnWidthChanged, this, &AlbumView::onFilterBtnWidthChanged);
 
     m_customAlbumTitle = new DWidget(m_pCustomAlbumWidget);
     m_customAlbumTitle->setFocusPolicy(Qt::ClickFocus);
@@ -2783,4 +2784,9 @@ void AlbumView::onTrashUpdate()
     if (m_pRightTrashThumbnailList->isVisible()) {
         updateRightTrashView();
     }
+}
+
+void AlbumView::onFilterBtnWidthChanged(int width)
+{
+    adjustTitleContent();
 }

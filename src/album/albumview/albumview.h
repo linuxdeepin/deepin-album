@@ -198,6 +198,8 @@ private slots:
     void onBatchSelectChanged(bool isBatchSelect);
     //默认导入路径已被销毁
     void onMonitorDestroyed(int UID);
+    //筛选条件按钮宽度变化响应槽
+    void onFilterBtnWidthChanged(int width);
 public:
     int m_iAlubmPicsNum;
     QString m_currentAlbum;
