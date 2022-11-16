@@ -29,7 +29,6 @@ Item {
     //view依赖的model管理器
     property ListModel importedListModel: ListModel {
         id: theModel
-        property var selectedPathObj: {"id":0, "paths":[]}
         property var selectedPathObjs: []
         property var dayHeights: []
         function loadImportedInfos() {
@@ -39,8 +38,7 @@ Item {
             theModel.dayHeights = []
             // 从后台获取所有已导入数据,倒序
             var titleInfos = albumControl.getImportTimelinesTitleInfosReverse(filterCombo.currentIndex);
-            console.log("imported model has refreshed.. filterType:", filterCombo.currentIndex, " done...")
-            var tmpPath = []
+            console.log("imported model has refreshed.. filterType:", filterCombo.currentIndex, " done...")    
             var i = 0
             var dayHeight = 0
             var listHeight = 0
@@ -51,7 +49,8 @@ Item {
 
                 for (var key in listItem) {
                     theModel.append({"title":key, "items":listItem[key]})
-                    selectedPathObj = {"id": i, "paths":tmpPath}
+                    var tmpPath = []
+                    var selectedPathObj = {"id": i, "paths":tmpPath}
                     theModel.selectedPathObjs.push(selectedPathObj)
 
                     // 计算每个日期列表高度
@@ -440,7 +439,12 @@ Item {
                 Connections {
                     target: importedGridView
                     onSelectedChanged: {
-                        theModel.selectedPathObjs[m_index].paths = importedGridView.selectedPaths
+                        theModel.selectedPathObjs[m_index].paths.length = 0;
+                        for (var i = 0; i < importedGridView.selectedPaths.length; i++) {
+                            var url = importedGridView.selectedPaths[i]
+                            theModel.selectedPathObjs[m_index].paths.push(url)
+                        }
+
                         updateSelectedPaths()
                     }
                 }

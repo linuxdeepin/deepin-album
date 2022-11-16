@@ -239,14 +239,14 @@ Item {
                 if (!inPress) {
                     var rectSel = theView.flushRectSel(x, y + theView.contentY, w, h)
                     if (rectSel.length === 1) {
+			//不直接往theView.ism里面push，是为了触发onIsmChanged
+                        var tempIsm = theView.ism
                         if (theView.ism.indexOf(rectSel[0]) === -1) {
-                            theView.ism.push(rectSel[0])
-                        } else {
-                            var removeIsm = theView.ism
-                            removeIsm.splice(removeIsm.indexOf(rectSel[0]), 1)
-                            theView.ism = removeIsm
-
+                            tempIsm.push(rectSel[0])
+                        } else {      
+                            tempIsm.splice(tempIsm.indexOf(rectSel[0]), 1)
                         }
+                        theView.ism = tempIsm
                     }
                 }
             } else {
@@ -495,8 +495,12 @@ Item {
                     if(parent.ism.indexOf(index) == -1)
                     {
                         // 按住ctrl，连续多选
-                        if (Qt.ControlModifier & mouse.modifiers)
-                            parent.ism.push(index)
+                        if (Qt.ControlModifier & mouse.modifiers) {
+                            //不直接往parent.ism里面push，是为了触发onIsmChanged
+                            var tempIsm = parent.ism
+                            tempIsm.push(index)
+                            parent.ism = tempIsm
+                        }
                         else
                             parent.ism = [index]
                         selectedChanged()
