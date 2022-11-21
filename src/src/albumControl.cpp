@@ -409,7 +409,7 @@ QVariantList AlbumControl::getAlbumAllInfos(const int &filterType)
     return reinfoList;
 }
 
-bool AlbumControl::importAllImagesAndVideos(const QStringList &paths)
+bool AlbumControl::importAllImagesAndVideos(const QStringList &paths, const int UID)
 {
     QStringList localpaths;
     DBImgInfoList dbInfos;
@@ -441,6 +441,7 @@ bool AlbumControl::importAllImagesAndVideos(const QStringList &paths)
             noReadCount++;
         }
         DBImgInfo info =  getDBInfo(imagePath, bIsVideo);
+        info.albumUID = QString::number(UID);
         dbInfos << info;
     }
     std::sort(dbInfos.begin(), dbInfos.end(), [](const DBImgInfo & lhs, const DBImgInfo & rhs) {
@@ -1655,7 +1656,7 @@ void AlbumControl::removeTrashImgInfos(const QList< QUrl > &paths)
 
 QStringList AlbumControl::recoveryImgFromTrash(const QStringList &paths)
 {
-    QStringList localPaths ;
+    QStringList localPaths;
     for (QUrl path : paths) {
         localPaths << path.toLocalFile();
     }
@@ -2579,7 +2580,7 @@ void AlbumControl::createNewCustomAutoImportAlbum(const QString &path)
     for (QString path : importFiles) {
         urls << QUrl::fromLocalFile(path).toString();
     }
-    if (importAllImagesAndVideos(urls)) {
+    if (importAllImagesAndVideos(urls, UID)) {
         insertImportIntoAlbum(UID, urls);
         emit sigRefreshSlider();
         emit sigAddCustomAlbum(UID);

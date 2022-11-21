@@ -284,7 +284,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
 //        qDebug() << query.lastError();
     }
     QString qs("REPLACE INTO ImageTable3 (PathHash, FilePath, FileName, Time, "
-               "ChangeTime, ImportTime, FileType) VALUES (?, ?, ?, ?, ?, ?, ?)");
+               "ChangeTime, ImportTime, FileType, UID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
     if (!m_query->prepare(qs)) {
     }
@@ -297,6 +297,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
         m_query->addBindValue(info.changeTime);
         m_query->addBindValue(info.importTime);
         m_query->addBindValue(info.itemType);
+        m_query->addBindValue(info.albumUID);
         if (!m_query->exec()) {
             ;
         }
@@ -972,7 +973,7 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
     m_query->setForwardOnly(true);
 
     if (needTimeData) {
-        bool b = m_query->prepare(QString("SELECT FilePath, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 "
+        bool b = m_query->prepare(QString("SELECT FilePath, Time, ChangeTime, ImportTime, FileType, UID FROM ImageTable3 "
                                           "WHERE %1= \"%2\" ORDER BY Time DESC").arg(key).arg(value));
         if (!b || !m_query->exec()) {
         } else {
@@ -983,6 +984,7 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
                 info.changeTime = m_query->value(2).toDateTime();
                 info.importTime = m_query->value(3).toDateTime();
                 info.itemType = static_cast<ItemType>(m_query->value(4).toInt());
+                info.albumUID = m_query->value(5).toString();
                 infos << info;
             }
         }
@@ -995,6 +997,7 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
                 DBImgInfo info;
                 info.filePath = m_query->value(0).toString();
                 info.itemType = static_cast<ItemType>(m_query->value(1).toInt());
+                info.albumUID = m_query->value(2).toString();
                 infos << info;
             }
         }
@@ -1203,7 +1206,8 @@ void DBManager::checkDatabase()
                                    "ChangeTime TEXT, "
                                    "ImportTime TEXT, "
                                    "FileType INTEGER, "
-                                   "DataHash TEXT)"));
+                                   "DataHash TEXT, "
+                                   "UID TEXT)"));
     if (!b) {
         qDebug() << "b CREATE TABLE exec failed.";
     }
@@ -1235,7 +1239,8 @@ void DBManager::checkDatabase()
                                    "Time TEXT, "
                                    "ChangeTime TEXT, "
                                    "ImportTime TEXT, "
-                                   "FileType INTEGER)"));
+                                   "FileType INTEGER, "
+                                   "UID TEXT)"));
     if (!d) {
         qDebug() << "d CREATE TABLE exec failed.";
     }
@@ -1299,6 +1304,19 @@ void DBManager::checkDatabase()
             if (m_query->exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"DataHash\" TEXT default \"%1\"")
                               .arg(""))) {
                 qDebug() << "add FileType success";
+            }
+        }
+    }
+
+    // 判断ImageTable3中是否有UID字段，区分相册id
+    QString strUID = QString::fromLocal8Bit(
+                              "select * from sqlite_master where name = 'ImageTable3' and sql like '%UID%'");
+    if (m_query->exec(strUID)) {
+        if (!m_query->next()) {
+            // 无UID,则增加UID字段
+            if (m_query->exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"UID\" TEXT default \"%1\"")
+                              .arg(""))) {
+                qDebug() << "add UID success";
             }
         }
     }
@@ -1389,7 +1407,8 @@ void DBManager::checkDatabase()
                                    "Time TEXT, "
                                    "ChangeTime TEXT, "
                                    "ImportTime TEXT, "
-                                   "FileType INTEGER)"))) {
+                                   "FileType INTEGER, "
+                                   "UID TEXT)"))) {
             qDebug() << m_query->lastError();
         }
     } else {
@@ -1401,6 +1420,18 @@ void DBManager::checkDatabase()
             // 无FileType字段,则增加FileType字段, 全部赋值为图片
             if (m_query->exec(QString("ALTER TABLE \"TrashTable3\" ADD COLUMN \"FileType\" INTEGER default %1")
                               .arg(QString::number(ItemType::ItemTypePic)))) {
+                qDebug() << "add AlbumDBType success";
+            }
+        }
+
+        //判断TrashTable3是否包含UID
+        if (!m_query->exec("select * from sqlite_master where name = \"TrashTable3\" and sql like \"%UID%\"")) {
+            qDebug() << m_query->lastError();
+        }
+        if (!m_query->next()) {
+            // 无UID字段,则增加UID字段
+            if (m_query->exec(QString("ALTER TABLE \"TrashTable3\" ADD COLUMN \"UID\" INTEGER default %1")
+                              .arg("-1"))) {
                 qDebug() << "add AlbumDBType success";
             }
         }
@@ -1667,7 +1698,7 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
     }
 
     QString qs("REPLACE INTO TrashTable3 "
-               "(PathHash, FilePath, FileName, Time, ChangeTime, ImportTime, FileType) VALUES (?, ?, ?, ?, ?, ?, ?)");
+               "(PathHash, FilePath, FileName, Time, ChangeTime, ImportTime, FileType, UID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
     if (!m_query->prepare(qs)) {
     }
     for (int i = 0; i != infos.size(); ++i) {
@@ -1681,6 +1712,7 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
         m_query->addBindValue(infos[i].changeTime);
         m_query->addBindValue(infos[i].importTime);
         m_query->addBindValue(infos[i].itemType);
+        m_query->addBindValue(infos[i].albumUID);
         if (!m_query->exec()) {
         }
     }
@@ -1844,7 +1876,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
 
         //3.1获取恢复成功的文件数据
         DBImgInfoList infos;
-        QString qs("SELECT FilePath, Time, ChangeTime, ImportTime, FileType FROM TrashTable3 WHERE PathHash=:value");
+        QString qs("SELECT FilePath, Time, ChangeTime, ImportTime, FileType, UID FROM TrashTable3 WHERE PathHash=:value");
         if (!m_query->prepare(qs)) {
         }
 
@@ -1869,6 +1901,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
                 info.changeTime = m_query->value(2).toDateTime();
                 info.importTime = QDateTime::currentDateTime();
                 info.itemType = ItemType(m_query->value(4).toInt());
+                info.albumUID = m_query->value(5).toString();
 
                 //如果文件名改变则刷新数据
                 auto iter = std::find_if(changedPaths.begin(), changedPaths.end(), [hash](const auto & item) {
@@ -1904,7 +1937,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
         if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
         }
         qs = "REPLACE INTO ImageTable3 (PathHash, FilePath, FileName, Time, "
-             "ChangeTime, ImportTime, FileType) VALUES (?, ?, ?, ?, ?, ?, ?)";
+             "ChangeTime, ImportTime, FileType, UID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         if (!m_query->prepare(qs)) {
         }
         for (const auto &info : infos) {
@@ -1915,10 +1948,37 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
             m_query->addBindValue(info.changeTime);
             m_query->addBindValue(info.importTime);
             m_query->addBindValue(info.itemType);
+            m_query->addBindValue(info.albumUID);
             if (!m_query->exec()) {
             }
         }
         if (!m_query->exec("COMMIT")) {
+        }
+
+        //3.4把恢复成功的文件数据刷回AlbumTable3
+        for (const auto &info : infos) {
+            //查询相册名、相册数据库类型
+            int UID = info.albumUID.toInt();
+            if (UID < 0) {
+                continue;
+            }
+
+            m_query->setForwardOnly(true);
+            if (!m_query->exec(QString("SELECT DISTINCT AlbumName, AlbumDBType FROM AlbumTable3 WHERE UID=%1").arg(UID)) || !m_query->next()) {
+                qWarning() << m_query->lastError().text();
+                //没找到这个UID，执行下一条
+                continue;
+            }
+
+            QString album = m_query->value(0).toString();
+            AlbumDBType atype = AlbumDBType(m_query->value(1).toInt());
+
+            //插入数据
+            qs = QString("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, \"%1\", \"%2\", %3, %4)").arg(album).arg(info.pathHash).arg(atype).arg(UID);
+            if (!m_query->exec(qs)) {
+                qWarning() << "insert AlbumTable3 failed" << m_query->lastError().text();
+                continue;
+            }
         }
 
         mutex.unlock();
