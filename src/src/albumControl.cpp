@@ -941,6 +941,7 @@ void AlbumControl::slotMonitorChanged(QStringList fileAdd, QStringList fileDelet
 
         bool bIsVideo = LibUnionImage_NameSpace::isVideo(path);
         DBImgInfo info =  getDBInfo(path, bIsVideo);
+        info.albumUID = QString::number(UID);
         dbInfos << info;
     }
     //导入图片数据库ImageTable3
