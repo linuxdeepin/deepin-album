@@ -582,6 +582,7 @@ Item {
             theView.sigUnSelectAll()
             selectedPaths = []
             global.selectedPaths = []
+            flushModel()
         }
     }
 

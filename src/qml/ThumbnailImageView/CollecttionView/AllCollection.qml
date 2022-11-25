@@ -191,6 +191,13 @@ Item {
         text: qsTr("No results")
     }
 
+    onVisibleChanged: {
+        // 窗口显示时，重置显示内容
+        if (visible) {
+            flushAllCollectionView()
+        }
+    }
+
     Component.onCompleted: {
         theView.timeChanged.connect(setDateRange)
         global.sigFlushAllCollectionView.connect(flushAllCollectionView)
