@@ -17,6 +17,8 @@
 #include <QFuture>
 #include <QtConcurrent>
 #include <QApplication>
+#include <QDBusMessage>
+#include <QDBusConnection>
 
 DWIDGET_USE_NAMESPACE
 
@@ -2239,13 +2241,17 @@ bool AlbumControl::exportFolders(const QStringList &paths, const QString &dir)
 
 void AlbumControl::openDeepinMovie(const QString &path)
 {
-    QString localPath = QUrl(path).toLocalFile();
-    QProcess *process = new QProcess(this);
-    QStringList arguments;
-    arguments << localPath;
-    bool isopen = process->startDetached("deepin-movie", arguments);
+    QString localPath = QUrl(path).toLocalFile();   
+    QDBusMessage message = QDBusMessage::createMethodCall("com.deepin.movie",
+                               "/",
+                               "com.deepin.movie",
+                               "openFile");
+    message << localPath;
+    bool isopen = QDBusConnection::sessionBus().send(message);
+
     if (!isopen) {
-        arguments.clear();
+        QProcess *process = new QProcess(this);
+        QStringList arguments;
         arguments << "-o" << localPath ;
         process->startDetached("dde-file-manager", arguments);
     }
