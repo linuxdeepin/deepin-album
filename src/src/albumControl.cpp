@@ -2254,6 +2254,7 @@ void AlbumControl::openDeepinMovie(const QString &path)
         QStringList arguments;
         arguments << "-o" << localPath ;
         process->startDetached("dde-file-manager", arguments);
+        connect(process, SIGNAL(finished(int)), process, SLOT(deleteLater()));
     }
 }
 

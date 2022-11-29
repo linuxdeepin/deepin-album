@@ -457,6 +457,13 @@ Item {
             propagateComposedEvents: true
 
             onClicked: {
+                //解决bug174143
+                if(mouse.button == Qt.RightButton) {
+                    if(global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device){
+                        //设置菜单弹出位置，貌似鼠标位于菜单上，似乎可以强制菜单激活刷新出来
+                        thumbnailMenu.popup(mouseX-50, mouseY)
+                    }
+                }
                 //允许鼠标事件传递给子控件处理,否则鼠标点击缩略图收藏图标不能正常工作
                 mouse.accepted = false
             }
@@ -471,16 +478,18 @@ Item {
                         if(theView.ism.indexOf(itemIndex) === -1) {
                             theView.ism = [itemIndex]
                             selectedChanged()
-                        }
+                        }  
                     } else {
                         theView.ism = []
                         selectedChanged()
                         return
                     }
 
-                    if(global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device){
-                        thumbnailMenu.popup()
-                    }
+                    //解决bug174143
+//                    if(global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device){
+//                        thumbnailMenu.popup()
+//                        thumbnailMenu.popup(mouseX-50, mouseY)
+//                    }
                     return
                 }
 
