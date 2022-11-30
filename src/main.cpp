@@ -19,10 +19,11 @@
 #include "src/thumbnailload.h"
 #include "src/cursortool.h"
 #include "src/albumControl.h"
-#include "config.h"
 
 #include <dapplicationhelper.h>
 #include <DApplication>
+
+#include "config.h"
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
