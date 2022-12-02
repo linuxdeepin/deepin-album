@@ -1,6 +1,7 @@
 #include "albumControl.h"
 #include "dbmanager/dbmanager.h"
 #include "fileMonitor/fileinotifygroup.h"
+#include "imageengine/imageenginethread.h"
 
 #include <DDialog>
 #include <DMessageBox>
@@ -53,6 +54,8 @@ static QVector<std::pair<QString, QString>> opticalmediakv(opticalmediakeys);
 static QMap<QString, QString> opticalmediamap(opticalmediakeys);
 
 } //namespace
+
+AlbumControl *AlbumControl::m_instance = nullptr;
 
 QString sizeString(const QString &str)
 {
@@ -123,6 +126,15 @@ AlbumControl::AlbumControl(QObject *parent)
 AlbumControl::~AlbumControl()
 {
 
+}
+
+AlbumControl *AlbumControl::instance()
+{
+    if (!m_instance) {
+        m_instance = new AlbumControl();
+    }
+
+    return m_instance;
 }
 
 DBImgInfo AlbumControl::getDBInfo(const QString &srcpath, bool isVideo)
@@ -413,156 +425,24 @@ QVariantList AlbumControl::getAlbumAllInfos(const int &filterType)
 
 bool AlbumControl::importAllImagesAndVideos(const QStringList &paths, const int UID)
 {
-    QStringList localpaths;
-    DBImgInfoList dbInfos;
-    for (QUrl path : paths) {
-        localpaths << path.toLocalFile();
-    }
+    //发送导入开始信号
+    emit sigImportStart();
 
-    //判断文件是否可读
-    for (QString imagePath : localpaths) {
-        QFileInfo info(imagePath);
-        if (!info.isReadable()) {
-            return false;
-        }
-    }
-
-    QStringList curAlbumImgPathList = getAllUrlPaths();
-    int noReadCount = 0; //记录已存在于相册中的数量，若全部存在，则不进行导入操作
-    for (QString imagePath : localpaths) {
-        bool bIsVideo = LibUnionImage_NameSpace::isVideo(imagePath);
-        if (!bIsVideo && !LibUnionImage_NameSpace::imageSupportRead(imagePath)) {
-            continue;
-        }
-        QFileInfo srcfi(imagePath);
-        if (!srcfi.exists()) {  //当前文件不存在
-            noReadCount++;
-            continue;
-        }
-        if (curAlbumImgPathList.contains("file://" + imagePath)) {
-            noReadCount++;
-        }
-        DBImgInfo info =  getDBInfo(imagePath, bIsVideo);
-        info.albumUID = QString::number(UID);
-        dbInfos << info;
-    }
-    std::sort(dbInfos.begin(), dbInfos.end(), [](const DBImgInfo & lhs, const DBImgInfo & rhs) {
-        return lhs.changeTime > rhs.changeTime;
-    });
-
-    //已全部存在，无需导入
-    if (noReadCount == localpaths.size() && localpaths.size() > 0) {
-        QStringList urlPaths;
-        for (QString path : localpaths) {
-            urlPaths.push_back("file://" + path);
-        }
-        emit sigRepeatUrls(urlPaths);
-
-        return false;
-    }
-
-    if (dbInfos.size() > 0) {
-        //导入图片数据库ImageTable3
-        DBManager::instance()->insertImgInfos(dbInfos);
-        emit sigRefreshImportAlbum();
-        emit sigRefreshAllCollection();
-    }
-
-    //发送导入完成信号
-    emit sigImportFinished();
+    ImportImagesThread *imagesthread = new ImportImagesThread;
+    imagesthread->setData(paths, UID);
+    QThreadPool::globalInstance()->start(imagesthread);
 
     return true;
 }
 
 bool AlbumControl::importAllImagesAndVideosUrl(const QList<QUrl> &paths, bool checkRepeat/* = true*/)
 {
-    QStringList localpaths;
-    DBImgInfoList dbInfos;
+    //发送导入开始信号
+    emit sigImportStart();
 
-    for (QUrl path : paths) {
-        localpaths << path.toLocalFile();
-    }
-
-    //判断文件是否可读
-    for (QString imagePath : localpaths) {
-        QFileInfo info(imagePath);
-        if (!info.isReadable()) {
-            return false;
-        }
-    }
-
-    QStringList curAlbumImgPathList = getAllUrlPaths();
-    int noReadCount = 0; //记录已存在于相册中的数量，若全部存在，则不进行导入操作
-    for (QString imagePath : localpaths) {
-        if (QDir(imagePath).exists()) {
-            //获取所选文件类型过滤器
-            QStringList filters;
-            for (QString i : LibUnionImage_NameSpace::unionImageSupportFormat()) {
-                filters << "*." + i;
-            }
-
-            for (QString i : LibUnionImage_NameSpace::videoFiletypes()) {
-                filters << "*." + i;
-            }
-            //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
-            QDirIterator dir_iterator(imagePath,
-                                      filters,
-                                      QDir::Files /*| QDir::NoSymLinks*/,
-                                      QDirIterator::Subdirectories);
-            QList<QUrl> allfiles;
-            while (dir_iterator.hasNext()) {
-                dir_iterator.next();
-                QFileInfo fileInfo = dir_iterator.fileInfo();
-                allfiles << "file://" + fileInfo.filePath();
-            }
-            if (!allfiles.isEmpty()) {
-                importAllImagesAndVideosUrl(allfiles, checkRepeat);
-            }
-        } else {
-            bool bIsVideo = LibUnionImage_NameSpace::isVideo(imagePath);
-            if (!bIsVideo && !LibUnionImage_NameSpace::imageSupportRead(imagePath)) {
-                continue;
-            }
-            QFileInfo srcfi(imagePath);
-            if (!srcfi.exists()) {  //当前文件不存在
-                noReadCount++;
-                continue;
-            }
-            if (curAlbumImgPathList.contains("file://" + imagePath)) {
-                noReadCount++;
-            }
-            DBImgInfo info =  getDBInfo(imagePath, bIsVideo);
-            dbInfos << info;
-        }
-    }
-    std::sort(dbInfos.begin(), dbInfos.end(), [](const DBImgInfo & lhs, const DBImgInfo & rhs) {
-        return lhs.changeTime > rhs.changeTime;
-    });
-
-    //已全部存在，无需导入
-    if (noReadCount == localpaths.size() && localpaths.size() > 0 && checkRepeat) {
-        QStringList urlPaths;
-        for (QString path : localpaths) {
-            urlPaths.push_back("file://" + path);
-        }
-        emit sigRepeatUrls(urlPaths);
-
-        return false;
-    }
-
-    if (dbInfos.size() > 0) {
-        //导入图片数据库ImageTable3
-        DBManager::instance()->insertImgInfos(dbInfos);
-
-        // 通知前端刷新相关界面，包括自定义相册/我的收藏/合集-所有项目/已导入
-        emit sigRefreshCustomAlbum(-1);
-        emit sigRefreshAllCollection();
-        emit sigRefreshImportAlbum();
-        emit sigRefreshSearchView();
-    }
-
-    //发送导入完成信号
-    emit sigImportFinished();
+    ImportImagesThread *imagesthread = new ImportImagesThread;
+    imagesthread->setData(paths, checkRepeat);
+    QThreadPool::globalInstance()->start(imagesthread);
 
     return true;
 }
@@ -913,7 +793,7 @@ void AlbumControl::startMonitor()
                 urls << QUrl::fromLocalFile(path).toString();
             }
             importAllImagesAndVideos(urls);
-            insertImportIntoAlbum(uid, urls);
+            //insertImportIntoAlbum(uid, urls);
         }
     }
     QStringList pathlist = DBManager::instance()->getAllPaths();
@@ -2578,21 +2458,9 @@ void AlbumControl::createNewCustomAutoImportAlbum(const QString &path)
     QString albumName = folder.split('/').last();
     int UID = DBManager::instance()->createNewCustomAutoImportPath(folder, albumName);
 
-    //1.获取所有图片和视频
-    QFileInfoList infos = LibUnionImage_NameSpace::getImagesAndVideoInfo(folder, false);
-    QStringList importFiles;
-    std::transform(infos.begin(), infos.end(), std::back_inserter(importFiles), [](const QFileInfo & info) {
-        return info.absoluteFilePath();
-    });
     QStringList urls;
-    for (QString path : importFiles) {
-        urls << QUrl::fromLocalFile(path).toString();
-    }
-    if (importAllImagesAndVideos(urls, UID)) {
-        insertImportIntoAlbum(UID, urls);
-        emit sigRefreshSlider();
-        emit sigAddCustomAlbum(UID);
-    }
+    urls << QUrl::fromLocalFile(folder).toString();
+    importAllImagesAndVideos(urls, UID);
 }
 
 QString AlbumControl::getVideoTime(const QString &path)

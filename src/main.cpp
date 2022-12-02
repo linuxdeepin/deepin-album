@@ -103,8 +103,7 @@ int main(int argc, char *argv[])
     }
 
     //新增相册控制模块
-    AlbumControl *albumControl = new AlbumControl();
-    engine.rootContext()->setContextProperty("albumControl", albumControl);
+    engine.rootContext()->setContextProperty("albumControl", AlbumControl::instance());
 
     //设置为相册模式
     fileControl->setViewerType(imageViewerSpace::ImgViewerTypeAlbum);

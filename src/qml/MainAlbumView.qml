@@ -4,6 +4,7 @@ import org.deepin.dtk 1.0
 import "./ThumbnailImageView"
 import "./Control"
 import "./SideBar"
+import "./PopProgress"
 Rectangle {
     anchors.fill: parent
     property int lastWidth: 0
@@ -101,6 +102,12 @@ Rectangle {
         }
     }
 
+    //标准弹出式进度条窗口
+    StandardProgressDialog {
+        id: idStandardProgressDialog
+        z: leftSidebar.z + 1
+    }
+
     //拖拽导入
     DropArea {
         anchors.fill: parent
@@ -117,9 +124,7 @@ Rectangle {
                     albumControl.addCustomAlbumInfos(global.currentCustomAlbumUId,drop.urls)
                 }
             } else {
-                if(albumControl.importAllImagesAndVideosUrl(drop.urls, true)) {
-                    DTK.sendMessage(stackControl, qsTr("Import successful"), "notify_checked")
-                }
+                albumControl.importAllImagesAndVideosUrl(drop.urls, true)
             }
         }
 
@@ -143,6 +148,49 @@ Rectangle {
             } else {
                 drag.accepted = false
             }
+        }
+    }
+
+    Connections {
+        target: albumControl
+        //收到导入开始消息
+        onSigImportStart: {
+            idStandardProgressDialog.clear()
+            idStandardProgressDialog.setTitle(qsTr("Importing..."))
+            var prevS = qsTr("Imported:")
+            var suffixS = "0"
+            idStandardProgressDialog.setContent(prevS + suffixS)
+            idStandardProgressDialog.setProgress(0, 100)
+            idStandardProgressDialog.show()
+            leftSidebar.enabled = false
+            thumbnailImage.enabled = false
+            titleAlubmRect.enabled = false
+        }
+
+        //收到导入进度消息
+        onSigImportProgress: {
+            var prevS = qsTr("Imported:")
+            var suffixS = qsTr("%1/%2").arg(value).arg(max)
+            idStandardProgressDialog.setContent(prevS + suffixS)
+            idStandardProgressDialog.setProgress(value, max)
+        }
+
+        //收到导入完成消息
+        onSigImportFinished: {
+            idStandardProgressDialog.close()
+            leftSidebar.enabled = true
+            thumbnailImage.enabled = true
+            titleAlubmRect.enabled = true
+            DTK.sendMessage(stackControl, qsTr("Import successful"), "notify_checked")
+        }
+
+        //收到导入完成消息
+        onSigRepeatUrls: {
+            idStandardProgressDialog.close()
+            leftSidebar.enabled = true
+            thumbnailImage.enabled = true
+            titleAlubmRect.enabled = true
+            DTK.sendMessage(stackControl, qsTr("Import failed"), "warning")
         }
     }
 }

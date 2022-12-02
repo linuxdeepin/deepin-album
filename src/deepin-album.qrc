@@ -60,5 +60,6 @@
         <file>qml/SideBar/SideBarItemDelegate.qml</file>
         <file>qml/MenuItemStates.qml</file>
         <file>qml/PreviewImageViewer/MultiImageListView.qml</file>
+        <file>qml/PopProgress/StandardProgressDialog.qml</file>
     </qresource>
 </RCC>

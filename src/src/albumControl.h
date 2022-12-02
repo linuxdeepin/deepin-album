@@ -34,6 +34,7 @@ public:
 
     explicit AlbumControl(QObject *parent = nullptr);
     ~  AlbumControl();
+    static AlbumControl *instance();
 
     //获得全部导入的DBImgInfoList
     Q_INVOKABLE void getAllInfos();
@@ -392,11 +393,15 @@ private:
 
 signals:
     void sigRefreshAllCollection();
-    void sigRefreshCustomAlbum(int UID);
+    void sigRefreshCustomAlbum(int UID = -1);
     void sigRefreshImportAlbum();
     void sigRefreshSearchView();
 
-    //发送导入完成信号
+    //导入开始信号
+    void sigImportStart();
+    //导入进度信号
+    void sigImportProgress(int value, int max = 100);
+    //导入完成信号
     void sigImportFinished();
 
     //自定义相册删除
@@ -418,6 +423,7 @@ signals:
     void sigOpenImageFromFiles(const QStringList &paths);
 
 private :
+    static AlbumControl *m_instance;
     DBImgInfoList m_infoList;  //全部已导入
 
     //时间线数据和已导入（合集）数据
