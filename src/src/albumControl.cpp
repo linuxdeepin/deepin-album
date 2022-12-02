@@ -1226,6 +1226,11 @@ bool AlbumControl::isNormalAutoImportAlbum(int uid)
     return getAllNormlAutoImportAlbumId().contains(uid);
 }
 
+bool AlbumControl::isAutoImportAlbum(int uid)
+{
+    return getAllAutoImportAlbumId().contains(uid);
+}
+
 bool AlbumControl::isCustomAlbum(int uid)
 {
     bool bCustom = getAllCustomAlbumId().contains(uid);
@@ -1596,6 +1601,16 @@ QList<int> AlbumControl::getAllSystemAutoImportAlbumId()
     return systemAlbum.keys();
 }
 
+QList <int> AlbumControl::getAllAutoImportAlbumId()
+{
+    QMap < int, QString > systemAlbum;
+    QList<std::pair<int, QString>>  tmpList = DBManager::instance()->getAllAlbumNames(AutoImport);
+    for (std::pair<int, QString> tmpPair : tmpList) {
+        systemAlbum.insert(tmpPair.first, tmpPair.second);
+    }
+    return systemAlbum.keys();
+}
+
 QList < int > AlbumControl::getAllCustomAlbumId()
 {
     QMap < int, QString > customAlbum;
@@ -1877,6 +1892,11 @@ void AlbumControl::removeFromAlbum(int UID, const QStringList &paths)
     if (UID == 0) {
         atype = AlbumDBType::Favourite;
     }
+    //判断是否是自动导入
+    if (isAutoImportAlbum(UID)) {
+        atype = AlbumDBType::AutoImport;
+    }
+
     QStringList localPaths ;
     for (QString path : paths) {
         localPaths << QUrl(path).toLocalFile();

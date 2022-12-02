@@ -127,6 +127,9 @@ public:
     //获得所有的系统自动导入相册id
     Q_INVOKABLE QList < int > getAllSystemAutoImportAlbumId();
 
+    //获得所有的自动导入相册id
+    Q_INVOKABLE QList < int > getAllAutoImportAlbumId();
+
     //获得所有的自定义相册id
     Q_INVOKABLE QList < int > getAllCustomAlbumId();
 
@@ -286,6 +289,9 @@ public:
 
     //判断是否是普通自动导入相册
     Q_INVOKABLE bool isNormalAutoImportAlbum(int uid);
+
+    //判断是否是自动导入相册
+    Q_INVOKABLE bool isAutoImportAlbum(int uid);
 
     //判断是否是自定义相册
     Q_INVOKABLE bool isCustomAlbum(int uid);
