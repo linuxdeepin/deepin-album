@@ -168,7 +168,10 @@ ScrollView {
                 // 导航页选中我的收藏时，设定自定相册索引为0，使用CutomAlbum控件按自定义相册界面逻辑显示我的收藏内容
                 if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite) {
                     global.currentCustomAlbumUId = 0
+                } else {
+                    global.currentCustomAlbumUId = -1
                 }
+
                 global.searchEditText = ""
             }
         }

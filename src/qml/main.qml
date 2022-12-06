@@ -95,7 +95,7 @@ ApplicationWindow {
         onAccepted: {
             var bIsCustomAlbumImport = global.currentViewIndex == 6 && albumControl.isCustomAlbum(global.currentCustomAlbumUId)
             //自定义相册不需要判重
-            albumControl.importAllImagesAndVideosUrl(importDialog.fileUrls, !bIsCustomAlbumImport)
+            albumControl.importAllImagesAndVideosUrl(importDialog.fileUrls, global.currentCustomAlbumUId, !bIsCustomAlbumImport)
         }
     }
 

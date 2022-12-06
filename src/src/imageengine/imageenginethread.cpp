@@ -50,7 +50,7 @@ ImportImagesThread::~ImportImagesThread()
 
 }
 
-void ImportImagesThread::setData(const QStringList &paths,const int UID)
+void ImportImagesThread::setData(const QStringList &paths, const int UID)
 {
     for (QUrl path : paths) {
         m_paths << path.toLocalFile();
@@ -59,11 +59,12 @@ void ImportImagesThread::setData(const QStringList &paths,const int UID)
     m_type = DataType_String;
 }
 
-void ImportImagesThread::setData(const QList<QUrl> &paths,const bool checkRepeat)
+void ImportImagesThread::setData(const QList<QUrl> &paths, const int UID, const bool checkRepeat)
 {
     for (QUrl path : paths) {
         m_paths << path.toLocalFile();
     }
+    m_UID = UID;
     m_checkRepeat = checkRepeat;
     m_type = DataType_Url;
 }
@@ -76,12 +77,17 @@ bool ImportImagesThread::ifCanStopThread(void *imgobject)
 
 void ImportImagesThread::runDetail()
 {
-    m_allOldImportedPaths = AlbumControl::instance()->getAllUrlPaths();
+    //相册中本次导入之前已导入的所有路径
+    DBImgInfoList oldInfos = AlbumControl::instance()->getAllInfosByUID(QString::number(m_UID));
+    QStringList allOldImportedPaths;
+    for (DBImgInfo info : oldInfos) {
+        allOldImportedPaths.push_back(info.filePath);
+    }
 
     QStringList tempPaths;
-    //如果是目录，向下遍历,得到所有文件
+    //判断是否含有目录
     for (QString path : m_paths) {
-        //是目录
+        //是目录，向下遍历,得到所有文件
         if (QDir(path).exists()) {
             QFileInfoList infos = LibUnionImage_NameSpace::getImagesAndVideoInfo(path, true);
 
@@ -117,7 +123,7 @@ void ImportImagesThread::runDetail()
         }
 
         //已导入
-        if (m_allOldImportedPaths.contains("file://" + imagePath)) {
+        if (allOldImportedPaths.contains(imagePath)) {
             noReadCount++;
             continue;
         }
@@ -143,6 +149,7 @@ void ImportImagesThread::runDetail()
     for (QString path : m_filePaths) {
         bool bIsVideo = LibUnionImage_NameSpace::isVideo(path);
         dbInfo =  AlbumControl::instance()->getDBInfo(path, bIsVideo);
+        dbInfo.albumUID = QString::number(m_UID);
         dbInfos << dbInfo;
 
         //导入图片数据库ImageTable3

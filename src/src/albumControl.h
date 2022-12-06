@@ -39,6 +39,9 @@ public:
     //获得全部导入的DBImgInfoList
     Q_INVOKABLE void getAllInfos();
 
+    //获得全部某个相册导入的DBImgInfoList
+    Q_INVOKABLE DBImgInfoList getAllInfosByUID(QString uid);
+
     //获得支持导入的格式
     Q_INVOKABLE QString getAllFilters();
 
@@ -58,7 +61,7 @@ public:
     Q_INVOKABLE bool importAllImagesAndVideos(const QStringList &paths, const int UID = -1);
 
     //导入图片，导入图片接口urls
-    Q_INVOKABLE bool importAllImagesAndVideosUrl(const QList <QUrl> &paths, bool checkRepeat = true);
+    Q_INVOKABLE bool importAllImagesAndVideosUrl(const QList <QUrl> &paths, const int UID, bool checkRepeat = true);
 
     //获得全部创建时间线
     Q_INVOKABLE QStringList getAllTimelinesTitle(const int &filterType = 0);

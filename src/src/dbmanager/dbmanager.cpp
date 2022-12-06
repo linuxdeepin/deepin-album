@@ -148,6 +148,31 @@ const DBImgInfoList DBManager::getAllInfosSort(const ItemType &filterType) const
     return infos;
 }
 
+const DBImgInfoList DBManager::getAllInfosByUID(QString UID) const
+{
+    QMutexLocker mutex(&m_dbMutex);
+    DBImgInfoList infos;
+    m_query->setForwardOnly(true);
+    bool b = m_query->prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType, UID FROM ImageTable3 WHERE UID = :UID order by Time desc");
+    m_query->bindValue(":UID", UID);
+
+    if (!b || ! m_query->exec()) {
+        return infos;
+    } else {
+        while (m_query->next()) {
+            DBImgInfo info;
+            info.filePath = m_query->value(0).toString();
+            info.time = m_query->value(3).toDateTime();
+            info.changeTime = m_query->value(4).toDateTime();
+            info.importTime = m_query->value(5).toDateTime();
+            info.itemType = static_cast<ItemType>(m_query->value(6).toInt());
+            info.albumUID = m_query->value(7).toString();
+            infos << info;
+        }
+    }
+    return infos;
+}
+
 const QList<QDateTime> DBManager::getAllTimelines() const
 {
     QMutexLocker mutex(&m_dbMutex);
@@ -239,11 +264,16 @@ const DBImgInfoList DBManager::getInfosByImportTimeline(const QDateTime &timelin
 const DBImgInfo DBManager::getInfoByPath(const QString &path) const
 {
     DBImgInfoList list = getImgInfos("FilePath", path, true);
-    if (list.count() != 1) {
+    if (list.count() < 1) {
         return DBImgInfo();
     } else {
         return list.first();
     }
+}
+
+const DBImgInfoList DBManager::getInfosByPath(const QString &path) const
+{
+    return getImgInfos("FilePath", path, true);
 }
 
 int DBManager::getImgsCount(const ItemType &filterType) const
@@ -1198,7 +1228,7 @@ void DBManager::checkDatabase()
     //CHARACTER(32) primari key   | TEXT     | TEXT       | TEXT | TIMESTAMP | TIMESTAMP  | TIMESTAMP  //
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     bool b = m_query->exec(QString("CREATE TABLE IF NOT EXISTS ImageTable3 ( "
-                                   "PathHash TEXT primary key, "
+                                   "PathHash TEXT, "
                                    "FilePath TEXT, "
                                    "FileName TEXT, "
                                    "Dir TEXT, "
@@ -1207,7 +1237,8 @@ void DBManager::checkDatabase()
                                    "ImportTime TEXT, "
                                    "FileType INTEGER, "
                                    "DataHash TEXT, "
-                                   "UID TEXT)"));
+                                   "UID TEXT, "
+                                   "primary key(PathHash, UID))"));
     if (!b) {
         qDebug() << "b CREATE TABLE exec failed.";
     }
@@ -1459,6 +1490,12 @@ void DBManager::checkDatabase()
     if (!m_query->exec("CREATE INDEX IF NOT EXISTS image_hash_index ON ImageTable3 (PathHash)")) {
     }
 
+    if (!m_query->exec("CREATE INDEX IF NOT EXISTS album_hash_uid_index ON AlbumTable3 (PathHash, UID)")) {
+    }
+
+    if (!m_query->exec("CREATE INDEX IF NOT EXISTS image_hash_uid_index ON ImageTable3 (PathHash, UID)")) {
+    }
+
     if (!m_query->exec("CREATE INDEX IF NOT EXISTS trash_hash_index ON TrashTable3 (PathHash)")) {
     }
 
@@ -1656,9 +1693,10 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
     QStringList pathHashs;
     for (const auto &info : infos) {
         //计算路径hash
-        QString hash;
+        //要支持同文件导入到不同相册，并且可以恢复，需要将hash赋值由下面if中拿出
+        QString hash = LibUnionImage_NameSpace::hashByString(info.filePath);
         if (QFile::exists(info.filePath)) {
-            hash = LibUnionImage_NameSpace::hashByString(info.filePath);
+            //hash = LibUnionImage_NameSpace::hashByString(info.filePath);
 
             //复制操作，上面那个QFile::copy是异步拷贝，下面那个LibUnionImage_NameSpace::syncCopy是会阻塞的同步拷贝
             //QFile::copy(info.filePath, LibUnionImage_NameSpace::getDeleteFullPath(hash, info.getFileNameFromFilePath()));
@@ -1933,6 +1971,17 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
         if (!m_query->exec("COMMIT")) {
         }
 
+        //恢复前对数据拆分
+        DBImgInfoList recoverInfos;
+        for (DBImgInfo info : infos) {
+            QStringList uids = info.albumUID.split(",");
+            for (QString uid : uids) {
+                DBImgInfo insertInfo = info;
+                insertInfo.albumUID = uid;
+                recoverInfos << insertInfo;
+            }
+        }
+
         //3.3把恢复成功的文件数据刷回ImageTable3，这里需要重复利用已经计算好的hash，所以不调用已有的API
         if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
         }
@@ -1940,7 +1989,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
              "ChangeTime, ImportTime, FileType, UID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         if (!m_query->prepare(qs)) {
         }
-        for (const auto &info : infos) {
+        for (const auto &info : recoverInfos) {
             m_query->addBindValue(info.pathHash);
             m_query->addBindValue(info.filePath);
             m_query->addBindValue(info.getFileNameFromFilePath());
@@ -1952,11 +2001,9 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
             if (!m_query->exec()) {
             }
         }
-        if (!m_query->exec("COMMIT")) {
-        }
 
         //3.4把恢复成功的文件数据刷回AlbumTable3
-        for (const auto &info : infos) {
+        for (const auto &info : recoverInfos) {
             //查询相册名、相册数据库类型
             int UID = info.albumUID.toInt();
             if (UID < 0) {
@@ -1979,6 +2026,10 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
                 qWarning() << "insert AlbumTable3 failed" << m_query->lastError().text();
                 continue;
             }
+        }
+
+        if (!m_query->exec("COMMIT")) {
+    //        qDebug() << "COMMIT failed.";
         }
 
         mutex.unlock();

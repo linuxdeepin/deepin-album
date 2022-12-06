@@ -85,12 +85,14 @@ public:
     const QStringList       getAllPaths(const ItemType &filterType = ItemTypeNull) const;
     const DBImgInfoList     getAllInfos(int loadCount = 0) const;
     const DBImgInfoList     getAllInfosSort(const ItemType &filterType = ItemTypeNull) const;
+    const DBImgInfoList     getAllInfosByUID(QString UID) const;
     const QList<QDateTime>  getAllTimelines() const;
     const DBImgInfoList     getInfosByTimeline(const QDateTime &timeline, const ItemType &filterType = ItemTypeNull) const;
     const QList<QDateTime>  getImportTimelines() const;
     const DBImgInfoList     getInfosByImportTimeline(const QDateTime &timeline, const ItemType &filterType = ItemTypeNull) const;
 //    const DBImgInfo         getInfoByName(const QString &name) const;
     const DBImgInfo         getInfoByPath(const QString &path) const;
+    const DBImgInfoList         getInfosByPath(const QString &path) const;
 //    const DBImgInfo         getInfoByPathHash(const QString &pathHash) const;
     int                     getImgsCount(const ItemType &filterType = ItemTypeNull) const;
 //    bool                    isImgExist(const QString &path) const;

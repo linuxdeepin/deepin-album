@@ -33,7 +33,7 @@ Item {
     property bool bRefreshFavoriteIconFlag: false //刷新收藏图标标记，翻转一次，图标就刷新一次
     property bool bRefreshRangeBtnState: false //刷新显示比例图标激活状态标记，翻转一次，图标就刷新一次
     property int currentViewIndex: 2// 0:导入图片视图 1:无图片视图 2:合集视图 3:已导入视图 4:我的收藏视图 5:最近删除视图 6:系统/自定义相册视图 7:搜索结果视图 8:设备视图
-    property int currentCustomAlbumUId: 0// 当前自定义相册所在UId，0:我的收藏 1:截图录屏 2:相机 3:画板 其他:自定义相册
+    property int currentCustomAlbumUId: -1// 当前自定义相册所在UId，-1：照片库(非我的收藏) 0:我的收藏 1:截图录屏 2:相机 3:画板 其他:自定义相册
     property int stackControlCurrent: 0// 0:相册界面 1:看图界面 2:幻灯片
     property int stackControlLastCurrent: -1 //记录上一次显示的主界面索引 0:相册界面 1:看图界面 2:幻灯片
 

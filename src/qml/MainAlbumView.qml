@@ -120,11 +120,11 @@ Rectangle {
                     urls.push(drop.urls[i])
                 }
                 if (!albumControl.checkRepeatUrls(albumPaths, urls)) {
-                    albumControl.importAllImagesAndVideosUrl(drop.urls, false)
+                    albumControl.importAllImagesAndVideosUrl(drop.urls, global.currentCustomAlbumUId, false)
                     albumControl.addCustomAlbumInfos(global.currentCustomAlbumUId,drop.urls)
                 }
             } else {
-                albumControl.importAllImagesAndVideosUrl(drop.urls, true)
+                albumControl.importAllImagesAndVideosUrl(drop.urls, global.currentCustomAlbumUId, true)
             }
         }
 

@@ -244,6 +244,11 @@ void AlbumControl::getAllInfos()
     m_infoList = DBManager::instance()->getAllInfos();
 }
 
+DBImgInfoList AlbumControl::getAllInfosByUID(QString uid)
+{
+    return DBManager::instance()->getAllInfosByUID(uid);
+}
+
 QString AlbumControl::getAllFilters()
 {
     QStringList sList;
@@ -435,13 +440,13 @@ bool AlbumControl::importAllImagesAndVideos(const QStringList &paths, const int 
     return true;
 }
 
-bool AlbumControl::importAllImagesAndVideosUrl(const QList<QUrl> &paths, bool checkRepeat/* = true*/)
+bool AlbumControl::importAllImagesAndVideosUrl(const QList<QUrl> &paths, const int UID, bool checkRepeat/* = true*/)
 {
     //发送导入开始信号
     emit sigImportStart();
 
     ImportImagesThread *imagesthread = new ImportImagesThread;
-    imagesthread->setData(paths, checkRepeat);
+    imagesthread->setData(paths, UID, checkRepeat);
     QThreadPool::globalInstance()->start(imagesthread);
 
     return true;
@@ -1521,7 +1526,17 @@ void AlbumControl::insertTrash(const QList< QUrl > &paths)
 
     DBImgInfoList infos;
     for (QString path : tmpList) {
-        infos << DBManager::instance()->getInfoByPath(path);
+        //infos << DBManager::instance()->getInfoByPath(path);
+        DBImgInfoList tempInfos = DBManager::instance()->getInfosByPath(path);
+        if (tempInfos.size()) {
+            DBImgInfo insertInfo = tempInfos.first();
+            QStringList uids;
+            for (DBImgInfo info: tempInfos) {
+                uids.push_back(info.albumUID);
+            }
+            insertInfo.albumUID = uids.join(",");
+            infos << insertInfo;
+        }
     }
     DBManager::instance()->insertTrashImgInfos(infos, false);
     //新增删除主相册数据库

@@ -63,7 +63,7 @@ public:
     ImportImagesThread();
     ~ImportImagesThread() override;
     void setData(const QStringList &paths, const int UID);
-    void setData(const QList<QUrl> &paths, const bool checkRepeat);
+    void setData(const QList<QUrl> &paths, const int UID, const bool checkRepeat);
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
@@ -89,7 +89,6 @@ private:
 
     QStringList m_paths;//所有的本地路径
     QStringList m_filePaths;//所有的本地文件路径
-    QStringList m_allOldImportedPaths;//相册中本次导入之前已导入的所有路径
     int m_UID = -1;
     DataType m_type = DataType_NULL;
     bool m_checkRepeat = true;
