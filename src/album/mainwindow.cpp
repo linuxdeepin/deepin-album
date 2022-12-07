@@ -210,6 +210,8 @@ void MainWindow::initConnections()
     connect(dApp->signalM, &SignalManager::ImportInterrupted, this, &MainWindow::onImportInterrupted);
     //恢复失败
     connect(dApp->signalM, &SignalManager::sigRestoreFailed, this, &MainWindow::onRestoreFailed);
+    //设置windowtitle
+    connect(ImageEngine::instance(), &ImageEngine::sigOneImgReady, this, &MainWindow::setWindowTitleInfo);
 }
 
 //初始化快捷键
@@ -1485,6 +1487,16 @@ void MainWindow::onRotatePic(const QString &path)
     }
 }
 
+void MainWindow::setWindowTitleInfo()
+{
+    if (m_imageViewer) {
+        qDebug() << __FUNCTION__ << "--" << m_imageViewer->getCurrentPath();
+        if (m_imageViewer->getCurrentPath() != "") {
+            setWindowTitle(m_imageViewer->getCurrentPath());
+        }
+    }
+}
+
 //外部使用相册打开图片
 void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 {
@@ -1578,6 +1590,8 @@ void MainWindow::onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAddi
 
 void MainWindow::onHideImageView()
 {
+    //退出图片浏览，设置wintitle为空
+    setWindowTitle("");
     //返回界面删除
     deleteSaveImage();
     if (window()->isFullScreen()) {

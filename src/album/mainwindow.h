@@ -190,6 +190,8 @@ public slots:
     void onRemoveFromCustom(const QString &path, int UID);
     //响应公共库：旋转请求
     void onRotatePic(const QString &path);
+    //设置windowtitle
+    void setWindowTitleInfo();
 
 private:
     int m_iCurrentView;
