@@ -211,7 +211,7 @@ void MainWindow::initConnections()
     //恢复失败
     connect(dApp->signalM, &SignalManager::sigRestoreFailed, this, &MainWindow::onRestoreFailed);
     //设置windowtitle
-    connect(ImageEngine::instance(), &ImageEngine::sigOneImgReady, this, &MainWindow::setWindowTitleInfo);
+    connect(ImageEngine::instance(), &ImageEngine::sigUpdateCollectBtn, this, &MainWindow::setWindowTitleInfo);
 }
 
 //初始化快捷键
@@ -1490,8 +1490,8 @@ void MainWindow::onRotatePic(const QString &path)
 void MainWindow::setWindowTitleInfo()
 {
     if (m_imageViewer) {
-        qDebug() << __FUNCTION__ << "--" << m_imageViewer->getCurrentPath();
-        if (m_imageViewer->getCurrentPath() != "") {
+        if (m_imageViewer->getCurrentPath() != "" && windowTitle() != m_imageViewer->getCurrentPath()) {
+            qDebug() << __FUNCTION__ << "--" << m_imageViewer->getCurrentPath();
             setWindowTitle(m_imageViewer->getCurrentPath());
         }
     }
