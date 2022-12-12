@@ -853,6 +853,11 @@ void AlbumControl::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> 
     //Support android phone, iPhone, and usb devices. Not support ftp, smb mount, non removeable disk now
     QString uri = mount->getRootFile()->uri();
     QString scheme = QUrl(uri).scheme();
+
+    // 因V23玲珑文管smb挂载方式有优化，修改uri的smb路径判断方式
+    if (uri.startsWith("file:///media/uos/smbmounts/"))
+        return;
+
     if ((scheme == "file" /*&& mount->canEject()*/) ||  //usb device
             (scheme == "gphoto2") ||                //phone photo
             //(scheme == "afc") ||                  //iPhone document
@@ -1531,7 +1536,7 @@ void AlbumControl::insertTrash(const QList< QUrl > &paths)
         if (tempInfos.size()) {
             DBImgInfo insertInfo = tempInfos.first();
             QStringList uids;
-            for (DBImgInfo info: tempInfos) {
+            for (DBImgInfo info : tempInfos) {
                 uids.push_back(info.albumUID);
             }
             insertInfo.albumUID = uids.join(",");
@@ -2156,11 +2161,11 @@ bool AlbumControl::exportFolders(const QStringList &paths, const QString &dir)
 
 void AlbumControl::openDeepinMovie(const QString &path)
 {
-    QString localPath = QUrl(path).toLocalFile();   
+    QString localPath = QUrl(path).toLocalFile();
     QDBusMessage message = QDBusMessage::createMethodCall("com.deepin.movie",
-                               "/",
-                               "com.deepin.movie",
-                               "openFile");
+                                                          "/",
+                                                          "com.deepin.movie",
+                                                          "openFile");
     message << localPath;
     bool isopen = QDBusConnection::sessionBus().send(message);
 
@@ -2513,7 +2518,8 @@ QString AlbumControl::getVideoTime(const QString &path)
             reString = "00:00";
         }
 
-        if (reString.left(2) == "00") {
+        if (reString.left(2) == "00")
+        {
             reString = reString.right(5);
         }
 
