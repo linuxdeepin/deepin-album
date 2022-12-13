@@ -702,6 +702,93 @@ bool DBManager::isImgExistInAlbum(int UID, const QString &path) const
     }
 }
 
+void DBManager::addCustomAlbumIdByPaths(int UID, const QStringList &paths)
+{
+    //记录每个图片下关联的相册ID
+    QMap<QString, QStringList> path2UidList;
+    for (const auto &path : paths) {
+        DBImgInfoList tempInfos = DBManager::instance()->getInfosByPath(path);
+        if (tempInfos.size() > 0) {
+            path2UidList.insert(path, tempInfos.first().albumUID.split(","));
+        }
+    }
+
+    QMutexLocker mutex(&m_dbMutex);
+    m_query->setForwardOnly(true);
+
+    if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
+//        qDebug() << query.lastError();
+    }
+    QString qs("UPDATE ImageTable3 SET UID = :uid WHERE PathHash = :ph");
+
+    if (!m_query->prepare(qs)) {
+    }
+
+    // 新的相册ID以逗号','隔开，追加到UID字段中
+    for (const auto &path : paths) {
+        QString uid = QString::number(UID);
+        QStringList uidList = path2UidList[path];
+        if (uidList.indexOf(uid) == -1) {
+            uidList.push_back(uid);
+            uidList.removeAll("-1");
+
+            m_query->bindValue(":uid", uidList.join(","));
+            m_query->bindValue(":ph", LibUnionImage_NameSpace::hashByString(path));
+            if (!m_query->exec()) {
+                //qDebug() << "update uid failed";
+            }
+        }
+    }
+
+    if (!m_query->exec("COMMIT")) {
+        //qDebug() << m_query->lastError();
+    }
+    mutex.unlock();
+}
+
+void DBManager::removeCustomAlbumIdByPaths(int UID, const QStringList &paths)
+{
+    //记录每个图片下关联的相册ID
+    QMap<QString, QStringList> path2UidList;
+    for (const auto &path : paths) {
+        DBImgInfoList tempInfos = DBManager::instance()->getInfosByPath(path);
+        if (tempInfos.size() > 0) {
+            path2UidList.insert(path, tempInfos.first().albumUID.split(","));
+        }
+    }
+
+    QMutexLocker mutex(&m_dbMutex);
+    m_query->setForwardOnly(true);
+
+    if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
+//        qDebug() << query.lastError();
+    }
+    QString qs("UPDATE ImageTable3 SET UID = :uid WHERE PathHash = :ph");
+
+    if (!m_query->prepare(qs)) {
+    }
+
+    // 新的相册ID以逗号','隔开，追加到UID字段中
+    for (const auto &path : paths) {
+        QString uid = QString::number(UID);
+        QStringList uidList = path2UidList[path];
+        if (uidList.indexOf(uid) != -1) {
+            uidList.removeAll(uid);
+        }
+        m_query->bindValue(":uid", uidList.size() == 0 ? "-1" : uidList.join(","));
+        m_query->bindValue(":ph", LibUnionImage_NameSpace::hashByString(path));
+        if (!m_query->exec()) {
+            //qDebug() << "remove uid failed";
+        }
+
+    }
+
+    if (!m_query->exec("COMMIT")) {
+        //qDebug() << m_query->lastError();
+    }
+    mutex.unlock();
+}
+
 QString DBManager::getAlbumNameFromUID(int UID) const
 {
     QMutexLocker mutex(&m_dbMutex);
@@ -1341,7 +1428,7 @@ void DBManager::checkDatabase()
 
     // 判断ImageTable3中是否有UID字段，区分相册id
     QString strUID = QString::fromLocal8Bit(
-                              "select * from sqlite_master where name = 'ImageTable3' and sql like '%UID%'");
+                         "select * from sqlite_master where name = 'ImageTable3' and sql like '%UID%'");
     if (m_query->exec(strUID)) {
         if (!m_query->next()) {
             // 无UID,则增加UID字段
@@ -1989,7 +2076,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
              "ChangeTime, ImportTime, FileType, UID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         if (!m_query->prepare(qs)) {
         }
-        for (const auto &info : recoverInfos) {
+        for (const auto &info : infos) {
             m_query->addBindValue(info.pathHash);
             m_query->addBindValue(info.filePath);
             m_query->addBindValue(info.getFileNameFromFilePath());
@@ -2029,7 +2116,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
         }
 
         if (!m_query->exec("COMMIT")) {
-    //        qDebug() << "COMMIT failed.";
+            //        qDebug() << "COMMIT failed.";
         }
 
         mutex.unlock();

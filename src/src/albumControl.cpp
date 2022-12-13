@@ -1921,6 +1921,9 @@ void AlbumControl::removeFromAlbum(int UID, const QStringList &paths)
     for (QString path : paths) {
         localPaths << QUrl(path).toLocalFile();
     }
+
+    DBManager::instance()->removeCustomAlbumIdByPaths(UID, localPaths);
+
     DBManager::instance()->removeFromAlbum(UID, localPaths, atype);
 }
 
@@ -1934,6 +1937,9 @@ bool AlbumControl::insertIntoAlbum(int UID, const QStringList &paths)
     for (QString path : paths) {
         localPaths << QUrl(path).toLocalFile();
     }
+
+    DBManager::instance()->addCustomAlbumIdByPaths(UID, localPaths);
+
     return DBManager::instance()->insertIntoAlbum(UID, localPaths, atype);
 }
 
