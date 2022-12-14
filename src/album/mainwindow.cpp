@@ -80,7 +80,8 @@ MainWindow::MainWindow()
     //性能优化，此句在构造时不需要执行，增加启动时间,放在showevent之后队列执行
     loadZoomRatio();
     m_bVector << true << true << true;
-
+    //主动设置wintitle
+    setWindowTitleInfo();
     //平板模式下屏蔽最大化最小化及关闭按钮
 #ifdef tablet_PC
     setWindowFlags(windowFlags() & ~(Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint));
