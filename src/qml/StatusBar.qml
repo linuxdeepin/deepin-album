@@ -18,7 +18,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-
+        color: Qt.rgba(0,0,0,0)
         Label {
             height: parent.height
             anchors.centerIn: parent

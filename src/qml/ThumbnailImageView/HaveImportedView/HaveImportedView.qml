@@ -89,7 +89,7 @@ Rectangle {
         id: importedTitleRect
         width: parent.width - global.verticalScrollBarWidth
         height: global.thumbnailViewTitleHieght
-        color: Qt.rgba(255, 255, 255, titleOpacity)
+        color: Qt.rgba(0, 0, 0, 0)
         z:3
 
         // 已导入标签
@@ -101,8 +101,6 @@ Rectangle {
             height: 30
             font: DTK.fontManager.t3
             text: qsTr("Import")
-
-            color: Qt.rgba(0,0,0)
         }
 
         // 筛选下拉框
@@ -117,23 +115,23 @@ Rectangle {
     }
 
     // 增加标题栏色差校正框选框，用于解决标题栏吸顶导致的框选框色差问题
-    Rectangle {
-        id: rectTitleSelArea
-        color: "#1E90FF"
-        opacity: 0.4 * (titleOpacity + 0.002)
-        z: 4
-        Connections {
-            target: theView
-            onRectSelTitleChanged: {
-                var rectTitle = Qt.rect(0, 0, importedTitleRect.width, importedTitleRect.height)
-                var rectTopSel = albumControl.intersected(rt, rectTitle)
-                rectTitleSelArea.x = rectTopSel.x
-                rectTitleSelArea.y = rectTopSel.y
-                rectTitleSelArea.width = rectTopSel.width - 1
-                rectTitleSelArea.height = rectTopSel.height
-            }
-        }
-    }
+//    Rectangle {
+//        id: rectTitleSelArea
+//        color: "#1E90FF"
+//        opacity: 0.4 * (titleOpacity + 0.002)
+//        z: 4
+//        Connections {
+//            target: theView
+//            onRectSelTitleChanged: {
+//                var rectTitle = Qt.rect(0, 0, importedTitleRect.width, importedTitleRect.height)
+//                var rectTopSel = albumControl.intersected(rt, rectTitle)
+//                rectTitleSelArea.x = rectTopSel.x
+//                rectTitleSelArea.y = rectTopSel.y
+//                rectTitleSelArea.width = rectTopSel.width - 1
+//                rectTitleSelArea.height = rectTopSel.height
+//            }
+//        }
+//    }
 
     // 已导入列表控件
     ImportedlListView {

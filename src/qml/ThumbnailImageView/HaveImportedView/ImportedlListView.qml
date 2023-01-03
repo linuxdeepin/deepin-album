@@ -357,6 +357,7 @@ Item {
                 id: spaceRect
                 width: parent.width
                 height: index == 0 ? importedListView.spaceCtrlHeight : 0
+                color: Qt.rgba(0,0,0,0)
             }
 
             CheckBox {

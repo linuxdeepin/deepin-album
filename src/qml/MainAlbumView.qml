@@ -6,12 +6,10 @@ import "./Control"
 import "./SideBar"
 import "./PopProgress"
 Rectangle {
+    color: Qt.rgba(0,0,0,0)
     anchors.fill: parent
     property int lastWidth: 0
-    AlbumTitle{
-        id:titleAlubmRect
-        z:100
-    }
+
     //rename窗口
     NewAlbumDialog {
         id: newAlbum
@@ -24,7 +22,7 @@ Rectangle {
     // 侧边导航栏
     Sidebar{
         id : leftSidebar
-        width: visible ? 200 : 0
+        width: visible ? global.sideBarWidth : 0
         anchors.top: parent.top
         anchors.topMargin: 69
         anchors.bottom: parent.bottom
@@ -33,7 +31,7 @@ Rectangle {
         z: thumbnailImage.z + 1
 
         Component.onCompleted: {
-            x =  parent.width <= global.needHideSideBarWidth ? -200 : 0
+            x =  parent.width <= global.needHideSideBarWidth ? -global.sideBarWidth : 0
         }
     }
 
@@ -52,12 +50,22 @@ Rectangle {
         lastWidth = width
     }
 
+    Connections {
+        target: titleAlubmRect
+        onShowHideSideBar: {
+            if (bShow)
+                showSliderAnimation.start()
+            else
+                hideSliderAnimation.start()
+        }
+    }
+
     //左右按钮隐藏动画
     NumberAnimation {
         id :hideSliderAnimation
         target: leftSidebar
         from: leftSidebar.x
-        to: -200
+        to: -global.sideBarWidth
         property: "x"
         duration: 200
         easing.type: Easing.InOutQuad
@@ -79,7 +87,7 @@ Rectangle {
         anchors.top: titleAlubmRect.bottom
         anchors.left: leftSidebar.right
         anchors.leftMargin: 0
-        width: parent.width - leftSidebar.x - 200
+        width: parent.width - leftSidebar.x - global.sideBarWidth
         height: root.height - titleAlubmRect.height
     }
 
@@ -88,7 +96,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.left: leftSidebar.right
 //        width: leftSidebar.x == 0 ? parent.width - leftSidebar.width : root.width
-        width: parent.width - leftSidebar.x - 200
+        width: parent.width - leftSidebar.x - global.sideBarWidth
         height: global.statusBarHeight
 
         onSliderValueChanged: {

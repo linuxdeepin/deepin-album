@@ -20,6 +20,10 @@ ScrollView {
     property ListModel importListModel: ListModel {}
     property ListModel customListModel: ListModel {}
 
+    onXChanged: {
+        global.sideBarX = x;
+    }
+
     // 设备路径有变更，刷新设备列表
     onDevicePathsChanged: {
         deviceListModel.clear()

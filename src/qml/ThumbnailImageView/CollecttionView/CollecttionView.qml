@@ -3,7 +3,7 @@ import QtQuick.Controls 2.4
 import "../"
 import "../../"
 
-Item {
+Rectangle {
     id: root
     property int currentViewIndex: 0
 

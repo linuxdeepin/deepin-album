@@ -123,6 +123,7 @@ Item {
         id: allCollectionTitleRect
         width: parent.width - global.verticalScrollBarWidth
         height: 60
+        color: Qt.rgba(0,0,0,0)
         // 时间范围标签
         Label {
             id: dateRangeLabel
@@ -142,6 +143,7 @@ Item {
             anchors.right: parent.right
             width: 130
             height: 30
+            visible: parent.visible && albumControl.getAllCount() !== 0
             //visible: !(numLabelText === "" && filterType === 0)
         }
 

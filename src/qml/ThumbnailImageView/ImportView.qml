@@ -3,8 +3,7 @@ import org.deepin.dtk 1.0
 
 
 Rectangle{
-
-
+    color: Qt.rgba(0,0,0,0)
     Rectangle{
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter

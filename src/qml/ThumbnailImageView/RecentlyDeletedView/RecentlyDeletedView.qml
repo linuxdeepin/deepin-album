@@ -106,6 +106,7 @@ Rectangle {
         id: recentDelTitleRect
         width: parent.width - global.verticalScrollBarWidth
         height: global.thumbnailViewTitleHieght - 10
+        color: Qt.rgba(0,0,0,0)
         // 最近删除标签
         Label {
             id: recentDelLabel

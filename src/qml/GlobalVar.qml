@@ -23,6 +23,8 @@ Item {
     property int rightMenuItemHeight: 32//右键菜单item的高度
     property int rightMenuSeparatorHeight: 12//右键菜单分割层的高度
 
+    property real sideBarX: 0 // 侧边栏x坐标
+    property int sideBarWidth: 200 // 侧边栏宽度
     property int statusBarHeight: 30 //状态栏高度
 
     property int thumbnailViewTitleHieght: 85 // 缩略图视图区域标题显示区域高度

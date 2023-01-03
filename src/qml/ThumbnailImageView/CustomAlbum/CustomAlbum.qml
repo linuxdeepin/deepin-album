@@ -128,6 +128,7 @@ Rectangle {
         id: customAlbumTitleRect
         width: parent.width - global.verticalScrollBarWidth
         height: global.thumbnailViewTitleHieght - 10
+        color: Qt.rgba(0,0,0,0)
         // 相册名称标签
         Label {
             id: customAlbumLabel

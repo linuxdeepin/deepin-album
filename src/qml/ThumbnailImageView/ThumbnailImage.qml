@@ -17,6 +17,7 @@ import "./../"
 //本文件用于替代stackwidget的作用，通过改变global的0-n来切换窗口
 
 Rectangle{
+    color: Qt.rgba(0,0,0,0)
     property int m_topMargin: 0
     property int m_leftMargin: 20
     property int m_CollecttionCurrentViewIndex: collecttionView.currentViewIndex
@@ -33,6 +34,7 @@ Rectangle{
     }
     CollecttionView{
         id: collecttionView
+        color: Qt.rgba(0,0,0,0)
         visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion
         anchors.topMargin: m_topMargin
         anchors.leftMargin: m_leftMargin
@@ -41,36 +43,42 @@ Rectangle{
     }
     HaveImportedView{
         id: haveImportedView
+        color: Qt.rgba(0,0,0,0)
         visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.HaveImported
         anchors.topMargin: m_topMargin
         anchors.leftMargin: m_leftMargin
         anchors.fill: parent
     }
     CustomAlbum{
+        color: Qt.rgba(0,0,0,0)
         visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite
         anchors.topMargin: m_topMargin
         anchors.leftMargin: m_leftMargin
         anchors.fill: parent
     }
     RecentlyDeletedView{
+        color: Qt.rgba(0,0,0,0)
         visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.RecentlyDeleted
         anchors.topMargin: m_topMargin
         anchors.leftMargin: m_leftMargin
         anchors.fill: parent
     }
     CustomAlbum{
+        color: Qt.rgba(0,0,0,0)
         visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.CustomAlbum
         anchors.topMargin: m_topMargin
         anchors.leftMargin: m_leftMargin
         anchors.fill: parent
     }
     SearchView{
+        color: Qt.rgba(0,0,0,0)
         visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.SearchResult
         anchors.topMargin: m_topMargin
         anchors.leftMargin: m_leftMargin
         anchors.fill: parent
     }
     DeviceAlbum{
+        color: Qt.rgba(0,0,0,0)
         visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Device
         anchors.topMargin: m_topMargin
         anchors.leftMargin: m_leftMargin
@@ -94,6 +102,13 @@ Rectangle{
     //视频info窗口
     VideoInfoDialog{
         id: videoInfomationDig
+    }
+
+    Connections {
+        target: titleAlubmRect
+        onCollectionBtnClicked: {
+            setCollecttionViewIndex(nIndex)
+        }
     }
 
     Shortcut {

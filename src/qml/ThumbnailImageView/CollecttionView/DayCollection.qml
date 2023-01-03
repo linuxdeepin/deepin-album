@@ -417,10 +417,10 @@ Item {
         id: theDelegate
 
         Rectangle {
-            //color: index%2 === 0 ? Qt.rgba(0.9,0.8,0.3,0.1) : Qt.rgba(0.9,0.0,0.0,0.1)
             id: delegateRect
             width: theView.width
             height: timeLineLblHeight + timeLineLblMargin + selAllCheckBoxHeight + theSubView.height
+            color: Qt.rgba(0,0,0,0)
 
             property string m_dayToken: dayToken
 

@@ -110,6 +110,7 @@ Rectangle {
         anchors.left: searchTitle.left
         anchors.bottom: parent.bottom
         anchors.right: parent.right
+        color: Qt.rgba(0,0,0,0)
 
         //幻灯片放映按钮
         RecommandButton {
@@ -169,6 +170,7 @@ Rectangle {
         anchors.left: searchTitle.left
         anchors.bottom: parent.bottom
         anchors.right: parent.right
+        color: Qt.rgba(0,0,0,0)
 
         Label {
             id: noResultText

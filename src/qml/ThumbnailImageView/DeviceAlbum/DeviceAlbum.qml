@@ -129,6 +129,7 @@ Rectangle {
         id: deviceAlbumTitleRect
         width: parent.width - global.verticalScrollBarWidth
         height: global.thumbnailViewTitleHieght - 10
+        color: Qt.rgba(0,0,0,0)
         // 设备名称标签
         Label {
             id: deviceAlbumLabel
@@ -157,6 +158,7 @@ Rectangle {
             Rectangle{
                 width: 80
                 height: 36
+                color: Qt.rgba(0,0,0,0)
                 Label {
                     anchors.centerIn: parent
                     text :qsTr("Import to:")

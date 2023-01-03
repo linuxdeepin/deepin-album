@@ -37,7 +37,7 @@ ApplicationWindow {
     D.DWindow.enabled: true
     id: root
     title: ""
-
+    header: AlbumTitle {id: titleAlubmRect}
     D.MessageManager.layout: Column {
         anchors {
             bottom: parent.bottom
