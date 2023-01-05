@@ -45,13 +45,12 @@ Copyright: UnionTech Software Technology Co., Ltd.
 License: CC-BY-4.0
 
 # assets resources
-Files: assets/* src/icons/* tests/testResource/* src/album/resources/* 
-       src/album/widgets/dialogs/resources/images/*
+Files: src/assets/* src/dsg/* src/icon/* src/rest/* 
 Copyright: UnionTech Software Technology Co., Ltd.
 License: CC-BY-4.0
 
 # translations
-Files: translations/*
+Files: src/translations/*
 Copyright: UnionTech Software Technology Co., Ltd.
 License: GPL-3.0-or-later
 
@@ -64,9 +63,4 @@ License: GPL-3.0-or-later
 Files: tests/*
 Copyright: UnionTech Software Technology Co., Ltd.
 License: GPL-3.0-or-later
-
-# cpp-stub
-Files: tests/stub-tool/cpp-stub/*
-Copyright: 2019 coolxv
-License: MIT
 
