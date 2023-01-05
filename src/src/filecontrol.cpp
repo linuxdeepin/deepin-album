@@ -267,9 +267,9 @@ void FileControl::setWallpaper(const QString &imgPath)
                 if (/*!qEnvironmentVariableIsEmpty("FLATPAK_APPID")*/1) {
                     // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m com.deepin.daemon.Appearance.Set background /home/test/test.png
                     qDebug() << "SettingWallpaper: " << "flatpak" << path;
-                    QDBusInterface interface("com.deepin.daemon.Appearance",
-                                                 "/com/deepin/daemon/Appearance",
-                                                 "com.deepin.daemon.Appearance");
+                    QDBusInterface interface("org.deepin.dde.Appearance1",
+                                                 "/org/deepin/dde/Appearance1",
+                                                 "org.deepin.dde.Appearance1");
 
                     if (interface.isValid()) {
                         QString screenname;
@@ -287,7 +287,7 @@ void FileControl::setWallpaper(const QString &imgPath)
                         }
                         //wayland下设置壁纸使用，2020/09/21
                         if (isWayland) {
-                            QDBusInterface interfaceWayland("com.deepin.daemon.Display", "/com/deepin/daemon/Display", "com.deepin.daemon.Display");
+                            QDBusInterface interfaceWayland("org.deepin.dde.Display1", "/org/deepin/dde/Display1", "org.deepin.dde.Display1");
                             screenname = qvariant_cast< QString >(interfaceWayland.property("Primary"));
                         } else {
                             screenname = QGuiApplication::primaryScreen()->name();
