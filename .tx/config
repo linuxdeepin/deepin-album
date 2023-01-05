@@ -4,13 +4,13 @@ minimum_perc = 80
 mode = developer
 
 [deepin-album.deepin-album]
-file_filter = translations/deepin-album_<lang>.ts
-source_file = translations/deepin-album.ts
+file_filter = src/translations/deepin-album_<lang>.ts
+source_file = src/translations/deepin-album.ts
 source_lang = en
 type = QT
 
 [deepin-album.desktop]
-file_filter = translations/desktop/desktop_<lang>.ts
-source_file = translations/desktop/desktop.ts
+file_filter = src/translations/desktop/desktop_<lang>.ts
+source_file = src/translations/desktop/desktop.ts
 source_lang = en
 type = QT
