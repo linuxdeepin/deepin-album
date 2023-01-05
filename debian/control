@@ -1,21 +1,17 @@
 Source: deepin-album
-Section: utils
+Section: admin
 Priority: optional
 Maintainer: Deepin Packages Builder <packages@deepin.com>
-Build-Depends: debhelper (>= 11), cmake, qtbase5-dev, pkg-config, libexif-dev, libqt5svg5-dev, libqt5x11extras5-dev, qttools5-dev-tools, qttools5-dev, libxcb-util0-dev, libstartup-notification0-dev, libraw-dev, libfreeimage-dev, libqt5opengl5-dev, qtbase5-private-dev, qtmultimedia5-dev, x11proto-xext-dev, libmtdev-dev, libegl1-mesa-dev, libudev-dev, libfontconfig1-dev, libfreetype6-dev, libglib2.0-dev, libxrender-dev, libdtkwidget-dev, libimageeditor-dev  (>= 1.0.22), libdtkwidget5-bin, libdtkcore5-bin, libgio-qt-dev, libudisks2-qt5-dev, deepin-gettext-tools
-Standards-Version: 4.1.3
-Homepage: <insert the upstream URL, if relevant>
+Build-Depends:
+ debhelper (>= 9),
+ cmake, pkg-config, qtdeclarative5-dev, libdtkdeclarative-dev, qtbase5-dev,libexif-dev, libqt5svg5-dev, qttools5-dev-tools, qttools5-dev, libstartup-notification0-dev, libfreeimage-dev, libudev-dev, libfontconfig1-dev, libglib2.0-dev, libxrender-dev, libdtkgui-dev, libdtkwidget-dev, libgio-qt-dev, libudisks2-qt5-dev, libavformat-dev, libffmpegthumbnailer-dev
+Standards-Version: 3.9.8
+Homepage: http://www.deepin.org
 
 Package: deepin-album
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libimageeditor (>= 1.0.22)
-Description: Album for UOS
-  Album is a fashion photo manager for viewing and organizing pictures.
-Recommends: uos-reporter,  deepin-event-log
+Depends: ${shlibs:Depends}, ${misc:Depends}, qml-module-qt-labs-settings , qml-module-qt-labs-folderlistmodel
+Recommends: deepin-ocr
+Description: Simple description
+ A detailed description.
 
-Package: libunionimage1
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Multi-Arch: same
-Description: Image processing for album
-  A Image processing library for album.
