@@ -854,8 +854,10 @@ void AlbumControl::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> 
     QString uri = mount->getRootFile()->uri();
     QString scheme = QUrl(uri).scheme();
 
-    // 因V23玲珑文管smb挂载方式有优化，修改uri的smb路径判断方式
-    if (uri.startsWith("file:///media/uos/smbmounts/"))
+    QRegularExpression recifs("^file:///media/(.*)/smbmounts");
+    QRegularExpression regvfs("^file:///run/user/(.*)/smbmounts");
+    // 因V23玲珑文管smb挂载方式有优化，修改uri的smb路径判断方式，包括gvfs挂载和cifs挂载
+    if (recifs.match(uri).hasMatch() || regvfs.match(uri).hasMatch())
         return;
 
     if ((scheme == "file" /*&& mount->canEject()*/) ||  //usb device
