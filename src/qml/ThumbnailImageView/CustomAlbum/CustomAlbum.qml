@@ -21,8 +21,10 @@ Rectangle {
     property bool isNormalAutoImport: albumControl.isNormalAutoImportAlbum(customAlbumUId)
 
     onVisibleChanged: {
-        if (visible)
+        if (visible) {
+            flushAlbumName(0, albumControl.getCustomAlbumByUid(0))
             flushCustomAlbumView(global.currentCustomAlbumUId)
+        }
     }
 
     // 筛选类型改变处理事件
@@ -40,10 +42,8 @@ Rectangle {
 
     // 刷新自定义相册名称
     function flushAlbumName(UID, name) {
-        if (UID === global.currentCustomAlbumUId) {
-            customAlbumName = name
-        }
-}
+        customAlbumName = name
+    }
 
     // 刷新自定义相册/我的收藏视图内容
     function flushCustomAlbumView(customAlbumUId) {
