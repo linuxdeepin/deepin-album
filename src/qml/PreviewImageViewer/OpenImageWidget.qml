@@ -113,6 +113,9 @@ Item {
         else
             mainView.sourcePaths = paths
 
+        // 记录当前读取的图片信息，用于监控文件变更
+        fileControl.resetImageFiles(mainView.sourcePaths)
+
         mainView.source = tempPath
 
         if(mainView.sourcePaths.length > 0 && tempPath !== ""){

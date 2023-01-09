@@ -626,6 +626,9 @@ Item {
                             mainStack.currentIndex = theView.ism[0]
                             mainStack.currentWidgetIndex = 1
                             global.stackControlCurrent = 1
+
+                            // 记录当前读取的图片信息，用于监控文件变更
+                            fileControl.resetImageFiles(openPaths)
                         }
                         pressedXAxis = -1
                         pressedYAxis = -1
