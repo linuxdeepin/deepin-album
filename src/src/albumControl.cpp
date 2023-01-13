@@ -1296,7 +1296,7 @@ QString AlbumControl::localPath(QString url)
     return QUrl(url).toLocalFile();
 }
 
-bool AlbumControl::checkRepeatUrls(QStringList imported, QStringList urls)
+bool AlbumControl::checkRepeatUrls(QStringList imported, QStringList urls, bool bNotify)
 {
     bool bRet = false;
     int noReadCount = 0; //记录已存在于相册中的数量，若全部存在，则不进行导入操作
@@ -1312,7 +1312,8 @@ bool AlbumControl::checkRepeatUrls(QStringList imported, QStringList urls)
 
     // 已全部存在
     if (noReadCount == urls.size()) {
-        emit sigRepeatUrls(urls);
+        if (bNotify)
+            emit sigRepeatUrls(urls);
         bRet = true;
     }
 
