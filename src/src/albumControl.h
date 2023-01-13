@@ -322,7 +322,7 @@ public:
     Q_INVOKABLE QString localPath(QString url);
 
     // 检查是否有重复路径
-    Q_INVOKABLE bool checkRepeatUrls(QStringList imported, QStringList urls);
+    Q_INVOKABLE bool checkRepeatUrls(QStringList imported, QStringList urls, bool bNotify = true);
 
     //获得路径集合中视频/图片数量
     Q_INVOKABLE QList<int> getPicVideoCountFromPaths(const QStringList &paths);
