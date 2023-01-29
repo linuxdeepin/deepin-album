@@ -262,10 +262,13 @@ ScrollView {
             action: FloatingButton {
                 width: 21; height: 21
                 checked: false
-                DciIcon {
+                palette: systemSideBar.palette
+                icon {
                     name: "list-add"
-                    sourceSize: Qt.size(21, 21)
+                    width: 21
+                    height: 21
                 }
+
                 ToolTip.visible: hovered
                 ToolTip.text: qsTr("Add an album")
                 onClicked: {

@@ -27,13 +27,16 @@ ItemDelegate {
             }
         }
     }
+
     DciIcon {
         id: siderIcon
         anchors.left: item.left; anchors.leftMargin: 10
         anchors.verticalCenter: item.verticalCenter
         name: model.icon
+        palette: DTK.makeIconPalette(root.palette)
         sourceSize: Qt.size(20, 20)
     }
+
     Label {
         id: songName
         width: 100;
