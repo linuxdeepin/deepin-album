@@ -64,7 +64,7 @@ ColumnLayout {
             Layout.alignment: Qt.AlignLeft; Layout.leftMargin: 20
             horizontalAlignment: Qt.AlignLeft
 
-            color: Qt.rgba(0,0,0,0.3)
+            color: Qt.rgba(0.6,0.6,0.6, 0.8)
         }
         Loader {
             Layout.alignment: Qt.AlignRight; Layout.rightMargin: 5

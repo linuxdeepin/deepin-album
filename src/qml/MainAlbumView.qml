@@ -24,7 +24,7 @@ Rectangle {
         id : leftSidebar
         width: visible ? global.sideBarWidth : 0
         anchors.top: parent.top
-        anchors.topMargin: 69
+        anchors.topMargin: 19
         anchors.bottom: parent.bottom
 
         visible: true
