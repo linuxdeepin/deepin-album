@@ -64,6 +64,14 @@ Rectangle {
         }
     }
 
+    Connections {
+        target: titleAlubmRect
+        onSigDeleteClicked: {
+            deleteDialog.setDisplay(GlobalVar.FileDeleteType.TrashSel, global.selectedPaths.length)
+            deleteDialog.show()
+        }
+    }
+
     //左右按钮隐藏动画
     NumberAnimation {
         id :hideSliderAnimation
