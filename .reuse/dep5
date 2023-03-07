@@ -45,7 +45,7 @@ Copyright: UnionTech Software Technology Co., Ltd.
 License: CC-BY-4.0
 
 # assets resources
-Files: src/assets/* src/dsg/* src/icon/* src/rest/* 
+Files: src/assets/* src/dsg/* src/icon/* src/res/* 
 Copyright: UnionTech Software Technology Co., Ltd.
 License: CC-BY-4.0
 
