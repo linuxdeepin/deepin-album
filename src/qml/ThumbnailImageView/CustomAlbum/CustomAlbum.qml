@@ -25,8 +25,10 @@ Rectangle {
     property bool isNormalAutoImport: albumControl.isNormalAutoImportAlbum(customAlbumUId)
 
     onVisibleChanged: {
-        if (visible)
+        if (visible) {
+            flushAlbumName(0, albumControl.getCustomAlbumByUid(0))
             flushCustomAlbumView(global.currentCustomAlbumUId)
+        }
     }
 
     // 筛选类型改变处理事件
