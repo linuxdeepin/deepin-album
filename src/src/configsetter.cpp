@@ -24,6 +24,7 @@ LibConfigSetter::LibConfigSetter(QObject *parent) : QObject(parent)
 LibConfigSetter *LibConfigSetter::m_setter = nullptr;
 LibConfigSetter *LibConfigSetter::instance()
 {
+    //
     if (!m_setter) {
         m_setter = new LibConfigSetter();
     }
