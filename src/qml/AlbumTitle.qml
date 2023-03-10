@@ -11,6 +11,8 @@ import "./Control"
 TitleBar {
     id : title
 
+    signal sigDeleteClicked()
+
     anchors.top : root.top
     anchors.left : parent.left
     anchors.leftMargin: 0
@@ -468,8 +470,7 @@ TitleBar {
                     height: 36
                 }
                 onClicked: {
-                    deleteDialog.setDisplay(GlobalVar.FileDeleteType.TrashSel, global.selectedPaths.length)
-                    deleteDialog.show()
+                    sigDeleteClicked()
                 }
             }
         }
