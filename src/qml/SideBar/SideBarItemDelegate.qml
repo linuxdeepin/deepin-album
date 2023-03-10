@@ -29,7 +29,7 @@ ItemDelegate {
         anchors.left: item.left; anchors.leftMargin: 10
         anchors.verticalCenter: item.verticalCenter
         name: model.icon
-        palette: DTK.makeIconPalette(root.palette)
+        palette: DTK.makeIconPalette(item.palette)
         sourceSize: Qt.size(20, 20)
     }
 
