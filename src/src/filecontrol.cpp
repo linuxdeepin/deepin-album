@@ -266,7 +266,7 @@ void FileControl::setWallpaper(const QString &imgPath)
                 //设置壁纸代码改变，采用DBus,原方法保留
                 if (/*!qEnvironmentVariableIsEmpty("FLATPAK_APPID")*/1) {
                     // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m com.deepin.daemon.Appearance.Set background /home/test/test.png
-                    qDebug() << "SettingWallpaper: " << "flatpak" << path;
+                    qInfo() << "SettingWallpaper: " << "flatpak" << path;
                     QDBusInterface interfaceV23("org.deepin.dde.Appearance1",
                                                 "/org/deepin/dde/Appearance1",
                                                 "org.deepin.dde.Appearance1");
@@ -292,11 +292,13 @@ void FileControl::setWallpaper(const QString &imgPath)
                         //wayland下设置壁纸使用，2020/09/21
                         if (isWayland) {
                             QDBusInterface interfaceWaylandV23("org.deepin.dde.Display1", "/org/deepin/dde/Display1", "org.deepin.dde.Display1");
-                            if (interfaceWaylandV23.isValid())
+                            if (interfaceWaylandV23.isValid()) {
                                 screenname = qvariant_cast< QString >(interfaceWaylandV23.property("Primary"));
-                            else {
+                                qInfo() << qPrintable("SetWallpaper: v23 wayland get org.deepin.dde.Display1 Primary property");
+                            } else {
                                 QDBusInterface interfaceWaylandV20("com.deepin.daemon.Display", "/com/deepin/daemon/Display", "com.deepin.daemon.Display");
                                 screenname = qvariant_cast< QString >(interfaceWaylandV20.property("Primary"));
+                                qInfo() << qPrintable("SetWallpaper: v20 wayland get com.deepin.daemon.Display Primary property");
                             }
                         } else {
                             screenname = QGuiApplication::primaryScreen()->name();
@@ -305,17 +307,27 @@ void FileControl::setWallpaper(const QString &imgPath)
                         bool settingSucc = false;
                         if (interfaceV23.isValid()) {
                             QDBusMessage reply = interfaceV23.call(QStringLiteral("SetMonitorBackground"), screenname, path);
-                            qDebug() << "SettingWallpaper: replay, using v23 interface" << reply.errorMessage();
                             settingSucc = reply.errorMessage().isEmpty();
+
+                            qInfo() << qPrintable("SetWallpaper: Using v23 interface org.deepin.dde.Appearance1.SetMonitorBackground");
+                            qInfo() << qPrintable(QString("DBus Param %1, %2").arg(screenname).arg(path));
+                            if (!settingSucc) {
+                                qWarning() << qPrintable(QString("DBus error: %1").arg(reply.errorMessage()));
+                            }
                         }
 
                         if (interfaceV20.isValid() && !settingSucc) {
                             QDBusMessage reply = interfaceV20.call(QStringLiteral("SetMonitorBackground"), screenname, path);
-                            qDebug() << "SettingWallpaper: replay, using v20 interface" << reply.errorMessage();
-                            settingSucc = reply.errorMessage().isEmpty();
+
+                            qInfo() << qPrintable("SetWallpaper: Using v20 interface com.deepin.daemon.Appearance.SetMonitorBackground");
+                            qInfo() << qPrintable(QString("DBus Param %1, %2").arg(screenname).arg(path));
+                            if (!reply.errorMessage().isEmpty()) {
+                                qWarning() << qPrintable(QString("DBus error: %1").arg(reply.errorMessage()));
+                            }
                         }
                     } else {
-                        qWarning() << "SettingWallpaper failed" << interfaceV23.lastError();
+                        qWarning() << qPrintable(QString("SetWallpaper failed! v23 interface error: %1, v20 interface error:%2")
+                                                 .arg(interfaceV23.lastError().message()).arg(interfaceV20.lastError().message()));
                     }
                 }
             }
