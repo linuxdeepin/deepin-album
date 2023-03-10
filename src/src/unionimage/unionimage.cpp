@@ -690,7 +690,7 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
                     try_res = QImage(path);
                 }
                 if (try_res.isNull()) {
-                    errorMsg = "load image by qt failed, use format:" + reader.format() + " ,path:" + path;
+                    errorMsg = "load image by qt faild, use format:" + reader.format() + " ,path:" + path;
                     res = QImage();
                     return false;
                 }
@@ -1029,7 +1029,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
     if (format == "SVG") {
         QImage image_copy;
         if (!loadStaticImageFromFile(path, image_copy, erroMsg)) {
-            erroMsg = "rotate load QImage failed, path:" + path + "  ,format:+" + format;
+            erroMsg = "rotate load QImage faild, path:" + path + "  ,format:+" + format;
             return false;
         }
         QSvgGenerator generator;

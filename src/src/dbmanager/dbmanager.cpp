@@ -163,8 +163,7 @@ const QList<QDateTime> DBManager::getAllTimelines() const
     QMutexLocker mutex(&m_dbMutex);
     QList<QDateTime> times;
     m_query->setForwardOnly(true);
-    // 时间线界面按日期展示相册内容，所以从数据库筛选出日期即可，不用筛选出具体时间
-    if (!m_query->exec("SELECT DISTINCT substr(Time, 0, 11)  FROM ImageTable3 ORDER BY Time DESC")) {
+    if (!m_query->exec("SELECT DISTINCT Time FROM ImageTable3 ORDER BY Time DESC")) {
         return times;
     } else {
         while (m_query->next()) {
@@ -828,23 +827,19 @@ int DBManager::createAlbum(const QString &album, const QStringList &paths, Album
     m_query->setForwardOnly(true);
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
     }
-    auto qs = QString("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, ?, ?, %1, %2)").arg(atype).arg(currentUID);
+    auto qs = QString("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, \"%1\", ?, %2, %3)").arg(album).arg(atype).arg(currentUID);
     bool b = m_query->prepare(qs);
     if (!b) {
-        qDebug() << m_query->lastError().text();
         return -1;
     }
 
     for (auto &eachHash : pathHashs) {
-        m_query->addBindValue(album);
         m_query->addBindValue(eachHash);
         if (!m_query->exec()) {
-            qDebug() << m_query->lastError().text();
         }
     }
 
     if (!m_query->exec("COMMIT")) {
-        qDebug() << m_query->lastError().text();
     }
 
     //FIXME: Don't insert the repeated filepath into the same album
@@ -878,7 +873,8 @@ bool DBManager::insertIntoAlbum(int UID, const QStringList &paths, AlbumDBType a
     }
 
     QString qs = QString("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, AlbumDBType, UID, PathHash)"
-                         " VALUES (null, ?, %1, %2, ?)").arg(atype).arg(UID);
+                         " VALUES (null, \"%1\", %2, %3, ?)")
+                 .arg(album).arg(atype).arg(UID);
     if (!m_query->prepare(qs)) {
     }
     for (auto &eachPath : paths) {
@@ -1026,7 +1022,7 @@ const DBImgInfoList DBManager::getInfosForKeyword(int UID, const QString &keywor
 
     DBImgInfoList infos;
 
-    QString queryStr = "SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time, i.ChangeTime, i.ImportTime, i.FileType "
+    QString queryStr = "SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time, i.ChangeTime, i.ImportTime "
                        "FROM ImageTable3 AS i "
                        "inner join AlbumTable3 AS a on i.PathHash=a.PathHash AND a.UID=:UID "
                        "WHERE i.FileName like '%" + keywords + "%' ORDER BY Time DESC"; //OR Time like '%" + keywords + "%' 移除按时间搜索
@@ -1043,7 +1039,6 @@ const DBImgInfoList DBManager::getInfosForKeyword(int UID, const QString &keywor
             info.time = m_query->value(3).toDateTime();
             info.changeTime = m_query->value(4).toDateTime();
             info.importTime = m_query->value(5).toDateTime();
-            info.itemType = ItemType(m_query->value(6).toInt());
             infos << info;
         }
     }
@@ -1159,24 +1154,15 @@ int DBManager::createNewCustomAutoImportPath(const QString &path, const QString 
     //1.新建相册
     int UID = albumMaxUID++;
 
-    QString qs1 = QString("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, ?, \"%1\", %2, %3)")
-                  .arg("7215ee9c7d9dc229d2921a40e899ec5f").arg(AutoImport).arg(UID);
-    if (!m_query->prepare(qs1)) {
-    }
-    m_query->addBindValue(albumName);
-
-    if (!m_query->exec()) {
+    if (!m_query->exec(QString("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, \"%1\", \"%2\", %3, %4)")
+                       .arg(albumName).arg("7215ee9c7d9dc229d2921a40e899ec5f").arg(AutoImport).arg(UID))) {
         return -1;
     }
 
     //2.新建保存路径
-    QString qs2 = QString("INSERT INTO CustomAutoImportPathTable3 (UID, FullPath, AlbumName) VALUES (%1, ?, ?)").arg(UID);
-    if (!m_query->prepare(qs2)) {
-    }
-    m_query->addBindValue(path);
-    m_query->addBindValue(albumName);
 
-    if (!m_query->exec()) {
+    if (!m_query->exec(QString("INSERT INTO CustomAutoImportPathTable3 (UID, FullPath, AlbumName) VALUES (%1, \"%2\", \"%3\")")
+                       .arg(UID).arg(path).arg(albumName))) {
         return -1;
     }
 
@@ -1887,7 +1873,6 @@ void DBManager::removeTrashImgInfos(const QStringList &paths)
     for (int i = 0; i != paths.size(); ++i) {
         auto deletePath = LibUnionImage_NameSpace::getDeleteFullPath(pathHashs[i], DBImgInfo::getFileNameFromFilePath(paths[i]));
         QFile::remove(deletePath);
-        utils::base::delTrashFile(paths[i]);
     }
 
     mutex.unlock();
@@ -1956,7 +1941,6 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
         if (QFile::rename(deletePath, recoveryName)) { //尝试正常恢复
             successedHashs.push_back(pathHashs[i]); //正常恢复成功
             succesedPaths.insert(pathHashs[i], recoveryName);
-            utils::base::delTrashFile(paths[i]); //同步删除回收站数据
         } else { //正常恢复失败，尝试恢复至内部路径
             if (!internalRecoveryDir.exists()) { //检查文件夹是否存在，不存在则创建
                 internalRecoveryDir.mkpath(internalRecoveryPath);
@@ -1985,7 +1969,6 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
             if (QFile::rename(deletePath, recoveryName)) {
                 successedHashs.push_back(pathHashs[i]); //恢复至内部路径
                 succesedPaths.insert(pathHashs[i], recoveryName);
-                utils::base::delTrashFile(paths[i]); //同步删除回收站数据
             } else { //TODO：极端特殊情况：使用内部恢复路径恢复失败
                 continue;
             }
