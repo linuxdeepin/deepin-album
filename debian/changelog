@@ -3,3 +3,9 @@ deepin-album (6.0.0) unstable; urgency=medium
   * Initial release.
 
  -- Deepin Packages Builder <packages@deepin.com>  Wed, 15 Jun 2022 16:28:35 +0800
+
+deepin-album (1.0) unstable; urgency=medium
+
+  * Pre-release for deepin album 5.0
+
+ -- TagBuilder <tagbuilder@deepin.com>  Mon, 23 May 2016 14:20:26 +0000

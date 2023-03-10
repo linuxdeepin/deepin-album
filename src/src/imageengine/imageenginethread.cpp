@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #include "imageenginethread.h"
 #include "dbmanager/dbmanager.h"
 #include "unionimage/unionimage.h"
