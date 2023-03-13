@@ -133,7 +133,9 @@ Item {
         theModel.selectedPathObjs = []
         dayHeights = []
         //1.获取日期
-        var days = albumControl.getDays()
+        var days = []
+        if (Number(fileControl.getConfigValue("", "loadDayView", 1)))
+            days = albumControl.getDays()
 
         //2.构建model
         var dayHeight = 0

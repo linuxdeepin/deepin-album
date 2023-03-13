@@ -39,6 +39,13 @@ void LibConfigSetter::loadConfig(imageViewerSpace::ImgViewerType type)
     m_viewType = type;
     m_settings = new QSettings(imageViewerSpace::ImgViewerTypeAlbum == type ? CONFIG_PATH_ALBUM : CONFIG_PATH_IMAGE_VIEWER, QSettings::IniFormat, this);
 
+    if (imageViewerSpace::ImgViewerTypeAlbum == type) {
+        if (!contains("", "loadDayView"))
+            setValue("", "loadDayView", 1);
+        if (!contains("", "loadImport"))
+            setValue("", "loadImport", 1);
+    }
+
 //    if (imageViewerSpace::ImgViewerTypeAlbum == m_viewType) {
 //        if (!m_settings->contains("album-zoomratio")) {
 //            m_settings->setValue("album-zoomratio", 4);
@@ -69,4 +76,17 @@ QVariant LibConfigSetter::value(const QString &group, const QString &key,
     m_settings->endGroup();
 
     return value;
+}
+
+bool LibConfigSetter::contains(const QString &group, const QString &key)
+{
+    QMutexLocker locker(&m_mutex);
+
+    bool bContains = false;
+    QVariant value;
+    m_settings->beginGroup(group);
+    bContains = m_settings->contains(key);
+    m_settings->endGroup();
+
+    return bContains;
 }
