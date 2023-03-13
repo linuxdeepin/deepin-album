@@ -900,12 +900,6 @@ Item {
                 }
             }
 
-            MenuSeparator {
-                visible: !menuItemStates.isInTrash
-                         && (setAsWallpaperAction.visible || displayInFileManagerAction.visible || photoInfoAction.visible || videoInfoAction.visible)
-                height: visible ? GlobalVar.rightMenuSeparatorHeight : 0
-            }
-
             //设置为壁纸
             RightMenuItem {
                 text: qsTr("Set as wallpaper")
