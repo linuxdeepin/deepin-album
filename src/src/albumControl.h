@@ -207,6 +207,8 @@ public:
     //useAI为保留参数，false:不使用AI，只根据文件路径搜索；true:使用AI进行分析，根据关键字含义和图片内容进行搜索
     Q_INVOKABLE QVariant searchPicFromAlbum(int UID, const QString &keywords, bool useAI);
 
+    Q_INVOKABLE DBImgInfoList searchPicFromAlbum2(int UID, const QString &keywords, bool useAI);
+
     //输入一张图片，获得可以导出的格式
     Q_INVOKABLE QStringList imageCanExportFormat(const QString &path);
 
@@ -257,6 +259,8 @@ public:
 
     //获得device路径
     Q_INVOKABLE QVariantMap getDeviceAlbumInfos(const QString &devicePath, const int &filterType = 0);
+
+    Q_INVOKABLE DBImgInfoList getDeviceAlbumInfos2(const QString &devicePath, const int &filterType = 0);
 
     //获得设备相册的图片和视频数量
     Q_INVOKABLE int getDeviceAlbumInfoConut(const QString &devicePath, const int &filterType);
@@ -331,6 +335,9 @@ public:
 
     //获得最近删除的文件
     DBImgInfoList getTrashInfos(const int &filterType = 0);
+
+    //获得最近删除的文件
+    DBImgInfoList getTrashInfos2(const int &filterType = 0);
 
     //获得收藏文件
     DBImgInfoList getCollectionInfos();

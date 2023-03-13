@@ -491,7 +491,8 @@ bool FileControl::isCanDelete(const QString &path)
 {
     bool bRet = false;
     bool isAlbum = false;
-    QString localPath = QUrl(path).toLocalFile();
+    QUrl url(path);
+    QString localPath = url.isLocalFile() ? url.toLocalFile() : path;
     QFileInfo info(localPath);
     bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable(); //是否可写
     bool isReadable = info.isReadable() ; //是否可读

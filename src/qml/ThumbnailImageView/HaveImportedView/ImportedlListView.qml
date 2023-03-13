@@ -412,7 +412,6 @@ Item {
             //缩略图网格表
             ThumbnailListView {
                 id: importedGridView
-                viewTitle: theViewTitle
                 anchors.left: parent.left
                 anchors.top: importedCheckBox.bottom
                 anchors.topMargin: importedListView.listMargin
