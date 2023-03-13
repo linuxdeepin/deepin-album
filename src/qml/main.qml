@@ -99,4 +99,11 @@ ApplicationWindow {
     Album.EventGenerator {
         id: eventGenerator
     }
+
+    Connections {
+        target: albumControl
+        onSigActiveApplicationWindow: {
+            root.requestActivate()
+        }
+    }
 }
