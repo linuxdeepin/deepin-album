@@ -442,6 +442,9 @@ signals:
     //发送打开看图查看图片信号
     void sigOpenImageFromFiles(const QStringList &paths);
 
+    // 激活应用主窗口
+    void sigActiveApplicationWindow();
+
 private :
     static AlbumControl *m_instance;
     DBImgInfoList m_infoList;  //全部已导入
