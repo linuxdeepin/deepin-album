@@ -215,7 +215,7 @@ Rectangle {
                     if(global.selectedPaths.length > 0){
                     	albumControl.importFromMountDevice(global.selectedPaths,albumControl.getAllCustomAlbumId(global.albumChangeList)[currentImportIndex])
                     }else{
-                        albumControl.importFromMountDevice(theView.allOriginUrls(),albumControl.getAllCustomAlbumId(global.albumChangeList)[currentImportIndex])
+                        albumControl.importFromMountDevice(theView.allUrls(),albumControl.getAllCustomAlbumId(global.albumChangeList)[currentImportIndex])
                     }
                     DTK.sendMessage(thumbnailImage, qsTr("Import successful"), "notify_checked")
                 }
