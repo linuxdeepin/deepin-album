@@ -122,7 +122,7 @@ Item {
             anchors.left: parent.left
             height: 30
             font: DTK.fontManager.t3
-            //text: qsTr(albumControl.getCustomAlbumByUid(customAlbumUId))
+            visible: numLabelText !== ""
         }
 
         // 筛选下拉框

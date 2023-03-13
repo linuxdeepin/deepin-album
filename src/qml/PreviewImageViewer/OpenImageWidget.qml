@@ -135,7 +135,7 @@ Item {
         }
 
         // 若在文管菜单使用相册打开图片文件，并且数据库中未导入该图片，应该将选择的图片导入相册中
-        if (fileControl.isAlbum() && tempPath !== "" && !balbumControl.checkRepeatUrls(albumControl.getAllUrlPaths(), paths, false)) {
+        if (fileControl.isAlbum() && tempPath !== "" && !albumControl.checkRepeatUrls(albumControl.getAllUrlPaths(), paths, false)) {
             albumControl.importAllImagesAndVideos(paths)
         }
     }
