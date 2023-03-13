@@ -8,6 +8,19 @@
 #include "src/cursortool.h"
 #include "src/albumControl.h"
 
+#include "src/imageengine/imagedataservice.h"
+#include "thumbnailview/itemviewadapter.h"
+#include "thumbnailview/positioner.h"
+#include "thumbnailview/rubberband.h"
+#include "thumbnailview/mouseeventlistener.h"
+#include "thumbnailview/eventgenerator.h"
+
+#include "thumbnailview/roles.h"
+#include "thumbnailview/imagedatamodel.h"
+#include "thumbnailview/thumbnailmodel.h"
+#include "thumbnailview/types.h"
+#include "thumbnailview/qimageitem.h"
+
 #include <dapplicationhelper.h>
 #include <DApplication>
 
@@ -70,6 +83,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("asynImageProvider", load->m_asynImageProvider);
     engine.rootContext()->setContextProperty("publisher", load->m_publisher);
 
+    engine.rootContext()->setContextProperty("imageDataService", ImageDataService::instance());
+
     FileControl *fileControl = new FileControl();
     engine.rootContext()->setContextProperty("fileControl", fileControl);
     // 关联文件处理（需要保证优先处理，onImageFileChanged已做多线程安全）
@@ -95,6 +110,24 @@ int main(int argc, char *argv[])
 
     //设置为相册模式
     fileControl->setViewerType(imageViewerSpace::ImgViewerTypeAlbum);
+
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+    qmlRegisterType<QAbstractItemModel>();
+#else
+    qmlRegisterAnonymousType<QAbstractItemModel>(uri, 0);
+#endif
+    char uri[] = "org.deepin.album";
+    qmlRegisterType<ImageDataModel>(uri, 1, 0, "ImageDataModel");
+    qmlRegisterType<ThumbnailModel>(uri, 1, 0, "ThumbnailModel");
+    qmlRegisterType<ItemViewAdapter>(uri, 1, 0, "ItemViewAdapter");
+    qmlRegisterType<Positioner>(uri, 1, 0, "Positioner");
+    qmlRegisterType<RubberBand>(uri, 1, 0, "RubberBand");
+    qmlRegisterType<MouseEventListener>(uri, 1, 0, "MouseEventListener");
+    qmlRegisterType<EventGenerator>(uri, 1, 0, "EventGenerator");
+    qmlRegisterUncreatableType<Types>(uri, 1, 0, "Types", "Cannot instantiate the Types class");
+    qmlRegisterUncreatableType<Roles>(uri, 1, 0, "Roles", "Cannot instantiate the Roles class");
+
+    qmlRegisterType<QImageItem>(uri, 1, 0, "QImageItem");
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine.rootObjects().isEmpty())

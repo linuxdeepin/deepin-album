@@ -4,6 +4,9 @@
 
 import QtQuick 2.0
 import org.deepin.dtk 1.0
+
+import org.deepin.album 1.0 as Album
+
 import "../../Control"
 import "../../Control/ListView"
 import "../../"
@@ -19,14 +22,14 @@ Rectangle {
     property int filterType: filterCombo.currentIndex // 筛选类型，默认所有
     property string numLabelText: "" //总数标签显示内容
     property string selectedText: getSelectedText(selectedPaths)
-    property alias selectedPaths: theView.selectedPaths
+    property alias selectedPaths: theView.selectedUrls
     property bool isCustom : albumControl.isCustomAlbum(customAlbumUId)
     property bool isSystemAutoImport: albumControl.isSystemAutoImportAlbum(customAlbumUId)
     property bool isNormalAutoImport: albumControl.isNormalAutoImportAlbum(customAlbumUId)
 
     onVisibleChanged: {
         if (visible) {
-            flushAlbumName(0, albumControl.getCustomAlbumByUid(0))
+            flushAlbumName(global.currentCustomAlbumUId, albumControl.getCustomAlbumByUid(global.currentCustomAlbumUId))
             flushCustomAlbumView(global.currentCustomAlbumUId)
         }
     }
@@ -49,13 +52,14 @@ Rectangle {
         if (UID === global.currentCustomAlbumUId) {
             customAlbumName = name
         }
-}
+    }
 
     // 刷新自定义相册/我的收藏视图内容
-    function flushCustomAlbumView(customAlbumUId) {
-        if (customAlbumUId === global.currentCustomAlbumUId || customAlbumUId === -1) {
-            loadCustomAlbumItems()
-            global.selectedPaths = theView.selectedPaths
+    function flushCustomAlbumView(UID) {
+        if (UID === global.currentCustomAlbumUId || UID === -1) {
+            dataModel.albumId = customAlbumUId
+            theView.proxyModel.refresh(filterType)
+            global.selectedPaths = theView.selectedUrls
             getNumLabelText()
         }
     }
@@ -99,32 +103,11 @@ Rectangle {
         return selectedNumText
     }
 
-    // 加载自定义相册数据
-    function loadCustomAlbumItems()
-    {
-        console.info("custom album model has refreshed... filterType:", filterType, "customAlbumUId:", customAlbumUId)
-        theView.selectAll(false)
-        theView.thumbnailListModel.clear();
-        var customAlbumInfos = albumControl.getAlbumInfos(customAlbumUId, filterType);
-        console.info("custom album model has refreshed... filterType:", filterType, "customAlbumUId:", customAlbumUId, " done...")
-        for (var key in customAlbumInfos) {
-            var customAlbumItems = customAlbumInfos[key]
-            for (var i = 0; i < customAlbumItems.length; i++) {
-                theView.thumbnailListModel.append(customAlbumItems[i])
-            }
-            break;
-        }
-
-        return true
-    }
-
     Connections {
         target: albumControl
         onSigRepeatUrls: {
             if (visible && global.currentCustomAlbumUId !== 0) {
-                theView.selectAll(false)
-                theView.selectedPaths = urls
-                global.selectedPaths = urls
+                theView.selectUrls(urls)
             }
         }
     }
@@ -176,7 +159,7 @@ Rectangle {
     }
 
     // 缩略图列表控件
-    ThumbnailListView {
+    ThumbnailListView2 {
         id: theView
         anchors.top: customAlbumTitleRect.bottom
         anchors.topMargin: 10
@@ -184,6 +167,8 @@ Rectangle {
         height: parent.height - customAlbumTitleRect.height - m_topMargin - statusBar.height
         thumnailListType: (global.currentViewIndex === GlobalVar.ThumbnailViewType.CustomAlbum && global.currentCustomAlbumUId > 3) ? GlobalVar.ThumbnailType.CustomAlbum
                                                                                                                                     : GlobalVar.ThumbnailType.Normal
+        proxyModel.sourceModel: Album.ImageDataModel { id: dataModel; modelType: Album.Types.CustomAlbum}
+
         visible: numLabelText !== ""
         property int m_topMargin: 10
 
@@ -191,11 +176,8 @@ Rectangle {
         Connections {
             target: theView
             onSelectedChanged: {
-                var selectedPaths = []
-                selectedPaths = theView.selectedPaths
-
                 if (parent.visible)
-                    global.selectedPaths = selectedPaths
+                    global.selectedPaths = theView.selectedUrls
             }
         }
     }
@@ -234,6 +216,6 @@ Rectangle {
 
     Component.onCompleted: {
         global.sigFlushCustomAlbumView.connect(flushCustomAlbumView)
-        global.onSigCustomAlbumNameChaged.connect(flushAlbumName)
+        global.sigCustomAlbumNameChaged.connect(flushAlbumName)
     }
 }

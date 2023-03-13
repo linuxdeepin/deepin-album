@@ -114,7 +114,7 @@ public:
     //确认目标UID对应的默认监控路径是否存在
     static bool defaultNotifyPathExists(int UID);
     const QStringList       getPathsByAlbum(int UID) const;
-    const DBImgInfoList     getInfosByAlbum(int UID, bool needTimeData) const;
+    const DBImgInfoList     getInfosByAlbum(int UID, bool needTimeData, ItemType itemType = ItemTypeNull) const;
     int                     getItemsCountByAlbum(int UID, const ItemType &type) const;
 //    int                     getAlbumsCount() const;
     bool                    isAlbumExistInDB(int UID, AlbumDBType atype = AlbumDBType::Custom) const;
@@ -151,6 +151,7 @@ public:
     QStringList             getMonths();
     int                     getMonthCount(const QString &year, const QString &month);
     //日聚合数据
+    DBImgInfoList           getInfosByDay(const QString &day);
     QStringList             getDayPaths(const QString &day);
     QStringList             getDays();
 private:

@@ -156,20 +156,24 @@ void ImportImagesThread::runDetail()
         dbInfo.albumUID = QString::number(m_UID);
         dbInfos << dbInfo;
 
-        //导入图片数据库ImageTable3
-        DBManager::instance()->insertImgInfos(dbInfos);
+        emit sigImportProgress(i++, size);
+    }
 
-        //导入图片数据库AlbumTable3
-        if (m_UID >= 0) {
-            AlbumDBType atype = AlbumDBType::AutoImport;
-            if (m_UID == 0) {
-                atype = AlbumDBType::Favourite;
-            }
+    std::sort(dbInfos.begin(), dbInfos.end(), [](const DBImgInfo & lhs, const DBImgInfo & rhs) {
+        return lhs.changeTime > rhs.changeTime;
+    });
 
-            DBManager::instance()->insertIntoAlbum(m_UID, QStringList(path), atype);
+    //导入图片数据库ImageTable3
+    DBManager::instance()->insertImgInfos(dbInfos);
+
+    //导入图片数据库AlbumTable3
+    if (m_UID >= 0) {
+        AlbumDBType atype = AlbumDBType::AutoImport;
+        if (m_UID == 0) {
+            atype = AlbumDBType::Favourite;
         }
 
-        emit sigImportProgress(i++, size);
+        DBManager::instance()->insertIntoAlbum(m_UID, m_filePaths, atype);
     }
 
     //原createNewCustomAutoImportAlbum逻辑

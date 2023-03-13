@@ -61,5 +61,8 @@
         <file>qml/MenuItemStates.qml</file>
         <file>qml/PreviewImageViewer/MultiImageListView.qml</file>
         <file>qml/PopProgress/StandardProgressDialog.qml</file>
+        <file>qml/Control/ListView/ThumbnailListView2.qml</file>
+        <file>qml/Control/ListView/ThumbnailListDelegate2.qml</file>
+        <file>qml/Control/ListView/ThumbnailListViewTools.js</file>
     </qresource>
 </RCC>

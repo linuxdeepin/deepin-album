@@ -8,6 +8,9 @@ import QtQuick.Layouts 1.11
 import QtQuick.Controls 2.4
 import QtQuick.Dialogs 1.3
 import org.deepin.dtk 1.0
+
+import org.deepin.album 1.0 as Album
+
 import "../../Control"
 import "../../Control/ListView"
 import "../../"
@@ -37,8 +40,8 @@ Item {
 
     // 刷新所有项目视图内容
     function flushAllCollectionView() {
-        loadAllCollectionItems()
-        global.selectedPaths = theView.selectedPaths
+        theView.proxyModel.refresh(filterType)
+        global.selectedPaths = theView.selectedUrls
         getNumLabelText()
         totalTimepScopeTimer.start()
     }
@@ -96,28 +99,11 @@ Item {
         return selectedNumText
     }
 
-    // 加载所有项目数据
-    function loadAllCollectionItems()
-    {
-        console.info("all collection model has refreshed... filterType:", filterType)
-        theView.selectAll(false)
-        theView.thumbnailListModel.clear();
-        var allCollections = albumControl.getAlbumAllInfos(filterType);
-        console.info("all collection model has refreshed... filterType:", filterType, " done...")
-        for (var i = 0; i < allCollections.length; i++) {
-            theView.thumbnailListModel.append(allCollections[i])
-        }
-
-        return true
-    }
-
     Connections {
         target: albumControl
         onSigRepeatUrls: {
             if (visible && collecttionView.currentViewIndex === 3) {
-                theView.selectAll(false)
-                selectedPaths = urls
-                global.selectedPaths = selectedPaths
+                theView.selectUrls(urls)
             }
         }
     }
@@ -160,13 +146,14 @@ Item {
         }
     }
 
-    ThumbnailListView {
+    ThumbnailListView2 {
         id: theView
         anchors.top: allCollectionTitleRect.bottom
         anchors.topMargin: m_topMargin
         width: parent.width
         height: parent.height - allCollectionTitleRect.height - m_topMargin - statusBar.height
         thumnailListType: GlobalVar.ThumbnailType.AllCollection
+        proxyModel.sourceModel: Album.ImageDataModel { modelType: Album.Types.AllCollection }
 
         visible: numLabelText !== ""
         property int m_topMargin: 10
@@ -176,7 +163,7 @@ Item {
             target: theView
             onSelectedChanged: {
                 selectedPaths = []
-                selectedPaths = theView.selectedPaths
+                selectedPaths = theView.selectedUrls
 
                 if (parent.visible)
                     global.selectedPaths = selectedPaths

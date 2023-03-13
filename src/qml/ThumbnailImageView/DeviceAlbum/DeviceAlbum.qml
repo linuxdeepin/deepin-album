@@ -5,8 +5,13 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
+
+import org.deepin.album 1.0 as Album
+
 import "../../Control"
 import "../../Control/ListView"
+import "../../"
+
 Rectangle {
     width: parent.width
     height: parent.height
@@ -40,8 +45,9 @@ Rectangle {
 
     // 刷新设备视图内容
     function flushDeviceAlbumView() {
-        loadDeviceAlbumItems()
-        global.selectedPaths = theView.selectedPaths
+        dataModel.devicePath = devicePath
+        theView.proxyModel.refresh(filterType)
+        global.selectedPaths = theView.selectedUrls
         getNumLabelText()
     }
 
@@ -227,24 +233,25 @@ Rectangle {
     }
 
     // 缩略图列表控件
-    ThumbnailListView {
+    ThumbnailListView2 {
         id: theView
         anchors.top: deviceAlbumTitleRect.bottom
         anchors.topMargin: 10
         width: parent.width
         height: parent.height - deviceAlbumTitleRect.height - m_topMargin - statusBar.height
         visible: numLabelText !== ""
+        thumnailListType: GlobalVar.ThumbnailType.Device
+
+        proxyModel.sourceModel: Album.ImageDataModel { id: dataModel; modelType: Album.Types.Device}
+
         property int m_topMargin: 10
 
         // 监听缩略图列表选中状态，一旦改变，更新globalVar所有选中路径
         Connections {
             target: theView
             onSelectedChanged: {
-                var selectedPaths = []
-                selectedPaths = theView.selectedPaths
-
                 if (parent.visible)
-                    global.selectedPaths = selectedPaths
+                    global.selectedPaths = theView.selectedUrls
             }
         }
     }
