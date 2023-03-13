@@ -1191,7 +1191,7 @@ Rectangle {
 
                 // 静态组件source改变，对应item的source也需要跟着改变，才能成功刷新预览图内容
                 onCurItemSourceChanged: {
-                    if (curItemSource !== "" && !curItemIsMultiImage) {
+                    if (curItemSource !== "" && !curItemIsMultiImage && status == Loader.Ready) {
                         item.curImageSource = curItemSource
                     }
                 }

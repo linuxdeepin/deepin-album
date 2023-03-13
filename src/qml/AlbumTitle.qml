@@ -204,6 +204,7 @@ TitleBar {
                 onClicked: {
                     //1.图片推送器切换
                     asynImageProvider.switchLoadMode()
+		    imageDataService.switchLoadMode()
 
                     //切换图标
                     if(icon.name === "range1"){
@@ -384,7 +385,7 @@ TitleBar {
             spacing: 5
             Layout.alignment: Qt.AlignRight
             ToolButton {
-                visible: global.selectedPaths.length === 0
+                visible: global.selectedPaths.length === 0 || global.currentViewIndex === GlobalVar.ThumbnailViewType.Device
                 id: titleImportBtn
                 Layout.preferredWidth: 36
                 Layout.preferredHeight: 36
@@ -416,7 +417,7 @@ TitleBar {
                 ToolTip.timeout: 5000
                 ToolTip.visible: hovered
                 ToolTip.text: canFavorite ? qsTr("Favorite") : qsTr("Unfavorite")
-                DciIcon.mode: DTK.ControlState.HoveredState
+                DciIcon.mode: DTK.HoveredState
                 icon {
                     name: canFavorite ? "toolbar-collection" : "toolbar-collection2"
                     width: 36
@@ -439,7 +440,7 @@ TitleBar {
 
             ToolButton {
                 id: titleRotateBtn
-                visible: (titleImportBtn.visible ? false : true)
+                visible: (titleImportBtn.visible ? false : true) && global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device
                 enabled: fileControl.isRotatable(global.selectedPaths)
                 ColorSelector.disabled: !fileControl.isRotatable(global.selectedPaths)
                 Layout.preferredWidth: 36
@@ -459,7 +460,7 @@ TitleBar {
             }
             ToolButton {
                 id: titleTrashBtn
-                visible: (titleImportBtn.visible ? false : true)
+                visible: (titleImportBtn.visible ? false : true) && global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device
                 enabled: fileControl.isCanDelete(global.selectedPaths)
                 ColorSelector.disabled: !fileControl.isCanDelete(global.selectedPaths)
                 Layout.preferredWidth: 36

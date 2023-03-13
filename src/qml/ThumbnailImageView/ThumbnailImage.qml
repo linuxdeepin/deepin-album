@@ -143,7 +143,7 @@ Rectangle{
     }
 
     Shortcut {
-        enabled: visible && menuItemStates.canDelete
+        enabled: visible && menuItemStates.canDelete && global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device
         autoRepeat: false
         sequence : "Delete"
         onActivated : {          
@@ -157,7 +157,7 @@ Rectangle{
     }
 
     Shortcut {
-        enabled: visible && menuItemStates.canRotate
+        enabled: visible && menuItemStates.canRotate && global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device
         autoRepeat: false
         sequence : "Ctrl+R"
         onActivated : {
@@ -166,7 +166,7 @@ Rectangle{
     }
 
     Shortcut {
-        enabled: visible && menuItemStates.canRotate
+        enabled: visible && menuItemStates.canRotate && global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device
         autoRepeat: false
         sequence : "Ctrl+Shift+R"
         onActivated : {

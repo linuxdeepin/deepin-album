@@ -1576,7 +1576,10 @@ QStringList AlbumControl::recoveryImgFromTrash(const QStringList &paths)
 {
     QStringList localPaths;
     for (QUrl path : paths) {
-        localPaths << path.toLocalFile();
+        if (path.isLocalFile())
+            localPaths << path.toLocalFile();
+        else
+            localPaths << path.toString();
     }
     return DBManager::instance()->recoveryImgFromTrash(localPaths);
 }
@@ -1585,7 +1588,10 @@ void AlbumControl::deleteImgFromTrash(const QStringList &paths)
 {
     QStringList localPaths ;
     for (QUrl path : paths) {
-        localPaths << path.toLocalFile();
+        if (path.isLocalFile())
+            localPaths << path.toLocalFile();
+        else
+            localPaths << path.toString();
     }
     DBManager::instance()->removeTrashImgInfos(localPaths);
 }
@@ -1721,6 +1727,34 @@ DBImgInfoList AlbumControl::getTrashInfos(const int &filterType)
             if (filterType == 1) {
                 allTrashInfos.removeAt(i);
             }
+        }
+    }
+    //清理删除时间过长图片
+    if (!list.isEmpty()) {
+        QStringList image_list;
+        for (DBImgInfo info : list) {
+            image_list << info.filePath;
+        }
+        DBManager::instance()->removeTrashImgInfosNoSignal(image_list);
+    }
+    return allTrashInfos;
+}
+
+DBImgInfoList AlbumControl::getTrashInfos2(const int &filterType)
+{
+    DBImgInfoList allTrashInfos = DBManager::instance()->getAllTrashInfos_getRemainDays();
+    QDateTime currentTime = QDateTime::currentDateTime();
+    DBImgInfoList list;
+    for (int i = allTrashInfos.size() - 1; i >= 0; i--) {
+        DBImgInfo pinfo = allTrashInfos.at(i);
+        if (!QFile::exists(pinfo.filePath) &&
+                !QFile::exists(getDeleteFullPath(pinfo.pathHash, pinfo.getFileNameFromFilePath()))) {
+            allTrashInfos.removeAt(i);
+        } else if (pinfo.remainDays <= 0) {
+            list << pinfo;
+            allTrashInfos.removeAt(i);
+        } else if (pinfo.itemType != filterType && filterType != ItemTypeNull) {
+            allTrashInfos.removeAt(i);
         }
     }
     //清理删除时间过长图片
@@ -1907,7 +1941,14 @@ int AlbumControl::getAllInfoConut(const int &filterType)
 
 int AlbumControl::getTrashInfoConut(const int &filterType)
 {
-    DBImgInfoList allTrashInfos = getTrashInfos(filterType);
+    DBImgInfoList allTrashInfos;
+    if (filterType == 0)
+        allTrashInfos = getTrashInfos2(ItemTypeNull);
+    else if (filterType == 1)
+        allTrashInfos = getTrashInfos2(ItemTypePic);
+    else if (filterType == 2)
+        allTrashInfos = getTrashInfos2(ItemTypeVideo);
+
     return allTrashInfos.size();
 }
 
@@ -1993,6 +2034,24 @@ QVariant AlbumControl::searchPicFromAlbum(int UID, const QString &keywords, bool
     });
 
     return paths;
+}
+
+DBImgInfoList AlbumControl::searchPicFromAlbum2(int UID, const QString &keywords, bool useAI)
+{
+    DBImgInfoList dbInfos;
+    if (useAI) { //使用AI进行分析
+        ;
+    } else { //不使用AI分析，直接按文件路径搜索
+        if (UID == -1) {
+            dbInfos = DBManager::instance()->getInfosForKeyword(keywords);
+        } else if (UID == -2) {
+            dbInfos = DBManager::instance()->getTrashInfosForKeyword(keywords);
+        } else {
+            dbInfos = DBManager::instance()->getInfosForKeyword(UID, keywords);
+        }
+    }
+
+    return dbInfos;
 }
 
 QStringList AlbumControl::imageCanExportFormat(const QString &path)
@@ -2346,6 +2405,35 @@ QVariantMap AlbumControl::getDeviceAlbumInfos(const QString &devicePath, const i
         reMap.insert(title, listVar);
     }
     return reMap;
+}
+
+DBImgInfoList AlbumControl::getDeviceAlbumInfos2(const QString &devicePath, const int &filterType)
+{
+    DBImgInfoList infoList;
+
+    QStringList list = getDevicePicPaths(devicePath);
+    for (QString path : list) {
+        DBImgInfo info;
+        if (LibUnionImage_NameSpace::isImage(QUrl(path).toLocalFile())) {
+            if (filterType == 2) {
+                continue ;
+            }
+            info.itemType = ItemTypePic;
+        } else if (LibUnionImage_NameSpace::isVideo(QUrl(path).toLocalFile())) {
+            if (filterType == 1) {
+                continue ;
+            }
+            info.itemType = ItemTypeVideo;
+        } else {
+            info.itemType = ItemTypeNull;
+        }
+        info.filePath = QUrl(path).toLocalFile();
+        info.pathHash = "";
+        info.remainDays = 0;
+        infoList << info;
+    }
+
+    return infoList;
 }
 
 int AlbumControl::getDeviceAlbumInfoConut(const QString &devicePath, const int &filterType)

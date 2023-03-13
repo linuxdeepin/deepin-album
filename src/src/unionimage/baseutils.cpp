@@ -399,6 +399,31 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize, bool 
     return text;
 }
 
+QString hash(const QString &str)
+{
+    return QString(QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex());
+}
+
+QString hashByString(const QString &str)
+{
+    QString hashString = QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex();
+    return hashString;
+}
+
+QString hashByData(const QString &str)
+{
+    QFile file(str);
+    QString  stHashValue;
+    if (file.open(QIODevice::ReadOnly)) { //只读方式打开
+        QCryptographicHash hash(QCryptographicHash::Md5);
+
+        QByteArray buf = file.read(1 * 1024 * 1024); // 每次读取10M
+        buf = buf.append(str.toUtf8());
+        hash.addData(buf);  // 将数据添加到Hash中
+        stHashValue.append(hash.result().toHex());
+    }
+    return stHashValue;
+}
 
 //QString symFilePath(const QString &path)
 //{
@@ -409,12 +434,6 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize, bool 
 //        return path;
 //    }
 //}
-
-QString hash(const QString &str)
-{
-    return QString(QCryptographicHash::hash(str.toUtf8(),
-                                            QCryptographicHash::Md5).toHex());
-}
 
 bool onMountDevice(const QString &path)
 {
@@ -438,10 +457,15 @@ bool mountDeviceExist(const QString &path)
     return QFileInfo(mountPoint).exists();
 }
 
-QString hashByString(const QString &str)
+QString filePathToThumbnailPath(const QString &filePath, QString dataHash)
 {
-    QString hashString = QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex();
-    return hashString;
+    QFileInfo temDir(filePath);
+    //如果hash为空，制作新的hash
+    if (dataHash.isEmpty()) {
+        dataHash = hashByData(filePath);
+    }
+
+    return albumGlobal::CACHE_PATH + temDir.path() + "/" + dataHash + ".png";
 }
 
 QString getDeleteFullPath(const QString &hash, const QString &fileName)
@@ -495,6 +519,20 @@ bool syncCopy(const QString &srcFileName, const QString &dstFileName)
     }
 
     return true;
+}
+
+QString mkMutiDir(const QString &path)   //创建多级目录
+{
+    QDir dir(path);
+    if (dir.exists(path)) {
+        return path;
+    }
+    QString parentDir = mkMutiDir(path.mid(0, path.lastIndexOf('/')));
+    QString dirname = path.mid(path.lastIndexOf('/') + 1);
+    QDir parentPath(parentDir);
+    if (!dirname.isEmpty())
+        parentPath.mkpath(dirname);
+    return parentDir + "/" + dirname;
 }
 
 

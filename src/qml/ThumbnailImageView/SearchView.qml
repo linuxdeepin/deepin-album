@@ -8,6 +8,9 @@ import QtQuick.Layouts 1.11
 import QtQuick.Controls 2.4
 import QtQuick.Dialogs 1.3
 import org.deepin.dtk 1.0
+
+import org.deepin.album 1.0 as Album
+
 import "../Control"
 import "../Control/ListView"
 
@@ -16,11 +19,10 @@ Rectangle {
     height: parent.height
 
     property string currentKeyword: ""
-    property int searchResultCount: 0
     property var searchResults: new Array
     property string numLabelText: ""
     property string selectedText: getSelectedText(selectedPaths)
-    property alias selectedPaths: view.selectedPaths
+    property alias selectedPaths: view.selectedUrls
 
     onVisibleChanged: {
         if (visible) {
@@ -29,59 +31,49 @@ Rectangle {
     }
 
     function searchFromKeyword(UID, keyword) {
-        //1.调起C++，执行搜索
-        var searchResult = albumControl.searchPicFromAlbum(UID, keyword, false);
 
-        //2.将结果刷入UI
         currentKeyword = keyword
-        flushResultToView(searchResult)
+
+        //1.调起C++，执行搜索，将结果刷入UI
+        dataModel.albumId = UID
+        dataModel.keyWord = keyword
+        view.proxyModel.refresh()
+
+        searchResults = view.allUrls()
+
+        getStatusBarText()
     }
 
-    function flushResultToView(searchResult) {
-        if(searchResult.length > 0) {
-            noResultView.visible = false
-            resultView.visible = true
-            view.selectAll(false)
-            theModel.clear()
-            var haveVideo = false
-            var havePicture = false
-            for(var i = 0;i !== searchResult.length;++i) {
-                theModel.append({url : searchResult[i], filePath: searchResult[i].replace("file://", "")})
-                if(fileControl.isVideo(searchResult[i])) {
-                    haveVideo = true
-                } else {
-                    havePicture = true
-                }
-            }
-            searchResultCount = searchResult.length
-            searchResults = searchResult
-            sliderPlayButton.enabled = havePicture
+    function getStatusBarText() {
+        var haveVideo = fileControl.haveVideo(searchResults)
+        var havePicture = fileControl.haveImage(searchResults)
 
-            if(havePicture && !haveVideo) {
-                if(searchResult.length === 1) {
-                    searchResultLabel.text = qsTr("1 photo found")
-                } else {
-                    searchResultLabel.text = qsTr("%1 photos found").arg(searchResult.length)
-                }
-            } else if(haveVideo && !havePicture) {
-                if(searchResult.length === 1) {
-                    searchResultLabel.text = qsTr("1 video found")
-                } else {
-                    searchResultLabel.text = qsTr("%1 videos found").arg(searchResult.length)
-                }
+        if(havePicture && !haveVideo) {
+            if(searchResults.length === 1) {
+                searchResultLabel.text = qsTr("1 photo found")
             } else {
-                searchResultLabel.text = qsTr("%1 items found").arg(searchResult.length)
+                searchResultLabel.text = qsTr("%1 photos found").arg(searchResults.length)
             }
+        } else if(haveVideo && !havePicture) {
+            if(searchResults.length === 1) {
+                searchResultLabel.text = qsTr("1 video found")
+            } else {
+                searchResultLabel.text = qsTr("%1 videos found").arg(searchResults.length)
+            }
+        } else if (searchResults.length === 0) {
+            searchResultLabel.text = ""
         } else {
-            noResultView.visible = true
-            resultView.visible = false
+            searchResultLabel.text = qsTr("%1 items found").arg(searchResults.length)
         }
+
+
+        numLabelText = searchResultLabel.text
 
         if (visible) {
-            global.statusBarNumText = searchResultLabel.text
+            global.statusBarNumText = numLabelText
         }
-        numLabelText = searchResultLabel.text
-        global.selectedPaths = view.selectedPaths
+
+        global.selectedPaths = []
     }
 
     // 刷新选中项目标签内容
@@ -92,41 +84,38 @@ Rectangle {
             global.statusBarNumText = selectedNumText
         return selectedNumText
     }
-    //搜索标题
-    Label {
-        id: searchTitle
-        text: qsTr("Search results")
-        anchors.top: parent.top
-        anchors.left: parent.left
-        font: DTK.fontManager.t3
-        color: Qt.rgba(0,0,0)
-    }
-
-    //缩略图模型
-    ListModel {
-        id: theModel
-    }
 
     //有结果展示
     Rectangle {
-        id: resultView
-        anchors.top: searchTitle.bottom
-        anchors.left: searchTitle.left
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        color: Qt.rgba(0,0,0,0)
+        id: resultViewTitleRect
+
+        width: parent.width - global.verticalScrollBarWidth
+        height: global.thumbnailViewTitleHieght
+	color: Qt.rgba(0,0,0,0)
+
+        //搜索标题
+        Label {
+            id: searchTitle
+            text: qsTr("Search results")
+            anchors.top: parent.top
+            anchors.left: parent.left
+            font: DTK.fontManager.t3
+            color: Qt.rgba(0,0,0)
+        }
 
         //幻灯片放映按钮
         RecommandButton {
             id: sliderPlayButton
+            visible: searchResults.length > 0
             text: qsTr("Slide Show")
             icon {
                 name:"Combined_Shape"
                 width: 20
                 height: 20
             }
-            anchors.top: parent.top
-            anchors.left: parent.left
+            enabled: fileControl.haveImage(searchResults)
+            anchors.top: searchTitle.bottom
+            anchors.left: searchTitle.left
             anchors.topMargin: 15
 
             onClicked: {
@@ -137,32 +126,41 @@ Rectangle {
         //搜索结果label
         Label {
             id: searchResultLabel
+            visible: searchResults.length > 0
             anchors.left: sliderPlayButton.right
             anchors.verticalCenter: sliderPlayButton.verticalCenter
             font: DTK.fontManager.t6
             anchors.leftMargin: 10
         }
 
-        //缩略图视图
-        ThumbnailListView {
-            id: view
-            thumbnailListModel : theModel
-            anchors.left: parent.left
-            anchors.top: sliderPlayButton.bottom
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            anchors.topMargin: 10
+        MouseArea {
+            anchors.fill: parent
+            onPressed: {
+                view.selectAll(false)
+                mouse.accepted = false
+            }
+        }
+    }
 
-            // 监听缩略图列表选中状态，一旦改变，更新globalVar所有选中路径
-            Connections {
-                target: view
-                onSelectedChanged: {
-                    var selectedPaths = []
-                    selectedPaths = view.selectedPaths
+    //缩略图视图
+    ThumbnailListView2 {
+        id: view
+        anchors.top: resultViewTitleRect.bottom
+        anchors.topMargin: 10
+        width: parent.width
+        height: parent.height - resultViewTitleRect.height - m_topMargin - statusBar.height
 
-                    if (parent.visible)
-                        global.selectedPaths = selectedPaths
-                }
+        proxyModel.sourceModel: Album.ImageDataModel { id: dataModel; modelType: Album.Types.SearchResult}
+
+        visible: numLabelText !== ""
+        property int m_topMargin: 10
+
+        // 监听缩略图列表选中状态，一旦改变，更新globalVar所有选中路径
+        Connections {
+            target: view
+            onSelectedChanged: {
+                if (parent.visible)
+                    global.selectedPaths = view.selectedUrls
             }
         }
     }
@@ -170,8 +168,10 @@ Rectangle {
     //无结果展示
     Rectangle {
         id: noResultView
-        anchors.top: searchTitle.bottom
-        anchors.left: searchTitle.left
+        visible: searchResults.length === 0
+        anchors.top: parent.top
+        anchors.topMargin: searchTitle.height
+        anchors.left: parent.left
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         color: Qt.rgba(0,0,0,0)
