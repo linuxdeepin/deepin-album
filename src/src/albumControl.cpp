@@ -2661,4 +2661,6 @@ void AlbumControl::onNewAPPOpen(qint64 pid, const QStringList &arguments)
             emit sigOpenImageFromFiles(paths);
         }
     }
+
+    emit sigActiveApplicationWindow();
 }
