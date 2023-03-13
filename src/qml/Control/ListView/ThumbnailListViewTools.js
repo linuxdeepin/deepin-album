@@ -5,12 +5,12 @@
 // 执行图片查看操作
 function executeViewImage() {
     if (thumnailListType !== GlobalVar.ThumbnailType.Trash) {
-        var indexes = dir.selectedIndexes
+        var indexes = thumbnailModel.selectedIndexes
         if (indexes.length > 0) {
-            if (fileControl.isVideo(dir.data(indexes[0], "url").toString())) {
-                albumControl.openDeepinMovie(dir.data(indexes[0], url).toString())
+            if (fileControl.isVideo(thumbnailModel.data(indexes[0], "url").toString())) {
+                albumControl.openDeepinMovie(thumbnailModel.data(indexes[0], url).toString())
             } else {
-                var allUrls = dir.allUrls()
+                var allUrls = thumbnailModel.allUrls()
                 mainStack.sourcePaths = allUrls
                 mainStack.currentIndex = -1
                 mainStack.currentIndex = indexes[0]
@@ -37,9 +37,9 @@ function executeFullScreen() {
     if (root.visibility !== Window.FullScreen && selectedUrls.length > 0) {
         showFullScreen()
 
-        mainStack.sourcePaths = dir.allUrls()
+        mainStack.sourcePaths = thumbnailModel.allUrls()
         mainStack.currentIndex = -1
-        mainStack.currentIndex = dir.allUrls().indexOf(selectedUrls[0])
+        mainStack.currentIndex = thumbnailModel.allUrls().indexOf(selectedUrls[0])
         mainStack.currentWidgetIndex = 1
         global.stackControlLastCurrent = global.stackControlCurrent
         global.stackControlCurrent = 1
@@ -55,7 +55,7 @@ function executePrint() {
 // 执行幻灯片放映
 function excuteSlideShow() {
     if (selectedUrls.length > 0) {
-        var allUrls = dir.allUrls()
+        var allUrls = thumbnailModel.allUrls()
         stackControl.startMainSliderShow(allUrls, allUrls.indexOf(selectedUrls[0]))
     }
 }
@@ -69,7 +69,7 @@ function excuteExport() {
         else
             DTK.sendMessage(thumbnailImage, qsTr("Export failed"), "warning")
     } else {
-        exportdig.setParameter(model.data(dir.selectedIndexes[0], "url").toString(), thumbnailImage)
+        exportdig.setParameter(model.data(thumbnailModel.selectedIndexes[0], "url").toString(), thumbnailImage)
         exportdig.show()
     }
 }
