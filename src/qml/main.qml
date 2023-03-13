@@ -10,8 +10,8 @@ import QtQuick.Controls 2.4
 import QtQuick.Dialogs 1.3
 import Qt.labs.folderlistmodel 2.11
 
-import org.deepin.dtk 1.0 as D
 import org.deepin.dtk 1.0
+import org.deepin.album 1.0 as Album
 
 ApplicationWindow {
     GlobalVar{
@@ -23,11 +23,11 @@ ApplicationWindow {
 
     signal sigTitlePress
     // 设置 dtk 风格窗口
-    D.DWindow.enabled: true
+    DWindow.enabled: true
     id: root
     title: ""
     header: AlbumTitle {id: titleAlubmRect}
-    D.MessageManager.layout: Column {
+    MessageManager.layout: Column {
         anchors {
             bottom: parent.bottom
             bottomMargin: global.statusBarHeight + 5
@@ -94,5 +94,9 @@ ApplicationWindow {
 
     StackControl{
         id: stackControl
+    }
+
+    Album.EventGenerator {
+        id: eventGenerator
     }
 }

@@ -94,7 +94,7 @@ Item {
 
     //强制重新刷新整个缩略图界面
     function fouceUpdate() {
-        if (visible) {
+        if (thumnailListView && visible) {
             theView.displayFlushHelper = asynImageProvider.getLoadMode()
         }
     }
@@ -105,11 +105,11 @@ Item {
         return global.objIsEmpty(thumbnailListModel) ? 0 : thumbnailListModel.count
     }
 
-    // 获取列表中所有原始路径
-    function allOriginPaths() {
+    // 获取列表中所有原始url
+    function allUrls() {
         var originPaths = []
         for(var i=0 ; i < count(); i++) {
-            originPaths.push(thumbnailListModel.get(i).filePath.toString())
+            originPaths.push(thumbnailListModel.get(i).url.toString())
         }
         return originPaths
     }
@@ -142,13 +142,15 @@ Item {
 
     //执行图片删除操作
     function runDeleteImg() {
-        if ( thumnailListType !== GlobalVar.ThumbnailType.Trash ){
-            albumControl.insertTrash(global.selectedPaths)
-        } else {
-            albumControl.deleteImgFromTrash(selectedOriginPaths)
-            selectAll(false)
-            global.sigFlushRecentDelView()
-        }
+       if (!visible)
+           return
+       if ( thumnailListType !== GlobalVar.ThumbnailType.Trash ){
+           albumControl.insertTrash(global.selectedPaths)
+       } else {
+           albumControl.deleteImgFromTrash(selectedOriginPaths)
+           selectAll(false)
+           global.sigFlushRecentDelView()
+       }
     }
 
     // 查看图片
@@ -743,7 +745,7 @@ Item {
                 text: qsTr("Slide show")
                 visible: menuItemStates.canSlideShow
                 onTriggered: {
-                    var openPaths = thumnailListView.allOriginUrls()
+                    var openPaths = thumnailListView.allUrls()
                     stackControl.startMainSliderShow(openPaths, openPaths.indexOf(selectedPaths[0]))
                 }
 
@@ -752,7 +754,7 @@ Item {
                     autoRepeat: false
                     sequence : "F5"
                     onActivated : {
-                        var openPaths = thumnailListView.allOriginUrls()
+                        var openPaths = thumnailListView.allUrls()
                         stackControl.startMainSliderShow(openPaths, openPaths.indexOf(thumbnailListModel.get(theView.ism[0]).url.toString()))
                     }
                 }

@@ -46,6 +46,7 @@ Item {
     property int thumbnailSizeLevel: 0 //缩略图缩放等级
     property real cellBaseWidth: thumbnailSizeLevel >= 0 && thumbnailSizeLevel <= 9 ? 80 + thumbnailSizeLevel * 10 : 80
     property int thumbnailListRightMargin: 10
+    property int thumbnialListCellSpace: 4
     property string statusBarNumText: "" //状态栏显示的总数文本内容
     property string searchEditText: ""
 
@@ -59,10 +60,17 @@ Item {
     property string deviceCurrentPath: "" //设备当前P
     property bool windowDisActived: false
 
+    readonly property int hoverActivateDelay: 750
+
     function objIsEmpty(obj) {
         var ret = (String(obj) === "undefined" || String(obj) === "null")
         //console.log("obj is", ret ? "empty." : "not empty.", "objStr:", String(obj))
         return ret
+    }
+
+    function isDrag(fromX, fromY, toX, toY) {
+        var length = Math.abs(fromX - toX) + Math.abs(fromY - toY);
+        return length >= Qt.styleHints.startDragDistance;
     }
 
     signal sigWindowStateChange()
@@ -71,7 +79,7 @@ Item {
     signal sigFlushAllCollectionView()   // 刷新合集所有项目视图内容
     signal sigFlushHaveImportedView()   // 刷新已导入视图内容
     signal sigFlushRecentDelView()      // 刷新最近删除视图内容
-    signal sigFlushCustomAlbumView(int customAlbumUId)    //刷新我的收藏/自定义相册视图内容 customAlbumUId: >= 0 刷新指定视图，-1: 默认刷新所有视图
+    signal sigFlushCustomAlbumView(int UID)    //刷新我的收藏/自定义相册视图内容 UID: >= 0 刷新指定视图，-1: 默认刷新所有视图
     signal sigCollectionViewIndexChanged(int index) //合集页面发生改变
     signal sigFlushSearchView() // 刷新搜索结果视图内容
     signal sigThumbnailSizeLevelChanged()
@@ -102,7 +110,8 @@ Item {
         Trash,        //最近删除
         CustomAlbum,  //自定义相册
         AutoImport,   //自动导入路径
-        AllCollection //合集模式
+        AllCollection,//合集模式
+        Device        //设备列表
     }
 
     // 框选超出边界朝向类型
@@ -203,7 +212,7 @@ Item {
         //QML的翻译不支持%n的特性，只能拆成这种代码
         var photoCount = ret[0]
         var videoCount = ret[1]
-        var selectedNumText
+        var selectedNumText = ""
         if(paths.length === 0) {
             selectedNumText = text
         } else if(paths.length === 1 && photoCount === 1) {
@@ -214,6 +223,8 @@ Item {
             selectedNumText = qsTr("%1 items selected (%1 photos)").arg(photoCount)
         } else if(videoCount > 1 && photoCount === 0) {
             selectedNumText = qsTr("%1 items selected (%1 videos)").arg(videoCount)
+        } else if (photoCount === 1 && videoCount === 1) {
+            selectedNumText = qsTr("%1 item selected (1 photo, 1 video)").arg(photoCount + videoCount)
         } else if (photoCount === 1 && videoCount > 1) {
             selectedNumText = qsTr("%1 items selected (1 photo, %2 videos)").arg(photoCount + videoCount).arg(videoCount)
         } else if (videoCount === 1 && photoCount > 1) {

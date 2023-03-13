@@ -4,6 +4,9 @@
 
 import QtQuick 2.0
 import org.deepin.dtk 1.0
+
+import org.deepin.album 1.0 as Album
+
 import "../../Control"
 import "../../Control/ListView"
 import "../../"
@@ -16,16 +19,11 @@ Rectangle {
     property int filterType : filterCombo.currentIndex // 筛选类型，默认所有
     property string numLabelText: ""
     property string selectedText: getSelectedText(selectedPaths)
-    property alias selectedPaths: theView.selectedPaths
-    property var selectedOriginPaths
+    property alias selectedPaths: theView.selectedUrls
     property int totalCount: 0
 
     onVisibleChanged: {
         if (visible) {
-            //清除选中状态
-            theView.selectedPaths = [];
-            theView.selectAll(false)
-
             flushRecentDelView()
         }
     }
@@ -37,10 +35,10 @@ Rectangle {
 
     // 刷新最近删除视图内容
     function flushRecentDelView() {
-        loadRecentDelItems()
-        global.selectedPaths = theView.selectedPaths
+        theView.proxyModel.refresh(filterType)
+        global.selectedPaths = theView.selectedUrls
         getNumLabelText()
-        totalCount = albumControl.getTrashInfoConut(1) +  albumControl.getTrashInfoConut(2)
+        totalCount = albumControl.getTrashInfoConut(0)
     }
 
     // 刷新总数标签
@@ -100,7 +98,7 @@ Rectangle {
 
     //执行图片删除操作
     function runAllDeleteImg() {
-        albumControl.deleteImgFromTrash(theView.allOriginPaths())
+        albumControl.deleteImgFromTrash(theView.allPaths())
         theView.selectAll(false)
         global.sigFlushRecentDelView()
     }
@@ -141,7 +139,7 @@ Rectangle {
             height: 36
             font: DTK.fontManager.t6
             text: qsTr("Delete All")
-            visible: !theView.haveSelect && theView.count()
+            visible: !theView.haveSelect && totalCount
             color: mouseAreaDelAllBtn.containsMouse ? "#FF5736" : "#FD6E52"
 
 
@@ -151,7 +149,7 @@ Rectangle {
                 hoverEnabled: true
 
                 onClicked: {
-                    deleteDialog.setDisplay(GlobalVar.FileDeleteType.TrashAll, theView.allOriginPaths().length)
+                    deleteDialog.setDisplay(GlobalVar.FileDeleteType.TrashAll, theView.allPaths().length)
                     deleteDialog.show()
                 }
             }
@@ -180,7 +178,7 @@ Rectangle {
             visible: theView.haveSelect
 
             onClicked: {
-                deleteDialog.setDisplay(GlobalVar.FileDeleteType.TrashSel, selectedOriginPaths.length)
+                deleteDialog.setDisplay(GlobalVar.FileDeleteType.TrashSel, theView.selectedPaths.length)
                 deleteDialog.show()
             }
         }
@@ -198,7 +196,7 @@ Rectangle {
             visible: theView.haveSelect
 
             onClicked: {
-                albumControl.recoveryImgFromTrash(selectedOriginPaths)
+                albumControl.recoveryImgFromTrash(theView.selectedPaths)
                 theView.selectAll(false)
                 global.sigFlushRecentDelView()
             }
@@ -219,7 +217,7 @@ Rectangle {
     }
 
     // 缩略图列表控件
-    ThumbnailListView {
+    ThumbnailListView2 {
         id: theView
         anchors.top: recentDelTitleRect.bottom
         anchors.topMargin: 10
@@ -227,15 +225,16 @@ Rectangle {
         height: parent.height - recentDelTitleRect.height - m_topMargin - statusBar.height
         thumnailListType: GlobalVar.ThumbnailType.Trash
 
+        proxyModel.sourceModel: Album.ImageDataModel { id: dataModel; modelType: Album.Types.RecentlyDeleted}
+
         property int m_topMargin: 10
 
         // 监听缩略图列表选中状态，一旦改变，更新globalVar所有选中路径
         Connections {
             target: theView
             onSelectedChanged: {
-                selectedOriginPaths = []
-                selectedOriginPaths = theView.selectedOriginPaths
-                global.selectedPaths = theView.selectedPaths
+                if (parent.visible)
+                    global.selectedPaths = theView.selectedUrls
             }
         }
     }

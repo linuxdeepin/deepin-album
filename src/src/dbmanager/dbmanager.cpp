@@ -564,17 +564,26 @@ const QStringList DBManager::getPathsByAlbum(int UID) const
     return list;
 }
 
-const DBImgInfoList DBManager::getInfosByAlbum(int UID, bool needTimeData) const
+const DBImgInfoList DBManager::getInfosByAlbum(int UID, bool needTimeData, ItemType itemType) const
 {
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
 
+    QString fileTypeQuery = "";
+    if (itemType == ItemTypePic)
+        fileTypeQuery = "AND i.FileType=3";
+    else if (itemType == ItemTypeVideo)
+        fileTypeQuery = "AND i.FileType=4";
+    else
+        fileTypeQuery = "";
+
+
     if (needTimeData) {
         bool b = m_query->prepare(QString("SELECT DISTINCT i.FilePath, i.FileType, i.Time, i.ChangeTime, i.ImportTime "
                                           "FROM ImageTable3 AS i, AlbumTable3 AS a "
                                           "WHERE i.PathHash=a.PathHash "
-                                          "AND a.UID=:UID ORDER BY Time DESC").arg(UID));
+                                          "AND a.UID=%1 %2 ORDER BY Time DESC").arg(UID).arg(fileTypeQuery));
         if (!b || ! m_query->exec()) {
         } else {
             while (m_query->next()) {
@@ -591,7 +600,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(int UID, bool needTimeData) const
         bool b = m_query->prepare(QString("SELECT DISTINCT i.FilePath, i.FileType "
                                           "FROM ImageTable3 AS i, AlbumTable3 AS a "
                                           "WHERE i.PathHash=a.PathHash "
-                                          "AND a.UID=%1 ORDER BY Time DESC").arg(UID));
+                                          "AND a.UID=%1 %2 ORDER BY Time DESC").arg(UID).arg(fileTypeQuery));
         if (!b || ! m_query->exec()) {
         } else {
             while (m_query->next()) {
@@ -2325,6 +2334,27 @@ int DBManager::getMonthCount(const QString &year, const QString &month)
         result = m_query->value(0).toInt();
     }
     return result;
+}
+
+DBImgInfoList DBManager::getInfosByDay(const QString &day)
+{
+    QMutexLocker mutex(&m_dbMutex);
+    m_query->setForwardOnly(true);
+    DBImgInfoList infos;
+    QString str = QString("SELECT FilePath, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 WHERE substr(Time, 0, 11) = \"%1\"").arg(day);
+    if (m_query->exec(str)) {
+        while (m_query->next()) {
+            DBImgInfo info;
+            info.filePath = m_query->value(0).toString();
+            info.time = m_query->value(1).toDateTime();
+            info.changeTime = m_query->value(2).toDateTime();
+            info.importTime = m_query->value(3).toDateTime();
+            info.itemType = static_cast<ItemType>(m_query->value(4).toInt());
+            infos << info;
+        }
+    }
+
+    return infos;
 }
 
 QStringList DBManager::getDayPaths(const QString &day)

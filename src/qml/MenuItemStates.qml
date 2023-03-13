@@ -7,6 +7,7 @@ import QtQuick.Controls 2.4
 
 Item {
     property bool isInTrash: global.currentViewIndex === GlobalVar.ThumbnailViewType.RecentlyDeleted
+    property bool isInDevice: global.currentViewIndex === GlobalVar.ThumbnailViewType.Device
     //菜单项状态检查
     property bool haveImage: false
     property bool haveVideo: false

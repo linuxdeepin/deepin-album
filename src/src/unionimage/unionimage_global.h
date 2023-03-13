@@ -167,6 +167,8 @@ struct DBImgInfo {
         return getFileNameFromFilePath(filePath);
     }
 };
+Q_DECLARE_METATYPE(DBImgInfo)
+
 typedef QList<DBImgInfo> DBImgInfoList;
 
 enum OpenImgViewType {

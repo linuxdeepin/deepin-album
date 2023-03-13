@@ -128,12 +128,16 @@ namespace base {
 void        copyOneImageToClipboard(const QString &path);
 void        copyImageToClipboard(const QStringList &paths);
 void        showInFileManager(const QString &path);
+QString     hash(const QString &str);
 QString     hashByString(const QString &str);
+QString     hashByData(const QString &str);
 int         stringWidth(const QFont &f, const QString &str);
 int         stringHeight(const QFont &f, const QString &str);
 
 QPixmap     renderSVG(const QString &filePath, const QSize &size);
-QString     hash(const QString &str);
+QString     mkMutiDir(const QString &path);
+//根据源文件路径生产缩略图路径
+QString     filePathToThumbnailPath(const QString &filePath, QString dataHash = "");
 //QString     wrapStr(const QString &str, const QFont &font, int maxWidth);
 QString     SpliteText(const QString &text, const QFont &font, int nLabelSize, bool bReturn = false);
 //QString     sizeToHuman(const qlonglong bytes);
