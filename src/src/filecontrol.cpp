@@ -877,6 +877,11 @@ void FileControl::setConfigValue(const QString &group, const QString &key, const
     m_config->setValue(group, key, value);
 }
 
+bool FileControl::containsConfigValue(const QString &group, const QString &key)
+{
+    return m_config->contains(group, key);
+}
+
 int FileControl::getlastWidth()
 {
     int reWidth = 0;

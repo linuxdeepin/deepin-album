@@ -41,7 +41,9 @@ Item {
             theModel.selectedPathObjs = []
             theModel.dayHeights = []
             // 从后台获取所有已导入数据,倒序
-            var titleInfos = albumControl.getImportTimelinesTitleInfosReverse(filterCombo.currentIndex);
+            var titleInfos = []
+            if (Number(fileControl.getConfigValue("", "loadImport", 1)))
+                titleInfos = albumControl.getImportTimelinesTitleInfosReverse(filterCombo.currentIndex);
             console.log("imported model has refreshed.. filterType:", filterCombo.currentIndex, " done...")    
             var i = 0
             var dayHeight = 0

@@ -22,6 +22,7 @@ public:
                   const QVariant &value);
     QVariant value(const QString &group, const QString &key,
                    const QVariant &defaultValue = QVariant());
+    bool contains(const QString &group, const QString &key);
 //    QStringList keys(const QString group);
 
 signals:

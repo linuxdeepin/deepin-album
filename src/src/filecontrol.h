@@ -175,6 +175,9 @@ public:
     Q_INVOKABLE void setConfigValue(const QString &group, const QString &key,
                                     const QVariant &value);
 
+    //查看配置文件是否有配置相关值
+    Q_INVOKABLE bool containsConfigValue(const QString &group, const QString &key);
+
     Q_INVOKABLE int getlastWidth();
 
     Q_INVOKABLE int getlastHeight();
