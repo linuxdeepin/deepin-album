@@ -890,8 +890,8 @@ Rectangle {
                 }
 
                 onDoubleClicked: {
-                    if (!thumbnailListView.contains(msArea.mapToItem(thumbnailListView, mouse.x, mouse.y))) {
-                        view.exitLiveText()
+                    if (!toolBarthumbnailListView.contains(msArea.mapToItem(toolBarthumbnailListView, mouse.x, mouse.y))) {
+                        //view.exitLiveText()
                         infomationDig.hide()
                         showFulltimer.start()
                     }
@@ -902,7 +902,7 @@ Rectangle {
                     // 通过Keys缓存的状态可能不准确，在焦点移出时release事件没有正确捕获，
                     // 修改为通过当前事件传入的按键按下信息判断
                     if (Qt.ControlModifier & wheel.modifiers)
-                        datla > 0 ? thumbnailListView.previous() : thumbnailListView.next()
+                        datla > 0 ? toolBarthumbnailListView.previous() : toolBarthumbnailListView.next()
                     else {
                         // 缓存当前的坐标信息
                         var targetItem = drag.target
