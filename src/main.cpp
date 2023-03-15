@@ -111,12 +111,12 @@ int main(int argc, char *argv[])
     //设置为相册模式
     fileControl->setViewerType(imageViewerSpace::ImgViewerTypeAlbum);
 
+    char uri[] = "org.deepin.album";
 #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     qmlRegisterType<QAbstractItemModel>();
 #else
     qmlRegisterAnonymousType<QAbstractItemModel>(uri, 0);
 #endif
-    char uri[] = "org.deepin.album";
     qmlRegisterType<ImageDataModel>(uri, 1, 0, "ImageDataModel");
     qmlRegisterType<ThumbnailModel>(uri, 1, 0, "ThumbnailModel");
     qmlRegisterType<ItemViewAdapter>(uri, 1, 0, "ItemViewAdapter");
