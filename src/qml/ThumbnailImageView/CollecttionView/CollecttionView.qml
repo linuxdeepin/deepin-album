@@ -9,7 +9,7 @@ import "../../"
 
 Rectangle {
     id: root
-    property int currentViewIndex: 0
+    property int currentViewIndex: 3
 
     // 通知日视图刷新状态栏提示信息
     signal flushDayViewStatusText()
@@ -26,22 +26,12 @@ Rectangle {
         allCollection.clearSelecteds()
 
         if (visible) {
-            flushTimeScopetimer.start(10)
             global.selectedPaths = []
 
             //年月视图不显示底栏数量
             if (currentViewIndex === 0 || currentViewIndex ===1) {
                 global.statusBarNumText = ""
             }
-        }
-    }
-
-    Timer {
-        id: flushTimeScopetimer
-        running: false
-        repeat: false
-        onTriggered: {
-            allCollection.flushTotalTimeScope()
         }
     }
 
@@ -75,8 +65,6 @@ Rectangle {
             dayCollection.visible = currentViewIndex === 2
             allCollection.clearSelecteds()
             allCollection.visible = currentViewIndex === 3
-
-            allCollection.flushTotalTimeScope()
 
             //年月视图不显示底栏数量
             if (currentViewIndex === 0 || currentViewIndex ===1) {
