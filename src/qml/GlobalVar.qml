@@ -60,6 +60,8 @@ Item {
     property string deviceCurrentPath: "" //设备当前P
     property bool windowDisActived: false
 
+    property bool loading: true
+
     readonly property int hoverActivateDelay: 750
 
     function objIsEmpty(obj) {
