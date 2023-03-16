@@ -7,6 +7,7 @@ import QtQuick.Window 2.11
 import QtQuick.Layouts 1.11
 import QtQuick.Controls 2.4
 import QtQuick.Dialogs 1.3
+import QtGraphicalEffects 1.0
 import org.deepin.dtk 1.0
 import "../../Control"
 import "../../Control/ListView"
@@ -58,6 +59,7 @@ Item {
             width: theView.width
             height: theView.height / 3 * 2
             radius: 18
+            color: Qt.rgba(0, 0, 0, 0)
 
             //圆角遮罩Rectangle
             Rectangle {
@@ -85,7 +87,7 @@ Item {
                 anchors.fill: parent
                 width: parent.width
                 height: parent.height
-                fillMode: Image.PreserveAspectCrop
+                fillMode: Image.Stretch
                 visible: false
             }
 
@@ -97,18 +99,24 @@ Item {
                 maskSource: maskRec
             }
 
-            //渐变阴影
-            //颜色格式为ARGB
-            Rectangle {
-                anchors.top: image.top
-                anchors.left: image.left
-                radius: 18
-                width: image.width
-                height: yearLabel.height + yearLabel.anchors.topMargin + itemCountLabel.height + itemCountLabel.anchors.topMargin + 5
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: "#61000000" }
-                    GradientStop { position: 1.0; color: "#00000000" }
-                }
+            // 边框阴影立体效果
+            DropShadow {
+                anchors.fill: mask
+                z: 0
+
+                verticalOffset: 1
+
+                radius: 5
+                samples: radius * 2 + 1
+                spread: 0.3
+
+                color: "black"
+
+                opacity: 0.3
+
+                source: mask
+
+                visible: true
             }
 
             Label {
