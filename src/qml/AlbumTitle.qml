@@ -50,7 +50,10 @@ TitleBar {
             }
         } else {
             if (rightLayout.anchors.leftMargin === layoutLeftMargin_AlignLeft && (lastWidth < width)) {
-                layoutMoveToRightAnimation.start()
+                if (global.loading)
+                    rightLayout.anchors.leftMargin = layoutLeftMargin_AlignRight
+                else
+                    layoutMoveToRightAnimation.start()
             }
         }
 
@@ -260,6 +263,7 @@ TitleBar {
                     id:allButton
                     Layout.preferredHeight: parent.height
                     checkable: true
+                    checked: true
                     text: qsTr("All")
                     onClicked: {
                         collectionBtnClicked(3)
@@ -297,6 +301,7 @@ TitleBar {
                 Layout.fillWidth: true
                 textRole: "text"
                 iconNameRole: "icon"
+                currentIndex: 3
                 flat: false
                 visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion && albumControl.getYears(refreshVisible).length !== 0 && root.width <= showCollComboWidth
 
@@ -482,8 +487,6 @@ TitleBar {
 
         Component.onCompleted: {
             rightLayout.anchors.leftMargin = title.width <= global.needHideSideBarWidth ? layoutLeftMargin_AlignLeft : layoutLeftMargin_AlignRight
-            // 第一次打开相册，默认显示所有项目界面
-            collectionCombo.setCurrentIndex(3)
         }
     }
 

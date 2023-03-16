@@ -603,37 +603,38 @@ FocusScope {
                 var midHeight = gridView.cellHeight / 2;
                 var indices = [];
 
-                for (var s = 0; s < stripes; s++) {
-                    for (var i = 0; i < perStripe; i++) {
-                        var index = (s * perStripe) + i;
+                if (gridView.width > 0) {
+                    for (var s = 0; s < stripes; s++) {
+                        for (var i = 0; i < perStripe; i++) {
+                            var index = (s * perStripe) + i;
 
-                        if (index >= gridView.count) {
-                            break;
-                        }
+                            if (index >= gridView.count) {
+                                break;
+                            }
 
-                        if (positioner.isBlank(index)) {
-                            continue;
-                        }
+                            if (positioner.isBlank(index)) {
+                                continue;
+                            }
 
-                        var itemX = ((rows ? i : s) * gridView.cellWidth);
-                        var itemY = ((rows ? s : i) * gridView.cellHeight);
+                            var itemX = ((rows ? i : s) * gridView.cellWidth);
+                            var itemY = ((rows ? s : i) * gridView.cellHeight);
 
-                        if (gridView.effectiveLayoutDirection == Qt.RightToLeft) {
-                            itemX -= (rows ? gridView.contentX : gridView.originX);
-                            itemX += cWidth;
-                            itemX = (rows ? gridView.width : gridView.contentItem.width) - itemX;
-                        }
+                            if (gridView.effectiveLayoutDirection == Qt.RightToLeft) {
+                                itemX -= (rows ? gridView.contentX : gridView.originX);
+                                itemX += cWidth;
+                                itemX = (rows ? gridView.width : gridView.contentItem.width) - itemX;
+                            }
 
-                        // 框选框与item项相交，即认为选中
-                        if (rB.intersects(Qt.rect(itemX, itemY,
-                                                  cWidth, cHeight))) {
-                            var item = gridView.contentItem.childAt(itemX + midWidth, itemY + midHeight);
+                            // 框选框与item项相交，即认为选中
+                            if (rB.intersects(Qt.rect(itemX, itemY,
+                                                      cWidth, cHeight))) {
+                                var item = gridView.contentItem.childAt(itemX + midWidth, itemY + midHeight);
 
-                            indices.push(index);
+                                indices.push(index);
+                            }
                         }
                     }
                 }
-
                 if (main.rubberBand == null)
                     rB.close()
 

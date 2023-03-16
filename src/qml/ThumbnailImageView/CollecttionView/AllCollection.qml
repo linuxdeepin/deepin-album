@@ -43,21 +43,7 @@ Item {
         theView.proxyModel.refresh(filterType)
         global.selectedPaths = theView.selectedUrls
         getNumLabelText()
-        totalTimepScopeTimer.start()
-    }
-
-    function flushTotalTimeScope() {
         theView.totalTimeScope()
-    }
-
-    // 筛选相册内容后，使用定时器延迟刷新时间范围标签内容
-    Timer {
-        id: totalTimepScopeTimer
-        interval: 100
-        repeat: false
-        onTriggered: {
-            theView.totalTimeScope()
-        }
     }
 
     // 刷新总数标签
