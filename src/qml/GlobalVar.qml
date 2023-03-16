@@ -31,6 +31,8 @@ Item {
     property int sideBarWidth: 200 // 侧边栏宽度
     property int statusBarHeight: 30 //状态栏高度
 
+    property int collectionTopMargin: 25 //合集年月视图上边距
+
     property int thumbnailViewTitleHieght: 85 // 缩略图视图区域标题显示区域高度
     property int verticalScrollBarWidth: 15 // 垂直滚动条宽度
 

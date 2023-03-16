@@ -45,8 +45,9 @@ Item {
         spacing: 20
 
         width: parent.width / 3 * 2
-        height: parent.height
+        height: parent.height + global.statusBarHeight - global.collectionTopMargin
         anchors.top: parent.top
+        anchors.topMargin: global.collectionTopMargin
         anchors.horizontalCenter: parent.horizontalCenter
     }
 
