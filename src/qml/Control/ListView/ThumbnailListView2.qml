@@ -49,8 +49,10 @@ FocusScope {
     property var count: thumbnailModel.count
 
     //缩略图动态变化
-    property int  rowSizeHint: (width - global.thumbnailListRightMargin) / global.cellBaseWidth
-    property real realCellWidth: (width - global.thumbnailListRightMargin) / rowSizeHint
+    property real realCellWidth:  {
+        var rowSizeHint = (width - global.thumbnailListRightMargin) / global.cellBaseWidth
+        return (width - global.thumbnailListRightMargin) / rowSizeHint
+    }
 
     //当前区域时间区间改变信号，字符串可以直接刷新在界面上
     signal timeChanged(string str)
@@ -603,7 +605,7 @@ FocusScope {
                 var midHeight = gridView.cellHeight / 2;
                 var indices = [];
 
-                if (gridView.width > 0) {
+                if (gridView.width > 0 && isFinite(step)) {
                     for (var s = 0; s < stripes; s++) {
                         for (var i = 0; i < perStripe; i++) {
                             var index = (s * perStripe) + i;
