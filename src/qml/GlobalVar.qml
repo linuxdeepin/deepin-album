@@ -182,6 +182,22 @@ Item {
         }
     }
 
+    // 导入不支持文件提示
+    Connections {
+        target: albumControl
+        onSigInvalidFormat: {
+            DTK.sendMessage(stackControl, qsTr("The file format is not supported"), "warning")
+        }
+    }
+
+    // 导入不支持文件提示
+    Connections {
+        target: fileControl
+        onInvalidFormat: {
+            DTK.sendMessage(stackControl, qsTr("The file format is not supported"), "warning")
+        }
+    }
+
     onCurrentViewIndexChanged: {
         console.log("currentViewIndex   :", currentViewIndex)
         if(albumControl.getAllCount() <= 0) {

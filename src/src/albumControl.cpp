@@ -2641,6 +2641,7 @@ void AlbumControl::onNewAPPOpen(qint64 pid, const QStringList &arguments)
     qDebug() << __FUNCTION__ << "---";
     Q_UNUSED(pid);
     QStringList paths;
+    QStringList validPaths;
     if (arguments.length() > 1) {
         //arguments第1个参数是进程名，图片paths参数需要从下标1开始
         for (int i = 1; i < arguments.size(); ++i) {
@@ -2654,11 +2655,20 @@ void AlbumControl::onNewAPPOpen(qint64 pid, const QStringList &arguments)
             if (QUrl::fromUserInput(qpath).isLocalFile()) {
                 qpath = "file://" + qpath;
             }
+
+            if (LibUnionImage_NameSpace::isImage(QUrl(qpath).toLocalFile())
+                    || LibUnionImage_NameSpace::isVideo(QUrl(qpath).toLocalFile())) {
+                validPaths.append(qpath);
+            }
             paths.append(qpath);
         }
 
-        if (paths.count() > 0) {
-            emit sigOpenImageFromFiles(paths);
+        if (!paths.isEmpty() > 0) {
+            if (validPaths.count() > 0) {
+                emit sigOpenImageFromFiles(validPaths);
+            } else {
+                emit sigInvalidFormat();
+            }
         }
     }
 
