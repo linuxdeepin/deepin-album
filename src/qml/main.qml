@@ -46,7 +46,7 @@ ApplicationWindow {
         setX(screen.width / 2 - width / 2);
         setY(screen.height / 2 - height / 2);
 
-        loading = false
+        global.loading = false
     }
 
     onWindowStateChanged: {
