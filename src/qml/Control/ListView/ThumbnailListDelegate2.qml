@@ -85,48 +85,21 @@ Rectangle {
         visible: false
     }
 
-    //缩略图本体
-//    Image {
-//        id: image
-//        //source: modelData.url !== "" ? "image://asynImageProvider/" + m_displayFlushHelper + theView.displayFlushHelper.toString() + "_" + modelData.url : ""
-//        source: model
-//        asynchronous: false
-//        anchors.centerIn: parent
-//        width: parent.width - 14
-//        height: parent.height - 14
-//        //使用PreserveAspectFit确保在原始比例下不变形
-//        fillMode: Image.PreserveAspectFit
-//        visible: false
+    Loader {
+        id: damageIconLoader
+        anchors.centerIn: parent
 
-//        //由于qml图片加载状态值在使用QQuickAsyncImageProvider异步加载方式后有异常（图片加载错误没有设置错误状态），暂时自定义类型进行判断错误状态
-//        property bool bLoadError: false
-
-//        onStatusChanged: {
-//            if (status === Image.Ready && sourceSize === Qt.size(0, 0)) {
-//                bLoadError = true;
-//            } else {
-//                bLoadError = false;
-//            }
-//        }
-//    }
-
-//    Loader {
-//        id: damageIconLoader
-//        anchors.centerIn: parent
-
-//        // 判断是否加载错误图片状态组件
-//        //active: image.status === Image.Error
-//        active: image.bLoadError
-//        sourceComponent: ActionButton {
-//            anchors.centerIn: parent
-//            ColorSelector.hovered: false
-//            icon {
-//                name: "photo_breach"
-//                width: image.width
-//                height: image.height
-//            }
-//        }
-//    }
+        active: image.null
+        sourceComponent: ActionButton {
+            anchors.centerIn: parent
+            ColorSelector.hovered: false
+            icon {
+                name: "photo_breach"
+                width: image.width
+                height: image.height
+            }
+        }
+    }
 
     // 图片保存完成，缩略图区域重新加载当前图片
     Connections {
