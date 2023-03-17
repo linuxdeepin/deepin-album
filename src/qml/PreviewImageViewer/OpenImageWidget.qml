@@ -107,6 +107,9 @@ Item {
 
     //打开看图查看图片
     function openAndImportImages(paths) {
+        if (paths.length === 0)
+            return
+
         var tempPath = ""
 
         if (paths.length > 0)

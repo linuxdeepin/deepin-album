@@ -445,6 +445,9 @@ signals:
     // 激活应用主窗口
     void sigActiveApplicationWindow();
 
+    // 通知打开了非图片/视频文件的格式
+    void sigInvalidFormat();
+
 private :
     static AlbumControl *m_instance;
     DBImgInfoList m_infoList;  //全部已导入

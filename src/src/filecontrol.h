@@ -241,6 +241,9 @@ signals:
     // 通知相册刷新缩略图内容
     void callSavePicDone(const QString &path);
 
+    // 通知打开了非图片/视频文件的格式
+    void invalidFormat();
+
 private:
     // 当处理的图片文件被移动、替换、删除时触发
     void onImageFileChanged(const QString &file);
