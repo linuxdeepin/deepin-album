@@ -218,18 +218,7 @@ QString FileControl::getNamePath(const  QString &oldPath, const QString &newName
 
 bool FileControl::isImage(const QString &path)
 {
-    bool bRet = false;
-    //路径为空直接跳出
-    if (!path.isEmpty()) {
-        QMimeDatabase db;
-        QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
-        QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
-        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
-                mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-            bRet = true;
-        }
-    }
-    return bRet;
+    return LibUnionImage_NameSpace::isImage(QUrl(path).toLocalFile());
 }
 
 bool FileControl::isVideo(const QString &path)
@@ -545,19 +534,24 @@ void FileControl::ocrImage(const QString &path)
 QStringList FileControl::parseCommandlineGetPaths()
 {
     QStringList paths;
+    QStringList validPaths;
     QString filepath = "";
     QStringList arguments = QCoreApplication::arguments();
-    for (QString path : arguments) {
-        path = UrlInfo(path).toLocalFile();
+    for (int i = 1; i < arguments.size(); ++i) {
+        QString path = UrlInfo(arguments[i]).toLocalFile();
         if (QFileInfo(path).isFile()) {
             QString filepath = QUrl::fromLocalFile(path).toString();
             if (isImage(path) || isVideo(path)) {
-                paths.push_back(filepath);
+                validPaths.push_back(filepath);
             }
+            paths.push_back(filepath);
         }
     }
 
-    return paths;
+    if (validPaths.empty() && !paths.isEmpty())
+        emit invalidFormat();
+
+    return validPaths;
 }
 
 bool FileControl::isDynamicImage(const QString &path)
