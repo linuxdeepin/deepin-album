@@ -653,7 +653,7 @@ Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 text: qsTr("You have no permission to view the image")
-                visible: (showImg.status === Image.Error || flickableL.curSourceIsNullImage) && flickableL.curSourceIsExist && !flickableL.curSourceIsReadalbe && fileControl.isAlbum()
+                visible: ((showImg.status === Image.Error)  || (flickableL.curSourceIsNullImage && flickableL.curSourceIsExist && !flickableL.curSourceIsReadalbe)) && fileControl.isAlbum()
             }
 
             // 图片丢失视图，当图片未发现时触发
