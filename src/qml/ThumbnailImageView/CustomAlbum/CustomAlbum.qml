@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
-//
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 import QtQuick 2.0
 import org.deepin.dtk 1.0
 import "../../Control"
@@ -46,10 +42,8 @@ Rectangle {
 
     // 刷新自定义相册名称
     function flushAlbumName(UID, name) {
-        if (UID === global.currentCustomAlbumUId) {
-            customAlbumName = name
-        }
-}
+        customAlbumName = name
+    }
 
     // 刷新自定义相册/我的收藏视图内容
     function flushCustomAlbumView(customAlbumUId) {
