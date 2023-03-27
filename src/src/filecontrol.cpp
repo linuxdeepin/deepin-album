@@ -541,7 +541,7 @@ QStringList FileControl::parseCommandlineGetPaths()
         QString path = UrlInfo(arguments[i]).toLocalFile();
         if (QFileInfo(path).isFile()) {
             QString filepath = QUrl::fromLocalFile(path).toString();
-            if (isImage(path) || isVideo(path)) {
+            if (isImage(filepath) || isVideo(filepath)) {
                 validPaths.push_back(filepath);
             }
             paths.push_back(filepath);
