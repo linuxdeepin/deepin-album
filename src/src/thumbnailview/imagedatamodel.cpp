@@ -171,6 +171,8 @@ DBImgInfo ImageDataModel::dataForIndex(const QModelIndex &index) const
 
 void ImageDataModel::loadData(Types::ItemType type)
 {
+    QTime time;
+    time.start();
     ItemType itemType = ItemTypeNull;
     if (type == Types::All)
         itemType = ItemTypeNull;
@@ -194,4 +196,5 @@ void ImageDataModel::loadData(Types::ItemType type)
         m_infoList = DBManager::instance()->getInfosByDay(m_dayToken);
     }
     endResetModel();
+    qDebug() << QString("loadData modelType:[%1] cost [%2]ms..").arg(m_modelType).arg(time.elapsed());
 }

@@ -96,7 +96,7 @@ Rectangle {
     ThumbnailImage{
         id: thumbnailImage
         clip: true
-        anchors.top: titleAlubmRect.bottom
+        anchors.top: parent.top
         anchors.left: leftSidebar.right
         anchors.leftMargin: 0
         width: parent.width - leftSidebar.x - global.sideBarWidth

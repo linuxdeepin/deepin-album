@@ -33,7 +33,7 @@ ScrollView {
         deviceListModel.clear()
         for (var i = 0; i < devicePaths.length; i++) {
             var tempDevice = {}
-            tempDevice.checked = i === 0
+            tempDevice.checked = false
             tempDevice.icon = "iphone"
             tempDevice.displayName = albumControl.getDeviceNames()[i]
             tempDevice.uuid = String(i)
@@ -234,8 +234,8 @@ ScrollView {
 
             onItemCheckedChanged: {
                 if (checked) {
-                    global.currentViewIndex = GlobalVar.ThumbnailViewType.Device
                     global.deviceCurrentPath = deviceListModel.get(index).path
+                    global.currentViewIndex = GlobalVar.ThumbnailViewType.Device
                     global.searchEditText = ""
                     forceActiveFocus()
                 }
