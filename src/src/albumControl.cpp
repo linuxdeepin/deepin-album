@@ -977,8 +977,7 @@ void AlbumControl::sltLoadMountFileList(const QString &path)
         QStringList allfiles;
         while (dir_iterator.hasNext()) {
             dir_iterator.next();
-            QFileInfo fileInfo = dir_iterator.fileInfo();
-            allfiles << fileInfo.filePath();
+            allfiles << dir_iterator.filePath();
         }
         //重置标志位，可以执行线程
         m_PhonePicFileMap[strPath] = allfiles;

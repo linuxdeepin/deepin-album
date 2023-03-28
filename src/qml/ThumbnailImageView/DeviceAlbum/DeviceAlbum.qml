@@ -27,7 +27,6 @@ Rectangle {
 
     onVisibleChanged: {
         if (visible) {
-            console.log("device show...")
             flushDeviceAlbumView()
         }
     }
@@ -39,8 +38,8 @@ Rectangle {
 
     // 设备之间切换，需要重载数据
     onDevicePathChanged: {
-        console.log("onDevicePathChanged...")
-        flushDeviceAlbumView()
+        if (visible)
+            flushDeviceAlbumView()
     }
 
     // 刷新设备视图内容
@@ -90,25 +89,6 @@ Rectangle {
         if (visible)
             global.statusBarNumText = selectedNumText
         return selectedNumText
-    }
-
-    // 加载设备相册数据
-    function loadDeviceAlbumItems()
-    {
-        console.info("device album model has refreshed... filterType:", filterType)
-        theView.selectAll(false)
-        theView.thumbnailListModel.clear();
-        var customAlbumInfos = albumControl.getDeviceAlbumInfos(devicePath, filterType);
-        console.info("device album model has refreshed... filterType:", filterType, " done...")
-        for (var key in customAlbumInfos) {
-            var customAlbumItems = customAlbumInfos[key]
-            for (var i = 0; i < customAlbumItems.length; i++) {
-                theView.thumbnailListModel.append(customAlbumItems[i])
-            }
-            break;
-        }
-
-        return true
     }
 
     DeviceLoadDialog {
