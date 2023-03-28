@@ -23,9 +23,9 @@ Rectangle {
     property int currentRotate: 0
 
     // Indicates the current image path
-    property var source
+    property string source: ""
     /*: showImg.source*/
-    property var sourcePaths
+    property var sourcePaths: []
 
     // 当前源图片宽度
     property int currentSourceWidth : 0;

@@ -112,8 +112,8 @@ Item {
         onClicked: {
             showNormal()
             global.stackControlCurrent = 0
-            mainView.sourcePaths=""
-            mainView.source=""
+            mainView.sourcePaths = []
+            mainView.source = ""
         }
 
         ToolTip.delay: 500
@@ -130,8 +130,8 @@ Item {
             onActivated: {
                 showNormal()
                 global.stackControlCurrent = 0
-                mainView.sourcePaths=""
-                mainView.source=""
+                mainView.sourcePaths = []
+                mainView.source = ""
             }
         }
     }
