@@ -127,12 +127,14 @@ AlbumView::AlbumView()
     , m_importByPhoneWidget(nullptr), m_importByPhoneComboBox(nullptr)
     , m_importAllByPhoneBtn(nullptr), m_importSelectByPhoneBtn(nullptr), m_mountPicNum(0)
     , pPhoneWidget(nullptr), phonetopwidget(nullptr)
-    , isIgnore(true), m_waitDailog_timer(nullptr)
+    , isIgnore(true), m_waitDailog_timer(nullptr), m_delayLoadMount_timer(nullptr)
 {
     m_iAlubmPicsNum = DBManager::instance()->getImgsCount();
     m_vfsManager = new DGioVolumeManager;
     m_diskManager = new DDiskManager(this);
     m_diskManager->setWatchChanges(true);
+
+    m_delayLoadMount_timer = new QTimer(this);
 
     iniWaitDiolag();
     setAcceptDrops(true);
@@ -330,6 +332,7 @@ void AlbumView::initConnections()
     //2020年03月26日15:12:23
     connect(dApp->signalM, &SignalManager::waitDevicescan, this, &AlbumView::importDialog);
     connect(m_waitDailog_timer, &QTimer::timeout, this, &AlbumView::onWaitDailogTimeout);
+    connect(m_delayLoadMount_timer, &QTimer::timeout, this, &AlbumView::onDelayLoadMountTimeout);
     //在外部绑定内部按钮事件
     connect(m_waitDeviceScandialog->m_closeDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogClose);
     connect(m_waitDeviceScandialog->m_ignoreDeviceScan, &DPushButton::clicked, this, &AlbumView::onWaitDialogIgnore);
@@ -1004,10 +1007,21 @@ void AlbumView::updateRightMountView()
             findPicturePathByPhone(strPath);
         }
     }
+
+#ifdef __loongarch64
+    // 在某些特定机型下，如loongarch加密机器等，挂载/卸载信号在极短时间内可能会连续发送多次
+    // 此时扫描挂载路径，极易引发QDirIterator在遍历挂载目录（卸载时已丢失）时crash
+    // 为避免上述情况出现，针对扫描挂载流程做出如下优化：
+    // 添加延迟加载流程，在最后一次收到挂载信号500ms后，才开始扫描挂载目录
+    m_delayLoadMountPath = strPath;
+    m_delayLoadMount_timer->start(500);
+#else
     //先关闭之前循环的线程
     ImageEngineApi::instance()->setThreadShouldStop();
     //发送信号到子线程加载文件信息
     emit ImageEngineApi::instance()->sigLoadMountFileList(strPath);
+#endif
+
     //TODO 保存每个挂载设备的加载状态
     if (mountLoadStatus.contains(strPath) && mountLoadStatus[strPath]) {
         return;
@@ -2285,6 +2299,22 @@ void AlbumView::onWaitDailogTimeout()
     m_waitDeviceScandialog->m_ignoreDeviceScan->setEnabled(true);
     m_waitDeviceScandialog->m_closeDeviceScan->setEnabled(true);
     m_waitDailog_timer->stop();
+}
+
+void AlbumView::onDelayLoadMountTimeout()
+{
+    m_delayLoadMount_timer->stop();
+
+    QDir dir(m_delayLoadMountPath);
+    if (dir.exists()) {
+        //先关闭之前循环的线程
+        ImageEngineApi::instance()->setThreadShouldStop();
+        // 延迟挂载目录存在，发送信号到子线程加载文件信息
+        emit ImageEngineApi::instance()->sigLoadMountFileList(m_delayLoadMountPath);
+        qDebug() << "emit ImageEngineApi::instance()->sigLoadMountFileList(m_delayLoadMountPath);";
+    } else {
+        qDebug() << QString("delayLoadMount path:[%1] not exist").arg(m_delayLoadMountPath);
+    }
 }
 
 void AlbumView::onLeftListViewMountListWidgetClicked(const QModelIndex &index)

@@ -181,6 +181,7 @@ private slots:
     void onImportViewImportBtnClicked();
     void onImportFailedToView();
     void onWaitDailogTimeout();
+    void onDelayLoadMountTimeout();
     void onLeftListViewMountListWidgetClicked(const QModelIndex &index);
     void onTrashUpdate();
 
@@ -283,6 +284,8 @@ private:
     DWidget *phonetopwidget;
     bool isIgnore;
     QTimer *m_waitDailog_timer;
+    QTimer *m_delayLoadMount_timer; //延迟加载挂载路径-定时器
+    QString m_delayLoadMountPath; //延迟加载路径
     QMap<QString, bool> mountLoadStatus;
 };
 
