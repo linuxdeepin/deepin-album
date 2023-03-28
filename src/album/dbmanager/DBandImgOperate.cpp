@@ -214,8 +214,7 @@ void DBandImgOperate::sltLoadMountFileList(const QString &path)
                 break;
             }
             dir_iterator.next();
-            QFileInfo fileInfo = dir_iterator.fileInfo();
-            allfiles << fileInfo.filePath();
+            allfiles << dir_iterator.filePath();
             if (allfiles.size() == 50) {
                 emit sigMountFileListLoadReady(strPath, allfiles);
             }
