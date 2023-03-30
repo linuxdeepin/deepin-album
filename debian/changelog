@@ -1,3 +1,9 @@
+deepin-album (5.10.13) unstable; urgency=medium
+
+  * fix flash back of USB flash drive in loongarch architecture.
+
+ -- TagBuilder <tagbuilder@deepin.com>  Thu, 30 Mar 2023 15:41:44 +0000
+
 deepin-album (5.10.12) unstable; urgency=medium
 
   * update version to 5.10.12
