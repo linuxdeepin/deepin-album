@@ -227,6 +227,7 @@ Rectangle {
 
         proxyModel.sourceModel: Album.ImageDataModel { id: dataModel; modelType: Album.Types.RecentlyDeleted}
 
+        visible: theView.count
         property int m_topMargin: 10
 
         // 监听缩略图列表选中状态，一旦改变，更新globalVar所有选中路径

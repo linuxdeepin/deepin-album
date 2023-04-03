@@ -5,6 +5,7 @@
 #include "thumbnailmodel.h"
 #include "unionimage/unionimage.h"
 #include "imageengine/imagedataservice.h"
+#include "unionimage/baseutils.h"
 #include "imagedatamodel.h"
 
 #include <QDebug>
@@ -398,11 +399,21 @@ int ThumbnailModel::indexForFilePath(const QString &filePath)
     for (int row = 0; row < rowCount(); row++) {
         indexList.append(index(row, 0, QModelIndex()));
     }
-    for (auto index : indexList) {
-        if (filePath == data(index, Roles::FilePathRole).toString()) {
-            return index.row();
+    if (modelType() == Types::RecentlyDeleted) {
+        for (auto index : indexList) {
+            QString path = data(index, Roles::FilePathRole).toString();
+            if (filePath == Libutils::base::getDeleteFullPath(Libutils::base::hashByString(path), DBImgInfo::getFileNameFromFilePath(path))) {
+                return index.row();
+            }
+        }
+    } else {
+        for (auto index : indexList) {
+            if (filePath == data(index, Roles::FilePathRole).toString()) {
+                return index.row();
+            }
         }
     }
+
     return -1;
 }
 
