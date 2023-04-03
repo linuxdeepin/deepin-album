@@ -28,6 +28,8 @@ TitleBar {
 
     property int minSearchEditWidth : 100 //搜索框最小尺寸
     property int normalSearchEditWidth : 240 //搜索框最大尺寸
+    property int iconSize: 36 //图片操作按钮尺寸
+    property int iconSpacing: 5 //图片操作按钮间隙
     property int showCollComboWidth: 884 //需要显示年月日下拉框时，主界面宽度
     property int layoutLeftMargin_AlignLeft: showHideleftSidebarButton.x + showHideleftSidebarButton.width // 显示比例按钮向标题左侧对齐时的布局留白宽度
     property int layoutLeftMargin_AlignRight: global.sideBarWidth + 10 // 显示比例按钮向标题右侧对齐时的布局留白宽度
@@ -148,12 +150,12 @@ TitleBar {
         anchors.topMargin: 7
         anchors.left: appTitleIcon.right
         anchors.leftMargin: 0
-        width : 36
-        height : 36
+        width : iconSize
+        height : iconSize
         icon {
             name: "topleft"
-            width: 36
-            height: 36
+            width: iconSize
+            height: iconSize
         }
         ToolTip.visible: hovered
         ToolTip.text: global.sideBarX !== 0 ? qsTr("Show side pane") : qsTr("Hide side pane")
@@ -194,15 +196,15 @@ TitleBar {
             // 比例按钮
             ToolButton {
                 id: range1Button
-                Layout.preferredWidth: 36
-                Layout.preferredHeight: 36
+                Layout.preferredWidth: iconSize
+                Layout.preferredHeight: iconSize
                 enabled: global.statusBarNumText !== "" && !(global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion &&  collectionCombo.currentIndex === 0)
                 ToolTip.visible: hovered
                 ToolTip.text: icon.name === "range1" ? qsTr("Original ratio") : qsTr("Square thumbnails")
                 icon {
                     name: asynImageProvider.getLoadMode() == 0 ? "range1" : "range2"
-                    width: 36
-                    height: 36
+                    width: iconSize
+                    height: iconSize
                 }
                 onClicked: {
                     //1.图片推送器切换
@@ -224,7 +226,7 @@ TitleBar {
             // 年月日按钮组
             ButtonBox {
                 id: collectionBtnBox
-                Layout.preferredHeight: 36
+                Layout.preferredHeight: iconSize
                 property bool refreshVisilbe: false
                 visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion && albumControl.getYears(refreshVisilbe).length !== 0 && root.width > showCollComboWidth
 
@@ -387,17 +389,19 @@ TitleBar {
         }
 
         RowLayout {
-            spacing: 5
+            spacing: iconSpacing
             Layout.alignment: Qt.AlignRight
+            Layout.minimumWidth: iconSize * 3 + iconSpacing * (3 - 1)
             ToolButton {
                 visible: global.selectedPaths.length === 0 || global.currentViewIndex === GlobalVar.ThumbnailViewType.Device
                 id: titleImportBtn
-                Layout.preferredWidth: 36
-                Layout.preferredHeight: 36
+                Layout.preferredWidth: iconSize
+                Layout.preferredHeight: iconSize
+                Layout.alignment: Qt.AlignRight
                 icon {
                     name: "import"
-                    width: 36
-                    height: 36
+                    width: iconSize
+                    height: iconSize
                 }
                 onClicked :{
                     importDialog.open()
@@ -416,8 +420,8 @@ TitleBar {
                 id: titleCollectionBtn
                 property bool canFavorite: albumControl.canFavorite(global.selectedPaths,global.bRefreshFavoriteIconFlag)
                 visible: !titleImportBtn.visible && global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device
-                Layout.preferredWidth: 36
-                Layout.preferredHeight: 36
+                Layout.preferredWidth: iconSize
+                Layout.preferredHeight: iconSize
                 ToolTip.delay: 500
                 ToolTip.timeout: 5000
                 ToolTip.visible: hovered
@@ -425,8 +429,8 @@ TitleBar {
                 DciIcon.mode: DTK.HoveredState
                 icon {
                     name: canFavorite ? "toolbar-collection" : "toolbar-collection2"
-                    width: 36
-                    height: 36
+                    width: iconSize
+                    height: iconSize
                 }
                 onClicked: {
                     if (canFavorite)
@@ -448,16 +452,16 @@ TitleBar {
                 visible: (titleImportBtn.visible ? false : true) && global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device
                 enabled: fileControl.isRotatable(global.selectedPaths)
                 ColorSelector.disabled: !fileControl.isRotatable(global.selectedPaths)
-                Layout.preferredWidth: 36
-                Layout.preferredHeight: 36
+                Layout.preferredWidth: iconSize
+                Layout.preferredHeight: iconSize
                 ToolTip.delay: 500
                 ToolTip.timeout: 5000
                 ToolTip.visible: hovered
                 ToolTip.text: qsTr("Rotate")
                 icon {
                     name: "felete"
-                    width: 36
-                    height: 36
+                    width: iconSize
+                    height: iconSize
                 }
                 onClicked: {
                     fileControl.rotateFile(global.selectedPaths, -90)
@@ -468,16 +472,16 @@ TitleBar {
                 visible: (titleImportBtn.visible ? false : true) && global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device
                 enabled: fileControl.isCanDelete(global.selectedPaths)
                 ColorSelector.disabled: !fileControl.isCanDelete(global.selectedPaths)
-                Layout.preferredWidth: 36
-                Layout.preferredHeight: 36
+                Layout.preferredWidth: iconSize
+                Layout.preferredHeight: iconSize
                 ToolTip.delay: 500
                 ToolTip.timeout: 5000
                 ToolTip.visible: hovered
                 ToolTip.text: qsTr("Delete")
                 icon {
                     name: "delete"
-                    width: 36
-                    height: 36
+                    width: iconSize
+                    height: iconSize
                 }
                 onClicked: {
                     sigDeleteClicked()
