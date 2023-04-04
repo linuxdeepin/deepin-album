@@ -25,6 +25,7 @@ TitleBar {
 
     signal collectionBtnClicked(int nIndex)
     signal showHideSideBar(bool bShow)
+    signal showNewAlbumDialog()
 
     property int minSearchEditWidth : 100 //搜索框最小尺寸
     property int normalSearchEditWidth : 240 //搜索框最大尺寸
@@ -92,13 +93,7 @@ TitleBar {
             id: equalizerControl
             text: qsTr("New album")
             onTriggered: {
-                var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
-                var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
-                newAlbum.setX(x)
-                newAlbum.setY(y)
-                newAlbum.setNormalEdit()
-                newAlbum.show()
-
+                showNewAlbumDialog()
             }
         }
         MenuItem {
