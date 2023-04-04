@@ -87,8 +87,8 @@ Item {
                 color:"transparent"
                 Rectangle {
                     anchors.centerIn: parent
-                    width: image.paintedWidth
-                    height: image.paintedHeight
+                    width: image.width
+                    height: image.width
                     color:"black"
                     radius: 18
                 }
@@ -103,7 +103,7 @@ Item {
                 anchors.fill: parent
                 width: parent.width
                 height: parent.height
-                fillMode: Image.Stretch
+                fillMode: Image.PreserveAspectCrop
                 visible: false
             }
 
