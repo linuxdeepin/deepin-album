@@ -290,6 +290,11 @@ FocusScope {
                 return;
             }
 
+            var posInFavorite = mapToItem(clickedItem.favoriteBtn, mouse.x, mouse.y)
+            if (posInFavorite.x >= 0 && posInFavorite.x <= clickedItem.favoriteBtn.width && posInFavorite.y >= 0 && posInFavorite.y <= clickedItem.favoriteBtn.height) {
+                return;
+            }
+
             // 单击模式点击/双击模式双击打开图片
             if (Qt.styleHints.singleClickActivation || bDbClicked || mouse.source === Qt.MouseEventSynthesizedByQt) {
                 ThumbnailTools.executeViewImage()

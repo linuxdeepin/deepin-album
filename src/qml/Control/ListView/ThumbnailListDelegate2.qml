@@ -33,26 +33,13 @@ Rectangle {
     property Item imageItem: image
     property Item favoriteBtn: null
 
-    onBSelectedChanged: {
-        if (bSelected && model.modelType !== Album.Types.Device) {
-            if (favoriteBtn == null) {
-                favoriteBtn = favoriteComponent.createObject(buttons)
-            }
-        } else {
-            if (favoriteBtn && !bFavorited) {
-                favoriteBtn.destroy()
-                favoriteBtn = null
-            }
-        }
-    }
-
     onBFavoritedChanged: {
         if (bFavorited) {
             if (favoriteBtn == null) {
                 favoriteBtn = favoriteComponent.createObject(buttons)
             }
         } else {
-            if (favoriteBtn && !bHovered && !bSelected) {
+            if (favoriteBtn && !bHovered) {
                 favoriteBtn.destroy()
                 favoriteBtn = null
             }
@@ -180,7 +167,7 @@ Rectangle {
 
         onExited: {
             bHovered = false
-            if (favoriteBtn && !bFavorited && !bSelected) {
+            if (favoriteBtn && !bFavorited) {
                 favoriteBtn.destroy()
                 favoriteBtn = null
             }
@@ -193,7 +180,7 @@ Rectangle {
         ActionButton {
             id: itemFavoriteBtn
             hoverEnabled: false  //设置为false，可以解决鼠标移动到图标附近时，图标闪烁问题
-
+            enabled: !image.null
             icon {
                 name: bFavorited ? "collected" : "collection2"
             }
