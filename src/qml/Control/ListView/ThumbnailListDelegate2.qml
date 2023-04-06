@@ -161,7 +161,7 @@ Rectangle {
                 return;
 
             bHovered = true
-            if (favoriteBtn == null && model.modelType !== Album.Types.Device)
+            if (favoriteBtn == null && model.modelType !== Album.Types.Device && model.modelType !== Album.Types.RecentlyDeleted)
                 favoriteBtn = favoriteComponent.createObject(buttons)
         }
 
