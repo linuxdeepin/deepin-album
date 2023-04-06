@@ -388,7 +388,7 @@ TitleBar {
             Layout.alignment: Qt.AlignRight
             Layout.minimumWidth: iconSize * 3 + iconSpacing * (3 - 1)
             ToolButton {
-                visible: global.selectedPaths.length === 0 || global.currentViewIndex === GlobalVar.ThumbnailViewType.Device
+                visible: global.selectedPaths.length === 0 || global.currentViewIndex === GlobalVar.ThumbnailViewType.Device || global.currentViewIndex === GlobalVar.ThumbnailViewType.RecentlyDeleted
                 id: titleImportBtn
                 Layout.preferredWidth: iconSize
                 Layout.preferredHeight: iconSize
