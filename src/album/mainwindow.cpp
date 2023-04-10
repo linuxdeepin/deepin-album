@@ -1664,17 +1664,27 @@ void MainWindow::waitImportantProcessBeforeExit()
     canExit = false;
 
     auto watcher = QtConcurrent::run([&canExit]() {
-        //1.1停止
-        ImageEngineApi::instance()->stopRotate();
-        ImageDataService::instance()->stopFlushThumbnail();
+        if (ImageEngineApi::instance()->isRotating()) {
+            //1.1停止
+            ImageEngineApi::instance()->stopRotate();
 
-        //1.2等待
-        ImageEngineApi::instance()->waitRotateStop();
-        ImageDataService::instance()->waitFlushThumbnailFinish();
+            //1.2等待
+            ImageEngineApi::instance()->waitRotateStop();
 
-        //1.3强制文件写入
-        std::system("sync");
+            //1.3强制文件写入
+            std::system("sync");
+        }
 
+        if (ImageDataService::instance()->readerIsRunning()) {
+            //1.1停止
+            ImageDataService::instance()->stopFlushThumbnail();
+
+            //1.2等待
+            ImageDataService::instance()->waitFlushThumbnailFinish();
+
+            //1.3强制文件写入
+            std::system("sync");
+        }
         canExit = true;
     });
 
