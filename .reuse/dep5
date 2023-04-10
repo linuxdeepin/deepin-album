@@ -57,6 +57,7 @@ License: GPL-3.0-or-later
 
 # src
 Files: src/*
+       3rdparty/tiff-tools/converttiff.h
 Copyright: UnionTech Software Technology Co., Ltd.
 License: GPL-3.0-or-later
 
@@ -69,4 +70,10 @@ License: GPL-3.0-or-later
 Files: tests/stub-tool/cpp-stub/*
 Copyright: 2019 coolxv
 License: MIT
+
+# libtiff
+Files: 3rdparty/tiff-tools/tiffcp.c 
+Copyright: 1988-1997 Sam Leffler,
+           1991-1997 Silicon Graphics, Inc.
+License: libtiff
 

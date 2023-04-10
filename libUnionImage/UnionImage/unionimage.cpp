@@ -3,6 +3,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "unionimage.h"
+#include "../../src/album/albumgloabl.h"
+
+extern "C" {
+#include "3rdparty/tiff-tools/converttiff.h"
+}
+
 #include <FreeImage.h>
 //#include "giflib/cmanagerattributeservice.h"
 
@@ -17,6 +23,9 @@
 #include <QPainter>
 #include <QSvgGenerator>
 #include <QImageReader>
+#include <QUuid>
+#include <QDir>
+#include <QDebug>
 #include <QtSvg/QSvgRenderer>
 
 #include <cstring>
@@ -635,6 +644,29 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
                     errorMsg = "can't read image:" + readerF.errorString() + format;
                     try_res = QImage();
                 }
+
+                // 单独处理TIF格式情况
+                if (try_res.isNull() && (file_suffix_upper == "TIF" || file_suffix_upper == "TIFF")) {
+                    // 读取失败，tif需要单独处理，尝试通过转换函数处理
+                    QFileInfo imageFile(path);
+                    QString cachDir = albumGlobal::CACHE_PATH + QDir::separator() + "TIF";
+                    QDir dir(cachDir);
+                    if (!dir.exists())
+                        dir.mkpath(cachDir);
+                    QString cacheFile = cachDir + QDir::separator() + imageFile.fileName();
+                    // 转换图像编码格式
+                    int nRet = convertOldStyleImage(imageFile.absoluteFilePath().toUtf8().data(), cacheFile.toUtf8().data());
+                    // 转换成功标识
+                    static const int s_nFlagSucc = 0;
+                    if (s_nFlagSucc == nRet) {
+                        if (QFile::exists(cacheFile)) {
+                            // 成功获取图片内容后，删除缓存的tiff转换文件
+                            try_res = QImage(cacheFile);
+                            QFile::remove(cacheFile);
+                        }
+                    }
+                }
+
                 if (try_res.isNull()) {
                     errorMsg = "load image by qt failed, use format:" + reader.format() + " ,path:" + path;
                     res = QImage();

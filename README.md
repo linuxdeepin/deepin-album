@@ -25,6 +25,7 @@ _The **master** branch is current development branch, build dependencies may cha
 * libdtkwidget-dev
 * libdtkwidget5-bin
 * libdtkcore5-bin
+* libtiff-dev
 * Qt5(>=5.6) with modules:
   * qt5-default
   * libgio-qt-dev

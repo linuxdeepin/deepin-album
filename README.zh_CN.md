@@ -25,6 +25,7 @@ _**master**分支是当前开发分支，编译依赖可能在未更新README.md
 * libdtkwidget-dev
 * libdtkwidget5-bin
 * libdtkcore5-bin
+* libtiff-dev
 * Qt5(>=5.6) with modules:
   * qt5-default
   * libgio-qt-dev

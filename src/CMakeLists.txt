@@ -23,6 +23,7 @@ else()
 endif()
 
 find_package(Qt5 REQUIRED ${QtModule})
+find_package(TIFF)
 
 include_directories(album)
 include_directories(album/albumview)
@@ -74,6 +75,10 @@ set(AllQRC
     )
 file(GLOB TargetTsFiles LIST_DIRECTORIES false ../translations/${CMD_NAME}*.ts)
 
+# tiff三方库文件
+file(GLOB tiffToolsSources ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/tiff-tools/*.c
+                           ${CMAKE_CURRENT_SOURCE_DIR}/../3rdparty/tiff-tools/*.h)
+
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 
 if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
@@ -86,7 +91,7 @@ set_source_files_properties(${qmfiles} PROPERTIES OUTPUT_LOCATION "translations"
 set(LINK_DIR lib)
 link_directories(${LINK_DIR})
 
-add_executable(${PROJECT_NAME} ${allSource} ${AllQRC} ${allHeaders} ${LangSrcs} )
+add_executable(${PROJECT_NAME} ${allSource} ${AllQRC} ${allHeaders} ${LangSrcs} ${tiffToolsSources})
 
 add_compile_definitions(LITE_DIV)
 
@@ -177,14 +182,14 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(3rd_lib REQUIRED
         dtkwidget dtkcore dtkgui gio-qt udisks2-qt5 libimageviewer
         )
-target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS} ${TIFF_INCLUDE_DIRS})
 if(DOTEST)
-    target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${3rd_lib_INCLUDE_DIRS})
+    target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${3rd_lib_INCLUDE_DIRS} ${TIFF_INCLUDE_DIRS})
 endif()
 
-target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} freeimage imageviewer)
+target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES} ${TIFF_LIBRARIES} freeimage imageviewer)
 if(DOTEST)
-    target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES} freeimage imageviewer)
+    target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES} ${TIFF_LIBRARIES} freeimage imageviewer)
 endif()
 #------------------添加第三方库end--------------------------#
 
