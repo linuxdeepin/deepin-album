@@ -97,6 +97,7 @@ public:
     int m_FirstPageScreen = 0;
     QStringList m_imgLoaded;//已经加载过的图片，防止多次加载
     bool m_firstPageIsLoaded = false;
+    bool isRotating();
     void stopRotate();
     void waitRotateStop();
 private:

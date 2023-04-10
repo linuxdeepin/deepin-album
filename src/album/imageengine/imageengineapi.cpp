@@ -157,6 +157,11 @@ void ImageEngineApi::loadFirstPageThumbnails(int num)
     emit sigLoadFirstPageThumbnailsToView();
 }
 
+bool ImageEngineApi::isRotating()
+{
+    return m_worker->isRotating();
+}
+
 void ImageEngineApi::stopRotate()
 {
     m_worker->stopRotate();

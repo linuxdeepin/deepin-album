@@ -178,6 +178,11 @@ void DBandImgOperate::rotateImageFile(int angel, const QStringList &paths)
     }
 }
 
+bool DBandImgOperate::isRotating()
+{
+    return m_rotateIsRunning;
+}
+
 void DBandImgOperate::waitRotateStop()
 {
     while (m_rotateIsRunning);

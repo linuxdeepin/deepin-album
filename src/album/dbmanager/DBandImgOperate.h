@@ -33,6 +33,7 @@ public:
     explicit DBandImgOperate(QObject *parent = nullptr);
     ~DBandImgOperate();
 
+    bool isRotating();
     void waitRotateStop();
     void stopRotate();
 public slots:
