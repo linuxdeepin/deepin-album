@@ -172,6 +172,8 @@ UNIONIMAGESHARED_EXPORT bool canSave(const QString &path);
  */
 UNIONIMAGESHARED_EXPORT int getOrientation(const QString &path);
 
+
+
 QT_BEGIN_NAMESPACE
 
 class UnionMovieImagePrivate;
