@@ -232,12 +232,7 @@ void BatchOperateWidget::sltSelectionChanged(const QItemSelection &selected, con
 {
     Q_UNUSED(selected)
     Q_UNUSED(deselected)
-    if (m_thumbnailListView->getAppointTypeSelectItemCount(ItemTypeNull) == 0) {
-        if (AlbumViewTrashType == m_operateType)
-            batchSelectChanged(true, false);
-        refreshBtnEnabled(true);
-        return;
-    }
+
     batchSelectChanged(true, false);
     refreshBtnEnabled();
     m_thumbnailListView->setFocus();

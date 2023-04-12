@@ -707,9 +707,11 @@ void AlbumView::initFavoriteWidget()
     m_pFavoriteTitle->setFixedHeight(favorite_title_height);
     DFontSizeManager::instance()->bind(m_pFavoriteTitle, DFontSizeManager::T3, QFont::DemiBold);
     m_pFavoriteTitle->setForegroundRole(DPalette::TextTitle);
+    m_pFavoriteTitle->setFixedHeight(custom_title_height);
+    m_pFavoriteTitle->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+    m_pFavoriteTitle->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     m_pFavoriteTitle->setText(tr("Favorites"));
-    m_pFavoriteTitle->setFixedWidth(150); //BUG#93470 手动调大控件长度
-
+    
     m_pFavoritePicTotal = new DLabel();
     m_pFavoritePicTotal->setFixedHeight(20);
     DFontSizeManager::instance()->bind(m_pFavoritePicTotal, DFontSizeManager::T6, QFont::Medium);
@@ -736,8 +738,8 @@ void AlbumView::initFavoriteWidget()
     m_favoriteBatchOperateWidget = new BatchOperateWidget(m_favoriteThumbnailList, BatchOperateWidget::NullType, m_FavoriteTitleWidget);
     lNumberLayout->addStretch(100);
     lNumberLayout->addWidget(m_favoriteBatchOperateWidget, 0, Qt::AlignRight | Qt::AlignVCenter);
-    connect(m_favoriteBatchOperateWidget, &BatchOperateWidget::signalBatchSelectChanged, this, &AlbumView::onBatchSelectChanged);
-    connect(m_favoriteBatchOperateWidget, &BatchOperateWidget::sigCancelAll, this, &AlbumView::onBatchSelectChanged);
+    connect(m_favoriteBatchOperateWidget, &BatchOperateWidget::signalBatchSelectChanged, this, &AlbumView::onBatchSelectChanged, Qt::QueuedConnection);
+    connect(m_favoriteBatchOperateWidget, &BatchOperateWidget::sigCancelAll, this, &AlbumView::onBatchSelectChanged, Qt::QueuedConnection);
 
     DPalette ppal_light2 = DApplicationHelper::instance()->palette(m_FavoriteTitleWidget);
     ppal_light2.setBrush(DPalette::Background, ppal_light2.color(DPalette::Base));
@@ -1045,6 +1047,8 @@ void AlbumView::updateRightCustomAlbumView()
     m_customThumbnailList->insertBlankOrTitleItem(ItemTypeBlank, "", "", custom_title_height);
     //添加图片信息
     m_customThumbnailList->insertThumbnailByImgInfos(infos);
+    // 立即重置顶部栏布局一次，以便选中/不选中情况下计算的相册名称位置都相同
+    m_customBatchOperateWidget->sltListViewChanged();
 //    m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
     m_iAlubmPicsNum = infos.size();
     if (0 < m_iAlubmPicsNum) {
@@ -1052,8 +1056,8 @@ void AlbumView::updateRightCustomAlbumView()
         m_customAlbumTitleLabel->adjustSize();
         m_customAlbumTitleLabel->move(m_customAlbumTitle->width() / 2 - m_customAlbumTitleLabel->width() / 2, 0);
         //根据长度调整字符串
-        QString Str = utils::base::reorganizationStr(m_customAlbumTitleLabel->font(), m_currentAlbum,
-                                                     2 * m_customBatchOperateWidget->x() - m_customAlbumTitle->width());
+        int size = m_customBatchOperateWidget->x() - (m_customAlbumTitleLabel->x() + m_customAlbumTitleLabel->width());
+        QString Str = utils::base::reorganizationStr(m_customAlbumTitleLabel->font(), m_currentAlbum, m_customAlbumTitleLabel->width() + size);
         m_customAlbumTitleLabel->setText(Str);
         m_customAlbumTitleLabel->adjustSize();
 
@@ -2480,8 +2484,12 @@ void AlbumView::adjustTitleContent()
         m_FavoriteTitleWidget->setFixedSize(this->width() - m_pLeftListView->width() - magin_offset, favorite_title_height);
         if (topLevelWidget()->width() <= MAINWINDOW_NEEDCUT_WIDTH)
             m_pFavoriteTitle->move(topLevelWidget()->width() - LISTVIEW_MINMUN_WIDTH, 0);
-        else
+        else {
+            // 按默认文本内容重置我的收藏标签的宽度，保证后续文本显示位置一致
+            m_pFavoriteTitle->setText(tr("Favorites"));
+            m_pFavoriteTitle->adjustSize();
             m_pFavoriteTitle->move(m_FavoriteTitleWidget->width() / 2 - m_pFavoriteTitle->width() / 2, 0);
+        }
         if (m_pFavoriteTitle->isVisible())
             m_pFavoriteTitle->raise();
     }
@@ -2511,8 +2519,12 @@ void AlbumView::adjustTitleContent()
         m_customAlbumTitle->setFixedSize(this->width() - m_pLeftListView->width() - magin_offset, custom_title_height);
         if (topLevelWidget()->width() <= MAINWINDOW_NEEDCUT_WIDTH)
             m_customAlbumTitleLabel->move(topLevelWidget()->width() - LISTVIEW_MINMUN_WIDTH, 0);
-        else
+        else {
+            // 按默认文本内容重置自定相册标签的宽度，保证后续文本显示位置一致
+            m_customAlbumTitleLabel->setText(m_currentAlbum);
+            m_customAlbumTitleLabel->adjustSize();
             m_customAlbumTitleLabel->move(m_customAlbumTitle->width() / 2 - m_customAlbumTitleLabel->width() / 2, 0);
+        }
         if (m_customAlbumTitleLabel->isVisible())
             m_customAlbumTitleLabel->raise();
     }
@@ -2763,7 +2775,10 @@ void AlbumView::onBatchSelectChanged(bool isBatchSelect)
     if (m_customBatchOperateWidget->isVisible()) {//自定义相册界面标题
         int size = m_customBatchOperateWidget->x() - (m_customAlbumTitleLabel->x() + m_customAlbumTitleLabel->width());
         QString Str = utils::base::reorganizationStr(m_customAlbumTitleLabel->font(), m_currentAlbum, m_customAlbumTitleLabel->width() + size);
-        if (Str.length() > 0) {
+        QFontMetrics fontWidth(m_customAlbumTitleLabel->font());
+        const int ONE_WCHAR_WIDTH = fontWidth.width("中");
+        // 标签内容显示宽度至少大于一个中文字符宽度，才显示相册文本标签
+        if (Str.length() > 0 && (m_customAlbumTitleLabel->width() + size) >= ONE_WCHAR_WIDTH) {
             m_customAlbumTitleLabel->show();
             m_customAlbumTitleLabel->raise();
         } else {
@@ -2787,6 +2802,7 @@ void AlbumView::onBatchSelectChanged(bool isBatchSelect)
             m_pFavoriteTitle->hide();
         }
         m_pFavoriteTitle->setText(Str);
+        m_pFavoriteTitle->adjustSize();
         if (Str != tr("Favorites")) {
             m_pFavoriteTitle->setToolTip(tr("Favorites"));
         } else {
