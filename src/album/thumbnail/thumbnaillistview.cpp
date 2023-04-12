@@ -36,6 +36,7 @@ namespace {
 const int ITEM_SPACING = 4;
 const int BASE_HEIGHT = 100;
 const int MINIMUN_WIDTH = 442;
+const int STATUSBAR_HEIGHT = 27;
 
 // const QString IMAGE_DEFAULTTYPE = "All pics";
 const QString IMAGE_DEFAULTTYPE = "All Photos";
@@ -271,6 +272,10 @@ void ThumbnailListView::sltReloadAfterFilterEnd(const QVector<DBImgInfo> &allIma
     for (int j = (m_model->rowCount() - 1); j < allImageDataVector.size(); j++) {
         insertThumbnail(allImageDataVector.at(j));
     }
+
+    // 添加底栏空白区域
+    insertBlankOrTitleItem(ItemTypeBlank, "", "", STATUSBAR_HEIGHT);
+
     //加载完后通知所有图片页刷新状态栏显示数量
     emit sigUpdatePicNum();
 }
@@ -1159,6 +1164,7 @@ void ThumbnailListView::resizeEvent(QResizeEvent *e)
 
     resizeEventF();
 
+    this->verticalScrollBar()->setFixedHeight(this->height() - STATUSBAR_HEIGHT);
 //    if (m_model->rowCount() > 0) {
 //        for (int i = 0; i < m_model->rowCount(); i++) {
 //            QModelIndex index = m_model->index(i, 0);

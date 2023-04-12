@@ -79,7 +79,7 @@ AllPicView::AllPicView()
     pVBoxLayout->setContentsMargins(0, 0, 0, 0);
     pVBoxLayout->addWidget(m_pStackedWidget);
     fatherwidget->setLayout(pVBoxLayout);
-    m_mainLayout->setContentsMargins(2, 0, 0, m_pStatusBar->height());
+    m_mainLayout->setContentsMargins(2, 0, 0, 0);
     //初始化悬浮窗
     initSuspensionWidget();
     initConnections();
@@ -189,9 +189,13 @@ void AllPicView::updatePicsIntoThumbnailView()
 {
     m_pThumbnailListView->stopLoadAndClear(true);
     DBImgInfoList infoList = DBManager::instance()->getAllInfos();
-    //加空白栏
+    // 加空白标题栏
     m_pThumbnailListView->insertBlankOrTitleItem(ItemTypeBlank, "", "", SUSPENSION_WIDGET_HEIGHT);
+    // 加图片内容
     m_pThumbnailListView->insertThumbnailByImgInfos(infoList);
+    // 加空白底栏
+    m_pThumbnailListView->insertBlankOrTitleItem(ItemTypeBlank, "", "", m_pStatusBar->height());
+
     if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
         //donothing
     } else {

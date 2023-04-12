@@ -28,6 +28,7 @@
 const int MAINWINDOW_NEEDCUT_WIDTH = 775;
 const int LISTVIEW_MINMUN_WIDTH = 520;
 const int IMPORTTITLE_FIX_WIDTH = 90;
+const int STATUSBAR_HEIGHT = 27;
 
 ImportTimeLineView::ImportTimeLineView(DWidget *parent)
     : DWidget(parent), m_mainLayout(nullptr)
@@ -475,6 +476,10 @@ void ImportTimeLineView::addTimelineLayout()
     }
 
     m_importTimeLineListView->insertThumbnails(importList);
+
+    // 添加底栏空白区域
+    m_importTimeLineListView->insertBlankOrTitleItem(ItemTypeBlank, "", "", STATUSBAR_HEIGHT);
+
     updateDateNumLabel();
 }
 

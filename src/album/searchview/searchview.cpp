@@ -8,6 +8,9 @@
 #include <QGraphicsDropShadowEffect>
 #include <QPainter>
 #include <QDebug>
+namespace  {
+const int STATUSBAR_HEIGHT = 27;
+} // namespace
 
 SearchView::SearchView()
     : m_stackWidget(nullptr), m_pNoSearchResultView(nullptr), m_pNoSearchResultLabel(nullptr)
@@ -182,10 +185,12 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, const QString &
 
     if (0 < infos.length()) {
         m_pThumbnailListView->clearAll();
-        //插入空白项
+        //插入标题栏空白项
         m_pThumbnailListView->insertBlankOrTitleItem(ItemTypeBlank, "", "", 90);
         //插入信息
         m_pThumbnailListView->insertThumbnailByImgInfos(infos);
+        //插入底栏空白项
+        m_pThumbnailListView->insertBlankOrTitleItem(ItemTypeBlank, "", "", STATUSBAR_HEIGHT);
         int photoCount = m_pThumbnailListView->getAppointTypeItemCount(ItemTypePic);
         int videoCount = m_pThumbnailListView->getAppointTypeItemCount(ItemTypeVideo);
         QString searchStr;
