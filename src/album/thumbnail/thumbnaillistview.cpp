@@ -37,6 +37,7 @@ const int ITEM_SPACING = 4;
 const int BASE_HEIGHT = 100;
 const int MINIMUN_WIDTH = 442;
 const int STATUSBAR_HEIGHT = 27;
+const int RIGHT_MARGIN = 13;
 
 // const QString IMAGE_DEFAULTTYPE = "All pics";
 const QString IMAGE_DEFAULTTYPE = "All Photos";
@@ -233,7 +234,7 @@ void ThumbnailListView::showEvent(QShowEvent *event)
     Q_UNUSED(event);
     //时间线使用
     emit sigShowEvent();
-    int i_totalwidth = width() - 30;
+    int i_totalwidth = width() - RIGHT_MARGIN;
     //计算一行的个数
     m_rowSizeHint = i_totalwidth / (m_iBaseHeight + ITEM_SPACING);
     m_onePicWidth = (i_totalwidth - ITEM_SPACING * (m_rowSizeHint - 1)) / m_rowSizeHint;//一张图的宽度
@@ -2192,7 +2193,7 @@ void ThumbnailListView::timeLimeFloatBtnClicked(const QString &date, bool isSele
 
 void ThumbnailListView::resizeEventF()
 {
-    int i_totalwidth = width() - 30;
+    int i_totalwidth = width() - RIGHT_MARGIN;
     //计算一行的个数
     m_rowSizeHint = i_totalwidth / (m_iBaseHeight + ITEM_SPACING);
     int currentwidth = (i_totalwidth - ITEM_SPACING * (m_rowSizeHint - 1)) / m_rowSizeHint;//一张图的宽度
