@@ -490,7 +490,7 @@ void AlbumView::initRightView()
 
 // Statusbar
     QVBoxLayout *pVBoxLayout = new QVBoxLayout();
-    pVBoxLayout->setContentsMargins(0, 0, 0, m_pStatusBar->height());
+    pVBoxLayout->setContentsMargins(0, 0, 0, 0);
     pVBoxLayout->addWidget(m_pRightStackWidget);
     m_pRightWidget->setLayout(pVBoxLayout);
 
@@ -711,7 +711,7 @@ void AlbumView::initFavoriteWidget()
     m_pFavoriteTitle->setAttribute(Qt::WA_TransparentForMouseEvents, true);
     m_pFavoriteTitle->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     m_pFavoriteTitle->setText(tr("Favorites"));
-    
+
     m_pFavoritePicTotal = new DLabel();
     m_pFavoritePicTotal->setFixedHeight(20);
     DFontSizeManager::instance()->bind(m_pFavoritePicTotal, DFontSizeManager::T6, QFont::Medium);
@@ -981,6 +981,8 @@ void AlbumView::updateRightMyFavoriteView()
     //插入上方空白项
     m_favoriteThumbnailList->insertBlankOrTitleItem(ItemTypeBlank, "", "", favorite_title_height);
     m_favoriteThumbnailList->insertThumbnailByImgInfos(infos);
+    // 添加底栏空白区域
+    m_favoriteThumbnailList->insertBlankOrTitleItem(ItemTypeBlank, "", "", m_pStatusBar->height());
     //重置数量显示
     resetLabelCount(m_favoriteThumbnailList->getAppointTypeItemCount(ItemTypePic)
                     , m_favoriteThumbnailList->getAppointTypeItemCount(ItemTypeVideo), m_pFavoritePicTotal);
@@ -1047,6 +1049,8 @@ void AlbumView::updateRightCustomAlbumView()
     m_customThumbnailList->insertBlankOrTitleItem(ItemTypeBlank, "", "", custom_title_height);
     //添加图片信息
     m_customThumbnailList->insertThumbnailByImgInfos(infos);
+    // 添加底栏空白区域
+    m_customThumbnailList->insertBlankOrTitleItem(ItemTypeBlank, "", "", m_pStatusBar->height());
     // 立即重置顶部栏布局一次，以便选中/不选中情况下计算的相册名称位置都相同
     m_customBatchOperateWidget->sltListViewChanged();
 //    m_iAlubmPicsNum = DBManager::instance()->getImgsCountByAlbum(m_currentAlbum);
@@ -1115,6 +1119,7 @@ void AlbumView::updateRightTrashView()
     m_pRightTrashThumbnailList->clearAll();
     m_pRightTrashThumbnailList->insertBlankOrTitleItem(ItemTypeBlank, "", "", trash_title_height);
     m_pRightTrashThumbnailList->insertThumbnailByImgInfos(allTrashInfos);
+    m_pRightTrashThumbnailList->insertBlankOrTitleItem(ItemTypeBlank, "", "", m_pStatusBar->height());
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_TRASH_LIST);
     m_trashBatchOperateWidget->setVisible(!allTrashInfos.isEmpty());
     m_pStatusBar->setVisible(true);
@@ -2396,8 +2401,11 @@ void AlbumView::sltLoadMountFileList(const QString &path, QStringList fileList)
     //添加图片信息
     m_pRightPhoneThumbnailList->insertThumbnailByImgInfos(infos);
 
+    // 添加底栏空白区域
+    m_pRightPhoneThumbnailList->insertBlankOrTitleItem(ItemTypeBlank, "", "", m_pStatusBar->height());
+
     //有有效图片时，设置按钮状态
-    if (m_pRightPhoneThumbnailList->m_model->rowCount() <= 0) {
+    if (m_pRightPhoneThumbnailList->m_model->rowCount() <= 2) {
         m_importByPhoneComboBox->setEnabled(false);
         m_importAllByPhoneBtn->setEnabled(false);
         m_importSelectByPhoneBtn->setEnabled(false);

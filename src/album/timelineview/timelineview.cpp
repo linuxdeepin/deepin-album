@@ -160,7 +160,7 @@ void TimeLineView::updataLayout(QStringList updatePathList)
 void TimeLineView::initTimeLineViewWidget()
 {
     m_mainLayout = new QVBoxLayout();
-    m_mainLayout->setContentsMargins(0, 0, 0, m_pStatusBar->height());
+    m_mainLayout->setContentsMargins(0, 0, 0, 0);
     pTimeLineViewWidget->setLayout(m_mainLayout);
 
     DPalette palcolor = DApplicationHelper::instance()->palette(pTimeLineViewWidget);
@@ -481,6 +481,9 @@ void TimeLineView::addTimelineLayout()
     }
 
     m_timeLineThumbnailListView->insertThumbnails(importList);
+
+    // 加空白底栏
+    m_timeLineThumbnailListView->insertBlankOrTitleItem(ItemTypeBlank, "", "", m_pStatusBar->height());
 }
 
 void TimeLineView::on_AddLabel(QString date, QString num)
