@@ -1,3 +1,13 @@
+deepin-album (5.10.14) unstable; urgency=medium
+
+  * fix: 修复相册不能显示tiff图片的问题(Bug: 191409)
+  * fix: 修复U盘格式化过程中，无法关闭相册应用的问题(Bug: 164375)
+  * fix: 修复相册名称为单字符时，相册名会与顶部控件区域重叠的问题(Bug: 138675)
+  * feat: 添加底栏模糊透明效果(Bug: 156957)
+  * fix: 修复缩略图左右边距不一致的问题(Bug: 156959)
+
+ -- Deepin Packages Builder <packages@deepin.org>  Thu, 13 Apr 2023 14:29:12 +0800
+
 deepin-album (5.10.13) unstable; urgency=medium
 
   * fix flash back of USB flash drive in loongarch architecture.
