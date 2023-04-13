@@ -30,6 +30,9 @@ public:
 
     void mouseReleaseEvent(QMouseEvent *e) override;
 
+protected:
+    void paintEvent(QPaintEvent *e) override;
+
 private:
     void initConnections();
     void initUI();

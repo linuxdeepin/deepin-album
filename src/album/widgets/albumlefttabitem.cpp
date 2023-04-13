@@ -130,7 +130,7 @@ void AlbumLeftTabItem::initUI()
     m_nameLabel->setFont(ft);
 //    DPalette pa = DApplicationHelper::instance()->palette(m_nameLabel);
 //    pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
-    m_nameLabel->setForegroundRole(DPalette::TextTitle);
+    m_nameLabel->setForegroundRole(QPalette::WindowText);
 //    m_nameLabel->setPalette(pa);
     // 设置标签不显示多文本
     m_nameLabel->setTextFormat(Qt::PlainText);
@@ -165,7 +165,7 @@ void AlbumLeftTabItem::initUI()
         const int width = 24;
         pixmapMount = utils::base::renderSVG(":/resources/images/sidebar/normal/icon_exit_normal.svg", QSize(width, width));
         m_unMountBtn->setPixmap(pixmapMount);
-        pHBoxLayout->addWidget(m_unMountBtn); 
+        pHBoxLayout->addWidget(m_unMountBtn);
 
         //调整m_nameLabel、m_pLineEdit宽度
         QRect rect = m_nameLabel->geometry();
@@ -371,7 +371,7 @@ void AlbumLeftTabItem::oriAlbumStatus()
     }
 
     pImageLabel->setPixmap(pixmap);
-    m_nameLabel->setForegroundRole(DPalette::TextTitle);
+    m_nameLabel->setForegroundRole(QPalette::WindowText);
 }
 
 void AlbumLeftTabItem::newAlbumStatus()
@@ -425,4 +425,10 @@ void AlbumLeftTabItem::newAlbumStatus()
 void AlbumLeftTabItem::mouseReleaseEvent(QMouseEvent *e)
 {
     Q_UNUSED(e)
+}
+
+void AlbumLeftTabItem::paintEvent(QPaintEvent *e)
+{
+    pImageLabel->setEnabled(this->isActiveWindow());
+    QWidget::paintEvent(e);
 }
