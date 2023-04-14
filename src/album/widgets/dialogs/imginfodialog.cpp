@@ -59,6 +59,7 @@ static MetaData MetaDataDetails[] = {
     {"", ""}
 };
 
+const int TITLE_HEIGHT = 50;
 }  // namespace
 
 ImgInfoDialog::ImgInfoDialog(const QString &path, const QString &displayName, QWidget *parent)
@@ -103,7 +104,7 @@ void ImgInfoDialog::initUI()
     //title
     DLabel *title = new DLabel(this);
     title->setText(tr("Image info"));
-    title->setGeometry(this->x() + 100 / 2, this->y(), width()-100, 50);
+    title->setGeometry(this->x() + 100 / 2, this->y(), width() - 100, TITLE_HEIGHT);
     title->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     DFontSizeManager::instance()->bind(title, DFontSizeManager::T6);
     DPalette pa = DApplicationHelper::instance()->palette(title);
@@ -385,42 +386,24 @@ void ImgInfoDialog::initExpand(QVBoxLayout *layout, DDrawer *expand)
 
     DEnhancedWidget *hanceedWidget = new DEnhancedWidget(expand, this);
     connect(hanceedWidget, &DEnhancedWidget::heightChanged, hanceedWidget, [ = ]() {
-        QRect rc = geometry();
         if (m_expandGroup.count() == 2) {
-            rc.setHeight(contentHeight() + 40);
-            setGeometry(rc);
             this->setFixedHeight(qMin(615, contentHeight() + 15));
         } else {
-            rc.setHeight(contentHeight() + 40);
-            setGeometry(rc);
-            this->setFixedHeight(qMin(615, contentHeight() + 25));
+            // exand展开控件展开和收起高度不一致，只能根据抽屉状态设置抽屉界面整体高度
+            this->setFixedHeight(qMin(615, contentHeight() + (expand->expand() ? 6 : -4)));
         }
-//        if(expand->expand()){
-//            emit dApp->signalM->extensionPanelHeight(qMin(615,contentHeight()+5));
-//        }
     });
 }
 
 int ImgInfoDialog::contentHeight() const
 {
     int expandsHeight = 10;
-//    bool atleastOneExpand = false;
-//    for (const DBaseExpand* expand : m_expandGroup) {
-//        expandsHeight += 30 + 15;
-//        if (expand->expand()) {
-//            expandsHeight += expand->getContent()->height();
-//            atleastOneExpand = true;
-//        }
-//    }
-//    for (const DDrawer *expand : m_expandGroup) {
-//        expandsHeight += expand->height();
-//    }
     QList<DDrawer *>::const_iterator expand = m_expandGroup.cbegin();
     while (expand != m_expandGroup.cend()) {
         expandsHeight += (*expand)->height();
         ++expand;
     }
-    return (50 + expandsHeight + contentsMargins().top() +
+    return (TITLE_HEIGHT + expandsHeight + contentsMargins().top() +
             contentsMargins().bottom());
 }
 
