@@ -40,6 +40,7 @@
 #include "movieservice.h"
 #include "imageviewer.h"
 #include "imageengine.h"
+#include "widgets/dialogs/imgdeletedialog.h"
 
 bool bfirstopen = true;
 bool bfirstandviewimage = false;
@@ -538,7 +539,10 @@ void MainWindow::initCentralWidget()
     connect(ImageEngine::instance(), &ImageEngine::sigUpdateCollectBtn, this, &MainWindow::updateCollectButton);
     connect(m_collect, &DIconButton::clicked, this, &MainWindow::onCollectButtonClicked);
 
-    //刷新收藏按钮
+    //处理看图-删除按钮
+#ifdef DELETE_CONFIRM
+    connect(ImageEngine::instance(), &ImageEngine::sigConfirmDel, this, &MainWindow::onConfirmLibDel, Qt::DirectConnection);
+#endif
     connect(ImageEngine::instance(), &ImageEngine::sigDel, this, &MainWindow::onLibDel, Qt::DirectConnection);
     //获取所有自定义相册
     connect(ImageEngine::instance(), &ImageEngine::sigGetAlbumName, this, &MainWindow::onSendAlbumName);
@@ -1392,6 +1396,30 @@ void MainWindow::updateCollectButton()
         m_collect->setIcon(QIcon::fromTheme("dcc_collection_normal"));
         m_collect->setIconSize(QSize(36, 36));
     }
+}
+
+void MainWindow::onConfirmLibDel(const QString &path)
+{
+#ifdef DELETE_CONFIRM
+    int count = 0;
+    QFileInfo infox(path);
+    if (infox.isSymLink()) {
+        infox = QFileInfo(infox.readLink());
+    }
+    //文件或者文件夹不可写
+    if (QFileInfo(infox.dir(), infox.dir().path()).isWritable()) {
+        count++;
+    }
+
+    ImgDeleteDialog *dialog = new ImgDeleteDialog(this, count, false);
+    dialog->setObjectName("deteledialog");
+    if (dialog->exec() > 0) {
+        // 通知看图，删除图片
+        ImageEngine::instance()->sigDeleteImage();
+        // 相册，同步数据库
+        onLibDel(path);
+    }
+#endif
 }
 
 void MainWindow::onLibDel(QString path)

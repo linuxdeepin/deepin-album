@@ -176,6 +176,7 @@ public slots:
     void onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAdditionalOperation operation, bool isCustom, const QString &album, int UID);
     void onCollectButtonClicked();
     void updateCollectButton();
+    void onConfirmLibDel(const QString& path);
     void onLibDel(QString path);
     void deleteSaveImage();
     void onNewPathAction(); //响应新自定义路径创建
