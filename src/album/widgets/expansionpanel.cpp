@@ -28,13 +28,6 @@ ExpansionPanel::ExpansionPanel(QWidget *parent)
     setBlurEnabled(true);
     setMode(DBlurEffectWidget::GaussianBlur);
 
-    //绘制背景阴影
-    const int nMargin = 10;     // 设置阴影宽度
-    shadow_effect = new QGraphicsDropShadowEffect(this);
-    shadow_effect->setOffset(0, 0);
-    shadow_effect->setBlurRadius(nMargin);
-    this->setGraphicsEffect(shadow_effect); //最外层的Frame
-
     //设置边距
     layout->setContentsMargins(0, 12, 0, 12);
 
