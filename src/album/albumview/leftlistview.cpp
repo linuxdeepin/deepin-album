@@ -113,7 +113,6 @@ void LeftListView::initUI()
     m_pPhotoLibListView = new LeftListWidget();
     m_pPhotoLibListView->setFocusPolicy(Qt::NoFocus);
     DStyledItemDelegate *itemDelegate0 = new DStyledItemDelegate(m_pPhotoLibListView);
-    itemDelegate0->setBackgroundType(DStyledItemDelegate::NoBackground);
     m_pPhotoLibListView->setItemDelegate(itemDelegate0);
 
     m_pPhotoLibListView->setFixedWidth(LEFT_VIEW_WIDTH_180);
@@ -184,7 +183,6 @@ void LeftListView::initUI()
     m_pCustomizeListView = new LeftListWidget();
     m_pCustomizeListView->setFocusPolicy(Qt::NoFocus);
     DStyledItemDelegate *itemDelegate1 = new DStyledItemDelegate(m_pCustomizeListView);
-    itemDelegate1->setBackgroundType(DStyledItemDelegate::NoBackground);
     m_pCustomizeListView->setItemDelegate(itemDelegate1);
     m_pCustomizeListView->setSpacing(0);
     m_pCustomizeListView->setFrameShape(DListWidget::NoFrame);
@@ -236,7 +234,6 @@ void LeftListView::initUI()
     m_pMountListWidget->setFocusPolicy(Qt::NoFocus);
     m_pMountListWidget->setVisible(false);
     DStyledItemDelegate *itemDelegate2 = new DStyledItemDelegate(m_pMountListWidget);
-    itemDelegate2->setBackgroundType(DStyledItemDelegate::NoBackground);
     m_pMountListWidget->setItemDelegate(itemDelegate2);
 
     m_pMountListWidget->setSpacing(0);
