@@ -103,7 +103,7 @@ void AlbumCreateDialog::initUI()
     QRegExpValidator *pattern = new QRegExpValidator(regExp, this);
     edit->lineEdit()->setValidator(pattern);
 
-    DFontSizeManager::instance()->bind(edit, DFontSizeManager::T6, QFont::DemiBold);
+    DFontSizeManager::instance()->bind(edit, DFontSizeManager::T6, QFont::Medium);
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Create"), true, DDialog::ButtonRecommend);
     getButton(0)->setFixedSize(170, 35);
