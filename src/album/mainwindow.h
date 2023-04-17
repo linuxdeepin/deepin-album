@@ -12,6 +12,7 @@
 #include "searchview/searchview.h"
 #include "controller/exporter.h"
 #include "widgets/dialogs/imginfodialog.h"
+#include "widgets/flatbutton.h"
 #include "fileinotifygroup.h"
 
 #include <QListWidget>
@@ -221,9 +222,9 @@ private:
     int m_pSliderPos = 2;       //滑动条步进
 
     QButtonGroup *btnGroup = nullptr;
-    DPushButton *m_pAllPicBtn = nullptr;
-    DPushButton *m_pTimeBtn = nullptr;
-    DPushButton *m_pAlbumBtn = nullptr;
+    FlatButton *m_pAllPicBtn = nullptr;
+    FlatButton *m_pTimeBtn = nullptr;
+    FlatButton *m_pAlbumBtn = nullptr;
 
     DDialog  *m_waitdailog = nullptr;
     DProgressBar *m_importBar = nullptr;

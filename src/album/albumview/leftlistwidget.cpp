@@ -61,8 +61,19 @@ void LeftListWidget::dragEnterEvent(QDragEnterEvent *event)
     }
 }
 
+void LeftListWidget::paintEvent(QPaintEvent *event)
+{
+    // 让背景色适合主题颜色
+    DPalette pa;
+    pa = DApplicationHelper::instance()->palette(this);
+    pa.setBrush(DPalette::ItemBackground, pa.brush(DPalette::Base));
+    DApplicationHelper::instance()->setPalette(this, pa);
+
+    DListWidget::paintEvent(event);
+}
+
 void LeftListWidget::mousePressEvent(QMouseEvent *e)
-{ 
+{
     QModelIndex index = indexAt(e->pos());
     if (!index.isValid()) {
         emit sigMousePressIsNoValid();

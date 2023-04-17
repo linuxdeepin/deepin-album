@@ -31,6 +31,9 @@ protected:
 
     void dragEnterEvent(QDragEnterEvent *event) override;
 
+    /**@brief:事件重写*/
+    void paintEvent(QPaintEvent *event) override;
+
 signals:
     void signalDropEvent(QModelIndex index);
     void sigMousePressIsNoValid();
