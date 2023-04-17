@@ -199,7 +199,7 @@ void LeftListView::initUI()
 
         AlbumLeftTabItem *pAlbumLeftTabItem = new AlbumLeftTabItem(albumName.second, albumName.first, "AutoImport");
         pAlbumLeftTabItem->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_160 /*+ 8*/);
-        pAlbumLeftTabItem->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40); 
+        pAlbumLeftTabItem->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
         m_pCustomizeListView->setItemWidget(pListWidgetItem, pAlbumLeftTabItem);
     }
 
@@ -770,4 +770,10 @@ void LeftListView::mousePressEvent(QMouseEvent *e)
 {
     m_pCustomizeListView->SaveRename(e->pos());
     DWidget::mousePressEvent(e);
+}
+
+void LeftListView::mouseMoveEvent(QMouseEvent *e)
+{
+    DWidget::mousePressEvent(e);
+    e->accept();
 }

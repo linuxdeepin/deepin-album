@@ -47,6 +47,7 @@ private:
     QString getNewAlbumName();
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *e) override;
+    void mouseMoveEvent(QMouseEvent *e) override;
 signals:
     void itemClicked();
     //幻灯片播放
