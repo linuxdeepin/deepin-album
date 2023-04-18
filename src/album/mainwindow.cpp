@@ -403,7 +403,13 @@ void MainWindow::initTitleBar()
     m_addImageBtn->setToolTip(tr("Import photos and videos"));
     m_addImageBtn->setFixedSize(QSize(36, 36));
     m_addImageBtn->setShortcut(QKeySequence(CTRLO_SHORTCUT));
+
     titlebar()->addWidget(m_addImageBtn, Qt::AlignRight);
+
+    // UI规范调整，“+”按钮应与系统按钮组间隔10px，因此添加一个10px宽空白部件隔开
+    QWidget *spaceWidget = new QWidget(this);
+    spaceWidget->setFixedSize(QSize(10, 36));
+    titlebar()->addWidget(spaceWidget, Qt::AlignRight);
 
     titlebar()->setIcon(QIcon::fromTheme("deepin-album"));
     titlebar()->setMenu(m_pTitleBarMenu);
