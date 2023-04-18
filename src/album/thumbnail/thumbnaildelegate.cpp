@@ -28,6 +28,7 @@
 #include "signalmanager.h"
 namespace {
 const QString IMAGE_DEFAULTTYPE = "All pics";
+const int CheckIcon_Size = 16;
 }
 
 const int NotSupportedOrDamagedWidth = 40;      //损坏图片宽度
@@ -164,17 +165,19 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
 
     //绘制选中图标
     if (selected) {
-        QPixmap selectedPixmap;
-        if (themeType == DGuiApplicationHelper::LightType) {
-            selectedPixmap = selectedPixmapLight;
-        } else if (themeType == DGuiApplicationHelper::DarkType) {
-            selectedPixmap = selectedPixmapDark;
-        }
-        QRect selectedRect(backgroundRect.x() + backgroundRect.width() - 30, backgroundRect.y() + 4, 28, 28);
+        QRect rc = option.rect;
+        rc.setSize({CheckIcon_Size, CheckIcon_Size});
+        rc.moveTopRight(QPoint(option.rect.right() - 6, option.rect.top() + 6));
+
+        // 使用dtk风格绘制选中图标，以便选中图标背景色跟随主题高亮颜色改变
+        DStyleOptionButton check;
+        check.state = DStyle::State_Enabled | DStyle::State_On;
+        check.rect = rc;
+
         QPainterPath selectedBp;
-        selectedBp.addRoundedRect(selectedRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+        selectedBp.addRect(rc);
         painter->setClipPath(selectedBp);
-        painter->drawPixmap(selectedRect, selectedPixmap);
+        DApplication::style()->drawPrimitive(DStyle::PE_IndicatorItemViewItemCheck, &check, painter);
     }
 
     //绘制剩余天数
