@@ -2517,6 +2517,10 @@ void AlbumView::adjustTitleContent()
             m_pPhoneTitle->setFixedWidth(PHONE_TITLE_NORMAL_WIDTH - (MAINWINDOW_DEVICE_MIN_WIDTH - topLevelWidget()->width()));
             m_pPhonePicTotal->setFixedWidth(PHONE_TITLE_NORMAL_WIDTH - (MAINWINDOW_DEVICE_MIN_WIDTH - topLevelWidget()->width()));
         } else {
+            // 根据显示内容重置设备总数标签默认宽度
+            m_pPhonePicTotal->setText(m_PhonePicTotalFullStr);
+            m_pPhonePicTotal->adjustSize();
+
             m_pPhoneTitle->setMaximumWidth(PHONE_TITLE_MAX_WIDTH);
             m_pPhonePicTotal->setMaximumWidth(PHONE_TITLE_MAX_WIDTH);
         }
