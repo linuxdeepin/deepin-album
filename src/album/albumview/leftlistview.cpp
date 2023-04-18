@@ -239,16 +239,18 @@ void LeftListView::initUI()
     m_pMountListWidget->setSpacing(0);
     m_pMountListWidget->setFrameShape(DListWidget::NoFrame);
 
+    // 侧边栏布局顺序，从上到下，依次为照片库->相册->设备
     pMainLayout->addWidget(photowidget);
     pMainLayout->addWidget(m_pPhotoLibListView);
+
+    lableCustomixeWidget->setLayout(pCustomizeLayout);
+    pMainLayout->addWidget(lableCustomixeWidget);
+    pMainLayout->addWidget(m_pCustomizeListView);
 
     m_pMountWidget->setLayout(pMountLayout);
     pMainLayout->addWidget(m_pMountWidget);
     pMainLayout->addWidget(m_pMountListWidget);
 
-    lableCustomixeWidget->setLayout(pCustomizeLayout);
-    pMainLayout->addWidget(lableCustomixeWidget);
-    pMainLayout->addWidget(m_pCustomizeListView);
     pMainLayout->addStretch();
     onUpdateLeftListview();
 }
