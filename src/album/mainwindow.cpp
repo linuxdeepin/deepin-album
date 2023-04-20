@@ -1411,6 +1411,7 @@ void MainWindow::onConfirmLibDel(const QString &path)
     }
 
     ImgDeleteDialog *dialog = new ImgDeleteDialog(this, count, false);
+    dialog->setDisplayPosition(DAbstractDialog::Center);
     dialog->setObjectName("deteledialog");
     if (dialog->exec() > 0) {
         // 通知看图，删除图片
