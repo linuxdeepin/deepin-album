@@ -16,17 +16,17 @@ void Dtk::Widget::DDlabel::Settext(const QString &text)
     str = text;
     oldstr = text;
 
+    QString elidedText = elideFont.elidedText(str, Qt::ElideRight, 85);
     DLabel::setText(elideFont.elidedText(str, Qt::ElideRight, 85));
+    if (str != elidedText)
+        DLabel::setToolTip(str);
+    else
+        DLabel::setToolTip("");
 }
 
 void Dtk::Widget::DDlabel::paintEvent(QPaintEvent *event)
 {
-//    Q_UNUSED(event)
-//    qDebug() << "this->text()" << this->text();
-//    DLabel::paintEvent(event);
-//    QString str  = this->text();
     QFontMetrics elideFont(this->font());
     this->setText(elideFont.elidedText(str, Qt::ElideRight, 85));
-//    this->Settext(str);
     DLabel::paintEvent(event);
 }

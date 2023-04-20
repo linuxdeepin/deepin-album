@@ -192,10 +192,7 @@ void AlbumLeftTabItem::initUI()
         AC_SET_ACCESSIBLE_NAME(m_nameLabel, Album_Fav_Label);
     } else {
         DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
-        QString elidedText = elideFont.elidedText(m_albumNameStr, Qt::ElideRight, m_nameLabel->width());
-        m_nameLabel->Settext(elidedText);
-        if (elidedText != m_albumNameStr)
-            m_nameLabel->setToolTip(m_albumNameStr);
+        m_nameLabel->Settext(m_albumNameStr);
         AC_SET_OBJECT_NAME(m_nameLabel, m_albumNameStr);
         AC_SET_ACCESSIBLE_NAME(m_nameLabel, m_albumNameStr);
     }
@@ -238,13 +235,7 @@ void AlbumLeftTabItem::onCheckNameValid()
     if (OPE_MODE_RENAMEALBUM == m_opeMode || OPE_MODE_ADDRENAMEALBUM == m_opeMode) {
         //由于m_nameLabel->text()的值还是原来的值，此处修改为直接使用上面获取的lineedit的值
         newNameStr = AlbumCreateDialog::getNewAlbumName(newNameStr);
-        QFontMetrics elideFont(m_nameLabel->font());
-        //m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
-        QString elidedText = elideFont.elidedText(newNameStr, Qt::ElideRight, m_nameLabel->width());
-        m_nameLabel->Settext(elidedText);
-        if (elidedText != newNameStr)
-            m_nameLabel->setToolTip(newNameStr);
-        m_nameLabel->oldstr = newNameStr;
+        m_nameLabel->Settext(newNameStr);
         QFont ft;
         ft.setPixelSize(14);
 
@@ -258,12 +249,7 @@ void AlbumLeftTabItem::onCheckNameValid()
         emit dApp->signalM->sigUpdataAlbumRightTitle(m_albumNameStr);
     } else if (OPE_MODE_ADDNEWALBUM == m_opeMode) {
         QFontMetrics elideFont(m_nameLabel->font());
-        //m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
-        QString elidedText = elideFont.elidedText(newNameStr, Qt::ElideRight, m_nameLabel->width());
-        m_nameLabel->Settext(elidedText);
-        if (elidedText != newNameStr)
-            m_nameLabel->setToolTip(newNameStr);
-        m_nameLabel->oldstr = newNameStr;
+        m_nameLabel->Settext(newNameStr);
         QFont ft;
         ft.setPixelSize(14);
 
