@@ -192,8 +192,10 @@ void AlbumLeftTabItem::initUI()
         AC_SET_ACCESSIBLE_NAME(m_nameLabel, Album_Fav_Label);
     } else {
         DFontSizeManager::instance()->bind(m_nameLabel, DFontSizeManager::T6, Qt::ElideRight);
-        m_nameLabel->Settext(elideFont.elidedText(m_albumNameStr, Qt::ElideRight, m_nameLabel->width()));
-        m_nameLabel->setToolTip(m_albumNameStr);
+        QString elidedText = elideFont.elidedText(m_albumNameStr, Qt::ElideRight, m_nameLabel->width());
+        m_nameLabel->Settext(elidedText);
+        if (elidedText != m_albumNameStr)
+            m_nameLabel->setToolTip(m_albumNameStr);
         AC_SET_OBJECT_NAME(m_nameLabel, m_albumNameStr);
         AC_SET_ACCESSIBLE_NAME(m_nameLabel, m_albumNameStr);
     }
@@ -238,8 +240,10 @@ void AlbumLeftTabItem::onCheckNameValid()
         newNameStr = AlbumCreateDialog::getNewAlbumName(newNameStr);
         QFontMetrics elideFont(m_nameLabel->font());
         //m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
-        m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, m_nameLabel->width()));
-        m_nameLabel->setToolTip(newNameStr);
+        QString elidedText = elideFont.elidedText(newNameStr, Qt::ElideRight, m_nameLabel->width());
+        m_nameLabel->Settext(elidedText);
+        if (elidedText != newNameStr)
+            m_nameLabel->setToolTip(newNameStr);
         m_nameLabel->oldstr = newNameStr;
         QFont ft;
         ft.setPixelSize(14);
@@ -255,8 +259,10 @@ void AlbumLeftTabItem::onCheckNameValid()
     } else if (OPE_MODE_ADDNEWALBUM == m_opeMode) {
         QFontMetrics elideFont(m_nameLabel->font());
         //m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, 85));
-        m_nameLabel->Settext(elideFont.elidedText(newNameStr, Qt::ElideRight, m_nameLabel->width()));
-        m_nameLabel->setToolTip(newNameStr);
+        QString elidedText = elideFont.elidedText(newNameStr, Qt::ElideRight, m_nameLabel->width());
+        m_nameLabel->Settext(elidedText);
+        if (elidedText != newNameStr)
+            m_nameLabel->setToolTip(newNameStr);
         m_nameLabel->oldstr = newNameStr;
         QFont ft;
         ft.setPixelSize(14);
