@@ -1,3 +1,9 @@
+deepin-album (5.0.16) unstable; urgency=medium
+
+  * Update version to 5.0.16. community
+
+ -- Deepin Packages Builder <packages@deepin.org>  Tue, 25 Apr 2023 11:11:12 +0800
+
 deepin-album (5.10.15) unstable; urgency=medium
 
   * fix: 修复相册窗口处于未激活状态下，相册导航栏图标未置灰的问题(Bug: 156983)
