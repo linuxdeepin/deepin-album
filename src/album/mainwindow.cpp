@@ -539,9 +539,6 @@ void MainWindow::initCentralWidget()
     connect(m_collect, &DIconButton::clicked, this, &MainWindow::onCollectButtonClicked);
 
     //处理看图-删除按钮
-#ifdef DELETE_CONFIRM
-    connect(ImageEngine::instance(), &ImageEngine::sigConfirmDel, this, &MainWindow::onConfirmLibDel, Qt::DirectConnection);
-#endif
     connect(ImageEngine::instance(), &ImageEngine::sigDel, this, &MainWindow::onLibDel, Qt::DirectConnection);
     //获取所有自定义相册
     connect(ImageEngine::instance(), &ImageEngine::sigGetAlbumName, this, &MainWindow::onSendAlbumName);
@@ -1397,9 +1394,11 @@ void MainWindow::updateCollectButton()
     }
 }
 
-void MainWindow::onConfirmLibDel(const QString &path)
+void MainWindow::onLibDel(QString path)
 {
+// image-editor 1.0.30以后高版本，添加删除确认逻辑处理
 #ifdef DELETE_CONFIRM
+    bool bConfirmDelete = false;
     int count = 0;
     QFileInfo infox(path);
     if (infox.isSymLink()) {
@@ -1416,14 +1415,13 @@ void MainWindow::onConfirmLibDel(const QString &path)
     if (dialog->exec() > 0) {
         // 通知看图，删除图片
         ImageEngine::instance()->sigDeleteImage();
-        // 相册，同步数据库
-        onLibDel(path);
+        bConfirmDelete = true;
     }
-#endif
-}
 
-void MainWindow::onLibDel(QString path)
-{
+    if (!bConfirmDelete)
+        return;
+#endif
+
     if (m_imageViewer == nullptr) {
         return;
     }
