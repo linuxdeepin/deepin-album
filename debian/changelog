@@ -1,3 +1,9 @@
+deepin-album (5.10.18) unstable; urgency=medium
+
+  * Update version to 5.10.18 community
+
+ -- Deepin Packages Builder <packages@deepin.org>  Thu, 27 Apr 2023 15:54:47 +0800
+
 deepin-album (5.10.17) unstable; urgency=medium
 
   * chore: 相册强依赖image-editor 1.0.29以上版本(Bug: 197551)
