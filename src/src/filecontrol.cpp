@@ -218,12 +218,20 @@ QString FileControl::getNamePath(const  QString &oldPath, const QString &newName
 
 bool FileControl::isImage(const QString &path)
 {
-    return LibUnionImage_NameSpace::isImage(QUrl(path).toLocalFile());
+    // 将传入path路径统一为绝对路径
+    QString tmpPath = path;
+    if (path.startsWith("file://"))
+        tmpPath = QUrl(path).toLocalFile();
+    return LibUnionImage_NameSpace::isImage(tmpPath);
 }
 
 bool FileControl::isVideo(const QString &path)
 {
-    return LibUnionImage_NameSpace::isVideo(QUrl(path).toLocalFile());
+    // 将传入path路径统一为绝对路径
+    QString tmpPath = path;
+    if (path.startsWith("file://"))
+        tmpPath = QUrl(path).toLocalFile();
+    return LibUnionImage_NameSpace::isVideo(tmpPath);
 }
 
 int FileControl::photoCount(const QStringList &paths)
