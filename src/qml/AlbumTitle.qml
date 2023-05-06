@@ -109,10 +109,8 @@ TitleBar {
         HelpAction { }
         AboutAction {
             aboutDialog: AboutDialog {
-                maximumWidth: 360
-                maximumHeight: 362
-                minimumWidth: 360
-                minimumHeight: 362
+                width: 360
+                height: 362
                 productName: qsTr("Album")
                 productIcon: "deepin-album"
                 version: qsTr("Version:") + Qt.application.version
