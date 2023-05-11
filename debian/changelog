@@ -1,3 +1,10 @@
+deepin-album (6.0.3) unstable; urgency=medium
+
+  * chore: 优化isImage、isVideo接口处理逻辑(Bug: 192995)
+  * fix: AboutDialog's titlebar tearing shadow(Issue: 4222)
+
+ -- Deepin Packages Builder <packages@deepin.org>  Thu, 11 May 2023 13:33:17 +0800
+
 deepin-album (6.0.2) unstable; urgency=medium
 
   * Update version to 6.0.2
