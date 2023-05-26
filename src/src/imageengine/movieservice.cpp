@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "movieservice.h"
+#include "unionimage/unionimage.h"
 #include <QMetaType>
 #include <QDirIterator>
 #include <QStandardPaths>
@@ -156,7 +157,7 @@ MovieInfo MovieService::getMovieInfo(const QUrl &url)
     m_bufferMutex.unlock();
 
     if (url.isLocalFile()) {
-        QFileInfo fi(url.toLocalFile());
+        QFileInfo fi(LibUnionImage_NameSpace::localPath(url));
 
         if (fi.exists()) {
             auto filePath = fi.filePath();
@@ -196,7 +197,7 @@ QImage MovieService::getMovieCover(const QUrl &url)
     //不取第一帧，与文管影院保持一致
 //    m_video_thumbnailer->seek_time = const_cast<char *>(SEEK_TIME);
     m_image_data = m_mvideo_thumbnailer_create_image_data();
-    QString file = QFileInfo(url.toLocalFile()).absoluteFilePath();
+    QString file = QFileInfo(LibUnionImage_NameSpace::localPath(url)).absoluteFilePath();
     m_mvideo_thumbnailer_generate_thumbnail_to_buffer(m_video_thumbnailer, file.toUtf8().data(), m_image_data);
     QImage img = QImage::fromData(m_image_data->image_data_ptr, static_cast<int>(m_image_data->image_data_size), "png");
     m_mvideo_thumbnailer_destroy_image_data(m_image_data);

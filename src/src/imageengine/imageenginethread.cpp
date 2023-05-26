@@ -57,7 +57,7 @@ ImportImagesThread::~ImportImagesThread()
 void ImportImagesThread::setData(const QStringList &paths, const int UID)
 {
     for (QUrl path : paths) {
-        m_paths << path.toLocalFile();
+        m_paths << LibUnionImage_NameSpace::localPath(path);
     }
     m_UID = UID;
     m_type = DataType_String;
@@ -66,7 +66,7 @@ void ImportImagesThread::setData(const QStringList &paths, const int UID)
 void ImportImagesThread::setData(const QList<QUrl> &paths, const int UID, const bool checkRepeat)
 {
     for (QUrl path : paths) {
-        m_paths << path.toLocalFile();
+        m_paths << LibUnionImage_NameSpace::localPath(path);
     }
     m_UID = UID;
     m_checkRepeat = checkRepeat;
