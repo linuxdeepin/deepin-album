@@ -544,7 +544,7 @@ Item {
                 var paths = albumControl.getDayPaths(m_dayToken)
                 viewModel.clear()
                 for (var i = 0;i !== paths.length;++i) {
-                    viewModel.append({url: paths[i], filePath: albumControl.localPath(paths[i])})
+                    viewModel.append({url: paths[i], filePath: albumControl.url2localPath(paths[i])})
 
                     //顺便统计下图片和视频的数量
                     if(fileControl.isImage(paths[i])) {

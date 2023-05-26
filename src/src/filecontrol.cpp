@@ -130,13 +130,13 @@ QString FileControl::getDirPath(const QString &path)
 bool FileControl::pathExists(const QString &path)
 {
     QUrl url(path);
-    return QFileInfo::exists(url.toLocalFile());
+    return QFileInfo::exists(LibUnionImage_NameSpace::localPath(url));
 }
 
 bool FileControl::haveImage(const QVariantList &urls)
 {
     for (auto &url : urls) {
-        if (!url.isNull() && isImage(QUrl(url.toString()).toLocalFile())) {
+        if (!url.isNull() && isImage(LibUnionImage_NameSpace::localPath(url.toString()))) {
             return true;
         }
     }
@@ -160,7 +160,7 @@ QStringList FileControl::getDirImagePath(const QString &path)
     }
 
     QStringList image_list;
-    QString DirPath = QFileInfo(QUrl(path).toLocalFile()).dir().path();
+    QString DirPath = QFileInfo(LibUnionImage_NameSpace::localPath(path)).dir().path();
 
     QDir _dirinit(DirPath);
     QFileInfoList m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
@@ -199,15 +199,8 @@ QStringList FileControl::renameOne(const QStringList &pathlist, const  QString &
 
 QString FileControl::getNamePath(const  QString &oldPath, const QString &newName)
 {
-    QString old = oldPath;
-    QString now = newName;
-
-    if (old.startsWith("file://")) {
-        old = QUrl(old).toLocalFile();
-    }
-    if (now.startsWith("file://")) {
-        now = QUrl(now).toLocalFile();
-    }
+    QString old = LibUnionImage_NameSpace::localPath(oldPath);
+    QString now = LibUnionImage_NameSpace::localPath(newName);
 
     QFileInfo info(oldPath);
     QString path = info.path();
@@ -219,18 +212,14 @@ QString FileControl::getNamePath(const  QString &oldPath, const QString &newName
 bool FileControl::isImage(const QString &path)
 {
     // 将传入path路径统一为绝对路径
-    QString tmpPath = path;
-    if (path.startsWith("file://"))
-        tmpPath = QUrl(path).toLocalFile();
+    QString tmpPath = LibUnionImage_NameSpace::localPath(path);
     return LibUnionImage_NameSpace::isImage(tmpPath);
 }
 
 bool FileControl::isVideo(const QString &path)
 {
     // 将传入path路径统一为绝对路径
-    QString tmpPath = path;
-    if (path.startsWith("file://"))
-        tmpPath = QUrl(path).toLocalFile();
+    QString tmpPath = LibUnionImage_NameSpace::localPath(path);
     return LibUnionImage_NameSpace::isVideo(tmpPath);
 }
 
@@ -373,7 +362,7 @@ bool FileControl::displayinFileManager(const QString &path)
 void FileControl::copyImage(const QString &path)
 {
     slotRotatePixCurrent();
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
 
     QClipboard *cb = qApp->clipboard();
 
@@ -453,7 +442,7 @@ bool FileControl::isRotatable(const QStringList &pathList)
 bool FileControl::isRotatable(const QString &path)
 {
     bool bRet = false;
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
     QFileInfo info(localPath);
     if (!info.isFile() || !info.exists() || !info.isWritable() || !info.isReadable()) {
         bRet = false;
@@ -465,7 +454,7 @@ bool FileControl::isRotatable(const QString &path)
 
 bool FileControl::isCanWrite(const QString &path)
 {
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
     QFileInfo info(localPath);
     bool bRet = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable(); //是否可写
     return bRet;
@@ -488,8 +477,7 @@ bool FileControl::isCanDelete(const QString &path)
 {
     bool bRet = false;
     bool isAlbum = false;
-    QUrl url(path);
-    QString localPath = url.isLocalFile() ? url.toLocalFile() : path;
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
     QFileInfo info(localPath);
     bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable(); //是否可写
     bool isReadable = info.isReadable() ; //是否可读
@@ -522,20 +510,20 @@ bool FileControl::isCanPrint(const QStringList &pathList)
 
 bool FileControl::isCanPrint(const QString &path)
 {
-    QFileInfo info(QUrl(path).toLocalFile());
+    QFileInfo info(LibUnionImage_NameSpace::localPath(path));
     return isImage(path) && info.isReadable();
 }
 
 bool FileControl::isFile(const QString &path)
 {
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
     return QFileInfo(localPath).isFile();
 }
 
 void FileControl::ocrImage(const QString &path)
 {
     slotRotatePixCurrent();
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
     m_ocrInterface->openFile(localPath);
 }
 
@@ -546,7 +534,7 @@ QStringList FileControl::parseCommandlineGetPaths()
     QString filepath = "";
     QStringList arguments = QCoreApplication::arguments();
     for (int i = 1; i < arguments.size(); ++i) {
-        QString path = UrlInfo(arguments[i]).toLocalFile();
+        QString path = LibUnionImage_NameSpace::localPath(UrlInfo(arguments[i]));
         if (QFileInfo(path).isFile()) {
             QString filepath = QUrl::fromLocalFile(path).toString();
             if (isImage(filepath) || isVideo(filepath)) {
@@ -565,7 +553,7 @@ QStringList FileControl::parseCommandlineGetPaths()
 bool FileControl::isDynamicImage(const QString &path)
 {
     bool bRet = false;
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
 
     imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
     if (imageViewerSpace::ImageTypeDynamic == type) {
@@ -577,7 +565,7 @@ bool FileControl::isDynamicImage(const QString &path)
 bool FileControl::isNormalStaticImage(const QString &path)
 {
     bool bRet = false;
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
 
     imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
     if (imageViewerSpace::ImageTypeStatic == type || imageViewerSpace::ImageTypeMulti == type) {
@@ -601,7 +589,7 @@ bool FileControl::rotateFile(const QStringList &pathList, const int &rotateAngel
 bool FileControl::rotateFile(const QString &path, const int &rotateAngel)
 {
     bool bRet = true;
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
     if (m_currentPath != localPath) {
         slotRotatePixCurrent(true);
         m_currentPath = localPath;
@@ -662,11 +650,7 @@ int FileControl::currentAngle()
 
 QString FileControl::slotGetFileName(const QString &path)
 {
-    QString tmppath = path;
-
-    if (path.startsWith("file://")) {
-        tmppath = QUrl(tmppath).toLocalFile();
-    }
+    QString tmppath = LibUnionImage_NameSpace::localPath(path);
 
     QFileInfo info(tmppath);
     return info.completeBaseName();
@@ -674,11 +658,7 @@ QString FileControl::slotGetFileName(const QString &path)
 
 QString FileControl::slotGetFileNameSuffix(const QString &path)
 {
-    QString tmppath = path;
-
-    if (path.startsWith("file://")) {
-        tmppath = QUrl(tmppath).toLocalFile();
-    }
+    QString tmppath = LibUnionImage_NameSpace::localPath(path);
 
     QFileInfo info(tmppath);
     return info.fileName();
@@ -686,12 +666,12 @@ QString FileControl::slotGetFileNameSuffix(const QString &path)
 
 QString FileControl::slotGetFileLocalPath(const QString &path)
 {
-    return QUrl(path).toLocalFile();
+    return LibUnionImage_NameSpace::localPath(path);
 }
 
 QString FileControl::slotGetInfo(const QString &key, const QString &path)
 {
-    QString localpath = QUrl(path).toLocalFile();
+    QString localpath = LibUnionImage_NameSpace::localPath(path);
     if (localpath != m_currentPath) {
         setCurrentImage(path);
     }
@@ -706,7 +686,7 @@ QString FileControl::slotGetInfo(const QString &key, const QString &path)
 
 bool FileControl::slotFileReName(const QString &name, const QString &filepath, bool isSuffix)
 {
-    QString localPath = QUrl(filepath).toLocalFile();
+    QString localPath = LibUnionImage_NameSpace::localPath(filepath);
     QFile file(localPath);
     if (file.exists()) {
         QFileInfo info(localPath);
@@ -733,7 +713,7 @@ QString FileControl::slotFileSuffix(const QString &path, bool ret)
 {
     QString returnSuffix = "";
 
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
     if (!path.isEmpty() && QFile::exists(localPath)) {
         QString tmppath = path;
         QFileInfo info(tmppath);
@@ -749,7 +729,7 @@ QString FileControl::slotFileSuffix(const QString &path, bool ret)
 
 void FileControl::setCurrentImage(const QString &path)
 {
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
 
     if (m_currentReader) {
         delete m_currentReader;
@@ -835,7 +815,7 @@ double FileControl::getFitWindowScale(double WindowWidth, double WindowHeight)
 bool FileControl::isShowToolTip(const QString &oldPath, const QString &name)
 {
     bool bRet = false;
-    QString path = QUrl(oldPath).toLocalFile();
+    QString path = LibUnionImage_NameSpace::localPath(oldPath);
     QFileInfo fileinfo(path);
     QString DirPath = fileinfo.path();
     QString filename = fileinfo.completeBaseName();
@@ -856,7 +836,7 @@ bool FileControl::isShowToolTip(const QString &oldPath, const QString &name)
 
 void FileControl::showPrintDialog(const QString &path)
 {
-    QString oldPath = QUrl(path).toLocalFile();
+    QString oldPath = LibUnionImage_NameSpace::localPath(path);
     PrintHelper::getIntance()->showPrintDialog(QStringList(oldPath));
 }
 
@@ -864,7 +844,7 @@ void FileControl::showPrintDialog(const QStringList &paths)
 {
     QStringList localPaths ;
     for (QString path : paths) {
-        localPaths << QUrl(path).toLocalFile();
+        localPaths << LibUnionImage_NameSpace::localPath(path);
     }
     PrintHelper::getIntance()->showPrintDialog(localPaths);
 }
@@ -962,7 +942,7 @@ void FileControl::saveSetting()
 
 bool FileControl::isSupportSetWallpaper(const QString &path)
 {
-    QString path1 = QUrl(path).toLocalFile();
+    QString path1 = LibUnionImage_NameSpace::localPath(path);
     QFileInfo fileinfo(path1);
     QString format = fileinfo.suffix().toLower();
     // 设置为壁纸需要判断是否有读取权限
@@ -1006,7 +986,7 @@ bool FileControl::isCheckOnly()
 bool FileControl::isCanSupportOcr(const QString &path)
 {
     bool bRet = false;
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
     QFileInfo info(localPath);
     imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
     if (imageViewerSpace::ImageTypeDynamic != type && info.isReadable()) {
@@ -1018,7 +998,7 @@ bool FileControl::isCanSupportOcr(const QString &path)
 bool FileControl::isCanRename(const QString &path)
 {
     bool bRet = false;
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
     imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(localPath);//路径类型
     QFileInfo info(localPath);
     bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable(); //是否可写
@@ -1034,11 +1014,7 @@ bool FileControl::isCanRename(const QString &path)
 bool FileControl::isCanReadable(const QString &path)
 {
     bool bRet = false;
-    QString localPath = path;
-    if (path.startsWith("file://")) {
-        localPath = QUrl(path).toLocalFile();
-    }
-
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
     QFileInfo info(localPath);
     if (info.isReadable()) {
         bRet = true;
@@ -1049,7 +1025,7 @@ bool FileControl::isCanReadable(const QString &path)
 bool FileControl::isSvgImage(const QString &path)
 {
     bool bRet = false;
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
     imageViewerSpace::ImageType imgType = LibUnionImage_NameSpace::getImageType(localPath);
     if (imgType == imageViewerSpace::ImageTypeSvg) {
         bRet = true;
@@ -1065,7 +1041,7 @@ bool FileControl::isSvgImage(const QString &path)
 bool FileControl::isMultiImage(const QString &path)
 {
     bool bRet = false;
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
     imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
     if (imageViewerSpace::ImageTypeMulti == type) {
         bRet = true;
@@ -1079,7 +1055,7 @@ bool FileControl::isMultiImage(const QString &path)
  */
 bool FileControl::imageIsExist(const QString &path)
 {
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
     return QFile::exists(localPath);
 }
 
@@ -1088,7 +1064,7 @@ bool FileControl::imageIsExist(const QString &path)
  */
 int FileControl::getImageCount(const QString &path)
 {
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
     if (!localPath.isEmpty()) {
         QImageReader imgreader(localPath);
         return imgreader.imageCount();
@@ -1109,7 +1085,7 @@ void FileControl::resetImageFiles(const QStringList &filePaths)
     m_pFileWathcer->removePaths(m_pFileWathcer->directories());
 
     for (const QString &filePath : filePaths) {
-        QString tempPath = QUrl(filePath).toLocalFile();
+        QString tempPath = LibUnionImage_NameSpace::localPath(filePath);
         QFileInfo info(tempPath);
         // 若文件存在
         if (info.exists()) {
@@ -1374,7 +1350,7 @@ bool FileControl::isAlbum()
 bool FileControl::dirCanWrite(const QString &path)
 {
     bool ret = false;
-    QFileInfo info(QUrl(path).toLocalFile());
+    QFileInfo info(LibUnionImage_NameSpace::localPath(path));
     if (info.isSymLink()) {
         info = QFileInfo(info.readLink());
     }
@@ -1391,7 +1367,7 @@ bool FileControl::checkMimeUrls(const QList<QUrl> &urls)
     }
     QList<QUrl> urlList = urls;
     for (QUrl url : urlList) {
-        const QString path = url.toLocalFile();
+        const QString path = LibUnionImage_NameSpace::localPath(url);
         QFileInfo fileinfo(path);
         if (fileinfo.isDir()) {
             auto finfos = LibUnionImage_NameSpace::getImagesAndVideoInfo(path, false);

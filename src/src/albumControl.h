@@ -170,15 +170,6 @@ public:
     //判断所传图片列表是否可添加到自定义相册
     Q_INVOKABLE bool canAddToCustomAlbum(const int &albumId, const QStringList &pathList);
 
-    //一张图片的数据，返回Map
-    Q_INVOKABLE QVariantMap getPathsInfoMap(const QString &path);
-
-    //一张图片的数据，返回List
-    Q_INVOKABLE QStringList getPathsInfoList(const QString &path);
-
-    //一张图片的数据，返回Data
-    Q_INVOKABLE QString getPathsInfoData(const QString &path, const QString &key);
-
     //获得自定义相册图片count 0:我的收藏  1:截图录屏  2:相机 3:画板 4-~:其他自定义,filterType 0:全部 1:图片 2:视频
     Q_INVOKABLE int getCustomAlbumInfoConut(const int &albumId, const int &filterType = 0);
 
@@ -322,8 +313,8 @@ public:
     // 获取两个点的距离
     Q_INVOKABLE int manhattanLength(QPoint p1, QPoint p2);
 
-    // url路径转为本地路径
-    Q_INVOKABLE QString localPath(QString url);
+    // QUrl路径转为本地路径
+    Q_INVOKABLE QString url2localPath(QUrl url);
 
     // 检查是否有重复路径
     Q_INVOKABLE bool checkRepeatUrls(QStringList imported, QStringList urls, bool bNotify = true);
