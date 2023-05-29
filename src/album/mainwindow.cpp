@@ -2144,10 +2144,10 @@ void MainWindow::wheelEvent(QWheelEvent *event)
 void MainWindow::setTitleBarHideden(bool hide)
 {
     if (hide) {
-        titlebar()->setFixedHeight(0);
+        titlebar()->setVisible(false);
         setTitlebarShadowEnabled(false);
     } else {
-        titlebar()->setFixedHeight(50);
+        titlebar()->setVisible(true);
         setTitlebarShadowEnabled(true);
     }
 }
