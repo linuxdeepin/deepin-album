@@ -2129,6 +2129,14 @@ void MainWindow::startMonitor(const QList<QStringList> &paths, const QStringList
     }
 }
 
+/**
+   @return 返回当前标题栏是否可见
+ */
+bool MainWindow::isTitleBarVisible() const
+{
+    return m_bTitleBarVisible;
+}
+
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
     if (DApplication::keyboardModifiers() == Qt::ControlModifier) {
@@ -2143,6 +2151,8 @@ void MainWindow::wheelEvent(QWheelEvent *event)
 
 void MainWindow::setTitleBarHideden(bool hide)
 {
+    m_bTitleBarVisible = !hide;
+
     if (hide) {
         titlebar()->setVisible(false);
         setTitlebarShadowEnabled(false);
