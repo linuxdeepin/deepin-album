@@ -97,6 +97,9 @@ public:
     QJsonObject createShorcutJson();
     //开始监控
     void startMonitor(const QList<QStringList> &paths, const QStringList &albumNames, const QList<int> &UIDs);
+
+    bool isTitleBarVisible() const;
+
 private:
     void thumbnailZoomIn();
     void thumbnailZoomOut();
@@ -258,6 +261,8 @@ private:
     QShortcut *m_CtrlUp = nullptr;
     QShortcut *m_ReCtrlUp = nullptr;
     QShortcut *m_CtrlDown = nullptr;
+
+    bool m_bTitleBarVisible = true;      // 标题栏是否可见标识
 
     MainWindow(const MainWindow &) = delete;
     MainWindow operator=(const MainWindow &) = delete;
