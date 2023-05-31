@@ -1,3 +1,11 @@
+deepin-album (5.10.19) unstable; urgency=medium
+
+  * fix: Adapt to compact mode.(Influence: CompactMode)
+  * fix: Adapt comapct mode with click image.(Influence: CompactMode)
+  * fix: Title bar disappear when open without args.(Influence: TitleBar)
+
+ -- Deepin Packages Builder <packages@deepin.org>  Wed, 31 May 2023 13:37:52 +0800
+
 deepin-album (5.10.18) unstable; urgency=medium
 
   * Update version to 5.10.18 community
