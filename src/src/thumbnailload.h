@@ -150,8 +150,8 @@ protected:
 
 private:
     //图片输出尺寸（黄金矩形）
-    static constexpr int outputWidth  = 500;
-    static constexpr int outputHeight = 309;
+    static constexpr int outputWidth  = 1000;
+    static constexpr int outputHeight = 618;
 
     //图片裁剪策略
     QImage createYearImage(const QString &year); //生成年视图
