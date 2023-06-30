@@ -88,7 +88,7 @@ Item {
                 Rectangle {
                     anchors.centerIn: parent
                     width: image.width
-                    height: image.width
+                    height: image.height
                     color:"black"
                     radius: 18
                 }
