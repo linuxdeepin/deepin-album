@@ -105,17 +105,19 @@ Item {
     }
 
     // 所有项目标题栏区域
-    Rectangle {
+    Item {
         id: allCollectionTitleRect
         width: parent.width - global.verticalScrollBarWidth
         height: 60
-        color: Qt.rgba(0,0,0,0)
+
         // 时间范围标签
         Label {
             id: dateRangeLabel
-            anchors.top: parent.top
-            anchors.topMargin: 16
-            anchors.left: parent.left
+            anchors {
+                top: parent.top
+                topMargin: 16
+                left: parent.left
+            }
             height: 30
             font: DTK.fontManager.t3
             visible: numLabelText !== ""
@@ -124,9 +126,11 @@ Item {
         // 筛选下拉框
         FilterComboBox {
             id: filterCombo
-            anchors.top: dateRangeLabel.top
-            anchors.topMargin: 4
-            anchors.right: parent.right
+            anchors {
+                top: dateRangeLabel.top
+                topMargin: 4
+                right: parent.right
+            }
             width: 130
             height: 30
             visible: parent.visible && albumControl.getAllCount() !== 0
@@ -144,8 +148,10 @@ Item {
 
     ThumbnailListView2 {
         id: theView
-        anchors.top: allCollectionTitleRect.bottom
-        anchors.topMargin: m_topMargin
+        anchors {
+            top: allCollectionTitleRect.bottom
+            topMargin: m_topMargin
+        }
         width: parent.width
         height: parent.height - allCollectionTitleRect.height - m_topMargin
         thumnailListType: GlobalVar.ThumbnailType.AllCollection
@@ -169,11 +175,13 @@ Item {
 
     // 仅在自动导入相册无内容时，显示没有图片或视频时显示
     Label {
-        anchors.top: allCollectionTitleRect.bottom
-        anchors.left: parent.left
-        anchors.bottom: theView.bottom
-        anchors.right: parent.right
-        anchors.centerIn: parent
+        anchors {
+            top: allCollectionTitleRect.bottom
+            left: parent.left
+            bottom: theView.bottom
+            right: parent.right
+            centerIn: parent
+        }
         visible: numLabelText === "" && albumControl.getAllCount() !== 0
         font: DTK.fontManager.t4
         color: Qt.rgba(85/255, 85/255, 85/255, 0.4)

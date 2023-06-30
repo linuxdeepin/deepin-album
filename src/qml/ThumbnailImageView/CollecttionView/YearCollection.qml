@@ -14,7 +14,7 @@ import "../../Control/ListView"
 import "../../"
 
 Item {
-    id: root
+    id: yearView
 
     signal yearClicked(string year)
 
@@ -47,19 +47,19 @@ Item {
 
         width: parent.width / 3 * 2
         height: parent.height + global.statusBarHeight - global.collectionTopMargin
-        anchors.top: parent.top
-        anchors.topMargin: global.collectionTopMargin
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors {
+            top: parent.top
+            topMargin: global.collectionTopMargin
+            horizontalCenter: parent.horizontalCenter
+        }
     }
 
     Component {
         id: theDelegate
 
-        Rectangle {
+        Item {
             width: theView.width
             height: theView.height / 3 * 2
-            radius: 18
-            color: Qt.rgba(0, 0, 0, 0)
 
             //圆角遮罩Rectangle
             Rectangle {
@@ -126,10 +126,12 @@ Item {
                 font: DTK.fontManager.t3
                 text: qsTr("%1").arg(year)
                 color: "#FFFFFF"
-                anchors.top: image.top
-                anchors.topMargin: 25
-                anchors.left: image.left
-                anchors.leftMargin: 25
+                anchors {
+                    top: image.top
+                    topMargin: 25
+                    left: image.left
+                    leftMargin: 25
+                }
             }
 
             Label {
@@ -137,9 +139,11 @@ Item {
                 font: DTK.fontManager.t6
                 text: itemCount > 1 ? qsTr("%1 items").arg(itemCount) : qsTr("1 item") //itemCount为0的时候不会显示出来
                 color: yearLabel.color
-                anchors.top: yearLabel.bottom
-                anchors.topMargin: 5
-                anchors.left: yearLabel.left
+                anchors {
+                    top: yearLabel.bottom
+                    topMargin: 5
+                    left: yearLabel.left
+                }
             }
 
             MouseArea {

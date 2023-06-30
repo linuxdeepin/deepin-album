@@ -6,9 +6,11 @@ import QtQuick 2.11
 import QtQuick.Controls 2.4
 import "../"
 import "../../"
+import "../../Control"
 
-Rectangle {
-    id: root
+BaseView {
+    id: collecttView
+
     property int currentViewIndex: 3
 
     // 通知日视图刷新状态栏提示信息
@@ -75,7 +77,6 @@ Rectangle {
 
     // 若没有数据，显示导入图片视图
     ImportView {
-        anchors.fill: parent
         visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion && allCollection.numLabelText === "" && albumControl.getAllCount() === 0
 
         onVisibleChanged: {
