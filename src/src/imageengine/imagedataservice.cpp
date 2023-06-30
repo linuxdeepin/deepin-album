@@ -35,6 +35,7 @@
 
 const QString SETTINGS_GROUP = "Thumbnail";
 const QString SETTINGS_DISPLAY_MODE = "ThumbnailMode";
+const int THUMBNAIL_MAX_SIZE = 200;
 
 ImageDataService *ImageDataService::s_ImageDataService = nullptr;
 
@@ -388,20 +389,20 @@ QImage ReadThumbnailManager::clipToRect(const QImage &src)
 
     if (!tImg.isNull() && 0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
         bool cache_exist = false;
-        if (tImg.height() != 200 && tImg.width() != 200) {
+        if (tImg.height() != THUMBNAIL_MAX_SIZE && tImg.width() != THUMBNAIL_MAX_SIZE) {
             if (tImg.height() >= tImg.width()) {
                 cache_exist = true;
-                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToWidth(THUMBNAIL_MAX_SIZE,  Qt::FastTransformation);
             } else if (tImg.height() <= tImg.width()) {
                 cache_exist = true;
-                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToHeight(THUMBNAIL_MAX_SIZE,  Qt::FastTransformation);
             }
         }
         if (!cache_exist) {
             if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
-                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToWidth(THUMBNAIL_MAX_SIZE,  Qt::FastTransformation);
             } else {
-                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToHeight(THUMBNAIL_MAX_SIZE,  Qt::FastTransformation);
             }
         }
     }
@@ -433,9 +434,9 @@ QImage ReadThumbnailManager::addPadAndScaled(const QImage &src)
     auto result = src.convertToFormat(QImage::Format_RGBA8888);
 
     if (result.height() > result.width()) {
-        result = result.scaledToHeight(200, Qt::SmoothTransformation);
+        result = result.scaledToHeight(THUMBNAIL_MAX_SIZE, Qt::SmoothTransformation);
     } else {
-        result = result.scaledToWidth(200, Qt::SmoothTransformation);
+        result = result.scaledToWidth(THUMBNAIL_MAX_SIZE, Qt::SmoothTransformation);
     }
 
     return result;
