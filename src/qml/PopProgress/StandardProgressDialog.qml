@@ -22,9 +22,13 @@ FloatingPanel {
 
     //窗口布局-开始
     ColumnLayout {
-        anchors.fill: parent   //填充到父项
-        anchors.topMargin: 12; anchors.bottomMargin: 17
-        anchors.leftMargin: 40; anchors.rightMargin: 40
+        anchors {
+            fill: parent   //填充到父项
+            topMargin: 12
+            bottomMargin: 17
+            leftMargin: 40
+            rightMargin: 40
+        }
         spacing: 0
         //标签-标题
         Label {
@@ -36,10 +40,6 @@ FloatingPanel {
             font: DTK.fontManager.t5
             text: ""
             color: Qt.rgba(0,0,0)
-            //设置背景颜色
-//            background: Rectangle{
-//                color: "gray"
-//            }
         }
 
         Rectangle {

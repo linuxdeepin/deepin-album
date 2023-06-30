@@ -17,9 +17,11 @@ TitleBar {
 
     signal sigDeleteClicked()
 
-    anchors.top : root.top
-    anchors.left : parent.left
-    anchors.leftMargin: 0
+    anchors {
+        top : root.top
+        left : parent.left
+        leftMargin: 0
+    }
     width:  root.width
     height: 50
 
@@ -124,10 +126,12 @@ TitleBar {
     }
     ActionButton {
         id: appTitleIcon
-        anchors.top: parent.top
-        anchors.topMargin: 0
-        anchors.left: parent.left
-        anchors.leftMargin: 0
+        anchors {
+            top: parent.top
+            topMargin: 0
+            left: parent.left
+            leftMargin: 0
+        }
         width :  50
         height : 50
         icon {
@@ -139,10 +143,12 @@ TitleBar {
 
     ToolButton {
         id: showHideleftSidebarButton
-        anchors.top: parent.top
-        anchors.topMargin: 7
-        anchors.left: appTitleIcon.right
-        anchors.leftMargin: 0
+        anchors {
+            top: parent.top
+            topMargin: 7
+            left: appTitleIcon.right
+            leftMargin: 0
+        }
         width : iconSize
         height : iconSize
         icon {
