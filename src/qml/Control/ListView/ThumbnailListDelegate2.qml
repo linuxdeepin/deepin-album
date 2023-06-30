@@ -18,8 +18,7 @@ import "../"
 import "../../"
 import "./"
 
-Rectangle {
-    color: Qt.rgba(0,0,0,0)
+Item {
     //注意：在model里面加进去的变量，这边可以直接进行使用，只是部分位置不好拿到，需要使用变量
     property string m_index
     property string m_displayFlushHelper
@@ -245,47 +244,57 @@ Rectangle {
     DciIcon {
         name: "select_active_1"
         visible: selectShader.visible
-        anchors.top: image.top
-        anchors.right: image.right
-        anchors.topMargin: 5
-        anchors.rightMargin : 5
+        anchors {
+            top: image.top
+            right: image.right
+            topMargin: 5
+            rightMargin : 5
+        }
     }
 
     DciIcon {
         name: "Inner_shadow"
         visible: selectShader.visible
-        anchors.top: image.top
-        anchors.right: image.right
-        anchors.topMargin: 5
-        anchors.rightMargin : 5
+        anchors {
+            top: image.top
+            right: image.right
+            topMargin: 5
+            rightMargin : 5
+        }
     }
 
     DciIcon {
         name: "shadow"
         visible: selectShader.visible
-        anchors.top: image.top
-        anchors.right: image.right
-        anchors.topMargin: 5
-        anchors.rightMargin : 5
+        anchors {
+            top: image.top
+            right: image.right
+            topMargin: 5
+            rightMargin : 5
+        }
     }
 
     DciIcon {
         name: "yes"
         visible: selectShader.visible
-        anchors.top: image.top
-        anchors.right: image.right
-        anchors.topMargin: 5
-        anchors.rightMargin : 5
+        anchors {
+            top: image.top
+            right: image.right
+            topMargin: 5
+            rightMargin : 5
+        }
     }
 
     //剩余天数标签
     VideoLabel {
         id: labelRemainDays
         visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.RecentlyDeleted && !model.blank
-        anchors.bottom: image.bottom
-        anchors.left: image.left
-        anchors.leftMargin : 5
-        anchors.bottomMargin : 5
+        anchors {
+            bottom: image.bottom
+            left: image.left
+            leftMargin : 5
+            bottomMargin : 5
+        }
         opacity: 0.7
         displayStr: model.remainDays > 1 ? (model.remainDays + qsTr("days")) : (model.remainDays + qsTr("day"))
         height: 22
@@ -296,10 +305,12 @@ Rectangle {
     VideoLabel {
         id: videoLabel
         visible: fileControl.isVideo(model.url) && !model.blank
-        anchors.bottom: image.bottom
-        anchors.right: image.right
-        anchors.rightMargin : 5
-        anchors.bottomMargin : 5
+        anchors {
+            bottom: image.bottom
+            right: image.right
+            rightMargin : 5
+            bottomMargin : 5
+        }
         opacity: 0.7
         displayStr: fileControl.isVideo(model.url) ? albumControl.getVideoTime(model.url) : "00:00"
         height: 22

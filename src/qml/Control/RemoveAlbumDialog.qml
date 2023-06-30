@@ -33,9 +33,11 @@ DialogWindow {
 
     Text {
         id: deleteTitle
-        anchors.top: parent.top
-        anchors.topMargin: 20
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors {
+            top: parent.top
+            topMargin: 20
+            horizontalCenter: parent.horizontalCenter
+        }
         font: DTK.fontManager.t5
         text: qsTr("Are you sure you want to delete this album?")
         verticalAlignment: Text.AlignBottom
@@ -44,10 +46,12 @@ DialogWindow {
 
     Button {
         id: cancelbtn
-        anchors.top: deleteTitle.bottom
-        anchors.topMargin: 50
-        anchors.left: parent.left
-        anchors.leftMargin: 0
+        anchors {
+            top: deleteTitle.bottom
+            topMargin: 50
+            left: parent.left
+            leftMargin: 0
+        }
         text: qsTr("Cancel")
         width: 185
         height: 36
@@ -59,10 +63,12 @@ DialogWindow {
 
     WarningButton {
         id: enterbtn
-        anchors.top: deleteTitle.bottom
-        anchors.topMargin: 50
-        anchors.left: cancelbtn.right
-        anchors.leftMargin: 10
+        anchors {
+            top: deleteTitle.bottom
+            topMargin: 50
+            left: cancelbtn.right
+            leftMargin: 10
+        }
         text: qsTr("Delete")
         width: 185
         height: 36

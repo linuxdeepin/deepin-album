@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.0
+import QtQuick 2.11
 import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
 
@@ -12,9 +12,8 @@ import "../../Control"
 import "../../Control/ListView"
 import "../../"
 
-Rectangle {
-    width: parent.width
-    height: parent.height
+BaseView {
+    anchors.fill: parentt
 
     property int customAlbumUId: 0
     property string devicePath: global.deviceCurrentPath
@@ -115,17 +114,18 @@ Rectangle {
     }
 
     // 设备相册标题栏区域
-    Rectangle {
+    Item {
         id: deviceAlbumTitleRect
         width: parent.width - global.verticalScrollBarWidth
         height: global.thumbnailViewTitleHieght - 10
-        color: Qt.rgba(0,0,0,0)
         // 设备名称标签
         Label {
             id: deviceAlbumLabel
-            anchors.top: parent.top
-            anchors.topMargin: 12
-            anchors.left: parent.left
+            anchors {
+                top: parent.top
+                topMargin: 12
+                left: parent.left
+            }
             height: 30
             font: DTK.fontManager.t3
             text: qsTr(deviceName)
@@ -133,22 +133,25 @@ Rectangle {
 
         Label {
             id: deviceAlbumNumLabel
-            anchors.top: deviceAlbumLabel.bottom
-            anchors.topMargin: 10
-            anchors.left: parent.left
+            anchors {
+                top: deviceAlbumLabel.bottom
+                topMargin: 10
+                left: parent.left
+            }
             font: DTK.fontManager.t6
             text: numLabelText
         }
         Row{
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
+            anchors {
+                bottom: parent.bottom
+                right: parent.right
+            }
             height: 36
             spacing: 10
             // 筛选下拉框
-            Rectangle{
+            Item{
                 width: 80
                 height: 36
-                color: Qt.rgba(0,0,0,0)
                 Label {
                     anchors.centerIn: parent
                     text :qsTr("Import to:")
@@ -215,10 +218,12 @@ Rectangle {
     // 缩略图列表控件
     ThumbnailListView2 {
         id: theView
-        anchors.top: deviceAlbumTitleRect.bottom
-        anchors.topMargin: 10
+        anchors {
+            top: deviceAlbumTitleRect.bottom
+            topMargin: 10
+        }
         width: parent.width
-        height: parent.height - deviceAlbumTitleRect.height - m_topMargin - statusBar.height
+        height: parent.height - deviceAlbumTitleRect.height - m_topMargin
         visible: numLabelText !== ""
         thumnailListType: GlobalVar.ThumbnailType.Device
 
@@ -237,11 +242,13 @@ Rectangle {
     }
 
     Label {
-        anchors.top: deviceAlbumTitleRect.bottom
-        anchors.left: parent.left
-        anchors.bottom: theView.bottom
-        anchors.right: parent.right
-        anchors.centerIn: parent
+        anchors {
+            top: deviceAlbumTitleRect.bottom
+            left: parent.left
+            bottom: theView.bottom
+            right: parent.right
+            centerIn: parent
+        }
         visible: numLabelText === "" && filterType > 0
         font: DTK.fontManager.t4
         color: Qt.rgba(85/255, 85/255, 85/255, 0.4)

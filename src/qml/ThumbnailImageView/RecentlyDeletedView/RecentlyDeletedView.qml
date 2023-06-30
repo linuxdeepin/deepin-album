@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.0
+import QtQuick 2.11
 import org.deepin.dtk 1.0
 
 import org.deepin.album 1.0 as Album
@@ -12,9 +12,7 @@ import "../../Control/ListView"
 import "../../"
 import "../"
 
-Rectangle {
-    width: parent.width
-    height: parent.height
+BaseView {
 
     property int filterType : filterCombo.currentIndex // 筛选类型，默认所有
     property string numLabelText: ""
@@ -104,17 +102,18 @@ Rectangle {
     }
 
     // 最近删除标题栏区域
-    Rectangle {
+    Item {
         id: recentDelTitleRect
         width: parent.width - global.verticalScrollBarWidth
         height: global.thumbnailViewTitleHieght - 10
-        color: Qt.rgba(0,0,0,0)
         // 最近删除标签
         Label {
             id: recentDelLabel
-            anchors.top: parent.top
-            anchors.topMargin: 12
-            anchors.left: parent.left
+            anchors {
+                top: parent.top
+                topMargin: 12
+                left: parent.left
+            }
             height: 30
             font: DTK.fontManager.t3
             text: qsTr("Trash")
@@ -122,9 +121,11 @@ Rectangle {
 
         Label {
             id: recentDelTipLabel
-            anchors.top: recentDelLabel.bottom
-            anchors.topMargin: 10
-            anchors.left: parent.left
+            anchors {
+                top: recentDelLabel.bottom
+                topMargin: 10
+                left: parent.left
+            }
             font: DTK.fontManager.t6
             text: qsTr("The files will be permanently deleted after the days shown on them")
         }
@@ -132,9 +133,11 @@ Rectangle {
         //删除全部按钮
         Label {
             id: delAllBtn
-            anchors.top: parent.top
-            anchors.topMargin: 12
-            anchors.right: parent.right
+            anchors {
+                top: parent.top
+                topMargin: 12
+                right: parent.right
+            }
             width: 56
             height: 36
             font: DTK.fontManager.t6
@@ -158,9 +161,11 @@ Rectangle {
         // 筛选下拉框
         FilterComboBox {
             id: filterCombo
-            anchors.top: recentDelLabel.bottom
-            anchors.topMargin: 4
-            anchors.right: parent.right
+            anchors {
+                top: recentDelLabel.bottom
+                topMargin: 4
+                right: parent.right
+            }
             width: 130
             height: 30
             visible: !theView.haveSelect && totalCount > 0
@@ -168,9 +173,11 @@ Rectangle {
 
         WarningButton {
             id: delSelectedBtn
-            anchors.top: recentDelLabel.bottom
-            anchors.topMargin: 4
-            anchors.right: parent.right
+            anchors {
+                top: recentDelLabel.bottom
+                topMargin: 4
+                right: parent.right
+            }
             width: 140
             height: 36
             font: DTK.fontManager.t6
@@ -185,10 +192,12 @@ Rectangle {
 
         Button {
             id: restoreSelectedBtn
-            anchors.top: recentDelLabel.bottom
-            anchors.topMargin: 4
-            anchors.right: delSelectedBtn.left
-            anchors.rightMargin: 10
+            anchors {
+                top: recentDelLabel.bottom
+                topMargin: 4
+                right: delSelectedBtn.left
+                rightMargin: 10
+            }
             width: 140
             height: 36
             font: DTK.fontManager.t6
@@ -219,10 +228,12 @@ Rectangle {
     // 缩略图列表控件
     ThumbnailListView2 {
         id: theView
-        anchors.top: recentDelTitleRect.bottom
-        anchors.topMargin: 10
+        anchors {
+            top: recentDelTitleRect.bottom
+            topMargin: 10
+        }
         width: parent.width
-        height: parent.height - recentDelTitleRect.height - m_topMargin - statusBar.height
+        height: parent.height - recentDelTitleRect.height - m_topMargin
         thumnailListType: GlobalVar.ThumbnailType.Trash
 
         proxyModel.sourceModel: Album.ImageDataModel { id: dataModel; modelType: Album.Types.RecentlyDeleted}
@@ -242,7 +253,6 @@ Rectangle {
 
     // 若没有数据，显示无图片视图
     NoPictureView {
-        anchors.fill: parent
         visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.RecentlyDeleted && numLabelText === "" && filterType === 0
     }
 

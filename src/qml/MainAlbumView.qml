@@ -9,8 +9,7 @@ import "./ThumbnailImageView"
 import "./Control"
 import "./SideBar"
 import "./PopProgress"
-Rectangle {
-    color: Qt.rgba(0,0,0,0)
+Item {
     anchors.fill: parent
     property int lastWidth: 0
 
@@ -27,9 +26,11 @@ Rectangle {
     Sidebar{
         id : leftSidebar
         width: visible ? global.sideBarWidth : 0
-        anchors.top: parent.top
-        anchors.topMargin: 19
-        anchors.bottom: parent.bottom
+        anchors {
+            top: parent.top
+            topMargin: 19
+            bottom: parent.bottom
+        }
 
         visible: true
         z: thumbnailImage.z + 1
@@ -109,17 +110,21 @@ Rectangle {
     ThumbnailImage{
         id: thumbnailImage
         clip: true
-        anchors.top: parent.top
-        anchors.left: leftSidebar.right
-        anchors.leftMargin: 0
+        anchors {
+            top: parent.top
+            left: leftSidebar.right
+            leftMargin: 0
+        }
         width: parent.width - leftSidebar.x - global.sideBarWidth
         height: root.height - titleAlubmRect.height
     }
 
     StatusBar {
         id: statusBar
-        anchors.bottom: parent.bottom
-        anchors.left: leftSidebar.right
+        anchors {
+            bottom: parent.bottom
+            left: leftSidebar.right
+        }
 //        width: leftSidebar.x == 0 ? parent.width - leftSidebar.width : root.width
         width: parent.width - leftSidebar.x - global.sideBarWidth
         height: global.statusBarHeight

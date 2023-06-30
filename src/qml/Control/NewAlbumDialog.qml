@@ -44,9 +44,11 @@ DialogWindow {
         id: renametitle
         width: 308
         height: 24
-        anchors.left: parent.left
-        anchors.leftMargin: 46
-        anchors.top: parent.top
+        anchors {
+            left: parent.left
+            leftMargin: 46
+            top: parent.top
+        }
         font.pixelSize: 16
         text: qsTr("New Album")
         verticalAlignment: Text.AlignBottom
@@ -57,18 +59,22 @@ DialogWindow {
         width:42
         height: 20
         font.pixelSize: 14
-        anchors.left: parent.left
-        anchors.leftMargin: 0
-        anchors.top: nameedit.top
-        anchors.topMargin:5
+        anchors {
+            left: parent.left
+            leftMargin: 0
+            top: nameedit.top
+            topMargin:5
+        }
         text:qsTr("Name:")
     }
     LineEdit {
         id: nameedit
-        anchors.top: renametitle.bottom
-        anchors.topMargin: 16
-        anchors.left: parent.left
-        anchors.leftMargin: 52
+        anchors {
+            top: renametitle.bottom
+            topMargin: 16
+            left: parent.left
+            leftMargin: 52
+        }
         width: 328
         height: 36
         font: DTK.fontManager.t5
@@ -84,10 +90,12 @@ DialogWindow {
 
     Button {
         id: cancelbtn
-        anchors.top: nameedit.bottom
-        anchors.topMargin: 20
-        anchors.left: parent.left
-        anchors.leftMargin: 0
+        anchors {
+            top: nameedit.bottom
+            topMargin: 20
+            left: parent.left
+            leftMargin: 0
+        }
         text: qsTr("Cancel")
         width: 185
         height: 36
@@ -99,10 +107,12 @@ DialogWindow {
 
     Button {
         id: enterbtn
-        anchors.top: nameedit.bottom
-        anchors.topMargin: 20
-        anchors.left: cancelbtn.right
-        anchors.leftMargin: 10
+        anchors {
+            top: nameedit.bottom
+            topMargin: 20
+            left: cancelbtn.right
+            leftMargin: 10
+        }
         text: qsTr("Confirm")
         enabled: nameedit.text !== "" ? true : false
         width: 185

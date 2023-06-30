@@ -359,11 +359,10 @@ Item {
             property var theViewTitle: global.objIsEmpty(theModel.get(index)) ? "" : theModel.get(index).title //日期标题文本内容
             property var theViewItems: global.objIsEmpty(theModel.get(index)) ? "" : theModel.get(index).items //日期标题对应图片信息链表
 
-            Rectangle {
+            Item {
                 id: spaceRect
                 width: parent.width
                 height: index == 0 ? importedListView.spaceCtrlHeight : 0
-                color: Qt.rgba(0,0,0,0)
             }
 
             CheckBox {
@@ -403,8 +402,10 @@ Item {
                 }
             }
             Label {
-                anchors.left :importedCheckBox.visible ? importedCheckBox.right : parent.left
-                anchors.top :importedCheckBox.top
+                anchors {
+                    left :importedCheckBox.visible ? importedCheckBox.right : parent.left
+                    top :importedCheckBox.top
+                }
                 topPadding: 1
                 font: DTK.fontManager.t6
                 id: importedLabel
@@ -414,10 +415,12 @@ Item {
             //缩略图网格表
             ThumbnailListView {
                 id: importedGridView
-                anchors.left: parent.left
-                anchors.top: importedCheckBox.bottom
-                anchors.topMargin: importedListView.listMargin
-                anchors.bottomMargin: importedListView.listMargin
+                anchors {
+                    left: parent.left
+                    top: importedCheckBox.bottom
+                    topMargin: importedListView.listMargin
+                    bottomMargin: importedListView.listMargin
+                }
                 width: parent.width
                 height: Math.abs(Math.ceil(importedGridView.count() / Math.floor((parent.width) / itemWidth)) * itemHeight)
 

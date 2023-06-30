@@ -42,18 +42,22 @@ DialogWindow {
         width:42
         height: 35
         font.pixelSize: 14
-        anchors.left: parent.left
-        anchors.leftMargin: 0
-        anchors.top: nameedit.top
-        anchors.topMargin:0
+        anchors {
+            left: parent.left
+            leftMargin: 0
+            top: nameedit.top
+            topMargin:0
+        }
         text:qsTr("Name:")
     }
     LineEdit {
         id: nameedit
-        anchors.top: parent.top
-        anchors.topMargin: 16
-        anchors.right: parent.right
-        anchors.rightMargin: 10
+        anchors {
+            top: parent.top
+            topMargin: 16
+            right: parent.right
+            rightMargin: 10
+        }
         width: 260
         height: 35
         font: DTK.fontManager.t5
@@ -71,10 +75,12 @@ DialogWindow {
         width:42
         height: 35
         font.pixelSize: 14
-        anchors.left: parent.left
-        anchors.leftMargin: 0
-        anchors.top: nameLabel.bottom
-        anchors.topMargin:10
+        anchors {
+            left: parent.left
+            leftMargin: 0
+            top: nameLabel.bottom
+            topMargin:10
+        }
         text:qsTr("Save to:")
     }
 
@@ -83,10 +89,12 @@ DialogWindow {
         width:260
         height: 35
         font.pixelSize: 14
-        anchors.top: nameedit.bottom
-        anchors.topMargin: 10
-        anchors.right: parent.right
-        anchors.rightMargin: 10
+        anchors {
+            top: nameedit.bottom
+            topMargin: 10
+            right: parent.right
+            rightMargin: 10
+        }
 
         textRole: "key"
         model: ListModel {
@@ -131,10 +139,12 @@ DialogWindow {
         width:42
         height: 35
         font.pixelSize: 14
-        anchors.left: parent.left
-        anchors.leftMargin: 0
-        anchors.top: saveLabel.bottom
-        anchors.topMargin:10
+        anchors {
+            left: parent.left
+            leftMargin: 0
+            top: saveLabel.bottom
+            topMargin:10
+        }
         text:qsTr("Format:")
     }
 
@@ -143,10 +153,12 @@ DialogWindow {
         width:260
         height: 35
         font.pixelSize: 14
-        anchors.top: saveCombox.bottom
-        anchors.topMargin: 10
-        anchors.right: parent.right
-        anchors.rightMargin: 10
+        anchors {
+            top: saveCombox.bottom
+            topMargin: 10
+            right: parent.right
+            rightMargin: 10
+        }
         model :albumControl.imageCanExportFormat(filePath).length
         displayText: albumControl.imageCanExportFormat(filePath)[currentIndex]
         delegate:    ItemDelegate {
@@ -166,10 +178,12 @@ DialogWindow {
         width:42
         height: 35
         font.pixelSize: 14
-        anchors.left: parent.left
-        anchors.leftMargin: 0
-        anchors.top: fileFormatLabel.bottom
-        anchors.topMargin:10
+        anchors {
+            left: parent.left
+            leftMargin: 0
+            top: fileFormatLabel.bottom
+            topMargin:10
+        }
         text:qsTr("Quality:")
     }
 
@@ -178,10 +192,12 @@ DialogWindow {
         width:200
         height: 30
         font.pixelSize: 14
-        anchors.top: formatCombox.bottom
-        anchors.topMargin: 10
-        anchors.right: parent.right
-        anchors.rightMargin: 70
+        anchors {
+            top: formatCombox.bottom
+            topMargin: 10
+            right: parent.right
+            rightMargin: 70
+        }
         from: 1
         value: 100
         to: 100
@@ -193,20 +209,24 @@ DialogWindow {
         width:40
         height: 30
         font.pixelSize: 14
-        anchors.top: formatCombox.bottom
-        anchors.topMargin: 10
-        anchors.right: parent.right
-        anchors.rightMargin: 10
+        anchors {
+            top: formatCombox.bottom
+            topMargin: 10
+            right: parent.right
+            rightMargin: 10
+        }
         text: piczSlider.value +"%"
     }
 
 
     Button {
         id: cancelbtn
-        anchors.top: bfLbale.bottom
-        anchors.topMargin: 10
-        anchors.left: parent.left
-        anchors.leftMargin: 0
+        anchors {
+            top: bfLbale.bottom
+            topMargin: 10
+            left: parent.left
+            leftMargin: 0
+        }
         text: qsTr("Cancel")
         width: 170
         height: 32
@@ -218,10 +238,12 @@ DialogWindow {
 
     Button {
         id: enterbtn
-        anchors.top: bfLbale.bottom
-        anchors.topMargin: 10
-        anchors.left: cancelbtn.right
-        anchors.leftMargin: 10
+        anchors {
+            top: bfLbale.bottom
+            topMargin: 10
+            left: cancelbtn.right
+            leftMargin: 10
+        }
         text: qsTr("Confirm")
         enabled: true
         width: 170

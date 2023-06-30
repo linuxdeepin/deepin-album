@@ -14,9 +14,7 @@ import org.deepin.album 1.0 as Album
 import "../Control"
 import "../Control/ListView"
 
-Rectangle {
-    width: parent.width
-    height: parent.height
+BaseView {
 
     property string currentKeyword: ""
     property var searchResults: new Array
@@ -86,21 +84,21 @@ Rectangle {
     }
 
     //有结果展示
-    Rectangle {
+    Item {
         id: resultViewTitleRect
 
         width: parent.width - global.verticalScrollBarWidth
         height: global.thumbnailViewTitleHieght
-	color: Qt.rgba(0,0,0,0)
 
         //搜索标题
         Label {
             id: searchTitle
             text: qsTr("Search results")
-            anchors.top: parent.top
-            anchors.left: parent.left
+            anchors {
+                top: parent.top
+                left: parent.left
+            }
             font: DTK.fontManager.t3
-            color: Qt.rgba(0,0,0)
         }
 
         //幻灯片放映按钮
@@ -114,10 +112,11 @@ Rectangle {
                 height: 20
             }
             enabled: fileControl.haveImage(searchResults)
-            anchors.top: searchTitle.bottom
-            anchors.left: searchTitle.left
-            anchors.topMargin: 15
-
+            anchors {
+                top: searchTitle.bottom
+                left: searchTitle.left
+                topMargin: 15
+            }
             onClicked: {
                 stackControl.startMainSliderShow(searchResults, 0)
             }
@@ -127,10 +126,12 @@ Rectangle {
         Label {
             id: searchResultLabel
             visible: searchResults.length > 0
-            anchors.left: sliderPlayButton.right
-            anchors.verticalCenter: sliderPlayButton.verticalCenter
+            anchors {
+                left: sliderPlayButton.right
+                leftMargin: 10
+                verticalCenter: sliderPlayButton.verticalCenter
+            }
             font: DTK.fontManager.t6
-            anchors.leftMargin: 10
         }
 
         MouseArea {
@@ -145,10 +146,12 @@ Rectangle {
     //缩略图视图
     ThumbnailListView2 {
         id: view
-        anchors.top: resultViewTitleRect.bottom
-        anchors.topMargin: 10
+        anchors {
+            top: resultViewTitleRect.bottom
+            topMargin: 10
+        }
         width: parent.width
-        height: parent.height - resultViewTitleRect.height - m_topMargin - statusBar.height
+        height: parent.height - resultViewTitleRect.height - m_topMargin
 
         proxyModel.sourceModel: Album.ImageDataModel { id: dataModel; modelType: Album.Types.SearchResult}
 
@@ -166,15 +169,16 @@ Rectangle {
     }
 
     //无结果展示
-    Rectangle {
+    Item {
         id: noResultView
         visible: searchResults.length === 0
-        anchors.top: parent.top
-        anchors.topMargin: searchTitle.height
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        color: Qt.rgba(0,0,0,0)
+        anchors {
+            top: parent.top
+            topMargin: searchTitle.height
+            left: parent.left
+            bottom: parent.bottom
+            right: parent.right
+        }
 
         Label {
             id: noResultText
