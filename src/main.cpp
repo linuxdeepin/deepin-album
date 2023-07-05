@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
     app->loadTranslator();
     app->setApplicationLicense("GPLV3");
     app->setApplicationVersion(DApplication::buildVersion(VERSION));
+    app->setAttribute(Qt::AA_UseHighDpiPixmaps);
     app->setOrganizationName("deepin");
     app->setApplicationName("deepin-album");
     app->setApplicationDisplayName(QObject::tr("Album"));
