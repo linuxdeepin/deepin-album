@@ -614,6 +614,15 @@ bool isVideo(QString path)
 {
     QFileInfo temDir(path);
     QString fileName = temDir.suffix().toLower(); //扩展名
+
+    // ts文件可能为翻译文件，使用QMimeDataBase::mimeTypeForFile做精确判断，判断是否为视频
+    if (fileName == "ts") {
+        if (QMimeDatabase().mimeTypeForFile(path).name() == "video/mp2t")
+            return true;
+        else
+            return false;
+    }
+
     return m_videoFiletypes.contains(fileName);
 }
 

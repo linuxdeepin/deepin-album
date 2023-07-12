@@ -858,16 +858,18 @@ void AlbumControl::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> 
     QString uri = mount->getRootFile()->uri();
     QString scheme = QUrl(uri).scheme();
 
-    qDebug() << "AlbumControl::onVfsMountChangedAdd uri: " << uri;
+    // 查看块设备是否可卸载，以便确定file前缀的uri是否为外接设备
+    bool bCanEject = mount->getVolume()->canEject();
+    qInfo() << "AlbumControl::onVfsMountChangedAdd uri: " << uri << "canEject:" << bCanEject;
     QRegularExpression recifs("^file:///media/(.*)/smbmounts");
-    QRegularExpression regvfs("^file:///run/user/(.*)/smbmounts");
+    QRegularExpression regvfs("^file:///run/user/(.*)/gvfs|^/root/.gvfs");
     // 因V23玲珑文管smb挂载方式有优化，修改uri的smb路径判断方式，包括gvfs挂载和cifs挂载
     if (recifs.match(uri).hasMatch() || regvfs.match(uri).hasMatch()) {
         qDebug() << "uri is a smb path";
         return;
     }
 
-    if ((scheme == "file" /*&& mount->canEject()*/) ||  //usb device
+    if ((scheme == "file" && bCanEject) ||  //usb device
             (scheme == "gphoto2") ||                //phone photo
             //(scheme == "afc") ||                  //iPhone document
             (scheme == "mtp")) {                    //android file
@@ -2344,17 +2346,17 @@ DBImgInfoList AlbumControl::getDeviceAlbumInfos2(const QString &devicePath, cons
     for (QString path : list) {
         DBImgInfo info;
         if (LibUnionImage_NameSpace::isImage(url2localPath(path))) {
-            if (filterType == 2) {
+            if (filterType == ItemTypeVideo) {
                 continue ;
             }
             info.itemType = ItemTypePic;
         } else if (LibUnionImage_NameSpace::isVideo(url2localPath(path))) {
-            if (filterType == 1) {
+            if (filterType == ItemTypePic) {
                 continue ;
             }
             info.itemType = ItemTypeVideo;
         } else {
-            info.itemType = ItemTypeNull;
+            continue;
         }
         info.filePath = url2localPath(path);
         info.pathHash = "";
@@ -2372,15 +2374,14 @@ int AlbumControl::getDeviceAlbumInfoConut(const QString &devicePath, const int &
     for (QString path : list) {
         QVariantMap tmpMap;
         if (LibUnionImage_NameSpace::isImage(url2localPath(path))) {
-            if (filterType == 2) {
-                continue ;
+            if (filterType == ItemTypePic) {
+                rePicVideoConut++;
             }
         } else if (LibUnionImage_NameSpace::isVideo(url2localPath(path))) {
-            if (filterType == 1) {
-                continue ;
+            if (filterType == ItemTypeVideo) {
+                rePicVideoConut++;
             }
         }
-        rePicVideoConut++;
     }
     return rePicVideoConut;
 }

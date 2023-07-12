@@ -55,7 +55,7 @@ Rectangle {
         //QML的翻译不支持%n的特性，只能拆成这种代码
 
         var photoCountText = ""
-        var photoCount = albumControl.getDeviceAlbumInfoConut(devicePath, 1)
+        var photoCount = albumControl.getDeviceAlbumInfoConut(devicePath, 3)
         if(photoCount === 0) {
             photoCountText = ""
         } else if(photoCount === 1) {
@@ -65,7 +65,7 @@ Rectangle {
         }
 
         var videoCountText = ""
-        var videoCount = albumControl.getDeviceAlbumInfoConut(devicePath, 2)
+        var videoCount = albumControl.getDeviceAlbumInfoConut(devicePath, 4)
         if(videoCount === 0) {
             videoCountText = ""
         } else if(videoCount === 1) {
