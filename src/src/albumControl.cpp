@@ -858,16 +858,18 @@ void AlbumControl::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> 
     QString uri = mount->getRootFile()->uri();
     QString scheme = QUrl(uri).scheme();
 
-    qDebug() << "AlbumControl::onVfsMountChangedAdd uri: " << uri;
+    // 查看块设备是否可卸载，以便确定file前缀的uri是否为外接设备
+    bool bCanEject = mount->getVolume()->canEject();
+    qInfo() << "AlbumControl::onVfsMountChangedAdd uri: " << uri << "canEject:" << bCanEject;
     QRegularExpression recifs("^file:///media/(.*)/smbmounts");
-    QRegularExpression regvfs("^file:///run/user/(.*)/smbmounts");
+    QRegularExpression regvfs("^file:///run/user/(.*)/gvfs|^/root/.gvfs");
     // 因V23玲珑文管smb挂载方式有优化，修改uri的smb路径判断方式，包括gvfs挂载和cifs挂载
     if (recifs.match(uri).hasMatch() || regvfs.match(uri).hasMatch()) {
         qDebug() << "uri is a smb path";
         return;
     }
 
-    if ((scheme == "file" /*&& mount->canEject()*/) ||  //usb device
+    if ((scheme == "file" && bCanEject) ||  //usb device
             (scheme == "gphoto2") ||                //phone photo
             //(scheme == "afc") ||                  //iPhone document
             (scheme == "mtp")) {                    //android file
@@ -1294,9 +1296,9 @@ int AlbumControl::manhattanLength(QPoint p1, QPoint p2)
     return point.manhattanLength();
 }
 
-QString AlbumControl::localPath(QString url)
+QString AlbumControl::url2localPath(QUrl url)
 {
-    return QUrl(url).toLocalFile();
+    return LibUnionImage_NameSpace::localPath(url);
 }
 
 bool AlbumControl::checkRepeatUrls(QStringList imported, QStringList urls, bool bNotify)
@@ -1304,7 +1306,7 @@ bool AlbumControl::checkRepeatUrls(QStringList imported, QStringList urls, bool 
     bool bRet = false;
     int noReadCount = 0; //记录已存在于相册中的数量，若全部存在，则不进行导入操作
     for (QString url : urls) {
-        QFileInfo srcfi(QUrl(url).toLocalFile());
+        QFileInfo srcfi(url2localPath(url));
         if (!srcfi.exists()) {  //当前文件不存在
             noReadCount++;
             continue;
@@ -1464,9 +1466,8 @@ QVariantMap AlbumControl::getTrashAlbumInfos(const int &filterType)
 bool AlbumControl::addCustomAlbumInfos(int albumId, const QList<QUrl> &urls)
 {
     QStringList localpaths;
-    DBImgInfoList dbInfos;
     for (QUrl path : urls) {
-        localpaths << path.toLocalFile();
+        localpaths << url2localPath(path);
     }
     QStringList curAlbumImgPathList = getAllUrlPaths();
     for (QString imagePath : localpaths) {
@@ -1499,7 +1500,7 @@ bool AlbumControl::addCustomAlbumInfos(int albumId, const QList<QUrl> &urls)
     bool bRet = false;
     QStringList paths;
     for (QUrl url : urls) {
-        paths << url.toLocalFile();
+        paths << url2localPath(url);
     }
     AlbumDBType atype;
     if (albumId == 0) {
@@ -1530,7 +1531,7 @@ void AlbumControl::insertTrash(const QList< QUrl > &paths)
 {
     QStringList tmpList;
     for (QUrl url : paths) {
-        QString imagePath = url.toLocalFile();
+        QString imagePath = url2localPath(url);
         QFileInfo info(imagePath);
         //判断文件是否可写
         if (info.isWritable()) {
@@ -1566,7 +1567,7 @@ void AlbumControl::removeTrashImgInfos(const QList< QUrl > &paths)
 {
     QStringList localPaths ;
     for (QUrl path : paths) {
-        localPaths << path.toLocalFile();
+        localPaths << url2localPath(path);
     }
     DBManager::instance()->removeTrashImgInfos(localPaths);
 }
@@ -1576,7 +1577,7 @@ QStringList AlbumControl::recoveryImgFromTrash(const QStringList &paths)
     QStringList localPaths;
     for (QUrl path : paths) {
         if (path.isLocalFile())
-            localPaths << path.toLocalFile();
+            localPaths << url2localPath(path);
         else
             localPaths << path.toString();
     }
@@ -1588,7 +1589,7 @@ void AlbumControl::deleteImgFromTrash(const QStringList &paths)
     QStringList localPaths ;
     for (QUrl path : paths) {
         if (path.isLocalFile())
-            localPaths << path.toLocalFile();
+            localPaths << url2localPath(path);
         else
             localPaths << path.toString();
     }
@@ -1599,7 +1600,7 @@ void AlbumControl::insertCollection(const QList< QUrl > &paths)
 {
     QStringList tmpList;
     for (QUrl url : paths) {
-        tmpList << url.toLocalFile();
+        tmpList << url2localPath(url);
     }
     DBImgInfoList infos;
     for (QString path : tmpList) {
@@ -1828,82 +1829,13 @@ bool AlbumControl::canAddToCustomAlbum(const int &albumId, const QStringList &pa
 
 bool AlbumControl::photoHaveFavorited(const QString &path)
 {
-    bool bRet = DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, QUrl(path).toLocalFile());
+    bool bRet = DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, url2localPath(path));
     return bRet;
 }
 
 bool AlbumControl::photoHaveAddedToCustomAlbum(int albumId, const QString &path)
 {
-    return DBManager::instance()->isImgExistInAlbum(albumId, QUrl(path).toLocalFile());
-}
-
-QVariantMap AlbumControl::getPathsInfoMap(const QString &path)
-{
-    QVariantMap reMap;
-    QString localPath = QUrl(path).toLocalFile();
-    DBImgInfo info = DBManager::instance()->getInfoByPath(localPath);
-    reMap.insert("url", "file://" + info.filePath);
-    reMap.insert("filePath", info.filePath);
-    reMap.insert("pathHash", info.pathHash);
-    reMap.insert("remainDays", info.remainDays);
-    if (info.itemType == ItemTypePic) {
-        reMap.insert("itemType", "pciture");
-    } else if (info.itemType == ItemTypeVideo) {
-        reMap.insert("itemType", "video");
-    } else {
-        reMap.insert("itemType", "other");
-    }
-    return reMap;
-}
-
-QStringList AlbumControl::getPathsInfoList(const QString &path)
-{
-    QStringList reList;
-    QString localPath = QUrl(path).toLocalFile();
-    DBImgInfo info = DBManager::instance()->getInfoByPath(localPath);
-    reList << "file://" + info.filePath;
-    reList << info.filePath ;
-    reList << info.pathHash ;
-    reList << QString::number(info.remainDays);
-    if (info.itemType == ItemTypePic) {
-        reList << "pciture";
-    } else if (info.itemType == ItemTypeVideo) {
-        reList << "video";
-    } else {
-        reList << "other";
-    }
-    return reList;
-}
-
-QString AlbumControl::getPathsInfoData(const QString &path, const QString &key)
-{
-    QString value;
-    QString localPath = QUrl(path).toLocalFile();
-    DBImgInfo info = DBManager::instance()->getInfoByPath(localPath);
-    if (key.contains("url")) {
-        value = "file://" + info.filePath;
-    } else if (key.contains("filePath")) {
-        value = info.filePath;
-    } else if (key.contains("pathHash")) {
-        value = info.pathHash;
-    } else if (key.contains("remainDays")) {
-        value = QString::number(info.remainDays);
-    } else if (key.contains("itemType")) {
-        if (info.itemType == ItemTypePic) {
-            value = "pciture";
-        } else if (info.itemType == ItemTypeVideo) {
-            value = "video";
-        } else {
-            value = "other";
-        }
-    } else if (key.contains("time")) {
-        value = info.time.toString("yyyy.MM.dd.hh.mm");
-    } else if (key.contains("changeTime")) {
-        value = info.changeTime.toString("yyyy.MM.dd.hh.mm");
-    } else if (key.contains("importTime")) {
-        value = info.importTime.toString("yyyy.MM.dd.hh.mm");
-    }
-    return value;
+    return DBManager::instance()->isImgExistInAlbum(albumId, url2localPath(path));
 }
 
 int AlbumControl::getCustomAlbumInfoConut(const int &albumId, const int &filterType)
@@ -1969,7 +1901,7 @@ void AlbumControl::removeFromAlbum(int UID, const QStringList &paths)
 
     QStringList localPaths ;
     for (QString path : paths) {
-        localPaths << QUrl(path).toLocalFile();
+        localPaths << url2localPath(path);
     }
 
     DBManager::instance()->removeCustomAlbumIdByPaths(UID, localPaths);
@@ -1985,7 +1917,7 @@ bool AlbumControl::insertIntoAlbum(int UID, const QStringList &paths)
     }
     QStringList localPaths ;
     for (QString path : paths) {
-        localPaths << QUrl(path).toLocalFile();
+        localPaths << url2localPath(path);
     }
 
     DBManager::instance()->addCustomAlbumIdByPaths(UID, localPaths);
@@ -2001,7 +1933,7 @@ bool AlbumControl::insertImportIntoAlbum(int UID, const QStringList &paths)
     }
     QStringList localPaths ;
     for (QString path : paths) {
-        localPaths << QUrl(path).toLocalFile();
+        localPaths << url2localPath(path);
     }
     return DBManager::instance()->insertIntoAlbum(UID, localPaths, atype);
 }
@@ -2055,7 +1987,7 @@ DBImgInfoList AlbumControl::searchPicFromAlbum2(int UID, const QString &keywords
 
 QStringList AlbumControl::imageCanExportFormat(const QString &path)
 {
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = url2localPath(path);
     QStringList formats;
     formats << "jpg";
     formats << "jpeg";
@@ -2076,7 +2008,7 @@ QStringList AlbumControl::imageCanExportFormat(const QString &path)
 bool AlbumControl::saveAsImage(const QString &path, const QString &saveName, int index, const QString &fileFormat, int pictureQuality, const QString &saveFolder)
 {
     bool bRet = false;
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = url2localPath(path);
     QString savePath;
     QString finalSaveFolder;
     switch (index) {
@@ -2164,7 +2096,7 @@ bool AlbumControl::getFolders(const QStringList &paths)
     }
     QStringList localPaths;
     for (QString path : paths) {
-        localPaths << QUrl(path).toLocalFile();
+        localPaths << url2localPath(path);
     }
     if (!fileDir.isEmpty()) {
 
@@ -2203,7 +2135,7 @@ bool AlbumControl::exportFolders(const QStringList &paths, const QString &dir)
     }
     QStringList localPaths;
     for (QString path : paths) {
-        localPaths << QUrl(path).toLocalFile();
+        localPaths << url2localPath(path);
     }
     if (!fileDir.isEmpty()) {
 
@@ -2235,7 +2167,7 @@ bool AlbumControl::exportFolders(const QStringList &paths, const QString &dir)
 
 void AlbumControl::openDeepinMovie(const QString &path)
 {
-    QString localPath = QUrl(path).toLocalFile();
+    QString localPath = url2localPath(path);
     QDBusMessage message = QDBusMessage::createMethodCall("com.deepin.movie",
                                                           "/",
                                                           "com.deepin.movie",
@@ -2254,8 +2186,8 @@ void AlbumControl::openDeepinMovie(const QString &path)
 
 QString AlbumControl::getFileTime(const QString &path1, const QString &path2)
 {
-    auto time1 = DBManager::instance()->getFileImportTime(QUrl(path1).toLocalFile());
-    auto time2 = DBManager::instance()->getFileImportTime(QUrl(path2).toLocalFile());
+    auto time1 = DBManager::instance()->getFileImportTime(url2localPath(path1));
+    auto time2 = DBManager::instance()->getFileImportTime(url2localPath(path2));
 
     auto str1 = time1.toString("yyyy/MM/dd");
     auto str2 = time2.toString("yyyy/MM/dd");
@@ -2271,7 +2203,7 @@ QString AlbumControl::getMovieInfo(const QString key, const QString &path)
 {
     QString value = "";
     if (!path.isEmpty()) {
-        QString localPath = QUrl(path).toLocalFile();
+        QString localPath = url2localPath(path);
         if (!m_movieInfos.keys().contains(localPath)) {
             MovieInfo movieInfo = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(localPath));
             //对视频信息缓存
@@ -2381,12 +2313,12 @@ QVariantMap AlbumControl::getDeviceAlbumInfos(const QString &devicePath, const i
     QString title = devicePath;
     for (QString path : list) {
         QVariantMap tmpMap;
-        if (LibUnionImage_NameSpace::isImage(QUrl(path).toLocalFile())) {
+        if (LibUnionImage_NameSpace::isImage(url2localPath(path))) {
             if (filterType == 2) {
                 continue ;
             }
             tmpMap.insert("itemType", "pciture");
-        } else if (LibUnionImage_NameSpace::isVideo(QUrl(path).toLocalFile())) {
+        } else if (LibUnionImage_NameSpace::isVideo(url2localPath(path))) {
             if (filterType == 1) {
                 continue ;
             }
@@ -2395,7 +2327,7 @@ QVariantMap AlbumControl::getDeviceAlbumInfos(const QString &devicePath, const i
             tmpMap.insert("itemType", "other");
         }
         tmpMap.insert("url", path);
-        tmpMap.insert("filePath", QUrl(path).toLocalFile());
+        tmpMap.insert("filePath", url2localPath(path));
         tmpMap.insert("pathHash", "");
         tmpMap.insert("remainDays", "");
         listVar << tmpMap;
@@ -2413,20 +2345,20 @@ DBImgInfoList AlbumControl::getDeviceAlbumInfos2(const QString &devicePath, cons
     QStringList list = getDevicePicPaths(devicePath);
     for (QString path : list) {
         DBImgInfo info;
-        if (LibUnionImage_NameSpace::isImage(QUrl(path).toLocalFile())) {
-            if (filterType == 2) {
+        if (LibUnionImage_NameSpace::isImage(url2localPath(path))) {
+            if (filterType == ItemTypeVideo) {
                 continue ;
             }
             info.itemType = ItemTypePic;
-        } else if (LibUnionImage_NameSpace::isVideo(QUrl(path).toLocalFile())) {
-            if (filterType == 1) {
+        } else if (LibUnionImage_NameSpace::isVideo(url2localPath(path))) {
+            if (filterType == ItemTypePic) {
                 continue ;
             }
             info.itemType = ItemTypeVideo;
         } else {
-            info.itemType = ItemTypeNull;
+            continue;
         }
-        info.filePath = QUrl(path).toLocalFile();
+        info.filePath = url2localPath(path);
         info.pathHash = "";
         info.remainDays = 0;
         infoList << info;
@@ -2441,16 +2373,15 @@ int AlbumControl::getDeviceAlbumInfoConut(const QString &devicePath, const int &
     QStringList list = getDevicePicPaths(devicePath);
     for (QString path : list) {
         QVariantMap tmpMap;
-        if (LibUnionImage_NameSpace::isImage(QUrl(path).toLocalFile())) {
-            if (filterType == 2) {
-                continue ;
+        if (LibUnionImage_NameSpace::isImage(url2localPath(path))) {
+            if (filterType == ItemTypePic) {
+                rePicVideoConut++;
             }
-        } else if (LibUnionImage_NameSpace::isVideo(QUrl(path).toLocalFile())) {
-            if (filterType == 1) {
-                continue ;
+        } else if (LibUnionImage_NameSpace::isVideo(url2localPath(path))) {
+            if (filterType == ItemTypeVideo) {
+                rePicVideoConut++;
             }
         }
-        rePicVideoConut++;
     }
     return rePicVideoConut;
 }
@@ -2462,9 +2393,9 @@ QList<int> AlbumControl::getPicVideoCountFromPaths(const QStringList &paths)
     QList<int> ret;
 
     for (QString path : paths) {
-        if (LibUnionImage_NameSpace::isImage(QUrl(path).toLocalFile())) {
+        if (LibUnionImage_NameSpace::isImage(url2localPath(path))) {
             countPic++;
-        } else if (LibUnionImage_NameSpace::isVideo(QUrl(path).toLocalFile())) {
+        } else if (LibUnionImage_NameSpace::isVideo(url2localPath(path))) {
             countVideo++;
         }
     }
@@ -2482,7 +2413,7 @@ void AlbumControl::importFromMountDevice(const QStringList &paths, const int &in
         QStringList localPaths;
         for (QString path : paths)
         {
-            localPaths << QUrl(path).toLocalFile();
+            localPaths << url2localPath(path);
         }
         QStringList newPathList;
         DBImgInfoList dbInfos;
@@ -2608,7 +2539,7 @@ void AlbumControl::createNewCustomAutoImportAlbum(const QString &path)
 
 QString AlbumControl::getVideoTime(const QString &path)
 {
-    if (!LibUnionImage_NameSpace::isVideo(QUrl(path).toLocalFile()))
+    if (!LibUnionImage_NameSpace::isVideo(url2localPath(path)))
         return "00:00";
 
     //采用线程执行导入
@@ -2648,15 +2579,15 @@ void AlbumControl::onNewAPPOpen(qint64 pid, const QStringList &arguments)
             //BUG#79815，添加文件URL解析（BUG是平板上的，为防止UOS的其它个别版本也改成传URL，干脆直接全部支持）
             auto urlPath = QUrl(qpath);
             if (urlPath.scheme() == "file") {
-                qpath = urlPath.toLocalFile();
+                qpath = url2localPath(urlPath);
             }
 
             if (QUrl::fromUserInput(qpath).isLocalFile()) {
                 qpath = "file://" + qpath;
             }
 
-            if (LibUnionImage_NameSpace::isImage(QUrl(qpath).toLocalFile())
-                    || LibUnionImage_NameSpace::isVideo(QUrl(qpath).toLocalFile())) {
+            if (LibUnionImage_NameSpace::isImage(url2localPath(qpath))
+                    || LibUnionImage_NameSpace::isVideo(url2localPath(qpath))) {
                 validPaths.append(qpath);
             }
             paths.append(qpath);

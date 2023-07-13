@@ -21,7 +21,7 @@ ThumbnailLoad::ThumbnailLoad()
 
 QImage ThumbnailLoad::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
-    QString tempPath = QUrl(id).toLocalFile();
+    QString tempPath = LibUnionImage_NameSpace::localPath(id);
     QImage Img;
     QString error;
 
@@ -39,7 +39,7 @@ QImage ThumbnailLoad::requestImage(const QString &id, QSize *size, const QSize &
 
 QPixmap ThumbnailLoad::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
-    QString tempPath = QUrl(id).toLocalFile();
+    QString tempPath = LibUnionImage_NameSpace::localPath(id);
     QImage Img;
     QString error;
 
@@ -50,7 +50,7 @@ QPixmap ThumbnailLoad::requestPixmap(const QString &id, QSize *size, const QSize
 
 bool ThumbnailLoad::imageIsNull(const QString &path)
 {
-    QString tempPath = QUrl(path).toLocalFile();
+    QString tempPath = LibUnionImage_NameSpace::localPath(path);
 
     QMutexLocker _locker(&m_mutex);
     if (m_imgMap.find(tempPath) != m_imgMap.end()) {
@@ -65,7 +65,7 @@ bool ThumbnailLoad::imageIsNull(const QString &path)
  */
 void ThumbnailLoad::removeImageCache(const QString &path)
 {
-    QString tempPath = QUrl(path).toLocalFile();
+    QString tempPath = LibUnionImage_NameSpace::localPath(path);
     QMutexLocker _locker(&m_mutex);
     m_imgMap.remove(tempPath);
 }
@@ -146,7 +146,7 @@ void LoadImage::setReverseHeightWidth(bool b)
 
 void LoadImage::loadThumbnail(const QString path)
 {
-    QString tempPath = QUrl(path).toLocalFile();
+    QString tempPath = LibUnionImage_NameSpace::localPath(path);
     qDebug() << "----path--" << tempPath;
     QImage Img;
     QString error;
@@ -167,7 +167,7 @@ void LoadImage::catThumbnail(const QStringList &list)
         QString imgPath = path;
 
         if (imgPath.startsWith("file://")) {
-            imgPath = QUrl(imgPath).toLocalFile();
+            imgPath = LibUnionImage_NameSpace::localPath(imgPath);
         }
 
         QImage tImg(imgPath);
@@ -246,7 +246,7 @@ ViewLoad::ViewLoad()
 
 QImage ViewLoad::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
-    QString tempPath = QUrl(id).toLocalFile();
+    QString tempPath = LibUnionImage_NameSpace::localPath(id);
     QImage Img;
     QString error;
 
@@ -270,7 +270,7 @@ QImage ViewLoad::requestImage(const QString &id, QSize *size, const QSize &reque
 
 QPixmap ViewLoad::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
-    QString tempPath = QUrl(id).toLocalFile();
+    QString tempPath = LibUnionImage_NameSpace::localPath(id);
     QImage Img;
     QString error;
 
@@ -287,7 +287,7 @@ QPixmap ViewLoad::requestPixmap(const QString &id, QSize *size, const QSize &req
 
 int ViewLoad::getImageWidth(const QString &path)
 {
-    QString tempPath = QUrl(path).toLocalFile();
+    QString tempPath = LibUnionImage_NameSpace::localPath(path);
 
     QMutexLocker _locker(&m_mutex);
     return m_imgSizes[tempPath].width();
@@ -295,7 +295,7 @@ int ViewLoad::getImageWidth(const QString &path)
 
 int ViewLoad::getImageHeight(const QString &path)
 {
-    QString tempPath = QUrl(path).toLocalFile();
+    QString tempPath = LibUnionImage_NameSpace::localPath(path);
 
     QMutexLocker _locker(&m_mutex);
     return m_imgSizes[tempPath].height();
@@ -323,7 +323,7 @@ double ViewLoad::getFitWindowScale(const QString &path, double WindowWidth, doub
  */
 void ViewLoad::removeImageCache(const QString &path)
 {
-    QString tempPath = QUrl(path).toLocalFile();
+    QString tempPath = LibUnionImage_NameSpace::localPath(path);
 
     QMutexLocker _locker(&m_mutex);
     m_imgSizes.remove(tempPath);
@@ -339,7 +339,7 @@ void ViewLoad::removeImageCache(const QString &path)
  */
 void ViewLoad::reloadImageCache(const QString &path)
 {
-    QString tempPath = QUrl(path).toLocalFile();
+    QString tempPath = LibUnionImage_NameSpace::localPath(path);
     QImage Img;
     QString error;
     LibUnionImage_NameSpace::loadStaticImageFromFile(tempPath, Img, error);
@@ -392,7 +392,7 @@ QImage MultiImageLoad::requestImage(const QString &id, QSize *size, const QSize 
     // 移除 "#frame_" 字段
     int frame = checkId.right(checkId.size() - index - s_tagFrame.size()).toInt();
 
-    QString tempPath = QUrl(path).toLocalFile();
+    QString tempPath = LibUnionImage_NameSpace::localPath(path);
     QImage img;
 
     // 数据变更前加锁
@@ -445,7 +445,7 @@ QPixmap MultiImageLoad::requestPixmap(const QString &id, QSize *size, const QSiz
  */
 int MultiImageLoad::getImageWidth(const QString &path, int frameIndex)
 {
-    QString tempPath = QUrl(path).toLocalFile();
+    QString tempPath = LibUnionImage_NameSpace::localPath(path);
     auto key = qMakePair(tempPath, frameIndex);
 
     QMutexLocker _locker(&m_mutex);
@@ -461,7 +461,7 @@ int MultiImageLoad::getImageWidth(const QString &path, int frameIndex)
  */
 int MultiImageLoad::getImageHeight(const QString &path, int frameIndex)
 {
-    QString tempPath = QUrl(path).toLocalFile();
+    QString tempPath = LibUnionImage_NameSpace::localPath(path);
     auto key = qMakePair(tempPath, frameIndex);
 
     QMutexLocker _locker(&m_mutex);
@@ -505,7 +505,7 @@ double MultiImageLoad::getFitWindowScale(const QString &path, double WindowWidth
  */
 void MultiImageLoad::removeImageCache(const QString &path)
 {
-    QString tempPath = QUrl(path).toLocalFile();
+    QString tempPath = LibUnionImage_NameSpace::localPath(path);
     QMutexLocker _locker(&m_mutex);
     // 移除关联的图像
     QList<QPair<QString, int> > keys = m_imageCache.keys();
@@ -632,10 +632,10 @@ QImage ImagePublisher::requestImage(const QString &id, QSize *size, const QSize 
 
     QString error;
     QImage image;
-    LibUnionImage_NameSpace::loadStaticImageFromFile(url.toLocalFile(), image, error);
+    LibUnionImage_NameSpace::loadStaticImageFromFile(LibUnionImage_NameSpace::localPath(url), image, error);
 
     //如果是视频，则采用视频加载
-    if (LibUnionImage_NameSpace::isVideo(url.toLocalFile())) {
+    if (LibUnionImage_NameSpace::isVideo(LibUnionImage_NameSpace::localPath(url))) {
         image = MovieService::instance()->getMovieCover(url);
     }
     if (m_loadMode == 0) {
@@ -955,10 +955,10 @@ void AsyncImageResponse::run()
     QUrl url(m_id.mid(startIndex));
 
     QString error;
-    LibUnionImage_NameSpace::loadStaticImageFromFile(url.toLocalFile(), m_image, error);
+    LibUnionImage_NameSpace::loadStaticImageFromFile(LibUnionImage_NameSpace::localPath(url), m_image, error);
 
     //如果是视频，则采用视频加载
-    if (LibUnionImage_NameSpace::isVideo(url.toLocalFile())) {
+    if (LibUnionImage_NameSpace::isVideo(LibUnionImage_NameSpace::localPath(url))) {
         m_image = MovieService::instance()->getMovieCover(url);
     }
 

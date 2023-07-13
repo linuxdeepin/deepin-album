@@ -321,6 +321,14 @@ UNIONIMAGESHARED_EXPORT void getAllDirInDir(const QDir &dir, QFileInfoList &resu
  */
 UNIONIMAGESHARED_EXPORT bool isImage(const QString &path);
 
+/**
+ * @brief localPath
+ * @param url
+ * @author HCQ
+ * @return QString
+ * QUrl路径转为本地路径
+ */
+UNIONIMAGESHARED_EXPORT QString localPath(const QUrl& url);
 
 /**
  * @brief renderSVG

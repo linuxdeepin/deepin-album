@@ -1664,6 +1664,16 @@ UNIONIMAGESHARED_EXPORT bool isImage(const QString &path)
     return bRet;
 }
 
+UNIONIMAGESHARED_EXPORT QString localPath(const QUrl &url)
+{
+    QString path = url.toLocalFile();
+    if (path.isEmpty()) {
+        path = url.toString().isEmpty() ? url.path() : url.toString();
+    }
+
+    return path;
+}
+
 UNIONIMAGESHARED_EXPORT QPixmap renderSVG(const QString &path, const QSize &size)
 {
     return Libutils::base::renderSVG(path, size);
