@@ -8,10 +8,7 @@ import "../../Control"
 import "../../"
 import "../"
 
-Rectangle {
-    width: parent.width
-    height: parent.height
-
+BaseView {
     property int filterType : filterCombo.currentIndex // 筛选类型，默认所有
     property string numLabelText: "" //总数标签显示内容
     property string selectedText: getSelectedText(selectedPaths)
@@ -123,9 +120,7 @@ Rectangle {
     // 已导入列表控件
     ImportedlListView {
         id: theView
-        anchors.top: parent.top
-        width: parent.width
-        height: parent.height - statusBar.height
+        anchors.fill: parent
     }
 
     // 若没有数据，显示导入图片视图

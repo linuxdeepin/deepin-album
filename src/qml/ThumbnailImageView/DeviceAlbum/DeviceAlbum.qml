@@ -12,9 +12,8 @@ import "../../Control"
 import "../../Control/ListView"
 import "../../"
 
-Rectangle {
-    width: parent.width
-    height: parent.height
+BaseView {
+    anchors.fill: parentt
 
     property int customAlbumUId: 0
     property string devicePath: global.deviceCurrentPath
@@ -224,7 +223,7 @@ Rectangle {
             topMargin: 10
         }
         width: parent.width
-        height: parent.height - deviceAlbumTitleRect.height - m_topMargin - statusBar.height
+        height: parent.height - deviceAlbumTitleRect.height - m_topMargin
         visible: numLabelText !== ""
         thumnailListType: GlobalVar.ThumbnailType.Device
 
