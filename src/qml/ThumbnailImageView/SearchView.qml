@@ -14,9 +14,7 @@ import org.deepin.album 1.0 as Album
 import "../Control"
 import "../Control/ListView"
 
-Rectangle {
-    width: parent.width
-    height: parent.height
+BaseView {
 
     property string currentKeyword: ""
     property var searchResults: new Array
@@ -153,7 +151,7 @@ Rectangle {
             topMargin: 10
         }
         width: parent.width
-        height: parent.height - resultViewTitleRect.height - m_topMargin - statusBar.height
+        height: parent.height - resultViewTitleRect.height - m_topMargin
 
         proxyModel.sourceModel: Album.ImageDataModel { id: dataModel; modelType: Album.Types.SearchResult}
 
