@@ -13,10 +13,12 @@ Rectangle{
         anchors.verticalCenter: parent.verticalCenter
         ActionButton {
             id: noImageIcon
-            anchors.top: parent.top
-            anchors.topMargin: -70
-            anchors.left : parent.left
-            anchors.leftMargin: -width/2
+            anchors {
+                top: parent.top
+                topMargin: -70
+                left : parent.left
+                leftMargin: -width / 2
+            }
 
             icon {
                 name:"nopicture1"
@@ -25,10 +27,12 @@ Rectangle{
             }
         }
         Label{
-            anchors.top:noImageIcon.bottom
-            anchors.topMargin: 20
-            anchors.left : parent.left
-            anchors.leftMargin: -width/2
+            anchors {
+                top:noImageIcon.bottom
+                topMargin: 20
+                left : parent.left
+                leftMargin: -width/2
+            }
             text:qsTr("No photos or videos found")
         }
     }
