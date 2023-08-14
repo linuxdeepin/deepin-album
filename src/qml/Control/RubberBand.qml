@@ -10,7 +10,6 @@ import QtQuick.Controls 2.1
 //此处仅预留控制接口，具体控制逻辑由调用方编写
 
 Item {
-//    id: root
 
     signal rectSelChanged()
     //选择框当前的大小

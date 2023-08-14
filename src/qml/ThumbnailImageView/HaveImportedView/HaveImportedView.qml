@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.0
+import QtQuick 2.11
 import org.deepin.dtk 1.0
 import "../../Control"
 import "../../"
@@ -16,7 +16,6 @@ Rectangle {
     property string numLabelText: "" //总数标签显示内容
     property string selectedText: getSelectedText(selectedPaths)
     property alias selectedPaths: theView.selectedPaths
-
     property real titleOpacity: 0.7
 
     Connections {
@@ -89,11 +88,10 @@ Rectangle {
     }
 
     // 已导入视图标题栏区域
-    Rectangle {
+    Item {
         id: importedTitleRect
         width: parent.width - global.verticalScrollBarWidth
         height: global.thumbnailViewTitleHieght
-        color: Qt.rgba(0, 0, 0, 0)
         z:3
 
         // 已导入标签
@@ -132,7 +130,6 @@ Rectangle {
 
     // 若没有数据，显示导入图片视图
     ImportView {
-        anchors.fill: parent
         visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.HaveImported && numLabelText === "" && filterType === 0
     }
 

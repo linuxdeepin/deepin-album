@@ -14,7 +14,7 @@ import "../../Control/ListView"
 import "../../"
 
 Item {
-    id: root
+    id: yearView
 
     signal yearClicked(string year)
 
@@ -57,11 +57,9 @@ Item {
     Component {
         id: theDelegate
 
-        Rectangle {
+        Item {
             width: theView.width
             height: theView.height / 3 * 2
-            radius: 18
-            color: Qt.rgba(0, 0, 0, 0)
 
             //圆角遮罩Rectangle
             Rectangle {

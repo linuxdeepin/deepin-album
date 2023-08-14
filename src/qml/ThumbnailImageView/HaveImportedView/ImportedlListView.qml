@@ -359,11 +359,10 @@ Item {
             property var theViewTitle: global.objIsEmpty(theModel.get(index)) ? "" : theModel.get(index).title //日期标题文本内容
             property var theViewItems: global.objIsEmpty(theModel.get(index)) ? "" : theModel.get(index).items //日期标题对应图片信息链表
 
-            Rectangle {
+            Item {
                 id: spaceRect
                 width: parent.width
                 height: index == 0 ? importedListView.spaceCtrlHeight : 0
-                color: Qt.rgba(0,0,0,0)
             }
 
             CheckBox {

@@ -105,11 +105,11 @@ Item {
     }
 
     // 所有项目标题栏区域
-    Rectangle {
+    Item {
         id: allCollectionTitleRect
         width: parent.width - global.verticalScrollBarWidth
         height: 60
-        color: Qt.rgba(0,0,0,0)
+
         // 时间范围标签
         Label {
             id: dateRangeLabel
