@@ -86,12 +86,11 @@ Rectangle {
     }
 
     //有结果展示
-    Rectangle {
+    Item {
         id: resultViewTitleRect
 
         width: parent.width - global.verticalScrollBarWidth
         height: global.thumbnailViewTitleHieght
-	color: Qt.rgba(0,0,0,0)
 
         //搜索标题
         Label {
@@ -102,7 +101,6 @@ Rectangle {
                 left: parent.left
             }
             font: DTK.fontManager.t3
-            color: Qt.rgba(0,0,0)
         }
 
         //幻灯片放映按钮
@@ -173,7 +171,7 @@ Rectangle {
     }
 
     //无结果展示
-    Rectangle {
+    Item {
         id: noResultView
         visible: searchResults.length === 0
         anchors {

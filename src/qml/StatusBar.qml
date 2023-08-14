@@ -34,5 +34,10 @@ Item {
             right: parent.right
             rightMargin: 50
         }
+        visible: !(global.currentViewIndex === 2 && thumbnailImage.m_CollecttionCurrentViewIndex < 2)
+        from: 0
+        value: 0
+        stepSize: 1
+        to: 9
     }
 }

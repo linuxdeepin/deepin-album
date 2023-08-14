@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.0
+import QtQuick 2.11
 import org.deepin.dtk 1.0
 
 import org.deepin.album 1.0 as Album
@@ -113,11 +113,10 @@ Rectangle {
     }
 
     // 自定义相册标题栏区域
-    Rectangle {
+    Item {
         id: customAlbumTitleRect
         width: parent.width - global.verticalScrollBarWidth
         height: global.thumbnailViewTitleHieght - 10
-        color: Qt.rgba(0,0,0,0)
         // 相册名称标签
         Label {
             id: customAlbumLabel
@@ -222,7 +221,6 @@ Rectangle {
 
     // 自定义相册，若没有数据，显示导入图片视图
     ImportView {
-        anchors.fill: parent
         visible: global.currentViewIndex === 6 && numLabelText ==="" && isCustom
     }
 

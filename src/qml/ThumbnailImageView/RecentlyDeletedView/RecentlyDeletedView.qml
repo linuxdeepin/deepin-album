@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.0
+import QtQuick 2.11
 import org.deepin.dtk 1.0
 
 import org.deepin.album 1.0 as Album
@@ -104,11 +104,10 @@ Rectangle {
     }
 
     // 最近删除标题栏区域
-    Rectangle {
+    Item {
         id: recentDelTitleRect
         width: parent.width - global.verticalScrollBarWidth
         height: global.thumbnailViewTitleHieght - 10
-        color: Qt.rgba(0,0,0,0)
         // 最近删除标签
         Label {
             id: recentDelLabel
@@ -256,7 +255,6 @@ Rectangle {
 
     // 若没有数据，显示无图片视图
     NoPictureView {
-        anchors.fill: parent
         visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.RecentlyDeleted && numLabelText === "" && filterType === 0
     }
 

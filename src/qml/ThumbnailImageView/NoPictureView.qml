@@ -6,11 +6,10 @@ import QtQuick 2.0
 import org.deepin.dtk 1.0
 
 
-Rectangle{
-    color: Qt.rgba(0,0,0,0)
-    Rectangle{
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
+Item {
+    anchors.fill: parent
+    Item {
+        anchors.centerIn: parent
         ActionButton {
             id: noImageIcon
             anchors {

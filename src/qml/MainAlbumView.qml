@@ -9,8 +9,7 @@ import "./ThumbnailImageView"
 import "./Control"
 import "./SideBar"
 import "./PopProgress"
-Rectangle {
-    color: Qt.rgba(0,0,0,0)
+Item {
     anchors.fill: parent
     property int lastWidth: 0
 

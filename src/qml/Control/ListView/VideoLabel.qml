@@ -10,7 +10,6 @@ import QtQml 2.11
 //视频时长标签
 
 Item {
-    id: root
     visible: false
     width: 60
     height: 30

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.0
+import QtQuick 2.11
 import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
 
@@ -115,11 +115,10 @@ Rectangle {
     }
 
     // 设备相册标题栏区域
-    Rectangle {
+    Item {
         id: deviceAlbumTitleRect
         width: parent.width - global.verticalScrollBarWidth
         height: global.thumbnailViewTitleHieght - 10
-        color: Qt.rgba(0,0,0,0)
         // 设备名称标签
         Label {
             id: deviceAlbumLabel
@@ -151,10 +150,9 @@ Rectangle {
             height: 36
             spacing: 10
             // 筛选下拉框
-            Rectangle{
+            Item{
                 width: 80
                 height: 36
-                color: Qt.rgba(0,0,0,0)
                 Label {
                     anchors.centerIn: parent
                     text :qsTr("Import to:")

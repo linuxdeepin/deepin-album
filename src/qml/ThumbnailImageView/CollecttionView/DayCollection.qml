@@ -13,7 +13,7 @@ import "../../Control/ListView"
 import "../../"
 
 Item {
-    id: root
+    id: dayView
 
     signal sigListViewPressed(int x, int y)
     signal sigListViewReleased(int x, int y)
@@ -422,11 +422,10 @@ Item {
     Component {
         id: theDelegate
 
-        Rectangle {
+        Item {
             id: delegateRect
             width: theView.width
             height: timeLineLblHeight + timeLineLblMargin + selAllCheckBoxHeight + theSubView.height
-            color: Qt.rgba(0,0,0,0)
 
             property string m_dayToken: dayToken
 
@@ -461,7 +460,7 @@ Item {
             }
 
             Connections {
-                target: root
+                target: dayView
                 onSigListViewPressed: {
                     var object = selectAllBox.mapFromGlobal(x,y)
                     if (selectAllBox.contains(object)) {
