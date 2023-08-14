@@ -12,9 +12,7 @@ import "../../Control/ListView"
 import "../../"
 import "../"
 
-Rectangle {
-    width: parent.width
-    height: parent.height
+BaseView {
 
     property int customAlbumUId: global.currentCustomAlbumUId
     property string customAlbumName: "" //相册名称显示内容
@@ -171,7 +169,7 @@ Rectangle {
             topMargin: 10
         }
         width: parent.width
-        height: parent.height - customAlbumTitleRect.height - m_topMargin - statusBar.height
+        height: parent.height - customAlbumTitleRect.height - m_topMargin
         thumnailListType: (global.currentViewIndex === GlobalVar.ThumbnailViewType.CustomAlbum && global.currentCustomAlbumUId > 3) ? GlobalVar.ThumbnailType.CustomAlbum
                                                                                                                                     : GlobalVar.ThumbnailType.Normal
         proxyModel.sourceModel: Album.ImageDataModel { id: dataModel; modelType: Album.Types.CustomAlbum}

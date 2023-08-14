@@ -12,9 +12,7 @@ import "../../Control/ListView"
 import "../../"
 import "../"
 
-Rectangle {
-    width: parent.width
-    height: parent.height
+BaseView {
 
     property int filterType : filterCombo.currentIndex // 筛选类型，默认所有
     property string numLabelText: ""
@@ -235,7 +233,7 @@ Rectangle {
             topMargin: 10
         }
         width: parent.width
-        height: parent.height - recentDelTitleRect.height - m_topMargin - statusBar.height
+        height: parent.height - recentDelTitleRect.height - m_topMargin
         thumnailListType: GlobalVar.ThumbnailType.Trash
 
         proxyModel.sourceModel: Album.ImageDataModel { id: dataModel; modelType: Album.Types.RecentlyDeleted}
