@@ -719,7 +719,10 @@ QImage CollectionPublisher::createMonthImage(const QString &year, const QString 
     std::transform(paths.begin(), paths.end(), std::back_inserter(images), [](const QString & path) {
         QImage image;
         QString error;
-        LibUnionImage_NameSpace::loadStaticImageFromFile(path, image, error);
+        if (LibUnionImage_NameSpace::isVideo(path))
+            image = MovieService::instance()->getMovieCover(QUrl::fromLocalFile(path));
+        else
+            LibUnionImage_NameSpace::loadStaticImageFromFile(path, image, error);
         image = image.scaled(outputWidth, outputHeight, Qt::KeepAspectRatioByExpanding);
         return image;
     });

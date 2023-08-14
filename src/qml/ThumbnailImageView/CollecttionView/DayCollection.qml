@@ -434,17 +434,21 @@ Item {
                 id: timeLineLabel
                 font: DTK.fontManager.t3
                 height: timeLineLblHeight
-                anchors.top: parent.top
-                anchors.topMargin: timeLineLblMargin
-                anchors.left: parent.left
-                anchors.leftMargin: timeLineLblMargin
+                anchors {
+                    top: parent.top
+                    topMargin: timeLineLblMargin
+                    left: parent.left
+                    leftMargin: timeLineLblMargin
+                }
             }
 
             CheckBox {
                 id: selectAllBox
                 height: selAllCheckBoxHeight
-                anchors.top: timeLineLabel.bottom
-                anchors.left: timeLineLabel.left
+                anchors {
+                    top: timeLineLabel.bottom
+                    left: timeLineLabel.left
+                }
                 checked: theSubView.haveSelectAll
                 visible: selectedPaths.length > 0
                 onClicked: {
@@ -480,8 +484,10 @@ Item {
             Label {
                 id: numLabelTitle
                 height: selAllCheckBoxHeight
-                anchors.top: timeLineLabel.bottom
-                anchors.left: selectAllBox.visible ? selectAllBox.right : timeLineLabel.left
+                anchors {
+                    top: timeLineLabel.bottom
+                    left: selectAllBox.visible ? selectAllBox.right : timeLineLabel.left
+                }
                 topPadding: -1
             }
 
@@ -492,8 +498,10 @@ Item {
             ThumbnailListView {
                 id: theSubView
                 thumbnailListModel: viewModel
-                anchors.top: selectAllBox.bottom
-                anchors.left: selectAllBox.left
+                anchors {
+                    top: selectAllBox.bottom
+                    left: selectAllBox.left
+                }
                 enableWheel: false
                 width: parent.width
                 height: Math.abs(Math.ceil(theSubView.count() / Math.floor((parent.width) / itemWidth)) * itemHeight)

@@ -99,9 +99,11 @@ Rectangle {
         // 已导入标签
         Label {
             id: importedLabel
-            anchors.top: parent.top
-            anchors.topMargin: 12
-            anchors.left: parent.left
+            anchors {
+                top: parent.top
+                topMargin: 12
+                left: parent.left
+            }
             height: 30
             font: DTK.fontManager.t3
             text: qsTr("Import")
@@ -110,32 +112,15 @@ Rectangle {
         // 筛选下拉框
         FilterComboBox {
             id: filterCombo
-            anchors.top: importedLabel.bottom
-            anchors.topMargin: 4
-            anchors.right: parent.right
+            anchors {
+                top: importedLabel.bottom
+                topMargin: 4
+                right: parent.right
+            }
             width: 130
             height: 30
         }
     }
-
-    // 增加标题栏色差校正框选框，用于解决标题栏吸顶导致的框选框色差问题
-//    Rectangle {
-//        id: rectTitleSelArea
-//        color: "#1E90FF"
-//        opacity: 0.4 * (titleOpacity + 0.002)
-//        z: 4
-//        Connections {
-//            target: theView
-//            onRectSelTitleChanged: {
-//                var rectTitle = Qt.rect(0, 0, importedTitleRect.width, importedTitleRect.height)
-//                var rectTopSel = albumControl.intersected(rt, rectTitle)
-//                rectTitleSelArea.x = rectTopSel.x
-//                rectTitleSelArea.y = rectTopSel.y
-//                rectTitleSelArea.width = rectTopSel.width - 1
-//                rectTitleSelArea.height = rectTopSel.height
-//            }
-//        }
-//    }
 
     // 已导入列表控件
     ImportedlListView {

@@ -62,8 +62,10 @@ DialogWindow {
 
     Text {
         id: deleteTitle
-        anchors.top: parent.top
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors {
+            top: parent.top
+            horizontalCenter: parent.horizontalCenter
+        }
         font: DTK.fontManager.t6
         verticalAlignment: Text.AlignBottom
         horizontalAlignment: Text.AlignHCenter
@@ -72,8 +74,10 @@ DialogWindow {
     Text {
         id: deleteTips
         opacity: 0.7
-        anchors.top: deleteTitle.bottom
-        anchors.horizontalCenter: deleteTitle.horizontalCenter
+        anchors {
+            top: deleteTitle.bottom
+            horizontalCenter: deleteTitle.horizontalCenter
+        }
         font: DTK.fontManager.t6
         verticalAlignment: Text.AlignBottom
         horizontalAlignment: Text.AlignHCenter
@@ -81,10 +85,12 @@ DialogWindow {
 
     Button {
         id: cancelbtn
-        anchors.top: deleteTips.bottom
-        anchors.topMargin: 30
-        anchors.left: parent.left
-        anchors.leftMargin: 0
+        anchors {
+            top: deleteTips.bottom
+            topMargin: 30
+            left: parent.left
+            leftMargin: 0
+        }
         text: qsTr("Cancel")
         width: 185
         height: 36
@@ -96,10 +102,12 @@ DialogWindow {
 
     WarningButton {
         id: enterbtn
-        anchors.top: deleteTips.bottom
-        anchors.topMargin: 30
-        anchors.left: cancelbtn.right
-        anchors.leftMargin: 10
+        anchors {
+            top: deleteTips.bottom
+            topMargin: 30
+            left: cancelbtn.right
+            leftMargin: 10
+        }
         text: qsTr("Delete")
         width: 185
         height: 36

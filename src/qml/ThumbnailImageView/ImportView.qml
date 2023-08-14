@@ -13,10 +13,12 @@ Rectangle{
         anchors.verticalCenter: parent.verticalCenter
         ActionButton {
             id: openViewImageIcon
-            anchors.top: parent.top
-            anchors.topMargin: -70
-            anchors.left : parent.left
-            anchors.leftMargin: -width/2
+            anchors {
+                top: parent.top
+                topMargin: -70
+                left : parent.left
+                leftMargin: -width / 2
+            }
 
             icon {
                 name:"nopicture2"
@@ -30,21 +32,24 @@ Rectangle{
             text: qsTr("Import Photos and Videos") 
             width: 302
             height: 36
-            anchors.top:openViewImageIcon.bottom
-            anchors.topMargin:10
-
-            anchors.left : parent.left
-            anchors.leftMargin: -width/2
+            anchors {
+                top:openViewImageIcon.bottom
+                topMargin:10
+                left : parent.left
+                leftMargin: -width/2
+            }
 
             onClicked:{
                 importDialog.open()
             }
         }
         Label{
-            anchors.top:openPictureBtn.bottom
-            anchors.topMargin: 20
-            anchors.left : parent.left
-            anchors.leftMargin: -width/2
+            anchors {
+                top:openPictureBtn.bottom
+                topMargin: 20
+                left : parent.left
+                leftMargin: -width/2
+            }
             text:qsTr("Or drag them here")
         }
     }
