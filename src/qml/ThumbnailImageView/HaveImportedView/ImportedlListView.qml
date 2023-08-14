@@ -403,8 +403,10 @@ Item {
                 }
             }
             Label {
-                anchors.left :importedCheckBox.visible ? importedCheckBox.right : parent.left
-                anchors.top :importedCheckBox.top
+                anchors {
+                    left :importedCheckBox.visible ? importedCheckBox.right : parent.left
+                    top :importedCheckBox.top
+                }
                 topPadding: 1
                 font: DTK.fontManager.t6
                 id: importedLabel
@@ -414,10 +416,12 @@ Item {
             //缩略图网格表
             ThumbnailListView {
                 id: importedGridView
-                anchors.left: parent.left
-                anchors.top: importedCheckBox.bottom
-                anchors.topMargin: importedListView.listMargin
-                anchors.bottomMargin: importedListView.listMargin
+                anchors {
+                    left: parent.left
+                    top: importedCheckBox.bottom
+                    topMargin: importedListView.listMargin
+                    bottomMargin: importedListView.listMargin
+                }
                 width: parent.width
                 height: Math.abs(Math.ceil(importedGridView.count() / Math.floor((parent.width) / itemWidth)) * itemHeight)
 

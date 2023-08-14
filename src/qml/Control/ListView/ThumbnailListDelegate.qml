@@ -141,10 +141,12 @@ Rectangle {
     ActionButton {
         id: itemFavoriteBtn
         visible: albumControl.photoHaveFavorited(m_url, global.bRefreshFavoriteIconFlag) || mouseAreaTopParentRect.bHovered
-        anchors.bottom: image.bottom
-        anchors.left: image.left
-        anchors.leftMargin : (image.width - image.paintedWidth) / 2 + 5
-        anchors.bottomMargin : (image.height - image.paintedHeight) / 2 + 5
+        anchors {
+            bottom: image.bottom
+            left: image.left
+            leftMargin : (image.width - image.paintedWidth) / 2 + 5
+            bottomMargin : (image.height - image.paintedHeight) / 2 + 5
+        }
         hoverEnabled: false  //设置为false，可以解决鼠标移动到图标附近时，图标闪烁问题
 
         icon {
@@ -184,47 +186,57 @@ Rectangle {
     DciIcon {
         name: "select_active_1"
         visible: selectShader.visible
-        anchors.top: image.top
-        anchors.right: image.right
-        anchors.topMargin: 5
-        anchors.rightMargin : 5
+        anchors {
+            top: image.top
+            right: image.right
+            topMargin: 5
+            rightMargin : 5
+        }
     }
 
     DciIcon {
         name: "Inner_shadow"
         visible: selectShader.visible
-        anchors.top: image.top
-        anchors.right: image.right
-        anchors.topMargin: 5
-        anchors.rightMargin : 5
+        anchors {
+            top: image.top
+            right: image.right
+            topMargin: 5
+            rightMargin : 5
+        }
     }
 
     DciIcon {
         name: "shadow"
         visible: selectShader.visible
-        anchors.top: image.top
-        anchors.right: image.right
-        anchors.topMargin: 5
-        anchors.rightMargin : 5
+        anchors {
+            top: image.top
+            right: image.right
+            topMargin: 5
+            rightMargin : 5
+        }
     }
 
     DciIcon {
         name: "yes"
         visible: selectShader.visible
-        anchors.top: image.top
-        anchors.right: image.right
-        anchors.topMargin: 5
-        anchors.rightMargin : 5
+        anchors {
+            top: image.top
+            right: image.right
+            topMargin: 5
+            rightMargin : 5
+        }
     }
 
     //剩余天数标签
     VideoLabel {
         id: labelRemainDays
         visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.RecentlyDeleted
-        anchors.bottom: image.bottom
-        anchors.left: image.left
-        anchors.leftMargin : 5
-        anchors.bottomMargin : 5
+        anchors {
+            bottom: image.bottom
+            left: image.left
+            leftMargin : 5
+            bottomMargin : 5
+        }
         opacity: 0.7
         displayStr: remainDays > 1 ? (remainDays + qsTr("days")) : (remainDays + qsTr("day"))
         height: 22
@@ -235,10 +247,12 @@ Rectangle {
     VideoLabel {
         id: videoLabel
         visible: fileControl.isVideo(m_url)
-        anchors.bottom: image.bottom
-        anchors.right: image.right
-        anchors.rightMargin : 5
-        anchors.bottomMargin : 5
+        anchors {
+            bottom: image.bottom
+            right: image.right
+            rightMargin : 5
+            bottomMargin : 5
+        }
         opacity: 0.7
         displayStr: fileControl.isVideo(m_url) ? albumControl.getVideoTime(m_url) : "00:00"
         height: 22

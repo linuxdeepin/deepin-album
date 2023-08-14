@@ -30,8 +30,11 @@ ItemDelegate {
 
     DciIcon {
         id: siderIcon
-        anchors.left: item.left; anchors.leftMargin: 10
-        anchors.verticalCenter: item.verticalCenter
+        anchors {
+            left: item.left
+            leftMargin: 10
+            verticalCenter: item.verticalCenter
+        }
         name: model.icon
         palette: DTK.makeIconPalette(item.palette)
         sourceSize: Qt.size(20, 20)
@@ -40,16 +43,22 @@ ItemDelegate {
     Label {
         id: songName
         width: 100;
-        anchors.left: siderIcon.right; anchors.leftMargin: 10
-        anchors.verticalCenter: item.verticalCenter
+        anchors {
+            left: siderIcon.right
+            leftMargin: 10
+            verticalCenter: item.verticalCenter
+        }
         text: "%1".arg(model.displayName)
         elide: Text.ElideRight
     }
     // 移除设备按钮，仅在设备列表显示
     ActionButton {
         visible: control.showRemoveDeviceBtn
-        anchors.left: songName.right; anchors.leftMargin: 10
-        anchors.verticalCenter: item.verticalCenter
+        anchors {
+            left: songName.right
+            leftMargin: 10
+            verticalCenter: item.verticalCenter
+        }
         width: 10
         height:  10
         icon.name: "arrow"

@@ -64,9 +64,11 @@ Item {
 
         width: parent.width / 3 * 2
         height: parent.height + global.statusBarHeight - global.collectionTopMargin
-        anchors.top: parent.top
-        anchors.topMargin: global.collectionTopMargin
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors {
+            top: parent.top
+            topMargin: global.collectionTopMargin
+            horizontalCenter: parent.horizontalCenter
+        }
     }
 
     Component {
@@ -140,10 +142,12 @@ Item {
                 font: DTK.fontManager.t3
                 text: qsTr("%1/%2").arg(year).arg(Number(month))
                 color: "#FFFFFF"
-                anchors.top: image.top
-                anchors.topMargin: 25
-                anchors.left: image.left
-                anchors.leftMargin: 25
+                anchors {
+                    top: image.top
+                    topMargin: 25
+                    left: image.left
+                    leftMargin: 25
+                }
             }
 
             Rectangle {
@@ -161,10 +165,12 @@ Item {
                     color: "#FFFFFF"
                 }
 
-                anchors.right: parent.right
-                anchors.rightMargin: 10
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 10
+                anchors {
+                    right: parent.right
+                    rightMargin: 10
+                    bottom: parent.bottom
+                    bottomMargin: 10
+                }
             }
 
             MouseArea {

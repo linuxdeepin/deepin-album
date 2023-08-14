@@ -121,9 +121,11 @@ Rectangle {
         // 相册名称标签
         Label {
             id: customAlbumLabel
-            anchors.top: parent.top
-            anchors.topMargin: 12
-            anchors.left: parent.left
+            anchors {
+                top: parent.top
+                topMargin: 12
+                left: parent.left
+            }
             height: 30
             font: DTK.fontManager.t3
             text: qsTr(customAlbumName)
@@ -131,9 +133,11 @@ Rectangle {
 
         Label {
             id: customAlbumNumLabel
-            anchors.top: customAlbumLabel.bottom
-            anchors.topMargin: 10
-            anchors.left: parent.left
+            anchors {
+                top: customAlbumLabel.bottom
+                topMargin: 10
+                left: parent.left
+            }
             font: DTK.fontManager.t6
             text: numLabelText
         }
@@ -141,9 +145,11 @@ Rectangle {
         // 筛选下拉框
         FilterComboBox {
             id: filterCombo
-            anchors.top: customAlbumLabel.bottom
-            anchors.topMargin: 4
-            anchors.right: parent.right
+            anchors {
+                top: customAlbumLabel.bottom
+                topMargin: 4
+                right: parent.right
+            }
             width: 130
             height: 30
             visible: !(numLabelText === "" && filterType === 0)
@@ -161,8 +167,10 @@ Rectangle {
     // 缩略图列表控件
     ThumbnailListView2 {
         id: theView
-        anchors.top: customAlbumTitleRect.bottom
-        anchors.topMargin: 10
+        anchors {
+            top: customAlbumTitleRect.bottom
+            topMargin: 10
+        }
         width: parent.width
         height: parent.height - customAlbumTitleRect.height - m_topMargin - statusBar.height
         thumnailListType: (global.currentViewIndex === GlobalVar.ThumbnailViewType.CustomAlbum && global.currentCustomAlbumUId > 3) ? GlobalVar.ThumbnailType.CustomAlbum
@@ -184,11 +192,13 @@ Rectangle {
 
     // 仅在自动导入相册筛选无内容时，显示无结果
     Label {
-        anchors.top: customAlbumTitleRect.bottom
-        anchors.left: parent.left
-        anchors.bottom: theView.bottom
-        anchors.right: parent.right
-        anchors.centerIn: parent
+        anchors {
+            top: customAlbumTitleRect.bottom
+            left: parent.left
+            bottom: theView.bottom
+            right: parent.right
+            centerIn: parent
+        }
         visible: numLabelText === "" && filterType > 0 && (isSystemAutoImport || isNormalAutoImport)
         font: DTK.fontManager.t4
         color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
@@ -197,11 +207,13 @@ Rectangle {
 
     // 仅在自动导入相册无内容时，显示没有图片或视频时显示
     Label {
-        anchors.top: customAlbumTitleRect.bottom
-        anchors.left: parent.left
-        anchors.bottom: theView.bottom
-        anchors.right: parent.right
-        anchors.centerIn: parent
+        anchors {
+            top: customAlbumTitleRect.bottom
+            left: parent.left
+            bottom: theView.bottom
+            right: parent.right
+            centerIn: parent
+        }
         visible: numLabelText === "" && filterType === 0 && (isSystemAutoImport || isNormalAutoImport)
         font: DTK.fontManager.t4
         color: Qt.rgba(85/255, 85/255, 85/255, 0.4)

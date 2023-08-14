@@ -12,7 +12,7 @@ import QtQuick.Shapes 1.10
 import org.deepin.dtk 1.0
 
 Item {
-    id: root
+    id: statusBar
 
     property int sliderValue: slider.value
 
@@ -20,26 +20,19 @@ Item {
         slider.value = value
     }
 
-    Rectangle {
-        anchors.fill: parent
-        color: Qt.rgba(0,0,0,0)
-        Label {
-            height: parent.height
-            anchors.centerIn: parent
-            text: global.statusBarNumText
-        }
+    Label {
+        height: parent.height
+        anchors.centerIn: parent
+        text: global.statusBarNumText
+    }
 
-        Slider {
-            id: slider
-            width: 160
-            height: parent.height
-            anchors.right: parent.right
-            visible: !(global.currentViewIndex === 2 && thumbnailImage.m_CollecttionCurrentViewIndex < 2)
-            from: 0
-            value: 0
-            stepSize: 1
-            to: 9
-            anchors.rightMargin: 50
+    Slider {
+        id: slider
+        width: 160
+        height: parent.height
+        anchors {
+            right: parent.right
+            rightMargin: 50
         }
     }
 }
