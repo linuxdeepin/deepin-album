@@ -20,8 +20,7 @@ import "./../PreviewImageViewer"
 import "./../"
 //本文件用于替代stackwidget的作用，通过改变global的0-n来切换窗口
 
-Rectangle{
-    color: Qt.rgba(0,0,0,0)
+Item {
     property int m_topMargin: 0
     property int m_leftMargin: 20
     property int m_CollecttionCurrentViewIndex: collecttionView.currentViewIndex

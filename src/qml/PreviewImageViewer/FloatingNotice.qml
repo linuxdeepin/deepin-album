@@ -10,7 +10,7 @@ import QtQml 2.11
 //浮动提示框定义
 
 Item {
-    id: root
+
     visible: false
 
     property string displayStr: ""
