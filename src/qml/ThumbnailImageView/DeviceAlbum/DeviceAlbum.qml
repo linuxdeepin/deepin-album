@@ -13,7 +13,7 @@ import "../../Control/ListView"
 import "../../"
 
 BaseView {
-    anchors.fill: parentt
+    anchors.fill: parent
 
     property int customAlbumUId: 0
     property string devicePath: global.deviceCurrentPath

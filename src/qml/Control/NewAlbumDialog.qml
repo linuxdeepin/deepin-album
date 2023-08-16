@@ -146,7 +146,7 @@ DialogWindow {
     }
 
     onVisibleChanged: {
-        setX(root.x  + root.width / 2 - width / 2)
-        setY(root.y  + root.height / 2 - height / 2)
+        setX(window.x  + window.width / 2 - width / 2)
+        setY(window.y  + window.height / 2 - height / 2)
     }
 }

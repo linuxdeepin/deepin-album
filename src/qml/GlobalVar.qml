@@ -223,7 +223,7 @@ Item {
 
     // 大图模式，隐藏相册标题栏，相册模式显示相册标题栏
     onStackControlCurrentChanged: {
-        root.showTitleBar(stackControlCurrent != 1)
+        window.showTitleBar(stackControlCurrent != 1)
     }
 
     function getSelectedNumText(paths, text) {

@@ -14,6 +14,10 @@ import org.deepin.dtk 1.0
 import org.deepin.album 1.0 as Album
 
 ApplicationWindow {
+    id: window
+
+    property bool isFullScreen: window.visibility === Window.FullScreen
+
     GlobalVar{
         id: global
     }
@@ -24,7 +28,7 @@ ApplicationWindow {
     signal sigTitlePress
     // 设置 dtk 风格窗口
     DWindow.enabled: true
-    id: root
+
     title: ""
     header: AlbumTitle {id: titleAlubmRect}
     MessageManager.layout: Column {
@@ -55,18 +59,18 @@ ApplicationWindow {
 
     onActiveChanged: {
         // 记录应用主窗口是否被置灰过
-        if (!root.active)
+        if (!window.active)
             global.windowDisActived = true
     }
 
     onWidthChanged: {
-        if(root.visibility!=Window.FullScreen && root.visibility !=Window.Maximized){
+        if(window.visibility!=Window.FullScreen && window.visibility !=Window.Maximized){
             fileControl.setSettingWidth(width)
         }
     }
 
     onHeightChanged: {
-        if(root.visibility!=Window.FullScreen &&root.visibility!=Window.Maximized){
+        if(window.visibility!=Window.FullScreen &&window.visibility!=Window.Maximized){
             fileControl.setSettingHeight(height)
         }
     }
@@ -105,7 +109,14 @@ ApplicationWindow {
     Connections {
         target: albumControl
         onSigActiveApplicationWindow: {
-            root.requestActivate()
+            window.requestActivate()
+        }
+    }
+
+    Connections {
+        target: GControl
+        onCurrentSourceChanged: {
+            window.title = fileControl.slotGetFileName(GControl.currentSource) + fileControl.slotFileSuffix(GControl.currentSource)
         }
     }
 }

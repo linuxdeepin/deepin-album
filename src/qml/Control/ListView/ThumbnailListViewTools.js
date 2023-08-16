@@ -11,10 +11,9 @@ function executeViewImage() {
                 albumControl.openDeepinMovie(thumbnailModel.data(indexes[0], url).toString())
             } else {
                 var allUrls = thumbnailModel.allUrls()
-                mainStack.sourcePaths = allUrls
-                mainStack.currentIndex = -1
-                mainStack.currentIndex = indexes[0]
-                mainStack.currentWidgetIndex = 1
+                GControl.setImageFiles(allUrls, allUrls[indexes[0]])
+                fileControl.resetImageFiles(allUrls)
+                mainStack.switchImageView()
                 global.stackControlCurrent = 1
             }
         }
@@ -34,16 +33,15 @@ function executeDelete() {
 
 // 执行全屏预览
 function executeFullScreen() {
-    if (root.visibility !== Window.FullScreen && selectedUrls.length > 0) {
+    if (window.visibility !== Window.FullScreen && selectedUrls.length > 0) {
         showFullScreen()
 
-        mainStack.sourcePaths = thumbnailModel.allUrls()
-        mainStack.currentIndex = -1
-        mainStack.currentIndex = thumbnailModel.allUrls().indexOf(selectedUrls[0])
-        mainStack.currentWidgetIndex = 1
+        var allUrls = thumbnailModel.allUrls()
+        GControl.setImageFiles(allUrls, selectedUrls[0])
+        fileControl.resetImageFiles(allUrls)
+        mainStack.switchImageView()
         global.stackControlLastCurrent = global.stackControlCurrent
         global.stackControlCurrent = 1
-
     }
 }
 

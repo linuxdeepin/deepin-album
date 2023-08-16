@@ -279,7 +279,7 @@ FocusScope {
             var cPos = mapToItem(gridView.contentItem, mouse.x, mouse.y);
             var clickedItem = gridView.itemAt(cPos.x, cPos.y)
             if (!clickedItem || clickedItem.blank || gridView.currentIndex == -1 || gridView.ctrlPressed || gridView.shiftPressed) {
-                eventGenerator.sendMouseEvent(root, Album.EventGenerator.MouseButtonPress, mouse.x, mouse.y, mouse.button, mouse.buttons, mouse.modifiers);
+                eventGenerator.sendMouseEvent(window, Album.EventGenerator.MouseButtonPress, mouse.x, mouse.y, mouse.button, mouse.buttons, mouse.modifiers);
                 return;
             }
 

@@ -5,51 +5,69 @@
 import QtQuick 2.11
 import QtQuick.Window 2.11
 import QtQuick.Controls 2.4
-//import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.11
 import org.deepin.dtk 1.0
+import org.deepin.image.viewer 1.0 as IV
+
+import "./Utils"
 
 Menu {
-    x: 250; y: 600
-    id: option_menu
+    id: optionMenu
 
+    property url imageSource: GControl.currentSource
+    property bool isNullImage: imageInfo.type === IV.Types.NullImage
+    property bool readable: !isNullImage && fileControl.isCanReadable(imageSource)
+    property bool renamable: !isNullImage && fileControl.isCanRename(imageSource)
+    property bool rotatable: !isNullImage && fileControl.isRotatable(imageSource)
+    property bool deletable: !isNullImage && fileControl.isCanDelete(imageSource)
+    property bool supportOcr: !isNullImage && fileControl.isCanSupportOcr(imageSource)
+    property bool supportWallpaper: !isNullImage && fileControl.isSupportSetWallpaper(imageSource)
+    property bool canExport: fileControl.pathExists(imageSource.toString()) && fileControl.isImage(imageSource.toString()) && !fileControl.isVideo(imageSource.toString())
+    property bool canFavorite: albumControl.canFavorite((imageSource.toString()), global.bRefreshFavoriteIconFlag)
+
+    x: 250
+    y: 600
     maxVisibleItems: 20
 
-    property bool canExport: fileControl.pathExists(source) && fileControl.isImage(source) && !fileControl.isVideo(source)
-
     RightMenuItem {
-        id : right_fullscreen
-        text: root.visibility != Window.FullScreen ? qsTr("Fullscreen") : qsTr("Exit fullscreen")
+        id: rightFullscreen
 
-        onTriggered : showFulltimer.start()
+        function switchFullScreen() {
+            GStatus.showFullScreen = !GStatus.showFullScreen
+        }
+
+        text: !window.isFullScreen ? qsTr("Fullscreen") : qsTr("Exit fullscreen")
+        onTriggered: switchFullScreen()
+
         Shortcut {
             enabled: stackView.visible
-            sequence : "F11"
-            onActivated : {
-                root.visibility !== Window.FullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
-            }
+            sequence: "F11"
+            onActivated: rightFullscreen.switchFullScreen()
         }
+
         Shortcut {
-            enabled: (root.visibility === Window.FullScreen && stackView.visible && stackView.currentWidgetIndex !== 2) ? true : false
-            sequence :  "Esc"
-            onActivated : root.visibility !== Window.FullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
+            enabled: window.isFullScreen && stackView.visible && GStatus.stackPage !== Number(IV.Types.SliderShowPage)
+            sequence: "Esc"
+            onActivated: rightFullscreen.switchFullScreen()
         }
     }
 
-
     RightMenuItem {
         text: qsTr("Print")
-        visible: !CodeImage.imageIsNull(source)
+        visible: !isNullImage
+
         onTriggered: {
-            fileControl.showPrintDialog(mainView.source)
+            optionMenu.close()
+            fileControl.showPrintDialog(imageSource)
         }
+
         Shortcut {
             sequence: "Ctrl+P"
-            enabled: !CodeImage.imageIsNull(source) && stackView.visible
-            onActivated:  {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
-                    fileControl.showPrintDialog(mainView.source)
+            enabled: !isNullImage && stackView.visible
+            onActivated: {
+                optionMenu.close()
+                if (parent.visible && GStatus.stackPage === Number(IV.Types.ImageViewPage)) {
+                    fileControl.showPrintDialog(imageSource.toString())
                 }
             }
         }
@@ -57,42 +75,42 @@ Menu {
 
     RightMenuItem {
         text: qsTr("Extract text")
-        visible: fileControl.isCanSupportOcr(source) && !CodeImage.imageIsNull(source)
+        visible: supportOcr && !isNullImage
+
         onTriggered: {
-            fileControl.ocrImage(source)
+            GControl.submitImageChangeImmediately()
+            fileControl.ocrImage(imageSource, GControl.currentFrameIndex)
         }
+
         Shortcut {
             sequence: "Alt+O"
-            enabled: fileControl.isCanSupportOcr(source) && !CodeImage.imageIsNull(source)
+            enabled: supportOcr && !isNullImage
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
-                    fileControl.ocrImage(source)
+                if (parent.visible && GStatus.stackPage === Number(IV.Types.ImageViewPage)) {
+                    GControl.submitImageChangeImmediately()
+                    fileControl.ocrImage(imageSource, GControl.currentFrameIndex)
                 }
             }
         }
     }
 
     RightMenuItem {
-
         text: qsTr("Slide show")
+
         onTriggered: {
-            imageViewer.startSliderShow()
-            showfullAnimation.start()
+            stackView.switchSliderShow()
         }
+
         Shortcut {
             enabled: stackView.visible
             sequence: "F5"
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex != 0)
-                {
-                    imageViewer.startSliderShow()
-                    showfullAnimation.start()
+                if (parent.visible && GStatus.stackPage !== Number(IV.Types.OpenImagePage)) {
+                    stackView.switchSliderShow()
                 }
             }
         }
     }
-
 
     MenuSeparator {
         id: firstSeparator
@@ -110,58 +128,47 @@ Menu {
             enabled: stackView.visible && canExport && !menuItemStates.isInTrash && fileControl.isAlbum()
             sequence : "Ctrl+E"
             onActivated : {
-               excuteExport()
+                excuteExport()
             }
         }
     }
 
     RightMenuItem {
-
         text: qsTr("Copy")
-        visible: fileControl.isCanReadable(source)
+        visible: readable
+
         onTriggered: {
-            if( parent.visible ){
-                fileControl.copyImage(source)
+            if (parent.visible) {
+                GControl.submitImageChangeImmediately()
+                fileControl.copyImage(imageSource.toString())
             }
         }
+
         Shortcut {
             sequence: "Ctrl+C"
-            enabled: fileControl.isCanReadable(source) && stackView.visible
+            enabled: readable && stackView.visible
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
-                    fileControl.copyImage(source)
+                if (parent.visible && GStatus.stackPage === Number(IV.Types.ImageViewPage)) {
+                    GControl.submitImageChangeImmediately()
+                    fileControl.copyImage(imageSource.toString())
                 }
             }
         }
     }
 
     RightMenuItem {
-
         text: qsTr("Rename")
-        visible: fileControl.isCanRename(source)
+        visible: renamable
+
         onTriggered: {
-            var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
-            var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
-            renamedialog.setX(x)
-            renamedialog.setY(y)
-            renamedialog.getFileName(fileControl.slotGetFileName(source))
-            renamedialog.getFileSuffix(fileControl.slotFileSuffix(source))
             renamedialog.show()
         }
+
         Shortcut {
             sequence: "F2"
-            // 判断文件是否允许重命名
-            enabled: fileControl.isCanRename(source)
+            enabled: renamable
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
-                    var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
-                    var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
-                    renamedialog.setX(x)
-                    renamedialog.setY(y)
-                    renamedialog.getFileName(fileControl.slotGetFileName(source))
-                    renamedialog.getFileSuffix(fileControl.slotFileSuffix(source))
+                if (parent.visible && GStatus.stackPage === Number(IV.Types.ImageViewPage)) {
                     renamedialog.show()
                 }
             }
@@ -170,18 +177,19 @@ Menu {
 
     RightMenuItem {
         text: qsTr("Delete")
-        enabled: fileControl.isCanDelete(source)
-        visible: fileControl.isCanDelete(source)
+        enabled: deletable
+        visible: deletable
+
         onTriggered: {
-            toolBarthumbnailListView.deleteCurrentImage()
+            toolBarThumbnailListView.deleteCurrentImage()
         }
+
         Shortcut {
             sequence: "Delete"
-	    enabled: fileControl.isCanDelete(source) && stackView.visible
+            enabled: deletable && stackView.visible
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
-                    toolBarthumbnailListView.deleteCurrentImage()
+                if (parent.visible && GStatus.stackPage === Number(IV.Types.ImageViewPage)) {
+                    toolBarThumbnailListView.deleteCurrentImage()
                 }
             }
         }
@@ -198,7 +206,7 @@ Menu {
     RightMenuItem {
         id: favoriteAction
         text: qsTr("Favorite")
-        visible: !menuItemStates.isInTrash && imageViewer.canFavorite && fileControl.isAlbum()
+        visible: !menuItemStates.isInTrash && canFavorite && fileControl.isAlbum()
         onTriggered: {
             imageViewer.executeFavorite()
         }
@@ -208,7 +216,7 @@ Menu {
     RightMenuItem {
         id: unFavoriteAction
         text: qsTr("Unfavorite")
-        visible: !menuItemStates.isInTrash && !imageViewer.canFavorite && fileControl.isAlbum()
+        visible: !menuItemStates.isInTrash && !canFavorite && fileControl.isAlbum()
         onTriggered: {
             imageViewer.executeUnFavorite()
         }
@@ -218,23 +226,22 @@ Menu {
     MenuSeparator {
         // 不显示分割条时调整高度，防止菜单项间距不齐
         height: visible ? firstSeparator.height : 0
-        visible: fileControl.isCanReadable(source)
-                 || fileControl.isCanDelete(source)
+        visible: fileControl.isCanReadable(imageSource) || fileControl.isCanDelete(imageSource)
     }
 
     RightMenuItem {
         text: qsTr("Rotate clockwise")
-        visible: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source)
+        visible: rotatable
+
         onTriggered: {
             imageViewer.rotateImage(90)
         }
 
         Shortcut {
             sequence: "Ctrl+R"
-            enabled: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source) && stackView.visible
+            enabled: rotatable && stackView.visible
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
+                if (parent.visible && GStatus.stackPage === Number(IV.Types.ImageViewPage)) {
                     imageViewer.rotateImage(90)
                 }
             }
@@ -243,16 +250,17 @@ Menu {
 
     RightMenuItem {
         text: qsTr("Rotate counterclockwise")
-        visible: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source)
+        visible: rotatable
+
         onTriggered: {
             imageViewer.rotateImage(-90)
         }
+
         Shortcut {
             sequence: "Ctrl+Shift+R"
-            enabled: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source) && stackView.visible
+            enabled: rotatable && stackView.visible
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
+                if (parent.visible && GStatus.stackPage === Number(IV.Types.ImageViewPage)) {
                     imageViewer.rotateImage(-90)
                 }
             }
@@ -260,82 +268,88 @@ Menu {
     }
 
     RightMenuItem {
+        id: enableNavigation
 
-        id : showNavigation
-        visible: !CodeImage.imageIsNull(source) && currentScale >1 && root.height > global.minHideHeight && root.width > global.minWidth
-        text: !imageViewer.isNavShow ? qsTr("Show navigation window") : qsTr("Hide navigation window")
-        onTriggered : {
-            if(!parent.visible){
+        visible: !isNullImage
+                 && window.height > GStatus.minHideHeight
+                 && window.width > GStatus.minWidth
+        text: !GStatus.enableNavigation ? qsTr("Show navigation window") : qsTr("Hide navigation window")
+
+        onTriggered: {
+            if (!parent.visible) {
                 return
             }
 
-            if (imageViewer.isNavShow) {
-                imageViewer.isNavShow = false
-                idNavWidget.visible = false
-            } else {
-                imageViewer.isNavShow = true
-                idNavWidget.visible = true
-                if(m_NavX === 0 && m_NavY === 0) {
-                    // 设置蒙皮信息
-                    idNavWidget.setRectPec(view.currentItem.scale, imageViewer.viewImageWidthRatio, imageViewer.viewImageHeightRatio)
-                } else {
-                    idNavWidget.setRectLocation(m_NavX, m_NavY)
-                }
-            }
+            GStatus.enableNavigation = !GStatus.enableNavigation
         }
     }
 
     RightMenuItem {
-
         text: qsTr("Set as wallpaper")
-        visible: fileControl.isSupportSetWallpaper(source)
+        visible: supportWallpaper
+
         onTriggered: {
-            fileControl.setWallpaper(source)
+            GControl.submitImageChangeImmediately()
+            fileControl.setWallpaper(imageSource)
         }
+
         Shortcut {
             sequence: "Ctrl+F9"
-            enabled: fileControl.isSupportSetWallpaper(source) && stackView.visible
+            enabled: supportWallpaper && stackView.visible
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
-                    fileControl.setWallpaper(source)
+                if (parent.visible && GStatus.stackPage === Number(IV.Types.ImageViewPage)) {
+                    GControl.submitImageChangeImmediately()
+                    fileControl.setWallpaper(imageSource)
                 }
             }
         }
     }
 
     RightMenuItem {
-
         text: qsTr("Display in file manager")
+
         onTriggered: {
-            fileControl.displayinFileManager(source)
+            fileControl.displayinFileManager(imageSource)
         }
+
         Shortcut {
-            enabled: stackView.visible
             sequence: "Alt+D"
+            enabled: parent.visible
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
-                    fileControl.displayinFileManager(source)
+                if (parent.visible && GStatus.stackPage === Number(IV.Types.ImageViewPage)) {
+                    fileControl.displayinFileManager(imageSource)
                 }
             }
         }
     }
 
     RightMenuItem {
-
         text: qsTr("Image info")
+
         onTriggered: {
             infomationDig.show()
         }
+
         Shortcut {
-            enabled: stackView.visible
             sequence: "Ctrl+I"
+            enabled: parent.visible
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
+                if (parent.visible && GStatus.stackPage === Number(IV.Types.ImageViewPage)) {
                     infomationDig.show()
                 }
+            }
+        }
+    }
+
+    IV.ImageInfo {
+        id: imageInfo
+        source: imageSource
+
+        onStatusChanged: {
+            if (IV.ImageInfo.Ready === imageInfo.status) {
+                isNullImage = (imageInfo.type === IV.Types.NullImage)
+            } else {
+                isNullImage = true
             }
         }
     }
@@ -349,8 +363,8 @@ Menu {
             else
                 DTK.sendMessage(thumbnailImage, qsTr("Export failed"), "warning")
         } else{
-            exportdig.setParameter(imageViewer.source, imageViewer)
-            exportdig.show()
+            exportdialog.setParameter(imageSource.toString(), imageViewer)
+            exportdialog.show()
         }
     }
 }

@@ -18,11 +18,11 @@ TitleBar {
     signal sigDeleteClicked()
 
     anchors {
-        top : root.top
+        top : window.top
         left : parent.left
         leftMargin: 0
     }
-    width:  root.width
+    width:  window.width
     height: 50
 
     signal collectionBtnClicked(int nIndex)
@@ -161,7 +161,7 @@ TitleBar {
         onClicked :{
             if(global.sideBarX !== 0 ){
                 if (title.width < global.needHideSideBarWidth) {
-                    root.setWidth(global.needHideSideBarWidth + 1)
+                    window.setWidth(global.needHideSideBarWidth + 1)
                 }
                 showHideSideBar(true)
                 //showSliderAnimation.start()
@@ -227,7 +227,7 @@ TitleBar {
                 id: collectionBtnBox
                 Layout.preferredHeight: iconSize
                 property bool refreshVisilbe: false
-                visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion && albumControl.getYears(refreshVisilbe).length !== 0 && root.width > showCollComboWidth
+                visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion && albumControl.getYears(refreshVisilbe).length !== 0 && window.width > showCollComboWidth
 
                 ToolButton {
                     id:yButton
@@ -304,7 +304,7 @@ TitleBar {
                 iconNameRole: "icon"
                 currentIndex: 3
                 flat: false
-                visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion && albumControl.getYears(refreshVisible).length !== 0 && root.width <= showCollComboWidth
+                visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion && albumControl.getYears(refreshVisible).length !== 0 && window.width <= showCollComboWidth
 
                 property bool refreshVisible: false
 

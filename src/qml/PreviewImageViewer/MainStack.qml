@@ -3,96 +3,186 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick 2.11
-import QtQuick.Window 2.11
 import QtQuick.Controls 2.4
-import org.deepin.dtk 1.0
+import QtQuick.Dialogs 1.3
+import org.deepin.dtk 1.0 as DTK
+import org.deepin.image.viewer 1.0 as IV
 
-Rectangle {
+Item {
+    id: stackView
+
+    anchors.fill: parent
+
+    property alias iconName: titleRect.iconName
+
+    // 打开图片对话框
+    function openImageDialog() {
+        if (Loader.Ready === fileDialogLoader.status) {
+            fileDialogLoader.item.open()
+        } else {
+            fileDialogLoader.active = true
+        }
+    }
+
+    // 设置当前使用的图片源
+    function setSourcePath(path) {
+        if (fileControl.isCurrentWatcherDir(path)) {
+            // 更新当前文件路径
+            GControl.currentSource = path
+        } else {
+            var sourcePaths = fileControl.getDirImagePath(path)
+            if (sourcePaths.length > 0) {
+                GControl.setImageFiles(sourcePaths, path)
+                // 记录当前读取的图片信息
+                fileControl.resetImageFiles(sourcePaths)
+
+                console.log("Load image info", path)
+
+                switchImageView()
+
+                // 将选择的图片导入相册中
+                if (fileControl.isAlbum() && GControl.currentSource.toString() !== "") {
+                    albumControl.importAllImagesAndVideos(sourcePaths)
+                }
+            } else {
+                switchOpenImage()
+            }
+        }
+    }
+
+    function switchOpenImage() {
+        GStatus.stackPage = Number(IV.Types.OpenImagePage)
+        window.title = ""
+        contentLoader.setSource("qrc:/qml/PreviewImageViewer/OpenImageWidget.qml")
+    }
+
+    function switchImageView() {
+        GStatus.stackPage = Number(IV.Types.ImageViewPage)
+        contentLoader.setSource("qrc:/qml/PreviewImageViewer/FullImageView.qml")
+    }
+
+    function switchSliderShow() {
+        if (Number(IV.Types.ImageViewPage) === GStatus.stackPage
+                || (fileControl.isAlbum() && Number(IV.Types.OpenImagePage) === GStatus.stackPage)) {
+            GStatus.stackPage = Number(IV.Types.SliderShowPage)
+            contentLoader.setSource("qrc:/qml/PreviewImageViewer/SliderShow.qml")
+        }
+    }
 
     Control {
         id: backcontrol
-        hoverEnabled: true // 开启 Hover 属性
-        property Palette backgroundColor: Palette {
+
+        property DTK.Palette backgroundColor: DTK.Palette {
             normal: "#F8F8F8"
-            normalDark:"#000000"
+            normalDark: "#000000"
+        }
+
+        hoverEnabled: true // 开启 Hover 属性
+    }
+
+    Connections {
+        target: fileControl
+
+        // 关联外部通过 DBus 等方式触发调用看图
+        onOpenImageFile: {
+            setSourcePath(fileName)
         }
     }
-    //标题栏
-    ViewTopTitle{
-         id:titleRect
-         z:parent.z+1
+
+    // 标题栏
+    ViewTopTitle {
+        id: titleRect
+        z: parent.z + 1
     }
 
-    id: stackView
+    // 展示内容
+    Loader {
+        id: contentLoader
 
-    property alias source: mainView.source
-    property alias sourcePaths: mainView.sourcePaths
-    property alias currentIndex: mainView.currentIndex
-    property alias iconName: titleRect.iconName
-    property int currentWidgetIndex: 0
-
-//    property alias source: imageViewer.source
-//    initialItem: rect
-    anchors.fill: parent
-
-    OpenImageWidget{
-        anchors.fill: parent
-        visible: currentWidgetIndex===0?true:false
-
-    }
-
-    FullThumbnail{
-        anchors.fill: parent
-        visible: currentWidgetIndex===1?true:false
-        id :mainView
-    }
-
-    SliderShow{
-        id:sliderMainShow
-        visible: currentWidgetIndex===2?true:false
+        active: true
         anchors.fill: parent
     }
 
     DropArea {
-        id: dropArea;
-        anchors.fill: parent;
+        id: dropArea
+
+        anchors.fill: parent
+
         onEntered: {
-            background.color = "gray";
-            drag.accept (Qt.CopyAction);
-            console.log("onEntered");
+            background.color = "gray"
+            drag.accept(Qt.CopyAction)
         }
+
         onDropped: {
-            console.log ("onDropped");
-            var DropImagePath =""
-            if(drop.hasUrls){
-                for(var i = 0; i < drop.urls.length; i++){
-                    console.log(drop.urls[i]);
-                    if(fileControl.isImage(drop.urls[i])){
-                        mainView.sourcePaths = fileControl.getDirImagePath(drop.urls[i]);
-                        mainView.source = drop.urls[i]
-                        mainView.currentIndex=mainView.sourcePaths.indexOf(mainView.source)
-                        if(mainView.sourcePaths.length >0){
-                            // 记录当前读取的图片信息
-                            fileControl.resetImageFiles(mainView.sourcePaths)
-
-                            mainView.setThumbnailCurrentIndex(mainView.sourcePaths.indexOf(mainView.source))
-                            console.log( "test",mainView.source)
-                            stackView.currentWidgetIndex= 1
-                        }
-                        i =drop.urls.length
-                        return
-                    }
-                }
+            if (drop.hasUrls && drop.urls.length !== 0) {
+                setSourcePath(drop.urls[0])
             }
-
-
         }
+
         onExited: {
-            bckground.color = "white";
-            console.log ("onExited");
+            background.color = "white"
+            console.log("onExited")
         }
     }
-//    interactive: false
-//    currentIndex: currentWidgetIndex
 
+    Loader {
+        id: fileDialogLoader
+
+        active: false
+        asynchronous: true
+        sourceComponent: FileDialog {
+            id: fileDialog
+
+            title: qsTr("Select pictures")
+            folder: shortcuts.pictures
+            selectMultiple: true
+            nameFilters: ["Image files (*.jpg *.png *.bmp *.gif *.ico *.jpe "
+                + "*.jps *.jpeg *.jng *.koala *.koa *.lbm "
+                + "*.iff *.mng *.pbm *.pbmraw *.pcd *.pcx "
+                + "*.pgm *.pgmraw *.ppm *.ppmraw *.ras *.tga "
+                + "*.targa *.tiff *.tif *.wbmp *.psd *.cut *.xbm "
+                + "*.xpm *.dds *.fax *.g3 *.sgi *.exr *.pct *.pic "
+                + "*.pict *.webp *.jxr *.mrw *.raf *.mef *.raw *.orf "
+                + "*.djvu *.or2 *.icns *.dng *.svg *.nef *.pef *.pxm *.pnm)"]
+
+            onAccepted: {
+                stackView.setSourcePath(fileDialog.fileUrls[0])
+            }
+
+            Component.onCompleted: {
+                fileDialog.open()
+            }
+        }
+    }
+
+    // 快捷键打开帮助手册
+    Shortcut {
+        enabled: true
+        autoRepeat: false
+        sequence: "F1"
+        onActivated: {
+            D.ApplicationHelper.handleHelpAction()
+        }
+    }
+
+    // 打开图片文件
+    Shortcut {
+        sequence: "Ctrl+O"
+        enabled: Number(IV.Types.SliderShowPage) !== GStatus.stackPage && stackView.visible
+        onActivated: {
+            // 不在动画展示状态
+            if (Number(IV.Types.SliderShowPage) !== GStatus.stackPage) {
+                openImageDialog()
+            }
+        }
+    }
+
+    Component.onCompleted: {
+        // main.cpp 从命令行启动时取得命令行参数，判断默认加载界面
+        if (GStatus.stackPage === Number(IV.Types.ImageViewPage)) {
+            switchImageView()
+        } else {
+            switchOpenImage()
+        }
+    }
 }

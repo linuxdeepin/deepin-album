@@ -17,6 +17,7 @@ import "./"
 
 import "./../Control"
 import "./../PreviewImageViewer"
+import "./../PreviewImageViewer/InformationDialog"
 import "./../"
 //本文件用于替代stackwidget的作用，通过改变global的0-n来切换窗口
 
@@ -65,7 +66,7 @@ Item {
     }
 
     //info的窗口
-    InfomationDialog{
+    InformationDialog{
         id: albumInfomationDig
     }
 
@@ -204,7 +205,7 @@ Item {
         autoRepeat: false
         sequence: "Ctrl+Shift+/"
         onActivated: {
-            albumControl.ctrlShiftSlashShortcut(root.x, root.y, root.width, root.height)
+            albumControl.ctrlShiftSlashShortcut(window.x, window.y, window.width, window.height)
         }
     }
 }

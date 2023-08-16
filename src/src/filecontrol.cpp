@@ -3,10 +3,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "filecontrol.h"
+#include "types.h"
 #include "unionimage/unionimage_global.h"
 #include "unionimage/unionimage.h"
 #include "printdialog/printhelper.h"
 #include "ocr/ocrinterface.h"
+#include "imagedata/imageinfo.h"
 
 #include <DSysInfo>
 
@@ -80,18 +82,24 @@ QUrl UrlInfo(QString path)
     return url;
 }
 
-FileControl::FileControl(QObject *parent) : QObject(parent)
+FileControl::FileControl(QObject *parent)
+    : QObject(parent)
 {
     if (!m_ocrInterface) {
         m_ocrInterface = new OcrInterface("com.deepin.Ocr", "/com/deepin/Ocr", QDBusConnection::sessionBus(), this);
     }
 
     m_shortcutViewProcess = new QProcess(this);
-
     m_config = LibConfigSetter::instance();
-    m_pFileWathcer = new QFileSystemWatcher(this);
-    connect(m_pFileWathcer, &QFileSystemWatcher::fileChanged, this, &FileControl::onImageFileChanged);
-    connect(m_pFileWathcer, &QFileSystemWatcher::directoryChanged, this, &FileControl::onImageDirChanged);
+    imageFileWatcher = new ImageFileWatcher(this);
+
+    QObject::connect(imageFileWatcher, &ImageFileWatcher::imageFileChanged, this, &FileControl::imageFileChanged);
+
+    // 在1000ms以内只保存一次配置信息
+    if (!m_tSaveSetting) {
+        m_tSaveSetting = new QTimer(this);
+        connect(m_tSaveSetting, &QTimer::timeout, this, [=]() { saveSetting(); });
+    }
 
     // 实时保存旋转后图片太卡，因此采用10ms后延时保存的问题
     if (!m_tSaveImage) {
@@ -103,54 +111,22 @@ FileControl::FileControl(QObject *parent) : QObject(parent)
         });
     }
 
-    // 在1000ms以内只保存一次配置信息
-    if (!m_tSaveSetting) {
-        m_tSaveSetting = new QTimer(this);
-        connect(m_tSaveSetting, &QTimer::timeout, this, [ = ]() {
-            saveSetting();
-        });
-    }
-
-    m_listsupportWallPaper << "bmp" << "cod" << "png" << "gif" << "ief" << "jpe" << "jpeg" << "jpg"
-                           << "jfif" << "tif" << "tiff";
+    listsupportWallPaper << "bmp"
+                         << "cod"
+                         << "png"
+                         << "gif"
+                         << "ief"
+                         << "jpe"
+                         << "jpeg"
+                         << "jpg"
+                         << "jfif"
+                         << "tif"
+                         << "tiff";
 }
 
 FileControl::~FileControl()
 {
     saveSetting();
-}
-
-QString FileControl::getDirPath(const QString &path)
-{
-    QFileInfo firstFileInfo(path);
-
-    return firstFileInfo.dir().path();
-}
-
-bool FileControl::pathExists(const QString &path)
-{
-    QUrl url(path);
-    return QFileInfo::exists(LibUnionImage_NameSpace::localPath(url));
-}
-
-bool FileControl::haveImage(const QVariantList &urls)
-{
-    for (auto &url : urls) {
-        if (!url.isNull() && isImage(LibUnionImage_NameSpace::localPath(url.toString()))) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool FileControl::haveVideo(const QVariantList &urls)
-{
-    for (auto &url : urls) {
-        if (!url.isNull() && isVideo(url.toString())) {
-            return true;
-        }
-    }
-    return false;
 }
 
 QStringList FileControl::getDirImagePath(const QString &path)
@@ -180,21 +156,12 @@ QStringList FileControl::getDirImagePath(const QString &path)
     return image_list;
 }
 
-QStringList FileControl::removeList(const QStringList &pathlist, int index)
+/**
+   @return 返回文件路径 \a path 所在的文件夹是否为当前监控的文件夹
+ */
+bool FileControl::isCurrentWatcherDir(const QUrl &path)
 {
-    QStringList list = pathlist;
-    list.removeAt(index);
-    return list;
-}
-
-QStringList FileControl::renameOne(const QStringList &pathlist, const  QString &oldPath, const QString &newPath)
-{
-    QStringList list = pathlist;
-    int index = pathlist.indexOf(oldPath);
-    if (index >= 0 && index < pathlist.count()) {
-        list[index] = newPath;
-    }
-    return list;
+    return imageFileWatcher->isCurrentDir(path.toLocalFile());
 }
 
 QString FileControl::getNamePath(const  QString &oldPath, const QString &newName)
@@ -221,6 +188,32 @@ bool FileControl::isVideo(const QString &path)
     // 将传入path路径统一为绝对路径
     QString tmpPath = LibUnionImage_NameSpace::localPath(path);
     return LibUnionImage_NameSpace::isVideo(tmpPath);
+}
+
+bool FileControl::pathExists(const QString &path)
+{
+    QUrl url(path);
+    return QFileInfo::exists(LibUnionImage_NameSpace::localPath(url));
+}
+
+bool FileControl::haveImage(const QVariantList &urls)
+{
+    for (auto &url : urls) {
+        if (!url.isNull() && isImage(LibUnionImage_NameSpace::localPath(url.toString()))) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool FileControl::haveVideo(const QVariantList &urls)
+{
+    for (auto &url : urls) {
+        if (!url.isNull() && isVideo(url.toString())) {
+            return true;
+        }
+    }
+    return false;
 }
 
 int FileControl::photoCount(const QStringList &paths)
@@ -330,15 +323,35 @@ void FileControl::setWallpaper(const QString &imgPath)
 bool FileControl::deleteImagePath(const QString &path)
 {
     QUrl displayUrl = QUrl(path);
-    QDBusInterface interface(QStringLiteral("org.freedesktop.FileManager1"),
-                                 QStringLiteral("/org/freedesktop/FileManager1"),
-                                 QStringLiteral("org.freedesktop.FileManager1"));
+
     if (displayUrl.isValid()) {
         QStringList list;
         list << displayUrl.toString();
-        interface.call("Trash", list).type() != QDBusMessage::ErrorMessage;
+        QDBusInterface interface(QStringLiteral("org.freedesktop.FileManager1"),
+                                 QStringLiteral("/org/freedesktop/FileManager1"),
+                                 QStringLiteral("org.freedesktop.FileManager1"));
+        // 默认超时时间大约25s, 修改为最大限制
+        interface.setTimeout(INT_MAX);
+        auto pendingCall = interface.asyncCall("Trash", list);
+        while (!pendingCall.isFinished()) {
+            qApp->processEvents(QEventLoop::ExcludeUserInputEvents);
+        }
+
+        if (pendingCall.isError()) {
+            auto error = pendingCall.error();
+            qWarning() << "Delete image by dbus error:" << error.name() << error.message();
+            return false;
+        }
+
+        // 删除信息未通过 DBus 返回，直接判断文件是否已被删除
+        if (QFile::exists(displayUrl.toLocalFile())) {
+            qWarning() << "Delete image error, image still exists.";
+            return false;
+        }
+
+        return true;
     }
-    return true;
+    return false;
 }
 
 bool FileControl::displayinFileManager(const QString &path)
@@ -347,14 +360,13 @@ bool FileControl::displayinFileManager(const QString &path)
     QUrl displayUrl = QUrl(path);
 
     QDBusInterface interface(QStringLiteral("org.freedesktop.FileManager1"),
-                                 QStringLiteral("/org/freedesktop/FileManager1"),
-                                 QStringLiteral("org.freedesktop.FileManager1"));
+                             QStringLiteral("/org/freedesktop/FileManager1"),
+                             QStringLiteral("org.freedesktop.FileManager1"));
 
     if (interface.isValid()) {
         QStringList list;
         list << displayUrl.toString();
-        interface.call("ShowItems", list, "").type() != QDBusMessage::ErrorMessage;
-        bRet = true;
+        bRet = interface.call("ShowItems", list, "").type() != QDBusMessage::ErrorMessage;
     }
     return bRet;
 }
@@ -370,9 +382,9 @@ void FileControl::copyImage(const QString &path)
     QMimeData *newMimeData = new QMimeData();
 
     // Copy old mimedata
-//    const QMimeData* oldMimeData = cb->mimeData();
-//    for ( const QString &f : oldMimeData->formats())
-//        newMimeData->setData(f, oldMimeData->data(f));
+    //    const QMimeData* oldMimeData = cb->mimeData();
+    //    for ( const QString &f : oldMimeData->formats())
+    //        newMimeData->setData(f, oldMimeData->data(f));
 
     // Copy file (gnome)
     QByteArray gnomeFormat = QByteArray("copy\n");
@@ -384,19 +396,18 @@ void FileControl::copyImage(const QString &path)
     dataUrls << QUrl::fromLocalFile(localPath);
     gnomeFormat.append(QUrl::fromLocalFile(localPath).toEncoded()).append("\n");
 
-
     newMimeData->setText(text.endsWith('\n') ? text.left(text.length() - 1) : text);
     newMimeData->setUrls(dataUrls);
     gnomeFormat.remove(gnomeFormat.length() - 1, 1);
     newMimeData->setData("x-special/gnome-copied-files", gnomeFormat);
 
     // Copy Image Date
-//    QImage img(paths.first());
-//    Q_ASSERT(!img.isNull());
-//    newMimeData->setImageData(img);
+    //    QImage img(paths.first());
+    //    Q_ASSERT(!img.isNull());
+    //    newMimeData->setImageData(img);
 
     // Set the mimedata
-//    cb->setMimeData(newMimeData);
+    //    cb->setMimeData(newMimeData);
     cb->setMimeData(newMimeData, QClipboard::Clipboard);
 }
 
@@ -424,6 +435,11 @@ void FileControl::copyImage(const QStringList &paths)
 
     // Set the mimedata
     cb->setMimeData(newMimeData, QClipboard::Clipboard);
+}
+
+void FileControl::copyText(const QString &str)
+{
+    qApp->clipboard()->setText(str);
 }
 
 bool FileControl::isRotatable(const QStringList &pathList)
@@ -456,7 +472,7 @@ bool FileControl::isCanWrite(const QString &path)
 {
     QString localPath = LibUnionImage_NameSpace::localPath(path);
     QFileInfo info(localPath);
-    bool bRet = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable(); //是否可写
+    bool bRet = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();  //是否可写
     return bRet;
 }
 
@@ -479,20 +495,36 @@ bool FileControl::isCanDelete(const QString &path)
     bool isAlbum = false;
     QString localPath = LibUnionImage_NameSpace::localPath(path);
     QFileInfo info(localPath);
-    bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable(); //是否可写
-    bool isReadable = info.isReadable() ; //是否可读
+    bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();  //是否可写
+    bool isReadable = info.isReadable();                                                           //是否可读
     imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(localPath);
-    if ((imageViewerSpace::PathTypeAPPLE != pathType &&
-            imageViewerSpace::PathTypeSAFEBOX != pathType &&
-            imageViewerSpace::PathTypeRECYCLEBIN != pathType &&
-            imageViewerSpace::PathTypeMTP != pathType &&
-            imageViewerSpace::PathTypePTP != pathType &&
-            isWritable && isReadable) || (isAlbum && isWritable)) {
+    if ((imageViewerSpace::PathTypeAPPLE != pathType && imageViewerSpace::PathTypeSAFEBOX != pathType &&
+         imageViewerSpace::PathTypeRECYCLEBIN != pathType && imageViewerSpace::PathTypeMTP != pathType &&
+         imageViewerSpace::PathTypePTP != pathType && isWritable && isReadable) ||
+        (isAlbum && isWritable)) {
         bRet = true;
     } else {
         bRet = false;
     }
     return bRet;
+}
+
+void FileControl::ocrImage(const QString &path, int index)
+{
+    QString localPath = QUrl(path).toLocalFile();
+    // 此处借用已取得的缓存信息，一般状态下，调用OCR前已完成图像的加载
+    ImageInfo info(path);
+
+    if (Types::MultiImage != info.type()) {  // 非多页图使用路径直接进行识别
+        m_ocrInterface->openFile(localPath);
+    } else {  // 多页图需要确定识别哪一页
+        QImageReader imageReader(localPath);
+        imageReader.jumpToImage(index);
+        auto image = imageReader.read();
+        auto tempFileName = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + QDir::separator() + "rec.png";
+        image.save(tempFileName);
+        m_ocrInterface->openFile(tempFileName);
+    }
 }
 
 bool FileControl::isCanPrint(const QStringList &pathList)
@@ -512,19 +544,6 @@ bool FileControl::isCanPrint(const QString &path)
 {
     QFileInfo info(LibUnionImage_NameSpace::localPath(path));
     return isImage(path) && info.isReadable();
-}
-
-bool FileControl::isFile(const QString &path)
-{
-    QString localPath = LibUnionImage_NameSpace::localPath(path);
-    return QFileInfo(localPath).isFile();
-}
-
-void FileControl::ocrImage(const QString &path)
-{
-    slotRotatePixCurrent();
-    QString localPath = LibUnionImage_NameSpace::localPath(path);
-    m_ocrInterface->openFile(localPath);
 }
 
 QStringList FileControl::parseCommandlineGetPaths()
@@ -550,28 +569,136 @@ QStringList FileControl::parseCommandlineGetPaths()
     return validPaths;
 }
 
-bool FileControl::isDynamicImage(const QString &path)
+/**
+   @brief 将传入的图片文件 \a path 旋转 \a angle 角度后保存，覆写文件
+ */
+void FileControl::rotateImageFile(const QString &path, int angle)
+{
+    angle = angle % 360;
+    if (0 != angle) {
+        // 20211019修改：特殊位置不执行写入操作
+        imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(path);
+
+        if (pathType != imageViewerSpace::PathTypeMTP && pathType != imageViewerSpace::PathTypePTP &&  //安卓手机
+            pathType != imageViewerSpace::PathTypeAPPLE &&                                             //苹果手机
+            pathType != imageViewerSpace::PathTypeSAFEBOX &&                                           //保险箱
+            pathType != imageViewerSpace::PathTypeRECYCLEBIN) {                                        //回收站
+            QString errorMsg;
+            if (!LibUnionImage_NameSpace::rotateImageFIle(angle, path, errorMsg)) {
+                qWarning() << QString("Rotate image file failed!, error: %1").arg(errorMsg);
+            } else {
+                // NOTE：处理成功，过滤旋转操作文件更新，旋转图像已在软件中缓存且旋转状态同步，不再从文件中更新读取
+                imageFileWatcher->recordRotateImage(path);
+            }
+
+            // 保存文件后发送图片更新更新信号，通过监控文件变更触发
+        }
+    }
+}
+
+QString FileControl::slotGetFileName(const QString &path)
+{
+    QString tmppath = LibUnionImage_NameSpace::localPath(path);
+
+    QFileInfo info(tmppath);
+    return info.completeBaseName();
+}
+
+QString FileControl::slotGetFileNameSuffix(const QString &path)
+{
+    QString tmppath = LibUnionImage_NameSpace::localPath(path);
+
+    QFileInfo info(tmppath);
+    return info.fileName();
+}
+
+QString FileControl::slotGetInfo(const QString &key, const QString &path)
+{
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
+    if (localPath != m_currentPath) {
+        m_currentPath = localPath;
+        m_currentAllInfo = LibUnionImage_NameSpace::getAllMetaData(localPath);
+    }
+
+    QString returnString = m_currentAllInfo.value(key);
+    if (returnString.isEmpty()) {
+        returnString = "-";
+    }
+
+    return returnString;
+}
+
+bool FileControl::slotFileReName(const QString &name, const QString &filepath, bool isSuffix)
+{
+    QString localPath = LibUnionImage_NameSpace::localPath(filepath);
+    QFile file(localPath);
+    if (file.exists()) {
+        QFileInfo info(localPath);
+        QString path = info.path();
+        QString suffix = info.suffix();
+        QString _newName;
+        if (isSuffix) {
+            _newName = path + "/" + name;
+        } else {
+            _newName = path + "/" + name + "." + suffix;
+        }
+
+        if (file.rename(_newName)) {
+            imageFileWatcher->fileRename(localPath, _newName);
+
+            Q_EMIT imageRenamed(QUrl::fromLocalFile(localPath), QUrl::fromLocalFile(_newName));
+            return true;
+        }
+
+        return false;
+    }
+    return false;
+}
+
+QString FileControl::slotFileSuffix(const QString &path, bool ret)
+{
+    QString returnSuffix = "";
+
+    QString localPath = LibUnionImage_NameSpace::localPath(path);
+    if (!path.isEmpty() && QFile::exists(localPath)) {
+        QString tmppath = path;
+        QFileInfo info(tmppath);
+        if (ret) {
+            returnSuffix = "." + info.completeSuffix();
+        } else {
+            returnSuffix = info.completeSuffix();
+        }
+    }
+
+    return returnSuffix;
+}
+
+bool FileControl::isShowToolTip(const QString &oldPath, const QString &name)
 {
     bool bRet = false;
-    QString localPath = LibUnionImage_NameSpace::localPath(path);
+    QString path = LibUnionImage_NameSpace::localPath(oldPath);
+    QFileInfo fileinfo(path);
+    QString DirPath = fileinfo.path();
+    QString filename = fileinfo.completeBaseName();
+    if (filename == name)
+        return false;
 
-    imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
-    if (imageViewerSpace::ImageTypeDynamic == type) {
+    QString format = fileinfo.suffix();
+
+    QString fileabname = DirPath + "/" + name + "." + format;
+    QFile file(fileabname);
+    if (file.exists() && fileabname != path) {
         bRet = true;
+    } else {
+        bRet = false;
     }
     return bRet;
 }
 
-bool FileControl::isNormalStaticImage(const QString &path)
+void FileControl::showPrintDialog(const QString &path)
 {
-    bool bRet = false;
-    QString localPath = LibUnionImage_NameSpace::localPath(path);
-
-    imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
-    if (imageViewerSpace::ImageTypeStatic == type || imageViewerSpace::ImageTypeMulti == type) {
-        bRet = true;
-    }
-    return bRet;
+    QString oldPath = LibUnionImage_NameSpace::localPath(path);
+    PrintHelper::getIntance()->showPrintDialog(QStringList(oldPath));
 }
 
 bool FileControl::rotateFile(const QStringList &pathList, const int &rotateAngel)
@@ -637,209 +764,6 @@ void FileControl::slotRotatePixCurrent(bool bNotifyExternal/* = false*/)
     m_rotateAngel = 0;
 }
 
-bool FileControl::isReverseHeightWidth()
-{
-    // 判断当前旋转角度是否存在垂直方向的旋转
-    return bool(m_rotateAngel % 180);
-}
-
-int FileControl::currentAngle()
-{
-    return m_rotateAngel;
-}
-
-QString FileControl::slotGetFileName(const QString &path)
-{
-    QString tmppath = LibUnionImage_NameSpace::localPath(path);
-
-    QFileInfo info(tmppath);
-    return info.completeBaseName();
-}
-
-QString FileControl::slotGetFileNameSuffix(const QString &path)
-{
-    QString tmppath = LibUnionImage_NameSpace::localPath(path);
-
-    QFileInfo info(tmppath);
-    return info.fileName();
-}
-
-QString FileControl::slotGetFileLocalPath(const QString &path)
-{
-    return LibUnionImage_NameSpace::localPath(path);
-}
-
-QString FileControl::slotGetInfo(const QString &key, const QString &path)
-{
-    QString localpath = LibUnionImage_NameSpace::localPath(path);
-    if (localpath != m_currentPath) {
-        setCurrentImage(path);
-    }
-    QString returnString = m_currentAllInfo.value(key);
-    if (returnString.isEmpty()) {
-        returnString = "-";
-    }
-
-    return returnString;
-}
-
-
-bool FileControl::slotFileReName(const QString &name, const QString &filepath, bool isSuffix)
-{
-    QString localPath = LibUnionImage_NameSpace::localPath(filepath);
-    QFile file(localPath);
-    if (file.exists()) {
-        QFileInfo info(localPath);
-        QString path = info.path();
-        QString suffix = info.suffix();
-        QString _newName ;
-        if (isSuffix) {
-            _newName  = path + "/" + name;
-        } else {
-            _newName  = path + "/" + name + "." + suffix;
-        }
-
-        if (file.rename(_newName)) {
-            fileRenamed = localPath;
-            return true;
-        }
-
-        return false;
-    }
-    return false;
-}
-
-QString FileControl::slotFileSuffix(const QString &path, bool ret)
-{
-    QString returnSuffix = "";
-
-    QString localPath = LibUnionImage_NameSpace::localPath(path);
-    if (!path.isEmpty() && QFile::exists(localPath)) {
-        QString tmppath = path;
-        QFileInfo info(tmppath);
-        if (ret) {
-            returnSuffix = "." + info.completeSuffix();
-        } else {
-            returnSuffix = info.completeSuffix();
-        }
-    }
-
-    return returnSuffix;
-}
-
-void FileControl::setCurrentImage(const QString &path)
-{
-    QString localPath = LibUnionImage_NameSpace::localPath(path);
-
-    if (m_currentReader) {
-        delete m_currentReader;
-        m_currentReader = nullptr;
-    }
-    m_currentReader = new QImageReader(localPath);
-
-    m_currentAllInfo = LibUnionImage_NameSpace::getAllMetaData(localPath);
-}
-
-/**
- * @brief 设置当前图片的帧号 \a index , 用于多页图切换不同图片。
- * @param index 图片帧号
- */
-void FileControl::setCurrentFrameIndex(int index)
-{
-    if (m_currentReader) {
-        m_currentReader->jumpToImage(index);
-    }
-}
-
-int FileControl::getCurrentImageWidth()
-{
-    if (isReverseHeightWidth()) {
-        int height = -1;
-        if (m_currentReader) {
-            height = m_currentReader->size().height();
-            if (height <= 0)
-                height = m_currentAllInfo.value("Height").toInt();
-        }
-        return height;
-    }
-
-    int width = -1;
-    if (m_currentReader) {
-        width = m_currentReader->size().width();
-        if (width <= 0)
-            width = m_currentAllInfo.value("Width").toInt();
-    }
-
-    return width;
-}
-
-int FileControl::getCurrentImageHeight()
-{
-    if (isReverseHeightWidth()) {
-        int width = -1;
-        if (m_currentReader) {
-            width = m_currentReader->size().width();
-            if (width <= 0)
-                width = m_currentAllInfo.value("Width").toInt();
-        }
-
-        return width;
-    }
-
-    int height = -1;
-    if (m_currentReader) {
-        height = m_currentReader->size().height();
-        if (height <= 0)
-            height = m_currentAllInfo.value("Height").toInt();
-    }
-    return height;
-}
-
-double FileControl::getFitWindowScale(double WindowWidth, double WindowHeight)
-{
-    double scale = 0.0;
-    double width = getCurrentImageWidth();
-    double height = getCurrentImageHeight();
-    double scaleWidth = width / WindowWidth;
-    double scaleHeight = height / WindowHeight;
-
-    if (scaleWidth > scaleHeight) {
-        scale = scaleWidth;
-    } else {
-        scale = scaleHeight;
-    }
-
-    return scale;
-}
-
-bool FileControl::isShowToolTip(const QString &oldPath, const QString &name)
-{
-    bool bRet = false;
-    QString path = LibUnionImage_NameSpace::localPath(oldPath);
-    QFileInfo fileinfo(path);
-    QString DirPath = fileinfo.path();
-    QString filename = fileinfo.completeBaseName();
-    if (filename == name)
-        return false;
-
-    QString format = fileinfo.suffix();
-
-    QString fileabname = DirPath + "/" + name + "." + format;
-    QFile file(fileabname);
-    if (file.exists() && fileabname != path) {
-        bRet = true;
-    } else {
-        bRet = false;
-    }
-    return bRet;
-}
-
-void FileControl::showPrintDialog(const QString &path)
-{
-    QString oldPath = LibUnionImage_NameSpace::localPath(path);
-    PrintHelper::getIntance()->showPrintDialog(QStringList(oldPath));
-}
-
 void FileControl::showPrintDialog(const QStringList &paths)
 {
     QStringList localPaths ;
@@ -859,21 +783,22 @@ void FileControl::setConfigValue(const QString &group, const QString &key, const
     m_config->setValue(group, key, value);
 }
 
-bool FileControl::containsConfigValue(const QString &group, const QString &key)
-{
-    return m_config->contains(group, key);
-}
-
 int FileControl::getlastWidth()
 {
     int reWidth = 0;
     int defaultW = 0;
 
     QDesktopWidget *dw = QApplication::desktop();
-    if (double(dw->screenGeometry().width()) * 0.60 < MAINWIDGET_MINIMUN_WIDTH) {
+    if (double(dw->geometry().width()) * 0.60 < MAINWIDGET_MINIMUN_WIDTH) {
         defaultW = MAINWIDGET_MINIMUN_WIDTH;
     } else {
-        defaultW = int(double(dw->screenGeometry().width()) * 0.60);
+        // 多屏下仅采用单个屏幕处理， 使用主屏的参考宽度计算
+        QScreen *screen = QGuiApplication::primaryScreen();
+        if (QGuiApplication::screens().size() > 1 && screen) {
+            defaultW = int(double(screen->size().width()) * 0.60);
+        } else {
+            defaultW = int(double(dw->geometry().width()) * 0.60);
+        }
     }
 
     const int ww = getConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
@@ -889,10 +814,16 @@ int FileControl::getlastHeight()
     int defaultH = 0;
 
     QDesktopWidget *dw = QApplication::desktop();
-    if (double(dw->screenGeometry().height()) * 0.60 < MAINWIDGET_MINIMUN_HEIGHT) {
+    if (double(dw->geometry().height()) * 0.60 < MAINWIDGET_MINIMUN_HEIGHT) {
         defaultH = MAINWIDGET_MINIMUN_HEIGHT;
     } else {
-        defaultH = int(double(dw->screenGeometry().height()) * 0.60);
+        // 多屏下仅采用单个屏幕处理， 使用主屏的参考高度计算
+        QScreen *screen = QGuiApplication::primaryScreen();
+        if (QGuiApplication::screens().size() > 1 && screen) {
+            defaultH = int(double(screen->size().height()) * 0.60);
+        } else {
+            defaultH = int(double(dw->geometry().height()) * 0.60);
+        }
     }
     const int wh = getConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(defaultH)).toInt();
 
@@ -904,7 +835,6 @@ int FileControl::getlastHeight()
 void FileControl::setSettingWidth(int width)
 {
     m_windowWidth = width;
-//    setConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, m_windowWidth);
     m_tSaveSetting->setSingleShot(true);
     m_tSaveSetting->start(1000);
 }
@@ -914,8 +844,6 @@ void FileControl::setSettingHeight(int height)
     m_windowHeight = height;
     m_tSaveSetting->setSingleShot(true);
     m_tSaveSetting->start(1000);
-//    setConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, m_windowHeight);
-
 }
 
 void FileControl::setEnableNavigation(bool b)
@@ -946,8 +874,7 @@ bool FileControl::isSupportSetWallpaper(const QString &path)
     QFileInfo fileinfo(path1);
     QString format = fileinfo.suffix().toLower();
     // 设置为壁纸需要判断是否有读取权限
-    if (m_listsupportWallPaper.contains(format)
-            && fileinfo.isReadable()) {
+    if (listsupportWallPaper.contains(format) && fileinfo.isReadable()) {
         return true;
     }
     return false;
@@ -955,7 +882,7 @@ bool FileControl::isSupportSetWallpaper(const QString &path)
 
 bool FileControl::isCheckOnly()
 {
-    //single
+    // single
     QString userName = QDir::homePath().section("/", -1, -1);
     QString appName = "deepin-image-viewer";
     if (m_viewerType == imageViewerSpace::ImgViewerTypeAlbum) {
@@ -964,8 +891,8 @@ bool FileControl::isCheckOnly()
     std::string path = ("/home/" + userName + "/.cache/deepin/" + appName + "/").toStdString();
     QDir tdir(path.c_str());
     if (!tdir.exists()) {
-        bool ret =  tdir.mkpath(path.c_str());
-        qDebug() << ret ;
+        bool ret = tdir.mkpath(path.c_str());
+        qDebug() << ret;
     }
 
     path += "single";
@@ -999,13 +926,11 @@ bool FileControl::isCanRename(const QString &path)
 {
     bool bRet = false;
     QString localPath = LibUnionImage_NameSpace::localPath(path);
-    imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(localPath);//路径类型
+    imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(localPath);  //路径类型
     QFileInfo info(localPath);
-    bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable(); //是否可写
-    if (info.isReadable() && isWritable &&
-            imageViewerSpace::PathTypeMTP != pathType &&
-            imageViewerSpace::PathTypePTP != pathType &&
-            imageViewerSpace::PathTypeAPPLE != pathType) {
+    bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();  //是否可写
+    if (info.isReadable() && isWritable && imageViewerSpace::PathTypeMTP != pathType &&
+        imageViewerSpace::PathTypePTP != pathType && imageViewerSpace::PathTypeAPPLE != pathType) {
         bRet = true;
     }
     return bRet;
@@ -1022,86 +947,16 @@ bool FileControl::isCanReadable(const QString &path)
     return bRet;
 }
 
-bool FileControl::isSvgImage(const QString &path)
-{
-    bool bRet = false;
-    QString localPath = LibUnionImage_NameSpace::localPath(path);
-    imageViewerSpace::ImageType imgType = LibUnionImage_NameSpace::getImageType(localPath);
-    if (imgType == imageViewerSpace::ImageTypeSvg) {
-        bRet = true;
-    }
-    return bRet;
-}
-
-
 /**
- * @return 根据传入的文件路径 \a path 读取判断文件是否为多页图，
- *      会在排除 *.gif 等动态图后判断, 例如 .tif 等文件格式。
- */
-bool FileControl::isMultiImage(const QString &path)
-{
-    bool bRet = false;
-    QString localPath = LibUnionImage_NameSpace::localPath(path);
-    imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
-    if (imageViewerSpace::ImageTypeMulti == type) {
-        bRet = true;
-    }
-
-    return bRet;
-}
-
-/**
- * @brief 根据传入的文件路径 \a path 读取判断文件是否存在
- */
-bool FileControl::imageIsExist(const QString &path)
-{
-    QString localPath = LibUnionImage_NameSpace::localPath(path);
-    return QFile::exists(localPath);
-}
-
-/**
- * @return 返回当前图片 \a path 的总页数，对动态图片或*.tif 等多页图有效。
- */
-int FileControl::getImageCount(const QString &path)
-{
-    QString localPath = LibUnionImage_NameSpace::localPath(path);
-    if (!localPath.isEmpty()) {
-        QImageReader imgreader(localPath);
-        return imgreader.imageCount();
-    }
-    return 0;
-}
-
-/**
- * @brief 根据传入的文件路径列表 \a filePaths 重设缓存的文件信息，记录每个文件的最后修改时间，
+* @brief 根据传入的文件路径列表 \a filePaths 重设缓存的文件信息，
  *      若在图片打开过程中文件被修改，将发送信号至界面或其它处理。
  */
 void FileControl::resetImageFiles(const QStringList &filePaths)
 {
-    // 清空缓存的文件路径信息
-    m_cacheFileInfo.clear();
-    m_removedFile.clear();
-    m_pFileWathcer->removePaths(m_pFileWathcer->files());
-    m_pFileWathcer->removePaths(m_pFileWathcer->directories());
-
-    for (const QString &filePath : filePaths) {
-        QString tempPath = LibUnionImage_NameSpace::localPath(filePath);
-        QFileInfo info(tempPath);
-        // 若文件存在
-        if (info.exists()) {
-            // 记录文件的最后修改时间
-            m_cacheFileInfo.insert(tempPath, filePath);
-            // 将文件追加到记录中
-            m_pFileWathcer->addPath(tempPath);
-        }
-    }
-
-    QStringList fileList = m_pFileWathcer->files();
-    if (!fileList.isEmpty()) {
-        // 观察文件夹变更
-        QFileInfo info(fileList.first());
-        m_pFileWathcer->addPath(info.absolutePath());
-    }
+    // 变更监控的文件
+    imageFileWatcher->resetImageFiles(filePaths);
+    // 清理缩略图缓存记录
+    ImageInfo::clearCache();
 }
 
 /**
@@ -1111,59 +966,6 @@ QUrl FileControl::getCompanyLogo()
 {
     QString logoPath = DSysInfo::distributionOrgLogo(DSysInfo::Distribution, DSysInfo::Light, ":/assets/images/deepin-logo.svg");
     return QUrl::fromLocalFile(logoPath);
-}
-
-/**
- * @brief 当文件 \a file 被移动、替换、删除时触发
- * @note QFileSystemWatcher 会在文件被移动、删除后取消观察，恢复文件时需要通过
- *      onImageDirChanged() 复位观察状态。
- */
-void FileControl::onImageFileChanged(const QString &file)
-{
-    if (file == fileRenamed) {
-        fileRenamed.clear();
-        return;
-    }
-
-    // 文件移动、删除或替换后触发
-    if (m_cacheFileInfo.contains(file)) {
-        QString url = m_cacheFileInfo.value(file);
-        bool isExist = QFile::exists(file);
-        // 判断是否为多页图
-        bool isMulti = isExist ? isMultiImage(url) : false;
-        // 文件移动或删除，缓存记录
-        if (!isExist) {
-            m_removedFile.insert(file, url);
-        }
-
-        // 发送文件变更信号，请求重新加载缓存
-        emit requestImageFileChanged(url, isMulti, isExist);
-    }
-}
-
-/**
- * @brief 当图片文件夹 \a dir 变更时触发，主要用于恢复已被删除图片的状态。
- */
-void FileControl::onImageDirChanged(const QString &dir)
-{
-    // 文件夹变更，判断是否存在新增已移除的文件
-    QDir imageDir(dir);
-    QStringList dirFiles = imageDir.entryList();
-
-    for (auto itr = m_removedFile.begin(); itr != m_removedFile.end();) {
-        QFileInfo info(itr.key());
-        if (dirFiles.contains(info.fileName())) {
-            // 重新追加到文件观察中
-            m_pFileWathcer->addPath(itr.key());
-            // 文件恢复或替换，发布文件变更信息
-            onImageFileChanged(itr.key());
-
-            // 从缓存信息中移除
-            itr = m_removedFile.erase(itr);
-        } else {
-            ++itr;
-        }
-    }
 }
 
 void FileControl::terminateShortcutPanelProcess()
@@ -1345,19 +1147,6 @@ bool FileControl::isAlbum()
         bRet = true;
     }
     return bRet;
-}
-
-bool FileControl::dirCanWrite(const QString &path)
-{
-    bool ret = false;
-    QFileInfo info(LibUnionImage_NameSpace::localPath(path));
-    if (info.isSymLink()) {
-        info = QFileInfo(info.readLink());
-    }
-    if (QFileInfo(info.dir(), info.dir().path()).isWritable()) {
-        ret = true;
-    }
-    return ret;
 }
 
 bool FileControl::checkMimeUrls(const QList<QUrl> &urls)

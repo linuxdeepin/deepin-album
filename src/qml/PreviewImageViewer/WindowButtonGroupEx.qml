@@ -99,7 +99,7 @@ RowLayout {
             }
             else {
                 global.stackControlCurrent = 0
-                root.title = ""
+                window.title = ""
             }
         }
     }

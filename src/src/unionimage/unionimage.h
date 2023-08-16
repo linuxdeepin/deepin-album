@@ -1,5 +1,4 @@
-// Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -148,6 +147,13 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, co
  * 获取图片的所有数据,包括创建时间、修改时间、大小等
  */
 UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &path);
+
+/**
+   @brief 读取文件数据取得文件大小
+   @param imagepath 文件路径
+   @return 文件大小
+ */
+UNIONIMAGESHARED_EXPORT QSize getImageSize(const QString &imagepath);
 
 /**
  * @brief isImageSupportRotate

@@ -1,5 +1,4 @@
-// Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -31,6 +30,9 @@
 
 const QString DATETIME_FORMAT_NORMAL = "yyyy.MM.dd";
 const QString DATETIME_FORMAT_EXIF = "yyyy:MM:dd HH:mm";
+
+// 提供用于非线程安全函数 FreeImage_TagToString() 访问限制的锁
+Q_GLOBAL_STATIC(QMutex, g_freeImageTagToStringMutex);
 
 namespace LibUnionImage_NameSpace {
 
@@ -341,20 +343,25 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getMetaData(FREE_IMAGE_MDMODEL mo
 {
     QMap<QString, QString> mdMap;  // key-data
 
-    //有时候会存在tag为野指针的情况，根据FreeImage的demo，需要加这个进行预判断
-    if (FreeImage_GetMetadataCount(model, dib) == 0) {
-        return mdMap;
-    }
+    if (FreeImage_GetMetadataCount(model, dib) > 0) {
+        FITAG *tag = nullptr;
+        FIMETADATA *mdhandle = nullptr;
+        mdhandle = FreeImage_FindFirstMetadata(model, dib, &tag);
+        if (mdhandle) {
+            do {
+                QString value;
+                // FreeImage_TagToString非线程安全，使用前加锁保护
+                QMutex *mutex = g_freeImageTagToStringMutex;
+                if (mutex) {
+                    mutex->lock();
+                    value = QString(FreeImage_TagToString(model, tag));
+                    mutex->unlock();
+                }
 
-    FITAG *tag = nullptr;
-    FIMETADATA *mdhandle = nullptr;
-    mdhandle = FreeImage_FindFirstMetadata(model, dib, &tag);
-    if (mdhandle) {
-        do {
-            mdMap.insert(FreeImage_GetTagKey(tag),
-                         FreeImage_TagToString(model, tag));
-        } while (FreeImage_FindNextMetadata(mdhandle, &tag));
-        FreeImage_FindCloseMetadata(mdhandle);
+                mdMap.insert(FreeImage_GetTagKey(tag), value);
+            } while (FreeImage_FindNextMetadata(mdhandle, &tag));
+            FreeImage_FindCloseMetadata(mdhandle);
+        }
     }
     return mdMap;
 }
@@ -1243,6 +1250,20 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
     return admMap;
 }
 
+UNIONIMAGESHARED_EXPORT QSize getImageSize(const QString &imagepath)
+{
+    QSize size;
+    FIBITMAP *dib = readFile2FIBITMAP(imagepath, FIF_LOAD_NOPIXELS);
+    if (dib) {
+        size.setWidth(static_cast<int>(FreeImage_GetWidth(dib)));
+        size.setHeight(static_cast<int>(FreeImage_GetHeight(dib)));
+
+        FreeImage_Unload(dib);
+    }
+
+    return size;
+}
+
 UNIONIMAGESHARED_EXPORT bool isImageSupportRotate(const QString &path)
 {
     return canSave(path) ;
@@ -1450,9 +1471,9 @@ imageViewerSpace::ImageType getImageType(const QString &imagepath)
         QMimeType mt1 = db.mimeTypeForFile(imagepath, QMimeDatabase::MatchExtension);
         QString path1 = mt.name();
         QString path2 = mt1.name();
-        int nSize = -1;
+
         QImageReader imgreader(imagepath);
-        nSize = imgreader.imageCount();
+        int nSize = imgreader.imageCount();
         //
         if (strType == "svg" && QSvgRenderer().load(imagepath)) {
             type = imageViewerSpace::ImageTypeSvg;

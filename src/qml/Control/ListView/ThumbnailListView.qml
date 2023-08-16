@@ -165,9 +165,9 @@ Item {
                 for(var i = 0 ; i< thumbnailListModel.count ; i++){
                     openPaths.push(thumbnailListModel.get(i).url.toString())
                 }
-                mainStack.sourcePaths = openPaths
-                mainStack.currentIndex = theView.ism[0]
-                mainStack.currentWidgetIndex = 1
+                GControl.setImageFiles(openPaths, openPaths[theView.ism[0]])
+                fileControl.resetImageFiles(openPaths)
+                mainStack.switchImageView()
                 global.stackControlCurrent = 1
             }
         }
@@ -175,16 +175,15 @@ Item {
 
     // 执行全屏预览
     function executeFullScreen() {
-        if (root.visibility !== Window.FullScreen && selectedPaths.length !== 0) {
+        if (window.visibility !== Window.FullScreen && selectedPaths.length !== 0) {
             showFullScreen()
             var openPaths = []
             for(var i=0 ; i< thumbnailListModel.count; i++){
                 openPaths.push(thumbnailListModel.get(i).url.toString())
             }
-            mainStack.sourcePaths = openPaths
-            mainStack.currentIndex = -1
-            mainStack.currentIndex = theView.ism[0]
-            mainStack.currentWidgetIndex = 1
+            GControl.setImageFiles(openPaths, openPaths[theView.ism[0]])
+            fileControl.resetImageFiles(openPaths)
+            mainStack.switchImageView()
             global.stackControlLastCurrent = global.stackControlCurrent
             global.stackControlCurrent = 1
         }
@@ -627,10 +626,7 @@ Item {
                             for(var i=0 ; i< thumbnailListModel.count ; i++){
                                 openPaths.push(thumbnailListModel.get(i).url.toString())
                             }
-                            mainStack.sourcePaths = openPaths
-                            mainStack.currentIndex = -1
-                            mainStack.currentIndex = theView.ism[0]
-                            mainStack.currentWidgetIndex = 1
+                            GControl.setImageFiles(openPaths, openPaths[theView.ism[0]])
                             global.stackControlCurrent = 1
 
                             // 记录当前读取的图片信息，用于监控文件变更

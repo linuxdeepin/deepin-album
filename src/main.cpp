@@ -18,8 +18,15 @@
 #include "thumbnailview/roles.h"
 #include "thumbnailview/imagedatamodel.h"
 #include "thumbnailview/thumbnailmodel.h"
-#include "thumbnailview/types.h"
+#include "types.h"
 #include "thumbnailview/qimageitem.h"
+
+#include "declarative/mousetrackitem.h"
+#include "globalcontrol.h"
+#include "globalstatus.h"
+#include "imagedata/imageinfo.h"
+#include "imagedata/imagesourcemodel.h"
+#include "imagedata/imageprovider.h"
 
 #include <dapplicationhelper.h>
 #include <DApplication>
@@ -86,49 +93,90 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("imageDataService", ImageDataService::instance());
 
-    FileControl *fileControl = new FileControl();
-    engine.rootContext()->setContextProperty("fileControl", fileControl);
-    // 关联文件处理（需要保证优先处理，onImageFileChanged已做多线程安全）
-    QObject::connect(fileControl, &FileControl::requestImageFileChanged,
-    load, [&](const QString & filePath, bool isMultiImage, bool isExist) {
-        // 更新缓存信息
-        load->onImageFileChanged(filePath, isMultiImage, isExist);
-        // 处理完成后加载图片
-        emit fileControl->imageFileChanged(filePath, isMultiImage, isExist);
-    });
+    // QML全局单例
+    GlobalControl control;
+    engine.rootContext()->setContextProperty("GControl", &control);
+    GlobalStatus status;
+    engine.rootContext()->setContextProperty("GStatus", &status);
+
+    FileControl fileControl;
+    engine.rootContext()->setContextProperty("fileControl", &fileControl);
 
     // 光标位置查询工具
     CursorTool *cursorTool = new CursorTool();
     engine.rootContext()->setContextProperty("cursorTool", cursorTool);
 
+    // 后端缩略图加载，由 QMLEngine 管理生命周期
+    // 部分平台支持线程数较低时，使用同步加载
+    ProviderCache *providerCache = nullptr;
+    if (!GlobalControl::enableMultiThread()) {
+        ImageProvider *imageProvider = new ImageProvider;
+        engine.addImageProvider(QLatin1String("ImageLoad"), imageProvider);
+
+        providerCache = static_cast<ProviderCache *>(imageProvider);
+    } else {
+        AsyncImageProvider *asyncImageProvider = new AsyncImageProvider;
+        engine.addImageProvider(QLatin1String("ImageLoad"), asyncImageProvider);
+
+        providerCache = static_cast<ProviderCache *>(asyncImageProvider);
+    }
+
+    ThumbnailProvider *multiImageLoad = new ThumbnailProvider;
+    engine.addImageProvider(QLatin1String("ThumbnailLoad"), multiImageLoad);
+
+    // 关联各组件
+    // 提交图片旋转信息到文件，覆写文件
+    QObject::connect(
+        &control, &GlobalControl::requestRotateImage, &fileControl, &FileControl::rotateImageFile, Qt::DirectConnection);
+    // 图片旋转时更新图像缓存
+    QObject::connect(&control, &GlobalControl::requestRotateCacheImage, [&]() {
+        providerCache->rotateImageCached(control.currentRotation(), control.currentSource().toLocalFile());
+    });
+
+    status.setEnableNavigation(fileControl.isEnableNavigation());
+    QObject::connect(
+        &status, &GlobalStatus::enableNavigationChanged, [&]() { fileControl.setEnableNavigation(status.enableNavigation()); });
+    QObject::connect(&fileControl, &FileControl::imageRenamed, &control, &GlobalControl::renameImage);
+    // 文件变更时清理缓存
+    QObject::connect(&fileControl, &FileControl::imageFileChanged, [&](const QString &fileName) {
+        providerCache->removeImageCache(fileName);
+    });
+
+    //设置为相册模式
+    fileControl.setViewerType(imageViewerSpace::ImgViewerTypeAlbum);
+
     //禁止多开
-    if (!fileControl->isCheckOnly()) {
+    if (!fileControl.isCheckOnly()) {
         return 0;
     }
 
     //新增相册控制模块
     engine.rootContext()->setContextProperty("albumControl", AlbumControl::instance());
 
-    //设置为相册模式
-    fileControl->setViewerType(imageViewerSpace::ImgViewerTypeAlbum);
-
-    char uri[] = "org.deepin.album";
+    char albumUri[] = "org.deepin.album";
+    char imageViewerUri[] = "org.deepin.image.viewer";
 #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     qmlRegisterType<QAbstractItemModel>();
 #else
-    qmlRegisterAnonymousType<QAbstractItemModel>(uri, 0);
+    qmlRegisterAnonymousType<QAbstractItemModel>(albumUri, 0);
 #endif
-    qmlRegisterType<ImageDataModel>(uri, 1, 0, "ImageDataModel");
-    qmlRegisterType<ThumbnailModel>(uri, 1, 0, "ThumbnailModel");
-    qmlRegisterType<ItemViewAdapter>(uri, 1, 0, "ItemViewAdapter");
-    qmlRegisterType<Positioner>(uri, 1, 0, "Positioner");
-    qmlRegisterType<RubberBand>(uri, 1, 0, "RubberBand");
-    qmlRegisterType<MouseEventListener>(uri, 1, 0, "MouseEventListener");
-    qmlRegisterType<EventGenerator>(uri, 1, 0, "EventGenerator");
-    qmlRegisterUncreatableType<Types>(uri, 1, 0, "Types", "Cannot instantiate the Types class");
-    qmlRegisterUncreatableType<Roles>(uri, 1, 0, "Roles", "Cannot instantiate the Roles class");
+    // 相册qml插件
+    qmlRegisterType<ImageDataModel>(albumUri, 1, 0, "ImageDataModel");
+    qmlRegisterType<ThumbnailModel>(albumUri, 1, 0, "ThumbnailModel");
+    qmlRegisterType<ItemViewAdapter>(albumUri, 1, 0, "ItemViewAdapter");
+    qmlRegisterType<Positioner>(albumUri, 1, 0, "Positioner");
+    qmlRegisterType<RubberBand>(albumUri, 1, 0, "RubberBand");
+    qmlRegisterType<MouseEventListener>(albumUri, 1, 0, "MouseEventListener");
+    qmlRegisterType<EventGenerator>(albumUri, 1, 0, "EventGenerator");
+    qmlRegisterUncreatableType<Types>(albumUri, 1, 0, "Types", "Cannot instantiate the Types class");
+    qmlRegisterUncreatableType<Roles>(albumUri, 1, 0, "Roles", "Cannot instantiate the Roles class");
+    qmlRegisterType<QImageItem>(albumUri, 1, 0, "QImageItem");
 
-    qmlRegisterType<QImageItem>(uri, 1, 0, "QImageItem");
+    // 看图qml插件
+    qmlRegisterType<ImageInfo>(imageViewerUri, 1, 0, "ImageInfo");
+    qmlRegisterType<ImageSourceModel>(imageViewerUri, 1, 0, "ImageSourceModel");
+    qmlRegisterType<MouseTrackItem>(imageViewerUri, 1, 0, "MouseTrackItem");
+    qmlRegisterUncreatableType<Types>(imageViewerUri, 1, 0, "Types", "Types only use for define");
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine.rootObjects().isEmpty())

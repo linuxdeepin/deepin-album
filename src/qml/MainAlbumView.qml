@@ -116,7 +116,7 @@ Item {
             leftMargin: 0
         }
         width: parent.width - leftSidebar.x - global.sideBarWidth
-        height: root.height - titleAlubmRect.height
+        height: window.height - titleAlubmRect.height
     }
 
     StatusBar {
@@ -125,7 +125,7 @@ Item {
             bottom: parent.bottom
             left: leftSidebar.right
         }
-//        width: leftSidebar.x == 0 ? parent.width - leftSidebar.width : root.width
+//        width: leftSidebar.x == 0 ? parent.width - leftSidebar.width : window.width
         width: parent.width - leftSidebar.x - global.sideBarWidth
         height: global.statusBarHeight
 

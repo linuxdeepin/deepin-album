@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -224,11 +224,11 @@ enum ItemInfoType {
 //图片类型
 enum ImageType {
     ImageTypeBlank = 0,     //空白项，最上面留空使用
-    ImageTypeSvg,         //SVG图片
+    ImageTypeSvg,           //SVG图片
     ImageTypeDynamic,       //所有动态图
     ImageTypeStatic,        //所有静态图
     ImageTypeMulti,         //所有多页图
-    ImageTypeDamaged        //所有损坏图片
+    ImageTypeDamaged,       //所有损坏图片
 };
 //路径类型
 enum PathType {
@@ -267,7 +267,7 @@ struct ItemInfo {
     int imgOriginalHeight = 0;           //原图大小,导入图片子线程中读取
     int imgWidth = 0;
     int imgHeight = 0;
-    //QString remainDays = QObject::tr("day");
+    QString remainDays = QObject::tr("day");
     bool isSelected;
     ItemInfoType itemType = ItemTypePic;//类型，空白，图片，视频
     QImage image = QImage();

@@ -169,10 +169,10 @@ private:
 };
 
 //异步缩略图_start
-class AsyncImageResponse : public QQuickImageResponse, public QRunnable
+class AsyncImageResponse1 : public QQuickImageResponse, public QRunnable
 {
 public:
-    AsyncImageResponse(const QString &id, const QSize &requestedSize)
+    AsyncImageResponse1(const QString &id, const QSize &requestedSize)
         : m_id(id), m_requestedSize(requestedSize)
     {
         setAutoDelete(false);
@@ -203,15 +203,15 @@ private:
     int m_loadMode;
 };
 
-class AsyncImageProvider : public QObject, public QQuickAsyncImageProvider
+class AsyncImageProvider1 : public QObject, public QQuickAsyncImageProvider
 {
     Q_OBJECT
 public:
-    explicit AsyncImageProvider(QObject *parent = nullptr);
+    explicit AsyncImageProvider1(QObject *parent = nullptr);
 
     QQuickImageResponse *requestImageResponse(const QString &id, const QSize &requestedSize) override
     {
-        AsyncImageResponse *response = new AsyncImageResponse(id, requestedSize);
+        AsyncImageResponse1 *response = new AsyncImageResponse1(id, requestedSize);
         response->setLoadMode(m_loadMode);
         pool.start(response);
         return response;
@@ -246,7 +246,7 @@ public:
 
     ImagePublisher  *m_publisher{nullptr};
     CollectionPublisher *m_collectionPublisher{nullptr};
-    AsyncImageProvider  *m_asynImageProvider{nullptr};
+    AsyncImageProvider1  *m_asynImageProvider{nullptr};
 
     Q_INVOKABLE double getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight);
     Q_INVOKABLE bool imageIsNull(const QString &path);
