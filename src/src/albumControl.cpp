@@ -913,9 +913,6 @@ void AlbumControl::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> 
 
         //路径存在
         if (bFind) {
-            //挂载路径，加载文件信息
-            sltLoadMountFileList(strPath);
-
             emit sigMountsChange();
             //发送新增
             emit sigAddDevice(mount->getRootFile()->path());
@@ -960,6 +957,8 @@ void AlbumControl::onBlockDeviceAdded(const QString &blks)
 
 void AlbumControl::sltLoadMountFileList(const QString &path)
 {
+    QTime time;
+    time.start();
     QString strPath = path;
     if (!m_PhonePicFileMap.contains(strPath)) {
         //获取所选文件类型过滤器
@@ -987,6 +986,8 @@ void AlbumControl::sltLoadMountFileList(const QString &path)
     } else {
         //已加载过的设备，直接发送缓存的路径
     }
+
+    qDebug() << __FUNCTION__ << QString(" load device path:%1 cost [%2]ms").arg(path).arg(time.elapsed());
 }
 
 const QList<QExplicitlySharedDataPointer<DGioMount> > AlbumControl::getVfsMountList()
@@ -2295,12 +2296,19 @@ QString AlbumControl::getDeviceName(const QString &devicePath)
     return m_durlAndNameMap.value(devicePath);
 }
 
-QStringList AlbumControl::getDevicePicPaths(const QString &path)
+QStringList AlbumControl::getDevicePicPaths(const QString &strPath)
 {
+    // 若设备路径未被扫描，先扫描出所有图片/视频文件，设备容量越大，文件越大，扫描耗时越长
+    if (m_PhonePicFileMap.find(strPath) == m_PhonePicFileMap.end()) {
+        sltLoadMountFileList(strPath);
+    }
+
     QStringList pathsList;
-    QStringList list = m_PhonePicFileMap.value(path);
-    for (QString path : list) {
-        pathsList << "file://" + path;
+    if (m_PhonePicFileMap.find(strPath) != m_PhonePicFileMap.end()) {
+        QStringList list = m_PhonePicFileMap.value(strPath);
+        for (QString path : list) {
+            pathsList << "file://" + path;
+        }
     }
     return pathsList;
 }
