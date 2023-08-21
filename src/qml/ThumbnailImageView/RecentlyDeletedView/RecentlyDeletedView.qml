@@ -34,7 +34,7 @@ BaseView {
     // 刷新最近删除视图内容
     function flushRecentDelView() {
         theView.proxyModel.refresh(filterType)
-        global.selectedPaths = theView.selectedUrls
+        GStatus.selectedPaths = theView.selectedUrls
         getNumLabelText()
         totalCount = albumControl.getTrashInfoConut(0)
     }
@@ -66,15 +66,15 @@ BaseView {
         numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? ((photoCountText !== "" ? " " : "") + videoCountText) : ""))
                                            : (filterType == 1 ? photoCountText : videoCountText)
         if (visible) {
-            global.statusBarNumText = numLabelText
+            GStatus.statusBarNumText = numLabelText
         }
     }
 
     // 刷新选中项目标签内容
     function getSelectedText(paths) {
-        var selectedNumText = global.getSelectedNumText(paths, numLabelText)
+        var selectedNumText = GStatus.getSelectedNumText(paths, numLabelText)
         if (visible)
-            global.statusBarNumText = selectedNumText
+            GStatus.statusBarNumText = selectedNumText
         return selectedNumText
     }
 
@@ -98,14 +98,14 @@ BaseView {
     function runAllDeleteImg() {
         albumControl.deleteImgFromTrash(theView.allPaths())
         theView.selectAll(false)
-        global.sigFlushRecentDelView()
+        GStatus.sigFlushRecentDelView()
     }
 
     // 最近删除标题栏区域
     Item {
         id: recentDelTitleRect
-        width: parent.width - global.verticalScrollBarWidth
-        height: global.thumbnailViewTitleHieght - 10
+        width: parent.width - GStatus.verticalScrollBarWidth
+        height: GStatus.thumbnailViewTitleHieght - 10
         // 最近删除标签
         Label {
             id: recentDelLabel
@@ -152,7 +152,7 @@ BaseView {
                 hoverEnabled: true
 
                 onClicked: {
-                    deleteDialog.setDisplay(GlobalVar.FileDeleteType.TrashAll, theView.allPaths().length)
+                    deleteDialog.setDisplay(Album.Types.TrashAll, theView.allPaths().length)
                     deleteDialog.show()
                 }
             }
@@ -185,7 +185,7 @@ BaseView {
             visible: theView.haveSelect
 
             onClicked: {
-                deleteDialog.setDisplay(GlobalVar.FileDeleteType.TrashSel, theView.selectedPaths.length)
+                deleteDialog.setDisplay(Album.Types.TrashSel, theView.selectedPaths.length)
                 deleteDialog.show()
             }
         }
@@ -207,7 +207,7 @@ BaseView {
             onClicked: {
                 albumControl.recoveryImgFromTrash(theView.selectedPaths)
                 theView.selectAll(false)
-                global.sigFlushRecentDelView()
+                GStatus.sigFlushRecentDelView()
             }
         }
 
@@ -234,7 +234,7 @@ BaseView {
         }
         width: parent.width
         height: parent.height - recentDelTitleRect.height - m_topMargin
-        thumnailListType: GlobalVar.ThumbnailType.Trash
+        thumnailListType: Album.Types.ThumbnailTrash
 
         proxyModel.sourceModel: Album.ImageDataModel { id: dataModel; modelType: Album.Types.RecentlyDeleted}
 
@@ -246,18 +246,18 @@ BaseView {
             target: theView
             onSelectedChanged: {
                 if (parent.visible)
-                    global.selectedPaths = theView.selectedUrls
+                    GStatus.selectedPaths = theView.selectedUrls
             }
         }
     }
 
     // 若没有数据，显示无图片视图
     NoPictureView {
-        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.RecentlyDeleted && numLabelText === "" && filterType === 0
+        visible: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted && numLabelText === "" && filterType === 0
     }
 
     Component.onCompleted: {
-        global.sigFlushRecentDelView.connect(flushRecentDelView)
+        GStatus.sigFlushRecentDelView.connect(flushRecentDelView)
         deleteDialog.sigDoAllDeleteImg.connect(runAllDeleteImg)
     }
 }

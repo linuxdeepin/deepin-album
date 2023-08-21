@@ -2,14 +2,15 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.0
-import QtQuick.Controls 2.0
+import QtQuick 2.11
+import QtQuick.Controls 2.4
 import QtQuick.Window 2.10
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.11
 
 import org.deepin.dtk 1.0 as D
 import org.deepin.dtk 1.0
+import org.deepin.album 1.0 as Album
 
 import "../"
 
@@ -120,7 +121,7 @@ DialogWindow {
 
         onClicked: {
             albumControl.createAlbum(nameedit.text )
-            global.albumChangeList = !global.albumChangeList
+            GStatus.albumChangeList = !GStatus.albumChangeList
             renamedialog.visible = false
 
             // 获取新相册index
@@ -128,13 +129,13 @@ DialogWindow {
 
             // 导入已选图片
             if (importSelected) {
-                albumControl.insertIntoAlbum(albumControl.getAllCustomAlbumId()[index] , global.selectedPaths)
+                albumControl.insertIntoAlbum(albumControl.getAllCustomAlbumId()[index] , GStatus.selectedPaths)
             }
 
             // 切换到对应相册视图
             if (isChangeView) {
-                global.currentViewIndex = GlobalVar.ThumbnailViewType.CustomAlbum
-                global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId()[index]
+                GStatus.currentViewType = Album.Types.ViewCustomAlbum
+                GStatus.currentCustomAlbumUId = albumControl.getAllCustomAlbumId()[index]
                 sigCreateAlbumDone()
             }
 

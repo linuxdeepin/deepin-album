@@ -3,6 +3,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "globalstatus.h"
+#include "filecontrol.h"
+#include "albumControl.h"
 
 static const int sc_MinHeight = 300;           // 窗口最小高度
 static const int sc_MinWidth = 628;            // 窗口最小宽度
@@ -15,6 +17,17 @@ static const int sc_SwitchImageHotspotWidth = 100;  // 左右切换图片按钮�
 static const int sc_ActionMargin = 9;               // 应用图标距离顶栏
 static const int sc_RightMenuItemHeight = 32;       // 右键菜单item的高度
 
+// 相册相关状态变量
+static const int sc_RightMenuSeparatorHeight = 12;   // 右键菜单分割层的高度
+static const int sc_NeedHideSideBarWidth = 783;      // 需要隐藏侧边栏的时，主界面宽度
+static const int sc_SideBarWidth = 200;              // 侧边栏宽度
+static const int sc_StatusBarHeight = 30;            // 状态栏高度
+static const int sc_CollectionTopMargin = 25;        // 合集年月视图上边距
+static const int sc_ThumbnailViewTitleHieght = 85;   // 缩略图视图区域标题显示区域高度
+static const int sc_VerticalScrollBarWidth = 15;     // 垂直滚动条宽度
+static const int sc_RectSelScrollStep = 30;          // 框选滚动步进
+static const int sc_ThumbnailListRightMargin = 10;   // 框选滚动步进
+static const int sc_ThumbnialListCellSpace = 4;      // 框选滚动步进
 /**
    @class GlobalStatus
    @brief QML单例类，维护全局状态，同步不同组件间的状态信息
@@ -25,6 +38,7 @@ static const int sc_RightMenuItemHeight = 32;       // 右键菜单item的高度
 GlobalStatus::GlobalStatus(QObject *parent)
     : QObject(parent)
 {
+    initConnect();
 }
 
 GlobalStatus::~GlobalStatus() {}
@@ -280,4 +294,372 @@ int GlobalStatus::actionMargin() const
 int GlobalStatus::rightMenuItemHeight() const
 {
     return sc_RightMenuItemHeight;
+}
+
+void GlobalStatus::setFileControl(FileControl *fc)
+{
+    m_fileControl = fc;
+}
+
+int GlobalStatus::rightMenuSeparatorHeight() const
+{
+    return sc_RightMenuSeparatorHeight;
+}
+
+int GlobalStatus::sideBarWidth() const
+{
+    return sc_SideBarWidth;
+}
+
+int GlobalStatus::statusBarHeight() const
+{
+    return sc_StatusBarHeight;
+}
+
+int GlobalStatus::collectionTopMargin() const
+{
+    return sc_CollectionTopMargin;
+}
+
+int GlobalStatus::thumbnailViewTitleHieght() const
+{
+    return sc_ThumbnailViewTitleHieght;
+}
+
+int GlobalStatus::verticalScrollBarWidth() const
+{
+    return sc_VerticalScrollBarWidth;
+}
+
+int GlobalStatus::rectSelScrollStep() const
+{
+    return sc_RectSelScrollStep;
+}
+
+int GlobalStatus::thumbnailListRightMargin() const
+{
+    return sc_ThumbnailListRightMargin;
+}
+
+int GlobalStatus::thumbnialListCellSpace() const
+{
+    return sc_ThumbnialListCellSpace;
+}
+
+int GlobalStatus::needHideSideBarWidth() const
+{
+    return sc_NeedHideSideBarWidth;
+}
+
+qreal GlobalStatus::sideBarX() const
+{
+    return m_sideBar_X;
+}
+
+void GlobalStatus::setSideBarX(const qreal& value)
+{
+    if (!qFuzzyCompare(m_sideBar_X, value)) {
+        m_sideBar_X = value;
+        Q_EMIT sideBarXChanged();
+    }
+}
+
+QVariantList GlobalStatus::selectedPaths() const
+{
+    return m_selectedPaths;
+}
+
+void GlobalStatus::setSelectedPaths(const QVariantList& value)
+{
+    if (m_selectedPaths != value) {
+        m_selectedPaths = value;
+        Q_EMIT selectedPathsChanged();
+    }
+}
+
+bool GlobalStatus::bRefreshFavoriteIconFlag() const
+{
+    return m_bRefreshFavoriteIconFlag;
+}
+
+void GlobalStatus::setBRefreshFavoriteIconFlag(const bool& value)
+{
+    if (m_bRefreshFavoriteIconFlag != value) {
+        m_bRefreshFavoriteIconFlag = value;
+        Q_EMIT bRefreshFavoriteIconFlagChanged();
+    }
+}
+
+bool GlobalStatus::refreshRangeBtnState() const
+{
+    return m_bRefreshRangeBtnState;
+}
+
+void GlobalStatus::setRefreshRangeBtnState(const bool& value)
+{
+    if (m_bRefreshRangeBtnState != value) {
+        m_bRefreshRangeBtnState = value;
+        Q_EMIT refreshRangeBtnStateChanged();
+    }
+}
+
+Types::ThumbnailViewType GlobalStatus::currentViewType() const
+{
+    return m_currentViewType;
+}
+
+void GlobalStatus::setCurrentViewType(const Types::ThumbnailViewType &value)
+{
+    if (m_currentViewType != value) {
+        m_currentViewType = value;
+
+        // 若相册数据库没有图片资源，则调整显示“没有图片“提示视图
+        if (AlbumControl::instance()->getAllCount() <= 0) {
+            switch (value) {
+            case Types::ViewImport:
+            case Types::ViewNoPicture:
+            case Types::ViewCollecttion:
+                break;
+            case Types::ViewSearchResult:
+                m_currentViewType = Types::ViewNoPicture;
+                break;
+            default:
+                break;
+
+            }
+        }
+        Q_EMIT currentViewTypeChanged();
+    }
+}
+
+int GlobalStatus::currentCustomAlbumUId() const
+{
+    return m_currentCustomAlbumUId;
+}
+
+void GlobalStatus::setCurrentCustomAlbumUId(const int &value)
+{
+    if (m_currentCustomAlbumUId != value) {
+        m_currentCustomAlbumUId = value;
+        Q_EMIT currentCustomAlbumUIdChanged();
+    }
+}
+
+int GlobalStatus::stackControlCurrent() const
+{
+    return m_stackControlCurrent;
+}
+
+void GlobalStatus::setStackControlCurrent(const int &value)
+{
+    if (m_stackControlCurrent != value) {
+        m_stackControlCurrent = value;
+        Q_EMIT stackControlCurrentChanged();
+    }
+}
+
+int GlobalStatus::stackControlLastCurrent() const
+{
+    return m_stackControlLastCurrent;
+}
+
+void GlobalStatus::setStackControlLastCurrent(const int &value)
+{
+    if (m_stackControlLastCurrent != value) {
+        m_stackControlLastCurrent = value;
+        Q_EMIT stackControlLastCurrentChanged();
+    }
+}
+
+int GlobalStatus::thumbnailSizeLevel() const
+{
+    return m_thumbnailSizeLevel;
+}
+
+void GlobalStatus::setThumbnailSizeLevel(const int &value)
+{
+    if (m_thumbnailSizeLevel != value) {
+        m_thumbnailSizeLevel = value;
+
+        Q_EMIT thumbnailSizeLevelChanged();
+
+        // 缩放等级有调整， 同步调整网格大小
+        qreal newCellBaseWidth = m_thumbnailSizeLevel >= 0 && m_thumbnailSizeLevel <= 9 ? 80 + m_thumbnailSizeLevel * 10 : 80;
+        setCellBaseWidth(newCellBaseWidth);
+    }
+}
+
+qreal GlobalStatus::cellBaseWidth() const
+{
+    return m_cellBaseWidth;
+}
+
+void GlobalStatus::setCellBaseWidth(const qreal& value)
+{
+    if (!qFuzzyCompare(m_cellBaseWidth, value)) {
+        m_cellBaseWidth = value;
+        Q_EMIT cellBaseWidthChanged();
+    }
+}
+
+QString GlobalStatus::statusBarNumText() const
+{
+    return m_statusBarNumText;
+}
+
+void GlobalStatus::setStatusBarNumText(const QString &value)
+{
+    if (m_statusBarNumText != value) {
+        m_statusBarNumText = value;
+        Q_EMIT statusBarNumTextChanged();
+    }
+}
+
+QString GlobalStatus::searchEditText() const
+{
+    return m_searchEditText;
+}
+
+void GlobalStatus::setSearchEditText(const QString &value)
+{
+    if (m_searchEditText != value) {
+        m_searchEditText = value;
+        Q_EMIT searchEditTextChanged();
+    }
+}
+
+bool GlobalStatus::albumImportChangeList() const
+{
+    return m_bAlbumImportChangeList;
+}
+
+void GlobalStatus::setAlbumImportChangeList(const bool &value)
+{
+    if (m_bAlbumImportChangeList != value) {
+        m_bAlbumImportChangeList = value;
+        Q_EMIT albumImportChangeListChanged();
+    }
+}
+
+bool GlobalStatus::albumChangeList() const
+{
+    return  m_bAlbumChangeList;
+}
+
+void GlobalStatus::setAlbumChangeList(const bool &value)
+{
+    if (m_bAlbumChangeList != value) {
+        m_bAlbumChangeList = value;
+        Q_EMIT albumChangeListChanged();
+    }
+}
+
+QString GlobalStatus::currentDeviceName() const
+{
+    return m_currentDeviceName;
+}
+
+void GlobalStatus::setCurrentDeviceName(const QString &value)
+{
+    if (m_currentDeviceName != value) {
+        m_currentDeviceName = value;
+        Q_EMIT currentDeviceNameChanged();
+    }
+}
+
+QString GlobalStatus::currentDevicePath() const
+{
+    return m_currentDevicePath;
+}
+
+void GlobalStatus::setCurrentDevicePath(const QString &value)
+{
+    if (m_currentDevicePath != value) {
+        m_currentDevicePath = value;
+        m_currentDeviceName = AlbumControl::instance()->getDeviceName(m_currentDevicePath);
+        Q_EMIT currentDevicePathChanged();
+    }
+}
+
+bool GlobalStatus::windowDisactived() const
+{
+    return m_bWindowDisactived;
+}
+
+void GlobalStatus::setWindowDisactived(const bool &value)
+{
+    if (m_bWindowDisactived != value) {
+        m_bWindowDisactived = value;
+        Q_EMIT windowDisactivedChanged();
+    }
+}
+
+bool GlobalStatus::loading() const
+{
+    return m_bLoading;
+}
+
+void GlobalStatus::setLoading(const bool &value)
+{
+    if (m_bLoading != value) {
+        m_bLoading = value;
+        Q_EMIT loadingChanged();
+    }
+}
+
+void GlobalStatus::initConnect()
+{
+    // 数据库监听-删除图片后通知前端刷新自定义相册视图内容
+    connect(AlbumControl::instance(), SIGNAL(sigRefreshCustomAlbum(int)), SIGNAL(sigFlushCustomAlbumView(int)));
+
+    // 数据库监听-删除图片后通知前端刷新合集所有项目
+    connect(AlbumControl::instance(), SIGNAL(sigRefreshAllCollection()), SIGNAL(sigFlushAllCollectionView()));
+
+    //数据库监听-删除图片后通知前端刷新已导入视图内容
+    connect(AlbumControl::instance(), &AlbumControl::sigRefreshImportAlbum, this, [=]() {
+        sigFlushHaveImportedView();
+        setRefreshRangeBtnState(!m_bRefreshRangeBtnState);
+    });
+
+    // 数据库监听-删除图片后通知前端刷新搜索结果视图内容
+    connect(AlbumControl::instance(), &AlbumControl::sigRefreshSearchView, this, [=]() {
+        if (m_currentViewType == Types::ViewSearchResult)
+            sigFlushSearchView();
+    });
+
+    // 自动导入相册有新增相册，通知前端刷新侧边栏自动导入相册列表
+    connect(AlbumControl::instance(), &AlbumControl::sigRefreshSlider, this, [=]() {
+        setAlbumImportChangeList(!m_bAlbumImportChangeList);
+    });
+}
+
+QString GlobalStatus::getSelectedNumText(const QStringList &paths, const QString &text)
+{
+    QList<int> ret = AlbumControl::instance()->getPicVideoCountFromPaths(paths);
+
+    //QML的翻译不支持%n的特性，只能拆成这种代码
+    int photoCount = ret[0];
+    int videoCount = ret[1];
+    QString selectedNumText("");
+    if(paths.size() == 0) {
+        selectedNumText = text;
+    } else if(paths.size() == 1 && photoCount == 1) {
+        selectedNumText = tr("1 item selected (1 photo)");
+    } else if(paths.size() == 1 && videoCount == 1) {
+        selectedNumText = tr("1 item selected (1 video)");
+    } else if(photoCount > 1 && videoCount == 0) {
+        selectedNumText = tr("%1 items selected (%1 photos)").arg(photoCount);
+    } else if(videoCount > 1 && photoCount == 0) {
+        selectedNumText = tr("%1 items selected (%1 videos)").arg(videoCount);
+    } else if (photoCount == 1 && videoCount == 1) {
+        selectedNumText = tr("%1 item selected (1 photo, 1 video)").arg(photoCount + videoCount);
+    } else if (photoCount == 1 && videoCount > 1) {
+        selectedNumText = tr("%1 items selected (1 photo, %2 videos)").arg(photoCount + videoCount).arg(videoCount);
+    } else if (videoCount == 1 && photoCount > 1) {
+        selectedNumText = tr("%1 items selected (%2 photos, 1 video)").arg(photoCount + videoCount).arg(photoCount);
+    } else if (photoCount > 1 && videoCount > 1){
+        selectedNumText = tr("%1 items selected (%2 photos, %3 videos)").arg(photoCount + videoCount).arg(photoCount).arg(videoCount);
+    }
+
+    return selectedNumText;
 }

@@ -5,8 +5,11 @@
 import QtQuick 2.11
 import QtQuick.Window 2.11
 import QtQuick.Layouts 1.11
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
+
+import org.deepin.album 1.0 as Album
+
 import "../Control"
 import "../PreviewImageViewer"
 import "../PreviewImageViewer/Utils"
@@ -17,16 +20,16 @@ ScrollView {
     signal sideBarListChanged(string type, string displayName)
     property int currentImportCustomIndex: 0 //自动导入相册当前索引值
     property int currentCustomIndex: 0 //自定义相册当前索引值
-    property var devicePaths : albumControl.getDevicePaths(global.deviceChangeList)
-    property var albumPaths : albumControl.getAlbumPaths(global.currentCustomAlbumUId)
-    property var importAlbumNames : albumControl.getImportAlubumAllNames(global.albumImportChangeList)
-    property var customAlbumNames : albumControl.getAllCustomAlbumName(global.albumChangeList)
+    property var devicePaths : albumControl.getDevicePaths()
+    property var albumPaths : albumControl.getAlbumPaths(GStatus.currentCustomAlbumUId)
+    property var importAlbumNames : albumControl.getImportAlubumAllNames(GStatus.albumImportChangeList)
+    property var customAlbumNames : albumControl.getAllCustomAlbumName(GStatus.albumChangeList)
     property ListModel deviceListModel: ListModel {}
     property ListModel importListModel: ListModel {}
     property ListModel customListModel: ListModel {}
 
     onXChanged: {
-        global.sideBarX = x;
+        GStatus.sideBarX = x;
     }
 
     // 设备路径有变更，刷新设备列表
@@ -50,7 +53,7 @@ ScrollView {
         importListModel.clear()
         for (var i = 0; i < importAlbumNames.length; i++) {
             var tempImort = {}
-            tempImort.checked = i === 0
+            tempImort.checked = false
             tempImort.icon = "custom"
             tempImort.displayName = importAlbumNames[i]
             tempImort.uuid = albumControl.getImportAlubumAllId()[i]
@@ -79,8 +82,8 @@ ScrollView {
     function backCollection() {
         gallerySideBar.view.currentIndex = 0
         gallerySideBar.view.currentItem.checked = true
-        global.currentViewIndex = GlobalVar.ThumbnailViewType.Collecttion
-        global.searchEditText = ""
+        GStatus.currentViewType = Album.Types.ViewCollecttion
+        GStatus.searchEditText = ""
         gallerySideBar.view.currentItem.forceActiveFocus()
     }
 
@@ -89,9 +92,9 @@ ScrollView {
         if (sysListModel.count > 0) {
             systemSideBar.view.currentIndex = sysListModel.count - 1
             systemSideBar.view.currentItem.checked = true
-            global.currentViewIndex = GlobalVar.ThumbnailViewType.CustomAlbum
-            global.currentCustomAlbumUId = sysListModel.get(systemSideBar.view.currentIndex).uuid
-            global.searchEditText = ""
+            GStatus.currentViewType = Album.Types.ViewCustomAlbum
+            GStatus.currentCustomAlbumUId = sysListModel.get(systemSideBar.view.currentIndex).uuid
+            GStatus.searchEditText = ""
             systemSideBar.view.currentItem.forceActiveFocus()
         } else if (sysListModel.count === 0) {
             backCollection()
@@ -101,17 +104,17 @@ ScrollView {
     // 删除自动导入相册
     function deleteImportAlbum() {
         var delAlbumName = albumControl.getImportAlubumAllNames()[currentImportCustomIndex]
-        albumControl.removeAlbum(global.currentCustomAlbumUId)
-        albumControl.removeCustomAutoImportPath(global.currentCustomAlbumUId)
-        global.albumImportChangeList = !global.albumImportChangeList
+        albumControl.removeAlbum(GStatus.currentCustomAlbumUId)
+        albumControl.removeCustomAutoImportPath(GStatus.currentCustomAlbumUId)
+        GStatus.albumImportChangeList = !GStatus.albumImportChangeList
         if(currentImportCustomIndex >= albumControl.getImportAlubumAllId().length){
             currentImportCustomIndex = albumControl.getImportAlubumAllId().length - 1
         }
         if (currentImportCustomIndex >= 0 && currentImportCustomIndex < albumControl.getImportAlubumAllId().length){
             importSideBar.view.currentIndex = currentImportCustomIndex
             importSideBar.view.currentItem.checked = true
-            global.currentViewIndex = GlobalVar.ThumbnailViewType.CustomAlbum
-            global.currentCustomAlbumUId = albumControl.getImportAlubumAllId()[currentImportCustomIndex]
+            GStatus.currentViewType = Album.Types.ViewCustomAlbum
+            GStatus.currentCustomAlbumUId = albumControl.getImportAlubumAllId()[currentImportCustomIndex]
             importSideBar.view.currentItem.forceActiveFocus()
         }
 
@@ -125,17 +128,17 @@ ScrollView {
 
     // 删除自定义相册
     function deleteCustomAlbum() {
-        var delAlbumName = albumControl.getCustomAlbumByUid(global.currentCustomAlbumUId)
-        albumControl.removeAlbum(global.currentCustomAlbumUId)
-        global.albumChangeList = !global.albumChangeList
+        var delAlbumName = albumControl.getCustomAlbumByUid(GStatus.currentCustomAlbumUId)
+        albumControl.removeAlbum(GStatus.currentCustomAlbumUId)
+        GStatus.albumChangeList = !GStatus.albumChangeList
         if(currentCustomIndex >= albumControl.getAllCustomAlbumId().length ){
             currentCustomIndex = albumControl.getAllCustomAlbumId().length - 1
         }
         if (currentCustomIndex >= 0 && currentCustomIndex < albumControl.getAllCustomAlbumId().length){
             customSideBar.view.currentIndex = currentCustomIndex
             customSideBar.view.currentItem.checked = true
-            global.currentViewIndex = GlobalVar.ThumbnailViewType.CustomAlbum
-            global.currentCustomAlbumUId = albumControl.getAllCustomAlbumId()[currentCustomIndex]
+            GStatus.currentViewType = Album.Types.ViewCustomAlbum
+            GStatus.currentCustomAlbumUId = albumControl.getAllCustomAlbumId()[currentCustomIndex]
             customSideBar.view.currentItem.forceActiveFocus()
         }
 
@@ -173,15 +176,15 @@ ScrollView {
             }
 
             onItemClicked: {
-                global.currentViewIndex = view.currentIndex + 2
+                GStatus.currentViewType = view.currentIndex + 2
                 // 导航页选中我的收藏时，设定自定相册索引为0，使用CutomAlbum控件按自定义相册界面逻辑显示我的收藏内容
-                if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite) {
-                    global.currentCustomAlbumUId = 0
+                if (GStatus.currentViewType === Album.Types.ViewFavorite) {
+                    GStatus.currentCustomAlbumUId = 0
                 } else {
-                    global.currentCustomAlbumUId = -1
+                    GStatus.currentCustomAlbumUId = -1
                 }
 
-                global.searchEditText = ""
+                GStatus.searchEditText = ""
             }
         }
 
@@ -206,7 +209,7 @@ ScrollView {
                             sidebarScrollView.backCollection()
                         } else {
                             if (index - 1 >= 0) {
-                                global.deviceCurrentPath = sidebarScrollView.devicePaths[index - 1]
+                                GStatus.currentDevicePath = sidebarScrollView.devicePaths[index - 1]
                             } else {
 
                             }
@@ -235,9 +238,9 @@ ScrollView {
 
             onItemCheckedChanged: {
                 if (checked) {
-                    global.deviceCurrentPath = deviceListModel.get(index).path
-                    global.currentViewIndex = GlobalVar.ThumbnailViewType.Device
-                    global.searchEditText = ""
+                    GStatus.currentDevicePath = deviceListModel.get(index).path
+                    GStatus.currentViewType = Album.Types.ViewDevice
+                    GStatus.searchEditText = ""
                     forceActiveFocus()
                 }
 
@@ -281,9 +284,9 @@ ScrollView {
             }
 
             onItemClicked: {
-                global.currentViewIndex = GlobalVar.ThumbnailViewType.CustomAlbum
-                global.currentCustomAlbumUId = uuid
-                global.searchEditText = ""
+                GStatus.currentViewType = Album.Types.ViewCustomAlbum
+                GStatus.currentCustomAlbumUId = uuid
+                GStatus.searchEditText = ""
                 forceActiveFocus()
             }
 
@@ -338,9 +341,9 @@ ScrollView {
 
             onItemCheckedChanged: {
                 if (checked) {
-                    global.currentViewIndex = GlobalVar.ThumbnailViewType.CustomAlbum
-                    global.currentCustomAlbumUId = importListModel.get(index).uuid
-                    global.searchEditText = ""
+                    GStatus.currentViewType = Album.Types.ViewCustomAlbum
+                    GStatus.currentCustomAlbumUId = importListModel.get(index).uuid
+                    GStatus.searchEditText = ""
                 }
             }
 
@@ -363,9 +366,9 @@ ScrollView {
 
             onItemClicked: {
                 currentCustomIndex = customSideBar.indexFromUuid(uuid)
-                global.currentViewIndex = GlobalVar.ThumbnailViewType.CustomAlbum
-                global.currentCustomAlbumUId = customListModel.get(currentCustomIndex).uuid
-                global.searchEditText = ""
+                GStatus.currentViewType = Album.Types.ViewCustomAlbum
+                GStatus.currentCustomAlbumUId = customListModel.get(currentCustomIndex).uuid
+                GStatus.searchEditText = ""
             }
 
             onItemRightClicked: {
@@ -384,7 +387,7 @@ ScrollView {
         target: albumControl
         onSigMountsChange: {
             devicePaths = albumControl.getDevicePaths()
-            if (devicePaths.length === 0 && global.currentViewIndex === GlobalVar.ThumbnailViewType.Device)
+            if (devicePaths.length === 0 && GStatus.currentViewType === Album.Types.ViewDevice)
                 backCollection()
         }
     }
@@ -393,9 +396,9 @@ ScrollView {
     Connections {
         target: newAlbum
         onSigCreateAlbumDone: {
-            if (global.currentViewIndex === GlobalVar.ThumbnailViewType.CustomAlbum) {
+            if (GStatus.currentViewType === Album.Types.ViewCustomAlbum) {
                 for (var i = 0; i < customListModel.count; i++) {
-                    if (Number(customListModel.get(i).uuid) === global.currentCustomAlbumUId) {
+                    if (Number(customListModel.get(i).uuid) === GStatus.currentCustomAlbumUId) {
                         customSideBar.view.currentIndex = i
                         customSideBar.view.currentItem.checked = true
                         customSideBar.view.currentItem.forceActiveFocus()
@@ -426,7 +429,7 @@ ScrollView {
             text: qsTr("Export")
             visible:  albumPaths.length >0
             onTriggered: {
-                albumControl.exportFolders(albumPaths,albumControl.getCustomAlbumByUid(global.currentCustomAlbumUId))
+                albumControl.exportFolders(albumPaths,albumControl.getCustomAlbumByUid(GStatus.currentCustomAlbumUId))
             }
         }
     }
@@ -452,7 +455,7 @@ ScrollView {
             text: qsTr("Export")
             visible: albumPaths.length > 0
             onTriggered: {
-                albumControl.exportFolders(albumPaths,albumControl.getCustomAlbumByUid(global.currentCustomAlbumUId))
+                albumControl.exportFolders(albumPaths,albumControl.getCustomAlbumByUid(GStatus.currentCustomAlbumUId))
             }
         }
 
@@ -501,7 +504,7 @@ ScrollView {
         // 新建相册
         RightMenuItem {
             text: qsTr("New album")
-            visible: global.currentCustomAlbumUId > 3 ? true : false
+            visible: GStatus.currentCustomAlbumUId > 3 ? true : false
             onTriggered: {
                 newAlbum.isChangeView = true
                 newAlbum.setNormalEdit()
@@ -512,7 +515,7 @@ ScrollView {
         // 重命名相册
         RightMenuItem {
             text: qsTr("Rename")
-            visible: global.currentCustomAlbumUId > 3 ? true : false
+            visible: GStatus.currentCustomAlbumUId > 3 ? true : false
             onTriggered: {
                 customSideBar.view.currentItem.rename()
             }
@@ -526,14 +529,14 @@ ScrollView {
             text: qsTr("Export")
             visible: albumPaths.length > 0
             onTriggered: {
-                albumControl.exportFolders(albumPaths,albumControl.getCustomAlbumByUid(global.currentCustomAlbumUId))
+                albumControl.exportFolders(albumPaths,albumControl.getCustomAlbumByUid(GStatus.currentCustomAlbumUId))
             }
         }
 
         // 删除相册
         RightMenuItem {
             text: qsTr("Delete")
-            visible: global.currentCustomAlbumUId > 3 ? true : false
+            visible: GStatus.currentCustomAlbumUId > 3 ? true : false
             onTriggered: {
                 removeAlbumDialog.deleteType = 0
                 removeAlbumDialog.show()

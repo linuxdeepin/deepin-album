@@ -111,9 +111,9 @@ Item {
         showNormal()
 
         // 在相册主界面进入全屏，按Esc需要回到相册主界面
-        if (global.stackControlLastCurrent === 0) {
-            global.stackControlCurrent = global.stackControlLastCurrent
-            global.stackControlLastCurrent = -1
+        if (GStatus.stackControlLastCurrent === 0) {
+            GStatus.stackControlCurrent = GStatus.stackControlLastCurrent
+            GStatus.stackControlLastCurrent = -1
             // 强制刷新一次图片
             var urls = []
             GControl.setImageFiles(urls, "")
@@ -125,7 +125,7 @@ Item {
 
         showfullAnimation.start()
 
-//        if (global.stackControlCurrent === 2) {
+//        if (GStatus.stackControlCurrent === 2) {
 //            mainSliderShow.outSliderShow()
 //        }
     }
@@ -209,13 +209,13 @@ Item {
     // 执行收藏操作
     function executeFavorite() {
         albumControl.insertIntoAlbum(0, GControl.currentSource.toString())
-        global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+        GStatus.bRefreshFavoriteIconFlag = !GStatus.bRefreshFavoriteIconFlag
     }
 
     // 执行取消收藏操作
     function executeUnFavorite() {
         albumControl.removeFromAlbum(0, GControl.currentSource.toString())
-        global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+        GStatus.bRefreshFavoriteIconFlag = !GStatus.bRefreshFavoriteIconFlag
     }
 
     //收藏/取消收藏

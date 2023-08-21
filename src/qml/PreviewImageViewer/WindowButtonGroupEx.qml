@@ -98,7 +98,7 @@ RowLayout {
                 Window.window.close()
             }
             else {
-                global.stackControlCurrent = 0
+                GStatus.stackControlCurrent = 0
                 window.title = ""
             }
         }

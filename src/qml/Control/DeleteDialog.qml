@@ -2,13 +2,14 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.0
-import QtQuick.Controls 2.0
+import QtQuick 2.11
+import QtQuick.Controls 2.4
 import QtQuick.Window 2.10
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.11
 
 import org.deepin.dtk 1.0
+import org.deepin.album 1.0 as Album
 
 import "../"
 
@@ -36,7 +37,7 @@ DialogWindow {
 
     function setDisplay(deltype, count) {
         type = deltype
-        if(deltype === GlobalVar.FileDeleteType.Normal) {
+        if(deltype === Album.Types.TrashNormal) {
             if(count === 1) {
                 deleteTitle.text = qsTr("Are you sure you want to delete this file locally?")
                 deleteTips.text  = qsTr("You can restore it in the trash")
@@ -115,11 +116,11 @@ DialogWindow {
         onClicked: {
             deleteDialog.visible = false
             switch (type) {
-                case GlobalVar.FileDeleteType.Normal:
-                case GlobalVar.FileDeleteType.TrashSel:
+                case Album.Types.TrashNormal:
+                case Album.Types.TrashSel:
                     sigDoDeleteImg()
                     break
-                case GlobalVar.FileDeleteType.TrashAll:
+                case Album.Types.TrashAll:
                     sigDoAllDeleteImg()
                     break
             }

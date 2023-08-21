@@ -65,7 +65,7 @@ Rectangle {
                 //albumControl.openDeepinMovie(tempPath)
             } else if (fileControl.isImage(tempPath)){
                 stackView.switchImageView()
-                global.stackControlCurrent = 1
+                GStatus.stackControlCurrent = 1
             }
         }
 

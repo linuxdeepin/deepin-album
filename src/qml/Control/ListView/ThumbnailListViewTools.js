@@ -4,7 +4,7 @@
 
 // 执行图片查看操作
 function executeViewImage() {
-    if (thumnailListType !== GlobalVar.ThumbnailType.Trash) {
+    if (thumnailListType !== Album.Types.ThumbnailTrash) {
         var indexes = thumbnailModel.selectedIndexes
         if (indexes.length > 0) {
             if (fileControl.isVideo(thumbnailModel.data(indexes[0], "url").toString())) {
@@ -14,7 +14,7 @@ function executeViewImage() {
                 GControl.setImageFiles(allUrls, allUrls[indexes[0]])
                 fileControl.resetImageFiles(allUrls)
                 mainStack.switchImageView()
-                global.stackControlCurrent = 1
+                GStatus.stackControlCurrent = 1
             }
         }
     }
@@ -22,12 +22,12 @@ function executeViewImage() {
 
 // 执行图片删除操作
 function executeDelete() {
-    if ( thumnailListType !== GlobalVar.ThumbnailType.Trash ){
-        albumControl.insertTrash(global.selectedPaths)
+    if ( thumnailListType !== Album.Types.ThumbnailTrash ){
+        albumControl.insertTrash(GStatus.selectedPaths)
     } else {
         albumControl.deleteImgFromTrash(selectedPaths)
         selectAll(false)
-        global.sigFlushRecentDelView()
+        GStatus.sigFlushRecentDelView()
     }
 }
 
@@ -40,14 +40,14 @@ function executeFullScreen() {
         GControl.setImageFiles(allUrls, selectedUrls[0])
         fileControl.resetImageFiles(allUrls)
         mainStack.switchImageView()
-        global.stackControlLastCurrent = global.stackControlCurrent
-        global.stackControlCurrent = 1
+        GStatus.stackControlLastCurrent = GStatus.stackControlCurrent
+        GStatus.stackControlCurrent = 1
     }
 }
 
 // 执行图片打印
 function executePrint() {
-    fileControl.showPrintDialog(global.selectedPaths)
+    fileControl.showPrintDialog(GStatus.selectedPaths)
 }
 
 // 执行幻灯片放映
@@ -60,8 +60,8 @@ function excuteSlideShow() {
 
 // 执行导出图片
 function excuteExport() {
-    if (global.selectedPaths.length > 1) {
-        var bRet = albumControl.getFolders(global.selectedPaths)
+    if (GStatus.selectedPaths.length > 1) {
+        var bRet = albumControl.getFolders(GStatus.selectedPaths)
         if (bRet)
             DTK.sendMessage(thumbnailImage, qsTr("Export successful"), "notify_checked")
         else
@@ -74,57 +74,57 @@ function excuteExport() {
 
 // 执行图片复制
 function executeCopy() {
-    if (global.selectedPaths.length > 0)
-        fileControl.copyImage(global.selectedPaths)
+    if (GStatus.selectedPaths.length > 0)
+        fileControl.copyImage(GStatus.selectedPaths)
 }
 
 // 执行从相册移除
 function executeRemoveFromAlbum() {
     if (selectedUrls.length > 0) {
-        albumControl.removeFromAlbum(global.currentCustomAlbumUId, selectedUrls)
-        global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
+        albumControl.removeFromAlbum(GStatus.currentCustomAlbumUId, selectedUrls)
+        GStatus.sigFlushCustomAlbumView(GStatus.currentCustomAlbumUId)
     }
 }
 
 // 执行收藏操作
 function executeFavorite() {
-    albumControl.insertIntoAlbum(0, global.selectedPaths)
-    global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+    albumControl.insertIntoAlbum(0, GStatus.selectedPaths)
+    GStatus.bRefreshFavoriteIconFlag = !GStatus.bRefreshFavoriteIconFlag
 
     // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
-    if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId === 0) {
-        global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
+    if (GStatus.currentViewType === Album.Types.ViewFavorite && GStatus.currentCustomAlbumUId === 0) {
+        GStatus.sigFlushCustomAlbumView(GStatus.currentCustomAlbumUId)
     }
 }
 
 // 执行取消收藏操作
 function executeUnFavorite() {
-    albumControl.removeFromAlbum(0, global.selectedPaths)
-    global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+    albumControl.removeFromAlbum(0, GStatus.selectedPaths)
+    GStatus.bRefreshFavoriteIconFlag = !GStatus.bRefreshFavoriteIconFlag
 
     // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
-    if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId === 0) {
-        global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
+    if (GStatus.currentViewType === Album.Types.ViewFavorite && GStatus.currentCustomAlbumUId === 0) {
+        GStatus.sigFlushCustomAlbumView(GStatus.currentCustomAlbumUId)
     }
 }
 
 // 执行旋转操作
 function executeRotate(angle) {
-    if (global.selectedPaths.length > 0) {
-        fileControl.rotateFile(global.selectedPaths, angle)
+    if (GStatus.selectedPaths.length > 0) {
+        fileControl.rotateFile(GStatus.selectedPaths, angle)
     }
 }
 
 // 执行设置壁纸操作
 function executeSetWallpaper() {
-    if (global.selectedPaths.length > 0)
-        fileControl.setWallpaper(global.selectedPaths[0])
+    if (GStatus.selectedPaths.length > 0)
+        fileControl.setWallpaper(GStatus.selectedPaths[0])
 }
 
 // 执行在文管中显示操作
 function executeDisplayInFileManager() {
-    if (global.selectedPaths.length > 0)
-        fileControl.displayinFileManager(global.selectedPaths[0])
+    if (GStatus.selectedPaths.length > 0)
+        fileControl.displayinFileManager(GStatus.selectedPaths[0])
 }
 
 // 执行图片恢复操作
@@ -132,19 +132,19 @@ function executeRestore() {
     if (selectedPaths.length > 0) {
         albumControl.recoveryImgFromTrash(selectedPaths)
         selectAll(false)
-        global.sigFlushRecentDelView()
+        GStatus.sigFlushRecentDelView()
     }
 }
 
 // 执行照片信息查看
 function executeViewPhotoInfo() {
-    albumInfomationDig.filePath = global.selectedPaths[0]
+    albumInfomationDig.filePath = GStatus.selectedPaths[0]
     albumInfomationDig.show()
 }
 
 
 // 执行视频信息查看
 function executeViewVideoInfo() {
-    videoInfomationDig.filePath = global.selectedPaths[0]
+    videoInfomationDig.filePath = GStatus.selectedPaths[0]
     videoInfomationDig.show()
 }

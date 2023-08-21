@@ -11,6 +11,8 @@ import QtQml 2.11
 import QtQuick.Shapes 1.10
 import org.deepin.dtk 1.0
 
+import org.deepin.album 1.0 as Album
+
 Item {
     id: statusBar
 
@@ -23,7 +25,7 @@ Item {
     Label {
         height: parent.height
         anchors.centerIn: parent
-        text: global.statusBarNumText
+        text: GStatus.statusBarNumText
     }
 
     Slider {
@@ -34,7 +36,7 @@ Item {
             right: parent.right
             rightMargin: 50
         }
-        visible: !(global.currentViewIndex === 2 && thumbnailImage.m_CollecttionCurrentViewIndex < 2)
+        visible: !(GStatus.currentViewType === Album.Types.ViewCollecttion && thumbnailImage.m_CollecttionCurrentViewIndex < 2)
         from: 0
         value: 0
         stepSize: 1

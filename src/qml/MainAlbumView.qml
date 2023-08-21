@@ -5,6 +5,9 @@
 import QtQuick 2.11
 import QtQuick.Window 2.11
 import org.deepin.dtk 1.0
+
+import org.deepin.album 1.0 as Album
+
 import "./ThumbnailImageView"
 import "./Control"
 import "./SideBar"
@@ -25,7 +28,7 @@ Item {
     // 侧边导航栏
     Sidebar{
         id : leftSidebar
-        width: visible ? global.sideBarWidth : 0
+        width: visible ? GStatus.sideBarWidth : 0
         anchors {
             top: parent.top
             topMargin: 19
@@ -36,13 +39,13 @@ Item {
         z: thumbnailImage.z + 1
 
         Component.onCompleted: {
-            x =  parent.width <= global.needHideSideBarWidth ? -global.sideBarWidth : 0
+            x =  parent.width <= GStatus.needHideSideBarWidth ? -GStatus.sideBarWidth : 0
         }
     }
 
     // 侧边栏跟随窗口尺寸展开/收起
     onWidthChanged: {
-        if (width <= global.needHideSideBarWidth) {
+        if (width <= GStatus.needHideSideBarWidth) {
             if (leftSidebar.x === 0 && (lastWidth > width)) {
                 hideSliderAnimation.start()
             }
@@ -68,7 +71,7 @@ Item {
     Connections {
         target: titleAlubmRect
         onSigDeleteClicked: {
-            deleteDialog.setDisplay(GlobalVar.FileDeleteType.TrashSel, global.selectedPaths.length)
+            deleteDialog.setDisplay(Album.Types.TrashSel, GStatus.selectedPaths.length)
             deleteDialog.show()
         }
     }
@@ -91,7 +94,7 @@ Item {
         id :hideSliderAnimation
         target: leftSidebar
         from: leftSidebar.x
-        to: -global.sideBarWidth
+        to: -GStatus.sideBarWidth
         property: "x"
         duration: 200
         easing.type: Easing.InOutQuad
@@ -115,7 +118,7 @@ Item {
             left: leftSidebar.right
             leftMargin: 0
         }
-        width: parent.width - leftSidebar.x - global.sideBarWidth
+        width: parent.width - leftSidebar.x - GStatus.sideBarWidth
         height: window.height - titleAlubmRect.height
     }
 
@@ -126,11 +129,11 @@ Item {
             left: leftSidebar.right
         }
 //        width: leftSidebar.x == 0 ? parent.width - leftSidebar.width : window.width
-        width: parent.width - leftSidebar.x - global.sideBarWidth
-        height: global.statusBarHeight
+        width: parent.width - leftSidebar.x - GStatus.sideBarWidth
+        height: GStatus.statusBarHeight
 
         onSliderValueChanged: {
-            global.thumbnailSizeLevel = sliderValue
+            GStatus.thumbnailSizeLevel = sliderValue
             fileControl.setConfigValue("", "album-zoomratio", sliderValue)
         }
 
@@ -151,18 +154,18 @@ Item {
         anchors.fill: parent
 
         onDropped: {
-            if(global.currentViewIndex == 6 && albumControl.isCustomAlbum(global.currentCustomAlbumUId)) {
-                var albumPaths = albumControl.getAlbumPaths(global.currentCustomAlbumUId)
+            if(GStatus.currentViewType === Album.Types.ViewCustomAlbum && albumControl.isCustomAlbum(GStatus.currentCustomAlbumUId)) {
+                var albumPaths = albumControl.getAlbumPaths(GStatus.currentCustomAlbumUId)
                 var urls = []
                 for (var i = 0; i < drop.urls.length; i++) {
                     urls.push(drop.urls[i])
                 }
                 if (!albumControl.checkRepeatUrls(albumPaths, urls)) {
-                    albumControl.importAllImagesAndVideosUrl(drop.urls, global.currentCustomAlbumUId, false)
-                    albumControl.addCustomAlbumInfos(global.currentCustomAlbumUId,drop.urls)
+                    albumControl.importAllImagesAndVideosUrl(drop.urls, GStatus.currentCustomAlbumUId, false)
+                    albumControl.addCustomAlbumInfos(GStatus.currentCustomAlbumUId,drop.urls)
                 }
             } else {
-                albumControl.importAllImagesAndVideosUrl(drop.urls, global.currentCustomAlbumUId, true)
+                albumControl.importAllImagesAndVideosUrl(drop.urls, GStatus.currentCustomAlbumUId, true)
             }
         }
 
@@ -170,12 +173,12 @@ Item {
             if(drag.hasUrls) {
                 var urls = drag.urls
                 if(fileControl.checkMimeUrls(urls)) {
-                    if (global.currentViewIndex === GlobalVar.ThumbnailViewType.CustomAlbum) {
+                    if (GStatus.currentViewType === Album.Types.ViewCustomAlbum) {
                         // 仅自定义相册允许拖拽导入
-                        drag.accepted = albumControl.isCustomAlbum(global.currentCustomAlbumUId)
-                    } else if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Import
-                               || global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion
-                               || global.currentViewIndex === GlobalVar.ThumbnailViewType.HaveImported) {
+                        drag.accepted = albumControl.isCustomAlbum(GStatus.currentCustomAlbumUId)
+                    } else if (GStatus.currentViewType === Album.Types.ViewImport
+                               || GStatus.currentViewType === Album.Types.ViewCollecttion
+                               || GStatus.currentViewType === Album.Types.ViewHaveImported) {
                         drag.accepted = true
                     } else {
                         drag.accepted = false

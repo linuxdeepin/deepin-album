@@ -12,6 +12,8 @@ import QtQuick.Shapes 1.10
 import org.deepin.dtk 1.0
 import QtGraphicalEffects 1.0
 
+import org.deepin.album 1.0 as Album
+
 import "../"
 import "../../"
 
@@ -31,7 +33,7 @@ Item {
         height: parent.height
         radius: 10
         color: "#AAAAAA"
-        visible: theView.ism.indexOf(parent.m_index) !== -1 || global.selectedPaths.indexOf(m_url) !== -1
+        visible: theView.ism.indexOf(parent.m_index) !== -1 || GStatus.selectedPaths.indexOf(m_url) !== -1
         opacity: 0.4
     }
 
@@ -139,7 +141,7 @@ Item {
     //收藏图标
     ActionButton {
         id: itemFavoriteBtn
-        visible: albumControl.photoHaveFavorited(m_url, global.bRefreshFavoriteIconFlag) || mouseAreaTopParentRect.bHovered
+        visible: albumControl.photoHaveFavorited(m_url, GStatus.bRefreshFavoriteIconFlag) || mouseAreaTopParentRect.bHovered
         anchors {
             bottom: image.bottom
             left: image.left
@@ -149,7 +151,7 @@ Item {
         hoverEnabled: false  //设置为false，可以解决鼠标移动到图标附近时，图标闪烁问题
 
         icon {
-            name: albumControl.photoHaveFavorited(m_url, global.bRefreshFavoriteIconFlag) ? "collected" : "collection2"
+            name: albumControl.photoHaveFavorited(m_url, GStatus.bRefreshFavoriteIconFlag) ? "collected" : "collection2"
         }
 
         MouseArea {
@@ -161,7 +163,7 @@ Item {
                 var paths = []
                 paths.push(m_url)
 
-                if (albumControl.photoHaveFavorited(m_url, global.bRefreshFavoriteIconFlag)) {
+                if (albumControl.photoHaveFavorited(m_url, GStatus.bRefreshFavoriteIconFlag)) {
                     //取消收藏
                     albumControl.removeFromAlbum(0, paths)
                 } else {
@@ -169,10 +171,10 @@ Item {
                     albumControl.insertIntoAlbum(0, paths)
                 }
 
-                global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+                GStatus.bRefreshFavoriteIconFlag = !GStatus.bRefreshFavoriteIconFlag
                 // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
-                if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId === 0) {
-                    global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
+                if (GStatus.currentViewType === Album.Types.ViewFavorite && GStatus.currentCustomAlbumUId === 0) {
+                    GStatus.sigFlushCustomAlbumView(GStatus.currentCustomAlbumUId)
                 }
 
                 mouse.accepted = true
@@ -229,7 +231,7 @@ Item {
     //剩余天数标签
     VideoLabel {
         id: labelRemainDays
-        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.RecentlyDeleted
+        visible: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted
         anchors {
             bottom: image.bottom
             left: image.left

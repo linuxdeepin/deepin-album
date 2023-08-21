@@ -23,7 +23,7 @@ Menu {
     property bool supportOcr: !isNullImage && fileControl.isCanSupportOcr(imageSource)
     property bool supportWallpaper: !isNullImage && fileControl.isSupportSetWallpaper(imageSource)
     property bool canExport: fileControl.pathExists(imageSource.toString()) && fileControl.isImage(imageSource.toString()) && !fileControl.isVideo(imageSource.toString())
-    property bool canFavorite: albumControl.canFavorite((imageSource.toString()), global.bRefreshFavoriteIconFlag)
+    property bool canFavorite: albumControl.canFavorite((imageSource.toString()), GStatus.bRefreshFavoriteIconFlag)
 
     x: 250
     y: 600
@@ -356,8 +356,8 @@ Menu {
 
     // 执行导出图片
     function excuteExport() {
-        if (global.selectedPaths.length > 1) {
-            var bRet = albumControl.getFolders(global.selectedPaths)
+        if (GStatus.selectedPaths.length > 1) {
+            var bRet = albumControl.getFolders(GStatus.selectedPaths)
             if (bRet)
                 DTK.sendMessage(thumbnailImage, qsTr("Export successful"), "notify_checked")
             else

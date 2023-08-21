@@ -16,8 +16,8 @@ BaseView {
     anchors.fill: parent
 
     property int customAlbumUId: 0
-    property string devicePath: global.deviceCurrentPath
-    property string deviceName: global.deviceCurrentName
+    property string devicePath: GStatus.currentDevicePath
+    property string deviceName: GStatus.currentDeviceName
     property int filterType: 0
     property int currentImportIndex: 0
     property var numLabelText: getNumLabelText(filterType)
@@ -45,7 +45,7 @@ BaseView {
     function flushDeviceAlbumView() {
         dataModel.devicePath = devicePath
         theView.proxyModel.refresh(filterType)
-        global.selectedPaths = theView.selectedUrls
+        GStatus.selectedPaths = theView.selectedUrls
         getNumLabelText()
     }
 
@@ -76,7 +76,7 @@ BaseView {
         var numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? ((photoCountText !== "" ? " " : "") + videoCountText) : ""))
                                            : (filterType == 1 ? photoCountText : videoCountText)
         if (visible) {
-            global.statusBarNumText = numLabelText
+            GStatus.statusBarNumText = numLabelText
         }
 
         return numLabelText
@@ -84,9 +84,9 @@ BaseView {
 
     // 刷新选中项数标签
     function getSelectedText(paths) {
-        var selectedNumText = global.getSelectedNumText(paths, numLabelText)
+        var selectedNumText = GStatus.getSelectedNumText(paths, numLabelText)
         if (visible)
-            global.statusBarNumText = selectedNumText
+            GStatus.statusBarNumText = selectedNumText
         return selectedNumText
     }
 
@@ -106,9 +106,9 @@ BaseView {
     Connections {
         target: albumControl
         onSigRepeatUrls: {
-            if (visible && global.currentCustomAlbumUId !== 0) {
+            if (visible && GStatus.currentCustomAlbumUId !== 0) {
                 theView.selectedPaths = urls
-                global.selectedPaths = selectedPaths
+                GStatus.selectedPaths = selectedPaths
             }
         }
     }
@@ -116,8 +116,8 @@ BaseView {
     // 设备相册标题栏区域
     Item {
         id: deviceAlbumTitleRect
-        width: parent.width - global.verticalScrollBarWidth
-        height: global.thumbnailViewTitleHieght - 10
+        width: parent.width - GStatus.verticalScrollBarWidth
+        height: GStatus.thumbnailViewTitleHieght - 10
         // 设备名称标签
         Label {
             id: deviceAlbumLabel
@@ -164,10 +164,10 @@ BaseView {
                 id: filterCombo
                 width: 180
                 height: 36
-                displayText : currentIndex == 0?qsTr("Import") : currentIndex == 1? qsTr("New Album")  :albumControl.getAllCustomAlbumName(global.albumChangeList)[currentIndex-2]
-                model: albumControl.getAllCustomAlbumId(global.albumChangeList).length+2
+                displayText : currentIndex == 0?qsTr("Import") : currentIndex == 1? qsTr("New Album")  :albumControl.getAllCustomAlbumName(GStatus.albumChangeList)[currentIndex-2]
+                model: albumControl.getAllCustomAlbumId(GStatus.albumChangeList).length+2
                 delegate: MenuItem {
-                    text: index == 0?qsTr("Import") : index == 1? qsTr("New Album")  :albumControl.getAllCustomAlbumName(global.albumChangeList)[index-2]
+                    text: index == 0?qsTr("Import") : index == 1? qsTr("New Album")  :albumControl.getAllCustomAlbumName(GStatus.albumChangeList)[index-2]
                     onTriggered:{
                         if(index == 0 ){
                             currentImportIndex = 0
@@ -191,14 +191,14 @@ BaseView {
             RecommandButton{
                 id: openPictureBtn
                 font.capitalization: Font.MixedCase
-                text: global.selectedPaths.length === 0 ? qsTr("Import All")
-                                                       : global.selectedPaths.length === 1 ? qsTr("Import 1 Item")
-                                                       : qsTr("Import %1 Items").arg(global.selectedPaths.length)
+                text: GStatus.selectedPaths.length === 0 ? qsTr("Import All")
+                                                       : GStatus.selectedPaths.length === 1 ? qsTr("Import 1 Item")
+                                                       : qsTr("Import %1 Items").arg(GStatus.selectedPaths.length)
                 onClicked:{
-                    if(global.selectedPaths.length > 0){
-                    	albumControl.importFromMountDevice(global.selectedPaths,albumControl.getAllCustomAlbumId(global.albumChangeList)[currentImportIndex])
+                    if(GStatus.selectedPaths.length > 0){
+                        albumControl.importFromMountDevice(GStatus.selectedPaths,albumControl.getAllCustomAlbumId(GStatus.albumChangeList)[currentImportIndex])
                     }else{
-                        albumControl.importFromMountDevice(theView.allUrls(),albumControl.getAllCustomAlbumId(global.albumChangeList)[currentImportIndex])
+                        albumControl.importFromMountDevice(theView.allUrls(),albumControl.getAllCustomAlbumId(GStatus.albumChangeList)[currentImportIndex])
                     }
                     DTK.sendMessage(thumbnailImage, qsTr("Import successful"), "notify_checked")
                 }
@@ -225,7 +225,7 @@ BaseView {
         width: parent.width
         height: parent.height - deviceAlbumTitleRect.height - m_topMargin
         visible: numLabelText !== ""
-        thumnailListType: GlobalVar.ThumbnailType.Device
+        thumnailListType: Album.Types.ThumbnailDevice
 
         proxyModel.sourceModel: Album.ImageDataModel { id: dataModel; modelType: Album.Types.Device}
 
@@ -236,7 +236,7 @@ BaseView {
             target: theView
             onSelectedChanged: {
                 if (parent.visible)
-                    global.selectedPaths = theView.selectedUrls
+                    GStatus.selectedPaths = theView.selectedUrls
             }
         }
     }

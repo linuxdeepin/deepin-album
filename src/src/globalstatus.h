@@ -9,6 +9,7 @@
 
 #include <QObject>
 
+class FileControl;
 class GlobalStatus : public QObject
 {
     Q_OBJECT
@@ -24,9 +25,20 @@ class GlobalStatus : public QObject
     Q_PROPERTY(int actionMargin READ actionMargin CONSTANT)
     Q_PROPERTY(int rightMenuItemHeight READ rightMenuItemHeight CONSTANT)
 
+    Q_PROPERTY(int rightMenuSeparatorHeight READ rightMenuSeparatorHeight CONSTANT)
+    Q_PROPERTY(int needHideSideBarWidth READ needHideSideBarWidth CONSTANT)
+    Q_PROPERTY(int sideBarWidth READ sideBarWidth CONSTANT)
+    Q_PROPERTY(int statusBarHeight READ statusBarHeight CONSTANT)
+    Q_PROPERTY(int collectionTopMargin READ collectionTopMargin CONSTANT)
+    Q_PROPERTY(int thumbnailViewTitleHieght READ thumbnailViewTitleHieght CONSTANT)
+    Q_PROPERTY(int verticalScrollBarWidth READ verticalScrollBarWidth CONSTANT)
+    Q_PROPERTY(int rectSelScrollStep READ rectSelScrollStep CONSTANT)
+    Q_PROPERTY(int thumbnailListRightMargin READ thumbnailListRightMargin CONSTANT)
+    Q_PROPERTY(int thumbnialListCellSpace READ thumbnialListCellSpace CONSTANT)
+
 public:
     explicit GlobalStatus(QObject *parent = nullptr);
-    ~GlobalStatus() override;
+    ~GlobalStatus() override;    
 
     // 切换全屏显示图片 (ImageViewer)
     Q_PROPERTY(bool showFullScreen READ showFullScreen WRITE setShowFullScreen NOTIFY showFullScreenChanged)
@@ -93,6 +105,121 @@ public:
     void setShowExportDialog(bool value);
     Q_SIGNAL void showExportDialogChanged();
 
+    // 相册相关接口
+
+    void setFileControl(FileControl* fc);
+
+    // 侧边栏X坐标
+    Q_PROPERTY(qreal sideBarX READ sideBarX WRITE setSideBarX NOTIFY sideBarXChanged)
+    qreal sideBarX() const;
+    void setSideBarX(const qreal& value);
+    Q_SIGNAL void sideBarXChanged();
+
+    // 已选路径
+    Q_PROPERTY(QVariantList selectedPaths READ selectedPaths WRITE setSelectedPaths NOTIFY selectedPathsChanged)
+    QVariantList selectedPaths() const;
+    void setSelectedPaths(const QVariantList& value);
+    Q_SIGNAL void selectedPathsChanged();
+
+    // 刷新收藏图标
+    Q_PROPERTY(bool bRefreshFavoriteIconFlag READ bRefreshFavoriteIconFlag WRITE setBRefreshFavoriteIconFlag NOTIFY bRefreshFavoriteIconFlagChanged)
+    bool bRefreshFavoriteIconFlag() const;
+    void setBRefreshFavoriteIconFlag(const bool& value);
+    Q_SIGNAL void bRefreshFavoriteIconFlagChanged();
+
+    // 刷新显示比例图标激活状态
+    Q_PROPERTY(bool refreshRangeBtnState READ refreshRangeBtnState WRITE setRefreshRangeBtnState NOTIFY refreshRangeBtnStateChanged)
+    bool refreshRangeBtnState() const;
+    void setRefreshRangeBtnState(const bool& value);
+    Q_SIGNAL void refreshRangeBtnStateChanged();
+
+    // 当前视图类型
+    Q_PROPERTY(Types::ThumbnailViewType currentViewType READ currentViewType WRITE setCurrentViewType NOTIFY currentViewTypeChanged)
+    Types::ThumbnailViewType currentViewType() const;
+    void setCurrentViewType(const Types::ThumbnailViewType& value);
+    Q_SIGNAL void currentViewTypeChanged();
+
+    // 当前自定义相册Id
+    Q_PROPERTY(int currentCustomAlbumUId READ currentCustomAlbumUId WRITE setCurrentCustomAlbumUId NOTIFY currentCustomAlbumUIdChanged)
+    int currentCustomAlbumUId() const;
+    void setCurrentCustomAlbumUId(const int& value);
+    Q_SIGNAL void currentCustomAlbumUIdChanged();
+
+    // 当前显示的主界面内容， 0:相册界面 1:看图界面 2:幻灯片
+    Q_PROPERTY(int stackControlCurrent READ stackControlCurrent WRITE setStackControlCurrent NOTIFY stackControlCurrentChanged)
+    int stackControlCurrent() const;
+    void setStackControlCurrent(const int& value);
+    Q_SIGNAL void stackControlCurrentChanged();
+
+    // 记录上一次显示主界面的索引
+    Q_PROPERTY(int stackControlLastCurrent READ stackControlLastCurrent WRITE setStackControlLastCurrent NOTIFY stackControlLastCurrentChanged)
+    int stackControlLastCurrent() const;
+    void setStackControlLastCurrent(const int& value);
+    Q_SIGNAL void stackControlLastCurrentChanged();
+
+    // 缩略图缩放等级
+    Q_PROPERTY(int thumbnailSizeLevel READ thumbnailSizeLevel WRITE setThumbnailSizeLevel NOTIFY thumbnailSizeLevelChanged)
+    int thumbnailSizeLevel() const;
+    void setThumbnailSizeLevel(const int& value);
+    Q_SIGNAL void thumbnailSizeLevelChanged();
+
+    // 缩略图网格大小
+    Q_PROPERTY(qreal cellBaseWidth READ cellBaseWidth WRITE setCellBaseWidth NOTIFY cellBaseWidthChanged)
+    qreal cellBaseWidth() const;
+    void setCellBaseWidth(const qreal& value);
+    Q_SIGNAL void cellBaseWidthChanged();
+
+    // 状态栏显示的总数文本内容
+    Q_PROPERTY(QString statusBarNumText READ statusBarNumText WRITE setStatusBarNumText NOTIFY statusBarNumTextChanged)
+    QString statusBarNumText() const;
+    void setStatusBarNumText(const QString& value);
+    Q_SIGNAL void statusBarNumTextChanged();
+
+    // 搜索框文本内容
+    Q_PROPERTY(QString searchEditText READ searchEditText WRITE setSearchEditText NOTIFY searchEditTextChanged)
+    QString searchEditText() const;
+    void setSearchEditText(const QString& value);
+    Q_SIGNAL void searchEditTextChanged();
+
+    // 自动导入相册改变标记
+    Q_PROPERTY(bool albumImportChangeList READ albumImportChangeList WRITE setAlbumImportChangeList NOTIFY albumImportChangeListChanged)
+    bool albumImportChangeList() const;
+    void setAlbumImportChangeList(const bool& value);
+    Q_SIGNAL void albumImportChangeListChanged();
+
+    // 自定义相册改变标记
+    Q_PROPERTY(bool albumChangeList READ albumChangeList WRITE setAlbumChangeList NOTIFY albumChangeListChanged)
+    bool albumChangeList() const;
+    void setAlbumChangeList(const bool& value);
+    Q_SIGNAL void albumChangeListChanged();
+
+    // 当前设备名称
+    Q_PROPERTY(QString currentDeviceName READ currentDeviceName WRITE setCurrentDeviceName NOTIFY currentDeviceNameChanged)
+    QString currentDeviceName() const;
+    void setCurrentDeviceName(const QString& value);
+    Q_SIGNAL void currentDeviceNameChanged();
+
+    // 当前设备路径
+    Q_PROPERTY(QString currentDevicePath READ currentDevicePath WRITE setCurrentDevicePath NOTIFY currentDevicePathChanged)
+    QString currentDevicePath() const;
+    void setCurrentDevicePath(const QString& value);
+    Q_SIGNAL void currentDevicePathChanged();
+
+    // 窗口是否激活标记
+    Q_PROPERTY(bool windowDisactived READ windowDisactived WRITE setWindowDisactived NOTIFY windowDisactivedChanged)
+    bool windowDisactived() const;
+    void setWindowDisactived(const bool& value);
+    Q_SIGNAL void windowDisactivedChanged();
+
+    // 记录相册界面是否处于加载状态
+    Q_PROPERTY(bool loading READ loading WRITE setLoading NOTIFY loadingChanged)
+    bool loading() const;
+    void setLoading(const bool& value);
+    Q_SIGNAL void loadingChanged();
+
+    // 根据选中内容获取状态栏文本内容
+    Q_INVOKABLE QString getSelectedNumText(const QStringList &paths, const QString &text);
+
     // Constant properties.
     int minHeight() const;
     int minWidth() const;
@@ -104,6 +231,35 @@ public:
     int switchImageHotspotWidth() const;
     int actionMargin() const;
     int rightMenuItemHeight() const;
+    int rightMenuSeparatorHeight() const;
+
+    int needHideSideBarWidth() const;
+    int sideBarWidth() const;
+    int statusBarHeight() const;
+    int collectionTopMargin() const;
+    int thumbnailViewTitleHieght() const;
+    int verticalScrollBarWidth() const;
+    int rectSelScrollStep() const;
+    int thumbnailListRightMargin() const;
+    int thumbnialListCellSpace() const;
+
+// 相册相关信号
+Q_SIGNALS:
+    void sigThumbnailStateChange();
+    void sigRunSearch(int UID, QString keywords);           // 执行搜索
+    void sigFlushAllCollectionView();                       // 刷新合集所有项目视图内容
+    void sigFlushHaveImportedView();                        // 刷新已导入视图内容
+    void sigFlushRecentDelView();                           // 刷新最近删除视图内容
+    void sigFlushCustomAlbumView(int UID);                  // 刷新我的收藏/自定义相册视图内容 UID: >= 0 刷新指定视图，-1: 默认刷新所有视图
+    void sigCollectionViewIndexChanged(int index);          // 合集页面发生改变
+    void sigFlushSearchView();                              // 刷新搜索结果视图内容
+    void sigCustomAlbumNameChaged(int UID, QString name);   // 刷新自定义相册视图的相册名称
+    void sigSelectAll(bool bSel);
+    void sigPageUp();
+    void sigPageDown();
+
+private:
+    void initConnect();
 
 private:
     bool storeshowFullScreen = false;
@@ -117,6 +273,33 @@ private:
     int storethumbnailVaildWidth = 0;
     bool storeshowExportDialog = false;
     Types::StackPage storestackPage = Types::OpenImagePage;
+
+
+    // 相册相关成员变量
+    qreal m_sideBar_X = 0;
+    QVariantList m_selectedPaths = QVariantList();// 已选路径
+
+    bool m_bRefreshFavoriteIconFlag = false;    // 刷新收藏图标标记，翻转一次，前端图标就刷新一次
+    bool m_bRefreshRangeBtnState = false;       // 刷新显示比例图标激活状态标记，翻转一次，前端图标就刷新一次
+    Types::ThumbnailViewType m_currentViewType = Types::ViewCollecttion; // 当前显示的视图类型
+    int m_currentCustomAlbumUId = -1;           // 当前自定义相册所在UId，-1：照片库(非我的收藏) 0:我的收藏 1:截图录屏 2:相机 3:画板 其他:自定义相册
+    int m_stackControlCurrent = 0;              // 0:相册界面 1:看图界面 2:幻灯片
+    int m_stackControlLastCurrent = -1;         // 记录上一次显示的主界面索引 0:相册界面 1:看图界面 2:幻灯片
+    int m_thumbnailSizeLevel = 0;               // 缩略图缩放等级
+    qreal m_cellBaseWidth;                      // 缩略图网格大小
+    QString m_statusBarNumText = "";            // 状态栏显示的总数文本内容
+    QString m_searchEditText = "";              // 搜索框文本内容
+
+    bool m_bAlbumImportChangeList = false;      // 自动导入相册改变标记
+    bool m_bAlbumChangeList = false;            // 自定义相册改变标记
+
+    QString m_currentDeviceName = "";           // 当前设备名称
+    QString m_currentDevicePath= "";            // 当前设备路径
+
+    bool m_bWindowDisactived = false;           // 窗口是否激活标记
+    bool m_bLoading = true;                     // 记录相册界面是否处于加载状态
+
+    FileControl* m_fileControl { nullptr };
 };
 
 #endif  // GLOBALSTATUS_H

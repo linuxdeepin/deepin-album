@@ -4,6 +4,9 @@
 
 import QtQuick 2.11
 import org.deepin.dtk 1.0
+
+import org.deepin.album 1.0 as Album
+
 import "../../Control"
 import "../../"
 import "../"
@@ -21,7 +24,7 @@ BaseView {
             if (visible) {
                 theView.sigUnSelectAll()
                 theView.selectedPaths = urls
-                global.selectedPaths = selectedPaths
+                GStatus.selectedPaths = selectedPaths
             }
         }
     }
@@ -72,23 +75,23 @@ BaseView {
         numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? ((photoCountText !== "" ? " " : "") + videoCountText) : ""))
                                            : (filterType == 1 ? photoCountText : videoCountText)
         if (visible) {
-            global.statusBarNumText = numLabelText
+            GStatus.statusBarNumText = numLabelText
         }
     }
 
     // 刷新选中项数标签
     function getSelectedText(paths) {
-        var selectedNumText = global.getSelectedNumText(paths, numLabelText)
+        var selectedNumText = GStatus.getSelectedNumText(paths, numLabelText)
         if (visible)
-            global.statusBarNumText = selectedNumText
+            GStatus.statusBarNumText = selectedNumText
         return selectedNumText
     }
 
     // 已导入视图标题栏区域
     Item {
         id: importedTitleRect
-        width: parent.width - global.verticalScrollBarWidth
-        height: global.thumbnailViewTitleHieght
+        width: parent.width - GStatus.verticalScrollBarWidth
+        height: GStatus.thumbnailViewTitleHieght
         z:3
 
         // 已导入标签
@@ -125,10 +128,10 @@ BaseView {
 
     // 若没有数据，显示导入图片视图
     ImportView {
-        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.HaveImported && numLabelText === "" && filterType === 0
+        visible: GStatus.currentViewType === Album.Types.ViewHaveImported && numLabelText === "" && filterType === 0
     }
 
     Component.onCompleted: {
-        global.sigFlushHaveImportedView.connect(flushHaveImportedView)
+        GStatus.sigFlushHaveImportedView.connect(flushHaveImportedView)
     }
 }

@@ -43,7 +43,7 @@ Item {
                 stackView.switchOpenImage()
             else {
                 window.title = ""
-                global.stackControlCurrent = 0
+                GStatus.stackControlCurrent = 0
             }
         }
     }
@@ -90,7 +90,7 @@ Item {
 
             onClicked: {
                 showNormal()
-                global.stackControlCurrent = 0
+                GStatus.stackControlCurrent = 0
                 var urls = []
                 GControl.setImageFiles(urls, "")
                 fileControl.resetImageFiles(urls)
@@ -104,7 +104,7 @@ Item {
 
             Shortcut {
                 enabled: backAlbum.visible
-                         && global.stackControlCurrent === 1
+                         && GStatus.stackControlCurrent === 1
                          && fileControl.isAlbum()
                          && window.visibility !== Window.FullScreen
                 sequence: "Esc"
@@ -114,7 +114,7 @@ Item {
                     GControl.setImageFiles(urls, "")
                     fileControl.resetImageFiles(urls)
                     GControl.currentSource = ""
-                    global.stackControlCurrent = 0
+                    GStatus.stackControlCurrent = 0
                 }
             }
         }
@@ -241,7 +241,7 @@ Item {
 
         IconButton {
             id: collectionButton
-            property bool canFavorite: !albumControl.photoHaveFavorited(source, global.bRefreshFavoriteIconFlag)
+            property bool canFavorite: !albumControl.photoHaveFavorited(source, GStatus.bRefreshFavoriteIconFlag)
             width: fileControl.isAlbum() ? 50 : 0
             height:  fileControl.isAlbum() ? 50 : 0
             visible: fileControl.isAlbum()
@@ -258,7 +258,7 @@ Item {
                     albumControl.removeFromAlbum(0, paths)
                 }
 
-                global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+                GStatus.bRefreshFavoriteIconFlag = !GStatus.bRefreshFavoriteIconFlag
             }
 
             ToolTip.delay: 500
