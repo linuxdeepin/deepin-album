@@ -21,9 +21,7 @@ BaseView {
     property int totalCount: 0
 
     onVisibleChanged: {
-        if (visible) {
-            flushRecentDelView()
-        }
+        flushRecentDelView()
     }
 
     // 筛选类型改变处理事件
@@ -33,6 +31,9 @@ BaseView {
 
     // 刷新最近删除视图内容
     function flushRecentDelView() {
+        if (!visible)
+            return
+
         theView.proxyModel.refresh(filterType)
         GStatus.selectedPaths = theView.selectedUrls
         getNumLabelText()

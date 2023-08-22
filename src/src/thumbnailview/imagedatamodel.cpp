@@ -74,7 +74,7 @@ QVariant ImageDataModel::data(const QModelIndex &index, int role) const
 
     case Roles::ItemTypeRole: {
         if (info.itemType == ItemTypePic) {
-            return "pciture";
+            return "picture";
         } else if (info.itemType == ItemTypeVideo) {
             return "video";
         } else {
@@ -181,20 +181,28 @@ void ImageDataModel::loadData(Types::ItemType type)
     else if (type == Types::Video)
         itemType = ItemTypeVideo;
 
+    QString key;
     beginResetModel();
-    if (m_modelType == Types::AllCollection)
+    if (m_modelType == Types::AllCollection) {
+        key = "allpic";
         m_infoList = DBManager::instance()->getAllInfosSort(itemType);
-    else if (m_modelType == Types::CustomAlbum)
+    }
+    else if (m_modelType == Types::CustomAlbum) {
+        key = "customId:" + QString::number(m_albumID);
         m_infoList = DBManager::instance()->getInfosByAlbum(m_albumID, false, itemType);
+    }
     else if (m_modelType == Types::RecentlyDeleted) {
+        key = "recentdelete";
         m_infoList = AlbumControl::instance()->getTrashInfos2(itemType);
     } else if (m_modelType == Types::Device) {
+        key = "devicePath:" + m_devicePath;
         m_infoList = AlbumControl::instance()->getDeviceAlbumInfos2(m_devicePath, itemType);
     } else if (m_modelType == Types::SearchResult) {
+        key = "searchresult";
         m_infoList = AlbumControl::instance()->searchPicFromAlbum2(m_albumID, m_keyWord, false);
     } else if (m_modelType == Types::DayCollecttion) {
         m_infoList = DBManager::instance()->getInfosByDay(m_dayToken);
     }
     endResetModel();
-    qDebug() << QString("loadData modelType:[%1] cost [%2]ms..").arg(m_modelType).arg(time.elapsed());
+    qDebug() << QString("loadData modelType:[%1] %2 cost [%3]ms..").arg(m_modelType).arg(!key.isEmpty() ? key : "").arg(time.elapsed());
 }
