@@ -722,26 +722,7 @@ FocusScope {
             id: positioner
 
             enabled: true
-
             thumbnailModel: thumbnailModel
-
-            perStripe: Math.floor(((gridView.flow == GridView.FlowLeftToRight)
-                ? gridView.width : gridView.height) / ((gridView.flow == GridView.FlowLeftToRight)
-                ? gridView.cellWidth : gridView.cellHeight));
-        }
-
-        Album.ItemViewAdapter {
-            id: viewAdapter
-
-            adapterView: gridView
-            adapterModel: positioner
-            adapterIconSize: gridView.iconSize * 2
-            adapterVisibleArea: Qt.rect(gridView.contentX, gridView.contentY, gridView.contentWidth, gridView.contentHeight)
-
-            Component.onCompleted: {
-                gridView.movementStarted.connect(viewAdapter.viewScrolled);
-                thumbnailModel.viewAdapter = viewAdapter;
-            }
         }
     }
 

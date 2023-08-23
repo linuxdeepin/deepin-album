@@ -7,7 +7,6 @@
 
 #include "types.h"
 #include "roles.h"
-#include "itemviewadapter.h"
 #include "unionimage/unionimage_global.h"
 
 #include <QItemSelectionModel>
@@ -22,14 +21,12 @@ class ThumbnailModel : public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(QByteArray sortRoleName READ sortRoleName WRITE setSortRoleName)
-    Q_PROPERTY(bool containImages READ containImages WRITE setContainImages NOTIFY containImagesChanged)
     Q_PROPERTY(QList<int> selectedIndexes READ selectedIndexes NOTIFY selectedIndexesChanged)
     Q_PROPERTY(QJsonArray selectedUrls READ selectedUrls NOTIFY selectedIndexesChanged)
     Q_PROPERTY(QJsonArray selectedPaths READ selectedPaths NOTIFY selectedIndexesChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY srcModelReseted)
     Q_PROPERTY(Types::ModelType modelType READ modelType)
     Q_PROPERTY(Status status READ status NOTIFY statusChanged)
-    Q_PROPERTY(QObject *viewAdapter READ viewAdapter WRITE setViewAdapter NOTIFY viewAdapterChanged)
 public:
     enum Status {
         None,
@@ -51,11 +48,7 @@ public:
 
     Status status() const;
 
-    QObject *viewAdapter() const;
-    void setViewAdapter(QObject *adapter);
-
     void setSourceModel(QAbstractItemModel *sourceModel) override;
-    bool containImages();
 
     Q_INVOKABLE Types::ModelType modelType() const;
     Q_INVOKABLE bool isSelected(int row);
@@ -87,16 +80,13 @@ public:
     DBImgInfo indexForData(const QModelIndex &index) const;
 
 protected Q_SLOTS:
-    void setContainImages(bool);
     void showPreview(const QString &path);
     void changeSelection(const QItemSelection &selected, const QItemSelection &deselected);
 
 signals:
-    void containImagesChanged();
     void selectedIndexesChanged();
     void srcModelReseted() const;
     void statusChanged() const;
-    void viewAdapterChanged();
     void selectionChanged() const;
 
 private:
@@ -109,11 +99,7 @@ private:
     QItemSelectionModel *m_selectionModel;
     QItemSelection m_pinnedSelection;
 
-    QPointer<ItemViewAdapter> m_viewAdapter;
-
     QTimer *m_previewTimer;
-    QSize m_screenshotSize;
-    bool m_containImages;
 };
 
 #endif // JUNGLE_SORTMODEL_H

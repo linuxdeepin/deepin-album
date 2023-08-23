@@ -9,7 +9,6 @@
 #include "src/albumControl.h"
 
 #include "src/imageengine/imagedataservice.h"
-#include "thumbnailview/itemviewadapter.h"
 #include "thumbnailview/positioner.h"
 #include "thumbnailview/rubberband.h"
 #include "thumbnailview/mouseeventlistener.h"
@@ -168,7 +167,6 @@ int main(int argc, char *argv[])
     // 相册qml插件
     qmlRegisterType<ImageDataModel>(albumUri, 1, 0, "ImageDataModel");
     qmlRegisterType<ThumbnailModel>(albumUri, 1, 0, "ThumbnailModel");
-    qmlRegisterType<ItemViewAdapter>(albumUri, 1, 0, "ItemViewAdapter");
     qmlRegisterType<Positioner>(albumUri, 1, 0, "Positioner");
     qmlRegisterType<RubberBand>(albumUri, 1, 0, "RubberBand");
     qmlRegisterType<MouseEventListener>(albumUri, 1, 0, "MouseEventListener");

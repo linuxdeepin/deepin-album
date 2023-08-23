@@ -22,8 +22,6 @@ class Positioner : public QAbstractItemModel
 
     Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
     Q_PROPERTY(ThumbnailModel *thumbnailModel READ thumbnailModel WRITE setThumbnailModel NOTIFY sortModelChanged)
-    Q_PROPERTY(int perStripe READ perStripe WRITE setPerStripe NOTIFY perStripeChanged)
-    Q_PROPERTY(QStringList positions READ positions WRITE setPositions NOTIFY positionsChanged)
 
 public:
     explicit Positioner(QObject *parent = nullptr);
@@ -35,15 +33,7 @@ public:
     ThumbnailModel *thumbnailModel() const;
     void setThumbnailModel(ThumbnailModel *thumbnailModel);
 
-    int perStripe() const;
-    void setPerStripe(int perStripe);
-
-    QStringList positions() const;
-    void setPositions(const QStringList &positions);
-
     Q_INVOKABLE int map(int row) const;
-
-    Q_INVOKABLE int nearestItem(int currentIndex, Qt::ArrowType direction);
 
     Q_INVOKABLE bool isBlank(int row) const;
     Q_INVOKABLE int indexForUrl(const QUrl &url) const;
@@ -51,18 +41,6 @@ public:
     Q_INVOKABLE void setRangeSelected(int anchor, int to);
 
     Q_INVOKABLE void reset();
-
-    /**
-     * Performs the move operation in the underlying model.
-     *
-     * @param moves List of indexes that were moved. Two
-     *              consecutive entries correspond to the
-     *              from and to position.
-     *
-     * @return The lowest index that was moved. Used to
-     *         determine the first selected item.
-     */
-    Q_INVOKABLE int move(const QVariantList &moves);
 
     QHash<int, QByteArray> roleNames() const override;
 
@@ -88,12 +66,9 @@ public:
 Q_SIGNALS:
     void enabledChanged() const;
     void sortModelChanged() const;
-    void perStripeChanged() const;
     void positionsChanged() const;
 
 private Q_SLOTS:
-    void updatePositions();
-    void sourceStatusChanged();
     void sourceDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
     void sourceModelAboutToBeReset();
     void sourceModelReset();
@@ -112,7 +87,6 @@ private:
     int firstRow() const;
     int lastRow() const;
     int firstFreeRow() const;
-    void applyPositions();
     void flushPendingChanges();
     void connectSignals(ThumbnailModel *model);
     void disconnectSignals(ThumbnailModel *model);
@@ -120,17 +94,13 @@ private:
     bool m_enabled;
     ThumbnailModel *m_thumbnialModel;
 
-    int m_perStripe;
-
     int m_lastRow;
 
     QModelIndexList m_pendingChanges;
     bool m_ignoreNextTransaction;
 
-    QStringList m_positions;
     bool m_deferApplyPositions;
     QVariantList m_deferMovePositions;
-    QTimer *const m_updatePositionsTimer;
 
     QHash<int, int> m_proxyToSource;
     QHash<int, int> m_sourceToProxy;

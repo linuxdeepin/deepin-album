@@ -14,9 +14,6 @@
 
 ThumbnailModel::ThumbnailModel(QObject *parent)
     : QSortFilterProxyModel(parent)
-    , m_viewAdapter(nullptr)
-    , m_screenshotSize(256, 256)
-    , m_containImages(false)
 {
     setSortLocaleAware(true);
     sort(0);
@@ -41,12 +38,6 @@ Types::ModelType ThumbnailModel::modelType() const
         modelType = dataModel->modelType();
 
     return modelType;
-}
-
-void ThumbnailModel::setContainImages(bool value)
-{
-    m_containImages = value;
-    emit containImagesChanged();
 }
 
 void ThumbnailModel::showPreview(const QString &path)
@@ -160,22 +151,6 @@ ThumbnailModel::Status ThumbnailModel::status() const
     return m_status;
 }
 
-QObject *ThumbnailModel::viewAdapter() const
-{
-    return m_viewAdapter;
-}
-
-void ThumbnailModel::setViewAdapter(QObject *adapter)
-{
-    if (m_viewAdapter != adapter) {
-        ItemViewAdapter *abstractViewAdapter = dynamic_cast<ItemViewAdapter *>(adapter);
-
-        m_viewAdapter = abstractViewAdapter;
-
-        Q_EMIT viewAdapterChanged();
-    }
-}
-
 void ThumbnailModel::setStatus(Status status)
 {
     if (m_status != status) {
@@ -198,11 +173,6 @@ void ThumbnailModel::setSourceModel(QAbstractItemModel *sourceModel)
         setSortRoleName(m_sortRoleName);
         m_sortRoleName.clear();
     }
-}
-
-bool ThumbnailModel::containImages()
-{
-    return m_containImages;
 }
 
 bool ThumbnailModel::isSelected(int row)

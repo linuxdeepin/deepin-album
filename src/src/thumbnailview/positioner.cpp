@@ -21,14 +21,9 @@ Positioner::Positioner(QObject *parent)
     : QAbstractItemModel(parent)
     , m_enabled(false)
     , m_thumbnialModel(nullptr)
-    , m_perStripe(0)
     , m_ignoreNextTransaction(false)
     , m_deferApplyPositions(false)
-    , m_updatePositionsTimer(new QTimer(this))
 {
-    m_updatePositionsTimer->setSingleShot(true);
-    m_updatePositionsTimer->setInterval(0);
-    connect(m_updatePositionsTimer, &QTimer::timeout, this, &Positioner::updatePositions);
 }
 
 Positioner::~Positioner()
@@ -54,10 +49,6 @@ void Positioner::setEnabled(bool enabled)
         endResetModel();
 
         Q_EMIT enabledChanged();
-
-        if (!enabled) {
-            m_updatePositionsTimer->start();
-        }
     }
 }
 
@@ -91,45 +82,6 @@ void Positioner::setThumbnailModel(ThumbnailModel *thumbnailModel)
     }
 }
 
-int Positioner::perStripe() const
-{
-    return m_perStripe;
-}
-
-void Positioner::setPerStripe(int perStripe)
-{
-    if (m_perStripe != perStripe) {
-        m_perStripe = perStripe;
-
-        Q_EMIT perStripeChanged();
-
-        if (m_enabled && perStripe > 0 && !m_proxyToSource.isEmpty()) {
-            applyPositions();
-        }
-    }
-}
-
-QStringList Positioner::positions() const
-{
-    return m_positions;
-}
-
-void Positioner::setPositions(const QStringList &positions)
-{
-    if (m_positions != positions) {
-        m_positions = positions;
-
-        Q_EMIT positionsChanged();
-
-        // Defer applying positions until listing completes.
-        if (m_thumbnialModel->status() == ThumbnailModel::Listing) {
-            m_deferApplyPositions = true;
-        } else {
-            applyPositions();
-        }
-    }
-}
-
 int Positioner::map(int row) const
 {
     if (m_enabled && m_thumbnialModel) {
@@ -137,75 +89,6 @@ int Positioner::map(int row) const
     }
 
     return row;
-}
-
-int Positioner::nearestItem(int currentIndex, Qt::ArrowType direction)
-{
-    if (!m_enabled || currentIndex >= rowCount()) {
-        return -1;
-    }
-
-    if (currentIndex < 0) {
-        return firstRow();
-    }
-
-    int hDirection = 0;
-    int vDirection = 0;
-
-    switch (direction) {
-    case Qt::LeftArrow:
-        hDirection = -1;
-        break;
-    case Qt::RightArrow:
-        hDirection = 1;
-        break;
-    case Qt::UpArrow:
-        vDirection = -1;
-        break;
-    case Qt::DownArrow:
-        vDirection = 1;
-        break;
-    default:
-        return -1;
-    }
-
-    QList<int> rows(m_proxyToSource.keys());
-    std::sort(rows.begin(), rows.end());
-
-    int nearestItem = -1;
-    const QPoint currentPos(currentIndex % m_perStripe, currentIndex / m_perStripe);
-    int lastDistance = -1;
-    int distance = 0;
-
-    for (const int row : rows) {
-        const QPoint pos(row % m_perStripe, row / m_perStripe);
-
-        if (row == currentIndex) {
-            continue;
-        }
-
-        if (hDirection == 0) {
-            if (vDirection * pos.y() > vDirection * currentPos.y()) {
-                distance = (pos - currentPos).manhattanLength();
-
-                if (nearestItem == -1 || distance < lastDistance || (distance == lastDistance && pos.x() == currentPos.x())) {
-                    nearestItem = row;
-                    lastDistance = distance;
-                }
-            }
-        } else if (vDirection == 0) {
-            if (hDirection * pos.x() > hDirection * currentPos.x()) {
-                distance = (pos - currentPos).manhattanLength();
-
-                if (nearestItem == -1 || distance < lastDistance || (distance == lastDistance && pos.y() == currentPos.y())) {
-                    nearestItem = row;
-                    lastDistance = distance;
-                }
-            }
-        }
-    }
-
-    return nearestItem;
 }
 
 bool Positioner::isBlank(int row) const
@@ -346,147 +229,7 @@ void Positioner::reset()
 
     endResetModel();
 
-    m_positions = QStringList();
     Q_EMIT positionsChanged();
-}
-
-int Positioner::move(const QVariantList &moves)
-{
-    // Don't allow moves while listing.
-    if (m_thumbnialModel->status() == ThumbnailModel::Listing) {
-        m_deferMovePositions.append(moves);
-        return -1;
-    }
-
-    QVector<int> fromIndices;
-    QVector<int> toIndices;
-    QVariantList sourceRows;
-
-    for (int i = 0; i < moves.count(); ++i) {
-        const int isFrom = (i % 2 == 0);
-        const int v = moves[i].toInt();
-
-        if (isFrom) {
-            if (m_proxyToSource.contains(v)) {
-                sourceRows.append(m_proxyToSource.value(v));
-            } else {
-                sourceRows.append(-1);
-            }
-        }
-
-        (isFrom ? fromIndices : toIndices).append(v);
-    }
-
-    const int oldCount = rowCount();
-
-    for (int i = 0; i < fromIndices.count(); ++i) {
-        const int from = fromIndices[i];
-        int to = toIndices[i];
-        const int sourceRow = sourceRows[i].toInt();
-
-        if (sourceRow == -1 || from == to) {
-            continue;
-        }
-
-        if (to == -1) {
-            to = firstFreeRow();
-
-            if (to == -1) {
-                to = lastRow() + 1;
-            }
-        }
-
-        if (!fromIndices.contains(to) && !isBlank(to)) {
-            /* find the next blank space
-             * we won't be happy if we're moving two icons to the same place
-             */
-            while ((!isBlank(to) && from != to) || toIndices.contains(to)) {
-                to++;
-            }
-        }
-
-        toIndices[i] = to;
-
-        if (!toIndices.contains(from)) {
-            m_proxyToSource.remove(from);
-        }
-
-        updateMaps(to, sourceRow);
-
-        const QModelIndex &fromIdx = index(from, 0);
-        Q_EMIT dataChanged(fromIdx, fromIdx);
-
-        if (to < oldCount) {
-            const QModelIndex &toIdx = index(to, 0);
-            Q_EMIT dataChanged(toIdx, toIdx);
-        }
-    }
-
-    const int newCount = rowCount();
-
-    if (newCount > oldCount) {
-        if (m_beginInsertRowsCalled) {
-            endInsertRows();
-            m_beginInsertRowsCalled = false;
-        }
-        beginInsertRows(QModelIndex(), oldCount, newCount - 1);
-        endInsertRows();
-    }
-
-    if (newCount < oldCount) {
-        beginRemoveRows(QModelIndex(), newCount, oldCount - 1);
-        endRemoveRows();
-    }
-
-    m_thumbnialModel->updateSelection(sourceRows, true);
-
-    m_updatePositionsTimer->start();
-
-    return toIndices.constFirst();
-}
-
-void Positioner::updatePositions()
-{
-    QStringList positions;
-
-    if (m_enabled && !m_proxyToSource.isEmpty() && m_perStripe > 0) {
-        positions.append(QString::number((1 + ((rowCount() - 1) / m_perStripe))));
-        positions.append(QString::number(m_perStripe));
-
-        QHashIterator<int, int> it(m_proxyToSource);
-
-        while (it.hasNext()) {
-            it.next();
-
-            const QString &name = m_thumbnialModel->data(m_thumbnialModel->index(it.value(), 0), Roles::UrlRole).toString();
-
-            if (name.isEmpty()) {
-                return;
-            }
-
-            positions.append(name);
-            positions.append(QString::number(qMax(0, it.key() / m_perStripe)));
-            positions.append(QString::number(qMax(0, it.key() % m_perStripe)));
-        }
-    }
-
-    if (positions != m_positions) {
-        m_positions = positions;
-
-        Q_EMIT positionsChanged();
-    }
-}
-
-void Positioner::sourceStatusChanged()
-{
-    if (m_deferApplyPositions && m_thumbnialModel->status() != ThumbnailModel::Listing) {
-        applyPositions();
-    }
-
-    if (m_deferMovePositions.count() && m_thumbnialModel->status() != ThumbnailModel::Listing) {
-        move(m_deferMovePositions);
-        m_deferMovePositions.clear();
-    }
 }
 
 void Positioner::sourceDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
@@ -661,12 +404,6 @@ void Positioner::sourceRowsInserted(const QModelIndex &parent, int first, int la
     }
 
     flushPendingChanges();
-
-    // Don't generate new positions data if we're waiting for listing to
-    // complete to apply initial positions.
-    if (!m_deferApplyPositions) {
-        m_updatePositionsTimer->start();
-    }
 }
 
 void Positioner::sourceRowsMoved(const QModelIndex &sourceParent, int sourceStart, int sourceEnd, const QModelIndex &destinationParent, int destinationRow)
@@ -693,8 +430,6 @@ void Positioner::sourceRowsRemoved(const QModelIndex &parent, int first, int las
     }
 
     flushPendingChanges();
-
-    m_updatePositionsTimer->start();
 }
 
 void Positioner::sourceLayoutChanged(const QList<QPersistentModelIndex> &parents, QAbstractItemModel::LayoutChangeHint hint)
@@ -770,133 +505,6 @@ int Positioner::firstFreeRow() const
     return -1;
 }
 
-void Positioner::applyPositions()
-{
-    // We were called while the source model is listing. Defer applying positions
-    // until listing completes.
-    if (m_thumbnialModel->status() == ThumbnailModel::Listing) {
-        m_deferApplyPositions = true;
-
-        return;
-    }
-
-    if (m_positions.size() < 5) {
-        // We were waiting for listing to complete before proxying source rows,
-        // but we don't have positions to apply. Reset to populate.
-        if (m_deferApplyPositions) {
-            m_deferApplyPositions = false;
-            reset();
-        }
-
-        return;
-    }
-
-    beginResetModel();
-
-    m_proxyToSource.clear();
-    m_sourceToProxy.clear();
-
-    const QStringList &positions = m_positions.mid(2);
-
-    if (positions.count() % 3 != 0) {
-        return;
-    }
-
-    QHash<QString, int> sourceIndices;
-
-    for (int i = 0; i < m_thumbnialModel->rowCount(); ++i) {
-        sourceIndices.insert(m_thumbnialModel->data(m_thumbnialModel->index(i, 0), Roles::UrlRole).toString(), i);
-    }
-
-    QString name;
-    int stripe = -1;
-    int pos = -1;
-    int sourceIndex = -1;
-    int index = -1;
-    bool ok = false;
-    int offset = 0;
-
-    // Restore positions for items that still fit.
-    for (int i = 0; i < positions.count() / 3; ++i) {
-        offset = i * 3;
-        pos = positions.at(offset + 2).toInt(&ok);
-        if (!ok) {
-            return;
-        }
-
-        if (pos <= m_perStripe) {
-            name = positions.at(offset);
-            stripe = positions.at(offset + 1).toInt(&ok);
-            if (!ok) {
-                return;
-            }
-
-            if (!sourceIndices.contains(name)) {
-                continue;
-            } else {
-                sourceIndex = sourceIndices.value(name);
-            }
-
-            index = (stripe * m_perStripe) + pos;
-
-            if (m_proxyToSource.contains(index)) {
-                continue;
-            }
-
-            updateMaps(index, sourceIndex);
-            sourceIndices.remove(name);
-        }
-    }
-
-    // Find new positions for items that didn't fit.
-    for (int i = 0; i < positions.count() / 3; ++i) {
-        offset = i * 3;
-        pos = positions.at(offset + 2).toInt(&ok);
-        if (!ok) {
-            return;
-        }
-
-        if (pos > m_perStripe) {
-            name = positions.at(offset);
-
-            if (!sourceIndices.contains(name)) {
-                continue;
-            } else {
-                sourceIndex = sourceIndices.take(name);
-            }
-
-            index = firstFreeRow();
-
-            if (index == -1) {
-                index = lastRow() + 1;
-            }
-
-            updateMaps(index, sourceIndex);
-        }
-    }
-
-    QHashIterator<QString, int> it(sourceIndices);
-
-    // Find positions for new source items we don't have records for.
-    while (it.hasNext()) {
-        it.next();
-
-        index = firstFreeRow();
-
-        if (index == -1) {
-            index = lastRow() + 1;
-        }
-
-        updateMaps(index, it.value());
-    }
-
-    endResetModel();
-
-    m_deferApplyPositions = false;
-
-    m_updatePositionsTimer->start();
-}
-
 void Positioner::flushPendingChanges()
 {
     if (m_pendingChanges.isEmpty()) {
@@ -926,7 +534,6 @@ void Positioner::connectSignals(ThumbnailModel *model)
     connect(model, &QAbstractItemModel::rowsRemoved, this, &Positioner::sourceRowsRemoved, Qt::UniqueConnection);
     connect(model, &QAbstractItemModel::layoutChanged, this, &Positioner::sourceLayoutChanged, Qt::UniqueConnection);
     connect(m_thumbnialModel, &ThumbnailModel::srcModelReseted, this, &Positioner::reset, Qt::UniqueConnection);
-    connect(m_thumbnialModel, &ThumbnailModel::statusChanged, this, &Positioner::sourceStatusChanged, Qt::UniqueConnection);
 }
 
 void Positioner::disconnectSignals(ThumbnailModel *model)
@@ -941,5 +548,4 @@ void Positioner::disconnectSignals(ThumbnailModel *model)
     disconnect(model, &QAbstractItemModel::rowsRemoved, this, &Positioner::sourceRowsRemoved);
     disconnect(model, &QAbstractItemModel::layoutChanged, this, &Positioner::sourceLayoutChanged);
     disconnect(m_thumbnialModel, &ThumbnailModel::srcModelReseted, this, &Positioner::reset);
-    disconnect(m_thumbnialModel, &ThumbnailModel::statusChanged, this, &Positioner::sourceStatusChanged);
 }
