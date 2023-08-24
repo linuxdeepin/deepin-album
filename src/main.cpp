@@ -97,6 +97,8 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("imageDataService", ImageDataService::instance());
 
+    QImageItem::initDamage();
+
     // QML全局单例
     GlobalControl control;
     engine.rootContext()->setContextProperty("GControl", &control);

@@ -18,24 +18,23 @@ import "../"
 import "../../"
 
 Item {
+    id: main
     //注意：在model里面加进去的变量，这边可以直接进行使用，只是部分位置不好拿到，需要使用变量
     property string m_index
     property string m_url
     property string m_displayFlushHelper
     property var m_favoriteBtn: itemFavoriteBtn
     property string remainDays
-
-    //选中后显示的阴影框
-    Rectangle {
-        id: selectShader
-        anchors.centerIn: parent
-        width: parent.width
-        height: parent.height
-        radius: 10
-        color: "#AAAAAA"
-        visible: theView.ism.indexOf(parent.m_index) !== -1 || GStatus.selectedPaths.indexOf(m_url) !== -1
-        opacity: 0.4
-    }
+    property bool bShowDamageIcon: image.bLoadError
+    property bool bSelected: theView.ism.indexOf(parent.m_index) !== -1 || GStatus.selectedPaths.indexOf(m_url) !== -1
+    property bool bHovered: false //属性：是否hover
+    property bool bFavorited: albumControl.photoHaveFavorited(model.url, GStatus.bRefreshFavoriteIconFlag)
+    property bool bShowRemainDays: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted
+    property bool bShowVideoLabel: fileControl.isVideo(m_url)
+    property Item selectArea: null
+    property Item favoriteBtn: null
+    property Item remainDaysLbl: null
+    property Item videoLabel: null
 
     //缩略图本体
     Image {
@@ -67,7 +66,7 @@ Item {
 
         // 判断是否加载错误图片状态组件
         //active: image.status === Image.Error
-        active: image.bLoadError
+        active: bShowDamageIcon
         sourceComponent: ActionButton {
             anchors.centerIn: parent
             ColorSelector.hovered: false
@@ -183,87 +182,265 @@ Item {
         }
     }
 
-    //选中后显示的图标
-    DciIcon {
-        name: "select_active_1"
-        visible: selectShader.visible
-        anchors {
-            top: image.top
-            right: image.right
-            topMargin: 5
-            rightMargin : 5
+    onBSelectedChanged: {
+        if (bSelected) {
+            if (selectArea == null)
+                selectArea = selectedComponent.createObject(main)
+        } else {
+            selectArea.destroy()
+            selectArea = null
+        }
+
+        if (bSelected) {
+            if (favoriteBtn == null) {
+                favoriteBtn = favoriteComponent.createObject(main)
+            }
+        } else {
+            if (favoriteBtn && !bFavorited) {
+                favoriteBtn.destroy()
+                favoriteBtn = null
+            }
         }
     }
 
-    DciIcon {
-        name: "Inner_shadow"
-        visible: selectShader.visible
-        anchors {
-            top: image.top
-            right: image.right
-            topMargin: 5
-            rightMargin : 5
+    onBFavoritedChanged: {
+        if (bFavorited) {
+            if (favoriteBtn == null) {
+                favoriteBtn = favoriteComponent.createObject(main)
+            }
+        } else {
+            if (favoriteBtn && !bHovered && !bSelected) {
+                favoriteBtn.destroy()
+                favoriteBtn = null
+            }
         }
     }
 
-    DciIcon {
-        name: "shadow"
-        visible: selectShader.visible
-        anchors {
-            top: image.top
-            right: image.right
-            topMargin: 5
-            rightMargin : 5
+    onBShowRemainDaysChanged: {
+        if (bShowRemainDays) {
+            if (remainDaysLbl == null) {
+                remainDaysLbl = remainDaysComponent.createObject(main)
+            }
+        } else {
+            remainDaysLbl.destroy()
+            remainDaysLbl = null
         }
     }
 
-    DciIcon {
-        name: "yes"
-        visible: selectShader.visible
-        anchors {
-            top: image.top
-            right: image.right
-            topMargin: 5
-            rightMargin : 5
+    onBShowVideoLabelChanged: {
+        if (bShowVideoLabel) {
+            if (videoLabel == null) {
+                videoLabel = videoTimeComponent.createObject(main)
+            }
+        } else {
+            videoLabel.destroy()
+            videoLabel = null
         }
     }
 
-    //剩余天数标签
-    VideoLabel {
-        id: labelRemainDays
-        visible: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted
-        anchors {
-            bottom: image.bottom
-            left: image.left
-            leftMargin : 5
-            bottomMargin : 5
+    // 选中框组件
+    Component {
+        id: selectedComponent
+        Item {
+            anchors.fill: parent
+
+            // 计算图片区域的位置
+            Rectangle {
+                id: imageArea
+                anchors.centerIn: parent
+                width: parent.width - 14
+                height: parent.height - 14
+                visible: false
+            }
+
+            //选中后显示的阴影框
+            Rectangle {
+                id: selectShader
+                anchors.centerIn: parent
+                width: parent.width
+                height: parent.height
+                radius: 10
+                color: "#AAAAAA"
+                visible: true
+                opacity: 0.4
+            }
+
+            //选中后显示的图标
+            DciIcon {
+                name: "select_active_1"
+                visible: selectShader.visible
+                anchors {
+                    top: imageArea.top
+                    right: imageArea.right
+                    topMargin: 5
+                    rightMargin : 5
+                }
+            }
+
+            DciIcon {
+                name: "Inner_shadow"
+                visible: selectShader.visible
+                anchors {
+                    top: imageArea.top
+                    right: imageArea.right
+                    topMargin: 5
+                    rightMargin : 5
+                }
+            }
+
+            DciIcon {
+                name: "shadow"
+                visible: selectShader.visible
+                anchors {
+                    top: imageArea.top
+                    right: imageArea.right
+                    topMargin: 5
+                    rightMargin : 5
+                }
+            }
+
+            DciIcon {
+                name: "yes"
+                visible: selectShader.visible
+                anchors {
+                    top: imageArea.top
+                    right: imageArea.right
+                    topMargin: 5
+                    rightMargin : 5
+                }
+            }
         }
-        opacity: 0.7
-        displayStr: remainDays > 1 ? (remainDays + qsTr("days")) : (remainDays + qsTr("day"))
-        height: 22
-        width: 44
     }
 
-    //视频时长标签
-    VideoLabel {
-        id: videoLabel
-        visible: fileControl.isVideo(m_url)
-        anchors {
-            bottom: image.bottom
-            right: image.right
-            rightMargin : 5
-            bottomMargin : 5
-        }
-        opacity: 0.7
-        displayStr: fileControl.isVideo(m_url) ? albumControl.getVideoTime(m_url) : "00:00"
-        height: 22
-        width: displayStr.length === 5 ? 44 : 64
+    // 收藏图标组件
+    Component {
+        id: favoriteComponent
+        Item {
+            anchors.fill: parent
 
-        Connections {
-            target: albumControl
-            onSigRefreashVideoTime: {
-                if (url === m_url) {
-                    videoLabel.displayStr = videoTimeStr
+            // 计算图片区域的位置
+            Rectangle {
+                id: imageArea
+                anchors.fill: parent
+                width: parent.width - 14
+                height: parent.height - 14
+                visible: false
+            }
+
+            //收藏图标
+            ActionButton {
+                id: itemFavoriteBtn
+                anchors {
+                    bottom: imageArea.bottom
+                    left: imageArea.left
+                    leftMargin : (imageArea.width - image.paintedWidth) / 2 + 5
+                    bottomMargin : (imageArea.height - image.paintedHeight) / 2 + 5
+                }
+
+                hoverEnabled: false  //设置为false，可以解决鼠标移动到图标附近时，图标闪烁问题
+
+                icon {
+                    name: bFavorited ? "collected" : "collection2"
+                }
+
+                MouseArea {
+                    id:mouseAreaFavoriteBtn
+                    anchors.fill: itemFavoriteBtn
+                    propagateComposedEvents: true
+
+                    onClicked: {
+                        var paths = []
+                        paths.push(m_url)
+
+                        if (bFavorited) {
+                            //取消收藏
+                            albumControl.removeFromAlbum(0, paths)
+                        } else {
+                            //收藏
+                            albumControl.insertIntoAlbum(0, paths)
+                        }
+
+                        GStatus.bRefreshFavoriteIconFlag = !GStatus.bRefreshFavoriteIconFlag
+                        // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
+                        if (GStatus.currentViewType === Album.Types.ViewFavorite && GStatus.currentCustomAlbumUId === 0) {
+                            GStatus.sigFlushCustomAlbumView(GStatus.currentCustomAlbumUId)
+                        }
+
+                        mouse.accepted = true
+                    }
+                }
+            }
+        }
+    }
+
+    //剩余天数标签组件
+    Component {
+        id: remainDaysComponent
+        Item {
+            anchors.fill: parent
+
+            // 计算图片区域的位置
+            Rectangle {
+                id: imageArea
+                anchors.centerIn: parent
+                width: parent.width - 14
+                height: parent.height - 14
+                visible: false
+            }
+
+            VideoLabel {
+                id: labelRemainDays
+                visible: true
+                anchors {
+                    bottom: imageArea.bottom
+                    left: imageArea.left
+                    leftMargin : 5
+                    bottomMargin : 5
+                }
+                opacity: 0.7
+                displayStr: remainDays > 1 ? (remainDays + qsTr("days")) : (remainDays + qsTr("day"))
+                height: 22
+                width: 44
+            }
+        }
+    }
+
+    // 视频时长组件
+    Component {
+        id: videoTimeComponent
+        Item {
+            anchors.fill: parent
+
+            // 计算图片区域的位置
+            Rectangle {
+                id: imageArea
+                anchors.centerIn: parent
+                width: parent.width - 14
+                height: parent.height - 14
+                visible: false
+            }
+
+            VideoLabel {
+                id: videoLabel
+                visible: bShowVideoLabel
+                anchors {
+                    bottom: imageArea.bottom
+                    right: imageArea.right
+                    rightMargin : 5
+                    bottomMargin : 5
+                }
+                opacity: 0.7
+                displayStr: fileControl.isVideo(m_url) ? albumControl.getVideoTime(m_url) : "00:00"
+                height: 22
+                width: displayStr.length === 5 ? 44 : 64
+
+                Connections {
+                    target: albumControl
+                    onSigRefreashVideoTime: {
+                        if (url === m_url) {
+                            videoLabel.displayStr = videoTimeStr
+                        }
+                    }
                 }
             }
         }
