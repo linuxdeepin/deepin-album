@@ -567,20 +567,20 @@ QImage ImagePublisher::clipToRect(const QImage &src)
 
     if (!tImg.isNull() && 0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
         bool cache_exist = false;
-        if (tImg.height() != 200 && tImg.width() != 200) {
+        if (tImg.height() != 180 && tImg.width() != 180) {
             if (tImg.height() >= tImg.width()) {
                 cache_exist = true;
-                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToWidth(180,  Qt::FastTransformation);
             } else if (tImg.height() <= tImg.width()) {
                 cache_exist = true;
-                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToHeight(180,  Qt::FastTransformation);
             }
         }
         if (!cache_exist) {
             if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
-                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToWidth(180,  Qt::FastTransformation);
             } else {
-                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToHeight(180,  Qt::FastTransformation);
             }
         }
     }
@@ -613,9 +613,9 @@ QImage ImagePublisher::addPadAndScaled(const QImage &src)
     auto result = src.convertToFormat(QImage::Format_RGBA8888);
 
     if (result.height() > result.width()) {
-        result = result.scaledToHeight(200, Qt::SmoothTransformation);
+        result = result.scaledToHeight(180, Qt::SmoothTransformation);
     } else {
-        result = result.scaledToWidth(200, Qt::SmoothTransformation);
+        result = result.scaledToWidth(180, Qt::SmoothTransformation);
     }
 
     return result;
@@ -985,20 +985,20 @@ QImage AsyncImageResponse1::clipToRect(const QImage &src)
 
     if (!tImg.isNull() && 0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
         bool cache_exist = false;
-        if (tImg.height() != 200 && tImg.width() != 200) {
+        if (tImg.height() != 180 && tImg.width() != 180) {
             if (tImg.height() >= tImg.width()) {
                 cache_exist = true;
-                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToWidth(180,  Qt::FastTransformation);
             } else if (tImg.height() <= tImg.width()) {
                 cache_exist = true;
-                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToHeight(180,  Qt::FastTransformation);
             }
         }
         if (!cache_exist) {
             if ((static_cast<float>(tImg.height()) / (static_cast<float>(tImg.width()))) > 3) {
-                tImg = tImg.scaledToWidth(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToWidth(180,  Qt::FastTransformation);
             } else {
-                tImg = tImg.scaledToHeight(200,  Qt::FastTransformation);
+                tImg = tImg.scaledToHeight(180,  Qt::FastTransformation);
             }
         }
     }
@@ -1031,9 +1031,9 @@ QImage AsyncImageResponse1::addPadAndScaled(const QImage &src)
     auto result = src.convertToFormat(QImage::Format_RGBA8888);
 
     if (result.height() > result.width()) {
-        result = result.scaledToHeight(200, Qt::SmoothTransformation);
+        result = result.scaledToHeight(180, Qt::SmoothTransformation);
     } else {
-        result = result.scaledToWidth(200, Qt::SmoothTransformation);
+        result = result.scaledToWidth(180, Qt::SmoothTransformation);
     }
 
     return result;
