@@ -19,6 +19,8 @@ Item {
     signal yearClicked(string year)
 
     function flushModel() {
+        if (!visible)
+            return
         //0.清理
         theModel.clear()
 
@@ -157,7 +159,6 @@ Item {
     }
 
     Component.onCompleted: {
-        flushModel()
         GStatus.sigFlushAllCollectionView.connect(flushModel)
     }
 }

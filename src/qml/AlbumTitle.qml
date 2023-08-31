@@ -237,7 +237,7 @@ TitleBar {
                     text: qsTr("Y")
                     checked: true
                     onClicked: {
-                        collectionBtnClicked(1)
+                        collectionBtnClicked(0)
                         collectionCombo.setCurrentIndex(0)
                     }
                 }
