@@ -8,6 +8,12 @@
 #include "qimageitem.h"
 
 #include <QPainter>
+#include <DDciIcon>
+#include <DGuiApplicationHelper>
+
+DGUI_USE_NAMESPACE
+
+QImage QImageItem::s_damage = QImage();
 
 QImageItem::QImageItem(QQuickItem *parent)
     : QQuickPaintedItem(parent)
@@ -19,6 +25,15 @@ QImageItem::QImageItem(QQuickItem *parent)
 
 QImageItem::~QImageItem()
 {
+}
+
+void QImageItem::initDamage()
+{
+    DDciIcon::Theme theme = DDciIcon::Light;
+    if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::DarkType)
+        theme = DDciIcon::Dark;
+
+    s_damage = DDciIcon::fromTheme("photo_breach").pixmap(1, 200, theme).toImage();
 }
 
 void QImageItem::setImage(const QImage &image)
@@ -88,29 +103,35 @@ void QImageItem::setFillMode(QImageItem::FillMode mode)
 
 void QImageItem::paint(QPainter *painter)
 {
+    QImage *pImage = nullptr;
+
+    // 图片为空时，显示撕裂图
     if (m_image.isNull()) {
-        return;
+        pImage = &s_damage;
+    } else {
+        pImage = &m_image;
     }
+
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing, m_smooth);
     painter->setRenderHint(QPainter::SmoothPixmapTransform, m_smooth);
 
     if (m_fillMode == TileVertically) {
-        painter->scale(width() / (qreal)m_image.width(), 1);
+        painter->scale(width() / (qreal)pImage->width(), 1);
     }
 
     if (m_fillMode == TileHorizontally) {
-        painter->scale(1, height() / (qreal)m_image.height());
+        painter->scale(1, height() / (qreal)pImage->height());
     }
 
     if (m_fillMode == Pad) {
         QRect centeredRect = m_paintedRect;
-        centeredRect.moveCenter(m_image.rect().center());
-        painter->drawImage(m_paintedRect, m_image, centeredRect);
+        centeredRect.moveCenter(pImage->rect().center());
+        painter->drawImage(m_paintedRect, *pImage, centeredRect);
     } else if (m_fillMode >= Tile) {
-        painter->drawTiledPixmap(m_paintedRect, QPixmap::fromImage(m_image));
+        painter->drawTiledPixmap(m_paintedRect, QPixmap::fromImage(*pImage));
     } else {
-        painter->drawImage(m_paintedRect, m_image, m_image.rect());
+        painter->drawImage(m_paintedRect, *pImage, pImage->rect());
     }
 
     painter->restore();
@@ -123,26 +144,22 @@ bool QImageItem::isNull() const
 
 int QImageItem::paintedWidth() const
 {
-    if (m_image.isNull()) {
-        return 0;
-    }
-
     return m_paintedRect.width();
 }
 
 int QImageItem::paintedHeight() const
 {
-    if (m_image.isNull()) {
-        return 0;
-    }
-
     return m_paintedRect.height();
 }
 
 void QImageItem::updatePaintedRect()
 {
+    QImage *pImage = nullptr;
+
     if (m_image.isNull()) {
-        return;
+        pImage = &s_damage;
+    } else {
+        pImage = &m_image;
     }
 
     QRectF sourceRect = m_paintedRect;
@@ -151,7 +168,7 @@ void QImageItem::updatePaintedRect()
 
     switch (m_fillMode) {
     case PreserveAspectFit: {
-        QSizeF scaled = m_image.size();
+        QSizeF scaled = pImage->size();
 
         scaled.scale(boundingRect().size(), Qt::KeepAspectRatio);
         destRect = QRectF(QPoint(0, 0), scaled);
@@ -159,7 +176,7 @@ void QImageItem::updatePaintedRect()
         break;
     }
     case PreserveAspectCrop: {
-        QSizeF scaled = m_image.size();
+        QSizeF scaled = pImage->size();
 
         scaled.scale(boundingRect().size(), Qt::KeepAspectRatioByExpanding);
         destRect = QRectF(QPoint(0, 0), scaled);
@@ -168,12 +185,12 @@ void QImageItem::updatePaintedRect()
     }
     case TileVertically: {
         destRect = boundingRect().toRect();
-        destRect.setWidth(destRect.width() / (width() / (qreal)m_image.width()));
+        destRect.setWidth(destRect.width() / (width() / (qreal)pImage->width()));
         break;
     }
     case TileHorizontally: {
         destRect = boundingRect().toRect();
-        destRect.setHeight(destRect.height() / (height() / (qreal)m_image.height()));
+        destRect.setHeight(destRect.height() / (height() / (qreal)pImage->height()));
         break;
     }
     case Stretch:
