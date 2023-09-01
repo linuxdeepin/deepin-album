@@ -10,6 +10,7 @@ import QtQml.Models 2.11
 import QtQml 2.11
 import QtQuick.Shapes 1.10
 import org.deepin.dtk 1.0
+import org.deepin.album 1.0 as Album
 
 import "../../Control/ListView"
 import "../../Control"
@@ -25,8 +26,8 @@ Item {
     property int spaceCtrlHeight: filterCombo.y + filterComboOffsetY
     property int importCheckboxHeight: 26
     property int listMargin: 10 // 已导入列表子项上、下边距
-    property int rowSizeHint: (width - global.thumbnailListRightMargin) / global.cellBaseWidth
-    property real realCellWidth : (width - global.thumbnailListRightMargin) / rowSizeHint
+    property int rowSizeHint: (width - GStatus.thumbnailListRightMargin) / GStatus.cellBaseWidth
+    property real realCellWidth : (width - GStatus.thumbnailListRightMargin) / rowSizeHint
 
     property bool checkBoxClicked: false
 
@@ -83,7 +84,7 @@ Item {
 
         selectedPaths = tmpPaths
         if (importedListView.visible) {
-            global.selectedPaths = selectedPaths
+            GStatus.selectedPaths = selectedPaths
         }
     }
 
@@ -109,9 +110,9 @@ Item {
         //鼠标正在按下状态
         property bool inPress: theMouseArea.pressedButtons & Qt.LeftButton
         //框选滚动方向
-        property var scrollDirType: GlobalVar.RectScrollDirType.NoType
+        property var scrollDirType: Album.Types.NoType
         property var listContentHeight
-        property int rectSelScrollOffset: global.rectSelScrollStep
+        property int rectSelScrollOffset: GStatus.rectSelScrollStep
         signal dbClicked(string url)
         //激活滚动条
         ScrollBar.vertical: ScrollBar {
@@ -149,14 +150,14 @@ Item {
                 }
 
                 //取消全选，初始化选中数据
-                global.selectedPaths = []
+                GStatus.selectedPaths = []
                 for (var i = 0; i != theModel.count; ++i) {
                     theModel.selectedPathObjs[i].paths.length = 0
                 }
 
                 ctrlPressed = Qt.ControlModifier & mouse.modifiers
 
-                theView.scrollDirType = GlobalVar.RectScrollDirType.NoType
+                theView.scrollDirType = Album.Types.NoType
 
                 rubberBandImport.x1 = mouse.x
                 rubberBandImport.y1 = mouse.y
@@ -165,8 +166,8 @@ Item {
             }
 
             onDoubleClicked: {
-                if (global.selectedPaths.length > 0)
-                    theView.dbClicked(global.selectedPaths[0])
+                if (GStatus.selectedPaths.length > 0)
+                    theView.dbClicked(GStatus.selectedPaths[0])
 
                 rubberBandImport.clearRect()
             }
@@ -198,10 +199,10 @@ Item {
                 if (parentY > theView.height) {
                     // 选择框超出ListView底部，ListView准备向下滚动
                     if (parent.contentHeight > parent.height)
-                        theView.scrollDirType = GlobalVar.RectScrollDirType.ToBottom
+                        theView.scrollDirType = Album.Types.ToBottom
                 } else if (parentY < 0) {
                     // 选择框超出ListView顶部，ListView准备向上滚动
-                    theView.scrollDirType = GlobalVar.RectScrollDirType.ToTop
+                    theView.scrollDirType = Album.Types.ToTop
                 } else {
                     if (rectScrollTimer.running)
                         rectScrollTimer.stop()
@@ -224,7 +225,7 @@ Item {
 
                 ctrlPressed = false
 
-                theView.scrollDirType = GlobalVar.RectScrollDirType.NoType
+                theView.scrollDirType = Album.Types.NoType
                 rubberBandImport.clearRect()
 
                 // 清除标题栏色差矫校正框选框
@@ -260,11 +261,11 @@ Item {
             Timer {
                 id: rectScrollTimer
                 interval: 100
-                running: theView.scrollDirType !== GlobalVar.RectScrollDirType.NoType
+                running: theView.scrollDirType !== Album.Types.NoType
                 repeat: true
                 onTriggered: {
                     // 选择框向下延展滚动
-                    if (theView.scrollDirType === GlobalVar.RectScrollDirType.ToBottom) {
+                    if (theView.scrollDirType === Album.Types.ToBottom) {
                         var newY2 = rubberBandImport.y2 + theView.rectSelScrollOffset
                         if (newY2 <= theView.listContentHeight) {
                             rubberBandImport.y2 = newY2
@@ -275,7 +276,7 @@ Item {
                             rubberBandImport.y2 = theView.listContentHeight
                             rectScrollTimer.stop()
                         }
-                    } else if (theView.scrollDirType === GlobalVar.RectScrollDirType.ToTop) {
+                    } else if (theView.scrollDirType === Album.Types.ToTop) {
                         if (rubberBandImport.top() < 0) {
                             rectScrollTimer.stop()
                             return
@@ -313,7 +314,7 @@ Item {
     }
 
     Connections {
-        target: global
+        target: GStatus
         onSigPageUp: {
             if (visible) {
                 vbar.active = true
@@ -341,7 +342,7 @@ Item {
                         theModel.selectedPathObjs[i].paths[j] = array.get(j).url
                     }
                 }
-                global.selectedPaths = paths
+                GStatus.selectedPaths = paths
             }
         }
     }

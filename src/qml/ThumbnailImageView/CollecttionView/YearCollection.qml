@@ -46,10 +46,10 @@ Item {
         spacing: 20
 
         width: parent.width / 3 * 2
-        height: parent.height + global.statusBarHeight - global.collectionTopMargin
+        height: parent.height + GStatus.statusBarHeight - GStatus.collectionTopMargin
         anchors {
             top: parent.top
-            topMargin: global.collectionTopMargin
+            topMargin: GStatus.collectionTopMargin
             horizontalCenter: parent.horizontalCenter
         }
     }
@@ -158,6 +158,6 @@ Item {
 
     Component.onCompleted: {
         flushModel()
-        global.sigFlushAllCollectionView.connect(flushModel)
+        GStatus.sigFlushAllCollectionView.connect(flushModel)
     }
 }

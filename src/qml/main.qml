@@ -14,6 +14,10 @@ import org.deepin.dtk 1.0
 import org.deepin.album 1.0 as Album
 
 ApplicationWindow {
+    id: window
+
+    property bool isFullScreen: window.visibility === Window.FullScreen
+
     GlobalVar{
         id: global
     }
@@ -24,20 +28,20 @@ ApplicationWindow {
     signal sigTitlePress
     // 设置 dtk 风格窗口
     DWindow.enabled: true
-    id: root
+
     title: ""
     header: AlbumTitle {id: titleAlubmRect}
     MessageManager.layout: Column {
         anchors {
             bottom: parent.bottom
-            bottomMargin: global.statusBarHeight + 5
+            bottomMargin: GStatus.statusBarHeight + 5
             horizontalCenter: parent.horizontalCenter
         }
     }
 
     visible: true
-    minimumHeight: global.minHeight
-    minimumWidth: global.minWidth
+    minimumHeight: GStatus.minHeight
+    minimumWidth: GStatus.minWidth
     width: fileControl.getlastWidth()
     height: fileControl.getlastHeight()
 
@@ -46,27 +50,28 @@ ApplicationWindow {
         setX(screen.width / 2 - width / 2);
         setY(screen.height / 2 - height / 2);
 
-        global.loading = false
-    }
+        // 合集-所有项视图延迟刷新，解决其加载时会闪烁显示一张缩略图的问题
+        GStatus.currentViewType = Album.Types.ViewCustomAlbum
+        GStatus.currentViewType = Album.Types.ViewCollecttion
 
-    onWindowStateChanged: {
-        global.sigWindowStateChange()
+        GStatus.loading = false
+        GStatus.currentDeviceName = albumControl.getDeviceName(GStatus.currentDevicePath)
     }
 
     onActiveChanged: {
         // 记录应用主窗口是否被置灰过
-        if (!root.active)
-            global.windowDisActived = true
+        if (!window.active)
+            GStatus.windowDisActived = true
     }
 
     onWidthChanged: {
-        if(root.visibility!=Window.FullScreen && root.visibility !=Window.Maximized){
+        if(window.visibility!=Window.FullScreen && window.visibility !=Window.Maximized){
             fileControl.setSettingWidth(width)
         }
     }
 
     onHeightChanged: {
-        if(root.visibility!=Window.FullScreen &&root.visibility!=Window.Maximized){
+        if(window.visibility!=Window.FullScreen &&window.visibility!=Window.Maximized){
             fileControl.setSettingHeight(height)
         }
     }
@@ -88,9 +93,9 @@ ApplicationWindow {
         selectMultiple: true
         nameFilters: albumControl.getAllFilters()
         onAccepted: {
-            var bIsCustomAlbumImport = global.currentViewIndex == 6 && albumControl.isCustomAlbum(global.currentCustomAlbumUId)
+            var bIsCustomAlbumImport = GStatus.currentViewType === Album.Types.ViewCustomAlbum && albumControl.isCustomAlbum(GStatus.currentCustomAlbumUId)
             //自定义相册不需要判重
-            albumControl.importAllImagesAndVideosUrl(importDialog.fileUrls, global.currentCustomAlbumUId, !bIsCustomAlbumImport)
+            albumControl.importAllImagesAndVideosUrl(importDialog.fileUrls, GStatus.currentCustomAlbumUId, !bIsCustomAlbumImport)
         }
     }
 
@@ -105,7 +110,7 @@ ApplicationWindow {
     Connections {
         target: albumControl
         onSigActiveApplicationWindow: {
-            root.requestActivate()
+            window.requestActivate()
         }
     }
 }

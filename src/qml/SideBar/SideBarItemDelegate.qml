@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.0
+import QtQuick 2.11
 import QtQuick.Layouts 1.11
 import QtQuick.Controls 2.4
 import QtQml.Models 2.11
@@ -83,7 +83,7 @@ ItemDelegate {
                 songName.text = keyLineEdit.text
 
                 // 通知自定义相册视图刷新相册名称
-                global.sigCustomAlbumNameChaged(global.currentCustomAlbumUId, songName.text)
+                GStatus.sigCustomAlbumNameChaged(GStatus.currentCustomAlbumUId, songName.text)
             }
         }
         onActiveFocusChanged: {

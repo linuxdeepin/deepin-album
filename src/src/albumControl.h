@@ -246,7 +246,7 @@ public:
     Q_INVOKABLE QString getDeviceName(const QString &devicePath);
 
     //获取设备的图片
-    Q_INVOKABLE QStringList getDevicePicPaths(const QString &strPath);
+    Q_INVOKABLE QStringList getDevicePicPaths(const QString &path);
 
     //获得device路径
     Q_INVOKABLE QVariantMap getDeviceAlbumInfos(const QString &devicePath, const int &filterType = 0);
@@ -388,7 +388,7 @@ public slots:
     void onBlockDeviceAdded(const QString &blks);
 
     //加载设备路径的数据
-    void sltLoadMountFileList(const QString &path);
+    void sltLoadMountFileList(const QString &strPath);
 
     //获得设备合集
     const QList<QExplicitlySharedDataPointer<DGioMount>> getVfsMountList();

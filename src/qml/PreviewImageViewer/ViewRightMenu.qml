@@ -19,20 +19,20 @@ Menu {
 
     RightMenuItem {
         id : right_fullscreen
-        text: root.visibility != Window.FullScreen ? qsTr("Fullscreen") : qsTr("Exit fullscreen")
+        text: window.visibility != Window.FullScreen ? qsTr("Fullscreen") : qsTr("Exit fullscreen")
 
         onTriggered : showFulltimer.start()
         Shortcut {
             enabled: stackView.visible
             sequence : "F11"
             onActivated : {
-                root.visibility !== Window.FullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
+                window.visibility !== Window.FullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
             }
         }
         Shortcut {
-            enabled: (root.visibility === Window.FullScreen && stackView.visible && stackView.currentWidgetIndex !== 2) ? true : false
+            enabled: (window.visibility === Window.FullScreen && stackView.visible && stackView.currentWidgetIndex !== 2) ? true : false
             sequence :  "Esc"
-            onActivated : root.visibility !== Window.FullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
+            onActivated : window.visibility !== Window.FullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
         }
     }
 
@@ -156,8 +156,8 @@ Menu {
             onActivated: {
                 if (parent.visible && stackView.currentWidgetIndex == 1)
                 {
-                    var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
-                    var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
+                    var x = parent.mapToGStatus(0, 0).x + parent.width / 2 - 190
+                    var y = parent.mapToGStatus(0, 0).y + parent.height / 2 - 89
                     renamedialog.setX(x)
                     renamedialog.setY(y)
                     renamedialog.getFileName(fileControl.slotGetFileName(source))
@@ -262,7 +262,7 @@ Menu {
     RightMenuItem {
 
         id : showNavigation
-        visible: !CodeImage.imageIsNull(source) && currentScale >1 && root.height > global.minHideHeight && root.width > global.minWidth
+        visible: !CodeImage.imageIsNull(source) && currentScale >1 && window.height > GStatus.minHideHeight && window.width > GStatus.minWidth
         text: !imageViewer.isNavShow ? qsTr("Show navigation window") : qsTr("Hide navigation window")
         onTriggered : {
             if(!parent.visible){
@@ -342,8 +342,8 @@ Menu {
 
     // 执行导出图片
     function excuteExport() {
-        if (global.selectedPaths.length > 1) {
-            var bRet = albumControl.getFolders(global.selectedPaths)
+        if (GStatus.selectedPaths.length > 1) {
+            var bRet = albumControl.getFolders(GStatus.selectedPaths)
             if (bRet)
                 DTK.sendMessage(thumbnailImage, qsTr("Export successful"), "notify_checked")
             else

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.0
-import QtQuick.Controls 2.0
+import QtQuick 2.11
+import QtQuick.Controls 2.4
 import QtQuick.Window 2.10
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.11
@@ -80,7 +80,7 @@ DialogWindow {
     }
 
     onVisibleChanged: {
-        setX(root.x + root.width / 2 - width / 2)
-        setY(root.y + root.height / 2 - height / 2)
+        setX(window.x + window.width / 2 - width / 2)
+        setY(window.y + window.height / 2 - height / 2)
     }
 }

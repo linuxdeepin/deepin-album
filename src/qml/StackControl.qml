@@ -2,39 +2,42 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.0
+import QtQuick 2.11
 import "./PreviewImageViewer"
+
+import org.deepin.album 1.0 as Album
+
 Item {
     anchors.fill: parent
-    //本文件用于替代stackwidget的作用，通过改变global的0-n来切换窗口
+    //本文件用于替代stackwidget的作用，通过改变GStatus的0-n来切换窗口
     MainAlbumView{
         id: mainAlbumView
-        visible: global.stackControlCurrent == 0 ?true :false
+        visible: GStatus.stackControlCurrent == 0 ?true :false
     }
     MainStack{
         id: mainStack
         anchors.fill: parent
-        visible: global.stackControlCurrent == 1 ?true :false
+        visible: GStatus.stackControlCurrent == 1 ?true :false
         iconName: "deepin-album"
     }
     SliderShow{
         id: mainSliderShow
         anchors.fill: parent
-        visible: global.stackControlCurrent == 2 ?true :false
+        visible: GStatus.stackControlCurrent == 2 ?true :false
     }
 
     //全局幻灯片信号槽
     Connections {
         target: mainSliderShow
         onBacktrack: {
-            global.stackControlCurrent = 0
+            GStatus.stackControlCurrent = 0
         }
     }
 
     //全屏动画
     PropertyAnimation {
         id :showfullAnimation
-        target: root
+        target: window
         from: 0
         to: 1
         property: "opacity"
@@ -50,7 +53,7 @@ Item {
         mainSliderShow.modelCount = images.length
         mainSliderShow.autoRun = true
         mainSliderShow.indexImg = startIndex
-        global.stackControlCurrent = 2
+        GStatus.stackControlCurrent = 2
         showfullAnimation.start()
     }
 }

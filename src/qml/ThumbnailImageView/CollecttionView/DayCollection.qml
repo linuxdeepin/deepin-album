@@ -8,6 +8,9 @@ import QtQuick.Layouts 1.11
 import QtQuick.Controls 2.4
 import QtQuick.Dialogs 1.3
 import org.deepin.dtk 1.0
+
+import org.deepin.album 1.0 as Album
+
 import "../../Control"
 import "../../Control/ListView"
 import "../../"
@@ -21,8 +24,8 @@ Item {
     property int timeLineLblHeight: 36
     property int timeLineLblMargin: 10
     property int selAllCheckBoxHeight: 22
-    property int rowSizeHint: (width - global.thumbnailListRightMargin) / global.cellBaseWidth
-    property real realCellWidth : (width - global.thumbnailListRightMargin) / rowSizeHint
+    property int rowSizeHint: (width - GStatus.thumbnailListRightMargin) / GStatus.cellBaseWidth
+    property real realCellWidth : (width - GStatus.thumbnailListRightMargin) / rowSizeHint
     property var dayHeights: []
 
     property var selectedPaths: []
@@ -55,7 +58,7 @@ Item {
                     getSelectedText(selectedPaths)
                 else
                     getNumLabelText()
-                global.selectedPaths = selectedPaths
+                GStatus.selectedPaths = selectedPaths
             }
         }
 
@@ -95,15 +98,15 @@ Item {
         numLabelText = photoCountText + (videoCountText !== "" ? ((photoCountText !== "" ? " " : "") + videoCountText) : "")
 
         if (visible) {
-            global.statusBarNumText = numLabelText
+            GStatus.statusBarNumText = numLabelText
         }
     }
 
     // 刷新选中项目标签内容
     function getSelectedText(paths) {
-        var selectedNumText = global.getSelectedNumText(paths, numLabelText)
+        var selectedNumText = GStatus.getSelectedNumText(paths, numLabelText)
         if (visible)
-            global.statusBarNumText = selectedNumText
+            GStatus.statusBarNumText = selectedNumText
         return selectedNumText
     }
 
@@ -186,7 +189,7 @@ Item {
 
         selectedPaths = tmpPaths
         if (visible) {
-            global.selectedPaths = selectedPaths
+            GStatus.selectedPaths = selectedPaths
         }
     }
 
@@ -199,6 +202,7 @@ Item {
 
     ListView {
         id: theView
+        clip: true
         model: theModel
         width: parent.width
         height: parent.height
@@ -207,9 +211,9 @@ Item {
         //鼠标正在按下状态
         property bool inPress: false
         //框选滚动方向
-        property var scrollDirType: GlobalVar.RectScrollDirType.NoType
+        property var scrollDirType: Album.Types.NoType
         property var listContentHeight
-        property int rectSelScrollOffset: global.rectSelScrollStep
+        property int rectSelScrollOffset: GStatus.rectSelScrollStep
 
         signal sigUnSelectAll()
         signal dbClicked(string url)
@@ -252,7 +256,7 @@ Item {
 
                 ctrlPressed = Qt.ControlModifier & mouse.modifiers
 
-                theView.scrollDirType = GlobalVar.RectScrollDirType.NoType
+                theView.scrollDirType = Album.Types.NoType
                 parent.inPress = true
                 rubberBand.x1 = mouse.x
                 rubberBand.y1 = mouse.y
@@ -261,8 +265,8 @@ Item {
                 mouse.accepted = true
             }
             onDoubleClicked: {
-                if (global.selectedPaths.length > 0)
-                    theView.dbClicked(global.selectedPaths[0])
+                if (GStatus.selectedPaths.length > 0)
+                    theView.dbClicked(GStatus.selectedPaths[0])
 
                 parent.inPress = false
                 rubberBand.clearRect()
@@ -293,10 +297,10 @@ Item {
                 if (parentY > theView.height) {
                     // 选择框超出ListView底部，ListView准备向下滚动
                     if (parent.contentHeight > parent.height)
-                        theView.scrollDirType = GlobalVar.RectScrollDirType.ToBottom
+                        theView.scrollDirType = Album.Types.ToBottom
                 } else if (parentY < 0) {
                     // 选择框超出ListView顶部，ListView准备向上滚动
-                    theView.scrollDirType = GlobalVar.RectScrollDirType.ToTop
+                    theView.scrollDirType = Album.Types.ToTop
                 } else {
                     if (rectScrollTimer.running)
                         rectScrollTimer.stop()
@@ -319,7 +323,7 @@ Item {
 
                 ctrlPressed = false
 
-                theView.scrollDirType = GlobalVar.RectScrollDirType.NoType
+                theView.scrollDirType = Album.Types.NoType
                 rubberBand.clearRect()
 
                 var gPos = theMouseArea.mapToGlobal(mouse.x, mouse.y)
@@ -352,11 +356,11 @@ Item {
             Timer {
                 id: rectScrollTimer
                 interval: 100
-                running: theView.scrollDirType !== GlobalVar.RectScrollDirType.NoType
+                running: theView.scrollDirType !== Album.Types.NoType
                 repeat: true
                 onTriggered: {
                     // 选择框向下延展滚动
-                    if (theView.scrollDirType === GlobalVar.RectScrollDirType.ToBottom) {
+                    if (theView.scrollDirType === Album.Types.ToBottom) {
                         var newY2 = rubberBand.y2 + theView.rectSelScrollOffset
                         if (newY2 <= theView.listContentHeight) {
                             rubberBand.y2 = newY2
@@ -367,7 +371,7 @@ Item {
                             rubberBand.y2 = theView.listContentHeight
                             rectScrollTimer.stop()
                         }
-                    } else if (theView.scrollDirType === GlobalVar.RectScrollDirType.ToTop) {
+                    } else if (theView.scrollDirType === Album.Types.ToTop) {
                         if (rubberBand.top() < 0) {
                             rectScrollTimer.stop()
                             return
@@ -403,9 +407,8 @@ Item {
             }
         }
     }
-
     Connections {
-        target: global
+        target: GStatus
         onSigPageUp: {
             if (visible) {
                 executeScrollBar(scrollDelta)
@@ -594,13 +597,13 @@ Item {
             //清除选中状态
             theView.sigUnSelectAll()
             selectedPaths = []
-            global.selectedPaths = []
+            GStatus.selectedPaths = []
             flushModel()
         }
     }
 
     Component.onCompleted: {
         flushModel()
-        global.sigFlushAllCollectionView.connect(flushModel)
+        GStatus.sigFlushAllCollectionView.connect(flushModel)
     }
 }

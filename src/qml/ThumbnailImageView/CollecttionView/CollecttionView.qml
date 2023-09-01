@@ -4,6 +4,9 @@
 
 import QtQuick 2.11
 import QtQuick.Controls 2.4
+
+import org.deepin.album 1.0 as Album
+
 import "../"
 import "../../"
 import "../../Control"
@@ -28,11 +31,11 @@ BaseView {
         allCollection.clearSelecteds()
 
         if (visible) {
-            global.selectedPaths = []
+            GStatus.selectedPaths = []
 
             //年月视图不显示底栏数量
             if (currentViewIndex === 0 || currentViewIndex ===1) {
-                global.statusBarNumText = ""
+                GStatus.statusBarNumText = ""
             }
         }
     }
@@ -61,7 +64,7 @@ BaseView {
 
         onCurrentIndexChanged: {
             currentViewIndex = currentIndex
-            global.sigCollectionViewIndexChanged(currentIndex)
+            GStatus.sigCollectionViewIndexChanged(currentIndex)
 
             // 保证日聚合和所有照片视图互斥显示，以便列表控件全选逻辑只在显示的视图中生效
             dayCollection.visible = currentViewIndex === 2
@@ -70,18 +73,18 @@ BaseView {
 
             //年月视图不显示底栏数量
             if (currentViewIndex === 0 || currentViewIndex ===1) {
-                global.statusBarNumText = ""
+                GStatus.statusBarNumText = ""
             }
         }
     }
 
     // 若没有数据，显示导入图片视图
     ImportView {
-        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion && allCollection.numLabelText === "" && albumControl.getAllCount() === 0
+        visible: GStatus.currentViewType === Album.Types.ViewCollecttion && allCollection.numLabelText === "" && albumControl.getAllCount() === 0
 
         onVisibleChanged: {
             if (visible) {
-                global.statusBarNumText = ""
+                GStatus.statusBarNumText = ""
             }
         }
     }

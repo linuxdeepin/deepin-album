@@ -35,13 +35,13 @@ Item {
     {
         theView.selectAll(false)
         selectedPaths = []
-        global.selectedPaths = selectedPaths
+        GStatus.selectedPaths = selectedPaths
     }
 
     // 刷新所有项目视图内容
     function flushAllCollectionView() {
         theView.proxyModel.refresh(filterType)
-        global.selectedPaths = theView.selectedUrls
+        GStatus.selectedPaths = theView.selectedUrls
         getNumLabelText()
         totalTimepScopeTimer.start()
     }
@@ -83,15 +83,15 @@ Item {
         numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? ((photoCountText !== "" ? " " : "") + videoCountText) : ""))
                                            : (filterType == 1 ? photoCountText : videoCountText)
         if (visible) {
-            global.statusBarNumText = numLabelText
+            GStatus.statusBarNumText = numLabelText
         }
     }
 
     // 刷新选择项数标签
     function getSelectedNum(paths) {
-        var selectedNumText = global.getSelectedNumText(paths, numLabelText)
+        var selectedNumText = GStatus.getSelectedNumText(paths, numLabelText)
         if (visible)
-            global.statusBarNumText = selectedNumText
+            GStatus.statusBarNumText = selectedNumText
         return selectedNumText
     }
 
@@ -107,7 +107,7 @@ Item {
     // 所有项目标题栏区域
     Item {
         id: allCollectionTitleRect
-        width: parent.width - global.verticalScrollBarWidth
+        width: parent.width - GStatus.verticalScrollBarWidth
         height: 60
 
         // 时间范围标签
@@ -154,7 +154,7 @@ Item {
         }
         width: parent.width
         height: parent.height - allCollectionTitleRect.height - m_topMargin
-        thumnailListType: GlobalVar.ThumbnailType.AllCollection
+        thumnailListType: Album.Types.ThumbnailAllCollection
         proxyModel.sourceModel: Album.ImageDataModel { modelType: Album.Types.AllCollection }
 
         visible: numLabelText !== ""
@@ -168,7 +168,7 @@ Item {
                 selectedPaths = theView.selectedUrls
 
                 if (parent.visible)
-                    global.selectedPaths = selectedPaths
+                    GStatus.selectedPaths = selectedPaths
             }
         }
     }
@@ -197,6 +197,6 @@ Item {
 
     Component.onCompleted: {
         theView.timeChanged.connect(setDateRange)
-        global.sigFlushAllCollectionView.connect(flushAllCollectionView)
+        GStatus.sigFlushAllCollectionView.connect(flushAllCollectionView)
     }
 }

@@ -18,8 +18,10 @@
 #include "thumbnailview/roles.h"
 #include "thumbnailview/imagedatamodel.h"
 #include "thumbnailview/thumbnailmodel.h"
-#include "thumbnailview/types.h"
+#include "types.h"
 #include "thumbnailview/qimageitem.h"
+
+#include "globalstatus.h"
 
 #include <dapplicationhelper.h>
 #include <DApplication>
@@ -86,6 +88,9 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("imageDataService", ImageDataService::instance());
 
+    GlobalStatus status;
+    engine.rootContext()->setContextProperty("GStatus", &status);
+
     FileControl *fileControl = new FileControl();
     engine.rootContext()->setContextProperty("fileControl", fileControl);
     // 关联文件处理（需要保证优先处理，onImageFileChanged已做多线程安全）
@@ -101,6 +106,9 @@ int main(int argc, char *argv[])
     CursorTool *cursorTool = new CursorTool();
     engine.rootContext()->setContextProperty("cursorTool", cursorTool);
 
+    //设置为相册模式
+    fileControl->setViewerType(imageViewerSpace::ImgViewerTypeAlbum);
+
     //禁止多开
     if (!fileControl->isCheckOnly()) {
         return 0;
@@ -108,9 +116,6 @@ int main(int argc, char *argv[])
 
     //新增相册控制模块
     engine.rootContext()->setContextProperty("albumControl", AlbumControl::instance());
-
-    //设置为相册模式
-    fileControl->setViewerType(imageViewerSpace::ImgViewerTypeAlbum);
 
     char uri[] = "org.deepin.album";
 #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
@@ -127,7 +132,6 @@ int main(int argc, char *argv[])
     qmlRegisterType<EventGenerator>(uri, 1, 0, "EventGenerator");
     qmlRegisterUncreatableType<Types>(uri, 1, 0, "Types", "Cannot instantiate the Types class");
     qmlRegisterUncreatableType<Roles>(uri, 1, 0, "Roles", "Cannot instantiate the Roles class");
-
     qmlRegisterType<QImageItem>(uri, 1, 0, "QImageItem");
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));

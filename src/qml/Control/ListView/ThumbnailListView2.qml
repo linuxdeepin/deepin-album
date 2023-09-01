@@ -33,7 +33,7 @@ FocusScope {
     property real itemWidth: realCellWidth
     property real itemHeight: realCellWidth
     // 缩略图显示类型，默认为普通模式
-    property int thumnailListType: GlobalVar.ThumbnailType.Normal
+    property int thumnailListType: Album.Types.ThumbnailNormal
     // 存在已选项
     property bool haveSelect: thumbnailModel.selectedIndexes.length > 0
     // 已选择全部缩略图
@@ -50,8 +50,8 @@ FocusScope {
 
     //缩略图动态变化
     property real realCellWidth:  {
-        var rowSizeHint = (width - global.thumbnailListRightMargin) / global.cellBaseWidth
-        return (width - global.thumbnailListRightMargin) / rowSizeHint
+        var rowSizeHint = (width - GStatus.thumbnailListRightMargin) / GStatus.cellBaseWidth
+        return (width - GStatus.thumbnailListRightMargin) / rowSizeHint
     }
 
     //当前区域时间区间改变信号，字符串可以直接刷新在界面上
@@ -98,8 +98,8 @@ FocusScope {
 
     //统计当前页面的缩略图时间范围
     function totalTimeScope() {
-        if(thumnailListType === GlobalVar.ThumbnailType.AllCollection &&
-                global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion &&
+        if(thumnailListType === Album.Types.ThumbnailAllCollection &&
+                GStatus.currentViewType === Album.Types.ViewCollecttion &&
                 collecttionView.currentViewIndex === 3) { //仅在合集模式的时候激活计算，以此节省性能
             var visilbeIndexs = gridView.rectIndexes(0, 0, gridView.width, gridView.height)
             if (visilbeIndexs.length > 0) {
@@ -183,7 +183,7 @@ FocusScope {
 
         onPressed: {
             // 鼠标点击在垂直滚动条上，不处理点击事件
-            if (mouse.x >= (parent.width - global.thumbnailListRightMargin - global.thumbnialListCellSpace)) {
+            if (mouse.x >= (parent.width - GStatus.thumbnailListRightMargin - GStatus.thumbnialListCellSpace)) {
                 return;
             }
 
@@ -209,7 +209,7 @@ FocusScope {
             pressY = mouse.y;
 
             if (!pressedItem || pressedItem.blank) {
-                if (!gridView.ctrlPressed && !global.windowDisActived) {
+                if (!gridView.ctrlPressed && !GStatus.windowDisActived) {
                     gridView.currentIndex = -1;
                     thumbnailModel.clearSelection();
                 }
@@ -237,7 +237,7 @@ FocusScope {
 
             if (mouse.buttons & Qt.RightButton) {
                 clearPressState();
-                if (global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device && haveSelect)
+                if (GStatus.currentViewType !== Album.Types.ViewDevice && haveSelect)
                     thumbnailMenu.popup(mouse.x, mouse.y)
 
                 mouse.accepted = false;
@@ -256,9 +256,9 @@ FocusScope {
                     thumbnailModel.setSelected(positioner.map(pressedItem.index));
                 }
             } else {
-                if (!main.rubberBand && !global.windowDisActived && !(Qt.ControlModifier & mouse.modifiers))
+                if (!main.rubberBand && !GStatus.windowDisActived && !(Qt.ControlModifier & mouse.modifiers))
                     thumbnailModel.clearSelection()
-                global.windowDisActived = false
+                GStatus.windowDisActived = false
             }
 
             pressCanceled();
@@ -279,7 +279,7 @@ FocusScope {
             var cPos = mapToItem(gridView.contentItem, mouse.x, mouse.y);
             var clickedItem = gridView.itemAt(cPos.x, cPos.y)
             if (!clickedItem || clickedItem.blank || gridView.currentIndex == -1 || gridView.ctrlPressed || gridView.shiftPressed) {
-                eventGenerator.sendMouseEvent(root, Album.EventGenerator.MouseButtonPress, mouse.x, mouse.y, mouse.button, mouse.buttons, mouse.modifiers);
+                eventGenerator.sendMouseEvent(window, Album.EventGenerator.MouseButtonPress, mouse.x, mouse.y, mouse.button, mouse.buttons, mouse.modifiers);
                 return;
             }
 
@@ -325,7 +325,7 @@ FocusScope {
                     rB.width = Math.abs(rB.x - cPress.x);
                 } else {
                     rB.x = cPress.x;
-                    ceil = Math.max(gridView.width - global.thumbnailListRightMargin - global.thumbnialListCellSpace, gridView.contentItem.width - global.thumbnailListRightMargin - global.thumbnialListCellSpace) + leftEdge;
+                    ceil = Math.max(gridView.width - GStatus.thumbnailListRightMargin - GStatus.thumbnialListCellSpace, gridView.contentItem.width - GStatus.thumbnailListRightMargin - GStatus.thumbnialListCellSpace) + leftEdge;
                     rB.width = Math.min(ceil - rB.x, Math.abs(rB.x - cPos.x));
                 }
 
@@ -459,8 +459,8 @@ FocusScope {
                 id: thumbnailListDelegate
                 modelData: model
                 m_index: index
-                width: gridView.cellWidth - global.thumbnialListCellSpace
-                height: gridView.cellHeight - global.thumbnialListCellSpace
+                width: gridView.cellWidth - GStatus.thumbnialListCellSpace
+                height: gridView.cellHeight - GStatus.thumbnialListCellSpace
 
                 onBHoveredChanged: {
                     listener.bDbClicked = false
@@ -746,7 +746,7 @@ FocusScope {
     }
 
     Connections {
-        target: global
+        target: GStatus
         onSigSelectAll: {
             if (gridView.visible)
                 selectAll(bSel)
@@ -835,14 +835,14 @@ FocusScope {
         }
 
         MenuSeparator {
-            visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
-            height: visible ? GlobalVar.rightMenuSeparatorHeight : 0
+            visible: thumnailListType !== Album.Types.ThumbnailTrash
+            height: visible ? GStatus.rightMenuSeparatorHeight : 0
         }
 
         //添加到相册子菜单
         //隐藏交给后面的Component.onCompleted解决
         Menu {
-            enabled: thumnailListType !== GlobalVar.ThumbnailType.Trash
+            enabled: thumnailListType !== Album.Types.ThumbnailTrash
             id: addToAlbum
             title: qsTr("Add to album")
 
@@ -862,15 +862,15 @@ FocusScope {
             Repeater {
                 id: recentFilesInstantiator
                 property bool bRreshEnableState: false
-                model: albumControl.getAllCustomAlbumId(global.albumChangeList).length
+                model: albumControl.getAllCustomAlbumId(GStatus.albumChangeList).length
                 delegate: RightMenuItem {
-                    text: albumControl.getAllCustomAlbumName(global.albumChangeList)[index]
-                    enabled: albumControl.canAddToCustomAlbum(albumControl.getAllCustomAlbumId()[index], global.selectedPaths, recentFilesInstantiator.bRreshEnableState)
+                    text: albumControl.getAllCustomAlbumName(GStatus.albumChangeList)[index]
+                    enabled: albumControl.canAddToCustomAlbum(albumControl.getAllCustomAlbumId()[index], GStatus.selectedPaths, recentFilesInstantiator.bRreshEnableState)
                     onTriggered:{
                         // 获取所选自定义相册的Id，根据Id添加到对应自定义相册
                         var customAlbumId = albumControl.getAllCustomAlbumId()[index]
-                        albumControl.insertIntoAlbum(customAlbumId , global.selectedPaths)
-                        DTK.sendMessage(thumbnailImage, qsTr("Successfully added to “%1”").arg(albumControl.getAllCustomAlbumName(global.albumChangeList)[index]), "notify_checked")
+                        albumControl.insertIntoAlbum(customAlbumId , GStatus.selectedPaths)
+                        DTK.sendMessage(thumbnailImage, qsTr("Successfully added to “%1”").arg(albumControl.getAllCustomAlbumName(GStatus.albumChangeList)[index]), "notify_checked")
                         recentFilesInstantiator.bRreshEnableState = !recentFilesInstantiator.bRreshEnableState
                     }
                 }
@@ -880,7 +880,7 @@ FocusScope {
         //导出图片为其它格式
         RightMenuItem {
             text: qsTr("Export")
-            visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
+            visible: thumnailListType !== Album.Types.ThumbnailTrash
                      && ((selectedUrls.length === 1 && fileControl.pathExists(selectedUrls[0]) && menuItemStates.haveImage) || !menuItemStates.haveVideo)
             onTriggered: {
                 ThumbnailTools.excuteExport()
@@ -910,7 +910,7 @@ FocusScope {
             text: qsTr("Delete")
             visible: menuItemStates.canDelete && !menuItemStates.isInDevice
             onTriggered: {
-                deleteDialog.setDisplay(thumnailListType === GlobalVar.ThumbnailType.Trash ? GlobalVar.FileDeleteType.TrashSel : GlobalVar.FileDeleteType.Normal, selectedPaths.length)
+                deleteDialog.setDisplay(thumnailListType === Album.Types.ThumbnailTrash ? Album.Types.TrashSel : Album.Types.TrashNormal, selectedPaths.length)
                 deleteDialog.show()
             }
         }
@@ -918,15 +918,15 @@ FocusScope {
         //从相册移除（只在自定义相册中显示）
         RightMenuItem {
             text: qsTr("Remove from album")
-            visible: thumnailListType === GlobalVar.ThumbnailType.CustomAlbum
+            visible: thumnailListType === Album.Types.ThumbnailCustomAlbum
             onTriggered: {
                 ThumbnailTools.executeRemoveFromAlbum()
             }
         }
 
         MenuSeparator {
-            visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
-            height: visible ? GlobalVar.rightMenuSeparatorHeight : 0
+            visible: thumnailListType !== Album.Types.ThumbnailTrash
+            height: visible ? GStatus.rightMenuSeparatorHeight : 0
         }
 
         //添加到我的收藏
@@ -951,7 +951,7 @@ FocusScope {
 
         MenuSeparator {
             visible: menuItemStates.canRotate
-            height: visible ? GlobalVar.rightMenuSeparatorHeight : 0
+            height: visible ? GStatus.rightMenuSeparatorHeight : 0
         }
 
         //顺时针旋转
@@ -1013,7 +1013,7 @@ FocusScope {
         //恢复
         RightMenuItem {
             text: qsTr("Restore")
-            visible: thumnailListType === GlobalVar.ThumbnailType.Trash
+            visible: thumnailListType === Album.Types.ThumbnailTrash
             onTriggered: {
                 ThumbnailTools.executeRestore()
             }
@@ -1059,7 +1059,7 @@ FocusScope {
 
         Component.onCompleted: {
             //最近删除界面下隐藏添加到相册的子菜单
-            if(thumnailListType === GlobalVar.ThumbnailType.Trash) {
+            if(thumnailListType === Album.Types.ThumbnailTrash) {
                 var item = itemAt(5)
                 item.visible = false
                 item.height = 0
@@ -1068,10 +1068,10 @@ FocusScope {
     }
 
     Component.onCompleted: {
-        global.sigThumbnailStateChange.connect(fouceUpdate)
+        GStatus.sigThumbnailStateChange.connect(fouceUpdate)
         deleteDialog.sigDoDeleteImg.connect(ThumbnailTools.executeDelete)
 
-        // 缩略图列表模型选中内容有变化，向外发送选中内容改变信号，以便外部维护全局选中队列global.selectedPaths
+        // 缩略图列表模型选中内容有变化，向外发送选中内容改变信号，以便外部维护全局选中队列GStatus.selectedPaths
         thumbnailModel.selectedIndexesChanged.connect(selectedChanged)
     }
 

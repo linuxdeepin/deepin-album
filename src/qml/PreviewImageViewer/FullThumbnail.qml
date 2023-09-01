@@ -30,15 +30,15 @@ Item {
     function switchTopAndBottomBarState() {
         // 判断当前标题栏、工具栏处于是否隐藏模式下
         if (needBarHideInNormalMode
-                || Window.FullScreen === root.visibility) {
+                || Window.FullScreen === window.visibility) {
             var curRectY = thumbnailViewBackGround.y
             //判断当前标题栏、工具栏是否已隐藏
-            if (root.height <= curRectY) {
+            if (window.height <= curRectY) {
                 hideTopTitleAnimation.stop()
                 hideBottomAnimation.stop()
 
                 // 全屏下不展示标题栏
-                if (Window.FullScreen !== root.visibility) {
+                if (Window.FullScreen !== window.visibility) {
                     showTopTitleAnimation.start()
                 }
                 showBottomAnimation.start()
@@ -98,7 +98,7 @@ Item {
         id :hideBottomAnimation
         target: thumbnailViewBackGround
         from: thumbnailViewBackGround.y
-        to: root.height
+        to: window.height
         property: "y"
         duration: 200
         easing.type: Easing.InOutQuad
@@ -117,7 +117,7 @@ Item {
         id :showBottomAnimation
         target: thumbnailViewBackGround
         from: thumbnailViewBackGround.y
-        to:  root.height-global.showBottomY
+        to:  window.height-GStatus.showBottomY
         property: "y"
         duration: 200
         easing.type: Easing.InOutQuad
@@ -145,11 +145,11 @@ Item {
         var mouseY = imageViewerArea.usingCapture ? imageViewerArea.captureY : imageViewerArea.mouseY;
 
         // 判断光标是否离开了窗口
-        var cursorInWidnow = mouseX >= 0 && mouseX <= root.width && mouseY >= 0 && mouseY <= root.height
+        var cursorInWidnow = mouseX >= 0 && mouseX <= window.width && mouseY >= 0 && mouseY <= window.height
         // 显示图像的像素高度
-        var viewImageHeight = root.width * (fileControl.getCurrentImageHeight() / fileControl.getCurrentImageWidth())
+        var viewImageHeight = window.width * (fileControl.getCurrentImageHeight() / fileControl.getCurrentImageWidth())
 
-        if (root.visibility == Window.FullScreen){
+        if (window.visibility == Window.FullScreen){
             // 全屏时特殊处理
             if(mouseY > height-100){
                 showBottomAnimation.start()
@@ -165,14 +165,14 @@ Item {
             // 判断是否弹出标题栏和缩略图栏
             var needShowTopBottom = false;
             if(currentWidgetIndex != 0 &&
-                 ((root.height <= global.minHideHeight || root.width <= global.minWidth)
+                 ((window.height <= GStatus.minHideHeight || window.width <= GStatus.minWidth)
                   && (mouseY <= height-100)
                   && (mouseY >= titleRect.height) )){
                 needShowTopBottom = false
-            }else if (imageViewer.currentScale <= (1.0 * (root.height - titleRect.height * 2) / root.height)) {
+            }else if (imageViewer.currentScale <= (1.0 * (window.height - titleRect.height * 2) / window.height)) {
                 // 缩放率小于(允许显示高度/窗口高度)的不会超过工具/标题栏
                 needShowTopBottom = true
-            }else if ((viewImageHeight * imageViewer.currentScale) <= (root.height - titleRect.height * 2)) {
+            }else if ((viewImageHeight * imageViewer.currentScale) <= (window.height - titleRect.height * 2)) {
                 // 缩放范围高度未超过显示范围高度限制时时，不会隐藏工具/标题栏，根据高度而非宽度计算
                 needShowTopBottom = true
             }else if(cursorInWidnow
@@ -198,7 +198,7 @@ Item {
             needBarHideInNormalMode = !needShowTopBottom
         }
 
-        if(mouseX>=root.width-100 && mouseX<=root.width && isEnterCurrentView && cursorInWidnow){
+        if(mouseX>=window.width-100 && mouseX<=window.width && isEnterCurrentView && cursorInWidnow){
             showLeftButtonAnimation.start()
             showRightButtonAnimation.start()
         }else if(mouseX<=100 && mouseX>=0 && isEnterCurrentView && cursorInWidnow){
@@ -222,30 +222,30 @@ Item {
         hideTopTitleAnimation.stop()
         showRightButtonAnimation.stop()
         hideRightButtonAnimation.stop()
-        if(root.visibility==Window.FullScreen ){
+        if(window.visibility==Window.FullScreen ){
             if(imageViewerArea.mouseY > height-100){
-                thumbnailViewBackGround.y=root.height-global.showBottomY
+                thumbnailViewBackGround.y=window.height-GStatus.showBottomY
             }else{
-                thumbnailViewBackGround.y=root.height
+                thumbnailViewBackGround.y=window.height
                 titleRect.y=-50
             }
         }else if(currentWidgetIndex != 0 &&
-                 ((root.height<=global.minHideHeight || root.width<=global.minWidth)&&(imageViewerArea.mouseY <= height-100) &&imageViewerArea.mouseY >= titleRect.height )){
-            thumbnailViewBackGround.y=root.height
+                 ((window.height<=GStatus.minHideHeight || window.width<=GStatus.minWidth)&&(imageViewerArea.mouseY <= height-100) &&imageViewerArea.mouseY >= titleRect.height )){
+            thumbnailViewBackGround.y=window.height
             titleRect.y=-50
         }else if(imageViewerArea.mouseY > height-100 || imageViewerArea.mouseY<titleRect.height ||
-                 (imageViewer.currentScale <= 1.0*(root.height-titleRect.height*2)/root.height)){
-            thumbnailViewBackGround.y=root.height-global.showBottomY
+                 (imageViewer.currentScale <= 1.0*(window.height-titleRect.height*2)/window.height)){
+            thumbnailViewBackGround.y=window.height-GStatus.showBottomY
             titleRect.y=0
         }else{
-            thumbnailViewBackGround.y=root.height
+            thumbnailViewBackGround.y=window.height
             titleRect.y=-50
         }
 
-        if(imageViewerArea.mouseX<=100 && imageViewerArea.mouseX<=root.width && isEnterCurrentView){
+        if(imageViewerArea.mouseX<=100 && imageViewerArea.mouseX<=window.width && isEnterCurrentView){
             floatLeftButton.x=20
             floatRightButton.x=parent.width-70
-        }else if(imageViewerArea.mouseX>=root.width-100 && imageViewerArea.mouseX>=0 && isEnterCurrentView){
+        }else if(imageViewerArea.mouseX>=window.width-100 && imageViewerArea.mouseX>=0 && isEnterCurrentView){
             floatLeftButton.x=20
             floatRightButton.x=parent.width-70
         }else{
@@ -291,7 +291,7 @@ Item {
                 || imageViewer.frameIndex > 0
         checked: false
         anchors.top: parent.top
-        anchors.topMargin: global.titleHeight+(parent.height-global.titleHeight-global.showBottomY)/2
+        anchors.topMargin: GStatus.titleHeight+(parent.height-GStatus.titleHeight-GStatus.showBottomY)/2
         icon.name : "icon_previous"
         width: 50
         height: 50
@@ -309,7 +309,7 @@ Item {
         enabled: currentIndex < mainView.sourcePaths.length - 1
                 || imageViewer.frameIndex < imageViewer.frameCount - 1
         anchors.top: parent.top
-        anchors.topMargin: global.titleHeight+(parent.height-global.titleHeight-global.showBottomY)/2
+        anchors.topMargin: GStatus.titleHeight+(parent.height-GStatus.titleHeight-GStatus.showBottomY)/2
         width: 50
         height: 50
         icon.name:"icon_next"
@@ -362,7 +362,7 @@ Item {
                     animationAll()
 
                     // 若光标已移出界面，停止捕获光标位置
-                    var cursorInWidnow = pos.x >= 0 && pos.x <= root.width && pos.y >= 0 && pos.y <= root.height
+                    var cursorInWidnow = pos.x >= 0 && pos.x <= window.width && pos.y >= 0 && pos.y <= window.height
                     if (!cursorInWidnow) {
                         cursorTool.setCaptureCursor(false)
                         imageViewerArea.usingCapture = false
@@ -414,7 +414,7 @@ Item {
         id: floatLabel
         visible: false
         anchors.bottom: thumbnailViewBackGround.top
-        anchors.bottomMargin: global.floatMargin
+        anchors.bottomMargin: GStatus.floatMargin
         anchors.left: parent.left
         anchors.leftMargin: parent.width / 2 - 50
         opacity: 0.7
