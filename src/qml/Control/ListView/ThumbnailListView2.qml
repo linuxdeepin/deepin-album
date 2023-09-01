@@ -50,7 +50,7 @@ FocusScope {
 
     //缩略图动态变化
     property real realCellWidth:  {
-        var rowSizeHint = (width - GStatus.thumbnailListRightMargin) / GStatus.cellBaseWidth
+        var rowSizeHint = parseInt((width - GStatus.thumbnailListRightMargin) / GStatus.cellBaseWidth)
         return (width - GStatus.thumbnailListRightMargin) / rowSizeHint
     }
 

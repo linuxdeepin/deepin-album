@@ -36,7 +36,8 @@ BaseView {
 
     // 筛选类型改变处理事件
     onFilterTypeChanged: {
-        flushHaveImportedView()
+        if (visible)
+            flushHaveImportedView()
     }
 
     // 刷新已导入视图内容

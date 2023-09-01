@@ -31,6 +31,8 @@ Item {
     }
 
     function flushModel() {
+        if (!visible)
+            return
         //0.清理
         theModel.clear()
 

@@ -25,9 +25,7 @@ BaseView {
     property alias selectedPaths: theView.selectedPaths
 
     onVisibleChanged: {
-        if (visible) {
-            flushDeviceAlbumView()
-        }
+        flushDeviceAlbumView()
     }
 
     // 筛选类型改变处理事件
@@ -37,12 +35,14 @@ BaseView {
 
     // 设备之间切换，需要重载数据
     onDevicePathChanged: {
-        if (visible)
-            flushDeviceAlbumView()
+        flushDeviceAlbumView()
     }
 
     // 刷新设备视图内容
     function flushDeviceAlbumView() {
+        if (!visible)
+            return
+
         dataModel.devicePath = devicePath
         theView.proxyModel.refresh(filterType)
         GStatus.selectedPaths = theView.selectedUrls
