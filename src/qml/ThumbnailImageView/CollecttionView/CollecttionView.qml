@@ -21,10 +21,18 @@ BaseView {
 
     function setIndex(index) {
 
-        currentViewIndex = index
+        if (currentViewIndex === index)
+            return
 
-        if (currentViewIndex === 2)
+        currentViewIndex = index
+        if (currentViewIndex === 0)
+            yearCollection.flushModel()
+        else if (currentViewIndex === 1)
+            monthCollection.flushModel()
+        else if (currentViewIndex === 2) {
+            dayCollection.flushModel()
             flushDayViewStatusText()
+        }
     }
 
     onVisibleChanged: {

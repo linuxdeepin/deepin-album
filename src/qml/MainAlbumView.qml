@@ -140,6 +140,7 @@ Item {
         Component.onCompleted: {
             var oldSliderValue = Number(fileControl.getConfigValue("", "album-zoomratio", 4))
             setSliderWidgetValue(oldSliderValue)
+            GStatus.thumbnailSizeLevel = oldSliderValue
         }
     }
 

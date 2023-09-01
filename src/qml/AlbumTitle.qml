@@ -237,8 +237,8 @@ TitleBar {
                     text: qsTr("Y")
                     checked: true
                     onClicked: {
-                        collectionBtnClicked(1)
-                        collectionCombo.setCurrentIndex(0)
+                        collectionBtnClicked(0)
+                        collectionCombo.setCurrentIndex()
                     }
                 }
                 ToolButton {

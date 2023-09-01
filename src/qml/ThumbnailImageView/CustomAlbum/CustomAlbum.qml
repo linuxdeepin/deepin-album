@@ -34,7 +34,8 @@ BaseView {
 
     // 筛选类型改变处理事件
     onFilterTypeChanged: {
-        flushCustomAlbumView(GStatus.currentCustomAlbumUId)
+        if (visible)
+            flushCustomAlbumView(GStatus.currentCustomAlbumUId)
     }
 
     // 我的收藏和相册视图之间切换，需要重载数据

@@ -51,7 +51,6 @@ ApplicationWindow {
         setY(screen.height / 2 - height / 2);
 
         // 合集-所有项视图延迟刷新，解决其加载时会闪烁显示一张缩略图的问题
-        GStatus.currentViewType = Album.Types.ViewCustomAlbum
         GStatus.currentViewType = Album.Types.ViewCollecttion
 
         GStatus.loading = false

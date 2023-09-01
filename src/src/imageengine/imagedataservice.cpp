@@ -35,7 +35,7 @@
 
 const QString SETTINGS_GROUP = "Thumbnail";
 const QString SETTINGS_DISPLAY_MODE = "ThumbnailMode";
-const int THUMBNAIL_MAX_SIZE = 200;
+const int THUMBNAIL_MAX_SIZE = 180;
 
 ImageDataService *ImageDataService::s_ImageDataService = nullptr;
 

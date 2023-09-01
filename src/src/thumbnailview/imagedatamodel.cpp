@@ -74,7 +74,7 @@ QVariant ImageDataModel::data(const QModelIndex &index, int role) const
 
     case Roles::ItemTypeRole: {
         if (info.itemType == ItemTypePic) {
-            return "pciture";
+            return "picture";
         } else if (info.itemType == ItemTypeVideo) {
             return "video";
         } else {

@@ -28,6 +28,8 @@
 
 #include "config.h"
 
+#include <DLog>
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QScopedPointer>
@@ -59,6 +61,9 @@ int main(int argc, char *argv[])
     app->setProductIcon(QIcon::fromTheme("deepin-album"));
     //app->setApplicationDescription(QObject::tr("Main", "Album is a fashion manager for viewing and organizing photos and videos."));
     app->setWindowIcon(QIcon::fromTheme("deepin-album"));
+
+    DLogManager::registerConsoleAppender();
+    DLogManager::registerFileAppender();
 
     QQmlApplicationEngine engine;
 
