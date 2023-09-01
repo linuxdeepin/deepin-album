@@ -24,7 +24,7 @@ BaseView {
 
     onVisibleChanged: {
         if (visible) {
-            global.statusBarNumText = searchResultLabel.text
+            GStatus.statusBarNumText = searchResultLabel.text
         }
     }
 
@@ -68,18 +68,18 @@ BaseView {
         numLabelText = searchResultLabel.text
 
         if (visible) {
-            global.statusBarNumText = numLabelText
+            GStatus.statusBarNumText = numLabelText
         }
 
-        global.selectedPaths = []
+        GStatus.selectedPaths = []
     }
 
     // 刷新选中项目标签内容
     function getSelectedText(paths) {
-        var selectedNumText = global.getSelectedNumText(paths, numLabelText)
+        var selectedNumText = GStatus.getSelectedNumText(paths, numLabelText)
 
         if (visible)
-            global.statusBarNumText = selectedNumText
+            GStatus.statusBarNumText = selectedNumText
         return selectedNumText
     }
 
@@ -87,8 +87,8 @@ BaseView {
     Item {
         id: resultViewTitleRect
 
-        width: parent.width - global.verticalScrollBarWidth
-        height: global.thumbnailViewTitleHieght
+        width: parent.width - GStatus.verticalScrollBarWidth
+        height: GStatus.thumbnailViewTitleHieght
 
         //搜索标题
         Label {
@@ -163,7 +163,7 @@ BaseView {
             target: view
             onSelectedChanged: {
                 if (parent.visible)
-                    global.selectedPaths = view.selectedUrls
+                    GStatus.selectedPaths = view.selectedUrls
             }
         }
     }
@@ -190,6 +190,6 @@ BaseView {
     }
 
     Component.onCompleted: {
-        global.sigRunSearch.connect(searchFromKeyword)
+        GStatus.sigRunSearch.connect(searchFromKeyword)
     }
 }

@@ -7,6 +7,7 @@ import QtQml.Models 2.11
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.4
 import org.deepin.dtk.impl 1.0 as D
+import org.deepin.album 1.0 as Album
 
 import "./CollecttionView"
 import "./HaveImportedView"
@@ -30,29 +31,29 @@ Item {
     }
 
     NoPictureView{
-        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.NoPicture
+        visible: GStatus.currentViewType === Album.Types.ViewNoPicture
     }
     CollecttionView{
         id: collecttionView
-        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion
+        visible: GStatus.currentViewType === Album.Types.ViewCollecttion
     }
     HaveImportedView{
-        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.HaveImported
+        visible: GStatus.currentViewType === Album.Types.ViewHaveImported
     }
     CustomAlbum{
-        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite
+        visible: GStatus.currentViewType === Album.Types.ViewFavorite
     }
     RecentlyDeletedView{
-        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.RecentlyDeleted
+        visible: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted
     }
     CustomAlbum{
-        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.CustomAlbum
+        visible: GStatus.currentViewType === Album.Types.ViewCustomAlbum
     }
     SearchView{
-        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.SearchResult
+        visible: GStatus.currentViewType === Album.Types.ViewSearchResult
     }
     DeviceAlbum{
-        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.Device
+        visible: GStatus.currentViewType === Album.Types.ViewDevice
     }
 
     //export窗口
@@ -82,7 +83,7 @@ Item {
     }
 
     Shortcut {
-        enabled: global.stackControlCurrent === 0
+        enabled: GStatus.stackControlCurrent === 0
         autoRepeat: false
         sequence: "Esc"
         onActivated: {
@@ -95,7 +96,7 @@ Item {
         autoRepeat: false
         sequence : "Ctrl+A"
         onActivated : {
-            global.sigSelectAll(true)
+            GStatus.sigSelectAll(true)
         }
     }
 
@@ -104,17 +105,17 @@ Item {
         autoRepeat: false
         sequence : "Ctrl+C"
         onActivated : {
-            fileControl.copyImage(global.selectedPaths)
+            fileControl.copyImage(GStatus.selectedPaths)
         }
     }
 
     Shortcut {
-        enabled: visible && menuItemStates.canDelete && global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device
+        enabled: visible && menuItemStates.canDelete && GStatus.currentViewType !== Album.Types.ViewDevice
         autoRepeat: false
         sequence : "Delete"
         onActivated : {          
             if (menuItemStates.isInTrash) {
-                deleteDialog.setDisplay(menuItemStates.isInTrash ? GlobalVar.FileDeleteType.TrashSel : GlobalVar.FileDeleteType.Normal, global.selectedPaths.length)
+                deleteDialog.setDisplay(menuItemStates.isInTrash ? Album.Types.TrashSel : Album.Types.TrashNormal, GStatus.selectedPaths.length)
                 deleteDialog.show()
             } else {
                 deleteDialog.deleteDirectly()
@@ -123,20 +124,20 @@ Item {
     }
 
     Shortcut {
-        enabled: visible && menuItemStates.canRotate && global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device
+        enabled: visible && menuItemStates.canRotate && GStatus.currentViewType !== Album.Types.ViewDevice
         autoRepeat: false
         sequence : "Ctrl+R"
         onActivated : {
-            fileControl.rotateFile(global.selectedPaths, 90)
+            fileControl.rotateFile(GStatus.selectedPaths, 90)
         }
     }
 
     Shortcut {
-        enabled: visible && menuItemStates.canRotate && global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device
+        enabled: visible && menuItemStates.canRotate && GStatus.currentViewType !== Album.Types.ViewDevice
         autoRepeat: false
         sequence : "Ctrl+Shift+R"
         onActivated : {
-            fileControl.rotateFile(global.selectedPaths, -90)
+            fileControl.rotateFile(GStatus.selectedPaths, -90)
         }
     }
 
@@ -145,7 +146,7 @@ Item {
         autoRepeat: true
         sequence : "Page Up"
         onActivated : {
-            global.sigPageUp()
+            GStatus.sigPageUp()
         }
     }
 
@@ -154,7 +155,7 @@ Item {
         autoRepeat: true
         sequence : "Page Down"
         onActivated : {
-            global.sigPageDown()
+            GStatus.sigPageDown()
         }
     }
 
@@ -204,7 +205,7 @@ Item {
         autoRepeat: false
         sequence: "Ctrl+Shift+/"
         onActivated: {
-            albumControl.ctrlShiftSlashShortcut(root.x, root.y, root.width, root.height)
+            albumControl.ctrlShiftSlashShortcut(window.x, window.y, window.width, window.height)
         }
     }
 }

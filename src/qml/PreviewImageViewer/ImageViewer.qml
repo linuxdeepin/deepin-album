@@ -51,7 +51,7 @@ Rectangle {
 
     property double  currentimgY : 0.0
 
-    property double  currenImageScale : currentScale / CodeImage.getFitWindowScale(source,root.width, root.height) * 100
+    property double  currenImageScale : currentScale / CodeImage.getFitWindowScale(source,window.width, window.height) * 100
 
     property bool isMousePinchArea: true
 
@@ -73,7 +73,7 @@ Rectangle {
     property bool isFullNormalSwitchState: showFulltimer.running || showfullAnimation.running
 
     //判断图片是否可收藏
-    property bool canFavorite: albumControl.canFavorite(source, global.bRefreshFavoriteIconFlag)
+    property bool canFavorite: albumControl.canFavorite(source, GStatus.bRefreshFavoriteIconFlag)
 
     signal sigWheelChange
     signal sigImageShowFullScreen
@@ -85,7 +85,7 @@ Rectangle {
         id: option_menu
     }
     Connections {
-        target: root
+        target: window
         onSigTitlePress: {
             infomationDig.hide()
         }
@@ -121,7 +121,7 @@ Rectangle {
             return
         }
 
-        if(root.height <= global.minHideHeight || root.width <= global.minWidth){
+        if(window.height <= GStatus.minHideHeight || window.width <= GStatus.minWidth){
             idNavWidget.visible = false
         } else {
             console.debug(currentScale)
@@ -130,19 +130,19 @@ Rectangle {
 
         var realWidth = 0;
         var realHeight = 0;
-        if (root.width > root.height * readWidthHeightRatio) {
-            realWidth = root.height * readWidthHeightRatio
+        if (window.width > window.height * readWidthHeightRatio) {
+            realWidth = window.height * readWidthHeightRatio
         } else {
-            realWidth = root.width
+            realWidth = window.width
         }
-        if(root.height > root.width / readWidthHeightRatio) {
-            realHeight = root.width / readWidthHeightRatio
+        if(window.height > window.width / readWidthHeightRatio) {
+            realHeight = window.width / readWidthHeightRatio
         } else {
-            realHeight = root.height
+            realHeight = window.height
         }
 
-        viewImageWidthRatio = root.width / (realWidth * currentScale)
-        viewImageHeightRatio = root.height / (realHeight * currentScale)
+        viewImageWidthRatio = window.width / (realWidth * currentScale)
+        viewImageHeightRatio = window.height / (realHeight * currentScale)
 
         idNavWidget.setRectLocation(m_NavX, m_NavY)
         idNavWidget.setRectPec(currentScale, viewImageWidthRatio, viewImageHeightRatio)
@@ -154,11 +154,11 @@ Rectangle {
 
     onCurrentScaleChanged: {
         // 单独计算图片缩放比，防止属性绑定循环计算，数据异常
-        var calcImageScale = currentScale / CodeImage.getFitWindowScale(source, root.width, root.height) * 100;
+        var calcImageScale = currentScale / CodeImage.getFitWindowScale(source, window.width, window.height) * 100;
         if(calcImageScale > 2000) {
-            currentScale = 20 * CodeImage.getFitWindowScale(source,root.width, root.height)
+            currentScale = 20 * CodeImage.getFitWindowScale(source,window.width, window.height)
         } else if(calcImageScale < 2 && calcImageScale > 0){
-            currentScale = 0.02 * CodeImage.getFitWindowScale(source,root.width, root.height)
+            currentScale = 0.02 * CodeImage.getFitWindowScale(source,window.width, window.height)
         }
 
         //刷新导航窗口
@@ -179,7 +179,7 @@ Rectangle {
     onSourceChanged: {
         // 手动更新图源时，排除空图源影响
         if (source === "") {
-            root.title = ""
+            window.title = ""
             return
         }
 
@@ -196,7 +196,7 @@ Rectangle {
         // 默认隐藏导航区域
         idNavWidget.visible = false
         // 判断图片大小是否超过了允许显示的展示区域
-        if (fileControl.getFitWindowScale(root.width, root.height - titleRect.height * 2) > 1) {
+        if (fileControl.getFitWindowScale(window.width, window.height - titleRect.height * 2) > 1) {
             fitWindow()
         }
         else {
@@ -204,7 +204,7 @@ Rectangle {
         }
 
         // 设置标题栏
-        root.title = fileControl.slotGetFileName(source) + fileControl.slotFileSuffix(source)
+        window.title = fileControl.slotGetFileName(source) + fileControl.slotFileSuffix(source)
 
         // 显示缩放比例提示框
         showFloatLabel()
@@ -232,8 +232,8 @@ Rectangle {
         }
 
         // 判断图片大小是否超过了允许显示的展示区域
-        if (currentSourceHeight > root.height - titleRect.height * 2
-                || currentSourceWidth > root.width) {
+        if (currentSourceHeight > window.height - titleRect.height * 2
+                || currentSourceWidth > window.width) {
             fitWindow()
         }
         else {
@@ -246,10 +246,10 @@ Rectangle {
         // 优先采用图片实际加载的数据，若图片未加载完成，采用文件基本信息
         if (CodeImage.getImageWidth(source) <= 0
                 || CodeImage.getImageHeight(source) <= 0) {
-            currentScale = fileControl.getFitWindowScale(root.width, root.height)
+            currentScale = fileControl.getFitWindowScale(window.width, window.height)
         } else {
             // 图片数据异常需要从加载完成图片信息中获取
-            currentScale = CodeImage.getFitWindowScale(source, root.width, root.height)
+            currentScale = CodeImage.getFitWindowScale(source, window.width, window.height)
         }
     }
 
@@ -259,20 +259,20 @@ Rectangle {
         sigSourceChange()
 
         // 根据图片大小进行调整，使得对较长图片能顶满看图左右两侧边框
-        if (Window.FullScreen == root.visibility) {
+        if (Window.FullScreen == window.visibility) {
             currentScale = 1.0
         } else {
-            // 将图片调整在 root.width x enableRootHeight 的区域显示
-            var enableRootHeight = (root.height - titleRect.height * 2)
+            // 将图片调整在 window.width x enableRootHeight 的区域显示
+            var enableRootHeight = (window.height - titleRect.height * 2)
             var imageRatio = fileControl.getCurrentImageHeight() / fileControl.getCurrentImageWidth()
-            var rootRatio = enableRootHeight / root.width
+            var rootRatio = enableRootHeight / window.width
 
             // 取得当前图片相对显示宽度
-            var curViewImageHeight = root.width * imageRatio
+            var curViewImageHeight = window.width * imageRatio
             // 判断高度是否无需调整(即图片高度小于展示区域高度，则无需继续压缩显示区域)
-            var useHeight = (curViewImageHeight / rootRatio) <= root.width
+            var useHeight = (curViewImageHeight / rootRatio) <= window.width
 
-            currentScale = useHeight ? 1.0 : (enableRootHeight / root.height)
+            currentScale = useHeight ? 1.0 : (enableRootHeight / window.height)
         }
     }
 
@@ -287,7 +287,7 @@ Rectangle {
         CodeImage.setReverseHeightWidth(fileControl.isReverseHeightWidth())
 
         // 判断图片大小是否超过了允许显示的展示区域
-        if (fileControl.getFitWindowScale(root.width, root.height - titleRect.height * 2) > 1) {
+        if (fileControl.getFitWindowScale(window.width, window.height - titleRect.height * 2) > 1) {
             fitWindow()
         }
         else {
@@ -314,8 +314,8 @@ Rectangle {
     {
         if (sourcePaths.length > 0) {
 
-            normalWidth = root.width
-            normalHeight = root.height
+            normalWidth = window.width
+            normalHeight = window.height
 
             showFullScreen()
             sliderMainShow.images = sourcePaths
@@ -330,7 +330,7 @@ Rectangle {
 
     PropertyAnimation {
         id :showfullAnimation
-        target: root
+        target: window
         from: 0
         to: 1
         property: "opacity"
@@ -344,13 +344,13 @@ Rectangle {
         repeat: false
 
         onTriggered: {
-            root.visibility != Window.FullScreen ? showPanelFullScreen() : imageViewer.escBack()
+            window.visibility != Window.FullScreen ? showPanelFullScreen() : imageViewer.escBack()
         }
     }
     function showPanelFullScreen()
     {
-        normalWidth = root.width
-        normalHeight = root.height
+        normalWidth = window.width
+        normalHeight = window.height
 
         showFullScreen()
         view.contentItem.forceActiveFocus()
@@ -368,13 +368,13 @@ Rectangle {
     {
         showNormal()
         // 在相册主界面进入全屏，按Esc需要回到相册主界面
-        if (global.stackControlLastCurrent === 0) {
-            global.stackControlCurrent = global.stackControlLastCurrent
-            global.stackControlLastCurrent = -1
+        if (GStatus.stackControlLastCurrent === 0) {
+            GStatus.stackControlCurrent = GStatus.stackControlLastCurrent
+            GStatus.stackControlLastCurrent = -1
             // 强制刷新一次图片
             mainView.sourcePaths = ""
             mainView.source = ""
-            root.title = ""
+            window.title = ""
             return
         }
 
@@ -393,7 +393,7 @@ Rectangle {
             sigImageShowNormal()
         }
 
-        if (global.stackControlCurrent == 2) {
+        if (GStatus.stackControlCurrent == 2) {
             mainSliderShow.outSliderShow()
         }
 
@@ -404,13 +404,13 @@ Rectangle {
     // 执行收藏操作
     function executeFavorite() {
         albumControl.insertIntoAlbum(0, imageViewer.source)
-        global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+        GStatus.bRefreshFavoriteIconFlag = !GStatus.bRefreshFavoriteIconFlag
     }
 
     // 执行取消收藏操作
     function executeUnFavorite() {
         albumControl.removeFromAlbum(0, imageViewer.source)
-        global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+        GStatus.bRefreshFavoriteIconFlag = !GStatus.bRefreshFavoriteIconFlag
     }
 
     //收藏/取消收藏
@@ -464,7 +464,7 @@ Rectangle {
         sequence: "Ctrl+Shift+/"
         onActivated: {
             var screenPos = mapToGlobal(parent.x, parent.y)
-            fileControl.showShortcutPanel(screenPos.x + root.width / 2, screenPos.y + root.height / 2)
+            fileControl.showShortcutPanel(screenPos.x + window.width / 2, screenPos.y + window.height / 2)
         }
     }
 
@@ -507,10 +507,10 @@ Rectangle {
                 // 非当前图片调整
                 if ((!curSourceIsMultiImage && swipeItemIndex != view.currentIndex)
                         || (curSourceIsMultiImage && swipeItemIndex !== imageViewer.frameIndex)) {
-                    if (root.visibility == Window.FullScreen) {
+                    if (window.visibility == Window.FullScreen) {
                         return 1.0
                     } else {
-                        return 1.0 * (root.height - titleRect.height * 2) / root.height
+                        return 1.0 * (window.height - titleRect.height * 2) / window.height
                     }
                 }
 
@@ -706,7 +706,7 @@ Rectangle {
             }
 
             Connections {
-                target: root
+                target: window
                 onSigTitlePress: {
                     infomationDig.hide()
                     msArea.forceActiveFocus()
@@ -761,31 +761,31 @@ Rectangle {
                         showSvgImg.x = 0;
                         showSvgImg.y = 0;
                     } else {
-                        if (root.width > root.height * readWidthHeightRatio){
-                            realWidth = root.height * readWidthHeightRatio
+                        if (window.width > window.height * readWidthHeightRatio){
+                            realWidth = window.height * readWidthHeightRatio
                         }else{
-                            realWidth = root.width
+                            realWidth = window.width
                         }
-                        if(root.height > root.width / readWidthHeightRatio){
-                            realHeight = root.width / readWidthHeightRatio
+                        if(window.height > window.width / readWidthHeightRatio){
+                            realHeight = window.width / readWidthHeightRatio
                         }else{
-                            realHeight = root.height
+                            realHeight = window.height
                         }
 
                         drag.minimumX = - realWidth * (currentScale-1)/2
                         drag.maximumX =  realWidth * (currentScale-1)/2
                         drag.minimumY = - realHeight * (currentScale-1)/2
                         drag.maximumY =  realHeight * (currentScale-1)/2
-                        if (realHeight * currentScale >root.height) {
-                            drag.maximumY = ( realHeight * currentScale - root.height )/2
+                        if (realHeight * currentScale >window.height) {
+                            drag.maximumY = ( realHeight * currentScale - window.height )/2
                             drag.minimumY = - drag.maximumY
                         } else {
                             drag.maximumY = 0
                             drag.minimumY = 0
                         }
 
-                        if (realWidth * currentScale > root.width) {
-                            drag.maximumX = ( realWidth * currentScale - root.width )/2
+                        if (realWidth * currentScale > window.width) {
+                            drag.maximumX = ( realWidth * currentScale - window.width )/2
                             drag.minimumX = - drag.maximumX
                         } else {
                             drag.maximumX = 0
@@ -793,8 +793,8 @@ Rectangle {
                         }
 
                         // 计算显示的 显示窗口 / 图片像素 的比值
-                        viewImageWidthRatio = root.width / (realWidth * currentScale)
-                        viewImageHeightRatio = root.height / (realHeight * currentScale)
+                        viewImageWidthRatio = window.width / (realWidth * currentScale)
+                        viewImageHeightRatio = window.height / (realHeight * currentScale)
                     }
 
                     if (showAnimatedImg.x >= drag.maximumX) {
@@ -1275,13 +1275,13 @@ Rectangle {
     }
 
     onHeightChanged: {
-        if(root.height <= global.minHideHeight){
+        if(window.height <= GStatus.minHideHeight){
             idNavWidget.visible = false
         }
     }
 
     onWidthChanged: {
-        if( root.width <= global.minWidth){
+        if( window.width <= GStatus.minWidth){
             idNavWidget.visible = false
         }
     }

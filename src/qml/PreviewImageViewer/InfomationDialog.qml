@@ -17,8 +17,8 @@ DialogWindow {
     width: 280
     property int leftX: 20
     property int topY: 70
-    x: root.x+root.width - width - leftX
-    y: root.y + topY
+    x: window.x+window.width - width - leftX
+    y: window.y + topY
     minimumWidth: 280
     maximumWidth: 280
     minimumHeight: contentHeight4.height+60
@@ -217,8 +217,8 @@ DialogWindow {
     }
 
     onVisibleChanged: {
-        setX(root.x+root.width-width-leftX)
-        setY(root.y+topY)
+        setX(window.x+window.width-width-leftX)
+        setY(window.y+topY)
     }
 
     // 窗口关闭时复位组件状态

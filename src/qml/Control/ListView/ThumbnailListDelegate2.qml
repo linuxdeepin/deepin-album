@@ -28,7 +28,7 @@ Item {
     property bool blank: model.blank
     property bool bSelected: model.selected !== undefined ? model.selected : false
     property bool bHovered: false //属性：是否hover
-    property bool bFavorited: albumControl.photoHaveFavorited(model.url, global.bRefreshFavoriteIconFlag)
+    property bool bFavorited: albumControl.photoHaveFavorited(model.url, GStatus.bRefreshFavoriteIconFlag)
     property Item imageItem: image
     property Item favoriteBtn: null
 
@@ -214,10 +214,10 @@ Item {
                         albumControl.insertIntoAlbum(0, paths)
                     }
 
-                    global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+                    GStatus.bRefreshFavoriteIconFlag = !GStatus.bRefreshFavoriteIconFlag
                     // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
-                    if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId === 0) {
-                        global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
+                    if (GStatus.currentViewType === Album.Types.ViewFavorite && GStatus.currentCustomAlbumUId === 0) {
+                        GStatus.sigFlushCustomAlbumView(GStatus.currentCustomAlbumUId)
                     }
 
                     mouse.accepted = true
@@ -288,7 +288,7 @@ Item {
     //剩余天数标签
     VideoLabel {
         id: labelRemainDays
-        visible: global.currentViewIndex === GlobalVar.ThumbnailViewType.RecentlyDeleted && !model.blank
+        visible: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted && !model.blank
         anchors {
             bottom: image.bottom
             left: image.left

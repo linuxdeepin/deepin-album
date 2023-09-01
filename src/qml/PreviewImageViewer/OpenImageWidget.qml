@@ -128,12 +128,12 @@ Item {
         if(mainView.sourcePaths.length > 0 && tempPath !== ""){
             mainView.setThumbnailCurrentIndex(mainView.sourcePaths.indexOf(mainView.source))
             if (fileControl.isVideo(tempPath)){
-                root.title = ""
+                window.title = ""
                 //TODO： V20右键打开视频文件，不会调影院播放，因此该功能同步V20，若V23要求使用影院播放，放开下面代码即可
                 //albumControl.openDeepinMovie(tempPath)
             } else if (fileControl.isImage(tempPath)){
                 mainStack.currentWidgetIndex = 1
-                global.stackControlCurrent = 1
+                GStatus.stackControlCurrent = 1
             }
         }
 

@@ -10,6 +10,9 @@ import QtQml.Models 2.11
 import QtQml 2.11
 import QtQuick.Shapes 1.10
 import org.deepin.dtk 1.0
+
+import org.deepin.album 1.0 as Album
+
 import "../"
 import "../../"
 import "../../PreviewImageViewer"
@@ -26,7 +29,7 @@ Item {
     // 是否开启滚轮
     property bool enableWheel: true
     //缩略图显示类型，默认为普通模式
-    property int thumnailListType: GlobalVar.ThumbnailType.Normal
+    property int thumnailListType: Album.Types.ThumbnailNormal
     //存在框选项
     property bool haveSelect: theView.ism.length > 0
     //已框选全部缩略图
@@ -38,8 +41,8 @@ Item {
     // 已选原始路径
     property var selectedOriginPaths: new Array
     //缩略图动态变化
-    property int  rowSizeHint: (width - global.thumbnailListRightMargin) / global.cellBaseWidth
-    property real realCellWidth: (width - global.thumbnailListRightMargin) / rowSizeHint
+    property int  rowSizeHint: (width - GStatus.thumbnailListRightMargin) / GStatus.cellBaseWidth
+    property real realCellWidth: (width - GStatus.thumbnailListRightMargin) / rowSizeHint
 
     //当前区域时间区间改变信号，字符串可以直接刷新在界面上
     signal timeChanged(string str)
@@ -125,8 +128,8 @@ Item {
 
     //统计当前页面的缩略图时间范围
     function totalTimeScope() {
-        if(thumnailListType === GlobalVar.ThumbnailType.AllCollection &&
-                global.currentViewIndex === GlobalVar.ThumbnailViewType.Collecttion &&
+        if(thumnailListType === Album.Types.ThumbnailAllCollection &&
+                GStatus.currentViewType === Album.Types.ViewCollecttion &&
                 collecttionView.currentViewIndex === 3) { //仅在合集模式的时候激活计算，以此节省性能
             var visilbeIndexs = theView.flushRectSel(0, theView.contentY, theView.width, theView.height)
             if (visilbeIndexs.length > 0 && visilbeIndexs[0] !== "-1") {
@@ -144,18 +147,18 @@ Item {
     function runDeleteImg() {
        if (!visible)
            return
-       if ( thumnailListType !== GlobalVar.ThumbnailType.Trash ){
-           albumControl.insertTrash(global.selectedPaths)
+       if ( thumnailListType !== Album.Types.ThumbnailTrash ){
+           albumControl.insertTrash(GStatus.selectedPaths)
        } else {
            albumControl.deleteImgFromTrash(selectedOriginPaths)
            selectAll(false)
-           global.sigFlushRecentDelView()
+           GStatus.sigFlushRecentDelView()
        }
     }
 
     // 查看图片
     function executeViewImage() {
-        if (thumnailListType !== GlobalVar.ThumbnailType.Trash
+        if (thumnailListType !== Album.Types.ThumbnailTrash
                 && (theView.ism.length === 1)) {
             //如果是影视，则采用打开视频
             if (fileControl.isVideo(thumbnailListModel.get(theView.ism[0]).url.toString())){
@@ -168,14 +171,14 @@ Item {
                 mainStack.sourcePaths = openPaths
                 mainStack.currentIndex = theView.ism[0]
                 mainStack.currentWidgetIndex = 1
-                global.stackControlCurrent = 1
+                GStatus.stackControlCurrent = 1
             }
         }
     }
 
     // 执行全屏预览
     function executeFullScreen() {
-        if (root.visibility !== Window.FullScreen && selectedPaths.length !== 0) {
+        if (window.visibility !== Window.FullScreen && selectedPaths.length !== 0) {
             showFullScreen()
             var openPaths = []
             for(var i=0 ; i< thumbnailListModel.count; i++){
@@ -185,15 +188,15 @@ Item {
             mainStack.currentIndex = -1
             mainStack.currentIndex = theView.ism[0]
             mainStack.currentWidgetIndex = 1
-            global.stackControlLastCurrent = global.stackControlCurrent
-            global.stackControlCurrent = 1
+            GStatus.stackControlLastCurrent = GStatus.stackControlCurrent
+            GStatus.stackControlCurrent = 1
         }
     }
 
     // 执行导出图片
     function excuteExport() {
-        if (global.selectedPaths.length > 1) {
-            var bRet = albumControl.getFolders(global.selectedPaths)
+        if (GStatus.selectedPaths.length > 1) {
+            var bRet = albumControl.getFolders(GStatus.selectedPaths)
             if (bRet)
                 DTK.sendMessage(thumbnailImage, qsTr("Export successful"), "notify_checked")
             else
@@ -206,34 +209,34 @@ Item {
 
     // 执行照片信息查看
     function executeViewPhotoInfo() {
-        albumInfomationDig.filePath = global.selectedPaths[0]
+        albumInfomationDig.filePath = GStatus.selectedPaths[0]
         albumInfomationDig.show()
     }
 
     // 执行视频信息查看
     function executeViewVideoInfo() {
-        videoInfomationDig.filePath = global.selectedPaths[0]
+        videoInfomationDig.filePath = GStatus.selectedPaths[0]
         videoInfomationDig.show()
     }
 
     // 执行收藏操作
     function executeFavorite() {
-        albumControl.insertIntoAlbum(0, global.selectedPaths)
-        global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+        albumControl.insertIntoAlbum(0, GStatus.selectedPaths)
+        GStatus.bRefreshFavoriteIconFlag = !GStatus.bRefreshFavoriteIconFlag
 
         // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
-        if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId === 0) {
-            global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
+        if (GStatus.currentViewType === Album.Types.ViewFavorite && GStatus.currentCustomAlbumUId === 0) {
+            GStatus.sigFlushCustomAlbumView(GStatus.currentCustomAlbumUId)
         }
     }
 
     // 执行取消收藏操作
     function executeUnFavorite() {
-        albumControl.removeFromAlbum(0, global.selectedPaths)
-        global.bRefreshFavoriteIconFlag = !global.bRefreshFavoriteIconFlag
+        albumControl.removeFromAlbum(0, GStatus.selectedPaths)
+        GStatus.bRefreshFavoriteIconFlag = !GStatus.bRefreshFavoriteIconFlag
         // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
-        if (global.currentViewIndex === GlobalVar.ThumbnailViewType.Favorite && global.currentCustomAlbumUId === 0) {
-            global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
+        if (GStatus.currentViewType === Album.Types.ViewFavorite && GStatus.currentCustomAlbumUId === 0) {
+            GStatus.sigFlushCustomAlbumView(GStatus.currentCustomAlbumUId)
         }
     }
 
@@ -465,7 +468,7 @@ Item {
             onClicked: {
                 //解决bug174143
                 if(mouse.button == Qt.RightButton) {
-                    if(global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device){
+                    if(GStatus.currentViewType !== Album.Types.ViewDevice){
                         //设置菜单弹出位置，貌似鼠标位于菜单上，似乎可以强制菜单激活刷新出来
                         thumbnailMenu.popup(mouseX-50, mouseY)
                     }
@@ -492,7 +495,7 @@ Item {
                     }
 
                     //解决bug174143
-//                    if(global.currentViewIndex !== GlobalVar.ThumbnailViewType.Device){
+//                    if(GStatus.currentViewType !== Album.Types.ViewDevice){
 //                        thumbnailMenu.popup()
 //                        thumbnailMenu.popup(mouseX-50, mouseY)
 //                    }
@@ -585,10 +588,10 @@ Item {
                     } else {
                         // 应用主窗口被置灰过，第一次点击空白区域，不执行清空选择操作，第二次才清空选择状态
                         if(parent.getItemIndexFromAxis(mouseX, mouseY + parent.contentY) === -1) {
-                            if (!global.windowDisActived && !(Qt.ControlModifier & mouse.modifiers)) {
+                            if (!GStatus.windowDisActived && !(Qt.ControlModifier & mouse.modifiers)) {
                                 parent.ism = []
                             }
-                            global.windowDisActived = false
+                            GStatus.windowDisActived = false
                         }
                     }
                     selectedChanged()
@@ -631,7 +634,7 @@ Item {
                             mainStack.currentIndex = -1
                             mainStack.currentIndex = theView.ism[0]
                             mainStack.currentWidgetIndex = 1
-                            global.stackControlCurrent = 1
+                            GStatus.stackControlCurrent = 1
 
                             // 记录当前读取的图片信息，用于监控文件变更
                             fileControl.resetImageFiles(openPaths)
@@ -664,7 +667,7 @@ Item {
         }
 
         Connections {
-            target: global
+            target: GStatus
             onSigSelectAll: {
                 if (theView.visible)
                     selectAll(bSel)
@@ -727,7 +730,7 @@ Item {
                 visible: menuItemStates.canPrint
 
                 onTriggered: {
-                    fileControl.showPrintDialog(global.selectedPaths)
+                    fileControl.showPrintDialog(GStatus.selectedPaths)
                 }
 
                 Shortcut {
@@ -735,7 +738,7 @@ Item {
                     autoRepeat: false
                     sequence : "Ctrl+P"
                     onActivated : {
-                        fileControl.showPrintDialog(global.selectedPaths)
+                        fileControl.showPrintDialog(GStatus.selectedPaths)
                     }
                 }
             }
@@ -761,14 +764,14 @@ Item {
             }
 
             MenuSeparator {
-                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
-                height: visible ? GlobalVar.rightMenuSeparatorHeight : 0
+                visible: thumnailListType !== Album.Types.ThumbnailTrash
+                height: visible ? GStatus.rightMenuSeparatorHeight : 0
             }
 
             //添加到相册子菜单
             //隐藏交给后面的Component.onCompleted解决
             Menu {
-                enabled: thumnailListType !== GlobalVar.ThumbnailType.Trash
+                enabled: thumnailListType !== Album.Types.ThumbnailTrash
                 id: addToAlbum
                 title: qsTr("Add to album")
 
@@ -788,15 +791,15 @@ Item {
                 Repeater {
                     id: recentFilesInstantiator
                     property bool bRreshEnableState: false
-                    model: albumControl.getAllCustomAlbumId(global.albumChangeList).length
+                    model: albumControl.getAllCustomAlbumId(GStatus.albumChangeList).length
                     delegate: RightMenuItem {
-                        text: albumControl.getAllCustomAlbumName(global.albumChangeList)[index]
-                        enabled: albumControl.canAddToCustomAlbum(albumControl.getAllCustomAlbumId()[index], global.selectedPaths, recentFilesInstantiator.bRreshEnableState)
+                        text: albumControl.getAllCustomAlbumName(GStatus.albumChangeList)[index]
+                        enabled: albumControl.canAddToCustomAlbum(albumControl.getAllCustomAlbumId()[index], GStatus.selectedPaths, recentFilesInstantiator.bRreshEnableState)
                         onTriggered:{
                             // 获取所选自定义相册的Id，根据Id添加到对应自定义相册
                             var customAlbumId = albumControl.getAllCustomAlbumId()[index]
-                            albumControl.insertIntoAlbum(customAlbumId , global.selectedPaths)
-                            DTK.sendMessage(thumbnailImage, qsTr("Successfully added to “%1”").arg(albumControl.getAllCustomAlbumName(global.albumChangeList)[index]), "notify_checked")
+                            albumControl.insertIntoAlbum(customAlbumId , GStatus.selectedPaths)
+                            DTK.sendMessage(thumbnailImage, qsTr("Successfully added to “%1”").arg(albumControl.getAllCustomAlbumName(GStatus.albumChangeList)[index]), "notify_checked")
                             recentFilesInstantiator.bRreshEnableState = !recentFilesInstantiator.bRreshEnableState
                         }
                     }
@@ -806,7 +809,7 @@ Item {
             //导出图片为其它格式
             RightMenuItem {
                 text: qsTr("Export")
-                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
+                visible: thumnailListType !== Album.Types.ThumbnailTrash
                          && ((theView.ism.length === 1 && fileControl.pathExists(thumbnailListModel.get(theView.ism[0]).url.toString()) && theArea.haveImage) || !theArea.haveVideo)
                 onTriggered: {
                     excuteExport()
@@ -827,7 +830,7 @@ Item {
                 text: qsTr("Copy")
                 visible: menuItemStates.canCopy
                 onTriggered: {
-                    fileControl.copyImage(global.selectedPaths)
+                    fileControl.copyImage(GStatus.selectedPaths)
                 }
             }
 
@@ -836,7 +839,7 @@ Item {
                 text: qsTr("Delete")
                 visible: menuItemStates.canDelete
                 onTriggered: {
-                    deleteDialog.setDisplay(thumnailListType === GlobalVar.ThumbnailType.Trash ? GlobalVar.FileDeleteType.TrashSel : GlobalVar.FileDeleteType.Normal, selectedOriginPaths.length)
+                    deleteDialog.setDisplay(thumnailListType === Album.Types.ThumbnailTrash ? Album.Types.TrashSel : Album.Types.TrashNormal, selectedOriginPaths.length)
                     deleteDialog.show()
                 }
             }
@@ -844,17 +847,17 @@ Item {
             //从相册移除（只在自定义相册中显示）
             RightMenuItem {
                 text: qsTr("Remove from album")
-                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
-                         && (thumnailListType === GlobalVar.ThumbnailType.CustomAlbum)
+                visible: thumnailListType !== Album.Types.ThumbnailTrash
+                         && (thumnailListType === Album.Types.ThumbnailCustomAlbum)
                 onTriggered: {
-                    albumControl.removeFromAlbum(global.currentCustomAlbumUId, selectedPaths)
-                    global.sigFlushCustomAlbumView(global.currentCustomAlbumUId)
+                    albumControl.removeFromAlbum(GStatus.currentCustomAlbumUId, selectedPaths)
+                    GStatus.sigFlushCustomAlbumView(GStatus.currentCustomAlbumUId)
                 }
             }
 
             MenuSeparator {
-                visible: thumnailListType !== GlobalVar.ThumbnailType.Trash
-                height: visible ? GlobalVar.rightMenuSeparatorHeight : 0
+                visible: thumnailListType !== Album.Types.ThumbnailTrash
+                height: visible ? GStatus.rightMenuSeparatorHeight : 0
             }
 
             //添加到我的收藏
@@ -879,7 +882,7 @@ Item {
 
             MenuSeparator {
                 visible: menuItemStates.canRotate
-                height: visible ? GlobalVar.rightMenuSeparatorHeight : 0
+                height: visible ? GStatus.rightMenuSeparatorHeight : 0
             }
 
             //顺时针旋转
@@ -887,7 +890,7 @@ Item {
                 text: qsTr("Rotate clockwise")
                 visible: menuItemStates.canRotate
                 onTriggered: {
-                    fileControl.rotateFile(global.selectedPaths, 90)
+                    fileControl.rotateFile(GStatus.selectedPaths, 90)
                 }
             }
 
@@ -896,7 +899,7 @@ Item {
                 text: qsTr("Rotate counterclockwise")
                 visible: menuItemStates.canRotate
                 onTriggered: {
-                    fileControl.rotateFile(global.selectedPaths, -90)
+                    fileControl.rotateFile(GStatus.selectedPaths, -90)
                 }
             }
 
@@ -906,7 +909,7 @@ Item {
                 id: setAsWallpaperAction
                 visible: menuItemStates.canWallpaper
                 onTriggered: {
-                    fileControl.setWallpaper(global.selectedPaths[0])
+                    fileControl.setWallpaper(GStatus.selectedPaths[0])
                 }
 
                 Shortcut {
@@ -914,7 +917,7 @@ Item {
                     autoRepeat: false
                     sequence : "Ctrl+F9"
                     onActivated : {
-                        fileControl.setWallpaper(global.selectedPaths[0])
+                        fileControl.setWallpaper(GStatus.selectedPaths[0])
                     }
                 }
             }
@@ -925,7 +928,7 @@ Item {
                 id: displayInFileManagerAction
                 visible: menuItemStates.canDisplayInFolder
                 onTriggered: {
-                    fileControl.displayinFileManager(global.selectedPaths[0])
+                    fileControl.displayinFileManager(GStatus.selectedPaths[0])
                 }
 
                 Shortcut {
@@ -933,7 +936,7 @@ Item {
                     autoRepeat: false
                     sequence : "Alt+D"
                     onActivated : {
-                        fileControl.displayinFileManager(global.selectedPaths[0])
+                        fileControl.displayinFileManager(GStatus.selectedPaths[0])
                     }
                 }
             }
@@ -941,11 +944,11 @@ Item {
             //恢复
             RightMenuItem {
                 text: qsTr("Restore")
-                visible: thumnailListType === GlobalVar.ThumbnailType.Trash
+                visible: thumnailListType === Album.Types.ThumbnailTrash
                 onTriggered: {
                     albumControl.recoveryImgFromTrash(selectedOriginPaths)
                     selectAll(false)
-                    global.sigFlushRecentDelView()
+                    GStatus.sigFlushRecentDelView()
                 }
             }
 
@@ -989,7 +992,7 @@ Item {
 
             Component.onCompleted: {
                 //最近删除界面下隐藏添加到相册的子菜单
-                if(thumnailListType === GlobalVar.ThumbnailType.Trash) {
+                if(thumnailListType === Album.Types.ThumbnailTrash) {
                     var item = itemAt(5)
                     item.visible = false
                     item.height = 0
@@ -999,7 +1002,7 @@ Item {
     }
 
     Component.onCompleted: {
-        global.sigThumbnailStateChange.connect(fouceUpdate)
+        GStatus.sigThumbnailStateChange.connect(fouceUpdate)
         deleteDialog.sigDoDeleteImg.connect(runDeleteImg)
     }
 

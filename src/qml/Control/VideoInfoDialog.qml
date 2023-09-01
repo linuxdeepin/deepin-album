@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.0
+import QtQuick 2.11
 import QtQuick.Window 2.11
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.11
@@ -18,8 +18,8 @@ DialogWindow {
     width: 280
     property int leftX: 20
     property int topY: 70
-    x: root.x+root.width - width - leftX
-    y: root.y + topY
+    x: window.x+window.width - width - leftX
+    y: window.y + topY
     minimumWidth: 280
     maximumWidth: 280
     minimumHeight: contentHeight4.height+60
@@ -203,7 +203,7 @@ DialogWindow {
         }
     }
     onVisibleChanged: {
-        setX(root.x + root.width / 2 - width / 2)
-        setY(root.y + root.height / 2 - height / 2)
+        setX(window.x + window.width / 2 - width / 2)
+        setY(window.y + window.height / 2 - height / 2)
     }
 }

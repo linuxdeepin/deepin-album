@@ -23,12 +23,12 @@ Rectangle {
     }
 
     property string iconName :"deepin-image-viewer"
-    anchors.top:root.top
+    anchors.top:window.top
 
 //        anchors.topMargin: 10
     width: parent.width
     height: 50
-    visible: root.visibility === 5 ? false:true
+    visible: window.visibility === 5 ? false:true
     color:titlecontrol.ColorSelector.backgroundColor
     gradient: Gradient {
            GradientStop { position: 0.0; color: titlecontrol.ColorSelector.backgroundColor1 }
@@ -37,9 +37,9 @@ Rectangle {
     //opacity: 1
     ActionButton {
         anchors.top:parent.top
-        anchors.topMargin:global.actionMargin
+        anchors.topMargin:GStatus.actionMargin
         anchors.left:parent.left
-        anchors.leftMargin:global.actionMargin
+        anchors.leftMargin:GStatus.actionMargin
         icon {
             name: iconName
             width: 32
@@ -60,8 +60,8 @@ Rectangle {
             var delta = Qt.point(mouse.x-clickPos.x, mouse.y-clickPos.y)
 
             //如果mainwindow继承自QWidget,用setPos
-            root.setX(root.x+delta.x)
-            root.setY(root.y+delta.y)
+            window.setX(window.x+delta.x)
+            window.setY(window.y+delta.y)
             //               rect1.x = rect1.x + delta.x
             //               rect1.y = rect1.y + delta.y
         }

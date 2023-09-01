@@ -14,7 +14,7 @@ import "../"
 
 BaseView {
 
-    property int customAlbumUId: global.currentCustomAlbumUId
+    property int customAlbumUId: GStatus.currentCustomAlbumUId
     property string customAlbumName: "" //相册名称显示内容
     property int totalPictrueAndVideos: 0
     property int filterType: filterCombo.currentIndex // 筛选类型，默认所有
@@ -27,37 +27,37 @@ BaseView {
 
     onVisibleChanged: {
         if (visible) {
-            flushAlbumName(global.currentCustomAlbumUId, albumControl.getCustomAlbumByUid(global.currentCustomAlbumUId))
-            flushCustomAlbumView(global.currentCustomAlbumUId)
+            flushAlbumName(GStatus.currentCustomAlbumUId, albumControl.getCustomAlbumByUid(GStatus.currentCustomAlbumUId))
+            flushCustomAlbumView(GStatus.currentCustomAlbumUId)
         }
     }
 
     // 筛选类型改变处理事件
     onFilterTypeChanged: {
-        flushCustomAlbumView(global.currentCustomAlbumUId)
+        flushCustomAlbumView(GStatus.currentCustomAlbumUId)
     }
 
     // 我的收藏和相册视图之间切换，需要重载数据
     onCustomAlbumUIdChanged: {
         if (visible) {
-            flushAlbumName(global.currentCustomAlbumUId, albumControl.getCustomAlbumByUid(global.currentCustomAlbumUId))
-            flushCustomAlbumView(global.currentCustomAlbumUId)
+            flushAlbumName(GStatus.currentCustomAlbumUId, albumControl.getCustomAlbumByUid(GStatus.currentCustomAlbumUId))
+            flushCustomAlbumView(GStatus.currentCustomAlbumUId)
         }
     }
 
     // 刷新自定义相册名称
     function flushAlbumName(UID, name) {
-        if (UID === global.currentCustomAlbumUId) {
+        if (UID === GStatus.currentCustomAlbumUId) {
             customAlbumName = name
         }
     }
 
     // 刷新自定义相册/我的收藏视图内容
     function flushCustomAlbumView(UID) {
-        if (UID === global.currentCustomAlbumUId || UID === -1) {
+        if (UID === GStatus.currentCustomAlbumUId || UID === -1) {
             dataModel.albumId = customAlbumUId
             theView.proxyModel.refresh(filterType)
-            global.selectedPaths = theView.selectedUrls
+            GStatus.selectedPaths = theView.selectedUrls
             getNumLabelText()
         }
     }
@@ -89,22 +89,22 @@ BaseView {
         numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? ((photoCountText !== "" ? " " : "") + videoCountText) : ""))
                                            : (filterType == 1 ? photoCountText : videoCountText)
         if (visible) {
-            global.statusBarNumText = numLabelText
+            GStatus.statusBarNumText = numLabelText
         }
     }
 
     // 刷新选中项目标签内容
     function getSelectedText(paths) {
-        var selectedNumText = global.getSelectedNumText(paths, numLabelText)
+        var selectedNumText = GStatus.getSelectedNumText(paths, numLabelText)
         if (visible)
-            global.statusBarNumText = selectedNumText
+            GStatus.statusBarNumText = selectedNumText
         return selectedNumText
     }
 
     Connections {
         target: albumControl
         onSigRepeatUrls: {
-            if (visible && global.currentCustomAlbumUId !== 0) {
+            if (visible && GStatus.currentCustomAlbumUId !== 0) {
                 theView.selectUrls(urls)
             }
         }
@@ -113,8 +113,8 @@ BaseView {
     // 自定义相册标题栏区域
     Item {
         id: customAlbumTitleRect
-        width: parent.width - global.verticalScrollBarWidth
-        height: global.thumbnailViewTitleHieght - 10
+        width: parent.width - GStatus.verticalScrollBarWidth
+        height: GStatus.thumbnailViewTitleHieght - 10
         // 相册名称标签
         Label {
             id: customAlbumLabel
@@ -170,8 +170,8 @@ BaseView {
         }
         width: parent.width
         height: parent.height - customAlbumTitleRect.height - m_topMargin
-        thumnailListType: (global.currentViewIndex === GlobalVar.ThumbnailViewType.CustomAlbum && global.currentCustomAlbumUId > 3) ? GlobalVar.ThumbnailType.CustomAlbum
-                                                                                                                                    : GlobalVar.ThumbnailType.Normal
+        thumnailListType: (GStatus.currentViewType === Album.Types.ViewCustomAlbum && GStatus.currentCustomAlbumUId > 3) ? Album.Types.ThumbnailCustomAlbum
+                                                                                                                                    : Album.Types.ThumbnailNormal
         proxyModel.sourceModel: Album.ImageDataModel { id: dataModel; modelType: Album.Types.CustomAlbum}
 
         visible: numLabelText !== ""
@@ -182,7 +182,7 @@ BaseView {
             target: theView
             onSelectedChanged: {
                 if (parent.visible)
-                    global.selectedPaths = theView.selectedUrls
+                    GStatus.selectedPaths = theView.selectedUrls
             }
         }
     }
@@ -219,11 +219,11 @@ BaseView {
 
     // 自定义相册，若没有数据，显示导入图片视图
     ImportView {
-        visible: global.currentViewIndex === 6 && numLabelText ==="" && isCustom
+        visible: GStatus.currentViewType === Album.Types.ViewCustomAlbum && numLabelText === "" && isCustom
     }
 
     Component.onCompleted: {
-        global.sigFlushCustomAlbumView.connect(flushCustomAlbumView)
-        global.sigCustomAlbumNameChaged.connect(flushAlbumName)
+        GStatus.sigFlushCustomAlbumView.connect(flushCustomAlbumView)
+        GStatus.sigCustomAlbumNameChaged.connect(flushAlbumName)
     }
 }
