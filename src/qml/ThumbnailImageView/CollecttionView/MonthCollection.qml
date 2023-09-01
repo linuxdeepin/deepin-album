@@ -185,7 +185,6 @@ Item {
     }
 
     Component.onCompleted: {
-        flushModel()
         GStatus.sigFlushAllCollectionView.connect(flushModel)
     }
 }

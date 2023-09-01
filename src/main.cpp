@@ -93,6 +93,8 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("imageDataService", ImageDataService::instance());
 
+    QImageItem::initDamage();
+
     GlobalStatus status;
     engine.rootContext()->setContextProperty("GStatus", &status);
 

@@ -39,6 +39,7 @@ public:
     explicit QImageItem(QQuickItem *parent = nullptr);
     ~QImageItem() override;
 
+    static void initDamage();
     void setImage(const QImage &image);
     QImage image() const;
     void resetImage();
@@ -75,6 +76,8 @@ protected:
     void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
 #endif
 
+private:
+    static QImage s_damage;
 private:
     QImage m_image;
     bool m_smooth;
