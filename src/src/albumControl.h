@@ -246,7 +246,7 @@ public:
     Q_INVOKABLE QString getDeviceName(const QString &devicePath);
 
     //获取设备的图片
-    Q_INVOKABLE QStringList getDevicePicPaths(const QString &path);
+    Q_INVOKABLE QStringList getDevicePicPaths(const QString &strPath);
 
     //获得device路径
     Q_INVOKABLE QVariantMap getDeviceAlbumInfos(const QString &devicePath, const int &filterType = 0);
