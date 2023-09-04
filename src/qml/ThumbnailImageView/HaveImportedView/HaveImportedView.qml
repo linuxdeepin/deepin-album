@@ -17,6 +17,7 @@ BaseView {
     property string selectedText: getSelectedText(selectedPaths)
     property alias selectedPaths: theView.selectedPaths
     property real titleOpacity: 0.7
+    property bool bShowImportTips: GStatus.currentViewType === Album.Types.ViewHaveImported && numLabelText === "" && filterType === 0
 
     Connections {
         target: albumControl
@@ -45,8 +46,6 @@ BaseView {
         theView.importedListModel.loadImportedInfos()
         theView.updateSelectedPaths()
         getNumLabelText()
-
-        filterCombo.visible = albumControl.getAllInfoConut(1) > 0 || albumControl.getAllInfoConut(2)
     }
 
     // 刷新总数标签
@@ -108,6 +107,17 @@ BaseView {
             text: qsTr("Import")
         }
 
+        Label {
+            anchors {
+                top: importedLabel.bottom
+                topMargin: 10
+                left: parent.left
+            }
+            visible: bShowImportTips
+            font: DTK.fontManager.t6
+            text: qsTr("0 item")
+        }
+
         // 筛选下拉框
         FilterComboBox {
             id: filterCombo
@@ -128,8 +138,10 @@ BaseView {
     }
 
     // 若没有数据，显示导入图片视图
-    ImportView {
-        visible: GStatus.currentViewType === Album.Types.ViewHaveImported && numLabelText === "" && filterType === 0
+    NoPictureView {
+        visible: bShowImportTips
+        bShowImportBtn: true
+        iconName: "nopicture1"
     }
 
     Component.onCompleted: {

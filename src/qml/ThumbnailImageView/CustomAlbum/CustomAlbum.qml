@@ -137,7 +137,7 @@ BaseView {
                 left: parent.left
             }
             font: DTK.fontManager.t6
-            text: numLabelText
+            text: numLabelText !== "" ? numLabelText : qsTr("0 item")
         }
 
         // 筛选下拉框
@@ -150,7 +150,6 @@ BaseView {
             }
             width: 130
             height: 30
-            visible: !(numLabelText === "" && filterType === 0)
         }
 
         MouseArea {
@@ -188,7 +187,7 @@ BaseView {
         }
     }
 
-    // 仅在自动导入相册筛选无内容时，显示无结果
+    // 筛选无内容时，显示无结果
     Label {
         anchors {
             top: customAlbumTitleRect.bottom
@@ -197,30 +196,18 @@ BaseView {
             right: parent.right
             centerIn: parent
         }
-        visible: numLabelText === "" && filterType > 0 && (isSystemAutoImport || isNormalAutoImport)
+        visible: numLabelText === "" && filterType > 0
         font: DTK.fontManager.t4
         color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
         text: qsTr("No results")
     }
 
-    // 仅在自动导入相册无内容时，显示没有图片或视频时显示
-    Label {
-        anchors {
-            top: customAlbumTitleRect.bottom
-            left: parent.left
-            bottom: theView.bottom
-            right: parent.right
-            centerIn: parent
-        }
-        visible: numLabelText === "" && filterType === 0 && (isSystemAutoImport || isNormalAutoImport)
-        font: DTK.fontManager.t4
-        color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
-        text: qsTr("No photos or videos found")
-    }
-
-    // 自定义相册，若没有数据，显示导入图片视图
-    ImportView {
-        visible: GStatus.currentViewType === Album.Types.ViewCustomAlbum && numLabelText === "" && isCustom
+    // 1.自定义相册，若没有数据，显示导入图片视图
+    // 2.自动导入相册，无内容时，显示没有图片或视频时显示
+    NoPictureView {
+        visible: numLabelText === ""  && filterType === 0
+        bShowImportBtn: isCustom
+        iconName: isCustom ? "nopicture1" : (GStatus.currentViewType === Album.Types.ViewCustomAlbum ? "nopicture2" : "nopicture3")
     }
 
     Component.onCompleted: {
