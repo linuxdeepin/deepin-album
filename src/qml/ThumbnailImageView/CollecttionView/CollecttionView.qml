@@ -87,9 +87,10 @@ BaseView {
     }
 
     // 若没有数据，显示导入图片视图
-    ImportView {
+    NoPictureView {
         visible: GStatus.currentViewType === Album.Types.ViewCollecttion && allCollection.numLabelText === "" && albumControl.getAllCount() === 0
-
+        bShowImportBtn: true
+        iconName: "nopicture1"
         onVisibleChanged: {
             if (visible) {
                 GStatus.statusBarNumText = ""

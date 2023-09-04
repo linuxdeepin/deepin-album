@@ -169,7 +169,7 @@ BaseView {
             }
             width: 130
             height: 30
-            visible: !theView.haveSelect && totalCount > 0
+            visible: (!theView.haveSelect && totalCount > 0) || totalCount === 0
         }
 
         WarningButton {
@@ -254,7 +254,7 @@ BaseView {
 
     // 若没有数据，显示无图片视图
     NoPictureView {
-        visible: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted && numLabelText === "" && filterType === 0
+        visible: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted && numLabelText === ""/* && filterType === 0*/
     }
 
     Component.onCompleted: {

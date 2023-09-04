@@ -12,7 +12,6 @@
         <file>qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml</file>
         <file>qml/ThumbnailImageView/ThumbnailImage.qml</file>
         <file>qml/ThumbnailImageView/NoPictureView.qml</file>
-        <file>qml/ThumbnailImageView/ImportView.qml</file>
         <file>qml/PreviewImageViewer/AlertToolTip.qml</file>
         <file>qml/PreviewImageViewer/FloatingNotice.qml</file>
         <file>qml/PreviewImageViewer/FullThumbnail.qml</file>
