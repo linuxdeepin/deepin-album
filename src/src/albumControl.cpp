@@ -859,7 +859,10 @@ void AlbumControl::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> 
     QString scheme = QUrl(uri).scheme();
 
     // 查看块设备是否可卸载，以便确定file前缀的uri是否为外接设备
-    bool bCanEject = mount->getVolume()->canEject();
+    bool bCanEject = false;
+    if (mount->getVolume())
+        bCanEject = mount->getVolume()->canEject();
+
     qInfo() << "AlbumControl::onVfsMountChangedAdd uri: " << uri << "canEject:" << bCanEject;
     QRegularExpression recifs("^file:///media/(.*)/smbmounts");
     QRegularExpression regvfs("^file:///run/user/(.*)/gvfs|^/root/.gvfs");
