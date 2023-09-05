@@ -136,6 +136,7 @@ AlbumControl *AlbumControl::instance()
 {
     if (!m_instance) {
         m_instance = new AlbumControl();
+        m_instance->startMonitor();
     }
 
     return m_instance;
@@ -432,13 +433,15 @@ QVariantList AlbumControl::getAlbumAllInfos(const int &filterType)
     return reinfoList;
 }
 
-bool AlbumControl::importAllImagesAndVideos(const QStringList &paths, const int UID)
+bool AlbumControl::importAllImagesAndVideos(const QStringList &paths, const int UID, const bool notifyUI)
 {
     //发送导入开始信号
-    emit sigImportStart();
+    if (notifyUI)
+        emit sigImportStart();
 
     ImportImagesThread *imagesthread = new ImportImagesThread;
     imagesthread->setData(paths, UID);
+    imagesthread->setNotifyUI(notifyUI);
     QThreadPool::globalInstance()->start(imagesthread);
 
     return true;
@@ -742,7 +745,6 @@ void AlbumControl::initMonitor()
     m_fileInotifygroup = new FileInotifyGroup(this) ;
     connect(m_fileInotifygroup, &FileInotifyGroup::sigMonitorChanged, this, &AlbumControl::slotMonitorChanged);
     connect(m_fileInotifygroup, &FileInotifyGroup::sigMonitorDestroyed, this, &AlbumControl::slotMonitorDestroyed);
-    startMonitor();
 }
 
 void AlbumControl::startMonitor()
@@ -801,8 +803,8 @@ void AlbumControl::startMonitor()
             for (QString path : currentPaths) {
                 urls << QUrl::fromLocalFile(path).toString();
             }
-            importAllImagesAndVideos(urls);
-            //insertImportIntoAlbum(uid, urls);
+            importAllImagesAndVideos(urls, -1, false);
+            insertImportIntoAlbum(uid, urls);
         }
     }
     QStringList pathlist = DBManager::instance()->getAllPaths();

@@ -73,6 +73,11 @@ void ImportImagesThread::setData(const QList<QUrl> &paths, const int UID, const 
     m_type = DataType_Url;
 }
 
+void ImportImagesThread::setNotifyUI(bool bValue)
+{
+    m_notifyUI = bValue;
+}
+
 bool ImportImagesThread::ifCanStopThread(void *imgobject)
 {
     Q_UNUSED(imgobject);
@@ -184,6 +189,7 @@ void ImportImagesThread::runDetail()
 
     QThread::msleep(100);
     //发送导入完成信号
-    emit sigImportFinished();
+    if (m_notifyUI)
+        emit sigImportFinished();
 }
 

@@ -62,7 +62,7 @@ public:
     Q_INVOKABLE QVariantList getAlbumAllInfos(const int &filterType = 0);
 
     //导入图片，导入图片接口
-    Q_INVOKABLE bool importAllImagesAndVideos(const QStringList &paths, const int UID = -1);
+    Q_INVOKABLE bool importAllImagesAndVideos(const QStringList &paths, const int UID = -1, const bool notifyUI = true);
 
     //导入图片，导入图片接口urls
     Q_INVOKABLE bool importAllImagesAndVideosUrl(const QList <QUrl> &paths, const int UID, bool checkRepeat = true);

@@ -49,6 +49,7 @@ public:
     ~ImportImagesThread() override;
     void setData(const QStringList &paths, const int UID);
     void setData(const QList<QUrl> &paths, const int UID, const bool checkRepeat);
+    void setNotifyUI(bool bValue);
 
 protected:
     bool ifCanStopThread(void *imgobject) override;
@@ -76,6 +77,7 @@ private:
     QStringList m_filePaths;//所有的本地文件路径
     int m_UID = -1;
     DataType m_type = DataType_NULL;
+    bool m_notifyUI = true;
     bool m_checkRepeat = true;
 };
 
