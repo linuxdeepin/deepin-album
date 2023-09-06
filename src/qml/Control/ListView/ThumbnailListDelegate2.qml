@@ -35,7 +35,8 @@ Item {
     property bool bShowVideoLabel: fileControl.isVideo(model.url) && !model.blank
     property Item imageItem: null
     property Item damageIcon: null
-    property Item selectArea: null
+    property Item selectIcon: null
+    property Item selectFrame: null
     property Item favoriteBtn: null
     property Item remainDaysLbl: null
     property Item videoLabel: null
@@ -84,34 +85,42 @@ Item {
         visible: false
     }
 
+    OpacityMask{
+        id: opacityMask
+        anchors.fill: image
+        source: image
+        maskSource: mask
+    }
+
+    FastBlur {
+        anchors.top: opacityMask.top; anchors.topMargin: 6
+        anchors.left: opacityMask.left; anchors.leftMargin: 1
+        width: opacityMask.width - 2; height: opacityMask.width - 6
+        source: opacityMask
+        radius: 24
+        transparentBorder: true
+    }
+
     //遮罩执行
     OpacityMask {
         id: mask
         anchors.fill: image
         source: image
         maskSource: maskRec
+        antialiasing: true
+        smooth: true
     }
 
-    // 边框阴影立体效果
-    DropShadow {
-        anchors.fill: mask
-        z: 0
-
-        verticalOffset: 1
-
-        radius: 5
-        samples: radius * 2 + 1
-        spread: 0.3
-
-        color: "black"
-
-        opacity: 0.3
-
-        source: mask
-
+    //border and shadow
+    Rectangle {
+        id: borderRect
+        anchors.fill: image
+        color: Qt.rgba(0, 0, 0, 0)
+        border.color: Qt.rgba(0, 0, 0, 0.1)
+        border.width: 1
         visible: true
+        radius: 10
     }
-
 
     MouseArea {
         id:mouseAreaTopParentRect
@@ -135,7 +144,7 @@ Item {
 
         onExited: {
             bHovered = false
-            if (favoriteBtn && !bFavorited && !bSelected) {
+            if (favoriteBtn && !bFavorited) {
                 favoriteBtn.destroy()
                 favoriteBtn = null
             }
@@ -144,22 +153,15 @@ Item {
 
     onBSelectedChanged: {
         if (bSelected) {
-            if (selectArea == null)
-                selectArea = selectedComponent.createObject(main)
+            if (selectIcon == null)
+                selectIcon = selectedIconComponent.createObject(main)
+            if (selectFrame == null)
+                selectFrame = selectedFrameComponent.createObject(main)
         } else {
-            selectArea.destroy()
-            selectArea = null
-        }
-
-        if (bSelected && model.modelType !== Album.Types.Device && model.modelType !== Album.Types.RecentlyDeleted) {
-            if (favoriteBtn == null) {
-                favoriteBtn = favoriteComponent.createObject(main)
-            }
-        } else {
-            if (favoriteBtn && !bFavorited) {
-                favoriteBtn.destroy()
-                favoriteBtn = null
-            }
+            selectIcon.destroy()
+            selectIcon = null
+            selectFrame.destroy()
+            selectFrame = null
         }
     }
 
@@ -169,7 +171,7 @@ Item {
                 favoriteBtn = favoriteComponent.createObject(main)
             }
         } else {
-            if (favoriteBtn && !bHovered && !bSelected) {
+            if (favoriteBtn && !bHovered) {
                 favoriteBtn.destroy()
                 favoriteBtn = null
             }
@@ -198,12 +200,75 @@ Item {
         }
     }
 
-    // 选中框组件
+    // 选中图标组件
     Component {
-        id: selectedComponent
+        id: selectedIconComponent
         Item {
             anchors.fill: parent
 
+            // 计算图片区域的位置
+            Rectangle {
+                id: imageArea
+                anchors.centerIn: parent
+                width: parent.width - 14
+                height: parent.height - 14
+                visible: false
+            }
+
+            //选中后显示的图标
+            DciIcon {
+                name: "select_active_1"
+                visible: true
+                anchors {
+                    top: imageArea.top
+                    right: imageArea.right
+                    topMargin: 5
+                    rightMargin : 5
+                }
+            }
+
+            DciIcon {
+                name: "Inner_shadow"
+                visible: true
+                anchors {
+                    top: imageArea.top
+                    right: imageArea.right
+                    topMargin: 5
+                    rightMargin : 5
+                }
+            }
+
+            DciIcon {
+                name: "shadow"
+                visible: true
+                anchors {
+                    top: imageArea.top
+                    right: imageArea.right
+                    topMargin: 5
+                    rightMargin : 5
+                }
+            }
+
+            DciIcon {
+                name: "yes"
+                visible: true
+                anchors {
+                    top: imageArea.top
+                    right: imageArea.right
+                    topMargin: 5
+                    rightMargin : 5
+                }
+            }
+        }
+    }
+
+    // 选中框组件
+    Component {
+        id: selectedFrameComponent
+        Item {
+            anchors.fill: parent
+
+            z: -1
             // 计算图片区域的位置
             Rectangle {
                 id: imageArea
@@ -223,52 +288,21 @@ Item {
                 color: "#AAAAAA"
                 visible: true
                 opacity: 0.4
+
+                border.color: Qt.rgba(0,0,0,0.1)
+                border.width: 1
             }
 
-            //选中后显示的图标
-            DciIcon {
-                name: "select_active_1"
-                visible: selectShader.visible
-                anchors {
-                    top: imageArea.top
-                    right: imageArea.right
-                    topMargin: 5
-                    rightMargin : 5
-                }
+            //遮罩执行
+            OpacityMask {
+                id: mask
+                anchors.fill: imageArea
+                source: imageArea
+                maskSource: selectShader
+                antialiasing: true
+                smooth: true
             }
 
-            DciIcon {
-                name: "Inner_shadow"
-                visible: selectShader.visible
-                anchors {
-                    top: imageArea.top
-                    right: imageArea.right
-                    topMargin: 5
-                    rightMargin : 5
-                }
-            }
-
-            DciIcon {
-                name: "shadow"
-                visible: selectShader.visible
-                anchors {
-                    top: imageArea.top
-                    right: imageArea.right
-                    topMargin: 5
-                    rightMargin : 5
-                }
-            }
-
-            DciIcon {
-                name: "yes"
-                visible: selectShader.visible
-                anchors {
-                    top: imageArea.top
-                    right: imageArea.right
-                    topMargin: 5
-                    rightMargin : 5
-                }
-            }
         }
     }
 
