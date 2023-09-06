@@ -1,3 +1,23 @@
+deepin-album (6.0.4) unstable; urgency=medium
+
+  * chore: URL path to local path rectification, unified use of the localPath interface for processing
+  * fix: Fix the issue of excessive display of high definition screen icons(Issue: https://github.com/linuxdeepin/developer-center/issues/4884)
+  * refator: Improved functionality for 'import from file' and device list
+  * fix: Optimization of startup time when attaching peripherals to photo albums(Bug: 185733)
+  * perf: memory optimization
+  * perf: Standardize anchor layout code
+  * perf: Change the abuse of the Rectangle component to Item to avoid drawing the same area multiple times
+  * perf: Simplify ThumbnailImage control related code
+  * refactor: GlobalVar.qml with various statuses stored on the C++ backend
+  * perf: Optimize the startup time of the album and solve some bugs
+  * perf: Optimize the loading speed of thumbnail list proxy controls
+  * fix: [UI] Rectify the display issue where the page is empty(Bug: 167825)
+  * fix: Fix the issue of photo album flickering when there is an smb path(Bug: 217933)
+  * fix: Fix the issue of album restart failure after importing linked images(Bug: 218077)
+  * chore: [UI] Optimize thumbnail display effect(Bug: 192973)
+
+ -- Deepin Packages Builder <packages@deepin.org>  Wed, 06 Sep 2023 10:42:03 +0800
+
 deepin-album (6.0.3) unstable; urgency=medium
 
   * chore: 优化isImage、isVideo接口处理逻辑(Bug: 192995)
