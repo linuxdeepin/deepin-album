@@ -64,5 +64,7 @@
         <file>qml/Control/ListView/ThumbnailListDelegate2.qml</file>
         <file>qml/Control/ListView/ThumbnailListViewTools.js</file>
         <file>qml/Control/BaseView.qml</file>
+        <file>qml/Control/BorderImageEx.qml</file>
+        <file>qml/Control/MonthImage.qml</file>
     </qresource>
 </RCC>

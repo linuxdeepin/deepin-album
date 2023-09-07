@@ -11,7 +11,6 @@
 
 const QString SETTINGS_GROUP = "Thumbnail";
 const QString SETTINGS_DISPLAY_MODE = "ThumbnailMode";
-const int LINE_SPACE = 2;
 const int THUMBNAIL_MAX_SIZE = 180;
 
 ThumbnailLoad::ThumbnailLoad()
@@ -676,7 +675,8 @@ QImage CollectionPublisher::requestImage(const QString &id, QSize *size, const Q
     if (type == "Y") {
         result = createYearImage(tokens[2]);
     } else if (type == "M") {
-        result = createMonthImage(tokens[2], tokens[3]);
+        CollectionPublisher::ImageSize imageSize = static_cast<CollectionPublisher::ImageSize>(tokens[3].toInt());
+        result = createMonthCellImage(id.mid(id.indexOf("/")), imageSize);
     }
 
     if (size != nullptr) {
@@ -708,54 +708,36 @@ QImage CollectionPublisher::createYearImage(const QString &year)
     return image;
 }
 
-QImage CollectionPublisher::createMonthImage(const QString &year, const QString &month)
+QImage CollectionPublisher::createMonthCellImage(const QString &path, const CollectionPublisher::ImageSize &sizeType)
 {
-    auto paths = DBManager::instance()->getMonthPaths(year, month, 6);
-    if (paths.isEmpty()) {
-        return QImage();
-    }
+    // 计算图片尺寸
+    QSize requestSize(outputWidth, outputHeight);
+    if (ImageSize_Full == sizeType)
+        requestSize = QSize(outputWidth, outputHeight);
+    else if (ImageSize_Half == sizeType)
+        requestSize = QSize(outputWidth / 2, outputHeight);
+    else if (ImageSize_Quarter == sizeType)
+        requestSize = QSize(outputWidth / 2, outputHeight / 2);
+    else if (ImageSize_SplitBig == sizeType)
+        requestSize = QSize(outputWidth, static_cast<int>(outputHeight * 0.618));
+    else if (ImageSize_Split_Quarter == sizeType)
+        requestSize = QSize(outputWidth / 4, static_cast<int>(outputHeight * (1 - 0.618)));
+    else if (ImageSize_Split_Fifth == sizeType)
+        requestSize = QSize(outputWidth / 5, static_cast<int>(outputHeight * (1 - 0.618)));
 
     //1.加载原图
-    std::vector<QImage> images;
-    std::transform(paths.begin(), paths.end(), std::back_inserter(images), [](const QString & path) {
-        QImage image;
-        QString error;
-        if (LibUnionImage_NameSpace::isVideo(path))
-            image = MovieService::instance()->getMovieCover(QUrl::fromLocalFile(path));
-        else
-            LibUnionImage_NameSpace::loadStaticImageFromFile(path, image, error);
-        image = image.scaled(outputWidth, outputHeight, Qt::KeepAspectRatioByExpanding);
-        return image;
-    });
+    QImage image;
+    QString error;
+    if (LibUnionImage_NameSpace::isVideo(path))
+        image = MovieService::instance()->getMovieCover(QUrl::fromLocalFile(path));
+    else
+        LibUnionImage_NameSpace::loadStaticImageFromFile(path, image, error);
+    image = image.scaled(outputWidth, outputHeight, Qt::KeepAspectRatioByExpanding);
 
-    //2.拼接图片
-    QImage result;
-    switch (images.size()) {
-    case 1:
-        result = images[0];
-        break;
-    case 2:
-        result = createMonth_2(images);
-        break;
-    case 3:
-        result = createMonth_3(images);
-        break;
-    case 4:
-        result = createMonth_4(images);
-        break;
-    case 5:
-        result = createMonth_5(images);
-        break;
-    case 6:
-        result = createMonth_6(images);
-        break;
-    default:
-        result = images[0];
-        break;
-    }
+    // 2.根据比例裁剪
+    image = clipHelper(image, requestSize.width(), requestSize.height());
 
-    //3.返回图片
-    return result;
+    return image;
 }
 
 //KeepAspectRatioByExpanding，但是保留中间，Qt是裁的右侧或下侧
@@ -796,158 +778,6 @@ QImage CollectionPublisher::clipHelper(const QImage &image, int width, int heigh
     QRect rect(static_cast<int>(x), static_cast<int>(y), width, height);
     QImage result(width, height, QImage::Format_RGB888);
     result = temp.copy(rect);
-    return result;
-}
-
-QImage CollectionPublisher::createMonth_2(const std::vector<QImage> &images)
-{
-    //左右摆放
-
-    //初始化画布
-    QImage result(outputWidth, outputHeight, QImage::Format_RGB888);
-    result.fill(Qt::white);
-
-    // 图片显示区域实际宽度值（除开分割线间隙）
-    constexpr int nImageRegionWidth = outputWidth - LINE_SPACE;
-
-    //初始化原始图片
-    QImage images_0 = clipHelper(images[0], nImageRegionWidth / 2, outputHeight);
-    QImage images_1 = clipHelper(images[1], nImageRegionWidth / 2, outputHeight);
-
-    //绘制
-    QPainter painter;
-    painter.begin(&result);
-    painter.drawImage(0, 0, images_0);
-    painter.drawImage(nImageRegionWidth / 2 + LINE_SPACE, 0, images_1);
-    painter.end();
-
-    return result;
-}
-
-QImage CollectionPublisher::createMonth_3(const std::vector<QImage> &images)
-{
-    //左1右2
-
-    //初始化画布
-    QImage result(outputWidth, outputHeight, QImage::Format_RGB888);
-    result.fill(Qt::white);
-
-    // 图片显示区域实际宽、高度值（除开分割线间隙）
-    constexpr int nImageRegionWidth = outputWidth - LINE_SPACE;
-    constexpr int nImageRegionHeight = outputHeight - LINE_SPACE;
-
-    //初始化原始图片
-    QImage images_0 = clipHelper(images[0], nImageRegionWidth / 2, outputHeight);
-    QImage images_1 = clipHelper(images[1], nImageRegionWidth / 2, nImageRegionHeight / 2);
-    QImage images_2 = clipHelper(images[2], nImageRegionWidth / 2, nImageRegionHeight / 2);
-
-    //绘制
-    QPainter painter;
-    painter.begin(&result);
-    painter.drawImage(0, 0, images_0);
-    painter.drawImage(nImageRegionWidth / 2 + LINE_SPACE, 0, images_1);
-    painter.drawImage(nImageRegionWidth / 2 + LINE_SPACE, nImageRegionHeight / 2 + 1 + LINE_SPACE, images_2);
-    painter.end();
-
-    return result;
-}
-
-QImage CollectionPublisher::createMonth_4(const std::vector<QImage> &images)
-{
-    //左2右2
-
-    //初始化画布
-    QImage result(outputWidth, outputHeight, QImage::Format_RGB888);
-    result.fill(Qt::white);
-
-    // 图片显示区域实际宽、高度值（除开分割线间隙）
-    constexpr int nImageRegionWidth = outputWidth - LINE_SPACE;
-    constexpr int nImageRegionHeight = outputHeight - LINE_SPACE;
-
-    //初始化原始图片
-    QImage images_0 = clipHelper(images[0], nImageRegionWidth / 2, nImageRegionHeight / 2);
-    QImage images_1 = clipHelper(images[1], nImageRegionWidth / 2, nImageRegionHeight / 2);
-    QImage images_2 = clipHelper(images[2], nImageRegionWidth / 2, nImageRegionHeight / 2);
-    QImage images_3 = clipHelper(images[3], nImageRegionWidth / 2, nImageRegionHeight / 2);
-
-    //绘制
-    QPainter painter;
-    painter.begin(&result);
-    painter.drawImage(0, 0, images_0);
-    painter.drawImage(nImageRegionWidth / 2 + LINE_SPACE, 0, images_1);
-    painter.drawImage(0, nImageRegionHeight / 2 + 1 + LINE_SPACE, images_2);
-    painter.drawImage(nImageRegionWidth / 2 + LINE_SPACE, nImageRegionHeight / 2 + 1 + LINE_SPACE, images_3);
-    painter.end();
-
-    return result;
-}
-
-QImage CollectionPublisher::createMonth_5(const std::vector<QImage> &images)
-{
-    //上1下4
-
-    //初始化画布
-    QImage result(outputWidth, outputHeight, QImage::Format_RGB888);
-    result.fill(Qt::white);
-    constexpr int splitPos = static_cast<int>(outputHeight * 0.618);
-    constexpr int splitPos_2 = static_cast<int>(outputHeight * (1 - 0.618));
-
-
-    // 图片显示区域实际宽度值（除开分割线间隙）
-    constexpr int nImageRegionWidth = outputWidth - LINE_SPACE * 3;
-
-    //初始化原始图片
-    QImage images_0 = clipHelper(images[0], outputWidth, splitPos);
-    QImage images_1 = clipHelper(images[1], nImageRegionWidth / 4, splitPos_2);
-    QImage images_2 = clipHelper(images[2], nImageRegionWidth / 4, splitPos_2);
-    QImage images_3 = clipHelper(images[3], nImageRegionWidth / 4, splitPos_2);
-    QImage images_4 = clipHelper(images[4], nImageRegionWidth / 4 + 1, splitPos_2);
-
-    //绘制
-    QPainter painter;
-    painter.begin(&result);
-    painter.drawImage(0, 0, images_0);
-    painter.drawImage(0, splitPos + LINE_SPACE, images_1);
-    painter.drawImage((nImageRegionWidth / 4 + LINE_SPACE) * 1, splitPos + LINE_SPACE, images_2);
-    painter.drawImage((nImageRegionWidth / 4 + LINE_SPACE) * 2, splitPos + LINE_SPACE, images_3);
-    painter.drawImage((nImageRegionWidth / 4 + LINE_SPACE) * 3, splitPos + LINE_SPACE, images_4);
-    painter.end();
-
-    return result;
-}
-
-QImage CollectionPublisher::createMonth_6(const std::vector<QImage> &images)
-{
-    //上1下5
-
-    //初始化画布
-    QImage result(outputWidth, outputHeight, QImage::Format_RGB888);
-    result.fill(Qt::white);
-    constexpr int splitPos = static_cast<int>(outputHeight * 0.618);
-    constexpr int splitPos_2 = static_cast<int>(outputHeight * (1 - 0.618));
-
-    // 图片显示区域实际宽度值（除开分割线间隙）
-    constexpr int nImageRegionWidth = outputWidth - LINE_SPACE * 4;
-
-    //初始化原始图片
-    QImage images_0 = clipHelper(images[0], outputWidth, splitPos);
-    QImage images_1 = clipHelper(images[1], nImageRegionWidth / 5, splitPos_2);
-    QImage images_2 = clipHelper(images[2], nImageRegionWidth / 5, splitPos_2);
-    QImage images_3 = clipHelper(images[3], nImageRegionWidth / 5, splitPos_2);
-    QImage images_4 = clipHelper(images[4], nImageRegionWidth / 5, splitPos_2);
-    QImage images_5 = clipHelper(images[5], nImageRegionWidth / 5 + 1, splitPos_2);
-
-    //绘制
-    QPainter painter;
-    painter.begin(&result);
-    painter.drawImage(0, 0, images_0);
-    painter.drawImage(0, splitPos + LINE_SPACE, images_1);
-    painter.drawImage((nImageRegionWidth / 5 + LINE_SPACE) * 1, splitPos + LINE_SPACE, images_2);
-    painter.drawImage((nImageRegionWidth / 5 + LINE_SPACE) * 2, splitPos + LINE_SPACE, images_3);
-    painter.drawImage((nImageRegionWidth / 5 + LINE_SPACE) * 3, splitPos + LINE_SPACE, images_4);
-    painter.drawImage((nImageRegionWidth / 5 + LINE_SPACE) * 4, splitPos + LINE_SPACE, images_5);
-    painter.end();
-
     return result;
 }
 

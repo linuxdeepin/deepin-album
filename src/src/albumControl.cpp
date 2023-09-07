@@ -2281,6 +2281,11 @@ int AlbumControl::getMonthCount(const QString &year, const QString &month)
     return DBManager::instance()->getMonthCount(year, month);
 }
 
+QStringList AlbumControl::getMonthPaths(const QString &year, const QString &month)
+{
+    return DBManager::instance()->getMonthPaths(year, month, 6);
+}
+
 QStringList AlbumControl::getMonths()
 {
     return DBManager::instance()->getMonths();

@@ -20,14 +20,25 @@ Item {
 
         spacing: 15
 
-        DciIcon {
+        ActionButton {
             id: openViewImageIcon
             Layout.alignment: Qt.AlignHCenter
             Layout.preferredWidth: 140
             Layout.preferredHeight: 100
-            sourceSize: Qt.size(140, 100)
+            hoverEnabled: false
+            icon {
             name: iconName
-            palette: DTK.makeIconPalette(window.palette)
+                width:140
+                height:100
+            }
+
+            MouseArea {
+                anchors.fill: parent
+
+                onPressed: {
+                    mouse.accepted = true
+                }
+            }
         }
 
         RecommandButton {
