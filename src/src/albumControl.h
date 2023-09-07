@@ -233,6 +233,9 @@ public:
     //获取指定月份的总数
     Q_INVOKABLE int getMonthCount(const QString &year, const QString &month);
 
+    //获取指定月份图片路径，最多6个
+    Q_INVOKABLE QStringList getMonthPaths(const QString &year, const QString &month);
+
     //获取月份
     Q_INVOKABLE QStringList getMonths();
 

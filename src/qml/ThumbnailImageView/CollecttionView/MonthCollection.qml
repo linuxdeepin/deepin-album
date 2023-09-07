@@ -13,6 +13,8 @@ import "../../Control"
 import "../../Control/ListView"
 import "../../"
 
+import org.deepin.album 1.0 as Album
+
 Item {
     id: monthView
 
@@ -77,65 +79,67 @@ Item {
         id: theDelegate
 
         Item {
+            id: delegateMain
             width: theView.width
             height: theView.height / 3 * 2
 
-            //圆角遮罩Rectangle
-            Rectangle {
-                id: maskRec
-                anchors.centerIn: parent
-                width: image.width
-                height: image.height
+            property var paths: albumControl.getMonthPaths(year, month)
 
-                color:"transparent"
-                Rectangle {
-                    anchors.centerIn: parent
-                    width: image.width
-                    height: image.height
-                    color:"black"
-                    radius: 18
-                }
-                visible: false
-            }
-
-            Image {
+            MonthImage {
                 id: image
-                //因为新版本的Qt的图片缓存机制，导致相同路径的图片只会加载一次,source要改变才能刷新图片，所以尾部添加itemCount。如果需要数量相同也能刷新，则在尾部添加随机数
-                source: "image://collectionPublisher/" + theView.displayFlushHelper.toString() + "_M_" + year + "_" + month + "_" + itemCount
-                asynchronous: true
-                anchors.fill: parent
-                width: parent.width
+                clip: true
+                anchors {
+                    left: parent.left
+                    top: parent.top
+                    leftMargin: -1
+                }
+                width: parent.width + 2
                 height: parent.height
-                fillMode: Image.PreserveAspectCrop
+                paths: delegateMain.paths
+                displayFlushHelper: theView.displayFlushHelper
+
                 visible: false
+                Component.onCompleted: {
+                    image.createImage()
+                }
             }
 
-            //遮罩执行
-            OpacityMask {
+            Rectangle {
                 id: mask
                 anchors.fill: image
-                source: image
-                maskSource: maskRec
+                radius: 18
+                visible: false
             }
 
-            // 边框阴影立体效果
-            DropShadow {
-                anchors.fill: mask
-                z: 0
+            OpacityMask{
+                id: opacityMask
+                anchors.fill: image
+                source: image
+                maskSource: mask
+                antialiasing: true
+                smooth: true
+            }
 
-                verticalOffset: 1
+            //border and shadow
+            Rectangle {
+                id: borderRect
+                anchors.fill: parent
+                //color: "transparent"
+                gradient: Gradient {
+                    GradientStop {
+                        position: 0.0
+                        color: Qt.rgba(0,0,0,0.4)
+                    }
+                    GradientStop {
+                        position: 0.25
+                        color: Qt.rgba(0,0,0,0)
+                    }
+                }
 
-                radius: 5
-                samples: radius * 2 + 1
-                spread: 0.3
-
-                color: "black"
-
-                opacity: 0.3
-
-                source: mask
-
+                border.color: Qt.rgba(0, 0, 0, 0.2)
+                border.width: 1
                 visible: true
+                radius: 18
             }
 
             Label {

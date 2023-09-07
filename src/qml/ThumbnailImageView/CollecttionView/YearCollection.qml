@@ -63,64 +63,57 @@ Item {
             width: theView.width
             height: theView.height / 3 * 2
 
-            //圆角遮罩Rectangle
-            Rectangle {
-                id: maskRec
-                anchors.centerIn: parent
-                width: image.width
-                height: image.height
-
-                color:"transparent"
-                Rectangle {
-                    anchors.centerIn: parent
-                    width: image.width
-                    height: image.height
-                    color:"black"
-                    radius: 18
-                }
-                visible: false
-            }
-
             Image {
                 id: image
+
                 //因为新版本的Qt的图片缓存机制，导致相同路径的图片只会加载一次,source要改变才能刷新图片，所以尾部添加itemCount。如果需要数量相同也能刷新，则在尾部添加随机数
                 source: "image://collectionPublisher/" + theView.displayFlushHelper.toString() + "_Y_" + year + "_0" + "_" + itemCount
-                asynchronous: true
-                smooth: true
-                antialiasing: true
-                anchors.fill: parent
                 width: parent.width
                 height: parent.height
+                visible: false
+                smooth: true
+                antialiasing: true
+                Rectangle {
+                    anchors.fill: parent
+                    color: Qt.rgba(0, 0, 0, 0)
+                }
                 fillMode: Image.PreserveAspectCrop
+            }
+
+            Rectangle {
+                id: mask
+                anchors.fill: image
+                radius: 18
                 visible: false
             }
 
-            //遮罩执行
-            OpacityMask {
-                id: mask
+            OpacityMask{
+                id: opacityMask
                 anchors.fill: image
                 source: image
-                maskSource: maskRec
+                maskSource: mask
+                antialiasing: true
+                smooth: true
             }
 
-            // 边框阴影立体效果
-            DropShadow {
-                anchors.fill: mask
-                z: 0
-
-                verticalOffset: 1
-
-                radius: 5
-                samples: radius * 2 + 1
-                spread: 0.3
-
-                color: "black"
-
-                opacity: 0.3
-
-                source: mask
-
+            //border and shadow
+            Rectangle {
+                id: borderRect
+                anchors.fill: parent
+                gradient: Gradient {
+                    GradientStop {
+                        position: 0.0
+                        color: Qt.rgba(0,0,0,0.4)
+                    }
+                    GradientStop {
+                        position: 0.25
+                        color: Qt.rgba(0,0,0,0)
+                    }
+                }
+                border.color: Qt.rgba(0, 0, 0, 0.1)
+                border.width: 1
                 visible: true
+                radius: 18
             }
 
             Label {
