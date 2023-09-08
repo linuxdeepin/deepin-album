@@ -25,6 +25,8 @@ Item {
     Label {
         height: parent.height
         anchors.centerIn: parent
+        verticalAlignment: Text.AlignVCenter
+        font: DTK.fontManager.t8
         text: GStatus.statusBarNumText
     }
 
@@ -33,8 +35,10 @@ Item {
         width: 160
         height: parent.height
         anchors {
+            top: parent.top
+            topMargin: 3
             right: parent.right
-            rightMargin: 50
+            rightMargin: 20
         }
         visible: !(GStatus.currentViewType === Album.Types.ViewCollecttion && thumbnailImage.m_CollecttionCurrentViewIndex < 2)
         from: 0

@@ -28,9 +28,51 @@ ApplicationWindow {
     signal sigTitlePress
     // 设置 dtk 风格窗口
     DWindow.enabled: true
-
+    //DWindow.alphaBufferSize: 8
     title: ""
     header: AlbumTitle {id: titleAlubmRect}
+
+    background: Rectangle {
+        anchors.fill: parent
+        color: "transparent"
+
+        Row {
+            anchors.fill: parent
+            Rectangle {
+                id: leftBgArea
+                width: GStatus.sideBarWidth
+                height: parent.height
+                anchors.top: parent.top
+                color: DTK.themeType === ApplicationHelper.LightType ? Qt.rgba(1, 1, 1, 0.9)
+                                                                          : Qt.rgba(16.0/255.0, 16.0/255.0, 16.0/255.0, 0.85)
+                Rectangle {
+                    width: 1
+                    height: parent.height
+                    anchors.right: parent.right
+                    color: DTK.themeType === ApplicationHelper.LightType ? "#eee7e7e7"
+                                                                         : "#ee252525"
+                }
+            }
+            Rectangle {
+                id: rightBgArea
+                width: parent.width - leftBgArea.width
+                height: 50
+                anchors.top: parent.top
+                color: Qt.rgba(0, 0, 0, 0.01)
+                BoxShadow {
+                    anchors.fill: rightBgArea
+                    shadowOffsetX: 0
+                    shadowOffsetY: 4
+                    shadowColor: Qt.rgba(0, 0, 0, 0.05)
+                    shadowBlur: 10
+                    cornerRadius: rightBgArea.radius
+                    spread: 0
+                    hollow: true
+                }
+            }
+        }
+    }
+
     MessageManager.layout: Column {
         anchors {
             bottom: parent.bottom

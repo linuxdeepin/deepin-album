@@ -26,6 +26,17 @@ TitleBar {
     width:  window.width
     height: 50
 
+    background: Rectangle {
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.leftMargin: 200
+        width: parent.width - 200
+        height: parent.height
+
+        color: DTK.themeType === ApplicationHelper.LightType ? "#FDFDFD"
+                                                             : "#202020"
+    }
+
     signal collectionBtnClicked(int nIndex)
     signal showHideSideBar(bool bShow)
     signal showNewAlbumDialog()

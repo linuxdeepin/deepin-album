@@ -96,6 +96,7 @@ BaseView {
             text: qsTr("Search results")
             anchors {
                 top: parent.top
+                topMargin: 12
                 left: parent.left
             }
             font: DTK.fontManager.t3
@@ -115,7 +116,7 @@ BaseView {
             anchors {
                 top: searchTitle.bottom
                 left: searchTitle.left
-                topMargin: 15
+                topMargin: 3
             }
             onClicked: {
                 stackControl.startMainSliderShow(searchResults, 0)

@@ -43,6 +43,12 @@ Item {
         }
     }
 
+    Binding {
+        target: leftBgArea
+        property: "visible"
+        value: leftSidebar.x === 0
+    }
+
     // 侧边栏跟随窗口尺寸展开/收起
     onWidthChanged: {
         if (width <= GStatus.needHideSideBarWidth) {
