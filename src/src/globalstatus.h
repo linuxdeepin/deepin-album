@@ -193,6 +193,12 @@ public:
     void setAlbumChangeList(const bool& value);
     Q_SIGNAL void albumChangeListChanged();
 
+    // 自定义相册改变标记
+    Q_PROPERTY(bool sideBarIsVisible READ sideBarIsVisible WRITE setSideBarIsVisible NOTIFY sideBarIsVisibleChanged)
+    bool sideBarIsVisible() const;
+    void setSideBarIsVisible(const bool& value);
+    Q_SIGNAL void sideBarIsVisibleChanged();
+
     // 当前设备名称
     Q_PROPERTY(QString currentDeviceName READ currentDeviceName WRITE setCurrentDeviceName NOTIFY currentDeviceNameChanged)
     QString currentDeviceName() const;
@@ -292,6 +298,8 @@ private:
 
     bool m_bAlbumImportChangeList = false;      // 自动导入相册改变标记
     bool m_bAlbumChangeList = false;            // 自定义相册改变标记
+
+    bool m_bSideBarIsVisible = true;                // 显示/隐藏侧边栏
 
     QString m_currentDeviceName = "";           // 当前设备名称
     QString m_currentDevicePath= "";            // 当前设备路径

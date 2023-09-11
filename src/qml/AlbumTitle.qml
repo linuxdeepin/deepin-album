@@ -29,8 +29,8 @@ TitleBar {
     background: Rectangle {
         anchors.left: parent.left
         anchors.top: parent.top
-        anchors.leftMargin: 200
-        width: parent.width - 200
+        anchors.leftMargin: GStatus.sideBarIsVisible ? 200 : 0
+        width: parent.width - (GStatus.sideBarIsVisible ? 200 : 0)
         height: parent.height
 
         color: DTK.themeType === ApplicationHelper.LightType ? "#FDFDFD"

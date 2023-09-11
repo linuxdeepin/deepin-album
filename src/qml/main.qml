@@ -55,7 +55,7 @@ ApplicationWindow {
             }
             Rectangle {
                 id: rightBgArea
-                width: parent.width - leftBgArea.width
+                width: parent.width
                 height: 50
                 anchors.top: parent.top
                 color: Qt.rgba(0, 0, 0, 0.01)

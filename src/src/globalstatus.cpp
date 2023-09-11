@@ -554,6 +554,19 @@ void GlobalStatus::setAlbumChangeList(const bool &value)
     }
 }
 
+bool GlobalStatus::sideBarIsVisible() const
+{
+    return  m_bSideBarIsVisible;
+}
+
+void GlobalStatus::setSideBarIsVisible(const bool &value)
+{
+    if (m_bSideBarIsVisible != value) {
+        m_bSideBarIsVisible = value;
+        Q_EMIT sideBarIsVisibleChanged();
+    }
+}
+
 QString GlobalStatus::currentDeviceName() const
 {
     return m_currentDeviceName;

@@ -54,10 +54,12 @@ Item {
         if (width <= GStatus.needHideSideBarWidth) {
             if (leftSidebar.x === 0 && (lastWidth > width)) {
                 hideSliderAnimation.start()
+                GStatus.sideBarIsVisible = false
             }
         } else {
             if (leftSidebar.x < 0 && (lastWidth < width)) {
                 showSliderAnimation.start()
+                GStatus.sideBarIsVisible = true
             }
         }
 
@@ -67,10 +69,14 @@ Item {
     Connections {
         target: titleAlubmRect
         onShowHideSideBar: {
-            if (bShow)
+            if (bShow) {
                 showSliderAnimation.start()
-            else
+                GStatus.sideBarIsVisible = true
+            }
+            else {
                 hideSliderAnimation.start()
+                GStatus.sideBarIsVisible = false
+            }
         }
     }
 

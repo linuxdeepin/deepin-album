@@ -81,7 +81,7 @@ Item {
         Item {
             id: delegateMain
             width: theView.width
-            height: theView.height / 3 * 2
+            height: theView.width * 4 / 7
 
             property var paths: albumControl.getMonthPaths(year, month)
 
