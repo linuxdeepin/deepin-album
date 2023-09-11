@@ -118,7 +118,7 @@ Item {
         anchors.left: opacityMask.left; anchors.leftMargin: 1
         width: opacityMask.width - 2; height: opacityMask.width - 6
         source: opacityMask
-        radius: 24
+        radius: 10
         transparentBorder: true
     }
 
