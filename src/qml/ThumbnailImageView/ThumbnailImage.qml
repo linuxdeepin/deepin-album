@@ -30,9 +30,6 @@ Item {
         collecttionView.setIndex(index)
     }
 
-    NoPictureView{
-        visible: GStatus.currentViewType === Album.Types.ViewNoPicture
-    }
     CollecttionView{
         id: collecttionView
         visible: GStatus.currentViewType === Album.Types.ViewCollecttion

@@ -61,7 +61,7 @@ Item {
 
         Item {
             width: theView.width
-            height: theView.height / 3 * 2
+            height: theView.width * 4 / 7
 
             Image {
                 id: image

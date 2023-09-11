@@ -8,6 +8,15 @@ import org.deepin.dtk 1.0
 
 
 Item {
+    anchors {
+        top: parent.top
+        left: parent.left
+        leftMargin: -20
+    }
+
+    width: parent.width + 20
+    height: parent.height
+
     anchors.fill: parent
 
     property bool bShowImportBtn: false
