@@ -1381,7 +1381,22 @@ void AlbumView::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mou
     //Support android phone, iPhone, and usb devices. Not support ftp, smb mount, non removeable disk now
     QString uri = mount->getRootFile()->uri();
     QString scheme = QUrl(uri).scheme();
-    if ((scheme == "file" /*&& mount->canEject()*/) ||  //usb device
+
+    // 查看块设备是否可卸载，以便确定file前缀的uri是否为外接设备
+    bool bCanEject = false;
+    if (mount->getVolume())
+        bCanEject = mount->getVolume()->canEject();
+
+    qInfo() << "AlbumControl::onVfsMountChangedAdd uri: " << uri << "canEject:" << bCanEject;
+    QRegularExpression recifs("^file:///media/(.*)/smbmounts");
+    QRegularExpression regvfs("^file:///run/user/(.*)/gvfs|^/root/.gvfs");
+    // 因V23玲珑文管smb挂载方式有优化，修改uri的smb路径判断方式，包括gvfs挂载和cifs挂载
+    if (recifs.match(uri).hasMatch() || regvfs.match(uri).hasMatch()) {
+        qDebug() << "uri is a smb path";
+        return;
+    }
+
+    if ((scheme == "file" && bCanEject) ||  //usb device
             (scheme == "gphoto2") ||                //phone photo
             //(scheme == "afc") ||                  //iPhone document
             (scheme == "mtp")) {                    //android file
@@ -1560,10 +1575,25 @@ const QList<QExplicitlySharedDataPointer<DGioMount>> AlbumView::getVfsMountList(
     QList<QExplicitlySharedDataPointer<DGioMount> > result;
     const QList<QExplicitlySharedDataPointer<DGioMount> > mounts = utils::base::getMounts_safe();
     for (auto mount : mounts) {
-        //TODO:
         //Support android phone, iPhone, and usb devices. Not support ftp, smb, non removeable disk now
+        QString uri = mount->getRootFile()->uri();
         QString scheme = QUrl(mount->getRootFile()->uri()).scheme();
-        if ((scheme == "file" /*&& mount->canEject()*/) ||  //usb device
+
+        // 查看块设备是否可卸载，以便确定file前缀的uri是否为外接设备
+        bool bCanEject = false;
+        if (mount->getVolume())
+            bCanEject = mount->getVolume()->canEject();
+
+        // 因文管smb挂载方式有优化，修改uri的smb路径判断方式，包括gvfs挂载和cifs挂载
+        qInfo() << "AlbumControl::onVfsMountChangedAdd uri: " << uri << "canEject:" << bCanEject;
+        QRegularExpression recifs("^file:///media/(.*)/smbmounts");
+        QRegularExpression regvfs("^file:///run/user/(.*)/gvfs|^/root/.gvfs");
+        if (recifs.match(uri).hasMatch() || regvfs.match(uri).hasMatch()) {
+            qDebug() << "uri is a smb path";
+            continue;
+        }
+
+        if ((scheme == "file" && bCanEject) ||  //usb device
                 (scheme == "gphoto2") ||                //phone photo
                 //(scheme == "afc") ||                    //iPhone document
                 (scheme == "mtp")) {                    //android file
