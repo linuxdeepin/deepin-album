@@ -1564,7 +1564,7 @@ void MainWindow::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 
 void MainWindow::onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAdditionalOperation operation, bool isCustom, const QString &album, int UID)
 {
-    m_backIndex = info.viewMainWindowID;
+    m_backIndex = m_iCurrentView;
     auto finalUseAlbum = album;
 
     if (operation == Operation_NoOperation || operation == Operation_FullScreen) {
@@ -1605,6 +1605,8 @@ void MainWindow::onSigViewImage(const SignalManager::ViewInfo &info, OpenImgAddi
             m_imageViewer->startSlideShow(paths, info.path);
         }
         m_backIndex_fromFullScreen = info.viewMainWindowID;
+
+        m_backIndex_fromFullScreen = m_pCenterWidget->currentIndex();
         break;
     }
 
@@ -2366,7 +2368,7 @@ void MainWindow::onHideFromFullScreen()
         setTitleBarHideden(false);
     }
 
-    m_pCenterWidget->setCurrentIndex(m_backIndex_fromFullScreen);
+    m_pCenterWidget->setCurrentIndex(m_backIndex);
 }
 
 void MainWindow::onExportImage(QStringList paths)
