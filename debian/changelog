@@ -1,3 +1,10 @@
+deepin-album (5.10.20) unstable; urgency=medium
+
+  * fix: Fix the issue of empty interface after exiting the slide show(Bug: 205055)
+  * fix: Fix the issue of clicking on the album button on the cloud getting stuck(Bug: 226477)
+
+ -- Deepin Packages Builder <packages@deepin.org>  Thu, 09 Nov 2023 14:03:50 +0800
+
 deepin-album (5.10.19) unstable; urgency=medium
 
   * fix: Adapt to compact mode.(Influence: CompactMode)
