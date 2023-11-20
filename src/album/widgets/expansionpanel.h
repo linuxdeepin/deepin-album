@@ -17,6 +17,15 @@
 
 #include "albumgloabl.h"
 
+#define CLASS_PLANT "Plants"
+#define CLASS_Scenery "Scenery"
+#define CLASS_FOOD "Food"
+#define CLASS_SCENE "Scene"
+#define CLASS_ANIMALS "Animals"
+#define CLASS_HUMANS "Humans"
+#define CLASS_ITEMS "Items"
+#define CLASS_OTHER "Other"
+
 class ExpansionPanel : public DBlurEffectWidget
 {
     Q_OBJECT
@@ -30,6 +39,7 @@ public:
         QString icon_r_path;
         QString text;
         ItemType type = ItemType::ItemTypeNull;
+        QString className = "";
     };
 
 public:

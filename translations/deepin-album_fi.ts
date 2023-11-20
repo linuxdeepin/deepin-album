@@ -1,6 +1,8 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="fi">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="fi">
 <context>
-    <name/>
+    <name></name>
     <message>
         <source>Delete</source>
         <translation type="vanished">Poista</translation>
@@ -165,6 +167,10 @@
         <source>The files will be permanently deleted after the days shown on them</source>
         <translation>Tiedostot poistetaan pysyvästi niille annetun päivän jälkeen</translation>
     </message>
+    <message>
+        <source>Image classification</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -315,6 +321,10 @@
         <source>Restoring...</source>
         <translation>Palautetaan...</translation>
     </message>
+    <message>
+        <source>Classifying...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
@@ -325,26 +335,6 @@
     <message>
         <source>Delete</source>
         <translation>Poista</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this photo from the album?</source>
-        <translation type="vanished">Haluatko varmasti poistaa tämän kuvan albumista?</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="vanished"><numerusform>Haluatko varmasti poistaa %n valokuvaa albumista?</numerusform><numerusform>Haluatko varmasti poistaa %n valokuvaa albumista?</numerusform></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="vanished">Haluatko varmasti poistaa tämän videon albumista?</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="vanished"><numerusform>Haluatko varmasti poistaa %n videota albumista?</numerusform><numerusform>Haluatko varmasti poistaa %n videota albumista?</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="vanished"><numerusform>Haluatko varmasti poistaa %n kohdetta albumista?</numerusform><numerusform>Haluatko varmasti poistaa %n kohdetta albumista?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to permanently delete this file?</source>
@@ -410,15 +400,24 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>%n kuvaa</numerusform><numerusform>%n kuvaa</numerusform></translation>
+        <translation>
+            <numerusform>%n kuvaa</numerusform>
+            <numerusform>%n kuvaa</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>%n videota</numerusform><numerusform>%n videota</numerusform></translation>
+        <translation>
+            <numerusform>%n videota</numerusform>
+            <numerusform>%n videota</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation><numerusform>%n kohdetta</numerusform><numerusform>%n kohdetta</numerusform></translation>
+        <translation>
+            <numerusform>%n kohdetta</numerusform>
+            <numerusform>%n kohdetta</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -672,6 +671,10 @@
         <source>Failed to restore %1 files: file name too long</source>
         <translation>%1 tiedoston palautus epäonnistui: tiedostonimi liian pitkä</translation>
     </message>
+    <message>
+        <source>Classifying...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -878,19 +881,64 @@
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation><numerusform>%n kuvaa valittuna</numerusform><numerusform>%n kuvaa valittuna</numerusform></translation>
+        <translation>
+            <numerusform>%n kuvaa valittuna</numerusform>
+            <numerusform>%n kuvaa valittuna</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation><numerusform>%n videota valittuna</numerusform><numerusform>%n videota valittuna</numerusform></translation>
+        <translation>
+            <numerusform>%n videota valittuna</numerusform>
+            <numerusform>%n videota valittuna</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation><numerusform>%n kohdetta valittuna</numerusform><numerusform>%n kohdetta valittuna</numerusform></translation>
+        <translation>
+            <numerusform>%n kohdetta valittuna</numerusform>
+            <numerusform>%n kohdetta valittuna</numerusform>
+        </translation>
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
         <translation>%1 kohdetta tuotu, %2 oli jo olemassa</translation>
+    </message>
+    <message>
+        <source>Plants</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scenery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Food</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Human</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scene</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Animal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1/%2 items classifyed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -913,7 +961,10 @@
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation><numerusform>%n videota löytyi</numerusform><numerusform>%n videota löytyi</numerusform></translation>
+        <translation>
+            <numerusform>%n videota löytyi</numerusform>
+            <numerusform>%n videota löytyi</numerusform>
+        </translation>
     </message>
     <message>
         <source>1 video found</source>
@@ -921,11 +972,17 @@
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation><numerusform>%n kohdetta löytyi</numerusform><numerusform>%n kohdetta löytyi</numerusform></translation>
+        <translation>
+            <numerusform>%n kohdetta löytyi</numerusform>
+            <numerusform>%n kohdetta löytyi</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation><numerusform>%n kuvaa löydetty</numerusform><numerusform>%n kuvaa löydetty</numerusform></translation>
+        <translation>
+            <numerusform>%n kuvaa löydetty</numerusform>
+            <numerusform>%n kuvaa löydetty</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -940,11 +997,17 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>%n kuvaa</numerusform><numerusform>%n kuvaa</numerusform></translation>
+        <translation>
+            <numerusform>%n kuvaa</numerusform>
+            <numerusform>%n kuvaa</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>%n videota</numerusform><numerusform>%n videota</numerusform></translation>
+        <translation>
+            <numerusform>%n videota</numerusform>
+            <numerusform>%n videota</numerusform>
+        </translation>
     </message>
     <message>
         <source>Importing: %1</source>
@@ -1050,15 +1113,24 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>%n kuvaa</numerusform><numerusform>%n kuvaa</numerusform></translation>
+        <translation>
+            <numerusform>%n kuvaa</numerusform>
+            <numerusform>%n kuvaa</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>%n videota</numerusform><numerusform>%n videota</numerusform></translation>
+        <translation>
+            <numerusform>%n videota</numerusform>
+            <numerusform>%n videota</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation><numerusform>%n kohdetta</numerusform><numerusform>%n kohdetta</numerusform></translation>
+        <translation>
+            <numerusform>%n kohdetta</numerusform>
+            <numerusform>%n kohdetta</numerusform>
+        </translation>
     </message>
 </context>
 <context>

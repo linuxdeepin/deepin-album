@@ -1,6 +1,8 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="tr">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="tr">
 <context>
-    <name/>
+    <name></name>
     <message>
         <source>Delete</source>
         <translation type="vanished">Sil</translation>
@@ -165,6 +167,10 @@
         <source>The files will be permanently deleted after the days shown on them</source>
         <translation>Dosyalar, üzerlerinde gösterilen günlerden sonra kalıcı olarak silinecek</translation>
     </message>
+    <message>
+        <source>Image classification</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -315,6 +321,10 @@
         <source>Restoring...</source>
         <translation>Geri yükleniyor...</translation>
     </message>
+    <message>
+        <source>Classifying...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
@@ -325,26 +335,6 @@
     <message>
         <source>Delete</source>
         <translation>Sil</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this photo from the album?</source>
-        <translation type="vanished">Bu fotoğrafı albümden silmek istediğinizden emin misiniz?</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="vanished"><numerusform>%n fotoğrafı albümlerden silmek istediğinizden emin misiniz?</numerusform><numerusform>%n fotoğrafı albümlerden silmek istediğinizden emin misiniz?</numerusform></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="vanished">Bu videoyu albümden silmek istediğinizden emin misiniz?</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="vanished"><numerusform>Albümlerden %n video silmek istediğinizden emin misiniz?</numerusform><numerusform>Albümlerden %n video silmek istediğinizden emin misiniz?</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="vanished"><numerusform>Albümlerden %n öğe silmek istediğinizden emin misiniz?</numerusform><numerusform>Albümlerden %n öğe silmek istediğinizden emin misiniz?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to permanently delete this file?</source>
@@ -410,15 +400,21 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>%n fotoğraf</numerusform><numerusform>%n fotoğraf</numerusform></translation>
+        <translation>
+            <numerusform>%n fotoğraf</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform><numerusform>%n video</numerusform></translation>
+        <translation>
+            <numerusform>%n video</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation><numerusform>%n öğe</numerusform><numerusform>%n öğe</numerusform></translation>
+        <translation>
+            <numerusform>%n öğe</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -672,6 +668,10 @@
         <source>Failed to restore %1 files: file name too long</source>
         <translation>%1 dosya geri yüklenemedi: dosya adı çok uzun</translation>
     </message>
+    <message>
+        <source>Classifying...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -878,19 +878,61 @@
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation><numerusform>%n fotoğraf seçildi</numerusform><numerusform>%n fotoğraf seçildi</numerusform></translation>
+        <translation>
+            <numerusform>%n fotoğraf seçildi</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation><numerusform>%n video seçildi</numerusform><numerusform>%n video seçildi</numerusform></translation>
+        <translation>
+            <numerusform>%n video seçildi</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation><numerusform>%n öğe seçildi</numerusform><numerusform>%n öğe seçildi</numerusform></translation>
+        <translation>
+            <numerusform>%n öğe seçildi</numerusform>
+        </translation>
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
         <translation>%1 öğe içe aktarıldı, %2 öğe zaten var</translation>
+    </message>
+    <message>
+        <source>Plants</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scenery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Food</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Human</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scene</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Animal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1/%2 items classifyed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -913,7 +955,9 @@
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation><numerusform>%n video bulundu</numerusform><numerusform>%n video bulundu</numerusform></translation>
+        <translation>
+            <numerusform>%n video bulundu</numerusform>
+        </translation>
     </message>
     <message>
         <source>1 video found</source>
@@ -921,11 +965,15 @@
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation><numerusform>%n öğe bulundu</numerusform><numerusform>%n öğe bulundu</numerusform></translation>
+        <translation>
+            <numerusform>%n öğe bulundu</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation><numerusform>%n fotoğraf bulundu</numerusform><numerusform>%n fotoğraf bulundu</numerusform></translation>
+        <translation>
+            <numerusform>%n fotoğraf bulundu</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -940,11 +988,15 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>%n fotoğraf</numerusform><numerusform>%n fotoğraf</numerusform></translation>
+        <translation>
+            <numerusform>%n fotoğraf</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform><numerusform>%n video</numerusform></translation>
+        <translation>
+            <numerusform>%n video</numerusform>
+        </translation>
     </message>
     <message>
         <source>Importing: %1</source>
@@ -1050,15 +1102,21 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>%n fotoğraf</numerusform><numerusform>%n fotoğraf</numerusform></translation>
+        <translation>
+            <numerusform>%n fotoğraf</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform><numerusform>%n video</numerusform></translation>
+        <translation>
+            <numerusform>%n video</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation><numerusform>%n öğe</numerusform><numerusform>%n öğe</numerusform></translation>
+        <translation>
+            <numerusform>%n öğe</numerusform>
+        </translation>
     </message>
 </context>
 <context>

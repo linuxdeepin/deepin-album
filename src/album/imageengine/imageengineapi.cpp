@@ -145,6 +145,24 @@ bool ImageEngineApi::removeImageFromAutoImport(const QStringList &files)
     return true;
 }
 
+bool ImageEngineApi::classifyOldDBInfo(const DBImgInfoList &infos)
+{
+    if (infos.size() == 0) {
+        return false;
+    }
+
+    emit dApp->signalM->popupWaitDialog(tr("Classifying..."), true);
+
+    ImagesClassifyThread *imagethread = new ImagesClassifyThread;
+    imagethread->setData(infos);
+#ifdef NOGLOBAL
+    m_qtpool.start(imagethread);
+#else
+    QThreadPool::globalInstance()->start(imagethread);
+#endif
+    return true;
+}
+
 void ImageEngineApi::loadFirstPageThumbnails(int num)
 {
     qDebug() << __FUNCTION__ << "---";

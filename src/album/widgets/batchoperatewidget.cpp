@@ -123,7 +123,7 @@ void BatchOperateWidget::sltListViewChanged()
     viewChangedFlushFlag = false;
 
     ExpansionPanel::FilteData data;
-    data.type = m_ToolButton->getFilteType();
+    data = m_ToolButton->getFilterData();
     sltCurrentFilterChanged(data);
 
     batchSelectChanged(false, true);
@@ -242,10 +242,18 @@ void BatchOperateWidget::sltCurrentFilterChanged(ExpansionPanel::FilteData &data
 {
     if (data.type == ItemType::ItemTypeNull) {
         //显示全部
-        m_thumbnailListView->showAppointTypeItem(ItemType::ItemTypeNull);
+        if (m_operateType != AlbumViewClassType)
+            m_thumbnailListView->showAppointTypeItem(ItemType::ItemTypeNull);
+        else
+            m_thumbnailListView->showAppointClassItem(data.className);
     } else if (data.type == ItemType::ItemTypePic) {
-        //显示图片
-        m_thumbnailListView->showAppointTypeItem(ItemType::ItemTypePic);
+        if (data.className.isEmpty()) {
+            //显示图片
+            m_thumbnailListView->showAppointTypeItem(ItemType::ItemTypePic);
+        } else {
+            //显示图片分类
+            m_thumbnailListView->showAppointClassItem(data.className);
+        }
     } else if (data.type == ItemType::ItemTypeVideo) {
         //显示视频
         m_thumbnailListView->showAppointTypeItem(ItemType::ItemTypeVideo);
@@ -420,19 +428,85 @@ void BatchOperateWidget::initDropdown()
     m_expansionMenu->setDefaultFilteData(data);
     m_expansionMenu->addNewButton(data);
 
-    data.icon_r_light = QIcon::fromTheme("album_pic");
-    data.icon_r_dark  = QIcon::fromTheme("album_pic_hover");
-    data.icon_r_path  = "album_pic";
-    data.text = QObject::tr("Photos");
-    data.type = ItemType::ItemTypePic;
-    m_expansionMenu->addNewButton(data);
+    if (m_operateType == AlbumViewClassType) {
+        data.icon_r_light = QIcon::fromTheme("album_scenery");
+        data.icon_r_dark  = QIcon::fromTheme("album_scenery");
+        data.icon_r_path  = "album_scenery";
+        data.text = QObject::tr("Scenery");
+        data.type = ItemType::ItemTypePic;
+        data.className = CLASS_Scenery;
+        m_expansionMenu->addNewButton(data);
 
-    data.icon_r_light = QIcon::fromTheme("album_video");
-    data.icon_r_dark  = QIcon::fromTheme("album_video_hover");
-    data.icon_r_path  = "album_video";
-    data.text = QObject::tr("Videos");
-    data.type = ItemType::ItemTypeVideo;
-    m_expansionMenu->addNewButton(data);
+        data.icon_r_light = QIcon::fromTheme("album_food");
+        data.icon_r_dark  = QIcon::fromTheme("album_food");
+        data.icon_r_path  = "album_food";
+        data.text = QObject::tr("Food");
+        data.type = ItemType::ItemTypePic;
+        data.className = CLASS_FOOD;
+        m_expansionMenu->addNewButton(data);
+
+        data.icon_r_light = QIcon::fromTheme("album_human");
+        data.icon_r_dark  = QIcon::fromTheme("album_human");
+        data.icon_r_path  = "album_human";
+        data.text = QObject::tr("Human");
+        data.type = ItemType::ItemTypePic;
+        data.className = CLASS_HUMANS;
+        m_expansionMenu->addNewButton(data);
+
+        data.icon_r_light = QIcon::fromTheme("album_scene");
+        data.icon_r_dark  = QIcon::fromTheme("album_scene");
+        data.icon_r_path  = "album_scene";
+        data.text = QObject::tr("Scene");
+        data.type = ItemType::ItemTypePic;
+        data.className = CLASS_SCENE;
+        m_expansionMenu->addNewButton(data);
+
+        data.icon_r_light = QIcon::fromTheme("album_animal");
+        data.icon_r_dark  = QIcon::fromTheme("album_animal");
+        data.icon_r_path  = "album_animal";
+        data.text = QObject::tr("Animal");
+        data.type = ItemType::ItemTypePic;
+        data.className = CLASS_ANIMALS;
+        m_expansionMenu->addNewButton(data);
+
+        data.icon_r_light = QIcon::fromTheme("album_plant");
+        data.icon_r_dark  = QIcon::fromTheme("album_plant");
+        data.icon_r_path  = "album_plant";
+        data.text = QObject::tr("Plants");
+        data.type = ItemType::ItemTypePic;
+        data.className = CLASS_PLANT;
+        m_expansionMenu->addNewButton(data);
+
+        data.icon_r_light = QIcon::fromTheme("album_items");
+        data.icon_r_dark  = QIcon::fromTheme("album_items");
+        data.icon_r_path  = "album_items";
+        data.text = QObject::tr("Items");
+        data.type = ItemType::ItemTypePic;
+        data.className = CLASS_ITEMS;
+        m_expansionMenu->addNewButton(data);
+
+        data.icon_r_light = QIcon::fromTheme("album_other");
+        data.icon_r_dark  = QIcon::fromTheme("album_other");
+        data.icon_r_path  = "album_other";
+        data.text = QObject::tr("Other");
+        data.type = ItemType::ItemTypePic;
+        data.className = CLASS_OTHER;
+        m_expansionMenu->addNewButton(data);
+    } else {
+        data.icon_r_light = QIcon::fromTheme("album_pic");
+        data.icon_r_dark  = QIcon::fromTheme("album_pic_hover");
+        data.icon_r_path  = "album_pic";
+        data.text = QObject::tr("Photos");
+        data.type = ItemType::ItemTypePic;
+        m_expansionMenu->addNewButton(data);
+
+        data.icon_r_light = QIcon::fromTheme("album_video");
+        data.icon_r_dark  = QIcon::fromTheme("album_video_hover");
+        data.icon_r_path  = "album_video";
+        data.text = QObject::tr("Videos");
+        data.type = ItemType::ItemTypeVideo;
+        m_expansionMenu->addNewButton(data);
+    }
 }
 
 void BatchOperateWidget::batchSelectChanged(bool isBatchSelect, bool disConnectSignal)

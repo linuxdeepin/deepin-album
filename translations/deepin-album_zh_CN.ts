@@ -1,6 +1,8 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="zh_CN">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_CN">
 <context>
-    <name/>
+    <name></name>
     <message>
         <source>Delete</source>
         <translation type="vanished">删除</translation>
@@ -165,6 +167,10 @@
         <source>The files will be permanently deleted after the days shown on them</source>
         <translation>文件在删除前会显示剩余天数，之后将永久删除</translation>
     </message>
+    <message>
+        <source>Image classification</source>
+        <translation>图片分类</translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -315,6 +321,10 @@
         <source>Restoring...</source>
         <translation>正在恢复...</translation>
     </message>
+    <message>
+        <source>Classifying...</source>
+        <translation>正在分类，请稍后...</translation>
+    </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
@@ -325,26 +335,6 @@
     <message>
         <source>Delete</source>
         <translation>删除</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this photo from the album?</source>
-        <translation type="vanished">您确定要从相册中删除此照片吗？</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="vanished"><numerusform>您确定要从相册中删除这%n张照片吗？</numerusform></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="vanished">您确定要从相册中删除此视频吗？</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="vanished"><numerusform>您确定要从相册中删除这%n个视频吗？</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="vanished"><numerusform>您确定要从相册中删除这%n个项目吗？</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to permanently delete this file?</source>
@@ -410,15 +400,21 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>共%n张照片</numerusform></translation>
+        <translation>
+            <numerusform>共%n张照片</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>共%n个视频</numerusform></translation>
+        <translation>
+            <numerusform>共%n个视频</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation><numerusform>共%n项</numerusform></translation>
+        <translation>
+            <numerusform>共%n项</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -672,6 +668,10 @@
         <source>Failed to restore %1 files: file name too long</source>
         <translation>%1个文件恢复失败，文件名过长</translation>
     </message>
+    <message>
+        <source>Classifying...</source>
+        <translation>正在分类，请稍后...</translation>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -878,19 +878,61 @@
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation><numerusform>已选择%n张照片</numerusform></translation>
+        <translation>
+            <numerusform>已选择%n张照片</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation><numerusform>已选择%n个视频</numerusform></translation>
+        <translation>
+            <numerusform>已选择%n个视频</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation><numerusform>已选择%n项</numerusform></translation>
+        <translation>
+            <numerusform>已选择%n项</numerusform>
+        </translation>
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
         <translation>%1个项目导入成功，%2个项目已存在</translation>
+    </message>
+    <message>
+        <source>Plants</source>
+        <translation>植物</translation>
+    </message>
+    <message>
+        <source>Scenery</source>
+        <translation>风景</translation>
+    </message>
+    <message>
+        <source>Food</source>
+        <translation>美食</translation>
+    </message>
+    <message>
+        <source>Human</source>
+        <translation>人物</translation>
+    </message>
+    <message>
+        <source>Scene</source>
+        <translation>场景</translation>
+    </message>
+    <message>
+        <source>Animal</source>
+        <translation>动物</translation>
+    </message>
+    <message>
+        <source>Items</source>
+        <translation>物体</translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation>其它</translation>
+    </message>
+    <message>
+        <source>%1/%2 items classifyed</source>
+        <translation>已分类%1/%2项</translation>
     </message>
 </context>
 <context>
@@ -913,7 +955,9 @@
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation><numerusform>共找到%n个视频</numerusform></translation>
+        <translation>
+            <numerusform>共找到%n个视频</numerusform>
+        </translation>
     </message>
     <message>
         <source>1 video found</source>
@@ -921,11 +965,15 @@
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation><numerusform>共找到%n项</numerusform></translation>
+        <translation>
+            <numerusform>共找到%n项</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation><numerusform>共找到%n张照片</numerusform></translation>
+        <translation>
+            <numerusform>共找到%n张照片</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -940,11 +988,15 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>%n张照片</numerusform></translation>
+        <translation>
+            <numerusform>%n张照片</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>%n个视频</numerusform></translation>
+        <translation>
+            <numerusform>%n个视频</numerusform>
+        </translation>
     </message>
     <message>
         <source>Importing: %1</source>
@@ -1050,15 +1102,21 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>共%n张照片</numerusform></translation>
+        <translation>
+            <numerusform>共%n张照片</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>共%n个视频</numerusform></translation>
+        <translation>
+            <numerusform>共%n个视频</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation><numerusform>共%n项</numerusform></translation>
+        <translation>
+            <numerusform>共%n项</numerusform>
+        </translation>
     </message>
 </context>
 <context>

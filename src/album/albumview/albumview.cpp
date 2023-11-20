@@ -9,6 +9,8 @@
 #include "dtkcore_global.h"
 #include "dialogs/albumdeletedialog.h"
 #include "dbmanager/dbmanager.h"
+#include "classifyutils.h"
+
 #include <DNotifySender>
 #include <QMimeData>
 #include <DTableView>
@@ -59,10 +61,11 @@ const int RIGHT_VIEW_WIDTH = 1119;
 const int RIGHT_VIEW_IMPORT = 0;
 const int RIGHT_VIEW_THUMBNAIL_LIST = 1;
 const int RIGHT_VIEW_TRASH_LIST = 2;
-const int RIGHT_VIEW_FAVORITE_LIST = 3;
-const int RIGHT_VIEW_SEARCH = 4;
-const int RIGHT_VIEW_PHONE = 5;
-const int RIGHT_VIEW_TIMELINE_IMPORT = 6;
+const int RIGHT_VIEW_CLASS_LIST = 3;
+const int RIGHT_VIEW_FAVORITE_LIST = 4;
+const int RIGHT_VIEW_SEARCH = 5;
+const int RIGHT_VIEW_PHONE = 6;
+const int RIGHT_VIEW_TIMELINE_IMPORT = 7;
 const int MAINWINDOW_NEEDCUT_WIDTH = 775;
 const int MAINWINDOW_DEVICE_MIN_WIDTH = 716;
 const int PHONE_TITLE_NORMAL_WIDTH = 185;
@@ -175,6 +178,8 @@ AlbumView::~AlbumView()
     m_customThumbnailList->stopLoadAndClear();
     m_pRightPhoneThumbnailList->stopLoadAndClear();
     m_pRightTrashThumbnailList->stopLoadAndClear();
+    if (m_classThumbnailList)
+        m_classThumbnailList->stopLoadAndClear();
     m_favoriteThumbnailList->stopLoadAndClear();
 
     ImageEngineImportObject::clearAndStopThread();
@@ -263,6 +268,8 @@ void AlbumView::initConnections()
 #if 1
     connect(dApp->signalM, &SignalManager::sigCreateNewAlbumFrom, this, &AlbumView::onCreateNewAlbumFrom);
     connect(m_customThumbnailList, &ThumbnailListView::sigMouseMove, this, &AlbumView::ongMouseMove);
+    if (m_classThumbnailList)
+        connect(m_classThumbnailList, &ThumbnailListView::sigMouseMove, this, &AlbumView::ongMouseMove);
     connect(m_favoriteThumbnailList, &ThumbnailListView::sigMouseMove, this, &AlbumView::ongMouseMove);
     // 解决最近删除页面ctrl+all选择所有图片，恢复按钮为灰色的问题
     connect(m_pRightTrashThumbnailList, &ThumbnailListView::sigSelectAll, this, &AlbumView::onSelectAll);
@@ -277,6 +284,8 @@ void AlbumView::initConnections()
     connect(dApp->signalM, &SignalManager::imagesTrashInserted, this, &AlbumView::onTrashInfosChanged);
     connect(dApp->signalM, &SignalManager::imagesTrashRemoved, this, &AlbumView::onTrashInfosChanged);
     connect(m_customThumbnailList, &ThumbnailListView::openImage, this, &AlbumView::onOpenImageCustom);
+    if (m_classThumbnailList)
+        connect(m_classThumbnailList, &ThumbnailListView::openImage, this, &AlbumView::onOpenImageClass);
     connect(m_favoriteThumbnailList, &ThumbnailListView::openImage, this, &AlbumView::onOpenImageFav);
     connect(m_pLeftListView, &LeftListView::sigSlideShow, this, &AlbumView::onSlideShowCustom);
     connect(m_customThumbnailList, &ThumbnailListView::sigSlideShow, this, &AlbumView::onSlideShowCustom);
@@ -313,6 +322,10 @@ void AlbumView::initConnections()
     //自定义相册
     connect(m_customThumbnailList->selectionModel(), &QItemSelectionModel::selectionChanged,
             this, &AlbumView::sltSelectionChanged);
+    //图片分类
+    if (m_classThumbnailList)
+        connect(m_classThumbnailList->selectionModel(), &QItemSelectionModel::selectionChanged,
+                this, &AlbumView::sltSelectionChanged);
     //我的收藏
     connect(m_favoriteThumbnailList->selectionModel(), &QItemSelectionModel::selectionChanged,
             this, &AlbumView::sltSelectionChanged);
@@ -344,6 +357,8 @@ void AlbumView::initConnections()
 
     // 字体改变时,不同尺寸下同步调整标题栏区域控件显示大小
     connect(qApp, &QGuiApplication::fontChanged, this, &AlbumView::adjustTitleContent);
+
+    connect(dApp->signalM, &SignalManager::sigImageClassifyDone, this, &AlbumView::updateRightClassView);
 }
 
 void AlbumView::initLeftView()
@@ -455,6 +470,12 @@ void AlbumView::initRightView()
     initCustomAlbumWidget();
     //初始化最近删除列表
     initTrashWidget();
+    //初始化图片分类列表
+    if (Classifyutils::GetInstance()->isLoaded()) {
+        initClassWidget();
+    } else {
+        m_pClassWidget = new DWidget();
+    }
     //初始化收藏列表
     initFavoriteWidget();
     //Search View
@@ -483,6 +504,7 @@ void AlbumView::initRightView()
     m_pRightStackWidget->addWidget(m_pImportView);       // 空白导入界面
     m_pRightStackWidget->addWidget(m_pCustomAlbumWidget);    // 自定义相册界面
     m_pRightStackWidget->addWidget(m_pTrashWidget);      // 最近删除
+    m_pRightStackWidget->addWidget(m_pClassWidget);      // 图片分类
     m_pRightStackWidget->addWidget(m_pFavoriteWidget);   // 我的收藏
     m_pRightStackWidget->addWidget(m_pSearchView);       // 搜索界面页面
     m_pRightStackWidget->addWidget(pPhoneWidget);        // 设备界面
@@ -669,6 +691,86 @@ void AlbumView::initCustomAlbumWidget()
     m_customAlbumTitle->move(0, 0);
     m_customAlbumTitle->setFixedSize(this->width() - LEFT_VIEW_WIDTH, custom_title_height);
 }
+
+void AlbumView::initClassWidget()
+{
+    m_pClassWidget = new DWidget();
+    m_pClassWidget->setFocusPolicy(Qt::ClickFocus);
+    DPalette palcolor2 = DApplicationHelper::instance()->palette(m_pClassWidget);
+    palcolor2.setBrush(DPalette::Base, palcolor2.color(DPalette::Window));
+    m_pClassWidget->setPalette(palcolor2);
+    QVBoxLayout *p_Class = new QVBoxLayout();
+    //左侧距离分界线20px，8+缩略图spacing+缩略图边框
+    p_Class->setContentsMargins(8, 0, 0, 0);
+    m_pClassWidget->setLayout(p_Class);
+
+    m_classThumbnailList = new ThumbnailListView(ThumbnailDelegate::AlbumViewClassType, -1, COMMON_STR_FAVORITES);
+    //筛选显示，当先列表中内容为无结果
+    connect(m_classThumbnailList, &ThumbnailListView::sigNoPicOrNoVideo, this, &AlbumView::slotNoPicOrNoVideo);
+    m_classThumbnailList->setFrameShape(DTableView::NoFrame);
+    m_classThumbnailList->setObjectName("RightClassThumbnail");
+    m_classThumbnailList->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    m_classThumbnailList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_classThumbnailList->setContentsMargins(0, 0, 0, 0);
+    p_Class->addWidget(m_classThumbnailList);
+    //初始化筛选无结果窗口
+    m_classNoResultWidget = new NoResultWidget(this);
+    p_Class->addWidget(m_classNoResultWidget);
+    m_classNoResultWidget->setVisible(false);
+
+    //图片分类悬浮标题
+    QHBoxLayout *lNumberLayout = new QHBoxLayout();
+    lNumberLayout->setContentsMargins(20, 0, 19, 0);
+
+    m_pClassTitle = new DLabel(m_pClassWidget);
+    m_pClassTitle->setFixedHeight(favorite_title_height);
+    DFontSizeManager::instance()->bind(m_pClassTitle, DFontSizeManager::T3, QFont::DemiBold);
+    m_pClassTitle->setForegroundRole(DPalette::TextTitle);
+    m_pClassTitle->setFixedHeight(custom_title_height);
+    m_pClassTitle->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+    m_pClassTitle->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    m_pClassTitle->setText(tr("Image classification"));
+
+    m_pClassPicTotal = new DLabel();
+    m_pClassPicTotal->setFixedHeight(20);
+    DFontSizeManager::instance()->bind(m_pClassPicTotal, DFontSizeManager::T6, QFont::Medium);
+    m_pClassPicTotal->setForegroundRole(DPalette::TextTips);
+
+    QPalette pal = DApplicationHelper::instance()->palette(m_pClassPicTotal);
+    QColor color_BT = pal.color(DPalette::BrightText);
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if (themeType == DGuiApplicationHelper::LightType) {
+        color_BT.setAlphaF(0.5);
+        pal.setBrush(DPalette::Text, color_BT);
+    } else if (themeType == DGuiApplicationHelper::DarkType) {
+        color_BT.setAlphaF(0.75);
+        pal.setBrush(DPalette::Text, color_BT);
+    }
+    m_pClassPicTotal->setForegroundRole(DPalette::Text);
+    m_pClassPicTotal->setPalette(pal);
+    lNumberLayout->addWidget(m_pClassPicTotal);
+
+    m_ClassTitleWidget = new DWidget(m_pClassWidget);
+    m_ClassTitleWidget->setFocusPolicy(Qt::NoFocus);
+    m_ClassTitleWidget->setLayout(lNumberLayout);
+
+    m_classBatchOperateWidget = new BatchOperateWidget(m_classThumbnailList, BatchOperateWidget::AlbumViewClassType, m_ClassTitleWidget);
+    lNumberLayout->addStretch(100);
+    lNumberLayout->addWidget(m_classBatchOperateWidget, 0, Qt::AlignRight | Qt::AlignVCenter);
+    connect(m_classBatchOperateWidget, &BatchOperateWidget::signalBatchSelectChanged, this, &AlbumView::onBatchSelectChanged, Qt::QueuedConnection);
+    connect(m_classBatchOperateWidget, &BatchOperateWidget::sigCancelAll, this, &AlbumView::onBatchSelectChanged, Qt::QueuedConnection);
+
+    DPalette ppal_light2 = DApplicationHelper::instance()->palette(m_ClassTitleWidget);
+    ppal_light2.setBrush(DPalette::Background, ppal_light2.color(DPalette::Base));
+    QGraphicsOpacityEffect *opacityEffect_light2 = new QGraphicsOpacityEffect;
+    opacityEffect_light2->setOpacity(0.95);
+    m_ClassTitleWidget->setPalette(ppal_light2);
+    m_ClassTitleWidget->setGraphicsEffect(opacityEffect_light2);
+    m_ClassTitleWidget->setAutoFillBackground(true);
+    m_ClassTitleWidget->move(0, 0);
+    m_ClassTitleWidget->setFixedSize(this->width() - m_pLeftListView->width() - 20, favorite_title_height);
+}
+
 //初始化收藏列表
 void AlbumView::initFavoriteWidget()
 {
@@ -885,7 +987,9 @@ void AlbumView::resetLabelCount(int photosCount, int videosCount, DLabel *lable)
     }
 
     // 记录我的收藏、自定义相册、设备视图总数的全量文本内容，以便做截断显示
-    if (lable == m_pFavoritePicTotal)
+    if (lable == m_pClassPicTotal)
+        m_ClassPicTotalFullStr = lable->text();
+    else if (lable == m_pFavoritePicTotal)
         m_FavoritePicTotalFullStr = lable->text();
     else if (lable == m_pRightPicTotal)
         m_CustomRightPicTotalFullStr = lable->text();
@@ -911,6 +1015,8 @@ void AlbumView::updateRightView()
         updateRightTrashView();
         setAcceptDrops(false);
         emit sigSearchEditIsDisplay(false);
+    } else if (COMMON_STR_CLASS == m_currentType) {
+        updateRightClassView();
     } else if (COMMON_STR_FAVORITES == m_currentType) {
         updateRightMyFavoriteView();
     } else if (COMMON_STR_CUSTOM == m_currentType) {
@@ -988,6 +1094,41 @@ void AlbumView::updateRightMyFavoriteView()
                     , m_favoriteThumbnailList->getAppointTypeItemCount(ItemTypeVideo), m_pFavoritePicTotal);
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
     m_FavoriteTitleWidget->setVisible(infos.size() > 0);
+    m_pStatusBar->setVisible(true);
+    emit sigSearchEditIsDisplay(true);
+    setAcceptDrops(false);
+}
+
+void AlbumView::updateRightClassView()
+{
+    using namespace utils::image;
+    DBImgInfoList infos;
+    infos = DBManager::instance()->getAllInfos(ItemTypePic);
+
+    DBImgInfoList unClassList;
+    for (auto info : infos) {
+        if (info.className.isEmpty()) {
+            unClassList.push_back(info);
+        }
+    }
+
+    // 来自老版本的相册没有进行图片分类，需要对这些数据进行图片分类
+    if (unClassList.size() > 0) {
+        ImageEngineApi::instance()->classifyOldDBInfo(infos);
+        return;
+    }
+
+    m_classThumbnailList->clearAll();
+    //插入上方空白项
+    m_classThumbnailList->insertBlankOrTitleItem(ItemTypeBlank, "", "", favorite_title_height);
+    m_classThumbnailList->insertThumbnailByImgInfos(infos);
+    // 添加底栏空白区域
+    m_classThumbnailList->insertBlankOrTitleItem(ItemTypeBlank, "", "", m_pStatusBar->height());
+    //重置数量显示
+    resetLabelCount(m_classThumbnailList->getAppointTypeItemCount(ItemTypePic)
+                    , m_classThumbnailList->getAppointTypeItemCount(ItemTypeVideo), m_pClassPicTotal);
+    m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_CLASS_LIST);
+    m_ClassTitleWidget->setVisible(infos.size() > 0);
     m_pStatusBar->setVisible(true);
     emit sigSearchEditIsDisplay(true);
     setAcceptDrops(false);
@@ -1181,6 +1322,30 @@ void AlbumView::onTrashRecoveryBtnClicked()
     ImageEngineApi::instance()->recoveryImagesFromTrash(paths);
 }
 
+void AlbumView::onOpenImageClass(int row, const QString &path, bool bFullScreen)
+{
+    SignalManager::ViewInfo info;
+    info.album = "";
+//    info.lastPanel = nullptr;  //todo imageviewer
+    info.fullScreen = bFullScreen;
+    auto imagelist = m_classThumbnailList->getFileList(row, ItemType::ItemTypePic);
+    if (imagelist.size() > 0) {
+        info.paths << imagelist;
+        info.path = path;
+    } else {
+        info.paths.clear();
+    }
+    info.dBImgInfos = m_classThumbnailList->getAllFileInfo(row);
+    info.viewType = m_currentAlbum;
+    info.viewMainWindowID = VIEW_MAINWINDOW_ALBUM;
+
+    if (bFullScreen) {
+        emit dApp->signalM->sigViewImage(info, Operation_FullScreen);
+    } else {
+        emit dApp->signalM->sigViewImage(info, Operation_NoOperation);
+    }
+}
+
 void AlbumView::onOpenImageFav(int row, const QString &path, bool bFullScreen)
 {
     SignalManager::ViewInfo info;
@@ -1312,6 +1477,12 @@ void AlbumView::onKeyDelete()
                 m_pRightTrashThumbnailList->clearSelection();
                 ImageEngineApi::instance()->moveImagesToTrash(paths, true);
             }
+        }
+    } else if (COMMON_STR_CLASS == m_currentType) {
+        paths = m_classThumbnailList->selectedPaths();
+        if (!paths.isEmpty()) {
+            m_classThumbnailList->clearSelection();
+            bMoveToTrash = true;
         }
     } else if (COMMON_STR_FAVORITES == m_currentType) {
         paths = m_favoriteThumbnailList->selectedPaths();
@@ -1755,6 +1926,11 @@ void AlbumView::SearchReturnUpdate()
             //最近删除内没有图片，隐藏批量处理按钮
             int count = DBManager::instance()->getTrashImgsCount();
             m_trashBatchOperateWidget->setVisible(count != 0);
+        } else if (COMMON_STR_CLASS == m_currentAlbum) {
+            m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_CLASS_LIST);
+            int count = DBManager::instance()->getImagesCount();
+            //收藏内没有图片，隐藏批量处理按钮
+            m_ClassTitleWidget->setVisible(count != 0);
         } else if (COMMON_STR_FAVORITES == m_currentAlbum) {
             m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_FAVORITE_LIST);
             int count = DBManager::instance()->getAlbumImgsCount(m_currentUID);
@@ -1982,7 +2158,10 @@ void AlbumView::onLeftListDropEvent(QModelIndex dropIndex)
     qDebug() << "currentAlbum: " << m_currentAlbum << " ;dropLeftTabListName: " << dropLeftTabListName;
     //向自己的相册或“已导入”相册拖拽无效
     //“已导入”相册在leftlistwidget.cpp中也屏蔽过
-    if (COMMON_STR_FAVORITES == m_currentAlbum) {
+    if (COMMON_STR_CLASS == m_currentAlbum) {
+        currentViewList = m_classThumbnailList;
+        dropItemPaths = currentViewList->getDagItemPath();
+    } else if (COMMON_STR_FAVORITES == m_currentAlbum) {
         currentViewList = m_favoriteThumbnailList;
         dropItemPaths = currentViewList->getDagItemPath();
     } else if (COMMON_STR_TRASH == m_currentAlbum) {
@@ -2014,7 +2193,10 @@ void AlbumView::updatePicNum()
         if (m_currentAlbum == COMMON_STR_TRASH) {
             photoSelctCount = m_pRightTrashThumbnailList->getAppointTypeSelectItemCount(ItemTypePic);
             videoSelctCount = m_pRightTrashThumbnailList->getAppointTypeSelectItemCount(ItemTypeVideo);
-        } else if (m_currentAlbum == COMMON_STR_FAVORITES) {
+        } else if (m_currentAlbum == COMMON_STR_CLASS) {
+            photoSelctCount = m_classThumbnailList->getAppointTypeSelectItemCount(ItemTypePic);
+            videoSelctCount = m_classThumbnailList->getAppointTypeSelectItemCount(ItemTypeVideo);
+        }  else if (m_currentAlbum == COMMON_STR_FAVORITES) {
             photoSelctCount = m_favoriteThumbnailList->getAppointTypeSelectItemCount(ItemTypePic);
             videoSelctCount = m_favoriteThumbnailList->getAppointTypeSelectItemCount(ItemTypeVideo);
         } else if (m_currentAlbum == COMMON_STR_RECENT_IMPORTED) {
@@ -2038,7 +2220,11 @@ void AlbumView::updatePicNum()
 
 void AlbumView::updateTotalLabelNum()
 {
-    if (COMMON_STR_FAVORITES == m_currentType) {
+    if (COMMON_STR_CLASS == m_currentType) {
+        //重置数量显示
+        resetLabelCount(m_classThumbnailList->getAppointTypeItemCount(ItemTypePic)
+                        , m_classThumbnailList->getAppointTypeItemCount(ItemTypeVideo), m_pClassPicTotal);
+    } else if (COMMON_STR_FAVORITES == m_currentType) {
         //重置数量显示
         resetLabelCount(m_favoriteThumbnailList->getAppointTypeItemCount(ItemTypePic)
                         , m_favoriteThumbnailList->getAppointTypeItemCount(ItemTypeVideo), m_pFavoritePicTotal);
@@ -2063,6 +2249,9 @@ void AlbumView::restorePicNum()
         } else if (COMMON_STR_TRASH == m_currentAlbum) {
             photoCount = m_pRightTrashThumbnailList->getAppointTypeItemCount(ItemTypePic);
             videoCount = m_pRightTrashThumbnailList->getAppointTypeItemCount(ItemTypeVideo);
+        } else if (COMMON_STR_CLASS == m_currentAlbum) {
+            photoCount = m_classThumbnailList->getAppointTypeItemCount(ItemTypePic);
+            videoCount = m_classThumbnailList->getAppointTypeItemCount(ItemTypeVideo);
         } else if (COMMON_STR_FAVORITES == m_currentAlbum) {
             photoCount = m_favoriteThumbnailList->getAppointTypeItemCount(ItemTypePic);
             videoCount = m_favoriteThumbnailList->getAppointTypeItemCount(ItemTypeVideo);
@@ -2251,10 +2440,14 @@ void AlbumView::onThemeTypeChanged(DGuiApplicationHelper::ColorType themeType)
     DPalette palcolor2 = DApplicationHelper::instance()->palette(m_pFavoriteWidget);
     palcolor2.setBrush(DPalette::Base, palcolor2.color(DPalette::Window));
     m_pFavoriteWidget->setPalette(palcolor2);
+    if (m_pClassWidget)
+        m_pClassWidget->setPalette(palcolor2);
 
     DPalette ppal_light2 = DApplicationHelper::instance()->palette(m_FavoriteTitleWidget);
     ppal_light2.setBrush(DPalette::Background, ppal_light2.color(DPalette::Base));
     m_FavoriteTitleWidget->setPalette(ppal_light2);
+    if (m_ClassTitleWidget)
+        m_ClassTitleWidget->setPalette(ppal_light2);
 
     DPalette palcolor3 = DApplicationHelper::instance()->palette(m_pTrashWidget);
     palcolor3.setBrush(DPalette::Base, palcolor3.color(DPalette::Window));
@@ -2459,6 +2652,11 @@ void AlbumView::slotNoPicOrNoVideo(bool isNoResult)
         m_customThumbnailList->setVisible(!isNoResult);
         m_customAlbumTitleLabel->setVisible(!isNoResult);
         m_pRightPicTotal->setVisible(!isNoResult);
+    } else if (sender() == m_classThumbnailList && m_classThumbnailList) {
+        m_classNoResultWidget->setVisible(isNoResult);
+        m_classThumbnailList->setVisible(!isNoResult);
+        m_pClassTitle->setVisible(!isNoResult);
+        m_pClassPicTotal->setVisible(!isNoResult);
     } else if (sender() == m_favoriteThumbnailList) {
         m_favoriteNoResultWidget->setVisible(isNoResult);
         m_favoriteThumbnailList->setVisible(!isNoResult);
@@ -2505,6 +2703,11 @@ void AlbumView::restoreTitleDisplay()
         m_customAlbumTitleLabel->show();
         m_customAlbumTitleLabel->raise();
     }
+    if (m_classBatchOperateWidget && !m_classBatchOperateWidget->isVisible()) {//图片分类界面标题
+        m_pClassTitle->setText(tr("Favorites"));
+        m_pClassTitle->show();
+        m_pClassTitle->raise();
+    }
     if (!m_favoriteBatchOperateWidget->isVisible()) {//我的收藏界面标题
         m_pFavoriteTitle->setText(tr("Favorites"));
         m_pFavoriteTitle->show();
@@ -2517,6 +2720,20 @@ void AlbumView::adjustTitleContent()
     m_spinner->move(width() / 2 + 60, (height()) / 2 - 20);
     m_pwidget->setFixedSize(this->width(), this->height() - 23);
     m_pwidget->move(0, 0);
+    //图片分类
+    if (nullptr != m_ClassTitleWidget) {
+        m_ClassTitleWidget->setFixedSize(this->width() - m_pLeftListView->width() - magin_offset, favorite_title_height);
+        if (topLevelWidget()->width() <= MAINWINDOW_NEEDCUT_WIDTH)
+            m_pClassTitle->move(topLevelWidget()->width() - LISTVIEW_MINMUN_WIDTH, 0);
+        else {
+            // 按默认文本内容重置我的收藏标签的宽度，保证后续文本显示位置一致
+            m_pClassTitle->setText(tr("Image classification"));
+            m_pClassTitle->adjustSize();
+            m_pClassTitle->move(m_ClassTitleWidget->width() / 2 - m_pClassTitle->width() / 2, 0);
+        }
+        if (m_pClassTitle->isVisible())
+            m_pClassTitle->raise();
+    }
     //我的收藏
     if (nullptr != m_FavoriteTitleWidget) {
         m_FavoriteTitleWidget->setFixedSize(this->width() - m_pLeftListView->width() - magin_offset, favorite_title_height);
@@ -2579,8 +2796,20 @@ void AlbumView::adjustTitleContent()
     // 最近删除 描述label截断显示处理
     adaptiveTrashDescritionLabel();
 
+    QString elidedText("");
+    // 图片分类 总数label截断显示处理
+    if (m_pClassPicTotal) {
+        elidedText = utils::base::reorganizationStr(m_pClassPicTotal->font(), m_ClassPicTotalFullStr, m_pClassTitle->x() - 30);
+        m_pClassPicTotal->setText(elidedText);
+        if (elidedText != m_ClassPicTotalFullStr) {
+            m_pClassPicTotal->setToolTip(m_ClassPicTotalFullStr);
+        } else {
+            m_pClassPicTotal->setToolTip("");
+        }
+    }
+
     // 我的收藏 总数label截断显示处理
-    QString elidedText = utils::base::reorganizationStr(m_pFavoritePicTotal->font(), m_FavoritePicTotalFullStr, m_pFavoriteTitle->x() - 30);
+    elidedText = utils::base::reorganizationStr(m_pFavoritePicTotal->font(), m_FavoritePicTotalFullStr, m_pFavoriteTitle->x() - 30);
     m_pFavoritePicTotal->setText(elidedText);
     if (elidedText != m_FavoritePicTotalFullStr) {
         m_pFavoritePicTotal->setToolTip(m_FavoritePicTotalFullStr);
@@ -2707,6 +2936,16 @@ void AlbumView::onBatchSelectChanged(bool isBatchSelect)
 {
     //维语特殊处理
     if (QLocale::system().language() == QLocale::Uighur) {
+        if (m_classBatchOperateWidget && m_classBatchOperateWidget->isVisible()) {
+            if (isBatchSelect) {
+                m_pClassTitle->hide();
+                m_pClassPicTotal->hide();
+            } else {
+                m_pClassTitle->show();
+                m_pClassTitle->raise();
+                m_pClassPicTotal->show();
+            }
+        }
         if (m_favoriteBatchOperateWidget->isVisible()) {
             if (isBatchSelect) {
                 m_pFavoriteTitle->hide();
@@ -2832,6 +3071,23 @@ void AlbumView::onBatchSelectChanged(bool isBatchSelect)
             m_customAlbumTitleLabel->setToolTip(m_currentAlbum);
         } else {
             m_customAlbumTitleLabel->setToolTip("");
+        }
+    }
+    if (m_classBatchOperateWidget && m_classBatchOperateWidget->isVisible()) {//图片分类界面标题
+        int size = m_classBatchOperateWidget->x() - (m_pClassTitle->x() + m_pClassTitle->width());
+        QString Str = utils::base::reorganizationStr(m_pClassTitle->font(), tr("Image classification"), m_pClassTitle->width() + size);
+        if (Str.length() > 0) {
+            m_pClassTitle->show();
+            m_pClassTitle->raise();
+        } else {
+            m_pClassTitle->hide();
+        }
+        m_pClassTitle->setText(Str);
+        m_pClassTitle->adjustSize();
+        if (Str != tr("Image classification")) {
+            m_pClassTitle->setToolTip(tr("Image classification"));
+        } else {
+            m_pClassTitle->setToolTip("");
         }
     }
     if (m_favoriteBatchOperateWidget->isVisible()) {//我的收藏界面标题

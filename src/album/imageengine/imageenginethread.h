@@ -148,4 +148,20 @@ signals:
 };
 
 
+class ImagesClassifyThread : public ImageEngineThreadObject
+{
+    Q_OBJECT
+public:
+    ImagesClassifyThread();
+    ~ImagesClassifyThread() override;
+    void setData(const DBImgInfoList &infos);
+
+protected:
+    void runDetail() override;
+
+signals:
+private:
+    DBImgInfoList m_infos;
+};
+
 #endif // IMAGEENGINETHREAD_H

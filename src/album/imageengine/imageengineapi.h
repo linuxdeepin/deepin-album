@@ -45,6 +45,8 @@ public:
     //参数：需要删除的图片路径，相册UID
     bool removeImageFromAutoImport(const QStringList &files);
 
+    bool classifyOldDBInfo(const DBImgInfoList& infos);
+
     void close()
     {
         bcloseFg = true;

@@ -61,16 +61,23 @@ const QStringList DBManager::getAllPaths() const
     return paths;
 }
 
-const DBImgInfoList DBManager::getAllInfos(int loadCount)const
+const DBImgInfoList DBManager::getAllInfos(const ItemType &itemType, const int &loadCount)const
 {
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
+
+    QString sqlFileType = "";
+    if (itemType == ItemTypePic)
+        sqlFileType = "WHERE FileType=3";
+    else if (itemType == ItemTypeVideo)
+        sqlFileType = "WHERE FileType=4";
+
     bool b = false;
     if (loadCount == 0) {
-        b = m_query->prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc");
+        b = m_query->prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType, PathHash, ClassName FROM ImageTable3 %1 order by Time desc").arg(sqlFileType));
     } else {
-        b = m_query->prepare("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 order by Time desc limit 80");
+        b = m_query->prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType, PathHash, ClassName FROM ImageTable3 order by Time desc limit 80 %1").arg(sqlFileType));
     }
     if (!b || ! m_query->exec()) {
         return infos;
@@ -83,6 +90,8 @@ const DBImgInfoList DBManager::getAllInfos(int loadCount)const
             info.changeTime = m_query->value(4).toDateTime();
             info.importTime = m_query->value(5).toDateTime();
             info.itemType = static_cast<ItemType>(m_query->value(6).toInt());
+            info.pathHash = m_query->value(7).toString();
+            info.className = m_query->value(8).toString();
             infos << info;
         }
     }
@@ -112,7 +121,7 @@ const DBImgInfoList DBManager::getInfosByTimeline(const QDateTime &timeline) con
     m_query->setForwardOnly(true);
 
     // 使用模糊搜索获取对应日期的图片或视频
-    QString sqlStr = QString("SELECT FilePath, FileType FROM ImageTable3 "
+    QString sqlStr = QString("SELECT FilePath, FileType, ClassName FROM ImageTable3 "
                              "WHERE Time LIKE \"%%1%\" ORDER BY Time DESC").arg(timeline.date().toString(Qt::ISODate));
     bool b = m_query->prepare(sqlStr);
     if (!b || !m_query->exec()) {
@@ -121,6 +130,7 @@ const DBImgInfoList DBManager::getInfosByTimeline(const QDateTime &timeline) con
             DBImgInfo info;
             info.filePath = m_query->value(0).toString();
             info.itemType = static_cast<ItemType>(m_query->value(1).toInt());
+            info.className = m_query->value(2).toString();
             infos << info;
         }
     }
@@ -149,7 +159,7 @@ const DBImgInfoList DBManager::getInfosByImportTimeline(const QDateTime &timelin
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
 
-    bool b = m_query->prepare(QString("SELECT FilePath, FileType FROM ImageTable3 "
+    bool b = m_query->prepare(QString("SELECT FilePath, FileType, ClassName FROM ImageTable3 "
                                       "WHERE STRFTIME(\"%Y-%m-%d %H:%M\", ImportTime) = STRFTIME(\"%Y-%m-%d %H:%M\", :Date) ORDER BY Time DESC"));
     m_query->bindValue(":Date", timeline);
     if (!b || !m_query->exec()) {
@@ -158,6 +168,7 @@ const DBImgInfoList DBManager::getInfosByImportTimeline(const QDateTime &timelin
             DBImgInfo info;
             info.filePath = m_query->value(0).toString();
             info.itemType = static_cast<ItemType>(m_query->value(1).toInt());
+            info.className = m_query->value(2).toString();
             infos << info;
         }
     }
@@ -188,6 +199,19 @@ int DBManager::getImgsCount() const
     return 0;
 }
 
+int DBManager::getImagesCount() const
+{
+    QMutexLocker mutex(&m_dbMutex);
+
+    m_query->setForwardOnly(true);
+    if (m_query->exec("SELECT COUNT(*) FROM ImageTable3 WHERE FileType=3")) {
+        m_query->first();
+        int count = m_query->value(0).toInt();
+        return count;
+    }
+    return 0;
+}
+
 void DBManager::insertImgInfos(const DBImgInfoList &infos)
 {
     QMutexLocker mutex(&m_dbMutex);
@@ -196,7 +220,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
 //        qDebug() << query.lastError();
     }
     QString qs("REPLACE INTO ImageTable3 (PathHash, FilePath, FileName, Time, "
-               "ChangeTime, ImportTime, FileType) VALUES (?, ?, ?, ?, ?, ?, ?)");
+               "ChangeTime, ImportTime, FileType, ClassName) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
     if (!m_query->prepare(qs)) {
     }
@@ -209,6 +233,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
         m_query->addBindValue(info.changeTime);
         m_query->addBindValue(info.importTime);
         m_query->addBindValue(info.itemType);
+        m_query->addBindValue(info.className);
         if (!m_query->exec()) {
             ;
         }
@@ -468,7 +493,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(int UID, bool needTimeData) const
     m_query->setForwardOnly(true);
 
     if (needTimeData) {
-        bool b = m_query->prepare(QString("SELECT DISTINCT i.FilePath, i.FileType, i.Time, i.ChangeTime, i.ImportTime "
+        bool b = m_query->prepare(QString("SELECT DISTINCT i.FilePath, i.FileType, i.Time, i.ChangeTime, i.ImportTime, i.ClassName "
                                           "FROM ImageTable3 AS i, AlbumTable3 AS a "
                                           "WHERE i.PathHash=a.PathHash "
                                           "AND a.UID=:UID ORDER BY Time DESC").arg(UID));
@@ -481,11 +506,12 @@ const DBImgInfoList DBManager::getInfosByAlbum(int UID, bool needTimeData) const
                 info.time = m_query->value(2).toDateTime();
                 info.changeTime = m_query->value(3).toDateTime();
                 info.importTime = m_query->value(4).toDateTime();
+                info.className = m_query->value(5).toString();
                 infos << info;
             }
         }
     } else {
-        bool b = m_query->prepare(QString("SELECT DISTINCT i.FilePath, i.FileType "
+        bool b = m_query->prepare(QString("SELECT DISTINCT i.FilePath, i.FileType, i.ClassName "
                                           "FROM ImageTable3 AS i, AlbumTable3 AS a "
                                           "WHERE i.PathHash=a.PathHash "
                                           "AND a.UID=%1 ORDER BY Time DESC").arg(UID));
@@ -495,6 +521,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(int UID, bool needTimeData) const
                 DBImgInfo info;
                 info.filePath = m_query->value(0).toString();
                 info.itemType = static_cast<ItemType>(m_query->value(1).toInt());
+                info.className = m_query->value(2).toString();
                 infos << info;
             }
         }
@@ -770,13 +797,41 @@ void DBManager::renameAlbum(int UID, const QString &newAlbum, AlbumDBType atype)
     }
 }
 
+void DBManager::updateClassName2DB(const DBImgInfoList &infos)
+{
+    QMutexLocker mutex(&m_dbMutex);
+
+    m_query->setForwardOnly(true);
+    if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
+//        qDebug() << m_query->lastError();
+    }
+
+    QString qs = QString("UPDATE ImageTable3 SET ClassName=:classname WHERE PathHash=:pathhash");
+    if (!m_query->prepare(qs)) {
+//        qDebug() << m_query->lastError();
+    }
+
+    for (auto info : infos) {
+        m_query->bindValue(":classname", info.className);
+        m_query->bindValue(":pathhash", info.pathHash);
+        if (!m_query->exec()) {
+            //qDebug() << "update classname failed";
+        }
+    }
+
+    if (!m_query->exec("COMMIT")) {
+        //qDebug() << m_query->lastError();
+    }
+    mutex.unlock();
+}
+
 const DBImgInfoList DBManager::getInfosByNameTimeline(const QString &value) const
 {
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
 
-    QString queryStr = "SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 "
+    QString queryStr = "SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType, ClassName FROM ImageTable3 "
                        "WHERE FileName like '%" + value + "%' OR Time like '%" + value + "%' ORDER BY Time DESC";
 
     bool b = m_query->prepare(queryStr);
@@ -791,6 +846,7 @@ const DBImgInfoList DBManager::getInfosByNameTimeline(const QString &value) cons
             info.changeTime = m_query->value(4).toDateTime();
             info.importTime = m_query->value(5).toDateTime();
             info.itemType = static_cast<ItemType>(m_query->value(6).toInt());
+            info.className = m_query->value(7).toString();
             infos << info;
         }
     }
@@ -814,7 +870,7 @@ const DBImgInfoList DBManager::getTrashInfosForKeyword(const QString &keywords) 
     m_query->setForwardOnly(true);
 
     //切换到UID后，纯关键字搜索应该不受影响
-    QString queryStr = "SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType AlbumName FROM TrashTable3 "
+    QString queryStr = "SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType, ClassName AlbumName FROM TrashTable3 "
                        "WHERE FileName like '%" + keywords + "%' OR Time like '%" + keywords + "%' ORDER BY Time DESC";
 
     bool b = m_query->prepare(queryStr);
@@ -829,6 +885,7 @@ const DBImgInfoList DBManager::getTrashInfosForKeyword(const QString &keywords) 
             info.changeTime = m_query->value(4).toDateTime();
             info.importTime = m_query->value(5).toDateTime();
             info.itemType = ItemType(m_query->value(6).toInt());
+            info.className = m_query->value(7).toString();
             infos << info;
         }
     }
@@ -841,7 +898,7 @@ const DBImgInfoList DBManager::getInfosForKeyword(int UID, const QString &keywor
 
     DBImgInfoList infos;
 
-    QString queryStr = "SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time, i.ChangeTime, i.ImportTime, i.FileType "
+    QString queryStr = "SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time, i.ChangeTime, i.ImportTime, i.FileType, i.ClassName "
                        "FROM ImageTable3 AS i "
                        "inner join AlbumTable3 AS a on i.PathHash=a.PathHash AND a.UID=:UID "
                        "WHERE i.FileName like '%" + keywords + "%' ORDER BY Time DESC"; //OR Time like '%" + keywords + "%' 移除按时间搜索
@@ -860,6 +917,7 @@ const DBImgInfoList DBManager::getInfosForKeyword(int UID, const QString &keywor
             info.changeTime = m_query->value(4).toDateTime();
             info.importTime = m_query->value(5).toDateTime();
             info.itemType = ItemType(m_query->value(6).toInt());
+            info.className = m_query->value(7).toString();
             infos << info;
         }
     }
@@ -897,7 +955,7 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
     m_query->setForwardOnly(true);
 
     if (needTimeData) {
-        bool b = m_query->prepare(QString("SELECT FilePath, Time, ChangeTime, ImportTime, FileType FROM ImageTable3 "
+        bool b = m_query->prepare(QString("SELECT FilePath, Time, ChangeTime, ImportTime, FileType, ClassName FROM ImageTable3 "
                                           "WHERE %1= \"%2\" ORDER BY Time DESC").arg(key).arg(value));
         if (!b || !m_query->exec()) {
         } else {
@@ -908,11 +966,12 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
                 info.changeTime = m_query->value(2).toDateTime();
                 info.importTime = m_query->value(3).toDateTime();
                 info.itemType = static_cast<ItemType>(m_query->value(4).toInt());
+                info.className = m_query->value(5).toString();
                 infos << info;
             }
         }
     } else { //取消读取时间数据以加速
-        bool b = m_query->prepare(QString("SELECT FilePath, FileType FROM ImageTable3 "
+        bool b = m_query->prepare(QString("SELECT FilePath, FileType, ClassName FROM ImageTable3 "
                                           "WHERE %1= \"%2\" ORDER BY Time DESC").arg(key).arg(value));
         if (!b || !m_query->exec()) {
         } else {
@@ -920,6 +979,7 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
                 DBImgInfo info;
                 info.filePath = m_query->value(0).toString();
                 info.itemType = static_cast<ItemType>(m_query->value(1).toInt());
+                info.className = m_query->value(2).toString();
                 infos << info;
             }
         }
@@ -1117,6 +1177,7 @@ void DBManager::checkDatabase()
                                    "Dir TEXT, "
                                    "Time TEXT, "
                                    "ChangeTime TEXT, "
+                                   "ClassName TEXT, "
                                    "ImportTime TEXT, "
                                    "FileType INTEGER, "
                                    "DataHash TEXT)"));
@@ -1151,6 +1212,7 @@ void DBManager::checkDatabase()
                                    "Time TEXT, "
                                    "ChangeTime TEXT, "
                                    "ImportTime TEXT, "
+                                   "ClassName TEXT, "
                                    "FileType INTEGER)"));
     if (!d) {
         qDebug() << "d CREATE TABLE exec failed.";
@@ -1214,7 +1276,20 @@ void DBManager::checkDatabase()
             // DataHash,则增加DataHash字段
             if (m_query->exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"DataHash\" TEXT default \"%1\"")
                               .arg(""))) {
-                qDebug() << "add FileType success";
+                qDebug() << "add DataHash success";
+            }
+        }
+    }
+
+    // 判断ImageTable3中是否有ClassName字段
+    QString strClassName = QString::fromLocal8Bit(
+                              "select * from sqlite_master where name = 'ImageTable3' and sql like '%ClassName%'");
+    if (m_query->exec(strClassName)) {
+        if (!m_query->next()) {
+            // ClassName,则增加ClassName字段
+            if (m_query->exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ClassName\" TEXT default \"%1\"")
+                              .arg(""))) {
+                qDebug() << "add ClassName success";
             }
         }
     }
@@ -1305,6 +1380,7 @@ void DBManager::checkDatabase()
                                    "Time TEXT, "
                                    "ChangeTime TEXT, "
                                    "ImportTime TEXT, "
+                                   "ClassName TEXT, "
                                    "FileType INTEGER)"))) {
             qDebug() << m_query->lastError();
         }
@@ -1317,7 +1393,19 @@ void DBManager::checkDatabase()
             // 无FileType字段,则增加FileType字段, 全部赋值为图片
             if (m_query->exec(QString("ALTER TABLE \"TrashTable3\" ADD COLUMN \"FileType\" INTEGER default %1")
                               .arg(QString::number(ItemType::ItemTypePic)))) {
-                qDebug() << "add AlbumDBType success";
+                qDebug() << "add FileType success";
+            }
+        }
+
+        //判断TrashTable3是否包含ClassName
+        if (!m_query->exec("select * from sqlite_master where name = \"TrashTable3\" and sql like \"%ClassName%\"")) {
+            qDebug() << m_query->lastError();
+        }
+        if (!m_query->next()) {
+            // 无ClassName字段,则增加ClassName字段
+            if (m_query->exec(QString("ALTER TABLE \"TrashTable3\" ADD COLUMN \"ClassName\" INTEGER default %1")
+                              .arg(""))) {
+                qDebug() << "add ClassName success";
             }
         }
     }
@@ -1463,7 +1551,7 @@ const DBImgInfoList DBManager::getAllTrashInfos(bool needTimeData) const
     m_query->setForwardOnly(true);
 
     if (needTimeData) {
-        bool b = m_query->prepare("SELECT FilePath, Time, ChangeTime, ImportTime, FileType, PathHash "
+        bool b = m_query->prepare("SELECT FilePath, Time, ChangeTime, ImportTime, FileType, PathHash, ClassName "
                                   "FROM TrashTable3 ORDER BY ImportTime DESC");
         if (!b || ! m_query->exec()) {
             return infos;
@@ -1478,11 +1566,12 @@ const DBImgInfoList DBManager::getAllTrashInfos(bool needTimeData) const
                 info.importTime = m_query->value(3).toDateTime();
                 info.itemType = ItemType(m_query->value(4).toInt());
                 info.pathHash = m_query->value(5).toString();
+                info.className = m_query->value(6).toString();
                 infos << info;
             }
         }
     } else {
-        bool b = m_query->prepare("SELECT FilePath, FileType, PathHash "
+        bool b = m_query->prepare("SELECT FilePath, FileType, PathHash, ClassName "
                                   "FROM TrashTable3 ORDER BY ImportTime DESC");
         if (!b || ! m_query->exec()) {
             return infos;
@@ -1495,6 +1584,7 @@ const DBImgInfoList DBManager::getAllTrashInfos(bool needTimeData) const
                     continue;
                 info.itemType = ItemType(m_query->value(1).toInt());
                 info.pathHash = m_query->value(2).toString();
+                info.className = m_query->value(3).toString();
                 infos << info;
             }
         }
@@ -1509,7 +1599,7 @@ const DBImgInfoList DBManager::getAllTrashInfos_getRemainDays() const
     m_query->setForwardOnly(true);
 
     //中间那坨东西就是现在距离导入的时候过了多久
-    bool b = m_query->prepare("SELECT FilePath, julianday('now') - julianday(STRFTIME(\"%Y-%m-%d\", ImportTime)), FileType, PathHash FROM TrashTable3 ORDER BY ImportTime DESC");
+    bool b = m_query->prepare("SELECT FilePath, julianday('now') - julianday(STRFTIME(\"%Y-%m-%d\", ImportTime)), FileType, PathHash, ClassName FROM TrashTable3 ORDER BY ImportTime DESC");
     if (!b || ! m_query->exec()) {
         return infos;
     } else {
@@ -1522,6 +1612,7 @@ const DBImgInfoList DBManager::getAllTrashInfos_getRemainDays() const
             info.remainDays = 30 - static_cast<int>(m_query->value(1).toDouble());
             info.itemType = ItemType(m_query->value(2).toInt());
             info.pathHash = m_query->value(3).toString();
+            info.className = m_query->value(4).toString();
             infos << info;
         }
     }
@@ -1585,7 +1676,7 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
     }
 
     QString qs("REPLACE INTO TrashTable3 "
-               "(PathHash, FilePath, FileName, Time, ChangeTime, ImportTime, FileType) VALUES (?, ?, ?, ?, ?, ?, ?)");
+               "(PathHash, FilePath, FileName, Time, ChangeTime, ImportTime, FileType, ClassName) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
     if (!m_query->prepare(qs)) {
     }
     for (int i = 0; i != infos.size(); ++i) {
@@ -1599,6 +1690,7 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
         m_query->addBindValue(infos[i].changeTime);
         m_query->addBindValue(infos[i].importTime);
         m_query->addBindValue(infos[i].itemType);
+        m_query->addBindValue(infos[i].className);
         if (!m_query->exec()) {
         }
     }
@@ -1765,7 +1857,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
 
         //3.1获取恢复成功的文件数据
         DBImgInfoList infos;
-        QString qs("SELECT FilePath, Time, ChangeTime, ImportTime, FileType FROM TrashTable3 WHERE PathHash=:value");
+        QString qs("SELECT FilePath, Time, ChangeTime, ImportTime, FileType, ClassName FROM TrashTable3 WHERE PathHash=:value");
         if (!m_query->prepare(qs)) {
         }
 
@@ -1790,6 +1882,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
                 info.changeTime = m_query->value(2).toDateTime();
                 info.importTime = QDateTime::currentDateTime();
                 info.itemType = ItemType(m_query->value(4).toInt());
+                info.className = m_query->value(5).toString();
 
                 //如果文件名改变则刷新数据
                 auto iter = std::find_if(changedPaths.begin(), changedPaths.end(), [hash](const auto & item) {
@@ -1825,7 +1918,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
         if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
         }
         qs = "REPLACE INTO ImageTable3 (PathHash, FilePath, FileName, Time, "
-             "ChangeTime, ImportTime, FileType) VALUES (?, ?, ?, ?, ?, ?, ?)";
+             "ChangeTime, ImportTime, FileType, ClassName) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         if (!m_query->prepare(qs)) {
         }
         for (const auto &info : infos) {
@@ -1836,6 +1929,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
             m_query->addBindValue(info.changeTime);
             m_query->addBindValue(info.importTime);
             m_query->addBindValue(info.itemType);
+            m_query->addBindValue(info.className);
             if (!m_query->exec()) {
             }
         }
@@ -1922,7 +2016,7 @@ const DBImgInfoList DBManager::getTrashImgInfos(const QString &key, const QStrin
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
-    bool b = m_query->prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType FROM TrashTable3 "
+    bool b = m_query->prepare(QString("SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType, ClassName FROM TrashTable3 "
                                       "WHERE %1= :value ORDER BY Time DESC").arg(key));
 
     m_query->bindValue(":value", value);
@@ -1939,6 +2033,7 @@ const DBImgInfoList DBManager::getTrashImgInfos(const QString &key, const QStrin
             info.changeTime = m_query->value(4).toDateTime();
             info.importTime = m_query->value(5).toDateTime();
             info.itemType = ItemType(m_query->value(6).toInt());
+            info.className = m_query->value(7).toString();
 
             infos << info;
         }
