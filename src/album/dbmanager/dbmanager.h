@@ -68,7 +68,7 @@ public:
 
     // TableImage
     const QStringList       getAllPaths() const;
-    const DBImgInfoList     getAllInfos(int loadCount = 0) const;
+    const DBImgInfoList     getAllInfos(const ItemType &itemType = ItemTypeNull, const int &loadCount = 0) const;
     const QList<QDateTime>  getAllTimelines() const;
     const DBImgInfoList     getInfosByTimeline(const QDateTime &timeline) const;
     const QList<QDateTime>  getImportTimelines() const;
@@ -77,6 +77,7 @@ public:
     const DBImgInfo         getInfoByPath(const QString &path) const;
 //    const DBImgInfo         getInfoByPathHash(const QString &pathHash) const;
     int                     getImgsCount() const;
+    int                     getImagesCount() const;
 //    bool                    isImgExist(const QString &path) const;
     void                    insertImgInfos(const DBImgInfoList &infos);
     void                    insertImgInfo(const DBImgInfo &info);
@@ -122,6 +123,7 @@ public:
     void                    removeAlbum(int UID);
     void                    removeFromAlbum(int UID, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
     void                    renameAlbum(int UID, const QString &newAlbum, AlbumDBType atype = AlbumDBType::Custom);
+    void                    updateClassName2DB(const DBImgInfoList &infos);
     // TabelTrash
     const DBImgInfoList     getAllTrashInfos(bool needTimeData) const;
     const DBImgInfoList     getAllTrashInfos_getRemainDays() const;

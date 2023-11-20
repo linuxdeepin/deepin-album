@@ -49,7 +49,14 @@ enum ItemType {
     ItemTypeVideo,
     ItemTypeTimeLineTitle, //时间线标题
     ItemTypeImportTimeLineTitle, //已导入时间线标题
-    ItemTypeMountImg //设备图片
+    ItemTypeMountImg, //设备图片
+    ItemTypePlant, // 植物
+    ItemTypeScenery, // 风景
+    ItemTypeFood, // 美食
+    ItemTypeScene, // 场景
+    ItemTypeAnimal, // 动物
+    ItemTypeHuman, // 人物
+    ItemTypeItems, // 物体
 };
 
 //注意内部数据的摆放顺序，可以依靠64位程序的8字节对齐以节省空间
@@ -61,7 +68,7 @@ struct DBImgInfo {
     QDateTime importTime;  // 导入时间 Or 删除时间
     //QString albumUID;      // 图片所属相册UID，以","分隔，用于恢复，有需要再放开
     QString pathHash;      // 用于应付频繁的hash，但不一定每个DBImgInfo都装载了它
-
+    QString className;     // 图片分类所属种类，图片类型被划分为植物、风景、美食、场景、动物、人物和物体
     ItemType itemType = ItemTypePic;//类型，空白，图片，视频
 
     //显示
@@ -83,6 +90,7 @@ struct DBImgInfo {
             << " Time:" << info.time
             << " ChangeTime:" <<  info.changeTime
             << " ImportTime:" << info.importTime
+            << " ClassName:" << info.className
             //<< " UID:" << info.albumUID
             << "]";
         return dbg;
@@ -133,6 +141,7 @@ struct DBImgInfo {
     }
 };
 typedef QList<DBImgInfo> DBImgInfoList;
+typedef QList<DBImgInfo*> DBImgInfoListPtr;
 
 enum OpenImgViewType {
     VIEW_MAINWINDOW_ALLPIC = 0,

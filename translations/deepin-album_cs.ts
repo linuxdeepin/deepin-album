@@ -1,6 +1,8 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="cs">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="cs">
 <context>
-    <name/>
+    <name></name>
     <message>
         <source>Delete</source>
         <translation type="vanished">Smazat</translation>
@@ -165,6 +167,10 @@
         <source>The files will be permanently deleted after the days shown on them</source>
         <translation>Po uplynutí na nich zobrazeného počtu dnů budou soubory nadobro smazány</translation>
     </message>
+    <message>
+        <source>Image classification</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -315,6 +321,10 @@
         <source>Restoring...</source>
         <translation>Obnovování…</translation>
     </message>
+    <message>
+        <source>Classifying...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
@@ -325,26 +335,6 @@
     <message>
         <source>Delete</source>
         <translation>Smazat</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this photo from the album?</source>
-        <translation type="vanished">Opravdu chcete tuto fotku vymazat z alba?</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="vanished"><numerusform>Opravdu chcete %n fotku vymazat z alb?</numerusform><numerusform>Opravdu chcete %n fotky vymazat z alb?</numerusform><numerusform>Opravdu chcete %n fotek vymazat z alb?</numerusform><numerusform>Opravdu chcete %n fotky vymazat z alb?</numerusform></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="vanished">Opravdu chcete toto video vymazat z alba?</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="vanished"><numerusform>Opravdu chcete %n video vymazat z alb?</numerusform><numerusform>Opravdu chcete %n videa vymazat z alb?</numerusform><numerusform>Opravdu chcete %n videí vymazat z alb?</numerusform><numerusform>Opravdu chcete %n videa vymazat z alb?</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="vanished"><numerusform>Opravdu chcete %n položku vymazat z alb?</numerusform><numerusform>Opravdu chcete %n položky vymazat z alb?</numerusform><numerusform>Opravdu chcete %n položek vymazat z alb?</numerusform><numerusform>Opravdu chcete %n položky vymazat z alb?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to permanently delete this file?</source>
@@ -410,15 +400,27 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>%n fotka</numerusform><numerusform>%n fotky</numerusform><numerusform>%n fotek</numerusform><numerusform>%n fotky</numerusform></translation>
+        <translation>
+            <numerusform>%n fotka</numerusform>
+            <numerusform>%n fotky</numerusform>
+            <numerusform>%n fotek</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videí</numerusform><numerusform>%n videa</numerusform></translation>
+        <translation>
+            <numerusform>%n video</numerusform>
+            <numerusform>%n videa</numerusform>
+            <numerusform>%n videí</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation><numerusform>%n položka</numerusform><numerusform>%n položky</numerusform><numerusform>%n položek</numerusform><numerusform>%n položky</numerusform></translation>
+        <translation>
+            <numerusform>%n položka</numerusform>
+            <numerusform>%n položky</numerusform>
+            <numerusform>%n položek</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -672,6 +674,10 @@
         <source>Failed to restore %1 files: file name too long</source>
         <translation>Nepodařilo se obnovit %1 souborů: název souboru je příliš dlouhý</translation>
     </message>
+    <message>
+        <source>Classifying...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -878,19 +884,67 @@
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation><numerusform>Vybrána %n fotka</numerusform><numerusform>Vybrány %n fotky</numerusform><numerusform>Vybráno %n fotek</numerusform><numerusform>Vybrány %n fotky</numerusform></translation>
+        <translation>
+            <numerusform>Vybrána %n fotka</numerusform>
+            <numerusform>Vybrány %n fotky</numerusform>
+            <numerusform>Vybráno %n fotek</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation><numerusform>Vybráno %n video</numerusform><numerusform>Vybrána %n videa</numerusform><numerusform>Vybráno %n videí</numerusform><numerusform>Vybrána %n videa</numerusform></translation>
+        <translation>
+            <numerusform>Vybráno %n video</numerusform>
+            <numerusform>Vybrána %n videa</numerusform>
+            <numerusform>Vybráno %n videí</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation><numerusform>Vybrána %n položka</numerusform><numerusform>Vybrány %n položky</numerusform><numerusform>Vybráno %n položek</numerusform><numerusform>Vybrány %n položky</numerusform></translation>
+        <translation>
+            <numerusform>Vybrána %n položka</numerusform>
+            <numerusform>Vybrány %n položky</numerusform>
+            <numerusform>Vybráno %n položek</numerusform>
+        </translation>
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
         <translation>Naimportováno %1 položek, %2 položek už existuje</translation>
+    </message>
+    <message>
+        <source>Plants</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scenery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Food</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Human</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scene</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Animal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1/%2 items classifyed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -913,7 +967,11 @@
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation><numerusform>nalezeno %n video</numerusform><numerusform>nalezena %n videa</numerusform><numerusform>nalezeno %n videí</numerusform><numerusform>nalezena %n videa</numerusform></translation>
+        <translation>
+            <numerusform>nalezeno %n video</numerusform>
+            <numerusform>nalezena %n videa</numerusform>
+            <numerusform>nalezeno %n videí</numerusform>
+        </translation>
     </message>
     <message>
         <source>1 video found</source>
@@ -921,11 +979,19 @@
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation><numerusform>nalezena %n položka</numerusform><numerusform>nalezeny %n položky</numerusform><numerusform>nalezeno %n položek</numerusform><numerusform>nalezeny %n položky</numerusform></translation>
+        <translation>
+            <numerusform>nalezena %n položka</numerusform>
+            <numerusform>nalezeny %n položky</numerusform>
+            <numerusform>nalezeno %n položek</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation><numerusform>Nalezena %1 fotka</numerusform><numerusform>Nalezeno %1 fotek</numerusform><numerusform>Nalezeno %1 fotek</numerusform><numerusform>Nalezeno %1 fotek</numerusform></translation>
+        <translation>
+            <numerusform>Nalezena %1 fotka</numerusform>
+            <numerusform>Nalezeno %1 fotek</numerusform>
+            <numerusform>Nalezeno %1 fotek</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -940,11 +1006,19 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>%n fotka</numerusform><numerusform>%n fotky</numerusform><numerusform>%n fotek</numerusform><numerusform>%n fotky</numerusform></translation>
+        <translation>
+            <numerusform>%n fotka</numerusform>
+            <numerusform>%n fotky</numerusform>
+            <numerusform>%n fotek</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videí</numerusform><numerusform>%n video</numerusform></translation>
+        <translation>
+            <numerusform>%n video</numerusform>
+            <numerusform>%n videa</numerusform>
+            <numerusform>%n videí</numerusform>
+        </translation>
     </message>
     <message>
         <source>Importing: %1</source>
@@ -1050,15 +1124,27 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>%n fotka</numerusform><numerusform>%n fotky</numerusform><numerusform>%n fotek</numerusform><numerusform>%n fotky</numerusform></translation>
+        <translation>
+            <numerusform>%n fotka</numerusform>
+            <numerusform>%n fotky</numerusform>
+            <numerusform>%n fotek</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videí</numerusform><numerusform>%n videa</numerusform></translation>
+        <translation>
+            <numerusform>%n video</numerusform>
+            <numerusform>%n videa</numerusform>
+            <numerusform>%n videí</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation><numerusform>%n položka</numerusform><numerusform>%n položky</numerusform><numerusform>%n položek</numerusform><numerusform>%n položky</numerusform></translation>
+        <translation>
+            <numerusform>%n položka</numerusform>
+            <numerusform>%n položky</numerusform>
+            <numerusform>%n položek</numerusform>
+        </translation>
     </message>
 </context>
 <context>

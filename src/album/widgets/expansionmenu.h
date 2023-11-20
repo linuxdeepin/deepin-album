@@ -37,6 +37,7 @@ public:
     void setIcon(QIcon icon);
     void setText(QString text);
     void setFilteData(ExpansionPanel::FilteData &data);
+    ExpansionPanel::FilteData getFilterData();
     ItemType getFilteType();
 public slots:
     void onClicked();

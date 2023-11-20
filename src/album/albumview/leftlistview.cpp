@@ -13,6 +13,7 @@
 #include "imageengine/imageengineapi.h"
 #include "dialogs/albumcreatedialog.h"
 #include "ac-desktop-define.h"
+#include "classifyutils.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <DFontSizeManager>
@@ -116,7 +117,10 @@ void LeftListView::initUI()
     m_pPhotoLibListView->setItemDelegate(itemDelegate0);
 
     m_pPhotoLibListView->setFixedWidth(LEFT_VIEW_WIDTH_180);
-    m_pPhotoLibListView->setFixedHeight(120);
+    if (Classifyutils::GetInstance()->isLoaded())
+        m_pPhotoLibListView->setFixedHeight(160);
+    else
+        m_pPhotoLibListView->setFixedHeight(120);
     m_pPhotoLibListView->setSpacing(0);
     m_pPhotoLibListView->setFrameShape(DListWidget::NoFrame);
     m_pPhotoLibListView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -140,13 +144,23 @@ void LeftListView::initUI()
     pAlbumLeftTabItem2->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
     m_pPhotoLibListView->setItemWidget(pListWidgetItem2, pAlbumLeftTabItem2);
 
+    // 图片分类
+    if (Classifyutils::GetInstance()->isLoaded()) {
+        QListWidgetItem *pListWidgetItem3 = new QListWidgetItem(m_pPhotoLibListView);
+        pListWidgetItem3->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
+        AlbumLeftTabItem *pAlbumLeftTabItem3 = new AlbumLeftTabItem(COMMON_STR_CLASS, -1);
+        pAlbumLeftTabItem3->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_160);
+        pAlbumLeftTabItem3->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
+        m_pPhotoLibListView->setItemWidget(pListWidgetItem3, pAlbumLeftTabItem3);
+    }
+
     // 我的收藏
-    QListWidgetItem *pListWidgetItem3 = new QListWidgetItem(m_pPhotoLibListView);
-    pListWidgetItem3->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
-    AlbumLeftTabItem *pAlbumLeftTabItem3 = new AlbumLeftTabItem(COMMON_STR_FAVORITES, DBManager::SpUID::u_Favorite);
-    pAlbumLeftTabItem3->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_160);
-    pAlbumLeftTabItem3->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
-    m_pPhotoLibListView->setItemWidget(pListWidgetItem3, pAlbumLeftTabItem3);
+    QListWidgetItem *pListWidgetItem4 = new QListWidgetItem(m_pPhotoLibListView);
+    pListWidgetItem4->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
+    AlbumLeftTabItem *pAlbumLeftTabItem4 = new AlbumLeftTabItem(COMMON_STR_FAVORITES, DBManager::SpUID::u_Favorite);
+    pAlbumLeftTabItem4->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_160);
+    pAlbumLeftTabItem4->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
+    m_pPhotoLibListView->setItemWidget(pListWidgetItem4, pAlbumLeftTabItem4);
 
     // 相册列表Title
     DWidget *lableCustomixeWidget = new DWidget(this);
@@ -275,14 +289,25 @@ void LeftListView::updatePhotoListView()
     pAlbumLeftTabItem2->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
     m_pPhotoLibListView->setItemWidget(pListWidgetItem2, pAlbumLeftTabItem2);
 
-    // 我的收藏
-    QListWidgetItem *pListWidgetItem3 = new QListWidgetItem(m_pPhotoLibListView);
-    pListWidgetItem3->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
+    // 图片分类
+    if (Classifyutils::GetInstance()->isLoaded()) {
+        QListWidgetItem *pListWidgetItem3 = new QListWidgetItem(m_pPhotoLibListView);
+        pListWidgetItem3->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
 
-    AlbumLeftTabItem *pAlbumLeftTabItem3 = new AlbumLeftTabItem(COMMON_STR_FAVORITES, DBManager::SpUID::u_Favorite);
-    pAlbumLeftTabItem3->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_160);
-    pAlbumLeftTabItem3->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
-    m_pPhotoLibListView->setItemWidget(pListWidgetItem3, pAlbumLeftTabItem3);
+        AlbumLeftTabItem *pAlbumLeftTabItem3 = new AlbumLeftTabItem(COMMON_STR_CLASS, -1);
+        pAlbumLeftTabItem3->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_160);
+        pAlbumLeftTabItem3->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
+        m_pPhotoLibListView->setItemWidget(pListWidgetItem3, pAlbumLeftTabItem3);
+    }
+
+    // 我的收藏
+    QListWidgetItem *pListWidgetItem4 = new QListWidgetItem(m_pPhotoLibListView);
+    pListWidgetItem4->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
+
+    AlbumLeftTabItem *pAlbumLeftTabItem4 = new AlbumLeftTabItem(COMMON_STR_FAVORITES, DBManager::SpUID::u_Favorite);
+    pAlbumLeftTabItem4->setFixedWidth(LEFT_VIEW_LISTITEM_WIDTH_160);
+    pAlbumLeftTabItem4->setFixedHeight(LEFT_VIEW_LISTITEM_HEIGHT_40);
+    m_pPhotoLibListView->setItemWidget(pListWidgetItem4, pAlbumLeftTabItem4);
 
     m_pPhotoLibListView->setCurrentRow(0);
     QModelIndex index;
@@ -492,10 +517,14 @@ void LeftListView::onPhotoLibListViewPressed(const QModelIndex &index)
             m_ItemCurrentName = COMMON_STR_TRASH;
             m_ItemCurrentType = COMMON_STR_TRASH;
             m_currentUID = -1;
-        } else {
+        } else if (COMMON_STR_FAVORITES == item->m_albumNameStr) {
             m_ItemCurrentName = COMMON_STR_FAVORITES;
             m_ItemCurrentType = COMMON_STR_FAVORITES;
             m_currentUID = DBManager::u_Favorite;
+        } else if (COMMON_STR_CLASS == item->m_albumNameStr) {
+            m_ItemCurrentName = COMMON_STR_CLASS;
+            m_ItemCurrentType = COMMON_STR_CLASS;
+            m_currentUID = -1;
         }
         m_ItemCurrentDataType = pitem->type(); //default 0
     }
@@ -586,10 +615,14 @@ void LeftListView::onPhotoLibListViewCurrentItemChanged()
             m_ItemCurrentName = COMMON_STR_TRASH;
             m_ItemCurrentType = COMMON_STR_TRASH;
             m_currentUID = -1;
-        } else {
+        } else if (COMMON_STR_FAVORITES == item->m_albumNameStr) {
             m_ItemCurrentName = COMMON_STR_FAVORITES;
             m_ItemCurrentType = COMMON_STR_FAVORITES;
             m_currentUID = DBManager::u_Favorite;
+        } else if (COMMON_STR_CLASS == item->m_albumNameStr) {
+            m_ItemCurrentName = COMMON_STR_CLASS;
+            m_ItemCurrentType = COMMON_STR_CLASS;
+            m_currentUID = -1;
         }
     }
 }

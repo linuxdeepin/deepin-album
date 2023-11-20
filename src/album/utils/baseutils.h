@@ -35,6 +35,7 @@
 #define COMMON_STR_RECENT_IMPORTED "已导入"
 #define COMMON_STR_TRASH "最近删除"
 #define COMMON_STR_FAVORITES "我的收藏"
+#define COMMON_STR_CLASS "图片分类"
 #define COMMON_STR_SEARCH "搜索"
 #define ALBUM_PATHNAME_BY_PHONE "DCIM"
 #define ALBUM_PATHTYPE_BY_PHONE "External Devices"
@@ -264,6 +265,8 @@ QFuture<void> multiLoadImage(const QStringList &paths);
 QImage cheatScaled(const QImage &srcImg, int size, int side);
 //从图片提取缩略图
 QImage getThumbnailFromImage(const QImage &srcImg, int size);
+//判断图片路径是否支持图片分类
+bool isSupportClassify(const QString &path);
 }  // namespace base
 
 }  // namespace utils

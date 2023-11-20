@@ -2231,10 +2231,12 @@ void MainWindow::onStartImprot()
 void MainWindow::onProgressOfWaitDialog(int allfiles, int completefiles)
 {
     QString countText = "";
-    if (m_bImport) {
+    if (Progress_Import == m_progressType) {
         countText  = QString(QObject::tr("%1/%2 items imported")).arg(completefiles).arg(allfiles);
-    } else {
+    } else if (Progress_Delete == m_progressType) {
         countText = QString(QObject::tr("%1/%2 items deleted")).arg(completefiles).arg(allfiles);
+    } else if (Progress_Classify == m_progressType) {
+        countText = QString(QObject::tr("%1/%2 items classifyed")).arg(completefiles).arg(allfiles);
     }
 
     m_countLabel->setText(countText);
@@ -2256,10 +2258,13 @@ void MainWindow::onPopupWaitDialog(QString waittext, bool bneedprogress)
         m_waitdailog->show();
     } else {
         if (waittext.compare(tr("Importing..."), Qt::CaseInsensitive) >= 0) {
-            m_bImport = true;
+            m_progressType = Progress_Import;
+        } else if (waittext.compare(tr("Classifying..."), Qt::CaseInsensitive) >= 0) {
+            m_progressType = Progress_Classify;
         } else {
-            m_bImport = false;
+            m_progressType = Progress_Delete;
         }
+
         m_waitlabel->move(40, 7);
         m_waitlabel->setText(waittext);
         m_importBar->show();
@@ -2270,7 +2275,7 @@ void MainWindow::onPopupWaitDialog(QString waittext, bool bneedprogress)
 
 void MainWindow::onCloseWaitDialog()
 {
-    m_bImport = false;
+    m_progressType = Progress_Unknown;
     m_countLabel->setText("");
     m_waitdailog->close();
 }

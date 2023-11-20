@@ -72,6 +72,9 @@ signals:
     void sigExporting(const QString &path);
     void sigRestoreStatus();
 
+    // 图片分类已完成信号
+    void sigImageClassifyDone();
+
     // Handle by album
     void createAlbum(QStringList imgPath = QStringList());
     void viewCreateAlbum(QString path, bool bmodel = true);

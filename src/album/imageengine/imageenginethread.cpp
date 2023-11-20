@@ -4,6 +4,7 @@
 
 #include "imageenginethread.h"
 #include "imageengineapi.h"
+#include "classifyutils.h"
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
 #include <dgiofileinfo.h>
@@ -56,6 +57,14 @@ DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
         auto mds = getAllMetaData(srcpath);
         QString value = mds.value("DateTimeOriginal");
         dbi.itemType = ItemTypePic;
+        if (Classifyutils::GetInstance()->isLoaded()) {
+            if (srcfi.exists() && utils::base::isSupportClassify(srcpath))
+                dbi.className = Classifyutils::GetInstance()->imageClassify(srcpath.toStdString().c_str());
+            else
+                dbi.className = "";
+            if (dbi.className.isEmpty())
+                dbi.className = "Other";
+        }
         dbi.changeTime = QDateTime::fromString(mds.value("DateTimeDigitized"), "yyyy/MM/dd hh:mm");
         if (!value.isEmpty()) {
             dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
@@ -588,7 +597,7 @@ void ImageLoadFromDBThread::runDetail()
     }
     QStringList image_list;
     QStringList fail_image_list;
-    DBImgInfoList infos = DBManager::instance()->getAllInfos(0);
+    DBImgInfoList infos = DBManager::instance()->getAllInfos();
 
     QVector<DBImgInfo> allImageDataVector;
 
@@ -683,4 +692,46 @@ void SynRecycleBinToTrashThread::runDetail()
         //休息一秒
         QThread::sleep(1);
     }
+}
+
+ImagesClassifyThread::ImagesClassifyThread()
+{
+
+}
+
+ImagesClassifyThread::~ImagesClassifyThread()
+{
+
+}
+
+void ImagesClassifyThread::setData(const DBImgInfoList &infos)
+{
+    m_infos = infos;
+}
+
+void ImagesClassifyThread::runDetail()
+{
+    int infoCount = m_infos.size();
+
+    emit dApp->signalM->progressOfWaitDialog(infoCount, 0);
+    int i = 0 ;
+    for (auto &info : m_infos) {
+        if (info.className.isEmpty()) {
+            QFileInfo srcfi(info.filePath);
+            if (srcfi.exists() && utils::base::isSupportClassify(info.filePath))
+                info.className = Classifyutils::GetInstance()->imageClassify(info.filePath.toStdString().c_str());
+            else
+                info.className = "";
+            if (info.className.isEmpty())
+                info.className = "Other";
+            emit dApp->signalM->progressOfWaitDialog(infoCount, i++);
+        }
+    }
+    DBManager::instance()->updateClassName2DB(m_infos);
+
+    m_infos.clear();
+
+    emit dApp->signalM->sigImageClassifyDone();
+
+    emit dApp->signalM->closeWaitDialog();
 }

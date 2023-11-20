@@ -98,6 +98,8 @@ private:
     void initTrashWidget();
     //初始化自定义相册列表
     void initCustomAlbumWidget();
+    //初始化图片分类列表
+    void initClassWidget();
     //初始化收藏列表
     void initFavoriteWidget();
     //初始化设备列表
@@ -109,7 +111,10 @@ private:
     void updateRightTrashView();
     void updateRightImportView();
     void updateRightMyFavoriteView();
+    void updateRightClassView();
     void updateRightMountView();
+    //打开图片
+    void onOpenImageClass(int row, const QString &path, bool bFullScreen);
     //打开图片
     void onOpenImageFav(int row, const QString &path, bool bFullScreen);
     //打开图片
@@ -221,6 +226,7 @@ public:
 
     ThumbnailListView *m_customThumbnailList = nullptr;               //自定义
     ThumbnailListView *m_pRightTrashThumbnailList = nullptr;          //最近删除
+    ThumbnailListView *m_classThumbnailList = nullptr;                //图片分类
     ThumbnailListView *m_favoriteThumbnailList = nullptr;             //我的收藏
 
     DWidget *pImportTimeLineWidget;
@@ -242,6 +248,14 @@ private:
     DWidget *m_pCustomAlbumWidget = nullptr;          //自定义相册右侧展示界面外层窗口
     NoResultWidget *m_customNoResultWidget = nullptr;
     QString m_CustomRightPicTotalFullStr;
+    //图片分类标题栏
+    DWidget *m_pClassWidget = nullptr;
+    DWidget *m_ClassTitleWidget = nullptr;
+    DLabel *m_pClassTitle = nullptr;
+    DLabel *m_pClassPicTotal = nullptr;
+    BatchOperateWidget *m_classBatchOperateWidget = nullptr;
+    NoResultWidget *m_classNoResultWidget = nullptr;
+    QString m_ClassPicTotalFullStr;
     //我的收藏标题栏
     DWidget *m_pFavoriteWidget = nullptr;
     DWidget *m_FavoriteTitleWidget = nullptr;

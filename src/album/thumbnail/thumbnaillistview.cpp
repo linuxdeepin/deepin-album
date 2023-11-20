@@ -475,6 +475,7 @@ QStringList ThumbnailListView::getFileList(int row, ItemType type)
     if (m_delegatetype == ThumbnailDelegate::AllPicViewType
             || m_delegatetype == ThumbnailDelegate::AlbumViewCustomType
             || m_delegatetype == ThumbnailDelegate::AlbumViewFavoriteType
+            || m_delegatetype == ThumbnailDelegate::AlbumViewClassType
             || m_delegatetype == ThumbnailDelegate::SearchViewType
             || m_delegatetype == ThumbnailDelegate::AlbumViewPhoneType) {
         //遍历所有数据
@@ -538,6 +539,7 @@ QList<DBImgInfo> ThumbnailListView::getAllFileInfo(int row)
     if (m_delegatetype == ThumbnailDelegate::AllPicViewType
             || m_delegatetype == ThumbnailDelegate::AlbumViewCustomType
             || m_delegatetype == ThumbnailDelegate::AlbumViewFavoriteType
+            || m_delegatetype == ThumbnailDelegate::AlbumViewClassType
             || m_delegatetype == ThumbnailDelegate::SearchViewType) {
         for (int i = 0; i < m_model->rowCount(); i++) {
             QModelIndex index = m_model->index(i, 0);
@@ -1387,6 +1389,7 @@ void ThumbnailListView::updateThumbnailViewAfterDelete(const QStringList &paths)
     if (m_delegatetype == ThumbnailDelegate::AllPicViewType
             || m_delegatetype == ThumbnailDelegate::AlbumViewCustomType
             || m_delegatetype == ThumbnailDelegate::AlbumViewFavoriteType
+            || m_delegatetype == ThumbnailDelegate::AlbumViewClassType
             || m_delegatetype == ThumbnailDelegate::TimeLineViewType
             || m_delegatetype == ThumbnailDelegate::AlbumViewImportTimeLineViewType) {
         for (int i = (m_model->rowCount() - 1); i >= 0; i--) {
@@ -1633,6 +1636,10 @@ void ThumbnailListView::insertThumbnailByImgInfos(DBImgInfoList infoList)
         this->showAppointTypeItem(m_currentShowItemType);
     }
 
+    // 如果图片分类不为空，则按图片分类过滤显示
+    if (!m_currentShowClassName.isEmpty())
+        this->showAppointClassItem(m_currentShowClassName);
+
     //启动主动update机制
     m_importTimer->start(100);
     m_importActiveCount = 150;
@@ -1854,6 +1861,39 @@ void ThumbnailListView::showAppointTypeItem(ItemType type)
         emit sigNoPicOrNoVideo(false);
     }
 }
+
+void ThumbnailListView::showAppointClassItem(const QString &className)
+{
+    // 记录当前选中的图片分类类型
+    m_currentShowClassName = className;
+    //切换显示之前清楚选中项
+    this->clearSelection();
+    if (className.isEmpty()) {
+        //恢复显示所有
+        hideAllAppointType(ItemTypeNull);
+        emit sigNoPicOrNoVideo(false);
+    } else {
+        bool bMatched = false;
+        for (int i = 0; i < m_model->rowCount(); i++) {
+            QModelIndex index = m_model->index(i, 0);
+            DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
+            if (info.itemType == ItemTypeBlank)
+                continue;
+
+            if (info.className == className) {
+                setRowHidden(i, false);
+                bMatched = true;
+            } else {
+                setRowHidden(i, true);
+            }
+        }
+
+        emit sigNoPicOrNoVideo(!bMatched);
+
+        flushTopTimeLine(8); //筛完了要刷新顶部
+    }
+}
+
 //显示类型数量
 int ThumbnailListView::getAppointTypeItemCount(ItemType type)
 {

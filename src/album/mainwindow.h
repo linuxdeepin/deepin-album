@@ -51,6 +51,13 @@ class MainWindow : public DMainWindow, public ImageEngineImportObject
 {
     Q_OBJECT
 
+    enum ProgressType{
+        Progress_Unknown = -1,
+        Progress_Import,
+        Progress_Delete,
+        Progress_Classify,
+    };
+
 public:
     explicit MainWindow();
     ~MainWindow() override;
@@ -199,6 +206,7 @@ public slots:
 
 private:
     int m_iCurrentView;
+    ProgressType m_progressType = Progress_Unknown;
     bool m_bImport = false;
     QWidget *m_titleBtnWidget = nullptr;
     DMenu *m_pTitleBarMenu = nullptr;

@@ -1,6 +1,8 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="bo">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="bo">
 <context>
-    <name/>
+    <name></name>
     <message>
         <source>Delete</source>
         <translation type="vanished">སུབ་པ།</translation>
@@ -165,6 +167,10 @@
         <source>The files will be permanently deleted after the days shown on them</source>
         <translation>ཡིག་ཆ་མ་བསུབ་གོང་ཉིན་གྲངས་ལྷག་མ་མཐོང་ཐུབ། དེ་རྗེས་རྦད་དེ་བསུབ་པ་ཡིན།</translation>
     </message>
+    <message>
+        <source>Image classification</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -315,6 +321,10 @@
         <source>Restoring...</source>
         <translation>པར་སོར་ཆུད་བཞིན་ཡོད།</translation>
     </message>
+    <message>
+        <source>Classifying...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
@@ -325,26 +335,6 @@
     <message>
         <source>Delete</source>
         <translation>སུབ་པ།</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this photo from the album?</source>
-        <translation type="vanished">ཁྱོད་ཀྱི་པར་ཁུག་ལས་པར་འདི་བསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="vanished"><numerusform>ཁྱོད་ཀྱི་པར་ཁུག་ལས་པར་འདི་%nབསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</numerusform></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="vanished">ཁྱོད་ཀྱི་པར་ཁུག་ལས་བརྙན་འདི་བསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="vanished"><numerusform>ཁྱོད་ཀྱི་པར་ཁུག་ལས་བརྙན་འདི་%nབསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="vanished"><numerusform>ཁྱོད་ཀྱི་པར་ཁུག་ལས་རྣམ་གྲངས་འདི་%nབསུབ་རྒྱུ་ཡིན་པ་གཏན་ཁེལ་ལམ།</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to permanently delete this file?</source>
@@ -410,15 +400,21 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>ཁྱོན་པར་%n།</numerusform></translation>
+        <translation>
+            <numerusform>ཁྱོན་པར་%n།</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>ཁྱོན་བརྙན་%n།</numerusform></translation>
+        <translation>
+            <numerusform>ཁྱོན་བརྙན་%n།</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation><numerusform>ཁྱོན་%n།</numerusform></translation>
+        <translation>
+            <numerusform>ཁྱོན་%n།</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -672,6 +668,10 @@
         <source>Failed to restore %1 files: file name too long</source>
         <translation>ཡིག་ཆ་%1བསྐྱར་གསོ་བྱེད་མི་ཐུབ། ཡིག་ཆའི་མིང་རིང་དྲགས་འདུག</translation>
     </message>
+    <message>
+        <source>Classifying...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -878,19 +878,61 @@
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation><numerusform>པར་%nབདམས་ཟིན།</numerusform></translation>
+        <translation>
+            <numerusform>པར་%nབདམས་ཟིན།</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation><numerusform>བརྙན་%nབདམས་ཟིན།</numerusform></translation>
+        <translation>
+            <numerusform>བརྙན་%nབདམས་ཟིན།</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation><numerusform>%nབདམས་ཟིན།</numerusform></translation>
+        <translation>
+            <numerusform>%nབདམས་ཟིན།</numerusform>
+        </translation>
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
         <translation>རྣམ་གྲངས་%1དྲངས་ཟིན། རྣམ་གྲངས་%2འདུག</translation>
+    </message>
+    <message>
+        <source>Plants</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scenery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Food</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Human</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scene</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Animal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1/%2 items classifyed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -913,7 +955,9 @@
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation><numerusform>ཁྱོན་བརྙན་%nརྙེད་པ།</numerusform></translation>
+        <translation>
+            <numerusform>ཁྱོན་བརྙན་%nརྙེད་པ།</numerusform>
+        </translation>
     </message>
     <message>
         <source>1 video found</source>
@@ -921,11 +965,15 @@
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation><numerusform>ཁྱོན་%nརྙེད་པ།</numerusform></translation>
+        <translation>
+            <numerusform>ཁྱོན་%nརྙེད་པ།</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation><numerusform>ཁྱོན་པར་%nརྙེད་པ།</numerusform></translation>
+        <translation>
+            <numerusform>ཁྱོན་པར་%nརྙེད་པ།</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -940,11 +988,15 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>པར་%n</numerusform></translation>
+        <translation>
+            <numerusform>པར་%n</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>བརྙན་%n</numerusform></translation>
+        <translation>
+            <numerusform>བརྙན་%n</numerusform>
+        </translation>
     </message>
     <message>
         <source>Importing: %1</source>
@@ -1050,15 +1102,21 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>ཁྱོན་པར་%n</numerusform></translation>
+        <translation>
+            <numerusform>ཁྱོན་པར་%n</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>ཁྱོན་བརྙན་%n</numerusform></translation>
+        <translation>
+            <numerusform>ཁྱོན་བརྙན་%n</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation><numerusform>ཁྱོན་%n</numerusform></translation>
+        <translation>
+            <numerusform>ཁྱོན་%n</numerusform>
+        </translation>
     </message>
 </context>
 <context>

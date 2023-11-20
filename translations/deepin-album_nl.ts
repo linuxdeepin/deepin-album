@@ -1,6 +1,8 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="nl">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="nl">
 <context>
-    <name/>
+    <name></name>
     <message>
         <source>Delete</source>
         <translation type="vanished">Verwijderen</translation>
@@ -165,6 +167,10 @@
         <source>The files will be permanently deleted after the days shown on them</source>
         <translation>De bestanden worden verwijderd na het vermelde aantal dagen</translation>
     </message>
+    <message>
+        <source>Image classification</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -315,6 +321,10 @@
         <source>Restoring...</source>
         <translation>Bezig met herstellen…</translation>
     </message>
+    <message>
+        <source>Classifying...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
@@ -325,26 +335,6 @@
     <message>
         <source>Delete</source>
         <translation>Verwijderen</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this photo from the album?</source>
-        <translation type="vanished">Weet je zeker dat je deze foto wilt verwijderen uit het album?</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="vanished"><numerusform>Weet je zeker dat je %1 foto wilt verwijderen uit albums?</numerusform><numerusform>Weet je zeker dat je %n foto&apos;s wilt verwijderen uit albums?</numerusform></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="vanished">Weet je zeker dat je deze video wilt verwijderen uit het album?</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="vanished"><numerusform>Weet je zeker dat je %n video wilt verwijderen uit albums?</numerusform><numerusform>Weet je zeker dat je %n video&apos;s wilt verwijderen uit albums?</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="vanished"><numerusform>Weet je zeker dat je %n item wilt verwijderen uit albums?</numerusform><numerusform>Weet je zeker dat je %n items wilt verwijderen uit albums?</numerusform></translation>
     </message>
     <message>
         <source>Are you sure you want to permanently delete this file?</source>
@@ -410,15 +400,24 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>%n foto</numerusform><numerusform>%n foto&apos;s</numerusform></translation>
+        <translation>
+            <numerusform>%n foto</numerusform>
+            <numerusform>%n foto&apos;s</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform><numerusform>%n video&apos;s</numerusform></translation>
+        <translation>
+            <numerusform>%n video</numerusform>
+            <numerusform>%n video&apos;s</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation><numerusform>%n item</numerusform><numerusform>%n items</numerusform></translation>
+        <translation>
+            <numerusform>%n item</numerusform>
+            <numerusform>%n items</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -672,6 +671,10 @@
         <source>Failed to restore %1 files: file name too long</source>
         <translation>%1 bestanden kunnen niet worden hersteld omdat de bestandsnaam te lang is</translation>
     </message>
+    <message>
+        <source>Classifying...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MetadataName</name>
@@ -878,19 +881,64 @@
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation><numerusform>%n foto geselecteerd</numerusform><numerusform>%n foto&apos;s geselecteerd</numerusform></translation>
+        <translation>
+            <numerusform>%n foto geselecteerd</numerusform>
+            <numerusform>%n foto&apos;s geselecteerd</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation><numerusform>%n video geselecteerd</numerusform><numerusform>%n video&apos;s geselecteerd</numerusform></translation>
+        <translation>
+            <numerusform>%n video geselecteerd</numerusform>
+            <numerusform>%n video&apos;s geselecteerd</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation><numerusform>%n item geselecteerd</numerusform><numerusform>%n items geselecteerd</numerusform></translation>
+        <translation>
+            <numerusform>%n item geselecteerd</numerusform>
+            <numerusform>%n items geselecteerd</numerusform>
+        </translation>
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
         <translation>%1 items geïmporteerd - %2 items reeds aanwezig</translation>
+    </message>
+    <message>
+        <source>Plants</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scenery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Food</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Human</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scene</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Animal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1/%2 items classifyed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -913,7 +961,10 @@
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation><numerusform>%n video gevonden</numerusform><numerusform>%n video&apos;s gevonden</numerusform></translation>
+        <translation>
+            <numerusform>%n video gevonden</numerusform>
+            <numerusform>%n video&apos;s gevonden</numerusform>
+        </translation>
     </message>
     <message>
         <source>1 video found</source>
@@ -921,11 +972,17 @@
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation><numerusform>%n item gevonden</numerusform><numerusform>%n items gevonden</numerusform></translation>
+        <translation>
+            <numerusform>%n item gevonden</numerusform>
+            <numerusform>%n items gevonden</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation><numerusform>%n foto gevonden</numerusform><numerusform>%n foto&apos;s gevonden</numerusform></translation>
+        <translation>
+            <numerusform>%n foto gevonden</numerusform>
+            <numerusform>%n foto&apos;s gevonden</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -940,11 +997,17 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>%n foto</numerusform><numerusform>%n foto&apos;s</numerusform></translation>
+        <translation>
+            <numerusform>%n foto</numerusform>
+            <numerusform>%n foto&apos;s</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform><numerusform>%n video&apos;s</numerusform></translation>
+        <translation>
+            <numerusform>%n video</numerusform>
+            <numerusform>%n video&apos;s</numerusform>
+        </translation>
     </message>
     <message>
         <source>Importing: %1</source>
@@ -1050,15 +1113,24 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>%n foto</numerusform><numerusform>%n foto&apos;s</numerusform></translation>
+        <translation>
+            <numerusform>%n foto</numerusform>
+            <numerusform>%n foto&apos;s</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform><numerusform>%n video&apos;s</numerusform></translation>
+        <translation>
+            <numerusform>%n video</numerusform>
+            <numerusform>%n video&apos;s</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation><numerusform>%n item</numerusform><numerusform>%n items</numerusform></translation>
+        <translation>
+            <numerusform>%n item</numerusform>
+            <numerusform>%n items</numerusform>
+        </translation>
     </message>
 </context>
 <context>

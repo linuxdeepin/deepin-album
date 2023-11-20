@@ -5,55 +5,51 @@
     <name></name>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Dzēst</translation>
+        <translation type="obsolete">Dzēst</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Pilnekrāna režīms</translation>
+        <translation type="obsolete">Pilnekrāna režīms</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Slaidrāde</translation>
+        <translation type="obsolete">Slaidrāde</translation>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished">Eksportēt</translation>
+        <translation type="obsolete">Eksportēt</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Kopēt</translation>
+        <translation type="obsolete">Kopēt</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Pievienot izlasei</translation>
+        <translation type="obsolete">Pievienot izlasei</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Pagrieziet pulksteņrādītāja virzienā</translation>
+        <translation type="obsolete">Pagrieziet pulksteņrādītāja virzienā</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Pagrieziet pretēji pulksteņrādītāja virzienam</translation>
+        <translation type="obsolete">Pagrieziet pretēji pulksteņrādītāja virzienam</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Iestatīt kā fona attēlu</translation>
+        <translation type="obsolete">Iestatīt kā fona attēlu</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Apskatīt failu pārvaldniekā</translation>
+        <translation type="obsolete">Apskatīt failu pārvaldniekā</translation>
     </message>
     <message>
         <source>Photo info</source>
-        <translation type="unfinished">Fotoattēla informācija</translation>
+        <translation type="obsolete">Fotoattēla informācija</translation>
     </message>
     <message>
         <source>Restore</source>
-        <translation type="unfinished">Atjaunot</translation>
-    </message>
-    <message>
-        <source>Video info</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Atjaunot</translation>
     </message>
 </context>
 <context>
@@ -167,6 +163,10 @@
         <source>The files will be permanently deleted after the days shown on them</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Image classification</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -255,6 +255,25 @@
     </message>
 </context>
 <context>
+    <name>DBManager</name>
+    <message>
+        <source>Screen Capture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Camera</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>(copy)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DeepinStorage</name>
     <message>
         <source>%1 Drive</source>
@@ -298,6 +317,10 @@
         <source>Restoring...</source>
         <translation>Atjauno...</translation>
     </message>
+    <message>
+        <source>Classifying...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
@@ -310,36 +333,36 @@
         <translation>Dzēst</translation>
     </message>
     <message>
-        <source>Are you sure you want to delete this photo from the album?</source>
-        <translation>Vai tiešām vēlaties dzēst šo fotoattēlu no albuma?</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this video from the album?</source>
+        <source>Are you sure you want to permanently delete this file?</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>You cannot restore it any longer</source>
+        <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+    <message>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You cannot restore them any longer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can restore it in the trash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can restore them in the trash</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -408,6 +431,10 @@
     </message>
     <message>
         <source>All photos and videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No photos or videos found</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -621,6 +648,30 @@
     </message>
     <message>
         <source>Import photos and videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import folders</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import interrupted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot add this path, please try another one</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The path already exists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to restore %1 files: file name too long</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Classifying...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -853,6 +904,42 @@
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Plants</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scenery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Food</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Human</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scene</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Animal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1/%2 items classifyed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

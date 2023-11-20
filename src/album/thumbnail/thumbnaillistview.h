@@ -127,6 +127,8 @@ public:
     void updatetimeLimeBtnText();//1050
     //过滤显示选中类型
     void showAppointTypeItem(ItemType type);//zynew
+    //过滤显示选中图片分类
+    void showAppointClassItem(const QString& className);
     //显示类型数量
     int getAppointTypeItemCount(ItemType type);//zynew
     //显示指定类型选中项数量
@@ -265,6 +267,7 @@ private:
     QTimer *m_loadTimer = nullptr;
     //记录当前显示类型
     ItemType m_currentShowItemType = ItemType::ItemTypeNull;
+    QString m_currentShowClassName = "";
     BatchOperateWidget *m_batchOperateWidget = nullptr;
     //导入时主动update timer
     QTimer *m_importTimer;

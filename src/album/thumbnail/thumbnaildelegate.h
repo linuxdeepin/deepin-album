@@ -29,6 +29,7 @@ public:
         AlbumViewImportTimeLineViewType,//相册-最近导入
         AlbumViewTrashType,//相册-已删除
         AlbumViewFavoriteType,//相册-收藏
+        AlbumViewClassType,//相册-图片分类
         AlbumViewCustomType,//相册-自定义
         AlbumViewPhoneType//相册-设备
     };

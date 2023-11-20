@@ -1,6 +1,8 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sl">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="sl">
 <context>
-    <name/>
+    <name></name>
     <message>
         <source>Delete</source>
         <translation type="vanished">Izbriši</translation>
@@ -165,6 +167,10 @@
         <source>The files will be permanently deleted after the days shown on them</source>
         <translation>Datoteke bodo trajno izbrisane po preteku prikazanega števila dni</translation>
     </message>
+    <message>
+        <source>Image classification</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -315,6 +321,10 @@
         <source>Restoring...</source>
         <translation>Obnavljanje...</translation>
     </message>
+    <message>
+        <source>Classifying...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImgDeleteDialog</name>
@@ -327,56 +337,36 @@
         <translation>Izbriši</translation>
     </message>
     <message>
-        <source>Are you sure you want to delete this photo from the album?</source>
-        <translation type="vanished">Ali ste prepričani, da želite odstraniti to sliko iz albuma?</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n photos from albums?</source>
-        <translation type="vanished"><numerusform>Ali res želite izbrisati %n sliko iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n sliki iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n slike iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n slik iz albumov?</numerusform></translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete this video from the album?</source>
-        <translation type="vanished">Ali želite izbrisati ta video iz albuma?</translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n videos from albums?</source>
-        <translation type="vanished"><numerusform>Ali res želite izbrisati %n video iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n videa iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n videe iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n videev iz albumov?</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>Are you sure you want to delete %n items from albums?</source>
-        <translation type="vanished"><numerusform>Ali res želite izbrisati %n predmet iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n predmeta iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n predmete iz albumov?</numerusform><numerusform>Ali res želite izbrisati %n predmetov iz albumov?</numerusform></translation>
-    </message>
-    <message>
         <source>Are you sure you want to permanently delete this file?</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>You cannot restore it any longer</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Are you sure you want to permanently delete %1 files?</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>You cannot restore them any longer</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this file locally?</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>You can restore it in the trash</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Are you sure you want to delete %1 files locally?</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>You can restore them in the trash</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -410,15 +400,30 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>%n slika</numerusform><numerusform>%n sliki</numerusform><numerusform>%n slike</numerusform><numerusform>%n slik</numerusform></translation>
+        <translation>
+            <numerusform>%n slika</numerusform>
+            <numerusform>%n sliki</numerusform>
+            <numerusform>%n slike</numerusform>
+            <numerusform>%n slik</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videi</numerusform><numerusform>%n videev</numerusform></translation>
+        <translation>
+            <numerusform>%n video</numerusform>
+            <numerusform>%n videa</numerusform>
+            <numerusform>%n videi</numerusform>
+            <numerusform>%n videev</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation><numerusform>%1 predmet</numerusform><numerusform>%1 predmeta</numerusform><numerusform>%1 predmeti</numerusform><numerusform>%1 predmetov</numerusform></translation>
+        <translation>
+            <numerusform>%1 predmet</numerusform>
+            <numerusform>%1 predmeta</numerusform>
+            <numerusform>%1 predmeti</numerusform>
+            <numerusform>%1 predmetov</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -654,23 +659,27 @@
     </message>
     <message>
         <source>Import folders</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Import interrupted</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cannot add this path, please try another one</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The path already exists</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Failed to restore %1 files: file name too long</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Classifying...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -878,19 +887,70 @@
     </message>
     <message numerus="yes">
         <source>%n photos selected</source>
-        <translation><numerusform>%1 izbrana slika</numerusform><numerusform>%1 izbrani sliki</numerusform><numerusform>%1 izbrane slike</numerusform><numerusform>%1 izbranih slik</numerusform></translation>
+        <translation>
+            <numerusform>%1 izbrana slika</numerusform>
+            <numerusform>%1 izbrani sliki</numerusform>
+            <numerusform>%1 izbrane slike</numerusform>
+            <numerusform>%1 izbranih slik</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos selected</source>
-        <translation><numerusform>%1 izbran video</numerusform><numerusform>%1 izbrana videa</numerusform><numerusform>%1 izbrani videi</numerusform><numerusform>%1 izbranih videev</numerusform></translation>
+        <translation>
+            <numerusform>%1 izbran video</numerusform>
+            <numerusform>%1 izbrana videa</numerusform>
+            <numerusform>%1 izbrani videi</numerusform>
+            <numerusform>%1 izbranih videev</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items selected</source>
-        <translation><numerusform>%1 izbran predmet</numerusform><numerusform>%1 izbrana predmeta</numerusform><numerusform>%1 izbrani predmeti</numerusform><numerusform>%1 izbranih predmetov</numerusform></translation>
+        <translation>
+            <numerusform>%1 izbran predmet</numerusform>
+            <numerusform>%1 izbrana predmeta</numerusform>
+            <numerusform>%1 izbrani predmeti</numerusform>
+            <numerusform>%1 izbranih predmetov</numerusform>
+        </translation>
     </message>
     <message>
         <source>%1 items imported, %2 items exist already</source>
         <translation>%1 uvoženih predmetov, %2 predmetov že obstaja</translation>
+    </message>
+    <message>
+        <source>Plants</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scenery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Food</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Human</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scene</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Animal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1/%2 items classifyed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -913,7 +973,12 @@
     </message>
     <message numerus="yes">
         <source>%n videos found</source>
-        <translation><numerusform>%1 najden video</numerusform><numerusform>%1 najdena videa</numerusform><numerusform>%1 najdeni videi</numerusform><numerusform>%1 najdenih videev</numerusform></translation>
+        <translation>
+            <numerusform>%1 najden video</numerusform>
+            <numerusform>%1 najdena videa</numerusform>
+            <numerusform>%1 najdeni videi</numerusform>
+            <numerusform>%1 najdenih videev</numerusform>
+        </translation>
     </message>
     <message>
         <source>1 video found</source>
@@ -921,11 +986,21 @@
     </message>
     <message numerus="yes">
         <source>%n items found</source>
-        <translation><numerusform>%1 najden predmet</numerusform><numerusform>%1 najdena predmeta</numerusform><numerusform>%1 najdeni predmeti</numerusform><numerusform>%1 najdenih predmetov</numerusform></translation>
+        <translation>
+            <numerusform>%1 najden predmet</numerusform>
+            <numerusform>%1 najdena predmeta</numerusform>
+            <numerusform>%1 najdeni predmeti</numerusform>
+            <numerusform>%1 najdenih predmetov</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n photos found</source>
-        <translation><numerusform>%1 najdenih slika</numerusform><numerusform>%1 najdenih sliki</numerusform><numerusform>%1 najdenih slike</numerusform><numerusform>%1 najdenih slik</numerusform></translation>
+        <translation>
+            <numerusform>%1 najdenih slika</numerusform>
+            <numerusform>%1 najdenih sliki</numerusform>
+            <numerusform>%1 najdenih slike</numerusform>
+            <numerusform>%1 najdenih slik</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -940,11 +1015,21 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>%1 najdena slika</numerusform><numerusform>%1 najdeni sliki</numerusform><numerusform>%1 najdene slike</numerusform><numerusform>%1 najdenih slik</numerusform></translation>
+        <translation>
+            <numerusform>%1 najdena slika</numerusform>
+            <numerusform>%1 najdeni sliki</numerusform>
+            <numerusform>%1 najdene slike</numerusform>
+            <numerusform>%1 najdenih slik</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videi</numerusform><numerusform>%n videev</numerusform></translation>
+        <translation>
+            <numerusform>%n video</numerusform>
+            <numerusform>%n videa</numerusform>
+            <numerusform>%n videi</numerusform>
+            <numerusform>%n videev</numerusform>
+        </translation>
     </message>
     <message>
         <source>Importing: %1</source>
@@ -1050,15 +1135,30 @@
     </message>
     <message numerus="yes">
         <source>%n photos</source>
-        <translation><numerusform>%n slika</numerusform><numerusform>%n sliki</numerusform><numerusform>%n slike</numerusform><numerusform>%n slik</numerusform></translation>
+        <translation>
+            <numerusform>%n slika</numerusform>
+            <numerusform>%n sliki</numerusform>
+            <numerusform>%n slike</numerusform>
+            <numerusform>%n slik</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videi</numerusform><numerusform>%n videev</numerusform></translation>
+        <translation>
+            <numerusform>%n video</numerusform>
+            <numerusform>%n videa</numerusform>
+            <numerusform>%n videi</numerusform>
+            <numerusform>%n videev</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n items</source>
-        <translation><numerusform>%1 predmet</numerusform><numerusform>%1 predmeta</numerusform><numerusform>%1 predmeti</numerusform><numerusform>%1 predmetov</numerusform></translation>
+        <translation>
+            <numerusform>%1 predmet</numerusform>
+            <numerusform>%1 predmeta</numerusform>
+            <numerusform>%1 predmeti</numerusform>
+            <numerusform>%1 predmetov</numerusform>
+        </translation>
     </message>
 </context>
 <context>
