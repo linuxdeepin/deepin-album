@@ -117,7 +117,7 @@ void LeftListView::initUI()
     m_pPhotoLibListView->setItemDelegate(itemDelegate0);
 
     m_pPhotoLibListView->setFixedWidth(LEFT_VIEW_WIDTH_180);
-    if (Classifyutils::GetInstance()->isLoaded())
+    if (Classifyutils::GetInstance()->isDBusExist())
         m_pPhotoLibListView->setFixedHeight(160);
     else
         m_pPhotoLibListView->setFixedHeight(120);
@@ -145,7 +145,7 @@ void LeftListView::initUI()
     m_pPhotoLibListView->setItemWidget(pListWidgetItem2, pAlbumLeftTabItem2);
 
     // 图片分类
-    if (Classifyutils::GetInstance()->isLoaded()) {
+    if (Classifyutils::GetInstance()->isDBusExist()) {
         QListWidgetItem *pListWidgetItem3 = new QListWidgetItem(m_pPhotoLibListView);
         pListWidgetItem3->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
         AlbumLeftTabItem *pAlbumLeftTabItem3 = new AlbumLeftTabItem(COMMON_STR_CLASS, -1);
@@ -290,7 +290,7 @@ void LeftListView::updatePhotoListView()
     m_pPhotoLibListView->setItemWidget(pListWidgetItem2, pAlbumLeftTabItem2);
 
     // 图片分类
-    if (Classifyutils::GetInstance()->isLoaded()) {
+    if (Classifyutils::GetInstance()->isDBusExist()) {
         QListWidgetItem *pListWidgetItem3 = new QListWidgetItem(m_pPhotoLibListView);
         pListWidgetItem3->setSizeHint(QSize(LEFT_VIEW_LISTITEM_WIDTH_160, LEFT_VIEW_LISTITEM_HEIGHT_40));
 

@@ -6,6 +6,7 @@
 #include <QLibrary>
 #include <QLibraryInfo>
 
+const QString ImageClassifyDBusServicePath = "/usr/share/dbus-1/system-services/com.deepin.imageclassify.service";
 Classifyutils *Classifyutils::m_pInstance = nullptr;
 Classifyutils *Classifyutils::GetInstance()
 {
@@ -17,22 +18,26 @@ Classifyutils *Classifyutils::GetInstance()
 
 QString Classifyutils::imageClassify(const QString &path)
 {
-    if (!imageClassifyFunc)
+    if (!isDBusExist())
         return "";
 
-    return imageClassifyFunc(path.toStdString().c_str());
+    return m_dbus->imageClassify(path);
 }
 
-bool Classifyutils::isLoaded()
+bool Classifyutils::isDBusExist()
 {
-    return imageClassifyFunc;
+    return m_bDBusExist;
 }
 
 Classifyutils::Classifyutils()
 {
-    QLibrary library("libimageclassify.so");
-    imageClassifyFunc = reinterpret_cast<const char* (*)(const char *)>(library.resolve("getImageClassification"));
+    m_dbus = new DaemonImageClassifyInterface(this);
+    if (!m_dbus->isValid() && !m_dbus->lastError().message().isEmpty()) {
+        qCritical() << "dbus com.deepin.logviewer isValid false error:" << m_dbus->lastError() << m_dbus->lastError().message();
+    }
 
-    if (!imageClassifyFunc)
-        return;
+    QFileInfo fi(ImageClassifyDBusServicePath);
+    m_bDBusExist = fi.exists();
+
+    qDebug() << "dbus com.deepin.logviewer isValid true";
 }
