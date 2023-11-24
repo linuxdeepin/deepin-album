@@ -57,7 +57,7 @@ DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
         auto mds = getAllMetaData(srcpath);
         QString value = mds.value("DateTimeOriginal");
         dbi.itemType = ItemTypePic;
-        if (Classifyutils::GetInstance()->isLoaded()) {
+        if (Classifyutils::GetInstance()->isDBusExist()) {
             if (srcfi.exists() && utils::base::isSupportClassify(srcpath))
                 dbi.className = Classifyutils::GetInstance()->imageClassify(srcpath.toStdString().c_str());
             else

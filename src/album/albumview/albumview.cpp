@@ -471,7 +471,7 @@ void AlbumView::initRightView()
     //初始化最近删除列表
     initTrashWidget();
     //初始化图片分类列表
-    if (Classifyutils::GetInstance()->isLoaded()) {
+    if (Classifyutils::GetInstance()->isDBusExist()) {
         initClassWidget();
     } else {
         m_pClassWidget = new DWidget();
