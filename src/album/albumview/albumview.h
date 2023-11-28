@@ -112,6 +112,7 @@ private:
     void updateRightImportView();
     void updateRightMyFavoriteView();
     void updateRightClassView();
+    void updateRightClassViewDetail(const QString &className);
     void updateRightMountView();
     //打开图片
     void onOpenImageClass(int row, const QString &path, bool bFullScreen);
@@ -206,11 +207,14 @@ private slots:
     void onMonitorDestroyed(int UID);
     //筛选条件按钮宽度变化响应槽
     void onFilterBtnWidthChanged(int width);
+
+    void slotClassBackClicked();
 public:
     int m_iAlubmPicsNum;
     QString m_currentAlbum;
     int m_currentUID;
     QString m_currentType;
+    QString m_currentClassName;
     AblumType m_currentItemType = photosType;
     int m_selPicNum;
     bool m_itemClicked;
@@ -226,7 +230,8 @@ public:
 
     ThumbnailListView *m_customThumbnailList = nullptr;               //自定义
     ThumbnailListView *m_pRightTrashThumbnailList = nullptr;          //最近删除
-    ThumbnailListView *m_classThumbnailList = nullptr;                //图片分类
+    ThumbnailListView *m_classThumbnailList = nullptr;                //图片分类封面页
+    ThumbnailListView *m_classDetailThumbnailList = nullptr;          //图片分类详情页
     ThumbnailListView *m_favoriteThumbnailList = nullptr;             //我的收藏
 
     DWidget *pImportTimeLineWidget;
@@ -253,9 +258,11 @@ private:
     DWidget *m_ClassTitleWidget = nullptr;
     DLabel *m_pClassTitle = nullptr;
     DLabel *m_pClassPicTotal = nullptr;
+    DPushButton *m_pClassBackBtn = nullptr;
     BatchOperateWidget *m_classBatchOperateWidget = nullptr;
     NoResultWidget *m_classNoResultWidget = nullptr;
     QString m_ClassPicTotalFullStr;
+    bool m_bHasClassified = false;
     //我的收藏标题栏
     DWidget *m_pFavoriteWidget = nullptr;
     DWidget *m_FavoriteTitleWidget = nullptr;

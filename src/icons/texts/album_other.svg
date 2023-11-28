@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>照片分类/icon/其他</title>
+    <g id="照片分类/icon/其他" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="矩形" x="0" y="0" width="16" height="16"></rect>
+        <path d="M12,1 C13.6568542,1 15,2.34314575 15,4 L15,12 C15,13.6568542 13.6568542,15 12,15 L4,15 C2.34314575,15 1,13.6568542 1,12 L1,4 C1,2.34314575 2.34314575,1 4,1 L12,1 Z M12,2 L4,2 C2.8954305,2 2,2.8954305 2,4 L2,12 C2,13.1045695 2.8954305,14 4,14 L12,14 C13.1045695,14 14,13.1045695 14,12 L14,4 C14,2.8954305 13.1045695,2 12,2 Z M11.5,3 C12.3284271,3 13,3.67157288 13,4.5 C13,5.32842712 12.3284271,6 11.5,6 C10.6715729,6 10,5.32842712 10,4.5 C10,3.67157288 10.6715729,3 11.5,3 Z M11.5,4 C11.2238576,4 11,4.22385763 11,4.5 C11,4.77614237 11.2238576,5 11.5,5 C11.7761424,5 12,4.77614237 12,4.5 C12,4.22385763 11.7761424,4 11.5,4 Z" id="形状结合" fill="#FFFFFF" fill-rule="nonzero"></path>
+        <rect id="矩形" fill="#FFFFFF" x="3" y="4" width="6" height="1" rx="0.5"></rect>
+        <rect id="矩形" fill="#FFFFFF" x="3" y="8" width="10" height="1" rx="0.5"></rect>
+        <rect id="矩形" fill="#FFFFFF" x="3" y="11" width="10" height="1" rx="0.5"></rect>
+    </g>
+</svg>

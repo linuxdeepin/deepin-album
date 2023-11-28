@@ -169,7 +169,7 @@
     </message>
     <message>
         <source>Image classification</source>
-        <translation>图片分类</translation>
+        <translation>照片分类</translation>
     </message>
 </context>
 <context>
@@ -911,16 +911,8 @@
         <translation>美食</translation>
     </message>
     <message>
-        <source>Human</source>
-        <translation>人物</translation>
-    </message>
-    <message>
         <source>Scene</source>
         <translation>场景</translation>
-    </message>
-    <message>
-        <source>Animal</source>
-        <translation>动物</translation>
     </message>
     <message>
         <source>Items</source>
@@ -933,6 +925,14 @@
     <message>
         <source>%1/%2 items classifyed</source>
         <translation>已分类%1/%2项</translation>
+    </message>
+    <message>
+        <source>Humans</source>
+        <translation>人物</translation>
+    </message>
+    <message>
+        <source>Animals</source>
+        <translation>动物</translation>
     </message>
 </context>
 <context>

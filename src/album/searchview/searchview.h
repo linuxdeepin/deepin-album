@@ -40,7 +40,7 @@ class SearchView : public QWidget
 
 public:
     SearchView();
-    void improtSearchResultsIntoThumbnailView(QString s, const QString &album, int UID);
+    void improtSearchResultsIntoThumbnailView(QString s, const QString &album, int UID, const QString& className);
 
 public slots:
     void onSlideShowBtnClicked();
@@ -75,6 +75,7 @@ private:
     DLabel *pLabel1;
     QString m_albumName;
     int m_UID;
+    QString m_className;
     int m_currentFontSize;
 public:
     int m_searchPicNum;

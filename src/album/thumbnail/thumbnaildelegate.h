@@ -30,6 +30,7 @@ public:
         AlbumViewTrashType,//相册-已删除
         AlbumViewFavoriteType,//相册-收藏
         AlbumViewClassType,//相册-图片分类
+        AlbumViewClassDetailType,//相册-图片分类详情页
         AlbumViewCustomType,//相册-自定义
         AlbumViewPhoneType//相册-设备
     };
@@ -61,7 +62,8 @@ signals:
 
 private:
     DBImgInfo itemData(const QModelIndex &index) const;
-
+    QString getClassPicPath(const QString &className) const;
+    QString getClassTSName(const QString &className) const;
 public:
     QString m_imageTypeStr;
 

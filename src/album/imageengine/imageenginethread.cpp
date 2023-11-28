@@ -58,11 +58,11 @@ DBImgInfo getDBInfo(const QString &srcpath, bool isVideo)
         QString value = mds.value("DateTimeOriginal");
         dbi.itemType = ItemTypePic;
         if (Classifyutils::GetInstance()->isDBusExist()) {
-            if (srcfi.exists() && utils::base::isSupportClassify(srcpath))
+            if (srcfi.exists() && utils::base::isSupportClassify(srcpath) && srcfi.isReadable())
                 dbi.className = Classifyutils::GetInstance()->imageClassify(srcpath.toStdString().c_str());
             else
                 dbi.className = "";
-            if (dbi.className.isEmpty())
+            if (dbi.className.isEmpty() && srcfi.isReadable())
                 dbi.className = "Other";
         }
         dbi.changeTime = QDateTime::fromString(mds.value("DateTimeDigitized"), "yyyy/MM/dd hh:mm");
@@ -718,12 +718,13 @@ void ImagesClassifyThread::runDetail()
     for (auto &info : m_infos) {
         if (info.className.isEmpty()) {
             QFileInfo srcfi(info.filePath);
-            if (srcfi.exists() && utils::base::isSupportClassify(info.filePath))
+            if (srcfi.exists() && utils::base::isSupportClassify(info.filePath) && srcfi.isReadable())
                 info.className = Classifyutils::GetInstance()->imageClassify(info.filePath.toStdString().c_str());
             else
                 info.className = "";
-            if (info.className.isEmpty())
+            if (info.className.isEmpty() && srcfi.isReadable())
                 info.className = "Other";
+
             emit dApp->signalM->progressOfWaitDialog(infoCount, i++);
         }
     }

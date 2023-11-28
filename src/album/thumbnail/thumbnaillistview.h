@@ -127,8 +127,6 @@ public:
     void updatetimeLimeBtnText();//1050
     //过滤显示选中类型
     void showAppointTypeItem(ItemType type);//zynew
-    //过滤显示选中图片分类
-    void showAppointClassItem(const QString& className);
     //显示类型数量
     int getAppointTypeItemCount(ItemType type);//zynew
     //显示指定类型选中项数量
@@ -177,6 +175,7 @@ protected:
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
     void startDrag(Qt::DropActions supportedActions) Q_DECL_OVERRIDE;
     void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
+    void hideEvent(QHideEvent *event) Q_DECL_OVERRIDE;
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     //重写该函数是为了获取当前视图中最大的model index，该函数和paint同步
     QRect visualRect(const QModelIndex &index) const override;
@@ -267,7 +266,6 @@ private:
     QTimer *m_loadTimer = nullptr;
     //记录当前显示类型
     ItemType m_currentShowItemType = ItemType::ItemTypeNull;
-    QString m_currentShowClassName = "";
     BatchOperateWidget *m_batchOperateWidget = nullptr;
     //导入时主动update timer
     QTimer *m_importTimer;
@@ -286,6 +284,9 @@ public:
     int m_height = 0;
     int m_onePicWidth = 0;
     bool m_isSelectAllBtn = false; //平板下，是否选中所有,默认未选定
+
+private:
+    QPoint m_pressed;
 };
 
 #endif // THUMBNAILLISTVIEW_H

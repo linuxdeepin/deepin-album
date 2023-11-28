@@ -5,6 +5,7 @@
 #include "thumbnaildelegate.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
+#include "statusbar.h"
 #include "application.h"
 #include <QDateTime>
 
@@ -164,7 +165,7 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     }
 
     //绘制选中图标
-    if (selected) {
+    if (selected && COMMON_STR_CLASS != m_imageTypeStr) {
         QRect rc = option.rect;
         rc.setSize({CheckIcon_Size, CheckIcon_Size});
         rc.moveTopRight(QPoint(option.rect.right() - 6, option.rect.top() + 6));
@@ -215,6 +216,50 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
             str = Text.elidedText(str, Qt::ElideRight, textwidth);
         }
         painter->drawText(posx + 3, backgroundRect.y() + backgroundRect.height() - 15, str);//在框中绘制文字，起点位置离最下方15像素
+    } else if (COMMON_STR_CLASS == m_imageTypeStr) {
+
+        // 绘制蒙皮
+        QBrush shadowbrush = QBrush(QColor(0, 0, 0, 120));
+
+        painter->fillRect(backgroundRect, shadowbrush);
+
+        const int iconWidth = 15;
+        const int yOffset = 2;
+        int rectwidth = backgroundRect.width() - 8; //缩略图宽度：总宽度减去选中框宽度8
+
+        // 绘制图标
+        QPainterPath bp;
+        bp.addRoundedRect(backgroundRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
+        painter->setClipPath(bp);
+
+        QPixmap classPixmap = utils::base::renderSVG(getClassPicPath(data.className), QSize(iconWidth, iconWidth));
+        int posx = backgroundRect.x() + rectwidth / 2 - iconWidth - 2;
+        int posy = backgroundRect.y() + backgroundRect.height() / 2 - iconWidth - yOffset;
+        painter->drawPixmap(posx, posy, classPixmap);
+
+        // 绘制分类文字
+        QString str(getClassTSName(data.className));
+        int posx1 = posx + iconWidth;
+        int posy1 = posy + iconWidth / 2 + 6;
+
+        painter->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T7, QFont::Medium));
+        painter->setPen(QColor(255, 255, 255));
+        painter->drawText(posx1 + 3, posy1, str);
+
+        // 绘制总数文字
+        int photosCount = data.num.toInt();
+        if (photosCount == 1) {
+            str = StatusBar::tr("1 photo");
+        } else if (photosCount > 1) {
+            str = StatusBar::tr("%n photos", "", photosCount);
+        }
+        int textheight2 = painter->fontMetrics().height();
+
+        int posx2 = posx;
+        int posy2 = posy1 + textheight2;
+        painter->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8, QFont::Medium));
+        painter->setPen(QColor(255, 255, 255, 178));
+        painter->drawText(posx2, posy2, str);
     }
     //绘制视频时间
     if (data.itemType == ItemTypeVideo) {
@@ -261,7 +306,8 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
 
     //绘制心形图标
     //if (COMMON_STR_FAVORITES == m_imageTypeStr) {
-    if (DBManager::instance()->isAllImgExistInAlbum(DBManager::SpUID::u_Favorite, QStringList(data.filePath), AlbumDBType::Favourite)) {
+    if (DBManager::instance()->isAllImgExistInAlbum(DBManager::SpUID::u_Favorite, QStringList(data.filePath), AlbumDBType::Favourite)
+            && COMMON_STR_CLASS != m_imageTypeStr) {
         QPainterPath bp;
         bp.addRoundedRect(backgroundRect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
         painter->setClipPath(bp);
@@ -307,6 +353,54 @@ DBImgInfo ThumbnailDelegate::itemData(const QModelIndex &index) const
     DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
     data.isSelected = index.data(Qt::UserRole).toBool();
     return data;
+}
+
+QString ThumbnailDelegate::getClassPicPath(const QString &className) const
+{
+    QString picName = "";
+    if (className == CLASS_Scenery) {
+        picName = "album_scenery.svg";
+    } else if (className == CLASS_FOOD) {
+        picName = "album_food.svg";
+    } else if (className == CLASS_HUMANS) {
+        picName = "album_human.svg";
+    } else if (className == CLASS_ANIMALS) {
+        picName = "album_animal.svg";
+    } else if (className == CLASS_SCENE) {
+        picName = "album_scene.svg";
+    } else if (className == CLASS_PLANT) {
+        picName = "album_plant.svg";
+    } else if (className == CLASS_ITEMS) {
+        picName = "album_items.svg";
+    } else if (className == CLASS_OTHER) {
+        picName = "album_other.svg";
+    }
+
+    return ":/icons/deepin/builtin/texts/" + picName;
+}
+
+QString ThumbnailDelegate::getClassTSName(const QString &className) const
+{
+    QString tsName = "";
+    if (className == CLASS_Scenery) {
+        tsName = QObject::tr("Scenery");
+    } else if (className == CLASS_FOOD) {
+        tsName = QObject::tr("Food");
+    } else if (className == CLASS_HUMANS) {
+        tsName = QObject::tr("Humans");
+    } else if (className == CLASS_ANIMALS) {
+        tsName = QObject::tr("Animals");
+    } else if (className == CLASS_SCENE) {
+        tsName = QObject::tr("Scene");
+    } else if (className == CLASS_PLANT) {
+        tsName = QObject::tr("Plants");
+    } else if (className == CLASS_ITEMS) {
+        tsName = QObject::tr("Items");
+    } else if (className == CLASS_OTHER) {
+        tsName = QObject::tr("Other");
+    }
+
+    return tsName;
 }
 
 bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)

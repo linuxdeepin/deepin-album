@@ -1266,17 +1266,21 @@ void MainWindow::onSearchEditFinished()
             albumBtnClicked();
             // donothing
         } else {
+            if (COMMON_STR_CLASS == m_pAlbumview->m_currentAlbum)
+                return;
+
             if (COMMON_STR_RECENT_IMPORTED == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
                 emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_RECENT_IMPORTED);
-            }
-            //LMH0514,为了解决26092 【相册】【5.6.9.14】在我的收藏相册下无法搜索到收藏的照片，加入我的收藏枚举
-            else if (COMMON_STR_FAVORITES == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
+            } else if (COMMON_STR_CLASSDETAIL == m_pAlbumview->m_currentAlbum) {
+                emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_CLASSDETAIL, -1, m_pAlbumview->m_currentClassName);
+            } else if (COMMON_STR_FAVORITES == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
+                //LMH0514,为了解决26092 【相册】【5.6.9.14】在我的收藏相册下无法搜索到收藏的照片，加入我的收藏枚举
                 emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_FAVORITES, DBManager::SpUID::u_Favorite);
             } else if (COMMON_STR_CUSTOM == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
                 emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, m_pAlbumview->m_pLeftListView->getItemCurrentName(), m_pAlbumview->m_pLeftListView->getItemCurrentUID());
             }
 
-            m_pAlbumview->m_pRightStackWidget->setCurrentIndex(4);
+            m_pAlbumview->m_pRightStackWidget->setCurrentIndex(5);
             m_pAlbumview->restorePicNum();
         }
     }

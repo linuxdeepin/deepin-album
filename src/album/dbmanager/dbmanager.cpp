@@ -346,6 +346,66 @@ void DBManager::removeImgInfosNoSignal(const QStringList &paths)
     }
 }
 
+const DBImgInfoList DBManager::getInfosForClass(const QString &className) const
+{
+    QMutexLocker mutex(&m_dbMutex);
+    DBImgInfoList infos;
+    m_query->setForwardOnly(true);
+
+    //切换到UID后，纯关键字搜索应该不受影响
+    QString queryStr = "SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType, ClassName, PathHash FROM ImageTable3 "
+                       "WHERE ClassName='" + className + "' ORDER BY Time DESC";
+
+    bool b = m_query->prepare(queryStr);
+
+    if (!b || !m_query->exec()) {
+    } else {
+        using namespace utils::base;
+        while (m_query->next()) {
+            DBImgInfo info;
+            info.filePath = m_query->value(0).toString();
+            info.time = m_query->value(3).toDateTime();
+            info.changeTime = m_query->value(4).toDateTime();
+            info.importTime = m_query->value(5).toDateTime();
+            info.itemType = ItemType(m_query->value(6).toInt());
+            info.className = m_query->value(7).toString();
+            info.pathHash = m_query->value(8).toString();
+            infos << info;
+        }
+    }
+    return infos;
+}
+
+const DBImgInfoList DBManager::getInfosForClassAndKeyword(const QString &className, const QString &keywords) const
+{
+    QMutexLocker mutex(&m_dbMutex);
+    DBImgInfoList infos;
+    m_query->setForwardOnly(true);
+
+    //切换到UID后，纯关键字搜索应该不受影响
+    QString queryStr = "SELECT FilePath, FileName, Dir, Time, ChangeTime, ImportTime, FileType, ClassName, PathHash FROM ImageTable3 "
+                       "WHERE ClassName='" + className + "' AND FileName like '%" + keywords + "%' ORDER BY Time DESC";
+
+    bool b = m_query->prepare(queryStr);
+
+    if (!b || !m_query->exec()) {
+    } else {
+        using namespace utils::base;
+        while (m_query->next()) {
+            DBImgInfo info;
+            info.filePath = m_query->value(0).toString();
+            info.time = m_query->value(3).toDateTime();
+            info.changeTime = m_query->value(4).toDateTime();
+            info.importTime = m_query->value(5).toDateTime();
+            info.itemType = ItemType(m_query->value(6).toInt());
+            info.className = m_query->value(7).toString();
+            info.pathHash = m_query->value(8).toString();
+            infos << info;
+        }
+    }
+    return infos;
+}
+
 const QList<std::pair<int, QString>> DBManager::getAllAlbumNames(AlbumDBType atype) const
 {
     QMutexLocker mutex(&m_dbMutex);
