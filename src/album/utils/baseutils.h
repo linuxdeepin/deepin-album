@@ -35,7 +35,8 @@
 #define COMMON_STR_RECENT_IMPORTED "已导入"
 #define COMMON_STR_TRASH "最近删除"
 #define COMMON_STR_FAVORITES "我的收藏"
-#define COMMON_STR_CLASS "图片分类"
+#define COMMON_STR_CLASS "照片分类"
+#define COMMON_STR_CLASSDETAIL "照片分类详情页"
 #define COMMON_STR_SEARCH "搜索"
 #define ALBUM_PATHNAME_BY_PHONE "DCIM"
 #define ALBUM_PATHTYPE_BY_PHONE "External Devices"
@@ -241,6 +242,7 @@ const QStringList m_videoFiletypes = {"avs2"/*支持avs2视频格式*/, "3g2", "
                                       , "tp", "trp", "ts", "tts", "txd", "vcd", "vdr", "vob"
                                       , "vp8", "vro", "webm", "wm", "wmv", "wtv", "xesc", "xspf"
                                      };
+
 //判断是否视频
 bool        isVideo(QString path);
 //字符串自适应长度，多的变省略号

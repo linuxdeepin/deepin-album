@@ -3,6 +3,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "classifyutils.h"
+#include "albumgloabl.h"
+
 #include <QLibrary>
 #include <QLibraryInfo>
 
@@ -21,7 +23,12 @@ QString Classifyutils::imageClassify(const QString &path)
     if (!isDBusExist())
         return "";
 
-    return m_dbus->imageClassify(path);
+    QString className = m_dbus->imageClassify(path);
+    // 一些无效类型名，统一归类为其他
+    if (g_classList.indexOf(className) == -1)
+        className = "Other";
+
+    return className;
 }
 
 bool Classifyutils::isDBusExist()

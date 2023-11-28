@@ -74,6 +74,8 @@ signals:
 
     // 图片分类已完成信号
     void sigImageClassifyDone();
+    // 打开分类详情页
+    void sigOpenClassDetail(const QString &className);
 
     // Handle by album
     void createAlbum(QStringList imgPath = QStringList());
@@ -81,7 +83,7 @@ signals:
     void sigCreateNewAlbumFrom(const QString &albumname, int UID);
     void insertedIntoAlbum(int UID, const QStringList &paths);
     void removedFromAlbum(int UID, const QStringList &paths);
-    void sigSendKeywordsIntoALLPic(QString keywords, QString album = nullptr, int UID = -1);
+    void sigSendKeywordsIntoALLPic(QString keywords, QString album = nullptr, int UID = -1, const QString& className = "");
     void sigCreateNewAlbumFromDialog(const QString &albumname, int UID);
     void sigMainwindowSliderValueChg(int value);
 //    void sigESCKeyActivated();

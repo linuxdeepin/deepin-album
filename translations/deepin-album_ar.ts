@@ -913,7 +913,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Plants</source>
+        <source>%1/%2 items classifyed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -925,7 +925,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Human</source>
+        <source>Humans</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Animals</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -933,7 +937,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Animal</source>
+        <source>Plants</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -942,10 +946,6 @@
     </message>
     <message>
         <source>Other</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1/%2 items classifyed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

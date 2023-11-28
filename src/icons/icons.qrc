@@ -59,7 +59,17 @@
         <file>texts/album_scene_hover_16px.svg</file>
         <file>texts/album_other_16px.svg</file>
         <file>texts/album_other_hover_16px.svg</file>
+        <file>texts/album_animal.svg</file>
+        <file>texts/album_food.svg</file>
+        <file>texts/album_human.svg</file>
+        <file>texts/album_items.svg</file>
+        <file>texts/album_plant.svg</file>
+        <file>texts/album_other.svg</file>
+        <file>texts/album_scene.svg</file>
+        <file>texts/album_scenery.svg</file>
+        <file>texts/left_arrow_24px.svg</file>
     </qresource>
     <qresource prefix="/icons/deepin/builtin/light"/>
     <qresource prefix="/icons/deepin/builtin/dark"/>
+    <qresource prefix="/"/>
 </RCC>

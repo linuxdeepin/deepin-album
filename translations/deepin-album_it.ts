@@ -906,7 +906,7 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <translation>%1 elementi importati, %2 elementi già presenti</translation>
     </message>
     <message>
-        <source>Plants</source>
+        <source>%1/%2 items classifyed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -918,7 +918,11 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Human</source>
+        <source>Humans</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Animals</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -926,7 +930,7 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Animal</source>
+        <source>Plants</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -935,10 +939,6 @@ Localizzazione italiana a cura di Massimo A. Carofano</translation>
     </message>
     <message>
         <source>Other</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1/%2 items classifyed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

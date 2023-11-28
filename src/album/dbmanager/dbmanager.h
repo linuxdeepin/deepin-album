@@ -83,6 +83,8 @@ public:
     void                    insertImgInfo(const DBImgInfo &info);
     void                    removeImgInfos(const QStringList &paths);
     void                    removeImgInfosNoSignal(const QStringList &paths);
+    const DBImgInfoList     getInfosForClass(const QString &className) const;
+    const DBImgInfoList     getInfosForClassAndKeyword(const QString &className, const QString &keywords) const;
     const DBImgInfoList     getInfosForKeyword(const QString &keywords) const;
     const DBImgInfoList     getTrashInfosForKeyword(const QString &keywords) const;
     const DBImgInfoList     getInfosForKeyword(int UID, const QString &keywords) const;

@@ -143,6 +143,32 @@ struct DBImgInfo {
 typedef QList<DBImgInfo> DBImgInfoList;
 typedef QList<DBImgInfo*> DBImgInfoListPtr;
 
+#define CLASS_PLANT "Plants"
+#define CLASS_Scenery "Scenery"
+#define CLASS_FOOD "Food"
+#define CLASS_SCENE "Scene"
+#define CLASS_ANIMALS "Animals"
+#define CLASS_HUMANS "Humans"
+#define CLASS_ITEMS "Items"
+#define CLASS_OTHER "Other"
+
+const QStringList g_classList = {
+    CLASS_Scenery,
+    CLASS_FOOD,
+    CLASS_HUMANS,
+    CLASS_ANIMALS,
+    CLASS_SCENE,
+    CLASS_PLANT,
+    CLASS_ITEMS,
+    CLASS_OTHER};
+
+struct ClassifyDBImgInfo {
+    QString className;
+    QList<DBImgInfo> infos;
+};
+
+typedef QList<ClassifyDBImgInfo> ClassifyDBImgInfoList;
+
 enum OpenImgViewType {
     VIEW_MAINWINDOW_ALLPIC = 0,
     VIEW_MAINWINDOW_TIMELINE = 1,
