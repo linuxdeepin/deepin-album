@@ -121,6 +121,8 @@ private:
     //打开图片
     void onOpenImageCustom(int row, const QString &path, bool bFullScreen);
     //幻灯片播放
+    void onSlideShowClassDetail(const QString &path);
+    //幻灯片播放
     void onSlideShowFav(const QString &path);
     //幻灯片播放
     void onSlideShowCustom(const QString &path);
