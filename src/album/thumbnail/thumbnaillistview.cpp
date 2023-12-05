@@ -318,12 +318,15 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
         if ((event->pos() - m_pressed).manhattanLength() > 3)
             return;
 
-        QModelIndex index = this->indexAt(event->pos());
-        DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
+        if (event->button() == Qt::LeftButton) {
+            QModelIndex index = this->indexAt(event->pos());
+            DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
 
-        // 点击进入分类详情页
-        if (!info.className.isEmpty())
-            emit dApp->signalM->sigOpenClassDetail(info.className);
+            // 点击进入分类详情页
+            if (!info.className.isEmpty())
+                emit dApp->signalM->sigOpenClassDetail(info.className);
+        }
+
         return DListView::mouseReleaseEvent(event);
     } else {
         emit sigMouseRelease();
@@ -621,6 +624,10 @@ int ThumbnailListView::getRow(const QString &path)
 
 void ThumbnailListView::onShowMenu(const QPoint &pos)
 {
+    // 照片分类封面页，禁用右键菜单
+    if (COMMON_STR_CLASS == m_imageType)
+        return;
+
     //外接设备显示照片时，禁用鼠标右键菜单
     QModelIndex index = this->indexAt(pos);
     if (!index.isValid() || ALBUM_PATHTYPE_BY_PHONE == m_imageType) {
