@@ -1463,7 +1463,7 @@ void DBManager::checkDatabase()
         }
         if (!m_query->next()) {
             // 无ClassName字段,则增加ClassName字段
-            if (m_query->exec(QString("ALTER TABLE \"TrashTable3\" ADD COLUMN \"ClassName\" INTEGER default %1")
+            if (m_query->exec(QString("ALTER TABLE \"TrashTable3\" ADD COLUMN \"ClassName\" TEXT default \"%1\"")
                               .arg(""))) {
                 qDebug() << "add ClassName success";
             }
