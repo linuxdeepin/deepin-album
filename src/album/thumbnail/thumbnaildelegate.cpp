@@ -255,7 +255,7 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
         }
         int textheight2 = painter->fontMetrics().height();
 
-        int posx2 = posx;
+        int posx2 = posx + 2;
         int posy2 = posy1 + textheight2;
         painter->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8, QFont::Medium));
         painter->setPen(QColor(255, 255, 255, 178));
