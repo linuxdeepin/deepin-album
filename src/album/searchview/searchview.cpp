@@ -248,6 +248,8 @@ void SearchView::onSlideShowBtnClicked()
             || COMMON_STR_TIMELINE == m_albumName
             || COMMON_STR_RECENT_IMPORTED == m_albumName) {
         imagelist = DBManager::instance()->getInfosForKeyword(m_keywords);
+    } else if (COMMON_STR_CLASSDETAIL == m_albumName) {
+        imagelist = DBManager::instance()->getInfosForClassAndKeyword(m_className, m_keywords);
     } else if (COMMON_STR_TRASH == m_albumName) {
         imagelist = DBManager::instance()->getTrashInfosForKeyword(m_keywords);
     } else {
