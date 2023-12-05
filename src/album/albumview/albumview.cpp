@@ -290,6 +290,8 @@ void AlbumView::initConnections()
     connect(m_pLeftListView, &LeftListView::sigSlideShow, this, &AlbumView::onSlideShowCustom);
     connect(m_customThumbnailList, &ThumbnailListView::sigSlideShow, this, &AlbumView::onSlideShowCustom);
     connect(m_favoriteThumbnailList, &ThumbnailListView::sigSlideShow, this, &AlbumView::onSlideShowFav);
+    if (m_classDetailThumbnailList)
+        connect(m_classDetailThumbnailList, &ThumbnailListView::sigSlideShow, this, &AlbumView::onSlideShowClassDetail);
     connect(dApp->signalM, &SignalManager::sigUpdataAlbumRightTitle, this, &AlbumView::onUpdataAlbumRightTitle);
     connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &AlbumView::updateRightView);
     connect(dApp->signalM, &SignalManager::sigUpdateTrashImageLoader, this, &AlbumView::updateRightView);
@@ -1483,6 +1485,11 @@ void AlbumView::onOpenImageCustom(int row, const QString &path, bool bFullScreen
     } else {
         emit dApp->signalM->sigViewImage(info, Operation_NoOperation, true, m_currentAlbum, m_currentUID);
     }
+}
+
+void AlbumView::onSlideShowClassDetail(const QString &path)
+{
+    runSlideShow(path, m_classDetailThumbnailList);
 }
 
 void AlbumView::onSlideShowFav(const QString &path)
