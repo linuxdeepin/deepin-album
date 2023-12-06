@@ -1577,10 +1577,10 @@ void AlbumView::onKeyDelete()
                 ImageEngineApi::instance()->moveImagesToTrash(paths, true);
             }
         }
-    } else if (COMMON_STR_CLASS == m_currentType) {
-        paths = m_classThumbnailList->selectedPaths();
+    } else if (COMMON_STR_CLASSDETAIL == m_currentType) {
+        paths = m_classDetailThumbnailList->selectedPaths();
         if (!paths.isEmpty()) {
-            m_classThumbnailList->clearSelection();
+            m_classDetailThumbnailList->clearSelection();
             bMoveToTrash = true;
         }
     } else if (COMMON_STR_FAVORITES == m_currentType) {
