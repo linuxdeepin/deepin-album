@@ -66,6 +66,19 @@ const int ALBUMBTN_NORMAL_WIDTH = 90;
 
 }//namespace
 
+void DDialogEx::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Escape)
+        return;
+
+    DDialog::keyPressEvent(event);
+}
+
+void DDialogEx::closeEvent(QCloseEvent *event)
+{
+    event->ignore();
+}
+
 using namespace utils::common;
 MainWindow::MainWindow()
     : m_iCurrentView(VIEW_ALLPIC)
@@ -269,10 +282,9 @@ void MainWindow::initUI()
 //初始化等待窗口
 void MainWindow::initWaitDialog()
 {
-    m_waitdailog = new DDialog(this);
-
-    m_waitdailog->setCloseButtonVisible(false);
-    m_waitdailog->setWindowModality(Qt::WindowModal);
+    m_waitdailog = new DDialogEx(this);
+    m_waitdailog->setWindowFlag(Qt::WindowCloseButtonHint, false);
+    m_waitdailog->setModal(true);
     m_waitdailog->setFixedSize(QSize(480, 93));
 
     m_waitlabel = new DLabel(m_waitdailog);
@@ -2283,7 +2295,7 @@ void MainWindow::onCloseWaitDialog()
 {
     m_progressType = Progress_Unknown;
     m_countLabel->setText("");
-    m_waitdailog->close();
+    m_waitdailog->hide();
 }
 
 void MainWindow::onImagesRemoved()

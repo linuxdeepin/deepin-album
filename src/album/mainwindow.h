@@ -47,6 +47,19 @@ extern bool bfirstandviewimage;
 
 class QShortcut;
 
+class DDialogEx : public DDialog
+{
+    Q_OBJECT
+
+public:
+    explicit DDialogEx(QWidget *parent = nullptr): DDialog (parent) {};
+    ~DDialogEx() {};
+
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
+    void closeEvent(QCloseEvent *event) override;
+};
+
 class MainWindow : public DMainWindow, public ImageEngineImportObject
 {
     Q_OBJECT
@@ -236,7 +249,7 @@ private:
     FlatButton *m_pTimeBtn = nullptr;
     FlatButton *m_pAlbumBtn = nullptr;
 
-    DDialog  *m_waitdailog = nullptr;
+    DDialogEx  *m_waitdailog = nullptr;
     DProgressBar *m_importBar = nullptr;
     DLabel *m_waitlabel = nullptr;
     DLabel *m_countLabel = nullptr;
