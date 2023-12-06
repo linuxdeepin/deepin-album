@@ -2197,7 +2197,9 @@ void MainWindow::onButtonClicked(int id)
         }
         albumBtnClicked();
         // 如果是最近删除或者移动设备,则搜索框不显示
-        if (2 == m_pAlbumview->m_pRightStackWidget->currentIndex() || 6 == m_pAlbumview->m_pRightStackWidget->currentIndex()) {
+        if (2 == m_pAlbumview->m_pRightStackWidget->currentIndex()
+                || 6 == m_pAlbumview->m_pRightStackWidget->currentIndex()
+                || (3 == m_pAlbumview->m_pRightStackWidget->currentIndex() && m_pAlbumview->m_currentType == COMMON_STR_CLASS)) {
             m_pSearchEdit->setVisible(false);
         } else {
 #ifdef tablet_PC

@@ -1041,6 +1041,7 @@ void AlbumView::updateRightView()
     } else if (COMMON_STR_CLASS == m_currentType) {
         m_bHasClassified = false;
         updateRightClassView();
+        emit sigSearchEditIsDisplay(false);
     } else if (COMMON_STR_CLASSDETAIL == m_currentType) {
         if (!m_currentClassName.isEmpty())
             updateRightClassViewDetail(m_currentClassName);
