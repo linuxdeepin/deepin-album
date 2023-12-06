@@ -2375,9 +2375,7 @@ void MainWindow::onAddImageBtnClicked(bool checked)
 
 void MainWindow::onHideFromFullScreen()
 {
-    if (VIEW_IMAGE != m_backIndex_fromFullScreen) {
-        setTitleBarHideden(false);
-    }
+    setTitleBarHideden(false);
 
     m_pCenterWidget->setCurrentIndex(m_backIndex);
 }
