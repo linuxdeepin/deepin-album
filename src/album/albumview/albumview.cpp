@@ -1041,7 +1041,6 @@ void AlbumView::updateRightView()
     } else if (COMMON_STR_CLASS == m_currentType) {
         m_bHasClassified = false;
         updateRightClassView();
-        emit sigSearchEditIsDisplay(false);
     } else if (COMMON_STR_CLASSDETAIL == m_currentType) {
         if (!m_currentClassName.isEmpty())
             updateRightClassViewDetail(m_currentClassName);
@@ -1188,7 +1187,7 @@ void AlbumView::updateRightClassView()
     m_pRightStackWidget->setCurrentIndex(RIGHT_VIEW_CLASS_LIST);
     m_ClassTitleWidget->setVisible(infos.size() > 0);
 
-    emit sigSearchEditIsDisplay(true);
+    emit sigSearchEditIsDisplay(false);
     setAcceptDrops(false);
 }
 
