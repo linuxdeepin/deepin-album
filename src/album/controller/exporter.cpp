@@ -73,7 +73,7 @@ void Exporter::exportAlbum(const QStringList &albumPaths, const QString &albumna
     exportDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).at(0));
 
     if (exportDialog.exec() == QDialog::Accepted) {
-        QString exportdir = exportDialog.directory().absolutePath();
+        QString exportdir = exportDialog.selectedFiles().at(0);
 
         QDir dir;
         dir.mkdir(exportdir + "/" + albumname);
@@ -117,7 +117,7 @@ void Exporter::popupDialogSaveImage(const QStringList &imagePaths)
     exportDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).at(0));
 
     if (exportDialog.exec() == QDialog::Accepted) {
-        QString exportdir = exportDialog.directory().absolutePath();
+        QString exportdir = exportDialog.selectedFiles().at(0);
 
         int failcount = 0;
         bool bnewpath = false;
