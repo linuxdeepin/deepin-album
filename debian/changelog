@@ -1,3 +1,9 @@
+deepin-album (5.10.22) unstable; urgency=medium
+
+  * fix: Improve the function of batch exporting images(Bug: 237179)
+
+ -- houchengqiu <houchengqiu@uniontech.com>  Thu, 01 Feb 2024 14:15:08 +0800
+
 deepin-album (5.10.21) unstable; urgency=medium
 
   * Update version to 5.10.21 community
