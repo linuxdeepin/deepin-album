@@ -86,5 +86,10 @@ bool WallpaperSetter::setBackground(const QString &pictureFilePath)
         QDBusConnection::sessionBus().asyncCall(msg);
     }
 
+    // Task 32367: 设置壁纸同步设置锁屏壁纸
+    QDBusMessage setGretterMsg = QDBusMessage::createMethodCall("com.deepin.daemon.Appearance", "/com/deepin/daemon/Appearance", "com.deepin.daemon.Appearance", "Set");
+    setGretterMsg.setArguments({"greeterbackground", tempWallPaperpath});
+    QDBusConnection::sessionBus().asyncCall(setGretterMsg);
+
     return true;
 }
