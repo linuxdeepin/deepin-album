@@ -859,7 +859,7 @@ void ThumbnailListView::updateMenuContents()
 
     if ((1 == paths.length() || QFileInfo(paths[0]).suffix().contains("gif"))) {
         DBImgInfo data = selectedIndexes().at(0).data(Qt::DisplayRole).value<DBImgInfo>();
-        if (data.itemType == ItemTypePic && QFileInfo(paths[0]).isReadable()) {
+        if (data.itemType == ItemTypePic && QFileInfo(paths[0]).isReadable() && utils::base::isSupportWallpaper(paths[0])) {
             m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(true);
         } else {
             m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(false);
