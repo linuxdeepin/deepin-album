@@ -672,6 +672,20 @@ bool isSupportClassify(const QString &path)
     return bRet;
 }
 
+/**
+   @return 图片 \a path 是否支持设置为壁纸，同步看图代码
+ */
+bool isSupportWallpaper(const QString &path)
+{
+    QMimeDatabase db;
+    QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchDefault);
+    return mt.name().startsWith("image")
+           && !mt.name().endsWith("svg+xml")
+           && !mt.name().endsWith("raf")
+           && !mt.name().endsWith("crw")
+           && !mt.name().endsWith("x-portable-anymap");
+}
+
 }  // namespace base
 
 }  // namespace utils

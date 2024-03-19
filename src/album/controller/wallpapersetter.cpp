@@ -45,7 +45,7 @@ bool WallpaperSetter::setBackground(const QString &pictureFilePath)
     QString errMsg;
     QFileInfo info(pictureFilePath);
     QString tempWallPaperpath;
-    tempWallPaperpath = WALLPAPER_PATH + info.baseName() + ".png";
+    tempWallPaperpath = WALLPAPER_PATH + info.baseName() + ".jpg";
     QFileInfo tempInfo(tempWallPaperpath);
     if (!UnionImage_NameSpace::loadStaticImageFromFile(pictureFilePath, tImg, errMsg)) {
         return false;
@@ -57,7 +57,7 @@ bool WallpaperSetter::setBackground(const QString &pictureFilePath)
     }
 
     // 后端壁纸设置接口不接收超过32MB的图片：调整压缩格式从PNG到JPG，以降低缓存文件占用
-    if (!tImg.save(tempWallPaperpath, "JPG", 100)) {
+    if (!tImg.save(tempWallPaperpath, "JPG")) {
         return false;
     }
     if (!tempInfo.exists()) {
