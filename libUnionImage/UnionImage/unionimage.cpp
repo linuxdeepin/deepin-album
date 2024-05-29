@@ -159,7 +159,9 @@ public:
                       << "SVG" << "ICNS" << "GIF" << "MNG" << "TIF"
                       << "TIFF" << "BMP" << "XPM" << "MRW" << "DNG"
                       << "RAF"  << "CR2" << "MEF" << "RAW" << "ORF"
-                      << "NEF" << "PEF" << "PXM" << "ICO" ;
+                      << "NEF" << "PEF" << "PXM" << "ICO"
+                      << "HEIF" << "HEIC" << "HEJ2"
+                      << "AVIF" << "AVIFS";
 
         m_canSave << "BMP" << "JPG" << "JPEG" << "PNG"
                   << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
