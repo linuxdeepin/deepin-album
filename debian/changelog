@@ -1,3 +1,9 @@
+deepin-album (5.10.24) unstable; urgency=medium
+
+  * feat: add avif and heif image format file support
+
+ -- zhanghongyuan <zhanghongyuan@uniontech.com>  Wed, 26 Jun 2024 10:14:20 +0800
+
 deepin-album (5.10.23) unstable; urgency=medium
 
   * feat: Set greeter background when setting wallpaper(Bug: 32367)(Influence: SetWallpaper)
