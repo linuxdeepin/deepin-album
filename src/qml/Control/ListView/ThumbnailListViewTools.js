@@ -8,7 +8,7 @@ function executeViewImage() {
         var indexes = thumbnailModel.selectedIndexes
         if (indexes.length > 0) {
             if (fileControl.isVideo(thumbnailModel.data(indexes[0], "url").toString())) {
-                albumControl.openDeepinMovie(thumbnailModel.data(indexes[0], url).toString())
+                albumControl.openDeepinMovie(thumbnailModel.data(indexes[0], "url").toString())
             } else {
                 var allUrls = thumbnailModel.allUrls()
                 mainStack.sourcePaths = allUrls

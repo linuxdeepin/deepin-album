@@ -2174,18 +2174,17 @@ bool AlbumControl::exportFolders(const QStringList &paths, const QString &dir)
 void AlbumControl::openDeepinMovie(const QString &path)
 {
     QString localPath = url2localPath(path);
-    QDBusMessage message = QDBusMessage::createMethodCall("com.deepin.movie",
-                                                          "/",
-                                                          "com.deepin.movie",
-                                                          "openFile");
-    message << localPath;
-    bool isopen = QDBusConnection::sessionBus().send(message);
-
-    if (!isopen) {
+    if (LibUnionImage_NameSpace::isVideo(localPath)) {
         QProcess *process = new QProcess(this);
         QStringList arguments;
-        arguments << "-o" << localPath ;
-        process->startDetached("dde-file-manager", arguments);
+        arguments << path;
+        bool isopen = process->startDetached("deepin-movie", arguments);
+        if (!isopen) {
+            arguments.clear();
+            arguments << "-o" << path;
+            process->startDetached("dde-file-manager", arguments);
+        }
+
         connect(process, SIGNAL(finished(int)), process, SLOT(deleteLater()));
     }
 }
