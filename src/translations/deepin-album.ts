@@ -4,199 +4,199 @@
 <context>
     <name>AlbumControl</name>
     <message>
-        <location filename="../src/albumControl.cpp" line="264"/>
+        <location filename="../src/albumControl.cpp" line="265"/>
         <source>All photos and videos</source>
         <translation>All photos and videos</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="313"/>
-        <location filename="../src/albumControl.cpp" line="338"/>
+        <location filename="../src/albumControl.cpp" line="314"/>
+        <location filename="../src/albumControl.cpp" line="339"/>
         <source>Disk is busy, cannot eject now</source>
         <translation>Disk is busy, cannot eject now</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="314"/>
-        <location filename="../src/albumControl.cpp" line="339"/>
+        <location filename="../src/albumControl.cpp" line="315"/>
+        <location filename="../src/albumControl.cpp" line="340"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1022"/>
+        <location filename="../src/albumControl.cpp" line="1027"/>
         <source>Fullscreen</source>
         <translation>Fullscreen</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1025"/>
+        <location filename="../src/albumControl.cpp" line="1030"/>
         <source>Exit fullscreen/slideshow</source>
         <translation>Exit fullscreen/slideshow</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1031"/>
+        <location filename="../src/albumControl.cpp" line="1036"/>
         <source>Help</source>
         <translation>Help</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1034"/>
+        <location filename="../src/albumControl.cpp" line="1039"/>
         <source>Display shortcuts</source>
         <translation>Display shortcuts</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1037"/>
+        <location filename="../src/albumControl.cpp" line="1042"/>
         <source>Display in file manager</source>
         <translation>Display in file manager</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1040"/>
+        <location filename="../src/albumControl.cpp" line="1045"/>
         <source>Slide show</source>
         <translation>Slide show</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1043"/>
+        <location filename="../src/albumControl.cpp" line="1048"/>
         <source>View</source>
         <translation>View</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1046"/>
+        <location filename="../src/albumControl.cpp" line="1051"/>
         <source>Export photos</source>
         <translation>Export photos</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1049"/>
+        <location filename="../src/albumControl.cpp" line="1054"/>
         <source>Import photos/videos</source>
         <translation>Import photos/videos</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1052"/>
+        <location filename="../src/albumControl.cpp" line="1057"/>
         <source>Select all</source>
         <translation>Select all</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1055"/>
+        <location filename="../src/albumControl.cpp" line="1060"/>
         <source>Copy</source>
         <translation>Copy</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1058"/>
+        <location filename="../src/albumControl.cpp" line="1063"/>
         <source>Delete</source>
         <translation>Delete</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1061"/>
+        <location filename="../src/albumControl.cpp" line="1066"/>
         <source>Photo/Video info</source>
         <translation>Photo/Video info</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1064"/>
+        <location filename="../src/albumControl.cpp" line="1069"/>
         <source>Set as wallpaper</source>
         <translation>Set as wallpaper</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1067"/>
+        <location filename="../src/albumControl.cpp" line="1072"/>
         <source>Rotate clockwise</source>
         <translation>Rotate clockwise</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1070"/>
+        <location filename="../src/albumControl.cpp" line="1075"/>
         <source>Rotate counterclockwise</source>
         <translation>Rotate counterclockwise</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1076"/>
+        <location filename="../src/albumControl.cpp" line="1081"/>
         <source>Zoom in</source>
         <translation>Zoom in</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1079"/>
+        <location filename="../src/albumControl.cpp" line="1084"/>
         <source>Zoom out</source>
         <translation>Zoom out</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1082"/>
+        <location filename="../src/albumControl.cpp" line="1087"/>
         <source>Previous</source>
         <translation>Previous</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1085"/>
+        <location filename="../src/albumControl.cpp" line="1090"/>
         <source>Next</source>
         <translation>Next</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1088"/>
+        <location filename="../src/albumControl.cpp" line="1093"/>
         <source>Favorite</source>
         <translation>Favorite</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1091"/>
+        <location filename="../src/albumControl.cpp" line="1096"/>
         <source>Unfavorite</source>
         <translation>Unfavorite</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1094"/>
+        <location filename="../src/albumControl.cpp" line="1099"/>
         <source>New album</source>
         <translation>New album</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1097"/>
+        <location filename="../src/albumControl.cpp" line="1102"/>
         <source>Rename album</source>
         <translation>Rename album</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1100"/>
+        <location filename="../src/albumControl.cpp" line="1105"/>
         <source>Page up</source>
         <translation>Page up</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1103"/>
+        <location filename="../src/albumControl.cpp" line="1108"/>
         <source>Page down</source>
         <translation>Page down</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1145"/>
+        <location filename="../src/albumControl.cpp" line="1150"/>
         <source>Photos</source>
         <translation>Photos</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1148"/>
+        <location filename="../src/albumControl.cpp" line="1153"/>
         <source>Albums</source>
         <translation>Albums</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1151"/>
+        <location filename="../src/albumControl.cpp" line="1156"/>
         <source>Settings</source>
         <translation>Settings</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1699"/>
+        <location filename="../src/albumControl.cpp" line="1704"/>
         <source>Favorites</source>
         <translation>Favorites</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1701"/>
+        <location filename="../src/albumControl.cpp" line="1706"/>
         <source>Screen Capture</source>
         <translation>Screen Capture</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1703"/>
+        <location filename="../src/albumControl.cpp" line="1708"/>
         <source>Camera</source>
         <translation>Camera</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1705"/>
+        <location filename="../src/albumControl.cpp" line="1710"/>
         <source>Draw</source>
         <translation>Draw</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1798"/>
+        <location filename="../src/albumControl.cpp" line="1803"/>
         <source>Unnamed</source>
         <translation>Unnamed</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2241"/>
+        <location filename="../src/albumControl.cpp" line="2245"/>
         <source>Channel</source>
         <translation>Channel</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2431"/>
+        <location filename="../src/albumControl.cpp" line="2440"/>
         <source>Pictures</source>
         <translation>Pictures</translation>
     </message>
@@ -204,101 +204,106 @@
 <context>
     <name>AlbumTitle</name>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="97"/>
+        <location filename="../qml/AlbumTitle.qml" line="108"/>
         <source>New album</source>
         <translation>New album</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="104"/>
+        <location filename="../qml/AlbumTitle.qml" line="115"/>
         <source>Import folders</source>
         <translation>Import folders</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="117"/>
+        <location filename="../qml/AlbumTitle.qml" line="128"/>
         <source>Album</source>
         <translation>Album</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="119"/>
+        <location filename="../qml/AlbumTitle.qml" line="130"/>
         <source>Version:</source>
         <translation>Version:</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="120"/>
+        <location filename="../qml/AlbumTitle.qml" line="131"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
         <translation>Album is a stylish management tool for viewing and organizing photos and videos.</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="123"/>
+        <location filename="../qml/AlbumTitle.qml" line="134"/>
         <source>%1 is released under %2</source>
         <translation>%1 is released under %2</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="161"/>
+        <location filename="../qml/AlbumTitle.qml" line="172"/>
         <source>Show side pane</source>
         <translation>Show side pane</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="161"/>
+        <location filename="../qml/AlbumTitle.qml" line="172"/>
         <source>Hide side pane</source>
         <translation>Hide side pane</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="203"/>
+        <location filename="../qml/AlbumTitle.qml" line="214"/>
         <source>Original ratio</source>
         <translation>Original ratio</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="203"/>
+        <location filename="../qml/AlbumTitle.qml" line="214"/>
         <source>Square thumbnails</source>
         <translation>Square thumbnails</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="237"/>
-        <location filename="../qml/AlbumTitle.qml" line="313"/>
+        <location filename="../qml/AlbumTitle.qml" line="248"/>
+        <location filename="../qml/AlbumTitle.qml" line="324"/>
         <source>Y</source>
         <translation>Y</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="248"/>
-        <location filename="../qml/AlbumTitle.qml" line="314"/>
+        <location filename="../qml/AlbumTitle.qml" line="259"/>
+        <location filename="../qml/AlbumTitle.qml" line="325"/>
         <source>M</source>
         <translation>M</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="258"/>
-        <location filename="../qml/AlbumTitle.qml" line="315"/>
+        <location filename="../qml/AlbumTitle.qml" line="269"/>
+        <location filename="../qml/AlbumTitle.qml" line="326"/>
         <source>D</source>
         <translation>D</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="269"/>
-        <location filename="../qml/AlbumTitle.qml" line="316"/>
+        <location filename="../qml/AlbumTitle.qml" line="280"/>
+        <location filename="../qml/AlbumTitle.qml" line="327"/>
         <source>All</source>
         <translation>All</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="340"/>
+        <location filename="../qml/AlbumTitle.qml" line="351"/>
         <source>Search</source>
         <translation>Search</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="428"/>
+        <location filename="../qml/AlbumTitle.qml" line="415"/>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished">Import Photos and Videos</translation>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="443"/>
         <source>Favorite</source>
         <translation>Favorite</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="428"/>
+        <location filename="../qml/AlbumTitle.qml" line="443"/>
         <source>Unfavorite</source>
         <translation>Unfavorite</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="460"/>
+        <location filename="../qml/AlbumTitle.qml" line="475"/>
         <source>Rotate</source>
         <translation>Rotate</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="480"/>
+        <location filename="../qml/AlbumTitle.qml" line="495"/>
         <source>Delete</source>
         <translation>Delete</translation>
     </message>
@@ -439,22 +444,22 @@
 <context>
     <name>DeepinStorage</name>
     <message>
-        <location filename="../src/albumControl.cpp" line="1210"/>
+        <location filename="../src/albumControl.cpp" line="1215"/>
         <source>%1 Drive</source>
         <translation>%1 Drive</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1214"/>
+        <location filename="../src/albumControl.cpp" line="1219"/>
         <source>Blank %1 Disc</source>
         <translation>Blank %1 Disc</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1218"/>
+        <location filename="../src/albumControl.cpp" line="1223"/>
         <source>%1 Encrypted</source>
         <translation>%1 Encrypted</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1221"/>
+        <location filename="../src/albumControl.cpp" line="1226"/>
         <source>%1 Volume</source>
         <translation>%1 Volume</translation>
     </message>
@@ -832,42 +837,42 @@
 <context>
     <name>GlobalStatus</name>
     <message>
-        <location filename="../src/globalstatus.cpp" line="647"/>
+        <location filename="../src/globalstatus.cpp" line="660"/>
         <source>1 item selected (1 photo)</source>
         <translation type="unfinished">1 item selected (1 photo)</translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="649"/>
+        <location filename="../src/globalstatus.cpp" line="662"/>
         <source>1 item selected (1 video)</source>
         <translation type="unfinished">1 item selected (1 video)</translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="651"/>
+        <location filename="../src/globalstatus.cpp" line="664"/>
         <source>%1 items selected (%1 photos)</source>
         <translation type="unfinished">%1 items selected (%1 photos)</translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="653"/>
+        <location filename="../src/globalstatus.cpp" line="666"/>
         <source>%1 items selected (%1 videos)</source>
         <translation type="unfinished">%1 items selected (%1 videos)</translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="655"/>
+        <location filename="../src/globalstatus.cpp" line="668"/>
         <source>%1 item selected (1 photo, 1 video)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="657"/>
+        <location filename="../src/globalstatus.cpp" line="670"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
         <translation type="unfinished">%1 items selected (1 photo, %2 videos)</translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="659"/>
+        <location filename="../src/globalstatus.cpp" line="672"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
         <translation type="unfinished">%1 items selected (%2 photos, 1 video)</translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="661"/>
+        <location filename="../src/globalstatus.cpp" line="674"/>
         <source>%1 items selected (%2 photos, %3 videos)</source>
         <translation type="unfinished">%1 items selected (%2 photos, %3 videos)</translation>
     </message>
@@ -1066,28 +1071,28 @@
 <context>
     <name>MainAlbumView</name>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="201"/>
+        <location filename="../qml/MainAlbumView.qml" line="213"/>
         <source>Importing...</source>
         <translation>Importing...</translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="202"/>
         <location filename="../qml/MainAlbumView.qml" line="214"/>
+        <location filename="../qml/MainAlbumView.qml" line="226"/>
         <source>Imported:</source>
         <translation>Imported:</translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="215"/>
+        <location filename="../qml/MainAlbumView.qml" line="227"/>
         <source>%1/%2</source>
         <translation>%1/%2</translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="226"/>
+        <location filename="../qml/MainAlbumView.qml" line="238"/>
         <source>Import successful</source>
         <translation>Import successful</translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="235"/>
+        <location filename="../qml/MainAlbumView.qml" line="247"/>
         <source>Import failed</source>
         <translation>Import failed</translation>
     </message>
@@ -1095,7 +1100,7 @@
 <context>
     <name>MonthCollection</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/MonthCollection.qml" line="144"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/MonthCollection.qml" line="148"/>
         <source>%1/%2</source>
         <translation>%1/%2</translation>
     </message>
@@ -1132,17 +1137,17 @@
 <context>
     <name>NoPictureView</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="40"/>
+        <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="60"/>
         <source>Import Photos and Videos</source>
         <translation type="unfinished">Import Photos and Videos</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="49"/>
+        <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>No photos or videos found</source>
         <translation>No photos or videos found</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="49"/>
+        <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>Or drag them here</source>
         <translation type="unfinished">Or drag them here</translation>
     </message>
@@ -1158,7 +1163,7 @@
 <context>
     <name>PathManager</name>
     <message>
-        <location filename="../src/albumControl.cpp" line="1197"/>
+        <location filename="../src/albumControl.cpp" line="1202"/>
         <source>System Disk</source>
         <translation>System Disk</translation>
     </message>
@@ -1174,28 +1179,28 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/albumControl.cpp" line="673"/>
-        <location filename="../src/albumControl.cpp" line="722"/>
+        <location filename="../src/albumControl.cpp" line="676"/>
+        <location filename="../src/albumControl.cpp" line="725"/>
         <source>%1/%2/%3 %4:%5</source>
         <translation>%1/%2/%3 %4:%5</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="704"/>
+        <location filename="../src/albumControl.cpp" line="707"/>
         <source>%1</source>
         <translation>%1</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="710"/>
+        <location filename="../src/albumControl.cpp" line="713"/>
         <source>%1/%2</source>
         <translation>%1/%2</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="716"/>
+        <location filename="../src/albumControl.cpp" line="719"/>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1436"/>
+        <location filename="../src/albumControl.cpp" line="1441"/>
         <source>Trash</source>
         <translation>Trash</translation>
     </message>
@@ -1322,12 +1327,12 @@
         <translation>Search results</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/SearchView.qml" line="108"/>
+        <location filename="../qml/ThumbnailImageView/SearchView.qml" line="109"/>
         <source>Slide Show</source>
         <translation>Slide Show</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/SearchView.qml" line="185"/>
+        <location filename="../qml/ThumbnailImageView/SearchView.qml" line="186"/>
         <source>No search results</source>
         <translation>No search results</translation>
     </message>
@@ -1460,12 +1465,12 @@
 <context>
     <name>ThumbnailListDelegate</name>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="400"/>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="455"/>
         <source>days</source>
         <translation>days</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="400"/>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="455"/>
         <source>day</source>
         <translation>day</translation>
     </message>
@@ -1473,12 +1478,12 @@
 <context>
     <name>ThumbnailListDelegate2</name>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListDelegate2.qml" line="362"/>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate2.qml" line="396"/>
         <source>days</source>
         <translation type="unfinished">days</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListDelegate2.qml" line="362"/>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate2.qml" line="396"/>
         <source>day</source>
         <translation type="unfinished">day</translation>
     </message>
@@ -1976,17 +1981,17 @@
 <context>
     <name>YearCollection</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="129"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="122"/>
         <source>%1</source>
         <translation>%1</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="142"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="135"/>
         <source>%1 items</source>
         <translation>%1 items</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="142"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="135"/>
         <source>1 item</source>
         <translation>1 item</translation>
     </message>
@@ -1994,7 +1999,7 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/main.qml" line="90"/>
+        <location filename="../qml/main.qml" line="132"/>
         <source>All photos and videos</source>
         <translation>All photos and videos</translation>
     </message>
