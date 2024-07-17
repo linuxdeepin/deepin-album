@@ -220,7 +220,7 @@ TitleBar {
                 onClicked: {
                     //1.图片推送器切换
                     asynImageProvider.switchLoadMode()
-		    imageDataService.switchLoadMode()
+                    imageDataService.switchLoadMode()
 
                     //切换图标
                     if(icon.name === "range1"){
@@ -409,6 +409,10 @@ TitleBar {
                 Layout.preferredWidth: iconSize
                 Layout.preferredHeight: iconSize
                 Layout.alignment: Qt.AlignRight
+                ToolTip.delay: 500
+                ToolTip.timeout: 5000
+                ToolTip.visible: hovered
+                ToolTip.text: qsTr("Import Photos and Videos")
                 icon {
                     name: "import"
                     width: iconSize
