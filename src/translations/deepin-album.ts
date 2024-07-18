@@ -191,12 +191,18 @@
         <translation>Unnamed</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2245"/>
+        <location filename="../src/albumControl.cpp" line="2203"/>
+        <location filename="../src/albumControl.cpp" line="2207"/>
+        <source>%1Year%2Month%3Day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/albumControl.cpp" line="2257"/>
         <source>Channel</source>
         <translation>Channel</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2440"/>
+        <location filename="../src/albumControl.cpp" line="2452"/>
         <source>Pictures</source>
         <translation>Pictures</translation>
     </message>
@@ -204,106 +210,106 @@
 <context>
     <name>AlbumTitle</name>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="108"/>
+        <location filename="../qml/AlbumTitle.qml" line="111"/>
         <source>New album</source>
         <translation>New album</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="115"/>
+        <location filename="../qml/AlbumTitle.qml" line="118"/>
         <source>Import folders</source>
         <translation>Import folders</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="128"/>
+        <location filename="../qml/AlbumTitle.qml" line="131"/>
         <source>Album</source>
         <translation>Album</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="130"/>
+        <location filename="../qml/AlbumTitle.qml" line="133"/>
         <source>Version:</source>
         <translation>Version:</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="131"/>
+        <location filename="../qml/AlbumTitle.qml" line="134"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
         <translation>Album is a stylish management tool for viewing and organizing photos and videos.</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="134"/>
+        <location filename="../qml/AlbumTitle.qml" line="137"/>
         <source>%1 is released under %2</source>
         <translation>%1 is released under %2</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="172"/>
+        <location filename="../qml/AlbumTitle.qml" line="175"/>
         <source>Show side pane</source>
         <translation>Show side pane</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="172"/>
+        <location filename="../qml/AlbumTitle.qml" line="175"/>
         <source>Hide side pane</source>
         <translation>Hide side pane</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="214"/>
+        <location filename="../qml/AlbumTitle.qml" line="217"/>
         <source>Original ratio</source>
         <translation>Original ratio</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="214"/>
+        <location filename="../qml/AlbumTitle.qml" line="217"/>
         <source>Square thumbnails</source>
         <translation>Square thumbnails</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="248"/>
-        <location filename="../qml/AlbumTitle.qml" line="324"/>
+        <location filename="../qml/AlbumTitle.qml" line="251"/>
+        <location filename="../qml/AlbumTitle.qml" line="327"/>
         <source>Y</source>
         <translation>Y</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="259"/>
-        <location filename="../qml/AlbumTitle.qml" line="325"/>
+        <location filename="../qml/AlbumTitle.qml" line="262"/>
+        <location filename="../qml/AlbumTitle.qml" line="328"/>
         <source>M</source>
         <translation>M</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="269"/>
-        <location filename="../qml/AlbumTitle.qml" line="326"/>
+        <location filename="../qml/AlbumTitle.qml" line="272"/>
+        <location filename="../qml/AlbumTitle.qml" line="329"/>
         <source>D</source>
         <translation>D</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="280"/>
-        <location filename="../qml/AlbumTitle.qml" line="327"/>
+        <location filename="../qml/AlbumTitle.qml" line="283"/>
+        <location filename="../qml/AlbumTitle.qml" line="330"/>
         <source>All</source>
         <translation>All</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="351"/>
+        <location filename="../qml/AlbumTitle.qml" line="354"/>
         <source>Search</source>
         <translation>Search</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="415"/>
+        <location filename="../qml/AlbumTitle.qml" line="418"/>
         <source>Import Photos and Videos</source>
         <translation type="unfinished">Import Photos and Videos</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="443"/>
+        <location filename="../qml/AlbumTitle.qml" line="446"/>
         <source>Favorite</source>
         <translation>Favorite</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="443"/>
+        <location filename="../qml/AlbumTitle.qml" line="446"/>
         <source>Unfavorite</source>
         <translation>Unfavorite</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="475"/>
+        <location filename="../qml/AlbumTitle.qml" line="478"/>
         <source>Rotate</source>
         <translation>Rotate</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="495"/>
+        <location filename="../qml/AlbumTitle.qml" line="498"/>
         <source>Delete</source>
         <translation>Delete</translation>
     </message>
@@ -1071,28 +1077,28 @@
 <context>
     <name>MainAlbumView</name>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="213"/>
+        <location filename="../qml/MainAlbumView.qml" line="214"/>
         <source>Importing...</source>
         <translation>Importing...</translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="214"/>
-        <location filename="../qml/MainAlbumView.qml" line="226"/>
+        <location filename="../qml/MainAlbumView.qml" line="215"/>
+        <location filename="../qml/MainAlbumView.qml" line="227"/>
         <source>Imported:</source>
         <translation>Imported:</translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="227"/>
+        <location filename="../qml/MainAlbumView.qml" line="228"/>
         <source>%1/%2</source>
         <translation>%1/%2</translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="238"/>
+        <location filename="../qml/MainAlbumView.qml" line="239"/>
         <source>Import successful</source>
         <translation>Import successful</translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="247"/>
+        <location filename="../qml/MainAlbumView.qml" line="248"/>
         <source>Import failed</source>
         <translation>Import failed</translation>
     </message>
@@ -1707,12 +1713,14 @@
 <context>
     <name>ThumbnailListViewTools</name>
     <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewTools.js" line="67"/>
         <source>Export successful</source>
-        <translation type="obsolete">Export successful</translation>
+        <translation type="unfinished">Export successful</translation>
     </message>
     <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewTools.js" line="69"/>
         <source>Export failed</source>
-        <translation type="obsolete">Export failed</translation>
+        <translation type="unfinished">Export failed</translation>
     </message>
 </context>
 <context>

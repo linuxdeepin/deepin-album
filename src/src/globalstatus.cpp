@@ -7,7 +7,7 @@
 #include "albumControl.h"
 
 static const int sc_MinHeight = 300;           // 窗口最小高度
-static const int sc_MinWidth = 628;            // 窗口最小宽度
+static const int sc_MinWidth = 658;            // 窗口最小宽度
 static const int sc_MinHideHeight = 425;       // 调整窗口高度小于425px时，隐藏工具栏和标题栏
 static const int sc_FloatMargin = 65;          // 浮动按钮边距
 static const int sc_TitleHeight = 50;          // 标题栏栏高度
