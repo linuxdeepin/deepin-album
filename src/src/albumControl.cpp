@@ -2197,6 +2197,18 @@ QString AlbumControl::getFileTime(const QString &path1, const QString &path2)
     auto str1 = time1.toString("yyyy/MM/dd");
     auto str2 = time2.toString("yyyy/MM/dd");
 
+    QString language = QLocale::system().name();
+    qWarning() << "language:" << language;
+    if (language == "zh_CN") {
+        str1 = QString(tr("%1Year%2Month%3Day"))
+                   .arg(time1.date().year())
+                   .arg(time1.date().month())
+                   .arg(time1.date().day());
+        str2 = QString(tr("%1Year%2Month%3Day"))
+                   .arg(time2.date().year())
+                   .arg(time2.date().month())
+                   .arg(time2.date().day());
+    }
     if (time1 < time2) {
         return str1 + "-" + str2;
     } else {

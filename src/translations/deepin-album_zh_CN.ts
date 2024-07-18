@@ -191,12 +191,18 @@
         <translation>未命名相册</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2245"/>
+        <location filename="../src/albumControl.cpp" line="2203"/>
+        <location filename="../src/albumControl.cpp" line="2207"/>
+        <source>%1Year%2Month%3Day</source>
+        <translation>%1年%2月%3日</translation>
+    </message>
+    <message>
+        <location filename="../src/albumControl.cpp" line="2257"/>
         <source>Channel</source>
         <translation>声道</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2440"/>
+        <location filename="../src/albumControl.cpp" line="2452"/>
         <source>Pictures</source>
         <translation>图片</translation>
     </message>
@@ -204,106 +210,106 @@
 <context>
     <name>AlbumTitle</name>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="108"/>
+        <location filename="../qml/AlbumTitle.qml" line="111"/>
         <source>New album</source>
         <translation>新建相册</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="115"/>
+        <location filename="../qml/AlbumTitle.qml" line="118"/>
         <source>Import folders</source>
         <translation>从文件夹导入</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="128"/>
+        <location filename="../qml/AlbumTitle.qml" line="131"/>
         <source>Album</source>
         <translation>相册</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="130"/>
+        <location filename="../qml/AlbumTitle.qml" line="133"/>
         <source>Version:</source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="131"/>
+        <location filename="../qml/AlbumTitle.qml" line="134"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
         <translation>相册是一款可多种方式浏览、整理照片和视频的管理工具。</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="134"/>
+        <location filename="../qml/AlbumTitle.qml" line="137"/>
         <source>%1 is released under %2</source>
         <translation>%1遵循%2协议发布</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="172"/>
+        <location filename="../qml/AlbumTitle.qml" line="175"/>
         <source>Show side pane</source>
         <translation>展开侧边栏</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="172"/>
+        <location filename="../qml/AlbumTitle.qml" line="175"/>
         <source>Hide side pane</source>
         <translation>关闭侧边栏</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="214"/>
+        <location filename="../qml/AlbumTitle.qml" line="217"/>
         <source>Original ratio</source>
         <translation>显示为原始比例</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="214"/>
+        <location filename="../qml/AlbumTitle.qml" line="217"/>
         <source>Square thumbnails</source>
         <translation>显示为方图</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="248"/>
-        <location filename="../qml/AlbumTitle.qml" line="324"/>
+        <location filename="../qml/AlbumTitle.qml" line="251"/>
+        <location filename="../qml/AlbumTitle.qml" line="327"/>
         <source>Y</source>
         <translation>年</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="259"/>
-        <location filename="../qml/AlbumTitle.qml" line="325"/>
+        <location filename="../qml/AlbumTitle.qml" line="262"/>
+        <location filename="../qml/AlbumTitle.qml" line="328"/>
         <source>M</source>
         <translation>月</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="269"/>
-        <location filename="../qml/AlbumTitle.qml" line="326"/>
+        <location filename="../qml/AlbumTitle.qml" line="272"/>
+        <location filename="../qml/AlbumTitle.qml" line="329"/>
         <source>D</source>
         <translation>日</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="280"/>
-        <location filename="../qml/AlbumTitle.qml" line="327"/>
+        <location filename="../qml/AlbumTitle.qml" line="283"/>
+        <location filename="../qml/AlbumTitle.qml" line="330"/>
         <source>All</source>
         <translation>所有项目</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="351"/>
+        <location filename="../qml/AlbumTitle.qml" line="354"/>
         <source>Search</source>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="415"/>
+        <location filename="../qml/AlbumTitle.qml" line="418"/>
         <source>Import Photos and Videos</source>
         <translation>导入照片和视频</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="443"/>
+        <location filename="../qml/AlbumTitle.qml" line="446"/>
         <source>Favorite</source>
         <translation>收藏</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="443"/>
+        <location filename="../qml/AlbumTitle.qml" line="446"/>
         <source>Unfavorite</source>
         <translation>取消收藏</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="475"/>
+        <location filename="../qml/AlbumTitle.qml" line="478"/>
         <source>Rotate</source>
         <translation>旋转</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="495"/>
+        <location filename="../qml/AlbumTitle.qml" line="498"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
@@ -1071,28 +1077,28 @@
 <context>
     <name>MainAlbumView</name>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="213"/>
+        <location filename="../qml/MainAlbumView.qml" line="214"/>
         <source>Importing...</source>
         <translation>正在导入，请稍候...</translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="214"/>
-        <location filename="../qml/MainAlbumView.qml" line="226"/>
+        <location filename="../qml/MainAlbumView.qml" line="215"/>
+        <location filename="../qml/MainAlbumView.qml" line="227"/>
         <source>Imported:</source>
         <translation>已导入：</translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="227"/>
+        <location filename="../qml/MainAlbumView.qml" line="228"/>
         <source>%1/%2</source>
         <translation>%1/%2</translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="238"/>
+        <location filename="../qml/MainAlbumView.qml" line="239"/>
         <source>Import successful</source>
         <translation>导入成功</translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="247"/>
+        <location filename="../qml/MainAlbumView.qml" line="248"/>
         <source>Import failed</source>
         <translation>导入失败</translation>
     </message>
@@ -1121,7 +1127,7 @@
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="69"/>
         <source>Name:</source>
-        <translation>文件名：</translation>
+        <translation>名称：</translation>
     </message>
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="100"/>
@@ -1707,12 +1713,14 @@
 <context>
     <name>ThumbnailListViewTools</name>
     <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewTools.js" line="67"/>
         <source>Export successful</source>
-        <translation type="vanished">导出成功</translation>
+        <translation>导出成功</translation>
     </message>
     <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewTools.js" line="69"/>
         <source>Export failed</source>
-        <translation type="vanished">导出失败</translation>
+        <translation>导出失败</translation>
     </message>
 </context>
 <context>
