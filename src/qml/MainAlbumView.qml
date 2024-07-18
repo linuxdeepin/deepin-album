@@ -51,15 +51,16 @@ Item {
 
     // 侧边栏跟随窗口尺寸展开/收起
     onWidthChanged: {
+        if (!GStatus.sideBarIsVisible)
+            return
+
         if (width <= GStatus.needHideSideBarWidth) {
             if (leftSidebar.x === 0 && (lastWidth > width)) {
                 hideSliderAnimation.start()
-                GStatus.sideBarIsVisible = false
             }
         } else {
             if (leftSidebar.x < 0 && (lastWidth < width)) {
                 showSliderAnimation.start()
-                GStatus.sideBarIsVisible = true
             }
         }
 

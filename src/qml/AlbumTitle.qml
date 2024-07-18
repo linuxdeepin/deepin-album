@@ -60,6 +60,9 @@ TitleBar {
             }
         }
 
+        if (!GStatus.sideBarIsVisible)
+            return
+
         // 标题栏缩放比例按钮跟随窗口尺寸左对齐/右对齐
         if (width <= GStatus.needHideSideBarWidth) {
             if (rightLayout.anchors.leftMargin === layoutLeftMargin_AlignRight && (lastWidth > width)) {
