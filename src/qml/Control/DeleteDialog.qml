@@ -22,11 +22,11 @@ DialogWindow {
 
     minimumWidth: 400
     maximumWidth: 400
-    minimumHeight: 190
-    maximumHeight: 190
+    minimumHeight: 160
+    maximumHeight: 160
 
     width: 400
-    height: 190
+    height: 160
 
     icon : "deepin-album"
 
@@ -67,7 +67,7 @@ DialogWindow {
             top: parent.top
             horizontalCenter: parent.horizontalCenter
         }
-        font: DTK.fontManager.t6
+        font: DTK.fontManager.t5
         verticalAlignment: Text.AlignBottom
         horizontalAlignment: Text.AlignHCenter
     }
@@ -88,14 +88,14 @@ DialogWindow {
         id: cancelbtn
         anchors {
             top: deleteTips.bottom
-            topMargin: 30
+            topMargin: 15
             left: parent.left
             leftMargin: 0
         }
         text: qsTr("Cancel")
         width: 185
         height: 36
-        font.pixelSize: 16
+        font: DTK.fontManager.t6
         onClicked: {
             deleteDialog.visible = false
         }
@@ -105,13 +105,14 @@ DialogWindow {
         id: enterbtn
         anchors {
             top: deleteTips.bottom
-            topMargin: 30
+            topMargin: 15
             left: cancelbtn.right
             leftMargin: 10
         }
         text: qsTr("Delete")
         width: 185
         height: 36
+        font: DTK.fontManager.t6
 
         onClicked: {
             deleteDialog.visible = false

@@ -19,11 +19,11 @@ DialogWindow {
 
     minimumWidth: 400
     maximumWidth: 400
-    minimumHeight: 190
-    maximumHeight: 190
+    minimumHeight: 140
+    maximumHeight: 140
 
     width: 400
-    height: 190
+    height: 140
 
     icon : "deepin-album"
 
@@ -35,7 +35,6 @@ DialogWindow {
         id: deleteTitle
         anchors {
             top: parent.top
-            topMargin: 20
             horizontalCenter: parent.horizontalCenter
         }
         font: DTK.fontManager.t5
@@ -48,7 +47,7 @@ DialogWindow {
         id: cancelbtn
         anchors {
             top: deleteTitle.bottom
-            topMargin: 50
+            topMargin: 15
             left: parent.left
             leftMargin: 0
         }
@@ -65,7 +64,7 @@ DialogWindow {
         id: enterbtn
         anchors {
             top: deleteTitle.bottom
-            topMargin: 50
+            topMargin: 15
             left: cancelbtn.right
             leftMargin: 10
         }

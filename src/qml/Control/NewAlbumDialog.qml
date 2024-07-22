@@ -50,7 +50,7 @@ DialogWindow {
             leftMargin: 46
             top: parent.top
         }
-        font.pixelSize: 16
+        font: DTK.fontManager.t5
         text: qsTr("New Album")
         verticalAlignment: Text.AlignBottom
         horizontalAlignment: Text.AlignHCenter
@@ -58,14 +58,15 @@ DialogWindow {
     Label{
         id:nameLabel
         width:42
-        height: 20
-        font.pixelSize: 14
+        height: 36
+        font: DTK.fontManager.t6
         anchors {
             left: parent.left
             leftMargin: 0
             top: nameedit.top
-            topMargin:5
+            topMargin:0
         }
+        verticalAlignment: Text.AlignVCenter
         text:qsTr("Name:")
     }
     LineEdit {
@@ -78,7 +79,7 @@ DialogWindow {
         }
         width: 328
         height: 36
-        font: DTK.fontManager.t5
+        font: DTK.fontManager.t6
         focus: true
         maximumLength: 255
         validator: RegExpValidator {regExp: /^[^\\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/ }
@@ -93,7 +94,7 @@ DialogWindow {
         id: cancelbtn
         anchors {
             top: nameedit.bottom
-            topMargin: 20
+            topMargin: 15
             left: parent.left
             leftMargin: 0
         }
@@ -106,18 +107,18 @@ DialogWindow {
         }
     }
 
-    Button {
+    RecommandButton {
         id: enterbtn
         anchors {
             top: nameedit.bottom
-            topMargin: 20
+            topMargin: 14
             left: cancelbtn.right
             leftMargin: 10
         }
         text: qsTr("Confirm")
         enabled: nameedit.text !== "" ? true : false
         width: 185
-        height: 36
+        height: 38
 
         onClicked: {
             albumControl.createAlbum(nameedit.text )
