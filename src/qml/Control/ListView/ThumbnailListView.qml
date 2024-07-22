@@ -697,7 +697,7 @@ Item {
         //菜单显隐逻辑有点绕，建议头脑清醒的时候再处理
         Menu {
             id: thumbnailMenu
-
+            maxVisibleItems: 30
             //显示大图预览
             RightMenuItem {
                 text: qsTr("View")
