@@ -19,13 +19,13 @@ DialogWindow {
     title: " "
     visible: false
 
-    minimumWidth: 380
-    maximumWidth: 380
-    minimumHeight: 280
-    maximumHeight: 280
+    minimumWidth: 400
+    maximumWidth: 400
+    minimumHeight: 320
+    maximumHeight: 320
 
-    width: 380
-    height: 280
+    width: 400
+    height: 320
 
     property string filePath: ""
     property string saveName: nameedit.text
@@ -35,65 +35,84 @@ DialogWindow {
     property string saveFolder: ""
     property var messageToId
 
+    property int labelWidth: 80
+    property int lineEditWidth: 300
+    property int btnWidth: 185
+    property int btnHeight: 36
+
     icon : "deepin-album"
+
+    Text {
+        id: exporttitle
+        width: 308
+        height: 24
+        anchors {
+            left: parent.left
+            leftMargin: 46
+            top: parent.top
+        }
+        font: DTK.fontManager.t5
+        text: qsTr("Export")
+        verticalAlignment: Text.AlignBottom
+        horizontalAlignment: Text.AlignHCenter
+    }
 
     Label{
         id:nameLabel
-        width:42
-        height: 35
-        font.pixelSize: 14
+        width: labelWidth
+        height: btnHeight
+        font: DTK.fontManager.t6
         anchors {
             left: parent.left
             leftMargin: 0
             top: nameedit.top
             topMargin:0
         }
-        text:qsTr("Name:")
+        verticalAlignment: Text.AlignVCenter
+        text: qsTr("Name:")
     }
     LineEdit {
         id: nameedit
         anchors {
-            top: parent.top
+            top: exporttitle.bottom
             topMargin: 16
-            right: parent.right
-            rightMargin: 10
+            left: nameLabel.right
         }
-        width: 260
-        height: 35
-        font: DTK.fontManager.t5
+        clearButton.visible: activeFocus
+        width: lineEditWidth
+        height: btnHeight
+        font: DTK.fontManager.t6
         focus: true
         maximumLength: 255
         validator: RegExpValidator {regExp: /^[^\\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/ }
         text: ""
         selectByMouse: true
-//        alertText: qsTr("The file already exists, please use another name")
-//        showAlert: fileControl.isShowToolTip(source,nameedit.text)
     }
 
     Label{
-        id:saveLabel
-        width:42
-        height: 35
-        font.pixelSize: 14
+        id: saveLabel
+        width: labelWidth
+        height: btnHeight
+        font: DTK.fontManager.t6
         anchors {
             left: parent.left
             leftMargin: 0
             top: nameLabel.bottom
             topMargin:10
         }
+        verticalAlignment: Text.AlignVCenter
         text:qsTr("Save to:")
     }
 
     ComboBox{
-        id :saveCombox
-        width:260
-        height: 35
-        font.pixelSize: 14
+        id: saveCombox
+        width: lineEditWidth
+        height: btnHeight
+        font: DTK.fontManager.t6
         anchors {
             top: nameedit.bottom
             topMargin: 10
-            right: parent.right
-            rightMargin: 10
+            left: saveLabel.right
         }
 
         textRole: "key"
@@ -106,21 +125,20 @@ DialogWindow {
             ListElement { key: qsTr("Music"); value: 5 }
             ListElement { key: qsTr("Select other directories"); value: 6 }
         }
-        delegate:    ItemDelegate {
+        delegate:    MenuItem {
             text: key
-            width: parent.width-10
-            height : 35
-            checked: index == 0
-            backgroundVisible: false
+            width: parent.width
+            height : btnHeight
+            highlighted: saveCombox.highlightedIndex === index
             onClicked: {
                 saveIndex = value
                 if(value == 6){
 
                     exportdialog.flags = Qt.Window
                     var tmpFolder = albumControl.getFolder();
-                    if(tmpFolder.length >0){
+                    if(tmpFolder.length > 0) {
                         key = tmpFolder
-                    }else{
+                    } else {
                         key = qsTr("Select other directories")
                     }
                     exportdialog.flags = Qt.Window | Qt.WindowCloseButtonHint | Qt.WindowStaysOnTopHint
@@ -129,44 +147,40 @@ DialogWindow {
                 }
             }
         }
-
     }
 
-
-
     Label{
-        id:fileFormatLabel
-        width:42
-        height: 35
-        font.pixelSize: 14
+        id: fileFormatLabel
+        width: labelWidth
+        height: btnHeight
+        font: DTK.fontManager.t6
         anchors {
             left: parent.left
             leftMargin: 0
             top: saveLabel.bottom
             topMargin:10
         }
-        text:qsTr("Format:")
+        verticalAlignment: Text.AlignVCenter
+        text: qsTr("Format:")
     }
 
     ComboBox{
         id :formatCombox
-        width:260
-        height: 35
-        font.pixelSize: 14
+        width: lineEditWidth
+        height: btnHeight
+        font: DTK.fontManager.t6
         anchors {
             top: saveCombox.bottom
             topMargin: 10
-            right: parent.right
-            rightMargin: 10
+            left: fileFormatLabel.right
         }
         model :albumControl.imageCanExportFormat(filePath).length
         displayText: albumControl.imageCanExportFormat(filePath)[currentIndex]
-        delegate:    ItemDelegate {
+        delegate:    MenuItem {
             text: albumControl.imageCanExportFormat(filePath)[index]
-            width: parent.width-10
-            height : 35
-            checked: index == 0
-            backgroundVisible: false
+            width: parent.width
+            height: btnHeight
+            highlighted: formatCombox.highlightedIndex === index
             onClicked: {
 
             }
@@ -174,29 +188,29 @@ DialogWindow {
     }
 
     Label{
-        id:piczLabel
-        width:42
-        height: 35
-        font.pixelSize: 14
+        id: piczLabel
+        width: labelWidth
+        height: btnHeight
+        font: DTK.fontManager.t6
         anchors {
             left: parent.left
             leftMargin: 0
             top: fileFormatLabel.bottom
             topMargin:10
         }
+        verticalAlignment: Text.AlignVCenter
         text:qsTr("Quality:")
     }
 
     Slider{
-        id :piczSlider
-        width:200
-        height: 30
-        font.pixelSize: 14
+        id: piczSlider
+        width: 246
+        height: btnHeight
+        font: DTK.fontManager.t6
         anchors {
             top: formatCombox.bottom
-            topMargin: 10
-            right: parent.right
-            rightMargin: 70
+            topMargin: 16
+            left: piczLabel.right
         }
         from: 1
         value: 100
@@ -205,49 +219,52 @@ DialogWindow {
     }
 
     Label{
-        id:bfLbale
-        width:40
-        height: 30
-        font.pixelSize: 14
+        id: bfLable
+        height: btnHeight
+        font: DTK.fontManager.t7
+        color: "#7C7C7C"
         anchors {
             top: formatCombox.bottom
             topMargin: 10
+            left: piczSlider.right
             right: parent.right
             rightMargin: 10
         }
-        text: piczSlider.value +"%"
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignRight
+        text: piczSlider.value + "%"
     }
-
 
     Button {
         id: cancelbtn
         anchors {
-            top: bfLbale.bottom
-            topMargin: 10
+            top: bfLable.bottom
+            topMargin: 9
             left: parent.left
             leftMargin: 0
         }
         text: qsTr("Cancel")
-        width: 170
-        height: 32
-        font.pixelSize: 16
+        width: btnWidth
+        height: btnHeight
+        font: DTK.fontManager.t6
         onClicked: {
-            exportdialog.visible=false
+            exportdialog.visible = false
         }
     }
 
-    Button {
+    RecommandButton {
         id: enterbtn
         anchors {
-            top: bfLbale.bottom
-            topMargin: 10
+            top: bfLable.bottom
+            topMargin: 8
             left: cancelbtn.right
             leftMargin: 10
         }
         text: qsTr("Confirm")
         enabled: true
-        width: 170
-        height: 32
+        width: btnWidth
+        height: btnHeight + 2
+        font: DTK.fontManager.t6
 
         onClicked: {
             if (saveName === "") {
