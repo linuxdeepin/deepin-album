@@ -204,60 +204,37 @@ Item {
     Component {
         id: selectedIconComponent
         Item {
-            anchors.fill: parent
-
-            // 计算图片区域的位置
-            Rectangle {
-                id: imageArea
-                anchors.centerIn: parent
-                width: parent.width - 14
-                height: parent.height - 14
-                visible: false
-            }
+            id: imageArea
+            anchors.top: parent.top
+            anchors.right: parent.right
+            anchors.topMargin: 2
+            anchors.rightMargin: 2
+            width: 20
+            height: 20
 
             //选中后显示的图标
             DciIcon {
                 name: "select_active_1"
                 visible: true
-                anchors {
-                    top: imageArea.top
-                    right: imageArea.right
-                    topMargin: 5
-                    rightMargin : 5
-                }
+                anchors.centerIn: parent
             }
 
             DciIcon {
                 name: "Inner_shadow"
                 visible: true
-                anchors {
-                    top: imageArea.top
-                    right: imageArea.right
-                    topMargin: 5
-                    rightMargin : 5
-                }
+                anchors.centerIn: parent
             }
 
             DciIcon {
                 name: "shadow"
                 visible: true
-                anchors {
-                    top: imageArea.top
-                    right: imageArea.right
-                    topMargin: 5
-                    rightMargin : 5
-                }
+                anchors.centerIn: parent
             }
 
             DciIcon {
                 name: "yes"
                 visible: true
-                anchors {
-                    top: imageArea.top
-                    right: imageArea.right
-                    topMargin: 5
-                    rightMargin : 5
-                }
+                anchors.centerIn: parent
             }
         }
     }
