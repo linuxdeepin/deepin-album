@@ -622,78 +622,83 @@
 <context>
     <name>ExportDialog</name>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="51"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="55"/>
+        <source>Export</source>
+        <translation type="unfinished">Export</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ExportDialog.qml" line="72"/>
         <source>Name:</source>
         <translation>Name:</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="84"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="105"/>
         <source>Save to:</source>
         <translation>Save to:</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="101"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="121"/>
         <source>Pictures</source>
         <translation>Pictures</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="102"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="122"/>
         <source>Documents</source>
         <translation>Documents</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="103"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="123"/>
         <source>Downloads</source>
         <translation>Downloads</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="104"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="124"/>
         <source>Desktop</source>
         <translation>Desktop</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="105"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="125"/>
         <source>Videos</source>
         <translation>Videos</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="106"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="126"/>
         <source>Music</source>
         <translation>Music</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="107"/>
-        <location filename="../qml/Control/ExportDialog.qml" line="124"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="127"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="144"/>
         <source>Select other directories</source>
         <translation>Select other directories</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="148"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="166"/>
         <source>Format:</source>
         <translation>Format:</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="187"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="205"/>
         <source>Quality:</source>
         <translation>Quality:</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="230"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="249"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="247"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="266"/>
         <source>Confirm</source>
         <translation>Confirm</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="262"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="282"/>
         <source>Export successful</source>
         <translation>Export successful</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="264"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="284"/>
         <source>Export failed</source>
         <translation>Export failed</translation>
     </message>
@@ -1115,7 +1120,7 @@
     <name>NewAlbumDialog</name>
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="41"/>
-        <location filename="../qml/Control/NewAlbumDialog.qml" line="85"/>
+        <location filename="../qml/Control/NewAlbumDialog.qml" line="86"/>
         <source>Unnamed</source>
         <translation>Unnamed</translation>
     </message>
@@ -1125,17 +1130,17 @@
         <translation>New Album</translation>
     </message>
     <message>
-        <location filename="../qml/Control/NewAlbumDialog.qml" line="69"/>
+        <location filename="../qml/Control/NewAlbumDialog.qml" line="70"/>
         <source>Name:</source>
         <translation>Name:</translation>
     </message>
     <message>
-        <location filename="../qml/Control/NewAlbumDialog.qml" line="100"/>
+        <location filename="../qml/Control/NewAlbumDialog.qml" line="101"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="../qml/Control/NewAlbumDialog.qml" line="117"/>
+        <location filename="../qml/Control/NewAlbumDialog.qml" line="118"/>
         <source>Confirm</source>
         <translation>Confirm</translation>
     </message>
@@ -1285,17 +1290,17 @@
 <context>
     <name>RemoveAlbumDialog</name>
     <message>
-        <location filename="../qml/Control/RemoveAlbumDialog.qml" line="42"/>
+        <location filename="../qml/Control/RemoveAlbumDialog.qml" line="41"/>
         <source>Are you sure you want to delete this album?</source>
         <translation>Are you sure you want to delete this album?</translation>
     </message>
     <message>
-        <location filename="../qml/Control/RemoveAlbumDialog.qml" line="55"/>
+        <location filename="../qml/Control/RemoveAlbumDialog.qml" line="54"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="../qml/Control/RemoveAlbumDialog.qml" line="72"/>
+        <location filename="../qml/Control/RemoveAlbumDialog.qml" line="71"/>
         <source>Delete</source>
         <translation>Delete</translation>
     </message>
@@ -1471,12 +1476,12 @@
 <context>
     <name>ThumbnailListDelegate</name>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="455"/>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="432"/>
         <source>days</source>
         <translation>days</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="455"/>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="432"/>
         <source>day</source>
         <translation>day</translation>
     </message>
@@ -1484,12 +1489,12 @@
 <context>
     <name>ThumbnailListDelegate2</name>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListDelegate2.qml" line="396"/>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate2.qml" line="373"/>
         <source>days</source>
         <translation type="unfinished">days</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListDelegate2.qml" line="396"/>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate2.qml" line="373"/>
         <source>day</source>
         <translation type="unfinished">day</translation>
     </message>
