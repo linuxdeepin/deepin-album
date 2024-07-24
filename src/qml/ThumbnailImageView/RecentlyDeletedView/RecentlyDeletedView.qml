@@ -167,7 +167,7 @@ BaseView {
                 topMargin: 4
                 right: parent.right
             }
-            width: 130
+            width: 115
             height: 30
             visible: (!theView.haveSelect && totalCount > 0) || totalCount === 0
         }

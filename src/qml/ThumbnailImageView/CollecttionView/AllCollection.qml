@@ -132,10 +132,9 @@ Item {
                 topMargin: 4
                 right: parent.right
             }
-            width: 130
+            width: 115
             height: 30
             visible: parent.visible && albumControl.getAllCount() !== 0
-            //visible: !(numLabelText === "" && filterType === 0)
         }
 
         MouseArea {
