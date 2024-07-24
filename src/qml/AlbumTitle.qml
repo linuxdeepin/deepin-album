@@ -362,7 +362,17 @@ TitleBar {
                 executeSearch(false)
             }
 
+            // 点击清除按钮，从搜索视图返回到前一视图页
+            Connections {
+                target: searchEdit.clearButton.item
+                function onClicked() {
+                    if (searchEdit.beforeView !== -1 && GStatus.currentViewType === Album.Types.ViewSearchResult)
+                        GStatus.currentViewType = searchEdit.beforeView
+                }
+            }
+
             function executeSearch(bForce) {
+                beforeView = -1
                 if(GStatus.currentViewType !== Album.Types.ViewSearchResult) {
                     beforeView = GStatus.currentViewType
                 }
