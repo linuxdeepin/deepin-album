@@ -126,7 +126,7 @@ BaseView {
                 topMargin: 4
                 right: parent.right
             }
-            width: 130
+            width: 115
             height: 30
         }
     }
