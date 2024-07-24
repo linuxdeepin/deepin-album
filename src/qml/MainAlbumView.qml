@@ -245,7 +245,8 @@ Item {
             leftSidebar.enabled = true
             thumbnailImage.enabled = true
             titleAlubmRect.enabled = true
-            DTK.sendMessage(stackControl, qsTr("Import failed"), "warning")
+            if (urls.length === 0)
+                DTK.sendMessage(stackControl, qsTr("Import failed"), "warning")
         }
     }
 }

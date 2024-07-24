@@ -27,7 +27,8 @@ Item {
     Connections {
         target: albumControl
         onSigRepeatUrls: {
-            DTK.sendMessage(stackControl, qsTr("The photo/video already exists"), "warning")
+            if (urls.length > 0)
+                DTK.sendMessage(stackControl, qsTr("The photo/video already exists"), "warning")
         }
     }
 
