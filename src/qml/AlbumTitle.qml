@@ -417,7 +417,7 @@ TitleBar {
             Layout.alignment: Qt.AlignRight
             Layout.minimumWidth: iconSize * 3 + iconSpacing * (3 - 1)
             ToolButton {
-                visible: GStatus.selectedPaths.length === 0 || GStatus.currentViewType === Album.Types.ViewDevice
+                visible: GStatus.selectedPaths.length === 0 || GStatus.currentViewType === Album.Types.ViewDevice || GStatus.currentViewType === Album.Types.ViewRecentlyDeleted
                 id: titleImportBtn
                 Layout.preferredWidth: iconSize
                 Layout.preferredHeight: iconSize
