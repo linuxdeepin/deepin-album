@@ -25,6 +25,7 @@ function executeViewImage() {
 function executeDelete() {
     if ( thumnailListType !== Album.Types.ThumbnailTrash ){
         albumControl.insertTrash(GStatus.selectedPaths)
+        thumbnailModel.clearSelection()
     } else {
         albumControl.deleteImgFromTrash(selectedPaths)
         selectAll(false)

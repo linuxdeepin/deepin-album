@@ -113,7 +113,7 @@ BaseView {
                 topMargin: 10
                 left: parent.left
             }
-            visible: bShowImportTips
+            visible: false
             font: DTK.fontManager.t6
             text: qsTr("0 item")
         }
