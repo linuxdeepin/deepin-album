@@ -29,8 +29,8 @@ TitleBar {
     background: Rectangle {
         anchors.left: parent.left
         anchors.top: parent.top
-        anchors.leftMargin: GStatus.sideBarIsVisible ? 200 : 0
-        width: parent.width - (GStatus.sideBarIsVisible ? 200 : 0)
+        anchors.leftMargin: title.width > GStatus.needHideSideBarWidth ? 200 : 0
+        width: parent.width - (title.width > GStatus.needHideSideBarWidth ? 200 : 0)
         height: parent.height
 
         color: DTK.themeType === ApplicationHelper.LightType ? "#FDFDFD"
@@ -206,7 +206,7 @@ TitleBar {
         // 比例+年月日按钮组/下拉框
         RowLayout {
             spacing: 5
-
+            Layout.alignment: Qt.AlignLeft
             // 比例按钮
             ToolButton {
                 id: range1Button
@@ -415,7 +415,7 @@ TitleBar {
         RowLayout {
             spacing: iconSpacing
             Layout.alignment: Qt.AlignRight
-            Layout.minimumWidth: iconSize * 3 + iconSpacing * (3 - 1)
+            //Layout.minimumWidth: iconSize * 3 + iconSpacing * (3 - 1)
             ToolButton {
                 visible: GStatus.selectedPaths.length === 0 || GStatus.currentViewType === Album.Types.ViewDevice || GStatus.currentViewType === Album.Types.ViewRecentlyDeleted
                 id: titleImportBtn
@@ -521,7 +521,6 @@ TitleBar {
             rightLayout.anchors.leftMargin = title.width <= GStatus.needHideSideBarWidth ? layoutLeftMargin_AlignLeft : layoutLeftMargin_AlignRight
         }
     }
-
 
     Connections {
         target: GStatus
