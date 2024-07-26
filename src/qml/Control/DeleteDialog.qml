@@ -28,7 +28,13 @@ DialogWindow {
     width: 400
     height: 160
 
-    icon : "deepin-album"
+    header: DialogTitleBar {
+        enableInWindowBlendBlur: true
+        icon {
+            mode: DTK.NormalState
+            name: "deepin-album"
+        }
+    }
 
     property int type: 0
 
@@ -39,18 +45,18 @@ DialogWindow {
         type = deltype
         if(deltype === Album.Types.TrashNormal) {
             if(count === 1) {
-                deleteTitle.text = qsTr("Are you sure you want to delete this file locally?")
+                textMetics.text = qsTr("Are you sure you want to delete this file locally?")
                 deleteTips.text  = qsTr("You can restore it in the trash")
             } else {
-                deleteTitle.text = qsTr("Are you sure you want to delete %1 files locally?").arg(count)
+                textMetics.text = qsTr("Are you sure you want to delete %1 files locally?").arg(count)
                 deleteTips.text  = qsTr("You can restore them in the trash")
             }
         } else {
             if(count === 1) {
-                deleteTitle.text = qsTr("Are you sure you want to permanently delete this file?")
+                textMetics.text = qsTr("Are you sure you want to permanently delete this file?")
                 deleteTips.text  = qsTr("You cannot restore it any longer")
             } else {
-                deleteTitle.text = qsTr("Are you sure you want to permanently delete %1 files?").arg(count)
+                textMetics.text = qsTr("Are you sure you want to permanently delete %1 files?").arg(count)
                 deleteTips.text  = qsTr("You cannot restore them any longer")
             }
         }
@@ -61,18 +67,33 @@ DialogWindow {
         sigDoDeleteImg()
     }
 
-    Text {
+    Label {
         id: deleteTitle
         anchors {
             top: parent.top
             horizontalCenter: parent.horizontalCenter
         }
+
+        property Palette textColor: Palette {
+            normal: ("black")
+            normalDark: ("white")
+        }
+
+        color: ColorSelector.textColor
         font: DTK.fontManager.t5
         verticalAlignment: Text.AlignBottom
         horizontalAlignment: Text.AlignHCenter
+        elide: Text.elideRight
+        text: textMetics.elidedText
+        TextMetrics {
+            id: textMetics
+            elide: Text.ElideRight
+            elideWidth: 400
+            font: deleteTitle.font
+        }
     }
 
-    Text {
+    Label {
         id: deleteTips
         opacity: 0.7
         anchors {
