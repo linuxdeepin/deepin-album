@@ -7,23 +7,28 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.1
 import QtQml 2.11
 
+import org.deepin.dtk 1.0
 //视频时长标签
-
-Item {
-    visible: false
-    width: 60
-    height: 30
-
+Label {
     property string displayStr: ""
 
-    Rectangle {
-        color: "#EEEEEE"
-        radius: 20
-        anchors.fill: parent
+    text: displayStr
 
-        Text {
-            anchors.centerIn: parent
-            text: displayStr
-        }
+    verticalAlignment: Text.AlignVCenter
+    horizontalAlignment: Text.AlignHCenter
+
+    property Palette textColor: Palette {
+        normal: ("black")
+        normalDark: ("white")
+    }
+    color: ColorSelector.textColor
+    background: Rectangle {
+        color: DTK.themeType === ApplicationHelper.LightType ? "#EEEEEE" : "#111111"
+        radius: 20
+        anchors.centerIn: parent
+        width: parent.width + 10
+        height: parent.height
     }
 }
+
+

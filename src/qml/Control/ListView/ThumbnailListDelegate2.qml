@@ -366,13 +366,11 @@ Item {
                 anchors {
                     bottom: imageArea.bottom
                     left: imageArea.left
-                    leftMargin : 5
+                    leftMargin : 9
                     bottomMargin : 5
                 }
                 opacity: 0.7
                 displayStr: model.remainDays > 1 ? (model.remainDays + qsTr("days")) : (model.remainDays + qsTr("day"))
-                height: 22
-                width: 44
             }
         }
     }
@@ -398,13 +396,11 @@ Item {
                 anchors {
                     bottom: imageArea.bottom
                     right: imageArea.right
-                    rightMargin : 5
+                    rightMargin : 9
                     bottomMargin : 5
                 }
                 opacity: 0.7
                 displayStr: fileControl.isVideo(model.url) ? albumControl.getVideoTime(model.url) : "00:00"
-                height: 22
-                width: displayStr.length === 5 ? 44 : 64
 
                 Connections {
                     target: albumControl
