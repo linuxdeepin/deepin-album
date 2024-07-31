@@ -11,11 +11,12 @@ import QtGraphicalEffects 1.0
 import org.deepin.dtk 1.0
 import "../../Control"
 import "../../Control/ListView"
+import "../../Control/Animation"
 import "../../"
 
 import org.deepin.album 1.0 as Album
 
-Item {
+SwitchViewAnimation {
     id: monthView
 
     signal monthClicked(string year, string month)

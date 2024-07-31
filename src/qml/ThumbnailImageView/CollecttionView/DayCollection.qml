@@ -13,9 +13,10 @@ import org.deepin.album 1.0 as Album
 
 import "../../Control"
 import "../../Control/ListView"
+import "../../Control/Animation"
 import "../../"
 
-Item {
+SwitchViewAnimation {
     id: dayView
 
     signal sigListViewPressed(int x, int y)
@@ -134,6 +135,7 @@ Item {
         //0.清理
         theModel.clear()
         theModel.selectedPathObjs = []
+        selectedPaths = []
         dayHeights = []
         //1.获取日期
         var days = []
@@ -464,7 +466,7 @@ Item {
 
             Connections {
                 target: dayView
-                onSigListViewPressed: {
+                function onSigListViewPressed(x, y) {
                     var object = selectAllBox.mapFromGlobal(x,y)
                     if (selectAllBox.contains(object)) {
                         checkBoxClicked = true
@@ -478,7 +480,7 @@ Item {
                     }
                 }
 
-                onSigListViewReleased: {
+                function onSigListViewReleased(x, y) {
                     checkBoxClicked = false
                 }
             }
@@ -510,7 +512,7 @@ Item {
 
                 Connections {
                     target: rubberBand
-                    onRectSelChanged: {
+                    function onRectSelChanged() {
                         var pos1 = theMouseArea.mapToItem(theSubView, rubberBand.left(), rubberBand.top())
                         var pos2 = theMouseArea.mapToItem(theSubView, rubberBand.right(), rubberBand.bottom())
                         var rectsel = albumControl.rect(pos1, pos2)
@@ -524,22 +526,24 @@ Item {
                 // 监听缩略图子控件选中状态，一旦改变，更新日视图所有选中路径
                 Connections {
                     target: theSubView
-                    onSelectedChanged: {
-                        theModel.selectedPathObjs[index].paths = theSubView.selectedPaths
+                    function onSelectedChanged() {
+                        if (index > -1) {
+                            theModel.selectedPathObjs[index].paths = theSubView.selectedPaths
+                        }
                         updateSelectedPaths()
                     }
                 }
 
                 Connections {
                     target: theView
-                    onSigUnSelectAll: {
+                    function onSigUnSelectAll() {
                         theSubView.selectAll(false)
                     }
                 }
 
                 Connections {
                     target: theView
-                    onDbClicked: {
+                    function onDbClicked(url) {
                         var openPaths = theSubView.allOriginUrls()
                         if (openPaths.indexOf(url) !== -1)
                             theSubView.executeViewImage()

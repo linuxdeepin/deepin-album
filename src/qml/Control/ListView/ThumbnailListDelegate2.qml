@@ -59,7 +59,7 @@ Item {
     // 图片保存完成，缩略图区域重新加载当前图片
     Connections {
         target: fileControl
-        onCallSavePicDone: {
+        function onCallSavePicDone() {
             if (path === model.url) {
                 model.reloadThumbnail
             }
@@ -404,7 +404,7 @@ Item {
 
                 Connections {
                     target: albumControl
-                    onSigRefreashVideoTime: {
+                    function onSigRefreashVideoTime(url, videoTimeStr) {
                         if (url === model.url) {
                             videoLabel.displayStr = videoTimeStr
                         }
