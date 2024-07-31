@@ -15,24 +15,57 @@ BaseView {
     id: collecttView
 
     property int currentViewIndex: 3
+    property int rollingWidth: collecttView.width + 20
 
     // 通知日视图刷新状态栏提示信息
     signal flushDayViewStatusText()
 
     function setIndex(index) {
-
         if (currentViewIndex === index)
             return
 
-        currentViewIndex = index
-        if (currentViewIndex === 0)
+        if (index === 0) {
             yearCollection.flushModel()
-        else if (currentViewIndex === 1)
+            if (yearCollection.x < 0)
+                yearCollection.x = rollingWidth
+        } else if (index === 1) {
             monthCollection.flushModel()
-        else if (currentViewIndex === 2) {
+            if (monthCollection.x < 0)
+                monthCollection.x = rollingWidth
+        } else if (index === 2) {
             dayCollection.flushModel()
+            if (dayCollection.x < 0)
+                dayCollection.x = rollingWidth
+            if (dayCollection.x !== 0) {
+                dayCollection.visible = true
+            }
+
+            GStatus.selectedPaths = []
             flushDayViewStatusText()
+        } else if (index === 3) {
+            if (allCollection.x < 0)
+                allCollection.x = rollingWidth
+            allCollection.clearSelecteds()
         }
+
+        currentViewIndex = index
+        GStatus.currentCollecttionViewIndex = index
+
+        //年月视图不显示底栏数量
+        if (currentViewIndex === 0 || currentViewIndex ===1) {
+            GStatus.statusBarNumText = ""
+        }
+    }
+
+    onWidthChanged: {
+        if (yearCollection.x < 0)
+            yearCollection.x = -rollingWidth
+        if (monthCollection.x < 0)
+            monthCollection.x = -rollingWidth
+        if (dayCollection.x < 0)
+            dayCollection.x = -rollingWidth
+        if (allCollection.x < 0)
+            allCollection.x = -rollingWidth
     }
 
     onVisibleChanged: {
@@ -48,42 +81,37 @@ BaseView {
         }
     }
 
-    SwipeView {
-        id: swipeView
-        anchors.fill: parent
-        currentIndex: currentViewIndex
-        interactive: false
+    YearCollection {
+        id: yearCollection
+        x: rollingWidth
+        width: collecttView.width
+        height: collecttView.height
+        show: currentViewIndex === 0
+    }
 
-        YearCollection {
-            id: yearCollection
-        }
+    MonthCollection {
+        id: monthCollection
+        x: rollingWidth
+        width: collecttView.width
+        height: collecttView.height
+        show: currentViewIndex === 1
+    }
 
-        MonthCollection {
-            id: monthCollection
-        }
+    DayCollection {
+        id: dayCollection
+        visible: false
+        x: rollingWidth
+        width: collecttView.width
+        height: collecttView.height
+        show: currentViewIndex === 2
+    }
 
-        DayCollection {
-            id: dayCollection
-        }
-
-        AllCollection {
-            id: allCollection
-        }
-
-        onCurrentIndexChanged: {
-            currentViewIndex = currentIndex
-            GStatus.sigCollectionViewIndexChanged(currentIndex)
-
-            // 保证日聚合和所有照片视图互斥显示，以便列表控件全选逻辑只在显示的视图中生效
-            dayCollection.visible = currentViewIndex === 2
-            allCollection.clearSelecteds()
-            allCollection.visible = currentViewIndex === 3
-
-            //年月视图不显示底栏数量
-            if (currentViewIndex === 0 || currentViewIndex ===1) {
-                GStatus.statusBarNumText = ""
-            }
-        }
+    AllCollection {
+        id: allCollection
+        x: 0
+        width: collecttView.width
+        height: collecttView.height
+        show: currentViewIndex === 3
     }
 
     // 若没有数据，显示导入图片视图

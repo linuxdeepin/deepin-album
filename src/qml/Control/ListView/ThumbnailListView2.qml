@@ -100,7 +100,7 @@ FocusScope {
     function totalTimeScope() {
         if(thumnailListType === Album.Types.ThumbnailAllCollection &&
                 GStatus.currentViewType === Album.Types.ViewCollecttion &&
-                collecttionView.currentViewIndex === 3) { //仅在合集模式的时候激活计算，以此节省性能
+                GStatus.currentCollecttionViewIndex === 3) { //仅在合集模式的时候激活计算，以此节省性能
             var visilbeIndexs = gridView.rectIndexes(0, 0, gridView.width, gridView.height)
             if (visilbeIndexs.length > 0) {
                 var url1 = thumbnailModel.data(visilbeIndexs[0], "url")

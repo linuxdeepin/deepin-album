@@ -432,6 +432,19 @@ void GlobalStatus::setCurrentViewType(const Types::ThumbnailViewType &value)
     }
 }
 
+int GlobalStatus::currentCollecttionViewIndex() const
+{
+    return m_currentCollecttionViewIndex;
+}
+
+void GlobalStatus::setCurrentCollecttionViewIndex(const int &value)
+{
+    if (m_currentCollecttionViewIndex != value) {
+        m_currentCollecttionViewIndex = value;
+        Q_EMIT currentCollecttionViewIndexChanged();
+    }
+}
+
 int GlobalStatus::currentCustomAlbumUId() const
 {
     return m_currentCustomAlbumUId;

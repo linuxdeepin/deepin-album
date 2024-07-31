@@ -83,7 +83,7 @@ DialogWindow {
         font: DTK.fontManager.t5
         verticalAlignment: Text.AlignBottom
         horizontalAlignment: Text.AlignHCenter
-        elide: Text.elideRight
+        elide: Text.ElideRight
         text: textMetics.elidedText
         TextMetrics {
             id: textMetics

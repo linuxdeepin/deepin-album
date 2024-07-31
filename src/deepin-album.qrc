@@ -66,5 +66,6 @@
         <file>qml/Control/BaseView.qml</file>
         <file>qml/Control/BorderImageEx.qml</file>
         <file>qml/Control/MonthImage.qml</file>
+        <file>qml/Control/Animation/SwitchViewAnimation.qml</file>
     </qresource>
 </RCC>

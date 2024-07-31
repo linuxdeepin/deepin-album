@@ -252,7 +252,7 @@ TitleBar {
                     checked: true
                     onClicked: {
                         collectionBtnClicked(0)
-                        collectionCombo.setCurrentIndex()
+                        collectionCombo.setCurrentIndex(0)
                     }
                 }
                 ToolButton {
@@ -303,10 +303,6 @@ TitleBar {
                         break
                     }
                 }
-
-                Component.onCompleted: {
-                    GStatus.sigCollectionViewIndexChanged.connect(setChecked)
-                }
             }
 
             // 年月日下拉框
@@ -337,10 +333,6 @@ TitleBar {
                 onCurrentIndexChanged: {
                     collectionBtnClicked(currentIndex)
                     collectionBtnBox.setChecked(currentIndex)
-                }
-
-                Component.onCompleted: {
-                    GStatus.sigCollectionViewIndexChanged.connect(setCurrentIndex)
                 }
             }
         }
