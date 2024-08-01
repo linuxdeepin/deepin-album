@@ -135,7 +135,9 @@ Item {
     //border and shadow
     Rectangle {
         id: borderRect
-        anchors.fill: image
+        anchors.centerIn: parent
+        width: image.paintedWidth
+        height: image.paintedHeight
         color: Qt.rgba(0, 0, 0, 0)
         border.color: Qt.rgba(0, 0, 0, 0.1)
         border.width: 1
@@ -264,37 +266,53 @@ Item {
     Component {
         id: selectedIconComponent
         Item {
-            id: imageArea
-            anchors.top: parent.top
-            anchors.right: parent.right
-            anchors.topMargin: 2
-            anchors.rightMargin: 2
-            width: 20
-            height: 20
+            id: iconArea
 
-            //选中后显示的图标
-            DciIcon {
-                name: "select_active_1"
-                visible: true
-                anchors.centerIn: parent
-            }
+            anchors.centerIn: parent// 确保阴影框居中于图片
+            width: image.paintedWidth + 14
+            height: image.paintedHeight + 14
 
-            DciIcon {
-                name: "Inner_shadow"
-                visible: true
-                anchors.centerIn: parent
-            }
+            Rectangle {
+                anchors.top: parent.top
+                anchors.right: parent.right
+                anchors.topMargin: 2
+                anchors.rightMargin: 2
+                color: Qt.rgba(0,0,0,0)
+                width: 20
+                height: 20
 
-            DciIcon {
-                name: "shadow"
-                visible: true
-                anchors.centerIn: parent
-            }
 
-            DciIcon {
-                name: "yes"
-                visible: true
-                anchors.centerIn: parent
+                // 选中后显示的图标
+                DciIcon {
+                    id: selectIcon
+                    name: "select_active_1"
+                    visible: true
+                    anchors.centerIn: parent
+                }
+
+                // 内部阴影
+                DciIcon {
+                    id: innerShadow
+                    name: "Inner_shadow"
+                    visible: true
+                    anchors.centerIn: parent
+                }
+
+                // 外部阴影
+                DciIcon {
+                    id: outerShadow
+                    name: "shadow"
+                    visible: true
+                    anchors.centerIn: parent
+                }
+
+                // 确认图标
+                DciIcon {
+                    id: confirmIcon
+                    name: "yes"
+                    visible: true
+                    anchors.centerIn: parent
+                }
             }
         }
     }
@@ -303,24 +321,16 @@ Item {
     Component {
         id: selectedFrameComponent
         Item {
-            anchors.fill: parent
+            anchors.fill: image
 
             z: -1
-            // 计算图片区域的位置
-            Rectangle {
-                id: imageArea
-                anchors.centerIn: parent
-                width: parent.width - 14
-                height: parent.height - 14
-                visible: false
-            }
 
-            //选中后显示的阴影框
+            // 选中后显示的阴影框
             Rectangle {
                 id: selectShader
-                anchors.centerIn: parent
-                width: parent.width
-                height: parent.height
+                anchors.centerIn: parent// 确保阴影框居中于图片
+                width: image.paintedWidth + 14
+                height: image.paintedHeight + 14
                 radius: 10
                 color: "#AAAAAA"
                 visible: true
@@ -329,17 +339,6 @@ Item {
                 border.color: Qt.rgba(0,0,0,0.1)
                 border.width: 1
             }
-
-            //遮罩执行
-            OpacityMask {
-                id: mask
-                anchors.fill: imageArea
-                source: imageArea
-                maskSource: selectShader
-                antialiasing: true
-                smooth: true
-            }
-
         }
     }
 
