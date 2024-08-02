@@ -81,7 +81,7 @@ Item {
     // 图片保存完成，缩略图区域重新加载当前图片
     Connections {
         target: fileControl
-        onCallSavePicDone: {
+        function onCallSavePicDone() {
             if (path === m_url) {
                 m_displayFlushHelper = Math.random()
             }
@@ -462,7 +462,7 @@ Item {
 
                 Connections {
                     target: albumControl
-                    onSigRefreashVideoTime: {
+                    function onSigRefreashVideoTime(url, videoTimeStr) {
                         if (url === m_url) {
                             videoLabel.displayStr = videoTimeStr
                         }

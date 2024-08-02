@@ -45,6 +45,7 @@ ColumnLayout {
             id: viewLabel
             width: 42; height: 20
             text: title
+            font: DTK.fontManager.t6
             Layout.alignment: Qt.AlignLeft; Layout.leftMargin: 20
             horizontalAlignment: Qt.AlignLeft
 

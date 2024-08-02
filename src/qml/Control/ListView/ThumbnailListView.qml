@@ -130,7 +130,7 @@ Item {
     function totalTimeScope() {
         if(thumnailListType === Album.Types.ThumbnailAllCollection &&
                 GStatus.currentViewType === Album.Types.ViewCollecttion &&
-                collecttionView.currentViewIndex === 3) { //仅在合集模式的时候激活计算，以此节省性能
+                GStatus.currentCollecttionViewIndex === 3) { //仅在合集模式的时候激活计算，以此节省性能
             var visilbeIndexs = theView.flushRectSel(0, theView.contentY, theView.width, theView.height)
             if (visilbeIndexs.length > 0 && visilbeIndexs[0] !== "-1") {
                 var url1 = thumbnailListModel.get(visilbeIndexs[0]).url
@@ -242,7 +242,7 @@ Item {
 
     // 提供给合集日视图和已导入视图使用，用来刷新
     function flushRectSel(x,y,w,h,ctrl,mousePress, inPress) {
-        if (theView.contains(x,y) && theView.contains(x+w, y+h) && w !== 0 && h !== 0) {
+        if (theView.contains(Qt.point(x,y)) && theView.contains(Qt.point(x+w, y+h)) && w !== 0 && h !== 0) {
             // 按住Ctrl，鼠标点击事件释放时，处理点选逻辑
             if (ctrl && mousePress) {
                 if (!inPress) {
@@ -287,7 +287,7 @@ Item {
 
     Connections {
         target: thumbnailImage
-        onEscKeyPressed: {
+        function onEscKeyPressed() {
             if (haveSelect) {
                 selectAll(false)
             }
@@ -668,18 +668,19 @@ Item {
 
         Connections {
             target: GStatus
-            onSigSelectAll: {
-                if (theView.visible)
+            function onSigSelectAll(bSel) {
+                if (theView.visible) {
                     selectAll(bSel)
+                }
             }
 
-            onSigPageUp: {
+            function onSigPageUp() {
                 if (theView.visible) {
                     theView.executeScrollBar(theView.scrollDelta)
                 }
             }
 
-            onSigPageDown: {
+            function onSigPageDown() {
                 if (theView.visible) {
                     theView.executeScrollBar(-theView.scrollDelta)
                 }

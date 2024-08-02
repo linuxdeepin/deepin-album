@@ -11,9 +11,10 @@ import QtGraphicalEffects 1.0
 import org.deepin.dtk 1.0
 import "../../Control"
 import "../../Control/ListView"
+import "../../Control/Animation"
 import "../../"
 
-Item {
+SwitchViewAnimation {
     id: yearView
 
     signal yearClicked(string year)

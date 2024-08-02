@@ -13,9 +13,11 @@ import org.deepin.album 1.0 as Album
 
 import "../../Control"
 import "../../Control/ListView"
+import "../../Control/Animation"
 import "../../"
 
-Item {
+SwitchViewAnimation {
+
     property int filterType: filterCombo.currentIndex // 筛选类型，默认所有
     property string numLabelText:""
     property string selectedText: getSelectedNum(selectedPaths)

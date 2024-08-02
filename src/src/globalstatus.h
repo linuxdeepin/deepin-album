@@ -139,6 +139,12 @@ public:
     void setCurrentViewType(const Types::ThumbnailViewType& value);
     Q_SIGNAL void currentViewTypeChanged();
 
+    // 合集当前索引
+    Q_PROPERTY(int currentCollecttionViewIndex READ currentCollecttionViewIndex WRITE setCurrentCollecttionViewIndex NOTIFY currentCollecttionViewIndexChanged)
+    int currentCollecttionViewIndex() const;
+    void setCurrentCollecttionViewIndex(const int& value);
+    Q_SIGNAL void currentCollecttionViewIndexChanged();
+
     // 当前自定义相册Id
     Q_PROPERTY(int currentCustomAlbumUId READ currentCustomAlbumUId WRITE setCurrentCustomAlbumUId NOTIFY currentCustomAlbumUIdChanged)
     int currentCustomAlbumUId() const;
@@ -257,7 +263,6 @@ Q_SIGNALS:
     void sigFlushHaveImportedView();                        // 刷新已导入视图内容
     void sigFlushRecentDelView();                           // 刷新最近删除视图内容
     void sigFlushCustomAlbumView(int UID);                  // 刷新我的收藏/自定义相册视图内容 UID: >= 0 刷新指定视图，-1: 默认刷新所有视图
-    void sigCollectionViewIndexChanged(int index);          // 合集页面发生改变
     void sigFlushSearchView();                              // 刷新搜索结果视图内容
     void sigCustomAlbumNameChaged(int UID, QString name);   // 刷新自定义相册视图的相册名称
     void sigSelectAll(bool bSel);
@@ -288,6 +293,7 @@ private:
     bool m_bRefreshFavoriteIconFlag = false;    // 刷新收藏图标标记，翻转一次，前端图标就刷新一次
     bool m_bRefreshRangeBtnState = false;       // 刷新显示比例图标激活状态标记，翻转一次，前端图标就刷新一次
     Types::ThumbnailViewType m_currentViewType = Types::ViewImport; // 当前显示的视图类型
+    int m_currentCollecttionViewIndex = 3;      // 合集当前索引 0:年 1:月 2:日 3:所有图片
     int m_currentCustomAlbumUId = -1;           // 当前自定义相册所在UId，-1：照片库(非我的收藏) 0:我的收藏 1:截图录屏 2:相机 3:画板 其他:自定义相册
     int m_stackControlCurrent = 0;              // 0:相册界面 1:看图界面 2:幻灯片
     int m_stackControlLastCurrent = -1;         // 记录上一次显示的主界面索引 0:相册界面 1:看图界面 2:幻灯片

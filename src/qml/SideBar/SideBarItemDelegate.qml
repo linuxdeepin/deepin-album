@@ -48,6 +48,7 @@ ItemDelegate {
             leftMargin: 10
             verticalCenter: item.verticalCenter
         }
+        font: DTK.fontManager.t6
         text: "%1".arg(model.displayName)
         elide: Text.ElideRight
     }
