@@ -445,6 +445,19 @@ void GlobalStatus::setCurrentCollecttionViewIndex(const int &value)
     }
 }
 
+Types::SwitchType GlobalStatus::currentSwitchType() const
+{
+    return m_currentSwitchType;
+}
+
+void GlobalStatus::setCurrentSwitchType(const int &value)
+{
+    if (m_currentSwitchType != value) {
+        m_currentSwitchType = static_cast<Types::SwitchType>(value);
+        Q_EMIT currentSwitchTypeChanged();
+    }
+}
+
 int GlobalStatus::currentCustomAlbumUId() const
 {
     return m_currentCustomAlbumUId;

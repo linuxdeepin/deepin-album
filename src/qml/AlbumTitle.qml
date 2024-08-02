@@ -318,6 +318,7 @@ TitleBar {
                 visible: GStatus.currentViewType === Album.Types.ViewCollecttion && albumControl.getYears(refreshVisible).length !== 0 && window.width <= showCollComboWidth
 
                 property bool refreshVisible: false
+                property bool blocksignal: false
 
                 model: ListModel {
                     ListElement { text: qsTr("Y"); icon: "" }
@@ -330,9 +331,20 @@ TitleBar {
                     collectionCombo.currentIndex = index
                 }
 
+                function updateIndex() {
+                    blocksignal = true
+                    collectionCombo.currentIndex = GStatus.currentCollecttionViewIndex
+                    blocksignal = false
+                }
+
                 onCurrentIndexChanged: {
-                    collectionBtnClicked(currentIndex)
+                    if (!blocksignal)
+                        collectionBtnClicked(currentIndex)
                     collectionBtnBox.setChecked(currentIndex)
+                }
+
+                Component.onCompleted: {
+                    GStatus.currentCollecttionViewIndexChanged.connect(updateIndex)
                 }
             }
         }

@@ -23,12 +23,7 @@ import "./../"
 
 Item {
 
-    property int m_CollecttionCurrentViewIndex: collecttionView.currentViewIndex
     signal escKeyPressed()
-
-    function setCollecttionViewIndex(index) {
-        collecttionView.setIndex(index)
-    }
 
     CollecttionView{
         id: collecttionView
@@ -74,8 +69,10 @@ Item {
 
     Connections {
         target: titleAlubmRect
-        onCollectionBtnClicked: {
-            setCollecttionViewIndex(nIndex)
+        function onCollectionBtnClicked(index) {
+            // 点击按钮，动画切换类型设定为翻页滚动
+            GStatus.currentSwitchType = Album.Types.FlipScroll
+            collecttionView.setIndex(index)
         }
     }
 

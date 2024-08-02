@@ -5,6 +5,8 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 
+import org.deepin.album 1.0 as Album
+
 Item {
     id: switchViewAnimation
 
@@ -14,6 +16,19 @@ Item {
 
     property real hideOpacity: 0
     property real hideX: -width - 20
+
+    property int switchType: GStatus.currentSwitchType
+    property string switchPropertys: "x,opacity"
+
+    onSwitchTypeChanged: {
+        if (switchType === Album.Types.FlipScroll) {
+            x = width + 20
+            switchPropertys = "x,opacity"
+        } else if (switchType === Album.Types.FadeInOut) {
+            x = 0
+            switchPropertys = "opacity"
+        }
+    }
 
     state: "hide"
     states: [
@@ -37,7 +52,10 @@ Item {
         }
     ]
 
-    transitions: Transition {
-        NumberAnimation{properties: "x,opacity"; easing.type: Easing.OutExpo; duration: 400}
+    transitions:
+        Transition {
+        enabled: switchType !== Album.Types.HardCut
+        NumberAnimation{properties: switchPropertys; easing.type: Easing.OutExpo; duration: 400
+        }
     }
 }

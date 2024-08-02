@@ -40,7 +40,7 @@ Item {
             right: parent.right
             rightMargin: 20
         }
-        visible: !(GStatus.currentViewType === Album.Types.ViewCollecttion && thumbnailImage.m_CollecttionCurrentViewIndex < 2)
+        visible: !(GStatus.currentViewType === Album.Types.ViewCollecttion && GStatus.currentCollecttionViewIndex < 2)
         from: 0
         value: 0
         stepSize: 1
