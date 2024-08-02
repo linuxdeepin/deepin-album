@@ -145,6 +145,12 @@ public:
     void setCurrentCollecttionViewIndex(const int& value);
     Q_SIGNAL void currentCollecttionViewIndexChanged();
 
+    // 合集当前动画切换类型
+    Q_PROPERTY(Types::SwitchType currentSwitchType READ currentSwitchType WRITE setCurrentSwitchType NOTIFY currentSwitchTypeChanged)
+    Types::SwitchType currentSwitchType() const;
+    void setCurrentSwitchType(const int& value);
+    Q_SIGNAL void currentSwitchTypeChanged();
+
     // 当前自定义相册Id
     Q_PROPERTY(int currentCustomAlbumUId READ currentCustomAlbumUId WRITE setCurrentCustomAlbumUId NOTIFY currentCustomAlbumUIdChanged)
     int currentCustomAlbumUId() const;
@@ -294,6 +300,7 @@ private:
     bool m_bRefreshRangeBtnState = false;       // 刷新显示比例图标激活状态标记，翻转一次，前端图标就刷新一次
     Types::ThumbnailViewType m_currentViewType = Types::ViewImport; // 当前显示的视图类型
     int m_currentCollecttionViewIndex = 3;      // 合集当前索引 0:年 1:月 2:日 3:所有图片
+    Types::SwitchType m_currentSwitchType = Types::UnknownSwitchType;
     int m_currentCustomAlbumUId = -1;           // 当前自定义相册所在UId，-1：照片库(非我的收藏) 0:我的收藏 1:截图录屏 2:相机 3:画板 其他:自定义相册
     int m_stackControlCurrent = 0;              // 0:相册界面 1:看图界面 2:幻灯片
     int m_stackControlLastCurrent = -1;         // 记录上一次显示的主界面索引 0:相册界面 1:看图界面 2:幻灯片

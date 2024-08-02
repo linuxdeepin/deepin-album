@@ -36,10 +36,9 @@ BaseView {
             dayCollection.flushModel()
             if (dayCollection.x < 0)
                 dayCollection.x = rollingWidth
-            if (dayCollection.x !== 0) {
+            if (!dayCollection.visible) {
                 dayCollection.visible = true
             }
-
             GStatus.selectedPaths = []
             flushDayViewStatusText()
         } else if (index === 3) {
@@ -83,7 +82,6 @@ BaseView {
 
     YearCollection {
         id: yearCollection
-        x: rollingWidth
         width: collecttView.width
         height: collecttView.height
         show: currentViewIndex === 0
@@ -91,7 +89,6 @@ BaseView {
 
     MonthCollection {
         id: monthCollection
-        x: rollingWidth
         width: collecttView.width
         height: collecttView.height
         show: currentViewIndex === 1
@@ -100,7 +97,6 @@ BaseView {
     DayCollection {
         id: dayCollection
         visible: false
-        x: rollingWidth
         width: collecttView.width
         height: collecttView.height
         show: currentViewIndex === 2
@@ -127,11 +123,15 @@ BaseView {
     }
 
     function onYearClicked(year) {
+        // 点击在图片上，动画切换类型为渐显渐隐
+        GStatus.currentSwitchType = Album.Types.FadeInOut
         setIndex(1)
         monthCollection.scrollToYear(year)
     }
 
     function onMonthClicked(year, month) {
+        // 点击在图片上，动画切换类型为渐显渐隐
+        GStatus.currentSwitchType = Album.Types.FadeInOut
         setIndex(2)
         dayCollection.scrollToMonth(year, month)
     }

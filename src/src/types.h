@@ -22,6 +22,8 @@ class Types : public QObject
     Q_ENUMS(ItemRole)
     Q_ENUMS(ImageType)
     Q_ENUMS(StackPage)
+
+    Q_ENUMS(SwitchType)
 public:
     explicit Types(QObject *parent = nullptr);
     ~Types() override;
@@ -109,6 +111,16 @@ public:
         OpenImagePage,   ///< 默认打开窗口界面
         ImageViewPage,   ///< 图片展示界面(含缩略图栏)
         SliderShowPage,  ///< 图片动画展示界面
+    };
+
+    /**
+       @brief 年月日动画切换类型
+     */
+    enum SwitchType {
+        UnknownSwitchType = -1,
+        HardCut,        ///< 硬切
+        FlipScroll,     ///< 滚动翻页
+        FadeInOut,      ///< 渐显渐隐
     };
 };
 
