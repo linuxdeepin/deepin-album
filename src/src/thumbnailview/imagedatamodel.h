@@ -18,6 +18,8 @@ class ImageDataModel : public QAbstractListModel
     Q_PROPERTY(QString keyWord READ keyWord WRITE setKeyWord NOTIFY keyWordChanged)
     Q_PROPERTY(QString devicePath READ devicePath WRITE setDevicePath NOTIFY devicePathChanged)
     Q_PROPERTY(QString dayToken READ dayToken WRITE setDayToken NOTIFY dayTokenChanged)
+    Q_PROPERTY(QString importTitle READ importTitle WRITE setImportTitle NOTIFY importTitleChanged)
+
 public:
     explicit ImageDataModel(QObject *parent = nullptr);
 
@@ -40,6 +42,9 @@ public:
     QString dayToken();
     void setDayToken(QString dayToken);
 
+    QString importTitle();
+    void setImportTitle(QString importTitle);
+
     DBImgInfo dataForIndex(const QModelIndex &index) const;
 
     Q_INVOKABLE void loadData(Types::ItemType type = Types::All);
@@ -50,6 +55,7 @@ signals:
     void keyWordChanged();
     void devicePathChanged();
     void dayTokenChanged();
+    void importTitleChanged();
 
 private:
     Types::ModelType m_modelType;
@@ -57,6 +63,7 @@ private:
     QString m_devicePath;
     QString m_keyWord;
     QString m_dayToken;
+    QString m_importTitle;
 
     QList<QPair<QByteArray, QString>> m_locations;
     DBImgInfoList m_infoList;

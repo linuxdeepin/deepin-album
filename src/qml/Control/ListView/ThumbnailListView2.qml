@@ -37,7 +37,7 @@ FocusScope {
     // 存在已选项
     property bool haveSelect: thumbnailModel.selectedIndexes.length > 0
     // 已选择全部缩略图
-    property bool haveSelectAll: thumbnailModel.selectedIndexes.length === thumbnailModel.rowCount()
+    property bool haveSelectAll: thumbnailModel.selectedIndexes.length === thumbnailModel.rowCount() && thumbnailModel.selectedIndexes.length > 0
 
     // 已选项个数
     property int haveSelectCount: thumbnailModel.selectedIndexes.length
@@ -96,6 +96,16 @@ FocusScope {
         return thumbnailModel.allUrls()
     }
 
+    function executeViewImage() {
+        ThumbnailTools.executeViewImage()
+    }
+
+    function runDeleteImg() {
+        if (!visible)
+            return
+        ThumbnailTools.executeDelete()
+    }
+
     //统计当前页面的缩略图时间范围
     function totalTimeScope() {
         if(thumnailListType === Album.Types.ThumbnailAllCollection &&
@@ -113,41 +123,45 @@ FocusScope {
         }
     }
 
-//    // 提供给合集日视图和已导入视图使用，用来刷新
-//    function flushRectSel(x,y,w,h,ctrl,mousePress, inPress) {
-//        if (gridView.contains(x,y) && gridView.contains(x+w, y+h) && w !== 0 && h !== 0) {
-//            // 按住Ctrl，鼠标点击事件释放时，处理点选逻辑
-//            if (ctrl && mousePress) {
-//                if (!inPress) {
-//                    var rectSel = gridView.flushRectSel(x, y + gridView.contentY, w, h)
-//                    if (rectSel.length === 1) {
-//            //不直接往theView.ism里面push，是为了触发onIsmChanged
-//                        var tempIsm = gridView.ism
-//                        if (gridView.ism.indexOf(rectSel[0]) === -1) {
-//                            tempIsm.push(rectSel[0])
-//                        } else {
-//                            tempIsm.splice(tempIsm.indexOf(rectSel[0]), 1)
-//                        }
-//                        gridView.ism = tempIsm
-//                    }
-//                }
-//            } else {
-//                gridView.ism = gridView.flushRectSel(x, y + gridView.contentY, w, h)
-//            }
-//        } else {
-//            // 1.按住ctrl，鼠标垮区域框选时，需要清空框选区域外的已选项
-//            // 2.不按住ctrl，鼠标单选，需要清空其他列表的已选项
-//            if (!ctrl && mousePress || ctrl && !mousePress)
-//                gridView.ism = []
-//        }
+   // 提供给合集日视图和已导入视图使用，用来刷新
+   function flushRectSel(x,y,w,h,ctrl,mousePress, inPress) {
+       if (gridView.contains(Qt.point(x,y)) && gridView.contains(Qt.point(x+w, y+h)) && w !== 0 && h !== 0) {
+           // 按住Ctrl，鼠标点击事件释放时，处理点选逻辑
+           if (ctrl && mousePress) {
+               if (!inPress) {
+                   var rectSel = gridView.rectIndexes(x, y + gridView.contentY, w, h)
+                   if (rectSel.length === 1) {
+           //不直接往theView.ism里面push，是为了触发onIsmChanged
+                       var tempIsm = gridView.rectSelIndexes
+                       if (tempIsm === undefined || tempIsm === null) {
+                           gridView.rectSelIndexes = rectSel
+                       } else {
+                           if (gridView.rectSelIndexes.indexOf(rectSel[0]) === -1) {
+                               tempIsm.push(rectSel[0])
+                           } else {
+                               tempIsm.splice(tempIsm.indexOf(rectSel[0]), 1)
+                           }
+                           gridView.rectSelIndexes = tempIsm
+                       }
+                   }
+               }
+           } else {
+               gridView.rectangleSelect(x, y + gridView.contentY, w, h)
+           }
+       } else {
+           // 1.按住ctrl，鼠标垮区域框选时，需要清空框选区域外的已选项
+           // 2.不按住ctrl，鼠标单选，需要清空其他列表的已选项
+           if (!ctrl && mousePress || ctrl && !mousePress)
+               gridView.rectSelIndexes = []
+       }
 
-//        // 跨区域框选后，需要手动激活列表焦点，这样快捷键才能生效
-//        if (gridView.ism.length > 0) {
-//            gridView.forceActiveFocus()
-//        }
+       // 跨区域框选后，需要手动激活列表焦点，这样快捷键才能生效
+       if (thumbnailModel.selectedIndexes.length > 0) {
+           gridView.forceActiveFocus()
+       }
 
-//        selectedChanged()
-//    }
+       selectedChanged()
+   }
 
     Connections {
         target: thumbnailImage
@@ -224,10 +238,12 @@ FocusScope {
                             thumbnailModel.clearSelection();
                         }
 
-                        if (gridView.ctrlPressed) {
-                            thumbnailModel.toggleSelected(positioner.map(pressedItem.index));
-                        } else {
-                            thumbnailModel.setSelected(positioner.map(pressedItem.index));
+                        if (thumnailListType !== Album.Types.ThumbnailDate) {
+                            if (gridView.ctrlPressed) {
+                                thumbnailModel.toggleSelected(positioner.map(pressedItem.index));
+                            } else {
+                                thumbnailModel.setSelected(positioner.map(pressedItem.index));
+                            }
                         }
                     }
 
@@ -1069,7 +1085,7 @@ FocusScope {
 
     Component.onCompleted: {
         GStatus.sigThumbnailStateChange.connect(fouceUpdate)
-        deleteDialog.sigDoDeleteImg.connect(ThumbnailTools.executeDelete)
+        deleteDialog.sigDoDeleteImg.connect(runDeleteImg)
 
         // 缩略图列表模型选中内容有变化，向外发送选中内容改变信号，以便外部维护全局选中队列GStatus.selectedPaths
         thumbnailModel.selectedIndexesChanged.connect(selectedChanged)

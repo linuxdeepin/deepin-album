@@ -6,12 +6,15 @@
 */
 
 #include "qimageitem.h"
+#include "../imageengine/imagedataservice.h"
 
-#include <QPainter>
 #include <DDciIcon>
 #include <DGuiApplicationHelper>
 
 DGUI_USE_NAMESPACE
+
+#include <QPainter>
+#include <QTimer>
 
 QImage QImageItem::s_damage = QImage();
 
@@ -40,8 +43,21 @@ void QImageItem::setImage(const QImage &image)
 {
     bool oldImageNull = m_image.isNull();
     m_image = image;
+
+    QRect oldPaintedRect = m_paintedRect;
     updatePaintedRect();
-    update();
+    // 若图片显示方式从方图变为原始比例，需要延迟刷新图片，以便比例切换动画能正常显示
+    if (ImageDataService::instance()->getLoadMode() == 1) {
+        if (m_paintedRect.width() < oldPaintedRect.width() || m_paintedRect.height() < oldPaintedRect.height()) {
+            QTimer::singleShot(100, this, [=] {
+                update();
+            });
+        } else {
+            update();
+        }
+    } else {
+        update();
+    }
     Q_EMIT nativeWidthChanged();
     Q_EMIT nativeHeightChanged();
     Q_EMIT imageChanged();
@@ -170,6 +186,7 @@ void QImageItem::updatePaintedRect()
     case PreserveAspectFit: {
         QSizeF scaled = pImage->size();
 
+        QSizeF size = boundingRect().size();
         scaled.scale(boundingRect().size(), Qt::KeepAspectRatio);
         destRect = QRectF(QPoint(0, 0), scaled);
         destRect.moveCenter(boundingRect().center().toPoint());

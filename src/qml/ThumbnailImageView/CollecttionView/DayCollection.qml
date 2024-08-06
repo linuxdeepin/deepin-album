@@ -495,20 +495,17 @@ SwitchViewAnimation {
                 topPadding: -1
             }
 
-            ListModel {
-                id: viewModel
-            }
-
-            ThumbnailListView {
+            ThumbnailListView2 {
                 id: theSubView
-                thumbnailListModel: viewModel
                 anchors {
                     top: selectAllBox.bottom
                     left: selectAllBox.left
                 }
-                enableWheel: false
+                enableMouse: false
                 width: parent.width
-                height: Math.abs(Math.ceil(theSubView.count() / Math.floor((parent.width) / itemWidth)) * itemHeight)
+                height: Math.abs(Math.ceil(theSubView.count / Math.floor((parent.width) / itemWidth)) * itemHeight)
+                thumnailListType: Album.Types.ThumbnailDate
+                proxyModel.sourceModel: Album.ImageDataModel { id: dataModel; modelType: Album.Types.DayCollecttion}
 
                 Connections {
                     target: rubberBand
@@ -528,7 +525,7 @@ SwitchViewAnimation {
                     target: theSubView
                     function onSelectedChanged() {
                         if (index > -1) {
-                            theModel.selectedPathObjs[index].paths = theSubView.selectedPaths
+                            theModel.selectedPathObjs[index].paths = theSubView.selectedUrls
                         }
                         updateSelectedPaths()
                     }
@@ -544,7 +541,7 @@ SwitchViewAnimation {
                 Connections {
                     target: theView
                     function onDbClicked(url) {
-                        var openPaths = theSubView.allOriginUrls()
+                        var openPaths = theSubView.allUrls()
                         if (openPaths.indexOf(url) !== -1)
                             theSubView.executeViewImage()
                     }
@@ -552,31 +549,21 @@ SwitchViewAnimation {
             }
 
             function flushView() {
-                var picTotal = 0
-                var videoTotal = 0
+                var picTotal = albumControl.getDayInfoCount(m_dayToken, 3)
+                var videoTotal = albumControl.getDayInfoCount(m_dayToken, 4)
                 //1.刷新图片显示
-                var paths = albumControl.getDayPaths(m_dayToken)
-                viewModel.clear()
-                for (var i = 0;i !== paths.length;++i) {
-                    viewModel.append({url: paths[i], filePath: albumControl.url2localPath(paths[i])})
-
-                    //顺便统计下图片和视频的数量
-                    if(fileControl.isImage(paths[i])) {
-                        picTotal++
-                    } else {
-                        videoTotal++
-                    }
-                }
+                dataModel.dayToken = m_dayToken
+                theSubView.proxyModel.refresh()
 
                 //2.刷新checkbox
                 var str = ""
-                if(picTotal == 1) {
+                if(picTotal === 1) {
                     str += qsTr("1 photo ")
                 } else if(picTotal > 1) {
                     str += qsTr("%1 photos ").arg(picTotal)
                 }
 
-                if(videoTotal == 1) {
+                if(videoTotal === 1) {
                     str += qsTr("1 video")
                 } else if(videoTotal > 1) {
                     str += qsTr("%1 videos").arg(videoTotal)

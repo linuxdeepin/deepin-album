@@ -17,7 +17,6 @@ import "../../Control"
 import "../../"
 Item {
     id : importedListView
-    signal rectSelTitleChanged(rect rt)
     signal sigUnSelectAll()
     signal sigListViewPressed(int x, int y)
     signal sigListViewReleased(int x, int y)
@@ -44,29 +43,28 @@ Item {
             // 从后台获取所有已导入数据,倒序
             var titleInfos = []
             if (Number(fileControl.getConfigValue("", "loadImport", 1)))
-                titleInfos = albumControl.getImportTimelinesTitleInfosReverse(filterCombo.currentIndex);
-            console.log("imported model has refreshed.. filterType:", filterCombo.currentIndex, " done...")    
+                titleInfos = albumControl.getAllImportTimelinesTitle(filterCombo.currentIndex);
+            console.log("imported model has refreshed.. filterType:", filterCombo.currentIndex, " done...")
             var i = 0
             var dayHeight = 0
             var listHeight = 0
             theView.listContentHeight = 0
-
+            var titlePaths
             for (var j = 0; j < titleInfos.length; j++) {
-                var listItem = titleInfos[j]
+                theModel.append({"title": titleInfos[j]})
 
-                for (var key in listItem) {
-                    theModel.append({"title":key, "items":listItem[key]})
-                    var tmpPath = []
-                    var selectedPathObj = {"id": i, "paths":tmpPath}
-                    theModel.selectedPathObjs.push(selectedPathObj)
+                // 当前标题列表选中数据初始化
+                titlePaths = []
+                var selectedPathObj = {"id": j, "paths": titlePaths}
+                theModel.selectedPathObjs.push(selectedPathObj)
 
-                    // 计算每个日期列表高度
-                    listHeight = Math.abs(Math.ceil(listItem[key].length / Math.floor(importedListView.width / realCellWidth)) * realCellWidth)
-                    dayHeight = listHeight + listMargin * 2 + importCheckboxHeight + (i === 0 ? spaceCtrlHeight : 0)
-                    dayHeights.push(dayHeight)
-                    theView.listContentHeight += dayHeight
-                    i++
-                }
+                // 计算每个标题列表高度
+                titlePaths = albumControl.getTimelinesTitlePaths(titleInfos[j], filterCombo.currentIndex)
+                listHeight = Math.abs(Math.ceil(titlePaths.length / Math.floor(importedListView.width / realCellWidth)) * realCellWidth)
+                dayHeight = listHeight + listMargin * 2 + importCheckboxHeight + (j === 0 ? spaceCtrlHeight : 0)
+                dayHeights.push(dayHeight)
+                theView.listContentHeight += dayHeight
+
             }
         }
     }
@@ -85,16 +83,6 @@ Item {
         selectedPaths = tmpPaths
         if (importedListView.visible) {
             GStatus.selectedPaths = selectedPaths
-        }
-    }
-
-    // 通知已导入视图标题栏区域，调整色差校正框选框大小
-    Connections {
-        target: rubberBandImport
-        onRectSelChanged: {
-            var pos1 = theView.contentItem.mapToItem(importedListView, rubberBandImport.left(), rubberBandImport.top())
-            var pos2 = theView.contentItem.mapToItem(importedListView, rubberBandImport.right(), rubberBandImport.bottom())
-            rectSelTitleChanged(albumControl.rect(pos1, pos2))
         }
     }
 
@@ -147,12 +135,6 @@ Item {
                 if (checkBoxClicked) {
                     mouse.accepted = false
                     return
-                }
-
-                //取消全选，初始化选中数据
-                GStatus.selectedPaths = []
-                for (var i = 0; i != theModel.count; ++i) {
-                    theModel.selectedPathObjs[i].paths.length = 0
                 }
 
                 ctrlPressed = Qt.ControlModifier & mouse.modifiers
@@ -227,9 +209,6 @@ Item {
 
                 theView.scrollDirType = Album.Types.NoType
                 rubberBandImport.clearRect()
-
-                // 清除标题栏色差矫校正框选框
-                rectSelTitleChanged(albumControl.rect(Qt.point(0, 0), Qt.point(0, 0)))
             }
             onWheel: {
                 // 滚动时，激活滚动条显示
@@ -328,23 +307,6 @@ Item {
                 vbar.increase()
             }
         }
-
-        //处理全选消息
-        onSigSelectAll: {
-            if (visible) {
-                var paths = []
-                for (var i = 0; i != theModel.count; ++i) {
-                    var array = theModel.get(i).items
-                    //清空
-                    theModel.selectedPathObjs[i].paths.length = 0
-                    for (var j = 0; j < array.count; ++j) {
-                        paths.push(array.get(j).url)
-                        theModel.selectedPathObjs[i].paths[j] = array.get(j).url
-                    }
-                }
-                GStatus.selectedPaths = paths
-            }
-        }
     }
 
     //已导入列表代理控件
@@ -358,7 +320,6 @@ Item {
             height: importedGridView.height + importedListView.listMargin * 2 + importedListView.importCheckboxHeight + spaceRect.height
             property string m_index: index
             property var theViewTitle: global.objIsEmpty(theModel.get(index)) ? "" : theModel.get(index).title //日期标题文本内容
-            property var theViewItems: global.objIsEmpty(theModel.get(index)) ? "" : theModel.get(index).items //日期标题对应图片信息链表
 
             Item {
                 id: spaceRect
@@ -410,11 +371,11 @@ Item {
                 topPadding: 1
                 font: DTK.fontManager.t6
                 id: importedLabel
-                text: qsTr("Imported on") + " " + theViewTitle + " " + (importedGridView.count() === 1 ? qsTr("1 item") : qsTr("%1 items").arg(importedGridView.count()))
+                text: qsTr("Imported on") + " " + theViewTitle + " " + (importedGridView.count === 1 ? qsTr("1 item") : qsTr("%1 items").arg(importedGridView.count))
             }
 
             //缩略图网格表
-            ThumbnailListView {
+            ThumbnailListView2 {
                 id: importedGridView
                 anchors {
                     left: parent.left
@@ -422,15 +383,11 @@ Item {
                     topMargin: importedListView.listMargin
                     bottomMargin: importedListView.listMargin
                 }
+                enableMouse: false
                 width: parent.width
-                height: Math.abs(Math.ceil(importedGridView.count() / Math.floor((parent.width) / itemWidth)) * itemHeight)
-
-                enableWheel: false
-
-                // 装载数据
-                thumbnailListModel: {
-                    theViewItems
-                }
+                height: Math.abs(Math.ceil(importedGridView.count / Math.floor((parent.width) / itemWidth)) * itemHeight)
+                thumnailListType: Album.Types.ThumbnailDate
+                proxyModel.sourceModel: Album.ImageDataModel { id: dataModel; modelType: Album.Types.HaveImported}
 
                 Connections {
                     target: rubberBandImport
@@ -449,10 +406,8 @@ Item {
                 Connections {
                     target: importedGridView
                     onSelectedChanged: {
-                        theModel.selectedPathObjs[m_index].paths.length = 0;
-                        for (var i = 0; i < importedGridView.selectedPaths.length; i++) {
-                            var url = importedGridView.selectedPaths[i]
-                            theModel.selectedPathObjs[m_index].paths.push(url)
+                        if (index > -1) {
+                            theModel.selectedPathObjs[index].paths = importedGridView.selectedUrls
                         }
 
                         updateSelectedPaths()
@@ -469,14 +424,20 @@ Item {
                 Connections {
                     target: theView
                     onDbClicked: {
-                        var openPaths = importedGridView.allOriginUrls()
+                        var openPaths = importedGridView.allUrls()
                         if (openPaths.indexOf(url) !== -1)
                             importedGridView.executeViewImage()
                     }
                 }
 
+                function flushView() {
+                    dataModel.importTitle = theViewTitle
+                    importedGridView.proxyModel.refresh(filterCombo.currentIndex)
+                }
+
                 Component.onCompleted: {
-                    importedGridView.initIsm(theModel.selectedPathObjs[index].paths)
+                    importedGridView.flushView()
+                    importedGridView.selectUrls(theModel.selectedPathObjs[index].paths)
                 }
             }
         }

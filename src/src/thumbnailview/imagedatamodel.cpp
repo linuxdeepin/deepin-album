@@ -161,6 +161,19 @@ void ImageDataModel::setDayToken(QString dayToken)
     m_dayToken = dayToken;
 }
 
+QString ImageDataModel::importTitle()
+{
+    return m_importTitle;
+}
+
+void ImageDataModel::setImportTitle(QString importTitle)
+{
+    if (m_importTitle != importTitle)
+        emit importTitleChanged();
+
+    m_importTitle = importTitle;
+}
+
 DBImgInfo ImageDataModel::dataForIndex(const QModelIndex &index) const
 {
     if (!index.isValid())
@@ -194,6 +207,8 @@ void ImageDataModel::loadData(Types::ItemType type)
         m_infoList = AlbumControl::instance()->searchPicFromAlbum2(m_albumID, m_keyWord, false);
     } else if (m_modelType == Types::DayCollecttion) {
         m_infoList = DBManager::instance()->getInfosByDay(m_dayToken);
+    } else if (m_modelType == Types::HaveImported) {
+        m_infoList = DBManager::instance()->getInfosByImportTimeline(QDateTime::fromString(m_importTitle, "yyyy/MM/dd hh:mm"), itemType);
     }
     endResetModel();
     qDebug() << QString("loadData modelType:[%1] cost [%2]ms..").arg(m_modelType).arg(time.elapsed());

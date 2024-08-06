@@ -10,6 +10,8 @@ import org.deepin.album 1.0 as Album
 Item {
     id: switchViewAnimation
 
+    property int viewType: -1
+
     property bool show: false
     property real showOpacity: 1
     property real showX: 0
@@ -27,6 +29,18 @@ Item {
         } else if (switchType === Album.Types.FadeInOut) {
             x = 0
             switchPropertys = "opacity"
+
+            console.log("switchTypechanged:", switchType)
+        }
+    }
+
+    onOpacityChanged: {
+        // 当前视图渐隐后，应将视图移到视图区域外，否则当前视图的鼠标事件依然生效
+        if (opacity === 0 && switchType === Album.Types.FadeInOut) {
+            if (!show) {
+                if (x === 0)
+                    x = -width - 20
+            }
         }
     }
 
