@@ -61,6 +61,7 @@ public:
         ThumbnailCustomAlbum,      // 自定义相册
         ThumbnailAutoImport,       // 自动导入路径
         ThumbnailAllCollection,    // 合集模式
+        ThumbnailDate,             // 日期模式
         ThumbnailDevice            // 设备列表
     };
 

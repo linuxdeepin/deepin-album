@@ -84,6 +84,7 @@ BaseView {
         id: yearCollection
         width: collecttView.width
         height: collecttView.height
+        viewType: 0
         show: currentViewIndex === 0
     }
 
@@ -91,6 +92,7 @@ BaseView {
         id: monthCollection
         width: collecttView.width
         height: collecttView.height
+        viewType: 1
         show: currentViewIndex === 1
     }
 
@@ -99,6 +101,7 @@ BaseView {
         visible: false
         width: collecttView.width
         height: collecttView.height
+        viewType: 2
         show: currentViewIndex === 2
     }
 
@@ -107,6 +110,7 @@ BaseView {
         x: 0
         width: collecttView.width
         height: collecttView.height
+        viewType: 3
         show: currentViewIndex === 3
     }
 
@@ -126,6 +130,8 @@ BaseView {
         // 点击在图片上，动画切换类型为渐显渐隐
         GStatus.currentSwitchType = Album.Types.FadeInOut
         setIndex(1)
+        allCollection.x = -rollingWidth
+        dayCollection.x = -rollingWidth
         monthCollection.scrollToYear(year)
     }
 
@@ -133,6 +139,7 @@ BaseView {
         // 点击在图片上，动画切换类型为渐显渐隐
         GStatus.currentSwitchType = Album.Types.FadeInOut
         setIndex(2)
+        allCollection.x = -rollingWidth
         dayCollection.scrollToMonth(year, month)
     }
 

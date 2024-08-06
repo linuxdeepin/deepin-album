@@ -265,6 +265,9 @@ public:
     //获取指定日期的照片路径
     Q_INVOKABLE QStringList getDayPaths(const QString &day);
 
+    //获取指定日期的图片和视频数量
+    Q_INVOKABLE int getDayInfoCount(const QString &day, const int &filterType);
+
     //获取日期
     Q_INVOKABLE QStringList getDays();
 

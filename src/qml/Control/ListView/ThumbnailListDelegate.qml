@@ -23,7 +23,6 @@ Item {
     property string m_index
     property string m_url
     property string m_displayFlushHelper
-    property var m_favoriteBtn: itemFavoriteBtn
     property string remainDays
     property bool bShowDamageIcon: image.bLoadError
     property bool bSelected: theView.ism.indexOf(parent.m_index) !== -1 || GStatus.selectedPaths.indexOf(m_url) !== -1
@@ -36,6 +35,7 @@ Item {
     property Item favoriteBtn: null
     property Item remainDaysLbl: null
     property Item videoLabel: null
+    property int nDuration: GStatus.animationDuration
 
     //缩略图本体
     Image {
@@ -102,13 +102,28 @@ Item {
             height: image.paintedHeight
             color:"black"
             radius: 10
+
+            Behavior on width {
+                NumberAnimation {
+                    duration: nDuration
+                    easing.type: Easing.OutExpo // 缓动类型
+                }
+            }
+
+            Behavior on height {
+                NumberAnimation {
+                    duration: nDuration
+                    easing.type: Easing.OutExpo // 缓动类型
+                }
+            }
         }
+
         visible: false
     }
 
     OpacityMask{
         id: opacityMask
-        anchors.fill: image
+        anchors.fill: maskRec
         source: image
         maskSource: mask
     }
@@ -116,7 +131,7 @@ Item {
     FastBlur {
         anchors.top: opacityMask.top; anchors.topMargin: 6
         anchors.left: opacityMask.left; anchors.leftMargin: 1
-        width: opacityMask.width - 2; height: opacityMask.width - 6
+        width: opacityMask.width - 2; height: opacityMask.height - 6
         source: opacityMask
         radius: 10
         transparentBorder: true
@@ -125,7 +140,7 @@ Item {
     //遮罩执行
     OpacityMask {
         id: mask
-        anchors.fill: image
+        anchors.fill: maskRec
         source: image
         maskSource: maskRec
         antialiasing: true
@@ -143,6 +158,20 @@ Item {
         border.width: 1
         visible: true
         radius: 10
+
+        Behavior on width {
+            NumberAnimation {
+                duration: nDuration
+                easing.type: Easing.OutExpo // 缓动类型
+            }
+        }
+
+        Behavior on height {
+            NumberAnimation {
+                duration: nDuration
+                easing.type: Easing.OutExpo // 缓动类型
+            }
+        }
     }
 
     MouseArea {
@@ -151,9 +180,6 @@ Item {
         hoverEnabled: true
         propagateComposedEvents: true
 
-        //属性：是否hover
-        property bool bHovered: false
-
         onClicked: {
             //允许鼠标事件传递给子控件处理,否则鼠标点击缩略图收藏图标不能正常工作
             mouse.accepted = false
@@ -161,55 +187,16 @@ Item {
 
         onEntered: {
             bHovered = true
+            if (favoriteBtn == null && model.modelType !== Album.Types.Device && model.modelType !== Album.Types.RecentlyDeleted)
+                favoriteBtn = favoriteComponent.createObject(main)
         }
 
         onExited: {
             bHovered = false
-        }
-    }
-
-    //收藏图标
-    ActionButton {
-        id: itemFavoriteBtn
-        visible: albumControl.photoHaveFavorited(m_url, GStatus.bRefreshFavoriteIconFlag) || mouseAreaTopParentRect.bHovered
-        anchors {
-            bottom: image.bottom
-            left: image.left
-            leftMargin : (image.width - image.paintedWidth) / 2 + 5
-            bottomMargin : (image.height - image.paintedHeight) / 2 + 5
-        }
-        hoverEnabled: false  //设置为false，可以解决鼠标移动到图标附近时，图标闪烁问题
-
-        icon {
-            name: albumControl.photoHaveFavorited(m_url, GStatus.bRefreshFavoriteIconFlag) ? "collected" : "collection2"
-        }
-
-        MouseArea {
-            id:mouseAreaFavoriteBtn
-            anchors.fill: itemFavoriteBtn
-            propagateComposedEvents: true
-
-            onClicked: {
-                var paths = []
-                paths.push(m_url)
-
-                if (albumControl.photoHaveFavorited(m_url, GStatus.bRefreshFavoriteIconFlag)) {
-                    //取消收藏
-                    albumControl.removeFromAlbum(0, paths)
-                } else {
-                    //收藏
-                    albumControl.insertIntoAlbum(0, paths)
-                }
-
-                GStatus.bRefreshFavoriteIconFlag = !GStatus.bRefreshFavoriteIconFlag
-                // 若当前视图为我的收藏，需要实时刷新我的收藏列表内容
-                if (GStatus.currentViewType === Album.Types.ViewFavorite && GStatus.currentCustomAlbumUId === 0) {
-                    GStatus.sigFlushCustomAlbumView(GStatus.currentCustomAlbumUId)
-                }
-
-                mouse.accepted = true
+            if (favoriteBtn && !bFavorited) {
+                favoriteBtn.destroy()
+                favoriteBtn = null
             }
-
         }
     }
 
@@ -269,8 +256,8 @@ Item {
             id: iconArea
 
             anchors.centerIn: parent// 确保阴影框居中于图片
-            width: image.paintedWidth + 14
-            height: image.paintedHeight + 14
+            width: borderRect.width + 14
+            height: borderRect.height + 14
 
             Rectangle {
                 anchors.top: parent.top
@@ -321,16 +308,14 @@ Item {
     Component {
         id: selectedFrameComponent
         Item {
-            anchors.fill: image
+            anchors.fill: borderRect
 
             z: -1
 
             // 计算图片区域的位置
             Rectangle {
                 id: imageArea
-                anchors.centerIn: parent
-                width: image.paintedWidth
-                height: image.paintedHeight
+                anchors.fill: parent
                 visible: false
             }
 
@@ -338,8 +323,8 @@ Item {
             Rectangle {
                 id: selectShader
                 anchors.centerIn: parent// 确保阴影框居中于图片
-                width: image.paintedWidth + 14
-                height: image.paintedHeight + 14
+                width: imageArea.width + 14
+                height: imageArea.height + 14
                 radius: 10
                 color: "#AAAAAA"
                 visible: true
@@ -361,31 +346,20 @@ Item {
         }
     }
 
-
-
     // 收藏图标组件
     Component {
         id: favoriteComponent
         Item {
-            anchors.fill: parent
-
-            // 计算图片区域的位置
-            Rectangle {
-                id: imageArea
-                anchors.fill: parent
-                width: parent.width - 14
-                height: parent.height - 14
-                visible: false
-            }
+            anchors.fill: borderRect
 
             //收藏图标
             ActionButton {
                 id: itemFavoriteBtn
                 anchors {
-                    bottom: imageArea.bottom
-                    left: imageArea.left
-                    leftMargin : (imageArea.width - image.paintedWidth) / 2 + 5
-                    bottomMargin : (imageArea.height - image.paintedHeight) / 2 + 5
+                    bottom: parent.bottom
+                    left: parent.left
+                    leftMargin : 5
+                    bottomMargin : 5
                 }
 
                 hoverEnabled: false  //设置为false，可以解决鼠标移动到图标附近时，图标闪烁问题
@@ -428,23 +402,14 @@ Item {
     Component {
         id: remainDaysComponent
         Item {
-            anchors.fill: parent
-
-            // 计算图片区域的位置
-            Rectangle {
-                id: imageArea
-                anchors.centerIn: parent
-                width: parent.width - 14
-                height: parent.height - 14
-                visible: false
-            }
+            anchors.fill: borderRect
 
             VideoLabel {
                 id: labelRemainDays
                 visible: true
                 anchors {
-                    bottom: imageArea.bottom
-                    left: imageArea.left
+                    bottom: parent.bottom
+                    left: parent.left
                     leftMargin : 9
                     bottomMargin : 5
                 }
@@ -458,23 +423,14 @@ Item {
     Component {
         id: videoTimeComponent
         Item {
-            anchors.fill: parent
-
-            // 计算图片区域的位置
-            Rectangle {
-                id: imageArea
-                anchors.centerIn: parent
-                width: parent.width - 14
-                height: parent.height - 14
-                visible: false
-            }
+            anchors.fill: borderRect
 
             VideoLabel {
                 id: videoLabel
                 visible: bShowVideoLabel
                 anchors {
-                    bottom: imageArea.bottom
-                    right: imageArea.right
+                    bottom: parent.bottom
+                    right: parent.right
                     rightMargin : 9
                     bottomMargin : 5
                 }

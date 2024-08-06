@@ -33,13 +33,12 @@ Item {
     property bool bFavorited: albumControl.photoHaveFavorited(model.url, GStatus.bRefreshFavoriteIconFlag)
     property bool bShowRemainDays: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted && !model.blank
     property bool bShowVideoLabel: fileControl.isVideo(model.url) && !model.blank
-    property Item imageItem: null
-    property Item damageIcon: null
     property Item selectIcon: null
     property Item selectFrame: null
     property Item favoriteBtn: null
     property Item remainDaysLbl: null
     property Item videoLabel: null
+    property int nDuration: GStatus.animationDuration
 
     // 缩略图本体
     Album.QImageItem {
@@ -59,7 +58,7 @@ Item {
     // 图片保存完成，缩略图区域重新加载当前图片
     Connections {
         target: fileControl
-        function onCallSavePicDone() {
+        function onCallSavePicDone(path) {
             if (path === model.url) {
                 model.reloadThumbnail
             }
@@ -80,6 +79,20 @@ Item {
             height: image.paintedHeight
             color:"black"
             radius: 10
+
+            Behavior on width {
+                NumberAnimation {
+                    duration: nDuration
+                    easing.type: Easing.OutExpo // 缓动类型
+                }
+            }
+
+            Behavior on height {
+                NumberAnimation {
+                    duration: nDuration
+                    easing.type: Easing.OutExpo // 缓动类型
+                }
+            }
         }
 
         visible: false
@@ -87,7 +100,7 @@ Item {
 
     OpacityMask{
         id: opacityMask
-        anchors.fill: image
+        anchors.fill: maskRec
         source: image
         maskSource: mask
     }
@@ -95,7 +108,7 @@ Item {
     FastBlur {
         anchors.top: opacityMask.top; anchors.topMargin: 6
         anchors.left: opacityMask.left; anchors.leftMargin: 1
-        width: opacityMask.width - 2; height: opacityMask.width - 6
+        width: opacityMask.width - 2; height: opacityMask.height - 6
         source: opacityMask
         radius: 10
         transparentBorder: true
@@ -104,7 +117,7 @@ Item {
     //遮罩执行
     OpacityMask {
         id: mask
-        anchors.fill: image
+        anchors.fill: maskRec
         source: image
         maskSource: maskRec
         antialiasing: true
@@ -122,6 +135,20 @@ Item {
         border.width: 1
         visible: true
         radius: 10
+
+        Behavior on width {
+            NumberAnimation {
+                duration: nDuration
+                easing.type: Easing.OutExpo // 缓动类型
+            }
+        }
+
+        Behavior on height {
+            NumberAnimation {
+                duration: nDuration
+                easing.type: Easing.OutExpo // 缓动类型
+            }
+        }
     }
 
     MouseArea {
@@ -209,8 +236,8 @@ Item {
             id: iconArea
 
             anchors.centerIn: parent// 确保阴影框居中于图片
-            width: image.paintedWidth + 14
-            height: image.paintedHeight + 14
+            width: borderRect.width + 14
+            height: borderRect.height + 14
 
             Rectangle {
                 anchors.top: parent.top
@@ -261,16 +288,14 @@ Item {
     Component {
         id: selectedFrameComponent
         Item {
-            anchors.fill: image
+            anchors.fill: borderRect
 
             z: -1
 
             // 计算图片区域的位置
             Rectangle {
                 id: imageArea
-                anchors.centerIn: parent
-                width: image.paintedWidth
-                height: image.paintedHeight
+                anchors.fill: parent
                 visible: false
             }
 
@@ -278,8 +303,8 @@ Item {
             Rectangle {
                 id: selectShader
                 anchors.centerIn: parent// 确保阴影框居中于图片
-                width: image.paintedWidth + 14
-                height: image.paintedHeight + 14
+                width: imageArea.width + 14
+                height: imageArea.height + 14
                 radius: 10
                 color: "#AAAAAA"
                 visible: true
@@ -301,30 +326,20 @@ Item {
         }
     }
 
-
     // 收藏图标组件
     Component {
         id: favoriteComponent
         Item {
-            anchors.fill: parent
-
-            // 计算图片区域的位置
-            Rectangle {
-                id: imageArea
-                anchors.fill: parent
-                width: parent.width - 14
-                height: parent.height - 14
-                visible: false
-            }
+            anchors.fill: borderRect
 
             //收藏图标
             ActionButton {
                 id: itemFavoriteBtn
                 anchors {
-                    bottom: imageArea.bottom
-                    left: imageArea.left
-                    leftMargin : (imageArea.width - image.paintedWidth) / 2 + 5
-                    bottomMargin : (imageArea.height - image.paintedHeight) / 2 + 5
+                    bottom: parent.bottom
+                    left: parent.left
+                    leftMargin : 5
+                    bottomMargin : 5
                 }
 
                 hoverEnabled: false  //设置为false，可以解决鼠标移动到图标附近时，图标闪烁问题
@@ -358,7 +373,6 @@ Item {
 
                         mouse.accepted = true
                     }
-
                 }
             }
         }
@@ -368,23 +382,14 @@ Item {
     Component {
         id: remainDaysComponent
         Item {
-            anchors.fill: parent
-
-            // 计算图片区域的位置
-            Rectangle {
-                id: imageArea
-                anchors.centerIn: parent
-                width: parent.width - 14
-                height: parent.height - 14
-                visible: false
-            }
+            anchors.fill: borderRect
 
             VideoLabel {
                 id: labelRemainDays
                 visible: true
                 anchors {
-                    bottom: imageArea.bottom
-                    left: imageArea.left
+                    bottom: parent.bottom
+                    left: parent.left
                     leftMargin : 9
                     bottomMargin : 5
                 }
@@ -398,23 +403,14 @@ Item {
     Component {
         id: videoTimeComponent
         Item {
-            anchors.fill: parent
-
-            // 计算图片区域的位置
-            Rectangle {
-                id: imageArea
-                anchors.centerIn: parent
-                width: parent.width - 14
-                height: parent.height - 14
-                visible: false
-            }
+            anchors.fill: borderRect
 
             VideoLabel {
                 id: videoLabel
                 visible: bShowVideoLabel
                 anchors {
-                    bottom: imageArea.bottom
-                    right: imageArea.right
+                    bottom: parent.bottom
+                    right: parent.right
                     rightMargin : 9
                     bottomMargin : 5
                 }

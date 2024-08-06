@@ -475,7 +475,7 @@ QStringList AlbumControl::getTimelinesTitlePaths(const QString &titleName, const
     } else if (m_dayDateMap.keys().contains(titleName)) {
         dblist = m_dayDateMap.value(titleName);
     } else {
-        dblist = m_timeLinePathsMap.value(titleName);
+        dblist = m_importTimeLinePathsMap.value(titleName);
     }
     for (DBImgInfo info : dblist) {
         if (filterType == 2 && info.itemType == ItemTypePic) {
@@ -2198,7 +2198,6 @@ QString AlbumControl::getFileTime(const QString &path1, const QString &path2)
     auto str2 = time2.toString("yyyy/MM/dd");
 
     QString language = QLocale::system().name();
-    qWarning() << "language:" << language;
     if (language == "zh_CN") {
         str1 = QString(tr("%1Year%2Month%3Day"))
                    .arg(time1.date().year())
@@ -2510,6 +2509,25 @@ void AlbumControl::importFromMountDevice(const QStringList &paths, const int &in
 QStringList AlbumControl::getDayPaths(const QString &day)
 {
     return DBManager::instance()->getDayPaths(day);
+}
+
+int AlbumControl::getDayInfoCount(const QString &day, const int &filterType)
+{
+    int rePicVideoConut = 0;
+    QStringList list = getDayPaths(day);
+    for (QString path : list) {
+        QVariantMap tmpMap;
+        if (LibUnionImage_NameSpace::isImage(url2localPath(path))) {
+            if (filterType == ItemTypePic) {
+                rePicVideoConut++;
+            }
+        } else if (LibUnionImage_NameSpace::isVideo(url2localPath(path))) {
+            if (filterType == ItemTypeVideo) {
+                rePicVideoConut++;
+            }
+        }
+    }
+    return rePicVideoConut;
 }
 
 //获取日期

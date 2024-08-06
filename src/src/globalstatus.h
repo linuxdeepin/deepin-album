@@ -35,6 +35,7 @@ class GlobalStatus : public QObject
     Q_PROPERTY(int rectSelScrollStep READ rectSelScrollStep CONSTANT)
     Q_PROPERTY(int thumbnailListRightMargin READ thumbnailListRightMargin CONSTANT)
     Q_PROPERTY(int thumbnialListCellSpace READ thumbnialListCellSpace CONSTANT)
+    Q_PROPERTY(int animationDuration READ animationDuration CONSTANT)
 
 public:
     explicit GlobalStatus(QObject *parent = nullptr);
@@ -260,6 +261,7 @@ public:
     int rectSelScrollStep() const;
     int thumbnailListRightMargin() const;
     int thumbnialListCellSpace() const;
+    int animationDuration() const;
 
 // 相册相关信号
 Q_SIGNALS:
