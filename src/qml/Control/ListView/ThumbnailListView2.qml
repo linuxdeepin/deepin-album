@@ -123,6 +123,14 @@ FocusScope {
         }
     }
 
+    // 日视图/已导入视图，双击打开图片时，需要传入坐标，映射到点击Item上，才能准确显示大图预览动画初始位置
+    function viewImageFromOuterDbClick(x,y) {
+        var item = gridView.itemAt(x, y)
+        var c = item.mapToItem(mainStack, 0, 0)
+        console.log("c.x:", c.x, "c.y:", c.y)
+        ThumbnailTools.executeViewImage(c.x, c.y, item.widht, item.height)
+    }
+
    // 提供给合集日视图和已导入视图使用，用来刷新
    function flushRectSel(x,y,w,h,ctrl,mousePress, inPress) {
        if (gridView.contains(Qt.point(x,y)) && gridView.contains(Qt.point(x+w, y+h)) && w !== 0 && h !== 0) {
@@ -308,7 +316,8 @@ FocusScope {
 
             // 单击模式点击/双击模式双击打开图片
             if (Qt.styleHints.singleClickActivation || bDbClicked || mouse.source === Qt.MouseEventSynthesizedByQt) {
-                ThumbnailTools.executeViewImage()
+                var c = clickedItem.mapToItem(mainStack, 0, 0)
+                ThumbnailTools.executeViewImage(c.x, c.y, clickedItem.width, clickedItem.height)
             }
             else {
                 bDbClicked = true;
@@ -683,7 +692,7 @@ FocusScope {
                 case Qt.Key_Return:
                 case Qt.Key_Enter:
                     if (menuItemStates.canView)
-                        ThumbnailTools.executeViewImage()
+                        ThumbnailTools.executeViewImageCutSwitch()
                     break
                 case Qt.Key_Home:
                     currentIndex = 0
@@ -792,7 +801,7 @@ FocusScope {
             text: qsTr("View")
             visible: menuItemStates.canView
             onTriggered: {
-                ThumbnailTools.executeViewImage()
+                ThumbnailTools.executeViewImageCutSwitch()
             }
         }
 

@@ -425,8 +425,10 @@ Item {
                     target: theView
                     onDbClicked: {
                         var openPaths = importedGridView.allUrls()
-                        if (openPaths.indexOf(url) !== -1)
-                            importedGridView.executeViewImage()
+                        if (openPaths.indexOf(url) !== -1) {
+                            var pos = theMouseArea.mapToItem(importedGridView, rubberBandImport.left(), rubberBandImport.top())
+                            importedGridView.viewImageFromOuterDbClick(pos.x, pos.y)
+                        }
                     }
                 }
 

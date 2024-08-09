@@ -12,18 +12,18 @@ Item {
     //本文件用于替代stackwidget的作用，通过改变GStatus的0-n来切换窗口
     MainAlbumView{
         id: mainAlbumView
-        visible: GStatus.stackControlCurrent == 0 ?true :false
+        visible: GStatus.stackControlCurrent === 0
     }
     MainStack{
         id: mainStack
         anchors.fill: parent
-        visible: GStatus.stackControlCurrent == 1 ?true :false
+        show: GStatus.stackControlCurrent === 1
         iconName: "deepin-album"
     }
     SliderShow{
         id: mainSliderShow
         anchors.fill: parent
-        visible: GStatus.stackControlCurrent == 2 ?true :false
+        visible: GStatus.stackControlCurrent === 2
     }
 
     //全局幻灯片信号槽

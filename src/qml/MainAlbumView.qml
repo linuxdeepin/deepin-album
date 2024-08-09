@@ -12,7 +12,9 @@ import "./ThumbnailImageView"
 import "./Control"
 import "./SideBar"
 import "./PopProgress"
-Item {
+import "./Control/Animation"
+
+FadeInoutAnimation {
     anchors.fill: parent
     property int lastWidth: 0
 
@@ -31,7 +33,7 @@ Item {
         width: visible ? GStatus.sideBarWidth : 0
         anchors {
             top: parent.top
-            topMargin: 19
+            topMargin: 19 + (titleAlubmRect.visible ? 0 : titleAlubmRect.height)
             bottom: parent.bottom
         }
 
@@ -130,6 +132,7 @@ Item {
             top: parent.top
             left: leftSidebar.right
             leftMargin: 0
+            topMargin: titleAlubmRect.visible ? 0 : titleAlubmRect.height
         }
         width: parent.width - leftSidebar.x - GStatus.sideBarWidth
         height: window.height - titleAlubmRect.height

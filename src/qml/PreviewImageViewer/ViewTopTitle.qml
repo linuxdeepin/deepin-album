@@ -28,7 +28,7 @@ Rectangle {
 //        anchors.topMargin: 10
     width: parent.width
     height: 50
-    visible: window.visibility === 5 ? false:true
+    visible: window.visibility !== 5 && GStatus.stackControlCurrent !== 0
     color:titlecontrol.ColorSelector.backgroundColor
     gradient: Gradient {
            GradientStop { position: 0.0; color: titlecontrol.ColorSelector.backgroundColor1 }

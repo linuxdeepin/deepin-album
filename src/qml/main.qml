@@ -13,6 +13,8 @@ import Qt.labs.folderlistmodel 2.11
 import org.deepin.dtk 1.0
 import org.deepin.album 1.0 as Album
 
+import "./Control/Animation"
+
 ApplicationWindow {
     id: window
 
@@ -26,16 +28,17 @@ ApplicationWindow {
     }
 
     signal sigTitlePress
+    signal sigShowToolBar()
+    signal sigMoveCenter(int x, int y, int w, int h)
     // 设置 dtk 风格窗口
     DWindow.enabled: true
     //DWindow.alphaBufferSize: 8
     title: ""
     header: AlbumTitle {id: titleAlubmRect}
 
-    background: Rectangle {
+    background: FadeInoutAnimation {
         anchors.fill: parent
-        color: "transparent"
-
+        show: GStatus.stackControlCurrent === 0 ? true : false
         Row {
             anchors.fill: parent
             Rectangle {
@@ -121,10 +124,6 @@ ApplicationWindow {
     onClosing: {
         fileControl.saveSetting()
         fileControl.terminateShortcutPanelProcess() //结束快捷键面板进程
-    }
-
-    function showTitleBar(bShow) {
-        titleAlubmRect.visible = bShow
     }
 
     FileDialog {

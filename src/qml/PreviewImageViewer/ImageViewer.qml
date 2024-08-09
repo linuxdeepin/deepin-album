@@ -13,6 +13,7 @@ import "../Control"
 
 Rectangle {
 
+    id: imageviewr
     // Indicates the minimum number of zooms
     property int minScaleLevel: 10
     // Indicates the maximum number of zooms
@@ -1153,6 +1154,59 @@ Rectangle {
             Component.onCompleted: {
                 contentItem.highlightMoveDuration = 0       // 将移动时间设为0
             }
+        }
+    }
+
+    ParallelAnimation {
+        id: moveCenterAnimation
+        property int fromX: 0
+        property int fromY: 0
+        property int fromW: 0
+        property int fromH: 0
+        NumberAnimation {
+            target: view
+            properties: "x"
+            from: moveCenterAnimation.fromX
+            to: 0
+            duration: GStatus.animationDuration
+            easing.type: Easing.OutExpo
+        }
+
+        NumberAnimation {
+            target: view
+            properties: "y"
+            from: moveCenterAnimation.fromY
+            to: 0
+            duration: GStatus.animationDuration
+            easing.type: Easing.OutExpo
+        }
+
+        NumberAnimation {
+            target: view
+            properties: "width"
+            from: moveCenterAnimation.fromW
+            to: imageviewr.width
+            duration: GStatus.animationDuration
+            easing.type: Easing.OutExpo
+        }
+        NumberAnimation {
+            target: view
+            properties: "height"
+            from: moveCenterAnimation.fromH
+            to: imageviewr.height
+            duration: GStatus.animationDuration
+            easing.type: Easing.OutExpo
+        }
+    }
+
+    Connections {
+        target: window
+        onSigMoveCenter: {
+            moveCenterAnimation.fromX = x
+            moveCenterAnimation.fromY = y
+            moveCenterAnimation.fromW = w
+            moveCenterAnimation.fromH = h
+            moveCenterAnimation.start()
         }
     }
 

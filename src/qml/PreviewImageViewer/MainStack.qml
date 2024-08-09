@@ -7,7 +7,9 @@ import QtQuick.Window 2.11
 import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
 
-Rectangle {
+import "../Control/Animation"
+
+FadeInoutAnimation {
 
     Control {
         id: backcontrol
@@ -37,19 +39,19 @@ Rectangle {
 
     OpenImageWidget{
         anchors.fill: parent
-        visible: currentWidgetIndex===0?true:false
+        visible: currentWidgetIndex===0
 
     }
 
     FullThumbnail{
         anchors.fill: parent
-        visible: currentWidgetIndex===1?true:false
+        visible: currentWidgetIndex===1
         id :mainView
     }
 
     SliderShow{
         id:sliderMainShow
-        visible: currentWidgetIndex===2?true:false
+        visible: currentWidgetIndex===2
         anchors.fill: parent
     }
 
