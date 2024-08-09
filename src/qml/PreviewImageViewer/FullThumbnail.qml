@@ -22,6 +22,9 @@ Item {
     // 是否标题栏和底栏需要隐藏(仅判断普通模式)
     property bool needBarHideInNormalMode: false
 
+    // 从相册进入大图模式，展示上浮下边栏动画时，禁用看图原下边栏动画
+    property bool noImageViewerBottomAnimation: false
+
     function setThumbnailCurrentIndex(index) {
         toolBarthumbnailListView.currentIndex = index
     }
@@ -133,8 +136,47 @@ Item {
         easing.type: Easing.InOutQuad
     }
 
+    // 从相册双击图片进入时，展示工具栏上浮动画
+    ParallelAnimation {
+        id: showToolBarAnimationInAlbum
+        NumberAnimation{
+            target: thumbnailViewBackGround
+            properties: "opacity";
+            easing.type: Easing.OutExpo;
+            duration: GStatus.animationDuration
+            from: 0
+            to: 0.5
+        }
+
+        NumberAnimation{
+            target: thumbnailViewBackGround
+            properties: "y";
+            easing.type: Easing.OutExpo;
+            duration: GStatus.animationDuration
+            from: thumbnailViewBackGround.y
+            to:  window.height-GStatus.showBottomY
+        }
+
+        onStopped: {
+            noImageViewerBottomAnimation = false
+        }
+    }
+
+    Connections {
+        target: window
+        onSigShowToolBar: {
+            thumbnailViewBackGround.opacity = 0
+            thumbnailViewBackGround.y = window.height
+            noImageViewerBottomAnimation = true
+            showToolBarAnimationInAlbum.start()
+        }
+    }
+
     //判断工具栏和标题栏的显示隐藏
     function animationAll() {
+        // 从相册进入看图，展示下边栏动画时，不计算标题栏显隐
+        if (noImageViewerBottomAnimation)
+            return
         // 打开界面不计算标题栏显隐
         if (stackView.currentWidgetIndex === 0) {
             return

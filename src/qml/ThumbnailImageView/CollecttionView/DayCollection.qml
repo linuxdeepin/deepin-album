@@ -542,8 +542,10 @@ SwitchViewAnimation {
                     target: theView
                     function onDbClicked(url) {
                         var openPaths = theSubView.allUrls()
-                        if (openPaths.indexOf(url) !== -1)
-                            theSubView.executeViewImage()
+                        if (openPaths.indexOf(url) !== -1) {
+                            var pos = theMouseArea.mapToItem(theSubView, rubberBand.left(), rubberBand.top())
+                            theSubView.viewImageFromOuterDbClick(pos.x, pos.y)
+                        }
                     }
                 }
             }

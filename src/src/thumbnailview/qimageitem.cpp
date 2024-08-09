@@ -47,6 +47,7 @@ void QImageItem::setImage(const QImage &image)
     QRect oldPaintedRect = m_paintedRect;
     updatePaintedRect();
     // 若图片显示方式从方图变为原始比例，需要延迟刷新图片，以便比例切换动画能正常显示
+#if 1
     if (ImageDataService::instance()->getLoadMode() == 1) {
         if (m_paintedRect.width() < oldPaintedRect.width() || m_paintedRect.height() < oldPaintedRect.height()) {
             QTimer::singleShot(100, this, [=] {
@@ -58,6 +59,16 @@ void QImageItem::setImage(const QImage &image)
     } else {
         update();
     }
+#else
+    // 仅第一次启动时状态加载原始比例图片
+    if (ImageDataService::instance()->getLoadMode() == 1) {
+        if (oldImageNull) {
+            update();
+        }
+    } else {
+        update();
+    }
+#endif
     Q_EMIT nativeWidthChanged();
     Q_EMIT nativeHeightChanged();
     Q_EMIT imageChanged();
