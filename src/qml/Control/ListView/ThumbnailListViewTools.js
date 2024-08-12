@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 // 执行图片查看操作
-function executeViewImage() {
+function executeViewImageCutSwitch() {
     if (thumnailListType !== Album.Types.ThumbnailTrash) {
         var indexes = thumbnailModel.selectedIndexes
         if (indexes.length > 0) {
@@ -21,6 +21,26 @@ function executeViewImage() {
     }
 }
 
+// 执行图片查看操作
+function executeViewImage(x, y, w, h) {
+    if (thumnailListType !== Album.Types.ThumbnailTrash) {
+        var indexes = thumbnailModel.selectedIndexes
+        if (indexes.length > 0) {
+            if (fileControl.isVideo(thumbnailModel.data(indexes[0], "url").toString())) {
+                albumControl.openDeepinMovie(thumbnailModel.data(indexes[0], "url").toString())
+            } else {
+                var allUrls = thumbnailModel.allUrls()
+                mainStack.sourcePaths = allUrls
+                mainStack.currentIndex = -1
+                mainStack.currentIndex = indexes[0]
+                mainStack.currentWidgetIndex = 1
+                GStatus.stackControlCurrent = 1
+                window.sigMoveCenter(x, y, w, h)
+                window.sigShowToolBar()
+            }
+        }
+    }
+}
 // 执行图片删除操作
 function executeDelete() {
     if ( thumnailListType !== Album.Types.ThumbnailTrash ){

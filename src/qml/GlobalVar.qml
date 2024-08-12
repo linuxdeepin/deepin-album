@@ -10,7 +10,6 @@ import org.deepin.album 1.0 as Album
 
 Item {
     property var selectedPaths: GStatus.selectedPaths // 已选路径
-    property int stackControlCurrent: GStatus.stackControlCurrent// 0:相册界面 1:看图界面 2:幻灯片
 
     function objIsEmpty(obj) {
         var ret = (String(obj) === "undefined" || String(obj) === "null")
@@ -50,9 +49,5 @@ Item {
 
     onSelectedPathsChanged: {
         menuItemStates.updateMenuItemStates()
-    }
-    // 大图模式，隐藏相册标题栏，相册模式显示相册标题栏
-    onStackControlCurrentChanged: {
-        window.showTitleBar(stackControlCurrent != 1 && stackControlCurrent != 2)
     }
 }
