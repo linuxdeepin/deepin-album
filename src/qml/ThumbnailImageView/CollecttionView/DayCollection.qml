@@ -36,6 +36,27 @@ SwitchViewAnimation {
     property int currentColletionIndex: collecttionView.currentViewIndex
 
     property bool checkBoxClicked: false
+    property bool isFirstLoad: true
+    property int topDelegateIndex: 0
+    property int topDelegateIndexTmp: 0
+
+    // 更新日期和照片数量信号
+    signal numLabelTextUpdate(string str)
+    signal timelineLabelTextUpdate(string str)
+
+    function setTimeLine(str) {
+        titleTimeLineLabel.text = str
+    }
+
+    function setNumLabel(str) {
+        titlePhotoNumberLabel.text = str
+    }
+
+    Rectangle {
+        anchors.fill : parent
+        color: DTK.themeType === ApplicationHelper.LightType ? "#f8f8f8"
+                                                              : "#202020"
+    }
 
     Connections {
         target: collecttionView
@@ -195,6 +216,85 @@ SwitchViewAnimation {
         }
     }
 
+    // 日视图的标题栏
+    Item {
+        id: allCollectionTitleRect
+        width: parent.width - GStatus.verticalScrollBarWidth
+        height: GStatus.thumbnailViewTitleHieght
+        z: 2
+        Rectangle {
+            color: DTK.themeType === ApplicationHelper.LightType ? "#f8f8f8"
+                                                                  : "#202020"
+            anchors.fill : parent
+            opacity: 0.95
+        }
+
+        // 标题栏时间标签
+        Label {
+            id: titleTimeLineLabel
+            z:3
+            anchors {
+                top: parent.top
+                topMargin: 6
+                leftMargin: 20
+                left: parent.left
+            }
+            height: 30
+            font: DTK.fontManager.t3
+            visible: text !== ""
+            text : ""
+        }
+
+        //标题栏照片数label
+        Label {
+            id: titlePhotoNumberLabel
+            z:3
+            anchors {
+                top: titleTimeLineLabel.bottom
+                topMargin: 12
+                leftMargin: 20
+                left: parent.left
+            }
+
+            text : ""
+            opacity: 1.0
+            font: DTK.fontManager.t6
+            visible: text !== ""
+        }
+
+        // 筛选下拉框
+        FilterComboBox {
+            id: filterCombo
+            z:3
+            anchors {
+                top: titleTimeLineLabel.bottom
+                topMargin: 4
+                right: parent.right
+            }
+            width: 115
+            height: 35
+            font: DTK.fontManager.t6
+            visible: parent.visible && albumControl.getAllCount() !== 0
+        }
+    }
+
+    function generatePhotoVideoString(picTotal, videoTotal) {
+        var str = "";
+        if (picTotal === 1) {
+            str += qsTr("1 photo ");
+        } else if (picTotal > 1) {
+            str += qsTr("%1 photos ").arg(picTotal);
+        }
+
+        if (videoTotal === 1) {
+            str += qsTr("1 video");
+        } else if (videoTotal > 1) {
+            str += qsTr("%1 videos").arg(videoTotal);
+        }
+
+        return str;
+    }
+
     //dayToken: 日期令牌，用于获取其它数据
     ListModel {
         id: theModel
@@ -210,6 +310,14 @@ SwitchViewAnimation {
         height: parent.height
         delegate: theDelegate
         interactive: false
+
+        Rectangle {
+            anchors.fill:  parent
+            z:-1
+            color: DTK.themeType === ApplicationHelper.LightType ? "#f8f8f8"
+                                                                  : "#202020"
+        }
+
         //鼠标正在按下状态
         property bool inPress: false
         //框选滚动方向
@@ -224,6 +332,33 @@ SwitchViewAnimation {
         ScrollBar.vertical: ScrollBar {
             id: vbar
             active: false
+            signal topDelegateIndexChanged(int newIndex)
+
+            onPositionChanged: {
+                var topDelegateIndexTmp = theView.indexAt(0, theView.contentY)
+                if (topDelegateIndex !== topDelegateIndexTmp) { // 如果索引发生变化
+                    topDelegateIndex = topDelegateIndexTmp; // 更新属性
+                    topDelegateIndexChanged(topDelegateIndex); // 发送信号
+                }
+            }
+        }
+
+        Connections {
+            target: vbar
+            onTopDelegateIndexChanged: {
+                var firstItemIndex = topDelegateIndex; // 使用当前顶部的索引
+                var dayToken = theModel.get(firstItemIndex).dayToken
+
+                var picTotal = albumControl.getDayInfoCount(dayToken, 3)
+                var videoTotal = albumControl.getDayInfoCount(dayToken, 4)
+
+                var str = generatePhotoVideoString(picTotal, videoTotal);
+
+                numLabelTextUpdate(str)
+                var dates = dayToken.split("-")
+                var timeLineText = qsTr("%1/%2/%3").arg(dates[0]).arg(Number(dates[1])).arg(Number(dates[2]))
+                timelineLabelTextUpdate(timeLineText)
+            }
         }
 
         MouseArea {
@@ -499,7 +634,6 @@ SwitchViewAnimation {
                 id: theSubView
                 anchors {
                     top: selectAllBox.bottom
-                    left: selectAllBox.left
                 }
                 enableMouse: false
                 width: parent.width
@@ -558,24 +692,18 @@ SwitchViewAnimation {
                 theSubView.proxyModel.refresh()
 
                 //2.刷新checkbox
-                var str = ""
-                if(picTotal === 1) {
-                    str += qsTr("1 photo ")
-                } else if(picTotal > 1) {
-                    str += qsTr("%1 photos ").arg(picTotal)
-                }
-
-                if(videoTotal === 1) {
-                    str += qsTr("1 video")
-                } else if(videoTotal > 1) {
-                    str += qsTr("%1 videos").arg(videoTotal)
-                }
-
+                var str = generatePhotoVideoString(picTotal, videoTotal);
                 numLabelTitle.text = str
 
                 //3.刷新标题
                 var dates = m_dayToken.split("-")
                 timeLineLabel.text = qsTr("%1/%2/%3").arg(dates[0]).arg(Number(dates[1])).arg(Number(dates[2]))
+
+                if (isFirstLoad) {
+                    isFirstLoad = false
+                    timelineLabelTextUpdate(timeLineLabel.text)
+                    numLabelTextUpdate(numLabelTitle.text)
+                }
             }
 
             Component.onCompleted: {
@@ -596,6 +724,8 @@ SwitchViewAnimation {
     }
 
     Component.onCompleted: {
+        dayView.timelineLabelTextUpdate.connect(setTimeLine)
+        dayView.numLabelTextUpdate.connect(setNumLabel)
         GStatus.sigFlushAllCollectionView.connect(flushModel)
     }
 }
