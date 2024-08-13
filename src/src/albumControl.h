@@ -262,6 +262,9 @@ public:
     //手机照片导入 0为已导入，1-n为自定义相册
     Q_INVOKABLE void importFromMountDevice(const QStringList &paths, const int &index = 0);
 
+    //获取年封面图片路径
+    Q_INVOKABLE QString getYearCoverPath(const QString &year);
+
     //获取指定日期的照片路径
     Q_INVOKABLE QStringList getDayPaths(const QString &day);
 

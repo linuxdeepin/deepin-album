@@ -1171,7 +1171,22 @@ Rectangle {
             duration: GStatus.animationDuration
             easing.type: Easing.OutExpo
         }
-
+        NumberAnimation {
+            target: imageviewr
+            property: "opacity"
+            from: 0
+            to: 1
+            duration: GStatus.animationDuration
+            easing.type: Easing.OutExpo
+        }
+        NumberAnimation {
+            target: view
+            property: "opacity"
+            from: 0
+            to: 1
+            duration: GStatus.animationDuration
+            easing.type: Easing.OutExpo
+        }
         NumberAnimation {
             target: view
             properties: "y"

@@ -44,6 +44,8 @@ void LibConfigSetter::loadConfig(imageViewerSpace::ImgViewerType type)
             setValue("", "loadDayView", 1);
         if (!contains("", "loadImport"))
             setValue("", "loadImport", 1);
+        if (!contains("","animationDuration"))
+            setValue("", "animationDuration", 400);
     }
 
 //    if (imageViewerSpace::ImgViewerTypeAlbum == m_viewType) {

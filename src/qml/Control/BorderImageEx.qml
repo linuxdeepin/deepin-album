@@ -7,10 +7,11 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.11
 
 Image {
+    id: boerderImageEx
     smooth: true
     antialiasing: true
     fillMode: Image.PreserveAspectCrop
-
+    property string url: ""
     //border and shadow
     Rectangle {
         id: borderRect
