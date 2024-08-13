@@ -19,6 +19,11 @@ SwitchViewAnimation {
 
     signal yearClicked(string year)
 
+    onVisibleChanged: {
+        if (visible)
+            flushModel()
+    }
+
     function flushModel() {
         if (!visible)
             return
@@ -64,6 +69,7 @@ SwitchViewAnimation {
             width: theView.width
             height: theView.width * 4 / 7
 
+            property string yearPath: albumControl.getYearCoverPath(year)
             Image {
                 id: image
 

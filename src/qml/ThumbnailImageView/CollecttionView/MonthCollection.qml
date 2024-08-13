@@ -21,16 +21,26 @@ SwitchViewAnimation {
 
     signal monthClicked(string year, string month)
 
+    property int itemHeight: theView.width * 4 / 7
     function scrollToYear(year) {
         //搜索index
-        for(var i = 0;i !== theModel.count;++i) {
+        var index = 0;
+        for(var i = 0;i !== theModel.count; i++) {
             if(theModel.get(i).year === year) {
+                index = i
                 break
             }
         }
 
         //计算偏移
-        theView.contentY = (theView.height / 3 * 2 + theView.spacing) * i
+        var yValue = (itemHeight + theView.spacing) * index
+        theView.contentY = 0
+        theView.contentY = yValue
+    }
+
+    onVisibleChanged: {
+        if (visible)
+            flushModel()
     }
 
     function flushModel() {

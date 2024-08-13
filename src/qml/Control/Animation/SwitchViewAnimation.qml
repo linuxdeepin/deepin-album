@@ -29,8 +29,6 @@ Item {
         } else if (switchType === Album.Types.FadeInOut) {
             x = 0
             switchPropertys = "opacity"
-
-            console.log("switchTypechanged:", switchType)
         }
     }
 
@@ -69,7 +67,7 @@ Item {
     transitions:
         Transition {
         enabled: switchType !== Album.Types.HardCut
-        NumberAnimation{properties: switchPropertys; easing.type: Easing.OutExpo; duration: 400
+        NumberAnimation{properties: switchPropertys; easing.type: Easing.OutExpo; duration: GStatus.animationDuration
         }
     }
 }

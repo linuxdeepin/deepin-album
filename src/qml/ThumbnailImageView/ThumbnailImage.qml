@@ -70,6 +70,8 @@ Item {
     Connections {
         target: titleAlubmRect
         function onCollectionBtnClicked(index) {
+            if (GStatus.currentCollecttionViewIndex === index)
+                return
             // 点击按钮，动画切换类型设定为翻页滚动
             GStatus.currentSwitchType = Album.Types.FlipScroll
             collecttionView.setIndex(index)

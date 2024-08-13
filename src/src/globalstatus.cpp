@@ -28,7 +28,6 @@ static const int sc_VerticalScrollBarWidth = 15;     // 垂直滚动条宽度
 static const int sc_RectSelScrollStep = 30;          // 框选滚动步进
 static const int sc_ThumbnailListRightMargin = 10;   // 框选滚动步进
 static const int sc_ThumbnialListCellSpace = 4;      // 框选滚动步进
-static const int sc_AnimationDuration = 400;         // 动画持续时间
 /**
    @class GlobalStatus
    @brief QML单例类，维护全局状态，同步不同组件间的状态信息
@@ -300,6 +299,14 @@ int GlobalStatus::rightMenuItemHeight() const
 void GlobalStatus::setFileControl(FileControl *fc)
 {
     m_fileControl = fc;
+
+    if (!m_fileControl)
+        return;
+
+    bool bRet = false;
+    m_nAnimationDuration = m_fileControl->getConfigValue("", "animationDuration", 400).toInt(&bRet);
+    if (!bRet)
+        m_nAnimationDuration = 400;
 }
 
 int GlobalStatus::rightMenuSeparatorHeight() const
@@ -354,7 +361,7 @@ int GlobalStatus::needHideSideBarWidth() const
 
 int GlobalStatus::animationDuration() const
 {
-    return sc_AnimationDuration;
+    return m_nAnimationDuration;
 }
 
 qreal GlobalStatus::sideBarX() const
