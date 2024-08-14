@@ -2505,6 +2505,14 @@ void AlbumControl::importFromMountDevice(const QStringList &paths, const int &in
 
 }
 
+QString AlbumControl::getYearCoverPath(const QString &year)
+{
+    auto paths = DBManager::instance()->getYearPaths(year, 1);
+    if (paths.isEmpty())
+        return "";
+    return paths[0];
+}
+
 //获取指定日期的照片路径
 QStringList AlbumControl::getDayPaths(const QString &day)
 {

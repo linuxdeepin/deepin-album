@@ -109,6 +109,8 @@ int main(int argc, char *argv[])
         emit fileControl->imageFileChanged(filePath, isMultiImage, isExist);
     });
 
+    status.setFileControl(fileControl);
+
     // 光标位置查询工具
     CursorTool *cursorTool = new CursorTool();
     engine.rootContext()->setContextProperty("cursorTool", cursorTool);

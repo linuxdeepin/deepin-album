@@ -35,6 +35,7 @@ Rectangle {
             width: monthImage.width
             height: monthImage.height
             source: "image://collectionPublisher/" + monthImage.displayFlushHelper.toString() + "_M_1_" + paths[0]
+            url: paths[0]
         }
     }
 
@@ -49,6 +50,7 @@ Rectangle {
                     width: monthImage.width / 2
                     height: monthImage.height
                     source: "image://collectionPublisher/" + monthImage.displayFlushHelper.toString() + "_M_1_" + modelData
+                    url: modelData
                 }
             }
         }
@@ -63,6 +65,7 @@ Rectangle {
                 width: monthImage.width / 2
                 height: monthImage.height
                 source: "image://collectionPublisher/" + monthImage.displayFlushHelper.toString() + "_M_1_" + paths[0]
+                url: paths[0]
             }
 
             Column {
@@ -73,6 +76,7 @@ Rectangle {
                         width: monthImage.width / 2
                         height: monthImage.height / 2
                         source: "image://collectionPublisher/" + monthImage.displayFlushHelper.toString() + "_M_2_" + modelData
+                        url: modelData
                     }
                 }
             }
@@ -92,6 +96,7 @@ Rectangle {
                     width: monthImage.width / 2
                     height: monthImage.height / 2
                     source: "image://collectionPublisher/" + monthImage.displayFlushHelper.toString() + "_M_2_" + modelData
+                    url: modelData
                 }
             }
         }
@@ -106,6 +111,7 @@ Rectangle {
                 width: monthImage.width
                 height: monthImage.height * 0.618
                 source: "image://collectionPublisher/" + monthImage.displayFlushHelper.toString() + "_M_3_" + paths[0]
+                url: paths[0]
             }
 
             Row {
@@ -116,6 +122,7 @@ Rectangle {
                         width: monthImage.width / 4
                         height: monthImage.height * (1 - 0.618)
                         source: "image://collectionPublisher/" + monthImage.displayFlushHelper.toString() + "_M_4_" + modelData
+                        url: modelData
                     }
                 }
             }
@@ -131,6 +138,7 @@ Rectangle {
                 width: monthImage.width
                 height: monthImage.height * 0.618
                 source: "image://collectionPublisher/" + monthImage.displayFlushHelper.toString() + "_M_3_" + paths[0]
+                url: paths[0]
             }
 
             Row {
@@ -141,6 +149,7 @@ Rectangle {
                         width: monthImage.width / 5
                         height: monthImage.height * (1 - 0.618)
                         source: "image://collectionPublisher/" + monthImage.displayFlushHelper.toString() + "_M_5_" + modelData
+                        url: modelData
                     }
                 }
             }

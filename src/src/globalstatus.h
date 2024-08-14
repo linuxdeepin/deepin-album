@@ -322,6 +322,7 @@ private:
     bool m_bWindowDisactived = false;           // 窗口是否激活标记
     bool m_bLoading = true;                     // 记录相册界面是否处于加载状态
 
+    int m_nAnimationDuration = 400;             // 动画持续时间
     FileControl* m_fileControl { nullptr };
 };
 
