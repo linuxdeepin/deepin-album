@@ -25,9 +25,13 @@ BaseView {
             return
 
         if (index === 0) {
+            if (yearCollection.count === 0)
+                yearCollection.flushModel()
             if (yearCollection.x < 0)
                 yearCollection.x = rollingWidth
         } else if (index === 1) {
+            if (monthCollection.count === 0)
+                monthCollection.flushModel()
             if (monthCollection.x < 0)
                 monthCollection.x = rollingWidth
         } else if (index === 2) {

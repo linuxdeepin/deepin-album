@@ -21,6 +21,10 @@ FadeInoutAnimation {
     //rename窗口
     NewAlbumDialog {
         id: newAlbum
+
+        Component.onCompleted: {
+            GStatus.loading = false
+        }
     }
     //delete窗口
     DeleteDialog {

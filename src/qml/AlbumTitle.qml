@@ -228,6 +228,7 @@ TitleBar {
                         height: iconSize
                     }
                     onClicked: {
+                        GStatus.enableRatioAnimation = true
                         //1.图片推送器切换
                         asynImageProvider.switchLoadMode()
                         imageDataService.switchLoadMode()

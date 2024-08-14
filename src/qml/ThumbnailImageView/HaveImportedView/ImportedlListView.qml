@@ -430,7 +430,8 @@ Item {
                 Component.onCompleted: {
                     if (isFirstLoad) {
                         isFirstLoad = false
-                        sigTextUpdated(importedLabel.text)
+                        haveImportedListView.setDataRange(importedLabel.text)
+                        // sigTextUpdated(importedLabel.text)
                         importedLabel.text = " "
                     }
                 }

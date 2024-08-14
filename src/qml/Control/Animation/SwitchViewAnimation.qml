@@ -16,6 +16,7 @@ Item {
     property real showOpacity: 1
     property real showX: 0
 
+    property string idName: ""
     property real hideOpacity: 0
     property real hideX: -width - 20
 

@@ -81,6 +81,7 @@ Item {
             radius: 10
 
             Behavior on width {
+                enabled: GStatus.enableRatioAnimation
                 NumberAnimation {
                     duration: nDuration
                     easing.type: Easing.OutExpo // 缓动类型
@@ -88,6 +89,7 @@ Item {
             }
 
             Behavior on height {
+                enabled: GStatus.enableRatioAnimation
                 NumberAnimation {
                     duration: nDuration
                     easing.type: Easing.OutExpo // 缓动类型
@@ -137,6 +139,7 @@ Item {
         radius: 10
 
         Behavior on width {
+            enabled: GStatus.enableRatioAnimation
             NumberAnimation {
                 duration: nDuration
                 easing.type: Easing.OutExpo // 缓动类型
@@ -144,6 +147,7 @@ Item {
         }
 
         Behavior on height {
+            enabled: GStatus.enableRatioAnimation
             NumberAnimation {
                 duration: nDuration
                 easing.type: Easing.OutExpo // 缓动类型

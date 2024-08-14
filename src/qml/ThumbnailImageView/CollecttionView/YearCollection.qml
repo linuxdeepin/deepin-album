@@ -18,12 +18,7 @@ SwitchViewAnimation {
     id: yearView
 
     signal yearClicked(string year)
-
-    onVisibleChanged: {
-        if (visible)
-            flushModel()
-    }
-
+    property alias count: theModel.count
     function flushModel() {
         if (!visible)
             return

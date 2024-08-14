@@ -426,6 +426,7 @@ void GlobalStatus::setCurrentViewType(const Types::ThumbnailViewType &value)
     if (m_currentViewType != value) {
         m_currentViewType = value;
 
+        m_bEnableRatioAnimation = false;
         // 若相册数据库没有图片资源，则调整显示“没有图片“提示视图
         if (AlbumControl::instance()->getAllCount() <= 0) {
             switch (value) {
@@ -454,6 +455,7 @@ void GlobalStatus::setCurrentCollecttionViewIndex(const int &value)
 {
     if (m_currentCollecttionViewIndex != value) {
         m_currentCollecttionViewIndex = value;
+        m_bEnableRatioAnimation = false;
         Q_EMIT currentCollecttionViewIndexChanged();
     }
 }
@@ -656,6 +658,19 @@ void GlobalStatus::setLoading(const bool &value)
     if (m_bLoading != value) {
         m_bLoading = value;
         Q_EMIT loadingChanged();
+    }
+}
+
+bool GlobalStatus::enableRatioAnimation() const
+{
+    return m_bEnableRatioAnimation;
+}
+
+void GlobalStatus::setEnableRatioAnimation(const bool &value)
+{
+    if (m_bEnableRatioAnimation != value) {
+        m_bEnableRatioAnimation = value;
+        Q_EMIT enableRatioAnimationChanged();
     }
 }
 

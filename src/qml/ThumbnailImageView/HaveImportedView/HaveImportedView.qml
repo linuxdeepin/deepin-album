@@ -12,6 +12,7 @@ import "../../"
 import "../"
 
 BaseView {
+    id: haveImportedListView
     property int filterType : filterCombo.currentIndex // 筛选类型，默认所有
     property string numLabelText: "" //总数标签显示内容
     property string selectedText: getSelectedText(selectedPaths)
@@ -127,7 +128,6 @@ BaseView {
                 top: importedLabel.bottom
                 topMargin: 12
             }
-            opacity: 1.0
             font: DTK.fontManager.t6
         }
 
