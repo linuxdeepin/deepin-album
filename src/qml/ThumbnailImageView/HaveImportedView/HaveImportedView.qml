@@ -19,6 +19,12 @@ BaseView {
     property real titleOpacity: 0.7
     property bool bShowImportTips: GStatus.currentViewType === Album.Types.ViewHaveImported && numLabelText === "" && filterType === 0
 
+    Rectangle {
+        anchors.fill : parent
+        color: DTK.themeType === ApplicationHelper.LightType ? "#f8f8f8"
+                                                              : "#202020"
+    }
+
     Connections {
         target: albumControl
         onSigRepeatUrls: {
@@ -92,15 +98,22 @@ BaseView {
         id: importedTitleRect
         width: parent.width - GStatus.verticalScrollBarWidth
         height: GStatus.thumbnailViewTitleHieght
-        z:3
+        z: 2
+
+        Rectangle {
+            color: DTK.themeType === ApplicationHelper.LightType ? "#f8f8f8"
+                                                                  : "#202020"
+            anchors.fill : parent
+            opacity: 0.95
+        }
 
         // 已导入标签
         Label {
             id: importedLabel
+            z:3
             anchors {
                 top: parent.top
                 topMargin: 12
-                left: parent.left
             }
             height: 30
             font: DTK.fontManager.t3
@@ -108,19 +121,20 @@ BaseView {
         }
 
         Label {
+            id: importTimeLabel
+            z:3
             anchors {
                 top: importedLabel.bottom
-                topMargin: 10
-                left: parent.left
+                topMargin: 12
             }
-            visible: false
+            opacity: 1.0
             font: DTK.fontManager.t6
-            text: qsTr("0 item")
         }
 
         // 筛选下拉框
         FilterComboBox {
             id: filterCombo
+            z:3
             anchors {
                 top: importedLabel.bottom
                 topMargin: 4
@@ -128,13 +142,21 @@ BaseView {
             }
             width: 115
             height: 30
+            font: DTK.fontManager.t6
+            visible: parent.visible && albumControl.getAllCount() !== 0
         }
+
     }
 
-    // 已导入列表控件
     ImportedlListView {
         id: theView
         anchors.fill: parent
+        Rectangle {
+            anchors.fill:  parent
+            z:-1
+            color: DTK.themeType === ApplicationHelper.LightType ? "#f8f8f8"
+                                                                  : "#202020"
+        }
     }
 
     // 若没有数据，显示导入图片视图
@@ -144,7 +166,12 @@ BaseView {
         iconName: "nopicture1"
     }
 
+    function setDataRange(str) {
+        importTimeLabel.text = str
+    }
+
     Component.onCompleted: {
+        theView.sigTextUpdated.connect(setDataRange)
         GStatus.sigFlushHaveImportedView.connect(flushHaveImportedView)
     }
 }
