@@ -20,6 +20,8 @@ Item {
     signal sigUnSelectAll()
     signal sigListViewPressed(int x, int y)
     signal sigListViewReleased(int x, int y)
+
+    property var importedGridViewCount: 0
     property var selectedPaths: []
     property int filterComboOffsetY: 5
     property int spaceCtrlHeight: filterCombo.y + filterComboOffsetY
@@ -27,7 +29,13 @@ Item {
     property int listMargin: 10 // 已导入列表子项上、下边距
     property int rowSizeHint: (width - GStatus.thumbnailListRightMargin) / GStatus.cellBaseWidth
     property real realCellWidth : (width - GStatus.thumbnailListRightMargin) / rowSizeHint
+    property bool isFirstLoad: true
 
+    signal sigTextUpdated(string str)
+    signal importedLabelTextUpdated(string str)
+
+    property int topDelegateIndex: 0
+    property int topDelegateIndexTmp: 0
     property bool checkBoxClicked: false
 
     //view依赖的model管理器
@@ -36,7 +44,6 @@ Item {
         property var selectedPathObjs: []
         property var dayHeights: []
         function loadImportedInfos() {
-            console.log("imported model has refreshed.. filterType:", filterCombo.currentIndex)
             theModel.clear()
             theModel.selectedPathObjs = []
             theModel.dayHeights = []
@@ -44,7 +51,6 @@ Item {
             var titleInfos = []
             if (Number(fileControl.getConfigValue("", "loadImport", 1)))
                 titleInfos = albumControl.getAllImportTimelinesTitle(filterCombo.currentIndex);
-            console.log("imported model has refreshed.. filterType:", filterCombo.currentIndex, " done...")
             var i = 0
             var dayHeight = 0
             var listHeight = 0
@@ -86,6 +92,15 @@ Item {
         }
     }
 
+    //获取当前处于top位置的delegate索引，并发送更新信号
+    function importTimeScope() {
+        var topDelegateIndexTmp = theView.indexAt(0, theView.contentY)
+        if (topDelegateIndex !== topDelegateIndexTmp) { // 如果索引发生变化
+            topDelegateIndex = topDelegateIndexTmp; // 更新属性
+            topDelegateIndexChanged(topDelegateIndex); // 发送信号
+        }
+    }
+
     //已导入列表本体
     ListView {
         id: theView
@@ -95,6 +110,7 @@ Item {
         width: parent.width
         height: parent.height
         delegate: importedListDelegate
+
         //鼠标正在按下状态
         property bool inPress: theMouseArea.pressedButtons & Qt.LeftButton
         //框选滚动方向
@@ -102,10 +118,45 @@ Item {
         property var listContentHeight
         property int rectSelScrollOffset: GStatus.rectSelScrollStep
         signal dbClicked(string url)
+
         //激活滚动条
         ScrollBar.vertical: ScrollBar {
             id: vbar
             active: true
+
+            // 通知外部组件当前顶部的索引发生了变化
+            signal topDelegateIndexChanged(int newIndex)
+            signal importedLabelTextChanged(string str)
+
+            onPositionChanged: {
+                var topDelegateIndexTmp = theView.indexAt(0, theView.contentY)
+                if (topDelegateIndex !== topDelegateIndexTmp) { // 如果索引发生变化
+                    topDelegateIndex = topDelegateIndexTmp; // 更新属性
+                    topDelegateIndexChanged(topDelegateIndex); // 发送信号
+                }
+            }
+
+        }
+
+        Component.onCompleted: {
+         importedGridViewCount = importedGridView.count();
+        }
+
+        Connections {
+            target: vbar
+            onTopDelegateIndexChanged: {
+                var firstItemIndex = topDelegateIndex; // 使用当前顶部的索引
+                var firstItemLabel = theModel.get(firstItemIndex).title;
+
+                var item = theView.itemAtIndex(firstItemIndex);
+                if (item) {
+                    var viewCount = item.count;
+                }
+                var firstItemCount = viewCount ; //importedGridView.count();
+                var labelText = qsTr("Imported on") + " " + firstItemLabel + " " + (firstItemCount === 1 ? qsTr("1 item") : qsTr("%1 items").arg(firstItemCount));
+                sigTextUpdated(labelText);
+                importedLabelTextChanged(" ")
+            }
         }
 
         MouseArea {
@@ -320,6 +371,7 @@ Item {
             height: importedGridView.height + importedListView.listMargin * 2 + importedListView.importCheckboxHeight + spaceRect.height
             property string m_index: index
             property var theViewTitle: global.objIsEmpty(theModel.get(index)) ? "" : theModel.get(index).title //日期标题文本内容
+            property alias count: importedGridView.count
 
             Item {
                 id: spaceRect
@@ -342,6 +394,7 @@ Item {
                         importedGridView.selectAll(false)
                     }
                 }
+
                 Connections {
                     target: importedListView
                     onSigListViewPressed: {
@@ -371,7 +424,23 @@ Item {
                 topPadding: 1
                 font: DTK.fontManager.t6
                 id: importedLabel
+                z:4
                 text: qsTr("Imported on") + " " + theViewTitle + " " + (importedGridView.count === 1 ? qsTr("1 item") : qsTr("%1 items").arg(importedGridView.count))
+
+                Component.onCompleted: {
+                    if (isFirstLoad) {
+                        isFirstLoad = false
+                        sigTextUpdated(importedLabel.text)
+                        importedLabel.text = " "
+                    }
+                }
+
+                Connections {
+                    target: vbar
+                    onImportedLabelTextUpdated: {
+                        importedLabel.text = str
+                    }
+                }
             }
 
             //缩略图网格表
@@ -438,6 +507,7 @@ Item {
                 }
 
                 Component.onCompleted: {
+                    importedGridViewCount = importedGridView.count
                     importedGridView.flushView()
                     importedGridView.selectUrls(theModel.selectedPathObjs[index].paths)
                 }
