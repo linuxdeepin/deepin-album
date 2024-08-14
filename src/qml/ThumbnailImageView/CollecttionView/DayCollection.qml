@@ -236,7 +236,7 @@ SwitchViewAnimation {
             anchors {
                 top: parent.top
                 topMargin: 6
-                leftMargin: 20
+                leftMargin: timeLineLblMargin
                 left: parent.left
             }
             height: 30
@@ -252,7 +252,7 @@ SwitchViewAnimation {
             anchors {
                 top: titleTimeLineLabel.bottom
                 topMargin: 12
-                leftMargin: 20
+                leftMargin: timeLineLblMargin
                 left: parent.left
             }
 
@@ -347,6 +347,8 @@ SwitchViewAnimation {
             target: vbar
             onTopDelegateIndexChanged: {
                 var firstItemIndex = topDelegateIndex; // 使用当前顶部的索引
+                if (firstItemIndex === -1)
+                    return
                 var dayToken = theModel.get(firstItemIndex).dayToken
 
                 var picTotal = albumControl.getDayInfoCount(dayToken, 3)

@@ -236,6 +236,12 @@ public:
     void setLoading(const bool& value);
     Q_SIGNAL void loadingChanged();
 
+    // 记录相册界面是否处于加载状态
+    Q_PROPERTY(bool enableRatioAnimation READ enableRatioAnimation WRITE setEnableRatioAnimation NOTIFY enableRatioAnimationChanged)
+    bool enableRatioAnimation() const;
+    void setEnableRatioAnimation(const bool& value);
+    Q_SIGNAL void enableRatioAnimationChanged();
+
     // 根据选中内容获取状态栏文本内容
     Q_INVOKABLE QString getSelectedNumText(const QStringList &paths, const QString &text);
 
@@ -322,6 +328,7 @@ private:
     bool m_bWindowDisactived = false;           // 窗口是否激活标记
     bool m_bLoading = true;                     // 记录相册界面是否处于加载状态
 
+    bool m_bEnableRatioAnimation = false;       // 比例切换动画使能标识
     int m_nAnimationDuration = 400;             // 动画持续时间
     FileControl* m_fileControl { nullptr };
 };

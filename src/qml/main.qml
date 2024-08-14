@@ -97,8 +97,6 @@ ApplicationWindow {
 
         // 合集-所有项视图延迟刷新，解决其加载时会闪烁显示一张缩略图的问题
         GStatus.currentViewType = Album.Types.ViewCollecttion
-
-        GStatus.loading = false
         GStatus.currentDeviceName = albumControl.getDeviceName(GStatus.currentDevicePath)
     }
 
@@ -112,6 +110,8 @@ ApplicationWindow {
         if(window.visibility!=Window.FullScreen && window.visibility !=Window.Maximized){
             fileControl.setSettingWidth(width)
         }
+
+        GStatus.enableRatioAnimation = false
     }
 
     onHeightChanged: {
