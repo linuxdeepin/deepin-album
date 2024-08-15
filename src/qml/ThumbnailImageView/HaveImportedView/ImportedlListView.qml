@@ -382,7 +382,7 @@ Item {
             CheckBox {
                 id: importedCheckBox
                 height: importedListView.importCheckboxHeight
-                visible: selectedPaths.length > 0
+                visible: selectedPaths.length > 0 && index > 0
                 checked: importedGridView.haveSelectAll
                 font: DTK.fontManager.t6
                 anchors.top: (index == 0 ? spaceRect.bottom : spaceRect.top)
@@ -422,6 +422,7 @@ Item {
                     top :importedCheckBox.top
                 }
                 topPadding: 1
+                visible: index > 0
                 font: DTK.fontManager.t6
                 id: importedLabel
                 z:4

@@ -193,8 +193,20 @@ SwitchViewAnimation {
     onVisibleChanged: {
         // 窗口显示时，重置显示内容
         if (visible) {
+            if (!GStatus.loading)
+                showAnimation.start()
             flushAllCollectionView()
         }
+    }
+
+    NumberAnimation {
+        id: showAnimation
+        target: theView
+        property: "anchors.topMargin"
+        from: 10 + theView.height
+        to: 10
+        duration: GStatus.animationDuration
+        easing.type: Easing.OutExpo
     }
 
     Component.onCompleted: {

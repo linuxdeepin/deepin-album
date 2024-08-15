@@ -236,11 +236,17 @@ public:
     void setLoading(const bool& value);
     Q_SIGNAL void loadingChanged();
 
-    // 记录相册界面是否处于加载状态
+    // 比例动画使能
     Q_PROPERTY(bool enableRatioAnimation READ enableRatioAnimation WRITE setEnableRatioAnimation NOTIFY enableRatioAnimationChanged)
     bool enableRatioAnimation() const;
     void setEnableRatioAnimation(const bool& value);
     Q_SIGNAL void enableRatioAnimationChanged();
+
+    // 淡入淡出动画使能
+    Q_PROPERTY(bool enableFadeInoutAnimation READ enableFadeInoutAnimation WRITE setEnableFadeInoutAnimation NOTIFY enableFadeInoutAnimationChanged)
+    bool enableFadeInoutAnimation() const;
+    void setEnableFadeInoutAnimation(const bool& value);
+    Q_SIGNAL void enableFadeInoutAnimationChanged();
 
     // 根据选中内容获取状态栏文本内容
     Q_INVOKABLE QString getSelectedNumText(const QStringList &paths, const QString &text);
@@ -329,6 +335,7 @@ private:
     bool m_bLoading = true;                     // 记录相册界面是否处于加载状态
 
     bool m_bEnableRatioAnimation = false;       // 比例切换动画使能标识
+    bool m_bEnableFadeInoutAnimation = false;   // 淡入淡出动画使能标识
     int m_nAnimationDuration = 400;             // 动画持续时间
     FileControl* m_fileControl { nullptr };
 };

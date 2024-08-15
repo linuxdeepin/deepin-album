@@ -24,6 +24,14 @@ BaseView {
     property bool isCustom : albumControl.isCustomAlbum(customAlbumUId)
     property bool isSystemAutoImport: albumControl.isSystemAutoImportAlbum(customAlbumUId)
     property bool isNormalAutoImport: albumControl.isNormalAutoImportAlbum(customAlbumUId)
+    property bool allowFlushcontent: {
+        if (GStatus.currentViewType === Album.Types.ViewFavorite && GStatus.currentCustomAlbumUId === 0) {
+            return true
+        } else if (GStatus.currentViewType === Album.Types.ViewCustomAlbum && GStatus.currentCustomAlbumUId > 0) {
+            return true
+        } else
+            return false
+    }
 
     onVisibleChanged: {
         if (visible) {
@@ -41,6 +49,8 @@ BaseView {
     // 我的收藏和相册视图之间切换，需要重载数据
     onCustomAlbumUIdChanged: {
         if (visible) {
+            if (GStatus.currentViewType === Album.Types.ViewCustomAlbum && GStatus.currentCustomAlbumUId > 0)
+                showAnimation.start()
             flushAlbumName(GStatus.currentCustomAlbumUId, albumControl.getCustomAlbumByUid(GStatus.currentCustomAlbumUId))
             flushCustomAlbumView(GStatus.currentCustomAlbumUId)
         }
@@ -48,7 +58,7 @@ BaseView {
 
     // 刷新自定义相册名称
     function flushAlbumName(UID, name) {
-        if (UID === GStatus.currentCustomAlbumUId) {
+        if (UID === GStatus.currentCustomAlbumUId && allowFlushcontent) {
             customAlbumName = name
         }
     }
@@ -56,6 +66,8 @@ BaseView {
     // 刷新自定义相册/我的收藏视图内容
     function flushCustomAlbumView(UID) {
         if (UID === GStatus.currentCustomAlbumUId || UID === -1) {
+            if (!allowFlushcontent)
+                return
             dataModel.albumId = customAlbumUId
             theView.proxyModel.refresh(filterType)
             GStatus.selectedPaths = theView.selectedUrls
@@ -208,6 +220,21 @@ BaseView {
         visible: numLabelText === ""  && filterType === 0
         bShowImportBtn: isCustom
         iconName: isCustom ? "nopicture1" : (GStatus.currentViewType === Album.Types.ViewCustomAlbum ? "nopicture2" : "nopicture3")
+    }
+
+    NumberAnimation {
+        id: showAnimation
+        target: theView
+        property: "anchors.topMargin"
+        from: 10 + theView.height
+        to: 10
+        duration: GStatus.animationDuration
+        easing.type: Easing.OutExpo
+    }
+
+    onShowChanged: {
+        if (show)
+            showAnimation.start()
     }
 
     Component.onCompleted: {

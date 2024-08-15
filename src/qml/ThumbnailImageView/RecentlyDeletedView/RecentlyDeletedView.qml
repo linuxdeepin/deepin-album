@@ -257,6 +257,21 @@ BaseView {
         visible: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted && numLabelText === ""/* && filterType === 0*/
     }
 
+    NumberAnimation {
+        id: showAnimation
+        target: theView
+        property: "anchors.topMargin"
+        from: 10 + theView.height
+        to: 10
+        duration: GStatus.animationDuration
+        easing.type: Easing.OutExpo
+    }
+
+    onShowChanged: {
+        if (show)
+            showAnimation.start()
+    }
+
     Component.onCompleted: {
         GStatus.sigFlushRecentDelView.connect(flushRecentDelView)
         deleteDialog.sigDoAllDeleteImg.connect(runAllDeleteImg)

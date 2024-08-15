@@ -126,7 +126,7 @@ BaseView {
             z:3
             anchors {
                 top: importedLabel.bottom
-                topMargin: 12
+                topMargin: 11
             }
             font: DTK.fontManager.t6
         }
@@ -164,6 +164,21 @@ BaseView {
         visible: bShowImportTips
         bShowImportBtn: true
         iconName: "nopicture1"
+    }
+
+    NumberAnimation {
+        id: showAnimation
+        target: theView
+        property: "anchors.topMargin"
+        from: theView.height
+        to: 0
+        duration: GStatus.animationDuration
+        easing.type: Easing.OutExpo
+    }
+
+    onShowChanged: {
+        if (show)
+            showAnimation.start()
     }
 
     function setDataRange(str) {

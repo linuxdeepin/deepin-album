@@ -5,7 +5,8 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 
-Item {
+import "./Animation"
+FadeInoutAnimation {
     anchors.fill: parent
     anchors.topMargin: 0
     anchors.leftMargin: 20

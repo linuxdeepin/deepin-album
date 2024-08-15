@@ -7,8 +7,15 @@ import QtQuick.Controls 2.4
 
 Item {
     id: fadeInoutAnimation
-
+    signal stoped()
     property bool show: true
+    property string idName: ""
+
+    onOpacityChanged: {
+        if ((opacity === 1 || opacity === 0) && !GStatus.loading) {
+            stoped()
+        }
+    }
 
     state: "hide"
     states: [
@@ -34,6 +41,7 @@ Item {
 
     transitions:
         Transition {
+        enabled: GStatus.enableFadeInoutAnimation
         NumberAnimation{properties: "opacity,visible"; easing.type: Easing.OutExpo; duration: GStatus.animationDuration
         }
     }
