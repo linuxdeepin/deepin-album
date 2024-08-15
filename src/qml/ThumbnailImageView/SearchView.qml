@@ -190,6 +190,20 @@ BaseView {
         }
     }
 
+    NumberAnimation {
+        id: showAnimation
+        target: view
+        property: "anchors.topMargin"
+        from: 10 + view.height
+        to: 10
+        duration: GStatus.animationDuration
+        easing.type: Easing.OutExpo
+    }
+
+    onShowChanged: {
+        if (show)
+            showAnimation.start()
+    }
     Component.onCompleted: {
         GStatus.sigRunSearch.connect(searchFromKeyword)
     }

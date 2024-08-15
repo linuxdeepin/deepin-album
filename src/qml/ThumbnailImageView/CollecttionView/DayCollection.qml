@@ -220,7 +220,7 @@ SwitchViewAnimation {
     Item {
         id: allCollectionTitleRect
         width: parent.width - GStatus.verticalScrollBarWidth
-        height: GStatus.thumbnailViewTitleHieght
+        height: timeLineLblMargin + timeLineLblHeight + selAllCheckBoxHeight
         z: 2
         Rectangle {
             color: DTK.themeType === ApplicationHelper.LightType ? "#f8f8f8"
@@ -235,11 +235,10 @@ SwitchViewAnimation {
             z:3
             anchors {
                 top: parent.top
-                topMargin: 6
+                topMargin: timeLineLblMargin
                 leftMargin: timeLineLblMargin
                 left: parent.left
             }
-            height: 30
             font: DTK.fontManager.t3
             visible: text !== ""
             text : ""
@@ -249,32 +248,15 @@ SwitchViewAnimation {
         Label {
             id: titlePhotoNumberLabel
             z:3
+            height: selAllCheckBoxHeight
             anchors {
                 top: titleTimeLineLabel.bottom
-                topMargin: 12
                 leftMargin: timeLineLblMargin
                 left: parent.left
             }
-
+            topPadding: -1
             text : ""
-            opacity: 1.0
-            font: DTK.fontManager.t6
             visible: text !== ""
-        }
-
-        // 筛选下拉框
-        FilterComboBox {
-            id: filterCombo
-            z:3
-            anchors {
-                top: titleTimeLineLabel.bottom
-                topMargin: 4
-                right: parent.right
-            }
-            width: 115
-            height: 35
-            font: DTK.fontManager.t6
-            visible: parent.visible && albumControl.getAllCount() !== 0
         }
     }
 
@@ -636,6 +618,7 @@ SwitchViewAnimation {
                 id: theSubView
                 anchors {
                     top: selectAllBox.bottom
+                    left: selectAllBox.left
                 }
                 enableMouse: false
                 width: parent.width

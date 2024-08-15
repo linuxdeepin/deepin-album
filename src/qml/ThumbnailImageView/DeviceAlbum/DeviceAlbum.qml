@@ -254,4 +254,19 @@ BaseView {
         color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
         text: qsTr("No results")
     }
+
+    NumberAnimation {
+        id: showAnimation
+        target: theView
+        property: "anchors.topMargin"
+        from: 10 + theView.height
+        to: 10
+        duration: GStatus.animationDuration
+        easing.type: Easing.OutExpo
+    }
+
+    onShowChanged: {
+        if (show)
+            showAnimation.start()
+    }
 }

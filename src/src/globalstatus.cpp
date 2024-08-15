@@ -426,7 +426,7 @@ void GlobalStatus::setCurrentViewType(const Types::ThumbnailViewType &value)
     if (m_currentViewType != value) {
         m_currentViewType = value;
 
-        m_bEnableRatioAnimation = false;
+        setEnableRatioAnimation(false);
         // 若相册数据库没有图片资源，则调整显示“没有图片“提示视图
         if (AlbumControl::instance()->getAllCount() <= 0) {
             switch (value) {
@@ -455,7 +455,7 @@ void GlobalStatus::setCurrentCollecttionViewIndex(const int &value)
 {
     if (m_currentCollecttionViewIndex != value) {
         m_currentCollecttionViewIndex = value;
-        m_bEnableRatioAnimation = false;
+        setEnableRatioAnimation(false);
         Q_EMIT currentCollecttionViewIndexChanged();
     }
 }
@@ -657,6 +657,9 @@ void GlobalStatus::setLoading(const bool &value)
 {
     if (m_bLoading != value) {
         m_bLoading = value;
+        if (!m_bLoading) {
+            setEnableFadeInoutAnimation(true);
+        }
         Q_EMIT loadingChanged();
     }
 }
@@ -671,6 +674,20 @@ void GlobalStatus::setEnableRatioAnimation(const bool &value)
     if (m_bEnableRatioAnimation != value) {
         m_bEnableRatioAnimation = value;
         Q_EMIT enableRatioAnimationChanged();
+    }
+}
+
+bool GlobalStatus::enableFadeInoutAnimation() const
+{
+    return m_bEnableFadeInoutAnimation;
+
+}
+
+void GlobalStatus::setEnableFadeInoutAnimation(const bool &value)
+{
+    if (m_bEnableFadeInoutAnimation != value) {
+        m_bEnableFadeInoutAnimation = value;
+        Q_EMIT enableFadeInoutAnimationChanged();
     }
 }
 

@@ -27,25 +27,25 @@ Item {
 
     CollecttionView{
         id: collecttionView
-        visible: GStatus.currentViewType === Album.Types.ViewCollecttion
+        show: GStatus.currentViewType === Album.Types.ViewCollecttion
     }
     HaveImportedView{
-        visible: GStatus.currentViewType === Album.Types.ViewHaveImported
+        show: GStatus.currentViewType === Album.Types.ViewHaveImported
     }
     CustomAlbum{
-        visible: GStatus.currentViewType === Album.Types.ViewFavorite
+        show: GStatus.currentViewType === Album.Types.ViewFavorite
     }
     RecentlyDeletedView{
-        visible: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted
+        show: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted
     }
     CustomAlbum{
-        visible: GStatus.currentViewType === Album.Types.ViewCustomAlbum
+        show: GStatus.currentViewType === Album.Types.ViewCustomAlbum
     }
     SearchView{
-        visible: GStatus.currentViewType === Album.Types.ViewSearchResult
+        show: GStatus.currentViewType === Album.Types.ViewSearchResult
     }
     DeviceAlbum{
-        visible: GStatus.currentViewType === Album.Types.ViewDevice
+        show: GStatus.currentViewType === Album.Types.ViewDevice
     }
 
     //export窗口
