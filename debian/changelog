@@ -1,3 +1,12 @@
+deepin-album (6.0.5) unstable; urgency=medium
+
+  * chore: Add sidebar menu switching animation
+  * chore: Add large image preview animation
+  * chore: Add dynamic effects for switching between year, month, and day views
+  * chore: Increase the proportion of images to switch dynamic effects
+
+ -- wangyu <wangyu@uniontech.com>  Thu, 15 Aug 2024 19:22:14 +0800
+
 deepin-album (6.0.4) unstable; urgency=medium
 
   * chore: URL path to local path rectification, unified use of the localPath interface for processing
