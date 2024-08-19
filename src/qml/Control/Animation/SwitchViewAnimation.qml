@@ -15,10 +15,13 @@ Item {
     property bool show: false
     property real showOpacity: 1
     property real showX: 0
+    property real showScale: 1
 
     property string idName: ""
     property real hideOpacity: 0
     property real hideX: -width - 20
+    property real hideScale: 0.5
+
 
     property int switchType: GStatus.currentSwitchType
     property string switchPropertys: "x,opacity"
@@ -30,6 +33,9 @@ Item {
         } else if (switchType === Album.Types.FadeInOut) {
             x = 0
             switchPropertys = "opacity"
+        } else if (switchType === Album.Types.ScaleInOUt) {
+            x = 0
+            switchPropertys = "scale,opacity"
         }
     }
 
@@ -50,6 +56,7 @@ Item {
             PropertyChanges {
                 target: switchViewAnimation
                 opacity: showOpacity
+                scale: showScale
                 x: showX
             }
             when: show
@@ -59,6 +66,7 @@ Item {
             PropertyChanges {
                 target: switchViewAnimation
                 opacity: hideOpacity
+                scale: hideScale
                 x: hideX
             }
             when: !show
