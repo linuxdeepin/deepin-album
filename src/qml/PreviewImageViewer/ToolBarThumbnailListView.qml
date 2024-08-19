@@ -112,8 +112,7 @@ Item {
         onClicked: {
             showNormal()
             GStatus.stackControlCurrent = 0
-            mainView.sourcePaths = []
-            mainView.source = ""
+            window.title = ""
         }
 
         ToolTip.delay: 500
@@ -130,8 +129,7 @@ Item {
             onActivated: {
                 showNormal()
                 GStatus.stackControlCurrent = 0
-                mainView.sourcePaths = []
-                mainView.source = ""
+                window.title = ""
             }
         }
     }

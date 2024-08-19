@@ -38,7 +38,7 @@ BaseView {
     }
 
     onVisibleChanged: {
-        if (visible)
+        if (visible && !GStatus.backingToMainAlbumView)
             flushHaveImportedView()
     }
 

@@ -494,6 +494,11 @@ int GlobalStatus::stackControlCurrent() const
 void GlobalStatus::setStackControlCurrent(const int &value)
 {
     if (m_stackControlCurrent != value) {
+
+        if (m_stackControlCurrent != 0 && value == 0) {
+            setBackingToMainAlbumView(true);
+            Q_EMIT sigMoveToAlbumAnimation();
+        }
         m_stackControlCurrent = value;
         Q_EMIT stackControlCurrentChanged();
     }
@@ -688,6 +693,19 @@ void GlobalStatus::setEnableFadeInoutAnimation(const bool &value)
     if (m_bEnableFadeInoutAnimation != value) {
         m_bEnableFadeInoutAnimation = value;
         Q_EMIT enableFadeInoutAnimationChanged();
+    }
+}
+
+bool GlobalStatus::backingToMainAlbumView() const
+{
+    return m_bBackingToMainAlbumView;
+}
+
+void GlobalStatus::setBackingToMainAlbumView(const bool &value)
+{
+    if (m_bBackingToMainAlbumView != value) {
+        m_bBackingToMainAlbumView = value;
+        Q_EMIT backingToMainAlbumViewChanged();
     }
 }
 

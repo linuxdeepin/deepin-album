@@ -39,6 +39,7 @@ SwitchViewAnimation {
     property bool isFirstLoad: true
     property int topDelegateIndex: 0
     property int topDelegateIndexTmp: 0
+    property alias count: theModel.count
 
     // 更新日期和照片数量信号
     signal numLabelTextUpdate(string str)
@@ -150,6 +151,12 @@ SwitchViewAnimation {
         // 当日视图滚到底部时，theview的originY会发生改变，将会导致contentY的定位值异常
         // 因此实际滚动值需要通过originY来修正
         theView.contentY = targetY + theView.originY
+    }
+
+    function unSelectAll() {
+        theView.sigUnSelectAll()
+        selectedPaths = []
+        GStatus.selectedPaths = []
     }
 
     function flushModel() {
@@ -699,11 +706,9 @@ SwitchViewAnimation {
 
     onVisibleChanged: {
         // 窗口显示时，重置显示内容
-        if (visible) {
+        if (visible && !GStatus.backingToMainAlbumView) {
             //清除选中状态
-            theView.sigUnSelectAll()
-            selectedPaths = []
-            GStatus.selectedPaths = []
+            unSelectAll()
             flushModel()
         }
     }

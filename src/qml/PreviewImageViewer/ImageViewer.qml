@@ -75,7 +75,7 @@ Rectangle {
 
     //判断图片是否可收藏
     property bool canFavorite: albumControl.canFavorite(source, GStatus.bRefreshFavoriteIconFlag)
-
+    property bool bMoveCenterAnimationPlayed: false
     signal sigWheelChange
     signal sigImageShowFullScreen
     signal sigImageShowNormal
@@ -1212,6 +1212,10 @@ Rectangle {
             duration: GStatus.animationDuration
             easing.type: Easing.OutExpo
         }
+
+        onStopped: {
+            bMoveCenterAnimationPlayed = true
+        }
     }
 
     Connections {
@@ -1225,6 +1229,70 @@ Rectangle {
         }
     }
 
+
+    ParallelAnimation {
+        id: moveToAlbumAnimation
+        NumberAnimation {
+            target: view
+            properties: "x"
+            from: 0
+            to: moveCenterAnimation.fromX
+            duration: GStatus.animationDuration
+            easing.type: Easing.OutExpo
+        }
+        NumberAnimation {
+            target: imageviewr
+            property: "opacity"
+            from: 1
+            to: 0
+            duration: GStatus.animationDuration
+            easing.type: Easing.OutExpo
+        }
+        NumberAnimation {
+            target: view
+            property: "opacity"
+            from: 1
+            to: 0
+            duration: GStatus.animationDuration
+            easing.type: Easing.OutExpo
+        }
+        NumberAnimation {
+            target: view
+            properties: "y"
+            from: 0
+            to: moveCenterAnimation.fromY
+            duration: GStatus.animationDuration
+            easing.type: Easing.OutExpo
+        }
+
+        NumberAnimation {
+            target: view
+            properties: "width"
+            from: imageviewr.width
+            to: moveCenterAnimation.fromW
+            duration: GStatus.animationDuration
+            easing.type: Easing.OutExpo
+        }
+        NumberAnimation {
+            target: view
+            properties: "height"
+            from: imageviewr.height
+            to: moveCenterAnimation.fromH
+            duration: GStatus.animationDuration
+            easing.type: Easing.OutExpo
+        }
+    }
+
+    Connections {
+        target: GStatus
+        onSigMoveToAlbumAnimation: {
+            // 以动画方式进入大图，返回相册时才逆向播放推出动画
+            if (bMoveCenterAnimationPlayed) {
+                moveToAlbumAnimation.start()
+                bMoveCenterAnimationPlayed = false
+            }
+        }
+    }
     // 图片滑动视图
     SwipeView {
         id: view

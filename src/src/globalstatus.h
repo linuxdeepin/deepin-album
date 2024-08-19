@@ -248,6 +248,12 @@ public:
     void setEnableFadeInoutAnimation(const bool& value);
     Q_SIGNAL void enableFadeInoutAnimationChanged();
 
+    // 从大图返回到相册
+    Q_PROPERTY(bool backingToMainAlbumView READ backingToMainAlbumView WRITE setBackingToMainAlbumView NOTIFY backingToMainAlbumViewChanged)
+    bool backingToMainAlbumView() const;
+    void setBackingToMainAlbumView(const bool& value);
+    Q_SIGNAL void backingToMainAlbumViewChanged();
+
     // 根据选中内容获取状态栏文本内容
     Q_INVOKABLE QString getSelectedNumText(const QStringList &paths, const QString &text);
 
@@ -288,6 +294,7 @@ Q_SIGNALS:
     void sigSelectAll(bool bSel);
     void sigPageUp();
     void sigPageDown();
+    void sigMoveToAlbumAnimation();
 
 private:
     void initConnect();
@@ -336,6 +343,7 @@ private:
 
     bool m_bEnableRatioAnimation = false;       // 比例切换动画使能标识
     bool m_bEnableFadeInoutAnimation = false;   // 淡入淡出动画使能标识
+    bool m_bBackingToMainAlbumView = false;
     int m_nAnimationDuration = 400;             // 动画持续时间
     FileControl* m_fileControl { nullptr };
 };

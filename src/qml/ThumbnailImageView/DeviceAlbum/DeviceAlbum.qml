@@ -25,7 +25,8 @@ BaseView {
     property alias selectedPaths: theView.selectedPaths
 
     onVisibleChanged: {
-        flushDeviceAlbumView()
+        if (!GStatus.backingToMainAlbumView)
+            flushDeviceAlbumView()
     }
 
     // 筛选类型改变处理事件

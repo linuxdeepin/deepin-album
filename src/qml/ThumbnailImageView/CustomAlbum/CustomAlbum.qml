@@ -34,7 +34,7 @@ BaseView {
     }
 
     onVisibleChanged: {
-        if (visible) {
+        if (visible && !GStatus.backingToMainAlbumView) {
             flushAlbumName(GStatus.currentCustomAlbumUId, albumControl.getCustomAlbumByUid(GStatus.currentCustomAlbumUId))
             flushCustomAlbumView(GStatus.currentCustomAlbumUId)
         }
