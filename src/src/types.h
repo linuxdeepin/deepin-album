@@ -122,6 +122,7 @@ public:
         HardCut,        ///< 硬切
         FlipScroll,     ///< 滚动翻页
         FadeInOut,      ///< 渐显渐隐
+        ScaleInOUt,     ///< 缩放淡入淡出
     };
 };
 

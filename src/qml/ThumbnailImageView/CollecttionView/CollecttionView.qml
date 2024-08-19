@@ -130,7 +130,7 @@ BaseView {
 
     function onYearClicked(year) {
         // 点击在图片上，动画切换类型为渐显渐隐
-        GStatus.currentSwitchType = Album.Types.FadeInOut
+        GStatus.currentSwitchType = Album.Types.ScaleInOUt
         setIndex(1)
         allCollection.x = -rollingWidth
         dayCollection.x = -rollingWidth
@@ -139,7 +139,7 @@ BaseView {
 
     function onMonthClicked(year, month) {
         // 点击在图片上，动画切换类型为渐显渐隐
-        GStatus.currentSwitchType = Album.Types.FadeInOut
+        GStatus.currentSwitchType = Album.Types.ScaleInOUt
         setIndex(2)
         allCollection.x = -rollingWidth
         dayCollection.scrollToMonth(year, month)
