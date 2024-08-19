@@ -21,7 +21,6 @@ Item {
     signal sigListViewPressed(int x, int y)
     signal sigListViewReleased(int x, int y)
 
-    property var importedGridViewCount: 0
     property var selectedPaths: []
     property int filterComboOffsetY: 5
     property int spaceCtrlHeight: filterCombo.y + filterComboOffsetY
@@ -136,10 +135,6 @@ Item {
                 }
             }
 
-        }
-
-        Component.onCompleted: {
-         importedGridViewCount = importedGridView.count();
         }
 
         Connections {
@@ -509,7 +504,6 @@ Item {
                 }
 
                 Component.onCompleted: {
-                    importedGridViewCount = importedGridView.count
                     importedGridView.flushView()
                     importedGridView.selectUrls(theModel.selectedPathObjs[index].paths)
                 }

@@ -374,9 +374,12 @@ TitleBar {
         width:  spaceWidth > normalSearchEditWidth ? normalSearchEditWidth : spaceWidth
         x: {
             var centerX = 0
-            if (GStatus.sideBarX === 0)
+            if (GStatus.sideBarX === 0) {
                 centerX = (title.width - 200 - searchEdit.width) / 2 + 200
-            else
+
+                if (centerX + searchEdit.width > operLayout.x)
+                    centerX = centerX - (centerX + searchEdit.width - operLayout.x)
+            } else
                 centerX = (title.width - searchEdit.width) / 2
             if (centerX <= leftPos || searchEdit.width < normalSearchEditWidth) {
                 return leftPos
