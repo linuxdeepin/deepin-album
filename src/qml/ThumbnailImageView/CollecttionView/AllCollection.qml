@@ -21,6 +21,7 @@ SwitchViewAnimation {
     property int filterType: filterCombo.currentIndex // 筛选类型，默认所有
     property string numLabelText:""
     property string selectedText: getSelectedNum(selectedPaths)
+    property alias count: theView.count
     property var selectedPaths: []
 
     function setDateRange(str) {
@@ -193,9 +194,8 @@ SwitchViewAnimation {
     onVisibleChanged: {
         // 窗口显示时，重置显示内容
         if (visible) {
-            if (!GStatus.loading)
+            if (!GStatus.loading && !GStatus.backingToMainAlbumView)
                 showAnimation.start()
-            flushAllCollectionView()
         }
     }
 

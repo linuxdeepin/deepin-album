@@ -12,7 +12,7 @@ Item {
     //本文件用于替代stackwidget的作用，通过改变GStatus的0-n来切换窗口
     MainAlbumView{
         id: mainAlbumView
-        visible: GStatus.stackControlCurrent === 0
+        show: GStatus.stackControlCurrent === 0
     }
     MainStack{
         id: mainStack

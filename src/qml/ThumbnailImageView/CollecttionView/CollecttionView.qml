@@ -35,13 +35,14 @@ BaseView {
             if (monthCollection.x < 0)
                 monthCollection.x = rollingWidth
         } else if (index === 2) {
-            dayCollection.flushModel()
+            if (dayCollection.count === 0)
+                dayCollection.flushModel()
             if (dayCollection.x < 0)
                 dayCollection.x = rollingWidth
             if (!dayCollection.visible) {
                 dayCollection.visible = true
             }
-            GStatus.selectedPaths = []
+            dayCollection.unSelectAll()
             flushDayViewStatusText()
         } else if (index === 3) {
             if (allCollection.x < 0)
@@ -70,6 +71,8 @@ BaseView {
     }
 
     onVisibleChanged: {
+        if (GStatus.backingToMainAlbumView)
+            return
         allCollection.clearSelecteds()
 
         if (visible) {
