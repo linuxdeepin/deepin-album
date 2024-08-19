@@ -48,6 +48,7 @@ int main(int argc, char *argv[])
         qputenv("XDG_CURRENT_DESKTOP", "Deepin");
     }
 
+    //qputenv("QML_DISABLE_DISK_CACHE", "1");
     qputenv("D_POPUP_MODE", "embed");
     // 注意:请不要管理 QGuiApplication 对象的生命周期！
     DApplication *app = new DApplication(argc, argv);

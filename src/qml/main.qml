@@ -32,28 +32,29 @@ ApplicationWindow {
     signal sigMoveCenter(int x, int y, int w, int h)
     // 设置 dtk 风格窗口
     DWindow.enabled: true
-    //DWindow.alphaBufferSize: 8
+    DWindow.alphaBufferSize: 8
     title: ""
     header: AlbumTitle {id: titleAlubmRect}
 
-    background: FadeInoutAnimation {
+    background: Rectangle {
         anchors.fill: parent
-        show: GStatus.stackControlCurrent === 0 ? true : false
+        visible: GStatus.stackControlCurrent === 0 ? true : false
+        color: "transparent"
         Row {
             anchors.fill: parent
-            Rectangle {
+            BehindWindowBlur {
                 id: leftBgArea
                 width: GStatus.sideBarWidth
                 height: parent.height
                 anchors.top: parent.top
-                color: DTK.themeType === ApplicationHelper.LightType ? Qt.rgba(1, 1, 1, 0.9)
-                                                                          : Qt.rgba(16.0/255.0, 16.0/255.0, 16.0/255.0, 0.85)
+                blendColor: DTK.themeType === ApplicationHelper.LightType ? "#eaf7f7f7"
+                                                                          : "#ee252525"
                 Rectangle {
                     width: 1
                     height: parent.height
                     anchors.right: parent.right
                     color: DTK.themeType === ApplicationHelper.LightType ? "#eee7e7e7"
-                                                                         : "#ee252525"
+                                                                         : "#11a2a2a2"
                 }
             }
             Rectangle {
