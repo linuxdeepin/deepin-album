@@ -7,7 +7,7 @@ import QtQuick.Layouts 1.11
 import QtQuick.Controls 2.4
 import QtQml.Models 2.11
 import org.deepin.dtk 1.0
-
+import org.deepin.dtk.style 1.0 as DS
 
 ItemDelegate {
     id: item
@@ -26,6 +26,15 @@ ItemDelegate {
                 control.itemRightClicked(model.uuid, model.displayName)
             }
         }
+    }
+
+    RoundRectangle {
+        visible: hovered
+        anchors.fill: parent
+        color: DTK.themeType === ApplicationHelper.LightType ? Qt.rgba(0,0,0,0.1)
+                                                             : Qt.rgba(1,1,1,0.1)
+        radius: DS.Style.control.radius
+        corners: item.corners
     }
 
     DciIcon {

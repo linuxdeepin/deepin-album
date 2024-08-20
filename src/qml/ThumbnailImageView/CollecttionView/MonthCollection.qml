@@ -78,8 +78,8 @@ SwitchViewAnimation {
         height: parent.height + GStatus.statusBarHeight - GStatus.collectionTopMargin
         anchors {
             top: parent.top
-            topMargin: GStatus.collectionTopMargin
             horizontalCenter: parent.horizontalCenter
+            bottomMargin: GStatus.collectionTopMargin
         }
     }
 

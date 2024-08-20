@@ -267,7 +267,7 @@ Item {
             icon.width:36
             icon.height:36
 
-            anchors.left: fitWindowButton.right
+            anchors.left: rotateButton.right
             anchors.leftMargin: 10
             anchors.top: parent.top
             anchors.topMargin: (parent.height - height) / 2
