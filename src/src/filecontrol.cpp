@@ -41,7 +41,7 @@ const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";
 // 是否显示导航窗口
 const QString SETTINGS_ENABLE_NAVIGATION = "EnableNavigation";
 const int MAINWIDGET_MINIMUN_HEIGHT = 300;
-const int MAINWIDGET_MINIMUN_WIDTH = 628;
+const int MAINWIDGET_MINIMUN_WIDTH = 658;
 
 bool compareByFileInfo(const QFileInfo &str1, const QFileInfo &str2)
 {
@@ -869,11 +869,12 @@ int FileControl::getlastWidth()
     int reWidth = 0;
     int defaultW = 0;
 
+    // 默认高度 在1920下为1150
     QDesktopWidget *dw = QApplication::desktop();
-    if (double(dw->screenGeometry().width()) * 0.60 < MAINWIDGET_MINIMUN_WIDTH) {
+    if (double(dw->screenGeometry().width()) * 0.599 < MAINWIDGET_MINIMUN_WIDTH) {
         defaultW = MAINWIDGET_MINIMUN_WIDTH;
     } else {
-        defaultW = int(double(dw->screenGeometry().width()) * 0.60);
+        defaultW = int(double(dw->screenGeometry().width()) * 0.599);
     }
 
     const int ww = getConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
@@ -888,11 +889,12 @@ int FileControl::getlastHeight()
     int reHeight = 0;
     int defaultH = 0;
 
+    // 默认高度 在1080下为800
     QDesktopWidget *dw = QApplication::desktop();
-    if (double(dw->screenGeometry().height()) * 0.60 < MAINWIDGET_MINIMUN_HEIGHT) {
+    if (double(dw->screenGeometry().height()) * 0.741 < MAINWIDGET_MINIMUN_HEIGHT) {
         defaultH = MAINWIDGET_MINIMUN_HEIGHT;
     } else {
-        defaultH = int(double(dw->screenGeometry().height()) * 0.60);
+        defaultH = int(double(dw->screenGeometry().height()) * 0.741);
     }
     const int wh = getConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(defaultH)).toInt();
 
