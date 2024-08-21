@@ -46,6 +46,8 @@ void LibConfigSetter::loadConfig(imageViewerSpace::ImgViewerType type)
             setValue("", "loadImport", 1);
         if (!contains("","animationDuration"))
             setValue("", "animationDuration", 400);
+        if (!contains("", "largeImagePreviewAnimationDuration"))
+            setValue("", "largeImagePreviewAnimationDuration", 800);
     }
 
 //    if (imageViewerSpace::ImgViewerTypeAlbum == m_viewType) {

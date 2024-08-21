@@ -12,10 +12,12 @@ Item {
     //本文件用于替代stackwidget的作用，通过改变GStatus的0-n来切换窗口
     MainAlbumView{
         id: mainAlbumView
+        idName: "mainAlbumView"
         show: GStatus.stackControlCurrent === 0
     }
     MainStack{
         id: mainStack
+        idName: "mainStack"
         anchors.fill: parent
         show: GStatus.stackControlCurrent === 1
         iconName: "deepin-album"

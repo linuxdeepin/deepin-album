@@ -10,10 +10,21 @@ Item {
     signal stoped()
     property bool show: true
     property string idName: ""
+    property real normalDuration: GStatus.animationDuration
 
     onOpacityChanged: {
         if ((opacity === 1 || opacity === 0) && !GStatus.loading) {
             stoped()
+        }
+    }
+
+    // 大图预览退出/进入动效时间翻倍，需要慢速播放，才能清晰显示大图缩小动画
+    onShowChanged: {
+        if ((idName === "mainAlbumView")
+                || (idName === "mainStack")) {
+            normalDuration = GStatus.largeImagePreviewAnimationDuration
+        } else {
+            normalDuration = GStatus.animationDuration
         }
     }
 
@@ -42,7 +53,7 @@ Item {
     transitions:
         Transition {
         enabled: GStatus.enableFadeInoutAnimation
-        NumberAnimation{properties: "opacity,visible"; easing.type: Easing.OutExpo; duration: GStatus.animationDuration
+        NumberAnimation{properties: "opacity,visible"; easing.type: Easing.OutExpo; duration: normalDuration
         }
     }
 }

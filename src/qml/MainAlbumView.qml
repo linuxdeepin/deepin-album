@@ -55,6 +55,12 @@ FadeInoutAnimation {
         value: leftSidebar.x === 0
     }
 
+    Binding {
+        target: leftBgArea
+        property: "width"
+        value: leftSidebar.x + GStatus.sideBarWidth
+    }
+
     // 侧边栏跟随窗口尺寸展开/收起
     onWidthChanged: {
         if (!GStatus.sideBarIsVisible)
