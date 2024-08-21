@@ -1237,7 +1237,7 @@ Rectangle {
             properties: "x"
             from: 0
             to: moveCenterAnimation.fromX
-            duration: GStatus.animationDuration
+            duration: GStatus.largeImagePreviewAnimationDuration
             easing.type: Easing.OutExpo
         }
         NumberAnimation {
@@ -1245,7 +1245,7 @@ Rectangle {
             property: "opacity"
             from: 1
             to: 0
-            duration: GStatus.animationDuration
+            duration: GStatus.largeImagePreviewAnimationDuration
             easing.type: Easing.OutExpo
         }
         NumberAnimation {
@@ -1253,7 +1253,7 @@ Rectangle {
             property: "opacity"
             from: 1
             to: 0
-            duration: GStatus.animationDuration
+            duration: GStatus.largeImagePreviewAnimationDuration
             easing.type: Easing.OutExpo
         }
         NumberAnimation {
@@ -1261,7 +1261,7 @@ Rectangle {
             properties: "y"
             from: 0
             to: moveCenterAnimation.fromY
-            duration: GStatus.animationDuration
+            duration: GStatus.largeImagePreviewAnimationDuration
             easing.type: Easing.OutExpo
         }
 
@@ -1270,7 +1270,7 @@ Rectangle {
             properties: "width"
             from: imageviewr.width
             to: moveCenterAnimation.fromW
-            duration: GStatus.animationDuration
+            duration: GStatus.largeImagePreviewAnimationDuration
             easing.type: Easing.OutExpo
         }
         NumberAnimation {
@@ -1278,7 +1278,7 @@ Rectangle {
             properties: "height"
             from: imageviewr.height
             to: moveCenterAnimation.fromH
-            duration: GStatus.animationDuration
+            duration: GStatus.largeImagePreviewAnimationDuration
             easing.type: Easing.OutExpo
         }
     }

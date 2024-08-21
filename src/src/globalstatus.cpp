@@ -307,6 +307,9 @@ void GlobalStatus::setFileControl(FileControl *fc)
     m_nAnimationDuration = m_fileControl->getConfigValue("", "animationDuration", 400).toInt(&bRet);
     if (!bRet)
         m_nAnimationDuration = 400;
+    m_nLargeImagePreviewAnimationDuration = m_fileControl->getConfigValue("", "largeImagePreviewAnimationDuration", 800).toInt(&bRet);
+    if (!bRet)
+        m_nLargeImagePreviewAnimationDuration = 400;
 }
 
 int GlobalStatus::rightMenuSeparatorHeight() const
@@ -362,6 +365,11 @@ int GlobalStatus::needHideSideBarWidth() const
 int GlobalStatus::animationDuration() const
 {
     return m_nAnimationDuration;
+}
+
+int GlobalStatus::largeImagePreviewAnimationDuration() const
+{
+    return m_nLargeImagePreviewAnimationDuration;
 }
 
 qreal GlobalStatus::sideBarX() const

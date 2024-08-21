@@ -36,6 +36,7 @@ class GlobalStatus : public QObject
     Q_PROPERTY(int thumbnailListRightMargin READ thumbnailListRightMargin CONSTANT)
     Q_PROPERTY(int thumbnialListCellSpace READ thumbnialListCellSpace CONSTANT)
     Q_PROPERTY(int animationDuration READ animationDuration CONSTANT)
+    Q_PROPERTY(int largeImagePreviewAnimationDuration READ largeImagePreviewAnimationDuration CONSTANT)
 
 public:
     explicit GlobalStatus(QObject *parent = nullptr);
@@ -280,6 +281,7 @@ public:
     int thumbnailListRightMargin() const;
     int thumbnialListCellSpace() const;
     int animationDuration() const;
+    int largeImagePreviewAnimationDuration() const;
 
 // 相册相关信号
 Q_SIGNALS:
@@ -345,6 +347,7 @@ private:
     bool m_bEnableFadeInoutAnimation = false;   // 淡入淡出动画使能标识
     bool m_bBackingToMainAlbumView = false;
     int m_nAnimationDuration = 400;             // 动画持续时间
+    int m_nLargeImagePreviewAnimationDuration = 800; // 大图预览动画持续时间
     FileControl* m_fileControl { nullptr };
 };
 
