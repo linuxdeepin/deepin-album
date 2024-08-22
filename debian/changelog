@@ -1,3 +1,16 @@
+deepin-album (6.0.6) unstable; urgency=medium
+
+  * fix: Search box centering issue fixed(Bug: 219083)
+  * feat: [Animation] Collection year month day view add zoom out fade out dynamic effect(Bug: 168549)
+  * feat: [Animation] Add large image preview with reverse animation effect(Bug: 168549)
+  * fix: [UI] Add a semi transparent background effect to the sidebar(Bug: 265267)
+  * fix: [UI] Add hover status display to the sidebar sub item(Bug: 268929, 268925)
+  * feat: [Config] Add large image preview animation duration config(Bug: 168549)
+  * fix: [Config] The default width and height adjustment of the main window is 1150 * 800(Bug: 268195)
+  * fix: [UI] Adjustment of Top and Bottom Margins in Year Month View(Bug: 268925)
+
+ -- Deepin Packages Builder <packages@deepin.org>  Thu, 22 Aug 2024 13:41:03 +0800
+
 deepin-album (6.0.5) unstable; urgency=medium
 
   * chore: Add sidebar menu switching animation
