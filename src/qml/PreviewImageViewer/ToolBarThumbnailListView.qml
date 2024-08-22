@@ -30,32 +30,32 @@ Item {
         if (mainView.sourcePaths.length - 1 > bottomthumbnaillistView.currentIndex) {
             var tempPathIndex = bottomthumbnaillistView.currentIndex
             //需要保存临时变量，重置后赋值
-            imageViewer.sourcePaths = fileControl.removeList(sourcePaths,tempPathIndex)
+            imageViewer.sourcePaths = FileControl.removeList(sourcePaths,tempPathIndex)
             imageViewer.swipeIndex=tempPathIndex
-            if (!fileControl.isAlbum())
-                fileControl.deleteImagePath(tmpPath)
+            if (!FileControl.isAlbum())
+                FileControl.deleteImagePath(tmpPath)
             else {
                 albumControl.insertTrash(tmpPaths)
             }
         }else if(mainView.sourcePaths.length - 1 == 0){
             stackView.currentWidgetIndex=0
             window.title=""
-            if (!fileControl.isAlbum())
-                fileControl.deleteImagePath(imageViewer.sourcePaths[0])
+            if (!FileControl.isAlbum())
+                FileControl.deleteImagePath(imageViewer.sourcePaths[0])
             else {
                 GStatus.stackControlCurrent = 0
                 albumControl.insertTrash(tmpPaths)
             }
-            imageViewer.sourcePaths=fileControl.removeList(sourcePaths,0)
+            imageViewer.sourcePaths=FileControl.removeList(sourcePaths,0)
 
         }else{
             bottomthumbnaillistView.currentIndex--
             imageViewer.source = imageViewer.sourcePaths[bottomthumbnaillistView.currentIndex]
-            if (!fileControl.isAlbum())
-                fileControl.deleteImagePath(sourcePaths[bottomthumbnaillistView.currentIndex+1])
+            if (!FileControl.isAlbum())
+                FileControl.deleteImagePath(sourcePaths[bottomthumbnaillistView.currentIndex+1])
             else
                 albumControl.insertTrash(tmpPaths)
-            imageViewer.sourcePaths = fileControl.removeList(imageViewer.sourcePaths,bottomthumbnaillistView.currentIndex+1)
+            imageViewer.sourcePaths = FileControl.removeList(imageViewer.sourcePaths,bottomthumbnaillistView.currentIndex+1)
         }
     }
 
@@ -74,8 +74,8 @@ Item {
             imageViewer.index = currentIndex
 
             // 向前移动的图像需要特殊判断，若为多页图，调整显示最后一张图
-            if (fileControl.isMultiImage(source)) {
-                imageViewer.frameIndex = fileControl.getImageCount(source) - 1;
+            if (FileControl.isMultiImage(source)) {
+                imageViewer.frameIndex = FileControl.getImageCount(source) - 1;
             }
             bottomthumbnaillistView.forceActiveFocus()
         }
@@ -99,8 +99,8 @@ Item {
     }
     IconButton {
         id:backAlbum
-        width: fileControl.isAlbum() ? 50 : 0
-        height:  fileControl.isAlbum() ? 50 : 0
+        width: FileControl.isAlbum() ? 50 : 0
+        height:  FileControl.isAlbum() ? 50 : 0
         icon.name: "back_album"
         icon.width: 36
         icon.height: 36
@@ -123,7 +123,7 @@ Item {
         Shortcut {
             enabled: backAlbum.visible
                      && GStatus.stackControlCurrent === 1
-                     && fileControl.isAlbum()
+                     && FileControl.isAlbum()
                      && window.visibility !== Window.FullScreen
             sequence: "Esc"
             onActivated: {
@@ -137,8 +137,8 @@ Item {
         id: previousButton
         enabled: currentIndex > 0
                  || imageViewer.frameIndex > 0
-        anchors.left: fileControl.isAlbum() ? backAlbum.right :parent.left
-        anchors.leftMargin: fileControl.isAlbum() ? 30 : 15
+        anchors.left: FileControl.isAlbum() ? backAlbum.right :parent.left
+        anchors.leftMargin: FileControl.isAlbum() ? 30 : 15
 
         anchors.top: parent.top
         anchors.topMargin: (parent.height - height) / 2
@@ -193,7 +193,7 @@ Item {
         IconButton {
             id: fitImageButton
             anchors.left: nextButton.right
-            anchors.leftMargin: fileControl.isAlbum() ? 10 : 40
+            anchors.leftMargin: FileControl.isAlbum() ? 10 : 40
 
             anchors.top: parent.top
             anchors.topMargin: (parent.height - height) / 2
@@ -242,7 +242,7 @@ Item {
             width:50
             height:50
             icon.name:"icon_rotate"
-            enabled:!CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source)
+            enabled:!CodeImage.imageIsNull(imageViewer.source) && FileControl.isRotatable(imageViewer.source)
             onClicked: {
                 imageViewer.rotateImage(-90)
 
@@ -260,9 +260,9 @@ Item {
         IconButton {
             id: collectionButton
             property bool canFavorite: !albumControl.photoHaveFavorited(source, GStatus.bRefreshFavoriteIconFlag)
-            width: fileControl.isAlbum() ? 50 : 0
-            height:  fileControl.isAlbum() ? 50 : 0
-            visible: fileControl.isAlbum()
+            width: FileControl.isAlbum() ? 50 : 0
+            height:  FileControl.isAlbum() ? 50 : 0
+            visible: FileControl.isAlbum()
             icon.name: canFavorite ? "toolbar-collection" : "toolbar-collection2"
             icon.width:36
             icon.height:36
@@ -301,7 +301,7 @@ Item {
         preferredHighlightBegin: width / 2 - 25
         preferredHighlightEnd: width / 2 + 25
 
-        anchors.left: fileControl.isAlbum() ? collectionButton.right : rotateButton.right
+        anchors.left: FileControl.isAlbum() ? collectionButton.right : rotateButton.right
         anchors.leftMargin: 10
 
         anchors.right: ocrButton.left
@@ -341,8 +341,8 @@ Item {
                 if (currentIndex - imageSwipeIndex == 1) {
                     // 向前切换当通过拖动等方式时，调整多页图索引为最后一张图片
                     var curSource = sourcePaths[imageSwipeIndex]
-                    if (fileControl.isMultiImage(curSource)) {
-                        imageViewer.frameIndex = fileControl.getImageCount(curSource) - 1
+                    if (FileControl.isMultiImage(curSource)) {
+                        imageViewer.frameIndex = FileControl.getImageCount(curSource) - 1
                     }
                 } else {
                     // 其它情况均设置为首张图片
@@ -421,9 +421,9 @@ Item {
 
         anchors.top: parent.top
         anchors.topMargin: (parent.height - height) / 2
-        enabled: fileControl.isCanSupportOcr(source) && !CodeImage.imageIsNull(source)
+        enabled: FileControl.isCanSupportOcr(source) && !CodeImage.imageIsNull(source)
         onClicked: {
-            fileControl.ocrImage(source)
+            FileControl.ocrImage(source)
         }
         ToolTip.delay: 500
         ToolTip.timeout: 5000
@@ -448,9 +448,9 @@ Item {
         onClicked: {
             deleteCurrentImage()
         }
-        //        visible: fileControl.isCanDelete(source) ? true :false
+        //        visible: FileControl.isCanDelete(source) ? true :false
 
-        enabled: fileControl.isCanDelete(source) ? true :false
+        enabled: FileControl.isCanDelete(source) ? true :false
 
         ToolTip.delay: 500
         ToolTip.timeout: 5000

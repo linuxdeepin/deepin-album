@@ -8,7 +8,7 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.11
 import org.deepin.dtk 1.0 as D
 import org.deepin.dtk 1.0
-import "../PreviewImageViewer"
+import "../PreviewImageViewer/InformationDialog"
 //DialogWindow {
 
 //}
@@ -29,7 +29,7 @@ DialogWindow {
 
     property string filePath : ""
 
-    property string fileName: fileControl.slotGetFileNameSuffix(filePath)
+    property string fileName: FileControl.slotGetFileNameSuffix(filePath)
 
     header: DialogTitleBar {
         enableInWindowBlendBlur: true
@@ -91,7 +91,7 @@ DialogWindow {
                     }
                     PropertyItemDelegate {
                         title: qsTr("Type")
-                        description: fileControl.slotFileSuffix(filePath,false)
+                        description: FileControl.slotFileSuffix(filePath,false)
                         corners: RoundRectangle.BottomRightCorner
                     }
                 }

@@ -31,6 +31,9 @@
 const QString DATETIME_FORMAT_NORMAL = "yyyy.MM.dd";
 const QString DATETIME_FORMAT_EXIF = "yyyy:MM:dd HH:mm";
 
+// 提供用于非线程安全函数 FreeImage_TagToString() 访问限制的锁
+Q_GLOBAL_STATIC(QMutex, g_freeImageTagToStringMutex);
+
 namespace LibUnionImage_NameSpace {
 
 //    enum SupportFormat {
@@ -340,20 +343,25 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getMetaData(FREE_IMAGE_MDMODEL mo
 {
     QMap<QString, QString> mdMap;  // key-data
 
-    //有时候会存在tag为野指针的情况，根据FreeImage的demo，需要加这个进行预判断
-    if (FreeImage_GetMetadataCount(model, dib) == 0) {
-        return mdMap;
-    }
+    if (FreeImage_GetMetadataCount(model, dib) > 0) {
+        FITAG *tag = nullptr;
+        FIMETADATA *mdhandle = nullptr;
+        mdhandle = FreeImage_FindFirstMetadata(model, dib, &tag);
+        if (mdhandle) {
+            do {
+                QString value;
+                // FreeImage_TagToString非线程安全，使用前加锁保护
+                QMutex *mutex = g_freeImageTagToStringMutex;
+                if (mutex) {
+                    mutex->lock();
+                    value = QString(FreeImage_TagToString(model, tag));
+                    mutex->unlock();
+                }
 
-    FITAG *tag = nullptr;
-    FIMETADATA *mdhandle = nullptr;
-    mdhandle = FreeImage_FindFirstMetadata(model, dib, &tag);
-    if (mdhandle) {
-        do {
-            mdMap.insert(FreeImage_GetTagKey(tag),
-                         FreeImage_TagToString(model, tag));
-        } while (FreeImage_FindNextMetadata(mdhandle, &tag));
-        FreeImage_FindCloseMetadata(mdhandle);
+                mdMap.insert(FreeImage_GetTagKey(tag), value);
+            } while (FreeImage_FindNextMetadata(mdhandle, &tag));
+            FreeImage_FindCloseMetadata(mdhandle);
+        }
     }
     return mdMap;
 }
@@ -553,7 +561,7 @@ UNIONIMAGESHARED_EXPORT FIBITMAP *QImge2FIBitMap(QImage img)
 UNIONIMAGESHARED_EXPORT FIBITMAP *readFile2FIBITMAP(const QString &path, int flags FI_DEFAULT(0))
 {
     QByteArray b;
-    b.append(path);
+    b.append(path.toLocal8Bit());
     const char *pc = b.data();
     QString().toStdString();
     const FREE_IMAGE_FORMAT fif = detectImageFormat_f(path);
@@ -1018,12 +1026,16 @@ QImage adjustImageToRealPosition(const QImage &image, int orientation)
     return result;
 }
 
-UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QString &erroMsg)
+UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QString &erroMsg, const QString &targetPath)
 {
     if (angel % 90 != 0) {
         erroMsg = "unsupported angel";
         return false;
     }
+
+    // 保存文件路径，若未设置则保存至原文件
+    QString savePath = targetPath.isEmpty() ? path : targetPath;
+
     QString format = detectImageFormat(path);
     if (format == "SVG") {
         QImage image_copy;
@@ -1032,12 +1044,12 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
             return false;
         }
         QSvgGenerator generator;
-        generator.setFileName(path);
+        generator.setFileName(savePath);
         generator.setViewBox(QRect(0, 0, image_copy.width(), image_copy.height()));
         QPainter rotatePainter;
         rotatePainter.begin(&generator);
         rotatePainter.resetTransform();
-        rotatePainter.setRenderHint(QPainter::HighQualityAntialiasing, true);
+        rotatePainter.setRenderHint(QPainter::Antialiasing, true);
         int realangel = angel / 90;
         if (realangel > 0) {
             for (int i = 0; i < qAbs(realangel); i++) {
@@ -1055,6 +1067,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
         generator.setSize(QSize(image_copy.width(), image_copy.height()));
         rotatePainter.end();
         return true;
+
     } else if (union_image_private.m_qtrotate.contains(format)) {
         //由于Qt内部不会去读图片的EXIF信息来判断当前的图像矩阵的真实位置，同时回写数据的时候会丢失全部的EXIF数据
         //因此在这里需要额外基于FreeImage来读取相关的数据，确保图片能旋转到合理的位置
@@ -1062,10 +1075,10 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
         QImage image_copy(path);
         image_copy = adjustImageToRealPosition(image_copy, orientation);
         if (!image_copy.isNull()) {
-            QMatrix rotatematrix;
+            QTransform rotatematrix;
             rotatematrix.rotate(angel);
             image_copy = image_copy.transformed(rotatematrix, Qt::SmoothTransformation);
-            if (image_copy.save(path, format.toLatin1().data(), SAVE_QUAITY_VALUE))
+            if (image_copy.save(savePath, format.toLatin1().data(), SAVE_QUAITY_VALUE))
                 return true;
             else {
                 return false;
@@ -1074,6 +1087,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
         erroMsg = "rotate by qt failed";
         return false;
     }
+
     FIBITMAP *dib = readFile2FIBITMAP(path);
     if (nullptr == dib) {
         erroMsg = "unsupported format";
@@ -1094,7 +1108,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
         }
     }
     QByteArray temp_path;
-    temp_path.append(path);
+    temp_path.append(path.toLocal8Bit());
     FREE_IMAGE_FORMAT f = FREE_IMAGE_FORMAT(union_image_private.m_freeimage_formats[QFileInfo(path).suffix().toUpper()]);
     if (f == FREE_IMAGE_FORMAT::FIF_UNKNOWN) {
         erroMsg = "rotate image format error";
@@ -1103,7 +1117,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
         return false;
     }
     ;
-    if (!writeFIBITMAPToFile(rotateRes, path)) {
+    if (!writeFIBITMAPToFile(rotateRes, savePath)) {
         erroMsg = "rotate image save faild, unkown format";
         FreeImage_Unload(dib);
         FreeImage_Unload(rotateRes);
@@ -1133,7 +1147,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, co
         QPainter rotatePainter;
         rotatePainter.begin(&generator);
         rotatePainter.resetTransform();
-        rotatePainter.setRenderHint(QPainter::HighQualityAntialiasing, true);
+        rotatePainter.setRenderHint(QPainter::Antialiasing, true);
         int realangel = angel / 90;
         if (realangel > 0) {
             for (int i = 0; i < qAbs(realangel); i++) {
@@ -1180,7 +1194,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, co
         }
     }
     QByteArray temp_path;
-    temp_path.append(path);
+    temp_path.append(path.toLocal8Bit());
     FREE_IMAGE_FORMAT f = FREE_IMAGE_FORMAT(union_image_private.m_freeimage_formats[QFileInfo(path).suffix().toUpper()]);
     if (f == FREE_IMAGE_FORMAT::FIF_UNKNOWN) {
         erroMsg = "rotate image format error";
@@ -1204,13 +1218,24 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, co
 UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &path)
 {
     FIBITMAP *dib = readFile2FIBITMAP(path, FIF_LOAD_NOPIXELS);
+
+    static auto unitMap = [](QMap<QString, QString> &dst, const QMap<QString, QString> &src){
+        for (auto itr = src.begin(); itr != src.end(); ++itr) {
+            if (!dst.contains(itr.key())) {
+                dst.insert(itr.key(), itr.value());
+            }
+        }
+    };
+
+    // TODO: 优化插入方式
     QMap<QString, QString> admMap;
-    admMap.unite(getMetaData(FIMD_EXIF_MAIN, dib));
-    admMap.unite(getMetaData(FIMD_EXIF_EXIF, dib));
-    admMap.unite(getMetaData(FIMD_EXIF_GPS, dib));
-    admMap.unite(getMetaData(FIMD_EXIF_MAKERNOTE, dib));
-    admMap.unite(getMetaData(FIMD_EXIF_INTEROP, dib));
-    admMap.unite(getMetaData(FIMD_IPTC, dib));
+    unitMap(admMap, getMetaData(FIMD_EXIF_MAIN, dib));
+    unitMap(admMap, getMetaData(FIMD_EXIF_EXIF, dib));
+    unitMap(admMap, getMetaData(FIMD_EXIF_GPS, dib));
+    unitMap(admMap, getMetaData(FIMD_EXIF_MAKERNOTE, dib));
+    unitMap(admMap, getMetaData(FIMD_EXIF_INTEROP, dib));
+    unitMap(admMap, getMetaData(FIMD_IPTC, dib));
+
     //移除秒　　2020/6/5 DJH
     //需要转义才能读出：或者/　　2020/8/21 DJH
     QFileInfo info(path);
@@ -1240,6 +1265,20 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
     FreeImage_Unload(dib);
 
     return admMap;
+}
+
+UNIONIMAGESHARED_EXPORT QSize getImageSize(const QString &imagepath)
+{
+    QSize size;
+    FIBITMAP *dib = readFile2FIBITMAP(imagepath, FIF_LOAD_NOPIXELS);
+    if (dib) {
+        size.setWidth(static_cast<int>(FreeImage_GetWidth(dib)));
+        size.setHeight(static_cast<int>(FreeImage_GetHeight(dib)));
+
+        FreeImage_Unload(dib);
+    }
+
+    return size;
 }
 
 UNIONIMAGESHARED_EXPORT bool isImageSupportRotate(const QString &path)
@@ -1449,9 +1488,9 @@ imageViewerSpace::ImageType getImageType(const QString &imagepath)
         QMimeType mt1 = db.mimeTypeForFile(imagepath, QMimeDatabase::MatchExtension);
         QString path1 = mt.name();
         QString path2 = mt1.name();
-        int nSize = -1;
+
         QImageReader imgreader(imagepath);
-        nSize = imgreader.imageCount();
+        int nSize = imgreader.imageCount();
         //
         if (strType == "svg" && QSvgRenderer().load(imagepath)) {
             type = imageViewerSpace::ImageTypeSvg;

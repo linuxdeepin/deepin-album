@@ -4,199 +4,205 @@
 <context>
     <name>AlbumControl</name>
     <message>
-        <location filename="../src/albumControl.cpp" line="264"/>
+        <location filename="../src/albumControl.cpp" line="265"/>
         <source>All photos and videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="313"/>
-        <location filename="../src/albumControl.cpp" line="338"/>
+        <location filename="../src/albumControl.cpp" line="314"/>
+        <location filename="../src/albumControl.cpp" line="339"/>
         <source>Disk is busy, cannot eject now</source>
         <translation>القرص يعمل حالياً، لا يمكن إخراجه الآن</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="314"/>
-        <location filename="../src/albumControl.cpp" line="339"/>
+        <location filename="../src/albumControl.cpp" line="315"/>
+        <location filename="../src/albumControl.cpp" line="340"/>
         <source>OK</source>
         <translation>موافق</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1022"/>
+        <location filename="../src/albumControl.cpp" line="1027"/>
         <source>Fullscreen</source>
         <translation>ملء الشاشة</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1025"/>
+        <location filename="../src/albumControl.cpp" line="1030"/>
         <source>Exit fullscreen/slideshow</source>
         <translation>الخروج من وضع ملء الشاشة/عرض الشرائح</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1031"/>
+        <location filename="../src/albumControl.cpp" line="1036"/>
         <source>Help</source>
         <translation>مساعدة</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1034"/>
+        <location filename="../src/albumControl.cpp" line="1039"/>
         <source>Display shortcuts</source>
         <translation>عرض الإختصارات</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1037"/>
+        <location filename="../src/albumControl.cpp" line="1042"/>
         <source>Display in file manager</source>
         <translation>عرض في مدير الملفات</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1040"/>
+        <location filename="../src/albumControl.cpp" line="1045"/>
         <source>Slide show</source>
         <translation>عرض الشرائح</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1043"/>
+        <location filename="../src/albumControl.cpp" line="1048"/>
         <source>View</source>
         <translation>عرض</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1046"/>
+        <location filename="../src/albumControl.cpp" line="1051"/>
         <source>Export photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1049"/>
+        <location filename="../src/albumControl.cpp" line="1054"/>
         <source>Import photos/videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1052"/>
+        <location filename="../src/albumControl.cpp" line="1057"/>
         <source>Select all</source>
         <translation>اختيار الكل</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1055"/>
+        <location filename="../src/albumControl.cpp" line="1060"/>
         <source>Copy</source>
         <translation>نسخ</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1058"/>
+        <location filename="../src/albumControl.cpp" line="1063"/>
         <source>Delete</source>
         <translation>حذف</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1061"/>
+        <location filename="../src/albumControl.cpp" line="1066"/>
         <source>Photo/Video info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1064"/>
+        <location filename="../src/albumControl.cpp" line="1069"/>
         <source>Set as wallpaper</source>
         <translation>اجعل الصورة كخلفية</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1067"/>
+        <location filename="../src/albumControl.cpp" line="1072"/>
         <source>Rotate clockwise</source>
         <translation>تدوير بإتجاه عقارب الساعة</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1070"/>
+        <location filename="../src/albumControl.cpp" line="1075"/>
         <source>Rotate counterclockwise</source>
         <translation>ادر الصور بعكس إتجاه عقارب الساعة</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1076"/>
+        <location filename="../src/albumControl.cpp" line="1081"/>
         <source>Zoom in</source>
         <translation>كبّر الصورة</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1079"/>
+        <location filename="../src/albumControl.cpp" line="1084"/>
         <source>Zoom out</source>
         <translation>صغّر الصورة</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1082"/>
+        <location filename="../src/albumControl.cpp" line="1087"/>
         <source>Previous</source>
         <translation>السابق</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1085"/>
+        <location filename="../src/albumControl.cpp" line="1090"/>
         <source>Next</source>
         <translation>التالي</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1088"/>
+        <location filename="../src/albumControl.cpp" line="1093"/>
         <source>Favorite</source>
         <translation>تفضيل</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1091"/>
+        <location filename="../src/albumControl.cpp" line="1096"/>
         <source>Unfavorite</source>
         <translation>عدم التفضيل</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1094"/>
+        <location filename="../src/albumControl.cpp" line="1099"/>
         <source>New album</source>
         <translation>ألبوم جديد</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1097"/>
+        <location filename="../src/albumControl.cpp" line="1102"/>
         <source>Rename album</source>
         <translation>إعادة تسمية الإلبوم</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1100"/>
+        <location filename="../src/albumControl.cpp" line="1105"/>
         <source>Page up</source>
         <translation>الذهاب لأعلى الصفحة</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1103"/>
+        <location filename="../src/albumControl.cpp" line="1108"/>
         <source>Page down</source>
         <translation>الذهاب لأسفل الصفحة</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1145"/>
+        <location filename="../src/albumControl.cpp" line="1150"/>
         <source>Photos</source>
         <translation>الصور</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1148"/>
+        <location filename="../src/albumControl.cpp" line="1153"/>
         <source>Albums</source>
         <translation>الإلبومات</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1151"/>
+        <location filename="../src/albumControl.cpp" line="1156"/>
         <source>Settings</source>
         <translation>الإعدادات</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1699"/>
+        <location filename="../src/albumControl.cpp" line="1704"/>
         <source>Favorites</source>
         <translation>المفضلات</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1701"/>
+        <location filename="../src/albumControl.cpp" line="1706"/>
         <source>Screen Capture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1703"/>
+        <location filename="../src/albumControl.cpp" line="1708"/>
         <source>Camera</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1705"/>
+        <location filename="../src/albumControl.cpp" line="1710"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1798"/>
+        <location filename="../src/albumControl.cpp" line="1803"/>
         <source>Unnamed</source>
         <translation>بلا اسم</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2241"/>
+        <location filename="../src/albumControl.cpp" line="2202"/>
+        <location filename="../src/albumControl.cpp" line="2206"/>
+        <source>%1Year%2Month%3Day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/albumControl.cpp" line="2256"/>
         <source>Channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2431"/>
+        <location filename="../src/albumControl.cpp" line="2451"/>
         <source>Pictures</source>
         <translation>الصور</translation>
     </message>
@@ -204,101 +210,106 @@
 <context>
     <name>AlbumTitle</name>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="97"/>
+        <location filename="../qml/AlbumTitle.qml" line="112"/>
         <source>New album</source>
         <translation>ألبوم جديد</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="104"/>
+        <location filename="../qml/AlbumTitle.qml" line="119"/>
         <source>Import folders</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="117"/>
+        <location filename="../qml/AlbumTitle.qml" line="132"/>
         <source>Album</source>
         <translation>الإلبوم</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="119"/>
+        <location filename="../qml/AlbumTitle.qml" line="134"/>
         <source>Version:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="120"/>
+        <location filename="../qml/AlbumTitle.qml" line="135"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="123"/>
+        <location filename="../qml/AlbumTitle.qml" line="138"/>
         <source>%1 is released under %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="161"/>
+        <location filename="../qml/AlbumTitle.qml" line="176"/>
         <source>Show side pane</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="161"/>
+        <location filename="../qml/AlbumTitle.qml" line="176"/>
         <source>Hide side pane</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="203"/>
+        <location filename="../qml/AlbumTitle.qml" line="221"/>
         <source>Original ratio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="203"/>
+        <location filename="../qml/AlbumTitle.qml" line="221"/>
         <source>Square thumbnails</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="237"/>
-        <location filename="../qml/AlbumTitle.qml" line="313"/>
+        <location filename="../qml/AlbumTitle.qml" line="258"/>
+        <location filename="../qml/AlbumTitle.qml" line="333"/>
         <source>Y</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="248"/>
-        <location filename="../qml/AlbumTitle.qml" line="314"/>
+        <location filename="../qml/AlbumTitle.qml" line="270"/>
+        <location filename="../qml/AlbumTitle.qml" line="334"/>
         <source>M</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="258"/>
-        <location filename="../qml/AlbumTitle.qml" line="315"/>
+        <location filename="../qml/AlbumTitle.qml" line="281"/>
+        <location filename="../qml/AlbumTitle.qml" line="335"/>
         <source>D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="269"/>
-        <location filename="../qml/AlbumTitle.qml" line="316"/>
+        <location filename="../qml/AlbumTitle.qml" line="292"/>
+        <location filename="../qml/AlbumTitle.qml" line="336"/>
         <source>All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="340"/>
+        <location filename="../qml/AlbumTitle.qml" line="394"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="428"/>
+        <location filename="../qml/AlbumTitle.qml" line="476"/>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="504"/>
         <source>Favorite</source>
         <translation>تفضيل</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="428"/>
+        <location filename="../qml/AlbumTitle.qml" line="504"/>
         <source>Unfavorite</source>
         <translation>عدم التفضيل</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="460"/>
+        <location filename="../qml/AlbumTitle.qml" line="536"/>
         <source>Rotate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="480"/>
+        <location filename="../qml/AlbumTitle.qml" line="556"/>
         <source>Delete</source>
         <translation>حذف</translation>
     </message>
@@ -306,27 +317,27 @@
 <context>
     <name>AllCollection</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="69"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="72"/>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="71"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="74"/>
         <source>%1 photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="79"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="82"/>
         <source>1 video</source>
         <translation>1 فيديو</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="81"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="84"/>
         <source>%1 videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="189"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="191"/>
         <source>No results</source>
         <translation type="unfinished"></translation>
     </message>
@@ -334,32 +345,32 @@
 <context>
     <name>CustomAlbum</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="75"/>
+        <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="87"/>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="77"/>
+        <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="89"/>
         <source>%1 photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="85"/>
+        <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="97"/>
         <source>1 video</source>
         <translation>1 فيديو</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="87"/>
+        <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="99"/>
         <source>%1 videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="140"/>
+        <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="152"/>
         <source>0 item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="202"/>
+        <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="214"/>
         <source>No results</source>
         <translation type="unfinished"></translation>
     </message>
@@ -399,39 +410,40 @@
 <context>
     <name>DayCollection</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="83"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="106"/>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="85"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="108"/>
         <source>%1 photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="93"/>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="576"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="116"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="279"/>
         <source>1 video</source>
         <translation>1 فيديو</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="95"/>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="578"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="118"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="281"/>
         <source>%1 videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="570"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="273"/>
         <source>1 photo </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="572"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="275"/>
         <source>%1 photos </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="585"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="350"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="692"/>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
     </message>
@@ -439,22 +451,22 @@
 <context>
     <name>DeepinStorage</name>
     <message>
-        <location filename="../src/albumControl.cpp" line="1210"/>
+        <location filename="../src/albumControl.cpp" line="1215"/>
         <source>%1 Drive</source>
         <translation>%1 مساحة القرص</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1214"/>
+        <location filename="../src/albumControl.cpp" line="1219"/>
         <source>Blank %1 Disc</source>
         <translation>الفارغ 1% من القرص</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1218"/>
+        <location filename="../src/albumControl.cpp" line="1223"/>
         <source>%1 Encrypted</source>
         <translation>%1 مشفّر</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1221"/>
+        <location filename="../src/albumControl.cpp" line="1226"/>
         <source>%1 Volume</source>
         <translation>مساحة القرص 1%</translation>
     </message>
@@ -462,52 +474,52 @@
 <context>
     <name>DeleteDialog</name>
     <message>
-        <location filename="../qml/Control/DeleteDialog.qml" line="42"/>
+        <location filename="../qml/Control/DeleteDialog.qml" line="48"/>
         <source>Are you sure you want to delete this file locally?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Control/DeleteDialog.qml" line="43"/>
+        <location filename="../qml/Control/DeleteDialog.qml" line="49"/>
         <source>You can restore it in the trash</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Control/DeleteDialog.qml" line="45"/>
+        <location filename="../qml/Control/DeleteDialog.qml" line="51"/>
         <source>Are you sure you want to delete %1 files locally?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Control/DeleteDialog.qml" line="46"/>
+        <location filename="../qml/Control/DeleteDialog.qml" line="52"/>
         <source>You can restore them in the trash</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Control/DeleteDialog.qml" line="50"/>
+        <location filename="../qml/Control/DeleteDialog.qml" line="56"/>
         <source>Are you sure you want to permanently delete this file?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Control/DeleteDialog.qml" line="51"/>
+        <location filename="../qml/Control/DeleteDialog.qml" line="57"/>
         <source>You cannot restore it any longer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Control/DeleteDialog.qml" line="53"/>
+        <location filename="../qml/Control/DeleteDialog.qml" line="59"/>
         <source>Are you sure you want to permanently delete %1 files?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Control/DeleteDialog.qml" line="54"/>
+        <location filename="../qml/Control/DeleteDialog.qml" line="60"/>
         <source>You cannot restore them any longer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Control/DeleteDialog.qml" line="95"/>
+        <location filename="../qml/Control/DeleteDialog.qml" line="116"/>
         <source>Cancel</source>
         <translation>إلغاء</translation>
     </message>
     <message>
-        <location filename="../qml/Control/DeleteDialog.qml" line="112"/>
+        <location filename="../qml/Control/DeleteDialog.qml" line="133"/>
         <source>Delete</source>
         <translation>حذف</translation>
     </message>
@@ -515,64 +527,64 @@
 <context>
     <name>DeviceAlbum</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="61"/>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="62"/>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="63"/>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="64"/>
         <source>%1 photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="71"/>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="72"/>
         <source>1 video</source>
         <translation>1 فيديو</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="73"/>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="74"/>
         <source>%1 videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="157"/>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="158"/>
         <source>Import to:</source>
         <translation>استيراد إلى:</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="167"/>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="170"/>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="168"/>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="171"/>
         <source>Import</source>
         <translation>استيراد</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="167"/>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="170"/>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="168"/>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="171"/>
         <source>New Album</source>
         <translation>ألبوم جديد</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="194"/>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="195"/>
         <source>Import All</source>
         <translation>استيراد الكل</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="195"/>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="196"/>
         <source>Import 1 Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="196"/>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="197"/>
         <source>Import %1 Items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="203"/>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="204"/>
         <source>Import successful</source>
         <translation>تم الاستيراد بنجاح</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="255"/>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="256"/>
         <source>No results</source>
         <translation type="unfinished"></translation>
     </message>
@@ -611,78 +623,83 @@
 <context>
     <name>ExportDialog</name>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="51"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="55"/>
+        <source>Export</source>
+        <translation type="unfinished">تصدير</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ExportDialog.qml" line="72"/>
         <source>Name:</source>
         <translation>الاسم:</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="84"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="104"/>
         <source>Save to:</source>
         <translation>حفظ إلى:</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="101"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="120"/>
         <source>Pictures</source>
         <translation>الصور</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="102"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="121"/>
         <source>Documents</source>
         <translation>المستندات</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="103"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="122"/>
         <source>Downloads</source>
         <translation>التنزيلات</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="104"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="123"/>
         <source>Desktop</source>
         <translation>سطح المكتب</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="105"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="124"/>
         <source>Videos</source>
         <translation>الفيديوهات</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="106"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="125"/>
         <source>Music</source>
         <translation>الموسيقى</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="107"/>
-        <location filename="../qml/Control/ExportDialog.qml" line="124"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="126"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="142"/>
         <source>Select other directories</source>
         <translation>اختر مجلدات أخرى</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="148"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="164"/>
         <source>Format:</source>
         <translation>الصيغة</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="187"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="202"/>
         <source>Quality:</source>
         <translation>الجودة:</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="230"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="246"/>
         <source>Cancel</source>
         <translation>إلغاء</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="247"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="263"/>
         <source>Confirm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="262"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="279"/>
         <source>Export successful</source>
         <translation>تم التصدير بنجاح</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ExportDialog.qml" line="264"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="281"/>
         <source>Export failed</source>
         <translation>فشل التصدير</translation>
     </message>
@@ -690,123 +707,123 @@
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1196"/>
+        <location filename="../src/filecontrol.cpp" line="829"/>
         <source>Fullscreen</source>
         <translation>ملء الشاشة</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1200"/>
+        <location filename="../src/filecontrol.cpp" line="833"/>
         <source>Exit fullscreen</source>
         <translation>الخروج من وضع ملء الشاشة</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1204"/>
+        <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Extract text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1208"/>
+        <location filename="../src/filecontrol.cpp" line="841"/>
         <source>Slide show</source>
         <translation>عرض الشرائح</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1212"/>
+        <location filename="../src/filecontrol.cpp" line="845"/>
         <source>Rename</source>
         <translation>إعادة تسمية</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1216"/>
-        <location filename="../src/filecontrol.cpp" line="1308"/>
+        <location filename="../src/filecontrol.cpp" line="849"/>
+        <location filename="../src/filecontrol.cpp" line="941"/>
         <source>Copy</source>
         <translation>نسخ</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1220"/>
+        <location filename="../src/filecontrol.cpp" line="853"/>
         <source>Delete</source>
         <translation>حذف</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1224"/>
+        <location filename="../src/filecontrol.cpp" line="857"/>
         <source>Rotate clockwise</source>
         <translation>تدوير بإتجاه عقارب الساعة</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1228"/>
+        <location filename="../src/filecontrol.cpp" line="861"/>
         <source>Rotate counterclockwise</source>
         <translation>ادر الصور بعكس إتجاه عقارب الساعة</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1232"/>
+        <location filename="../src/filecontrol.cpp" line="865"/>
         <source>Set as wallpaper</source>
         <translation>اجعل الصورة كخلفية</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1236"/>
+        <location filename="../src/filecontrol.cpp" line="869"/>
         <source>Display in file manager</source>
         <translation>عرض في مدير الملفات</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1240"/>
+        <location filename="../src/filecontrol.cpp" line="873"/>
         <source>Image info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1244"/>
+        <location filename="../src/filecontrol.cpp" line="877"/>
         <source>Previous</source>
         <translation>السابق</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1248"/>
+        <location filename="../src/filecontrol.cpp" line="881"/>
         <source>Next</source>
         <translation>التالي</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1252"/>
+        <location filename="../src/filecontrol.cpp" line="885"/>
         <source>Zoom in</source>
         <translation>كبّر الصورة</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1256"/>
+        <location filename="../src/filecontrol.cpp" line="889"/>
         <source>Zoom out</source>
         <translation>صغّر الصورة</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1260"/>
+        <location filename="../src/filecontrol.cpp" line="893"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1264"/>
+        <location filename="../src/filecontrol.cpp" line="897"/>
         <source>Print</source>
         <translation>طباعة</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1288"/>
+        <location filename="../src/filecontrol.cpp" line="921"/>
         <source>Image Viewing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1292"/>
+        <location filename="../src/filecontrol.cpp" line="925"/>
         <source>Help</source>
         <translation>مساعدة</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1296"/>
+        <location filename="../src/filecontrol.cpp" line="929"/>
         <source>Display shortcuts</source>
         <translation>عرض الإختصارات</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1304"/>
+        <location filename="../src/filecontrol.cpp" line="937"/>
         <source>Settings</source>
         <translation>الإعدادات</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1312"/>
+        <location filename="../src/filecontrol.cpp" line="945"/>
         <source>Select all</source>
         <translation>اختيار الكل</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="1320"/>
+        <location filename="../src/filecontrol.cpp" line="953"/>
         <source>Live Text</source>
         <translation type="unfinished"></translation>
     </message>
@@ -814,17 +831,17 @@
 <context>
     <name>FilterComboBox</name>
     <message>
-        <location filename="../qml/Control/FilterComboBox.qml" line="19"/>
+        <location filename="../qml/Control/FilterComboBox.qml" line="20"/>
         <source>All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Control/FilterComboBox.qml" line="20"/>
+        <location filename="../qml/Control/FilterComboBox.qml" line="21"/>
         <source>Photos</source>
         <translation>الصور</translation>
     </message>
     <message>
-        <location filename="../qml/Control/FilterComboBox.qml" line="21"/>
+        <location filename="../qml/Control/FilterComboBox.qml" line="22"/>
         <source>Videos</source>
         <translation>الفيديوهات</translation>
     </message>
@@ -832,42 +849,42 @@
 <context>
     <name>GlobalStatus</name>
     <message>
-        <location filename="../src/globalstatus.cpp" line="647"/>
+        <location filename="../src/globalstatus.cpp" line="792"/>
         <source>1 item selected (1 photo)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="649"/>
+        <location filename="../src/globalstatus.cpp" line="794"/>
         <source>1 item selected (1 video)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="651"/>
+        <location filename="../src/globalstatus.cpp" line="796"/>
         <source>%1 items selected (%1 photos)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="653"/>
+        <location filename="../src/globalstatus.cpp" line="798"/>
         <source>%1 items selected (%1 videos)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="655"/>
+        <location filename="../src/globalstatus.cpp" line="800"/>
         <source>%1 item selected (1 photo, 1 video)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="657"/>
+        <location filename="../src/globalstatus.cpp" line="802"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="659"/>
+        <location filename="../src/globalstatus.cpp" line="804"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="661"/>
+        <location filename="../src/globalstatus.cpp" line="806"/>
         <source>%1 items selected (%2 photos, %3 videos)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -889,63 +906,48 @@
 <context>
     <name>HaveImportedView</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="60"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="67"/>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="62"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="69"/>
         <source>%1 photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="70"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="77"/>
         <source>1 video</source>
         <translation>1 فيديو</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="72"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="79"/>
         <source>%1 videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="107"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="121"/>
         <source>Import</source>
         <translation>استيراد</translation>
-    </message>
-    <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="118"/>
-        <source>0 item</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ImageViewer</name>
-    <message>
-        <location filename="../qml/PreviewImageViewer/ImageViewer.qml" line="655"/>
-        <source>You have no permission to view the image</source>
-        <translation>لا تملك الصلاحية لعرض الصورة</translation>
-    </message>
-    <message>
-        <location filename="../qml/PreviewImageViewer/ImageViewer.qml" line="691"/>
-        <source>Image file not found</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImportedlListView</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="413"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="151"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="424"/>
         <source>Imported on</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="413"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="151"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="424"/>
         <source>1 item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="413"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="151"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="424"/>
         <source>%1 items</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1064,38 +1066,159 @@
     </message>
 </context>
 <context>
+    <name>InformationDialog</name>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="75"/>
+        <source>Basic info</source>
+        <translation type="unfinished">المعلومات الأساسية</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="88"/>
+        <source>File name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="99"/>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="106"/>
+        <source>Dimensions</source>
+        <translation type="unfinished">الابعاد</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="113"/>
+        <source>Type</source>
+        <translation type="unfinished">النوع</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="125"/>
+        <source>Date captured</source>
+        <translation type="unfinished">تاريخ الإلتقاط</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="132"/>
+        <source>Date modified</source>
+        <translation type="unfinished">تاريخ التعديل</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="142"/>
+        <source>Details</source>
+        <translation type="unfinished">التفاصيل</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="155"/>
+        <source>Aperture</source>
+        <translation type="unfinished">فجوة</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="163"/>
+        <source>Exposure program</source>
+        <translation type="unfinished">برنامج العرض</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="170"/>
+        <source>Focal length</source>
+        <translation type="unfinished">الطول المركزي</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="176"/>
+        <source>ISO</source>
+        <translation type="unfinished">ISO</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="183"/>
+        <source>Exposure mode</source>
+        <translation type="unfinished">وضع العرض</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="189"/>
+        <source>Exposure time</source>
+        <translation type="unfinished">وقت العرض</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="195"/>
+        <source>Flash</source>
+        <translation type="unfinished">فلاش</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="202"/>
+        <source>Flash compensation</source>
+        <translation type="unfinished">التعويضات السريعة</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="208"/>
+        <source>Max aperture</source>
+        <translation type="unfinished">الفجوة القصوى</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="215"/>
+        <source>Colorspace</source>
+        <translation type="unfinished">مساحة اللون</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="222"/>
+        <source>Metering mode</source>
+        <translation type="unfinished">وضع القياس المتري</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="229"/>
+        <source>White balance</source>
+        <translation type="unfinished">التوازن الأبيض</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="240"/>
+        <source>Device model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="247"/>
+        <source>Lens model</source>
+        <translation type="unfinished">طراز العدسة</translation>
+    </message>
+</context>
+<context>
     <name>MainAlbumView</name>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="201"/>
+        <location filename="../qml/MainAlbumView.qml" line="243"/>
         <source>Importing...</source>
         <translation>يتم الآن الاستيراد...</translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="202"/>
-        <location filename="../qml/MainAlbumView.qml" line="214"/>
+        <location filename="../qml/MainAlbumView.qml" line="244"/>
+        <location filename="../qml/MainAlbumView.qml" line="256"/>
         <source>Imported:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="215"/>
+        <location filename="../qml/MainAlbumView.qml" line="257"/>
         <source>%1/%2</source>
         <translation type="unfinished">%1/%2</translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="226"/>
+        <location filename="../qml/MainAlbumView.qml" line="268"/>
         <source>Import successful</source>
         <translation>تم الاستيراد بنجاح</translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="235"/>
+        <location filename="../qml/MainAlbumView.qml" line="278"/>
         <source>Import failed</source>
         <translation>فشل الاستيراد</translation>
     </message>
 </context>
 <context>
+    <name>MainStack</name>
+    <message>
+        <location filename="../qml/PreviewImageViewer/MainStack.qml" line="126"/>
+        <source>Select pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MonthCollection</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/MonthCollection.qml" line="144"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/MonthCollection.qml" line="154"/>
         <source>%1/%2</source>
         <translation type="unfinished">%1/%2</translation>
     </message>
@@ -1104,7 +1227,7 @@
     <name>NewAlbumDialog</name>
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="41"/>
-        <location filename="../qml/Control/NewAlbumDialog.qml" line="85"/>
+        <location filename="../qml/Control/NewAlbumDialog.qml" line="86"/>
         <source>Unnamed</source>
         <translation>بلا اسم</translation>
     </message>
@@ -1114,51 +1237,67 @@
         <translation>ألبوم جديد</translation>
     </message>
     <message>
-        <location filename="../qml/Control/NewAlbumDialog.qml" line="69"/>
+        <location filename="../qml/Control/NewAlbumDialog.qml" line="70"/>
         <source>Name:</source>
         <translation>الاسم:</translation>
     </message>
     <message>
-        <location filename="../qml/Control/NewAlbumDialog.qml" line="100"/>
+        <location filename="../qml/Control/NewAlbumDialog.qml" line="101"/>
         <source>Cancel</source>
         <translation>إلغاء</translation>
     </message>
     <message>
-        <location filename="../qml/Control/NewAlbumDialog.qml" line="117"/>
+        <location filename="../qml/Control/NewAlbumDialog.qml" line="118"/>
         <source>Confirm</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
+    <name>NoPermissionImageDelegate</name>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ImageDelegate/NoPermissionImageDelegate.qml" line="22"/>
+        <source>You have no permission to view the image</source>
+        <translation type="unfinished">لا تملك الصلاحية لعرض الصورة</translation>
+    </message>
+</context>
+<context>
     <name>NoPictureView</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="40"/>
+        <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="60"/>
         <source>Import Photos and Videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="49"/>
+        <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>No photos or videos found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="49"/>
+        <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>Or drag them here</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NonexistImageDelegate</name>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ImageDelegate/NonexistImageDelegate.qml" line="42"/>
+        <source>Image file not found</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>OpenImageWidget</name>
     <message>
-        <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="63"/>
-        <source>Select pictures</source>
+        <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="37"/>
+        <source>Open Image</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PathManager</name>
     <message>
-        <location filename="../src/albumControl.cpp" line="1197"/>
+        <location filename="../src/albumControl.cpp" line="1202"/>
         <source>System Disk</source>
         <translation>قرص النظام</translation>
     </message>
@@ -1166,6 +1305,7 @@
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/PropertyActionItemDelegate.qml" line="94"/>
         <location filename="../qml/PreviewImageViewer/PropertyActionItemDelegate.qml" line="67"/>
         <source>The file already exists, please use another name</source>
         <translation type="unfinished"></translation>
@@ -1174,51 +1314,67 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/albumControl.cpp" line="673"/>
-        <location filename="../src/albumControl.cpp" line="722"/>
+        <location filename="../src/albumControl.cpp" line="676"/>
+        <location filename="../src/albumControl.cpp" line="725"/>
         <source>%1/%2/%3 %4:%5</source>
         <translation type="unfinished">%1/%2/%3 %4:%5</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="704"/>
+        <location filename="../src/albumControl.cpp" line="707"/>
         <source>%1</source>
         <translation type="unfinished">%1</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="710"/>
+        <location filename="../src/albumControl.cpp" line="713"/>
         <source>%1/%2</source>
         <translation type="unfinished">%1/%2</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="716"/>
+        <location filename="../src/albumControl.cpp" line="719"/>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1436"/>
+        <location filename="../src/albumControl.cpp" line="1441"/>
         <source>Trash</source>
         <translation>سلة المحذوفات</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="60"/>
+        <location filename="../main.cpp" line="62"/>
         <source>Album</source>
         <translation>الإلبوم</translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="65"/>
+        <source>Main</source>
+        <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/unionimage/unionimage_global.h" line="270"/>
+        <source>day</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ReName</name>
     <message>
-        <location filename="../qml/PreviewImageViewer/ReName.qml" line="64"/>
+        <location filename="../qml/PreviewImageViewer/ReName.qml" line="70"/>
+        <source>Input a new name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ReName.qml" line="80"/>
+        <location filename="../qml/PreviewImageViewer/ReName.qml" line="141"/>
         <source>Cancel</source>
         <translation>إلغاء</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ReName.qml" line="94"/>
+        <location filename="../qml/PreviewImageViewer/ReName.qml" line="123"/>
         <source>Confirm</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1274,19 +1430,42 @@
 <context>
     <name>RemoveAlbumDialog</name>
     <message>
-        <location filename="../qml/Control/RemoveAlbumDialog.qml" line="42"/>
+        <location filename="../qml/Control/RemoveAlbumDialog.qml" line="41"/>
         <source>Are you sure you want to delete this album?</source>
         <translation>هل أنت متأكد من حذف هذا الألبوم؟</translation>
     </message>
     <message>
-        <location filename="../qml/Control/RemoveAlbumDialog.qml" line="55"/>
+        <location filename="../qml/Control/RemoveAlbumDialog.qml" line="54"/>
         <source>Cancel</source>
         <translation>إلغاء</translation>
     </message>
     <message>
-        <location filename="../qml/Control/RemoveAlbumDialog.qml" line="72"/>
+        <location filename="../qml/Control/RemoveAlbumDialog.qml" line="71"/>
         <source>Delete</source>
         <translation>حذف</translation>
+    </message>
+</context>
+<context>
+    <name>RemoveDialog</name>
+    <message>
+        <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="71"/>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="89"/>
+        <source>This action cannot be undone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="101"/>
+        <source>Cancel</source>
+        <translation type="unfinished">إلغاء</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="111"/>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1322,12 +1501,12 @@
         <translation>نتائج البحث</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/SearchView.qml" line="108"/>
+        <location filename="../qml/ThumbnailImageView/SearchView.qml" line="109"/>
         <source>Slide Show</source>
         <translation>عرض الشرائح</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/SearchView.qml" line="185"/>
+        <location filename="../qml/ThumbnailImageView/SearchView.qml" line="186"/>
         <source>No search results</source>
         <translation>لا توجد نتائج لبحثك</translation>
     </message>
@@ -1429,30 +1608,30 @@
 <context>
     <name>SliderShow</name>
     <message>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="149"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="163"/>
         <source>Previous</source>
         <translation>السابق</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="166"/>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="216"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="180"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="231"/>
         <source>Pause</source>
         <translation>إيقاف مؤقت</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="166"/>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="216"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="180"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="231"/>
         <source>Play</source>
         <translation>تشغيل</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="188"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="196"/>
         <source>Next</source>
         <translation>التالي</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="205"/>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="234"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="211"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="252"/>
         <source>Exit</source>
         <translation>خروج</translation>
     </message>
@@ -1460,25 +1639,12 @@
 <context>
     <name>ThumbnailListDelegate</name>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="400"/>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="401"/>
         <source>days</source>
         <translation>الأيام</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="400"/>
-        <source>day</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ThumbnailListDelegate2</name>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListDelegate2.qml" line="362"/>
-        <source>days</source>
-        <translation>الأيام</translation>
-    </message>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListDelegate2.qml" line="362"/>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="401"/>
         <source>day</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1486,215 +1652,155 @@
 <context>
     <name>ThumbnailListView</name>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="201"/>
-        <source>Export successful</source>
-        <translation>تم التصدير بنجاح</translation>
-    </message>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="203"/>
-        <source>Export failed</source>
-        <translation>فشل التصدير</translation>
-    </message>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="703"/>
-        <source>View</source>
-        <translation>عرض</translation>
-    </message>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="712"/>
-        <source>Fullscreen</source>
-        <translation>ملء الشاشة</translation>
-    </message>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="729"/>
-        <source>Print</source>
-        <translation>طباعة</translation>
-    </message>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="748"/>
-        <source>Slide show</source>
-        <translation>عرض الشرائح</translation>
-    </message>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="776"/>
-        <source>Add to album</source>
-        <translation>إضافة إلى الإلبوم</translation>
-    </message>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="779"/>
-        <source>New album</source>
-        <translation>ألبوم جديد</translation>
-    </message>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="802"/>
-        <source>Successfully added to “%1”</source>
-        <translation>تم الإضافة إلى “1%”</translation>
-    </message>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="811"/>
-        <source>Export</source>
-        <translation>تصدير</translation>
-    </message>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="830"/>
-        <source>Copy</source>
-        <translation>نسخ</translation>
-    </message>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="839"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="611"/>
         <source>Delete</source>
         <translation>حذف</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="849"/>
-        <source>Remove from album</source>
-        <translation>حذف من الإلبوم</translation>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="172"/>
+        <source>Back to Album</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="866"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="204"/>
+        <source>Previous</source>
+        <translation type="unfinished">السابق</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="229"/>
+        <source>Next</source>
+        <translation type="unfinished">التالي</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="265"/>
+        <source>Original size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="284"/>
+        <source>Fit to window</source>
+        <translation type="unfinished">ضبط إلى حجم النافذة</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="302"/>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="336"/>
         <source>Favorite</source>
         <translation>تفضيل</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="876"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="336"/>
         <source>Unfavorite</source>
         <translation>عدم التفضيل</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="890"/>
-        <source>Rotate clockwise</source>
-        <translation>أدر الصورة بإتجاه عقارب الساعة</translation>
-    </message>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="899"/>
-        <source>Rotate counterclockwise</source>
-        <translation>ادر الصور بعكس إتجاه عقارب الساعة</translation>
-    </message>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="908"/>
-        <source>Set as wallpaper</source>
-        <translation>اجعلها كخلفية</translation>
-    </message>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="927"/>
-        <source>Display in file manager</source>
-        <translation>عرض في مدير الملفات</translation>
-    </message>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="946"/>
-        <source>Restore</source>
-        <translation>إستعادة</translation>
-    </message>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="957"/>
-        <source>Photo info</source>
-        <translation>معلومات الصورة</translation>
-    </message>
-    <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView.qml" line="976"/>
-        <source>Video info</source>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="592"/>
+        <source>Extract text</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>ThumbnailListView2</name>
+    <name>ThumbnailListViewAlbum</name>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="776"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="802"/>
         <source>View</source>
-        <translation>عرض</translation>
+        <translation type="unfinished">عرض</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="785"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="811"/>
         <source>Fullscreen</source>
-        <translation>ملء الشاشة</translation>
+        <translation type="unfinished">ملء الشاشة</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="802"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="828"/>
         <source>Print</source>
-        <translation>طباعة</translation>
+        <translation type="unfinished">طباعة</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="821"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="847"/>
         <source>Slide show</source>
-        <translation>عرض الشرائح</translation>
+        <translation type="unfinished">عرض الشرائح</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="847"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="873"/>
         <source>Add to album</source>
-        <translation>إضافة إلى الإلبوم</translation>
+        <translation type="unfinished">إضافة إلى الإلبوم</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="850"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="876"/>
         <source>New album</source>
-        <translation>ألبوم جديد</translation>
+        <translation type="unfinished">ألبوم جديد</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="873"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="899"/>
         <source>Successfully added to “%1”</source>
-        <translation>تم الإضافة إلى “1%”</translation>
+        <translation type="unfinished">تم الإضافة إلى “1%”</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="882"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="908"/>
         <source>Export</source>
-        <translation>تصدير</translation>
+        <translation type="unfinished">تصدير</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="901"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="927"/>
         <source>Copy</source>
-        <translation>نسخ</translation>
+        <translation type="unfinished">نسخ</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="910"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="936"/>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation type="unfinished">حذف</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="920"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="946"/>
         <source>Remove from album</source>
-        <translation>حذف من الإلبوم</translation>
+        <translation type="unfinished">حذف من الإلبوم</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="935"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="961"/>
         <source>Favorite</source>
-        <translation>تفضيل</translation>
+        <translation type="unfinished">تفضيل</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="945"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="971"/>
         <source>Unfavorite</source>
-        <translation>عدم التفضيل</translation>
+        <translation type="unfinished">عدم التفضيل</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="959"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="985"/>
         <source>Rotate clockwise</source>
-        <translation>تدوير بإتجاه عقارب الساعة</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="968"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="994"/>
         <source>Rotate counterclockwise</source>
-        <translation>ادر الصورة بعكس إتجاه عقارب الساعة</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="977"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1003"/>
         <source>Set as wallpaper</source>
-        <translation>اجعل الصورة كخلفية</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="996"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1022"/>
         <source>Display in file manager</source>
-        <translation>عرض في مدير الملفات</translation>
+        <translation type="unfinished">عرض في مدير الملفات</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="1015"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1041"/>
         <source>Restore</source>
-        <translation>إستعادة</translation>
+        <translation type="unfinished">إستعادة</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="1024"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1050"/>
         <source>Photo info</source>
-        <translation>معلومات الصورة</translation>
+        <translation type="unfinished">معلومات الصورة</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListView2.qml" line="1043"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1069"/>
         <source>Video info</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1702,63 +1808,65 @@
 <context>
     <name>ThumbnailListViewTools</name>
     <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewTools.js" line="86"/>
         <source>Export successful</source>
-        <translation type="vanished">تم التصدير بنجاح</translation>
+        <translation>تم التصدير بنجاح</translation>
     </message>
     <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewTools.js" line="88"/>
         <source>Export failed</source>
-        <translation type="vanished">فشل التصدير</translation>
+        <translation>فشل التصدير</translation>
     </message>
 </context>
 <context>
     <name>ToolBarThumbnailListView</name>
     <message>
-        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="122"/>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="121"/>
         <source>Back to Album</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="164"/>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="162"/>
         <source>Previous</source>
         <translation>السابق</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="191"/>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="189"/>
         <source>Next</source>
         <translation>التالي</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="212"/>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="210"/>
         <source>Original size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="233"/>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="231"/>
         <source>Fit to window</source>
         <translation>ضبط إلى حجم النافذة</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="259"/>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="257"/>
         <source>Rotate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="292"/>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="290"/>
         <source>Favorite</source>
         <translation>تفضيل</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="292"/>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="290"/>
         <source>Unfavorite</source>
         <translation>عدم التفضيل</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="433"/>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="431"/>
         <source>Extract text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="460"/>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="458"/>
         <source>Delete</source>
         <translation>حذف</translation>
     </message>
@@ -1860,115 +1968,120 @@
 <context>
     <name>ViewRightMenu</name>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="22"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="41"/>
         <source>Fullscreen</source>
         <translation>ملء الشاشة</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="22"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="41"/>
         <source>Exit fullscreen</source>
         <translation>الخروج من وضع ملء الشاشة</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="41"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="61"/>
         <source>Print</source>
         <translation>طباعة</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="59"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="82"/>
         <source>Extract text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="78"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="104"/>
         <source>Slide show</source>
         <translation>عرض الشرائح</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="103"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="129"/>
         <source>Export</source>
         <translation>تصدير</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="120"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="145"/>
         <source>Copy</source>
         <translation>نسخ</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="141"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="169"/>
         <source>Rename</source>
         <translation>إعادة تسمية</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="172"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="190"/>
         <source>Delete</source>
         <translation>حذف</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="200"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="219"/>
         <source>Favorite</source>
         <translation>تفضيل</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="210"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="229"/>
         <source>Unfavorite</source>
         <translation>عدم التفضيل</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="226"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="246"/>
         <source>Rotate clockwise</source>
         <translation>تدوير بإتجاه عقارب الساعة</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="245"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="268"/>
         <source>Rotate counterclockwise</source>
         <translation>ادر الصور بعكس إتجاه عقارب الساعة</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="266"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="298"/>
         <source>Show navigation window</source>
         <translation>أظهار نافذة التنقل</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="266"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="298"/>
         <source>Hide navigation window</source>
         <translation>أخفاء نافذة التنقل</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="290"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="310"/>
         <source>Set as wallpaper</source>
         <translation>اجعل الصورة كخلفية</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="309"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="332"/>
         <source>Display in file manager</source>
         <translation>عرض في مدير الملفات</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="327"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="351"/>
         <source>Image info</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="348"/>
-        <source>Export successful</source>
-        <translation>تم التصدير بنجاح</translation>
-    </message>
-    <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="350"/>
-        <source>Export failed</source>
-        <translation>فشل التصدير</translation>
     </message>
 </context>
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="89"/>
+        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="161"/>
+        <source>Open image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="183"/>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="91"/>
+        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="187"/>
+        <source>Image Viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
         <source>Album</source>
         <translation>الإلبوم</translation>
     </message>
@@ -1976,17 +2089,17 @@
 <context>
     <name>YearCollection</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="129"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="126"/>
         <source>%1</source>
         <translation type="unfinished">%1</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="142"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="139"/>
         <source>%1 items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="142"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="139"/>
         <source>1 item</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1994,7 +2107,7 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/main.qml" line="90"/>
+        <location filename="../qml/main.qml" line="133"/>
         <source>All photos and videos</source>
         <translation type="unfinished"></translation>
     </message>

@@ -7,14 +7,12 @@ function executeViewImageCutSwitch() {
     if (thumnailListType !== Album.Types.ThumbnailTrash) {
         var indexes = thumbnailModel.selectedIndexes
         if (indexes.length > 0) {
-            if (fileControl.isVideo(thumbnailModel.data(indexes[0], "url").toString())) {
+            if (FileControl.isVideo(thumbnailModel.data(indexes[0], "url").toString())) {
                 albumControl.openDeepinMovie(thumbnailModel.data(indexes[0], "url").toString())
             } else {
                 var allUrls = thumbnailModel.allUrls()
-                mainStack.sourcePaths = allUrls
-                mainStack.currentIndex = -1
-                mainStack.currentIndex = indexes[0]
-                mainStack.currentWidgetIndex = 1
+                GControl.setImageFiles(allUrls, allUrls[indexes[0]])
+                mainStack.switchImageView()
                 GStatus.stackControlCurrent = 1
             }
         }
@@ -26,17 +24,16 @@ function executeViewImage(x, y, w, h) {
     if (thumnailListType !== Album.Types.ThumbnailTrash) {
         var indexes = thumbnailModel.selectedIndexes
         if (indexes.length > 0) {
-            if (fileControl.isVideo(thumbnailModel.data(indexes[0], "url").toString())) {
+            if (FileControl.isVideo(thumbnailModel.data(indexes[0], "url").toString())) {
                 albumControl.openDeepinMovie(thumbnailModel.data(indexes[0], "url").toString())
             } else {
                 var allUrls = thumbnailModel.allUrls()
-                mainStack.sourcePaths = allUrls
-                mainStack.currentIndex = -1
-                mainStack.currentIndex = indexes[0]
-                mainStack.currentWidgetIndex = 1
+                GStatus.enteringImageViewer = true
+                GControl.setImageFiles(allUrls, allUrls[indexes[0]])
+                mainStack.switchImageView()
                 GStatus.stackControlCurrent = 1
-                window.sigMoveCenter(x, y, w, h)
-                window.sigShowToolBar()
+                GStatus.sigMoveCenter(x, y, w, h)
+                GStatus.sigShowToolBar()
             }
         }
     }
@@ -56,20 +53,21 @@ function executeDelete() {
 // 执行全屏预览
 function executeFullScreen() {
     if (window.visibility !== Window.FullScreen && selectedUrls.length > 0) {
-        showFullScreen()
-
-        mainStack.sourcePaths = thumbnailModel.allUrls()
-        mainStack.currentIndex = -1
-        mainStack.currentIndex = thumbnailModel.allUrls().indexOf(selectedUrls[0])
-        mainStack.currentWidgetIndex = 1
-        GStatus.stackControlLastCurrent = GStatus.stackControlCurrent
-        GStatus.stackControlCurrent = 1
+        var indexes = thumbnailModel.selectedIndexes
+        if (indexes.length > 0) {
+            var allUrls = thumbnailModel.allUrls()
+            GControl.setImageFiles(allUrls, allUrls[indexes[0]])
+            mainStack.switchImageView()
+            GStatus.stackControlLastCurrent = GStatus.stackControlCurrent
+            GStatus.stackControlCurrent = 1
+            GStatus.showFullScreen = true
+        }
     }
 }
 
 // 执行图片打印
 function executePrint() {
-    fileControl.showPrintDialog(GStatus.selectedPaths)
+    FileControl.showPrintDialog(GStatus.selectedPaths)
 }
 
 // 执行幻灯片放映
@@ -97,7 +95,7 @@ function excuteExport() {
 // 执行图片复制
 function executeCopy() {
     if (GStatus.selectedPaths.length > 0)
-        fileControl.copyImage(GStatus.selectedPaths)
+        FileControl.copyImage(GStatus.selectedPaths)
 }
 
 // 执行从相册移除
@@ -133,20 +131,20 @@ function executeUnFavorite() {
 // 执行旋转操作
 function executeRotate(angle) {
     if (GStatus.selectedPaths.length > 0) {
-        fileControl.rotateFile(GStatus.selectedPaths, angle)
+        FileControl.rotateFile(GStatus.selectedPaths, angle)
     }
 }
 
 // 执行设置壁纸操作
 function executeSetWallpaper() {
     if (GStatus.selectedPaths.length > 0)
-        fileControl.setWallpaper(GStatus.selectedPaths[0])
+        FileControl.setWallpaper(GStatus.selectedPaths[0])
 }
 
 // 执行在文管中显示操作
 function executeDisplayInFileManager() {
     if (GStatus.selectedPaths.length > 0)
-        fileControl.displayinFileManager(GStatus.selectedPaths[0])
+        FileControl.displayinFileManager(GStatus.selectedPaths[0])
 }
 
 // 执行图片恢复操作

@@ -19,14 +19,14 @@ Control {
         if (showPicLabel.visible) {
             showPicLabel.visible = false;
             // 每次显示编辑框时显示为图片名称
-            nameedit.text = fileControl.slotGetFileName(imageViewer.source)
+            nameedit.text = FileControl.slotGetFileName(imageViewer.source)
         } else {
-            if (!fileControl.isShowToolTip(imageViewer.source,nameedit.text) && nameedit.text.length > 0) {
+            if (!FileControl.isShowToolTip(imageViewer.source,nameedit.text) && nameedit.text.length > 0) {
                 var name = nameedit.text
                 //bool返回值判断是否成功
-                if (fileControl.slotFileReName(name,imageViewer.source)) {
-                    imageViewer.sourcePaths = fileControl.renameOne(imageViewer.sourcePaths, imageViewer.source, fileControl.getNamePath(imageViewer.source, name))
-                    imageViewer.source = fileControl.getNamePath(imageViewer.source, name)
+                if (FileControl.slotFileReName(name,imageViewer.source)) {
+                    imageViewer.sourcePaths = FileControl.renameOne(imageViewer.sourcePaths, imageViewer.source, FileControl.getNamePath(imageViewer.source, name))
+                    imageViewer.source = FileControl.getNamePath(imageViewer.source, name)
                 }
             }
             showPicLabel.visible = true
@@ -58,14 +58,14 @@ Control {
             LineEdit {
                 id: nameedit
                 visible: !showPicLabel.visible
-                text: fileControl.slotGetFileName(filePath)
+                text: FileControl.slotGetFileName(filePath)
                 anchors.topMargin: 5
                 anchors.leftMargin: 10
                 font.pixelSize: 16
                 focus: true
                 selectByMouse: true
                 alertText: qsTr("The file already exists, please use another name")
-                showAlert: fileControl.isShowToolTip(filePath,nameedit.text) && nameedit.visible
+                showAlert: FileControl.isShowToolTip(filePath,nameedit.text) && nameedit.visible
                 height: 20
 
                 Keys.onPressed: {

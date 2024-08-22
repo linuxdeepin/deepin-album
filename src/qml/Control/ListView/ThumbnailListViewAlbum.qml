@@ -15,6 +15,7 @@ import org.deepin.album 1.0 as Album
 import "../"
 import "../../"
 import "../../PreviewImageViewer"
+import "../../PreviewImageViewer/Utils"
 
 import "ThumbnailListViewTools.js" as ThumbnailTools
 
@@ -303,7 +304,7 @@ FocusScope {
             var cPos = mapToItem(gridView.contentItem, mouse.x, mouse.y);
             var clickedItem = gridView.itemAt(cPos.x, cPos.y)
             if (!clickedItem || clickedItem.blank || gridView.currentIndex == -1 || gridView.ctrlPressed || gridView.shiftPressed) {
-                eventGenerator.sendMouseEvent(window, Album.EventGenerator.MouseButtonPress, mouse.x, mouse.y, mouse.button, mouse.buttons, mouse.modifiers);
+                //eventGenerator.sendMouseEvent(window, Album.EventGenerator.MouseButtonPress, mouse.x, mouse.y, mouse.button, mouse.buttons, mouse.modifiers);
                 return;
             }
 
@@ -480,7 +481,7 @@ FocusScope {
             cellWidth: itemWidth
             cellHeight: itemHeight
 
-            delegate: ThumbnailListDelegate2 {
+            delegate: ThumbnailListDelegate {
                 id: thumbnailListDelegate
                 modelData: model
                 m_index: index
@@ -906,7 +907,7 @@ FocusScope {
         RightMenuItem {
             text: qsTr("Export")
             visible: thumnailListType !== Album.Types.ThumbnailTrash
-                     && ((selectedUrls.length === 1 && fileControl.pathExists(selectedUrls[0]) && menuItemStates.haveImage) || !menuItemStates.haveVideo)
+                     && ((selectedUrls.length === 1 && FileControl.pathExists(selectedUrls[0]) && menuItemStates.haveImage) || !menuItemStates.haveVideo)
             onTriggered: {
                 ThumbnailTools.excuteExport()
             }

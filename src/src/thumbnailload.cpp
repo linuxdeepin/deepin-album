@@ -78,7 +78,7 @@ LoadImage::LoadImage(QObject *parent) :
     m_multiLoad = new MultiImageLoad();
     m_publisher = new ImagePublisher(this);
     m_collectionPublisher = new CollectionPublisher();
-    m_asynImageProvider = new AsyncImageProvider();
+    m_asynImageProvider = new AsyncImageProviderAlbum();
 }
 
 double LoadImage::getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight)
@@ -781,7 +781,7 @@ QImage CollectionPublisher::clipHelper(const QImage &image, int width, int heigh
     return result;
 }
 
-void AsyncImageResponse::run()
+void AsyncImageResponseAlbum::run()
 {
     //id的前几个字符是强制刷新用的，需要排除出去
     auto startIndex = m_id.indexOf('_') + 1;
@@ -810,7 +810,7 @@ void AsyncImageResponse::run()
 }
 
 //将图片裁剪为方图，逻辑与原来一样
-QImage AsyncImageResponse::clipToRect(const QImage &src)
+QImage AsyncImageResponseAlbum::clipToRect(const QImage &src)
 {
     auto tImg = src;
 
@@ -857,7 +857,7 @@ QImage AsyncImageResponse::clipToRect(const QImage &src)
 }
 
 //将图片按比例缩小
-QImage AsyncImageResponse::addPadAndScaled(const QImage &src)
+QImage AsyncImageResponseAlbum::addPadAndScaled(const QImage &src)
 {
     auto result = src.convertToFormat(QImage::Format_RGBA8888);
 
@@ -870,7 +870,7 @@ QImage AsyncImageResponse::addPadAndScaled(const QImage &src)
     return result;
 }
 
-AsyncImageProvider::AsyncImageProvider(QObject *parent)
+AsyncImageProviderAlbum::AsyncImageProviderAlbum(QObject *parent)
     : QObject(parent)
     , QQuickAsyncImageProvider()
 {
@@ -879,7 +879,7 @@ AsyncImageProvider::AsyncImageProvider(QObject *parent)
 }
 
 //切换加载策略
-void AsyncImageProvider::switchLoadMode()
+void AsyncImageProviderAlbum::switchLoadMode()
 {
     switch (m_loadMode) {
     case 0:
@@ -897,7 +897,7 @@ void AsyncImageProvider::switchLoadMode()
     LibConfigSetter::instance()->setValue(SETTINGS_GROUP, SETTINGS_DISPLAY_MODE, m_loadMode.load());
 }
 
-int AsyncImageProvider::getLoadMode()
+int AsyncImageProviderAlbum::getLoadMode()
 {
     return m_loadMode;
 }

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2024 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -7,410 +7,219 @@ import QtQuick.Window 2.11
 import QtQuick.Controls 2.4
 //import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.11
+import QtQuick.Shapes 1.11
 import org.deepin.dtk 1.0
+import org.deepin.image.viewer 1.0 as IV
+import org.deepin.album 1.0 as Album
+import "./ImageDelegate"
+//import "./LiveText"
+import "./InformationDialog"
+import "./Utils"
 
-import "../Control"
+Item {
+    id: imageViewer
 
-Rectangle {
-
-    id: imageviewr
-    // Indicates the minimum number of zooms
-    property int minScaleLevel: 10
-    // Indicates the maximum number of zooms
-    property int maxScaleLevel: 30
-    // Indicates the current scaleLevel of zooms
-    property int currentScaleLevel: 0
-    //current rotate
+    // current rotate
     property int currentRotate: 0
 
-    // Indicates the current image path
-    property string source: ""
-    /*: showImg.source*/
-    property var sourcePaths: []
+    // 记录图像缩放，用于在窗口缩放时，根据前后窗口变化保持图片缩放比例
+    property bool enableChangeDisplay: true
+    property real lastDisplayScaleWidth: 0
+    // Image 类型的对象，空图片、错误图片、消失图片等异常为 null
+    property alias targetImage: view.currentImage
 
-    // 当前源图片宽度
-    property int currentSourceWidth : 0;
-    // 当前源图片高度
-    property int currentSourceHeight : 0;
-
-    property int index: 0
-    property alias swipeIndex: view.currentIndex
-
-    // 用于标识当前图片是否存在
-    property bool currentIsExistImage: fileControl.imageIsExist(source)
-    // 用于多页图的标识 包括是否为多页图、多页图帧数、当前帧号
-    property bool currentIsMultiImage: fileControl.isMultiImage(source)
-    property int frameCount: currentIsMultiImage ? fileControl.getImageCount(source) : 1
-    property int frameIndex: 0
-
-    //是否显示和隐藏导航栏，从配置文件中读取初始配置
-    property bool  isNavShow: fileControl.isEnableNavigation()
-
-    property double  currentScale : 1.0
-
-    property double  currentimgX : 0.0
-
-    property double  currentimgY : 0.0
-
-    property double  currenImageScale : currentScale / CodeImage.getFitWindowScale(source,window.width, window.height) * 100
-
-    property bool isMousePinchArea: true
-
-    property double readWidthHeightRatio: CodeImage.getrealWidthHeightRatio(imageViewer.source)
-
-    //导航蒙皮位置
-    property double  m_NavX : 0.0
-    property double  m_NavY : 0.0
-
-    //用于记录normal状态的宽高
-    property int normalWidth: 0
-    property int normalHeight: 0
-
-    // 记录放大图片(在qml中像素)和显示窗口像素的比值，用于蒙皮获取准确区域
-    property real viewImageWidthRatio : 0
-    property real viewImageHeightRatio : 0
-
-    // 标识当前是否处于全屏缩放状态，缩放前后部分控件需重置，例如缩略图栏重新居中设置
-    property bool isFullNormalSwitchState: showFulltimer.running || showfullAnimation.running
+    // Note: 对于SVG、动图等特殊类型图片，使用 targeImage 获取的图片 sourceSize 存在差异，
+    // 可能为零或导致缩放模糊，调整为使用从文件中读取的原始大小计算。
+    // 图片旋转后同样会交换宽度和高度，更新缓存的图片源宽高信息
+    property alias targetImageInfo: currentImageInfo
+    property bool targetImageReady: (null !== view.currentImage) && (Image.Ready === view.currentImage.status)
 
     //判断图片是否可收藏
-    property bool canFavorite: albumControl.canFavorite(source, GStatus.bRefreshFavoriteIconFlag)
+    property bool canFavorite: albumControl.canFavorite(GControl.currentSource.toString(), GStatus.bRefreshFavoriteIconFlag)
     property bool bMoveCenterAnimationPlayed: false
-    signal sigWheelChange
-    signal sigImageShowFullScreen
-    signal sigImageShowNormal
-    signal sigSourceChange
+    // 退出全屏展示图片
+    function escBack() {
+        GStatus.showImageInfo = false;
+        showNormal();
 
-    color: backcontrol.ColorSelector.backgroundColor
-    ViewRightMenu {
-        id: option_menu
-    }
-    Connections {
-        target: window
-        onSigTitlePress: {
-            infomationDig.hide()
-        }
-
-        onWidthChanged: {
-            fitWindow()
-        }
-
-        onHeightChanged: {
-            fitWindow()
-        }
-    }
-
-    function showFloatLabel() {
-        // 不存在的图片不弹出缩放提示框
-        if (!currentIsExistImage) {
-            return;
-        }
-
-        if(currenImageScale.toFixed(0) > 2000 && currenImageScale.toFixed(0) <= 3000){
-            floatLabel.displayStr = "2000%"
-        }else if(currenImageScale.toFixed(0)<2 && currenImageScale.toFixed(0) >=0 ){
-            floatLabel.displayStr = "2%"
-        }else if(currenImageScale.toFixed(0) >=2 && currenImageScale.toFixed(0) <= 2000 ){
-            floatLabel.displayStr = currenImageScale.toFixed(0) + "%"
-        }
-        floatLabel.visible = CodeImage.imageIsNull(source)||currenImageScale.toFixed(0)<0 ||currenImageScale.toFixed(0)>2000 ? false : true
-    }
-
-    function flushNav() {
-        if(!isNavShow || currentScale <= 1.0) {
-            idNavWidget.visible = false
-            return
-        }
-
-        if(window.height <= GStatus.minHideHeight || window.width <= GStatus.minWidth){
-            idNavWidget.visible = false
-        } else {
-            console.debug(currentScale)
-            idNavWidget.visible = true
-        }
-
-        var realWidth = 0;
-        var realHeight = 0;
-        if (window.width > window.height * readWidthHeightRatio) {
-            realWidth = window.height * readWidthHeightRatio
-        } else {
-            realWidth = window.width
-        }
-        if(window.height > window.width / readWidthHeightRatio) {
-            realHeight = window.width / readWidthHeightRatio
-        } else {
-            realHeight = window.height
-        }
-
-        viewImageWidthRatio = window.width / (realWidth * currentScale)
-        viewImageHeightRatio = window.height / (realHeight * currentScale)
-
-        idNavWidget.setRectLocation(m_NavX, m_NavY)
-        idNavWidget.setRectPec(currentScale, viewImageWidthRatio, viewImageHeightRatio)
-    }
-
-    onCurrenImageScaleChanged: {
-        showFloatLabel()
-    }
-
-    onCurrentScaleChanged: {
-        // 单独计算图片缩放比，防止属性绑定循环计算，数据异常
-        var calcImageScale = currentScale / CodeImage.getFitWindowScale(source, window.width, window.height) * 100;
-        if(calcImageScale > 2000) {
-            currentScale = 20 * CodeImage.getFitWindowScale(source,window.width, window.height)
-        } else if(calcImageScale < 2 && calcImageScale > 0){
-            currentScale = 0.02 * CodeImage.getFitWindowScale(source,window.width, window.height)
-        }
-
-        //刷新导航窗口
-        flushNav()
-    }
-
-    // 多页图当前图片帧号发生变更，更新当前界面维护的数据信息
-    onFrameIndexChanged: {
-        // 当前为多页图
-        if (currentIsMultiImage) {
-            // 设置 fileControl 维护的多页图信息
-            fileControl.setCurrentFrameIndex(frameIndex)
-            CodeImage.setMultiFrameIndex(frameIndex)
-        }
-    }
-
-    // 图片源发生改变，隐藏导航区域，重置图片缩放比例
-    onSourceChanged: {
-        // 手动更新图源时，排除空图源影响
-        if (source === "") {
-            window.title = ""
-            return
-        }
-
-        // 多页图索引不在此处进行复位，鼠标点击，按钮切换等不同方式切换显示不同的多页图帧号
-        fileControl.slotRotatePixCurrent()
-        CodeImage.setReverseHeightWidth(false)
-
-        // 设置图片状态
-        fileControl.setCurrentImage(source)
-        CodeImage.setMultiFrameIndex(fileControl.isMultiImage(source) ? 0 : -1)
-        // 复位图片旋转状态
-        imageViewer.currentRotate = 0
-
-        // 默认隐藏导航区域
-        idNavWidget.visible = false
-        // 判断图片大小是否超过了允许显示的展示区域
-        if (fileControl.getFitWindowScale(window.width, window.height - titleRect.height * 2) > 1) {
-            fitWindow()
-        }
-        else {
-            fitImage()
-        }
-
-        // 设置标题栏
-        window.title = fileControl.slotGetFileName(source) + fileControl.slotFileSuffix(source)
-
-        // 显示缩放比例提示框
-        showFloatLabel()
-
-        sigSourceChange()
-
-        // 重设工具/菜单栏的隐藏/弹出
-        mainView.animationAll()
-
-    }
-
-    // 部分图片存在加载图片过程，重设图片大小调整到图片加载完成后处理 Image.Ready --> onImageReady()
-    function onImageReady()
-    {
-        // 复位图片旋转角度
-        imageViewer.currentRotate = 0
-
-        // 取得图片的真实大小，部分格式不支持直接获取图片数据，若数据异常，需要从加载缓存中读取
-        currentSourceWidth = fileControl.getCurrentImageWidth()
-        currentSourceHeight = fileControl.getCurrentImageHeight()
-        if ((currentSourceWidth <= 0)
-                || (currentSourceHeight <= 0)) {
-            currentSourceWidth = CodeImage.getImageWidth(source)
-            currentSourceHeight = CodeImage.getImageHeight(source)
-        }
-
-        // 判断图片大小是否超过了允许显示的展示区域
-        if (currentSourceHeight > window.height - titleRect.height * 2
-                || currentSourceWidth > window.width) {
-            fitWindow()
-        }
-        else {
-            fitImage()
-        }
-    }
-
-    function fitImage()
-    {
-        // 优先采用图片实际加载的数据，若图片未加载完成，采用文件基本信息
-        if (CodeImage.getImageWidth(source) <= 0
-                || CodeImage.getImageHeight(source) <= 0) {
-            currentScale = fileControl.getFitWindowScale(window.width, window.height)
-        } else {
-            // 图片数据异常需要从加载完成图片信息中获取
-            currentScale = CodeImage.getFitWindowScale(source, window.width, window.height)
-        }
-    }
-
-    function fitWindow()
-    {
-        // 调整位置，图片恢复显示到中心
-        sigSourceChange()
-
-        // 根据图片大小进行调整，使得对较长图片能顶满看图左右两侧边框
-        if (Window.FullScreen == window.visibility) {
-            currentScale = 1.0
-        } else {
-            // 将图片调整在 window.width x enableRootHeight 的区域显示
-            var enableRootHeight = (window.height - titleRect.height * 2)
-            var imageRatio = fileControl.getCurrentImageHeight() / fileControl.getCurrentImageWidth()
-            var rootRatio = enableRootHeight / window.width
-
-            // 取得当前图片相对显示宽度
-            var curViewImageHeight = window.width * imageRatio
-            // 判断高度是否无需调整(即图片高度小于展示区域高度，则无需继续压缩显示区域)
-            var useHeight = (curViewImageHeight / rootRatio) <= window.width
-
-            currentScale = useHeight ? 1.0 : (enableRootHeight / window.height)
-        }
-    }
-
-    function rotateImage(x)
-    {
-        // 判断是否为首次进行图片旋转
-        var needResetBar = (currentRotate == 0)
-
-        // 更新当前图片的旋转角度
-        fileControl.rotateFile(source, x)
-        currentRotate = fileControl.currentAngle()
-        CodeImage.setReverseHeightWidth(fileControl.isReverseHeightWidth())
-
-        // 判断图片大小是否超过了允许显示的展示区域
-        if (fileControl.getFitWindowScale(window.width, window.height - titleRect.height * 2) > 1) {
-            fitWindow()
-        }
-        else {
-            fitImage()
-        }
-
-        if (needResetBar) {
-            // 重设工具/菜单栏的隐藏/弹出
-            mainView.animationAll()
-        }
-    }
-
-    function deleteItem(item, list)
-    {
-        // 先遍历list里面的每一个元素，对比item与每个元素的id是否相等，再利用splice的方法删除
-        for (var key in fileList) {
-            if (list[key].id === item) {
-                list.splice(key, 1)
-            }
-        }
-    }
-
-    function startSliderShow()
-    {
-        if (sourcePaths.length > 0) {
-
-            normalWidth = window.width
-            normalHeight = window.height
-
-            showFullScreen()
-            sliderMainShow.images = sourcePaths
-            sliderMainShow.modelCount = sourcePaths.length
-            sliderMainShow.autoRun = true
-            sliderMainShow.indexImg = view.currentIndex
-            sliderMainShow.restart()
-            stackView.currentWidgetIndex = 2
-        }
-
-    }
-
-    PropertyAnimation {
-        id :showfullAnimation
-        target: window
-        from: 0
-        to: 1
-        property: "opacity"
-        duration: 200
-        easing.type: Easing.InExpo
-    }
-    Timer {
-        id: showFulltimer
-        interval: 200
-        running: false
-        repeat: false
-
-        onTriggered: {
-            window.visibility != Window.FullScreen ? showPanelFullScreen() : imageViewer.escBack()
-        }
-    }
-    function showPanelFullScreen()
-    {
-        normalWidth = window.width
-        normalHeight = window.height
-
-        showFullScreen()
-        view.contentItem.forceActiveFocus()
-        showfullAnimation.start()
-
-        //如果是初始界面只全屏
-        if (stackView.currentWidgetIndex != 0) {
-            stackView.currentWidgetIndex = 1
-            currentScale = 1.0
-            sigImageShowFullScreen()
-        }
-    }
-
-    function escBack()
-    {
-        showNormal()
-        // 在相册主界面进入全屏，按Esc需要回到相册主界面
+        // 在相册主界面进入全屏，按Esc应直接返回到相册主界面
         if (GStatus.stackControlLastCurrent === 0) {
             GStatus.stackControlCurrent = GStatus.stackControlLastCurrent
             GStatus.stackControlLastCurrent = -1
-            // 强制刷新一次图片
-            mainView.sourcePaths = ""
-            mainView.source = ""
+            imageViewer.visible = false
             window.title = ""
             return
         }
 
-        showfullAnimation.start()
-        //如果是初始界面只正常大小
-        if (stackView.currentWidgetIndex != 0) {
-            sliderMainShow.autoRun = false
-            sliderMainShow.backtrack()
-            if (stackView.currentWidgetIndex == 2) {
-                mainView.currentIndex = sliderMainShow.indexImg
+        showfullAnimation.start();
+    }
+
+    function fitImage() {
+        if (targetImageReady) {
+            // 按图片原始大小执行缩放
+            imageAnimation.scaleAnime(targetImageInfo.width / targetImage.paintedWidth);
+        }
+    }
+
+    function fitWindow() {
+        // 默认状态的图片即适应窗口大小(使用 Image.PreserveAspectFit)
+        if (targetImageReady) {
+            imageAnimation.scaleAnime(1.0);
+        }
+    }
+
+    // 窗口拖拽大小变更时保持图片的显示缩放比例
+    function keepImageDisplayScale() {
+        if (!targetImageReady) {
+            return;
+        }
+
+        // 当前缩放比例与匹配窗口的图片缩放比例比较，不一致则保持缩放比例
+        if (Math.abs(targetImage.scale - 1.0) > Number.EPSILON) {
+            if (0 !== lastDisplayScaleWidth) {
+                // Note: 拖拽窗口时将保持 scale ，但 paintedWidth / paintedHeight 将变更
+                // 因此在此处设置缩放比例时屏蔽重复设置，以保留缩放比例
+                enableChangeDisplay = false;
+                targetImage.scale = lastDisplayScaleWidth / targetImage.paintedWidth;
+                enableChangeDisplay = true;
+            } else {
+                lastDisplayScaleWidth = targetImage.paintedWidth * targetImage.scale;
+            }
+        } else {
+            // 一致则保持匹配窗口
+            fitWindow();
+        }
+    }
+
+    function rotateImage(angle) {
+        if (targetImageReady && !rotateDelay.running) {
+            rotateDelay.start();
+            GControl.currentRotation += angle;
+        }
+    }
+
+    // 触发全屏展示图片
+    function showPanelFullScreen() {
+        GStatus.showImageInfo = false;
+        showFullScreen();
+        view.contentItem.forceActiveFocus();
+        showfullAnimation.start();
+    }
+
+    function showScaleFloatLabel() {
+        // 不存在的图片不弹出缩放提示框
+        if (!targetImageReady) {
+            return;
+        }
+
+        // 图片实际缩放比值 绘制像素宽度 / 图片原始像素宽度
+        var readableScale = targetImage.paintedWidth * targetImage.scale / targetImageInfo.width * 100;
+        if (readableScale.toFixed(0) > 2000 && readableScale.toFixed(0) <= 3000) {
+            floatLabel.displayStr = "2000%";
+        } else if (readableScale.toFixed(0) < 2 && readableScale.toFixed(0) >= 0) {
+            floatLabel.displayStr = "2%";
+        } else if (readableScale.toFixed(0) >= 2 && readableScale.toFixed(0) <= 2000) {
+            floatLabel.displayStr = readableScale.toFixed(0) + "%";
+        }
+        floatLabel.visible = true;
+    }
+
+    onHeightChanged: keepImageDisplayScale()
+
+    // 图片状态变更时触发
+    onTargetImageReadyChanged: {
+        showScaleFloatLabel();
+
+        // 重置保留的缩放状态
+        lastDisplayScaleWidth = 0;
+    }
+    onWidthChanged: keepImageDisplayScale()
+
+    Timer {
+        id: rotateDelay
+
+        interval: GStatus.animationDefaultDuration + 50
+    }
+
+    // 图像动画：缩放
+    ImageAnimation {
+        id: imageAnimation
+
+        targetImage: imageViewer.targetImage
+    }
+
+    Connections {
+        function onScaleChanged() {
+            // 图片实际缩放比值 绘制像素宽度 / 图片原始像素宽度
+            var readableScale = targetImage.paintedWidth * targetImage.scale / targetImageInfo.width * 100;
+            // 缩放限制在 2% ~ 2000% ，变更后再次进入此函数处理
+            if (readableScale < 2) {
+                targetImage.scale = targetImageInfo.width * 0.02 / targetImage.paintedWidth;
+                return;
+            } else if (readableScale > 2000) {
+                targetImage.scale = targetImageInfo.width * 20 / targetImage.paintedWidth;
+                return;
             }
 
-            stackView.currentWidgetIndex = 1
-            currentScale = 1.0 * (normalHeight - titleRect.height * 2) / normalHeight
-
-            sigImageShowNormal()
+            // 处于保持效果缩放状态时，保留之前的缩放比例
+            if (enableChangeDisplay) {
+                lastDisplayScaleWidth = targetImage.paintedWidth * targetImage.scale;
+                // 显示缩放框
+                showScaleFloatLabel();
+            }
         }
 
-        if (GStatus.stackControlCurrent == 2) {
-            mainSliderShow.outSliderShow()
+        enabled: targetImageReady
+        ignoreUnknownSignals: true
+        target: targetImage
+    }
+
+    // 触发切换全屏状态
+    Connections {
+        function onShowFullScreenChanged() {
+            if (window.isFullScreen !== GStatus.showFullScreen) {
+                // 关闭详细信息窗口
+                GStatus.showImageInfo = false;
+                GStatus.showFullScreen ? showPanelFullScreen() : escBack();
+            }
         }
 
-        // 强制刷新一次图片
-        //mainView.source=""
+        target: GStatus
+    }
+
+    PropertyAnimation {
+        id: showfullAnimation
+
+        duration: 200
+        easing.type: Easing.InExpo
+        from: 0
+        property: "opacity"
+        target: parent.Window.window
+        to: 1
+
+        onRunningChanged: {
+            GStatus.fullScreenAnimating = running;
+            // 动画结束时，重置缩放状态
+            if (!running && targetImageReady) {
+                // 匹配缩放处理
+                if (targetImageInfo.height < targetImage.height) {
+                    targetImage.scale = targetImageInfo.width / targetImage.paintedWidth;
+                } else {
+                    targetImage.scale = 1.0;
+                }
+            }
+        }
     }
 
     // 执行收藏操作
     function executeFavorite() {
-        albumControl.insertIntoAlbum(0, imageViewer.source)
+        albumControl.insertIntoAlbum(0, GControl.currentSource.toString())
         GStatus.bRefreshFavoriteIconFlag = !GStatus.bRefreshFavoriteIconFlag
     }
 
     // 执行取消收藏操作
     function executeUnFavorite() {
-        albumControl.removeFromAlbum(0, imageViewer.source)
+        albumControl.removeFromAlbum(0, GControl.currentSource.toString())
         GStatus.bRefreshFavoriteIconFlag = !GStatus.bRefreshFavoriteIconFlag
     }
 
@@ -419,7 +228,7 @@ Rectangle {
         enabled: visible
         sequence: "."
         onActivated: {
-            if (!menuItemStates.isInTrash && fileControl.isAlbum()) {
+            if (!menuItemStates.isInTrash && FileControl.isAlbum()) {
                 if (canFavorite)
                     executeFavorite()
                 else
@@ -432,728 +241,44 @@ Rectangle {
     Shortcut {
         enabled: visible
         sequence: "Ctrl+="
+
         onActivated: {
-            currentScale =  currentScale / 0.9
+            targetImage.scale = targetImage.scale / 0.9;
         }
     }
 
     Shortcut {
         enabled: visible
         sequence: "Ctrl+-"
+
         onActivated: {
-            currentScale =  currentScale * 0.9
+            targetImage.scale = targetImage.scale * 0.9;
         }
     }
 
     Shortcut {
         sequence: "Up"
+
         onActivated: {
-            currentScale =  currentScale / 0.9
+            targetImage.scale = targetImage.scale / 0.9;
         }
     }
-
 
     Shortcut {
         sequence: "Down"
+
         onActivated: {
-            currentScale =  currentScale * 0.9
+            targetImage.scale = targetImage.scale * 0.9;
         }
     }
 
     Shortcut {
-    enabled: visible && !fileControl.isAlbum()
+        enabled: visible && !FileControl.isAlbum()
         sequence: "Ctrl+Shift+/"
+
         onActivated: {
-            var screenPos = mapToGlobal(parent.x, parent.y)
-            fileControl.showShortcutPanel(screenPos.x + window.width / 2, screenPos.y + window.height / 2)
-        }
-    }
-
-    /*
-       @brief: 图片展示组件
-            需要注意的是，此图片展示组件会被缩略图栏滑动视图和多页图滑动视图使用，
-            需要区分其中变量在不同滑动视图下的含义
-    */
-    Component {
-        id: imageShowComp
-        Rectangle {
-            id: flickableL
-            width: view.width
-            height: view.height
-            clip: true
-            color: backcontrol.ColorSelector.backgroundColor
-
-            // 当前 item 使用的图片源，非当前展示图片，可能为预先加载的图片
-            property var curImageSource
-            // 用于标识当前图片是否存在(被移动或删除)
-            property bool curSourceIsExist: fileControl.imageIsExist(curImageSource)
-            // 用于标识当前图片是否为空
-            property bool curSourceIsNullImage: CodeImage.imageIsNull(curImageSource)
-            // 用于标识当前图片是否可读
-            property bool curSourceIsReadalbe: fileControl.isCanReadable(curImageSource)
-            // 用于标识当前图片是否为普通静态图片
-            property bool curSourceIsNormalStaticImage: fileControl.isNormalStaticImage(curImageSource)
-            // 用于标识当前图片是否为多页图
-            property bool curSourceIsMultiImage: fileControl.isMultiImage(curImageSource)
-            // 用于标识当前图片是否为Svg图片
-            property bool curSourceIsSvgImage: fileControl.isSvgImage(curImageSource)
-            // 用于标识当前图片是否为动图
-            property bool curSourceIsDynamicImage: fileControl.isDynamicImage(curImageSource)
-
-            // 用于标识在上层 swipeView 的索引项，普通图片为缩略图栏索引，多页图为图片帧索引
-            property int swipeItemIndex
-
-            // 统一使用的缩放比例
-            property double imageScale: {
-                // 非当前图片调整
-                if ((!curSourceIsMultiImage && swipeItemIndex != view.currentIndex)
-                        || (curSourceIsMultiImage && swipeItemIndex !== imageViewer.frameIndex)) {
-                    if (window.visibility == Window.FullScreen) {
-                        return 1.0
-                    } else {
-                        return 1.0 * (window.height - titleRect.height * 2) / window.height
-                    }
-                }
-
-                return currentScale
-            }
-
-            // 图片保存完成，预览区域重新加载当前图片
-            Connections {
-                target: fileControl
-
-                // 图片被移动、替换、删除、旋转保存后触发
-                // imageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
-                onImageFileChanged: {
-                    // 多页图会变更加载的组件，在swipeView中处理
-                    if (filePath === flickableL.curImageSource) {
-                        flickableL.curImageSource = ""
-                        flickableL.curImageSource = filePath
-
-                        // 为当前展示图片
-                        if (filePath === imageViewer.source) {
-                            // 判断文件是否存在，若文件存在，则通过全局变量重新加载文件
-                            if (isExist) {
-                                imageViewer.source = ""
-                                imageViewer.source = filePath
-                            } else {
-                                // 重设当前导航及窗口状态
-                                imageViewer.frameIndex = 0
-                                idNavWidget.visible = false
-                                fitWindow()
-                            }
-                        }
-                    }
-                }
-            }
-
-            // normal image
-            Image {
-                id: showImg
-                fillMode: Image.PreserveAspectFit
-                width: parent.width
-                height: parent.height
-                source: {
-                    // 优先判断多页图，多页图使用单独的图像加载，需指定加载的图像帧号
-                    if (flickableL.curSourceIsMultiImage) {
-                        return "image://multiimage/" + flickableL.curImageSource + "#frame_" + flickableL.swipeItemIndex
-                    } else if (flickableL.curSourceIsNormalStaticImage) {
-                        return "image://viewImage/" + flickableL.curImageSource
-                    }
-                    return ""
-                }
-
-                // NormalStaticImage 包含普通图片和多页图类型
-                visible: flickableL.curSourceIsNormalStaticImage && flickableL.curSourceIsExist
-                asynchronous: true
-
-                cache: false
-                clip: true
-                scale: imageScale
-                mipmap: true
-                smooth: true
-                // 仅限普通图片进行旋转
-                rotation: currentRotate
-
-                onStatusChanged: {
-                    msArea.changeRectXY()
-
-                    if (Image.Ready === showImg.status) {
-                        onImageReady()
-                    }
-                }
-            }
-
-            // svg image
-            Image {
-                id: showSvgImg
-
-                fillMode: Image.PreserveAspectFit
-                width: parent.width
-                height: parent.height
-                source: flickableL.curSourceIsSvgImage ? flickableL.curImageSource : ""
-                visible: flickableL.curSourceIsSvgImage && flickableL.curSourceIsExist
-                asynchronous: true
-                sourceSize: Qt.size(width,height)
-                cache: false
-                clip: true
-                scale: imageScale
-                smooth: true
-                mipmap: true
-
-                onStatusChanged: {
-                    msArea.changeRectXY()
-
-                    if (Image.Ready === showSvgImg.status) {
-                        onImageReady()
-                    }
-                }
-            }
-
-            // dynamic image
-            AnimatedImage {
-                id: showAnimatedImg
-
-                fillMode: Image.PreserveAspectFit
-                width: parent.width
-                height: parent.height
-                source: flickableL.curSourceIsDynamicImage ? flickableL.curImageSource : ""
-                visible: flickableL.curSourceIsDynamicImage && flickableL.curSourceIsExist
-                asynchronous: true
-                cache: false
-                clip: true
-                scale: imageScale
-                smooth: true
-
-                onStatusChanged: {
-                    msArea.changeRectXY()
-
-                    if (Image.Ready === showAnimatedImg.status) {
-                        onImageReady()
-                    }
-                }
-            }
-
-            ActionButton {
-                id: damageIcon
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
-                icon {
-                    name: "photo_breach"
-                    width: 151
-                    height: 151
-                }
-
-                // 判断展示图片状态是否异常
-                visible: (showImg.status === Image.Error || flickableL.curSourceIsNullImage) && flickableL.curSourceIsExist && !fileControl.isAlbum()
-            }
-
-            // 相册应用内显示没有权限查看标签
-            Label {
-                id: damageLabel
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
-                text: qsTr("You have no permission to view the image")
-                visible: ((showImg.status === Image.Error)  || (flickableL.curSourceIsNullImage && flickableL.curSourceIsExist && !flickableL.curSourceIsReadalbe)) && fileControl.isAlbum()
-            }
-
-            // 图片丢失视图，当图片未发现时触发
-            Loader {
-                id: notExistImageLoader
-                anchors.centerIn: flickableL
-                // 图片不存在时加载 图片源不能为空
-                active: !flickableL.curSourceIsExist
-                        && (flickableL.curImageSource.length !== 0)
-                sourceComponent: Item {
-                    Image {
-                        id: notExistImage
-                        fillMode: Image.PreserveAspectFit
-                        anchors.centerIn: parent
-                        width: 100
-                        height: 100
-                        clip: true
-                        smooth: true
-                        mipmap: true
-
-                        // 加载缩略图
-                        source: flickableL.curSourceIsNullImage ? "qrc:/res/icon_import_photo.svg" : "image://ThumbnailImage/" + flickableL.curImageSource
-                    }
-
-                    Text {
-                        // 提示图片未找到信息
-                        id: notExistLabel
-                        anchors {
-                            top: notExistImage.bottom
-                            topMargin: 20
-                            horizontalCenter: notExistImage.horizontalCenter
-                        }
-
-                        // 图片未找到
-                        text: qsTr("Image file not found")
-                        textFormat: Text.PlainText
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                }
-            }
-
-            BusyIndicator {
-                running: true
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
-                width:48
-                height:48
-                visible: showImg.status === Image.Loading && !curSourceIsNullImage
-            }
-
-            Connections {
-                target: window
-                onSigTitlePress: {
-                    infomationDig.hide()
-                    msArea.forceActiveFocus()
-                }
-            }
-
-            MouseArea {
-                id: msArea
-                anchors.fill: parent
-
-                acceptedButtons: Qt.LeftButton | Qt.RightButton
-                drag.target: showAnimatedImg.visible ? showAnimatedImg : showImg.visible ?  showImg : showSvgImg
-                enabled : isMousePinchArea
-                function setImgPostions(x, y) {
-                    currentimgX = msArea.drag.maximumX - x * (msArea.drag.maximumX - msArea.drag.minimumX)
-                    currentimgY = msArea.drag.maximumY - y * (msArea.drag.maximumY - msArea.drag.minimumY)
-                    if (showAnimatedImg.visible) {
-                        showAnimatedImg.x = currentimgX
-                        showAnimatedImg.y = currentimgY
-                    } else if(showImg.visible) {
-                        showImg.x = currentimgX
-                        showImg.y = currentimgY
-                    } else if(showSvgImg.visible) {
-                        showSvgImg.x = currentimgX
-                        showSvgImg.y = currentimgY
-                    }
-                }
-
-                Connections {
-                    target: idNavWidget
-                    onChangeShowImgPostions: {
-                        msArea.setImgPostions(x, y)
-                    }
-                }
-
-                property int realWidth : 0
-                property int realHeight : 0
-                function changeRectXY() {
-                    // 此缩放比率只在当前显示图片使用，对于多页图，CodeImage已缓存对应的帧号
-                    readWidthHeightRatio = CodeImage.getrealWidthHeightRatio(flickableL.curImageSource)
-                    realWidth = 0;
-                    realHeight = 0;
-                    if (currentScale <= 1.0) {
-                        drag.minimumX = 0
-                        drag.minimumY = 0
-                        drag.maximumX = 0
-                        drag.maximumY = 0
-                        showAnimatedImg.x = 0;
-                        showAnimatedImg.y = 0;
-                        showImg.x = 0;
-                        showImg.y = 0;
-                        showSvgImg.x = 0;
-                        showSvgImg.y = 0;
-                    } else {
-                        if (window.width > window.height * readWidthHeightRatio){
-                            realWidth = window.height * readWidthHeightRatio
-                        }else{
-                            realWidth = window.width
-                        }
-                        if(window.height > window.width / readWidthHeightRatio){
-                            realHeight = window.width / readWidthHeightRatio
-                        }else{
-                            realHeight = window.height
-                        }
-
-                        drag.minimumX = - realWidth * (currentScale-1)/2
-                        drag.maximumX =  realWidth * (currentScale-1)/2
-                        drag.minimumY = - realHeight * (currentScale-1)/2
-                        drag.maximumY =  realHeight * (currentScale-1)/2
-                        if (realHeight * currentScale >window.height) {
-                            drag.maximumY = ( realHeight * currentScale - window.height )/2
-                            drag.minimumY = - drag.maximumY
-                        } else {
-                            drag.maximumY = 0
-                            drag.minimumY = 0
-                        }
-
-                        if (realWidth * currentScale > window.width) {
-                            drag.maximumX = ( realWidth * currentScale - window.width )/2
-                            drag.minimumX = - drag.maximumX
-                        } else {
-                            drag.maximumX = 0
-                            drag.minimumX = 0
-                        }
-
-                        // 计算显示的 显示窗口 / 图片像素 的比值
-                        viewImageWidthRatio = window.width / (realWidth * currentScale)
-                        viewImageHeightRatio = window.height / (realHeight * currentScale)
-                    }
-
-                    if (showAnimatedImg.x >= drag.maximumX) {
-                        showAnimatedImg.x = drag.maximumX
-                    }
-                    if (showAnimatedImg.x <= drag.minimumX) {
-                        showAnimatedImg.x = drag.minimumX
-                    }
-                    if (showAnimatedImg.y >= drag.maximumY) {
-                        showAnimatedImg.y = drag.maximumY
-                    }
-                    if (showAnimatedImg.y <= drag.minimumY) {
-                        showAnimatedImg.y = drag.minimumY
-                    }
-
-                    if (showImg.x >= drag.maximumX) {
-                        showImg.x = drag.maximumX
-                    }
-                    if (showImg.x <= drag.minimumX) {
-                        showImg.x = drag.minimumX
-                    }
-                    if (showImg.y >= drag.maximumY) {
-                        showImg.y = drag.maximumY
-                    }
-                    if (showImg.y <= drag.minimumY) {
-                        showImg.y = drag.minimumY
-                    }
-
-                    if (showSvgImg.x >= drag.maximumX) {
-                        showSvgImg.x = drag.maximumX
-                    }
-                    if (showSvgImg.x <= drag.minimumX) {
-                        showSvgImg.x = drag.minimumX
-                    }
-                    if (showSvgImg.y >= drag.maximumY) {
-                        showSvgImg.y = drag.maximumY
-                    }
-                    if (showSvgImg.y <= drag.minimumY) {
-                        showSvgImg.y = drag.minimumY
-                    }
-                }
-
-                Connections {
-                    target: imageViewer
-                    onSigSourceChange : {
-                        //图元位置归位
-                        showImg.x = 0
-                        showImg.y = 0
-                        showAnimatedImg.x = 0
-                        showAnimatedImg.y = 0
-                        showSvgImg.x = 0
-                        showSvgImg.y = 0
-                    }
-                }
-
-                onPressed: {
-                    infomationDig.hide()
-                    if (mouse.button === Qt.RightButton) {
-                        option_menu.popup()
-                    }
-                }
-
-                onMouseXChanged: {
-                    changeRectXY()
-                    if (showAnimatedImg.visible)
-                    {
-                        currentimgX = showAnimatedImg.x
-                    } else
-                    {
-                        currentimgX = showImg.x
-                    }
-                    //以整个图片中心为平面原点，currentimgX，currentimgY为当前视口右下角相对于整个图片的坐标，以此计算导航窗口蒙皮和位置
-                    //计算相对位置
-                    m_NavX = (drag.maximumX - currentimgX) / (drag.maximumX - drag.minimumX)
-                    m_NavY = (drag.maximumY - currentimgY) / (drag.maximumY - drag.minimumY)
-
-                    idNavWidget.setRectLocation(m_NavX, m_NavY)
-                }
-
-                onMouseYChanged: {
-                    changeRectXY()
-                    if (showAnimatedImg.visible)
-                    {
-                        currentimgY = showAnimatedImg.y
-                    } else
-                    {
-                        currentimgY = showImg.y
-                    }
-                    m_NavX = (drag.maximumX - currentimgX) / (drag.maximumX - drag.minimumX)
-                    m_NavY = (drag.maximumY - currentimgY) / (drag.maximumY - drag.minimumY)
-
-                    idNavWidget.setRectLocation(m_NavX, m_NavY)
-                }
-
-                onDoubleClicked: {
-                    if (!toolBarthumbnailListView.contains(msArea.mapToItem(toolBarthumbnailListView, mouse.x, mouse.y))) {
-                        //view.exitLiveText()
-                        infomationDig.hide()
-                        showFulltimer.start()
-                    }
-                }
-
-                onWheel: {
-                    var datla = wheel.angleDelta.y / 120
-                    // 通过Keys缓存的状态可能不准确，在焦点移出时release事件没有正确捕获，
-                    // 修改为通过当前事件传入的按键按下信息判断
-                    if (Qt.ControlModifier & wheel.modifiers)
-                        datla > 0 ? toolBarthumbnailListView.previous() : toolBarthumbnailListView.next()
-                    else {
-                        // 缓存当前的坐标信息
-                        var targetItem = drag.target
-                        var mapPoint = mapToItem(drag.target, wheel.x, wheel.y)
-
-                        if (datla > 0)
-                            currentScale = currentScale / 0.9
-                        else
-                            currentScale = currentScale * 0.9
-
-                        // 缩放后，调整图片坐标
-                        var restorePoint = mapFromItem(targetItem, mapPoint.x, mapPoint.y)
-                        targetItem.x -= restorePoint.x - wheel.x;
-                        targetItem.y -= restorePoint.y - wheel.y;
-
-                        // 调整导航窗口蒙版位置
-                        currentimgX = targetItem.x
-                        currentimgY = targetItem.y
-                        m_NavX = (drag.maximumX - currentimgX) / (drag.maximumX - drag.minimumX)
-                        m_NavY = (drag.maximumY - currentimgY) / (drag.maximumY - drag.minimumY)
-
-                        //刷新导航窗口
-                        flushNav()
-
-                        // 坐标变更边界调整计算，图片小于窗口时坐标居中
-                        changeRectXY()
-
-                        sigWheelChange()
-
-                        /*
-                        缩放计算规则：val对应的是showImg.width和showImg.height
-                        缩小：(即showImg.scale < 1)
-                            min:初始值+val*(1-showImg.scale) / 2
-                            max:初始值-val*(1-showImg.scale) / 2
-                        放大：(即showImg.scale > 1)
-                            min:初始值-val*(showImg.scale-1) / 2
-                            max:初始值+val*(showImg.scale-1) / 2
-                        */
-                    }
-                }
-            }
-
-            // 和MouseArea存在先后顺序，使用触摸时优先处理触摸事件
-            PinchArea {
-                id: imagePinchArea
-
-                // 记录旧的缩放大小，防止拖拽时未保留当前状态
-                property double oldScale: 0
-                property double oldRotate: 0
-                property bool isRotatable: false
-
-                enabled: isMousePinchArea
-                anchors.fill: showAnimatedImg.visible ? showAnimatedImg : showImg.visible ?  showImg : showSvgImg
-
-                onPinchStarted: {
-                    // 缩放和旋转都至少需要2指操作
-                    if (pinch.pointCount !== 2) {
-                        pinch.accepted = false
-                        return
-                    }
-
-                    oldScale = imageViewer.currentScale
-                    oldRotate = imageViewer.currentRotate
-                    // 不绑定信号，无需每次计算，仅当处理时获取
-                    isRotatable = fileControl.isRotatable(imageViewer.source)
-                    pinch.accepted = true
-                }
-
-                onPinchUpdated: {
-                    // 不设置边界，通过 onCurrentScaleChanged 处理限制缩放范围在 2% ~ 2000%
-                    imageViewer.currentScale = pinch.scale * oldScale
-                    msArea.changeRectXY()
-
-                    if (isRotatable) {
-                        imageViewer.currentRotate = pinch.rotation + oldRotate
-                    }
-                }
-
-                onPinchFinished: {
-                    // 更新界面缩放大小
-                    imageViewer.currentScale = pinch.scale * imagePinchArea.oldScale
-                    msArea.changeRectXY()
-
-                    // 判断当前图片是否允许旋转
-                    if (imagePinchArea.isRotatable) {
-                        // 计算旋转角度，限制在旋转梯度为90度，以45度为分界点
-                        if (Math.abs(pinch.rotation) > 45) {
-                            // 区分正反旋转方向
-                            var isClockWise = pinch.rotation > 0
-                            // 计算绝对角度值
-                            var rotateAngle = Math.floor((Math.abs(pinch.rotation) + 45) / 90) * 90;
-
-                            // 触摸旋转保存属于低频率操作，可立即保存文件
-                            fileControl.rotateFile(imageViewer.source, isClockWise ? rotateAngle : -rotateAngle)
-                            fileControl.slotRotatePixCurrent()
-                        } else {
-                            imageViewer.currentRotate = imagePinchArea.oldRotate
-                        }
-                    }
-                }
-
-                // 多点触控区域，处理触摸屏上的点击、双击、长按事件
-                MultiPointTouchArea {
-                    id: multiPointTouchArea
-
-                    // 当前实时触摸点数
-                    property int currentTouchPointsCount: 0
-                    // 判断是否允许切换标题栏和工具栏状态
-                    property bool enableSwitchState: true
-
-                    anchors.fill: parent
-                    minimumTouchPoints: 1
-                    maximumTouchPoints: 3
-                    // 仅处理触摸事件，鼠标点击事件由MouseArea处理
-                    mouseEnabled: false
-
-                    // 双击动作处理
-                    function doubleClickProcess() {
-                        view.exitLiveText()
-                        infomationDig.hide()
-                        showFulltimer.start()
-                    }
-
-                    onReleased: {
-                        // 触摸状态下，单指点击需要弹出隐藏的标题栏和工具栏(即立即显示)
-                        if (touchPoints.length === 1 && !menuHideTimer.running) {
-                            if (enableSwitchState) {
-                                // 还需要考虑全屏下处理
-                                fullThumbnail.switchTopAndBottomBarState();
-                            }
-                            // 复位状态
-                            enableSwitchState = true
-
-                            // 进行双击动作判断
-                            if (doubleClicekdTimer.running) {
-                                doubleClickProcess()
-                                doubleClicekdTimer.stop()
-                            } else {
-                                doubleClicekdTimer.restart()
-                            }
-                        }
-                    }
-
-                    // 获取当前实时触摸点数
-                    onTouchUpdated: {
-                        currentTouchPointsCount = touchPoints.length
-                    }
-
-                    // 用于记录菜单隐藏的定时器
-                    Timer {
-                        id: menuHideTimer
-
-                        running: !option_menu.visible
-                        interval: 400
-                    }
-
-                    // 双击触发定时器 双击间隔400ms内触发全屏展示
-                    Timer {
-                        id: doubleClicekdTimer
-
-                        interval: 400
-                    }
-
-                    // 长按触发定时器
-                    Timer {
-                        id: pressHoldTimer
-
-                        // 仅一个触点按下时，延时400ms触发右键菜单
-                        running: multiPointTouchArea.currentTouchPointsCount === 1
-                        interval: 400
-
-                        onTriggered: {
-                            infomationDig.hide()
-                            multiPointTouchArea.enableSwitchState = false
-                            // 弹出右键菜单
-                            option_menu.popup()
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // 多页图滑动视图组件，用于进行*.tif等多页图的滑动展示，嵌入最外层滑动视图展示
-    Component {
-        id: mulitImageSwipeViewComp
-        SwipeView {
-            id: multiImageSwipeView
-            height: view.width
-            width: view.height
-            clip: true
-            // 当处理双击缩放界面时，由于坐标变更，可能误触导致图片滑动
-            // 调整为在缩放动作时不处理滑动操作
-            interactive: !imageViewer.isFullNormalSwitchState
-
-            // 设置当前加载多页图滑动视图在完整图片滑动视图的索引(非当前全局索引，可能需要预加载)
-            property int imageIndex
-            property var multiImageSource: imageViewer.sourcePaths[imageIndex]
-
-            Repeater {
-                model: fileControl.getImageCount(multiImageSource)
-                Loader {
-                    active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
-                    sourceComponent: imageShowComp
-
-                    onLoaded: {
-                        // 使用 loader加载，手动设置图片视图的源图片路径
-                        item.curImageSource = multiImageSource
-                        item.swipeItemIndex = index
-                    }
-                }
-            }
-
-            // 存在绑定依赖，使用信号连接
-            Connections {
-                target: imageViewer
-                onFrameIndexChanged: {
-                    if (multiImageSwipeView.imageIndex == view.currentIndex) {
-                        multiImageSwipeView.currentIndex = imageViewer.frameIndex
-                    }
-                }
-            }
-
-            Connections {
-                target: view
-                onCurrentIndexChanged: {
-                    // 需要根据当前顶层滑动窗口的索引进行计算
-                    // 处于当前显示图片前一位的多页图，调整帧号为尾帧
-                    if (multiImageSwipeView.imageIndex == view.currentIndex - 1) {
-                        multiImageSwipeView.currentIndex = multiImageSwipeView.count - 1
-                    }
-                    // 处于当前显示图片后一位的多页图，调整帧号为首帧
-                    if (multiImageSwipeView.imageIndex == view.currentIndex + 1) {
-                        multiImageSwipeView.currentIndex = 0
-                    }
-                }
-            }
-
-            onCurrentIndexChanged: {
-                // 判断当前展示的是否为此多页图
-                if (multiImageSwipeView.imageIndex == view.currentIndex) {
-                    // 更新当前的多页图帧号(注意循环引用问题)
-                    imageViewer.frameIndex = multiImageSwipeView.currentIndex
-                }
-            }
-
-            // 初始打开和点击缩略图切换都不会再有滑动效果
-            Component.onCompleted: {
-                contentItem.highlightMoveDuration = 0       // 将移动时间设为0
-            }
+            var screenPos = mapToGlobal(parent.x, parent.y);
+            FileControl.showShortcutPanel(screenPos.x + parent.Window.width / 2, screenPos.y + parent.Window.height / 2);
         }
     }
 
@@ -1163,20 +288,21 @@ Rectangle {
         property int fromY: 0
         property int fromW: 0
         property int fromH: 0
+        property int nDuration: GStatus.animationDuration
         NumberAnimation {
             target: view
             properties: "x"
             from: moveCenterAnimation.fromX
             to: 0
-            duration: GStatus.animationDuration
+            duration: moveCenterAnimation.nDuration
             easing.type: Easing.OutExpo
         }
         NumberAnimation {
-            target: imageviewr
+            target: imageViewer
             property: "opacity"
             from: 0
             to: 1
-            duration: GStatus.animationDuration
+            duration: moveCenterAnimation.nDuration
             easing.type: Easing.OutExpo
         }
         NumberAnimation {
@@ -1184,15 +310,15 @@ Rectangle {
             property: "opacity"
             from: 0
             to: 1
-            duration: GStatus.animationDuration
+            duration: moveCenterAnimation.nDuration
             easing.type: Easing.OutExpo
         }
         NumberAnimation {
             target: view
             properties: "y"
             from: moveCenterAnimation.fromY
-            to: 0
-            duration: GStatus.animationDuration
+            to: 0 + GStatus.titleHeight
+            duration: moveCenterAnimation.nDuration
             easing.type: Easing.OutExpo
         }
 
@@ -1200,26 +326,27 @@ Rectangle {
             target: view
             properties: "width"
             from: moveCenterAnimation.fromW
-            to: imageviewr.width
-            duration: GStatus.animationDuration
+            to: imageViewer.width
+            duration: moveCenterAnimation.nDuration
             easing.type: Easing.OutExpo
         }
         NumberAnimation {
             target: view
             properties: "height"
             from: moveCenterAnimation.fromH
-            to: imageviewr.height
-            duration: GStatus.animationDuration
+            to: window.isFullScreen ? parent.height : (parent.height - (GStatus.titleHeight * 2))
+            duration: moveCenterAnimation.nDuration
             easing.type: Easing.OutExpo
         }
 
         onStopped: {
+            GStatus.enteringImageViewer = false
             bMoveCenterAnimationPlayed = true
         }
     }
 
     Connections {
-        target: window
+        target: GStatus
         onSigMoveCenter: {
             moveCenterAnimation.fromX = x
             moveCenterAnimation.fromY = y
@@ -1228,7 +355,6 @@ Rectangle {
             moveCenterAnimation.start()
         }
     }
-
 
     ParallelAnimation {
         id: moveToAlbumAnimation
@@ -1241,7 +367,7 @@ Rectangle {
             easing.type: Easing.OutExpo
         }
         NumberAnimation {
-            target: imageviewr
+            target: imageViewer
             property: "opacity"
             from: 1
             to: 0
@@ -1259,7 +385,7 @@ Rectangle {
         NumberAnimation {
             target: view
             properties: "y"
-            from: 0
+            from: 0 + GStatus.titleHeight
             to: moveCenterAnimation.fromY
             duration: GStatus.largeImagePreviewAnimationDuration
             easing.type: Easing.OutExpo
@@ -1268,7 +394,7 @@ Rectangle {
         NumberAnimation {
             target: view
             properties: "width"
-            from: imageviewr.width
+            from: view.width
             to: moveCenterAnimation.fromW
             duration: GStatus.largeImagePreviewAnimationDuration
             easing.type: Easing.OutExpo
@@ -1276,7 +402,7 @@ Rectangle {
         NumberAnimation {
             target: view
             properties: "height"
-            from: imageviewr.height
+            from: view.height
             to: moveCenterAnimation.fromH
             duration: GStatus.largeImagePreviewAnimationDuration
             easing.type: Easing.OutExpo
@@ -1286,146 +412,334 @@ Rectangle {
     Connections {
         target: GStatus
         onSigMoveToAlbumAnimation: {
-            // 以动画方式进入大图，返回相册时才逆向播放推出动画
+            // 以动画方式进入大图，返回相册时才逆向播放退出动画
             if (bMoveCenterAnimationPlayed) {
                 moveToAlbumAnimation.start()
                 bMoveCenterAnimationPlayed = false
             }
         }
     }
+
+    // 图片滑动视图的上层组件
+    Control {
+        id: viewBackground
+
+        anchors.fill: parent
+    }
+
     // 图片滑动视图
-    SwipeView {
+    PathView {
         id: view
-        currentIndex: sourcePaths.indexOf(source)
-        width: parent.width
-        height: parent.height
-        clip: true
-        // 当处理双击缩放界面时，由于坐标变更，可能误触导致图片滑动
-        // 调整为在缩放动作时不处理滑动操作
-        interactive: !imageViewer.isFullNormalSwitchState
 
-        // 初始打开和点击缩略图切换都不会再有滑动效果
-        Component.onCompleted: {
-            contentItem.highlightMoveDuration = 0       // 将移动时间设为0
+        // 当前展示的 Image 图片对象，空图片、错误图片、消失图片等异常为 undefined
+        // 此图片信息用于外部交互缩放、导航窗口等，已标识类型，使用 null !== currentImage 判断
+        property Image currentImage: {
+            if (view.currentItem) {
+                if (view.currentItem.item) {
+                    return view.currentItem.item.targetImage;
+                }
+            }
+            return null;
         }
+        // 用于限制拖拽方向(处于头尾时)
+        property real previousOffset: 0
 
-        Repeater {
-            model: sourcePaths.length
-            Loader {
-                id: swipeViewItemLoader
-                active: SwipeView.isCurrentItem || SwipeView.isNextItem
-                        || SwipeView.isPreviousItem
+        // WARNING: 目前 ListView 组件屏蔽输入处理，窗口拖拽依赖底层的 ApplicationWindow
+        // 因此不允许 ListView 的区域超过标题栏，图片缩放超过显示区域无妨。
+        // 显示图片上下边界距边框 50px (标题栏宽度)，若上下间隔不一致时，进行拖拽、导航定位或需减去(间隔差/2)
+        // 在全屏时无上下边框
+        //anchors.horizontalCenter: parent.horizontalCenter
+        dragMargin: width / 2
+        flickDeceleration: 500
+        focus: true
+        height: window.isFullScreen ? parent.height : (parent.height - (GStatus.titleHeight * 2))
+        // 动画过程中不允许拖拽
+        interactive: !GStatus.fullScreenAnimating && GStatus.viewInteractive && !offsetAnimation.running
+        model: GControl.viewModel
+        // 设置滑动视图的父组件以获取完整的OCR图片信息
+        parent: viewBackground
+        // PathView 的动画效果通过 Path 路径和 Item 个数及 Item 宽度共同计算
+        pathItemCount: GStatus.pathViewItemCount
+        preferredHighlightBegin: 0.5
+        preferredHighlightEnd: 0.5
+        snapMode: ListView.SnapOneItem
+        width: parent.width
+        y: Window.window.isFullScreen ? 0 : GStatus.titleHeight
 
-                // 当前item使用的图片源
-                property var curItemSource: imageViewer.sourcePaths[index]
-                // 判断图片是否存在
-                property var curItemImageExist: fileControl.imageIsExist(curItemSource)
-                // 非当前 ImageViewer 使用的标识，而是当前滑动视图 item 对应图片的信息
-                property var curItemIsMultiImage: fileControl.isMultiImage(curItemSource)
+        // 代理组件加载器
+        delegate: ViewDelegateLoader {
+        }
+        Behavior on offset {
+            id: offsetBehavior
 
-                // 根据列表索引判断是否为多页图
-                sourceComponent: (curItemIsMultiImage && curItemImageExist) ? mulitImageSwipeViewComp : imageShowComp
+            enabled: !GStatus.viewFlicking
 
-                // 静态组件source改变，对应item的source也需要跟着改变，才能成功刷新预览图内容
-                onCurItemSourceChanged: {
-                    if (curItemSource !== "" && !curItemIsMultiImage && status == Loader.Ready) {
-                        item.curImageSource = curItemSource
-                    }
-                }
+            NumberAnimation {
+                id: offsetAnimation
 
-                onLoaded: {
-                    // 为多页图且图片存在时调用
-                    if (curItemIsMultiImage && curItemImageExist) {
-                        item.imageIndex = index
-                        // 若为前后的组件且此图片组件为多页图，修改索引
-                        if (SwipeView.isPreviousItem) {
-                            item.currentIndex = item.count - 1
-                        }
-                        if (SwipeView.isNextItem) {
-                            item.currentIndex = 0
-                        }
-                    } else {
-                        // 非多页图，使用 loader 加载，设置 imageShowComp 组件的源图片路径
-                        item.swipeItemIndex = index
-                        item.curImageSource = imageViewer.sourcePaths[index]
-                    }
-                }
+                duration: GStatus.animationDefaultDuration
+                easing.type: Easing.OutExpo
 
-                // 连接图片变更信号，当图片变更且当前图片为多页图时处理
-                Connections {
-                    target: fileControl
-
-                    // 图片被移动、替换、删除时触发
-                    // void imageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
-                    onImageFileChanged: {
-                        // 判断是否和当前加载图片一致，涉及多页图才需要重新加载组件
-                        if (filePath === swipeViewItemLoader.curItemSource
-                                && (swipeViewItemLoader.curItemIsMultiImage || isMultiImage)) {
-                            swipeViewItemLoader.curItemSource = ""
-                            swipeViewItemLoader.curItemSource = filePath
-
-                            // 多页图需要特殊处理，更新源
-                            if (isExist && filePath === imageViewer.source) {
-                                imageViewer.source = ""
-                                imageViewer.source = filePath
-                            }
-                        }
-                    }
+                onRunningChanged: {
+                    // 动画结束，触发更新同步状态
+                    GControl.viewModel.syncState();
                 }
             }
         }
 
-        onCurrentIndexChanged: {
-            // 当通过界面拖拽导致索引变更，需要调整多页图索引范围
-            imageViewer.index = view.currentIndex
-            imageViewer.currentRotate = 0
+        // 注意图片路径是按照 总长 / pathItemCount 来平均计算位置的，各项间距等分
+        path: Path {
+            startX: 0
+            startY: view.height / 2
 
-            CodeImage.setReverseHeightWidth(false)
+            // 前一图片位置
+            PathLine {
+                x: view.width / 6
+                y: view.height / 2
+            }
+
+            PathAttribute {
+                name: "delegateOpacity"
+                value: 0
+            }
+
+            PathAttribute {
+                name: "delegateOffset"
+                value: -1
+            }
+
+            // 当前图片位置
+            PathLine {
+                x: view.width / 2
+                y: view.height / 2
+            }
+
+            PathAttribute {
+                name: "delegateOpacity"
+                value: 1
+            }
+
+            PathAttribute {
+                name: "delegateOffset"
+                value: 0
+            }
+
+            // 后一图片位置
+            PathLine {
+                x: view.width * 5 / 6
+                y: view.height / 2
+            }
+
+            PathAttribute {
+                name: "delegateOpacity"
+                value: 0
+            }
+
+            PathAttribute {
+                name: "delegateOffset"
+                value: 1
+            }
+
+            PathLine {
+                x: view.width
+                y: view.height / 2
+            }
         }
+
+        Component.onCompleted: {
+            // 首次进入(退出缩略图后创建)重置当前显示的索引
+            GStatus.viewFlicking = true;
+            currentIndex = GControl.viewModel.currentIndex;
+            GStatus.viewFlicking = false;
+        }
+        onCurrentIndexChanged: {
+            var curIndex = view.currentIndex;
+            var previousIndex = GControl.viewModel.currentIndex;
+            var lastIndex = view.count - 1;
+
+            // 若索引变更通过model触发，则没有必要更新
+            if (curIndex == previousIndex) {
+                return;
+            }
+
+            // 特殊场景处理，到达边界后循环显示图片
+            if (0 === curIndex && previousIndex === lastIndex) {
+                GControl.nextImage();
+                return;
+            }
+            if (curIndex === lastIndex && 0 === previousIndex) {
+                GControl.previousImage();
+                return;
+            }
+
+            // 当通过界面拖拽导致索引变更，需要调整多页图索引范围
+            if (view.currentIndex < previousIndex) {
+                GControl.previousImage();
+            } else if (view.currentIndex > previousIndex) {
+                GControl.nextImage();
+            }
+        }
+        onMovementEnded: {
+            GStatus.viewFlicking = false;
+        }
+        onMovementStarted: {
+            GStatus.viewFlicking = true;
+            previousOffset = offset;
+        }
+
+        Connections {
+            // 模型的索引变更时(缩略图栏点击)触发图片切换的动画效果
+            function onCurrentIndexChanged(index) {
+                if (view.currentIndex === index) {
+                    return;
+                }
+
+                /*  NOTE: 由于 PathView 循环显示的特殊性，index 递增，而 offset 递减(index + offset = count)
+                    以 count = 5 为例， 在边界 (index 0->4 4->0 0->1) 场景会出现跳变现象
+                    index 0 -> 1 对应的 offset 是 0 -> 4 ，实际动画会经过 index 0 4 3 2 1
+
+                    此问题可以通过对场景特殊判断处理，但是动画过程中的 offset 不定，需要结束之前动画后再调整
+                */
+                if (offsetAnimation.running) {
+                    var targetValue = offsetBehavior.targetValue;
+                    offsetAnimation.complete();
+                    GStatus.viewFlicking = true;
+                    view.offset = targetValue;
+                    GStatus.viewFlicking = false;
+                }
+
+                // 计算相对距离，调整 offset 以触发动画效果
+                var distance = Math.abs(view.currentIndex - index);
+                if (distance !== 1 && distance !== view.count - 1) {
+                    // 动画处理
+                    view.currentIndex = index;
+                    return;
+                }
+                var lastIndex = view.count - 1;
+
+                // 调整 offset 进行坐标偏移
+                var oldOffset = view.offset;
+                var newOffset = (view.count - index);
+                if (view.currentIndex === 0 && 1 === index) {
+                    GStatus.viewFlicking = true;
+                    view.offset = view.count - 0.00001;
+                    GStatus.viewFlicking = false;
+                } else if (view.currentIndex === lastIndex && 0 === index) {
+                    newOffset = 0;
+                }
+                view.offset = newOffset;
+            }
+
+            target: GControl.viewModel
+        }
+
+        IV.PathViewRangeHandler {
+            enableBackward: GControl.hasNextImage
+            enableForward: GControl.hasPreviousImage
+            target: view
+        }
+    }
+
+    IV.ImageInfo {
+        id: currentImageInfo
+
+        frameIndex: GControl.currentFrameIndex
+        source: GControl.currentSource
     }
 
     //rename窗口
     ReName {
         id: renamedialog
+
     }
 
-    //info的窗口
-    InfomationDialog {
+    // 右键菜单
+    ViewRightMenu {
+        id: rightMenu
 
+        // 拷贝快捷键冲突：选中实况文本时，屏蔽拷贝图片的快捷键
+        copyableConfig: /*!ltw.currentHasSelect*/true
+
+        // 菜单销毁后也需要发送信号，否则可能未正常送达
+        Component.onDestruction: {
+            GStatus.showRightMenu = false;
+        }
+        onClosed: {
+            GStatus.showRightMenu = false;
+            imageViewer.forceActiveFocus();
+        }
+
+        Connections {
+            function onShowRightMenuChanged() {
+                if (GStatus.showRightMenu) {
+                    rightMenu.popup(CursorTool.currentCursorPos());
+                    rightMenu.focus = true;
+
+                    // 关闭详细信息弹窗
+                    GStatus.showImageInfo = false;
+                }
+            }
+
+            target: GStatus
+        }
+    }
+
+    // 图片信息窗口
+    Loader {
         id: infomationDig
-        filePath: imageViewer.source // 使用属性绑定来设置informationDialog要展示的文件路径
-    }
 
-    //export窗口
-    ExportDialog {
-        id: exportdig
+        function show() {
+            GStatus.showImageInfo = true;
+        }
+
+        active: GStatus.showImageInfo
+        asynchronous: true
+
+        // 图片属性信息窗口
+        sourceComponent: InformationDialog {
+        }
     }
 
     //导航窗口
-    NavigationWidget {
-        id : idNavWidget
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 109
-        anchors.left: parent.left
-        anchors.leftMargin: 15
-        visible: false
-    }
+    Loader {
+        id: naviLoader
 
-    onHeightChanged: {
-        if(window.height <= GStatus.minHideHeight){
-            idNavWidget.visible = false
+        // 导航窗口是否显示
+        property bool expectShow: GStatus.enableNavigation && (null !== targetImage) && (targetImage.scale > 1)
+
+        height: 112
+        width: 150
+
+        sourceComponent: NavigationWidget {
+            // 根据当前缩放动画预期的缩放比例调整导航窗口是否提前触发隐藏
+            prefferHide: {
+                if (imageAnimation.running) {
+                    return imageAnimation.prefferImageScale <= 1;
+                }
+                return false;
+            }
+            targetImage: view.currentImage
+            // 默认位置，窗体底部
+            y: naviLoader.height + 70
+
+            // 长时间隐藏，请求释放导航窗口
+            onRequestRelease: {
+                naviLoader.active = false;
+            }
         }
-    }
 
-    onWidthChanged: {
-        if( window.width <= GStatus.minWidth){
-            idNavWidget.visible = false
+        // 仅控制弹出显示导航窗口
+        onExpectShowChanged: {
+            if (expectShow) {
+                active = true;
+            }
         }
-    }
 
-    // 导航窗口显示配置变更时触发
-    onIsNavShowChanged: {
-        // 保存设置信息
-        fileControl.setEnableNavigation(isNavShow)
+        anchors {
+            bottom: parent.bottom
+            bottomMargin: 109
+            left: parent.left
+            leftMargin: 15
+        }
     }
 }

@@ -55,7 +55,7 @@ Item {
         cacheBuffer: 200
 
         // 根据当前多页图页数设置
-        model: fileControl.getImageCount(source)
+        model: FileControl.getImageCount(source)
         // 子图片项
         delegate: Item {
             id: delegateItem

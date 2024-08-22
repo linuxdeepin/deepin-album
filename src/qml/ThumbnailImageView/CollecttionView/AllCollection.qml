@@ -149,7 +149,7 @@ SwitchViewAnimation {
         }
     }
 
-    ThumbnailListView2 {
+    ThumbnailListViewAlbum {
         id: theView
         anchors {
             top: allCollectionTitleRect.bottom
@@ -194,8 +194,10 @@ SwitchViewAnimation {
     onVisibleChanged: {
         // 窗口显示时，重置显示内容
         if (visible) {
-            if (!GStatus.loading && !GStatus.backingToMainAlbumView)
+            if (!GStatus.loading && !GStatus.backingToMainAlbumView) {
+                flushAllCollectionView()
                 showAnimation.start()
+            }
         }
     }
 

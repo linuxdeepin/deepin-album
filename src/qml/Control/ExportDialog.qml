@@ -286,7 +286,7 @@ DialogWindow {
     onVisibleChanged: {
         // 窗口显示时，重置显示内容
         if (visible) {
-            nameedit.text = fileControl.slotGetFileName(filePath)
+            nameedit.text = FileControl.slotGetFileName(filePath)
             piczSlider.value = 100
         }
 

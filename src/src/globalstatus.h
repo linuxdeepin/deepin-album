@@ -24,6 +24,8 @@ class GlobalStatus : public QObject
     Q_PROPERTY(int switchImageHotspotWidth READ switchImageHotspotWidth CONSTANT)
     Q_PROPERTY(int actionMargin READ actionMargin CONSTANT)
     Q_PROPERTY(int rightMenuItemHeight READ rightMenuItemHeight CONSTANT)
+    Q_PROPERTY(double animationDefaultDuration READ animationDefaultDuration CONSTANT)
+    Q_PROPERTY(int pathViewItemCount READ pathViewItemCount CONSTANT)
 
     Q_PROPERTY(int rightMenuSeparatorHeight READ rightMenuSeparatorHeight CONSTANT)
     Q_PROPERTY(int needHideSideBarWidth READ needHideSideBarWidth CONSTANT)
@@ -40,7 +42,7 @@ class GlobalStatus : public QObject
 
 public:
     explicit GlobalStatus(QObject *parent = nullptr);
-    ~GlobalStatus() override;    
+    ~GlobalStatus() override;
 
     // 切换全屏显示图片 (ImageViewer)
     Q_PROPERTY(bool showFullScreen READ showFullScreen WRITE setShowFullScreen NOTIFY showFullScreenChanged)
@@ -250,6 +252,12 @@ public:
     Q_SIGNAL void enableFadeInoutAnimationChanged();
 
     // 从大图返回到相册
+    Q_PROPERTY(bool enteringImageViewer READ enteringImageViewer WRITE setEnteringImageViewer NOTIFY enteringImageViewerChanged)
+    bool enteringImageViewer() const;
+    void setEnteringImageViewer(const bool& value);
+    Q_SIGNAL void enteringImageViewerChanged();
+
+    // 从大图返回到相册
     Q_PROPERTY(bool backingToMainAlbumView READ backingToMainAlbumView WRITE setBackingToMainAlbumView NOTIFY backingToMainAlbumViewChanged)
     bool backingToMainAlbumView() const;
     void setBackingToMainAlbumView(const bool& value);
@@ -269,6 +277,10 @@ public:
     int switchImageHotspotWidth() const;
     int actionMargin() const;
     int rightMenuItemHeight() const;
+
+    double animationDefaultDuration() const;
+    int pathViewItemCount() const;
+
     int rightMenuSeparatorHeight() const;
 
     int needHideSideBarWidth() const;
@@ -296,6 +308,8 @@ Q_SIGNALS:
     void sigSelectAll(bool bSel);
     void sigPageUp();
     void sigPageDown();
+    void sigMoveCenter(int x, int y, int w, int h);
+    void sigShowToolBar();
     void sigMoveToAlbumAnimation();
 
 private:
@@ -313,7 +327,6 @@ private:
     int storethumbnailVaildWidth = 0;
     bool storeshowExportDialog = false;
     Types::StackPage storestackPage = Types::OpenImagePage;
-
 
     // 相册相关成员变量
     qreal m_sideBar_X = 0;
@@ -345,7 +358,8 @@ private:
 
     bool m_bEnableRatioAnimation = false;       // 比例切换动画使能标识
     bool m_bEnableFadeInoutAnimation = false;   // 淡入淡出动画使能标识
-    bool m_bBackingToMainAlbumView = false;
+    bool m_bEnteringImageViewer = false;        // 相册进入看图
+    bool m_bBackingToMainAlbumView = false;     // 正常看图返回相册界面
     int m_nAnimationDuration = 400;             // 动画持续时间
     int m_nLargeImagePreviewAnimationDuration = 800; // 大图预览动画持续时间
     FileControl* m_fileControl { nullptr };

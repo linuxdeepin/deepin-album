@@ -7,109 +7,149 @@ import QtQuick.Controls 2.0
 import QtQuick.Window 2.10
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.11
-
-import org.deepin.dtk 1.0 as D
 import org.deepin.dtk 1.0
+import org.deepin.image.viewer 1.0 as IV
 
 DialogWindow {
     id: renamedialog
-    modality: Qt.WindowModal
-    flags: Qt.Window | Qt.WindowCloseButtonHint | Qt.WindowStaysOnTopHint
-    title: " "
-    visible: false
 
-    minimumWidth: 400
-    maximumWidth: 400
-    minimumHeight: 180
-    maximumHeight: 180
+    property string filesuffix: ".jpg"
 
-    width: 400
-    height: 180
-
-    icon : "deepin-image-viewer"
-
-    function getFileName(name) {
-        nameedit.text = name
+    function renameFile() {
+        FileControl.slotFileReName(nameedit.text, GControl.currentSource);
+        renamedialog.visible = false;
     }
 
-    function getFileSuffix(suffix) {
-        filesuffix.text = suffix
+    function setFileName(name) {
+        nameedit.text = name;
+    }
+
+    function setFileSuffix(suffix) {
+        filesuffix = suffix;
+    }
+
+    flags: Qt.Window | Qt.WindowCloseButtonHint | Qt.WindowStaysOnTopHint
+    height: 180
+    maximumHeight: 180
+    maximumWidth: 400
+    minimumHeight: 180
+    minimumWidth: 400
+    modality: Qt.WindowModal
+    visible: false
+    width: 400
+
+    // 调整默认的 titlebar
+    header: DialogTitleBar {
+        // BugFix: 暂时屏蔽 Blur 效果，待 DTK 修复 D.InWindowBlur 后恢复
+        enableInWindowBlendBlur: false
+        // 仅保留默认状态，否则 hover 上会有变化效果
+        icon.mode: DTK.NormalState
+        icon.name: "deepin-image-viewer"
+    }
+
+    onVisibleChanged: {
+        if (visible) {
+            setFileName(FileControl.slotGetFileName(GControl.currentSource));
+            setFileSuffix(FileControl.slotFileSuffix(GControl.currentSource));
+            setX(window.x + window.width / 2 - width / 2);
+            setY(window.y + window.height / 2 - height / 2);
+        }
     }
 
     Text {
         id: renametitle
-        width: 308
-        height: 24
-        anchors.left: parent.left
-        anchors.leftMargin: 46
-        anchors.top: parent.top
+
+        property Palette textColor: Palette {
+            normal: ("black")
+            normalDark: ("white")
+        }
+
+        color: ColorSelector.textColor
         font.pixelSize: 16
-        //text: qsTr("Input a new name")
-        verticalAlignment: Text.AlignBottom
+        height: 24
         horizontalAlignment: Text.AlignHCenter
+        text: qsTr("Input a new name")
+        textFormat: Text.PlainText
+        verticalAlignment: Text.AlignBottom
+        width: 308
+
+        anchors {
+            left: parent.left
+            leftMargin: 46
+            top: parent.top
+        }
     }
 
     LineEdit {
         id: nameedit
-        anchors.top: renametitle.bottom
-        anchors.topMargin: 16
-        anchors.left: parent.left
-        width: 380
-        height: 36
-        font: DTK.fontManager.t5
-        focus: true
-        maximumLength: 255-filesuffix.text.length
-        validator: RegExpValidator {regExp: /^[^ \\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/ }
-        selectByMouse: true
+
         alertText: qsTr("The file already exists, please use another name")
-        showAlert: fileControl.isShowToolTip(source,nameedit.text)
+        focus: true
+        font: DTK.fontManager.t5
+        height: 36
+        maximumLength: 255 - filesuffix.length
+        selectByMouse: true
+        showAlert: FileControl.isShowToolTip(GControl.currentSource, nameedit.text)
+        width: 380
+
+        validator: RegExpValidator {
+            regExp: /^[^ \\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/
+        }
+
+        Keys.onPressed: {
+            switch (event.key) {
+            case Qt.Key_Return:
+            case Qt.Key_Enter:
+                renameFile();
+                break;
+            case Qt.Key_Escape:
+                renamedialog.visible = false;
+                break;
+            default:
+                break;
+            }
+        }
+
+        anchors {
+            top: renametitle.bottom
+            topMargin: 16
+        }
     }
 
-    Text {
-        id: filesuffix
-        font.pixelSize: 16
-        text: ".jpg"
-        visible: false
+    RecommandButton {
+        id: enterbtn
+
+        enabled: !FileControl.isShowToolTip(GControl.currentSource, nameedit.text) && nameedit.text.length > 0
+        height: 36
+        text: qsTr("Confirm")
+        width: 185
+
+        onClicked: {
+            renameFile();
+        }
+
+        anchors {
+            right: nameedit.right
+            top: nameedit.bottom
+            topMargin: 10
+        }
     }
 
     Button {
         id: cancelbtn
-        anchors.top: nameedit.bottom
-        anchors.topMargin: 10
-        anchors.right: nameedit.right
+
+        height: 36
         text: qsTr("Cancel")
         width: 185
-        height: 36
-        font.pixelSize: 16
-        onClicked: {
-            renamedialog.visible = false
-        }
-    }
-
-    Button {
-        id: enterbtn
-        anchors.top: nameedit.bottom
-        anchors.topMargin: 10
-        anchors.left: nameedit.left
-        text: qsTr("Confirm")
-        enabled: !fileControl.isShowToolTip(source,nameedit.text) && nameedit.text.length > 0
-        width: 185
-        height: 36
 
         onClicked: {
-            var name = nameedit.text
-            //bool返回值判断是否成功
-            if (fileControl.slotFileReName(name, source)) {
-                sourcePaths=fileControl.renameOne(sourcePaths, source, fileControl.getNamePath(source, name))
-                source=fileControl.getNamePath(source, name)
-            }
-            renamedialog.visible = false
+            renamedialog.visible = false;
         }
-    }
 
-    onVisibleChanged: {
-        console.log(width)
-        setX(window.x  + window.width / 2 - width / 2)
-        setY(window.y  + window.height / 2 - height / 2)
+        anchors {
+            left: nameedit.left
+            top: nameedit.bottom
+            topMargin: 10
+        }
     }
 }

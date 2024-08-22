@@ -1,5 +1,4 @@
-// Copyright (C) 2020 ~ 2020 Deepin Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -20,16 +19,12 @@ ApplicationWindow {
 
     property bool isFullScreen: window.visibility === Window.FullScreen
 
-    GlobalVar{
-        id: global
-    }
-    MenuItemStates {
-        id: menuItemStates
-    }
-
     signal sigTitlePress
-    signal sigShowToolBar()
-    signal sigMoveCenter(int x, int y, int w, int h)
+
+    // Bug fix: 使用 ListView 替换 PathView 时，出现内部的 mouseArea 鼠标操作会被 DWindow 截取
+    // 导致 flicking 时拖动窗口，此处使用此标志禁用此行为
+    DWindow.enableSystemMove: !GStatus.viewFlicking
+
     // 设置 dtk 风格窗口
     DWindow.enabled: true
     DWindow.alphaBufferSize: 8
@@ -88,8 +83,8 @@ ApplicationWindow {
     visible: true
     minimumHeight: GStatus.minHeight
     minimumWidth: GStatus.minWidth
-    width: fileControl.getlastWidth()
-    height: fileControl.getlastHeight()
+    width: FileControl.getlastWidth()
+    height: FileControl.getlastHeight()
 
     flags: Qt.Window | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
     Component.onCompleted: {
@@ -109,7 +104,7 @@ ApplicationWindow {
 
     onWidthChanged: {
         if(window.visibility!=Window.FullScreen && window.visibility !=Window.Maximized){
-            fileControl.setSettingWidth(width)
+            FileControl.setSettingWidth(width)
         }
 
         GStatus.enableRatioAnimation = false
@@ -117,16 +112,22 @@ ApplicationWindow {
 
     onHeightChanged: {
         if(window.visibility!=Window.FullScreen &&window.visibility!=Window.Maximized){
-            fileControl.setSettingHeight(height)
+            FileControl.setSettingHeight(height)
         }
     }
 
     //关闭的时候保存信息
     onClosing: {
-        fileControl.saveSetting()
-        fileControl.terminateShortcutPanelProcess() //结束快捷键面板进程
+        FileControl.saveSetting()
+        FileControl.terminateShortcutPanelProcess() //结束快捷键面板进程
     }
 
+    GlobalVar{
+        id: global
+    }
+    MenuItemStates {
+        id: menuItemStates
+    }
     FileDialog {
         id: importDialog
         title: qsTr("All photos and videos")
@@ -153,5 +154,13 @@ ApplicationWindow {
         onSigActiveApplicationWindow: {
             window.requestActivate()
         }
+    }
+
+    Connections {
+        function onCurrentSourceChanged() {
+            window.title = FileControl.slotGetFileName(GControl.currentSource) + FileControl.slotFileSuffix(GControl.currentSource);
+        }
+
+        target: GControl
     }
 }

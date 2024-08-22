@@ -17,6 +17,9 @@ static const int sc_SwitchImageHotspotWidth = 100;  // 左右切换图片按钮�
 static const int sc_ActionMargin = 9;               // 应用图标距离顶栏
 static const int sc_RightMenuItemHeight = 32;       // 右键菜单item的高度
 
+static const double sc_AnimationDefaultDuration = 366;  // 默认动画时长
+static const int sc_PathViewItemCount = 3;              // 默认 PathView 在路径中的 Item 计数
+
 // 相册相关状态变量
 static const int sc_RightMenuSeparatorHeight = 12;   // 右键菜单分割层的高度
 static const int sc_NeedHideSideBarWidth = 783;      // 需要隐藏侧边栏的时，主界面宽度
@@ -41,7 +44,7 @@ GlobalStatus::GlobalStatus(QObject *parent)
     initConnect();
 }
 
-GlobalStatus::~GlobalStatus() {}
+GlobalStatus::~GlobalStatus() { }
 
 /**
    @return 返回是否全屏显示图片
@@ -296,6 +299,20 @@ int GlobalStatus::rightMenuItemHeight() const
     return sc_RightMenuItemHeight;
 }
 
+double GlobalStatus::animationDefaultDuration() const
+{
+    return sc_AnimationDefaultDuration;
+}
+
+/**
+   @brief 默认 PathView 在路径中的 Item 计数
+   @note 会影响 PathView 相关的动画效果计算，修改此值需慎重考虑
+ */
+int GlobalStatus::pathViewItemCount() const
+{
+    return sc_PathViewItemCount;
+}
+
 void GlobalStatus::setFileControl(FileControl *fc)
 {
     m_fileControl = fc;
@@ -309,7 +326,7 @@ void GlobalStatus::setFileControl(FileControl *fc)
         m_nAnimationDuration = 400;
     m_nLargeImagePreviewAnimationDuration = m_fileControl->getConfigValue("", "largeImagePreviewAnimationDuration", 800).toInt(&bRet);
     if (!bRet)
-        m_nLargeImagePreviewAnimationDuration = 400;
+        m_nLargeImagePreviewAnimationDuration = 800;
 }
 
 int GlobalStatus::rightMenuSeparatorHeight() const
@@ -435,6 +452,7 @@ void GlobalStatus::setCurrentViewType(const Types::ThumbnailViewType &value)
         m_currentViewType = value;
 
         setEnableRatioAnimation(false);
+        setBackingToMainAlbumView(false);
         // 若相册数据库没有图片资源，则调整显示“没有图片“提示视图
         if (AlbumControl::instance()->getAllCount() <= 0) {
             switch (value) {
@@ -464,6 +482,7 @@ void GlobalStatus::setCurrentCollecttionViewIndex(const int &value)
     if (m_currentCollecttionViewIndex != value) {
         m_currentCollecttionViewIndex = value;
         setEnableRatioAnimation(false);
+        setBackingToMainAlbumView(false);
         Q_EMIT currentCollecttionViewIndexChanged();
     }
 }
@@ -489,6 +508,7 @@ int GlobalStatus::currentCustomAlbumUId() const
 void GlobalStatus::setCurrentCustomAlbumUId(const int &value)
 {
     if (m_currentCustomAlbumUId != value) {
+        setBackingToMainAlbumView(false);
         m_currentCustomAlbumUId = value;
         Q_EMIT currentCustomAlbumUIdChanged();
     }
@@ -506,6 +526,8 @@ void GlobalStatus::setStackControlCurrent(const int &value)
         if (m_stackControlCurrent != 0 && value == 0) {
             setBackingToMainAlbumView(true);
             Q_EMIT sigMoveToAlbumAnimation();
+        } else {
+            setBackingToMainAlbumView(false);
         }
         m_stackControlCurrent = value;
         Q_EMIT stackControlCurrentChanged();
@@ -701,6 +723,19 @@ void GlobalStatus::setEnableFadeInoutAnimation(const bool &value)
     if (m_bEnableFadeInoutAnimation != value) {
         m_bEnableFadeInoutAnimation = value;
         Q_EMIT enableFadeInoutAnimationChanged();
+    }
+}
+
+bool GlobalStatus::enteringImageViewer() const
+{
+    return m_bEnteringImageViewer;
+}
+
+void GlobalStatus::setEnteringImageViewer(const bool &value)
+{
+    if (m_bEnteringImageViewer != value) {
+        m_bEnteringImageViewer = value;
+        Q_EMIT enteringImageViewerChanged();
     }
 }
 

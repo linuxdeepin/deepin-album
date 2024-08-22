@@ -160,11 +160,11 @@ FadeInoutAnimation {
 
         onSliderValueChanged: {
             GStatus.thumbnailSizeLevel = sliderValue
-            fileControl.setConfigValue("", "album-zoomratio", sliderValue)
+            FileControl.setConfigValue("", "album-zoomratio", sliderValue)
         }
 
         Component.onCompleted: {
-            var oldSliderValue = Number(fileControl.getConfigValue("", "album-zoomratio", 4))
+            var oldSliderValue = Number(FileControl.getConfigValue("", "album-zoomratio", 4))
             setSliderWidgetValue(oldSliderValue)
             GStatus.thumbnailSizeLevel = oldSliderValue
         }
@@ -199,7 +199,7 @@ FadeInoutAnimation {
         onEntered: {
             if(drag.hasUrls) {
                 var urls = drag.urls
-                if(fileControl.checkMimeUrls(urls)) {
+                if(FileControl.checkMimeUrls(urls)) {
                     if (GStatus.currentViewType === Album.Types.ViewCustomAlbum) {
                         // 仅自定义相册允许拖拽导入
                         drag.accepted = albumControl.isCustomAlbum(GStatus.currentCustomAlbumUId)
@@ -220,7 +220,23 @@ FadeInoutAnimation {
     }
 
     Connections {
+        // 关联外部通过 DBus 等方式触发调用相册
+        function onOpenImageFile(fileName) {
+            var paths = []
+            paths.push(fileName)
+            openAndImportImages(paths)
+        }
+
+        target: FileControl
+    }
+
+    Connections {
         target: albumControl
+        // 接收外部应用打开信号
+        onSigOpenImageFromFiles: {
+            openAndImportImages(paths)
+        }
+
         //收到导入开始消息
         onSigImportStart: {
             idStandardProgressDialog.clear()
@@ -261,5 +277,40 @@ FadeInoutAnimation {
             if (urls.length === 0)
                 DTK.sendMessage(stackControl, qsTr("Import failed"), "warning")
         }
+    }
+
+    //打开看图查看图片
+    function openAndImportImages(paths) {
+        if (paths.length === 0)
+            return
+
+        var tempPath = ""
+
+        if (paths.length > 0)
+            tempPath = paths[0]
+
+        if(paths.length > 0 && tempPath !== ""){
+            if (FileControl.isVideo(tempPath)){
+                window.title = ""
+                //TODO： V20右键打开视频文件，不会调影院播放，因此该功能同步V20，若V23要求使用影院播放，放开下面代码即可
+                //albumControl.openDeepinMovie(tempPath)
+            } else if (FileControl.isImage(tempPath)){
+                GControl.setImageFiles(paths, tempPath)
+                mainStack.switchImageView()
+                GStatus.stackControlCurrent = 1
+            }
+        }
+
+        // 若在文管菜单使用相册打开图片文件，并且数据库中未导入该图片，应该将选择的图片导入相册中
+        if (tempPath !== "" && !albumControl.checkRepeatUrls(albumControl.getAllUrlPaths(), paths, false)) {
+            albumControl.importAllImagesAndVideos(paths)
+        }
+    }
+
+    Component.onCompleted: {
+        var tempPaths = []
+        tempPaths = FileControl.parseCommandlineGetPaths()
+
+        openAndImportImages(tempPaths)
     }
 }

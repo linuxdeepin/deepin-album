@@ -3,211 +3,360 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick 2.0
+import QtQml 2.11
 import QtQuick.Window 2.11
 import QtQuick.Controls 2.4
 import QtQuick.Controls.Styles 1.2
 import QtGraphicalEffects 1.0
+import org.deepin.image.viewer 1.0 as IV
 
-Rectangle {
-    id: idNavigationwidget
-    width: 150
-    height: 112
-    clip: true
-    radius: 10
+Item {
+    id: navigation
 
-    // 使用浮点，避免精度丢失导致拖拽边界有细微偏差
-    property real imgLeft : 0
-    property real imgTop: 0
-    property real imgRight: 0
+    property bool enableRefresh: true
+    property bool imageNeedNavi: false
     property real imgBottom: 0
+    // 使用浮点，避免精度丢失导致拖拽边界有细微偏差
+    property real imgLeft: 0
+    property real imgRight: 0
+    property real imgTop: 0
+    // 用于动画控制，预期的隐藏动作(用于触发缩放动效时同步导航窗口的处理)
+    property real prefferHide: 0
+    // 期望是否显示，同时控制动画效果
+    property bool prefferVisible: GStatus.enableNavigation && imageNeedNavi
+    // 指向的图片对象
+    property Image targetImage
 
-    signal changeShowImgPostions(var x, var y)
+    // 请求释放信号，长时间不使用的导航窗口将请求销毁
+    signal requestRelease
 
-    // 初始状态以中心向两边延展
-    function setRectPec(scale, viewWidthRatio, viewHeightRatio) {
-        if(scale <= 1)
-            return
+    function refreshNaviMask() {
+        if (enableRefresh) {
+            delayRefreshTimer.start();
+        }
+    }
 
-        // 需要计算viewport矩形在图片上的映射，再投影到蒙皮上
-        // 取得原始图片调整后的大小
-        var imgw = 0
-        var imgh = 0
-        var ratio = idcurrentImg.sourceSize.width / idcurrentImg.sourceSize.height
-        if (idcurrentImg.sourceSize.width < idcurrentImg.sourceSize.height) {
-            imgw = ratio * idNavigationwidget.height
-            imgh = idNavigationwidget.height
-        } else {
-            imgw = idNavigationwidget.width
-            imgh = idNavigationwidget.width / ratio
+    function refreshNaviMaskImpl() {
+        if (!targetImage) {
+            imageNeedNavi = false;
+            return;
+        }
+        // 预期的缩放比例小于1时不进行显示
+        if (prefferHide) {
+            imageNeedNavi = false;
+            return;
         }
 
-        // 调整蒙皮大小为图片相较显示区域的大小
-        idrectArea.width = viewWidthRatio < 1 ? imgw * viewWidthRatio : imgw
-        idrectArea.height = viewHeightRatio < 1 ? imgh * viewHeightRatio: imgh
+        // 窗口小于最小尺寸时导航功能不可用
+        if (!(window.height > GStatus.minHideHeight && window.width > GStatus.minWidth)) {
+            imageNeedNavi = false;
+            return;
+        }
 
-        idrectArea.x = (idNavigationwidget.width - idrectArea.width) / 2
-        idrectArea.y = (idNavigationwidget.height - idrectArea.height) / 2
+        // 图片实际绘制大小
+        var paintedWidth = targetImage.paintedWidth * targetImage.scale;
+        var paintedHeight = targetImage.paintedHeight * targetImage.scale;
+        // 绘制区域未超过窗口显示区域
+        if (paintedWidth <= Window.width && paintedHeight <= Window.height) {
+            imageNeedNavi = false;
+            return;
+        }
+        imageNeedNavi = true;
 
-        // 记录图片显示区域位置信息
-        imgLeft = (idNavigationwidget.width - imgw) / 2
-        imgTop = (idNavigationwidget.height - imgh) / 2
-        imgRight = imgLeft + imgw
-        imgBottom = imgTop + imgh
+        // 获取横坐标偏移及宽度
+        var xOffset = (currentImage.width - currentImage.paintedWidth) / 2;
+        if (paintedWidth < Window.width) {
+            maskArea.x = xOffset;
+            maskArea.width = currentImage.paintedWidth;
+        } else {
+            // 图片显示宽度 + 超过窗口的图片宽度偏移量
+            var expandWidth = paintedWidth - Window.width;
+            var xRatio = ((expandWidth / 2) - targetImage.x) / paintedWidth;
+            maskArea.x = xOffset + currentImage.paintedWidth * xRatio;
+            var widthRatio = Window.width / paintedWidth;
+            maskArea.width = currentImage.paintedWidth * widthRatio;
+        }
+        var yOffset = (currentImage.height - currentImage.paintedHeight) / 2;
+        if (paintedHeight < Window.height) {
+            maskArea.y = yOffset;
+            maskArea.height = currentImage.paintedHeight;
+        } else {
+            var expandHeight = paintedHeight - Window.height;
+            var yRatio = ((expandHeight / 2) - targetImage.y) / paintedHeight;
+            maskArea.y = yOffset + currentImage.paintedHeight * yRatio;
+            var heightRatio = Window.height / paintedHeight;
+            maskArea.height = currentImage.paintedHeight * heightRatio;
+        }
     }
 
-    //计算蒙皮位置
-    function setRectLocation(xRatio, yRatio) {
-        // 根据可移动区域计算变更的 X,Y值
-        var xOffset = xRatio * (imgRight - imgLeft - idrectArea.width)
-        idrectArea.x = xOffset + imgLeft
-        var yOffset = yRatio * (imgBottom - imgTop - idrectArea.height)
-        idrectArea.y = yOffset + imgTop
+    function updateImagePositionBasedOnMask() {
+        enableRefresh = false;
+
+        // 根据按键位置更新图片展示区域
+        var xOffset = maskArea.x - imgLeft;
+        var yOffset = maskArea.y - imgTop;
+        // 按当前蒙皮位置映射图片位置
+        var xRatio = xOffset / currentImage.paintedWidth;
+        var yRatio = yOffset / currentImage.paintedHeight;
+
+        // 图片实际绘制大小
+        var paintedWidth = targetImage.paintedWidth * targetImage.scale;
+        var paintedHeight = targetImage.paintedHeight * targetImage.scale;
+        if (paintedWidth < Window.width) {
+            targetImage.x = 0;
+        } else {
+            // 取得比例相对偏移位置 - 超过窗口的图片显示宽度
+            var imageXOffset = (paintedWidth - Window.width) / 2;
+            targetImage.x = imageXOffset - paintedWidth * xRatio;
+        }
+        if (paintedHeight < Window.height) {
+            targetImage.y = 0;
+        } else {
+            var imageYOffset = (paintedHeight - Window.height) / 2;
+            targetImage.y = imageYOffset - paintedHeight * yRatio;
+        }
+        enableRefresh = true;
     }
 
-    //背景图片绘制区域
+    // 默认属性为 hide 状态，切换显示状态时将自动动画，Y轴坐标由外部设置
+
+    height: 112
+    opacity: 0.3
+    scale: 0.3
+    visible: false
+    width: 150
+
+    states: [
+        State {
+            name: "show"
+            when: prefferVisible
+
+            PropertyChanges {
+                opacity: 1
+                scale: 1
+                target: navigation
+                x: 0
+                y: 0
+            }
+        }
+    ]
+    transitions: Transition {
+        id: animtionTrans
+
+        reversible: true
+        to: "show"
+
+        onRunningChanged: {
+            if (running) {
+                visible = true;
+            } else {
+                // 动画结束再隐藏
+                visible = prefferVisible;
+            }
+
+            // 隐藏的导航窗口在一段时间后释放
+            if (!visible) {
+                delayReleaseTimer.restart();
+            } else {
+                delayReleaseTimer.stop();
+            }
+        }
+
+        NumberAnimation {
+            duration: 366
+            easing.type: Easing.OutExpo
+            properties: "x,y,scale,opacity"
+        }
+    }
+
+    onTargetImageChanged: {
+        if (targetImage) {
+            // 立即刷新
+            refreshNaviMaskImpl();
+
+            // transformOrigin 需在图片中心
+            if (Item.Center !== targetImage.transformOrigin) {
+                console.warn("Image transform origin error, not center!");
+            }
+        }
+    }
+
+    Timer {
+        id: delayReleaseTimer
+
+        interval: 5000
+        repeat: false
+
+        onTriggered: navigation.requestRelease()
+    }
+
+    Timer {
+        id: delayRefreshTimer
+
+        interval: 1
+        repeat: false
+
+        onTriggered: refreshNaviMaskImpl()
+    }
+
+    Connections {
+        function onPaintedHeightChanged() {
+            refreshNaviMask();
+        }
+
+        function onPaintedWidthChanged() {
+            refreshNaviMask();
+        }
+
+        function onScaleChanged() {
+            refreshNaviMask();
+        }
+
+        function onXChanged() {
+            refreshNaviMask();
+        }
+
+        function onYChanged() {
+            refreshNaviMask();
+        }
+
+        enabled: undefined !== targetImage && enableRefresh
+        ignoreUnknownSignals: true
+        target: undefined === targetImage ? null : targetImage
+    }
+
+    // 背景图片绘制区域
     Rectangle {
-        id: idImgRect
+        id: imageRect
+
         anchors.fill: parent
+        color: Qt.rgba(255, 255, 255, 0.4)
+        layer.enabled: true
         radius: 10
 
-        layer.enabled: true
         layer.effect: OpacityMask {
             maskSource: Rectangle {
-                width: idImgRect.width
-                height: idImgRect.height
-                radius: idImgRect.radius
+                height: imageRect.height
+                radius: imageRect.radius
+                width: imageRect.width
             }
         }
 
         Image {
-            id: idcurrentImg
-            fillMode: Image.PreserveAspectFit
-            cache: false
-            width: parent.width
-            height: parent.height
-            asynchronous: true
+            id: currentImage
 
-            // 多页图使用不同图像加载类
-            source: {
-                if (!visible) {
-                    return ""
-                } else {
-                    return imageViewer.currentIsMultiImage
-                            ? "image://multiimage/" + imageViewer.source + "#frame_" + imageViewer.frameIndex
-                            : "image://viewImage/" + imageViewer.source
+            function updateMask() {
+                if (Image.Ready === currentImage.status) {
+                    imgLeft = (currentImage.width - currentImage.paintedWidth) / 2;
+                    imgTop = (currentImage.height - currentImage.paintedHeight) / 2;
+                    imgRight = imgLeft + currentImage.paintedWidth;
+                    imgBottom = imgTop + currentImage.paintedHeight;
+                    refreshNaviMaskImpl();
                 }
             }
-        }
-    }
-    //test 前端获取后端加载到的图像数据，放开以下代码在缩放时会有弹窗显示后端加载的图像
-    /*Window {
-        id : rrr
-        visible: false
-        Image {
-            id: aaa
-            anchors.fill: parent
-        }
-    }
-    Connections {
-        target: CodeImage
-        onCallQmlRefeshImg:
-        {
-            aaa.source = ""
-            aaa.source = "image://ThumbnailImage"
-            rrr.show()
-        }
-    }*/
 
-    //退出按钮
+            function updateSource() {
+                source = "image://ImageLoad/" + GControl.currentSource + "#frame_" + GControl.currentFrameIndex;
+            }
+
+            anchors.fill: parent
+            asynchronous: true
+            cache: false
+            fillMode: Image.PreserveAspectFit
+            source: "image://ImageLoad/" + GControl.currentSource + "#frame_" + GControl.currentFrameIndex
+
+            // QML6 Image Ready 时 paintedGeometry 不一定更新，调整 onStatusChanged 为 onPaintedGeometryChanged
+            onPaintedGeometryChanged: updateMask()
+            onSourceChanged: updateMask()
+        }
+
+        // 旋转图片触发更新导航窗口，重设图片后绑定会失效，因此手动触发图片源更新
+        Connections {
+            function onCurrentFrameIndexChanged() {
+                currentImage.updateSource();
+            }
+
+            function onCurrentRotationChanged() {
+                var temp = currentImage.source;
+                currentImage.source = "";
+                currentImage.source = temp;
+                currentImage.updateMask();
+            }
+
+            function onCurrentSourceChanged() {
+                currentImage.updateSource();
+            }
+
+            target: GControl
+        }
+    }
+
+    // 退出按钮
     ToolButton {
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.rightMargin: 3
-        anchors.topMargin: 3
-        width: 22
         height: 22
-
-        Image {
-            source: "qrc:/res/close_hover.svg"
-            anchors.fill: parent
-        }
+        width: 22
+        z: 100
 
         background: Rectangle {
             radius: 50
         }
+
         onClicked: {
-            idNavigationwidget.visible = false
-            isNavShow = false
+            GStatus.enableNavigation = false;
         }
-        z: 100
+
+        anchors {
+            right: parent.right
+            rightMargin: 3
+            top: parent.top
+            topMargin: 3
+        }
+
+        Image {
+            anchors.fill: parent
+            source: "qrc:/res/close_hover.svg"
+        }
     }
 
-    //显示范围蒙皮
+    // 显示范围蒙皮
     Rectangle {
-        id: idrectArea
-        opacity: 0.4
+        id: maskArea
+
+        border.color: "white"
+        border.width: 1
         color: "black"
+        opacity: 0.4
     }
 
-    //允许拖动范围
+    // 允许拖动范围
     MouseArea {
+        id: mouseArea
+
         anchors.fill: parent
-        drag.target: idrectArea
-        drag.axis: Drag.XAndYAxis//设置拖拽的方式
+        drag.axis: Drag.XAndYAxis
+        drag.maximumX: imgRight - maskArea.width
+        drag.maximumY: imgBottom - maskArea.height
         // 以图片的范围来限制拖动范围
         drag.minimumX: imgLeft
-        drag.maximumX: imgRight - idrectArea.width
         drag.minimumY: imgTop
-        drag.maximumY: imgBottom - idrectArea.height
-
-        property bool isPressed: false
-
-        //拖拽与主界面的联动
-        onPressed: {
-            isPressed = true
-            var x = mouseX
-            var y = mouseY
-            console.info("x: ",x, "y: ", y)
-            idrectArea.x = x - idrectArea.width / 2 > 0 ? x - idrectArea.width / 2 : 0
-            idrectArea.y = y - idrectArea.height / 2 > 0 ? y - idrectArea.height / 2 : 0
-
-            // 限定鼠标点击的蒙皮在图片内移动
-            if (idrectArea.x < imgLeft)
-                idrectArea.x = imgLeft
-            if (idrectArea.y < imgTop)
-                idrectArea.y = imgTop
-            if ((idrectArea.x + idrectArea.width) > imgRight)
-                idrectArea.x = imgRight - idrectArea.width
-            if ((idrectArea.y + idrectArea.height) > imgBottom)
-                idrectArea.y = imgBottom - idrectArea.height
-
-            // 根据按键位置更新图片展示区域
-            var j = idrectArea.x - imgLeft
-            var k = idrectArea.y - imgTop
-            // 需要注意蒙皮本身的宽高在计算时应移除
-            var x1 = j / (imgRight - imgLeft - idrectArea.width)
-            var y1 = k / (imgBottom - imgTop - idrectArea.height)
-            //导航拖动与主界面联动,x1和y1即为主界面传入时的比例
-            changeShowImgPostions(x1,y1)
-        }
-
-        onReleased: {
-            isPressed = false
-        }
+        drag.target: maskArea
 
         onPositionChanged: {
-            if (isPressed) {
-                // 当前蒙皮位置对应比例发送给视图，移除图片和背景矩形边界间的误差
-                var x = idrectArea.x - imgLeft
-                var y = idrectArea.y - imgTop
-                // 左上角相对全图的点的比例,x1和y1即为比例，将此左上角坐标告知大图视图
-                // 需要注意蒙皮本身的宽高在计算时应移除
-                var x1 = x / (imgRight - imgLeft - idrectArea.width)
-                var y1 = y / (imgBottom - imgTop - idrectArea.height)
-
-                // 导航拖动与主界面联动,x1和y1即为主界面传入时的比例
-                changeShowImgPostions(x1, y1)
+            if (mouseArea.pressed) {
+                updateImagePositionBasedOnMask();
             }
+        }
+
+        // 拖拽与主界面的联动
+        onPressed: {
+            maskArea.x = Math.max(mouseX - maskArea.width / 2, 0);
+            maskArea.y = Math.max(mouseY - maskArea.height / 2, 0);
+            // 限定鼠标点击的蒙皮在图片内移动
+            maskArea.x = Math.max(imgLeft, Math.min(maskArea.x, imgRight - maskArea.width));
+            maskArea.y = Math.max(imgTop, Math.min(maskArea.y, imgBottom - maskArea.height));
+
+            // 根据按键位置更新图片展示区域
+            updateImagePositionBasedOnMask();
         }
     }
 }

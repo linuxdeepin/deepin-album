@@ -29,21 +29,21 @@ Item {
 
     //已选的图片状态检查
     function updateMenuItemStates() {
-        haveImage = fileControl.haveImage(GStatus.selectedPaths)
-        haveVideo = fileControl.haveVideo(GStatus.selectedPaths)
-        canFullScreen = (GStatus.selectedPaths.length === 1 && fileControl.pathExists(GStatus.selectedPaths[0]))
-                && fileControl.isImage(GStatus.selectedPaths[0]) && !isInTrash
-        canSlideShow = ((GStatus.selectedPaths.length === 1 && fileControl.pathExists(GStatus.selectedPaths[0])) || haveImage)
-                && fileControl.isImage(GStatus.selectedPaths[0]) && !isInTrash
+        haveImage = FileControl.haveImage(GStatus.selectedPaths)
+        haveVideo = FileControl.haveVideo(GStatus.selectedPaths)
+        canFullScreen = (GStatus.selectedPaths.length === 1 && FileControl.pathExists(GStatus.selectedPaths[0]))
+                && FileControl.isImage(GStatus.selectedPaths[0]) && !isInTrash
+        canSlideShow = ((GStatus.selectedPaths.length === 1 && FileControl.pathExists(GStatus.selectedPaths[0])) || haveImage)
+                && FileControl.isImage(GStatus.selectedPaths[0]) && !isInTrash
         canView = GStatus.selectedPaths.length === 1 && !isInTrash
-        canExport= GStatus.selectedPaths.length >= 1 && fileControl.pathExists(GStatus.selectedPaths[0]) && haveImage && !haveVideo && !isInTrash
+        canExport= GStatus.selectedPaths.length >= 1 && FileControl.pathExists(GStatus.selectedPaths[0]) && haveImage && !haveVideo && !isInTrash
         canCopy = GStatus.selectedPaths.length >= 1 && !isInTrash
-        canDelete = fileControl.isCanDelete(GStatus.selectedPaths)
-        canViewPhotoInfo = GStatus.selectedPaths.length === 1 && fileControl.isImage(GStatus.selectedPaths[0])
-        canViewVideoInfo = GStatus.selectedPaths.length === 1 && !fileControl.isImage(GStatus.selectedPaths[0])
-        canWallpaper = GStatus.selectedPaths.length === 1 && fileControl.isSupportSetWallpaper(GStatus.selectedPaths[0]) && !isInTrash
-        canRotate = fileControl.isRotatable(GStatus.selectedPaths)
-        canDisplayInFolder = GStatus.selectedPaths.length === 1 && fileControl.pathExists(GStatus.selectedPaths[0]) && !isInTrash
-        canPrint = fileControl.isCanPrint(GStatus.selectedPaths) && GStatus.selectedPaths.length === 1 && !isInTrash
+        canDelete = FileControl.isCanDelete(GStatus.selectedPaths)
+        canViewPhotoInfo = GStatus.selectedPaths.length === 1 && FileControl.isImage(GStatus.selectedPaths[0])
+        canViewVideoInfo = GStatus.selectedPaths.length === 1 && !FileControl.isImage(GStatus.selectedPaths[0])
+        canWallpaper = GStatus.selectedPaths.length === 1 && FileControl.isSupportSetWallpaper(GStatus.selectedPaths[0]) && !isInTrash
+        canRotate = FileControl.isRotatable(GStatus.selectedPaths)
+        canDisplayInFolder = GStatus.selectedPaths.length === 1 && FileControl.pathExists(GStatus.selectedPaths[0]) && !isInTrash
+        canPrint = FileControl.isCanPrint(GStatus.selectedPaths) && GStatus.selectedPaths.length === 1 && !isInTrash
     }
 }

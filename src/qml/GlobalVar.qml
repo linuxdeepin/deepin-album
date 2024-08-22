@@ -41,7 +41,7 @@ Item {
 
     // 导入不支持文件提示
     Connections {
-        target: fileControl
+        target: FileControl
         onInvalidFormat: {
             DTK.sendMessage(stackControl, qsTr("The file format is not supported"), "warning")
         }
