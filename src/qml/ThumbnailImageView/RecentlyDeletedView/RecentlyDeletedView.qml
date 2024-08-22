@@ -227,7 +227,7 @@ BaseView {
     }
 
     // 缩略图列表控件
-    ThumbnailListView2 {
+    ThumbnailListViewAlbum {
         id: theView
         anchors {
             top: recentDelTitleRect.bottom

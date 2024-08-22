@@ -167,7 +167,7 @@ SwitchViewAnimation {
         dayHeights = []
         //1.获取日期
         var days = []
-        if (Number(fileControl.getConfigValue("", "loadDayView", 1)))
+        if (Number(FileControl.getConfigValue("", "loadDayView", 1)))
             days = albumControl.getDays()
 
         //2.构建model
@@ -621,7 +621,7 @@ SwitchViewAnimation {
                 topPadding: -1
             }
 
-            ThumbnailListView2 {
+            ThumbnailListViewAlbum {
                 id: theSubView
                 anchors {
                     top: selectAllBox.bottom

@@ -24,6 +24,7 @@ Item {
     }
     SliderShow{
         id: mainSliderShow
+        idName: "albumview"
         anchors.fill: parent
         visible: GStatus.stackControlCurrent === 2
     }
@@ -51,11 +52,13 @@ Item {
     //images: 图片路径 startIndex: 启动后一个图的下标索引
     function startMainSliderShow(images, startIndex) {
         showFullScreen()
-        mainSliderShow.images = images
-        mainSliderShow.modelCount = images.length
+        GControl.setImageFiles(images, images[startIndex])
+        mainStack.switchImageView()
         mainSliderShow.autoRun = true
-        mainSliderShow.indexImg = startIndex
+        mainSliderShow.source = "image://ImageLoad/" + GControl.currentSource + "#frame_" + GControl.currentFrameIndex;
+        mainSliderShow.restart()
         GStatus.stackControlCurrent = 2
+        mainAlbumView.visible = false
         showfullAnimation.start()
     }
 }

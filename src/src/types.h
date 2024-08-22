@@ -103,6 +103,7 @@ public:
         MultiImage,     ///< 多页图
         DamagedImage,   ///< 损坏图片
         NonexistImage,  ///< 图片文件不存在，删除、移动等
+        NoPermissionImage, ///< 图片文件不可读，提示没有权限查看
     };
 
     /**

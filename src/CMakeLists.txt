@@ -80,6 +80,7 @@ set_target_properties(${BIN_NAME} PROPERTIES INSTALL_RPATH ${DTK_QML_APP_PLUGIN_
 set(PREFIX ${CMAKE_INSTALL_PREFIX})
 set(AppIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
 set(APPSHAREDIR  ${CMAKE_INSTALL_PREFIX}/share/${CMAKE_PROJECT_NAME})
+install(FILES com.deepin.album.service DESTINATION ${CMAKE_INSTALL_PREFIX}/share/dbus-1/services/)
 
 # Add install rule
 install(TARGETS ${BIN_NAME} DESTINATION ${APP_BIN_INSTALL_DIR})

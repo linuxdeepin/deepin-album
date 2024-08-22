@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -7,109 +7,213 @@ import QtQuick.Window 2.11
 import QtQuick.Layouts 1.11
 import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0
+import org.deepin.dtk.style 1.0 as DS
+import org.deepin.image.viewer 1.0 as IV
 
 Rectangle {
+    property bool animationShow: true
+    property string iconName: "deepin-image-viewer"
+    // 当前图片是否缩放到需要隐藏标题栏
+    property bool imageScaledToTitle: false
+
+    anchors.top: window.top
+    height: GStatus.titleHeight
+    visible: !window.isFullScreen && GStatus.stackControlCurrent !== 0
+    width: window.width
+
+    // 用于铺满图片时的渐变背景
+    gradient: Gradient {
+        GradientStop {
+            color: imageScaledToTitle ? titlecontrol.ColorSelector.backgroundColor1 : titlecontrol.ColorSelector.nonGradientColor
+            position: 0.0
+        }
+
+        GradientStop {
+            color: imageScaledToTitle ? titlecontrol.ColorSelector.backgroundColor2 : titlecontrol.ColorSelector.nonGradientColor
+            position: 1.0
+        }
+    }
+    Behavior on y {
+        enabled: visible
+
+        NumberAnimation {
+            duration: 366
+            easing.type: Easing.OutExpo
+        }
+    }
+
+    onAnimationShowChanged: {
+        if (animationShow) {
+            y = 0;
+        } else {
+            animationQuitDelay.restart();
+        }
+    }
+
+    Timer {
+        id: animationQuitDelay
+
+        interval: 500
+
+        onTriggered: {
+            y = animationShow ? 0 : -GStatus.titleHeight;
+        }
+    }
+
+    // 底部阴影
+    BoxShadow {
+        // 调整阴影显示范围,暗色模式下仅显示底部,无扩散阴影
+        property bool outterShadow: (DTK.themeType !== ApplicationHelper.DarkType)
+
+        anchors.fill: parent
+        hollow: true
+        shadowBlur: outterShadow ? 10 : 1
+        shadowColor: titlecontrol.ColorSelector.shadowColor
+        shadowOffsetY: outterShadow ? 4 : 1
+        visible: !imageScaledToTitle
+    }
+
+    BoxInsetShadow {
+    }
+
     Control {
         id: titlecontrol
-        hoverEnabled: true // 开启 Hover 属性
+
+        // 渐变背景色
         property Palette backgroundColor1: Palette {
-            normal: Qt.rgba(255/255, 255/255, 255/255, 0.6)
-            normalDark:Qt.rgba(26/255, 26/255, 26/255, 0.6)
+            normal: Qt.rgba(0, 0, 0, 0.15)
+            normalDark: Qt.rgba(26 / 255, 26 / 255, 26 / 255, 0.6)
         }
         property Palette backgroundColor2: Palette {
-            normal: Qt.rgba(255/255, 255/255, 255/255, 0.02)
-            normalDark:Qt.rgba(26/255, 26/255, 26/255, 0.02)
+            normal: Qt.rgba(0, 0, 0, 0.0)
+            normalDark: Qt.rgba(26 / 255, 26 / 255, 26 / 255, 0.02)
         }
+        // 非渐变背景色 BugFix: 旋转图片时不希望标题栏有透视，调整颜色为无透明度版本
+        property Palette nonGradientColor: Palette {
+            normal: Qt.rgba(254 / 255, 254 / 255, 254 / 255, 1)
+            normalDark: Qt.rgba(32 / 255, 32 / 255, 32 / 255, 1)
+        }
+        // 阴影颜色
+        property Palette shadowColor: Palette {
+            normal: Qt.rgba(0, 0, 0, 0.03)
+            normalDark: Qt.rgba(0, 0, 0, 0.9)
+        }
+
+        hoverEnabled: true // 开启 Hover 属性
     }
 
-    property string iconName :"deepin-image-viewer"
-    anchors.top:window.top
+    IconLabel {
+        anchors.left: parent.left
+        anchors.leftMargin: GStatus.actionMargin
+        anchors.top: parent.top
+        anchors.topMargin: GStatus.actionMargin
 
-//        anchors.topMargin: 10
-    width: parent.width
-    height: 50
-    visible: window.visibility !== 5 && GStatus.stackControlCurrent !== 0
-    color:titlecontrol.ColorSelector.backgroundColor
-    gradient: Gradient {
-           GradientStop { position: 0.0; color: titlecontrol.ColorSelector.backgroundColor1 }
-           GradientStop { position: 1.0; color: titlecontrol.ColorSelector.backgroundColor2 }
-       }
-    //opacity: 1
-    ActionButton {
-        anchors.top:parent.top
-        anchors.topMargin:GStatus.actionMargin
-        anchors.left:parent.left
-        anchors.leftMargin:GStatus.actionMargin
         icon {
+            height: 32
             name: iconName
             width: 32
-            height: 32
         }
     }
 
-    MouseArea { //为窗口添加鼠标事件
-        anchors.fill: parent
-        acceptedButtons: Qt.LeftButton //只处理鼠标左键
-        property point clickPos: "0,0"
-        onPressed: { //接收鼠标按下事件
-            clickPos  = Qt.point(mouse.x,mouse.y)
-            sigTitlePress()
-        }
-        onPositionChanged: { //鼠标按下后改变位置
-            //鼠标偏移量
-            var delta = Qt.point(mouse.x-clickPos.x, mouse.y-clickPos.y)
-
-            //如果mainwindow继承自QWidget,用setPos
-            window.setX(window.x+delta.x)
-            window.setY(window.y+delta.y)
-            //               rect1.x = rect1.x + delta.x
-            //               rect1.y = rect1.y + delta.y
-        }
-    }
     TitleBar {
-        id :title
-        anchors.fill:parent
-        windowButtonGroup: WindowButtonGroupEx {
-            Layout.alignment: Qt.AlignRight
-            Layout.fillHeight: true
-            embedMode: title.embedMode
-            textColor: title.textColor
-            fullScreenButtonVisible: title.fullScreenButtonVisible
-            Component.onCompleted: {
-                title.toggleWindowState.connect(maxOrWinded)
+        id: titlebar
+
+        property Palette defaultTextColor: Palette {
+            normal: Qt.rgba(0, 0, 0, 0.7)
+            normalDark: Qt.rgba(1, 1, 1, 0.7)
+        }
+        property bool menuPopup: false
+        property Palette scaledTextColor: Palette {
+            normal: Qt.rgba(1, 1, 1, 0.7)
+            normalDark: Qt.rgba(1, 1, 1, 0.7)
+        }
+        property Palette scaledTitleTextColor: Palette {
+            normal: Qt.rgba(1, 1, 1, 1)
+            normalDark: Qt.rgba(1, 1, 1, 1)
+        }
+
+        anchors.fill: parent
+        textColor: imageScaledToTitle ? scaledTextColor : defaultTextColor
+
+        // 使用自定的文本
+        content: Loader {
+            active: true
+
+            sourceComponent: Label {
+                color: imageScaledToTitle ? titlebar.ColorSelector.scaledTitleTextColor : palette.text
+                // 自动隐藏多余文本
+                elide: Text.ElideRight
+                horizontalAlignment: Text.AlignHCenter
+                text: titlebar.title
+                textFormat: Text.PlainText
+                verticalAlignment: Text.AlignVCenter
+            }
+        }
+        menu: Menu {
+            onVisibleChanged: {
+                titlebar.menuPopup = visible;
+                GStatus.animationBlock = visible;
+            }
+
+            // 打开图片动作项
+            Action {
+                id: openImageAction
+
+                text: qsTr("Open image")
+
+                onTriggered: {
+                    // 发送打开窗口信号
+                    stackView.openImageDialog();
+                }
+            }
+
+            MenuSeparator {
+            }
+
+            ThemeMenu {
+            }
+
+            MenuSeparator {
+            }
+
+            HelpAction {
+            }
+
+            AboutAction {
+                aboutDialog: AboutDialog {
+                    description: !FileControl.isAlbum() ? qsTr("Image Viewer is an image viewing tool with fashion interface and smooth performance.")
+                                                              : qsTr("Album is a stylish management tool for viewing and organizing photos and videos.")
+                    //productIcon: "deepin-image-viewer"
+                    icon: !FileControl.isAlbum() ? "deepin-image-viewer" : "deepin-album"
+                    productName: !FileControl.isAlbum() ? qsTr("Image Viewer")
+                                                             : qsTr("Album")
+                    version: Qt.application.version
+                    websiteName:DTK.deepinWebsiteName
+                    websiteLink:DTK.deepinWebsitelLink
+                    license:qsTr(String("%1 is released under %2.").arg(productName).arg("GPLV3"))
+                    width:400
+                    modality:Qt.NonModal
+                }
+            }
+
+            QuitAction {
             }
         }
 
-        aboutDialog: AboutDialog{
-            icon: !fileControl.isAlbum() ? "deepin-image-viewer" : "deepin-album"
-            width:400
-            modality:Qt.NonModal
-            version:qsTr(String("Version: %1").arg(Qt.application.version))
-            description: !fileControl.isAlbum() ? "Image Viewer is an image viewing tool with fashion interface and smooth performance."
-                                                      : qsTr("Album is a stylish management tool for viewing and organizing photos and videos.")
-            productName: !fileControl.isAlbum() ? "Image Viewer"
-                                                     : qsTr("Album")
-            websiteName:DTK.deepinWebsiteName
-            websiteLink:DTK.deepinWebsitelLink
-            license:qsTr(String("%1 is released under %2.").arg(productName).arg("GPLV3"))
+        windowButtonGroup: WindowButtonGroupEx {
+            Layout.alignment: Qt.AlignRight
+            Layout.fillHeight: true
+            embedMode: titlebar.embedMode
+            textColor: titlebar.textColor
+            fullScreenButtonVisible: titlebar.fullScreenButtonVisible
+            Component.onCompleted: {
+                titlebar.toggleWindowState.connect(maxOrWinded)
+            }
         }
 
-        // 使用自定的文本
-        title: ""
-        Text {
-            anchors.centerIn: parent
-            width: parent.width
-            leftPadding: 300
-            rightPadding: 300
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            // 显示窗口的标题(文件名)
-            text: Window.window.title
-            // 自动隐藏多余文本
-            elide: Text.ElideRight
-
-            textFormat: Text.PlainText
-            color: title.textColor
+        // 标题栏在hover，菜单展开时屏蔽动画效果，包括点击标题栏拖动
+        onHoveredChanged: {
+            GStatus.animationBlock = hovered || menuPopup;
         }
     }
 }

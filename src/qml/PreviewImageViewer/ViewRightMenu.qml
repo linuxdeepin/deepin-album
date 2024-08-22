@@ -8,48 +8,71 @@ import QtQuick.Controls 2.4
 //import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.11
 import org.deepin.dtk 1.0
+import org.deepin.image.viewer 1.0 as IV
+import org.deepin.album 1.0 as Album
+import "./Utils"
 
 Menu {
-    x: 250; y: 600
-    id: option_menu
+    id: optionMenu
+
+    // 处理拷贝快捷键冲突
+    property bool copyableConfig: true
+    property bool deletable: !isNullImage && FileControl.isCanDelete(imageSource.toString())
+    property url imageSource: GControl.currentSource
+    property bool isNullImage: imageInfo.type === Album.Types.NullImage
+    property bool readable: !isNullImage && FileControl.isCanReadable(imageSource)
+    property bool renamable: !isNullImage && FileControl.isCanRename(imageSource)
+    property bool rotatable: !isNullImage && FileControl.isRotatable(imageSource.toString())
+    property bool supportOcr: !isNullImage && FileControl.isCanSupportOcr(imageSource)
+    property bool supportWallpaper: !isNullImage && FileControl.isSupportSetWallpaper(imageSource)
+    property bool canExport: FileControl.pathExists(imageSource) && FileControl.isImage(imageSource) && !FileControl.isVideo(imageSource)
 
     maxVisibleItems: 20
-
-    property bool canExport: fileControl.pathExists(source) && fileControl.isImage(source) && !fileControl.isVideo(source)
+    x: 250
+    y: 600
 
     RightMenuItem {
-        id : right_fullscreen
-        text: window.visibility != Window.FullScreen ? qsTr("Fullscreen") : qsTr("Exit fullscreen")
+        id: rightFullscreen
 
-        onTriggered : showFulltimer.start()
+        function switchFullScreen() {
+            GStatus.showFullScreen = !GStatus.showFullScreen;
+        }
+
+        text: !window.isFullScreen ? qsTr("Fullscreen") : qsTr("Exit fullscreen")
+
+        onTriggered: switchFullScreen()
+
         Shortcut {
             enabled: stackView.visible
-            sequence : "F11"
-            onActivated : {
-                window.visibility !== Window.FullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
-            }
+            sequence: "F11"
+
+            onActivated: rightFullscreen.switchFullScreen()
         }
+
         Shortcut {
-            enabled: (window.visibility === Window.FullScreen && stackView.visible && stackView.currentWidgetIndex !== 2) ? true : false
-            sequence :  "Esc"
-            onActivated : window.visibility !== Window.FullScreen ? imageViewer.showPanelFullScreen() : imageViewer.escBack()
+            enabled: (window.isFullScreen && stackView.visible && GStatus.stackPage !== Number(Album.Types.SliderShowPage)) ? true : false
+            sequence: "Esc"
+
+            onActivated: rightFullscreen.switchFullScreen()
         }
     }
 
-
     RightMenuItem {
         text: qsTr("Print")
-        visible: !CodeImage.imageIsNull(source)
+        visible: !isNullImage
+
         onTriggered: {
-            fileControl.showPrintDialog(mainView.source)
+            optionMenu.close();
+            FileControl.showPrintDialog(imageSource);
         }
+
         Shortcut {
             sequence: "Ctrl+P"
-            enabled: !CodeImage.imageIsNull(source) && stackView.visible
-            onActivated:  {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
-                    fileControl.showPrintDialog(mainView.source)
+            enabled: !isNullImage && stackView.visible
+            onActivated: {
+                optionMenu.close();
+                if (parent.visible && Number(Album.Types.ImageViewPage) === GStatus.stackPage) {
+                    FileControl.showPrintDialog(imageSource);
                 }
             }
         }
@@ -57,57 +80,60 @@ Menu {
 
     RightMenuItem {
         text: qsTr("Extract text")
-        visible: fileControl.isCanSupportOcr(source) && !CodeImage.imageIsNull(source)
+        visible: supportOcr
+
         onTriggered: {
-            fileControl.ocrImage(source)
+            GControl.submitImageChangeImmediately();
+            FileControl.ocrImage(imageSource, GControl.currentFrameIndex);
         }
+
         Shortcut {
+            enabled: supportOcr
             sequence: "Alt+O"
-            enabled: fileControl.isCanSupportOcr(source) && !CodeImage.imageIsNull(source)
+
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
-                    fileControl.ocrImage(source)
+                if (parent.visible && Number(Album.Types.ImageViewPage) === GStatus.stackPage) {
+                    GControl.submitImageChangeImmediately();
+                    FileControl.ocrImage(imageSource, GControl.currentFrameIndex);
                 }
             }
         }
     }
 
     RightMenuItem {
-
         text: qsTr("Slide show")
+
         onTriggered: {
-            imageViewer.startSliderShow()
-            showfullAnimation.start()
+            stackView.switchSliderShow();
         }
+
         Shortcut {
             enabled: stackView.visible
             sequence: "F5"
+
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex != 0)
-                {
-                    imageViewer.startSliderShow()
-                    showfullAnimation.start()
+                if (parent.visible && Number(Album.Types.OpenImagePage) !== GStatus.stackPage) {
+                    stackView.switchSliderShow();
                 }
             }
         }
     }
 
-
     MenuSeparator {
         id: firstSeparator
+
     }
 
     //导出图片为其它格式
     RightMenuItem {
         text: qsTr("Export")
-        visible: canExport && !menuItemStates.isInTrash && fileControl.isAlbum()
+        visible: canExport && !menuItemStates.isInTrash && FileControl.isAlbum()
         onTriggered: {
             excuteExport()
         }
 
         Shortcut {
-            enabled: stackView.visible && canExport && !menuItemStates.isInTrash && fileControl.isAlbum()
+            enabled: stackView.visible && canExport && !menuItemStates.isInTrash && FileControl.isAlbum()
             sequence : "Ctrl+E"
             onActivated : {
                excuteExport()
@@ -116,72 +142,65 @@ Menu {
     }
 
     RightMenuItem {
-
         text: qsTr("Copy")
-        visible: fileControl.isCanReadable(source)
+        visible: readable
+
         onTriggered: {
-            if( parent.visible ){
-                fileControl.copyImage(source)
+            if (parent.visible) {
+                GControl.submitImageChangeImmediately();
+                FileControl.copyImage(imageSource);
             }
         }
+
         Shortcut {
+            enabled: readable && copyableConfig && stackView.visible
             sequence: "Ctrl+C"
-            enabled: fileControl.isCanReadable(source) && stackView.visible
+
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
-                    fileControl.copyImage(source)
+                if (parent.visible && Number(Album.Types.ImageViewPage) === GStatus.stackPage) {
+                    GControl.submitImageChangeImmediately();
+                    FileControl.copyImage(imageSource);
                 }
             }
         }
     }
 
     RightMenuItem {
-
         text: qsTr("Rename")
-        visible: fileControl.isCanRename(source)
+        visible: renamable
+
         onTriggered: {
-            var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
-            var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
-            renamedialog.setX(x)
-            renamedialog.setY(y)
-            renamedialog.getFileName(fileControl.slotGetFileName(source))
-            renamedialog.getFileSuffix(fileControl.slotFileSuffix(source))
-            renamedialog.show()
+            renamedialog.show();
         }
+
         Shortcut {
+            enabled: renamable
             sequence: "F2"
-            // 判断文件是否允许重命名
-            enabled: fileControl.isCanRename(source)
+
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
-                    var x = parent.mapToGStatus(0, 0).x + parent.width / 2 - 190
-                    var y = parent.mapToGStatus(0, 0).y + parent.height / 2 - 89
-                    renamedialog.setX(x)
-                    renamedialog.setY(y)
-                    renamedialog.getFileName(fileControl.slotGetFileName(source))
-                    renamedialog.getFileSuffix(fileControl.slotFileSuffix(source))
-                    renamedialog.show()
+                if (parent.visible && Number(Album.Types.ImageViewPage) === GStatus.stackPage) {
+                    renamedialog.show();
                 }
             }
         }
     }
 
     RightMenuItem {
+        enabled: !thumbnailViewBackGround.imageDeleting
         text: qsTr("Delete")
-        enabled: fileControl.isCanDelete(source)
-        visible: fileControl.isCanDelete(source)
+        visible: deletable
+
         onTriggered: {
-            toolBarthumbnailListView.deleteCurrentImage()
+            thumbnailViewBackGround.deleteCurrentImage();
         }
+
         Shortcut {
+            enabled: deletable && parent.enabled && stackView.visible
             sequence: "Delete"
-	    enabled: fileControl.isCanDelete(source) && stackView.visible
+
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
-                    toolBarthumbnailListView.deleteCurrentImage()
+                if (parent.visible && Number(Album.Types.ImageViewPage) === GStatus.stackPage) {
+                    thumbnailViewBackGround.deleteCurrentImage();
                 }
             }
         }
@@ -189,7 +208,7 @@ Menu {
 
     //分割条-收藏
     MenuSeparator {
-        visible: !menuItemStates.isInTrash && fileControl.isAlbum()
+        visible: !menuItemStates.isInTrash && FileControl.isAlbum()
         // 不显示分割条时调整高度，防止菜单项间距不齐
         height: visible ? firstSeparator.height : 0
     }
@@ -198,7 +217,7 @@ Menu {
     RightMenuItem {
         id: favoriteAction
         text: qsTr("Favorite")
-        visible: !menuItemStates.isInTrash && imageViewer.canFavorite && fileControl.isAlbum()
+        visible: !menuItemStates.isInTrash && imageViewer.canFavorite && FileControl.isAlbum()
         onTriggered: {
             imageViewer.executeFavorite()
         }
@@ -208,7 +227,7 @@ Menu {
     RightMenuItem {
         id: unFavoriteAction
         text: qsTr("Unfavorite")
-        visible: !menuItemStates.isInTrash && !imageViewer.canFavorite && fileControl.isAlbum()
+        visible: !menuItemStates.isInTrash && !imageViewer.canFavorite && FileControl.isAlbum()
         onTriggered: {
             imageViewer.executeUnFavorite()
         }
@@ -218,139 +237,146 @@ Menu {
     MenuSeparator {
         // 不显示分割条时调整高度，防止菜单项间距不齐
         height: visible ? firstSeparator.height : 0
-        visible: fileControl.isCanReadable(source)
-                 || fileControl.isCanDelete(source)
+        visible: FileControl.isCanReadable(imageSource.toString()) || FileControl.isCanDelete(imageSource.toString())
     }
 
     RightMenuItem {
+        id: rotateClockItem
+
         text: qsTr("Rotate clockwise")
-        visible: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source)
+        visible: rotatable
+
         onTriggered: {
-            imageViewer.rotateImage(90)
+            imageViewer.rotateImage(90);
         }
 
         Shortcut {
+            enabled: rotatable && stackView.visible
             sequence: "Ctrl+R"
-            enabled: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source) && stackView.visible
+
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
-                    imageViewer.rotateImage(90)
+                if (parent.visible && Number(Album.Types.ImageViewPage) === GStatus.stackPage) {
+                    imageViewer.rotateImage(90);
                 }
             }
         }
     }
 
     RightMenuItem {
+        id: rotateCounterClockItem
+
         text: qsTr("Rotate counterclockwise")
-        visible: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source)
+        visible: rotatable
+
         onTriggered: {
-            imageViewer.rotateImage(-90)
+            imageViewer.rotateImage(-90);
         }
+
         Shortcut {
+            enabled: rotatable && stackView.visible
             sequence: "Ctrl+Shift+R"
-            enabled: !CodeImage.imageIsNull(imageViewer.source) && fileControl.isRotatable(imageViewer.source) && stackView.visible
+
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
-                    imageViewer.rotateImage(-90)
+                if (parent.visible && Number(Album.Types.ImageViewPage) === GStatus.stackPage) {
+                    imageViewer.rotateImage(-90);
                 }
             }
         }
     }
 
+    // 不允许无读写权限时上方选项已屏蔽，不展示此分割条
+    MenuSeparator {
+        // 不显示分割条时调整高度，防止菜单项间距不齐
+        height: visible ? firstSeparator.height : 0
+        visible: rotateClockItem.visible || rotateCounterClockItem.visible
+    }
+
     RightMenuItem {
+        id: enableNavigation
 
-        id : showNavigation
-        visible: !CodeImage.imageIsNull(source) && currentScale >1 && window.height > GStatus.minHideHeight && window.width > GStatus.minWidth
-        text: !imageViewer.isNavShow ? qsTr("Show navigation window") : qsTr("Hide navigation window")
-        onTriggered : {
-            if(!parent.visible){
-                return
-            }
+        enabled: visible && window.height > GStatus.minHideHeight && window.width > GStatus.minWidth
+        text: !GStatus.enableNavigation ? qsTr("Show navigation window") : qsTr("Hide navigation window")
+        visible: !isNullImage
 
-            if (imageViewer.isNavShow) {
-                imageViewer.isNavShow = false
-                idNavWidget.visible = false
-            } else {
-                imageViewer.isNavShow = true
-                idNavWidget.visible = true
-                if(m_NavX === 0 && m_NavY === 0) {
-                    // 设置蒙皮信息
-                    idNavWidget.setRectPec(view.currentItem.scale, imageViewer.viewImageWidthRatio, imageViewer.viewImageHeightRatio)
-                } else {
-                    idNavWidget.setRectLocation(m_NavX, m_NavY)
-                }
+        onTriggered: {
+            if (!parent.enabled) {
+                return;
             }
+            GStatus.enableNavigation = !GStatus.enableNavigation;
         }
     }
 
     RightMenuItem {
-
         text: qsTr("Set as wallpaper")
-        visible: fileControl.isSupportSetWallpaper(source)
+        visible: supportWallpaper
+
         onTriggered: {
-            fileControl.setWallpaper(source)
+            GControl.submitImageChangeImmediately();
+            FileControl.setWallpaper(imageSource);
         }
+
         Shortcut {
+            enabled: supportWallpaper && stackView.visible
             sequence: "Ctrl+F9"
-            enabled: fileControl.isSupportSetWallpaper(source) && stackView.visible
+
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
-                    fileControl.setWallpaper(source)
+                if (parent.visible && Number(Album.Types.ImageViewPage) === GStatus.stackPage) {
+                    GControl.submitImageChangeImmediately();
+                    FileControl.setWallpaper(imageSource);
                 }
             }
         }
     }
 
     RightMenuItem {
-
         text: qsTr("Display in file manager")
+
         onTriggered: {
-            fileControl.displayinFileManager(source)
+            FileControl.displayinFileManager(imageSource);
         }
+
         Shortcut {
             enabled: stackView.visible
             sequence: "Alt+D"
+
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
-                    fileControl.displayinFileManager(source)
+                if (parent.visible && Number(Album.Types.ImageViewPage) === GStatus.stackPage) {
+                    FileControl.displayinFileManager(imageSource);
                 }
             }
         }
     }
 
     RightMenuItem {
-
         text: qsTr("Image info")
+
         onTriggered: {
-            infomationDig.show()
+            infomationDig.show();
         }
+
         Shortcut {
             enabled: stackView.visible
             sequence: "Ctrl+I"
+
             onActivated: {
-                if (parent.visible && stackView.currentWidgetIndex == 1)
-                {
-                    infomationDig.show()
+                if (parent.visible && Number(Album.Types.ImageViewPage) === GStatus.stackPage) {
+                    infomationDig.show();
                 }
             }
         }
     }
 
-    // 执行导出图片
-    function excuteExport() {
-        if (GStatus.selectedPaths.length > 1) {
-            var bRet = albumControl.getFolders(GStatus.selectedPaths)
-            if (bRet)
-                DTK.sendMessage(thumbnailImage, qsTr("Export successful"), "notify_checked")
-            else
-                DTK.sendMessage(thumbnailImage, qsTr("Export failed"), "warning")
-        } else{
-            exportdig.setParameter(imageViewer.source, imageViewer)
-            exportdig.show()
+    IV.ImageInfo {
+        id: imageInfo
+
+        source: imageSource
+
+        onStatusChanged: {
+            if (IV.ImageInfo.Ready === imageInfo.status) {
+                isNullImage = (imageInfo.type === Album.Types.NullImage);
+            } else {
+                isNullImage = true;
+            }
         }
     }
 }

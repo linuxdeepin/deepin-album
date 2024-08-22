@@ -17,7 +17,7 @@ import "./DeviceAlbum"
 import "./"
 
 import "./../Control"
-import "./../PreviewImageViewer"
+import "./../PreviewImageViewer/InformationDialog"
 import "./../"
 //本文件用于替代stackwidget的作用，通过改变global的0-n来切换窗口
 
@@ -58,8 +58,9 @@ Item {
     }
 
     //info的窗口
-    InfomationDialog{
+    InformationDialog{
         id: albumInfomationDig
+        visible: false
     }
 
     //视频info窗口
@@ -101,7 +102,7 @@ Item {
         autoRepeat: false
         sequence : "Ctrl+C"
         onActivated : {
-            fileControl.copyImage(GStatus.selectedPaths)
+            FileControl.copyImage(GStatus.selectedPaths)
         }
     }
 
@@ -124,7 +125,7 @@ Item {
         autoRepeat: false
         sequence : "Ctrl+R"
         onActivated : {
-            fileControl.rotateFile(GStatus.selectedPaths, 90)
+            FileControl.rotateFile(GStatus.selectedPaths, 90)
         }
     }
 
@@ -133,7 +134,7 @@ Item {
         autoRepeat: false
         sequence : "Ctrl+Shift+R"
         onActivated : {
-            fileControl.rotateFile(GStatus.selectedPaths, -90)
+            FileControl.rotateFile(GStatus.selectedPaths, -90)
         }
     }
 
@@ -188,7 +189,7 @@ Item {
     }
 
     Shortcut {
-        enabled: true
+        enabled: visible
         autoRepeat: false
         sequence: "F1"
         onActivated: {

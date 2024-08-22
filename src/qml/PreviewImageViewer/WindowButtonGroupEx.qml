@@ -94,7 +94,7 @@ RowLayout {
         visible: hasWindowFlag && __dwindow.enabled
         enabled: __dwindow.motifFunctions & D.WindowManagerHelper.FUNC_CLOSE
         onClicked: {
-            if (!fileControl.isAlbum()) {
+            if (!FileControl.isAlbum()) {
                 Window.window.close()
             }
             else {

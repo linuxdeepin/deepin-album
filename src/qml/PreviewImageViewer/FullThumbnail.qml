@@ -189,7 +189,7 @@ Item {
         // 判断光标是否离开了窗口
         var cursorInWidnow = mouseX >= 0 && mouseX <= window.width && mouseY >= 0 && mouseY <= window.height
         // 显示图像的像素高度
-        var viewImageHeight = window.width * (fileControl.getCurrentImageHeight() / fileControl.getCurrentImageWidth())
+        var viewImageHeight = window.width * (FileControl.getCurrentImageHeight() / FileControl.getCurrentImageWidth())
 
         if (window.visibility == Window.FullScreen){
             // 全屏时特殊处理
@@ -423,7 +423,7 @@ Item {
         height: 70
 
         // 返回相册按钮宽度
-        property var albumBtnWidth: fileControl.isAlbum() ? 40 * 2 : 0
+        property var albumBtnWidth: FileControl.isAlbum() ? 40 * 2 : 0
         // 根据当前窗口大小可用的列表内容宽度(最小窗口宽度为 628)
         property int avaliableListViewWidth: parent.width - 30 - 460 - albumBtnWidth
 

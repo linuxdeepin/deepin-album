@@ -86,7 +86,7 @@ DialogWindow {
         text: qsTr("Unnamed")
         selectByMouse: true
 //        alertText: qsTr("The file already exists, please use another name")
-//        showAlert: fileControl.isShowToolTip(source,nameedit.text)
+//        showAlert: FileControl.isShowToolTip(source,nameedit.text)
     }
 
 

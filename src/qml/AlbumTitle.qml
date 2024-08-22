@@ -220,14 +220,14 @@ TitleBar {
                 ToolTip.visible: hovered
                 ToolTip.text: icon.name === "range1" ? qsTr("Original ratio") : qsTr("Square thumbnails")
                 icon {
-                    name: asynImageProvider.getLoadMode() == 0 ? "range1" : "range2"
+                    name: asynImageProviderAlbum.getLoadMode() == 0 ? "range1" : "range2"
                     width: iconSize
                     height: iconSize
                 }
                 onClicked: {
                     GStatus.enableRatioAnimation = true
                     //1.图片推送器切换
-                    asynImageProvider.switchLoadMode()
+                    asynImageProviderAlbum.switchLoadMode()
                     imageDataService.switchLoadMode()
 
                     //切换图标
@@ -526,8 +526,8 @@ TitleBar {
         ToolButton {
             id: titleRotateBtn
             visible: (titleImportBtn.visible ? false : true) && GStatus.currentViewType !== Album.Types.ViewDevice
-            enabled: fileControl.isRotatable(GStatus.selectedPaths)
-            ColorSelector.disabled: !fileControl.isRotatable(GStatus.selectedPaths)
+            enabled: FileControl.isRotatable(GStatus.selectedPaths)
+            ColorSelector.disabled: !FileControl.isRotatable(GStatus.selectedPaths)
             Layout.preferredWidth: iconSize
             Layout.preferredHeight: iconSize
             ToolTip.delay: 500
@@ -540,14 +540,14 @@ TitleBar {
                 height: iconSize
             }
             onClicked: {
-                fileControl.rotateFile(GStatus.selectedPaths, -90)
+                FileControl.rotateFile(GStatus.selectedPaths, -90)
             }
         }
         ToolButton {
             id: titleTrashBtn
             visible: (titleImportBtn.visible ? false : true) && GStatus.currentViewType !== Album.Types.ViewDevice
-            enabled: fileControl.isCanDelete(GStatus.selectedPaths)
-            ColorSelector.disabled: !fileControl.isCanDelete(GStatus.selectedPaths)
+            enabled: FileControl.isCanDelete(GStatus.selectedPaths)
+            ColorSelector.disabled: !FileControl.isCanDelete(GStatus.selectedPaths)
             Layout.preferredWidth: iconSize
             Layout.preferredHeight: iconSize
             ToolTip.delay: 500

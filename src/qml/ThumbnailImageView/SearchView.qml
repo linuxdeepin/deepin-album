@@ -43,8 +43,8 @@ BaseView {
     }
 
     function getStatusBarText() {
-        var haveVideo = fileControl.haveVideo(searchResults)
-        var havePicture = fileControl.haveImage(searchResults)
+        var haveVideo = FileControl.haveVideo(searchResults)
+        var havePicture = FileControl.haveImage(searchResults)
 
         if(havePicture && !haveVideo) {
             if(searchResults.length === 1) {
@@ -112,7 +112,7 @@ BaseView {
                 width: 20
                 height: 20
             }
-            enabled: fileControl.haveImage(searchResults)
+            enabled: FileControl.haveImage(searchResults)
             anchors {
                 top: searchTitle.bottom
                 left: searchTitle.left
@@ -145,7 +145,7 @@ BaseView {
     }
 
     //缩略图视图
-    ThumbnailListView2 {
+    ThumbnailListViewAlbum {
         id: view
         anchors {
             top: resultViewTitleRect.bottom

@@ -23,7 +23,6 @@ public:
     QVariant value(const QString &group, const QString &key,
                    const QVariant &defaultValue = QVariant());
     bool contains(const QString &group, const QString &key);
-//    QStringList keys(const QString group);
 
 signals:
     void valueChanged(const QString &group, const QString &key,
@@ -31,6 +30,7 @@ signals:
 
 private:
     explicit LibConfigSetter(QObject *parent = nullptr);
+    ~LibConfigSetter() override;
 
 private:
     imageViewerSpace::ImgViewerType m_viewType;

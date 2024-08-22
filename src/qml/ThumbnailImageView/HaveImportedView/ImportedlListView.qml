@@ -48,7 +48,7 @@ Item {
             theModel.dayHeights = []
             // 从后台获取所有已导入数据,倒序
             var titleInfos = []
-            if (Number(fileControl.getConfigValue("", "loadImport", 1)))
+            if (Number(FileControl.getConfigValue("", "loadImport", 1)))
                 titleInfos = albumControl.getAllImportTimelinesTitle(filterCombo.currentIndex);
             var i = 0
             var dayHeight = 0
@@ -441,7 +441,7 @@ Item {
             }
 
             //缩略图网格表
-            ThumbnailListView2 {
+            ThumbnailListViewAlbum {
                 id: importedGridView
                 anchors {
                     left: parent.left

@@ -11,7 +11,7 @@ import org.deepin.dtk 1.0
 import org.deepin.album 1.0 as Album
 
 import "../Control"
-import "../PreviewImageViewer"
+import "../PreviewImageViewer/Utils"
 import "../"
 ScrollView {
     id: sidebarScrollView

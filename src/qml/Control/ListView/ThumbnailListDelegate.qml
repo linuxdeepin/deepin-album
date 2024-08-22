@@ -16,20 +16,23 @@ import org.deepin.album 1.0 as Album
 
 import "../"
 import "../../"
+import "./"
 
 Item {
     id: main
     //注意：在model里面加进去的变量，这边可以直接进行使用，只是部分位置不好拿到，需要使用变量
     property string m_index
-    property string m_url
     property string m_displayFlushHelper
-    property string remainDays
-    property bool bShowDamageIcon: image.bLoadError
-    property bool bSelected: theView.ism.indexOf(parent.m_index) !== -1 || GStatus.selectedPaths.indexOf(m_url) !== -1
+    property QtObject modelData
+
+    property int index: model.index
+    property bool blank: model.blank
+    property bool bShowDamageIcon: image.null
+    property bool bSelected: model.selected !== undefined ? model.selected : false
     property bool bHovered: false //属性：是否hover
     property bool bFavorited: albumControl.photoHaveFavorited(model.url, GStatus.bRefreshFavoriteIconFlag)
-    property bool bShowRemainDays: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted
-    property bool bShowVideoLabel: fileControl.isVideo(m_url)
+    property bool bShowRemainDays: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted && !model.blank
+    property bool bShowVideoLabel: FileControl.isVideo(model.url) && !model.blank
     property Item selectIcon: null
     property Item selectFrame: null
     property Item favoriteBtn: null
@@ -37,53 +40,27 @@ Item {
     property Item videoLabel: null
     property int nDuration: GStatus.animationDuration
 
-    //缩略图本体
-    Image {
+    // 缩略图本体
+    Album.QImageItem {
         id: image
-        source: m_url !== "" ? "image://asynImageProvider/" + m_displayFlushHelper + theView.displayFlushHelper.toString() + "_" + m_url : ""
-        asynchronous: false
         anchors.centerIn: parent
         width: parent.width - 14
-        height: parent.height - 14
-        //使用PreserveAspectFit确保在原始比例下不变形
-        fillMode: Image.PreserveAspectFit
+        height: parent.height -14
+        smooth: true
+        image: {
+            gridView.bRefresh
+            modelData.thumbnail
+        }
+        fillMode: Album.QImageItem.PreserveAspectFit
         visible: false
-
-        //由于qml图片加载状态值在使用QQuickAsyncImageProvider异步加载方式后有异常（图片加载错误没有设置错误状态），暂时自定义类型进行判断错误状态
-        property bool bLoadError: false
-
-        onStatusChanged: {
-            if (status === Image.Ready && sourceSize === Qt.size(0, 0)) {
-                bLoadError = true;
-            } else {
-                bLoadError = false;
-            }
-        }
-    }
-
-    Loader {
-        id: damageIconLoader
-        anchors.centerIn: parent
-
-        // 判断是否加载错误图片状态组件
-        active: bShowDamageIcon
-        sourceComponent: ActionButton {
-            anchors.centerIn: parent
-            ColorSelector.hovered: false
-            icon {
-                name: "photo_breach"
-                width: image.width
-                height: image.height
-            }
-        }
     }
 
     // 图片保存完成，缩略图区域重新加载当前图片
     Connections {
-        target: fileControl
-        function onCallSavePicDone() {
-            if (path === m_url) {
-                m_displayFlushHelper = Math.random()
+        target: FileControl
+        function onCallSavePicDone(path) {
+            if (path === model.url) {
+                model.reloadThumbnail
             }
         }
     }
@@ -104,6 +81,7 @@ Item {
             radius: 10
 
             Behavior on width {
+                enabled: GStatus.enableRatioAnimation
                 NumberAnimation {
                     duration: nDuration
                     easing.type: Easing.OutExpo // 缓动类型
@@ -111,6 +89,7 @@ Item {
             }
 
             Behavior on height {
+                enabled: GStatus.enableRatioAnimation
                 NumberAnimation {
                     duration: nDuration
                     easing.type: Easing.OutExpo // 缓动类型
@@ -160,6 +139,7 @@ Item {
         radius: 10
 
         Behavior on width {
+            enabled: GStatus.enableRatioAnimation
             NumberAnimation {
                 duration: nDuration
                 easing.type: Easing.OutExpo // 缓动类型
@@ -167,6 +147,7 @@ Item {
         }
 
         Behavior on height {
+            enabled: GStatus.enableRatioAnimation
             NumberAnimation {
                 duration: nDuration
                 easing.type: Easing.OutExpo // 缓动类型
@@ -186,6 +167,9 @@ Item {
         }
 
         onEntered: {
+            if (model.blank)
+                return;
+
             bHovered = true
             if (favoriteBtn == null && model.modelType !== Album.Types.Device && model.modelType !== Album.Types.RecentlyDeleted)
                 favoriteBtn = favoriteComponent.createObject(main)
@@ -375,7 +359,7 @@ Item {
 
                     onClicked: {
                         var paths = []
-                        paths.push(m_url)
+                        paths.push(modelData.url)
 
                         if (bFavorited) {
                             //取消收藏
@@ -414,7 +398,7 @@ Item {
                     bottomMargin : 5
                 }
                 opacity: 0.7
-                displayStr: remainDays > 1 ? (remainDays + qsTr("days")) : (remainDays + qsTr("day"))
+                displayStr: model.remainDays > 1 ? (model.remainDays + qsTr("days")) : (model.remainDays + qsTr("day"))
             }
         }
     }
@@ -435,12 +419,12 @@ Item {
                     bottomMargin : 5
                 }
                 opacity: 0.7
-                displayStr: fileControl.isVideo(m_url) ? albumControl.getVideoTime(m_url) : "00:00"
+                displayStr: FileControl.isVideo(model.url) ? albumControl.getVideoTime(model.url) : "00:00"
 
                 Connections {
                     target: albumControl
                     function onSigRefreashVideoTime(url, videoTimeStr) {
-                        if (url === m_url) {
+                        if (url === model.url) {
                             videoLabel.displayStr = videoTimeStr
                         }
                     }

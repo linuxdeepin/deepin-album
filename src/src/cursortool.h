@@ -1,5 +1,4 @@
-// Copyright (C) 2020 ~ 2022 Uniontech Software Technology Co.,Ltd.
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2023 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -22,16 +21,14 @@ class CursorTool : public QObject
 {
     Q_OBJECT
 public:
-    enum Interval {
-        ESampleInterval = 50,   // 采样间隔 50ms
-    };
-
     explicit CursorTool(QObject *parent = nullptr);
 
+    // 取得当前鼠标光标位置
+    Q_INVOKABLE QPoint currentCursorPos() const;
     // 设置启动/停止采样
     Q_INVOKABLE void setCaptureCursor(bool b);
     // 当前光标位置信号
-    Q_SIGNAL void cursorPos(int x, int y);
+    Q_SIGNAL void cursorPosChanged(int x, int y);
 
     // 获取光标初始活动色
     Q_INVOKABLE QColor activeColor();
@@ -39,8 +36,8 @@ public:
     Q_SIGNAL void activeColorChanged(const QColor &);
 
 private:
-    QTimer      *m_CaptureTimer;        // 采样捕获定时器
-    QPoint      m_lastPos;              // 记录最后的位置
+    QTimer *m_CaptureTimer;  // 采样捕获定时器
+    QPoint m_lastPos;        // 记录最后的位置
 };
 
-#endif // CURSORTOOL_H
+#endif  // CURSORTOOL_H

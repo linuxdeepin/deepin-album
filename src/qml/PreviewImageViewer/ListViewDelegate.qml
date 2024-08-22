@@ -16,9 +16,9 @@ Item {
     // 当前缩略图索引的图片路径
     property var currentSource: imageViewer.sourcePaths[index]
     // 判断是否为多页图
-    property bool isMultiImage: fileControl.isMultiImage(currentSource)
+    property bool isMultiImage: FileControl.isMultiImage(currentSource)
     // 判断图片是否存在
-    property bool isImageExist: fileControl.imageIsExist(currentSource)
+    property bool isImageExist: FileControl.imageIsExist(currentSource)
 
     Rectangle {
         id: enterShader
@@ -42,7 +42,7 @@ Item {
 
     // 图片保存完成，缩略图区域重新加载当前图片
     Connections {
-        target: fileControl
+        target: FileControl
 
         // 图片被移动、替换、删除时触发
         // imageFileChanged(const QString &filePath, bool isMultiImage = false, bool isExist = false);
@@ -54,7 +54,7 @@ Item {
                 container.currentSource = filePath
 
                 img.source = ""
-                img.source = fileControl.isSvgImage(filePath) ? filePath : "image://ThumbnailImage/" + filePath
+                img.source = FileControl.isSvgImage(filePath) ? filePath : "image://ThumbnailImage/" + filePath
 
                 // 重新加载，复位旋转状态
                 container.rotation = 0
@@ -78,7 +78,7 @@ Item {
 
             smooth: false
             anchors.fill: parent
-            source: fileControl.isSvgImage(currentSource) ? currentSource : "image://ThumbnailImage/" + currentSource
+            source: FileControl.isSvgImage(currentSource) ? currentSource : "image://ThumbnailImage/" + currentSource
             sourceSize.width: 100
             sourceSize.height: 100
             asynchronous: true
@@ -181,7 +181,7 @@ Item {
                 font.pixelSize: 11
                 text: {
                     // 取得当前索引的图片帧号
-                    var count = fileControl.getImageCount(currentSource)
+                    var count = FileControl.getImageCount(currentSource)
                     return (count <= 999) ? count : "999+"
                 }
 
@@ -294,7 +294,7 @@ Item {
                     enableWidth = Math.max(enableWidth, minWidth)
 
                     // 每张子图片最多占用30px，间隔1px
-                    var curMultiImageWidth = (31 * fileControl.getImageCount(currentSource)) - 1
+                    var curMultiImageWidth = (31 * FileControl.getImageCount(currentSource)) - 1
                     return Math.min(619, Math.min(curMultiImageWidth, enableWidth))
                 }
                 imgRadius: 4
@@ -302,7 +302,7 @@ Item {
 
             PropertyChanges {
                 target: multiImageLoader
-                source: fileControl.isMultiImage(currentSource) ? "qrc:/qml/PreviewImageViewer/MultiImageListView.qml" : ""
+                source: FileControl.isMultiImage(currentSource) ? "qrc:/qml/PreviewImageViewer/MultiImageListView.qml" : ""
             }
         }
     ]

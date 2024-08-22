@@ -8,8 +8,6 @@
 #include <QObject>
 #include <QTimer>
 #include <QColor>
-#include <QFuture>
-#include <QtConcurrent>
 
 #if QT_VERSION >= 0x050500
 #define TIMER_SINGLESHOT(Time, Code, captured...){ \
@@ -127,13 +125,13 @@ namespace base {
 void        copyOneImageToClipboard(const QString &path);
 void        copyImageToClipboard(const QStringList &paths);
 void        showInFileManager(const QString &path);
-QString     hash(const QString &str);
-QString     hashByString(const QString &str);
-QString     hashByData(const QString &str);
 int         stringWidth(const QFont &f, const QString &str);
 int         stringHeight(const QFont &f, const QString &str);
 
 QPixmap     renderSVG(const QString &filePath, const QSize &size);
+QString     hash(const QString &str);
+QString     hashByString(const QString &str);
+QString     hashByData(const QString &str);
 QString     mkMutiDir(const QString &path);
 //根据源文件路径生产缩略图路径
 QString     filePathToThumbnailPath(const QString &filePath, QString dataHash = "");

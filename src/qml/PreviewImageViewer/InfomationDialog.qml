@@ -32,7 +32,7 @@ DialogWindow {
         console.log("informationdialog filepath:", filePath)
     }
 
-    property string fileName: fileControl.slotGetFileNameSuffix(filePath)
+    property string fileName: FileControl.slotGetFileNameSuffix(filePath)
 
     header: DialogTitleBar {
         enableInWindowBlendBlur: true
@@ -79,17 +79,17 @@ DialogWindow {
                     spacing: 1
                     PropertyItemDelegate {
                         title: qsTr("Size")
-                        description: fileControl.slotGetInfo("FileSize",filePath)
+                        description: FileControl.slotGetInfo("FileSize",filePath)
                         corners: RoundRectangle.BottomLeftCorner
                     }
                     PropertyItemDelegate {
                         title: qsTr("Dimensions")
-                        description: fileControl.slotGetInfo("Dimension",filePath)
+                        description: FileControl.slotGetInfo("Dimension",filePath)
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
                         title: qsTr("Type")
-                        description: fileControl.slotFileSuffix(filePath,false)
+                        description: FileControl.slotFileSuffix(filePath,false)
                         corners: RoundRectangle.BottomRightCorner
                     }
                 }
@@ -99,14 +99,14 @@ DialogWindow {
                 PropertyActionItemDelegate {
                     Layout.fillWidth: true
                     title: qsTr("Date captured")
-                    description: fileControl.slotGetInfo("DateTimeOriginal",filePath)
+                    description: FileControl.slotGetInfo("DateTimeOriginal",filePath)
                     corners: RoundRectangle.TopCorner
                 }
 
                 PropertyActionItemDelegate {
                     Layout.fillWidth: true
                     title: qsTr("Date modified")
-                    description: fileControl.slotGetInfo("DateTimeDigitized",filePath)
+                    description: FileControl.slotGetInfo("DateTimeDigitized",filePath)
                     corners: RoundRectangle.BottomCorner
                 }
             }
@@ -121,19 +121,19 @@ DialogWindow {
                     PropertyItemDelegate {
                         contrlImplicitWidth:66
                         title: qsTr("Aperture")
-                        description: fileControl.slotGetInfo("ApertureValue",filePath)
+                        description: FileControl.slotGetInfo("ApertureValue",filePath)
                         corners: RoundRectangle.TopLeftCorner
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth:106
                         title: qsTr("Exposure program")
-                        description: fileControl.slotGetInfo("ExposureProgram",filePath)
+                        description: FileControl.slotGetInfo("ExposureProgram",filePath)
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth:86
                         title: qsTr("Focal length")
-                        description: fileControl.slotGetInfo("FocalLength",filePath)
+                        description: FileControl.slotGetInfo("FocalLength",filePath)
                         corners: RoundRectangle.TopRightCorner
                     }
                 }
@@ -144,19 +144,19 @@ DialogWindow {
                     PropertyItemDelegate {
                         contrlImplicitWidth: 66
                         title: qsTr("ISO")
-                        description: fileControl.slotGetInfo("ISOSpeedRatings",filePath)
+                        description: FileControl.slotGetInfo("ISOSpeedRatings",filePath)
 
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth: 106
                         title: qsTr("Exposure mode")
-                        description: fileControl.slotGetInfo("ExposureMode",filePath)
+                        description: FileControl.slotGetInfo("ExposureMode",filePath)
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth: 86
                         title: qsTr("Exposure time")
-                        description: fileControl.slotGetInfo("ExposureTime",filePath)
+                        description: FileControl.slotGetInfo("ExposureTime",filePath)
                     }
                 }
                 RowLayout {
@@ -165,18 +165,18 @@ DialogWindow {
                     PropertyItemDelegate {
                         contrlImplicitWidth:66
                         title: qsTr("Flash")
-                        description: fileControl.slotGetInfo("Flash",filePath)
+                        description: FileControl.slotGetInfo("Flash",filePath)
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth:106
                         title: qsTr("Flash compensation")
-                        description: fileControl.slotGetInfo("FlashExposureComp",filePath)
+                        description: FileControl.slotGetInfo("FlashExposureComp",filePath)
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth:86
                         title: qsTr("Max aperture")
-                        description: fileControl.slotGetInfo("MaxApertureValue",filePath)
+                        description: FileControl.slotGetInfo("MaxApertureValue",filePath)
                     }
                 }
                 RowLayout {
@@ -185,19 +185,19 @@ DialogWindow {
                     PropertyItemDelegate {
                         contrlImplicitWidth:66
                         title: qsTr("Colorspace")
-                        description: fileControl.slotGetInfo("ColorSpace",filePath)
+                        description: FileControl.slotGetInfo("ColorSpace",filePath)
                         corners: RoundRectangle.BottomLeftCorner
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth:106
                         title: qsTr("Metering mode")
-                        description: fileControl.slotGetInfo("MeteringMode",filePath)
+                        description: FileControl.slotGetInfo("MeteringMode",filePath)
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
                         contrlImplicitWidth:86
                         title: qsTr("White balance")
-                        description: fileControl.slotGetInfo("WhiteBalance",filePath)
+                        description: FileControl.slotGetInfo("WhiteBalance",filePath)
                         corners: RoundRectangle.BottomRightCorner
                     }
                 }
@@ -205,12 +205,12 @@ DialogWindow {
 
             PropertyItemDelegate {
                 title: qsTr("Device model")
-                description: fileControl.slotGetInfo("Model",filePath)
+                description: FileControl.slotGetInfo("Model",filePath)
                 corners: RoundRectangle.AllCorner
             }
             PropertyItemDelegate {
                 title: qsTr("Lens model")
-                description: fileControl.slotGetInfo("LensType",filePath)
+                description: FileControl.slotGetInfo("LensType",filePath)
                 corners: RoundRectangle.AllCorner
             }
         }
