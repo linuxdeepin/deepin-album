@@ -22,7 +22,7 @@ SwitchViewAnimation {
     idName: "monthView"
     signal monthClicked(string year, string month)
 
-    property int itemHeight: theView.width * 4 / 7
+    property real itemHeight: theView.width * 4 / 7
     property alias count: theModel.count
     function scrollToYear(year) {
         //搜索index
@@ -72,14 +72,13 @@ SwitchViewAnimation {
         model: theModel
         clip: true
         delegate: theDelegate
-        spacing: 20
+        spacing: 0
 
         width: parent.width / 3 * 2
-        height: parent.height + GStatus.statusBarHeight - GStatus.collectionTopMargin
+        height: parent.height + GStatus.statusBarHeight
         anchors {
             top: parent.top
             horizontalCenter: parent.horizontalCenter
-            bottomMargin: GStatus.collectionTopMargin
         }
     }
 
@@ -89,20 +88,19 @@ SwitchViewAnimation {
         Item {
             id: delegateMain
             width: theView.width
-            height: theView.width * 4 / 7
+            height: itemHeight + GStatus.collectionTopMargin
 
             property var paths: albumControl.getMonthPaths(year, month)
 
             MonthImage {
                 id: image
+                anchors.verticalCenter: parent.verticalCenter
                 clip: true
                 anchors {
-                    left: parent.left
-                    top: parent.top
                     leftMargin: -1
                 }
                 width: parent.width + 2
-                height: parent.height
+                height: itemHeight
                 paths: delegateMain.paths
                 displayFlushHelper: theView.displayFlushHelper
 
@@ -131,7 +129,7 @@ SwitchViewAnimation {
             //border and shadow
             Rectangle {
                 id: borderRect
-                anchors.fill: parent
+                anchors.fill: image
                 //color: "transparent"
                 gradient: Gradient {
                     GradientStop {
@@ -187,7 +185,7 @@ SwitchViewAnimation {
             }
 
             MouseArea {
-                anchors.fill: parent
+                anchors.fill: image
                 onClicked: {
                     monthClicked(year, month)
                     forceActiveFocus()

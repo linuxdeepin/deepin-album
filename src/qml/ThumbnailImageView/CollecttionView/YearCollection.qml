@@ -19,6 +19,8 @@ SwitchViewAnimation {
 
     signal yearClicked(string year)
     property alias count: theModel.count
+    property real itemHeight: theView.width * 4 / 7
+
     function flushModel() {
         if (!visible)
             return
@@ -46,14 +48,13 @@ SwitchViewAnimation {
         model: theModel
         clip: true
         delegate: theDelegate
-        spacing: 20
+        spacing: 0
 
         width: parent.width / 3 * 2
-        height: parent.height + GStatus.statusBarHeight - GStatus.collectionTopMargin
+        height: parent.height + GStatus.statusBarHeight
         anchors {
             top: parent.top
             horizontalCenter: parent.horizontalCenter
-            bottomMargin: GStatus.collectionTopMargin
         }
     }
 
@@ -62,16 +63,17 @@ SwitchViewAnimation {
 
         Item {
             width: theView.width
-            height: theView.width * 4 / 7
+            height: itemHeight + GStatus.collectionTopMargin
 
             property string yearPath: albumControl.getYearCoverPath(year)
             Image {
                 id: image
 
+                anchors.verticalCenter: parent.verticalCenter
                 //因为新版本的Qt的图片缓存机制，导致相同路径的图片只会加载一次,source要改变才能刷新图片，所以尾部添加itemCount。如果需要数量相同也能刷新，则在尾部添加随机数
                 source: "image://collectionPublisher/" + theView.displayFlushHelper.toString() + "_Y_" + year + "_0" + "_" + itemCount
                 width: parent.width
-                height: parent.height
+                height: itemHeight
                 visible: false
                 smooth: true
                 antialiasing: true
@@ -101,7 +103,7 @@ SwitchViewAnimation {
             //border and shadow
             Rectangle {
                 id: borderRect
-                anchors.fill: parent
+                anchors.fill: image
                 gradient: Gradient {
                     GradientStop {
                         position: 0.0
@@ -144,7 +146,7 @@ SwitchViewAnimation {
             }
 
             MouseArea {
-                anchors.fill: parent
+                anchors.fill: image
                 onClicked: { //double click 切换动画不生效
                     yearClicked(year)
                     forceActiveFocus()
