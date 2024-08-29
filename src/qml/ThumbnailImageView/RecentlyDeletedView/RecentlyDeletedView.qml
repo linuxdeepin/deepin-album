@@ -127,8 +127,19 @@ BaseView {
                 topMargin: 10
                 left: parent.left
             }
+
+            width: restoreSelectedBtn.visible ? (restoreSelectedBtn.x - recentDelLabel.x) : (filterCombo.x - recentDelLabel.x)
             font: DTK.fontManager.t6
-            text: qsTr("The files will be permanently deleted after the days shown on them")
+            text: textMetics.elidedText
+
+            TextMetrics {
+                id: textMetics
+
+                elide: Text.ElideRight
+                elideWidth: recentDelTipLabel.width
+                font: recentDelTipLabel.font
+                text: qsTr("The files will be permanently deleted after the days shown on them")
+            }
         }
 
         //删除全部按钮
