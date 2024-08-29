@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.9
-import QtQuick.Window 2.2
-import QtQuick.Controls 2.4
-import QtQuick.Layouts 1.11
-import QtQml.Models 2.11
-import QtQml 2.11
+import QtQuick
+import QtQuick.Window
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQml.Models
+import QtQml
 import QtQuick.Shapes 1.10
 import org.deepin.dtk 1.0
 import org.deepin.album 1.0 as Album
@@ -31,7 +31,6 @@ Item {
     property bool isFirstLoad: true
 
     signal sigTextUpdated(string str)
-    signal importedLabelTextUpdated(string str)
 
     property int topDelegateIndex: 0
     property int topDelegateIndexTmp: 0
@@ -139,7 +138,7 @@ Item {
 
         Connections {
             target: vbar
-            onTopDelegateIndexChanged: {
+            function onTopDelegateIndexChanged(newIndex) {
                 var firstItemIndex = topDelegateIndex; // 使用当前顶部的索引
                 var firstItemLabel = theModel.get(firstItemIndex).title;
 
@@ -163,15 +162,15 @@ Item {
 
             property bool ctrlPressed: false // 记录ctrl是否按下
 
-            onClicked: {
+            onClicked: (mouse)=> {
                 //允许鼠标事件传递给子控件处理,否则鼠标点击缩略图收藏图标不能正常工作
                 //同时propagateComposedEvents需设置为true
                 //注意：不能传递onPressed、onReleased等基础事件，会有bug；合成事件onClicked等可以传递
                 mouse.accepted = false
             }
 
-            onPressed: {
-                if(mouse.button == Qt.RightButton) {
+            onPressed: (mouse)=> {
+                if(mouse.button === Qt.RightButton) {
                     mouse.accepted = false
                     return
                 }
@@ -193,15 +192,15 @@ Item {
                 rubberBandImport.y2 = mouse.y
             }
 
-            onDoubleClicked: {
+            onDoubleClicked: (mouse)=> {
                 if (GStatus.selectedPaths.length > 0)
                     theView.dbClicked(GStatus.selectedPaths[0])
 
                 rubberBandImport.clearRect()
             }
 
-            onMouseXChanged: {
-                if(mouse.button == Qt.RightButton) {
+            onMouseXChanged: (mouse)=> {
+                if(mouse.button === Qt.RightButton) {
                     mouse.accepted = false
                     return
                 }
@@ -211,8 +210,8 @@ Item {
                 }
             }
 
-            onMouseYChanged: {
-                if(mouse.button == Qt.RightButton) {
+            onMouseYChanged: (mouse)=> {
+                if(mouse.button === Qt.RightButton) {
                     mouse.accepted = false
                     return
                 }
@@ -240,8 +239,8 @@ Item {
                 sigListViewReleased(gPos.x, gPos.y)
             }
 
-            onReleased: {
-                if(mouse.button == Qt.RightButton) {
+            onReleased: (mouse)=> {
+                if(mouse.button === Qt.RightButton) {
                     mouse.accepted = false
                     return
                 }
@@ -256,7 +255,7 @@ Item {
                 theView.scrollDirType = Album.Types.NoType
                 rubberBandImport.clearRect()
             }
-            onWheel: {
+            onWheel: (wheel)=> {
                 // 滚动时，激活滚动条显示
                 vbar.active = true
                 var datla = wheel.angleDelta.y
@@ -308,8 +307,8 @@ Item {
                         }
 
                         // 矩形顶部向上延展
-                        if (theView.contentY <= rubberBandImport.bottom() || rubberBandImport.bottom() === rubberBandImport.top()) {
-                            var newTop = rubberBandImport.top() - theView.rectSelScrollOffset
+                        if (theView.contentY <= rubberBandImport._bottom() || rubberBandImport._bottom() === rubberBandImport._top()) {
+                            var newTop = rubberBandImport._top() - theView.rectSelScrollOffset
                             if (newTop > 0) {
                                 rubberBandImport.y2 = newTop
                                 theView.contentY = theView.contentY - theView.rectSelScrollOffset + theView.originY
@@ -322,8 +321,8 @@ Item {
                             }
                         } else {
                             // 矩形框底部向上收缩
-                            var newBottom = rubberBandImport.bottom() - theView.rectSelScrollOffset
-                            if (newBottom > rubberBandImport.top()) {
+                            var newBottom = rubberBandImport._bottom() - theView.rectSelScrollOffset
+                            if (newBottom > rubberBandImport._top()) {
                                 rubberBandImport.y2 = newBottom
                                 theView.contentY = theView.contentY - theView.rectSelScrollOffset + theView.originY
                             } else {
@@ -340,14 +339,14 @@ Item {
 
     Connections {
         target: GStatus
-        onSigPageUp: {
+        function onSigPageUp() {
             if (visible) {
                 vbar.active = true
                 vbar.decrease()
             }
         }
 
-        onSigPageDown: {
+        function onSigPageDown() {
             if (visible) {
                 vbar.active = true
                 vbar.increase()
@@ -392,7 +391,7 @@ Item {
 
                 Connections {
                     target: importedListView
-                    onSigListViewPressed: {
+                    function onSigListViewPressed(x, y) {
                         var object = importedCheckBox.mapFromGlobal(x,y)
                         if (importedCheckBox.contains(object)) {
                             checkBoxClicked = true
@@ -406,7 +405,7 @@ Item {
                         }
                     }
 
-                    onSigListViewReleased: {
+                    function onSigListViewReleased(x, y) {
                         checkBoxClicked = false
                     }
                 }
@@ -431,13 +430,6 @@ Item {
                         importedLabel.text = " "
                     }
                 }
-
-                Connections {
-                    target: vbar
-                    onImportedLabelTextUpdated: {
-                        importedLabel.text = str
-                    }
-                }
             }
 
             //缩略图网格表
@@ -457,9 +449,9 @@ Item {
 
                 Connections {
                     target: rubberBandImport
-                    onRectSelChanged: {
-                        var pos1 = theMouseArea.mapToItem(importedGridView, rubberBandImport.left(), rubberBandImport.top())
-                        var pos2 = theMouseArea.mapToItem(importedGridView, rubberBandImport.right(), rubberBandImport.bottom())
+                    function onRectSelChanged() {
+                        var pos1 = theMouseArea.mapToItem(importedGridView, rubberBandImport._left(), rubberBandImport._top())
+                        var pos2 = theMouseArea.mapToItem(importedGridView, rubberBandImport._right(), rubberBandImport._bottom())
                         var rectsel = albumControl.rect(pos1, pos2)
                         var rectList = Qt.rect(0, 0, importedGridView.width, importedGridView.height)
                         var rect = albumControl.intersected(rectList, rectsel)
@@ -471,7 +463,7 @@ Item {
                 // 监听缩略图子控件选中状态，一旦改变，更新已导入视图所有选中路径
                 Connections {
                     target: importedGridView
-                    onSelectedChanged: {
+                    function onSelectedChanged() {
                         if (index > -1) {
                             theModel.selectedPathObjs[index].paths = importedGridView.selectedUrls
                         }
@@ -482,17 +474,17 @@ Item {
 
                 Connections {
                     target: importedListView
-                    onSigUnSelectAll: {
+                    function onSigUnSelectAll() {
                         importedGridView.selectAll(false)
                     }
                 }
 
                 Connections {
                     target: theView
-                    onDbClicked: {
+                    function onDbClicked(url) {
                         var openPaths = importedGridView.allUrls()
                         if (openPaths.indexOf(url) !== -1) {
-                            var pos = theMouseArea.mapToItem(importedGridView, rubberBandImport.left(), rubberBandImport.top())
+                            var pos = theMouseArea.mapToItem(importedGridView, rubberBandImport._left(), rubberBandImport._top())
                             importedGridView.viewImageFromOuterDbClick(pos.x, pos.y)
                         }
                     }

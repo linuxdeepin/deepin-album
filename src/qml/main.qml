@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Window 2.11
-import QtQuick.Layouts 1.11
-import QtQuick.Controls 2.4
-import QtQuick.Dialogs 1.3
-import Qt.labs.folderlistmodel 2.11
+import QtQml
+import QtQuick
+import QtQuick.Window
+import QtQuick.Layouts
+import QtQuick.Controls
+import QtQuick.Dialogs
 
 import org.deepin.dtk 1.0
 import org.deepin.album 1.0 as Album
@@ -18,8 +18,6 @@ ApplicationWindow {
     id: window
 
     property bool isFullScreen: window.visibility === Window.FullScreen
-
-    signal sigTitlePress
 
     // Bug fix: 使用 ListView 替换 PathView 时，出现内部的 mouseArea 鼠标操作会被 DWindow 截取
     // 导致 flicking 时拖动窗口，此处使用此标志禁用此行为
@@ -131,8 +129,8 @@ ApplicationWindow {
     FileDialog {
         id: importDialog
         title: qsTr("All photos and videos")
-        folder: shortcuts.pictures
-        selectMultiple: true
+        currentFolder: shortcuts.pictures
+        //selectMultiple: true
         nameFilters: albumControl.getAllFilters()
         onAccepted: {
             var bIsCustomAlbumImport = GStatus.currentViewType === Album.Types.ViewCustomAlbum && albumControl.isCustomAlbum(GStatus.currentCustomAlbumUId)
@@ -151,7 +149,7 @@ ApplicationWindow {
 
     Connections {
         target: albumControl
-        onSigActiveApplicationWindow: {
+        function onSigActiveApplicationWindow() {
             window.requestActivate()
         }
     }

@@ -384,7 +384,7 @@ QImage MultiImageLoad::requestImage(const QString &id, QSize *size, const QSize 
     }
 
     // 从后向前查询索引标识
-    int index = checkId.lastIndexOf(QRegExp(QString("%1\\d+$").arg(s_tagFrame)));
+    int index = checkId.lastIndexOf(QRegularExpression(QString("%1\\d+$").arg(s_tagFrame)));
     if (-1 == index) {
         return QImage();
     }
@@ -529,8 +529,7 @@ MultiImageLoad::CacheImage::CacheImage(const QImage &img)
 }
 
 ImagePublisher::ImagePublisher(QObject *parent)
-    : QObject(parent)
-    , QQuickImageProvider(Image)
+    : QQuickImageProvider(Image)
 {
     //初始化的时候读取上次退出时的状态
     m_loadMode = LibConfigSetter::instance()->value(SETTINGS_GROUP, SETTINGS_DISPLAY_MODE, 0).toInt();
@@ -871,8 +870,7 @@ QImage AsyncImageResponseAlbum::addPadAndScaled(const QImage &src)
 }
 
 AsyncImageProviderAlbum::AsyncImageProviderAlbum(QObject *parent)
-    : QObject(parent)
-    , QQuickAsyncImageProvider()
+    : QQuickAsyncImageProvider()
 {
     //初始化的时候读取上次退出时的状态
     m_loadMode = LibConfigSetter::instance()->value(SETTINGS_GROUP, SETTINGS_DISPLAY_MODE, 0).toInt();

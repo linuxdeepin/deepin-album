@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
+import QtQuick
 import org.deepin.dtk 1.0
 
 import org.deepin.album 1.0 as Album
@@ -28,7 +28,7 @@ BaseView {
 
     Connections {
         target: albumControl
-        onSigRepeatUrls: {
+        function onSigRepeatUrls(urls) {
             if (visible) {
                 theView.sigUnSelectAll()
                 theView.selectedPaths = urls

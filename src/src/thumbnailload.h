@@ -97,7 +97,7 @@ private:
 };
 
 //缩略图
-class ImagePublisher : public QObject, public QQuickImageProvider
+class ImagePublisher : public QQuickImageProvider
 {
     Q_OBJECT
 
@@ -206,7 +206,7 @@ private:
     int m_loadMode;
 };
 
-class AsyncImageProviderAlbum : public QObject, public QQuickAsyncImageProvider
+class AsyncImageProviderAlbum : public QQuickAsyncImageProvider
 {
     Q_OBJECT
 public:

@@ -29,7 +29,7 @@
 #include "thumbnailview/thumbnailmodel.h"
 #include "thumbnailview/qimageitem.h"
 
-#include <dapplicationhelper.h>
+#include <DGuiApplicationHelper>
 #include <DApplication>
 
 #include <DLog>
@@ -42,6 +42,7 @@
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
+DGUI_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {

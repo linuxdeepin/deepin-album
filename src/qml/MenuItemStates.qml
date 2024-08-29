@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
+import QtQuick
+import QtQuick.Controls
 
 import org.deepin.album 1.0 as Album
 
@@ -22,7 +22,10 @@ Item {
     property bool canViewPhotoInfo: false
     property bool canViewVideoInfo: false
     property bool canWallpaper: false
-    property bool canFavorite: albumControl.canFavorite(GStatus.selectedPaths, GStatus.bRefreshFavoriteIconFlag) && !isInTrash
+    property bool canFavorite: {
+        GStatus.bRefreshFavoriteIconFlag
+        return albumControl.canFavorite(GStatus.selectedPaths) && !isInTrash
+    }
     property bool canRotate: true
     property bool canDisplayInFolder: false
     property bool canPrint: true

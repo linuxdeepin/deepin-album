@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Window 2.11
-import QtQuick.Layouts 1.11
-import QtQuick.Controls 2.4
+import QtQuick
+import QtQuick.Window
+import QtQuick.Layouts
+import QtQuick.Controls
 import org.deepin.dtk 1.0
 
 import org.deepin.album 1.0 as Album
@@ -21,8 +21,14 @@ ScrollView {
     property int currentCustomIndex: 0 //自定义相册当前索引值
     property var devicePaths : albumControl.getDevicePaths()
     property var albumPaths : albumControl.getAlbumPaths(GStatus.currentCustomAlbumUId)
-    property var importAlbumNames : albumControl.getImportAlubumAllNames(GStatus.albumImportChangeList)
-    property var customAlbumNames : albumControl.getAllCustomAlbumName(GStatus.albumChangeList)
+    property var importAlbumNames : {
+        GStatus.albumImportChangeList
+        albumControl.getImportAlubumAllNames()
+    }
+    property var customAlbumNames : {
+        GStatus.albumChangeList
+        albumControl.getAllCustomAlbumName()
+    }
     property ListModel deviceListModel: ListModel {}
     property ListModel importListModel: ListModel {}
     property ListModel customListModel: ListModel {}
@@ -174,7 +180,7 @@ ScrollView {
                 ListElement{checked: false; icon: "trash"; displayName: qsTr("Trash"); uuid: "trash"; editable: false; deleteable: false}
             }
 
-            onItemClicked: {
+            onItemClicked: (uuid)=> {
                 GStatus.currentViewType = view.currentIndex + 2
                 // 导航页选中我的收藏时，设定自定相册索引为0，使用CutomAlbum控件按自定义相册界面逻辑显示我的收藏内容
                 if (GStatus.currentViewType === Album.Types.ViewFavorite) {
@@ -201,7 +207,7 @@ ScrollView {
 
             Connections {
                 target: deviceSideBar
-                onRemoveDeviceBtnClicked: {
+                function onRemoveDeviceBtnClicked(uuid) {
                     var index = deviceSideBar.indexFromUuid(uuid)
                     if (index !== -1) {
                         if (sidebarScrollView.devicePaths.length === 1){
@@ -222,7 +228,7 @@ ScrollView {
 
             Connections {
                 target: albumControl
-                onSigAddDevice: {
+                function onSigAddDevice(path) {
                     for (var i = 0; i < deviceListModel.length; i++) {
                         if (deviceListModel[i].path === path) {
                             deviceSideBar.view.currentIndex = i
@@ -235,7 +241,7 @@ ScrollView {
                 }
             }
 
-            onItemCheckedChanged: {
+            onItemCheckedChanged: (index, checked)=> {
                 if (checked) {
                     GStatus.currentDevicePath = deviceListModel.get(index).path
                     GStatus.currentViewType = Album.Types.ViewDevice
@@ -282,7 +288,7 @@ ScrollView {
                 }
             }
 
-            onItemClicked: {
+            onItemClicked: (uuid)=> {
                 GStatus.currentViewType = Album.Types.ViewCustomAlbum
                 GStatus.currentCustomAlbumUId = uuid
                 GStatus.searchEditText = ""
@@ -321,7 +327,7 @@ ScrollView {
 
             Connections {
                 target: albumControl
-                onSigAddCustomAlbum: {
+                function onSigAddCustomAlbum(UID) {
                     for (var i = 0; i < importListModel.count; i++) {
                         if (Number(UID) === Number(importListModel.get(i).uuid)) {
                             importSideBar.view.currentIndex = i
@@ -334,11 +340,11 @@ ScrollView {
                 }
             }
 
-            onItemClicked: {
+            onItemClicked: (uuid)=> {
                currentImportCustomIndex = importSideBar.indexFromUuid(uuid)
             }
 
-            onItemCheckedChanged: {
+            onItemCheckedChanged: (checked)=> {
                 if (checked) {
                     GStatus.currentViewType = Album.Types.ViewCustomAlbum
                     GStatus.currentCustomAlbumUId = importListModel.get(index).uuid
@@ -363,7 +369,7 @@ ScrollView {
             group: paneListGroup
             sideModel: customListModel
 
-            onItemClicked: {
+            onItemClicked: (uuid)=> {
                 currentCustomIndex = customSideBar.indexFromUuid(uuid)
                 GStatus.currentViewType = Album.Types.ViewCustomAlbum
                 GStatus.currentCustomAlbumUId = customListModel.get(currentCustomIndex).uuid
@@ -384,7 +390,7 @@ ScrollView {
     // 数据库监听-刷新设备列表
     Connections {
         target: albumControl
-        onSigMountsChange: {
+        function onSigMountsChange() {
             devicePaths = albumControl.getDevicePaths()
             if (devicePaths.length === 0 && GStatus.currentViewType === Album.Types.ViewDevice)
                 backCollection()
@@ -394,7 +400,7 @@ ScrollView {
     // 通过自定义相册列表创建相册后，导航到新相册所在行
     Connections {
         target: newAlbum
-        onSigCreateAlbumDone: {
+        function onSigCreateAlbumDone() {
             if (GStatus.currentViewType === Album.Types.ViewCustomAlbum) {
                 for (var i = 0; i < customListModel.count; i++) {
                     if (Number(customListModel.get(i).uuid) === GStatus.currentCustomAlbumUId) {

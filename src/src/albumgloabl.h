@@ -17,7 +17,7 @@
 #include <QDebug>
 #include <QStandardPaths>
 #include <QDir>
-#include <QTime>
+#include <QElapsedTimer>
 
 namespace albumGlobal {
 

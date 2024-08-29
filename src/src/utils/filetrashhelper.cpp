@@ -14,21 +14,6 @@
 #include <QRegularExpression>
 
 /*!
-   \brief 拷贝自 dde-file-manager 代码，看图中仅使用 kRemovable 访问可能被卸载的设备
- */
-enum DeviceQueryOption {
-    kNoCondition = 0,
-    kMountable = 1,
-    kMounted = 1 << 1,
-    kRemovable = 1 << 2,
-    kNotIgnored = 1 << 3,
-    kNotMounted = 1 << 4,
-    kOptical = 1 << 5,
-    kSystem = 1 << 6,
-    kLoop = 1 << 7,
-};
-
-/*!
    \class FileTrashHelper::FileTrashHelper
    \brief 文件回收站辅助类
    \details 用于判断文件是否可被移动到回收站中，以及移动文件到回收站

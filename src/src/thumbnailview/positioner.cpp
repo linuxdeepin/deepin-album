@@ -139,6 +139,23 @@ int Positioner::map(int row) const
     return row;
 }
 
+QVariantList Positioner::maps(QVariantList rows) const
+{
+    QVariantList varList;
+    varList.clear();
+    if (m_enabled && m_thumbnialModel) {
+        int iRow = -1;
+        for (const auto &var : rows) {
+            iRow = var.toInt();
+            if (iRow < 0)
+                continue;
+            varList.push_back(m_proxyToSource.value(iRow, -1));
+        }
+    }
+
+    return varList;
+}
+
 int Positioner::nearestItem(int currentIndex, Qt::ArrowType direction)
 {
     if (!m_enabled || currentIndex >= rowCount()) {
@@ -268,6 +285,8 @@ void Positioner::setRangeSelected(int anchor, int to)
 
 QHash<int, QByteArray> Positioner::roleNames() const
 {
+    if (!m_thumbnialModel)
+        return QHash<int, QByteArray>();
     return m_thumbnialModel->roleNames();
 }
 

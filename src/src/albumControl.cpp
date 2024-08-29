@@ -6,10 +6,10 @@
 #include "dbmanager/dbmanager.h"
 #include "fileMonitor/fileinotifygroup.h"
 #include "imageengine/imageenginethread.h"
-
+#include "utils/devicehelper.h"
 #include <DDialog>
 #include <DMessageBox>
-#include <DApplicationHelper>
+#include <DGuiApplicationHelper>
 
 #include <QStandardPaths>
 #include <QFileInfo>
@@ -22,10 +22,9 @@
 #include <QFuture>
 #include <QtConcurrent>
 #include <QApplication>
-#include <QDBusMessage>
-#include <QDBusConnection>
 
 DWIDGET_USE_NAMESPACE
+DGUI_USE_NAMESPACE
 
 namespace {
 static QMap<QString, const char *> i18nMap {
@@ -187,25 +186,19 @@ DBImgInfo AlbumControl::getDBInfo(const QString &srcpath, bool isVideo)
 
 void AlbumControl::initDeviceMonitor()
 {
-    m_vfsManager = new DGioVolumeManager(this);
-    m_diskManager = new DDiskManager(this);
-    m_diskManager->setWatchChanges(true);
+    m_deviceManager = DDeviceManager::instance();
+    m_deviceManager->startMonitorWatch();
 
-    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumControl::onVfsMountChangedAdd);
-    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, &AlbumControl::onVfsMountChangedRemove);
-    connect(m_vfsManager, &DGioVolumeManager::volumeAdded, [](QExplicitlySharedDataPointer<DGioVolume> vol) {
-        if (vol->volumeMonitorName().contains(QRegularExpression("(MTP|GPhoto2|Afc)$"))) {
-            vol->mount();
-        }
-    });
-
-    connect(m_diskManager, &DDiskManager::fileSystemAdded, this, &AlbumControl::onFileSystemAdded);
-    connect(m_diskManager, &DDiskManager::blockDeviceAdded, this, &AlbumControl::onBlockDeviceAdded);
-
-    QList<QExplicitlySharedDataPointer<DGioMount> > list = getVfsMountList();
-    for (auto mount : list) {
-        onVfsMountChangedAdd(mount);
+    DeviceHelper::instance()->loadAllDeviceInfos();
+    getAllBlockDeviceName();
+    QStringList deviceIds = DeviceHelper::instance()->getAllDeviceIds();
+    for (auto id : deviceIds) {
+        QVariantMap deveiceInfo = DeviceHelper::instance()->loadDeviceInfo(id);
+        onMounted(id, deveiceInfo.value("MountPoint").toString(), static_cast<DeviceType>(deveiceInfo.value("DeviceType").toInt()));
     }
+    connect(m_deviceManager, &DDeviceManager::deviceRemoved, this, &AlbumControl::onDeviceRemoved);
+    connect(m_deviceManager, &DDeviceManager::mounted, this, &AlbumControl::onMounted);
+    connect(m_deviceManager, &DDeviceManager::unmounted, this, &AlbumControl::onUnMounted);
 }
 
 bool AlbumControl::findPicturePathByPhone(QString &path)
@@ -235,15 +228,6 @@ bool AlbumControl::findPicturePathByPhone(QString &path)
     return false;
 }
 
-QList<QExplicitlySharedDataPointer<DGioMount> > AlbumControl::getMounts()
-{
-    static QMutex mutex;
-    mutex.lock();
-    auto result = DGioVolumeManager::getMounts();
-    mutex.unlock();
-    return result;
-}
-
 void AlbumControl::getAllInfos()
 {
     m_infoList = DBManager::instance()->getAllInfos();
@@ -271,86 +255,32 @@ QString AlbumControl::getAllFilters()
 
 void AlbumControl::unMountDevice(const QString &devicePath)
 {
-    QStringList blDevList = DDiskManager::blockDevices(QVariantMap());
-    QSharedPointer<DBlockDevice> blkget;
-    QString mountPoint = "";
-    for (const QString &blks : blDevList) {
-        QSharedPointer<DBlockDevice> blk(DDiskManager::createBlockDevice(blks));
-        QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blk->drive()));
-        if (!blk->hasFileSystem() && !drv->mediaCompatibility().join(" ").contains("optical") && !blk->isEncrypted()) {
-            continue;
-        }
-        if ((blk->hintIgnore() && !blk->isEncrypted()) || blk->cryptoBackingDevice().length() > 1) {
-            continue;
-        }
-        QByteArrayList qbl = blk->mountPoints();
-        mountPoint = "";
-        QList<QByteArray>::iterator qb = qbl.begin();
-        while (qb != qbl.end()) {
-            mountPoint += (*qb);
-            ++qb;
-        }
-        if (mountPoint.contains(devicePath, Qt::CaseSensitive)) {
-            blkget = blk;
-            break;
+    QString deviceId = DeviceHelper::instance()->getDeviceIdByMountPoint(devicePath);
+    if (!deviceId.isEmpty() && DeviceHelper::instance()->detachDevice(deviceId)) {
+        // 等待最多200ms超时
+        QEventLoop loop;
+        static const int overTime = 200;
+        QTimer::singleShot(overTime, &loop, &QEventLoop::quit);
+        loop.exec();
+
+        DeviceHelper::instance()->loadAllDeviceInfos();
+
+        // 设备不存在，则卸载成功，否则提示卸载失败
+        if (!DeviceHelper::instance()->isExist(deviceId)) {
+            m_durlAndNameMap.remove(devicePath);
+            m_PhonePicFileMap.remove(devicePath);
         } else {
-            mountPoint = "";
+            DDialog msgbox;
+            msgbox.setFixedWidth(400);
+            msgbox.setIcon(DMessageBox::standardIcon(DMessageBox::Critical));
+            msgbox.setTextFormat(Qt::AutoText);
+            msgbox.setMessage(tr("Disk is busy, cannot eject now"));
+            msgbox.insertButton(1, tr("OK"), false, DDialog::ButtonNormal);
+            auto ret = msgbox.exec();
+            Q_UNUSED(ret);
         }
     }
 
-    //查找对应的挂载，从硬盘卸载外接设备，如U盘等
-    for (QExplicitlySharedDataPointer<DGioMount> mount : m_mounts) {
-        QString uriLoop = mount->getRootFile()->path();
-        if (devicePath == uriLoop) {
-            QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
-            if (LocationFile->path().compare(devicePath) == 0 && mount->canUnmount() && !blkget.isNull()) { //增加blkget为空判断，某些情况下卸载设备会导致程序闪退
-                QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(blkget->drive()));
-                QScopedPointer<DBlockDevice> cbblk(DDiskManager::createBlockDevice(blkget->cryptoBackingDevice()));
-                if (!drv->removable()) {
-                    DDialog msgbox;
-                    msgbox.setFixedWidth(400);
-                    msgbox.setIcon(DMessageBox::standardIcon(DMessageBox::Critical));
-                    msgbox.setTextFormat(Qt::AutoText);
-                    msgbox.setMessage(tr("Disk is busy, cannot eject now"));
-                    msgbox.insertButton(1, tr("OK"), false, DDialog::ButtonNormal);
-                    auto ret = msgbox.exec();
-                    Q_UNUSED(ret);
-                    return;
-                }
-                bool err = false;
-                if (!blkget->mountPoints().empty()) {
-                    blkget->unmount({});
-                    err |= blkget->lastError().isValid();
-                }
-                if (blkget->cryptoBackingDevice().length() > 1) {
-                    cbblk->lock({});
-                    err |= cbblk->lastError().isValid();
-                    drv.reset(DDiskManager::createDiskDevice(cbblk->drive()));
-                }
-                if (drv->canPowerOff()) {
-                    drv->powerOff({});
-                }
-                err |= drv->lastError().isValid();
-                if (err) {
-                    DDialog msgbox;
-                    msgbox.setFixedWidth(400);
-                    msgbox.setIcon(DMessageBox::standardIcon(DMessageBox::Critical));
-                    msgbox.setTextFormat(Qt::AutoText);
-                    msgbox.setMessage(tr("Disk is busy, cannot eject now"));
-                    msgbox.insertButton(1, tr("OK"), false, DDialog::ButtonNormal);
-                    auto ret = msgbox.exec();
-                    Q_UNUSED(ret);
-                    return;
-                } else {
-                    m_mounts.removeOne(mount);
-                    m_durlAndNameMap.remove(devicePath);
-                    m_PhonePicFileMap.remove(devicePath);
-                }
-                break;
-            }
-            break;
-        }
-    }
     emit sigMountsChange();
 }
 
@@ -674,7 +604,7 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum, const int &fi
             if (datelist.count() > 4) {
                 if (ImgInfoList.size() > 0) {
                     date = QString(QObject::tr("%1/%2/%3 %4:%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]);
-                    m_importTimeLinePathsMap.insertMulti(date, ImgInfoList);
+                    m_importTimeLinePathsMap.insert(date, ImgInfoList);
                 }
             }
         }
@@ -704,25 +634,25 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum, const int &fi
             switch (timeEnum) {
             case TimeLineEnum::Year :
                 if (ImgInfoList.size() > 0) {
-                    tmpInfoMap.insertMulti(QString(QObject::tr("%1").arg(datelist[0])), ImgInfoList);
+                    tmpInfoMap.insert(QString(QObject::tr("%1").arg(datelist[0])), ImgInfoList);
                 }
                 m_yearDateMap = tmpInfoMap;
                 break;
             case TimeLineEnum::Month :
                 if (ImgInfoList.size() > 0) {
-                    tmpInfoMap.insertMulti(QString(QObject::tr("%1/%2").arg(datelist[0]).arg(datelist[1])), ImgInfoList);
+                    tmpInfoMap.insert(QString(QObject::tr("%1/%2").arg(datelist[0]).arg(datelist[1])), ImgInfoList);
                 }
                 m_monthDateMap = tmpInfoMap;
                 break;
             case TimeLineEnum::Day :
                 if (ImgInfoList.size() > 0) {
-                    tmpInfoMap.insertMulti(QString(QObject::tr("%1/%2/%3").arg(datelist[0]).arg(datelist[1]).arg(datelist[2])), ImgInfoList);
+                    tmpInfoMap.insert(QString(QObject::tr("%1/%2/%3").arg(datelist[0]).arg(datelist[1]).arg(datelist[2])), ImgInfoList);
                 }
                 m_dayDateMap = tmpInfoMap;
                 break;
             case TimeLineEnum::All :
                 if (ImgInfoList.size() > 0) {
-                    tmpInfoMap.insertMulti(QString(QObject::tr("%1/%2/%3 %4:%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]), ImgInfoList);
+                    tmpInfoMap.insert(QString(QObject::tr("%1/%2/%3 %4:%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]), ImgInfoList);
                 }
                 m_timeLinePathsMap = tmpInfoMap;
                 break;
@@ -775,7 +705,7 @@ void AlbumControl::startMonitor()
         QFileInfoList infos = LibUnionImage_NameSpace::getImagesAndVideoInfo(eachItem, false);
         QStringList currentPaths;
         std::transform(infos.begin(), infos.end(), std::back_inserter(currentPaths), [](const QFileInfo & info) {
-            return info.isSymLink() ? info.readLink() : info.absoluteFilePath();
+            return info.isSymLink() ? info.readSymLink() : info.absoluteFilePath();
         });
 
         //3.1获取已不存在的路径
@@ -852,117 +782,9 @@ void AlbumControl::slotMonitorDestroyed(int UID)
     emit sigDeleteCustomAlbum(UID);
 }
 
-void AlbumControl::onVfsMountChangedAdd(QExplicitlySharedDataPointer<DGioMount> mount)
-{
-    qDebug() << "挂载设备增加：" << mount->name();
-
-    //Support android phone, iPhone, and usb devices. Not support ftp, smb mount, non removeable disk now
-    QString uri = mount->getRootFile()->uri();
-    QString scheme = QUrl(uri).scheme();
-
-    // 查看块设备是否可卸载，以便确定file前缀的uri是否为外接设备
-    bool bCanEject = false;
-    if (mount->getVolume())
-        bCanEject = mount->getVolume()->canEject();
-
-    qInfo() << "AlbumControl::onVfsMountChangedAdd uri: " << uri << "canEject:" << bCanEject;
-    QRegularExpression recifs("^file:///media/(.*)/smbmounts");
-    QRegularExpression regvfs("^file:///run/user/(.*)/gvfs|^/root/.gvfs");
-    // 因V23玲珑文管smb挂载方式有优化，修改uri的smb路径判断方式，包括gvfs挂载和cifs挂载
-    if (recifs.match(uri).hasMatch() || regvfs.match(uri).hasMatch()) {
-        qDebug() << "uri is a smb path";
-        return;
-    }
-
-    if ((scheme == "file" && bCanEject) ||  //usb device
-            (scheme == "gphoto2") ||                //phone photo
-            //(scheme == "afc") ||                  //iPhone document
-            (scheme == "mtp")) {                    //android file
-        qDebug() << "mount.name" << mount->name() << " scheme type:" << scheme;
-        for (auto mountLoop : m_mounts) {
-            QString uriLoop = mountLoop->getRootFile()->uri();
-            if (uri == uriLoop) {
-                qDebug() << "Already has this device in mount list. uri:" << uriLoop;
-                return;
-            }
-        }
-        QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
-        QString strPath = LocationFile->path();
-        qDebug() << "mount->getDefaultLocationFile()->path():" << strPath;
-        if (strPath.isEmpty()) {
-            qDebug() << "onVfsMountChangedAdd() strPath.isEmpty()";
-        }
-        QString rename = "";
-        qDebug() << mount->getRootFile()->path();
-        rename = m_blkPath2DeviceNameMap[mount->getRootFile()->path()];
-        if ("" == rename) {
-            rename = mount->name();
-        }
-        m_durlAndNameMap[mount->getRootFile()->path()] = rename;
-
-        //判断路径是否存在
-        bool bFind = false;
-        QDir dir(strPath);
-        if (!dir.exists()) {
-            qDebug() << "onLoadMountImagesStart() !dir.exists()";
-            bFind = false;
-        } else {
-            bFind = true;
-        }
-        //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,再调用findPicturePathByPhone函数搜索DCIM文件目录
-        if (!strPath.contains("/media/")) {
-            bFind = findPicturePathByPhone(strPath);
-        }
-
-        m_mounts = getVfsMountList();
-
-        //路径存在
-        if (bFind) {
-            emit sigMountsChange();
-            //发送新增
-            emit sigAddDevice(mount->getRootFile()->path());
-        }
-    }
-}
-
-void AlbumControl::onVfsMountChangedRemove(QExplicitlySharedDataPointer<DGioMount> mount)
-{
-    QString uri = mount->getRootFile()->uri();
-    QString strPath = mount->getDefaultLocationFile()->path();
-    if (!strPath.contains("/media/")) {
-        findPicturePathByPhone(strPath);
-    }
-    m_durlAndNameMap.erase(m_durlAndNameMap.find(mount->getRootFile()->path()));
-
-    m_mounts = getVfsMountList();
-    if (m_PhonePicFileMap.contains(strPath))
-        m_PhonePicFileMap.remove(strPath);
-
-    for (auto endmount : m_mounts) {
-        if (uri == endmount->getRootFile()->uri()) {
-            qDebug() << "Already has this device in mount list. uri:" << uri;
-            m_mounts.removeOne(endmount);
-            break;
-        }
-    }
-
-    emit sigMountsChange();
-}
-
-void AlbumControl::onFileSystemAdded(const QString &dbusPath)
-{
-    DBlockDevice *blDev = DDiskManager::createBlockDevice(dbusPath);
-    blDev->mount({});
-}
-
-void AlbumControl::onBlockDeviceAdded(const QString &blks)
-{
-    updateDeviceName(blks);
-}
-
 void AlbumControl::sltLoadMountFileList(const QString &path)
 {
-    QTime time;
+    QElapsedTimer time;
     time.start();
     QString strPath = path;
     if (!m_PhonePicFileMap.contains(strPath)) {
@@ -995,26 +817,107 @@ void AlbumControl::sltLoadMountFileList(const QString &path)
     qDebug() << __FUNCTION__ << QString(" load device path:%1 cost [%2]ms").arg(path).arg(time.elapsed());
 }
 
-const QList<QExplicitlySharedDataPointer<DGioMount> > AlbumControl::getVfsMountList()
+void AlbumControl::onDeviceRemoved(const QString &deviceKey, DeviceType type)
 {
-    getAllDeviceName();
-    QList<QExplicitlySharedDataPointer<DGioMount> > result;
-    const QList<QExplicitlySharedDataPointer<DGioMount> > mounts = getMounts();
-    for (auto mount : mounts) {
-        //TODO:
-        //Support android phone, iPhone, and usb devices. Not support ftp, smb, non removeable disk now
-        QString scheme = QUrl(mount->getRootFile()->uri()).scheme();
-        if ((scheme == "file" /*&& mount->canEject()*/) ||  //usb device
-                (scheme == "gphoto2") ||                //phone photo
-                //(scheme == "afc") ||                    //iPhone document
-                (scheme == "mtp")) {                    //android file
-            qDebug() << "getVfsMountList() mount.name" << mount->name() << " scheme type:" << scheme;
-            result.append(mount);
+    qDebug() << QString("deviceKey:%1 DeviceType:%2").arg(deviceKey).arg(static_cast<int>(type));
+    onUnMountedExecute(deviceKey, type);
+}
+
+void AlbumControl::onMounted(const QString &deviceKey, const QString &mountPoint, DeviceType type)
+{
+    qDebug() << QString("deviceKey:%1 mountPoint:%2 DeviceType:%3").arg(deviceKey).arg(mountPoint).arg(static_cast<int>(type));
+
+    QString uri = deviceKey;
+    QString scheme = QUrl(uri).scheme();
+
+    if (DeviceHelper::isSamba(uri)) {
+        qWarning() << "uri is a smb path";
+        return;
+    }
+
+    if ((scheme == "file") ||  //usb device
+        (scheme == "gphoto2") ||                //phone photo
+        //(scheme == "afc") ||                  //iPhone document
+        (scheme == "mtp") ||                    //android file
+        deviceKey.startsWith("/org")) {         //deviceId为/org前缀的外接设备路径
+
+        const QVariantMap deviceInfo = DeviceHelper::instance()->loadDeviceInfo(uri, true);
+        if (deviceInfo.isEmpty() || deviceInfo.value("MountPoint").toString().isEmpty()) {
+            qWarning() << QString("deviceKey:%1 empty deviceInfo.").arg(uri);
+            return;
+        }
+
+        QString label;
+        if (static_cast<DeviceType>(deviceInfo.value("DeviceType").toInt()) == DeviceType::kBlockDevice)
+            label = deviceInfo.value("IdLabel").toString();
+        else if (static_cast<DeviceType>(deviceInfo.value("DeviceType").toInt()) == DeviceType::kProtocolDevice)
+            label = deviceInfo.value("DisplayName").toString();
+        qDebug() << "device.name" << label << " scheme type:" << scheme;
+        if (m_durlAndNameMap.find(mountPoint) != m_durlAndNameMap.end()) {
+            qDebug() << "Already has this device in device list. mountPoint:" << mountPoint;
+            return;
+        }
+        QString strPath = mountPoint;
+        if (strPath.isEmpty()) {
+            qDebug() << "strPath.isEmpty()";
+        }
+        QString rename = "";
+        qDebug() << mountPoint;
+        rename = m_blkPath2DeviceNameMap[mountPoint];
+        if ("" == rename) {
+            rename = label;
+        }
+        //判断路径是否存在
+        bool bFind = false;
+        QDir dir(strPath);
+        if (!dir.exists()) {
+            qDebug() << "onLoadMountImagesStart() !dir.exists()";
+            bFind = false;
         } else {
-            qDebug() <<  mount->name() << " scheme type:" << scheme << "is not supported by album.";
+            bFind = true;
+        }
+        //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,再调用findPicturePathByPhone函数搜索DCIM文件目录
+        if (!strPath.contains("/media/")) {
+            bFind = findPicturePathByPhone(strPath);
+        }
+
+        DeviceHelper::instance()->loadAllDeviceInfos();
+        //路径存在
+        if (bFind) {
+            m_durlAndNameMap[mountPoint] = rename;
+            emit sigMountsChange();
+            //发送新增
+            emit sigAddDevice(strPath);
         }
     }
-    return result;
+}
+
+void AlbumControl::onUnMounted(const QString &deviceKey, DeviceType type)
+{
+    qDebug() << QString("deviceKey:%1 DeviceType:%2").arg(deviceKey).arg(static_cast<int>(type));
+    onUnMountedExecute(deviceKey, type);
+}
+
+void AlbumControl::onUnMountedExecute(const QString &deviceKey, DeviceType type)
+{
+    QVariantMap deviceInfo = DeviceHelper::instance()->loadDeviceInfo(deviceKey);
+    if (deviceInfo.isEmpty())
+        return;
+
+    QString mountPoint = DeviceHelper::instance()->getMountPointByDeviceId(deviceKey);;
+    QString strPath = mountPoint;
+    if (!strPath.contains("/media/")) {
+        findPicturePathByPhone(strPath);
+    }
+    if (m_durlAndNameMap.find(strPath) != m_durlAndNameMap.end())
+        m_durlAndNameMap.erase(m_durlAndNameMap.find(strPath));
+
+    DeviceHelper::instance()->loadAllDeviceInfos();
+
+    if (m_PhonePicFileMap.contains(strPath))
+        m_PhonePicFileMap.remove(strPath);
+
+    emit sigMountsChange();
 }
 
 QJsonObject AlbumControl::createShorcutJson()
@@ -1167,30 +1070,25 @@ QJsonObject AlbumControl::createShorcutJson()
     return main_shortcut;
 }
 
-void AlbumControl::getAllDeviceName()
+void AlbumControl::getAllBlockDeviceName()
 {
     m_blkPath2DeviceNameMap.clear();
-    QStringList blDevList = DDiskManager::blockDevices(QVariantMap());
+    QStringList blDevList = DeviceHelper::instance()->getBlockDeviceIds();
     for (const QString &blks : blDevList) {
-        updateDeviceName(blks);
+        updateBlockDeviceName(blks);
     }
 }
 
-void AlbumControl::updateDeviceName(const QString &blks)
+void AlbumControl::updateBlockDeviceName(const QString &blks)
 {
-    QSharedPointer<DBlockDevice> blk(DDiskManager::createBlockDevice(blks));
-    QScopedPointer<DDiskDevice> drv1(DDiskManager::createDiskDevice(blk->drive()));
-    if (!blk->hasFileSystem() && !drv1->mediaCompatibility().join(" ").contains("optical") && !blk->isEncrypted()) {
+    const QVariantMap deviceInfo = DeviceHelper::instance()->loadDeviceInfo(blks);
+    if (deviceInfo.isEmpty())
         return;
-    }
-    if ((blk->hintIgnore() && !blk->isEncrypted()) || blk->cryptoBackingDevice().length() > 1) {
-        return;
-    }
-    DBlockDevice *pblk = blk.data();
-    QByteArrayList mps = blk->mountPoints();
-    qulonglong size = blk->size();
-    QString label = blk->idLabel();
-    QString fs = blk->idType();
+
+    QStringList mps = deviceInfo.value("MountPoints").toStringList();
+    qulonglong size = deviceInfo.value("SizeTotal").toULongLong();
+    QString label = deviceInfo.value("IdLabel").toString();
+    QString fs = deviceInfo.value("IdType").toString();
     QString udispname = "";
     if (label.startsWith(ddeI18nSym)) {
         QString i18nKey = label.mid(ddeI18nSym.size(), label.size() - ddeI18nSym.size());
@@ -1203,11 +1101,16 @@ void AlbumControl::updateDeviceName(const QString &blks)
         goto runend;
     }
     if (label.length() == 0) {
-        QScopedPointer<DDiskDevice> drv(DDiskManager::createDiskDevice(pblk->drive()));
-        if (!drv->mediaAvailable() && drv->mediaCompatibility().join(" ").contains("optical")) {
+        bool bMediaAvailable = deviceInfo.value("MediaAvailable").toBool();
+        bool bOpticalDrive = deviceInfo.value("OpticalDrive").toBool();
+        bool bOpticalBlank = deviceInfo.value("OpticalBlank").toBool();
+        bool bIsEncrypted = deviceInfo.value("IsEncrypted").toBool();
+        QString media = deviceInfo.value("Media").toString();
+        QStringList mediaCompatibility = deviceInfo.value("MediaCompatibility").toStringList();
+        if (!bMediaAvailable && bOpticalDrive) {
             QString maxmediacompat;
             for (auto i = opticalmediakv.rbegin(); i != opticalmediakv.rend(); ++i) {
-                if (drv->mediaCompatibility().contains(i->first)) {
+                if (mediaCompatibility.contains(i->first)) {
                     maxmediacompat = i->second;
                     break;
                 }
@@ -1215,11 +1118,11 @@ void AlbumControl::updateDeviceName(const QString &blks)
             udispname = QCoreApplication::translate("DeepinStorage", "%1 Drive").arg(maxmediacompat);
             goto runend;
         }
-        if (drv->opticalBlank()) {
-            udispname = QCoreApplication::translate("DeepinStorage", "Blank %1 Disc").arg(opticalmediamap[drv->media()]);
+        if (bOpticalBlank) {
+            udispname = QCoreApplication::translate("DeepinStorage", "Blank %1 Disc").arg(opticalmediamap[media]);
             goto runend;
         }
-        if (pblk->isEncrypted() && !blk) {
+        if (bIsEncrypted) {
             udispname = QCoreApplication::translate("DeepinStorage", "%1 Encrypted").arg(formatSize(qint64(size)));
             goto runend;
         }
@@ -1231,14 +1134,17 @@ void AlbumControl::updateDeviceName(const QString &blks)
 runend:
     //blk->mount({});
     QString strPath = "";
-    QByteArrayList qbl = blk->mountPoints();
+    QStringList qbl = deviceInfo.value("MountPoints").toStringList();
     QString mountPoint = "";
-    QList<QByteArray>::iterator qb = qbl.begin();
+    QList<QString>::iterator qb = qbl.begin();
     while (qb != qbl.end()) {
         mountPoint += (*qb);
         ++qb;
     }
-    m_blkPath2DeviceNameMap[mountPoint] = udispname;
+    if (!mountPoint.isEmpty()) {
+        m_blkPath2DeviceNameMap[mountPoint] = udispname;
+        qDebug() << QString("blks:%1 mountPoint:%2 udispname:%3").arg(blks).arg(mountPoint).arg(udispname);
+    }
     return;
 }
 
@@ -2082,7 +1988,8 @@ QString AlbumControl::getFolder()
     QString fileDir("");
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     dialog.setViewMode(QFileDialog::Detail);
-    dialog.setFileMode(QFileDialog::DirectoryOnly);
+    dialog.setFileMode(QFileDialog::Directory);
+    dialog.setOption(QFileDialog::ShowDirsOnly);
     if (dialog.exec()) {
         fileDir = dialog.selectedFiles().first();
     }
@@ -2096,7 +2003,8 @@ bool AlbumControl::getFolders(const QStringList &paths)
     QString fileDir;
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     dialog.setViewMode(QFileDialog::Detail);
-    dialog.setFileMode(QFileDialog::DirectoryOnly);
+    dialog.setFileMode(QFileDialog::Directory);
+    dialog.setOption(QFileDialog::ShowDirsOnly);
     if (dialog.exec()) {
         fileDir = dialog.selectedFiles().first();
     }
@@ -2135,7 +2043,8 @@ bool AlbumControl::exportFolders(const QStringList &paths, const QString &dir)
     QString fileDir;
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     dialog.setViewMode(QFileDialog::Detail);
-    dialog.setFileMode(QFileDialog::DirectoryOnly);
+    dialog.setFileMode(QFileDialog::Directory);
+    dialog.setOption(QFileDialog::ShowDirsOnly);
     if (dialog.exec()) {
         fileDir = dialog.selectedFiles().first();
     }
@@ -2457,8 +2366,8 @@ void AlbumControl::importFromMountDevice(const QStringList &paths, const int &in
         for (QString strPath : localPaths)
         {
             //取出文件名称
-            QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
-            QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
+            QStringList pathList = strPath.split("/", Qt::SkipEmptyParts);
+            QStringList nameList = pathList.last().split(".", Qt::SkipEmptyParts);
             QString strNewPath = QString("%1%2%3%4%5%6").arg(basePath, "/", nameList.first(),
                                                              QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()), ".", nameList.last());
             //判断新路径下是否存在目标文件，若不存在，继续循环

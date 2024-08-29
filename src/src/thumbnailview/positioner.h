@@ -12,8 +12,8 @@
 #define POSITIONER_H
 
 #include <QAbstractItemModel>
+#include "thumbnailmodel.h"
 
-class ThumbnailModel;
 class QTimer;
 
 class Positioner : public QAbstractItemModel
@@ -42,6 +42,7 @@ public:
     void setPositions(const QStringList &positions);
 
     Q_INVOKABLE int map(int row) const;
+    Q_INVOKABLE QVariantList maps(QVariantList rows) const;
 
     Q_INVOKABLE int nearestItem(int currentIndex, Qt::ArrowType direction);
 

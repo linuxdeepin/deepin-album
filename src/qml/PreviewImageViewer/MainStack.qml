@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Window 2.11
-import QtQuick.Controls 2.4
-import QtQuick.Dialogs 1.3
-import org.deepin.dtk 1.0 as DTK
-import org.deepin.dtk.impl 1.0 as D
+import QtQuick
+import QtQuick.Window
+import QtQuick.Controls
+import QtQuick.Dialogs
+import org.deepin.dtk 1.0 as D
 import org.deepin.image.viewer 1.0 as IV
 import org.deepin.album 1.0 as Album
 
@@ -120,9 +119,9 @@ FadeInoutAnimation {
         sourceComponent: FileDialog {
             id: fileDialog
 
-            folder: shortcuts.pictures
-            selectMultiple: true
-            //fileMode: FileDialog.OpenFiles
+            currentFolder: shortcuts.pictures
+            // selectMultiple: true
+            fileMode: FileDialog.OpenFiles
             nameFilters: ["Image files (*.jpg *.png *.bmp *.gif *.ico *.jpe " + "*.jps *.jpeg *.jng *.koala *.koa *.lbm " + "*.iff *.mng *.pbm *.pbmraw *.pcd *.pcx " + "*.pgm *.pgmraw *.ppm *.ppmraw *.ras *.tga " + "*.targa *.tiff *.tif *.wbmp *.psd *.cut *.xbm " + "*.xpm *.dds *.fax *.g3 *.sgi *.exr *.pct *.pic " + "*.pict *.webp *.jxr *.mrw *.raf *.mef *.raw *.orf " + "*.djvu *.or2 *.icns *.dng *.svg *.nef *.pef *.pxm *.pnm)"]
             title: qsTr("Select pictures")
 

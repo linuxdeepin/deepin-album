@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Window 2.11
-import QtQuick.Layouts 1.11
-import QtQuick.Controls 2.4
-import QtQuick.Dialogs 1.3
-import Qt.labs.folderlistmodel 2.11
+import QtQuick
+import QtQuick.Window
+import QtQuick.Layouts
+import QtQuick.Controls
+import QtQuick.Dialogs
 import org.deepin.dtk 1.0
 import org.deepin.album 1.0 as Album
 
@@ -247,7 +246,10 @@ TitleBar {
                 id: collectionBtnBox
                 Layout.preferredHeight: iconSize
                 property bool refreshVisilbe: false
-                visible: GStatus.currentViewType === Album.Types.ViewCollecttion && albumControl.getYears(refreshVisilbe).length !== 0 && window.width > showCollComboWidth
+                visible: {
+                    refreshVisilbe
+                    GStatus.currentViewType === Album.Types.ViewCollecttion && albumControl.getYears().length !== 0 && window.width > showCollComboWidth
+                }
 
                 padding: 3
                 ToolButton {
@@ -494,7 +496,10 @@ TitleBar {
         }
         ToolButton {
             id: titleCollectionBtn
-            property bool canFavorite: albumControl.canFavorite(GStatus.selectedPaths,GStatus.bRefreshFavoriteIconFlag)
+            property bool canFavorite: {
+                GStatus.bRefreshFavoriteIconFlag
+                return albumControl.canFavorite(GStatus.selectedPaths)
+            }
             visible: !titleImportBtn.visible && GStatus.currentViewType !== Album.Types.ViewDevice
             Layout.preferredWidth: iconSize
             Layout.preferredHeight: iconSize
@@ -567,14 +572,14 @@ TitleBar {
 
     Connections {
         target: GStatus
-        onSigFlushSearchView: {
+        function onSigFlushSearchView() {
             searchEdit.executeSearch(true)
         }
     }
 
     Connections {
         target: albumControl
-        onSigRefreshAllCollection: {
+        function onSigRefreshAllCollection() {
             if (GStatus.currentViewType === Album.Types.ViewCollecttion) {
                 collectionBtnBox.refreshVisilbe = !collectionBtnBox.refreshVisilbe
             }

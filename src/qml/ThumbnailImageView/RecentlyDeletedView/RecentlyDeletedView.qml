@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
+import QtQuick
 import org.deepin.dtk 1.0
 
 import org.deepin.album 1.0 as Album
@@ -226,7 +226,7 @@ BaseView {
         MouseArea {
             id: theMouseArea
             anchors.fill: parent
-            onPressed: {
+            onPressed: (mouse)=> {
                 var gPos = theMouseArea.mapToGlobal(mouse.x, mouse.y)
                 if (!restoreSelectedBtn.contains(restoreSelectedBtn.mapFromGlobal(gPos.x, gPos.y))
                         && !delSelectedBtn.contains(delSelectedBtn.mapFromGlobal(gPos.x, gPos.y))) {
@@ -256,7 +256,7 @@ BaseView {
         // 监听缩略图列表选中状态，一旦改变，更新globalVar所有选中路径
         Connections {
             target: theView
-            onSelectedChanged: {
+            function onSelectedChanged() {
                 if (parent.visible)
                     GStatus.selectedPaths = theView.selectedUrls
             }

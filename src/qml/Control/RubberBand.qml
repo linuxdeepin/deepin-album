@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.9
-import QtQuick.Window 2.2
-import QtQuick.Controls 2.1
+import QtQuick
+import QtQuick.Window
+import QtQuick.Controls
 
 //橡皮筋控件
 //此处仅预留控制接口，具体控制逻辑由调用方编写
@@ -41,19 +41,19 @@ Item {
         return x1 !== -1 && y1 !== -1 && x2 !== -1 && y2 !== -1
     }
 
-    function left() {
+    function _left() {
         return Math.min(x1, x2)
     }
 
-    function top() {
+    function _top() {
         return Math.min(y1, y2)
     }
 
-    function right() {
+    function _right() {
         return Math.max(x1, x2)
     }
 
-    function bottom() {
+    function _bottom() {
         return Math.max(y1, y2)
     }
 

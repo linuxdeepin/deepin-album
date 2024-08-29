@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
+import QtQuick
 import "./PreviewImageViewer"
 
 import org.deepin.album 1.0 as Album
@@ -27,14 +27,6 @@ Item {
         idName: "albumview"
         anchors.fill: parent
         visible: GStatus.stackControlCurrent === 2
-    }
-
-    //全局幻灯片信号槽
-    Connections {
-        target: mainSliderShow
-        onBacktrack: {
-            GStatus.stackControlCurrent = 0
-        }
     }
 
     //全屏动画
