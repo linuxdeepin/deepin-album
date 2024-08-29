@@ -184,7 +184,7 @@ DBImgInfo ImageDataModel::dataForIndex(const QModelIndex &index) const
 
 void ImageDataModel::loadData(Types::ItemType type)
 {
-    QTime time;
+    QElapsedTimer time;
     time.start();
     ItemType itemType = ItemTypeNull;
     if (type == Types::All)

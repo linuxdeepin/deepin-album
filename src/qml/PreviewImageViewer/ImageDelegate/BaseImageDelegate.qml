@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQml 2.11
-import QtQuick.Window 2.11
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQml
+import QtQuick.Effects
 import org.deepin.image.viewer 1.0 as IV
 import org.deepin.album 1.0 as Album
 import "../Utils"
@@ -150,14 +149,14 @@ Item {
                 source: "image://ThumbnailLoad/" + delegate.source + "#frame_" + delegate.frameIndex
             }
 
-            // MultiEffect {
-            //     anchors.fill: loadImage
-            //     blur: 1.0
-            //     blurEnabled: true
-            //     blurMax: 4
-            //     scale: loadImage.scale
-            //     source: loadImage
-            // }
+            MultiEffect {
+                anchors.fill: loadImage
+                blur: 1.0
+                blurEnabled: true
+                blurMax: 4
+                scale: loadImage.scale
+                source: loadImage
+            }
         }
 
         // 短时间完成加载的图片内无需模糊延迟效果

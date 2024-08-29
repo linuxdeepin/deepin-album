@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
-import QtQuick.Window 2.11
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Window
+import Qt5Compat.GraphicalEffects
 import org.deepin.dtk 1.0
 import org.deepin.dtk.style 1.0 as DS
 import org.deepin.image.viewer 1.0 as IV
@@ -415,7 +415,7 @@ Item {
 
     Connections {
         target: GStatus
-        onSigShowToolBar: {
+        function onSigShowToolBar() {
             thumbnailViewBackGround.opacity = 0
             thumbnailViewBackGround.y = window.height
             showToolBarAnimationInAlbum.start()

@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Window 2.11
-import QtQuick.Controls 2.4
-import QtQuick.Layouts 1.11
-import QtQml.Models 2.11
-import QtQml 2.11
+import QtQuick
+import QtQuick.Window
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQml.Models
+import QtQml
 import QtQuick.Shapes 1.10
 import org.deepin.dtk 1.0
-import QtGraphicalEffects 1.0
+import Qt5Compat.GraphicalEffects
 
 import org.deepin.album 1.0 as Album
 
@@ -30,7 +30,10 @@ Item {
     property bool bShowDamageIcon: image.null
     property bool bSelected: model.selected !== undefined ? model.selected : false
     property bool bHovered: false //属性：是否hover
-    property bool bFavorited: albumControl.photoHaveFavorited(model.url, GStatus.bRefreshFavoriteIconFlag)
+    property bool bFavorited: {
+        GStatus.bRefreshFavoriteIconFlag
+        return albumControl.photoHaveFavorited(model.url)
+    }
     property bool bShowRemainDays: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted && !model.blank
     property bool bShowVideoLabel: FileControl.isVideo(model.url) && !model.blank
     property Item selectIcon: null
@@ -53,6 +56,7 @@ Item {
         }
         fillMode: Album.QImageItem.PreserveAspectFit
         visible: false
+        layer.enabled: true
     }
 
     // 图片保存完成，缩略图区域重新加载当前图片
@@ -161,7 +165,7 @@ Item {
         hoverEnabled: true
         propagateComposedEvents: true
 
-        onClicked: {
+        onClicked: (mouse)=> {
             //允许鼠标事件传递给子控件处理,否则鼠标点击缩略图收藏图标不能正常工作
             mouse.accepted = false
         }
@@ -357,7 +361,7 @@ Item {
                     anchors.fill: itemFavoriteBtn
                     propagateComposedEvents: true
 
-                    onClicked: {
+                    onClicked: (mouse)=> {
                         var paths = []
                         paths.push(modelData.url)
 

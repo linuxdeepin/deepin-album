@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.9
-import QtQuick.Window 2.2
-import QtQuick.Controls 2.4
-import QtQuick.Layouts 1.11
-import QtQml.Models 2.11
-import QtQml 2.11
+import QtQuick
+import QtQuick.Window
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQml.Models
+import QtQml
 import QtQuick.Shapes 1.10
 import org.deepin.dtk 1.0
 import org.deepin.album 1.0 as Album
@@ -174,7 +174,7 @@ FocusScope {
 
     Connections {
         target: thumbnailImage
-        onEscKeyPressed: {
+        function onEscKeyPressed() {
             if (haveSelect) {
                 selectAll(false)
             }
@@ -204,7 +204,7 @@ FocusScope {
             cPress = mapToItem(gridView.contentItem, pressX, pressY);
         }
 
-        onPressed: {
+        onPressed: (mouse)=> {
             // 鼠标点击在垂直滚动条上，不处理点击事件
             if (mouse.x >= (parent.width - GStatus.thumbnailListRightMargin - GStatus.thumbnialListCellSpace)) {
                 return;
@@ -271,7 +271,7 @@ FocusScope {
 
         onCanceled: pressCanceled()
 
-        onReleased: {
+        onReleased: (mouse)=> {
             // 多选后，单选逻辑处理
             if (pressedItem && !pressedItem.blank && mouse.button !== Qt.RightButton && !main.rubberBand) {
                 var pos = mapToItem(pressedItem, mouse.x, mouse.y);
@@ -289,7 +289,7 @@ FocusScope {
             pressCanceled();
         }
 
-        onPressAndHold: {
+        onPressAndHold: (mouse)=> {
             if (mouse.source === Qt.MouseEventSynthesizedByQt) {
                 clearPressState();
                 if (haveSelect) {
@@ -298,7 +298,7 @@ FocusScope {
             }
         }
 
-        onClicked: {
+        onClicked: (mouse)=> {
             clearPressState();
 
             var cPos = mapToItem(gridView.contentItem, mouse.x, mouse.y);
@@ -327,7 +327,7 @@ FocusScope {
             }
         }
 
-        onPositionChanged: {
+        onPositionChanged: (mouse)=> {
             gridView.ctrlPressed = (mouse.modifiers & Qt.ControlModifier);
             gridView.shiftPressed = (mouse.modifiers & Qt.ShiftModifier);
 
@@ -497,11 +497,11 @@ FocusScope {
             MouseArea {
                 anchors.fill: parent
                 propagateComposedEvents: true
-                onPositionChanged: {
+                onPositionChanged: (mouse)=> {
                     mouse.accepted = true
                 }
 
-                onWheel: {
+                onWheel: (wheel)=> {
                     if (!enableMouse) {
                         wheel.accepted = false
                     }
@@ -585,7 +585,7 @@ FocusScope {
                     currentIndex = rectSelIndexes[0];
                 }
 
-                thumbnailModel.updateSelection(rectSelIndexes.map(positioner.map), gridView.ctrlPressed);
+                thumbnailModel.updateSelection(positioner.maps(rectSelIndexes), gridView.ctrlPressed);
             }
 
             function updateSelection(modifier) {
@@ -688,7 +688,7 @@ FocusScope {
 
             Behavior on contentY { id: smoothY; enabled: false; SmoothedAnimation { velocity: 700 } }
 
-            Keys.onPressed: {
+            Keys.onPressed: (event)=> {
                 switch (event.key) {
                 case Qt.Key_Return:
                 case Qt.Key_Enter:
@@ -721,7 +721,7 @@ FocusScope {
                 }
             }
 
-            Keys.onReleased: {
+            Keys.onReleased: (event)=> {
                 switch (event.key) {
                 case Qt.Key_Shift:
                     shiftPressed = false
@@ -773,18 +773,18 @@ FocusScope {
 
     Connections {
         target: GStatus
-        onSigSelectAll: {
+        function onSigSelectAll() {
             if (gridView.visible)
                 selectAll(bSel)
         }
 
-        onSigPageUp: {
+        function onSigPageUp() {
             if (gridView.visible) {
                 gridView.executeScrollBar(gridView.scrollDelta)
             }
         }
 
-        onSigPageDown: {
+        function onSigPageDown() {
             if (gridView.visible) {
                 gridView.executeScrollBar(-gridView.scrollDelta)
             }
@@ -888,10 +888,19 @@ FocusScope {
             Repeater {
                 id: recentFilesInstantiator
                 property bool bRreshEnableState: false
-                model: albumControl.getAllCustomAlbumId(GStatus.albumChangeList).length
+                model: {
+                    GStatus.albumChangeList
+                    albumControl.getAllCustomAlbumId().length
+                }
                 delegate: RightMenuItem {
-                    text: albumControl.getAllCustomAlbumName(GStatus.albumChangeList)[index]
-                    enabled: albumControl.canAddToCustomAlbum(albumControl.getAllCustomAlbumId()[index], GStatus.selectedPaths, recentFilesInstantiator.bRreshEnableState)
+                    text: {
+                        GStatus.albumChangeList
+                        return albumControl.getAllCustomAlbumName()[index]
+                    }
+                    enabled: {
+                        recentFilesInstantiator.bRreshEnableState
+                        return albumControl.canAddToCustomAlbum(albumControl.getAllCustomAlbumId()[index], GStatus.selectedPaths)
+                    }
                     onTriggered:{
                         // 获取所选自定义相册的Id，根据Id添加到对应自定义相册
                         var customAlbumId = albumControl.getAllCustomAlbumId()[index]

@@ -9,6 +9,21 @@
 #include <QTimer>
 #include <QColor>
 
+/*!
+   \brief 拷贝自 dde-file-manager 代码，看图中仅使用 kRemovable 访问可能被卸载的设备
+ */
+enum DeviceQueryOption {
+    kNoCondition = 0,
+    kMountable = 1,
+    kMounted = 1 << 1,
+    kRemovable = 1 << 2,
+    kNotIgnored = 1 << 3,
+    kNotMounted = 1 << 4,
+    kOptical = 1 << 5,
+    kSystem = 1 << 6,
+    kLoop = 1 << 7,
+};
+
 #if QT_VERSION >= 0x050500
 #define TIMER_SINGLESHOT(Time, Code, captured...){ \
         QTimer::singleShot(Time, [captured] {Code});\

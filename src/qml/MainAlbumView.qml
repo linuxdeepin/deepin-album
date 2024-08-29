@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Window 2.11
+import QtQuick
+import QtQuick.Window
 import org.deepin.dtk 1.0
 
 import org.deepin.album 1.0 as Album
@@ -81,7 +81,7 @@ FadeInoutAnimation {
 
     Connections {
         target: titleAlubmRect
-        onShowHideSideBar: {
+        function onShowHideSideBar(bShow) {
             if (bShow) {
                 showSliderAnimation.start()
                 GStatus.sideBarIsVisible = true
@@ -95,7 +95,7 @@ FadeInoutAnimation {
 
     Connections {
         target: titleAlubmRect
-        onSigDeleteClicked: {
+        function onSigDeleteClicked() {
             deleteDialog.setDisplay(Album.Types.TrashSel, GStatus.selectedPaths.length)
             deleteDialog.show()
         }
@@ -103,7 +103,7 @@ FadeInoutAnimation {
 
     Connections {
         target: titleAlubmRect
-        onShowNewAlbumDialog: {
+        function onShowNewAlbumDialog() {
             var x = parent.mapToGlobal(0, 0).x + parent.width / 2 - 190
             var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
             newAlbum.setX(x)
@@ -180,7 +180,7 @@ FadeInoutAnimation {
     DropArea {
         anchors.fill: parent
 
-        onDropped: {
+        onDropped: (drop)=> {
             if(GStatus.currentViewType === Album.Types.ViewCustomAlbum && albumControl.isCustomAlbum(GStatus.currentCustomAlbumUId)) {
                 var albumPaths = albumControl.getAlbumPaths(GStatus.currentCustomAlbumUId)
                 var urls = []
@@ -196,7 +196,7 @@ FadeInoutAnimation {
             }
         }
 
-        onEntered: {
+        onEntered: (drag)=> {
             if(drag.hasUrls) {
                 var urls = drag.urls
                 if(FileControl.checkMimeUrls(urls)) {
@@ -233,7 +233,7 @@ FadeInoutAnimation {
     Connections {
         target: albumControl
         // 接收外部应用打开信号
-        onSigOpenImageFromFiles: {
+        function onSigOpenImageFromFiles(paths) {
             openAndImportImages(paths)
         }
 

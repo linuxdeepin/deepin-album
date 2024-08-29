@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Layouts 1.11
-import QtQuick.Window 2.11
-import QtQml.Models 2.11
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Window
+import QtQml.Models
 import org.deepin.dtk 1.0
 //import ".."
 
@@ -91,11 +91,11 @@ FloatingPanel {
         //鼠标按下起始位置
         property point mousePosStart: "0,0"
 
-        onPressed: {
+        onPressed: (mouse)=> {
             mousePosStart = Qt.point(mouse.x, mouse.y)
         }
 
-        onPositionChanged: {
+        onPositionChanged: (mouse)=> {
             if (idMouseArea.pressedButtons & Qt.LeftButton) {
                 //计算位移
                 var difference = Qt.point(mouse.x - mousePosStart.x, mouse.y - mousePosStart.y)

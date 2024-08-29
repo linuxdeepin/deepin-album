@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Window 2.11
-import QtQuick.Layouts 1.11
-import QtQuick.Controls 2.4
-import QtQuick.Dialogs 1.3
+import QtQuick
+import QtQuick.Window
+import QtQuick.Layouts
+import QtQuick.Controls
+import QtQuick.Dialogs
 import org.deepin.dtk 1.0
 
 import org.deepin.album 1.0 as Album
@@ -101,7 +101,7 @@ SwitchViewAnimation {
 
     Connections {
         target: albumControl
-        onSigRepeatUrls: {
+        function onSigRepeatUrls(urls) {
             if (visible && collecttionView.currentViewIndex === 3) {
                 theView.selectUrls(urls)
             }
@@ -142,7 +142,7 @@ SwitchViewAnimation {
 
         MouseArea {
             anchors.fill: parent
-            onPressed: {
+            onPressed: (mouse)=> {
                 theView.selectAll(false)
                 mouse.accepted = false
             }
@@ -166,7 +166,7 @@ SwitchViewAnimation {
         // 监听缩略图列表选中状态，一旦改变，更新globalVar所有选中路径
         Connections {
             target: theView
-            onSelectedChanged: {
+            function onSelectedChanged() {
                 selectedPaths = []
                 selectedPaths = theView.selectedUrls
 

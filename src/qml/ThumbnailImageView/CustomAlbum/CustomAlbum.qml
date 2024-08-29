@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
+import QtQuick
 import org.deepin.dtk 1.0
 
 import org.deepin.album 1.0 as Album
@@ -116,7 +116,7 @@ BaseView {
 
     Connections {
         target: albumControl
-        onSigRepeatUrls: {
+        function onSigRepeatUrls(urls) {
             if (visible && GStatus.currentCustomAlbumUId !== 0) {
                 theView.selectUrls(urls)
             }
@@ -166,7 +166,7 @@ BaseView {
 
         MouseArea {
             anchors.fill: parent
-            onPressed: {
+            onPressed: (mouse)=> {
                 theView.selectAll(false)
                 mouse.accepted = false
             }
@@ -192,7 +192,7 @@ BaseView {
         // 监听缩略图列表选中状态，一旦改变，更新globalVar所有选中路径
         Connections {
             target: theView
-            onSelectedChanged: {
+            function onSelectedChanged() {
                 if (parent.visible)
                     GStatus.selectedPaths = theView.selectedUrls
             }

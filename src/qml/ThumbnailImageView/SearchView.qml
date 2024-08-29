@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Window 2.11
-import QtQuick.Layouts 1.11
-import QtQuick.Controls 2.4
-import QtQuick.Dialogs 1.3
+import QtQuick
+import QtQuick.Window
+import QtQuick.Layouts
+import QtQuick.Controls
+import QtQuick.Dialogs
 import org.deepin.dtk 1.0
 
 import org.deepin.album 1.0 as Album
@@ -137,7 +137,7 @@ BaseView {
 
         MouseArea {
             anchors.fill: parent
-            onPressed: {
+            onPressed: (mouse)=> {
                 view.selectAll(false)
                 mouse.accepted = false
             }
@@ -162,7 +162,7 @@ BaseView {
         // 监听缩略图列表选中状态，一旦改变，更新globalVar所有选中路径
         Connections {
             target: view
-            onSelectedChanged: {
+            function onSelectedChanged() {
                 if (parent.visible)
                     GStatus.selectedPaths = view.selectedUrls
             }

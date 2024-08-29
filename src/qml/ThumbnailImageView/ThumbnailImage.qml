@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.9
-import QtQml.Models 2.11
-import QtQuick.Window 2.2
-import QtQuick.Controls 2.4
-import org.deepin.dtk.impl 1.0 as D
+import QtQuick
+import QtQml.Models
+import QtQuick.Window
+import QtQuick.Controls
+import org.deepin.dtk 1.0 as D
 import org.deepin.album 1.0 as Album
 
 import "./CollecttionView"

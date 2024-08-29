@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
+import QtQuick
+import QtQuick.Controls
 
 import org.deepin.album 1.0 as Album
 
@@ -20,7 +20,7 @@ Item {
     property string idName: ""
     property real hideOpacity: 0
     property real hideX: -width - 20
-    property real hideScale: 0.5
+    property real hideScale: 1
 
 
     property int switchType: GStatus.currentSwitchType
@@ -30,12 +30,15 @@ Item {
         if (switchType === Album.Types.FlipScroll) {
             x = width + 20
             switchPropertys = "x,opacity"
+            hideScale = 1
         } else if (switchType === Album.Types.FadeInOut) {
             x = 0
             switchPropertys = "opacity"
+            hideScale = 1
         } else if (switchType === Album.Types.ScaleInOUt) {
             x = 0
             switchPropertys = "scale,opacity"
+            hideScale = 0.5
         }
     }
 

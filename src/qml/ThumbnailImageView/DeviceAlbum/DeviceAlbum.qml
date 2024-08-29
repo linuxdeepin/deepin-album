@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
+import QtQuick
+import QtQuick.Controls
 import org.deepin.dtk 1.0
 
 import org.deepin.album 1.0 as Album
@@ -98,7 +98,7 @@ BaseView {
     // 新增挂载设备，显示正在加载对话框
     Connections {
         target: albumControl
-        onSigAddDevice: {
+        function onSigAddDevice() {
             devloaddig.show()
         }
     }
@@ -106,7 +106,7 @@ BaseView {
     // 导入重复图片提示
     Connections {
         target: albumControl
-        onSigRepeatUrls: {
+        function onSigRepeatUrls(urls) {
             if (visible && GStatus.currentCustomAlbumUId !== 0) {
                 theView.selectedPaths = urls
                 GStatus.selectedPaths = selectedPaths
@@ -209,7 +209,7 @@ BaseView {
         }
         MouseArea {
             anchors.fill: parent
-            onPressed: {
+            onPressed: (mouse)=> {
                 theView.selectAll(false)
                 mouse.accepted = false
             }
@@ -235,7 +235,7 @@ BaseView {
         // 监听缩略图列表选中状态，一旦改变，更新globalVar所有选中路径
         Connections {
             target: theView
-            onSelectedChanged: {
+            function onSelectedChanged() {
                 if (parent.visible)
                     GStatus.selectedPaths = theView.selectedUrls
             }

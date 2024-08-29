@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
-import QtQuick.Window 2.11
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Window
 import org.deepin.dtk 1.0
 
 // 提供自动收缩的标签，鼠标Hover后显示全文，这是由于目前 ToolTip 效果不佳调整的

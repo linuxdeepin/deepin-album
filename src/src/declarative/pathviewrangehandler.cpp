@@ -80,10 +80,10 @@ bool PathViewRangeHandler::eventFilter(QObject *obj, QEvent *event)
 
             if (basePoint.isNull()) {
                 // currentIndex 会在拖动时动态变更，因此在切换到受限图片时更新触发限制状态
-                basePoint = mouseEvent->pos();
+                basePoint = mouseEvent->position();
             } else {
                 bool filter = false;
-                auto newPoint = mouseEvent->pos();
+                auto newPoint = mouseEvent->position();
                 if (!enableForwardFlag && newPoint.x() > (basePoint.x())) {
                     filter = true;
                 }

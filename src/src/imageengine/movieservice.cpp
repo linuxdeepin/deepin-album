@@ -288,7 +288,7 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
     mi.resolution = QString("%1x%2").arg(mi.width).arg(mi.height);
     mi.title = fi.fileName(); //FIXME this
     mi.filePath = fi.canonicalFilePath();
-    mi.creation = fi.created();
+    mi.creation = fi.birthTime();
     mi.fileSize = fi.size();
     mi.fileType = fi.suffix();
 

@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Window 2.11
-import QtQuick.Controls 2.4
-//import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.11
-import QtQuick.Shapes 1.11
+import QtQuick
+import QtQuick.Window
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Shapes
 import org.deepin.dtk 1.0
 import org.deepin.image.viewer 1.0 as IV
 import org.deepin.album 1.0 as Album
@@ -35,7 +34,10 @@ Item {
     property bool targetImageReady: (null !== view.currentImage) && (Image.Ready === view.currentImage.status)
 
     //判断图片是否可收藏
-    property bool canFavorite: albumControl.canFavorite(GControl.currentSource.toString(), GStatus.bRefreshFavoriteIconFlag)
+    property bool canFavorite: {
+        GStatus.bRefreshFavoriteIconFlag
+        albumControl.canFavorite(GControl.currentSource.toString())
+    }
     property bool bMoveCenterAnimationPlayed: false
     // 退出全屏展示图片
     function escBack() {
@@ -347,7 +349,7 @@ Item {
 
     Connections {
         target: GStatus
-        onSigMoveCenter: {
+        function onSigMoveCenter(x,y,w,h) {
             moveCenterAnimation.fromX = x
             moveCenterAnimation.fromY = y
             moveCenterAnimation.fromW = w
@@ -411,7 +413,7 @@ Item {
 
     Connections {
         target: GStatus
-        onSigMoveToAlbumAnimation: {
+        function onSigMoveToAlbumAnimation() {
             // 以动画方式进入大图，返回相册时才逆向播放退出动画
             if (bMoveCenterAnimationPlayed) {
                 moveToAlbumAnimation.start()

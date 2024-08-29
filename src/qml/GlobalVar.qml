@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
+import QtQuick
+import QtQuick.Controls
 import org.deepin.dtk 1.0
 
 import org.deepin.album 1.0 as Album
@@ -25,7 +25,7 @@ Item {
     // 导入重复文件提示
     Connections {
         target: albumControl
-        onSigRepeatUrls: {
+        function onSigRepeatUrls(urls) {
             if (urls.length > 0)
                 DTK.sendMessage(stackControl, qsTr("The photo/video already exists"), "warning")
         }
@@ -34,7 +34,7 @@ Item {
     // 导入不支持文件提示
     Connections {
         target: albumControl
-        onSigInvalidFormat: {
+        function onSigInvalidFormat() {
             DTK.sendMessage(stackControl, qsTr("The file format is not supported"), "warning")
         }
     }
@@ -42,7 +42,7 @@ Item {
     // 导入不支持文件提示
     Connections {
         target: FileControl
-        onInvalidFormat: {
+        function onInvalidFormat() {
             DTK.sendMessage(stackControl, qsTr("The file format is not supported"), "warning")
         }
     }
