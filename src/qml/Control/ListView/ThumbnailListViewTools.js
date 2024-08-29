@@ -12,6 +12,7 @@ function executeViewImageCutSwitch() {
             } else {
                 var allUrls = thumbnailModel.allUrls()
                 GControl.setImageFiles(allUrls, allUrls[indexes[0]])
+                FileControl.resetImageFiles(allUrls);
                 mainStack.switchImageView()
                 GStatus.stackControlCurrent = 1
             }
@@ -30,6 +31,7 @@ function executeViewImage(x, y, w, h) {
                 var allUrls = thumbnailModel.allUrls()
                 GStatus.enteringImageViewer = true
                 GControl.setImageFiles(allUrls, allUrls[indexes[0]])
+                FileControl.resetImageFiles(allUrls);
                 mainStack.switchImageView()
                 GStatus.stackControlCurrent = 1
                 GStatus.sigMoveCenter(x, y, w, h)
@@ -57,6 +59,7 @@ function executeFullScreen() {
         if (indexes.length > 0) {
             var allUrls = thumbnailModel.allUrls()
             GControl.setImageFiles(allUrls, allUrls[indexes[0]])
+            FileControl.resetImageFiles(allUrls);
             mainStack.switchImageView()
             GStatus.stackControlLastCurrent = GStatus.stackControlCurrent
             GStatus.stackControlCurrent = 1
