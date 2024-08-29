@@ -296,6 +296,7 @@ FadeInoutAnimation {
                 //albumControl.openDeepinMovie(tempPath)
             } else if (FileControl.isImage(tempPath)){
                 GControl.setImageFiles(paths, tempPath)
+                FileControl.resetImageFiles(paths);
                 mainStack.switchImageView()
                 GStatus.stackControlCurrent = 1
             }

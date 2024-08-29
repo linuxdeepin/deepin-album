@@ -53,6 +53,7 @@ Item {
     function startMainSliderShow(images, startIndex) {
         showFullScreen()
         GControl.setImageFiles(images, images[startIndex])
+        FileControl.resetImageFiles(images);
         mainStack.switchImageView()
         mainSliderShow.autoRun = true
         mainSliderShow.source = "image://ImageLoad/" + GControl.currentSource + "#frame_" + GControl.currentFrameIndex;

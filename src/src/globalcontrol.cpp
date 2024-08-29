@@ -6,6 +6,7 @@
 #include "types.h"
 #include "imagedata/imagesourcemodel.h"
 #include "utils/rotateimagehelper.h"
+#include "imageengine/imagedataservice.h"
 
 #include <QEvent>
 #include <QThread>
@@ -26,6 +27,7 @@ GlobalControl::GlobalControl(QObject *parent)
 
     // 图片旋转完成后触发信息变更
     connect(RotateImageHelper::instance(), &RotateImageHelper::rotateImageFinished, this, [this](const QString &path, bool ret) {
+        ImageDataService::instance()->getThumnailImageByPathRealTime(path, false, true);
         if (path == currentImage.source().toLocalFile()) {
             submitImageChangeImmediately();
         }
