@@ -5,6 +5,7 @@
 #include "filetrashhelper.h"
 #include "imagedata/imagefilewatcher.h"
 #include "unionimage/baseutils.h"
+#include <DSysInfo>
 
 #include <QApplication>
 #include <QDBusReply>
@@ -13,6 +14,7 @@
 #include <QFileSystemWatcher>
 #include <QRegularExpression>
 
+DCORE_USE_NAMESPACE
 /*!
    \class FileTrashHelper::FileTrashHelper
    \brief 文件回收站辅助类
@@ -23,9 +25,15 @@ FileTrashHelper::FileTrashHelper(QObject *parent)
     : QObject(parent)
 {
     // DFM 设备管理接口，访问文件挂载信息
-    dfmDeviceManager.reset(new QDBusInterface(QStringLiteral("org.deepin.filemanager.server"),
-                                              QStringLiteral("/org/deepin/filemanager/server/DeviceManager"),
-                                              QStringLiteral("org.deepin.filemanager.server.DeviceManager")));
+    if (DSysInfo::majorVersion() == "25") {
+        m_dfmDeviceManager.reset(new QDBusInterface(QStringLiteral(V25_FILEMANAGER_DAEMON_SERVICE),
+                                                    QStringLiteral(V25_FILEMANAGER_DAEMON_PATH),
+                                                    QStringLiteral(V25_FILEMANAGER_DAEMON_INTERFACE)));
+    } else {
+        m_dfmDeviceManager.reset(new QDBusInterface(QStringLiteral(V23_FILEMANAGER_DAEMON_SERVICE),
+                                                    QStringLiteral(V23_FILEMANAGER_DAEMON_PATH),
+                                                    QStringLiteral(V23_FILEMANAGER_DAEMON_INTERFACE)));
+    }
 }
 
 /*!
@@ -114,7 +122,7 @@ void FileTrashHelper::queryMountInfo()
 
     // 调用 DBus 接口查询可被卸载设备信息
     // GetBlockDevicesIdList(int opts)
-    QDBusReply<QStringList> deviceListReply = dfmDeviceManager->call("GetBlockDevicesIdList", kRemovable);
+    QDBusReply<QStringList> deviceListReply = m_dfmDeviceManager->call("GetBlockDevicesIdList", kRemovable);
     if (!deviceListReply.isValid()) {
         qWarning() << qPrintable("DBus call GetBlockDevicesIdList failed") << deviceListReply.error().message();
         return;
@@ -122,7 +130,7 @@ void FileTrashHelper::queryMountInfo()
 
     for (const QString &id : deviceListReply.value()) {
         // QueryBlockDeviceInfo(const QString &id, bool reload)
-        QDBusReply<QVariantMap> deviceReply = dfmDeviceManager->call("QueryBlockDeviceInfo", id, false);
+        QDBusReply<QVariantMap> deviceReply = m_dfmDeviceManager->call("QueryBlockDeviceInfo", id, false);
         if (!deviceReply.isValid()) {
             qWarning() << qPrintable("DBus call QueryBlockDeviceInfo failed") << deviceReply.error().message();
             continue;

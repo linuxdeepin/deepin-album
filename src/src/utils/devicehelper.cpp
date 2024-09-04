@@ -5,9 +5,13 @@
 #include "devicehelper.h"
 #include "unionimage/baseutils.h"
 #include <dfm-mount/base/dmount_global.h>
+#include <DSysInfo>
+
 #include <QDBusReply>
 #include <QDebug>
 #include <QRegularExpression>
+
+DCORE_USE_NAMESPACE
 
 DeviceHelper *DeviceHelper::m_instance = nullptr;
 using namespace dfmmount;
@@ -22,9 +26,21 @@ DeviceHelper::DeviceHelper(QObject *parent)
     : QObject(parent)
 {
     // DFM 设备管理接口，访问文件挂载信息
-    m_dfmDeviceManager.reset(new QDBusInterface(QStringLiteral("org.deepin.filemanager.server"),
-                                              QStringLiteral("/org/deepin/filemanager/server/DeviceManager"),
-                                              QStringLiteral("org.deepin.filemanager.server.DeviceManager")));
+    if (DSysInfo::majorVersion() == "25") {
+        m_dfmDeviceManager.reset(new QDBusInterface(QStringLiteral(V25_FILEMANAGER_DAEMON_SERVICE),
+                                                    QStringLiteral(V25_FILEMANAGER_DAEMON_PATH),
+                                                    QStringLiteral(V25_FILEMANAGER_DAEMON_INTERFACE)));
+    } else {
+        m_dfmDeviceManager.reset(new QDBusInterface(QStringLiteral(V23_FILEMANAGER_DAEMON_SERVICE),
+                                                    QStringLiteral(V23_FILEMANAGER_DAEMON_PATH),
+                                                    QStringLiteral(V23_FILEMANAGER_DAEMON_INTERFACE)));
+    }
+
+    qInfo() << "m_dfmDeviceManager: majorVersion:" << DSysInfo::majorVersion()
+             << "dbus service:" << m_dfmDeviceManager.data()->service()
+             << "interface:" << m_dfmDeviceManager.data()->interface()
+             << "object:" << m_dfmDeviceManager.data()->objectName()
+             << "path:" << m_dfmDeviceManager.data()->path();
 }
 
 DeviceHelper::~DeviceHelper()
