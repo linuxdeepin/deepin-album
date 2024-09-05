@@ -1,3 +1,11 @@
+deepin-album (6.0.7) unstable; urgency=medium
+
+   * update version to 6.0.7
+   * feat: adapt to Qt6
+   * feat: merge new imageviewer code to album
+
+ -- houchengqiu <houchengqiu@uniontech.com>  Thu, 5 Sep 2024 19:13:03 +0800
+
 deepin-album (6.0.6) unstable; urgency=medium
 
   * fix: Search box centering issue fixed(Bug: 219083)
@@ -9,7 +17,7 @@ deepin-album (6.0.6) unstable; urgency=medium
   * fix: [Config] The default width and height adjustment of the main window is 1150 * 800(Bug: 268195)
   * fix: [UI] Adjustment of Top and Bottom Margins in Year Month View(Bug: 268925)
 
- -- Deepin Packages Builder <packages@deepin.org>  Thu, 22 Aug 2024 13:41:03 +0800
+ -- houchengqiu <houchengqiu@uniontech.com>  Thu, 22 Aug 2024 13:41:03 +0800
 
 deepin-album (6.0.5) unstable; urgency=medium
 
