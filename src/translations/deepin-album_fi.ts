@@ -192,7 +192,7 @@
         <location filename="../src/albumControl.cpp" line="2202"/>
         <location filename="../src/albumControl.cpp" line="2206"/>
         <source>%1Year%2Month%3Day</source>
-        <translation type="unfinished"/>
+        <translation>%1V%2KK%3PV</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2256"/>
@@ -365,7 +365,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="152"/>
         <source>0 item</source>
-        <translation type="unfinished"/>
+        <translation>1 kohde {0 ?}</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="214"/>
@@ -466,7 +466,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1226"/>
         <source>%1 Volume</source>
-        <translation>%1 Asema</translation>
+        <translation>%1 osio</translation>
     </message>
 </context>
 <context>
@@ -474,7 +474,7 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="48"/>
         <source>Are you sure you want to delete this file locally?</source>
-        <translation>Haluatko varmasti poistaa tämän tiedoston paikallisesti?</translation>
+        <translation>Haluatko poistaa tämän tiedoston tietokoneelta?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="49"/>
@@ -484,7 +484,7 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="51"/>
         <source>Are you sure you want to delete %1 files locally?</source>
-        <translation>Haluatko varmasti poistaa %1 tiedostoa paikallisesti?</translation>
+        <translation>Haluatko varmasti poistaa %1 tiedostoa tietokoneelta?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="52"/>
@@ -1289,7 +1289,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="37"/>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation>Avaa kuva</translation>
     </message>
 </context>
 <context>
