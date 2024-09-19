@@ -1346,7 +1346,7 @@
         <location filename="../main.cpp" line="65"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation type="unfinished"/>
+        <translation>Päälinja</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="270"/>
@@ -1359,7 +1359,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation type="unfinished"/>
+        <translation>Anna uusi nimi</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="85"/>
