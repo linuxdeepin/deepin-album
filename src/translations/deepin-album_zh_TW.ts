@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_TW">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="zh_TW">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -194,7 +192,7 @@
         <location filename="../src/albumControl.cpp" line="2202"/>
         <location filename="../src/albumControl.cpp" line="2206"/>
         <source>%1Year%2Month%3Day</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2256"/>
@@ -291,7 +289,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="476"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished">匯入照片和影片</translation>
+        <translation>匯入照片和影片</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="504"/>
@@ -367,7 +365,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="152"/>
         <source>0 item</source>
-        <translation type="unfinished">共1項 {0 ?}</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="214"/>
@@ -625,7 +623,7 @@
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="55"/>
         <source>Export</source>
-        <translation type="unfinished">匯出</translation>
+        <translation>匯出</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="72"/>
@@ -851,42 +849,42 @@
     <message>
         <location filename="../src/globalstatus.cpp" line="792"/>
         <source>1 item selected (1 photo)</source>
-        <translation type="unfinished">已選擇1項（1張照片）</translation>
+        <translation>已選擇1項（1張照片）</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="794"/>
         <source>1 item selected (1 video)</source>
-        <translation type="unfinished">已選擇1項（1個影片）</translation>
+        <translation>已選擇1項（1個影片）</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="796"/>
         <source>%1 items selected (%1 photos)</source>
-        <translation type="unfinished">已選擇%1項（%1張照片）</translation>
+        <translation>已選擇%1項（%1張照片）</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="798"/>
         <source>%1 items selected (%1 videos)</source>
-        <translation type="unfinished">已選擇%1項（%1個影片）</translation>
+        <translation>已選擇%1項（%1個影片）</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="800"/>
         <source>%1 item selected (1 photo, 1 video)</source>
-        <translation type="unfinished">已選擇%1項（1張照片，1個影片）</translation>
+        <translation>已選擇%1項（1張照片，1個影片）</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="802"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
-        <translation type="unfinished">已選擇%1項（1張照片，%2個影片）</translation>
+        <translation>已選擇%1項（1張照片，%2個影片）</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="804"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
-        <translation type="unfinished">已選擇%1項（%2張照片，1個影片）</translation>
+        <translation>已選擇%1項（%2張照片，1個影片）</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="806"/>
         <source>%1 items selected (%2 photos, %3 videos)</source>
-        <translation type="unfinished">已選擇%1項（%2張照片，%3個影片）</translation>
+        <translation>已選擇%1項（%2張照片，%3個影片）</translation>
     </message>
 </context>
 <context>
@@ -1070,112 +1068,112 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="75"/>
         <source>Basic info</source>
-        <translation type="unfinished">基本訊息</translation>
+        <translation>基本訊息</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="88"/>
         <source>File name</source>
-        <translation type="unfinished">檔案名</translation>
+        <translation>檔案名</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="99"/>
         <source>Size</source>
-        <translation type="unfinished">大小</translation>
+        <translation>大小</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="106"/>
         <source>Dimensions</source>
-        <translation type="unfinished">照片尺寸</translation>
+        <translation>照片尺寸</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="113"/>
         <source>Type</source>
-        <translation type="unfinished">文件類型</translation>
+        <translation>文件類型</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="125"/>
         <source>Date captured</source>
-        <translation type="unfinished">拍攝日期</translation>
+        <translation>拍攝日期</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="132"/>
         <source>Date modified</source>
-        <translation type="unfinished">修改日期</translation>
+        <translation>修改日期</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="142"/>
         <source>Details</source>
-        <translation type="unfinished">詳細訊息</translation>
+        <translation>詳細訊息</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="155"/>
         <source>Aperture</source>
-        <translation type="unfinished">光圈大小</translation>
+        <translation>光圈大小</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="163"/>
         <source>Exposure program</source>
-        <translation type="unfinished">曝光程式</translation>
+        <translation>曝光程式</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="170"/>
         <source>Focal length</source>
-        <translation type="unfinished">焦距</translation>
+        <translation>焦距</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="176"/>
         <source>ISO</source>
-        <translation type="unfinished">ISO感光度</translation>
+        <translation>ISO感光度</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="183"/>
         <source>Exposure mode</source>
-        <translation type="unfinished">曝光模式</translation>
+        <translation>曝光模式</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="189"/>
         <source>Exposure time</source>
-        <translation type="unfinished">曝光時間</translation>
+        <translation>曝光時間</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="195"/>
         <source>Flash</source>
-        <translation type="unfinished">閃光燈</translation>
+        <translation>閃光燈</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="202"/>
         <source>Flash compensation</source>
-        <translation type="unfinished">閃光燈補償</translation>
+        <translation>閃光燈補償</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="208"/>
         <source>Max aperture</source>
-        <translation type="unfinished">最大光圈值</translation>
+        <translation>最大光圈值</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="215"/>
         <source>Colorspace</source>
-        <translation type="unfinished">顏色空間</translation>
+        <translation>顏色空間</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="222"/>
         <source>Metering mode</source>
-        <translation type="unfinished">測光模式</translation>
+        <translation>測光模式</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="229"/>
         <source>White balance</source>
-        <translation type="unfinished">白平衡</translation>
+        <translation>白平衡</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="240"/>
         <source>Device model</source>
-        <translation type="unfinished">裝置型號</translation>
+        <translation>裝置型號</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="247"/>
         <source>Lens model</source>
-        <translation type="unfinished">鏡頭型號</translation>
+        <translation>鏡頭型號</translation>
     </message>
 </context>
 <context>
@@ -1212,7 +1210,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/MainStack.qml" line="126"/>
         <source>Select pictures</source>
-        <translation type="unfinished">選擇圖片</translation>
+        <translation>選擇圖片</translation>
     </message>
 </context>
 <context>
@@ -1257,7 +1255,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NoPermissionImageDelegate.qml" line="22"/>
         <source>You have no permission to view the image</source>
-        <translation type="unfinished">您沒有權限檢視此圖片</translation>
+        <translation>您沒有權限檢視此圖片</translation>
     </message>
 </context>
 <context>
@@ -1265,7 +1263,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="60"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished">匯入照片和影片</translation>
+        <translation>匯入照片和影片</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
@@ -1275,7 +1273,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>Or drag them here</source>
-        <translation type="unfinished">您也可以拖曳照片和影片到此</translation>
+        <translation>您也可以拖曳照片和影片到此</translation>
     </message>
 </context>
 <context>
@@ -1283,7 +1281,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NonexistImageDelegate.qml" line="42"/>
         <source>Image file not found</source>
-        <translation type="unfinished">未發現圖片文件</translation>
+        <translation>未發現圖片文件</translation>
     </message>
 </context>
 <context>
@@ -1291,7 +1289,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="37"/>
         <source>Open Image</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1348,12 +1346,12 @@
         <location filename="../main.cpp" line="65"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="270"/>
         <source>day</source>
-        <translation type="unfinished">天</translation>
+        <translation>天</translation>
     </message>
 </context>
 <context>
@@ -1361,7 +1359,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="85"/>
@@ -1450,22 +1448,22 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="71"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="101"/>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation type="unfinished">確定</translation>
+        <translation>確定</translation>
     </message>
 </context>
 <context>
@@ -1659,32 +1657,32 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="172"/>
         <source>Back to Album</source>
-        <translation type="unfinished">返回相冊</translation>
+        <translation>返回相冊</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="204"/>
         <source>Previous</source>
-        <translation type="unfinished">上一張</translation>
+        <translation>上一張</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="229"/>
         <source>Next</source>
-        <translation type="unfinished">下一張</translation>
+        <translation>下一張</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="265"/>
         <source>Original size</source>
-        <translation type="unfinished">原始大小</translation>
+        <translation>原始大小</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="284"/>
         <source>Fit to window</source>
-        <translation type="unfinished">適應視窗</translation>
+        <translation>適應視窗</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="302"/>
         <source>Rotate</source>
-        <translation type="unfinished">旋轉</translation>
+        <translation>旋轉</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="336"/>
@@ -1699,7 +1697,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="592"/>
         <source>Extract text</source>
-        <translation type="unfinished">識別文字</translation>
+        <translation>識別文字</translation>
     </message>
 </context>
 <context>
@@ -1707,102 +1705,102 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="802"/>
         <source>View</source>
-        <translation type="unfinished">查看</translation>
+        <translation>查看</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="811"/>
         <source>Fullscreen</source>
-        <translation type="unfinished">全螢幕</translation>
+        <translation>全螢幕</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="828"/>
         <source>Print</source>
-        <translation type="unfinished">列印</translation>
+        <translation>列印</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="847"/>
         <source>Slide show</source>
-        <translation type="unfinished">幻燈片放映</translation>
+        <translation>幻燈片放映</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="873"/>
         <source>Add to album</source>
-        <translation type="unfinished">添加到相冊</translation>
+        <translation>添加到相冊</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="876"/>
         <source>New album</source>
-        <translation type="unfinished">建立相冊</translation>
+        <translation>建立相冊</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="899"/>
         <source>Successfully added to “%1”</source>
-        <translation type="unfinished">成功添加到“%1”</translation>
+        <translation>成功添加到“%1”</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="908"/>
         <source>Export</source>
-        <translation type="unfinished">匯出</translation>
+        <translation>匯出</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="927"/>
         <source>Copy</source>
-        <translation type="unfinished">複製</translation>
+        <translation>複製</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="936"/>
         <source>Delete</source>
-        <translation type="unfinished">刪除</translation>
+        <translation>刪除</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="946"/>
         <source>Remove from album</source>
-        <translation type="unfinished">從相冊中移除</translation>
+        <translation>從相冊中移除</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="961"/>
         <source>Favorite</source>
-        <translation type="unfinished">收藏</translation>
+        <translation>收藏</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="971"/>
         <source>Unfavorite</source>
-        <translation type="unfinished">取消收藏</translation>
+        <translation>取消收藏</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="985"/>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">順時針旋轉</translation>
+        <translation>順時針旋轉</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="994"/>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">逆時針旋轉</translation>
+        <translation>逆時針旋轉</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1003"/>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">設為桌布</translation>
+        <translation>設為桌布</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1022"/>
         <source>Display in file manager</source>
-        <translation type="unfinished">在檔案管理器中顯示</translation>
+        <translation>在檔案管理器中顯示</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1041"/>
         <source>Restore</source>
-        <translation type="unfinished">復原</translation>
+        <translation>復原</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1050"/>
         <source>Photo info</source>
-        <translation type="unfinished">照片訊息</translation>
+        <translation>照片訊息</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1069"/>
         <source>Video info</source>
-        <translation type="unfinished">影片訊息</translation>
+        <translation>影片訊息</translation>
     </message>
 </context>
 <context>
@@ -2063,12 +2061,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="161"/>
         <source>Open image</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="183"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
@@ -2078,7 +2076,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="187"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
