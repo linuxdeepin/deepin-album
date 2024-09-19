@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="zh_CN">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -194,7 +192,7 @@
         <location filename="../src/albumControl.cpp" line="2202"/>
         <location filename="../src/albumControl.cpp" line="2206"/>
         <source>%1Year%2Month%3Day</source>
-        <translation>%1年%2月%3日</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2256"/>
@@ -367,7 +365,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="152"/>
         <source>0 item</source>
-        <translation>0个项目</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="214"/>
@@ -612,7 +610,7 @@
     <message>
         <location filename="../qml/Control/EmptyWarningDialog.qml" line="27"/>
         <source>File name cannot be empty!</source>
-        <translation>文件名不能为空！</translation>
+        <translation>文件名不能为空</translation>
     </message>
     <message>
         <location filename="../qml/Control/EmptyWarningDialog.qml" line="36"/>
@@ -1239,7 +1237,7 @@
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="70"/>
         <source>Name:</source>
-        <translation>名称：</translation>
+        <translation>文件名：</translation>
     </message>
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="101"/>
@@ -1291,7 +1289,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="37"/>
         <source>Open Image</source>
-        <translation>打开图片</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1348,7 +1346,7 @@
         <location filename="../main.cpp" line="65"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="270"/>
@@ -1361,7 +1359,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation>请输入图片名称</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="85"/>
@@ -1450,12 +1448,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="71"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation>无法将“%1”放到回收站，您要彻底删除吗？</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation>此操作不可以恢复</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="101"/>
@@ -2063,12 +2061,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="161"/>
         <source>Open image</source>
-        <translation>打开图片</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="183"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>看图是一款外观时尚，性能流畅的图片查看工具。</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
@@ -2078,7 +2076,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="187"/>
         <source>Image Viewer</source>
-        <translation>看图</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
