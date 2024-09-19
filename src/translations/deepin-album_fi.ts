@@ -126,7 +126,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1096"/>
         <source>Unfavorite</source>
-        <translation>Inhokki</translation>
+        <translation>Ei suosikki</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1099"/>
@@ -299,7 +299,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="504"/>
         <source>Unfavorite</source>
-        <translation>Inhokki</translation>
+        <translation>Ei suosikki</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="536"/>
@@ -1692,7 +1692,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="336"/>
         <source>Unfavorite</source>
-        <translation>Inhokki</translation>
+        <translation>Ei suosikki</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="592"/>
@@ -1765,7 +1765,7 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="971"/>
         <source>Unfavorite</source>
-        <translation>Inhokki</translation>
+        <translation>Ei suosikki</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="985"/>
@@ -1856,7 +1856,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="290"/>
         <source>Unfavorite</source>
-        <translation>Inhokki</translation>
+        <translation>Ei suosikki</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="431"/>
@@ -2018,7 +2018,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="229"/>
         <source>Unfavorite</source>
-        <translation>Inhokki</translation>
+        <translation>Ei suosikki</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="246"/>
@@ -2061,7 +2061,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="161"/>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Avaa kuva</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="183"/>
