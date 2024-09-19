@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="uk">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="uk">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -194,7 +192,7 @@
         <location filename="../src/albumControl.cpp" line="2202"/>
         <location filename="../src/albumControl.cpp" line="2206"/>
         <source>%1Year%2Month%3Day</source>
-        <translation type="unfinished"></translation>
+        <translation>%1рік%2місяць%3день</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2256"/>
@@ -291,7 +289,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="476"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished">Імпортуйте фотографії та відео</translation>
+        <translation>Імпортуйте фотографії та відео</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="504"/>
@@ -367,7 +365,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="152"/>
         <source>0 item</source>
-        <translation type="unfinished">1 запис {0 ?}</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="214"/>
@@ -625,7 +623,7 @@
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="55"/>
         <source>Export</source>
-        <translation type="unfinished">Експортувати</translation>
+        <translation>Експортувати</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="72"/>
@@ -851,42 +849,42 @@
     <message>
         <location filename="../src/globalstatus.cpp" line="792"/>
         <source>1 item selected (1 photo)</source>
-        <translation type="unfinished">Позначено 1 запис (1 фото)</translation>
+        <translation>Позначено 1 запис (1 фото)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="794"/>
         <source>1 item selected (1 video)</source>
-        <translation type="unfinished">Позначено 1 запис (1 відео)</translation>
+        <translation>Позначено 1 запис (1 відео)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="796"/>
         <source>%1 items selected (%1 photos)</source>
-        <translation type="unfinished">Позначено %1 записів (%1 фотографій)</translation>
+        <translation>Позначено %1 записів (%1 фотографій)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="798"/>
         <source>%1 items selected (%1 videos)</source>
-        <translation type="unfinished">Позначено %1 записів (%1 відео)</translation>
+        <translation>Позначено %1 записів (%1 відео)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="800"/>
         <source>%1 item selected (1 photo, 1 video)</source>
-        <translation type="unfinished"></translation>
+        <translation>Позначено %1 записів (1 фотографію, 1 відео)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="802"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
-        <translation type="unfinished">Позначено %1 записів (1 фотографію, %2 відео)</translation>
+        <translation>Позначено %1 записів (1 фотографію, %2 відео)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="804"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
-        <translation type="unfinished">Позначено %1 записів (%2 фотографій, 1 відео)</translation>
+        <translation>Позначено %1 записів (%2 фотографій, 1 відео)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="806"/>
         <source>%1 items selected (%2 photos, %3 videos)</source>
-        <translation type="unfinished">Позначено %1 записів (%2 фото, %3 відео)</translation>
+        <translation>Позначено %1 записів (%2 фото, %3 відео)</translation>
     </message>
 </context>
 <context>
@@ -900,7 +898,7 @@
         <location filename="../qml/GlobalVar.qml" line="38"/>
         <location filename="../qml/GlobalVar.qml" line="46"/>
         <source>The file format is not supported</source>
-        <translation type="unfinished"></translation>
+        <translation>Підтримки цього формату файлів не передбачено</translation>
     </message>
 </context>
 <context>
@@ -1070,112 +1068,112 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="75"/>
         <source>Basic info</source>
-        <translation type="unfinished">Базові відомості</translation>
+        <translation>Базові відомості</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="88"/>
         <source>File name</source>
-        <translation type="unfinished">Назва файла</translation>
+        <translation>Назва файла</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="99"/>
         <source>Size</source>
-        <translation type="unfinished">Розмір</translation>
+        <translation>Розмір</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="106"/>
         <source>Dimensions</source>
-        <translation type="unfinished">Розміри</translation>
+        <translation>Розміри</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="113"/>
         <source>Type</source>
-        <translation type="unfinished">Тип</translation>
+        <translation>Тип</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="125"/>
         <source>Date captured</source>
-        <translation type="unfinished">Дата створення</translation>
+        <translation>Дата створення</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="132"/>
         <source>Date modified</source>
-        <translation type="unfinished">Дата зміни</translation>
+        <translation>Дата зміни</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="142"/>
         <source>Details</source>
-        <translation type="unfinished">Подробиці</translation>
+        <translation>Подробиці</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="155"/>
         <source>Aperture</source>
-        <translation type="unfinished">Діафрагма</translation>
+        <translation>Діафрагма</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="163"/>
         <source>Exposure program</source>
-        <translation type="unfinished">Програма експозиції</translation>
+        <translation>Програма експозиції</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="170"/>
         <source>Focal length</source>
-        <translation type="unfinished">Фокальна відстань</translation>
+        <translation>Фокальна відстань</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="176"/>
         <source>ISO</source>
-        <translation type="unfinished">ISO</translation>
+        <translation>ISO</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="183"/>
         <source>Exposure mode</source>
-        <translation type="unfinished">Режим експозиції</translation>
+        <translation>Режим експозиції</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="189"/>
         <source>Exposure time</source>
-        <translation type="unfinished">Час експозиції</translation>
+        <translation>Час експозиції</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="195"/>
         <source>Flash</source>
-        <translation type="unfinished">Спалах</translation>
+        <translation>Спалах</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="202"/>
         <source>Flash compensation</source>
-        <translation type="unfinished">Компенсація спалаху</translation>
+        <translation>Компенсація спалаху</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="208"/>
         <source>Max aperture</source>
-        <translation type="unfinished">Макс. апертура</translation>
+        <translation>Макс. апертура</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="215"/>
         <source>Colorspace</source>
-        <translation type="unfinished">Простір кольорів</translation>
+        <translation>Простір кольорів</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="222"/>
         <source>Metering mode</source>
-        <translation type="unfinished">Режим вимірювання</translation>
+        <translation>Режим вимірювання</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="229"/>
         <source>White balance</source>
-        <translation type="unfinished">Баланс білого</translation>
+        <translation>Баланс білого</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="240"/>
         <source>Device model</source>
-        <translation type="unfinished">Модель пристрою</translation>
+        <translation>Модель пристрою</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="247"/>
         <source>Lens model</source>
-        <translation type="unfinished">Модель об&apos;єктива</translation>
+        <translation>Модель об&apos;єктива</translation>
     </message>
 </context>
 <context>
@@ -1204,7 +1202,7 @@
     <message>
         <location filename="../qml/MainAlbumView.qml" line="278"/>
         <source>Import failed</source>
-        <translation>Імпортування зазнало&#xa0;невдачі</translation>
+        <translation>Імпортування зазнало невдачі</translation>
     </message>
 </context>
 <context>
@@ -1212,7 +1210,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/MainStack.qml" line="126"/>
         <source>Select pictures</source>
-        <translation type="unfinished">Виберіть знімки</translation>
+        <translation>Виберіть знімки</translation>
     </message>
 </context>
 <context>
@@ -1257,7 +1255,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NoPermissionImageDelegate.qml" line="22"/>
         <source>You have no permission to view the image</source>
-        <translation type="unfinished">У вас немає прав доступу до перегляду цього зображення</translation>
+        <translation>У вас немає прав доступу до перегляду цього зображення</translation>
     </message>
 </context>
 <context>
@@ -1265,7 +1263,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="60"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished">Імпортуйте фотографії та відео</translation>
+        <translation>Імпортуйте фотографії та відео</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
@@ -1275,7 +1273,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>Or drag them here</source>
-        <translation type="unfinished">Або перетягніть їх сюди</translation>
+        <translation>Або перетягніть їх сюди</translation>
     </message>
 </context>
 <context>
@@ -1283,7 +1281,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NonexistImageDelegate.qml" line="42"/>
         <source>Image file not found</source>
-        <translation type="unfinished">Файл зображення не знайдено</translation>
+        <translation>Файл зображення не знайдено</translation>
     </message>
 </context>
 <context>
@@ -1291,7 +1289,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="37"/>
         <source>Open Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Відкрити зображення</translation>
     </message>
 </context>
 <context>
@@ -1348,12 +1346,12 @@
         <location filename="../main.cpp" line="65"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation type="unfinished"></translation>
+        <translation>Основне</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="270"/>
         <source>day</source>
-        <translation type="unfinished">день</translation>
+        <translation>день</translation>
     </message>
 </context>
 <context>
@@ -1361,7 +1359,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Введіть нову назву</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="85"/>
@@ -1450,22 +1448,22 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="71"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="101"/>
         <source>Cancel</source>
-        <translation type="unfinished">Скасувати</translation>
+        <translation>Скасувати</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation type="unfinished">Підтвердити</translation>
+        <translation>Підтвердити</translation>
     </message>
 </context>
 <context>
@@ -1659,32 +1657,32 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="172"/>
         <source>Back to Album</source>
-        <translation type="unfinished">Назад до альбому</translation>
+        <translation>Назад до альбому</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="204"/>
         <source>Previous</source>
-        <translation type="unfinished">Назад</translation>
+        <translation>Назад</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="229"/>
         <source>Next</source>
-        <translation type="unfinished">Далі</translation>
+        <translation>Далі</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="265"/>
         <source>Original size</source>
-        <translation type="unfinished">Початковий розмір</translation>
+        <translation>Початковий розмір</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="284"/>
         <source>Fit to window</source>
-        <translation type="unfinished">Вмістити у вікно</translation>
+        <translation>Вмістити у вікно</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="302"/>
         <source>Rotate</source>
-        <translation type="unfinished">Обертати</translation>
+        <translation>Обертати</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="336"/>
@@ -1699,7 +1697,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="592"/>
         <source>Extract text</source>
-        <translation type="unfinished">Видобути текст</translation>
+        <translation>Видобути текст</translation>
     </message>
 </context>
 <context>
@@ -1707,102 +1705,102 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="802"/>
         <source>View</source>
-        <translation type="unfinished">Перегляд</translation>
+        <translation>Перегляд</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="811"/>
         <source>Fullscreen</source>
-        <translation type="unfinished">На весь екран</translation>
+        <translation>На весь екран</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="828"/>
         <source>Print</source>
-        <translation type="unfinished">Надрукувати</translation>
+        <translation>Надрукувати</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="847"/>
         <source>Slide show</source>
-        <translation type="unfinished">Показ слайдів</translation>
+        <translation>Показ слайдів</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="873"/>
         <source>Add to album</source>
-        <translation type="unfinished">Додати до альбому</translation>
+        <translation>Додати до альбому</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="876"/>
         <source>New album</source>
-        <translation type="unfinished">Новий альбом</translation>
+        <translation>Новий альбом</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="899"/>
         <source>Successfully added to “%1”</source>
-        <translation type="unfinished">Успішно додано до «%1»</translation>
+        <translation>Успішно додано до «%1»</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="908"/>
         <source>Export</source>
-        <translation type="unfinished">Експортувати</translation>
+        <translation>Експортувати</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="927"/>
         <source>Copy</source>
-        <translation type="unfinished">Копіювати</translation>
+        <translation>Копіювати</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="936"/>
         <source>Delete</source>
-        <translation type="unfinished">Вилучити</translation>
+        <translation>Вилучити</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="946"/>
         <source>Remove from album</source>
-        <translation type="unfinished">Вилучити з альбому</translation>
+        <translation>Вилучити з альбому</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="961"/>
         <source>Favorite</source>
-        <translation type="unfinished">Додати до вибраних</translation>
+        <translation>Додати до вибраних</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="971"/>
         <source>Unfavorite</source>
-        <translation type="unfinished">Вилучити з вибраних</translation>
+        <translation>Вилучити з вибраних</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="985"/>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Обертати за годинниковою стрілкою</translation>
+        <translation>Обертати за годинниковою стрілкою</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="994"/>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Обертати проти годинникової стрілки</translation>
+        <translation>Обертати проти годинникової стрілки</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1003"/>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Встановити зображенням тла</translation>
+        <translation>Встановити зображенням тла</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1022"/>
         <source>Display in file manager</source>
-        <translation type="unfinished">Показати у менеджері файлів</translation>
+        <translation>Показати у менеджері файлів</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1041"/>
         <source>Restore</source>
-        <translation type="unfinished">Відновити</translation>
+        <translation>Відновити</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1050"/>
         <source>Photo info</source>
-        <translation type="unfinished">Дані щодо фотографії</translation>
+        <translation>Дані щодо фотографії</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1069"/>
         <source>Video info</source>
-        <translation type="unfinished">Дані щодо відео</translation>
+        <translation>Дані щодо відео</translation>
     </message>
 </context>
 <context>
@@ -2063,12 +2061,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="161"/>
         <source>Open image</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="183"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>«Переглядач зображень» — інструмент для перегляду зображень із чудовим інтерфейсом та зручними принципами роботи.</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
@@ -2078,7 +2076,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="187"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
