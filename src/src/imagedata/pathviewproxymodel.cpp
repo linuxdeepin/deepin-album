@@ -8,7 +8,6 @@
 #include "imagesourcemodel.h"
 
 #include <QDebug>
-#include <QtMath>
 
 PathViewProxyModel::IndexInfo::IndexInfo(const IndexInfo &other)
     : url { other.url }
@@ -45,7 +44,7 @@ QHash<int, QByteArray> PathViewProxyModel::roleNames() const
 
 QVariant PathViewProxyModel::data(const QModelIndex &index, int role) const
 {
-    if (index.row() < 0 || index.row() > rowCount()) {
+    if (!checkIndex(index, CheckIndexOption::ParentIsInvalid | CheckIndexOption::IndexIsValid)) {
         return {};
     }
 

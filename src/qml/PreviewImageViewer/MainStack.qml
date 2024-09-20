@@ -119,8 +119,7 @@ FadeInoutAnimation {
         sourceComponent: FileDialog {
             id: fileDialog
 
-            currentFolder: shortcuts.pictures
-            // selectMultiple: true
+            currentFolder: FileControl.standardPicturesPath()
             fileMode: FileDialog.OpenFiles
             nameFilters: ["Image files (*.jpg *.png *.bmp *.gif *.ico *.jpe " + "*.jps *.jpeg *.jng *.koala *.koa *.lbm " + "*.iff *.mng *.pbm *.pbmraw *.pcd *.pcx " + "*.pgm *.pgmraw *.ppm *.ppmraw *.ras *.tga " + "*.targa *.tiff *.tif *.wbmp *.psd *.cut *.xbm " + "*.xpm *.dds *.fax *.g3 *.sgi *.exr *.pct *.pic " + "*.pict *.webp *.jxr *.mrw *.raf *.mef *.raw *.orf " + "*.djvu *.or2 *.icns *.dng *.svg *.nef *.pef *.pxm *.pnm)"]
             title: qsTr("Select pictures")
@@ -160,6 +159,17 @@ FadeInoutAnimation {
             if (Number(Album.Types.SliderShowPage) !== GStatus.stackPage) {
                 openImageDialog();
             }
+        }
+    }
+
+    // show shortcut panel
+    Shortcut {
+        enabled: visible && !FileControl.isAlbum()
+        sequence: "Ctrl+Shift+/"
+
+        onActivated: {
+            var screenPos = mapToGlobal(parent.x, parent.y);
+            FileControl.showShortcutPanel(screenPos.x + parent.Window.width / 2, screenPos.y + parent.Window.height / 2);
         }
     }
 }

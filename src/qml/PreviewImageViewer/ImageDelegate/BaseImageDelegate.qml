@@ -27,7 +27,7 @@ Item {
     property bool inited: false
     property ImageInputHandler inputHandler: null
     // PathView下不再提供 index === GControl.currentIndex
-    property bool isCurrentImage: parent.PathView.isCurrentItem
+    property bool isCurrentImage: parent.PathView.view.currentIndex === model.index
     // 坐标偏移，用于动画效果时调整显示位置
     property real offset: 0
     // 图片绘制区域到边框的位置
@@ -53,13 +53,10 @@ Item {
     }
 
     function reset() {
+        if (targetImage.paintedWidth > 0) {
+            resetCache();
+        }
         if (targetImage) {
-            // 匹配缩放处理，对于动图，首次加载传入的 paintedWidth 可能为0
-            if (targetImage.paintedWidth > 0 && imageInfo.width < targetImage.width && imageInfo.height < targetImage.height) {
-                targetImage.scale = imageInfo.width / targetImage.paintedWidth;
-            } else {
-                targetImage.scale = 1;
-            }
             targetImage.rotation = 0;
         }
 
@@ -69,9 +66,34 @@ Item {
         }
     }
 
+    function resetCache() {
+        if (inited || null === targetImage || undefined === targetImage) {
+            return;
+        }
+        if (targetImage.paintedWidth <= 0) {
+            return;
+        }
+
+        // 重置缩放
+        if (targetImageInfo.scale <= 0) {
+            // 匹配缩放处理，对于动图，首次加载传入的 paintedWidth 可能为 0
+            if (imageInfo.width < targetImage.width && imageInfo.height < targetImage.height) {
+                targetImage.scale = imageInfo.width / targetImage.paintedWidth;
+            } else {
+                targetImage.scale = 1;
+            }
+            targetImageInfo.scale = targetImage.scale;
+        } else {
+            targetImage.scale = targetImageInfo.scale;
+        }
+        targetImage.x = targetImageInfo.x;
+        targetImage.y = targetImageInfo.y;
+        inited = true;
+    }
+
     function updateOffset() {
-        // 需要考虑缩放时的处理
-        var realWidth = targetImage.paintedWidth * targetImage.scale;
+        // 需要考虑缩放时的处理（cache中缓存缩放值时优先采用cache）
+        var realWidth = targetImage.paintedWidth * (targetImageInfo.scale <= 0 ? targetImageInfo.scale : targetImage.scale);
         // 图片加载过程时，图片可能未加载完成，调整默认的缩放比值以获取近似值
         if (realWidth <= 0) {
             if (imageInfo.width < baseDelegate.width && imageInfo.height < baseDelegate.height) {
@@ -110,9 +132,6 @@ Item {
         // 用于绘制更新后缩放等处理
         function onPaintedWidthChanged() {
             if (!inited) {
-                if (targetImage.paintedWidth > 0) {
-                    inited = true;
-                }
                 reset();
             }
             updateOffset();
@@ -120,6 +139,27 @@ Item {
 
         function onScaleChanged() {
             updateOffset();
+
+            // 更新缓存状态
+            targetImageInfo.scale = targetImage.scale;
+        }
+
+        function onSourceChanged() {
+            inited = false;
+        }
+
+        function onStatusChanged() {
+            if (Image.Ready === targetImage.status) {
+                resetCache();
+            }
+        }
+
+        function onXChanged() {
+            targetImageInfo.x = targetImage.x;
+        }
+
+        function onYChanged() {
+            targetImageInfo.y = targetImage.y;
         }
 
         enabled: undefined !== targetImage
@@ -128,12 +168,13 @@ Item {
 
     // 用于加载大图时的延迟显示效果
     Loader {
-        id: previosLoader
+        id: previousLoader
 
         property bool needBlur: false
 
-        active: needBlur && Image.Loading === baseDelegate.status
-        anchors.fill: parent
+        active: needBlur && isCurrentImage && (Image.Loading === baseDelegate.status)
+        height: parent.height
+        width: parent.width
         z: parent.z + 1
 
         sourceComponent: Item {
@@ -142,11 +183,12 @@ Item {
             Image {
                 id: loadImage
 
-                anchors.fill: parent
                 // cache会缓存数据(即便Loader重新加载)，取消此设置以正确在快速旋转/切换时从正确缓存管理中读取
                 cache: false
                 fillMode: Image.PreserveAspectFit
+                height: parent.height
                 source: "image://ThumbnailLoad/" + delegate.source + "#frame_" + delegate.frameIndex
+                width: parent.width
             }
 
             MultiEffect {
@@ -159,13 +201,22 @@ Item {
             }
         }
 
+        onActiveChanged: {
+            if (active) {
+                // 应用缓存的图像设置
+                scale = targetImageInfo.scale <= 0 ? 1 : targetImageInfo.scale;
+                x = targetImageInfo.x;
+                y = targetImageInfo.y;
+            }
+        }
+
         // 短时间完成加载的图片内无需模糊延迟效果
         Timer {
             interval: 20
             running: Image.Loading === baseDelegate.status
 
             onTriggered: {
-                previosLoader.needBlur = true;
+                previousLoader.needBlur = true;
             }
         }
     }
@@ -173,6 +224,11 @@ Item {
     IV.ImageInfo {
         id: imageInfo
 
+        frameIndex: baseDelegate.frameIndex
         source: baseDelegate.source
+
+        onInfoChanged: {
+            inited = false;
+        }
     }
 }
