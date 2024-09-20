@@ -1,3 +1,12 @@
+deepin-album (6.0.8) unstable; urgency=medium
+
+   * update version to 6.0.8
+   * chore: [merge] merge imageviewer newer code to album
+   * fix: fix some bugs about adapt qt6
+   * feat: [translation]add transifex config
+
+ -- houchengqiu <houchengqiu@uniontech.com>  Fri, 20 Sep 2024 16:34:03 +0800
+
 deepin-album (6.0.7) unstable; urgency=medium
 
    * update version to 6.0.7
