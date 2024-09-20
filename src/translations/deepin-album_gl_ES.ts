@@ -254,19 +254,19 @@
         <location filename="../qml/AlbumTitle.qml" line="258"/>
         <location filename="../qml/AlbumTitle.qml" line="336"/>
         <source>Y</source>
-        <translation type="unfinished"/>
+        <translation>A</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="270"/>
         <location filename="../qml/AlbumTitle.qml" line="337"/>
         <source>M</source>
-        <translation type="unfinished"/>
+        <translation>M</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="281"/>
         <location filename="../qml/AlbumTitle.qml" line="338"/>
         <source>D</source>
-        <translation type="unfinished"/>
+        <translation>D</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="292"/>
@@ -277,7 +277,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="397"/>
         <source>Search</source>
-        <translation type="unfinished"/>
+        <translation>Buscar</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="479"/>
@@ -297,7 +297,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="542"/>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>Rotar</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="562"/>
@@ -562,12 +562,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="196"/>
         <source>Import 1 Item</source>
-        <translation type="unfinished"/>
+        <translation>Importar 1 elemento</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="197"/>
         <source>Import %1 Items</source>
-        <translation type="unfinished"/>
+        <translation>Importar %1 elementos</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="204"/>
@@ -603,7 +603,7 @@
     <message>
         <location filename="../qml/Control/EmptyWarningDialog.qml" line="27"/>
         <source>File name cannot be empty!</source>
-        <translation type="unfinished"/>
+        <translation>O nome do ficheiro non pode estar baleiro!</translation>
     </message>
     <message>
         <location filename="../qml/Control/EmptyWarningDialog.qml" line="36"/>
@@ -682,7 +682,7 @@
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="263"/>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>Confirmar</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="279"/>
@@ -710,7 +710,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="842"/>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation>Extraer texto</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="846"/>
