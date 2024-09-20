@@ -4,7 +4,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="249"/>
         <source>All photos and videos</source>
-        <translation type="unfinished"/>
+        <translation>Todas as fotos e vídeos</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="277"/>
@@ -54,12 +54,12 @@
     <message>
         <location filename="../src/albumControl.cpp" line="954"/>
         <source>Export photos</source>
-        <translation type="unfinished"/>
+        <translation>Exportar fotos</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="957"/>
         <source>Import photos/videos</source>
-        <translation type="unfinished"/>
+        <translation>Importar fotos/vídeos</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="960"/>
@@ -79,7 +79,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="969"/>
         <source>Photo/Video info</source>
-        <translation type="unfinished"/>
+        <translation>Información da foto/vídeo</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="972"/>
@@ -213,7 +213,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="118"/>
         <source>Import folders</source>
-        <translation type="unfinished"/>
+        <translation>Importar cartafois</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="129"/>
@@ -272,7 +272,7 @@
         <location filename="../qml/AlbumTitle.qml" line="292"/>
         <location filename="../qml/AlbumTitle.qml" line="339"/>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>Todo</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="397"/>
@@ -282,7 +282,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="479"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation>Importar Fotos e Vídeos</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="510"/>
@@ -330,7 +330,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="191"/>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Sen resultado</translation>
     </message>
 </context>
 <context>
@@ -363,7 +363,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="214"/>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Sen resultado</translation>
     </message>
 </context>
 <context>
@@ -577,7 +577,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="256"/>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>Sen resultado</translation>
     </message>
 </context>
 <context>
@@ -824,7 +824,7 @@
     <message>
         <location filename="../qml/Control/FilterComboBox.qml" line="20"/>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>Todo</translation>
     </message>
     <message>
         <location filename="../qml/Control/FilterComboBox.qml" line="21"/>
@@ -1256,17 +1256,17 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="60"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation>Importar Fotos e Vídeos</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>No photos or videos found</source>
-        <translation type="unfinished"/>
+        <translation>Non se encontraron fotos ou vídeos</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>Or drag them here</source>
-        <translation type="unfinished"/>
+        <translation>Ou arrastreas aquí</translation>
     </message>
 </context>
 <context>
@@ -2103,7 +2103,7 @@
     <message>
         <location filename="../qml/main.qml" line="131"/>
         <source>All photos and videos</source>
-        <translation type="unfinished"/>
+        <translation>Todas as fotos e vídeos</translation>
     </message>
 </context>
 </TS>
