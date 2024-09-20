@@ -195,7 +195,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="2165"/>
         <source>Channel</source>
-        <translation type="unfinished"/>
+        <translation>Canal</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2360"/>
@@ -487,7 +487,7 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="56"/>
         <source>Are you sure you want to permanently delete this file?</source>
-        <translation type="unfinished"/>
+        <translation>Está certo/a de que quere eliminar permanentemente este ficheiro?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="57"/>
@@ -1885,7 +1885,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="88"/>
         <source>Duration</source>
-        <translation type="unfinished"/>
+        <translation>Duración</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="93"/>
@@ -1895,7 +1895,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="103"/>
         <source>Path</source>
-        <translation type="unfinished"/>
+        <translation>Camiño</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="110"/>
@@ -1921,12 +1921,12 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="141"/>
         <source>Proportion</source>
-        <translation type="unfinished"/>
+        <translation>Proporción</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="148"/>
         <source>Resolution</source>
-        <translation type="unfinished"/>
+        <translation>Resolución</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="166"/>
@@ -1946,7 +1946,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="189"/>
         <source>Channels</source>
-        <translation type="unfinished"/>
+        <translation>Canais</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="196"/>
