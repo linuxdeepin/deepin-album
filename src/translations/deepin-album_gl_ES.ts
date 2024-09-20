@@ -467,12 +467,12 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="48"/>
         <source>Are you sure you want to delete this file locally?</source>
-        <translation type="unfinished"/>
+        <translation>Está certo/a que quere eliminar este ficheiro localmente?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="49"/>
         <source>You can restore it in the trash</source>
-        <translation type="unfinished"/>
+        <translation>Pode restauralo na papeleira</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="51"/>
@@ -482,7 +482,7 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="52"/>
         <source>You can restore them in the trash</source>
-        <translation type="unfinished"/>
+        <translation>Pode restauralos na papeleira</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="56"/>
@@ -492,7 +492,7 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="57"/>
         <source>You cannot restore it any longer</source>
-        <translation type="unfinished"/>
+        <translation>Xa non pode restauralo</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="59"/>
@@ -502,7 +502,7 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="60"/>
         <source>You cannot restore them any longer</source>
-        <translation type="unfinished"/>
+        <translation>Xa non pode restauralos</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="116"/>
@@ -885,7 +885,7 @@
     <message>
         <location filename="../qml/GlobalVar.qml" line="30"/>
         <source>The photo/video already exists</source>
-        <translation type="unfinished"/>
+        <translation>A foto/vídeo xa existe</translation>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="38"/>
