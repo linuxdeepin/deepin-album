@@ -2,205 +2,203 @@
 <context>
     <name>AlbumControl</name>
     <message>
-        <location filename="../src/albumControl.cpp" line="265"/>
+        <location filename="../src/albumControl.cpp" line="249"/>
         <source>All photos and videos</source>
         <translation>所有照片和影片</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="314"/>
-        <location filename="../src/albumControl.cpp" line="339"/>
+        <location filename="../src/albumControl.cpp" line="277"/>
         <source>Disk is busy, cannot eject now</source>
         <translation>磁碟文件被占用，無法彈出</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="315"/>
-        <location filename="../src/albumControl.cpp" line="340"/>
+        <location filename="../src/albumControl.cpp" line="278"/>
         <source>OK</source>
         <translation>確定</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1027"/>
+        <location filename="../src/albumControl.cpp" line="930"/>
         <source>Fullscreen</source>
         <translation>全螢幕</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1030"/>
+        <location filename="../src/albumControl.cpp" line="933"/>
         <source>Exit fullscreen/slideshow</source>
         <translation>退出全螢幕/幻燈片放映</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1036"/>
+        <location filename="../src/albumControl.cpp" line="939"/>
         <source>Help</source>
         <translation>幫助</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1039"/>
+        <location filename="../src/albumControl.cpp" line="942"/>
         <source>Display shortcuts</source>
         <translation>顯示快捷鍵</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1042"/>
+        <location filename="../src/albumControl.cpp" line="945"/>
         <source>Display in file manager</source>
         <translation>在檔案管理器中顯示</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1045"/>
+        <location filename="../src/albumControl.cpp" line="948"/>
         <source>Slide show</source>
         <translation>幻燈片放映</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1048"/>
+        <location filename="../src/albumControl.cpp" line="951"/>
         <source>View</source>
         <translation>查看</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1051"/>
+        <location filename="../src/albumControl.cpp" line="954"/>
         <source>Export photos</source>
         <translation>匯出照片</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1054"/>
+        <location filename="../src/albumControl.cpp" line="957"/>
         <source>Import photos/videos</source>
         <translation>匯入照片和影片</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1057"/>
+        <location filename="../src/albumControl.cpp" line="960"/>
         <source>Select all</source>
         <translation>全選</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1060"/>
+        <location filename="../src/albumControl.cpp" line="963"/>
         <source>Copy</source>
         <translation>複製</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1063"/>
+        <location filename="../src/albumControl.cpp" line="966"/>
         <source>Delete</source>
         <translation>刪除</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1066"/>
+        <location filename="../src/albumControl.cpp" line="969"/>
         <source>Photo/Video info</source>
         <translation>照片/影片訊息</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1069"/>
+        <location filename="../src/albumControl.cpp" line="972"/>
         <source>Set as wallpaper</source>
         <translation>設為桌布</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1072"/>
+        <location filename="../src/albumControl.cpp" line="975"/>
         <source>Rotate clockwise</source>
         <translation>順時針旋轉</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1075"/>
+        <location filename="../src/albumControl.cpp" line="978"/>
         <source>Rotate counterclockwise</source>
         <translation>逆時針旋轉</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1081"/>
+        <location filename="../src/albumControl.cpp" line="984"/>
         <source>Zoom in</source>
         <translation>放大照片</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1084"/>
+        <location filename="../src/albumControl.cpp" line="987"/>
         <source>Zoom out</source>
         <translation>縮小照片</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1087"/>
+        <location filename="../src/albumControl.cpp" line="990"/>
         <source>Previous</source>
         <translation>上一張</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1090"/>
+        <location filename="../src/albumControl.cpp" line="993"/>
         <source>Next</source>
         <translation>下一張</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1093"/>
+        <location filename="../src/albumControl.cpp" line="996"/>
         <source>Favorite</source>
         <translation>收藏</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1096"/>
+        <location filename="../src/albumControl.cpp" line="999"/>
         <source>Unfavorite</source>
         <translation>取消收藏</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1099"/>
+        <location filename="../src/albumControl.cpp" line="1002"/>
         <source>New album</source>
         <translation>建立相冊</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1102"/>
+        <location filename="../src/albumControl.cpp" line="1005"/>
         <source>Rename album</source>
         <translation>重新命名相冊</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1105"/>
+        <location filename="../src/albumControl.cpp" line="1008"/>
         <source>Page up</source>
         <translation>向上滾動一屏</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1108"/>
+        <location filename="../src/albumControl.cpp" line="1011"/>
         <source>Page down</source>
         <translation>向下滾動一屏</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1150"/>
+        <location filename="../src/albumControl.cpp" line="1053"/>
         <source>Photos</source>
         <translation>照片</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1153"/>
+        <location filename="../src/albumControl.cpp" line="1056"/>
         <source>Albums</source>
         <translation>相冊</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1156"/>
+        <location filename="../src/albumControl.cpp" line="1059"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1704"/>
+        <location filename="../src/albumControl.cpp" line="1610"/>
         <source>Favorites</source>
         <translation>我的收藏</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1706"/>
+        <location filename="../src/albumControl.cpp" line="1612"/>
         <source>Screen Capture</source>
         <translation>截圖錄屏</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1708"/>
+        <location filename="../src/albumControl.cpp" line="1614"/>
         <source>Camera</source>
         <translation>相機</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1710"/>
+        <location filename="../src/albumControl.cpp" line="1616"/>
         <source>Draw</source>
         <translation>畫板</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1803"/>
+        <location filename="../src/albumControl.cpp" line="1709"/>
         <source>Unnamed</source>
         <translation>未命名相冊</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2202"/>
-        <location filename="../src/albumControl.cpp" line="2206"/>
+        <location filename="../src/albumControl.cpp" line="2111"/>
+        <location filename="../src/albumControl.cpp" line="2115"/>
         <source>%1Year%2Month%3Day</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2256"/>
+        <location filename="../src/albumControl.cpp" line="2165"/>
         <source>Channel</source>
         <translation>聲道</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2451"/>
+        <location filename="../src/albumControl.cpp" line="2360"/>
         <source>Pictures</source>
         <translation>圖片</translation>
     </message>
@@ -208,106 +206,101 @@
 <context>
     <name>AlbumTitle</name>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="112"/>
+        <location filename="../qml/AlbumTitle.qml" line="111"/>
         <source>New album</source>
         <translation>建立相冊</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="119"/>
+        <location filename="../qml/AlbumTitle.qml" line="118"/>
         <source>Import folders</source>
         <translation>從資料夾匯入</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="132"/>
+        <location filename="../qml/AlbumTitle.qml" line="129"/>
         <source>Album</source>
         <translation>相冊</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="134"/>
-        <source>Version:</source>
-        <translation>版本：</translation>
-    </message>
-    <message>
-        <location filename="../qml/AlbumTitle.qml" line="135"/>
+        <location filename="../qml/AlbumTitle.qml" line="132"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
         <translation>相冊是一款可多種方式瀏覽、整理照片和影片的管理工具。</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="138"/>
+        <location filename="../qml/AlbumTitle.qml" line="135"/>
         <source>%1 is released under %2</source>
         <translation>%1遵循%2協議發布</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="176"/>
+        <location filename="../qml/AlbumTitle.qml" line="173"/>
         <source>Show side pane</source>
         <translation>展開側邊欄</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="176"/>
+        <location filename="../qml/AlbumTitle.qml" line="173"/>
         <source>Hide side pane</source>
         <translation>關閉側邊欄</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="221"/>
+        <location filename="../qml/AlbumTitle.qml" line="218"/>
         <source>Original ratio</source>
         <translation>顯示為原始比例</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="221"/>
+        <location filename="../qml/AlbumTitle.qml" line="218"/>
         <source>Square thumbnails</source>
         <translation>顯示為方圖</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="258"/>
-        <location filename="../qml/AlbumTitle.qml" line="333"/>
+        <location filename="../qml/AlbumTitle.qml" line="336"/>
         <source>Y</source>
         <translation>年</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="270"/>
-        <location filename="../qml/AlbumTitle.qml" line="334"/>
+        <location filename="../qml/AlbumTitle.qml" line="337"/>
         <source>M</source>
         <translation>月</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="281"/>
-        <location filename="../qml/AlbumTitle.qml" line="335"/>
+        <location filename="../qml/AlbumTitle.qml" line="338"/>
         <source>D</source>
         <translation>日</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="292"/>
-        <location filename="../qml/AlbumTitle.qml" line="336"/>
+        <location filename="../qml/AlbumTitle.qml" line="339"/>
         <source>All</source>
         <translation>所有項目</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="394"/>
+        <location filename="../qml/AlbumTitle.qml" line="397"/>
         <source>Search</source>
         <translation>搜尋</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="476"/>
+        <location filename="../qml/AlbumTitle.qml" line="479"/>
         <source>Import Photos and Videos</source>
         <translation>匯入照片和影片</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="504"/>
+        <location filename="../qml/AlbumTitle.qml" line="510"/>
         <source>Favorite</source>
         <translation>收藏</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="504"/>
+        <location filename="../qml/AlbumTitle.qml" line="510"/>
         <source>Unfavorite</source>
         <translation>取消收藏</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="536"/>
+        <location filename="../qml/AlbumTitle.qml" line="542"/>
         <source>Rotate</source>
         <translation>旋轉</translation>
     </message>
     <message>
-        <location filename="../qml/AlbumTitle.qml" line="556"/>
+        <location filename="../qml/AlbumTitle.qml" line="562"/>
         <source>Delete</source>
         <translation>刪除</translation>
     </message>
@@ -376,31 +369,31 @@
 <context>
     <name>DBManager</name>
     <message>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="465"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="482"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="507"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="464"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="481"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="506"/>
         <source>Screen Capture</source>
         <translation>截圖錄屏</translation>
     </message>
     <message>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="466"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="483"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="512"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="465"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="482"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="511"/>
         <source>Camera</source>
         <translation>相機</translation>
     </message>
     <message>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="467"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="517"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="466"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="516"/>
         <source>Draw</source>
         <translation>畫板</translation>
     </message>
     <message>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="1941"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="1961"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="1965"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="1967"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="1973"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="1940"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="1960"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="1964"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="1966"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="1972"/>
         <source>(copy)</source>
         <translation>(副本)</translation>
     </message>
@@ -449,22 +442,22 @@
 <context>
     <name>DeepinStorage</name>
     <message>
-        <location filename="../src/albumControl.cpp" line="1215"/>
+        <location filename="../src/albumControl.cpp" line="1118"/>
         <source>%1 Drive</source>
         <translation>%1驅動器</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1219"/>
+        <location filename="../src/albumControl.cpp" line="1122"/>
         <source>Blank %1 Disc</source>
         <translation>空白%1光碟</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1223"/>
+        <location filename="../src/albumControl.cpp" line="1126"/>
         <source>%1 Encrypted</source>
         <translation>%1已加密</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1226"/>
+        <location filename="../src/albumControl.cpp" line="1129"/>
         <source>%1 Volume</source>
         <translation>%1卷</translation>
     </message>
@@ -705,123 +698,123 @@
 <context>
     <name>FileControl</name>
     <message>
-        <location filename="../src/filecontrol.cpp" line="829"/>
+        <location filename="../src/filecontrol.cpp" line="834"/>
         <source>Fullscreen</source>
         <translation>全螢幕</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="833"/>
+        <location filename="../src/filecontrol.cpp" line="838"/>
         <source>Exit fullscreen</source>
         <translation>退出全螢幕</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="837"/>
+        <location filename="../src/filecontrol.cpp" line="842"/>
         <source>Extract text</source>
         <translation>識別文字</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="841"/>
+        <location filename="../src/filecontrol.cpp" line="846"/>
         <source>Slide show</source>
         <translation>幻燈片放映</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="845"/>
+        <location filename="../src/filecontrol.cpp" line="850"/>
         <source>Rename</source>
         <translation>重新命名</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="849"/>
-        <location filename="../src/filecontrol.cpp" line="941"/>
+        <location filename="../src/filecontrol.cpp" line="854"/>
+        <location filename="../src/filecontrol.cpp" line="946"/>
         <source>Copy</source>
         <translation>複製</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="853"/>
+        <location filename="../src/filecontrol.cpp" line="858"/>
         <source>Delete</source>
         <translation>刪除</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="857"/>
+        <location filename="../src/filecontrol.cpp" line="862"/>
         <source>Rotate clockwise</source>
         <translation>順時針旋轉</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="861"/>
+        <location filename="../src/filecontrol.cpp" line="866"/>
         <source>Rotate counterclockwise</source>
         <translation>逆時針旋轉</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="865"/>
+        <location filename="../src/filecontrol.cpp" line="870"/>
         <source>Set as wallpaper</source>
         <translation>設為桌布</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="869"/>
+        <location filename="../src/filecontrol.cpp" line="874"/>
         <source>Display in file manager</source>
         <translation>在檔案管理器中顯示</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="873"/>
+        <location filename="../src/filecontrol.cpp" line="878"/>
         <source>Image info</source>
         <translation>圖片訊息</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="877"/>
+        <location filename="../src/filecontrol.cpp" line="882"/>
         <source>Previous</source>
         <translation>上一張</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="881"/>
+        <location filename="../src/filecontrol.cpp" line="886"/>
         <source>Next</source>
         <translation>下一張</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="885"/>
+        <location filename="../src/filecontrol.cpp" line="890"/>
         <source>Zoom in</source>
         <translation>放大照片</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="889"/>
+        <location filename="../src/filecontrol.cpp" line="894"/>
         <source>Zoom out</source>
         <translation>縮小照片</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="893"/>
+        <location filename="../src/filecontrol.cpp" line="898"/>
         <source>Open</source>
         <translation>打開</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="897"/>
+        <location filename="../src/filecontrol.cpp" line="902"/>
         <source>Print</source>
         <translation>列印</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="921"/>
+        <location filename="../src/filecontrol.cpp" line="926"/>
         <source>Image Viewing</source>
         <translation>查看圖片</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="925"/>
+        <location filename="../src/filecontrol.cpp" line="930"/>
         <source>Help</source>
         <translation>幫助</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="929"/>
+        <location filename="../src/filecontrol.cpp" line="934"/>
         <source>Display shortcuts</source>
         <translation>顯示快捷鍵</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="937"/>
+        <location filename="../src/filecontrol.cpp" line="942"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="945"/>
+        <location filename="../src/filecontrol.cpp" line="950"/>
         <source>Select all</source>
         <translation>全選</translation>
     </message>
     <message>
-        <location filename="../src/filecontrol.cpp" line="953"/>
+        <location filename="../src/filecontrol.cpp" line="958"/>
         <source>Live Text</source>
         <translation>實況文字</translation>
     </message>
@@ -932,20 +925,20 @@
 <context>
     <name>ImportedlListView</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="151"/>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="424"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>Imported on</source>
         <translation>匯入於</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="151"/>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="424"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>1 item</source>
         <translation>共1項</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="151"/>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="424"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>%1 items</source>
         <translation>共%1項</translation>
     </message>
@@ -1279,7 +1272,7 @@
 <context>
     <name>NonexistImageDelegate</name>
     <message>
-        <location filename="../qml/PreviewImageViewer/ImageDelegate/NonexistImageDelegate.qml" line="42"/>
+        <location filename="../qml/PreviewImageViewer/ImageDelegate/NonexistImageDelegate.qml" line="43"/>
         <source>Image file not found</source>
         <translation>未發現圖片文件</translation>
     </message>
@@ -1287,7 +1280,7 @@
 <context>
     <name>OpenImageWidget</name>
     <message>
-        <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="37"/>
+        <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
         <translation type="unfinished"/>
     </message>
@@ -1295,7 +1288,7 @@
 <context>
     <name>PathManager</name>
     <message>
-        <location filename="../src/albumControl.cpp" line="1202"/>
+        <location filename="../src/albumControl.cpp" line="1100"/>
         <source>System Disk</source>
         <translation>系統盤</translation>
     </message>
@@ -1303,8 +1296,8 @@
 <context>
     <name>PropertyActionItemDelegate</name>
     <message>
-        <location filename="../qml/PreviewImageViewer/InformationDialog/PropertyActionItemDelegate.qml" line="94"/>
         <location filename="../qml/PreviewImageViewer/PropertyActionItemDelegate.qml" line="67"/>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
         <translation>該文件已存在，請使用其他名稱</translation>
     </message>
@@ -1312,28 +1305,28 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/albumControl.cpp" line="676"/>
-        <location filename="../src/albumControl.cpp" line="725"/>
+        <location filename="../src/albumControl.cpp" line="606"/>
+        <location filename="../src/albumControl.cpp" line="655"/>
         <source>%1/%2/%3 %4:%5</source>
         <translation>%1/%2/%3 %4:%5</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="707"/>
+        <location filename="../src/albumControl.cpp" line="637"/>
         <source>%1</source>
         <translation>%1</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="713"/>
+        <location filename="../src/albumControl.cpp" line="643"/>
         <source>%1/%2</source>
         <translation>%1/%2</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="719"/>
+        <location filename="../src/albumControl.cpp" line="649"/>
         <source>%1/%2/%3</source>
         <translation>%1年%2月%3日</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1441"/>
+        <location filename="../src/albumControl.cpp" line="1347"/>
         <source>Trash</source>
         <translation>最近刪除</translation>
     </message>
@@ -1405,22 +1398,22 @@
         <translation>最近刪除</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="131"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="141"/>
         <source>The files will be permanently deleted after the days shown on them</source>
         <translation>文件在刪除前會顯示剩餘天數，之後將永久刪除</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="145"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="156"/>
         <source>Delete All</source>
         <translation>全部刪除</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="185"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="196"/>
         <source>Delete Selected (%1)</source>
         <translation>刪除%1項</translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="205"/>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="216"/>
         <source>Restore Selected (%1)</source>
         <translation>復原%1項</translation>
     </message>
@@ -1512,93 +1505,93 @@
 <context>
     <name>Sidebar</name>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="120"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="144"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="126"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="150"/>
         <source>Album “%1” removed</source>
         <translation>已成功刪除“%1”相冊</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="168"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="174"/>
         <source>Gallery</source>
         <translation>照片庫</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="171"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="177"/>
         <source>Collection</source>
         <translation>合集</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="172"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="178"/>
         <source>Import</source>
         <translation>已匯入</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="173"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="179"/>
         <source>Favorites</source>
         <translation>我的收藏</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="174"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="180"/>
         <source>Trash</source>
         <translation>最近刪除</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="197"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="203"/>
         <source>Device</source>
         <translation>裝置</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="255"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="261"/>
         <source>Albums</source>
         <translation>相冊</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="276"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="282"/>
         <source>Add an album</source>
         <translation>建立相冊</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="302"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="308"/>
         <source>Screen Capture</source>
         <translation>截圖錄屏</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="306"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="312"/>
         <source>Camera</source>
         <translation>相機</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="310"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="316"/>
         <source>Draw</source>
         <translation>畫板</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="417"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="442"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="496"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="423"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="448"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="502"/>
         <source>Slide show</source>
         <translation>幻燈片放映</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="428"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="454"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="528"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="434"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="460"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="534"/>
         <source>Export</source>
         <translation>匯出</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="462"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="537"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="468"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="543"/>
         <source>Delete</source>
         <translation>刪除</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="505"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="511"/>
         <source>New album</source>
         <translation>建立相冊</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="516"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="522"/>
         <source>Rename</source>
         <translation>重新命名</translation>
     </message>
@@ -1606,30 +1599,30 @@
 <context>
     <name>SliderShow</name>
     <message>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="163"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="164"/>
         <source>Previous</source>
         <translation>上一張</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="180"/>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="231"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
         <source>Pause</source>
         <translation>暫停</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="180"/>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="231"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
         <source>Play</source>
         <translation>播放</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="196"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="197"/>
         <source>Next</source>
         <translation>下一張</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="211"/>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="252"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="212"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="253"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
@@ -1637,12 +1630,12 @@
 <context>
     <name>ThumbnailListDelegate</name>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="401"/>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="405"/>
         <source>days</source>
         <translation>天</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="401"/>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="405"/>
         <source>day</source>
         <translation>天</translation>
     </message>
@@ -1650,52 +1643,52 @@
 <context>
     <name>ThumbnailListView</name>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="611"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="609"/>
         <source>Delete</source>
         <translation>刪除</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="172"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="170"/>
         <source>Back to Album</source>
         <translation>返回相冊</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="204"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="202"/>
         <source>Previous</source>
         <translation>上一張</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="229"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="227"/>
         <source>Next</source>
         <translation>下一張</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="265"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="263"/>
         <source>Original size</source>
         <translation>原始大小</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="284"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="282"/>
         <source>Fit to window</source>
         <translation>適應視窗</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="302"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="300"/>
         <source>Rotate</source>
         <translation>旋轉</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="336"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="334"/>
         <source>Favorite</source>
         <translation>收藏</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="336"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="334"/>
         <source>Unfavorite</source>
         <translation>取消收藏</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="592"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="590"/>
         <source>Extract text</source>
         <translation>識別文字</translation>
     </message>
@@ -1703,102 +1696,102 @@
 <context>
     <name>ThumbnailListViewAlbum</name>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="802"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="806"/>
         <source>View</source>
         <translation>查看</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="811"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="815"/>
         <source>Fullscreen</source>
         <translation>全螢幕</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="828"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="832"/>
         <source>Print</source>
         <translation>列印</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="847"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="851"/>
         <source>Slide show</source>
         <translation>幻燈片放映</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="873"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="877"/>
         <source>Add to album</source>
         <translation>添加到相冊</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="876"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="880"/>
         <source>New album</source>
         <translation>建立相冊</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="899"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="912"/>
         <source>Successfully added to “%1”</source>
         <translation>成功添加到“%1”</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="908"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="921"/>
         <source>Export</source>
         <translation>匯出</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="927"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="940"/>
         <source>Copy</source>
         <translation>複製</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="936"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="949"/>
         <source>Delete</source>
         <translation>刪除</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="946"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="959"/>
         <source>Remove from album</source>
         <translation>從相冊中移除</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="961"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="974"/>
         <source>Favorite</source>
         <translation>收藏</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="971"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="984"/>
         <source>Unfavorite</source>
         <translation>取消收藏</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="985"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="998"/>
         <source>Rotate clockwise</source>
         <translation>順時針旋轉</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="994"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1007"/>
         <source>Rotate counterclockwise</source>
         <translation>逆時針旋轉</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1003"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1016"/>
         <source>Set as wallpaper</source>
         <translation>設為桌布</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1022"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1035"/>
         <source>Display in file manager</source>
         <translation>在檔案管理器中顯示</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1041"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1054"/>
         <source>Restore</source>
         <translation>復原</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1050"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1063"/>
         <source>Photo info</source>
         <translation>照片訊息</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1069"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1082"/>
         <source>Video info</source>
         <translation>影片訊息</translation>
     </message>
@@ -1806,14 +1799,12 @@
 <context>
     <name>ThumbnailListViewTools</name>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewTools.js" line="86"/>
         <source>Export successful</source>
-        <translation>匯出成功</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewTools.js" line="88"/>
         <source>Export failed</source>
-        <translation>匯出失敗</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1966,92 +1957,92 @@
 <context>
     <name>ViewRightMenu</name>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="41"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="40"/>
         <source>Fullscreen</source>
         <translation>全螢幕</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="41"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="40"/>
         <source>Exit fullscreen</source>
         <translation>退出全螢幕</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="61"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="60"/>
         <source>Print</source>
         <translation>列印</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="82"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="81"/>
         <source>Extract text</source>
         <translation>識別文字</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="104"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="103"/>
         <source>Slide show</source>
         <translation>幻燈片放映</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="129"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="128"/>
         <source>Export</source>
         <translation>匯出</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="145"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="144"/>
         <source>Copy</source>
         <translation>複製</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="169"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="168"/>
         <source>Rename</source>
         <translation>重新命名</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="190"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="189"/>
         <source>Delete</source>
         <translation>刪除</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="219"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="218"/>
         <source>Favorite</source>
         <translation>收藏</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="229"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="228"/>
         <source>Unfavorite</source>
         <translation>取消收藏</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="246"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="245"/>
         <source>Rotate clockwise</source>
         <translation>順時針旋轉</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="268"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="267"/>
         <source>Rotate counterclockwise</source>
         <translation>逆時針旋轉</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="298"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="297"/>
         <source>Show navigation window</source>
         <translation>顯示導航視窗</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="298"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="297"/>
         <source>Hide navigation window</source>
         <translation>隱藏導航視窗</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="310"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="309"/>
         <source>Set as wallpaper</source>
         <translation>設為桌布</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="332"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="331"/>
         <source>Display in file manager</source>
         <translation>在檔案管理器中顯示</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="351"/>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="350"/>
         <source>Image info</source>
         <translation>圖片訊息</translation>
     </message>
@@ -2059,29 +2050,34 @@
 <context>
     <name>ViewTopTitle</name>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="161"/>
+        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="183"/>
+        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
+        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="185"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
         <translation>相冊是一款可多種方式瀏覽、整理照片和影片的管理工具。</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="187"/>
+        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
         <source>Image Viewer</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
+        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="189"/>
         <source>Album</source>
         <translation>相冊</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="193"/>
+        <source>%1 is released under %2.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2105,7 +2101,7 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/main.qml" line="133"/>
+        <location filename="../qml/main.qml" line="131"/>
         <source>All photos and videos</source>
         <translation>所有照片和影片</translation>
     </message>
