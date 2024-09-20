@@ -1951,7 +1951,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="196"/>
         <source>Sampling</source>
-        <translation type="unfinished"/>
+        <translation>Mostreo</translation>
     </message>
 </context>
 <context>
