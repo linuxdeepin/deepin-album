@@ -18,9 +18,6 @@ import "./Utils"
 Item {
     id: imageViewer
 
-    // current rotate
-    property int currentRotate: 0
-
     // 记录图像缩放，用于在窗口缩放时，根据前后窗口变化保持图片缩放比例
     property bool enableChangeDisplay: true
     property real lastDisplayScaleWidth: 0
@@ -271,16 +268,6 @@ Item {
 
         onActivated: {
             targetImage.scale = targetImage.scale * 0.9;
-        }
-    }
-
-    Shortcut {
-        enabled: visible && !FileControl.isAlbum()
-        sequence: "Ctrl+Shift+/"
-
-        onActivated: {
-            var screenPos = mapToGlobal(parent.x, parent.y);
-            FileControl.showShortcutPanel(screenPos.x + parent.Window.width / 2, screenPos.y + parent.Window.height / 2);
         }
     }
 
