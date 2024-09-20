@@ -126,11 +126,9 @@ TitleBar {
         HelpAction { }
         AboutAction {
             aboutDialog: AboutDialog {
-                width: 360
-                height: 362
                 productName: qsTr("Album")
                 productIcon: "deepin-album"
-                version: qsTr("Version:") + Qt.application.version
+                version: Qt.application.version
                 description: qsTr("Album is a stylish management tool for viewing and organizing photos and videos.")
                 websiteName: DTK.deepinWebsiteName
                 websiteLink: DTK.deepinWebsiteLink
@@ -326,7 +324,10 @@ TitleBar {
                 iconNameRole: "icon"
                 currentIndex: 3
                 flat: false
-                visible: GStatus.currentViewType === Album.Types.ViewCollecttion && albumControl.getYears(refreshVisible).length !== 0 && window.width <= showCollComboWidth
+                visible: {
+                    refreshVisible
+                    return GStatus.currentViewType === Album.Types.ViewCollecttion && albumControl.getYears().length !== 0 && window.width <= showCollComboWidth
+                }
 
                 property bool refreshVisible: false
                 property bool blocksignal: false

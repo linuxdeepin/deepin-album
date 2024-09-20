@@ -233,7 +233,7 @@ FadeInoutAnimation {
     Connections {
         target: albumControl
         // 接收外部应用打开信号
-        function onSigOpenImageFromFiles(paths) {
+        onSigOpenImageFromFiles: (paths)=> {
             openAndImportImages(paths)
         }
 
@@ -252,7 +252,7 @@ FadeInoutAnimation {
         }
 
         //收到导入进度消息
-        onSigImportProgress: {
+        onSigImportProgress: (value, max)=> {
             var prevS = qsTr("Imported:")
             var suffixS = qsTr("%1/%2").arg(value).arg(max)
             idStandardProgressDialog.setContent(prevS + suffixS)
@@ -269,7 +269,7 @@ FadeInoutAnimation {
         }
 
         //收到导入完成消息
-        onSigRepeatUrls: {
+        onSigRepeatUrls: (urls)=> {
             idStandardProgressDialog.close()
             leftSidebar.enabled = true
             thumbnailImage.enabled = true

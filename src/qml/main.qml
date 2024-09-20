@@ -129,13 +129,13 @@ ApplicationWindow {
     FileDialog {
         id: importDialog
         title: qsTr("All photos and videos")
-        currentFolder: shortcuts.pictures
-        //selectMultiple: true
+        currentFolder: FileControl.standardPicturesPath()
+        fileMode: FileDialog.OpenFiles
         nameFilters: albumControl.getAllFilters()
         onAccepted: {
             var bIsCustomAlbumImport = GStatus.currentViewType === Album.Types.ViewCustomAlbum && albumControl.isCustomAlbum(GStatus.currentCustomAlbumUId)
             //自定义相册不需要判重
-            albumControl.importAllImagesAndVideosUrl(importDialog.fileUrls, GStatus.currentCustomAlbumUId, !bIsCustomAlbumImport)
+            albumControl.importAllImagesAndVideosUrl(importDialog.selectedFiles, GStatus.currentCustomAlbumUId, !bIsCustomAlbumImport)
         }
     }
 

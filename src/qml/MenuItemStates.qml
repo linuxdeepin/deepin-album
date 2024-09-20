@@ -45,7 +45,7 @@ Item {
         canViewPhotoInfo = GStatus.selectedPaths.length === 1 && FileControl.isImage(GStatus.selectedPaths[0])
         canViewVideoInfo = GStatus.selectedPaths.length === 1 && !FileControl.isImage(GStatus.selectedPaths[0])
         canWallpaper = GStatus.selectedPaths.length === 1 && FileControl.isSupportSetWallpaper(GStatus.selectedPaths[0]) && !isInTrash
-        canRotate = FileControl.isRotatable(GStatus.selectedPaths)
+        canRotate = FileControl.isRotatable(GStatus.selectedPaths) && !isInTrash
         canDisplayInFolder = GStatus.selectedPaths.length === 1 && FileControl.pathExists(GStatus.selectedPaths[0]) && !isInTrash
         canPrint = FileControl.isCanPrint(GStatus.selectedPaths) && GStatus.selectedPaths.length === 1 && !isInTrash
     }

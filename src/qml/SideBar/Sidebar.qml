@@ -344,7 +344,7 @@ ScrollView {
                currentImportCustomIndex = importSideBar.indexFromUuid(uuid)
             }
 
-            onItemCheckedChanged: (checked)=> {
+            onItemCheckedChanged: (index, checked)=> {
                 if (checked) {
                     GStatus.currentViewType = Album.Types.ViewCustomAlbum
                     GStatus.currentCustomAlbumUId = importListModel.get(index).uuid
