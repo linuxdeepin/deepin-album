@@ -1,10 +1,10 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sk" version="2.1">
 <context>
 <name>desktop</name>
 <message>
 <location filename="Desktop Entry]GenericName" line="0"/>
 <source>Album</source>
-<translation>Album</translation>
+<translation>Album </translation>
 </message>
 <message>
 <location filename="Desktop Entry]Name" line="0"/>

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="cs">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="cs">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -73,7 +71,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1060"/>
         <source>Copy</source>
-        <translation>Kopírovat</translation>
+        <translation>Zkopírovat</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1063"/>
@@ -194,7 +192,7 @@
         <location filename="../src/albumControl.cpp" line="2202"/>
         <location filename="../src/albumControl.cpp" line="2206"/>
         <source>%1Year%2Month%3Day</source>
-        <translation type="unfinished"></translation>
+        <translation>%1Year%2Month%3Day</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2256"/>
@@ -232,7 +230,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="135"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
-        <translation>Album je šikovný správce pro zobrazování a uspořádávání fotek a videí</translation>
+        <translation>Album je stylový správce pro zobrazování a uspořádávání fotek a videí.</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="138"/>
@@ -242,7 +240,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="176"/>
         <source>Show side pane</source>
-        <translation>Ukázat postranní panel</translation>
+        <translation>Zobrazit postranní panel</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="176"/>
@@ -252,7 +250,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="221"/>
         <source>Original ratio</source>
-        <translation>Původní velikost</translation>
+        <translation>Původní poměr stran</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="221"/>
@@ -291,7 +289,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="476"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished">Importovat fotky a videa</translation>
+        <translation>Importovat fotky a videa</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="504"/>
@@ -367,7 +365,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="152"/>
         <source>0 item</source>
-        <translation type="unfinished">1 položka {0 ?}</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="214"/>
@@ -463,7 +461,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1223"/>
         <source>%1 Encrypted</source>
-        <translation>%1 zašifrováno</translation>
+        <translation>%1 šifrováno</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1226"/>
@@ -571,12 +569,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="196"/>
         <source>Import 1 Item</source>
-        <translation>Zavést 1 položku</translation>
+        <translation>Naimportovat 1 položku</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="197"/>
         <source>Import %1 Items</source>
-        <translation>Zavést %1 položek</translation>
+        <translation>Naimportovat %1 položek</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="204"/>
@@ -625,7 +623,7 @@
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="55"/>
         <source>Export</source>
-        <translation type="unfinished">Export</translation>
+        <translation>Export</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="72"/>
@@ -719,7 +717,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="837"/>
         <source>Extract text</source>
-        <translation>Vytáhnout text</translation>
+        <translation>Získat text z obrázku</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="841"/>
@@ -735,7 +733,7 @@
         <location filename="../src/filecontrol.cpp" line="849"/>
         <location filename="../src/filecontrol.cpp" line="941"/>
         <source>Copy</source>
-        <translation>Kopírovat</translation>
+        <translation>Zkopírovat</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="853"/>
@@ -800,7 +798,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="921"/>
         <source>Image Viewing</source>
-        <translation>Zobrazení obrázků</translation>
+        <translation>Prohlížení obrázků</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="925"/>
@@ -851,42 +849,42 @@
     <message>
         <location filename="../src/globalstatus.cpp" line="792"/>
         <source>1 item selected (1 photo)</source>
-        <translation type="unfinished">Vybrána 1 položka (1 obrázek)</translation>
+        <translation>Vybrána 1 položka (1 fotka)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="794"/>
         <source>1 item selected (1 video)</source>
-        <translation type="unfinished">Vybrána 1 položka (1 video)</translation>
+        <translation>Vybrána 1 položka (1 video)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="796"/>
         <source>%1 items selected (%1 photos)</source>
-        <translation type="unfinished">Vybráno %1 položek (%1 obrázků)</translation>
+        <translation>Vybráno %1 položek (%1 fotek)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="798"/>
         <source>%1 items selected (%1 videos)</source>
-        <translation type="unfinished">Vybráno %1 položek (%1 videí)</translation>
+        <translation>Vybráno %1 položek (%1 videí)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="800"/>
         <source>%1 item selected (1 photo, 1 video)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybráno %1 položek (1 fotka, 1 video)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="802"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
-        <translation type="unfinished">Vybráno %1 položek (1 obrázek, %2 videí)</translation>
+        <translation>Vybráno %1 položek (1 fotka %2 videí)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="804"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
-        <translation type="unfinished">Vybráno %1 položek (%2 obrázků, 1 video)</translation>
+        <translation>Vybráno %1 položek (%2 fotek, 1 video)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="806"/>
         <source>%1 items selected (%2 photos, %3 videos)</source>
-        <translation type="unfinished">Vybráno %1 položek (%2 obrázků, %3 videí)</translation>
+        <translation>Vybráno %1 položek (%2 fotek, %3 videí)</translation>
     </message>
 </context>
 <context>
@@ -900,7 +898,7 @@
         <location filename="../qml/GlobalVar.qml" line="38"/>
         <location filename="../qml/GlobalVar.qml" line="46"/>
         <source>The file format is not supported</source>
-        <translation type="unfinished"></translation>
+        <translation>Formát souboru není podporován</translation>
     </message>
 </context>
 <context>
@@ -937,7 +935,7 @@
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="151"/>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="424"/>
         <source>Imported on</source>
-        <translation>Zavedeno </translation>
+        <translation>Okamžik importu</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="151"/>
@@ -1032,7 +1030,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InfomationDialog.qml" line="172"/>
         <source>Flash compensation</source>
-        <translation>Vyrovnání blesku</translation>
+        <translation>Korekce intenzity záblesku</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InfomationDialog.qml" line="178"/>
@@ -1070,112 +1068,112 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="75"/>
         <source>Basic info</source>
-        <translation type="unfinished">Základní údaje</translation>
+        <translation>Základní údaje</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="88"/>
         <source>File name</source>
-        <translation type="unfinished">Název souboru</translation>
+        <translation>Název souboru</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="99"/>
         <source>Size</source>
-        <translation type="unfinished">Velikost</translation>
+        <translation>Velikost</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="106"/>
         <source>Dimensions</source>
-        <translation type="unfinished">Rozměry</translation>
+        <translation>Rozměry</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="113"/>
         <source>Type</source>
-        <translation type="unfinished">Typ</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="125"/>
         <source>Date captured</source>
-        <translation type="unfinished">Datum pořízení</translation>
+        <translation>Datum pořízení</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="132"/>
         <source>Date modified</source>
-        <translation type="unfinished">Změněno</translation>
+        <translation>Datum změny</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="142"/>
         <source>Details</source>
-        <translation type="unfinished">Podrobnosti</translation>
+        <translation>Podrobnosti</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="155"/>
         <source>Aperture</source>
-        <translation type="unfinished">Clona</translation>
+        <translation>Clona</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="163"/>
         <source>Exposure program</source>
-        <translation type="unfinished">Expoziční program</translation>
+        <translation>Expoziční program</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="170"/>
         <source>Focal length</source>
-        <translation type="unfinished">Ohnisková vzdálenost</translation>
+        <translation>Ohnisková vzdálenost</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="176"/>
         <source>ISO</source>
-        <translation type="unfinished">Citlivost ISO</translation>
+        <translation>Citlivost ISO</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="183"/>
         <source>Exposure mode</source>
-        <translation type="unfinished">Režim expozice</translation>
+        <translation>Režim expozice</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="189"/>
         <source>Exposure time</source>
-        <translation type="unfinished">Expoziční čas</translation>
+        <translation>Expoziční čas</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="195"/>
         <source>Flash</source>
-        <translation type="unfinished">Blesk</translation>
+        <translation>Blesk</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="202"/>
         <source>Flash compensation</source>
-        <translation type="unfinished">Vyrovnání blesku</translation>
+        <translation>Korekce intenzity záblesku</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="208"/>
         <source>Max aperture</source>
-        <translation type="unfinished">Nejvyšší clona</translation>
+        <translation>Nejvyšší clona</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="215"/>
         <source>Colorspace</source>
-        <translation type="unfinished">Barevný prostor</translation>
+        <translation>Barevný prostor</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="222"/>
         <source>Metering mode</source>
-        <translation type="unfinished">Režim měření</translation>
+        <translation>Režim měření</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="229"/>
         <source>White balance</source>
-        <translation type="unfinished">Vyvážení bílé</translation>
+        <translation>Vyvážení bílé</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="240"/>
         <source>Device model</source>
-        <translation type="unfinished">Model zařízení</translation>
+        <translation>Model zařízení</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="247"/>
         <source>Lens model</source>
-        <translation type="unfinished">Model objektivu</translation>
+        <translation>Model objektivu</translation>
     </message>
 </context>
 <context>
@@ -1183,13 +1181,13 @@
     <message>
         <location filename="../qml/MainAlbumView.qml" line="243"/>
         <source>Importing...</source>
-        <translation>Zavádí se…</translation>
+        <translation>Importování…</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="244"/>
         <location filename="../qml/MainAlbumView.qml" line="256"/>
         <source>Imported:</source>
-        <translation>Zavedeno:</translation>
+        <translation>Naimportováno:</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="257"/>
@@ -1204,7 +1202,7 @@
     <message>
         <location filename="../qml/MainAlbumView.qml" line="278"/>
         <source>Import failed</source>
-        <translation>Nepodařilo se zavést</translation>
+        <translation>Nepodařilo se naimportovat</translation>
     </message>
 </context>
 <context>
@@ -1212,7 +1210,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/MainStack.qml" line="126"/>
         <source>Select pictures</source>
-        <translation type="unfinished">Vybrat obrázky</translation>
+        <translation>Vybrat obrázky</translation>
     </message>
 </context>
 <context>
@@ -1229,7 +1227,7 @@
         <location filename="../qml/Control/NewAlbumDialog.qml" line="41"/>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="86"/>
         <source>Unnamed</source>
-        <translation>Nepojmenované</translation>
+        <translation>Bez názvu</translation>
     </message>
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="54"/>
@@ -1257,7 +1255,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NoPermissionImageDelegate.qml" line="22"/>
         <source>You have no permission to view the image</source>
-        <translation type="unfinished">Nemáte oprávnění zobrazit obrázek</translation>
+        <translation>Nemáte oprávnění zobrazit obrázek</translation>
     </message>
 </context>
 <context>
@@ -1265,7 +1263,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="60"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished">Importovat fotky a videa</translation>
+        <translation>Importovat fotky a videa</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
@@ -1275,7 +1273,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>Or drag them here</source>
-        <translation type="unfinished">Nebo je přetáhněte sem</translation>
+        <translation>Nebo je přetáhněte sem</translation>
     </message>
 </context>
 <context>
@@ -1283,7 +1281,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NonexistImageDelegate.qml" line="42"/>
         <source>Image file not found</source>
-        <translation type="unfinished">Nebyly nalezeny žádné obrazové soubory</translation>
+        <translation>Nenalezen soubor s obrazovými daty</translation>
     </message>
 </context>
 <context>
@@ -1291,7 +1289,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="37"/>
         <source>Open Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít obrázek</translation>
     </message>
 </context>
 <context>
@@ -1308,7 +1306,7 @@
         <location filename="../qml/PreviewImageViewer/InformationDialog/PropertyActionItemDelegate.qml" line="94"/>
         <location filename="../qml/PreviewImageViewer/PropertyActionItemDelegate.qml" line="67"/>
         <source>The file already exists, please use another name</source>
-        <translation>Soubor již existuje, použijte jiný název</translation>
+        <translation>Soubor už existuje – použijte jiný název</translation>
     </message>
 </context>
 <context>
@@ -1348,12 +1346,12 @@
         <location filename="../main.cpp" line="65"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation type="unfinished"></translation>
+        <translation>Hlavní</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="270"/>
         <source>day</source>
-        <translation type="unfinished">den</translation>
+        <translation>den</translation>
     </message>
 </context>
 <context>
@@ -1361,12 +1359,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Zadejte nový název</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation>Soubor již existuje, použijte jiný název</translation>
+        <translation>Soubor už existuje – použijte jiný název</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="141"/>
@@ -1389,7 +1387,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="54"/>
         <source>%1 photos</source>
-        <translation>%1 fotka</translation>
+        <translation>%1 fotek</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="62"/>
@@ -1399,7 +1397,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="64"/>
         <source>%1 videos</source>
-        <translation>%1 video</translation>
+        <translation>%1 videí</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="120"/>
@@ -1409,7 +1407,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="131"/>
         <source>The files will be permanently deleted after the days shown on them</source>
-        <translation>Po uplynutí na nich zobrazeného počtu dnů budou soubory nadobro smazány</translation>
+        <translation>Po uplynutí na nich zobrazeného počtu dnů budou soubory nevratně smazány</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="145"/>
@@ -1450,22 +1448,22 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="71"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="101"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation type="unfinished">Potvrdit</translation>
+        <translation>Potvrdit</translation>
     </message>
 </context>
 <context>
@@ -1659,32 +1657,32 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="172"/>
         <source>Back to Album</source>
-        <translation type="unfinished">Zpět do alba</translation>
+        <translation>Zpět do alba</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="204"/>
         <source>Previous</source>
-        <translation type="unfinished">Předchozí</translation>
+        <translation>Předchozí</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="229"/>
         <source>Next</source>
-        <translation type="unfinished">Další</translation>
+        <translation>Další</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="265"/>
         <source>Original size</source>
-        <translation type="unfinished">Původní velikost</translation>
+        <translation>Původní velikost</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="284"/>
         <source>Fit to window</source>
-        <translation type="unfinished">Přizpůsobit oknu</translation>
+        <translation>Přizpůsobit oknu</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="302"/>
         <source>Rotate</source>
-        <translation type="unfinished">Otočit</translation>
+        <translation>Otočit</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="336"/>
@@ -1699,7 +1697,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="592"/>
         <source>Extract text</source>
-        <translation type="unfinished">Vytáhnout text</translation>
+        <translation>Získat text z obrázku</translation>
     </message>
 </context>
 <context>
@@ -1707,102 +1705,102 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="802"/>
         <source>View</source>
-        <translation type="unfinished">Pohled</translation>
+        <translation>Pohled</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="811"/>
         <source>Fullscreen</source>
-        <translation type="unfinished">Na celou obrazovku</translation>
+        <translation>Na celou obrazovku</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="828"/>
         <source>Print</source>
-        <translation type="unfinished">Tisk</translation>
+        <translation>Tisk</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="847"/>
         <source>Slide show</source>
-        <translation type="unfinished">Promítání</translation>
+        <translation>Promítání</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="873"/>
         <source>Add to album</source>
-        <translation type="unfinished">Přidat do alba</translation>
+        <translation>Přidat do alba</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="876"/>
         <source>New album</source>
-        <translation type="unfinished">Nové album</translation>
+        <translation>Nové album</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="899"/>
         <source>Successfully added to “%1”</source>
-        <translation type="unfinished">Úspěšně přidáno do „%1“</translation>
+        <translation>Úspěšně přidáno do „%1“</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="908"/>
         <source>Export</source>
-        <translation type="unfinished">Export</translation>
+        <translation>Export</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="927"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Zkopírovat</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="936"/>
         <source>Delete</source>
-        <translation type="unfinished">Smazat</translation>
+        <translation>Smazat</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="946"/>
         <source>Remove from album</source>
-        <translation type="unfinished">Odstranit z alba</translation>
+        <translation>Odstranit z alba</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="961"/>
         <source>Favorite</source>
-        <translation type="unfinished">Přidat do oblíbených</translation>
+        <translation>Přidat do oblíbených</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="971"/>
         <source>Unfavorite</source>
-        <translation type="unfinished">Odebrat z oblíbených</translation>
+        <translation>Odebrat z oblíbených</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="985"/>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Otočit doprava</translation>
+        <translation>Otočit doprava</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="994"/>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Otočit doleva</translation>
+        <translation>Otočit doleva</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1003"/>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Nastavit jako pozadí plochy</translation>
+        <translation>Nastavit jako pozadí plochy</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1022"/>
         <source>Display in file manager</source>
-        <translation type="unfinished">Zobrazit ve správci souborů</translation>
+        <translation>Zobrazit ve správci souborů</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1041"/>
         <source>Restore</source>
-        <translation type="unfinished">Obnovit</translation>
+        <translation>Obnovit</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1050"/>
         <source>Photo info</source>
-        <translation type="unfinished">Informace o fotce</translation>
+        <translation>Informace o fotce</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1069"/>
         <source>Video info</source>
-        <translation type="unfinished">Informace o videu</translation>
+        <translation>Informace o videu</translation>
     </message>
 </context>
 <context>
@@ -1815,7 +1813,7 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewTools.js" line="88"/>
         <source>Export failed</source>
-        <translation>Nepodařilo se vyvést</translation>
+        <translation>Nepodařilo se exportovat</translation>
     </message>
 </context>
 <context>
@@ -1863,7 +1861,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="431"/>
         <source>Extract text</source>
-        <translation>Vytáhnout text</translation>
+        <translation>Získat text z obrázku</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="458"/>
@@ -1896,7 +1894,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="88"/>
         <source>Duration</source>
-        <translation>Trvání</translation>
+        <translation>Délka</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="93"/>
@@ -1957,12 +1955,12 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="189"/>
         <source>Channels</source>
-        <translation>Kanály</translation>
+        <translation>Kanálů</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="196"/>
         <source>Sampling</source>
-        <translation>Frekvence vzorkování</translation>
+        <translation>Vzorkovací frekvence</translation>
     </message>
 </context>
 <context>
@@ -1985,7 +1983,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="82"/>
         <source>Extract text</source>
-        <translation>Vytáhnout text</translation>
+        <translation>Získat text z obrázku</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="104"/>
@@ -2063,22 +2061,22 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="161"/>
         <source>Open image</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="183"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Prohlížeč obrázků je nástroj pro prohlížení obrázků s hezkým rozhraním a plynulým výkonem.</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
-        <translation>Album je šikovný správce pro zobrazování a uspořádávání fotek a videí</translation>
+        <translation>Album je stylový správce pro zobrazování a uspořádávání fotek a videí.</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="187"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
