@@ -2077,7 +2077,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="193"/>
         <source>%1 is released under %2.</source>
-        <translation type="unfinished"/>
+        <translation>%1 kiadásra került %2 alatt</translation>
     </message>
 </context>
 <context>
