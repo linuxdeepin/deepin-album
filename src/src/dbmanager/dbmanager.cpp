@@ -331,7 +331,6 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
 
 void DBManager::removeImgInfos(const QStringList &paths)
 {
-    qDebug() << "------" << __FUNCTION__ << "---size = " << paths.size();
     if (paths.isEmpty()) {
         return;
     }

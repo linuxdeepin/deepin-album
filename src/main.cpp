@@ -31,7 +31,6 @@
 
 #include <DGuiApplicationHelper>
 #include <DApplication>
-
 #include <DLog>
 
 #include <QGuiApplication>
@@ -55,7 +54,7 @@ int main(int argc, char *argv[])
     DApplication app(argc, argv);
     app.loadTranslator();
     app.setApplicationLicense("GPLV3");
-    app.setApplicationVersion(DApplication::buildVersion(VERSION));
+    app.setApplicationVersion(VERSION);
     app.setAttribute(Qt::AA_UseHighDpiPixmaps);
     // TODO: ? 设置后在 DTK6 下菜单显示空白
     app.setOrganizationName("deepin");
@@ -65,6 +64,15 @@ int main(int argc, char *argv[])
     app.setApplicationDescription(
         QObject::tr("Main", "Album is a fashion manager for viewing and organizing photos and videos."));
     app.setWindowIcon(QIcon::fromTheme("deepin-album"));
+
+    // LOG
+    DLogManager::registerConsoleAppender();
+    DLogManager::registerFileAppender();
+    qInfo() << QString("%1 start, PID: %2, Version: %3")
+                   .arg(app.applicationName())
+                   .arg(app.applicationPid())
+                   .arg(app.applicationVersion());
+    qDebug() << "LogFile:" << DLogManager::getlogFilePath();
 
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();

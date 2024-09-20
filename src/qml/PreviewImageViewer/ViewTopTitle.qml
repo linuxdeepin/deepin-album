@@ -184,15 +184,13 @@ Rectangle {
                     description: !FileControl.isAlbum() ? qsTr("Image Viewer is an image viewing tool with fashion interface and smooth performance.")
                                                               : qsTr("Album is a stylish management tool for viewing and organizing photos and videos.")
                     //productIcon: "deepin-image-viewer"
-                    icon: !FileControl.isAlbum() ? "deepin-image-viewer" : "deepin-album"
+                    productIcon: !FileControl.isAlbum() ? "deepin-image-viewer" : "deepin-album"
                     productName: !FileControl.isAlbum() ? qsTr("Image Viewer")
                                                              : qsTr("Album")
                     version: Qt.application.version
                     websiteName:DTK.deepinWebsiteName
-                    websiteLink:DTK.deepinWebsitelLink
-                    license:qsTr(String("%1 is released under %2.").arg(productName).arg("GPLV3"))
-                    width:400
-                    modality:Qt.NonModal
+                    websiteLink:DTK.deepinWebsiteLink
+                    license:qsTr("%1 is released under %2.").arg(productName).arg("GPLV3")
                 }
             }
 

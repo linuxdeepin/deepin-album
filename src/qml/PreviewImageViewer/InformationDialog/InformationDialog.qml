@@ -264,7 +264,7 @@ DialogWindow {
             id: imageInfo
 
             frameIndex: GControl.currentFrameIndex
-            source: GControl.currentSource
+            source: filePath
 
             onStatusChanged: {
                 if (status === IV.ImageInfo.Ready) {

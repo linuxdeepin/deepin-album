@@ -102,7 +102,7 @@ FocusScope {
     }
 
     function runDeleteImg() {
-        if (!visible)
+        if (main === null || !main.visible)
             return
         ThumbnailTools.executeDelete()
     }
@@ -261,10 +261,14 @@ FocusScope {
             }
 
             if (mouse.buttons & Qt.RightButton) {
-                clearPressState();
-                if (GStatus.currentViewType !== Album.Types.ViewDevice && haveSelect)
-                    thumbnailMenu.popup(mouse.x, mouse.y)
+                if (thumnailListType === Album.Types.ThumbnailDate && !haveSelect) {
+                    thumbnailModel.setSelected(positioner.map(pressedItem.index));
+                }
 
+                clearPressState();
+                if (GStatus.currentViewType !== Album.Types.ViewDevice && haveSelect) {
+                    thumbnailMenu.popup(mouse.x, mouse.y)
+		        }
                 mouse.accepted = false;
             }
         }
@@ -773,7 +777,7 @@ FocusScope {
 
     Connections {
         target: GStatus
-        function onSigSelectAll() {
+        function onSigSelectAll(bSel) {
             if (gridView.visible)
                 selectAll(bSel)
         }
