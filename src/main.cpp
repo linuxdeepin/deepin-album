@@ -74,9 +74,6 @@ int main(int argc, char *argv[])
                    .arg(app.applicationVersion());
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();
 
-    DLogManager::registerConsoleAppender();
-    DLogManager::registerFileAppender();
-
     QQmlApplicationEngine engine;
 
     if (!DGuiApplicationHelper::instance()->setSingleInstance(app.applicationName(), DGuiApplicationHelper::UserScope)) {
