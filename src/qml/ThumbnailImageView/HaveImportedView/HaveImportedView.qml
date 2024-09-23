@@ -38,8 +38,11 @@ BaseView {
     }
 
     onVisibleChanged: {
-        if (visible && !GStatus.backingToMainAlbumView)
+        if (visible && !GStatus.backingToMainAlbumView) {
             flushHaveImportedView()
+            if (show)
+                showAnimation.start()
+        }
     }
 
     // 筛选类型改变处理事件
@@ -174,11 +177,6 @@ BaseView {
         to: 0
         duration: GStatus.animationDuration
         easing.type: Easing.OutExpo
-    }
-
-    onShowChanged: {
-        if (show)
-            showAnimation.start()
     }
 
     function setDataRange(str) {
