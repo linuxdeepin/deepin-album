@@ -23,6 +23,7 @@
 #include <QStackedWidget>
 #include <QStatusBar>
 #include <QButtonGroup>
+#include <QDBusInterface>
 
 #include <DMainWindow>
 #include <DTitlebar>
@@ -136,7 +137,10 @@ private:
 
     // 字体改变、尺寸改变，同步调整标题栏区域控件显示大小
     void adjustTitleContent();
-
+    /**
+     * @brief pathControl 返回输入sPath文件是否被读写权限管控
+     */
+    bool pathControl(const QString &sPath);
 protected:
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;

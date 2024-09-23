@@ -1332,16 +1332,22 @@ void MainWindow::onImprotBtnClicked()
     const QStringList &file_list = dialog.selectedFiles();
     if (file_list.isEmpty())
         return;
+    QStringList filtered_list;
+    for (auto it : file_list) {
+        if (!pathControl(it)) {
+            filtered_list.append(it);
+        }
+    }
     if (m_iCurrentView == VIEW_ALBUM) {
         if (m_pAlbumview->m_currentType == ALBUM_PATHTYPE_BY_PHONE ||
                 m_pAlbumview->m_currentItemType == 0 ||
                 DBManager::instance()->getAlbumDBTypeFromUID(m_pAlbumview->m_currentUID) == AutoImport) { //外部设备、特定类型、自动导入走常规导入，不得导入进目标相册
-            ImageEngineApi::instance()->ImportImagesFromFileList(file_list, "", -1, this, true);
+            ImageEngineApi::instance()->ImportImagesFromFileList(filtered_list, "", -1, this, true);
         } else {
-            ImageEngineApi::instance()->ImportImagesFromFileList(file_list, m_pAlbumview->m_currentAlbum, m_pAlbumview->m_currentUID, this, true);
+            ImageEngineApi::instance()->ImportImagesFromFileList(filtered_list, m_pAlbumview->m_currentAlbum, m_pAlbumview->m_currentUID, this, true);
         }
     } else {
-        ImageEngineApi::instance()->ImportImagesFromFileList(file_list, "", -1, this, true);
+        ImageEngineApi::instance()->ImportImagesFromFileList(filtered_list, "", -1, this, true);
     }
 }
 
@@ -1761,6 +1767,36 @@ void MainWindow::adjustTitleContent()
         m_SearchEditWidth = SEARCHEDIT_NORMAL_WIDTH;
         m_pSearchEdit->setFixedSize(m_SearchEditWidth, BTN_HEIGHT);
     }
+}
+
+bool MainWindow::pathControl(const QString &sPath)
+{
+    QDBusMessage reply;
+    QDBusInterface iface("com.deepin.FileArmor1", "/com/deepin/FileArmor1", "com.deepin.FileArmor1", QDBusConnection::systemBus());
+    if (iface.isValid()) {
+        QStringList tmpDocLocation = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
+        if (tmpDocLocation.size() > 0) {
+            QString docPath = tmpDocLocation.first();
+            if (sPath.startsWith(docPath)) {
+                reply = iface.call("GetApps", docPath);
+            }
+        }
+        QStringList tmpPicLocation = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
+        if (tmpPicLocation.size() > 0) {
+            QString picPath = tmpPicLocation.first();
+            if (sPath.startsWith(picPath)) {
+                reply = iface.call("GetApps", picPath);
+            }
+        }
+    }
+    if (reply.type() == QDBusMessage::ReplyMessage) {
+        QList<QString> lValue = reply.arguments().takeFirst().toStringList();
+        QString strApp = QStandardPaths::findExecutable("deepin-album");
+        if (lValue.contains(strApp)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
