@@ -190,7 +190,7 @@
         <location filename="../src/albumControl.cpp" line="2111"/>
         <location filename="../src/albumControl.cpp" line="2115"/>
         <source>%1Year%2Month%3Day</source>
-        <translation type="unfinished"/>
+        <translation>%1Jahr%2Monat%3Tag</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2165"/>
@@ -1352,7 +1352,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation type="unfinished"/>
+        <translation>Gebe einen neuen Namen ein.</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="85"/>
