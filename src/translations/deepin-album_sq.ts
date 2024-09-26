@@ -179,7 +179,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1616"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>Vizatoni</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1709"/>
@@ -358,7 +358,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="152"/>
         <source>0 item</source>
-        <translation type="unfinished"/>
+        <translation>1 objekt {0 ?}</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="214"/>
@@ -386,7 +386,7 @@
         <location filename="../src/dbmanager/dbmanager.cpp" line="466"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="516"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>Vizatoni</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="1940"/>
@@ -705,7 +705,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="838"/>
         <source>Exit fullscreen</source>
-        <translation>Dil nga mënyra Sa krejt ekrani</translation>
+        <translation>Dil nga mënyra “Sa krejt ekrani”</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="842"/>
@@ -948,7 +948,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InfomationDialog.qml" line="64"/>
         <source>Basic info</source>
-        <translation>Të dhëna elementare</translation>
+        <translation>Hollësi elementare</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InfomationDialog.qml" line="70"/>
@@ -1061,7 +1061,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="75"/>
         <source>Basic info</source>
-        <translation>Të dhëna elementare</translation>
+        <translation>Hollësi elementare</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="88"/>
@@ -1282,7 +1282,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation>Hapni Figurë</translation>
     </message>
 </context>
 <context>
@@ -1352,7 +1352,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation type="unfinished"/>
+        <translation>Jepni një emër të ri</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="85"/>
@@ -1441,12 +1441,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="71"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"/>
+        <translation>S’mund të shpihet “%1” te hedhurinat. Doni të fshihet përgjithnjë?</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"/>
+        <translation>Ky veprim s’mund të zhbëhet</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="101"/>
@@ -1563,7 +1563,7 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="316"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>Vizatoni</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="423"/>
@@ -1921,7 +1921,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="141"/>
         <source>Proportion</source>
-        <translation>Përpjestim</translation>
+        <translation>Përpjesëtim</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="148"/>
@@ -2052,12 +2052,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Hape figurën</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>Parësi i Figurave është një mjet parjeje figurash, me ndërfaqe të modës dhe funksionim të rrjedhshëm.</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="185"/>
@@ -2067,7 +2067,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation>Parës Figurash</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="189"/>
@@ -2077,7 +2077,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="193"/>
         <source>%1 is released under %2.</source>
-        <translation type="unfinished"/>
+        <translation>%1 hidhet në qarkullim sipas %2. {1 ?}</translation>
     </message>
 </context>
 <context>
