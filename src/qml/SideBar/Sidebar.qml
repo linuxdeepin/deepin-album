@@ -16,7 +16,7 @@ import "../"
 ScrollView {
     id: sidebarScrollView
     clip: true
-    wheelEnabled: false
+    wheelEnabled: column.height > sidebarScrollView.height
     signal sideBarListChanged(string type, string displayName)
     property int currentImportCustomIndex: 0 //自动导入相册当前索引值
     property int currentCustomIndex: 0 //自定义相册当前索引值

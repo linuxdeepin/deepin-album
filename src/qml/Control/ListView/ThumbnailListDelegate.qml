@@ -104,30 +104,27 @@ Item {
         visible: false
     }
 
+    DropShadow {
+        anchors.fill: opacityMask
+
+        horizontalOffset: -0.5
+        verticalOffset: 1.3
+
+        radius: 1.0
+        samples: radius * 2 + 1
+        spread: 0.01
+
+        smooth: true
+        opacity: 0.1
+
+        source: opacityMask
+    }
+
     OpacityMask{
         id: opacityMask
         anchors.fill: maskRec
         source: image
-        maskSource: mask
-    }
-
-    FastBlur {
-        anchors.top: opacityMask.top; anchors.topMargin: 6
-        anchors.left: opacityMask.left; anchors.leftMargin: 1
-        width: opacityMask.width - 2; height: opacityMask.height - 6
-        source: opacityMask
-        radius: 10
-        transparentBorder: true
-    }
-
-    //遮罩执行
-    OpacityMask {
-        id: mask
-        anchors.fill: maskRec
-        source: image
         maskSource: maskRec
-        antialiasing: true
-        smooth: true
     }
 
     //border and shadow
