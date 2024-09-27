@@ -1,3 +1,10 @@
+deepin-album (6.0.9) unstable; urgency=medium
+
+   * update version to 6.0.9
+   * fix: Resolve the issue of the probability of crashing when switching to an imported view
+
+ -- houchengqiu <houchengqiu@uniontech.com>  Fri, 27 Sep 2024 09:58:03 +0800
+
 deepin-album (6.0.8) unstable; urgency=medium
 
    * update version to 6.0.8
