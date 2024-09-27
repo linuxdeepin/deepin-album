@@ -47,7 +47,7 @@ BaseView {
 
     // 筛选类型改变处理事件
     onFilterTypeChanged: {
-        if (visible)
+        if (visible && !GStatus.loading)
             flushHaveImportedView()
     }
 
