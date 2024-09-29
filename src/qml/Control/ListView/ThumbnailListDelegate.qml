@@ -13,7 +13,7 @@ import org.deepin.dtk 1.0
 import Qt5Compat.GraphicalEffects
 
 import org.deepin.album 1.0 as Album
-
+import "ThumbnailListShare.js" as Share
 import "../"
 import "../../"
 import "./"
@@ -380,6 +380,11 @@ Item {
                         }
 
                         mouse.accepted = true
+                        Share.isFaverDoubleClicked = false
+                    }
+                    onDoubleClicked: (mouse)=> {
+                        mouse.accepted = true
+                        Share.isFaverDoubleClicked = true
                     }
                 }
             }
