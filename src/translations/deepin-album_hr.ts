@@ -169,7 +169,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1612"/>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation>Snimak zaslona</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1614"/>
@@ -373,7 +373,7 @@
         <location filename="../src/dbmanager/dbmanager.cpp" line="481"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="506"/>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation>Snimak zaslona</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="465"/>
@@ -1400,7 +1400,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="141"/>
         <source>The files will be permanently deleted after the days shown on them</source>
-        <translation type="unfinished"/>
+        <translation>Biti će trajno obrisano nakon broja dana prikazanog na njima</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="156"/>
@@ -1553,7 +1553,7 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="308"/>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation>Snimak zaslona</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="312"/>
