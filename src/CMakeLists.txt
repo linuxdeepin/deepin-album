@@ -21,6 +21,7 @@ find_package(Qt${QT_VERSION_MAJOR} CONFIG REQUIRED COMPONENTS
 
 find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS
     Widget
+    Gui
     Declarative
 )
 
@@ -81,6 +82,7 @@ target_link_libraries(${BIN_NAME}
     Qt${QT_VERSION_MAJOR}::Sql
 
     Dtk${DTK_VERSION_MAJOR}::Widget
+    Dtk${DTK_VERSION_MAJOR}::Gui
     Dtk${DTK_VERSION_MAJOR}::Declarative
     GL
     pthread

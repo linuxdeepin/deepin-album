@@ -120,12 +120,6 @@ ApplicationWindow {
         FileControl.terminateShortcutPanelProcess() //结束快捷键面板进程
     }
 
-    GlobalVar{
-        id: global
-    }
-    MenuItemStates {
-        id: menuItemStates
-    }
     FileDialog {
         id: importDialog
         title: qsTr("All photos and videos")

@@ -26,9 +26,11 @@
 #include <QTextStream>
 #include <QtMath>
 #include <QImageReader>
+#include <QMimeDatabase>
 #include <QStandardPaths>
 #include <QDesktopServices>
 
+#include <DDesktopServices>
 
 #include "unionimage.h"
 
@@ -113,44 +115,15 @@ void showInFileManager(const QString &path)
     if (path.isEmpty() || !QFile::exists(path)) {
         return;
     }
+    QString m_Path = static_cast<QString>(path);
 
-#if 1
-    QUrl url = QUrl::fromLocalFile(QFileInfo(path).absoluteFilePath());
-#else
-    QUrl url = QUrl::fromLocalFile(path);
-#endif
-    QDesktopServices::openUrl(url);
-//    QUrl url = QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath());
-//    QUrlQuery query;
-//    query.addQueryItem("selectUrl", QUrl::fromLocalFile(path).toString());
-//    url.setQuery(query);
-//    qDebug() << "showInFileManager:" << url.toString();
-//    // Try dde-file-manager
-//    QProcess *fp = new QProcess();
-//    QObject::connect(fp, SIGNAL(finished(int)), fp, SLOT(deleteLater()));
-//    fp->start("dde-file-manager", QStringList(url.toString()));
-//    fp->waitForStarted(3000);
-//    if (fp->error() == QProcess::FailedToStart) {
-//        // Start dde-file-manager failed, try nautilus
-//        QDBusInterface iface("org.freedesktop.FileManager1",
-//                             "/org/freedesktop/FileManager1",
-//                             "org.freedesktop.FileManager1",
-//                             QDBusConnection::sessionBus());
-//        if (iface.isValid()) {
-//            // Convert filepath to URI first.
-//            const QStringList uris = { QUrl::fromLocalFile(path).toString() };
-//            qDebug() << "freedesktop.FileManager";
-//            // StartupId is empty here.
-//            QDBusPendingCall call = iface.asyncCall("ShowItems", uris, "");
-//            Q_UNUSED(call);
-//        }
-//        // Try to launch other file manager if nautilus is invalid
-//        else {
-//            qDebug() << "desktopService::openUrl";
-//            QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath()));
-//        }
-//        fp->deleteLater();
-//    }
+    QStringList spc {"#", "&", "@", "!", "?"};
+    for (QString c : spc) {
+        m_Path.replace(c,  QUrl::toPercentEncoding(c));
+    }
+    QUrl url = QUrl::fromUserInput(/*"\"" + */m_Path/* + "\""*/);
+    url.setPath(m_Path, QUrl::TolerantMode);
+    Dtk::Gui::DDesktopServices::showFileItem(url);
 }
 
 void copyImageToClipboard(const QStringList &paths)
@@ -531,6 +504,44 @@ QString mkMutiDir(const QString &path)   //创建多级目录
     if (!dirname.isEmpty())
         parentPath.mkpath(dirname);
     return parentDir + "/" + dirname;
+}
+
+bool checkMimeUrls(const QList<QUrl> &urls)
+{
+    if (1 > urls.size()) {
+        return false;
+    }
+    QList<QUrl> urlList = urls;
+    using namespace Libutils::image;
+    for (QUrl url : urlList) {
+        const QString path = url.toLocalFile();
+        QFileInfo fileinfo(path);
+        if (fileinfo.isDir()) {
+            auto finfos =  getImagesAndVideoInfo(path, false);
+            for (auto finfo : finfos) {
+                if (imageSupportRead(finfo.absoluteFilePath()) || isVideo(finfo.absoluteFilePath())) {
+                    return true;
+                }
+            }
+        } else if (imageSupportRead(path) || isVideo(path)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+   @return 图片 \a path 是否支持设置为壁纸，同步看图代码
+ */
+bool isSupportWallpaper(const QString &path)
+{
+    QMimeDatabase db;
+    QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchDefault);
+    return mt.name().startsWith("image")
+           && !mt.name().endsWith("svg+xml")
+           && !mt.name().endsWith("raf")
+           && !mt.name().endsWith("crw")
+           && !mt.name().endsWith("x-portable-anymap");
 }
 
 

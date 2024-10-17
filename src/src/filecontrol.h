@@ -60,7 +60,7 @@ public:
     Q_INVOKABLE bool isCanDelete(const QStringList &pathList);
     Q_INVOKABLE bool isImage(const QString &path);      // 是否是图片
     Q_INVOKABLE bool isVideo(const QString &path);      // 是否是视频
-    Q_INVOKABLE bool isCanPrint(const QStringList &pathList); // 是否可以打印
+    Q_INVOKABLE bool isCanPrint(const QVariantList &pathList); // 是否可以打印
     Q_INVOKABLE bool isCanPrint(const QString &path);
 
     Q_INVOKABLE bool slotFileReName(const QString &name, const QString &filepath, bool isSuffix = false);  // 文件重命名
@@ -90,7 +90,7 @@ public:
     Q_INVOKABLE bool haveVideo(const QVariantList &urls);// 是否存在视频
     Q_INVOKABLE bool isFile(const QString &path);        // 是否是文件
     //旋转文件 pathList：要旋转的图片路径链表；rotateAngel: > 0 顺时针旋转， < 0 逆时针旋转
-    Q_INVOKABLE bool rotateFile(const QStringList &pathList, const int &rotateAngel);
+    Q_INVOKABLE bool rotateFile(const QVariantList &pathList, const int &rotateAngel);
     Q_INVOKABLE bool rotateFile(const QString &path, const int &rotateAngel);
     Q_INVOKABLE void slotRotatePixCurrent(bool bNotifyExternal = false); //旋转
     Q_INVOKABLE void setViewerType(imageViewerSpace::ImgViewerType type);      // 设置图片查看类型

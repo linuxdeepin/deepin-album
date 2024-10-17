@@ -609,6 +609,20 @@ QFileInfoList getImagesAndVideoInfo(const QString &dir, bool recursive)
     return infos;
 }
 
+QPixmap getDamagePixmap(bool bLight)
+{
+    static QPixmap pix_light, pix_dark;
+    if (bLight) {
+        if (pix_light.isNull())
+            pix_light = Libutils::base::renderSVG(view::LIGHT_DAMAGEICON, QSize(150, 150));
+        return pix_light;
+    } else {
+        if (pix_dark.isNull())
+            pix_dark = Libutils::base::renderSVG(view::DARK_DAMAGEICON, QSize(150, 150));
+        return pix_dark;
+    }
+}
+
 bool isVideo(QString path)
 {
     QFileInfo temDir(path);

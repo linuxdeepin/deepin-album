@@ -71,5 +71,7 @@
         <file>res/icon_import_photo.svg</file>
         <file>dsg/icons/notify_checked.dci</file>
         <file>dsg/icons/warning.dci</file>
+        <file>assets/deepin-album/album/common/collect.svg</file>
+        <file>assets/deepin-album/album/common/collect_active.svg</file>
     </qresource>
 </RCC>

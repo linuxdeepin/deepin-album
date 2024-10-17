@@ -452,11 +452,11 @@ void FileControl::ocrImage(const QString &path, int index)
     }
 }
 
-bool FileControl::isCanPrint(const QStringList &pathList)
+bool FileControl::isCanPrint(const QVariantList &pathList)
 {
     bool bCanPrint = true;
     for (int i = 0; i < pathList.size(); i++) {
-        if (!pathList[i].isEmpty() && !isCanPrint(pathList[i])) {
+        if (!pathList[i].toString().isEmpty() && !isCanPrint(pathList[i].toString())) {
             bCanPrint = false;
             break;
         }
@@ -1049,12 +1049,12 @@ bool FileControl::isFile(const QString &path)
     return QFileInfo(localPath).isFile();
 }
 
-bool FileControl::rotateFile(const QStringList &pathList, const int &rotateAngel)
+bool FileControl::rotateFile(const QVariantList &pathList, const int &rotateAngel)
 {
     bool bRet = true;
     for (int i = 0; i < pathList.size(); i++) {
-        if (!pathList[i].isEmpty()) {
-            rotateFile(pathList[i], rotateAngel);
+        if (!pathList[i].toString().isEmpty()) {
+            rotateFile(pathList[i].toString(), rotateAngel);
         }
     }
 

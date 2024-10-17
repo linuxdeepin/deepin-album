@@ -15,6 +15,7 @@
 #include "src/imagedata/imagesourcemodel.h"
 #include "src/imagedata/imageprovider.h"
 #include "src/utils/filetrashhelper.h"
+#include "src/qmlWidget.h"
 #include "config.h"
 
 #include "src/albumControl.h"
@@ -98,11 +99,10 @@ int main(int argc, char *argv[])
     // QML全局单例
     GlobalControl control;
     engine.rootContext()->setContextProperty("GControl", &control);
-    GlobalStatus status;
-    engine.rootContext()->setContextProperty("GStatus", &status);
+    engine.rootContext()->setContextProperty("GStatus", GlobalStatus::instance());
     FileControl fileControl;
     engine.rootContext()->setContextProperty("FileControl", &fileControl);
-    status.setFileControl(&fileControl);
+    GlobalStatus::instance()->setFileControl(&fileControl);
     // 光标位置查询工具
     CursorTool cursorTool;
     engine.rootContext()->setContextProperty("CursorTool", &cursorTool);
@@ -138,9 +138,9 @@ int main(int argc, char *argv[])
         providerCache->rotateImageCached(control.currentRotation(), control.currentSource().toLocalFile());
     });
 
-    status.setEnableNavigation(fileControl.isEnableNavigation());
+    GlobalStatus::instance()->setEnableNavigation(fileControl.isEnableNavigation());
     QObject::connect(
-        &status, &GlobalStatus::enableNavigationChanged, [&]() { fileControl.setEnableNavigation(status.enableNavigation()); });
+        GlobalStatus::instance(), &GlobalStatus::enableNavigationChanged, [&]() { fileControl.setEnableNavigation(GlobalStatus::instance()->enableNavigation()); });
     QObject::connect(&fileControl, &FileControl::imageRenamed, &control, &GlobalControl::renameImage);
     // 文件变更时清理缓存
     QObject::connect(&fileControl, &FileControl::imageFileChanged, [&](const QString &fileName) {
@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
             control.setImageFiles(filePaths, cliParam);
             fileControl.resetImageFiles(filePaths);
 
-            status.setStackPage(Types::ImageViewPage);
+            GlobalStatus::instance()->setStackPage(Types::ImageViewPage);
         }
     }
 
@@ -193,10 +193,15 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<Types>(uriAlbum, 1, 0, "Types", "Cannot instantiate the Types class");
     qmlRegisterUncreatableType<Roles>(uriAlbum, 1, 0, "Roles", "Cannot instantiate the Roles class");
     qmlRegisterType<QImageItem>(uriAlbum, 1, 0, "QImageItem");
+    qmlRegisterType<QmlWidget>(uriAlbum, 1, 0, "QmlWidget");
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
+
+    QObject::connect(qApp, &QCoreApplication::aboutToQuit, [&]() {
+        GlobalStatus::release();
+    });
 
     // 设置DBus接口
     ApplicationAdaptor adaptor(&fileControl);
