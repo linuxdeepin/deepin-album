@@ -8,9 +8,9 @@
 #include <QtCore/qglobal.h>
 
 #if defined(UNIONIMAGE_LIBRARY)
-#  define UNIONIMAGESHARED_EXPORT Q_DECL_EXPORT
+#    define UNIONIMAGESHARED_EXPORT Q_DECL_EXPORT
 #else
-#  define UNIONIMAGESHARED_EXPORT Q_DECL_IMPORT
+#    define UNIONIMAGESHARED_EXPORT Q_DECL_IMPORT
 #endif
 
 #include <QHash>
@@ -21,22 +21,22 @@
 #include <QStringList>
 #include <QMap>
 
-namespace  UnionImage_NameSpace {
+namespace UnionImage_NameSpace {
 
 enum SupportType {
-    UNKNOWNTYPE = 0,    // unknown type
-    BITMAP      = 1,    // standard image               : 1-, 4-, 8-, 16-, 24-, 32-bit
-    UINT16      = 2,    // array of unsigned short      : unsigned 16-bit
-    INT16       = 3,    // array of short               : signed 16-bit
-    UINT32      = 4,    // array of unsigned long       : unsigned 32-bit
-    INT32       = 5,    // array of long                : signed 32-bit
-    FLOAT       = 6,    // array of float               : 32-bit IEEE floating point
-    DOUBLE      = 7,    // array of double              : 64-bit IEEE floating point
-    COMPLEX     = 8,    // array of FICOMPLEX           : 2 x 64-bit IEEE floating point
-    RGB16       = 9,    // 48-bit RGB image             : 3 x 16-bit
-    RGBA16      = 10,   // 64-bit RGBA image            : 4 x 16-bit
-    RGBF        = 11,   // 96-bit RGB float image       : 3 x 32-bit IEEE floating point
-    RGBAF       = 12    // 128-bit RGBA float image     : 4 x 32-bit IEEE floating point
+    UNKNOWNTYPE = 0,   // unknown type
+    BITMAP = 1,   // standard image               : 1-, 4-, 8-, 16-, 24-, 32-bit
+    UINT16 = 2,   // array of unsigned short      : unsigned 16-bit
+    INT16 = 3,   // array of short               : signed 16-bit
+    UINT32 = 4,   // array of unsigned long       : unsigned 32-bit
+    INT32 = 5,   // array of long                : signed 32-bit
+    FLOAT = 6,   // array of float               : 32-bit IEEE floating point
+    DOUBLE = 7,   // array of double              : 64-bit IEEE floating point
+    COMPLEX = 8,   // array of FICOMPLEX           : 2 x 64-bit IEEE floating point
+    RGB16 = 9,   // 48-bit RGB image             : 3 x 16-bit
+    RGBA16 = 10,   // 64-bit RGBA image            : 4 x 16-bit
+    RGBF = 11,   // 96-bit RGB float image       : 3 x 32-bit IEEE floating point
+    RGBAF = 12   // 128-bit RGBA float image     : 4 x 32-bit IEEE floating point
 };
 
 /**
@@ -56,7 +56,6 @@ UNIONIMAGESHARED_EXPORT QString unionImageVersion();
 UNIONIMAGESHARED_EXPORT const QStringList unionImageSupportFormat();
 UNIONIMAGESHARED_EXPORT const QStringList supportStaticFormat();
 UNIONIMAGESHARED_EXPORT const QStringList supportMovieFormat();
-
 
 UNIONIMAGESHARED_EXPORT bool isDynamicFormat();
 /**
@@ -180,40 +179,6 @@ UNIONIMAGESHARED_EXPORT bool isSupportWritting(const QString &path);
  */
 UNIONIMAGESHARED_EXPORT int getOrientation(const QString &path);
 
-
-
-QT_BEGIN_NAMESPACE
-
-class UnionMovieImagePrivate;
-/**
- * @brief The UnionDynamicImage class
- * @author DJH
- * 用来读取动态图片,使用下标来获取动图的每一帧
- */
-class UNIONIMAGESHARED_EXPORT UnionMovieImage
-{
-public:
-    explicit UnionMovieImage();
-    ~UnionMovieImage();
-
-    void setFileName(const QString &path);
-
-    /**
-     * @brief next
-     * @return QImage
-     * 返回下一帧
-     */
-    QImage next();
-
-private:
-    UnionMovieImagePrivate *const d_ptr;
-    Q_DECLARE_PRIVATE(UnionMovieImage)
-    Q_DISABLE_COPY(UnionMovieImage)
 };
 
-QT_END_NAMESPACE
-
-};
-
-
-#endif // UNIONIMAGE_H
+#endif   // UNIONIMAGE_H
