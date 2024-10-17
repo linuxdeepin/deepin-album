@@ -24,6 +24,8 @@ class Types : public QObject
     Q_ENUMS(StackPage)
 
     Q_ENUMS(SwitchType)
+
+    Q_ENUMS(MenuItemId)
 public:
     explicit Types(QObject *parent = nullptr);
     ~Types() override;
@@ -124,6 +126,34 @@ public:
         FlipScroll,     ///< 滚动翻页
         FadeInOut,      ///< 渐显渐隐
         ScaleInOUt,     ///< 缩放淡入淡出
+    };
+
+    enum MenuItemId {
+        IdView,
+        IdFullScreen,
+        IdPrint,
+        IdStartSlideShow,
+        IdAddToAlbum,
+        IdExport,
+        IdCopy,
+        IdCopyToClipboard,
+        IdMoveToTrash,
+        IdRemoveFromAlbum,
+        IdEdit,
+        IdAddToFavorites,
+        IdRemoveFromFavorites,
+        IdRotateClockwise,
+        IdRotateCounterclockwise,
+        IdLabel,
+        IdSetAsWallpaper,
+        IdDisplayInFileManager,
+        IdImageInfo,
+        IdVideoInfo,             //视频信息
+        IdSubMenu,
+        IdSeparator,
+        IdTrashRecovery,
+        IdDrawingBoard,//lmh0407画板
+        IdNewAlbum
     };
 };
 

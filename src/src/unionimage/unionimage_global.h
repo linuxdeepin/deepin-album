@@ -96,7 +96,6 @@ struct DBImgInfo {
     QDateTime importTime;  // 导入时间 Or 删除时间
     QString albumUID = "-1";      // 图片所属相册UID，以","分隔，用于恢复
     QString pathHash;      // 用于应付频繁的hash，但不一定每个DBImgInfo都装载了它
-
     ItemType itemType = ItemTypePic;//类型，空白，图片，视频
 
     //显示

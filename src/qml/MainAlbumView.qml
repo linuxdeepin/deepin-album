@@ -26,10 +26,6 @@ FadeInoutAnimation {
             GStatus.loading = false
         }
     }
-    //delete窗口
-    DeleteDialog {
-        id: deleteDialog
-    }
 
     // 侧边导航栏
     Sidebar{

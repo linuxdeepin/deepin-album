@@ -61,12 +61,10 @@ FocusScope {
 
     //设置全选/全取消缩略图
     function selectAll(doSelect) {
-        if (gridView.visible) {
-            if(doSelect) {
-                thumbnailModel.selectAll()
-            } else {
-                thumbnailModel.clearSelection()
-            }
+        if(doSelect) {
+            thumbnailModel.selectAll()
+        } else {
+            thumbnailModel.clearSelection()
         }
         selectedChanged()
     }
@@ -171,15 +169,6 @@ FocusScope {
 
        selectedChanged()
    }
-
-    Connections {
-        target: thumbnailImage
-        function onEscKeyPressed() {
-            if (haveSelect) {
-                selectAll(false)
-            }
-        }
-    }
 
     Album.MouseEventListener {
         id: listener

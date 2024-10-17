@@ -36,7 +36,7 @@ BaseView {
                 monthCollection.x = rollingWidth
         } else if (index === 2) {
             if (dayCollection.count === 0)
-                dayCollection.flushModel()
+                dayCollection.flushView()
             if (dayCollection.x < 0)
                 dayCollection.x = rollingWidth
             if (!dayCollection.visible) {
@@ -74,12 +74,13 @@ BaseView {
         if (GStatus.backingToMainAlbumView)
             return
         allCollection.clearSelecteds()
+        dayCollection.unSelectAll()
 
         if (visible) {
             GStatus.selectedPaths = []
 
             //年月视图不显示底栏数量
-            if (currentViewIndex === 0 || currentViewIndex ===1) {
+            if (currentViewIndex === 0 || currentViewIndex === 1) {
                 GStatus.statusBarNumText = ""
             }
         }

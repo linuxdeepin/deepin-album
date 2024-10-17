@@ -4,6 +4,8 @@
 
 import QtQuick
 import "./PreviewImageViewer"
+import "./PreviewImageViewer/InformationDialog"
+import "./Control"
 
 import org.deepin.album 1.0 as Album
 
@@ -38,6 +40,35 @@ Item {
         property: "opacity"
         duration: 200
         easing.type: Easing.InExpo
+    }
+
+    GlobalVar{
+        id: global
+    }
+
+    MenuItemStates {
+        id: menuItemStates
+    }
+
+    //delete窗口
+    DeleteDialog {
+        id: deleteDialog
+    }
+
+    //export窗口
+    ExportDialog {
+        id: exportdig
+    }
+
+    //info的窗口
+    InformationDialog{
+        id: albumInfomationDig
+        visible: false
+    }
+
+    //视频info窗口
+    VideoInfoDialog{
+        id: videoInfomationDig
     }
 
     //相册界面启动幻灯片（和看图界面启动有区别）

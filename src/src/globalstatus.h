@@ -41,6 +41,8 @@ class GlobalStatus : public QObject
     Q_PROPERTY(int largeImagePreviewAnimationDuration READ largeImagePreviewAnimationDuration CONSTANT)
 
 public:
+    static GlobalStatus *instance();
+    static void release();
     explicit GlobalStatus(QObject *parent = nullptr);
     ~GlobalStatus() override;
 
@@ -312,6 +314,12 @@ Q_SIGNALS:
     void sigShowToolBar();
     void sigMoveToAlbumAnimation();
 
+    void sigDoubleClickedFromQWidget(const QString& url);
+    void sigMenuItemClickedFromQWidget(const int& id, const int& uid = -1);
+    void sigZoomInOutFromQWidget(const int& delta);
+
+    void sigKeyPressFromQml(const QString& key);
+
 private:
     void initConnect();
 
@@ -363,6 +371,9 @@ private:
     int m_nAnimationDuration = 400;             // 动画持续时间
     int m_nLargeImagePreviewAnimationDuration = 800; // 大图预览动画持续时间
     FileControl* m_fileControl { nullptr };
+
+private:
+    static GlobalStatus *m_globalStatus;
 };
 
 #endif  // GLOBALSTATUS_H
