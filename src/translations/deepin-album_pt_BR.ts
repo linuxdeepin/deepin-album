@@ -190,7 +190,7 @@
         <location filename="../src/albumControl.cpp" line="2111"/>
         <location filename="../src/albumControl.cpp" line="2115"/>
         <source>%1Year%2Month%3Day</source>
-        <translation type="unfinished"/>
+        <translation>%1Ano%2Mês%3Dia</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2165"/>
@@ -358,7 +358,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="152"/>
         <source>0 item</source>
-        <translation type="unfinished"/>
+        <translation>1 item {0 ?}</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="214"/>
@@ -1282,7 +1282,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation>Abrir imagem</translation>
     </message>
 </context>
 <context>
@@ -1339,7 +1339,7 @@
         <location filename="../main.cpp" line="65"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation type="unfinished"/>
+        <translation>Principal</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="270"/>
@@ -2052,7 +2052,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Abrir imagem</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
