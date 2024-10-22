@@ -4,7 +4,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="249"/>
         <source>All photos and videos</source>
-        <translation>Todas as fotos e os vídeos</translation>
+        <translation>Todas as fotos e vídeos</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="277"/>
