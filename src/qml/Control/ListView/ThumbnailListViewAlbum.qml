@@ -18,7 +18,7 @@ import "../../PreviewImageViewer"
 import "../../PreviewImageViewer/Utils"
 
 import "ThumbnailListViewTools.js" as ThumbnailTools
-
+import "ThumbnailListShare.js" as Share
 FocusScope {
     id : main
 
@@ -322,12 +322,15 @@ FocusScope {
             // 单击模式点击/双击模式双击打开图片
             if (Qt.styleHints.singleClickActivation || bDbClicked || mouse.source === Qt.MouseEventSynthesizedByQt) {
                 var c = clickedItem.mapToItem(mainStack, 0, 0)
-                ThumbnailTools.executeViewImage(c.x, c.y, clickedItem.width, clickedItem.height)
+                           console.log(Share.isFaverDoubleClicked)
+                if (!Share.isFaverDoubleClicked)
+                    ThumbnailTools.executeViewImage(c.x, c.y, clickedItem.width, clickedItem.height)
             }
             else {
                 bDbClicked = true;
                 dbClickTimer.interval = Qt.styleHints.mouseDoubleClickInterval;
                 dbClickTimer.start();
+                Share.isFaverDoubleClicked = false;
             }
         }
 
