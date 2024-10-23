@@ -1213,6 +1213,16 @@ QString AlbumControl::url2localPath(QUrl url)
     return LibUnionImage_NameSpace::localPath(url);
 }
 
+QStringList AlbumControl::urls2localPaths(QStringList urls)
+{
+    QStringList paths;
+    for (auto url : urls) {
+        paths << LibUnionImage_NameSpace::localPath(url);
+    }
+
+    return paths;
+}
+
 bool AlbumControl::checkRepeatUrls(QStringList imported, QStringList urls, bool bNotify)
 {
     bool bRet = false;

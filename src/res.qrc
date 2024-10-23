@@ -74,4 +74,26 @@
         <file>assets/deepin-album/album/common/collect.svg</file>
         <file>assets/deepin-album/album/common/collect_active.svg</file>
     </qresource>
+    <qresource prefix="/icons/deepin/builtin">
+        <file>texts/album_all_16px.svg</file>
+        <file>texts/album_pic_16px.svg</file>
+        <file>texts/album_video_16px.svg</file>
+        <file>texts/album_all_hover_16px.svg</file>
+        <file>texts/album_pic_hover_16px.svg</file>
+        <file>texts/album_video_hover_16px.svg</file>
+        <file>icons/light/album_all_16px.svg</file>
+        <file>icons/light/album_pic_16px.svg</file>
+        <file>icons/light/album_video_16px.svg</file>
+        <file>icons/dark/album_all_16px.svg</file>
+        <file>icons/dark/album_pic_16px.svg</file>
+        <file>icons/dark/album_video_16px.svg</file>
+        <file>icons/dark/album_arrowdown_10px.svg</file>
+        <file>icons/light/album_arrowdown_10px.svg</file>
+        <file>icons/light/picture damaged_light.svg</file>
+        <file>icons/light/picture_default_light.svg</file>
+        <file>icons/dark/picture damaged_dark.svg</file>
+        <file>icons/dark/picture_default_dark.svg</file>
+        <file>icons/dark/video_default_dark.svg</file>
+        <file>icons/light/video_default_light.svg</file>
+    </qresource>
 </RCC>

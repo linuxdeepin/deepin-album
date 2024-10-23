@@ -94,7 +94,7 @@ SwitchViewAnimation {
     // 刷新选择项数标签
     function getSelectedNum(paths) {
         var selectedNumText = GStatus.getSelectedNumText(paths, numLabelText)
-        if (visible)
+        if (visible && GStatus.currentCollecttionViewIndex === 3)
             GStatus.statusBarNumText = selectedNumText
         return selectedNumText
     }
@@ -193,7 +193,7 @@ SwitchViewAnimation {
 
     onVisibleChanged: {
         // 窗口显示时，重置显示内容
-        if (visible) {
+        if (visible && GStatus.currentCollecttionViewIndex === 3) {
             if (!GStatus.loading && !GStatus.backingToMainAlbumView) {
                 flushAllCollectionView()
                 showAnimation.start()

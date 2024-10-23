@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2024 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -65,14 +65,13 @@ public:
     int getRow(const QString &path);
     //筛选出所有选中缩略图
     QStringList selectedPaths();
-    //获取拖拽的item
-    QStringList getDagItemPath();
     //右键菜单
     void menuItemDeal(QStringList paths, QAction *action);
     int getListViewHeight();
     int getRow(QPoint point);
     void setListViewUseFor(ListViewUseFor usefor);
     //主动选中照片
+    void selectUrls(const QStringList &urls);
     void selectPhotos(const QStringList &paths);
     void selectFirstPhoto();
     bool isFirstPhotoSelected();
@@ -135,8 +134,6 @@ signals:
 
     //加载完成后刷新状态栏数量
     void sigUpdatePicNum();
-    //时间线需要用到显示后的宽度
-    void sigShowEvent();
     //最上方时间与图片数量
     void sigTimeLineDataAndNum(QString data, QString num, QString text);
 
@@ -170,6 +167,7 @@ private slots:
     void onMenuItemClicked(QAction *action);
     void onShowMenu(const QPoint &pos);
     void onThumbnailSizeLevelChanged();
+    void onCellBaseWidthChanged();
     void onSelectionChanged();
     void onCancelFavorite(const QModelIndex &index);
     void resizeEventF();

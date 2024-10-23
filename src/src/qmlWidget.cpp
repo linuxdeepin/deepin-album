@@ -1,5 +1,6 @@
 #include "qmlWidget.h"
 #include "widgets/timelineview/timelineview.h"
+#include "widgets/importtimelineview/importtimelineview.h"
 //#include "../config.h"
 #include <QTimer>
 #include <QQuickWindow>
@@ -42,13 +43,7 @@ QmlWidget::QmlWidget(QQuickItem *parent) :
     setFlag(QQuickItem::ItemAcceptsDrops, true);
     setFlag(QQuickItem::ItemHasContents, true);
 #ifdef USE_INNER
-    m_widget = new QmlCustomInternalWidget(this);
-#else
-    m_widget = new TimeLineView(this);
-    m_widget->setFocusPolicy(Qt::WheelFocus);
-    m_widget->setAttribute(Qt::WA_WState_Created, true);
-    m_widget->setAutoFillBackground(true);   // 添加这行
-    m_widget->setVisible(true);
+    m_view = new QmlCustomInternalWidget(this);
 #endif
     connect(this, &QQuickItem::widthChanged, this, &QmlWidget::updateGeometry);
     connect(this, &QQuickItem::heightChanged, this, &QmlWidget::updateGeometry);
@@ -57,31 +52,92 @@ QmlWidget::QmlWidget(QQuickItem *parent) :
 
 void QmlWidget::paint(QPainter *painter)
 {
-    m_widget->render(painter, QPoint(), QRegion(),
+    if (!m_view)
+        return;
+
+    m_view->render(painter, QPoint(), QRegion(),
                      QWidget::DrawWindowBackground | QWidget::DrawChildren);
+}
+
+void QmlWidget::setViewType(int widgetType)
+{
+    if (m_viewType == widgetType)
+        return;
+
+    m_viewType = widgetType;
+
+    initWidget();
+    viewTypeChanged();
+}
+
+int QmlWidget::viewType()
+{
+    return m_viewType;
+}
+
+void QmlWidget::setFilterType(int filterType)
+{
+    if (m_filterType == filterType)
+        return;
+
+    m_filterType = filterType;
+
+    filterTypeChanged();
+}
+
+int QmlWidget::filterType()
+{
+    return m_filterType;
+}
+
+void QmlWidget::initWidget()
+{
+    if (nullptr == m_view) {
+        if (0 == m_viewType)
+            m_view = new TimeLineView(this);
+        else if (1 == m_viewType)
+            m_view = new ImportTimeLineView(this);
+        m_view->setFocusPolicy(Qt::WheelFocus);
+        m_view->setAttribute(Qt::WA_WState_Created, true);
+        m_view->setAutoFillBackground(true);   // 添加这行
+        m_view->setVisible(true);
+    }
 }
 
 void QmlWidget::refresh()
 {
-    if (m_widget) {
+    if (m_view) {
         m_disableHoverEvent = true;
         m_lastHoveredWidget = nullptr;
-        m_widget->clearAndStartLayout();
+        if (m_viewType == Types::WidgetDayView) {
+            if (TimeLineView* timeLine = dynamic_cast<TimeLineView*>(m_view))
+                timeLine->clearAndStartLayout();
+        } else if (m_viewType == Types::WidgetImportedView) {
+            if (ImportTimeLineView* importTimeLine = dynamic_cast<ImportTimeLineView*>(m_view))
+                importTimeLine->clearAndStartLayout();
+        }
         m_disableHoverEvent = false;
     }
 }
 
 void QmlWidget::navigateToMonth(const QString &month)
 {
-    if (m_widget) {
-        m_widget->getThumbnailListView()->navigateToMonth(month);
+    if (m_view) {
+        if (TimeLineView* timeLine = dynamic_cast<TimeLineView*>(m_view))
+            timeLine->getThumbnailListView()->navigateToMonth(month);
     }
 }
 
 QVariantList QmlWidget::allUrls()
 {
-    if (m_widget) {
-        return m_widget->getThumbnailListView()->allUrls();
+    if (m_view) {
+        if (m_viewType == Types::WidgetDayView) {
+            if (TimeLineView* timeLine = dynamic_cast<TimeLineView*>(m_view))
+                return timeLine->getThumbnailListView()->allUrls();
+        } else if (m_viewType == Types::WidgetImportedView) {
+            if (ImportTimeLineView* importTimeLine = dynamic_cast<ImportTimeLineView*>(m_view))
+                return importTimeLine->getListView()->allUrls();
+        }
     }
 
     return QVariantList();
@@ -89,19 +145,43 @@ QVariantList QmlWidget::allUrls()
 
 void QmlWidget::unSelectAll()
 {
-    if (m_widget)
-        m_widget->clearAllSelection();
+    if (m_view) {
+        if (m_viewType == Types::WidgetDayView) {
+            if (TimeLineView* timeLine = dynamic_cast<TimeLineView*>(m_view))
+                timeLine->clearAllSelection();
+        } else if (m_viewType == Types::WidgetImportedView) {
+            if (ImportTimeLineView* importTimeLine = dynamic_cast<ImportTimeLineView*>(m_view))
+                importTimeLine->clearAllSelection();
+        }
+    }
+}
+
+void QmlWidget::selectUrls(const QStringList &urls)
+{
+    if (m_view) {
+        if (m_viewType == Types::WidgetDayView) {
+            if (TimeLineView* timeLine = dynamic_cast<TimeLineView*>(m_view))
+                timeLine->getThumbnailListView()->selectUrls(urls);
+        } else if (m_viewType == Types::WidgetImportedView) {
+            if (ImportTimeLineView* importTimeLine = dynamic_cast<ImportTimeLineView*>(m_view))
+                importTimeLine->getListView()->selectUrls(urls);
+        }
+    }
 }
 
 void QmlWidget::setFocus(bool arg)
 {
     QQuickPaintedItem::setFocus(arg);
+
+    if (!m_view)
+        return;
+
     if(arg){
-        m_widget->setFocus();
+        m_view->setFocus();
         forceActiveFocus();
     }
     else{
-        m_widget->clearFocus();
+        m_view->clearFocus();
     }
     setActiveFocusOnTab(arg);
 }
@@ -115,34 +195,15 @@ void QmlWidget::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeom
     updateGeometry();
 }
 
-#if 0
 bool QmlWidget::event(QEvent *e)
 {
-//    qDebug() << "QmlCustomWidget::event" << e->type();
+    if (!m_view)
+        return QQuickPaintedItem::event(e);
 
-    if(e->type() == QEvent::HoverEnter ||
-        e->type() == QEvent::HoverMove ||
-        e->type() == QEvent::HoverLeave ){
-
-        handleHoverMoveEvent((QHoverEvent*)e);
-        return true;
-    }
-
-    if( e->type() == QEvent::MouseButtonPress ||
-        e->type() == QEvent::MouseButtonDblClick )
-        setFocus(true);
-
-    if(m_widget->event(e))
-        return true;
-    return QQuickPaintedItem::event(e);
-}
-#else
-bool QmlWidget::event(QEvent *e)
-{
     static QPoint lastPos;
     static bool isPressed = false;
     static QWidget* pressedWidget = nullptr;
-    QObject* pScrollArea = m_widget->findChild<QObject*>("qt_scrollarea_viewport");
+    QObject* pScrollArea = m_view->findChild<QObject*>("qt_scrollarea_viewport");
     // 处理鼠标事件
     if (auto mouseEvent = dynamic_cast<QMouseEvent *>(e)) {
         QPoint pos = mouseEvent->pos();
@@ -151,11 +212,11 @@ bool QmlWidget::event(QEvent *e)
             case QEvent::MouseButtonPress:
                 isPressed = true;
                 lastPos = pos;
-                pressedWidget = m_widget->childAt(pos);
+                pressedWidget = m_view->childAt(pos);
                 break;
             case QEvent::MouseMove:
                 if (!isPressed) {
-                    pressedWidget = m_widget->childAt(pos);
+                    pressedWidget = m_view->childAt(pos);
                 }
                 break;
             case QEvent::MouseButtonRelease:
@@ -163,25 +224,25 @@ bool QmlWidget::event(QEvent *e)
                 pressedWidget = nullptr;
 
                 if ((lastPos - pos).manhattanLength() >= 2) {
-                    qDebug() << "pos.x" << pos.x() << "width: " << m_widget->width();
+                    qDebug() << "pos.x" << pos.x() << "width: " << m_view->width();
                     if (pos.x() < 0)
                         pos.setX(2);
-                    if (pos.x() > m_widget->width())
-                        pos.setX(m_widget->width() - 10);
+                    if (pos.x() > m_view->width())
+                        pos.setX(m_view->width() - 10);
                     qDebug() << "pos.y" << pos.y();
                     if (pos.y() < 87)
                         pos.setY(87);
-                    if (pos.y() > m_widget->height())
-                        pos.setY(m_widget->height() - 10);
+                    if (pos.y() > m_view->height())
+                        pos.setY(m_view->height() - 10);
                 }
                 break;
             default:
                 break;
         }
 
-        QWidget* targetWidget = isPressed ? pressedWidget : m_widget->childAt(pos);
+        QWidget* targetWidget = isPressed ? pressedWidget : m_view->childAt(pos);
         if (targetWidget) {
-            QPoint localPos = targetWidget->mapFrom(m_widget, pos);
+            QPoint localPos = targetWidget->mapFrom(m_view, pos);
 
             QMouseEvent mappedEvent(mouseEvent->type(), localPos, mouseEvent->button(), mouseEvent->buttons(), mouseEvent->modifiers());
 
@@ -218,7 +279,7 @@ bool QmlWidget::event(QEvent *e)
         // 处理鼠标悬停事件
         QHoverEvent *hoverEvent = dynamic_cast<QHoverEvent *>(e);
         if (hoverEvent && !m_disableHoverEvent) {
-            QWidget* ss = m_widget->childAt(hoverEvent->pos());
+            QWidget* ss = m_view->childAt(hoverEvent->pos());
             if (ss) {
                 if (ss != m_lastHoveredWidget) {
                     if (m_lastHoveredWidget) {
@@ -239,15 +300,11 @@ bool QmlWidget::event(QEvent *e)
     }
 
     return QQuickPaintedItem::event(e);
-
-    // if (m_widget->event(e))
-    //     return true;
 }
-#endif
 
 void QmlWidget::updateGeometry()
 {
-    if (!isVisible())
+    if (!isVisible() || !m_view)
         return;
 
     QPointF newPos(0, 0);
@@ -259,5 +316,5 @@ void QmlWidget::updateGeometry()
         qDebug() << "QmlCustomWidget::updateGeometry, top left mapped to screen: " << newPos;
     }
     QRectF absRect(newPos, contentsBoundingRect().size());
-    m_widget->setGeometry(absRect.toRect());
+    m_view->setGeometry(absRect.toRect());
 }

@@ -60,6 +60,17 @@ Item {
         }
     }
 
+    Connections {
+        target: GStatus
+        function onSigZoomInOutFromQWidget(delta) {
+            var curValue = statusBar.sliderValue
+            if (delta > 0)
+                statusBar.setSliderWidgetValue(curValue + 1)
+            else
+                statusBar.setSliderWidgetValue(curValue - 1)
+        }
+    }
+
     Shortcut {
         enabled: GStatus.stackControlCurrent === 0
         autoRepeat: false

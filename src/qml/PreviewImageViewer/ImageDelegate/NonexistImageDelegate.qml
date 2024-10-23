@@ -5,7 +5,6 @@
 import QtQuick
 import org.deepin.dtk 1.0
 import org.deepin.dtk.style 1.0 as DS
-import org.deepin.image.viewer 1.0 as IV
 
 BaseImageDelegate {
     id: delegate

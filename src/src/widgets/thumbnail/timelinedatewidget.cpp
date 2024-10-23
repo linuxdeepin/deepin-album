@@ -154,41 +154,50 @@ QString TimeLineDateWidget::onGetBtnStatus()
 }
 
 importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QString &time, const QString &num)
-    : m_chooseBtn(nullptr), m_pDateandNum(nullptr), m_currentItem(item)
+    : m_chooseBtn(nullptr), m_pDateandNumCheckBox(nullptr), m_currentItem(item)
 {
-    this->setContentsMargins(0, 0, 0, 0);
+    this->setContentsMargins(6, 0, 0, 0);
     this->setFixedHeight(35);
 
     //时间+照片数量
-    m_pDateandNum = new DLabel(this);
-    DFontSizeManager::instance()->bind(m_pDateandNum, DFontSizeManager::T6, QFont::Medium);
+    m_pDateandNumCheckBox = new DCheckBox(this);
+    connect(m_pDateandNumCheckBox, &DCheckBox::clicked, this, &importTimeLineDateWidget::onCheckBoxCliked);
+    DFontSizeManager::instance()->bind(m_pDateandNumCheckBox, DFontSizeManager::T6, QFont::Medium);
     QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft1.setFamily("SourceHanSansSC");
     ft1.setWeight(QFont::Medium);
-    DPalette pal = DPaletteHelper::instance()->palette(m_pDateandNum);
+    DPalette pal = DPaletteHelper::instance()->palette(m_pDateandNumCheckBox);
     QColor color_BT = pal.color(DPalette::BrightText);
-    m_pDateandNum->setFont(ft1);
-    m_pDateandNum->setForegroundRole(DPalette::Text);
-    m_pDateandNum->setPalette(pal);
+    m_pDateandNumCheckBox->setFont(ft1);
+    m_pDateandNumCheckBox->setForegroundRole(DPalette::Text);
+    m_pDateandNumCheckBox->setPalette(pal);
     QString tempTimeAndNumber = time + " " + num;
-    m_pDateandNum->setText(tempTimeAndNumber);
+    m_pDateandNumCheckBox->setText(tempTimeAndNumber);
 
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     if (themeType == DGuiApplicationHelper::LightType) {
         color_BT.setAlphaF(0.5);
         pal.setBrush(DPalette::Text, color_BT);
-        m_pDateandNum->setForegroundRole(DPalette::Text);
-        m_pDateandNum->setPalette(pal);
+        m_pDateandNumCheckBox->setForegroundRole(DPalette::Text);
+        m_pDateandNumCheckBox->setPalette(pal);
     } else if (themeType == DGuiApplicationHelper::DarkType) {
         color_BT.setAlphaF(0.75);
         pal.setBrush(DPalette::Text, color_BT);
-        m_pDateandNum->setForegroundRole(DPalette::Text);
-        m_pDateandNum->setPalette(pal);
+        m_pDateandNumCheckBox->setForegroundRole(DPalette::Text);
+        m_pDateandNumCheckBox->setPalette(pal);
     }
+
+    m_pDateandNum = new DLabel(this);
+    m_pDateandNum->setFont(ft1);
+    m_pDateandNum->setForegroundRole(DPalette::Text);
+    m_pDateandNum->setPalette(pal);
+    m_pDateandNum->setText(tempTimeAndNumber);
+
+    onShowCheckBox(false);
 
     //选择按钮
     m_chooseBtn = new DCommandLinkButton(QObject::tr("Select"));
-    connect(m_chooseBtn, &DCommandLinkButton::clicked, this, &importTimeLineDateWidget::onChooseBtnCliked);
+    //connect(m_chooseBtn, &DCommandLinkButton::clicked, this, &importTimeLineDateWidget::onChooseBtnCliked);
     DFontSizeManager::instance()->bind(m_chooseBtn, DFontSizeManager::T5);
     m_chooseBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
     m_chooseBtn->setFocusPolicy(Qt::NoFocus);
@@ -202,6 +211,7 @@ importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QS
     //开始布局
     QHBoxLayout *TitleViewLayout = new QHBoxLayout(this);
     TitleViewLayout->setContentsMargins(0, 0, 25, 0);
+    TitleViewLayout->addWidget(m_pDateandNumCheckBox);
     TitleViewLayout->addWidget(m_pDateandNum);
     TitleViewLayout->addStretch();
     TitleViewLayout->addWidget(m_pbtn);
@@ -211,13 +221,11 @@ importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QS
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &importTimeLineDateWidget::onThemeChanged);
 }
 
-void importTimeLineDateWidget::onChooseBtnCliked()
+void importTimeLineDateWidget::onCheckBoxCliked()
 {
-    if (QObject::tr("Select") == m_chooseBtn->text()) {
-        m_chooseBtn->setText(QObject::tr("Unselect"));
+    if (m_pDateandNumCheckBox->isChecked()) {
         emit sigIsSelectCurrentDatePic(true, m_currentItem);
     } else {
-        m_chooseBtn->setText(QObject::tr("Select"));
         emit sigIsSelectCurrentDatePic(false, m_currentItem);
     }
 }
@@ -229,11 +237,7 @@ void importTimeLineDateWidget::onChangeChooseBtnVisible(bool visible)
 
 void importTimeLineDateWidget::onTimeLinePicSelectAll(bool selectall)
 {
-    if (selectall) { //已经全选，btn变为取消全选
-        m_chooseBtn->setText(QObject::tr("Unselect"));
-    } else {         //非全选状态，btn变为全选
-        m_chooseBtn->setText(QObject::tr("Select"));
-    }
+    m_pDateandNumCheckBox->setChecked(selectall);
 }
 
 QString importTimeLineDateWidget::onGetBtnStatus()
@@ -243,16 +247,20 @@ QString importTimeLineDateWidget::onGetBtnStatus()
 
 void importTimeLineDateWidget::onThemeChanged(DGuiApplicationHelper::ColorType themeType)
 {
-    DPalette pal = DPaletteHelper::instance()->palette(m_pDateandNum);
+    DPalette pal = DPaletteHelper::instance()->palette(m_pDateandNumCheckBox);
     QColor color_BT = pal.color(DPalette::BrightText);
     if (themeType == DGuiApplicationHelper::LightType) {
         color_BT.setAlphaF(0.5);
         pal.setBrush(DPalette::Text, color_BT);
+        m_pDateandNumCheckBox->setForegroundRole(DPalette::Text);
+        m_pDateandNumCheckBox->setPalette(pal);
         m_pDateandNum->setForegroundRole(DPalette::Text);
         m_pDateandNum->setPalette(pal);
     } else if (themeType == DGuiApplicationHelper::DarkType) {
         color_BT.setAlphaF(0.75);
         pal.setBrush(DPalette::Text, color_BT);
+        m_pDateandNumCheckBox->setForegroundRole(DPalette::Text);
+        m_pDateandNumCheckBox->setPalette(pal);
         m_pDateandNum->setForegroundRole(DPalette::Text);
         m_pDateandNum->setPalette(pal);
     }
@@ -260,5 +268,6 @@ void importTimeLineDateWidget::onThemeChanged(DGuiApplicationHelper::ColorType t
 
 void importTimeLineDateWidget::onShowCheckBox(bool bShow)
 {
-
+    m_pDateandNumCheckBox->setVisible(bShow);
+    m_pDateandNum->setVisible(!bShow);
 }

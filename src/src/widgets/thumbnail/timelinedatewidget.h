@@ -53,7 +53,7 @@ public:
     explicit importTimeLineDateWidget(QStandardItem *item, const QString &time, const QString &num);
 
 public slots:
-    void onChooseBtnCliked();
+    void onCheckBoxCliked();
     void onChangeChooseBtnVisible(bool visible = false);             //1050预留，默认隐藏按钮
     void onTimeLinePicSelectAll(bool selectall = true);              //响应本时间内所有照片的全选状态，改变btn
     QString onGetBtnStatus();                                        //获取按钮状态
@@ -66,6 +66,7 @@ signals:
 private:
     DCommandLinkButton *m_chooseBtn;
     DLabel *m_pDateandNum;
+    DCheckBox *m_pDateandNumCheckBox;
     QStandardItem *m_currentItem;
     DCommandLinkButton *m_pbtn;//占位btn
 
