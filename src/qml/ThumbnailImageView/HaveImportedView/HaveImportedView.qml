@@ -13,33 +13,96 @@ import "../"
 
 BaseView {
     id: haveImportedListView
-    property int filterType : filterCombo.currentIndex // 筛选类型，默认所有
+    property int filterType : timeline.filterType// 筛选类型，默认所有
     property string numLabelText: "" //总数标签显示内容
     property string selectedText: getSelectedText(selectedPaths)
-    property alias selectedPaths: theView.selectedPaths
+    property var selectedPaths: GStatus.selectedPaths
     property real titleOpacity: 0.7
-    property bool bShowImportTips: GStatus.currentViewType === Album.Types.ViewHaveImported && numLabelText === "" && filterType === 0
+    property bool bShowImportTips: numLabelText === ""
+                                   && filterType === 0
+                                   && albumControl.getAllCount() === 0
 
     Rectangle {
         anchors.fill : parent
         color: DTK.themeType === ApplicationHelper.LightType ? "#f8f8f8"
                                                               : "#202020"
+        visible: !bShowImportTips
+
+        Album.QmlWidget{
+            id: timeline
+            anchors.fill: parent
+            anchors.margins: 0
+            focus: false
+            viewType: Album.Types.WidgetImportedView
+        }
     }
 
     Connections {
-        target: albumControl
-        function onSigRepeatUrls(urls) {
-            if (visible) {
-                theView.sigUnSelectAll()
-                theView.selectedPaths = urls
-                GStatus.selectedPaths = selectedPaths
+        target: GStatus
+        function onSigDoubleClickedFromQWidget(url) {
+            if (!haveImportedListView.visible)
+                return
+            if (url !== undefined) {
+                var allUrls = timeline.allUrls()
+                menuItemStates.executeViewImageCutSwitch(url, allUrls)
+            }
+        }
+
+        function onSigMenuItemClickedFromQWidget(id, uid) {
+            if (!haveImportedListView.visible)
+                return
+            var sels = GStatus.selectedPaths
+            var url = ""
+            if (sels.length > 0)
+                url = sels[0]
+            var allUrls = timeline.allUrls()
+            if (id === Album.Types.IdView) {
+                menuItemStates.executeViewImageCutSwitch(url, allUrls)
+            } else if (id === Album.Types.IdMoveToTrash) {
+                deleteDialog.setDisplay(Album.Types.TrashNormal, GStatus.selectedPaths.length)
+                deleteDialog.show()
+            } else if (id === Album.Types.IdFullScreen) {
+                menuItemStates.executeFullScreen(url, allUrls)
+            } else if (id === Album.Types.IdPrint) {
+                menuItemStates.executePrint()
+            } else if (id === Album.Types.IdStartSlideShow) {
+                menuItemStates.excuteSlideShow(allUrls)
+            } else if (id === Album.Types.IdExport) {
+                menuItemStates.excuteExport()
+            } else if (id === Album.Types.IdCopyToClipboard) {
+                menuItemStates.executeCopy()
+            } else if (id === Album.Types.IdAddToFavorites) {
+                menuItemStates.executeFavorite()
+            } else if (id === Album.Types.IdRemoveFromFavorites) {
+                menuItemStates.executeUnFavorite()
+            } else if (id === Album.Types.IdRotateClockwise) {
+                menuItemStates.executeRotate(90)
+            } else if (id === Album.Types.IdRotateCounterclockwise) {
+                menuItemStates.executeRotate(-90)
+            } else if (id === Album.Types.IdSetAsWallpaper) {
+                menuItemStates.executeSetWallpaper()
+            } else if (id === Album.Types.IdDisplayInFileManager) {
+                menuItemStates.executeDisplayInFileManager()
+            } else if (id === Album.Types.IdImageInfo) {
+                menuItemStates.executeViewPhotoInfo()
+            } else if (id === Album.Types.IdVideoInfo) {
+                menuItemStates.executeViewVideoInfo()
+            } else if (id === Album.Types.IdNewAlbum) {
+                newAlbum.isChangeView = false
+                newAlbum.importSelected = true
+                newAlbum.setNormalEdit()
+                newAlbum.show()
+            } else if (id === Album.Types.IdAddToAlbum) {
+                // 获取所选自定义相册的Id，根据Id添加到对应自定义相册
+                albumControl.insertIntoAlbum(uid , GStatus.selectedPaths)
+                DTK.sendMessage(thumbnailImage, qsTr("Successfully added to “%1”").arg(albumControl.getCustomAlbumByUid(uid)), "notify_checked")
             }
         }
     }
 
     onVisibleChanged: {
         if (visible && !GStatus.backingToMainAlbumView) {
-            flushHaveImportedView()
+            flushView()
             if (show)
                 showAnimation.start()
         }
@@ -47,15 +110,35 @@ BaseView {
 
     // 筛选类型改变处理事件
     onFilterTypeChanged: {
-        if (visible && !GStatus.loading)
-            flushHaveImportedView()
+        if (visible)
+            getNumLabelText()
     }
 
     // 刷新已导入视图内容
-    function flushHaveImportedView() {
-        theView.importedListModel.loadImportedInfos()
-        theView.updateSelectedPaths()
+    function flushView() {
+        if (!visible)
+            return
+        unSelectAll()
+        timeline.refresh()
         getNumLabelText()
+    }
+
+    function unSelectAll() {
+        timeline.unSelectAll()
+    }
+
+    function runDeleteImg() {
+        menuItemStates.executeDelete()
+        getNumLabelText()
+    }
+
+    Connections {
+        target: albumControl
+        function onSigRepeatUrls(urls) {
+            if (visible) {
+                timeline.selectUrls(urls)
+            }
+        }
     }
 
     // 刷新总数标签
@@ -97,68 +180,28 @@ BaseView {
         return selectedNumText
     }
 
-    // 已导入视图标题栏区域
-    Item {
-        id: importedTitleRect
-        width: parent.width - GStatus.verticalScrollBarWidth
-        height: GStatus.thumbnailViewTitleHieght
-        z: 2
+    Connections {
+        target: GStatus
 
-        Rectangle {
-            color: DTK.themeType === ApplicationHelper.LightType ? "#f8f8f8"
-                                                                  : "#202020"
-            anchors.fill : parent
-            opacity: 0.95
-        }
-
-        // 已导入标签
-        Label {
-            id: importedLabel
-            z:3
-            anchors {
-                top: parent.top
-                topMargin: 12
+        function onSigSelectAll(sel) {
+            if (visible) {
+                if (sel)
+                    GStatus.sigKeyPressFromQml("Ctrl+A")
+                else
+                    GStatus.sigKeyPressFromQml("Esc")
             }
-            height: 30
-            font: DTK.fontManager.t3
-            text: qsTr("Import")
         }
 
-        Label {
-            id: importTimeLabel
-            z:3
-            anchors {
-                top: importedLabel.bottom
-                topMargin: 11
+        function onSigPageUp() {
+            if (visible) {
+                GStatus.sigKeyPressFromQml("Page Up")
             }
-            font: DTK.fontManager.t6
         }
 
-        // 筛选下拉框
-        FilterComboBox {
-            id: filterCombo
-            z:3
-            anchors {
-                top: importedLabel.bottom
-                topMargin: 4
-                right: parent.right
+        function onSigPageDown() {
+            if (visible) {
+                GStatus.sigKeyPressFromQml("Page Down")
             }
-            width: 115
-            height: 30
-            font: DTK.fontManager.t6
-            visible: parent.visible && albumControl.getAllCount() !== 0
-        }
-
-    }
-
-    ImportedlListView {
-        id: theView
-        anchors.fill: parent
-        Rectangle {
-            anchors.fill:  parent
-            z:-1
-            color: DTK.themeType === ApplicationHelper.LightType ? "#f8f8f8"
-                                                                  : "#202020"
         }
     }
 
@@ -171,20 +214,15 @@ BaseView {
 
     NumberAnimation {
         id: showAnimation
-        target: theView
+        target: timeline
         property: "anchors.topMargin"
-        from: theView.height
+        from: timeline.height
         to: 0
         duration: GStatus.animationDuration
         easing.type: Easing.OutExpo
     }
 
-    function setDataRange(str) {
-        importTimeLabel.text = str
-    }
-
     Component.onCompleted: {
-        theView.sigTextUpdated.connect(setDataRange)
-        GStatus.sigFlushHaveImportedView.connect(flushHaveImportedView)
+        GStatus.sigFlushHaveImportedView.connect(flushView)
     }
 }

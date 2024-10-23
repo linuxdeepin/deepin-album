@@ -5,27 +5,18 @@
 #include "timelineview.h"
 #include "unionimage/baseutils.h"
 #include "unionimage/imageutils.h"
-//#include "imageengine/imageengineapi.h"
-//#include "mainwindow.h"
-//#include "ac-desktop-define.h"
+#include "widgets/widgtes/noresultwidget.h"
 
 #include <QScrollBar>
 #include <QScroller>
 #include <QMimeData>
 #include <QGraphicsOpacityEffect>
-//#include <QDesktopWidget>
 
 #include <DPushButton>
 #include <DTableView>
 #include <DPaletteHelper>
 #include <DCheckBox>
-//#include <dgiovolumemanager.h>
-//#include <dgiofile.h>
-//#include <dgiofileinfo.h>
-//#include <dgiovolume.h>
-
-//#include "batchoperatewidget.h"
-//#include "noresultwidget.h"
+#include <DHiDPIHelper>
 
 namespace  {
 const int VIEW_IMPORT = 0;
@@ -36,13 +27,13 @@ const int TIMELINE_TITLEHEIGHT = 36;
 const int SUSPENSION_WIDGET_HEIGHT = 87;//悬浮控件高度
 } //namespace
 
-TimeLineView::TimeLineView(QQuickPaintedItem *parent)
+TimeLineView::TimeLineView(QmlWidget *parent)
     : m_mainLayout(nullptr)
     , allnum(0)
     , m_oe(nullptr), m_oet(nullptr)
     , fatherwidget(nullptr), m_pStackedWidget(nullptr)
-    , /*m_pStatusBar(nullptr), pSearchView(nullptr), pImportView(nullptr), */pTimeLineViewWidget(nullptr)
-    , m_pwidget(nullptr), m_selPicNum(0)/*, m_spinner(nullptr)*/
+    , m_timeLineViewWidget(nullptr)
+    , m_pwidget(nullptr), m_selPicNum(0)
 {
     m_qquickContainer = parent;
     //setAcceptDrops(true);
@@ -58,17 +49,9 @@ TimeLineView::TimeLineView(QQuickPaintedItem *parent)
     m_oet->setOpacity(0.75);
 
     m_pStackedWidget = new QStackedWidget(this);
-    pTimeLineViewWidget = new QWidget();
-    //pImportView = new ImportView();
-    //pSearchView = new SearchView();
-    //m_pStackedWidget->addWidget(pImportView);
-    m_pStackedWidget->addWidget(pTimeLineViewWidget);
-    //m_pStackedWidget->addWidget(pSearchView);
+    m_timeLineViewWidget = new QWidget();
+    m_pStackedWidget->addWidget(m_timeLineViewWidget);
 
-    //m_pStatusBar = new StatusBar(this);
-    //m_pStatusBar->raise();
-    //m_pStatusBar->setFixedWidth(this->width());
-    //m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
     QVBoxLayout *pVBoxLayout = new QVBoxLayout();
     pVBoxLayout->setContentsMargins(2, 0, 0, 0);
     pVBoxLayout->addWidget(m_pStackedWidget);
@@ -78,16 +61,6 @@ TimeLineView::TimeLineView(QQuickPaintedItem *parent)
     initConnections();
     m_pwidget = new QWidget(this);
     m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
-    //m_spinner = new DSpinner(this);
-    //m_spinner->setFixedSize(40, 40);
-    //m_spinner->hide();
-}
-
-bool TimeLineView::imageImported(bool success)
-{
-    Q_UNUSED(success);
-    //emit dApp->signalM->closeWaitDialog();
-    return true;
 }
 
 void TimeLineView::initConnections()
@@ -96,28 +69,13 @@ void TimeLineView::initConnections()
 //    connect(dApp->signalM, &SignalManager::sigLoadOnePhoto, this, &TimeLineView::clearAndStartLayout);
 //    connect(dApp->signalM, &SignalManager::imagesInserted, this, &TimeLineView::clearAndStartLayout);
 //    connect(dApp->signalM, &SignalManager::imagesRemoved, this, &TimeLineView::clearAndStartLayout);
-//    connect(dApp->signalM, &SignalManager::sigUpdateImageLoader, this, &TimeLineView::updataLayout);
 //    connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::emitSliderValueChg);
-////    connect(pSearchView->m_pThumbnailListView, &ThumbnailListView::clicked, this, &TimeLineView::updatePicNum);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &TimeLineView::themeChangeSlot);
-//    connect(pImportView->m_pImportBtn, &DPushButton::clicked, this, &TimeLineView::onImportViewImportBtnClicked);
-//    connect(dApp->signalM, &SignalManager::sigImportFailedToView, this, &TimeLineView::onImportFailedToView);
-//    connect(dApp->signalM, &SignalManager::sigShortcutKeyDelete, this, &TimeLineView::onKeyDelete);
-//    // 重复导入图片选中
-//    connect(dApp->signalM, &SignalManager::RepeatImportingTheSamePhotos, this, &TimeLineView::onRepeatImportingTheSamePhotos);
-//    connect(m_timeLineThumbnailListView, &ThumbnailListView::sigSelectAll, this, [ = ]() {
-//        m_suspensionChose->setText(QObject::tr("Unselect"));
-//    });
-//    //缩略图选中项发生变化
-//    connect(m_timeLineThumbnailListView->selectionModel(), &QItemSelectionModel::selectionChanged,
-//            this, &TimeLineView::sltSelectionChanged);
-//    connect(pSearchView->m_pThumbnailListView->selectionModel(), &QItemSelectionModel::selectionChanged,
-//            this, &TimeLineView::sltSelectionChanged);
 }
 
 void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
 {
-    DPalette pa1 = DPaletteHelper::instance()->palette(pTimeLineViewWidget);
+    DPalette pa1 = DPaletteHelper::instance()->palette(m_timeLineViewWidget);
     pa1.setBrush(DPalette::Base, pa1.color(DPalette::Window));
 
     m_dateNumItemWidget->setForegroundRole(DPalette::Window);
@@ -157,24 +115,17 @@ void TimeLineView::clearAllSelection()
     m_timeLineThumbnailListView->clearSelection();
 }
 
-void TimeLineView::updataLayout(QStringList updatePathList)
-{
-    Q_UNUSED(updatePathList)
-//    m_spinner->hide();
-//    m_spinner->stop();
-}
-
 void TimeLineView::initTimeLineViewWidget()
 {
     m_mainLayout = new QVBoxLayout();
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
-    pTimeLineViewWidget->setLayout(m_mainLayout);
+    m_timeLineViewWidget->setLayout(m_mainLayout);
 
-    DPalette palcolor = DPaletteHelper::instance()->palette(pTimeLineViewWidget);
+    DPalette palcolor = DPaletteHelper::instance()->palette(m_timeLineViewWidget);
     palcolor.setBrush(DPalette::Base, palcolor.color(DPalette::Window));
-    pTimeLineViewWidget->setPalette(palcolor);
+    m_timeLineViewWidget->setPalette(palcolor);
 
-    m_timeLineThumbnailListView = new ThumbnailListView(ThumbnailDelegate::TimeLineViewType, -1, "timelineview", pTimeLineViewWidget);
+    m_timeLineThumbnailListView = new ThumbnailListView(ThumbnailDelegate::TimeLineViewType, -1, "timelineview", m_timeLineViewWidget);
     m_timeLineThumbnailListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_timeLineThumbnailListView->setContextMenuPolicy(Qt::CustomContextMenu);
     m_timeLineThumbnailListView->setContentsMargins(0, 0, 0, 0);
@@ -182,25 +133,17 @@ void TimeLineView::initTimeLineViewWidget()
     m_mainLayout->addWidget(m_timeLineThumbnailListView);
 
     //初始化筛选无结果窗口
-//    m_noResultWidget = new NoResultWidget(pTimeLineViewWidget);
-//    m_mainLayout->addWidget(m_noResultWidget);
-//    m_noResultWidget->setVisible(false);
+    m_noResultWidget = new NoResultWidget(m_timeLineViewWidget);
+    m_mainLayout->addWidget(m_noResultWidget);
+    m_noResultWidget->setVisible(false);
 
-    connect(m_timeLineThumbnailListView, &ThumbnailListView::sigShowEvent, this, &TimeLineView::clearAndStartLayout);
     //滑动列表，刷新上方悬浮标题
     connect(m_timeLineThumbnailListView, &ThumbnailListView::sigTimeLineDataAndNum, this, &TimeLineView::slotTimeLineDataAndNum);
-    //打开图片
-    connect(m_timeLineThumbnailListView, &ThumbnailListView::openImage, this, &TimeLineView::onOpenImage);
-    //幻灯片播放
-    connect(m_timeLineThumbnailListView, &ThumbnailListView::sigSlideShow, this, &TimeLineView::onSlideShow);
     //筛选显示，当先列表中内容为无结果
     connect(m_timeLineThumbnailListView, &ThumbnailListView::sigNoPicOrNoVideo, this, &TimeLineView::slotNoPicOrNoVideo);
 
-//    connect(m_timeLineThumbnailListView, &ThumbnailListView::sigMouseMove, this, &TimeLineView::updatePicNum);
-    connect(m_timeLineThumbnailListView, &ThumbnailListView::sigMoveToTrash, this, &TimeLineView::onKeyDelete);//跳转
-
     //添加悬浮title
-    m_dateNumItemWidget = new QWidget(pTimeLineViewWidget);
+    m_dateNumItemWidget = new DWidget(m_timeLineViewWidget);
     m_dateNumItemWidget->setFocusPolicy(Qt::ClickFocus);
     m_dateNumItemWidget->setPalette(palcolor);
     QVBoxLayout *titleViewLayout = new QVBoxLayout();
@@ -228,23 +171,15 @@ void TimeLineView::initTimeLineViewWidget()
     m_dateLabel->setForegroundRole(DPalette::Text);
     m_dateLabel->setPalette(color);
 
-//    //右侧批量操作控件
-//    m_batchOperateWidget = new BatchOperateWidget(m_timeLineThumbnailListView, BatchOperateWidget::NullType, this);
-//    //进入批量状态
-//    connect(m_batchOperateWidget, &BatchOperateWidget::signalBatchSelectChanged, this, &TimeLineView::slotBatchSelectChanged);
     hDateLayout->addStretch(1);
     hDateLayout->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     hDateLayout->setContentsMargins(0, 0, 19, 0);
-    //hDateLayout->addWidget(m_batchOperateWidget);
 
     //时间线下的计数
     QHBoxLayout *hNumLayout = new QHBoxLayout();
     m_numCheckBox = new DCheckBox();
     connect(m_numCheckBox, &DCheckBox::clicked, this, &TimeLineView::onCheckBoxClicked);
     hNumLayout->addWidget(m_numCheckBox);
-    // if (QLocale::system().language() == QLocale::Uighur) {
-    //     m_numCheckBox->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    // }
     DFontSizeManager::instance()->bind(m_numCheckBox, DFontSizeManager::T6, QFont::Medium);
     QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft6.setFamily("SourceHanSansSC");
@@ -279,27 +214,14 @@ void TimeLineView::initTimeLineViewWidget()
     connect(m_timeLineThumbnailListView, &ThumbnailListView::sigShowCheckBox, this, &TimeLineView::onShowCheckBox);
     onShowCheckBox(false);
 
+    initDropDown();
+
+    hNumLayout->addStretch(100);
+    hNumLayout->addWidget(m_ToolButton);
+
     titleViewLayout->addLayout(hDateLayout);
     titleViewLayout->addLayout(hNumLayout);
     titleViewLayout->addStretch(100);
-
-    //右侧选择文字
-    m_suspensionChose = new DCommandLinkButton(QObject::tr("Select"));
-    m_suspensionChose->setFocusPolicy(Qt::NoFocus);
-//    AC_SET_OBJECT_NAME(m_suspensionChose, Time_Line_Choose_Button);
-//    AC_SET_ACCESSIBLE_NAME(m_suspensionChose, Time_Line_Choose_Button);
-    DFontSizeManager::instance()->bind(m_suspensionChose, DFontSizeManager::T5);
-    m_suspensionChose->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
-    m_suspensionChose->setFixedHeight(TIMELINE_TITLEHEIGHT);
-    m_suspensionChose->resize(36, 27);
-    m_suspensionChose->setVisible(false);
-
-    hNumLayout->addStretch(1);
-    hNumLayout->addSpacerItem(new QSpacerItem(0, 27));
-    hNumLayout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    hNumLayout->setContentsMargins(0, 0, 19, 0);
-    hNumLayout->addWidget(m_suspensionChose);
-    connect(m_suspensionChose, &DCommandLinkButton::clicked, this, &TimeLineView::onCheckBoxClicked);
 
     DPalette ppal_light = DPaletteHelper::instance()->palette(m_dateNumItemWidget);
     ppal_light.setBrush(DPalette::Window, ppal_light.color(DPalette::Base));
@@ -312,29 +234,28 @@ void TimeLineView::initTimeLineViewWidget()
     m_dateNumItemWidget->setGeometry(0, 0, this->width() - 15, SUSPENSION_WIDGET_HEIGHT);
 }
 
-void TimeLineView::updateStackedWidget()
-{
-//    if (0 < DBManager::instance()->getImgsCount()) {
-//        m_pStackedWidget->setCurrentIndex(VIEW_TIMELINE);
-//        m_pStatusBar->setVisible(true);
-//    } else {
-//        m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
-//        m_pStatusBar->setVisible(false);
-//    }
-}
-
 void TimeLineView::clearAndStartLayout()
 {
     //由于绘制需要使用listview的宽度，但是加载的时候listview还没有显示出来，宽度是不对的，所以在显示出来后用信号通知加载，记载完成后断开信号，
     //后面的listview就有了正确的宽度，该信号槽就不需要再连接
-    disconnect(m_timeLineThumbnailListView, &ThumbnailListView::sigShowEvent, this, &TimeLineView::clearAndStartLayout);
     qDebug() << "------" << __FUNCTION__ << "";
 //    m_spinner->hide();
 //    m_spinner->stop();
     //获取所有时间线
     m_timelines = DBManager::instance()->getDays();
-//    updateStackedWidget();
     addTimelineLayout();
+
+    if (m_qquickContainer) {
+        int filterType = m_qquickContainer->filterType();
+        ExpansionPanel::FilteData data;
+        if (filterType == Types::All)
+            data.type = ItemType::ItemTypeNull;
+        else if (filterType == Types::Picture)
+            data.type = ItemType::ItemTypePic;
+        else if (filterType == Types::Video)
+            data.type = ItemType::ItemTypeVideo;
+        sltCurrentFilterChanged(data);
+    }
 }
 
 void TimeLineView::slotTimeLineDataAndNum(QString data, QString num, QString text)
@@ -350,85 +271,29 @@ void TimeLineView::slotTimeLineDataAndNum(QString data, QString num, QString tex
     m_numCheckBox->setChecked(text != QObject::tr("Select"));
 }
 
-void TimeLineView::onImportViewImportBtnClicked()
+void TimeLineView::sltCurrentFilterChanged(ExpansionPanel::FilteData &data)
 {
-//    emit dApp->signalM->startImprot();
-//    pImportView->onImprotBtnClicked();
-}
-
-void TimeLineView::onImportFailedToView()
-{
-//    if (isVisible()) {
-//        m_spinner->hide();
-//        m_spinner->stop();
-//        updateStackedWidget();
-//    }
-}
-
-void TimeLineView::onRepeatImportingTheSamePhotos(QStringList importPaths, QStringList duplicatePaths, int UID)
-{
-    Q_UNUSED(importPaths)
-    // 导入的照片重复照片提示
-//    if (duplicatePaths.size() > 0 && UID == -1 && dApp->getMainWindow()->getCurrentViewType() == 1) {
-//        m_timeLineThumbnailListView->selectPhotos(duplicatePaths);
-//    }
-}
-
-void TimeLineView::onOpenImage(int row, const QString &path, bool bFullScreen)
-{
-//    SignalManager::ViewInfo info;
-//    info.album = "";
-////    info.lastPanel = nullptr;  //todo imageviewer
-//    info.fullScreen = bFullScreen;
-//    auto imagelist = m_timeLineThumbnailListView->getFileList(row, ItemType::ItemTypePic);
-//    if (imagelist.size() > 0) {
-//        info.paths << imagelist;
-//        info.path = path;
-//    } else {
-//        info.paths.clear();
-//    }
-//    info.dBImgInfos = m_timeLineThumbnailListView->getAllFileInfo(row);
-//    info.viewType = utils::common::VIEW_TIMELINE_SRN;
-//    info.viewMainWindowID = VIEW_MAINWINDOW_TIMELINE;
-//    if (bFullScreen) {
-//        emit dApp->signalM->sigViewImage(info, Operation_FullScreen);
-//    } else {
-//        emit dApp->signalM->sigViewImage(info, Operation_NoOperation);
-//    }
-}
-
-void TimeLineView::onSlideShow(QString path)
-{
-//    SignalManager::ViewInfo info;
-//    info.album = "";
-////    info.lastPanel = nullptr;  //todo imageviewer
-//    auto photolist = m_timeLineThumbnailListView->selectedPaths();
-//    if (photolist.size() > 1) {
-//        //如果选中数目大于1，则幻灯片播放选中项
-//        info.paths = photolist;
-//        info.path = photolist.at(0);
-//    } else {
-//        //如果选中项只有一项，则幻灯片播放全部
-//        info.paths = m_timeLineThumbnailListView->getFileList(m_timeLineThumbnailListView->getRow(path));
-//        info.path = path;
-//    }
-//    info.fullScreen = true;
-//    info.slideShow = true;
-//    info.viewType = utils::common::VIEW_TIMELINE_SRN;
-//    info.viewMainWindowID = VIEW_MAINWINDOW_TIMELINE;
-//    emit dApp->signalM->startSlideShow(info);
-}
-
-void TimeLineView::slotBatchSelectChanged(bool isBatchSelect)
-{
-    m_suspensionChose->setVisible(isBatchSelect);
-}
-
-void TimeLineView::sltSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
-{
-    Q_UNUSED(selected)
-    Q_UNUSED(deselected)
-    updatePicNum();
+    int filterType = Types::All;
+    if (data.type == ItemType::ItemTypeNull) {
+        //显示全部
+        m_timeLineThumbnailListView->showAppointTypeItem(ItemType::ItemTypeNull);
+        filterType = Types::All;
+    } else if (data.type == ItemType::ItemTypePic) {
+        //显示图片
+        m_timeLineThumbnailListView->showAppointTypeItem(ItemType::ItemTypePic);
+        filterType = Types::Picture;
+    } else if (data.type == ItemType::ItemTypeVideo) {
+        //显示视频
+        m_timeLineThumbnailListView->showAppointTypeItem(ItemType::ItemTypeVideo);
+        filterType = Types::Video;
+    }
+    if (m_qquickContainer) {
+        m_qquickContainer->setFilterType(filterType);
+    }
+    clearAllSelection();
+    //如果过滤会后数量<=0，则不可用
+    m_ToolButton->setEnabled(m_timeLineThumbnailListView->getAppointTypeItemCount(m_ToolButton->getFilteType()) > 0);
+    m_timeLineThumbnailListView->setFocus();
 }
 
 void TimeLineView::onShowCheckBox(bool bShow)
@@ -439,6 +304,7 @@ void TimeLineView::onShowCheckBox(bool bShow)
 
 void TimeLineView::addTimelineLayout()
 {
+    m_timeLineThumbnailListView->clearSelection();
     m_timeLineThumbnailListView->clearAll();
     DBImgInfoList importList;
 
@@ -511,7 +377,41 @@ void TimeLineView::addTimelineLayout()
     m_timeLineThumbnailListView->insertThumbnails(importList);
 
     // 加空白底栏
-    m_timeLineThumbnailListView->insertBlankOrTitleItem(ItemTypeBlank, "", "", /*m_pStatusBar->height()*/25);
+    //m_timeLineThumbnailListView->insertBlankOrTitleItem(ItemTypeBlank, "", "", /*m_pStatusBar->height()*/25);
+}
+
+void TimeLineView::initDropDown()
+{
+    m_expansionMenu = new ExpansionMenu(this);
+    m_ToolButton = m_expansionMenu->mainWidget();
+    m_ToolButton->setText(QObject::tr("All"));
+    //m_ToolButton->setIcon(DHiDPIHelper::loadNxPixmap(":/icons/deepin/builtin/icons/light/album_all_16px.svg"));
+    m_ToolButton->setIcon(DHiDPIHelper::loadNxPixmap(":/icons/deepin/builtin/icons/darkalbum_all_16px.svg"));
+    ExpansionPanel::FilteData data;
+
+    data.icon_r_light = QIcon::fromTheme("album_all");
+    data.icon_r_dark  = QIcon::fromTheme("album_all_hover");
+    data.icon_r_path  = "album_all";
+    data.text = QObject::tr("All");
+    data.type = ItemType::ItemTypeNull;
+    m_expansionMenu->setDefaultFilteData(data);
+    m_expansionMenu->addNewButton(data);
+
+    data.icon_r_light = QIcon::fromTheme("album_pic");
+    data.icon_r_dark  = QIcon::fromTheme("album_pic_hover");
+    data.icon_r_path  = "album_pic";
+    data.text = QObject::tr("Photos");
+    data.type = ItemType::ItemTypePic;
+    m_expansionMenu->addNewButton(data);
+
+    data.icon_r_light = QIcon::fromTheme("album_video");
+    data.icon_r_dark  = QIcon::fromTheme("album_video_hover");
+    data.icon_r_path  = "album_video";
+    data.text = QObject::tr("Videos");
+    data.type = ItemType::ItemTypeVideo;
+    m_expansionMenu->addNewButton(data);
+
+    connect(m_ToolButton, &FilterWidget::currentItemChanged, this, &TimeLineView::sltCurrentFilterChanged);
 }
 
 void TimeLineView::on_AddLabel(QString date, QString num)
@@ -577,89 +477,19 @@ void TimeLineView::mousePressEvent(QMouseEvent *e)
 {
     if (QApplication::keyboardModifiers() != Qt::ControlModifier && e->button() == Qt::LeftButton) {
         m_timeLineThumbnailListView->clearSelection();
-//        updatePicNum();
-        updateChoseText();
     }
     DWidget::mousePressEvent(e);
 }
 
 void TimeLineView::slotNoPicOrNoVideo(bool isNoResult)
 {
-//    m_noResultWidget->setVisible(isNoResult);
-//    m_timeLineThumbnailListView->setVisible(!isNoResult);
-//    if (isNoResult) {
-//        m_pStatusBar->m_pAllPicNumLabel->setText(QObject::tr("No results"));
-//    } else {
-//        updatePicNum();
-//    }
-//    m_suspensionChose->setVisible(!isNoResult);
-    m_dateLabel->setVisible(!isNoResult);
-    m_numCheckBox->setVisible(!isNoResult);
-    m_numLabel->setVisible(!isNoResult);
-}
-
-void TimeLineView::updatePicNum()
-{
-    int photoSelctCount = 0;
-    int videoSelctCount = 0;
-    if (VIEW_TIMELINE == m_pStackedWidget->currentIndex()) {
-        photoSelctCount = m_timeLineThumbnailListView->getAppointTypeSelectItemCount(ItemTypePic);
-        videoSelctCount = m_timeLineThumbnailListView->getAppointTypeSelectItemCount(ItemTypeVideo);
-    } else if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
-//        photoSelctCount = pSearchView->m_pThumbnailListView->getAppointTypeSelectItemCount(ItemTypePic);
-//        videoSelctCount = pSearchView->m_pThumbnailListView->getAppointTypeSelectItemCount(ItemTypeVideo);
+    m_noResultWidget->setVisible(isNoResult);
+    m_timeLineThumbnailListView->setVisible(!isNoResult);
+    if (isNoResult) {
+        m_dateLabel->setText("");
+        m_numCheckBox->setText("");
+        m_numLabel->setText("");
     }
-
-    if (photoSelctCount > 0 || videoSelctCount > 0) {
-//        m_pStatusBar->resetSelectedStatue(photoSelctCount, videoSelctCount);
-    } else {
-        restorePicNum();
-    }
-}
-
-void TimeLineView::updateChoseText()
-{
-#ifdef tablet_PC
-    return;
-#endif
-}
-
-void TimeLineView::restorePicNum()
-{
-    int photoCount = 0;
-    int videoCount = 0;
-    if (VIEW_TIMELINE == m_pStackedWidget->currentIndex()) {
-        photoCount = m_timeLineThumbnailListView->getAppointTypeItemCount(ItemTypePic);
-        videoCount = m_timeLineThumbnailListView->getAppointTypeItemCount(ItemTypeVideo);
-    } else if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
-//        photoCount = pSearchView->m_pThumbnailListView->getAppointTypeItemCount(ItemTypePic);
-//        videoCount = pSearchView->m_pThumbnailListView->getAppointTypeItemCount(ItemTypeVideo);
-    }
-//    m_pStatusBar->resetUnselectedStatue(photoCount, videoCount);
-}
-
-void TimeLineView::onKeyDelete()
-{
-    if (!isVisible()) return;
-    if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) return;
-
-    QStringList paths;
-    paths.clear();
-
-    //获取当前所有选中的
-    paths = m_timeLineThumbnailListView->selectedPaths();
-    if (0 >= paths.length()) {
-        return;
-    }
-
-    if (m_timeLineThumbnailListView->isAllSelected()) {
-        m_pStackedWidget->setCurrentIndex(VIEW_IMPORT);
-    }
-
-    m_timeLineThumbnailListView->clearSelection();
-    //清除选择之后同步状态给悬浮选择按钮
-    m_suspensionChose->setText(QObject::tr("Select"));
-    //ImageEngineApi::instance()->moveImagesToTrash(paths);
 }
 
 QPaintEngine *TimeLineView::paintEngine() const

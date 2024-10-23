@@ -410,7 +410,7 @@ Item {
     }
 
     // 图片滑动视图的上层组件
-    Control {
+    Item {
         id: viewBackground
 
         anchors.fill: parent

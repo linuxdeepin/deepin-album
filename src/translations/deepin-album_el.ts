@@ -164,43 +164,43 @@
         <translation>Ρυθμίσεις</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1610"/>
+        <location filename="../src/albumControl.cpp" line="1620"/>
         <source>Favorites</source>
         <translation>Αγαπημένα</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1612"/>
+        <location filename="../src/albumControl.cpp" line="1622"/>
         <source>Screen Capture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1614"/>
+        <location filename="../src/albumControl.cpp" line="1624"/>
         <source>Camera</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1616"/>
+        <location filename="../src/albumControl.cpp" line="1626"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1709"/>
+        <location filename="../src/albumControl.cpp" line="1719"/>
         <source>Unnamed</source>
         <translation>Χώρις όνομα</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2111"/>
-        <location filename="../src/albumControl.cpp" line="2115"/>
+        <location filename="../src/albumControl.cpp" line="2121"/>
+        <location filename="../src/albumControl.cpp" line="2125"/>
         <source>%1Year%2Month%3Day</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2165"/>
+        <location filename="../src/albumControl.cpp" line="2175"/>
         <source>Channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="2360"/>
+        <location filename="../src/albumControl.cpp" line="2370"/>
         <source>Pictures</source>
         <translation>Εικόνες</translation>
     </message>
@@ -403,42 +403,29 @@
 <context>
     <name>DayCollection</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="106"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="115"/>
+        <source>Successfully added to “%1”</source>
+        <translation type="unfinished">Επιτυχώς προστέθηκε στο “%1”</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="177"/>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="108"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="179"/>
         <source>%1 photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="116"/>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="279"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="187"/>
         <source>1 video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="118"/>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="281"/>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="189"/>
         <source>%1 videos</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="273"/>
-        <source>1 photo </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="275"/>
-        <source>%1 photos </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="350"/>
-        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="692"/>
-        <source>%1/%2/%3</source>
-        <translation>%1/%2/%3</translation>
     </message>
 </context>
 <context>
@@ -842,42 +829,42 @@
 <context>
     <name>GlobalStatus</name>
     <message>
-        <location filename="../src/globalstatus.cpp" line="792"/>
+        <location filename="../src/globalstatus.cpp" line="810"/>
         <source>1 item selected (1 photo)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="794"/>
+        <location filename="../src/globalstatus.cpp" line="812"/>
         <source>1 item selected (1 video)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="796"/>
+        <location filename="../src/globalstatus.cpp" line="814"/>
         <source>%1 items selected (%1 photos)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="798"/>
+        <location filename="../src/globalstatus.cpp" line="816"/>
         <source>%1 items selected (%1 videos)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="800"/>
+        <location filename="../src/globalstatus.cpp" line="818"/>
         <source>%1 item selected (1 photo, 1 video)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="802"/>
+        <location filename="../src/globalstatus.cpp" line="820"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="804"/>
+        <location filename="../src/globalstatus.cpp" line="822"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/globalstatus.cpp" line="806"/>
+        <location filename="../src/globalstatus.cpp" line="824"/>
         <source>%1 items selected (%2 photos, %3 videos)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -899,29 +886,72 @@
 <context>
     <name>HaveImportedView</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="67"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="98"/>
+        <source>Successfully added to “%1”</source>
+        <translation type="unfinished">Επιτυχώς προστέθηκε στο “%1”</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="153"/>
         <source>1 photo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="69"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="155"/>
         <source>%1 photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="77"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="163"/>
         <source>1 video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="79"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="165"/>
         <source>%1 videos</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>ImportTimeLineView</name>
     <message>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="121"/>
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="210"/>
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="443"/>
         <source>Import</source>
-        <translation>Εισαγωγή</translation>
+        <translation type="unfinished">Εισαγωγή</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="358"/>
+        <source>1 photo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="360"/>
+        <source>1 video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="362"/>
+        <source>%n photos</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="364"/>
+        <source>%n videos</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="366"/>
+        <source>%n items</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -1174,28 +1204,28 @@
 <context>
     <name>MainAlbumView</name>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="243"/>
+        <location filename="../qml/MainAlbumView.qml" line="239"/>
         <source>Importing...</source>
         <translation>Εισαγωγή...</translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="244"/>
-        <location filename="../qml/MainAlbumView.qml" line="256"/>
+        <location filename="../qml/MainAlbumView.qml" line="240"/>
+        <location filename="../qml/MainAlbumView.qml" line="252"/>
         <source>Imported:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="257"/>
+        <location filename="../qml/MainAlbumView.qml" line="253"/>
         <source>%1/%2</source>
         <translation type="unfinished">%1/%2</translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="268"/>
+        <location filename="../qml/MainAlbumView.qml" line="264"/>
         <source>Import successful</source>
         <translation>Επιτυχία εισαγωγής</translation>
     </message>
     <message>
-        <location filename="../qml/MainAlbumView.qml" line="278"/>
+        <location filename="../qml/MainAlbumView.qml" line="274"/>
         <source>Import failed</source>
         <translation>Αποτυχία εισαγωγής </translation>
     </message>
@@ -1203,9 +1233,22 @@
 <context>
     <name>MainStack</name>
     <message>
-        <location filename="../qml/PreviewImageViewer/MainStack.qml" line="126"/>
+        <location filename="../qml/PreviewImageViewer/MainStack.qml" line="125"/>
         <source>Select pictures</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MenuItemStates</name>
+    <message>
+        <location filename="../qml/MenuItemStates.qml" line="103"/>
+        <source>Export successful</source>
+        <translation type="unfinished">Επιτυχία εισαγωγής</translation>
+    </message>
+    <message>
+        <location filename="../qml/MenuItemStates.qml" line="105"/>
+        <source>Export failed</source>
+        <translation type="unfinished">Αποτυχία εξαγωγής</translation>
     </message>
 </context>
 <context>
@@ -1272,9 +1315,17 @@
     </message>
 </context>
 <context>
+    <name>NoResultWidget</name>
+    <message>
+        <location filename="../src/widgets/widgtes/noresultwidget.cpp" line="39"/>
+        <source>No results</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NonexistImageDelegate</name>
     <message>
-        <location filename="../qml/PreviewImageViewer/ImageDelegate/NonexistImageDelegate.qml" line="43"/>
+        <location filename="../qml/PreviewImageViewer/ImageDelegate/NonexistImageDelegate.qml" line="42"/>
         <source>Image file not found</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1323,29 +1374,85 @@
         <translation type="unfinished">%1/%2</translation>
     </message>
     <message>
+        <location filename="../src/widgets/timelineview/timelineview.cpp" line="319"/>
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="344"/>
         <location filename="../src/albumControl.cpp" line="649"/>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
     </message>
     <message>
-        <location filename="../src/albumControl.cpp" line="1347"/>
+        <location filename="../src/widgets/timelineview/timelineview.cpp" line="387"/>
+        <location filename="../src/widgets/timelineview/timelineview.cpp" line="395"/>
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="411"/>
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="419"/>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/timelineview/timelineview.cpp" line="403"/>
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="427"/>
+        <source>Photos</source>
+        <translation type="unfinished">Φωτογραφίες</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/timelineview/timelineview.cpp" line="410"/>
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="434"/>
+        <source>Videos</source>
+        <translation type="unfinished">Βίντεο</translation>
+    </message>
+    <message>
+        <location filename="../src/albumControl.cpp" line="1357"/>
         <source>Trash</source>
         <translation>Κάδος Απορριμμάτων</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="62"/>
+        <location filename="../main.cpp" line="63"/>
         <source>Album</source>
         <translation>Άλμπουμ</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="65"/>
+        <location filename="../main.cpp" line="66"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/unionimage/unionimage_global.h" line="270"/>
+        <location filename="../src/unionimage/unionimage_global.h" line="269"/>
         <source>day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="341"/>
+        <source>Imported on</source>
+        <translation type="unfinished">Εισάχθηκαν σε</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="341"/>
+        <source> %1-%2-%3 %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="344"/>
+        <source>Imported on </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/timelineview/timelineview.cpp" line="271"/>
+        <location filename="../src/widgets/thumbnail/timelinedatewidget.cpp" line="72"/>
+        <location filename="../src/widgets/thumbnail/timelinedatewidget.cpp" line="199"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1328"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2075"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2083"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2088"/>
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="453"/>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1328"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2083"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2088"/>
+        <source>Unselect</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1507,93 +1614,93 @@
 <context>
     <name>Sidebar</name>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="126"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="150"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="127"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="151"/>
         <source>Album “%1” removed</source>
         <translation>Το Άλμπουμ “%1” αφαιρέθηκε</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="174"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="175"/>
         <source>Gallery</source>
         <translation>Γκαλερί</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="177"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="178"/>
         <source>Collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="178"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="179"/>
         <source>Import</source>
         <translation>Εισαγωγή</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="179"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="180"/>
         <source>Favorites</source>
         <translation>Αγαπημένα</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="180"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="181"/>
         <source>Trash</source>
         <translation>Κάδος Απορριμμάτων</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="203"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="204"/>
         <source>Device</source>
         <translation>Συσκευή</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="261"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="262"/>
         <source>Albums</source>
         <translation>Άλμπουμ</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="282"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="283"/>
         <source>Add an album</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="308"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="309"/>
         <source>Screen Capture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="312"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="313"/>
         <source>Camera</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="316"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="317"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="423"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="448"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="502"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="424"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="449"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="503"/>
         <source>Slide show</source>
         <translation>Προβολή εικονών</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="434"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="460"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="534"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="435"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="461"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="535"/>
         <source>Export</source>
         <translation>Εξαγωγή</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="468"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="543"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="469"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="544"/>
         <source>Delete</source>
         <translation>Διαγραφή</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="511"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="512"/>
         <source>New album</source>
         <translation>Νέο άλμπουμ</translation>
     </message>
     <message>
-        <location filename="../qml/SideBar/Sidebar.qml" line="522"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="523"/>
         <source>Rename</source>
         <translation>Μετονομασία</translation>
     </message>
@@ -1632,12 +1739,12 @@
 <context>
     <name>ThumbnailListDelegate</name>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="405"/>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="402"/>
         <source>days</source>
         <translation>Ημέρες</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="405"/>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="402"/>
         <source>day</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1645,168 +1752,356 @@
 <context>
     <name>ThumbnailListView</name>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="609"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="610"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="738"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="740"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="780"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="783"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="785"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="795"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="927"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="944"/>
         <source>Delete</source>
         <translation>Διαγραφή</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="170"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="171"/>
         <source>Back to Album</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="202"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="203"/>
         <source>Previous</source>
         <translation type="unfinished">Προηγούμενο</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="227"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="228"/>
         <source>Next</source>
         <translation type="unfinished">Επόμενο</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="263"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="264"/>
         <source>Original size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="282"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="283"/>
         <source>Fit to window</source>
         <translation type="unfinished">Εφαρμογή στο παράθυρο</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="300"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="301"/>
         <source>Rotate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="334"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="748"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="752"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="804"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="815"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="817"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="948"/>
         <source>Favorite</source>
         <translation>Αγαπημένο</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="334"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="749"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="751"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="806"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="814"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="818"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="949"/>
         <source>Unfavorite</source>
         <translation>Αφαίρεση από τα αγαπημένα</translation>
     </message>
     <message>
-        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="590"/>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="591"/>
         <source>Extract text</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/thumbnail/thumbnaildelegate.cpp" line="207"/>
+        <source>days</source>
+        <translation type="unfinished">Ημέρες</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="700"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="703"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="707"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="758"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="847"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="855"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="861"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="929"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="958"/>
+        <source>Photo info</source>
+        <translation type="unfinished">Πληροφορίες φωτογραφίας</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="701"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="704"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="708"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="759"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="848"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="851"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="862"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="930"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="959"/>
+        <source>Video info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="722"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="774"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="910"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="936"/>
+        <source>View</source>
+        <translation type="unfinished">Προβολή</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="723"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="775"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="849"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="856"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="937"/>
+        <source>Fullscreen</source>
+        <translation type="unfinished">Πλήρης Οθόνη</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="724"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="853"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="867"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="876"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="939"/>
+        <source>Slide show</source>
+        <translation type="unfinished">Προβολή εικονών</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="725"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="730"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="793"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="854"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="868"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="941"/>
+        <source>Export</source>
+        <translation type="unfinished">Εξαγωγή</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="735"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="942"/>
+        <source>Copy</source>
+        <translation type="unfinished">Αντιγραφή</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="743"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="823"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="945"/>
+        <source>Remove from album</source>
+        <translation type="unfinished">Αφαίρεση από άλμπουμ</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="745"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="852"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="866"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="938"/>
+        <source>Print</source>
+        <translation type="unfinished">Εκτύπωση</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="755"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="838"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="841"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="882"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="885"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="952"/>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Περιστροφή δεξιόστροφα</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="756"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="839"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="842"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="883"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="886"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="953"/>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Περιστροφή αριστερόστροφα</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="757"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="860"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="957"/>
+        <source>Display in file manager</source>
+        <translation type="unfinished">Προβολή στον διαχειριστή αρχείων</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="760"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="766"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="767"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="857"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="893"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="895"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="898"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="956"/>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished">Ορισμός ως ταπετσαρία</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="928"/>
+        <source>Restore</source>
+        <translation type="unfinished">Επαναφορά</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="965"/>
+        <source>Add to album</source>
+        <translation type="unfinished">Προσθήκη σε άλμπουμ</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="969"/>
+        <source>New album</source>
+        <translation type="unfinished">Νέο άλμπουμ</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListViewAlbum</name>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="806"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="795"/>
         <source>View</source>
         <translation type="unfinished">Προβολή</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="815"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="804"/>
         <source>Fullscreen</source>
         <translation type="unfinished">Πλήρης Οθόνη</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="832"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="821"/>
         <source>Print</source>
         <translation type="unfinished">Εκτύπωση</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="851"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="840"/>
         <source>Slide show</source>
         <translation type="unfinished">Προβολή εικονών</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="877"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="866"/>
         <source>Add to album</source>
         <translation type="unfinished">Προσθήκη σε άλμπουμ</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="880"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="869"/>
         <source>New album</source>
         <translation type="unfinished">Νέο άλμπουμ</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="912"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="901"/>
         <source>Successfully added to “%1”</source>
         <translation type="unfinished">Επιτυχώς προστέθηκε στο “%1”</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="921"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="910"/>
         <source>Export</source>
         <translation type="unfinished">Εξαγωγή</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="940"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="929"/>
         <source>Copy</source>
         <translation type="unfinished">Αντιγραφή</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="949"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="938"/>
         <source>Delete</source>
         <translation type="unfinished">Διαγραφή</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="959"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="948"/>
         <source>Remove from album</source>
         <translation type="unfinished">Αφαίρεση από άλμπουμ</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="974"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="963"/>
         <source>Favorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="984"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="973"/>
         <source>Unfavorite</source>
         <translation type="unfinished">Αφαίρεση από τα αγαπημένα</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="998"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="987"/>
         <source>Rotate clockwise</source>
         <translation type="unfinished">Περιστροφή δεξιόστροφα</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1007"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="996"/>
         <source>Rotate counterclockwise</source>
         <translation type="unfinished">Περιστροφή αριστερόστροφα</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1016"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1005"/>
         <source>Set as wallpaper</source>
         <translation type="unfinished">Ορισμός ως ταπετσαρία</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1035"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1024"/>
         <source>Display in file manager</source>
         <translation type="unfinished">Προβολή στον διαχειριστή αρχείων</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1054"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1043"/>
         <source>Restore</source>
         <translation type="unfinished">Επαναφορά</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1063"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1052"/>
         <source>Photo info</source>
         <translation type="unfinished">Πληροφορίες φωτογραφίας</translation>
     </message>
     <message>
-        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1082"/>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1071"/>
         <source>Video info</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>ThumbnailListViewTools</name>
+    <name>TimeLineView</name>
     <message>
-        <source>Export successful</source>
-        <translation type="vanished">Επιτυχία εισαγωγής</translation>
+        <location filename="../src/widgets/timelineview/timelineview.cpp" line="333"/>
+        <source>1 photo</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export failed</source>
-        <translation type="vanished">Αποτυχία εξαγωγής</translation>
+        <location filename="../src/widgets/timelineview/timelineview.cpp" line="335"/>
+        <source>1 video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../src/widgets/timelineview/timelineview.cpp" line="337"/>
+        <source>%n photos</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../src/widgets/timelineview/timelineview.cpp" line="339"/>
+        <source>%n videos</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../src/widgets/timelineview/timelineview.cpp" line="341"/>
+        <source>%n items</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -2103,7 +2398,7 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/main.qml" line="131"/>
+        <location filename="../qml/main.qml" line="125"/>
         <source>All photos and videos</source>
         <translation type="unfinished"></translation>
     </message>

@@ -318,6 +318,8 @@ public:
     // QUrl路径转为本地路径
     Q_INVOKABLE QString url2localPath(QUrl url);
 
+    Q_INVOKABLE QStringList urls2localPaths(QStringList urls);
+
     // 检查是否有重复路径
     Q_INVOKABLE bool checkRepeatUrls(QStringList imported, QStringList urls, bool bNotify = true);
 

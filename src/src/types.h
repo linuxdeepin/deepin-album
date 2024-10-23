@@ -26,6 +26,7 @@ class Types : public QObject
     Q_ENUMS(SwitchType)
 
     Q_ENUMS(MenuItemId)
+    Q_ENUMS(WidgetViewType)
 public:
     explicit Types(QObject *parent = nullptr);
     ~Types() override;
@@ -154,6 +155,12 @@ public:
         IdTrashRecovery,
         IdDrawingBoard,//lmh0407画板
         IdNewAlbum
+    };
+
+    enum WidgetViewType {
+        WidgetViewUnknown = -1,
+        WidgetDayView,          // 日视图 QWidget控件
+        WidgetImportedView      // 已导入视图 QWidget控件
     };
 };
 

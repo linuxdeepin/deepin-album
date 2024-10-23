@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2024 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -41,7 +41,7 @@ const int ITEM_SPACING = 4;
 const int BASE_HEIGHT = 100;
 const int MINIMUN_WIDTH = 442;
 const int STATUSBAR_HEIGHT = 27;
-const int RIGHT_MARGIN = 13;
+const int RIGHT_MARGIN = 10;
 
 // const QString IMAGE_DEFAULTTYPE = "All pics";
 const QString IMAGE_DEFAULTTYPE = "All Photos";
@@ -201,7 +201,7 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
     m_pressed = event->pos();
 
     if (event->button() == Qt::LeftButton) {
-        if (m_lastPressTime.msecsTo(curTime) < 300)
+        if (m_lastPressTime.msecsTo(curTime) < 200)
             emit doubleClicked(index);
         m_lastPressTime = curTime;
     }
@@ -233,6 +233,7 @@ void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
 
 void ThumbnailListView::startDrag(Qt::DropActions supportedActions)
 {
+    return;
     Q_UNUSED(supportedActions);
     QString text = "xxxxxxxxxxxxxx";
     QIcon icon = QIcon(":/resources/images/other/deepin-album.svg");
@@ -253,8 +254,6 @@ void ThumbnailListView::showEvent(QShowEvent *event)
 {
     qDebug() << __FUNCTION__ << "---";
     Q_UNUSED(event);
-    //时间线使用
-    emit sigShowEvent();
     int i_totalwidth = width() - RIGHT_MARGIN;
     //计算一行的个数
     m_rowSizeHint = i_totalwidth / (m_iBaseHeight + ITEM_SPACING);
@@ -357,7 +356,7 @@ void ThumbnailListView::keyPressEvent(QKeyEvent *event)
         id = Types::IdFullScreen;
     } else if (event->key() == Qt::Key_F5) {
         id = Types::IdStartSlideShow;
-    } else if (event->key() == Qt::Key_Enter) {
+    } else if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
         id = Types::IdView;
     } else if (event->key() == Qt::Key_Period) {
         if (AlbumControl::instance()->canFavorite(m_dragItemPath))
@@ -443,7 +442,8 @@ void ThumbnailListView::initConnections()
     connect(m_pMenu, &DMenu::triggered, this, &ThumbnailListView::onMenuItemClicked);
     connect(this, &ThumbnailListView::doubleClicked, this, &ThumbnailListView::onDoubleClicked);
     connect(this, &ThumbnailListView::clicked, this, &ThumbnailListView::onClicked);
-    connect(GlobalStatus::instance(), &GlobalStatus::thumbnailSizeLevelChanged, this, &ThumbnailListView::onThumbnailSizeLevelChanged);
+    //connect(GlobalStatus::instance(), &GlobalStatus::thumbnailSizeLevelChanged, this, &ThumbnailListView::onThumbnailSizeLevelChanged);
+    connect(GlobalStatus::instance(), &GlobalStatus::cellBaseWidthChanged, this, &ThumbnailListView::onCellBaseWidthChanged);
     connect(m_delegate, &ThumbnailDelegate::sigCancelFavorite, this, &ThumbnailListView::onCancelFavorite);
 
     //connect(ImageEngineApi::instance(), &ImageEngineApi::sigOneImgReady, this, &ThumbnailListView::slotOneImgReady);
@@ -1058,11 +1058,6 @@ QVariantList ThumbnailListView::allUrls()
     return urls;
 }
 
-QStringList ThumbnailListView::getDagItemPath()
-{
-    return m_dragItemPath;
-}
-
 void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
 {
     paths.removeAll(QString(""));
@@ -1080,128 +1075,6 @@ void ThumbnailListView::menuItemDeal(QStringList paths, QAction *action)
             GlobalStatus::instance()->sigMenuItemClickedFromQWidget(id, UID);
     } else
         GlobalStatus::instance()->sigMenuItemClickedFromQWidget(id);
-//     switch (Types::MenuItemId(id)) {
-//     case IdView: {
-//         //双击打开信号,enter打开信号
-//         if (paths.size() > 1) {
-//             for (auto tmpPath : paths) {
-//                 if (Libutils::image::isVideo(tmpPath)) {
-//                     return;//选中数量大于1，只要包含视频即为混选或者多选视频，不作响应
-//                 }
-//             }
-//         }
-
-//         if (Libutils::image::isVideo(path)) {
-//             //更改打开方式，先默认影院，失败再选择
-// #ifndef USE_TEST
-//             QProcess *process = new QProcess(this);
-//             QStringList arguments;
-//             arguments << path;
-//             bool isopen = process->startDetached("deepin-movie", arguments);
-//             if (!isopen) {
-//                 arguments.clear();
-//                 arguments << "-o" << path;
-//                 process->startDetached("dde-file-manager", arguments);
-//             }
-// #endif
-//         } else {
-//             emit openImage(this->currentIndex().row(), path, false);
-//         }
-//     }
-//     break;
-//     case IdFullScreen:
-//         emit openImage(this->currentIndex().row(), path, true);
-//         break;
-//     case IdPrint:
-//         //PrintHelper::getIntance()->showPrintDialog(paths, this);
-//         break;
-//     case IdStartSlideShow:
-//         emit sigSlideShow(path);
-//         break;
-//     case IdAddToAlbum: {
-//         //缩略图右键添加进相册流程
-//         //1.获取和action绑定的相册UID
-//         int UID = action->data().toInt();
-//         //2.根据UID获取对应的相册名
-//         auto album = DBManager::instance()->getAlbumNameFromUID(UID);
-//         //3.1若不是创建相册选项，则执行插入图片流程
-//         if (UID != -1) {
-//             if (1 == paths.count()) {
-//                 if (!DBManager::instance()->isImgExistInAlbum(UID, paths[0])) {
-//                     //emit dApp->signalM->sigAddToAlbToast(album);
-//                 }
-//             } else {
-//                 //emit dApp->signalM->sigAddToAlbToast(album);
-//             }
-//             DBManager::instance()->insertIntoAlbum(UID, paths);
-//             //emit dApp->signalM->insertedIntoAlbum(UID, paths);
-//         } else {
-//             //3.2是创建相册则执行新建相册流程
-//             //emit dApp->signalM->createAlbum(paths);
-//         }
-//         break;
-//     }
-//     case IdCopyToClipboard:
-//         Libutils::base::copyImageToClipboard(paths);
-//         break;
-//     case IdMoveToTrash: {
-//         this->removeSelectToTrash(paths);
-//     }
-//     break;
-//     case IdAddToFavorites:
-//         /*if (m_batchOperateWidget)
-//             m_batchOperateWidget->sltCollectSelect(true); //参数未使用，true false随便传
-//         else */{
-//             QStringList paths = selectedPaths();
-//             DBManager::instance()->insertIntoAlbum(DBManager::SpUID::u_Favorite, paths, AlbumDBType::Favourite);
-//             //emit dApp->signalM->insertedIntoAlbum(DBManager::SpUID::u_Favorite, paths);
-//             setFocus();
-//         }
-//         break;
-//     case IdRemoveFromFavorites:
-//         DBManager::instance()->removeFromAlbum(DBManager::SpUID::u_Favorite, paths, AlbumDBType::Favourite);
-// //        if (m_batchOperateWidget) {
-// //            m_batchOperateWidget->refreshCollectBtn();
-// //        }
-//         break;
-//     case IdRemoveFromAlbum: {
-//         if (m_currentUID != -1) {
-//             DBManager::instance()->removeFromAlbum(m_currentUID, paths);
-//         }
-//     }
-//     break;
-//     case IdRotateClockwise: {
-//         //发送给子线程旋转图片
-//         //emit ImageEngineApi::instance()->sigRotateImageFile(90, paths);
-//     }
-//     break;
-//     case IdRotateCounterclockwise: {
-//         //发送给子线程旋转图片
-//         //emit ImageEngineApi::instance()->sigRotateImageFile(-90, paths);
-//     }
-//     break;
-//     case IdSetAsWallpaper:
-//         //dApp->wpSetter->setBackground(path);
-//         break;
-//     case IdDisplayInFileManager:
-//         Libutils::base::showInFileManager(path);
-//         break;
-//     case IdImageInfo:
-//         //dApp->signalM->showInfoDlg(path, ItemTypePic, m_imageType == COMMON_STR_TRASH);
-//         break;
-//     case IdVideoInfo: {
-//         //dApp->signalM->showInfoDlg(path, ItemTypeVideo, m_imageType == COMMON_STR_TRASH);
-//     }
-//     break;
-//     case IdExport:
-//         //emit dApp->signalM->exportImage(paths);
-//         break;
-//     case IdTrashRecovery:
-//         emit trashRecovery();
-//         break;
-//     default:
-//         break;
-//     }
 }
 
 void ThumbnailListView::onThumbnailSizeLevelChanged()
@@ -1247,6 +1120,12 @@ void ThumbnailListView::onThumbnailSizeLevelChanged()
     resizeEventF();
 }
 
+void ThumbnailListView::onCellBaseWidthChanged()
+{
+    m_iBaseHeight = GlobalStatus::instance()->cellBaseWidth();
+    resizeEventF();
+}
+
 void ThumbnailListView::onSelectionChanged()
 {
     updatetimeLimeBtnText();
@@ -1282,7 +1161,7 @@ void ThumbnailListView::resizeEvent(QResizeEvent *e)
 
     resizeEventF();
 
-    this->verticalScrollBar()->setFixedHeight(this->height() - STATUSBAR_HEIGHT);
+    this->verticalScrollBar()->setFixedHeight(this->height());
 //    if (m_model->rowCount() > 0) {
 //        for (int i = 0; i < m_model->rowCount(); i++) {
 //            QModelIndex index = m_model->index(i, 0);
@@ -1465,7 +1344,7 @@ void ThumbnailListView::hideAllAppointType(ItemType type)
                     break;
                 }
                 if (!isRowHidden(j)) {
-                    if (nextInfo.itemType == ItemTypeTimeLineTitle || nextInfo.itemType == ItemTypeImportTimeLineTitle) {
+                    if (nextInfo.itemType == ItemTypeTimeLineTitle || nextInfo.itemType == ItemTypeImportTimeLineTitle || nextInfo.itemType == ItemTypeBlank) {
                         setRowHidden(i, true);
                         break;
                     }
@@ -1642,6 +1521,13 @@ void ThumbnailListView::slotChangeAllSelectBtnVisible(bool visible)
 //            }
 //        }
 //    }
+}
+
+// 选中重复导入的图片
+void ThumbnailListView::selectUrls(const QStringList &urls)
+{
+    clearSelection();
+    selectPhotos(AlbumControl::instance()->urls2localPaths(urls));
 }
 
 // 选中重复导入的图片
@@ -2339,16 +2225,13 @@ void ThumbnailListView::resizeEventF()
 {
     int i_totalwidth = width() - RIGHT_MARGIN;
     //计算一行的个数
-    m_rowSizeHint = i_totalwidth / (m_iBaseHeight + ITEM_SPACING);
+    m_rowSizeHint = i_totalwidth / m_iBaseHeight;
     int currentwidth = (i_totalwidth - ITEM_SPACING * (m_rowSizeHint - 1)) / m_rowSizeHint;//一张图的宽度
     m_onePicWidth = currentwidth;
 
-    if (nullptr != m_item) {
-        m_item->setSizeHint(QSize(this->width(), getListViewHeight() + 8 + 27)/*this->size()*/);
-        this->resize(QSize(this->width(), m_height + 27 + 8)/*this->size()*/);
-    }
     if (m_delegate) {
         m_delegate->setItemSize(QSize(m_onePicWidth, m_onePicWidth));
     }
+
     this->setSpacing(ITEM_SPACING);
 }
