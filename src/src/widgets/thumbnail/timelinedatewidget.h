@@ -15,6 +15,9 @@
 #include <QWheelEvent>
 DWIDGET_USE_NAMESPACE
 
+const QColor lightTextColor = QColor("#484848");
+const QColor darkTextColor = QColor("#bababa");
+
 /****时间线界面，图片数量、时间、选择按钮统一类****/
 
 class TimeLineDateWidget : public DWidget

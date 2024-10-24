@@ -32,21 +32,10 @@ static const int sc_RectSelScrollStep = 30;          // 框选滚动步进
 static const int sc_ThumbnailListRightMargin = 10;   // 框选滚动步进
 static const int sc_ThumbnialListCellSpace = 4;      // 框选滚动步进
 
-GlobalStatus *GlobalStatus::m_globalStatus = nullptr;
 GlobalStatus *GlobalStatus::instance()
 {
-    if (nullptr == m_globalStatus) {
-        m_globalStatus = new GlobalStatus;
-    }
-
-    return m_globalStatus;
-}
-
-void GlobalStatus::release()
-{
-    if (m_globalStatus)
-        delete m_globalStatus;
-    m_globalStatus = nullptr;
+    static GlobalStatus s_instance;
+    return &s_instance;
 }
 
 /**

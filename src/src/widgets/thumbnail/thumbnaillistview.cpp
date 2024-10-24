@@ -31,7 +31,6 @@
 //#include "imageengine/imageengineapi.h"
 //#include "imageengine/imageenginethread.h"
 //#include "ac-desktop-define.h"
-#include "timelinedatewidget.h"
 //#include "allpicview/allpicview.h"
 #include "imageengine/imagedataservice.h"
 //#include "batchoperatewidget.h"

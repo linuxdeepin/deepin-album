@@ -98,10 +98,6 @@ private:
     NoResultWidget *m_noResultWidget = nullptr;
     QGraphicsOpacityEffect *m_oe;
     QGraphicsOpacityEffect *m_oet;
-    QWidget *fatherwidget;
-
-    QStackedWidget *m_pStackedWidget;
-    QWidget *m_pwidget;
 
     bool m_ctrlPress;
 

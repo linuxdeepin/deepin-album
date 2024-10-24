@@ -31,9 +31,8 @@ TimeLineView::TimeLineView(QmlWidget *parent)
     : m_mainLayout(nullptr)
     , allnum(0)
     , m_oe(nullptr), m_oet(nullptr)
-    , fatherwidget(nullptr), m_pStackedWidget(nullptr)
     , m_timeLineViewWidget(nullptr)
-    , m_pwidget(nullptr), m_selPicNum(0)
+    , m_selPicNum(0)
 {
     m_qquickContainer = parent;
     //setAcceptDrops(true);
@@ -41,35 +40,22 @@ TimeLineView::TimeLineView(QmlWidget *parent)
     pMainBoxLayout->setContentsMargins(0, 0, 0, 0);
     this->setLayout(pMainBoxLayout);
 
-    fatherwidget = new QWidget(this);
-    pMainBoxLayout->addWidget(fatherwidget);
+    m_timeLineViewWidget = new DWidget(this);
+    pMainBoxLayout->addWidget(m_timeLineViewWidget);
+    
     m_oe = new QGraphicsOpacityEffect(this);
     m_oet = new QGraphicsOpacityEffect(this);
     m_oe->setOpacity(0.5);
     m_oet->setOpacity(0.75);
 
-    m_pStackedWidget = new QStackedWidget(this);
-    m_timeLineViewWidget = new QWidget();
-    m_pStackedWidget->addWidget(m_timeLineViewWidget);
-
-    QVBoxLayout *pVBoxLayout = new QVBoxLayout();
-    pVBoxLayout->setContentsMargins(2, 0, 0, 0);
-    pVBoxLayout->addWidget(m_pStackedWidget);
-    fatherwidget->setLayout(pVBoxLayout);
-
     initTimeLineViewWidget();
     initConnections();
-    m_pwidget = new QWidget(this);
-    m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
+
+    themeChangeSlot(DGuiApplicationHelper::instance()->themeType());
 }
 
 void TimeLineView::initConnections()
 {
-//    qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
-//    connect(dApp->signalM, &SignalManager::sigLoadOnePhoto, this, &TimeLineView::clearAndStartLayout);
-//    connect(dApp->signalM, &SignalManager::imagesInserted, this, &TimeLineView::clearAndStartLayout);
-//    connect(dApp->signalM, &SignalManager::imagesRemoved, this, &TimeLineView::clearAndStartLayout);
-//    connect(m_pStatusBar->m_pSlider, &DSlider::valueChanged, dApp->signalM, &SignalManager::emitSliderValueChg);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &TimeLineView::themeChangeSlot);
 }
 
@@ -77,27 +63,25 @@ void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
 {
     DPalette pa1 = DPaletteHelper::instance()->palette(m_timeLineViewWidget);
     pa1.setBrush(DPalette::Base, pa1.color(DPalette::Window));
+    m_timeLineViewWidget->setPalette(pa1);
 
     m_dateNumItemWidget->setForegroundRole(DPalette::Window);
     m_dateNumItemWidget->setPalette(pa1);
 
     DPalette pa = DPaletteHelper::instance()->palette(m_dateLabel);
-    pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
+    pa.setBrush(DPalette::Text, themeType == DGuiApplicationHelper::LightType ? lightTextColor : darkTextColor);
     m_dateLabel->setForegroundRole(DPalette::Text);
     m_dateLabel->setPalette(pa);
 
     DPalette pal1 = DPaletteHelper::instance()->palette(m_numCheckBox);
-    QColor color_BT1 = pal1.color(DPalette::BrightText);
     if (themeType == DGuiApplicationHelper::LightType) {
-        color_BT1.setAlphaF(0.5);
-        pal1.setBrush(DPalette::Text, color_BT1);
+        pal1.setBrush(DPalette::Text, lightTextColor);
         m_numCheckBox->setForegroundRole(DPalette::Text);
         m_numCheckBox->setPalette(pal1);
         m_numLabel->setForegroundRole(DPalette::Text);
         m_numLabel->setPalette(pal1);
     } else if (themeType == DGuiApplicationHelper::DarkType) {
-        color_BT1.setAlphaF(0.75);
-        pal1.setBrush(DPalette::Text, color_BT1);
+        pal1.setBrush(DPalette::Text, darkTextColor);
         m_numCheckBox->setForegroundRole(DPalette::Text);
         m_numCheckBox->setPalette(pal1);
         m_numLabel->setForegroundRole(DPalette::Text);
@@ -121,10 +105,6 @@ void TimeLineView::initTimeLineViewWidget()
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_timeLineViewWidget->setLayout(m_mainLayout);
 
-    DPalette palcolor = DPaletteHelper::instance()->palette(m_timeLineViewWidget);
-    palcolor.setBrush(DPalette::Base, palcolor.color(DPalette::Window));
-    m_timeLineViewWidget->setPalette(palcolor);
-
     m_timeLineThumbnailListView = new ThumbnailListView(ThumbnailDelegate::TimeLineViewType, -1, "timelineview", m_timeLineViewWidget);
     m_timeLineThumbnailListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_timeLineThumbnailListView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -134,8 +114,8 @@ void TimeLineView::initTimeLineViewWidget()
 
     //初始化筛选无结果窗口
     m_noResultWidget = new NoResultWidget(m_timeLineViewWidget);
-    m_mainLayout->addWidget(m_noResultWidget);
     m_noResultWidget->setVisible(false);
+    m_mainLayout->addWidget(m_noResultWidget);
 
     //滑动列表，刷新上方悬浮标题
     connect(m_timeLineThumbnailListView, &ThumbnailListView::sigTimeLineDataAndNum, this, &TimeLineView::slotTimeLineDataAndNum);
@@ -145,7 +125,6 @@ void TimeLineView::initTimeLineViewWidget()
     //添加悬浮title
     m_dateNumItemWidget = new DWidget(m_timeLineViewWidget);
     m_dateNumItemWidget->setFocusPolicy(Qt::ClickFocus);
-    m_dateNumItemWidget->setPalette(palcolor);
     QVBoxLayout *titleViewLayout = new QVBoxLayout();
     titleViewLayout->setContentsMargins(18, 10, 0, 0);
     m_dateNumItemWidget->setLayout(titleViewLayout);
@@ -154,12 +133,9 @@ void TimeLineView::initTimeLineViewWidget()
     QHBoxLayout *hDateLayout = new QHBoxLayout();
     m_dateLabel = new DLabel();
     hDateLayout->addWidget(m_dateLabel);
-    DFontSizeManager::instance()->bind(m_dateLabel, DFontSizeManager::T3, QFont::Medium);
+    DFontSizeManager::instance()->bind(m_dateLabel, DFontSizeManager::T3, QFont::Normal);
     QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
-    ft3.setFamily("SourceHanSansSC");
-    //ft3.setWeight(QFont::DemiBold);
-    DPalette color = DPaletteHelper::instance()->palette(m_dateLabel);
-    color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
+    ft3.setFamily("Noto Sans CJK SC");
 
     //bug76892藏语占用更大高度
     if (QLocale::system().language() == QLocale::Tibetan) {
@@ -168,8 +144,6 @@ void TimeLineView::initTimeLineViewWidget()
         m_dateLabel->setFixedHeight(TIMELINE_TITLEHEIGHT);
     }
     m_dateLabel->setFont(ft3);
-    m_dateLabel->setForegroundRole(DPalette::Text);
-    m_dateLabel->setPalette(color);
 
     hDateLayout->addStretch(1);
     hDateLayout->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
@@ -180,35 +154,17 @@ void TimeLineView::initTimeLineViewWidget()
     m_numCheckBox = new DCheckBox();
     connect(m_numCheckBox, &DCheckBox::clicked, this, &TimeLineView::onCheckBoxClicked);
     hNumLayout->addWidget(m_numCheckBox);
-    DFontSizeManager::instance()->bind(m_numCheckBox, DFontSizeManager::T6, QFont::Medium);
+    DFontSizeManager::instance()->bind(m_numCheckBox, DFontSizeManager::T6, QFont::Normal);
     QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
-    ft6.setFamily("SourceHanSansSC");
-    ft6.setWeight(QFont::Medium);
-    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    DPalette pal = DPaletteHelper::instance()->palette(m_numCheckBox);
-    QColor color_BT = pal.color(DPalette::BrightText);
-    if (themeType == DGuiApplicationHelper::LightType) {
-        color_BT.setAlphaF(0.5);
-        pal.setBrush(DPalette::Text, color_BT);
-        m_numCheckBox->setForegroundRole(DPalette::Text);
-        m_numCheckBox->setPalette(pal);
-    } else if (themeType == DGuiApplicationHelper::DarkType) {
-        color_BT.setAlphaF(0.75);
-        pal.setBrush(DPalette::Text, color_BT);
-        m_numCheckBox->setForegroundRole(DPalette::Text);
-        m_numCheckBox->setPalette(pal);
-    }
+    ft6.setFamily("Noto Sans CJK SC");
 
     m_numCheckBox->setFixedHeight(TIMELINE_TITLEHEIGHT);
     m_numCheckBox->setFont(ft6);
-    m_numCheckBox->setForegroundRole(DPalette::Text);
-    m_numCheckBox->setPalette(pal);
 
     m_numLabel = new DLabel();
     m_numLabel->setFixedHeight(TIMELINE_TITLEHEIGHT);
-    m_numLabel->setForegroundRole(DPalette::Text);
+    DFontSizeManager::instance()->bind(m_numLabel, DFontSizeManager::T6, QFont::Normal);
     m_numLabel->setFont(ft6);
-    m_numLabel->setPalette(pal);
     hNumLayout->addWidget(m_numLabel);
 
     connect(m_timeLineThumbnailListView, &ThumbnailListView::sigShowCheckBox, this, &TimeLineView::onShowCheckBox);
@@ -438,8 +394,6 @@ void TimeLineView::resizeEvent(QResizeEvent *ev)
     Q_UNUSED(ev);
     //m_spinner->move(width() / 2 - 20, (height() - 50) / 2 - 20);
     m_dateNumItemWidget->setGeometry(0, 0, width() - 15, SUSPENSION_WIDGET_HEIGHT);
-    m_pwidget->setFixedSize(this->width(), this->height() - 23);
-    m_pwidget->move(0, 0);
 //    m_pStatusBar->setFixedWidth(this->width());
 //    m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
 }

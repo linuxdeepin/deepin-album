@@ -6,6 +6,7 @@
 #define THUMBNAILLISTVIEW_H
 
 #include "thumbnaildelegate.h"
+#include "timelinedatewidget.h"
 //#include "controller/configsetter.h"
 #include "dbmanager/dbmanager.h"
 //#include "widgets/printhelper.h"

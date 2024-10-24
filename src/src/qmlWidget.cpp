@@ -2,6 +2,8 @@
 #include "widgets/timelineview/timelineview.h"
 #include "widgets/importtimelineview/importtimelineview.h"
 //#include "../config.h"
+
+#include <DApplication>
 #include <QTimer>
 #include <QQuickWindow>
 #include <QHBoxLayout>
@@ -221,20 +223,14 @@ bool QmlWidget::event(QEvent *e)
                 break;
             case QEvent::MouseButtonRelease:
                 isPressed = false;
-                pressedWidget = nullptr;
-
-                if ((lastPos - pos).manhattanLength() >= 2) {
-                    qDebug() << "pos.x" << pos.x() << "width: " << m_view->width();
-                    if (pos.x() < 0)
-                        pos.setX(2);
-                    if (pos.x() > m_view->width())
-                        pos.setX(m_view->width() - 10);
-                    qDebug() << "pos.y" << pos.y();
-                    if (pos.y() < 87)
-                        pos.setY(87);
-                    if (pos.y() > m_view->height())
-                        pos.setY(m_view->height() - 10);
+                // 即使鼠标释放在 QmlWidget 范围外，也要处理框选结束
+                if (pressedWidget) {
+                    QPoint localPos = pressedWidget->mapFrom(m_view, pos);
+                    QMouseEvent mappedEvent(QEvent::MouseButtonRelease, localPos, mouseEvent->button(), mouseEvent->buttons(), mouseEvent->modifiers());
+                    QCoreApplication::sendEvent(pressedWidget, &mappedEvent);
+                    update();
                 }
+                pressedWidget = nullptr;
                 break;
             default:
                 break;
@@ -317,4 +313,8 @@ void QmlWidget::updateGeometry()
     }
     QRectF absRect(newPos, contentsBoundingRect().size());
     m_view->setGeometry(absRect.toRect());
+    // const qreal ratio = qApp->devicePixelRatio();
+    // if (ratio > 1) {
+    //     m_view->resize(m_view->width() * ratio, m_view->height() * ratio);
+    // }
 }
