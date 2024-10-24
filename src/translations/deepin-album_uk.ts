@@ -358,7 +358,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="152"/>
         <source>0 item</source>
-        <translation type="unfinished"/>
+        <translation>1 запис {0 ?}</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="214"/>
@@ -1441,12 +1441,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="71"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"/>
+        <translation>Не вдалося пересунути «%1» до смітника. Хочете остаточно вилучити?</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"/>
+        <translation>Результати цієї дії не можна буде скасувати</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="101"/>
@@ -2052,7 +2052,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>Відкрити зображення</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
@@ -2067,7 +2067,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation>Перегляд зображень</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="189"/>
@@ -2077,7 +2077,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="193"/>
         <source>%1 is released under %2.</source>
-        <translation type="unfinished"/>
+        <translation>%1 випущено за умов дотримання %2. {1 ?}</translation>
     </message>
 </context>
 <context>
