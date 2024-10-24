@@ -36,25 +36,18 @@ ImportTimeLineView::ImportTimeLineView(QmlWidget *parent)
     pMainBoxLayout->setContentsMargins(0, 0, 0, 0);
     this->setLayout(pMainBoxLayout);
 
-    fatherwidget = new QWidget(this);
-    pMainBoxLayout->addWidget(fatherwidget);
+    m_timeLineViewWidget = new QWidget(this);
+    pMainBoxLayout->addWidget(m_timeLineViewWidget);
+
     m_oe = new QGraphicsOpacityEffect(this);
     m_oet = new QGraphicsOpacityEffect(this);
     m_oe->setOpacity(0.5);
     m_oet->setOpacity(0.75);
 
-    m_pStackedWidget = new QStackedWidget(this);
-    m_timeLineViewWidget = new DWidget();
-    m_pStackedWidget->addWidget(m_timeLineViewWidget);
-    QVBoxLayout *pVBoxLayout = new QVBoxLayout();
-    pVBoxLayout->setContentsMargins(2, 0, 0, 0);
-    pVBoxLayout->addWidget(m_pStackedWidget);
-    fatherwidget->setLayout(pVBoxLayout);
-
     initTimeLineViewWidget();
     initConnections();
-    m_pwidget = new QWidget(this);
-    m_pwidget->setAttribute(Qt::WA_TransparentForMouseEvents);
+
+    themeChangeSlot(DGuiApplicationHelper::instance()->themeType());
 }
 
 void ImportTimeLineView::initConnections()
@@ -75,27 +68,25 @@ void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeT
 {
     DPalette pa1 = DPaletteHelper::instance()->palette(m_timeLineViewWidget);
     pa1.setBrush(DPalette::Base, pa1.color(DPalette::Window));
+    m_timeLineViewWidget->setPalette(pa1);
 
     m_importTitleItem->setForegroundRole(DPalette::Window);
     m_importTitleItem->setPalette(pa1);
 
     DPalette pa = DPaletteHelper::instance()->palette(m_importLabel);
-    pa.setBrush(DPalette::Text, pa.color(DPalette::ToolTipText));
+    pa.setBrush(DPalette::Text, themeType == DGuiApplicationHelper::LightType ? lightTextColor : darkTextColor);
     m_importLabel->setForegroundRole(DPalette::Text);
     m_importLabel->setPalette(pa);
 
     DPalette pal1 = DPaletteHelper::instance()->palette(m_dateNumCheckBox);
-    QColor color_BT1 = pal1.color(DPalette::BrightText);
     if (themeType == DGuiApplicationHelper::LightType) {
-        color_BT1.setAlphaF(0.5);
-        pal1.setBrush(DPalette::Text, color_BT1);
+        pal1.setBrush(DPalette::Text, lightTextColor);
         m_dateNumCheckBox->setForegroundRole(DPalette::Text);
         m_dateNumCheckBox->setPalette(pal1);
         m_dateNumLabel->setForegroundRole(DPalette::Text);
         m_dateNumLabel->setPalette(pal1);
     } else if (themeType == DGuiApplicationHelper::DarkType) {
-        color_BT1.setAlphaF(0.75);
-        pal1.setBrush(DPalette::Text, color_BT1);
+        pal1.setBrush(DPalette::Text, darkTextColor);
         m_dateNumCheckBox->setForegroundRole(DPalette::Text);
         m_dateNumCheckBox->setPalette(pal1);
         m_dateNumLabel->setForegroundRole(DPalette::Text);
@@ -111,8 +102,6 @@ ThumbnailListView *ImportTimeLineView::getListView()
 void ImportTimeLineView::updateSize()
 {
     m_importTitleItem->setGeometry(0, 0, width() - 15, SUSPENSION_WIDGET_HEIGHT);
-    m_pwidget->setFixedSize(this->width(), this->height() - 23);
-    m_pwidget->move(0, 0);
 }
 
 void ImportTimeLineView::onCheckBoxClicked()
@@ -173,10 +162,6 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_timeLineViewWidget->setLayout(m_mainLayout);
 
-    DPalette palcolor = DPaletteHelper::instance()->palette(m_timeLineViewWidget);
-    palcolor.setBrush(DPalette::Base, palcolor.color(DPalette::Window));
-    m_timeLineViewWidget->setPalette(palcolor);
-
     m_importTimeLineListView = new ThumbnailListView(ThumbnailDelegate::AlbumViewImportTimeLineViewType, -1, COMMON_STR_RECENT_IMPORTED, m_timeLineViewWidget);
     m_importTimeLineListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_importTimeLineListView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -189,8 +174,8 @@ void ImportTimeLineView::initTimeLineViewWidget()
 
     //初始化筛选无结果窗口
     m_noResultWidget = new NoResultWidget(this);
-    m_mainLayout->addWidget(m_noResultWidget);
     m_noResultWidget->setVisible(false);
+    m_mainLayout->addWidget(m_noResultWidget);
 
     //滑动列表，刷新上方悬浮标题
     connect(m_importTimeLineListView, &ThumbnailListView::sigTimeLineDataAndNum, this, &ImportTimeLineView::slotTimeLineDataAndNum);
@@ -209,22 +194,17 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_importLabel = new DLabel();
     m_importLabel->setText(tr("Import"));
     hImportLayout->addWidget(m_importLabel);
-    DFontSizeManager::instance()->bind(m_importLabel, DFontSizeManager::T3, QFont::DemiBold);
+    DFontSizeManager::instance()->bind(m_importLabel, DFontSizeManager::T3, QFont::Normal);
     QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
-    ft3.setFamily("SourceHanSansSC");
-    //ft3.setWeight(QFont::DemiBold);
-    DPalette color = DPaletteHelper::instance()->palette(m_importLabel);
-    color.setBrush(DPalette::Text, color.color(DPalette::ToolTipText));
+    ft3.setFamily("Noto Sans CJK SC");
 
-           //bug76892藏语占用更大高度
+    //bug76892藏语占用更大高度
     if (QLocale::system().language() == QLocale::Tibetan) {
         m_importLabel->setFixedHeight(TIMELINE_TITLEHEIGHT + 25);
     } else {
         m_importLabel->setFixedHeight(TIMELINE_TITLEHEIGHT);
     }
     m_importLabel->setFont(ft3);
-    m_importLabel->setForegroundRole(DPalette::Text);
-    m_importLabel->setPalette(color);
 
     hImportLayout->addStretch(1);
     hImportLayout->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
@@ -235,35 +215,17 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_dateNumCheckBox = new DCheckBox();
     connect(m_dateNumCheckBox, &DCheckBox::clicked, this, &ImportTimeLineView::onCheckBoxClicked);
     hDateNumLayout->addWidget(m_dateNumCheckBox);
-    DFontSizeManager::instance()->bind(m_dateNumCheckBox, DFontSizeManager::T6, QFont::Medium);
+    DFontSizeManager::instance()->bind(m_dateNumCheckBox, DFontSizeManager::T6, QFont::Normal);
     QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
-    ft6.setFamily("SourceHanSansSC");
-    ft6.setWeight(QFont::Medium);
-    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    DPalette pal = DPaletteHelper::instance()->palette(m_dateNumCheckBox);
-    QColor color_BT = pal.color(DPalette::BrightText);
-    if (themeType == DGuiApplicationHelper::LightType) {
-        color_BT.setAlphaF(0.5);
-        pal.setBrush(DPalette::Text, color_BT);
-        m_dateNumCheckBox->setForegroundRole(DPalette::Text);
-        m_dateNumCheckBox->setPalette(pal);
-    } else if (themeType == DGuiApplicationHelper::DarkType) {
-        color_BT.setAlphaF(0.75);
-        pal.setBrush(DPalette::Text, color_BT);
-        m_dateNumCheckBox->setForegroundRole(DPalette::Text);
-        m_dateNumCheckBox->setPalette(pal);
-    }
+    ft6.setFamily("Noto Sans CJK SC");
 
     m_dateNumCheckBox->setFixedHeight(TIMELINE_TITLEHEIGHT);
     m_dateNumCheckBox->setFont(ft6);
-    m_dateNumCheckBox->setForegroundRole(DPalette::Text);
-    m_dateNumCheckBox->setPalette(pal);
 
     m_dateNumLabel = new DLabel();
     m_dateNumLabel->setFixedHeight(TIMELINE_TITLEHEIGHT);
-    m_dateNumLabel->setForegroundRole(DPalette::Text);
+    DFontSizeManager::instance()->bind(m_dateNumLabel, DFontSizeManager::T6, QFont::Medium);
     m_dateNumLabel->setFont(ft6);
-    m_dateNumLabel->setPalette(pal);
     hDateNumLayout->addWidget(m_dateNumLabel);
 
     connect(m_importTimeLineListView, &ThumbnailListView::sigShowCheckBox, this, &ImportTimeLineView::onShowCheckBox);

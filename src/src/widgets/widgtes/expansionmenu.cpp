@@ -4,12 +4,14 @@
 
 #include "expansionmenu.h"
 #include "expansionpanel.h"
-
+#include "widgets/thumbnail/timelinedatewidget.h"
 #include <QHBoxLayout>
 #include <DCommandLinkButton>
 #include <DFontSizeManager>
 #include <DGuiApplicationHelper>
 #include <DHiDPIHelper>
+#include <DPaletteHelper>
+
 #include <DLabel>
 #include <QAbstractButton>
 #include <QMouseEvent>
@@ -25,15 +27,15 @@ FilterWidget::FilterWidget(QWidget *parent): QWidget(parent)
 
     m_leftLabel = new FilterLabel(this);
     m_leftLabel->setFixedSize(QSize(16, 16));
-    DFontSizeManager::instance()->bind(m_leftLabel, DFontSizeManager::T5, QFont::Normal);
+    DFontSizeManager::instance()->bind(m_leftLabel, DFontSizeManager::T7, QFont::Normal);
     hb->addWidget(m_leftLabel);
 
     m_btn = new FilterLabel(this);
-    DFontSizeManager::instance()->bind(m_btn, DFontSizeManager::T5, QFont::Normal);
+    DFontSizeManager::instance()->bind(m_btn, DFontSizeManager::T7, QFont::Normal);
     hb->addWidget(m_btn);
 
     m_rightLabel = new FilterLabel(this);
-    DFontSizeManager::instance()->bind(m_rightLabel, DFontSizeManager::T5, QFont::Normal);
+    DFontSizeManager::instance()->bind(m_rightLabel, DFontSizeManager::T7, QFont::Normal);
     hb->addWidget(m_rightLabel);
     m_rightLabel->setPixmap(QIcon::fromTheme("album_arrowdown").pixmap(QSize(8, 6)));
 
@@ -84,6 +86,7 @@ void FilterWidget::onClicked()
 
 void FilterWidget::themeTypeChanged(int type)
 {
+    DPalette pal = DPaletteHelper::instance()->palette(m_btn);
     if (type == 1) {
         QString path = ":/icons/deepin/builtin/icons/light/";
         path += m_data.icon_r_path;
@@ -94,6 +97,7 @@ void FilterWidget::themeTypeChanged(int type)
         m_leftLabel->setPixmap(pix);
         m_rightLabel->setPixmap(DHiDPIHelper::loadNxPixmap(":/icons/deepin/builtin/icons/light/album_arrowdown_10px.svg").scaled(10, 10));
         m_btn->setText(m_data.text);
+        pal.setBrush(DPalette::Text, lightTextColor);
     } else {
         QString path = ":/icons/deepin/builtin/icons/dark";
         path += m_data.icon_r_path;
@@ -104,7 +108,10 @@ void FilterWidget::themeTypeChanged(int type)
         m_leftLabel->setPixmap(pix);
         m_rightLabel->setPixmap(DHiDPIHelper::loadNxPixmap(":/icons/deepin/builtin/icons/darkalbum_arrowdown_10px.svg").scaled(10, 10));
         m_btn->setText(m_data.text);
+        pal.setBrush(DPalette::Text, darkTextColor);
     }
+    m_btn->setForegroundRole(DPalette::Text);
+    m_btn->setPalette(pal);
 }
 
 bool FilterWidget::eventFilter(QObject *obj, QEvent *event)

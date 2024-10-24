@@ -131,6 +131,8 @@ SwitchViewAnimation {
     }
 
     function flushView() {
+        if (!visible)
+            return
         timeline.refresh()
         getNumLabelText()
     }

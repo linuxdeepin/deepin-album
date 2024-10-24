@@ -13,13 +13,11 @@
 #include <QVBoxLayout>
 #include <QScrollArea>
 #include <DListWidget>
-#include <DStackedWidget>
 #include <DCommandLinkButton>
 #include <DGuiApplicationHelper>
 #include <QGraphicsOpacityEffect>
 
 class NoResultWidget;
-class BatchOperateWidget;
 class TimeLineView : public DWidget
 {
     friend class QmlWidget;
@@ -80,13 +78,10 @@ private:
     ThumbnailListView *m_timeLineThumbnailListView = nullptr;//时间线缩略图列表，含时间项
     QGraphicsOpacityEffect *m_oe;
     QGraphicsOpacityEffect *m_oet;
-    QWidget *fatherwidget;
 
 public:
-    QStackedWidget *m_pStackedWidget;
     NoResultWidget *m_noResultWidget = nullptr;
-    QWidget *m_timeLineViewWidget;
-    QWidget *m_pwidget;
+    DWidget *m_timeLineViewWidget;
     int m_selPicNum;
 
     QmlWidget *m_qquickContainer;

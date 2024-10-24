@@ -199,10 +199,6 @@ int main(int argc, char *argv[])
     if (engine.rootObjects().isEmpty())
         return -1;
 
-    QObject::connect(qApp, &QCoreApplication::aboutToQuit, [&]() {
-        GlobalStatus::release();
-    });
-
     // 设置DBus接口
     ApplicationAdaptor adaptor(&fileControl);
     QDBusConnection::sessionBus().registerService("com.deepin.album");
