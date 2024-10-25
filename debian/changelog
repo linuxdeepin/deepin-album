@@ -1,3 +1,13 @@
+deepin-album (6.0.10) unstable; urgency=medium
+
+   * update version to 6.0.10
+   * fix: [review] When the sidebar content is fully displayed, only the vertical scroll wheel is used
+   * feat: Replace the daily view with V20 QWidget control
+   * feat: Replace the import view with V20 QWidget control
+   * fix: [UI] v20 day view and import view style adjust 1st
+
+ -- houchengqiu <houchengqiu@uniontech.com>  Fri, 25 Oct 2024 10:46:05 +0800
+
 deepin-album (6.0.9) unstable; urgency=medium
 
    * update version to 6.0.9
