@@ -23,7 +23,6 @@ set(LINK_DIR /usr/lib/)
 
 include_directories(${INC_DIR})
 link_directories(${LINK_DIR})
-link_libraries(freeimage)
 
 add_library(unionimage SHARED ${allHeaders} ${allSources})
 set_target_properties(unionimage PROPERTIES VERSION 1.0.0 SOVERSION 1)

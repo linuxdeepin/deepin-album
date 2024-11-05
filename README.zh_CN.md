@@ -13,7 +13,6 @@ _**master**分支是当前开发分支，编译依赖可能在未更新README.md
 * libxcb-util0-dev
 * libstartup-notification0-dev
 * libraw-dev
-* libfreeimage-dev
 * x11proto-xext-dev
 * libmtdev-dev
 * libegl1-mesa-dev
