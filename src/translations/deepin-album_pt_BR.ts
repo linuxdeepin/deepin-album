@@ -297,12 +297,12 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="542"/>
         <source>Rotate</source>
-        <translation>Rodar</translation>
+        <translation>Girar</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="562"/>
         <source>Delete</source>
-        <translation>Apagar</translation>
+        <translation>Excluir</translation>
     </message>
 </context>
 <context>
