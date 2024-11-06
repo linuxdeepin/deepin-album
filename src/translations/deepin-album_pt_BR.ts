@@ -74,7 +74,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="966"/>
         <source>Delete</source>
-        <translation>Apagar</translation>
+        <translation>Excluir</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="969"/>
