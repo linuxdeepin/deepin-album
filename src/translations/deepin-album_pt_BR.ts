@@ -1211,12 +1211,12 @@
     <message>
         <location filename="../qml/MainAlbumView.qml" line="264"/>
         <source>Import successful</source>
-        <translation>Importação Bem-sucedida</translation>
+        <translation>Importação bem-sucedida</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="274"/>
         <source>Import failed</source>
-        <translation>Falha na importação</translation>
+        <translation>A importação falhou</translation>
     </message>
 </context>
 <context>
@@ -1232,12 +1232,12 @@
     <message>
         <location filename="../qml/MenuItemStates.qml" line="103"/>
         <source>Export successful</source>
-        <translation>Exportação Bem-sucedida</translation>
+        <translation>Exportação bem-sucedida</translation>
     </message>
     <message>
         <location filename="../qml/MenuItemStates.qml" line="105"/>
         <source>Export failed</source>
-        <translation>Falha na exportação</translation>
+        <translation>A exportação falhou</translation>
     </message>
 </context>
 <context>
@@ -1259,7 +1259,7 @@
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="54"/>
         <source>New Album</source>
-        <translation>Novo Álbum</translation>
+        <translation>Novo álbum</translation>
     </message>
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="70"/>
