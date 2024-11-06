@@ -395,7 +395,7 @@
         <location filename="../src/dbmanager/dbmanager.cpp" line="1966"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="1972"/>
         <source>(copy)</source>
-        <translation>(cópia)</translation>
+        <translation>(copiar)</translation>
     </message>
 </context>
 <context>
@@ -499,7 +499,7 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="133"/>
         <source>Delete</source>
-        <translation>Apagar</translation>
+        <translation>Excluir</translation>
     </message>
 </context>
 <context>
@@ -539,7 +539,7 @@
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="168"/>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="171"/>
         <source>New Album</source>
-        <translation>Novo Álbum</translation>
+        <translation>Novo álbum</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="195"/>
@@ -554,12 +554,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="197"/>
         <source>Import %1 Items</source>
-        <translation>Importar %1 Itens</translation>
+        <translation>Importar %1 itens</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="204"/>
         <source>Import successful</source>
-        <translation>Importação Bem-sucedida</translation>
+        <translation>Importação bem-sucedida</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="256"/>
@@ -674,12 +674,12 @@
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="279"/>
         <source>Export successful</source>
-        <translation>Exportação Bem-sucedida</translation>
+        <translation>Exportação bem-sucedida</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="281"/>
         <source>Export failed</source>
-        <translation>Falha na exportação</translation>
+        <translation>A exportação falhou</translation>
     </message>
 </context>
 <context>
@@ -718,7 +718,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="858"/>
         <source>Delete</source>
-        <translation>Apagar</translation>
+        <translation>Excluir</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="862"/>
