@@ -1,3 +1,9 @@
+deepin-album (5.10.25) unstable; urgency=medium
+
+  * remove freeimage 
+
+ -- Liu zheng <liuzheng@uniontech.com>  Fri, 15 Nov 2024 14:10:10 +0800
+
 deepin-album (5.10.24) unstable; urgency=medium
 
   * feat: add avif and heif image format file support
