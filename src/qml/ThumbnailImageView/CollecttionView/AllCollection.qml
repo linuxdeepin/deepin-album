@@ -207,7 +207,7 @@ SwitchViewAnimation {
         property: "anchors.topMargin"
         from: 10 + theView.height
         to: 10
-        duration: GStatus.animationDuration
+        duration: GStatus.sidebarAnimationEnabled ? GStatus.animationDuration : 0
         easing.type: Easing.OutExpo
     }
 

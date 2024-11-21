@@ -39,6 +39,7 @@ class GlobalStatus : public QObject
     Q_PROPERTY(int thumbnialListCellSpace READ thumbnialListCellSpace CONSTANT)
     Q_PROPERTY(int animationDuration READ animationDuration CONSTANT)
     Q_PROPERTY(int largeImagePreviewAnimationDuration READ largeImagePreviewAnimationDuration CONSTANT)
+    Q_PROPERTY(bool sidebarAnimationEnabled READ sidebarAnimationEnabled CONSTANT)
 
 protected:
     explicit GlobalStatus(QObject *parent = nullptr);
@@ -296,6 +297,7 @@ public:
     int thumbnialListCellSpace() const;
     int animationDuration() const;
     int largeImagePreviewAnimationDuration() const;
+    bool sidebarAnimationEnabled() const;
 
 // 相册相关信号
 Q_SIGNALS:
@@ -370,6 +372,7 @@ private:
     bool m_bBackingToMainAlbumView = false;     // 正常看图返回相册界面
     int m_nAnimationDuration = 400;             // 动画持续时间
     int m_nLargeImagePreviewAnimationDuration = 800; // 大图预览动画持续时间
+    bool m_bEnableSidebarAnimation = false;     // 激活侧边栏动效
     FileControl* m_fileControl { nullptr };
 };
 
