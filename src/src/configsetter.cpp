@@ -49,6 +49,8 @@ void LibConfigSetter::loadConfig(imageViewerSpace::ImgViewerType type)
             setValue("", "animationDuration", 400);
         if (!contains("", "largeImagePreviewAnimationDuration"))
             setValue("", "largeImagePreviewAnimationDuration", 800);
+        if (!contains("", "enableSidebarAnimation"))
+            setValue("", "enableSidebarAnimation", 0);
     }
 
 //    if (imageViewerSpace::ImgViewerTypeAlbum == m_viewType) {

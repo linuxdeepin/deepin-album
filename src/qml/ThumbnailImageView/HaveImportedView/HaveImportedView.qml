@@ -218,7 +218,7 @@ BaseView {
         property: "anchors.topMargin"
         from: timeline.height
         to: 0
-        duration: GStatus.animationDuration
+        duration: GStatus.sidebarAnimationEnabled ? GStatus.animationDuration : 0
         easing.type: Easing.OutExpo
     }
 

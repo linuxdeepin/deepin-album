@@ -196,7 +196,7 @@ BaseView {
         property: "anchors.topMargin"
         from: 10 + view.height
         to: 10
-        duration: GStatus.animationDuration
+        duration: GStatus.sidebarAnimationEnabled ? GStatus.animationDuration : 0
         easing.type: Easing.OutExpo
     }
 
