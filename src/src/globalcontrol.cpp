@@ -11,6 +11,7 @@
 #include <QEvent>
 #include <QThread>
 #include <QDebug>
+#include <QApplication>
 
 static const int sc_SubmitInterval = 200;  // 图片变更提交定时间隔 200ms
 
@@ -264,6 +265,12 @@ bool GlobalControl::lastImage()
         return true;
     }
     return false;
+}
+
+bool GlobalControl::forceExit()
+{
+    QApplication::exit(0);
+    _Exit(0);
 }
 
 /**

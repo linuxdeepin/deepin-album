@@ -118,6 +118,7 @@ ApplicationWindow {
     onClosing: {
         FileControl.saveSetting()
         FileControl.terminateShortcutPanelProcess() //结束快捷键面板进程
+        GControl.forceExit();
     }
 
     FileDialog {
