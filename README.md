@@ -13,7 +13,6 @@ _The **master** branch is current development branch, build dependencies may cha
 * libxcb-util0-dev
 * libstartup-notification0-dev
 * libraw-dev
-* libfreeimage-dev
 * x11proto-xext-dev
 * libmtdev-dev
 * libegl1-mesa-dev

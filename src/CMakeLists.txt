@@ -86,7 +86,6 @@ target_link_libraries(${BIN_NAME}
     Dtk${DTK_VERSION_MAJOR}::Declarative
     GL
     pthread
-    freeimage
     dfm${DTK_VERSION_MAJOR}-mount
     ${3rd_lib_LIBRARIES}
     )

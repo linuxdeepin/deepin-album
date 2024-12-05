@@ -101,16 +101,6 @@ bool imageSupportSave(const QString &path)
     return LibUnionImage_NameSpace::canSave(path);
 }
 
-//bool imageSupportWrite(const QString &path)
-//{
-//        /*lmh0724使用USE_UNIONIMAGE*/
-//#ifdef USE_UNIONIMAGE
-//    return UnionImage_NameSpace::canSave(path);
-//#else
-//    return freeimage::isSupportsWriting(path);
-//#endif
-//}
-
 bool rotate(const QString &path, int degree)
 {
     /*lmh0724使用USE_UNIONIMAGE*/

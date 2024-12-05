@@ -19,7 +19,6 @@ Build-Depends:
 # Deepin
 # null
 # 3rd party
- libfreeimage-dev,
  libexif-dev,
  libstartup-notification0-dev,
  libudev-dev,
