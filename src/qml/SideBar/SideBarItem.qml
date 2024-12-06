@@ -69,7 +69,8 @@ ColumnLayout {
             width: 180
             height: 36
             checked: sideModel.get(index).checked
-            backgroundVisible: false
+            backgroundVisible: true
+            normalBackgroundVisible: false
             ButtonGroup.group: group
         }
         Keys.onPressed: (event)=> {
