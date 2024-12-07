@@ -1,3 +1,13 @@
+deepin-album (6.0.12) unstable; urgency=medium
+
+  * fix: Fixed the issue of waiting for restart after exiting (#272)
+    Thanks to pengfeixx(Bug: 289903)
+  * fix: Remove the freeimage dependency (#273)
+    Thanks to pengfeixx
+  * fix: sidebar background color(Bug: 290603)(Influence: UI)
+
+ -- renbin <renbin@uniontech.com>  Sat, 07 Dec 2024 11:56:30 +0800
+
 deepin-album (6.0.11) unstable; urgency=medium
 
    * update version to 6.0.11
