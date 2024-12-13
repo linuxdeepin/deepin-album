@@ -7,9 +7,11 @@
 #include "fileMonitor/fileinotifygroup.h"
 #include "imageengine/imageenginethread.h"
 #include "utils/devicehelper.h"
+
 #include <DDialog>
 #include <DMessageBox>
 #include <DGuiApplicationHelper>
+#include <DSysInfo>
 
 #include <QStandardPaths>
 #include <QFileInfo>
@@ -25,6 +27,7 @@
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
+DCORE_USE_NAMESPACE
 
 namespace {
 static QMap<QString, const char *> i18nMap {
@@ -2096,12 +2099,29 @@ void AlbumControl::openDeepinMovie(const QString &path)
     if (LibUnionImage_NameSpace::isVideo(localPath)) {
         QProcess *process = new QProcess(this);
         QStringList arguments;
-        arguments << path;
-        bool isopen = process->startDetached("deepin-movie", arguments);
-        if (!isopen) {
-            arguments.clear();
-            arguments << "-o" << path;
-            process->startDetached("dde-file-manager", arguments);
+
+        // try to use ll-cli first
+        bool trylinglongSucc = false;
+
+        // check if current is v23, v25 or later
+        static const int kMinimalOsVersion = 23;
+        const int osMajor = DSysInfo::majorVersion().toInt();
+        if (osMajor >= kMinimalOsVersion) {
+            qInfo() << "trying start detached ll-cli run deepin-movie";
+            arguments << "run" << "org.deepin.movie" << "--" << "deepin-movie" << path;
+            trylinglongSucc = process->startDetached("ll-cli", arguments);
+        }
+
+        if (!trylinglongSucc) {
+            qInfo() << "trying start detached deepin-movie";
+
+            arguments << path;
+            bool isopen = process->startDetached("deepin-movie", arguments);
+            if (!isopen) {
+                arguments.clear();
+                arguments << "-o" << path;
+                process->startDetached("dde-file-manager", arguments);
+            }
         }
 
         connect(process, SIGNAL(finished(int)), process, SLOT(deleteLater()));

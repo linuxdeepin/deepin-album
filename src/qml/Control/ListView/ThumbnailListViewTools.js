@@ -22,7 +22,7 @@ function executeViewImage(x, y, w, h) {
             var url = thumbnailModel.data(indexes[0], "url").toString()
             var allUrls = thumbnailModel.allUrls()
             if (FileControl.isVideo(url)) {
-                menuItemStates.executeViewImage(url, allUrls)
+                menuItemStates.executeViewImageCutSwitch(url, allUrls)
             } else {
                 GStatus.enteringImageViewer = true
                 menuItemStates.executeViewImageCutSwitch(url, allUrls)
