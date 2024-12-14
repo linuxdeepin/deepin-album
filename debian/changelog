@@ -1,3 +1,9 @@
+deepin-album (6.0.13) unstable; urgency=medium
+
+  * update version to 6.0.13
+
+ -- renbin <renbin@uniontech.com>  Sat, 14 Dec 2024 11:56:30 +0800
+
 deepin-album (6.0.12) unstable; urgency=medium
 
   * fix: Fixed the issue of waiting for restart after exiting (#272)
