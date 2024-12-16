@@ -70,6 +70,7 @@ public:
     Q_INVOKABLE int proxyIndex(const int &indexValue);
     Q_INVOKABLE int sourceIndex(const int &indexValue);
     Q_INVOKABLE QJsonArray allUrls();
+    Q_INVOKABLE QStringList allPictureUrls();
     Q_INVOKABLE QJsonArray allPaths();
     Q_INVOKABLE QJsonArray selectedUrls();
     Q_INVOKABLE QJsonArray selectedPaths();

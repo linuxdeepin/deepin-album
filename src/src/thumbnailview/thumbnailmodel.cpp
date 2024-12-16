@@ -329,6 +329,19 @@ QJsonArray ThumbnailModel::allUrls()
     return arr;
 }
 
+QStringList ThumbnailModel::allPictureUrls()
+{
+    QStringList pictureUrls;
+    for (int row = 0; row < rowCount(); row++) {
+        QModelIndex idx = index(row, 0);
+        if (ItemTypePic == idx.data(Roles::ItemTypeFlagRole).toInt()) {
+            pictureUrls.append(idx.data(Roles::UrlRole).toString());
+        }
+    }
+
+    return pictureUrls;
+}
+
 QJsonArray ThumbnailModel::allPaths()
 {
     QJsonArray arr;
