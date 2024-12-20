@@ -75,10 +75,6 @@ $ sudo make install
 
 命令行启动 `deepin-album`
 
-## 文档
-
- - [用户文档](https://wikidev.uniontech.com/index.php?title=%E7%9B%B8%E5%86%8C)
-
 ## 帮助
 
 任何使用问题都可以通过以下方式寻求帮助:

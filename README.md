@@ -76,10 +76,6 @@ The executable binary file could be found at `/usr/bin/deepin-album`
 
 Execute `deepin-album`
 
-## Documentations
-
- - [User Documentation](https://wikidev.uniontech.com/index.php?title=%E7%9B%B8%E5%86%8C)
-
 ## Getting help
 
  - [Official Forum](https://bbs.deepin.org/)
