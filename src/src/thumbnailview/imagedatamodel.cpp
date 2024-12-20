@@ -81,6 +81,10 @@ QVariant ImageDataModel::data(const QModelIndex &index, int role) const
             return "other";
         }
     }
+
+    case Roles::ItemTypeFlagRole: {
+        return info.itemType;
+    }
     }
 
     return {};

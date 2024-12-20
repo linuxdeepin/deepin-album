@@ -8,8 +8,8 @@ function executeViewImageCutSwitch() {
         var indexes = thumbnailModel.selectedIndexes
         if (indexes.length > 0) {
             var url = thumbnailModel.data(indexes[0], "url").toString()
-            var allUrls = thumbnailModel.allUrls()
-            menuItemStates.executeViewImageCutSwitch(url, allUrls)
+            var allPicUrls = thumbnailModel.allPictureUrls()
+            menuItemStates.executeViewImageCutSwitch(url, allPicUrls)
         }
     }
 }
@@ -20,12 +20,13 @@ function executeViewImage(x, y, w, h) {
         var indexes = thumbnailModel.selectedIndexes
         if (indexes.length > 0) {
             var url = thumbnailModel.data(indexes[0], "url").toString()
-            var allUrls = thumbnailModel.allUrls()
             if (FileControl.isVideo(url)) {
+                var allUrls = thumbnailModel.allUrls()
                 menuItemStates.executeViewImageCutSwitch(url, allUrls)
             } else {
+                var allPicUrls = thumbnailModel.allPictureUrls()
                 GStatus.enteringImageViewer = true
-                menuItemStates.executeViewImageCutSwitch(url, allUrls)
+                menuItemStates.executeViewImageCutSwitch(url, allPicUrls)
                 GStatus.sigMoveCenter(x, y, w, h)
                 GStatus.sigShowToolBar()
             }
@@ -47,7 +48,7 @@ function executeDelete() {
 // 执行全屏预览
 function executeFullScreen() {
     if (window.visibility !== Window.FullScreen && selectedUrls.length > 0) {
-        var allUrls = thumbnailModel.allUrls()
+        var allUrls = thumbnailModel.allPictureUrls()
         var indexes = thumbnailModel.selectedIndexes
         if (indexes.length > 0) {
             menuItemStates.executeFullScreen(allUrls[indexes[0]], allUrls)
@@ -63,7 +64,7 @@ function executePrint() {
 // 执行幻灯片放映
 function excuteSlideShow() {
     if (selectedUrls.length > 0) {
-        var allUrls = thumbnailModel.allUrls()
+        var allUrls = thumbnailModel.allPictureUrls()
         menuItemStates.excuteSlideShow(allUrls)
         //stackControl.startMainSliderShow(allUrls, allUrls.indexOf(selectedUrls[0]))
     }

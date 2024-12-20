@@ -2108,8 +2108,14 @@ void AlbumControl::openDeepinMovie(const QString &path)
         const int osMajor = DSysInfo::majorVersion().toInt();
         if (osMajor >= kMinimalOsVersion) {
             qInfo() << "trying start detached ll-cli run deepin-movie";
-            arguments << "run" << "org.deepin.movie" << "--" << "deepin-movie" << path;
-            trylinglongSucc = process->startDetached("ll-cli", arguments);
+            // check if current installed org.deepin.movie
+            process->start("ll-cli", {"list"});
+            process->waitForFinished();
+            QByteArray output = process->readAllStandardOutput();
+            if (output.contains("org.deepin.movie")) {
+                arguments << "run" << "org.deepin.movie" << "--" << "deepin-movie" << path;
+                trylinglongSucc = process->startDetached("ll-cli", arguments);
+            }
         }
 
         if (!trylinglongSucc) {
