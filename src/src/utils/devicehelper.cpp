@@ -236,7 +236,7 @@ bool DeviceHelper::isSamba(const QUrl &url)
         return false;
 
     const QString &path = url.toLocalFile();
-    static const QString gvfsMatch { "(^/run/user/\\d+/gvfs/|^/root/.gvfs/|^/media/[\\s\\S]*/smbmounts)" };
+    static const QString gvfsMatch { "(^/run/user/\\d+/gvfs/|^/root/.gvfs/|^(/run)?/media/[\\s\\S]*/smbmounts)" };
     QRegularExpression re { gvfsMatch };
     QRegularExpressionMatch match { re.match(path) };
     return match.hasMatch();
