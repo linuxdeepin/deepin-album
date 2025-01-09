@@ -197,7 +197,7 @@ bool FileTrashHelper::isGvfsFile(const QUrl &url) const
         return false;
 
     const QString &path = url.toLocalFile();
-    static const QString gvfsMatch { "(^/run/user/\\d+/gvfs/|^/root/.gvfs/|^/media/[\\s\\S]*/smbmounts)" };
+    static const QString gvfsMatch { "(^/run/user/\\d+/gvfs/|^/root/.gvfs/|^(/run)?/media/[\\s\\S]*/smbmounts)" };
     QRegularExpression re { gvfsMatch };
     QRegularExpressionMatch match { re.match(path) };
     return match.hasMatch();
