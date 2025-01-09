@@ -1,3 +1,10 @@
+deepin-album (6.0.15) unstable; urgency=medium
+
+  * fix: remove invalid  url
+  * fix: SMB display issue on immutable systems(Bug: 299327)
+
+ -- renbin <renbin@uniontech.com>  Thu, 09 Jan 2025 17:37:27 +0800
+
 deepin-album (6.0.14) unstable; urgency=medium
 
   * chore: New version 6.0.14.
