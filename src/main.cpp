@@ -56,7 +56,9 @@ int main(int argc, char *argv[])
     app.loadTranslator();
     app.setApplicationLicense("GPLV3");
     app.setApplicationVersion(VERSION);
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     app.setAttribute(Qt::AA_UseHighDpiPixmaps);
+#endif
     // TODO: ? 设置后在 DTK6 下菜单显示空白
     app.setOrganizationName("deepin");
     app.setApplicationName("deepin-album");

@@ -25,18 +25,17 @@ find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS
     Declarative
 )
 
-find_package(dfm${DTK_VERSION_MAJOR}-mount REQUIRED)
-
-if(${QT_VERSION_MAJOR} EQUAL "6")
-    set(DFM_MOUNT_HEADERS ${dfm6-mount_INCLUDE_DIR})
-else()
-    set(DFM_MOUNT_HEADERS ${dfm-mount_INCLUDE_DIR})
-endif()
 # 三方库
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(3rd_lib REQUIRED
      #[[gio-qt udisks2-qt5]] libavformat
     )
+pkg_check_modules(dfmmount REQUIRED
+    dfm${DTK_VERSION_MAJOR}-mount
+    )
+
+set(DFM_MOUNT_HEADERS ${dfmmount_INCLUDE_DIRS})
+include_directories(${DFM_MOUNT_HEADERS})
 
 # 保证 src 目录下头文件全局可见
 include_directories(src)
@@ -86,8 +85,8 @@ target_link_libraries(${BIN_NAME}
     Dtk${DTK_VERSION_MAJOR}::Declarative
     GL
     pthread
-    dfm${DTK_VERSION_MAJOR}-mount
     ${3rd_lib_LIBRARIES}
+    ${dfmmount_LIBRARIES}
     )
 
 if (${CMAKE_BUILD_TYPE} MATCHES "Debug")

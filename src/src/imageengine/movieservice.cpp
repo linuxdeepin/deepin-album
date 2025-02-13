@@ -378,6 +378,9 @@ QString MovieService::libPath(const QString &strlib)
         }
     }
 
-    Q_ASSERT(list.size() > 0);
-    return list.last();
+    if(list.size() > 0)
+        return list.last();
+
+    // Qt LibrariesPath 不包含，返回默认名称
+    return strlib;
 }
