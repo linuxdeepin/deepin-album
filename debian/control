@@ -27,8 +27,7 @@ Build-Depends:
  libxrender-dev,
 #libgio-qt-dev,
 #libudisks2-qt5-dev,
- libdfm-mount-dev,
- libdfm6-mount-dev | hello,
+ libdfm6-mount-dev,
  libavformat-dev,
  libffmpegthumbnailer-dev
 Standards-Version: 4.1.3
