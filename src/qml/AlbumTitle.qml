@@ -40,6 +40,7 @@ TitleBar {
     signal collectionBtnClicked(int nIndex)
     signal showHideSideBar(bool bShow)
     signal showNewAlbumDialog()
+    signal forceExit()
 
     property int minSearchEditWidth : 100 //搜索框最小尺寸
     property int normalSearchEditWidth : 240 //搜索框最大尺寸
@@ -135,7 +136,11 @@ TitleBar {
                 license: qsTr("%1 is released under %2").arg(productName).arg("GPLV3")
             }
         }
-        QuitAction { }
+        QuitAction {
+            onTriggered: {
+                forceExit();
+            }
+        }
     }
     ActionButton {
         id: appTitleIcon

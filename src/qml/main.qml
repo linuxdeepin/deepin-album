@@ -27,7 +27,13 @@ ApplicationWindow {
     DWindow.enabled: true
     DWindow.alphaBufferSize: 8
     title: ""
-    header: AlbumTitle {id: titleAlubmRect}
+    header: AlbumTitle {
+        id: titleAlubmRect
+
+        onForceExit: {
+            saveAndTerminate()
+        }
+    }
 
     background: Rectangle {
         anchors.fill: parent
@@ -116,9 +122,7 @@ ApplicationWindow {
 
     //关闭的时候保存信息
     onClosing: {
-        FileControl.saveSetting()
-        FileControl.terminateShortcutPanelProcess() //结束快捷键面板进程
-        GControl.forceExit();
+        saveAndTerminate()
     }
 
     FileDialog {
@@ -155,5 +159,12 @@ ApplicationWindow {
         }
 
         target: GControl
+    }
+
+    // 保存并退出程序
+    function saveAndTerminate() {
+        FileControl.saveSetting()
+        FileControl.terminateShortcutPanelProcess() //结束快捷键面板进程
+        GControl.forceExit();
     }
 }
