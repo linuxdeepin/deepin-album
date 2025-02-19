@@ -104,7 +104,8 @@ FadeInoutAnimation {
             var y = parent.mapToGlobal(0, 0).y + parent.height / 2 - 89
             newAlbum.setX(x)
             newAlbum.setY(y)
-            newAlbum.setNormalEdit()
+            var num = leftSidebar.getNewAlbumNumber()
+            newAlbum.setNormalEdit(num)
             newAlbum.isChangeView = true
             newAlbum.show()
         }

@@ -163,6 +163,36 @@ ScrollView {
         }
     }
 
+    // 获取新建相册的默认名称号
+    function getNewAlbumNumber() {
+        var num = 0;
+        var numSet = new Set();
+
+        // 正则表达式来匹配 defaultName 后面的数字
+        var regex = new RegExp("^" + newAlbum.defaultName + "(\\d*)$");
+
+        for (var i = 0; i < customListModel.count; i++) {
+            var displayName = customListModel.get(i).displayName;
+            var match = displayName.match(regex);
+            if (match) {
+                var suffix = match[1];
+                if (suffix === "") {
+                    // 如果匹配到了 defaultName 后面没有数字的情况
+                    numSet.add(0);
+                } else {
+                    // 如果匹配到了数字，则将其添加到集合中
+                    numSet.add(parseInt(suffix));
+                }
+            }
+        }
+
+        while (numSet.has(num)) {
+            num++;
+        }
+
+        return num;
+    }
+
     Column {
         id: column
         spacing: 0
@@ -282,7 +312,8 @@ ScrollView {
                 ToolTip.visible: hovered
                 ToolTip.text: qsTr("Add an album")
                 onClicked: {
-                    newAlbum.setNormalEdit()
+                    var num = getNewAlbumNumber()
+                    newAlbum.setNormalEdit(num)
                     newAlbum.isChangeView = true
                     newAlbum.show()
                     forceActiveFocus()
@@ -512,8 +543,9 @@ ScrollView {
             text: qsTr("New album")
             visible: GStatus.currentCustomAlbumUId > 3 ? true : false
             onTriggered: {
+                var num = getNewAlbumNumber()
+                newAlbum.setNormalEdit(num)
                 newAlbum.isChangeView = true
-                newAlbum.setNormalEdit()
                 newAlbum.show()
             }
         }
