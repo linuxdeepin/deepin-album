@@ -22,6 +22,7 @@ DialogWindow {
     visible: false
     property bool isChangeView: false
     property bool importSelected: false
+    property string defaultName: qsTr("Unnamed")
     minimumWidth: 400
     maximumWidth: 400
     minimumHeight: 190
@@ -34,11 +35,11 @@ DialogWindow {
 
     signal sigCreateAlbumDone() //创建相册完成信号
 
-    function setNormalEdit()
+    function setNormalEdit(num)
     {
         //重新设置焦点和名称
         nameedit.focus=true
-        nameedit.text=qsTr("Unnamed")
+        nameedit.text = num ? defaultName + num : defaultName;
     }
 
     Text {
@@ -83,7 +84,7 @@ DialogWindow {
         focus: true
         maximumLength: 255
         validator: RegularExpressionValidator {regularExpression: /^[^\\.\\\\/\':\\*\\?\"<>|%&][^\\\\/\':\\*\\?\"<>|%&]*/ }
-        text: qsTr("Unnamed")
+        text: defaultName
         selectByMouse: true
 //        alertText: qsTr("The file already exists, please use another name")
 //        showAlert: FileControl.isShowToolTip(source,nameedit.text)

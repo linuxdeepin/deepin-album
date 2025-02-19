@@ -50,6 +50,10 @@ Item {
         id: menuItemStates
     }
 
+    EmptyWarningDialog {
+        id: emptyWarningDig
+    }
+
     //delete窗口
     DeleteDialog {
         id: deleteDialog

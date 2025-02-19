@@ -20,6 +20,7 @@ DialogWindow {
     property int propMidWidth: 106
     property int propRightWidth: 86
     property int topY: 70
+    property bool dismiss: false
 
     flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint | Qt.WindowStaysOnTopHint
     maximumWidth: 280
@@ -54,6 +55,12 @@ DialogWindow {
     onClosing: {
         fileNameProp.reset();
         GStatus.showImageInfo = false;
+    }
+
+    onActiveChanged: {
+        if (dismiss)
+            close();
+        dismiss = !dismiss
     }
 
     // 图片变更时复位组件状态(切换时关闭重命名框)

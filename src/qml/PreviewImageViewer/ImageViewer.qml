@@ -664,6 +664,7 @@ Item {
                     rightMenu.popup(CursorTool.currentCursorPos());
                     rightMenu.focus = true;
 
+                    GStatus.selectedPaths = [GControl.currentSource.toString()]
                     // 关闭详细信息弹窗
                     GStatus.showImageInfo = false;
                 }

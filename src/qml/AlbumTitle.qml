@@ -133,7 +133,6 @@ TitleBar {
                 description: qsTr("Album is a stylish management tool for viewing and organizing photos and videos.")
                 websiteName: DTK.deepinWebsiteName
                 websiteLink: DTK.deepinWebsiteLink
-                license: qsTr("%1 is released under %2").arg(productName).arg("GPLV3")
             }
         }
         QuitAction {

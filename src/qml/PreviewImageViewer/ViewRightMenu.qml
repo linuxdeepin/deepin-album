@@ -128,14 +128,14 @@ Menu {
         text: qsTr("Export")
         visible: canExport && !menuItemStates.isInTrash && FileControl.isAlbum()
         onTriggered: {
-            excuteExport()
+            menuItemStates.excuteExport()
         }
 
         Shortcut {
             enabled: stackView.visible && canExport && !menuItemStates.isInTrash && FileControl.isAlbum()
             sequence : "Ctrl+E"
             onActivated : {
-               excuteExport()
+               menuItemStates.excuteExport()
             }
         }
     }
