@@ -102,3 +102,6 @@ linglong
 build
 *.log
 *.layer
+
+# translation files
+*.qm
