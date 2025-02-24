@@ -389,9 +389,48 @@ Item {
         Item {
             anchors.fill: borderRect
 
+            onWidthChanged: {
+                if (!main.bShowVideoLabel) {
+                    if (labelRemainDays.enableOverlapLabel) {
+                        labelRemainDays.enableOverlapLabel = false
+                        Qt.callLater(labelRemainDays.updataAnchors)
+                    }
+
+                    return
+                }
+
+                var overlapLabel = ((labelRemainDays.contentWidth + main.videoLabel.contentWidth + 25) > width);
+                if (labelRemainDays.enableOverlapLabel != overlapLabel) {
+                    labelRemainDays.enableOverlapLabel = overlapLabel
+                    Qt.callLater(labelRemainDays.updataAnchors)
+                }
+            }
+
             VideoLabel {
                 id: labelRemainDays
                 visible: true
+                width: contentWidth
+
+                property bool enableOverlapLabel: false
+
+                function updataAnchors() {
+                    if (enableOverlapLabel) {
+                        anchors.left = undefined
+                        anchors.leftMargin = undefined
+                        anchors.right = parent.right
+                        anchors.rightMargin = 9
+                        anchors.bottomMargin = 30
+                    } else {
+                        anchors.left = parent.left
+                        anchors.leftMargin = 9
+                        anchors.right = undefined
+                        anchors.rightMargin = undefined
+                        anchors.bottomMargin = 5
+                    }
+
+                    width = contentWidth
+                }
+
                 anchors {
                     bottom: parent.bottom
                     left: parent.left
@@ -409,6 +448,7 @@ Item {
         id: videoTimeComponent
         Item {
             anchors.fill: borderRect
+            property real contentWidth: videoLabel.width
 
             VideoLabel {
                 id: videoLabel
