@@ -20,7 +20,7 @@ BaseView {
     property string deviceName: GStatus.currentDeviceName
     property int filterType: 0
     property int currentImportIndex: 0
-    property var numLabelText: getNumLabelText(filterType)
+    property var numLabelText
     property string selectedText: getSelectedText(selectedPaths)
     property alias selectedPaths: theView.selectedPaths
 
@@ -50,12 +50,16 @@ BaseView {
         getNumLabelText()
     }
 
-    // 刷新总数标签
     function getNumLabelText() {
+        // request load data
+        albumControl.getDeviceAlbumInfoCountAsync(devicePath)
+    }
+
+    // 刷新总数标签
+    function setNumLabelText(photoCount, videoCount) {
         //QML的翻译不支持%n的特性，只能拆成这种代码
 
         var photoCountText = ""
-        var photoCount = albumControl.getDeviceAlbumInfoConut(devicePath, 3)
         if(photoCount === 0) {
             photoCountText = ""
         } else if(photoCount === 1) {
@@ -65,7 +69,6 @@ BaseView {
         }
 
         var videoCountText = ""
-        var videoCount = albumControl.getDeviceAlbumInfoConut(devicePath, 4)
         if(videoCount === 0) {
             videoCountText = ""
         } else if(videoCount === 1) {
@@ -74,7 +77,7 @@ BaseView {
             videoCountText = qsTr("%1 videos").arg(videoCount)
         }
 
-        var numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? ((photoCountText !== "" ? " " : "") + videoCountText) : ""))
+        numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? ((photoCountText !== "" ? " " : "") + videoCountText) : ""))
                                            : (filterType == 1 ? photoCountText : videoCountText)
         if (visible) {
             GStatus.statusBarNumText = numLabelText
@@ -110,6 +113,13 @@ BaseView {
             if (visible && GStatus.currentCustomAlbumUId !== 0) {
                 theView.selectedPaths = urls
                 GStatus.selectedPaths = selectedPaths
+            }
+        }
+
+        // device info load finished
+        function onDeviceAlbumInfoCountChanged(loadDevicePath, picCount, videoCount) {
+            if (loadDevicePath === devicePath) {
+                setNumLabelText(picCount, videoCount)
             }
         }
     }

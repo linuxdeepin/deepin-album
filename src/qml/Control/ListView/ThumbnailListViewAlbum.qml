@@ -461,6 +461,7 @@ FocusScope {
             keyNavigationWraps: false
             boundsBehavior: Flickable.StopAtBounds
             flickDeceleration: 10000
+            model: main.model
 
             //激活滚动条
             ScrollBar.vertical: ScrollBar {

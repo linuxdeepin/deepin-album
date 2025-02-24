@@ -49,6 +49,8 @@ public:
 
     Q_INVOKABLE void loadData(Types::ItemType type = Types::All);
 
+    Q_SLOT void onDeviceDataLoaded(QString devicePath);
+
 signals:
     void modelTypeChanged();
     void albumIdChanged();
@@ -67,6 +69,8 @@ private:
 
     QList<QPair<QByteArray, QString>> m_locations;
     DBImgInfoList m_infoList;
+
+    ItemType m_loadType{ItemTypeNull};
 };
 
 #endif // IMAGELOCATIONMODEL_H

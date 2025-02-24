@@ -241,16 +241,13 @@ public:
     //通过设备路径获得设备名称
     Q_INVOKABLE QString getDeviceName(const QString &devicePath);
 
-    //获取设备的图片
-    Q_INVOKABLE QStringList getDevicePicPaths(const QString &path);
+    // Asynchronously load multimedia device data
+    void loadDeviceAlbumInfoAsync(const QString &devicePath);
+    DBImgInfoList getDeviceAlbumInfoList(const QString &devicePath, const int &filterType = 0, bool *loading = nullptr);
+    Q_SIGNAL void deviceAlbumInfoLoadFinished(const QString &devicePath);
 
-    //获得device路径
-    Q_INVOKABLE QVariantMap getDeviceAlbumInfos(const QString &devicePath, const int &filterType = 0);
-
-    Q_INVOKABLE DBImgInfoList getDeviceAlbumInfos2(const QString &devicePath, const int &filterType = 0);
-
-    //获得设备相册的图片和视频数量
-    Q_INVOKABLE int getDeviceAlbumInfoConut(const QString &devicePath, const int &filterType);
+    Q_INVOKABLE void getDeviceAlbumInfoCountAsync(const QString &devicePath);
+    Q_SIGNAL void deviceAlbumInfoCountChanged(const QString &devicePath, int picCount, int videoCount);
 
     //手机照片导入 0为已导入，1-n为自定义相册
     Q_INVOKABLE void importFromMountDevice(const QStringList &paths, const int &index = 0);
@@ -377,8 +374,10 @@ public slots:
     //自动导入路径被删除
     void slotMonitorDestroyed(int UID);
 
+#if 0
     //加载设备路径的数据
     void sltLoadMountFileList(const QString &strPath);
+#endif
 
     void onDeviceRemoved(const QString &deviceKey, DeviceType type);
     void onMounted(const QString &deviceKey, const QString &mountPoint, DeviceType type);
@@ -452,7 +451,14 @@ private :
 
     QMap<QString, QString> m_durlAndNameMap;        // 挂载点-设备名称map表
     QMap<QString, QString> m_blkPath2DeviceNameMap; // 块设备id-名称map表
-    QMap<QString, QStringList> m_PhonePicFileMap;   // 外部设备及其全部图片路径
+
+    struct DeviceInfo {
+        int picCount{0};
+        int videoCount{0};
+        QList<QPair<QString, ItemType>> fileList;
+    };
+    using DeviceInfoPtr = QSharedPointer<DeviceInfo>;
+    QMap<QString, DeviceInfoPtr> m_PhonePicFileMap;   // 外部设备及其全部图片路径
     std::atomic_bool m_couldRun;
     bool m_bneedstop = false;
     QMutex m_mutex;

@@ -785,41 +785,6 @@ void AlbumControl::slotMonitorDestroyed(int UID)
     emit sigDeleteCustomAlbum(UID);
 }
 
-void AlbumControl::sltLoadMountFileList(const QString &path)
-{
-    QElapsedTimer time;
-    time.start();
-    QString strPath = path;
-    if (!m_PhonePicFileMap.contains(strPath)) {
-        //获取所选文件类型过滤器
-        QStringList filters;
-        for (QString i : LibUnionImage_NameSpace::unionImageSupportFormat()) {
-            filters << "*." + i;
-        }
-
-        for (QString i : LibUnionImage_NameSpace::videoFiletypes()) {
-            filters << "*." + i;
-        }
-        //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
-        QDirIterator dir_iterator(strPath,
-                                  filters,
-                                  QDir::Files/* | QDir::NoSymLinks*/,
-                                  QDirIterator::Subdirectories);
-        QStringList allfiles;
-        while (dir_iterator.hasNext()) {
-            dir_iterator.next();
-            allfiles << dir_iterator.filePath();
-        }
-        //重置标志位，可以执行线程
-        m_PhonePicFileMap[strPath] = allfiles;
-        //发送信号
-    } else {
-        //已加载过的设备，直接发送缓存的路径
-    }
-
-    qDebug() << __FUNCTION__ << QString(" load device path:%1 cost [%2]ms").arg(path).arg(time.elapsed());
-}
-
 void AlbumControl::onDeviceRemoved(const QString &deviceKey, DeviceType type)
 {
     qDebug() << QString("deviceKey:%1 DeviceType:%2").arg(deviceKey).arg(static_cast<int>(type));
@@ -2263,102 +2228,108 @@ QString AlbumControl::getDeviceName(const QString &devicePath)
     return m_durlAndNameMap.value(devicePath);
 }
 
-QStringList AlbumControl::getDevicePicPaths(const QString &strPath)
-{
-    // 若设备路径未被扫描，先扫描出所有图片/视频文件，设备容量越大，文件越大，扫描耗时越长
-    if (m_PhonePicFileMap.find(strPath) == m_PhonePicFileMap.end()) {
-        sltLoadMountFileList(strPath);
-    }
-
-    QStringList pathsList;
-    if (m_PhonePicFileMap.find(strPath) != m_PhonePicFileMap.end()) {
-        QStringList list = m_PhonePicFileMap.value(strPath);
-        for (QString path : list) {
-            pathsList << "file://" + path;
-        }
-    }
-    return pathsList;
-}
-
-QVariantMap AlbumControl::getDeviceAlbumInfos(const QString &devicePath, const int &filterType)
-{
-    QVariantMap reMap;
-    QVariantList listVar;
-    QStringList list = getDevicePicPaths(devicePath);
-    QString title = devicePath;
-    for (QString path : list) {
-        QVariantMap tmpMap;
-        if (LibUnionImage_NameSpace::isImage(url2localPath(path))) {
-            if (filterType == 2) {
-                continue ;
-            }
-            tmpMap.insert("itemType", "pciture");
-        } else if (LibUnionImage_NameSpace::isVideo(url2localPath(path))) {
-            if (filterType == 1) {
-                continue ;
-            }
-            tmpMap.insert("itemType", "video");
-        } else {
-            tmpMap.insert("itemType", "other");
-        }
-        tmpMap.insert("url", path);
-        tmpMap.insert("filePath", url2localPath(path));
-        tmpMap.insert("pathHash", "");
-        tmpMap.insert("remainDays", "");
-        listVar << tmpMap;
-    }
-    if (listVar.count() > 0) {
-        reMap.insert(title, listVar);
-    }
-    return reMap;
-}
-
-DBImgInfoList AlbumControl::getDeviceAlbumInfos2(const QString &devicePath, const int &filterType)
+DBImgInfoList fromDeviceAlbumInfoList(const QList<QPair<QString, ItemType>> &filePairList, const int &filterType)
 {
     DBImgInfoList infoList;
-
-    QStringList list = getDevicePicPaths(devicePath);
-    for (QString path : list) {
-        DBImgInfo info;
-        if (LibUnionImage_NameSpace::isImage(url2localPath(path))) {
-            if (filterType == ItemTypeVideo) {
-                continue ;
-            }
-            info.itemType = ItemTypePic;
-        } else if (LibUnionImage_NameSpace::isVideo(url2localPath(path))) {
-            if (filterType == ItemTypePic) {
-                continue ;
-            }
-            info.itemType = ItemTypeVideo;
-        } else {
+    for (auto fileItr = filePairList.begin(); fileItr != filePairList.end(); ++fileItr) {
+        if (ItemTypeNull != filterType && filterType != fileItr->second) {
             continue;
         }
-        info.filePath = url2localPath(path);
+
+        DBImgInfo info;
+        info.filePath = fileItr->first;
+        info.itemType = fileItr->second;
         info.pathHash = "";
         info.remainDays = 0;
+
         infoList << info;
     }
-
     return infoList;
 }
 
-int AlbumControl::getDeviceAlbumInfoConut(const QString &devicePath, const int &filterType)
+void AlbumControl::loadDeviceAlbumInfoAsync(const QString &devicePath)
 {
-    int rePicVideoConut = 0;
-    QStringList list = getDevicePicPaths(devicePath);
-    for (QString path : list) {
-        QVariantMap tmpMap;
-        if (LibUnionImage_NameSpace::isImage(url2localPath(path))) {
-            if (filterType == ItemTypePic) {
-                rePicVideoConut++;
+    if (m_PhonePicFileMap.contains(devicePath)) {
+        return;
+    }
+
+    m_PhonePicFileMap.insert(devicePath, nullptr);
+    QThreadPool::globalInstance()->start([=](){
+        //获取所选文件类型过滤器
+        QStringList filters;
+        for (QString i : LibUnionImage_NameSpace::unionImageSupportFormat()) {
+            filters << "*." + i;
+        }
+        for (QString i : LibUnionImage_NameSpace::videoFiletypes()) {
+            filters << "*." + i;
+        }
+
+        //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
+        QDirIterator dir_iterator(devicePath,
+                                  filters,
+                                  QDir::Files/* | QDir::NoSymLinks*/,
+                                  QDirIterator::Subdirectories);
+
+        DeviceInfoPtr devicePtr = DeviceInfoPtr::create();
+        while (dir_iterator.hasNext()) {
+            dir_iterator.next();
+
+            ItemType type;
+            QString filePath = dir_iterator.filePath();
+            if (LibUnionImage_NameSpace::isImage(filePath)) {
+                type = ItemTypePic;
+                devicePtr->picCount++;
+            } else if (LibUnionImage_NameSpace::isVideo(filePath)) {
+                type = ItemTypeVideo;
+                devicePtr->videoCount++;
+            } else {
+                continue;
             }
-        } else if (LibUnionImage_NameSpace::isVideo(url2localPath(path))) {
-            if (filterType == ItemTypeVideo) {
-                rePicVideoConut++;
-            }
+
+            devicePtr->fileList.append(qMakePair(filePath, type));
+        }
+
+        // GUI thread, notify update data
+        QMetaObject::invokeMethod(qApp, [=](){
+                m_PhonePicFileMap.insert(devicePath, devicePtr);
+                
+                Q_EMIT deviceAlbumInfoLoadFinished(devicePath);
+                Q_EMIT deviceAlbumInfoCountChanged(devicePath, devicePtr->picCount, devicePtr->videoCount);
+            }, Qt::QueuedConnection);
+    });
+}
+
+DBImgInfoList AlbumControl::getDeviceAlbumInfoList(const QString &devicePath, const int &filterType, bool *loading)
+{
+    auto itr = m_PhonePicFileMap.find(devicePath);
+    if (itr != m_PhonePicFileMap.end()) {
+        DeviceInfoPtr devicePtr = *(itr);
+        if (!devicePtr.isNull()) {
+            return fromDeviceAlbumInfoList(devicePtr->fileList, filterType);
         }
     }
-    return rePicVideoConut;
+
+    // Not load before, mark current device loading.
+    loadDeviceAlbumInfoAsync(devicePath);
+
+    if (loading) {
+        *loading = true;
+    }
+    return {};
+}
+
+void AlbumControl::getDeviceAlbumInfoCountAsync(const QString &devicePath)
+{
+    auto itr = m_PhonePicFileMap.find(devicePath);
+    if (itr != m_PhonePicFileMap.end()) {
+        DeviceInfoPtr devicePtr = *(itr);
+        if (!devicePtr.isNull()) {
+            Q_EMIT deviceAlbumInfoCountChanged(devicePath, devicePtr->picCount, devicePtr->videoCount);
+        }
+    }
+
+    // Not load before, mark current device loading.
+    loadDeviceAlbumInfoAsync(devicePath);
 }
 
 QList<int> AlbumControl::getPicVideoCountFromPaths(const QStringList &paths)
