@@ -16,7 +16,7 @@ ImageDataModel::ImageDataModel(QObject *parent)
     , m_keyWord("")
     , m_dayToken("")
 {
-
+    connect(AlbumControl::instance(), &AlbumControl::deviceAlbumInfoLoadFinished, this, &ImageDataModel::onDeviceDataLoaded);
 }
 
 QHash<int, QByteArray> ImageDataModel::roleNames() const
@@ -190,30 +190,48 @@ void ImageDataModel::loadData(Types::ItemType type)
 {
     QElapsedTimer time;
     time.start();
-    ItemType itemType = ItemTypeNull;
+    m_loadType = ItemTypeNull;
     if (type == Types::All)
-        itemType = ItemTypeNull;
+        m_loadType = ItemTypeNull;
     else if (type == Types::Picture)
-        itemType = ItemTypePic;
+        m_loadType = ItemTypePic;
     else if (type == Types::Video)
-        itemType = ItemTypeVideo;
+        m_loadType = ItemTypeVideo;
 
     beginResetModel();
     if (m_modelType == Types::AllCollection)
-        m_infoList = DBManager::instance()->getAllInfosSort(itemType);
+        m_infoList = DBManager::instance()->getAllInfosSort(m_loadType);
     else if (m_modelType == Types::CustomAlbum)
-        m_infoList = DBManager::instance()->getInfosByAlbum(m_albumID, false, itemType);
+        m_infoList = DBManager::instance()->getInfosByAlbum(m_albumID, false, m_loadType);
     else if (m_modelType == Types::RecentlyDeleted) {
-        m_infoList = AlbumControl::instance()->getTrashInfos2(itemType);
+        m_infoList = AlbumControl::instance()->getTrashInfos2(m_loadType);
     } else if (m_modelType == Types::Device) {
-        m_infoList = AlbumControl::instance()->getDeviceAlbumInfos2(m_devicePath, itemType);
+        bool waiting = false;
+        m_infoList = AlbumControl::instance()->getDeviceAlbumInfoList(m_devicePath, m_loadType, &waiting);
+        if (waiting) {
+            m_infoList.clear();
+            qDebug() << "Device data not ready, refresh later.";
+        }
     } else if (m_modelType == Types::SearchResult) {
         m_infoList = AlbumControl::instance()->searchPicFromAlbum2(m_albumID, m_keyWord, false);
     } else if (m_modelType == Types::DayCollecttion) {
         m_infoList = DBManager::instance()->getInfosByDay(m_dayToken);
     } else if (m_modelType == Types::HaveImported) {
-        m_infoList = DBManager::instance()->getInfosByImportTimeline(QDateTime::fromString(m_importTitle, "yyyy/MM/dd hh:mm"), itemType);
+        m_infoList = DBManager::instance()->getInfosByImportTimeline(QDateTime::fromString(m_importTitle, "yyyy/MM/dd hh:mm"), m_loadType);
     }
     endResetModel();
     qDebug() << QString("loadData modelType:[%1] cost [%2]ms..").arg(m_modelType).arg(time.elapsed());
+}
+
+void ImageDataModel::onDeviceDataLoaded(QString devicePath)
+{
+    if (devicePath != m_devicePath) {
+        return;
+    }
+
+    beginResetModel();
+    m_infoList = AlbumControl::instance()->getDeviceAlbumInfoList(m_devicePath, m_loadType);
+    endResetModel();
+
+    qDebug() << "Device data ready, refresh model. data count" << m_infoList.size();
 }
