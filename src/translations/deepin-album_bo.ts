@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="bo">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="bo">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -192,7 +190,7 @@
         <location filename="../src/albumControl.cpp" line="2121"/>
         <location filename="../src/albumControl.cpp" line="2125"/>
         <source>%1Year%2Month%3Day</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2175"/>
@@ -245,30 +243,30 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="218"/>
         <source>Original ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>ཐོག་མའི་བསྡུར་ཚད་མངོན་པ།</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="218"/>
         <source>Square thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation>རི་མོ་གྲུ་བཞི་མངོན་པ།</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="258"/>
         <location filename="../qml/AlbumTitle.qml" line="336"/>
         <source>Y</source>
-        <translation type="unfinished"></translation>
+        <translation>ལོ།</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="270"/>
         <location filename="../qml/AlbumTitle.qml" line="337"/>
         <source>M</source>
-        <translation type="unfinished"></translation>
+        <translation>ཟླ།</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="281"/>
         <location filename="../qml/AlbumTitle.qml" line="338"/>
         <source>D</source>
-        <translation type="unfinished"></translation>
+        <translation>ཚེས།</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="292"/>
@@ -279,12 +277,12 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="397"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>བཤེར་འཚོལ།</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="479"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished">པར་དང་བརྙན་ནང་དུ་འདྲེན་པ།</translation>
+        <translation>པར་དང་བརྙན་ནང་དུ་འདྲེན་པ།</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="510"/>
@@ -299,7 +297,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="542"/>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>སྐོར་བ།</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="562"/>
@@ -317,7 +315,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="74"/>
         <source>%1 photos</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་པར་%1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="82"/>
@@ -327,7 +325,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="84"/>
         <source>%1 videos</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་བརྙན་%1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="191"/>
@@ -345,7 +343,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="89"/>
         <source>%1 photos</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་པར་%1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="97"/>
@@ -355,12 +353,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="99"/>
         <source>%1 videos</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་བརྙན་%1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="152"/>
         <source>0 item</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="214"/>
@@ -405,7 +403,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="115"/>
         <source>Successfully added to “%1”</source>
-        <translation type="unfinished"> “%1”ནང་སྣོན་ཐུབ་པ།</translation>
+        <translation> “%1”ནང་སྣོན་ཐུབ་པ།</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="177"/>
@@ -415,7 +413,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="179"/>
         <source>%1 photos</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་པར་%1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="187"/>
@@ -425,7 +423,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="189"/>
         <source>%1 videos</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་བརྙན་%1</translation>
     </message>
 </context>
 <context>
@@ -514,7 +512,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="64"/>
         <source>%1 photos</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་པར་%1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="72"/>
@@ -524,7 +522,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="74"/>
         <source>%1 videos</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་བརྙན་%1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="158"/>
@@ -551,12 +549,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="196"/>
         <source>Import 1 Item</source>
-        <translation type="unfinished"></translation>
+        <translation>1འདྲེན་པ།</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="197"/>
         <source>Import %1 Items</source>
-        <translation type="unfinished"></translation>
+        <translation>%1འདྲེན་པ།</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="204"/>
@@ -592,7 +590,7 @@
     <message>
         <location filename="../qml/Control/EmptyWarningDialog.qml" line="27"/>
         <source>File name cannot be empty!</source>
-        <translation type="unfinished"></translation>
+        <translation>ཡིག་ཆའི་མིང་སྟོང་པ་ཡིན་མི་རུང་།</translation>
     </message>
     <message>
         <location filename="../qml/Control/EmptyWarningDialog.qml" line="36"/>
@@ -605,7 +603,7 @@
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="55"/>
         <source>Export</source>
-        <translation type="unfinished">ཕྱིར་འདྲེན།</translation>
+        <translation>ཕྱིར་འདྲེན།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="72"/>
@@ -671,7 +669,7 @@
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="263"/>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>གཏན་ཁེལ།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="279"/>
@@ -699,7 +697,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="842"/>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>ཡི་གེ་ངོས་འཛིན་པ།</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="846"/>
@@ -770,7 +768,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="898"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁ་ཕྱེ།</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="902"/>
@@ -780,7 +778,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="926"/>
         <source>Image Viewing</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་རིས་ལ་ལྟ་བ།</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="930"/>
@@ -805,7 +803,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="958"/>
         <source>Live Text</source>
-        <translation type="unfinished"></translation>
+        <translation>གནས་ཚུལ་དངོས་ཀྱི་ཡི་གེ།</translation>
     </message>
 </context>
 <context>
@@ -831,42 +829,42 @@
     <message>
         <location filename="../src/globalstatus.cpp" line="810"/>
         <source>1 item selected (1 photo)</source>
-        <translation type="unfinished"></translation>
+        <translation>1བདམས་པ།（པར་1）</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="812"/>
         <source>1 item selected (1 video)</source>
-        <translation type="unfinished"></translation>
+        <translation>1བདམས་པ།（བརྙན་1）</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="814"/>
         <source>%1 items selected (%1 photos)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1བདམས་པ།（པར་%1）</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="816"/>
         <source>%1 items selected (%1 videos)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1བདམས་པ།（བརྙན་%1）</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="818"/>
         <source>%1 item selected (1 photo, 1 video)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1བདམས་པ།（པར་1  བརྙན་1）</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="820"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1བདམས་པ།（པར་1 བརྙན་%2）</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="822"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1བདམས་པ།（པར་%2 བརྙན་1）</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="824"/>
         <source>%1 items selected (%2 photos, %3 videos)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1བདམས་པ།（པར་%2 བརྙན་%3）</translation>
     </message>
 </context>
 <context>
@@ -880,7 +878,7 @@
         <location filename="../qml/GlobalVar.qml" line="38"/>
         <location filename="../qml/GlobalVar.qml" line="46"/>
         <source>The file format is not supported</source>
-        <translation type="unfinished"></translation>
+        <translation>ཡིག་ཆའི་རྣམ་གཞག་འདིར་རྒྱབ་སྐྱོར་མི་བྱེད།</translation>
     </message>
 </context>
 <context>
@@ -888,7 +886,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="98"/>
         <source>Successfully added to “%1”</source>
-        <translation type="unfinished"> “%1”ནང་སྣོན་ཐུབ་པ།</translation>
+        <translation> “%1”ནང་སྣོན་ཐུབ་པ།</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="153"/>
@@ -898,7 +896,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="155"/>
         <source>%1 photos</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་པར་%1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="163"/>
@@ -908,7 +906,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="165"/>
         <source>%1 videos</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་བརྙན་%1</translation>
     </message>
 </context>
 <context>
@@ -917,38 +915,32 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="210"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="443"/>
         <source>Import</source>
-        <translation type="unfinished">ནང་འདྲེན།</translation>
+        <translation>ནང་འདྲེན་བྱས་ཟིན།</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="358"/>
         <source>1 photo</source>
-        <translation type="unfinished">ཁྱོན་པར་1།</translation>
+        <translation>ཁྱོན་པར་1།</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="360"/>
         <source>1 video</source>
-        <translation type="unfinished">ཁྱོན་བརྙན་1།</translation>
+        <translation>ཁྱོན་བརྙན་1།</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="362"/>
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>ཁྱོན་པར་%n།</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="364"/>
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>ཁྱོན་བརྙན་%n།</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="366"/>
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>ཁྱོན་%n།</numerusform></translation>
     </message>
 </context>
 <context>
@@ -963,13 +955,13 @@
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>1 item</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>%1 items</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་%1</translation>
     </message>
 </context>
 <context>
@@ -982,12 +974,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InfomationDialog.qml" line="70"/>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>ཡིག་ཆའི་མིང་།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InfomationDialog.qml" line="81"/>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>ཆེ་ཆུང་།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InfomationDialog.qml" line="86"/>
@@ -1077,7 +1069,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InfomationDialog.qml" line="207"/>
         <source>Device model</source>
-        <translation type="unfinished"></translation>
+        <translation>སྒྲིག་ཆས་བཟོ་རྟགས།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InfomationDialog.qml" line="212"/>
@@ -1090,112 +1082,112 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="75"/>
         <source>Basic info</source>
-        <translation type="unfinished">གཞི་རྩའི་ཆ་འཕྲིན།</translation>
+        <translation>གཞི་རྩའི་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="88"/>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>ཡིག་ཆའི་མིང་།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="99"/>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>ཆེ་ཆུང་།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="106"/>
         <source>Dimensions</source>
-        <translation type="unfinished">པར་གྱི་རིང་ཐུང་།</translation>
+        <translation>པར་གྱི་རིང་ཐུང་།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="113"/>
         <source>Type</source>
-        <translation type="unfinished">པར་གྱི་རིགས།</translation>
+        <translation>པར་གྱི་རིགས།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="125"/>
         <source>Date captured</source>
-        <translation type="unfinished">པར་རྒྱག་པའི་ཚེས་གྲངས།</translation>
+        <translation>པར་རྒྱག་པའི་ཚེས་གྲངས།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="132"/>
         <source>Date modified</source>
-        <translation type="unfinished">ཚེས་གྲངས་བཟོ་བཅོས།</translation>
+        <translation>ཚེས་གྲངས་བཟོ་བཅོས།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="142"/>
         <source>Details</source>
-        <translation type="unfinished">ཞིབ་ཕྲའི་ཆ་འཕྲིན།</translation>
+        <translation>ཞིབ་ཕྲའི་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="155"/>
         <source>Aperture</source>
-        <translation type="unfinished">འོད་ཁུང་ཆེ་ཆུང་།</translation>
+        <translation>འོད་ཁུང་ཆེ་ཆུང་།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="163"/>
         <source>Exposure program</source>
-        <translation type="unfinished">འོད་ཕོག་བྱ་རིམ།</translation>
+        <translation>འོད་ཕོག་བྱ་རིམ།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="170"/>
         <source>Focal length</source>
-        <translation type="unfinished">མདོ་ཐག</translation>
+        <translation>མདོ་ཐག</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="176"/>
         <source>ISO</source>
-        <translation type="unfinished">ISOའོད་ལེན་ཚད།</translation>
+        <translation>ISOའོད་ལེན་ཚད།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="183"/>
         <source>Exposure mode</source>
-        <translation type="unfinished">འོད་ཕོག་པའི་དཔེ་རྣམ།</translation>
+        <translation>འོད་ཕོག་པའི་དཔེ་རྣམ།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="189"/>
         <source>Exposure time</source>
-        <translation type="unfinished">འོད་ཕོག་པའི་དུས་ཚོད།</translation>
+        <translation>འོད་ཕོག་པའི་དུས་ཚོད།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="195"/>
         <source>Flash</source>
-        <translation type="unfinished">འཁྱུག་སྒྲོན།</translation>
+        <translation>འཁྱུག་སྒྲོན།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="202"/>
         <source>Flash compensation</source>
-        <translation type="unfinished">འཁྱུག་སྒྲོན་ཁ་གསབ།</translation>
+        <translation>འཁྱུག་སྒྲོན་ཁ་གསབ།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="208"/>
         <source>Max aperture</source>
-        <translation type="unfinished">འོད་ཁུང་གི་གྲངས་ཐང་ཆེ་ཤོས།</translation>
+        <translation>འོད་ཁུང་གི་གྲངས་ཐང་ཆེ་ཤོས།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="215"/>
         <source>Colorspace</source>
-        <translation type="unfinished">ཚོས་གཞིའི་བར་སྟོང་།</translation>
+        <translation>ཚོས་གཞིའི་བར་སྟོང་།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="222"/>
         <source>Metering mode</source>
-        <translation type="unfinished">འོད་འཇལ་དཔེ་རྣམ།</translation>
+        <translation>འོད་འཇལ་དཔེ་རྣམ།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="229"/>
         <source>White balance</source>
-        <translation type="unfinished">དཀར་སྙོམས།</translation>
+        <translation>དཀར་སྙོམས།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="240"/>
         <source>Device model</source>
-        <translation type="unfinished"></translation>
+        <translation>སྒྲིག་ཆས་བཟོ་རྟགས།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="247"/>
         <source>Lens model</source>
-        <translation type="unfinished">པར་ཆས་ཀྱི་ཤེལ་སྒོའི་བཟོ་དབྱིབས།</translation>
+        <translation>པར་ཆས་ཀྱི་ཤེལ་སྒོའི་བཟོ་དབྱིབས།</translation>
     </message>
 </context>
 <context>
@@ -1209,12 +1201,12 @@
         <location filename="../qml/MainAlbumView.qml" line="240"/>
         <location filename="../qml/MainAlbumView.qml" line="252"/>
         <source>Imported:</source>
-        <translation type="unfinished"></translation>
+        <translation>དྲངས་པ།</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="253"/>
         <source>%1/%2</source>
-        <translation type="unfinished">%1/ལོའི་ཟླ་%2/ཚེས་%3ཉིན། {1/%2?}</translation>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="264"/>
@@ -1232,7 +1224,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/MainStack.qml" line="125"/>
         <source>Select pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་རིས་འདེམས་པ།</translation>
     </message>
 </context>
 <context>
@@ -1240,12 +1232,12 @@
     <message>
         <location filename="../qml/MenuItemStates.qml" line="103"/>
         <source>Export successful</source>
-        <translation type="unfinished">ཕྱིར་འདྲེན་ལེགས་གྲུབ་བྱུང་བ།</translation>
+        <translation>ཕྱིར་འདྲེན་ལེགས་གྲུབ་བྱུང་བ།</translation>
     </message>
     <message>
         <location filename="../qml/MenuItemStates.qml" line="105"/>
         <source>Export failed</source>
-        <translation type="unfinished">ཕྱིར་འདྲེན་མ་ཐུབ།</translation>
+        <translation>ཕྱིར་འདྲེན་མ་ཐུབ།</translation>
     </message>
 </context>
 <context>
@@ -1253,7 +1245,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/MonthCollection.qml" line="154"/>
         <source>%1/%2</source>
-        <translation type="unfinished">%1/ལོའི་ཟླ་%2/ཚེས་%3ཉིན། {1/%2?}</translation>
+        <translation>%1/%2</translation>
     </message>
 </context>
 <context>
@@ -1282,7 +1274,7 @@
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="118"/>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>གཏན་ཁེལ།</translation>
     </message>
 </context>
 <context>
@@ -1290,7 +1282,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NoPermissionImageDelegate.qml" line="22"/>
         <source>You have no permission to view the image</source>
-        <translation type="unfinished">ཁྱོད་ལ་པར་རིས་འདི་ལྟ་བཤེར་བྱེད་དབང་མེད།</translation>
+        <translation>ཁྱོད་ལ་པར་རིས་འདི་ལྟ་བཤེར་བྱེད་དབང་མེད།</translation>
     </message>
 </context>
 <context>
@@ -1298,7 +1290,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="60"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished">པར་དང་བརྙན་ནང་དུ་འདྲེན་པ།</translation>
+        <translation>པར་དང་བརྙན་ནང་དུ་འདྲེན་པ།</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
@@ -1308,7 +1300,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>Or drag them here</source>
-        <translation type="unfinished">ཁྱེད་ཀྱིས་པར་དང་བརྙན་འདིར་འདྲུད་ཀྱང་ཆོག</translation>
+        <translation>ཁྱེད་ཀྱིས་པར་དང་བརྙན་འདིར་འདྲུད་ཀྱང་ཆོག</translation>
     </message>
 </context>
 <context>
@@ -1316,7 +1308,7 @@
     <message>
         <location filename="../src/widgets/widgtes/noresultwidget.cpp" line="39"/>
         <source>No results</source>
-        <translation type="unfinished">འབྲས་བུ་མེད།</translation>
+        <translation>འབྲས་བུ་མེད།</translation>
     </message>
 </context>
 <context>
@@ -1324,7 +1316,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NonexistImageDelegate.qml" line="42"/>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་རིས་ཡིག་ཆ་མ་རྙེད།</translation>
     </message>
 </context>
 <context>
@@ -1332,7 +1324,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1349,7 +1341,7 @@
         <location filename="../qml/PreviewImageViewer/PropertyActionItemDelegate.qml" line="67"/>
         <location filename="../qml/PreviewImageViewer/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>ཡིག་ཆ་འདི་ཉིད་འདུག་པས། མིང་གཞན་བེད་སྤྱོད་བྱོས།</translation>
     </message>
 </context>
 <context>
@@ -1358,17 +1350,17 @@
         <location filename="../src/albumControl.cpp" line="606"/>
         <location filename="../src/albumControl.cpp" line="655"/>
         <source>%1/%2/%3 %4:%5</source>
-        <translation type="unfinished">%1/ལོའི་ཟླ་%2/ཚེས་%3ཉིན། {1/%2/%3 %4:%5?}</translation>
+        <translation>%1/%2/%3 %4:%5</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="637"/>
         <source>%1</source>
-        <translation type="unfinished">%1/ལོའི་ཟླ་%2/ཚེས་%3ཉིན། {1?}</translation>
+        <translation>%1</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="643"/>
         <source>%1/%2</source>
-        <translation type="unfinished">%1/ལོའི་ཟླ་%2/ཚེས་%3ཉིན། {1/%2?}</translation>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="319"/>
@@ -1383,19 +1375,19 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="411"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="419"/>
         <source>All</source>
-        <translation type="unfinished">རྣམ་གྲངས་ཆ་ཚང་།</translation>
+        <translation>རྣམ་གྲངས་ཆ་ཚང་།</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="403"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="427"/>
         <source>Photos</source>
-        <translation type="unfinished">པར།</translation>
+        <translation>པར།</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="410"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="434"/>
         <source>Videos</source>
-        <translation type="unfinished">བརྙན་འཕྲིན།</translation>
+        <translation>བརྙན་འཕྲིན།</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1357"/>
@@ -1411,27 +1403,27 @@
         <location filename="../main.cpp" line="66"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="269"/>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>ཉིན།</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="341"/>
         <source>Imported on</source>
-        <translation type="unfinished">་་་་་དུ་ནང་འདྲེན་བྱེད།</translation>
+        <translation>་་་་་དུ་ནང་འདྲེན་བྱེད།</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="341"/>
         <source> %1-%2-%3 %4</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/ལོའི་ཟླ་%2/ཚེས་%3ཉིན། %4</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="344"/>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation>ལ་འདྲེན་འཇུག་བྱེད།</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="271"/>
@@ -1443,14 +1435,14 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2088"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="453"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation>འདེམས་པ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1328"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2083"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2088"/>
         <source>Unselect</source>
-        <translation type="unfinished"></translation>
+        <translation>འདེམས་པ་འདོར་བ།</translation>
     </message>
 </context>
 <context>
@@ -1458,12 +1450,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="85"/>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"></translation>
+        <translation>ཡིག་ཆ་འདི་ཉིད་འདུག་པས། མིང་གཞན་བེད་སྤྱོད་བྱོས།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="141"/>
@@ -1473,7 +1465,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="123"/>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>གཏན་ཁེལ།</translation>
     </message>
 </context>
 <context>
@@ -1486,7 +1478,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="54"/>
         <source>%1 photos</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་པར་%1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="62"/>
@@ -1496,7 +1488,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="64"/>
         <source>%1 videos</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་བརྙན་%1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="120"/>
@@ -1516,12 +1508,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="196"/>
         <source>Delete Selected (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1སུབ་པ།</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="216"/>
         <source>Restore Selected (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1སོར་ཆུད།</translation>
     </message>
 </context>
 <context>
@@ -1547,22 +1539,22 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="71"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="101"/>
         <source>Cancel</source>
-        <translation type="unfinished">འདོར་བ།</translation>
+        <translation>འདོར་བ།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>གཏན་ཁེལ།</translation>
     </message>
 </context>
 <context>
@@ -1575,7 +1567,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="53"/>
         <source>%1 photos found</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་པར་%1རྙེད་པ།</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="57"/>
@@ -1585,12 +1577,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="59"/>
         <source>%1 videos found</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་བརྙན་%1རྙེད་པ།</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="64"/>
         <source>%1 items found</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་%1རྙེད་པ།</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="96"/>
@@ -1624,7 +1616,7 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="178"/>
         <source>Collection</source>
-        <translation type="unfinished"></translation>
+        <translation>ཕྱོགས་བསྒྲིགས།</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="179"/>
@@ -1654,7 +1646,7 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="283"/>
         <source>Add an album</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་ཁུག་གསར་བཟོ།</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="309"/>
@@ -1743,7 +1735,7 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="402"/>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>ཉིན།</translation>
     </message>
 </context>
 <context>
@@ -1764,32 +1756,32 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="171"/>
         <source>Back to Album</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་ཁུག་ཏུ་ཕྱིར་ལོག</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="203"/>
         <source>Previous</source>
-        <translation type="unfinished">པར་གོང་མ།</translation>
+        <translation>པར་གོང་མ།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="228"/>
         <source>Next</source>
-        <translation type="unfinished">པར་འོག་མ།</translation>
+        <translation>པར་འོག་མ།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="264"/>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation>ཐོག་མའི་ཆེ་ཆུང་།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="283"/>
         <source>Fit to window</source>
-        <translation type="unfinished">སྒེའུ་ཁུང་དང་འཚམ་པ།</translation>
+        <translation>སྒེའུ་ཁུང་དང་འཚམ་པ།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="301"/>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>སྐོར་བ།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
@@ -1816,12 +1808,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="591"/>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>ཡི་གེ་ངོས་འཛིན་པ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaildelegate.cpp" line="207"/>
         <source>days</source>
-        <translation type="unfinished">ཉིན།</translation>
+        <translation>ཉིན།</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="700"/>
@@ -1834,7 +1826,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="929"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="958"/>
         <source>Photo info</source>
-        <translation type="unfinished">པར་གྱི་ཆ་འཕྲིན།</translation>
+        <translation>པར་གྱི་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="701"/>
@@ -1847,7 +1839,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="930"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="959"/>
         <source>Video info</source>
-        <translation type="unfinished">བརྙན་གྱི་ཆ་འཕྲིན།</translation>
+        <translation>བརྙན་གྱི་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="722"/>
@@ -1855,7 +1847,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="910"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="936"/>
         <source>View</source>
-        <translation type="unfinished">ལྟ་བཤེར།</translation>
+        <translation>ལྟ་བཤེར།</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="723"/>
@@ -1864,7 +1856,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="856"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="937"/>
         <source>Fullscreen</source>
-        <translation type="unfinished">ཡོལ་གང་།</translation>
+        <translation>ཡོལ་གང་།</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="724"/>
@@ -1873,7 +1865,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="876"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="939"/>
         <source>Slide show</source>
-        <translation type="unfinished">སྒྲོན་བརྙན་སྟོན་པ།</translation>
+        <translation>སྒྲོན་བརྙན་སྟོན་པ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="725"/>
@@ -1883,20 +1875,20 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="868"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="941"/>
         <source>Export</source>
-        <translation type="unfinished">ཕྱིར་འདྲེན།</translation>
+        <translation>ཕྱིར་འདྲེན།</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="735"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="942"/>
         <source>Copy</source>
-        <translation type="unfinished">པར་སློག</translation>
+        <translation>པར་སློག</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="743"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="823"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="945"/>
         <source>Remove from album</source>
-        <translation type="unfinished">པར་ཁུག་ལས་སྤོ་བ།</translation>
+        <translation>པར་ཁུག་ལས་སྤོ་བ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="745"/>
@@ -1904,7 +1896,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="866"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="938"/>
         <source>Print</source>
-        <translation type="unfinished">པར་འདེབས།</translation>
+        <translation>པར་འདེབས།</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="755"/>
@@ -1914,7 +1906,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="885"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="952"/>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">གཡས་སྐོར་བརྒྱབ།</translation>
+        <translation>གཡས་སྐོར་བརྒྱབ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="756"/>
@@ -1924,14 +1916,14 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="886"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="953"/>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">གཡོན་སྐོར་བརྒྱབ།</translation>
+        <translation>གཡོན་སྐོར་བརྒྱབ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="757"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="860"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="957"/>
         <source>Display in file manager</source>
-        <translation type="unfinished">ཡིག་ཆ་དོ་དམ་བྱེད་ཆས་ཁྲོད་མངོན་སྟོན་བྱེད།</translation>
+        <translation>ཡིག་ཆ་དོ་དམ་བྱེད་ཆས་ཁྲོད་མངོན་སྟོན་བྱེད།</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="760"/>
@@ -1943,22 +1935,22 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="898"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="956"/>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">རྒྱབ་ཤོག་ཏུ་བྱེད་པ།</translation>
+        <translation>རྒྱབ་ཤོག་ཏུ་བྱེད་པ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="928"/>
         <source>Restore</source>
-        <translation type="unfinished">སོར་ཆུད།</translation>
+        <translation>སོར་ཆུད།</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="965"/>
         <source>Add to album</source>
-        <translation type="unfinished">པར་ཁུག་ནང་དུ་སྣོན་པ།</translation>
+        <translation>པར་ཁུག་ནང་དུ་སྣོན་པ།</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="969"/>
         <source>New album</source>
-        <translation type="unfinished">པར་ཁུག་གསར་འཛུགས།</translation>
+        <translation>པར་ཁུག་གསར་འཛུགས།</translation>
     </message>
 </context>
 <context>
@@ -1966,102 +1958,102 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="795"/>
         <source>View</source>
-        <translation type="unfinished">ལྟ་བཤེར།</translation>
+        <translation>ལྟ་བཤེར།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="804"/>
         <source>Fullscreen</source>
-        <translation type="unfinished">ཡོལ་གང་།</translation>
+        <translation>ཡོལ་གང་།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="821"/>
         <source>Print</source>
-        <translation type="unfinished">པར་འདེབས།</translation>
+        <translation>པར་འདེབས།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="840"/>
         <source>Slide show</source>
-        <translation type="unfinished">སྒྲོན་བརྙན་སྟོན་པ།</translation>
+        <translation>སྒྲོན་བརྙན་སྟོན་པ།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="866"/>
         <source>Add to album</source>
-        <translation type="unfinished">པར་ཁུག་ནང་དུ་སྣོན་པ།</translation>
+        <translation>པར་ཁུག་ནང་དུ་སྣོན་པ།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="869"/>
         <source>New album</source>
-        <translation type="unfinished">པར་ཁུག་གསར་འཛུགས།</translation>
+        <translation>པར་ཁུག་གསར་འཛུགས།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="901"/>
         <source>Successfully added to “%1”</source>
-        <translation type="unfinished"> “%1”ནང་སྣོན་ཐུབ་པ།</translation>
+        <translation> “%1”ནང་སྣོན་ཐུབ་པ།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="910"/>
         <source>Export</source>
-        <translation type="unfinished">ཕྱིར་འདྲེན།</translation>
+        <translation>ཕྱིར་འདྲེན།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="929"/>
         <source>Copy</source>
-        <translation type="unfinished">པར་སློག</translation>
+        <translation>པར་སློག</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="938"/>
         <source>Delete</source>
-        <translation type="unfinished">སུབ་པ།</translation>
+        <translation>སུབ་པ།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="948"/>
         <source>Remove from album</source>
-        <translation type="unfinished">པར་ཁུག་ལས་སྤོ་བ།</translation>
+        <translation>པར་ཁུག་ལས་སྤོ་བ།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="963"/>
         <source>Favorite</source>
-        <translation type="unfinished">བསྡུ་ཉར།</translation>
+        <translation>བསྡུ་ཉར།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="973"/>
         <source>Unfavorite</source>
-        <translation type="unfinished">བསྡུ་ཉར་བྱེད་པ་འདོར་བ།</translation>
+        <translation>བསྡུ་ཉར་བྱེད་པ་འདོར་བ།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="987"/>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">གཡས་སྐོར་བརྒྱབ།</translation>
+        <translation>གཡས་སྐོར་བརྒྱབ།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="996"/>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">གཡོན་སྐོར་བརྒྱབ།</translation>
+        <translation>གཡོན་སྐོར་བརྒྱབ།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1005"/>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">རྒྱབ་ཤོག་ཏུ་བྱེད་པ།</translation>
+        <translation>རྒྱབ་ཤོག་ཏུ་བྱེད་པ།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1024"/>
         <source>Display in file manager</source>
-        <translation type="unfinished">ཡིག་ཆ་དོ་དམ་བྱེད་ཆས་ཁྲོད་མངོན་སྟོན་བྱེད།</translation>
+        <translation>ཡིག་ཆ་དོ་དམ་བྱེད་ཆས་ཁྲོད་མངོན་སྟོན་བྱེད།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1043"/>
         <source>Restore</source>
-        <translation type="unfinished">སོར་ཆུད།</translation>
+        <translation>སོར་ཆུད།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1052"/>
         <source>Photo info</source>
-        <translation type="unfinished">པར་གྱི་ཆ་འཕྲིན།</translation>
+        <translation>པར་གྱི་ཆ་འཕྲིན།</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1071"/>
         <source>Video info</source>
-        <translation type="unfinished">བརྙན་གྱི་ཆ་འཕྲིན།</translation>
+        <translation>བརྙན་གྱི་ཆ་འཕྲིན།</translation>
     </message>
 </context>
 <context>
@@ -2069,33 +2061,27 @@
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="333"/>
         <source>1 photo</source>
-        <translation type="unfinished">ཁྱོན་པར་1།</translation>
+        <translation>ཁྱོན་པར་1།</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="335"/>
         <source>1 video</source>
-        <translation type="unfinished">ཁྱོན་བརྙན་1།</translation>
+        <translation>ཁྱོན་བརྙན་1།</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="337"/>
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>ཁྱོན་པར་%n</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="339"/>
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>ཁྱོན་བརྙན་%n</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="341"/>
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>ཁྱོན་%n</numerusform></translation>
     </message>
 </context>
 <context>
@@ -2103,7 +2089,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="121"/>
         <source>Back to Album</source>
-        <translation type="unfinished"></translation>
+        <translation>པར་ཁུག་ཏུ་ཕྱིར་ལོག</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="162"/>
@@ -2118,7 +2104,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="210"/>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation>ཐོག་མའི་ཆེ་ཆུང་།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="231"/>
@@ -2128,7 +2114,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="257"/>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>སྐོར་བ།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="290"/>
@@ -2143,7 +2129,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="431"/>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>ཡི་གེ་ངོས་འཛིན་པ།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="458"/>
@@ -2161,7 +2147,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="66"/>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>ཡིག་ཆའི་མིང་།</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="76"/>
@@ -2171,7 +2157,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="83"/>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>ཆེ་ཆུང་།</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="88"/>
@@ -2265,7 +2251,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="81"/>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>ཡི་གེ་ངོས་འཛིན་པ།</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="103"/>
@@ -2343,12 +2329,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="185"/>
@@ -2358,7 +2344,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="189"/>
@@ -2368,7 +2354,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="193"/>
         <source>%1 is released under %2.</source>
-        <translation type="unfinished">%1གཞིར་བཟུང་%2.གྲོས་ཡིག་འགྲེམས་པ། {1 ?}</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2376,17 +2362,17 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="126"/>
         <source>%1</source>
-        <translation type="unfinished">%1/ལོའི་ཟླ་%2/ཚེས་%3ཉིན། {1?}</translation>
+        <translation>%1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="139"/>
         <source>%1 items</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་%1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="139"/>
         <source>1 item</source>
-        <translation type="unfinished"></translation>
+        <translation>ཁྱོན་1</translation>
     </message>
 </context>
 <context>
