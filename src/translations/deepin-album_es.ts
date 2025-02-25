@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="es">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="es">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -192,7 +190,7 @@
         <location filename="../src/albumControl.cpp" line="2121"/>
         <location filename="../src/albumControl.cpp" line="2125"/>
         <source>%1Year%2Month%3Day</source>
-        <translation type="unfinished"></translation>
+        <translation>%1Año%2Meses%3 Día</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2175"/>
@@ -230,7 +228,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="135"/>
         <source>%1 is released under %2</source>
-        <translation>%1 se libera bajo %2</translation>
+        <translation>%1 se publica bajo la licencia %2</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="173"/>
@@ -284,7 +282,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="479"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished">Importar fotos y videos</translation>
+        <translation>Importar fotos y videos</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="510"/>
@@ -360,7 +358,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="152"/>
         <source>0 item</source>
-        <translation type="unfinished">1 elemento {0 ?}</translation>
+        <translation>1 elemento {0 ?}</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="214"/>
@@ -405,7 +403,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="115"/>
         <source>Successfully added to “%1”</source>
-        <translation type="unfinished">Correctamente añadido a &quot;%1&quot;</translation>
+        <translation>Agregado exitosamente a &apos;%1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="177"/>
@@ -456,7 +454,7 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="48"/>
         <source>Are you sure you want to delete this file locally?</source>
-        <translation>¿Está seguro de que quiere eliminar este archivo localmente?</translation>
+        <translation>¿Está seguro de que quiere borrar este archivo localmente?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="49"/>
@@ -466,7 +464,7 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="51"/>
         <source>Are you sure you want to delete %1 files locally?</source>
-        <translation>¿Estás seguro de que quieres borrar los archivos %1 localmente?</translation>
+        <translation>¿Está seguro de que quiere borrar %1 archivos localmente?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="52"/>
@@ -519,7 +517,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="72"/>
         <source>1 video</source>
-        <translation>1 video</translation>
+        <translation>1 vídeo</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="74"/>
@@ -605,7 +603,7 @@
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="55"/>
         <source>Export</source>
-        <translation type="unfinished">Exportar</translation>
+        <translation>Exportar</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="72"/>
@@ -831,42 +829,42 @@
     <message>
         <location filename="../src/globalstatus.cpp" line="810"/>
         <source>1 item selected (1 photo)</source>
-        <translation type="unfinished">1 elemento seleccionado (1 foto)</translation>
+        <translation>1 elemento seleccionado (1 foto)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="812"/>
         <source>1 item selected (1 video)</source>
-        <translation type="unfinished">1 elemento seleccionado (1 vídeo)</translation>
+        <translation>1 elemento seleccionado (1 vídeo)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="814"/>
         <source>%1 items selected (%1 photos)</source>
-        <translation type="unfinished">%1 elementos seleccionados (%1 fotos)</translation>
+        <translation>%1 elementos seleccionados (%1 fotos)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="816"/>
         <source>%1 items selected (%1 videos)</source>
-        <translation type="unfinished">%1 elementos seleccionados (%1 vídeos)</translation>
+        <translation>%1 elementos seleccionados (%1 vídeos)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="818"/>
         <source>%1 item selected (1 photo, 1 video)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 elemento seleccionado (1 foto, 1vídeo)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="820"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
-        <translation type="unfinished">%1 elementos seleccionados (1 foto, %2 vídeos)</translation>
+        <translation>%1 elementos seleccionados (1 foto, %2 vídeos)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="822"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
-        <translation type="unfinished">%1 elementos seleccionados (%2 fotos, 1 vídeo)</translation>
+        <translation>%1 elementos seleccionados (%2 fotos, 1 vídeo)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="824"/>
         <source>%1 items selected (%2 photos, %3 videos)</source>
-        <translation type="unfinished">%1 elementos seleccionados (%2 fotos, %3 vídeos)</translation>
+        <translation>%1 elementos seleccionados (%2 fotos, %3 vídeos)</translation>
     </message>
 </context>
 <context>
@@ -880,7 +878,7 @@
         <location filename="../qml/GlobalVar.qml" line="38"/>
         <location filename="../qml/GlobalVar.qml" line="46"/>
         <source>The file format is not supported</source>
-        <translation type="unfinished"></translation>
+        <translation>El formato de archivo no es compatible.</translation>
     </message>
 </context>
 <context>
@@ -888,7 +886,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="98"/>
         <source>Successfully added to “%1”</source>
-        <translation type="unfinished">Correctamente añadido a &quot;%1&quot;</translation>
+        <translation>Agregado exitosamente a &apos;%1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="153"/>
@@ -917,41 +915,32 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="210"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="443"/>
         <source>Import</source>
-        <translation type="unfinished">Importar</translation>
+        <translation>Importar</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="358"/>
         <source>1 photo</source>
-        <translation type="unfinished">1 foto</translation>
+        <translation>1 foto</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="360"/>
         <source>1 video</source>
-        <translation type="unfinished">1 video</translation>
+        <translation>1 video</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="362"/>
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n foto</numerusform><numerusform>%n fotos</numerusform><numerusform>%n fotos</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="364"/>
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n video</numerusform><numerusform>%n videos</numerusform><numerusform>%n videos</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="366"/>
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n elemento</numerusform><numerusform>%n elementos</numerusform><numerusform>%n elementos</numerusform></translation>
     </message>
 </context>
 <context>
@@ -1093,112 +1082,112 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="75"/>
         <source>Basic info</source>
-        <translation type="unfinished">Información básica</translation>
+        <translation>Información básica</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="88"/>
         <source>File name</source>
-        <translation type="unfinished">Nombre del archivo</translation>
+        <translation>Nombre del archivo</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="99"/>
         <source>Size</source>
-        <translation type="unfinished">Tamaño</translation>
+        <translation>Tamaño</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="106"/>
         <source>Dimensions</source>
-        <translation type="unfinished">Dimensiones</translation>
+        <translation>Dimensiones</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="113"/>
         <source>Type</source>
-        <translation type="unfinished">Tipo</translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="125"/>
         <source>Date captured</source>
-        <translation type="unfinished">Fecha de captura</translation>
+        <translation>Fecha de captura</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="132"/>
         <source>Date modified</source>
-        <translation type="unfinished">Fecha de modificación</translation>
+        <translation>Fecha de modificación</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="142"/>
         <source>Details</source>
-        <translation type="unfinished">Detalles</translation>
+        <translation>Detalles</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="155"/>
         <source>Aperture</source>
-        <translation type="unfinished">Apertura</translation>
+        <translation>Apertura</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="163"/>
         <source>Exposure program</source>
-        <translation type="unfinished">Programa de exposición</translation>
+        <translation>Programa de exposición</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="170"/>
         <source>Focal length</source>
-        <translation type="unfinished">Longitud focal</translation>
+        <translation>Longitud focal</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="176"/>
         <source>ISO</source>
-        <translation type="unfinished">ISO</translation>
+        <translation>ISO</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="183"/>
         <source>Exposure mode</source>
-        <translation type="unfinished">Modo de exposición</translation>
+        <translation>Modo de exposición</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="189"/>
         <source>Exposure time</source>
-        <translation type="unfinished">Tiempo de exposición</translation>
+        <translation>Tiempo de exposición</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="195"/>
         <source>Flash</source>
-        <translation type="unfinished">Flash</translation>
+        <translation>Flash</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="202"/>
         <source>Flash compensation</source>
-        <translation type="unfinished">Compensación de flash</translation>
+        <translation>Compensación de flash</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="208"/>
         <source>Max aperture</source>
-        <translation type="unfinished">Abertura máxima</translation>
+        <translation>Abertura máxima</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="215"/>
         <source>Colorspace</source>
-        <translation type="unfinished">Espacio de color</translation>
+        <translation>Espacio de color</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="222"/>
         <source>Metering mode</source>
-        <translation type="unfinished">Modo de medición</translation>
+        <translation>Modo de medición</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="229"/>
         <source>White balance</source>
-        <translation type="unfinished">Balance de blancos</translation>
+        <translation>Balance de blancos</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="240"/>
         <source>Device model</source>
-        <translation type="unfinished">Modelo de dispositivo</translation>
+        <translation>Modelo de dispositivo</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="247"/>
         <source>Lens model</source>
-        <translation type="unfinished">Modelo de lente</translation>
+        <translation>Modelo de lente</translation>
     </message>
 </context>
 <context>
@@ -1235,7 +1224,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/MainStack.qml" line="125"/>
         <source>Select pictures</source>
-        <translation type="unfinished">Seleccionar imágenes</translation>
+        <translation>Seleccionar imágenes</translation>
     </message>
 </context>
 <context>
@@ -1243,12 +1232,12 @@
     <message>
         <location filename="../qml/MenuItemStates.qml" line="103"/>
         <source>Export successful</source>
-        <translation type="unfinished">Exportación exitosa</translation>
+        <translation>Exportación exitosa</translation>
     </message>
     <message>
         <location filename="../qml/MenuItemStates.qml" line="105"/>
         <source>Export failed</source>
-        <translation type="unfinished">Error al exportar</translation>
+        <translation>Error al exportar</translation>
     </message>
 </context>
 <context>
@@ -1293,7 +1282,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NoPermissionImageDelegate.qml" line="22"/>
         <source>You have no permission to view the image</source>
-        <translation type="unfinished">No tienes permisos para ver la imagen</translation>
+        <translation>No tienes permisos para ver la imagen</translation>
     </message>
 </context>
 <context>
@@ -1301,7 +1290,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="60"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished">Importar fotos y videos</translation>
+        <translation>Importar fotos y videos</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
@@ -1311,7 +1300,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>Or drag them here</source>
-        <translation type="unfinished">O arrastrarlos hasta aquí</translation>
+        <translation>O arrastrarlos hasta aquí</translation>
     </message>
 </context>
 <context>
@@ -1319,7 +1308,7 @@
     <message>
         <location filename="../src/widgets/widgtes/noresultwidget.cpp" line="39"/>
         <source>No results</source>
-        <translation type="unfinished">No hay resultados</translation>
+        <translation>No hay resultados</translation>
     </message>
 </context>
 <context>
@@ -1327,7 +1316,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NonexistImageDelegate.qml" line="42"/>
         <source>Image file not found</source>
-        <translation type="unfinished">Archivo de imagen no encontrado</translation>
+        <translation>Archivo de imagen no encontrado</translation>
     </message>
 </context>
 <context>
@@ -1335,7 +1324,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir imagen</translation>
     </message>
 </context>
 <context>
@@ -1386,19 +1375,19 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="411"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="419"/>
         <source>All</source>
-        <translation type="unfinished">Todo</translation>
+        <translation>Todo</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="403"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="427"/>
         <source>Photos</source>
-        <translation type="unfinished">Fotos</translation>
+        <translation>Fotos</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="410"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="434"/>
         <source>Videos</source>
-        <translation type="unfinished">Videos</translation>
+        <translation>Videos</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1357"/>
@@ -1414,27 +1403,27 @@
         <location filename="../main.cpp" line="66"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation type="unfinished"></translation>
+        <translation>Principal</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="269"/>
         <source>day</source>
-        <translation type="unfinished">día</translation>
+        <translation>día</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="341"/>
         <source>Imported on</source>
-        <translation type="unfinished">Importar en</translation>
+        <translation>Importar en</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="341"/>
         <source> %1-%2-%3 %4</source>
-        <translation type="unfinished"></translation>
+        <translation> %1-%2-%3 %4</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="344"/>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation>Importar en</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="271"/>
@@ -1446,14 +1435,14 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2088"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="453"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1328"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2083"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2088"/>
         <source>Unselect</source>
-        <translation type="unfinished"></translation>
+        <translation>Deseleccionar</translation>
     </message>
 </context>
 <context>
@@ -1461,7 +1450,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Introduzca un nuevo nombre</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="85"/>
@@ -1550,22 +1539,22 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="71"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede mover &quot;%1&quot; a la papelera. ¿Quieres eliminarlo de forma permanente?</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta acción no se puede deshacer</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="101"/>
         <source>Cancel</source>
-        <translation type="unfinished">Cancelar</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation type="unfinished">Confirmar</translation>
+        <translation>Confirmar</translation>
     </message>
 </context>
 <context>
@@ -1767,32 +1756,32 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="171"/>
         <source>Back to Album</source>
-        <translation type="unfinished">Volver al álbum</translation>
+        <translation>Volver al álbum</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="203"/>
         <source>Previous</source>
-        <translation type="unfinished">Anterior</translation>
+        <translation>Anterior</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="228"/>
         <source>Next</source>
-        <translation type="unfinished">Siguiente</translation>
+        <translation>Siguiente</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="264"/>
         <source>Original size</source>
-        <translation type="unfinished">Tamaño original</translation>
+        <translation>Tamaño original</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="283"/>
         <source>Fit to window</source>
-        <translation type="unfinished">Ajustar a la ventana</translation>
+        <translation>Ajustar a la ventana</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="301"/>
         <source>Rotate</source>
-        <translation type="unfinished">Girar</translation>
+        <translation>Girar</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
@@ -1819,12 +1808,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="591"/>
         <source>Extract text</source>
-        <translation type="unfinished">Extraer el texto</translation>
+        <translation>Extraer el texto</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaildelegate.cpp" line="207"/>
         <source>days</source>
-        <translation type="unfinished">días</translation>
+        <translation>días</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="700"/>
@@ -1837,7 +1826,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="929"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="958"/>
         <source>Photo info</source>
-        <translation type="unfinished"></translation>
+        <translation>Información de la foto</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="701"/>
@@ -1850,7 +1839,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="930"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="959"/>
         <source>Video info</source>
-        <translation type="unfinished">Inf de video</translation>
+        <translation>Inf de video</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="722"/>
@@ -1858,7 +1847,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="910"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="936"/>
         <source>View</source>
-        <translation type="unfinished">Ver</translation>
+        <translation>Ver</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="723"/>
@@ -1867,7 +1856,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="856"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="937"/>
         <source>Fullscreen</source>
-        <translation type="unfinished">Pantalla completa</translation>
+        <translation>Pantalla completa</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="724"/>
@@ -1876,7 +1865,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="876"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="939"/>
         <source>Slide show</source>
-        <translation type="unfinished">Presentación</translation>
+        <translation>Presentación</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="725"/>
@@ -1886,20 +1875,20 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="868"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="941"/>
         <source>Export</source>
-        <translation type="unfinished">Exportar</translation>
+        <translation>Exportar</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="735"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="942"/>
         <source>Copy</source>
-        <translation type="unfinished">Copiar</translation>
+        <translation>Copiar</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="743"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="823"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="945"/>
         <source>Remove from album</source>
-        <translation type="unfinished">Quitar del álbum</translation>
+        <translation>Quitar del álbum</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="745"/>
@@ -1907,7 +1896,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="866"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="938"/>
         <source>Print</source>
-        <translation type="unfinished">Imprimir</translation>
+        <translation>Imprimir</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="755"/>
@@ -1917,7 +1906,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="885"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="952"/>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Girar hacia la derecha</translation>
+        <translation>Girar hacia la derecha</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="756"/>
@@ -1927,14 +1916,14 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="886"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="953"/>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Girar hacia la izquierda</translation>
+        <translation>Girar hacia la izquierda</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="757"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="860"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="957"/>
         <source>Display in file manager</source>
-        <translation type="unfinished">Mostrar en el administrador de archivos</translation>
+        <translation>Mostrar en el administrador de archivos</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="760"/>
@@ -1946,22 +1935,22 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="898"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="956"/>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Establecer como fondo de pantalla</translation>
+        <translation>Establecer como fondo de pantalla</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="928"/>
         <source>Restore</source>
-        <translation type="unfinished">Restaurar</translation>
+        <translation>Restaurar</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="965"/>
         <source>Add to album</source>
-        <translation type="unfinished">Añadir al álbum</translation>
+        <translation>Añadir al álbum</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="969"/>
         <source>New album</source>
-        <translation type="unfinished">Nuevo álbum</translation>
+        <translation>Nuevo álbum</translation>
     </message>
 </context>
 <context>
@@ -1969,102 +1958,102 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="795"/>
         <source>View</source>
-        <translation type="unfinished">Ver</translation>
+        <translation>Ver</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="804"/>
         <source>Fullscreen</source>
-        <translation type="unfinished">Pantalla completa</translation>
+        <translation>Pantalla completa</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="821"/>
         <source>Print</source>
-        <translation type="unfinished">Imprimir</translation>
+        <translation>Imprimir</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="840"/>
         <source>Slide show</source>
-        <translation type="unfinished">Presentación</translation>
+        <translation>Presentación</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="866"/>
         <source>Add to album</source>
-        <translation type="unfinished">Añadir al álbum</translation>
+        <translation>Añadir al álbum</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="869"/>
         <source>New album</source>
-        <translation type="unfinished">Nuevo álbum</translation>
+        <translation>Nuevo álbum</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="901"/>
         <source>Successfully added to “%1”</source>
-        <translation type="unfinished">Correctamente añadido a &quot;%1&quot;</translation>
+        <translation>Correctamente añadido a &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="910"/>
         <source>Export</source>
-        <translation type="unfinished">Exportar</translation>
+        <translation>Exportar</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="929"/>
         <source>Copy</source>
-        <translation type="unfinished">Copiar</translation>
+        <translation>Copiar</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="938"/>
         <source>Delete</source>
-        <translation type="unfinished">Borrar</translation>
+        <translation>Borrar</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="948"/>
         <source>Remove from album</source>
-        <translation type="unfinished">Quitar del álbum</translation>
+        <translation>Quitar del álbum</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="963"/>
         <source>Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir a favoritos</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="973"/>
         <source>Unfavorite</source>
-        <translation type="unfinished">Quitar de favoritos</translation>
+        <translation>Quitar de favoritos</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="987"/>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Girar hacia la derecha</translation>
+        <translation>Girar hacia la derecha</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="996"/>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Girar hacia la izquierda</translation>
+        <translation>Girar hacia la izquierda</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1005"/>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Establecer como fondo de pantalla</translation>
+        <translation>Establecer como fondo de pantalla</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1024"/>
         <source>Display in file manager</source>
-        <translation type="unfinished">Mostrar en el administrador de archivos</translation>
+        <translation>Mostrar en el administrador de archivos</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1043"/>
         <source>Restore</source>
-        <translation type="unfinished">Restaurar</translation>
+        <translation>Restaurar</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1052"/>
         <source>Photo info</source>
-        <translation type="unfinished"></translation>
+        <translation>Inf. de la foto</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1071"/>
         <source>Video info</source>
-        <translation type="unfinished">Inf de video</translation>
+        <translation>Inf de video</translation>
     </message>
 </context>
 <context>
@@ -2072,36 +2061,27 @@
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="333"/>
         <source>1 photo</source>
-        <translation type="unfinished">1 foto</translation>
+        <translation>1 foto</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="335"/>
         <source>1 video</source>
-        <translation type="unfinished">1 video</translation>
+        <translation>1 video</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="337"/>
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n foto</numerusform><numerusform>%n fotos</numerusform><numerusform>%n fotos</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="339"/>
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n video</numerusform><numerusform>%n videos</numerusform><numerusform>%n videos</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="341"/>
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n elemento</numerusform><numerusform>%n elementos</numerusform><numerusform>%n elementos</numerusform></translation>
     </message>
 </context>
 <context>
@@ -2349,12 +2329,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir imagen</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>El visor de imágenes es una herramienta de visualización de imágenes con una interfaz moderna y un rendimiento fluido.</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="185"/>
@@ -2364,7 +2344,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Visor de imagen</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="189"/>
@@ -2374,7 +2354,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="193"/>
         <source>%1 is released under %2.</source>
-        <translation type="unfinished">%1 se libera bajo %2. {1 ?}</translation>
+        <translation>%1 se publica bajo la licencia %2. {1 ?}</translation>
     </message>
 </context>
 <context>
