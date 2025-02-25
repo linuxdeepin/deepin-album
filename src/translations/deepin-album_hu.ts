@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="hu">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -192,7 +190,7 @@
         <location filename="../src/albumControl.cpp" line="2121"/>
         <location filename="../src/albumControl.cpp" line="2125"/>
         <source>%1Year%2Month%3Day</source>
-        <translation type="unfinished"></translation>
+        <translation>%1Év%2Hónap%3Nap</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2175"/>
@@ -284,7 +282,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="479"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished">Képek és Videók importálása</translation>
+        <translation>Képek és Videók importálása</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="510"/>
@@ -360,7 +358,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="152"/>
         <source>0 item</source>
-        <translation type="unfinished">1 elem {0 ?}</translation>
+        <translation>1 elem {0 ?}</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="214"/>
@@ -405,7 +403,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="115"/>
         <source>Successfully added to “%1”</source>
-        <translation type="unfinished">Sikeresen hozzáadva a következőhöz: „%1”</translation>
+        <translation>Sikeresen hozzáadva a következőhöz: „%1”</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="177"/>
@@ -605,7 +603,7 @@
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="55"/>
         <source>Export</source>
-        <translation type="unfinished">Exportálás</translation>
+        <translation>Exportálás</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="72"/>
@@ -831,42 +829,42 @@
     <message>
         <location filename="../src/globalstatus.cpp" line="810"/>
         <source>1 item selected (1 photo)</source>
-        <translation type="unfinished">1 elem kijelölve (1 fénykép)</translation>
+        <translation>1 elem kijelölve (1 fénykép)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="812"/>
         <source>1 item selected (1 video)</source>
-        <translation type="unfinished">1 elem kijelölve (1 videó)</translation>
+        <translation>1 elem kijelölve (1 videó)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="814"/>
         <source>%1 items selected (%1 photos)</source>
-        <translation type="unfinished">%1 elem kijelölve (%1 fénykép)</translation>
+        <translation>%1 elem kijelölve (%1 fénykép)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="816"/>
         <source>%1 items selected (%1 videos)</source>
-        <translation type="unfinished">%1 elem kijelölve (%1 videó)</translation>
+        <translation>%1 elem kijelölve (%1 videó)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="818"/>
         <source>%1 item selected (1 photo, 1 video)</source>
-        <translation type="unfinished">%1 elem kijelölve (1 fénykép, 1 videó)</translation>
+        <translation>%1 elem kijelölve (1 fénykép, 1 videó)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="820"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
-        <translation type="unfinished">%1 elem kijelölve (1 fénykép, %2 videó)</translation>
+        <translation>%1 elem kijelölve (1 fénykép, %2 videó)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="822"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
-        <translation type="unfinished">%1 elem kijelölve (%2 fénykép, 1 videó)</translation>
+        <translation>%1 elem kijelölve (%2 fénykép, 1 videó)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="824"/>
         <source>%1 items selected (%2 photos, %3 videos)</source>
-        <translation type="unfinished">%1 elem kijelölve (%2 fénykép, %3 videó)</translation>
+        <translation>%1 elem kijelölve (%2 fénykép, %3 videó)</translation>
     </message>
 </context>
 <context>
@@ -888,7 +886,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="98"/>
         <source>Successfully added to “%1”</source>
-        <translation type="unfinished">Sikeresen hozzáadva a következőhöz: „%1”</translation>
+        <translation>Sikeresen hozzáadva a következőhöz: „%1”</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="153"/>
@@ -917,38 +915,32 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="210"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="443"/>
         <source>Import</source>
-        <translation type="unfinished">Importálás</translation>
+        <translation>Importálás</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="358"/>
         <source>1 photo</source>
-        <translation type="unfinished">1 kép</translation>
+        <translation>1 kép</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="360"/>
         <source>1 video</source>
-        <translation type="unfinished">1 videó</translation>
+        <translation>1 videó</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="362"/>
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n kép(ek)</numerusform><numerusform>%n kép(ek)</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="364"/>
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n videó(k)</numerusform><numerusform>%n videó(k)</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="366"/>
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n elem(ek)</numerusform><numerusform>%n elem(ek)</numerusform></translation>
     </message>
 </context>
 <context>
@@ -1090,112 +1082,112 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="75"/>
         <source>Basic info</source>
-        <translation type="unfinished">Alapvető információk</translation>
+        <translation>Alapvető információk</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="88"/>
         <source>File name</source>
-        <translation type="unfinished">Fájlnév</translation>
+        <translation>Fájlnév</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="99"/>
         <source>Size</source>
-        <translation type="unfinished">Méret</translation>
+        <translation>Méret</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="106"/>
         <source>Dimensions</source>
-        <translation type="unfinished">Méretek</translation>
+        <translation>Méretek</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="113"/>
         <source>Type</source>
-        <translation type="unfinished">Tipus</translation>
+        <translation>Tipus</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="125"/>
         <source>Date captured</source>
-        <translation type="unfinished">Rögzítés dátuma</translation>
+        <translation>Rögzítés dátuma</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="132"/>
         <source>Date modified</source>
-        <translation type="unfinished">Módosítás ideje</translation>
+        <translation>Módosítás ideje</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="142"/>
         <source>Details</source>
-        <translation type="unfinished">Részletek</translation>
+        <translation>Részletek</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="155"/>
         <source>Aperture</source>
-        <translation type="unfinished">Rekeszérték</translation>
+        <translation>Rekeszérték</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="163"/>
         <source>Exposure program</source>
-        <translation type="unfinished">Expozíciós program</translation>
+        <translation>Expozíciós program</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="170"/>
         <source>Focal length</source>
-        <translation type="unfinished">Gyújtótávolság</translation>
+        <translation>Gyújtótávolság</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="176"/>
         <source>ISO</source>
-        <translation type="unfinished">ISO</translation>
+        <translation>ISO</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="183"/>
         <source>Exposure mode</source>
-        <translation type="unfinished">Expozíciós mód</translation>
+        <translation>Expozíciós mód</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="189"/>
         <source>Exposure time</source>
-        <translation type="unfinished">Expozíciós idő</translation>
+        <translation>Expozíciós idő</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="195"/>
         <source>Flash</source>
-        <translation type="unfinished">Vaku</translation>
+        <translation>Vaku</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="202"/>
         <source>Flash compensation</source>
-        <translation type="unfinished">Vaku kompenzálása</translation>
+        <translation>Vaku kompenzálása</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="208"/>
         <source>Max aperture</source>
-        <translation type="unfinished">Maximális rekesz</translation>
+        <translation>Maximális rekesz</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="215"/>
         <source>Colorspace</source>
-        <translation type="unfinished">Színtér</translation>
+        <translation>Színtér</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="222"/>
         <source>Metering mode</source>
-        <translation type="unfinished">Mérési mód</translation>
+        <translation>Mérési mód</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="229"/>
         <source>White balance</source>
-        <translation type="unfinished">Fehéregyensúly</translation>
+        <translation>Fehéregyensúly</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="240"/>
         <source>Device model</source>
-        <translation type="unfinished">Eszköz modell</translation>
+        <translation>Eszköz modell</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="247"/>
         <source>Lens model</source>
-        <translation type="unfinished">Lencse típusa</translation>
+        <translation>Lencse típusa</translation>
     </message>
 </context>
 <context>
@@ -1232,7 +1224,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/MainStack.qml" line="125"/>
         <source>Select pictures</source>
-        <translation type="unfinished">Kép kiválasztása</translation>
+        <translation>Kép kiválasztása</translation>
     </message>
 </context>
 <context>
@@ -1240,12 +1232,12 @@
     <message>
         <location filename="../qml/MenuItemStates.qml" line="103"/>
         <source>Export successful</source>
-        <translation type="unfinished">Az exportálás sikeres</translation>
+        <translation>Az exportálás sikeres</translation>
     </message>
     <message>
         <location filename="../qml/MenuItemStates.qml" line="105"/>
         <source>Export failed</source>
-        <translation type="unfinished">Az exportálás sikertelen</translation>
+        <translation>Az exportálás sikertelen</translation>
     </message>
 </context>
 <context>
@@ -1290,7 +1282,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NoPermissionImageDelegate.qml" line="22"/>
         <source>You have no permission to view the image</source>
-        <translation type="unfinished">Nincs jogosultsága megtekinteni ezt a képet</translation>
+        <translation>Nincs jogosultsága megtekinteni ezt a képet</translation>
     </message>
 </context>
 <context>
@@ -1298,7 +1290,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="60"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished">Képek és Videók importálása</translation>
+        <translation>Képek és Videók importálása</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
@@ -1308,7 +1300,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>Or drag them here</source>
-        <translation type="unfinished">Vagy húzza ide a fájlokat</translation>
+        <translation>Vagy húzza ide a fájlokat</translation>
     </message>
 </context>
 <context>
@@ -1316,7 +1308,7 @@
     <message>
         <location filename="../src/widgets/widgtes/noresultwidget.cpp" line="39"/>
         <source>No results</source>
-        <translation type="unfinished">Nincs keresési eredmény</translation>
+        <translation>Nincs keresési eredmény</translation>
     </message>
 </context>
 <context>
@@ -1324,7 +1316,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NonexistImageDelegate.qml" line="42"/>
         <source>Image file not found</source>
-        <translation type="unfinished">A képfájl nem található</translation>
+        <translation>A képfájl nem található</translation>
     </message>
 </context>
 <context>
@@ -1332,7 +1324,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Kép megnyitása</translation>
     </message>
 </context>
 <context>
@@ -1383,19 +1375,19 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="411"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="419"/>
         <source>All</source>
-        <translation type="unfinished">Összes</translation>
+        <translation>Összes</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="403"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="427"/>
         <source>Photos</source>
-        <translation type="unfinished">Képek</translation>
+        <translation>Képek</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="410"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="434"/>
         <source>Videos</source>
-        <translation type="unfinished">Videók</translation>
+        <translation>Videók</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1357"/>
@@ -1411,27 +1403,27 @@
         <location filename="../main.cpp" line="66"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation type="unfinished"></translation>
+        <translation>Fő</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="269"/>
         <source>day</source>
-        <translation type="unfinished">Nap</translation>
+        <translation>Nap</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="341"/>
         <source>Imported on</source>
-        <translation type="unfinished">Importálva ide</translation>
+        <translation>Importálva ide</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="341"/>
         <source> %1-%2-%3 %4</source>
-        <translation type="unfinished"></translation>
+        <translation> %1-%2-%3 %4</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="344"/>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation>Importálva ide</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="271"/>
@@ -1443,14 +1435,14 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2088"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="453"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation>Kijelölés</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1328"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2083"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2088"/>
         <source>Unselect</source>
-        <translation type="unfinished"></translation>
+        <translation>Kijelölés megszüntetése</translation>
     </message>
 </context>
 <context>
@@ -1458,7 +1450,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Adjon meg egy új nevet</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="85"/>
@@ -1547,22 +1539,22 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="71"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; nem helyezhető át a kukába. Szeretné véglegesen törölni? </translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"></translation>
+        <translation>Ez a művelet nem vonható vissza</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="101"/>
         <source>Cancel</source>
-        <translation type="unfinished">Mégsem</translation>
+        <translation>Mégsem</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation type="unfinished">Megerősítés</translation>
+        <translation>Megerősítés</translation>
     </message>
 </context>
 <context>
@@ -1764,32 +1756,32 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="171"/>
         <source>Back to Album</source>
-        <translation type="unfinished">Vissza az albumhoz</translation>
+        <translation>Vissza az albumhoz</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="203"/>
         <source>Previous</source>
-        <translation type="unfinished">Előző</translation>
+        <translation>Előző</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="228"/>
         <source>Next</source>
-        <translation type="unfinished">Következő</translation>
+        <translation>Következő</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="264"/>
         <source>Original size</source>
-        <translation type="unfinished">Eredeti méret</translation>
+        <translation>Eredeti méret</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="283"/>
         <source>Fit to window</source>
-        <translation type="unfinished">Igazítás az ablakhoz</translation>
+        <translation>Igazítás az ablakhoz</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="301"/>
         <source>Rotate</source>
-        <translation type="unfinished">Elforgatás</translation>
+        <translation>Elforgatás</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
@@ -1816,12 +1808,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="591"/>
         <source>Extract text</source>
-        <translation type="unfinished">Szöveg kibontása</translation>
+        <translation>Szöveg kibontása</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaildelegate.cpp" line="207"/>
         <source>days</source>
-        <translation type="unfinished">Napok</translation>
+        <translation>napok</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="700"/>
@@ -1834,7 +1826,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="929"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="958"/>
         <source>Photo info</source>
-        <translation type="unfinished">Kép tulajdonságai</translation>
+        <translation>Kép tulajdonságai</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="701"/>
@@ -1847,7 +1839,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="930"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="959"/>
         <source>Video info</source>
-        <translation type="unfinished">Videó tulajdonságai</translation>
+        <translation>Videó tulajdonságai</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="722"/>
@@ -1855,7 +1847,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="910"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="936"/>
         <source>View</source>
-        <translation type="unfinished">Nézet</translation>
+        <translation>Nézet</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="723"/>
@@ -1864,7 +1856,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="856"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="937"/>
         <source>Fullscreen</source>
-        <translation type="unfinished">Teljes képernyő</translation>
+        <translation>Teljes képernyő</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="724"/>
@@ -1873,7 +1865,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="876"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="939"/>
         <source>Slide show</source>
-        <translation type="unfinished">Diavetítés</translation>
+        <translation>Diavetítés</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="725"/>
@@ -1883,20 +1875,20 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="868"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="941"/>
         <source>Export</source>
-        <translation type="unfinished">Exportálás</translation>
+        <translation>Exportálás</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="735"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="942"/>
         <source>Copy</source>
-        <translation type="unfinished">Másolás</translation>
+        <translation>Másolás</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="743"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="823"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="945"/>
         <source>Remove from album</source>
-        <translation type="unfinished">Eltávolítás az albumból</translation>
+        <translation>Eltávolítás az albumból</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="745"/>
@@ -1904,7 +1896,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="866"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="938"/>
         <source>Print</source>
-        <translation type="unfinished">Nyomtatás</translation>
+        <translation>Nyomtatás</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="755"/>
@@ -1914,7 +1906,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="885"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="952"/>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Forgatás az óramutató járásával megegyezően</translation>
+        <translation>Forgatás az óramutató járásával megegyezően</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="756"/>
@@ -1924,14 +1916,14 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="886"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="953"/>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Forgatás az óramutató járásával ellentétes irányba</translation>
+        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="757"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="860"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="957"/>
         <source>Display in file manager</source>
-        <translation type="unfinished">Megjelenítés a fájlkezelőben</translation>
+        <translation>Megjelenítés a fájlkezelőben</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="760"/>
@@ -1943,22 +1935,22 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="898"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="956"/>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Beállítás háttérképként</translation>
+        <translation>Beállítás háttérképként</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="928"/>
         <source>Restore</source>
-        <translation type="unfinished">Helyreállítás</translation>
+        <translation>Helyreállítás</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="965"/>
         <source>Add to album</source>
-        <translation type="unfinished">Hozzáadás az albumhoz</translation>
+        <translation>Hozzáadás az albumhoz</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="969"/>
         <source>New album</source>
-        <translation type="unfinished">Új album</translation>
+        <translation>Új album</translation>
     </message>
 </context>
 <context>
@@ -1966,102 +1958,102 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="795"/>
         <source>View</source>
-        <translation type="unfinished">Nézet</translation>
+        <translation>Nézet</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="804"/>
         <source>Fullscreen</source>
-        <translation type="unfinished">Teljes képernyő</translation>
+        <translation>Teljes képernyő</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="821"/>
         <source>Print</source>
-        <translation type="unfinished">Nyomtatás</translation>
+        <translation>Nyomtatás</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="840"/>
         <source>Slide show</source>
-        <translation type="unfinished">Diavetítés</translation>
+        <translation>Diavetítés</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="866"/>
         <source>Add to album</source>
-        <translation type="unfinished">Hozzáadás az albumhoz</translation>
+        <translation>Hozzáadás az albumhoz</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="869"/>
         <source>New album</source>
-        <translation type="unfinished">Új album</translation>
+        <translation>Új album</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="901"/>
         <source>Successfully added to “%1”</source>
-        <translation type="unfinished">Sikeresen hozzáadva a következőhöz: „%1”</translation>
+        <translation>Sikeresen hozzáadva a következőhöz: „%1”</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="910"/>
         <source>Export</source>
-        <translation type="unfinished">Exportálás</translation>
+        <translation>Exportálás</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="929"/>
         <source>Copy</source>
-        <translation type="unfinished">Másolás</translation>
+        <translation>Másolás</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="938"/>
         <source>Delete</source>
-        <translation type="unfinished">Törlés</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="948"/>
         <source>Remove from album</source>
-        <translation type="unfinished">Eltávolítás az albumból</translation>
+        <translation>Eltávolítás az albumból</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="963"/>
         <source>Favorite</source>
-        <translation type="unfinished">Kedvenc</translation>
+        <translation>Kedvenc</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="973"/>
         <source>Unfavorite</source>
-        <translation type="unfinished">Eltávolítás a kedvencekből</translation>
+        <translation>Eltávolítás a kedvencekből</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="987"/>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Forgatás az óramutató járásával megegyezően</translation>
+        <translation>Forgatás az óramutató járásával megegyezően</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="996"/>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Forgatás az óramutató járásával ellentétes irányba</translation>
+        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1005"/>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Beállítás háttérképként</translation>
+        <translation>Beállítás háttérképként</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1024"/>
         <source>Display in file manager</source>
-        <translation type="unfinished">Megjelenítés a fájlkezelőben</translation>
+        <translation>Megjelenítés a fájlkezelőben</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1043"/>
         <source>Restore</source>
-        <translation type="unfinished">Helyreállítás</translation>
+        <translation>Helyreállítás</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1052"/>
         <source>Photo info</source>
-        <translation type="unfinished">Kép tulajdonságai</translation>
+        <translation>Kép tulajdonságai</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1071"/>
         <source>Video info</source>
-        <translation type="unfinished">Videó tulajdonságai</translation>
+        <translation>Videó tulajdonságai</translation>
     </message>
 </context>
 <context>
@@ -2069,33 +2061,27 @@
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="333"/>
         <source>1 photo</source>
-        <translation type="unfinished">1 kép</translation>
+        <translation>1 kép</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="335"/>
         <source>1 video</source>
-        <translation type="unfinished">1 videó</translation>
+        <translation>1 videó</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="337"/>
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n kép(ek)</numerusform><numerusform>%n kép(ek)</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="339"/>
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n videó(k)</numerusform><numerusform>%n videó(k)</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="341"/>
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n elem(ek)</numerusform><numerusform>%n elem(ek)</numerusform></translation>
     </message>
 </context>
 <context>
@@ -2343,12 +2329,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation type="unfinished"></translation>
+        <translation>Kép megnyitása</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Az Képnézegető egy képmegjelenítő eszköz divatos felülettel és zökkenőmentes teljesítménnyel.</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="185"/>
@@ -2358,7 +2344,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Képnézegető</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="189"/>
@@ -2368,7 +2354,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="193"/>
         <source>%1 is released under %2.</source>
-        <translation type="unfinished">%1 kiadásra került %2. alatt {1 ?}</translation>
+        <translation>%1 kiadásra került %2 alatt</translation>
     </message>
 </context>
 <context>
