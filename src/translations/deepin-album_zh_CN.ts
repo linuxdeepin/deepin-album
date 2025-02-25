@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="zh_CN">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -932,23 +930,17 @@
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="362"/>
         <source>%n photos</source>
-        <translation>
-            <numerusform>共%n张照片</numerusform>
-        </translation>
+        <translation><numerusform>共%n张照片</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="364"/>
         <source>%n videos</source>
-        <translation>
-            <numerusform>共%n个视频</numerusform>
-        </translation>
+        <translation><numerusform>共%n个视频</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="366"/>
         <source>%n items</source>
-        <translation>
-            <numerusform>共%n项</numerusform>
-        </translation>
+        <translation><numerusform>共%n项</numerusform></translation>
     </message>
 </context>
 <context>
@@ -1316,7 +1308,7 @@
     <message>
         <location filename="../src/widgets/widgtes/noresultwidget.cpp" line="39"/>
         <source>No results</source>
-        <translation type="unfinished">无结果</translation>
+        <translation>无结果</translation>
     </message>
 </context>
 <context>
@@ -1383,21 +1375,18 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="411"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="419"/>
         <source>All</source>
-        <translatorcomment>所有项目</translatorcomment>
         <translation>所有项目</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="403"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="427"/>
         <source>Photos</source>
-        <translatorcomment>照片</translatorcomment>
         <translation>照片</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="410"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="434"/>
         <source>Videos</source>
-        <translatorcomment>视频</translatorcomment>
         <translation>视频</translation>
     </message>
     <message>
@@ -1446,7 +1435,6 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2088"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="453"/>
         <source>Select</source>
-        <translatorcomment>取消选择</translatorcomment>
         <translation>选择</translation>
     </message>
     <message>
@@ -1454,7 +1442,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2083"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2088"/>
         <source>Unselect</source>
-        <translation></translation>
+        <translation>取消选择</translation>
     </message>
 </context>
 <context>
@@ -2083,23 +2071,17 @@
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="337"/>
         <source>%n photos</source>
-        <translation>
-            <numerusform>共%n张照片</numerusform>
-        </translation>
+        <translation><numerusform>共%n张照片</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="339"/>
         <source>%n videos</source>
-        <translation>
-            <numerusform>共%n个视频</numerusform>
-        </translation>
+        <translation><numerusform>共%n个视频</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="341"/>
         <source>%n items</source>
-        <translation>
-            <numerusform>共%n项</numerusform>
-        </translation>
+        <translation><numerusform>共%n项</numerusform></translation>
     </message>
 </context>
 <context>
