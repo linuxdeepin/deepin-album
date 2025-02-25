@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="uk">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="uk">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -192,7 +190,7 @@
         <location filename="../src/albumControl.cpp" line="2121"/>
         <location filename="../src/albumControl.cpp" line="2125"/>
         <source>%1Year%2Month%3Day</source>
-        <translation type="unfinished"></translation>
+        <translation>%1рік%2місяць%3день</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2175"/>
@@ -284,7 +282,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="479"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished">Імпортуйте фотографії та відео</translation>
+        <translation>Імпортуйте фотографії та відео</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="510"/>
@@ -360,7 +358,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="152"/>
         <source>0 item</source>
-        <translation type="unfinished">1 запис {0 ?}</translation>
+        <translation>1 запис {0 ?}</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="214"/>
@@ -405,7 +403,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="115"/>
         <source>Successfully added to “%1”</source>
-        <translation type="unfinished">Успішно додано до «%1»</translation>
+        <translation>Успішно додано до «%1»</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="177"/>
@@ -605,7 +603,7 @@
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="55"/>
         <source>Export</source>
-        <translation type="unfinished">Експортувати</translation>
+        <translation>Експортувати</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="72"/>
@@ -831,42 +829,42 @@
     <message>
         <location filename="../src/globalstatus.cpp" line="810"/>
         <source>1 item selected (1 photo)</source>
-        <translation type="unfinished">Позначено 1 запис (1 фото)</translation>
+        <translation>Позначено 1 запис (1 фото)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="812"/>
         <source>1 item selected (1 video)</source>
-        <translation type="unfinished">Позначено 1 запис (1 відео)</translation>
+        <translation>Позначено 1 запис (1 відео)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="814"/>
         <source>%1 items selected (%1 photos)</source>
-        <translation type="unfinished">Позначено %1 записів (%1 фотографій)</translation>
+        <translation>Позначено %1 записів (%1 фотографій)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="816"/>
         <source>%1 items selected (%1 videos)</source>
-        <translation type="unfinished">Позначено %1 записів (%1 відео)</translation>
+        <translation>Позначено %1 записів (%1 відео)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="818"/>
         <source>%1 item selected (1 photo, 1 video)</source>
-        <translation type="unfinished"></translation>
+        <translation>Позначено %1 записів (1 фотографію, 1 відео)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="820"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
-        <translation type="unfinished">Позначено %1 записів (1 фотографію, %2 відео)</translation>
+        <translation>Позначено %1 записів (1 фотографію, %2 відео)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="822"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
-        <translation type="unfinished">Позначено %1 записів (%2 фотографій, 1 відео)</translation>
+        <translation>Позначено %1 записів (%2 фотографій, 1 відео)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="824"/>
         <source>%1 items selected (%2 photos, %3 videos)</source>
-        <translation type="unfinished">Позначено %1 записів (%2 фото, %3 відео)</translation>
+        <translation>Позначено %1 записів (%2 фото, %3 відео)</translation>
     </message>
 </context>
 <context>
@@ -880,7 +878,7 @@
         <location filename="../qml/GlobalVar.qml" line="38"/>
         <location filename="../qml/GlobalVar.qml" line="46"/>
         <source>The file format is not supported</source>
-        <translation type="unfinished"></translation>
+        <translation>Підтримки цього формату файлів не передбачено</translation>
     </message>
 </context>
 <context>
@@ -888,7 +886,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="98"/>
         <source>Successfully added to “%1”</source>
-        <translation type="unfinished">Успішно додано до «%1»</translation>
+        <translation>Успішно додано до «%1»</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="153"/>
@@ -917,44 +915,32 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="210"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="443"/>
         <source>Import</source>
-        <translation type="unfinished">Імпортувати</translation>
+        <translation>Імпортувати</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="358"/>
         <source>1 photo</source>
-        <translation type="unfinished">1 фотографія</translation>
+        <translation>1 фотографія</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="360"/>
         <source>1 video</source>
-        <translation type="unfinished">1 відео</translation>
+        <translation>1 відео</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="362"/>
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n фотографія</numerusform><numerusform>%1 фотографії</numerusform><numerusform>%n фотографій</numerusform><numerusform>%n фотографія</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="364"/>
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n відео</numerusform><numerusform>%n відео</numerusform><numerusform>%n відео</numerusform><numerusform>%n відео</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="366"/>
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n запис</numerusform><numerusform>%n записи</numerusform><numerusform>%n записів</numerusform><numerusform>%n запис</numerusform></translation>
     </message>
 </context>
 <context>
@@ -1096,112 +1082,112 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="75"/>
         <source>Basic info</source>
-        <translation type="unfinished">Базові відомості</translation>
+        <translation>Базові відомості</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="88"/>
         <source>File name</source>
-        <translation type="unfinished">Назва файла</translation>
+        <translation>Назва файла</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="99"/>
         <source>Size</source>
-        <translation type="unfinished">Розмір</translation>
+        <translation>Розмір</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="106"/>
         <source>Dimensions</source>
-        <translation type="unfinished">Розміри</translation>
+        <translation>Розміри</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="113"/>
         <source>Type</source>
-        <translation type="unfinished">Тип</translation>
+        <translation>Тип</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="125"/>
         <source>Date captured</source>
-        <translation type="unfinished">Дата створення</translation>
+        <translation>Дата створення</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="132"/>
         <source>Date modified</source>
-        <translation type="unfinished">Дата зміни</translation>
+        <translation>Дата зміни</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="142"/>
         <source>Details</source>
-        <translation type="unfinished">Подробиці</translation>
+        <translation>Подробиці</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="155"/>
         <source>Aperture</source>
-        <translation type="unfinished">Діафрагма</translation>
+        <translation>Діафрагма</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="163"/>
         <source>Exposure program</source>
-        <translation type="unfinished">Програма експозиції</translation>
+        <translation>Програма експозиції</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="170"/>
         <source>Focal length</source>
-        <translation type="unfinished">Фокальна відстань</translation>
+        <translation>Фокальна відстань</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="176"/>
         <source>ISO</source>
-        <translation type="unfinished">ISO</translation>
+        <translation>ISO</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="183"/>
         <source>Exposure mode</source>
-        <translation type="unfinished">Режим експозиції</translation>
+        <translation>Режим експозиції</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="189"/>
         <source>Exposure time</source>
-        <translation type="unfinished">Час експозиції</translation>
+        <translation>Час експозиції</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="195"/>
         <source>Flash</source>
-        <translation type="unfinished">Спалах</translation>
+        <translation>Спалах</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="202"/>
         <source>Flash compensation</source>
-        <translation type="unfinished">Компенсація спалаху</translation>
+        <translation>Компенсація спалаху</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="208"/>
         <source>Max aperture</source>
-        <translation type="unfinished">Макс. апертура</translation>
+        <translation>Макс. апертура</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="215"/>
         <source>Colorspace</source>
-        <translation type="unfinished">Простір кольорів</translation>
+        <translation>Простір кольорів</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="222"/>
         <source>Metering mode</source>
-        <translation type="unfinished">Режим вимірювання</translation>
+        <translation>Режим вимірювання</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="229"/>
         <source>White balance</source>
-        <translation type="unfinished">Баланс білого</translation>
+        <translation>Баланс білого</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="240"/>
         <source>Device model</source>
-        <translation type="unfinished">Модель пристрою</translation>
+        <translation>Модель пристрою</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="247"/>
         <source>Lens model</source>
-        <translation type="unfinished">Модель об&apos;єктива</translation>
+        <translation>Модель об&apos;єктива</translation>
     </message>
 </context>
 <context>
@@ -1230,7 +1216,7 @@
     <message>
         <location filename="../qml/MainAlbumView.qml" line="274"/>
         <source>Import failed</source>
-        <translation>Імпортування зазнало&#xa0;невдачі</translation>
+        <translation>Імпортування зазнало невдачі</translation>
     </message>
 </context>
 <context>
@@ -1238,7 +1224,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/MainStack.qml" line="125"/>
         <source>Select pictures</source>
-        <translation type="unfinished">Виберіть знімки</translation>
+        <translation>Виберіть знімки</translation>
     </message>
 </context>
 <context>
@@ -1246,12 +1232,12 @@
     <message>
         <location filename="../qml/MenuItemStates.qml" line="103"/>
         <source>Export successful</source>
-        <translation type="unfinished">Успішне експортування</translation>
+        <translation>Успішне експортування</translation>
     </message>
     <message>
         <location filename="../qml/MenuItemStates.qml" line="105"/>
         <source>Export failed</source>
-        <translation type="unfinished">Не вдалося експортувати</translation>
+        <translation>Не вдалося експортувати</translation>
     </message>
 </context>
 <context>
@@ -1296,7 +1282,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NoPermissionImageDelegate.qml" line="22"/>
         <source>You have no permission to view the image</source>
-        <translation type="unfinished">У вас немає прав доступу до перегляду цього зображення</translation>
+        <translation>У вас немає прав доступу до перегляду цього зображення</translation>
     </message>
 </context>
 <context>
@@ -1304,7 +1290,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="60"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished">Імпортуйте фотографії та відео</translation>
+        <translation>Імпортуйте фотографії та відео</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
@@ -1314,7 +1300,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>Or drag them here</source>
-        <translation type="unfinished">Або перетягніть їх сюди</translation>
+        <translation>Або перетягніть їх сюди</translation>
     </message>
 </context>
 <context>
@@ -1322,7 +1308,7 @@
     <message>
         <location filename="../src/widgets/widgtes/noresultwidget.cpp" line="39"/>
         <source>No results</source>
-        <translation type="unfinished">Немає результатів</translation>
+        <translation>Немає результатів</translation>
     </message>
 </context>
 <context>
@@ -1330,7 +1316,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NonexistImageDelegate.qml" line="42"/>
         <source>Image file not found</source>
-        <translation type="unfinished">Файл зображення не знайдено</translation>
+        <translation>Файл зображення не знайдено</translation>
     </message>
 </context>
 <context>
@@ -1338,7 +1324,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Відкрити зображення</translation>
     </message>
 </context>
 <context>
@@ -1389,19 +1375,19 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="411"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="419"/>
         <source>All</source>
-        <translation type="unfinished">Усе</translation>
+        <translation>Усе</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="403"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="427"/>
         <source>Photos</source>
-        <translation type="unfinished">Фотографії</translation>
+        <translation>Фотографії</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="410"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="434"/>
         <source>Videos</source>
-        <translation type="unfinished">Відео</translation>
+        <translation>Відео</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1357"/>
@@ -1417,27 +1403,27 @@
         <location filename="../main.cpp" line="66"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation type="unfinished"></translation>
+        <translation>Основне</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="269"/>
         <source>day</source>
-        <translation type="unfinished">день</translation>
+        <translation>день</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="341"/>
         <source>Imported on</source>
-        <translation type="unfinished">Імпортовано</translation>
+        <translation>Імпортовано</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="341"/>
         <source> %1-%2-%3 %4</source>
-        <translation type="unfinished"></translation>
+        <translation> %3-%2-%1 %4</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="344"/>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation>Імпортовано</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="271"/>
@@ -1449,14 +1435,14 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2088"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="453"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation>Вибрати</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1328"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2083"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2088"/>
         <source>Unselect</source>
-        <translation type="unfinished"></translation>
+        <translation>Зняти вибір</translation>
     </message>
 </context>
 <context>
@@ -1464,7 +1450,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="70"/>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Введіть нову назву</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="85"/>
@@ -1553,22 +1539,22 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="71"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдалося пересунути «%1» до смітника. Хочете остаточно вилучити?</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="89"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"></translation>
+        <translation>Результати цієї дії не можна буде скасувати</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="101"/>
         <source>Cancel</source>
-        <translation type="unfinished">Скасувати</translation>
+        <translation>Скасувати</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="111"/>
         <source>Confirm</source>
-        <translation type="unfinished">Підтвердити</translation>
+        <translation>Підтвердити</translation>
     </message>
 </context>
 <context>
@@ -1770,32 +1756,32 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="171"/>
         <source>Back to Album</source>
-        <translation type="unfinished">Назад до альбому</translation>
+        <translation>Назад до альбому</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="203"/>
         <source>Previous</source>
-        <translation type="unfinished">Назад</translation>
+        <translation>Назад</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="228"/>
         <source>Next</source>
-        <translation type="unfinished">Далі</translation>
+        <translation>Далі</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="264"/>
         <source>Original size</source>
-        <translation type="unfinished">Початковий розмір</translation>
+        <translation>Початковий розмір</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="283"/>
         <source>Fit to window</source>
-        <translation type="unfinished">Вмістити у вікно</translation>
+        <translation>Вмістити у вікно</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="301"/>
         <source>Rotate</source>
-        <translation type="unfinished">Обертати</translation>
+        <translation>Обертати</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
@@ -1822,12 +1808,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="591"/>
         <source>Extract text</source>
-        <translation type="unfinished">Видобути текст</translation>
+        <translation>Видобути текст</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaildelegate.cpp" line="207"/>
         <source>days</source>
-        <translation type="unfinished">днів</translation>
+        <translation>днів</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="700"/>
@@ -1840,7 +1826,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="929"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="958"/>
         <source>Photo info</source>
-        <translation type="unfinished">Дані щодо фотографії</translation>
+        <translation>Дані щодо фотографії</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="701"/>
@@ -1853,7 +1839,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="930"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="959"/>
         <source>Video info</source>
-        <translation type="unfinished">Дані щодо відео</translation>
+        <translation>Дані щодо відео</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="722"/>
@@ -1861,7 +1847,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="910"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="936"/>
         <source>View</source>
-        <translation type="unfinished">Перегляд</translation>
+        <translation>Перегляд</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="723"/>
@@ -1870,7 +1856,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="856"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="937"/>
         <source>Fullscreen</source>
-        <translation type="unfinished">На весь екран</translation>
+        <translation>На весь екран</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="724"/>
@@ -1879,7 +1865,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="876"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="939"/>
         <source>Slide show</source>
-        <translation type="unfinished">Показ слайдів</translation>
+        <translation>Показ слайдів</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="725"/>
@@ -1889,20 +1875,20 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="868"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="941"/>
         <source>Export</source>
-        <translation type="unfinished">Експортувати</translation>
+        <translation>Експортувати</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="735"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="942"/>
         <source>Copy</source>
-        <translation type="unfinished">Копіювати</translation>
+        <translation>Копіювати</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="743"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="823"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="945"/>
         <source>Remove from album</source>
-        <translation type="unfinished">Вилучити з альбому</translation>
+        <translation>Вилучити з альбому</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="745"/>
@@ -1910,7 +1896,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="866"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="938"/>
         <source>Print</source>
-        <translation type="unfinished">Надрукувати</translation>
+        <translation>Надрукувати</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="755"/>
@@ -1920,7 +1906,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="885"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="952"/>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Обертати за годинниковою стрілкою</translation>
+        <translation>Обертати за годинниковою стрілкою</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="756"/>
@@ -1930,14 +1916,14 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="886"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="953"/>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Обертати проти годинникової стрілки</translation>
+        <translation>Обертати проти годинникової стрілки</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="757"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="860"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="957"/>
         <source>Display in file manager</source>
-        <translation type="unfinished">Показати у менеджері файлів</translation>
+        <translation>Показати у менеджері файлів</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="760"/>
@@ -1949,22 +1935,22 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="898"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="956"/>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Встановити зображенням тла</translation>
+        <translation>Встановити зображенням тла</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="928"/>
         <source>Restore</source>
-        <translation type="unfinished">Відновити</translation>
+        <translation>Відновити</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="965"/>
         <source>Add to album</source>
-        <translation type="unfinished">Додати до альбому</translation>
+        <translation>Додати до альбому</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="969"/>
         <source>New album</source>
-        <translation type="unfinished">Новий альбом</translation>
+        <translation>Новий альбом</translation>
     </message>
 </context>
 <context>
@@ -1972,102 +1958,102 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="795"/>
         <source>View</source>
-        <translation type="unfinished">Перегляд</translation>
+        <translation>Перегляд</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="804"/>
         <source>Fullscreen</source>
-        <translation type="unfinished">На весь екран</translation>
+        <translation>На весь екран</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="821"/>
         <source>Print</source>
-        <translation type="unfinished">Надрукувати</translation>
+        <translation>Надрукувати</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="840"/>
         <source>Slide show</source>
-        <translation type="unfinished">Показ слайдів</translation>
+        <translation>Показ слайдів</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="866"/>
         <source>Add to album</source>
-        <translation type="unfinished">Додати до альбому</translation>
+        <translation>Додати до альбому</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="869"/>
         <source>New album</source>
-        <translation type="unfinished">Новий альбом</translation>
+        <translation>Новий альбом</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="901"/>
         <source>Successfully added to “%1”</source>
-        <translation type="unfinished">Успішно додано до «%1»</translation>
+        <translation>Успішно додано до «%1»</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="910"/>
         <source>Export</source>
-        <translation type="unfinished">Експортувати</translation>
+        <translation>Експортувати</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="929"/>
         <source>Copy</source>
-        <translation type="unfinished">Копіювати</translation>
+        <translation>Копіювати</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="938"/>
         <source>Delete</source>
-        <translation type="unfinished">Вилучити</translation>
+        <translation>Вилучити</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="948"/>
         <source>Remove from album</source>
-        <translation type="unfinished">Вилучити з альбому</translation>
+        <translation>Вилучити з альбому</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="963"/>
         <source>Favorite</source>
-        <translation type="unfinished">Додати до вибраних</translation>
+        <translation>Додати до вибраних</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="973"/>
         <source>Unfavorite</source>
-        <translation type="unfinished">Вилучити з вибраних</translation>
+        <translation>Вилучити з вибраних</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="987"/>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Обертати за годинниковою стрілкою</translation>
+        <translation>Обертати за годинниковою стрілкою</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="996"/>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Обертати проти годинникової стрілки</translation>
+        <translation>Обертати проти годинникової стрілки</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1005"/>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Встановити зображенням тла</translation>
+        <translation>Встановити зображенням тла</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1024"/>
         <source>Display in file manager</source>
-        <translation type="unfinished">Показати у менеджері файлів</translation>
+        <translation>Показати у менеджері файлів</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1043"/>
         <source>Restore</source>
-        <translation type="unfinished">Відновити</translation>
+        <translation>Відновити</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1052"/>
         <source>Photo info</source>
-        <translation type="unfinished">Дані щодо фотографії</translation>
+        <translation>Дані щодо фотографії</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1071"/>
         <source>Video info</source>
-        <translation type="unfinished">Дані щодо відео</translation>
+        <translation>Дані щодо відео</translation>
     </message>
 </context>
 <context>
@@ -2075,39 +2061,27 @@
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="333"/>
         <source>1 photo</source>
-        <translation type="unfinished">1 фотографія</translation>
+        <translation>1 фотографія</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="335"/>
         <source>1 video</source>
-        <translation type="unfinished">1 відео</translation>
+        <translation>1 відео</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="337"/>
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n фотографія</numerusform><numerusform>%1 фотографії</numerusform><numerusform>%1 фотографій</numerusform><numerusform>%n фотографія</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="339"/>
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n відео</numerusform><numerusform>%n відео</numerusform><numerusform>%n відео</numerusform><numerusform>%n відео</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="341"/>
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>%n запис</numerusform><numerusform>%n записи</numerusform><numerusform>%n записів</numerusform><numerusform>%n запис</numerusform></translation>
     </message>
 </context>
 <context>
@@ -2355,12 +2329,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation type="unfinished"></translation>
+        <translation>Відкрити зображення</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>«Переглядач зображень» — інструмент для перегляду зображень із чудовим інтерфейсом та зручними принципами роботи.</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="185"/>
@@ -2370,7 +2344,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Перегляд зображень</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="189"/>
@@ -2380,7 +2354,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="193"/>
         <source>%1 is released under %2.</source>
-        <translation type="unfinished">%1 випущено за умов дотримання %2. {1 ?}</translation>
+        <translation>%1 випущено за умов дотримання %2. {1 ?}</translation>
     </message>
 </context>
 <context>
