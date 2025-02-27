@@ -1,3 +1,11 @@
+deepin-album (6.0.17) unstable; urgency=medium
+
+  * fix: component overlap on deleted view(Bug: 275475)
+  * fix: app hangs when access mtp device(Bug: 289223)
+  * i18n: Updates for project Deepin Album (#302)
+
+ -- renbin <renbin@uniontech.com>  Thu, 27 Feb 2025 19:16:13 +0800
+
 deepin-album (6.0.16) unstable; urgency=medium
 
   * fix: Fix can not play video issue
