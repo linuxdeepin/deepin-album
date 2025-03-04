@@ -332,57 +332,57 @@ UNIONIMAGESHARED_EXPORT QString detectImageFormat(const QString &path)
 
     // Check bmp file.
     if (data.startsWith("BM")) {
-        return "bmp";
+        return "BMP";
     }
 
     // Check dds file.
     if (data.startsWith("DDS")) {
-        return "dds";
+        return "DDS";
     }
 
     // Check gif file.
     if (data.startsWith("GIF8")) {
-        return "gif";
+        return "GIF";
     }
 
     // Check Max OS icons file.
     if (data.startsWith("icns")) {
-        return "icns";
+        return "ICNS";
     }
 
     // Check jpeg file.
     if (data.startsWith("\xff\xd8")) {
-        return "jpg";
+        return "JPG";
     }
 
     // Check mng file.
     if (data.startsWith("\x8a\x4d\x4e\x47\x0d\x0a\x1a\x0a")) {
-        return "mng";
+        return "MNG";
     }
 
     // Check net pbm file (BitMap).
     if (data.startsWith("P1") || data.startsWith("P4")) {
-        return "pbm";
+        return "PBM";
     }
 
     // Check pgm file (GrayMap).
     if (data.startsWith("P2") || data.startsWith("P5")) {
-        return "pgm";
+        return "PGM";
     }
 
     // Check ppm file (PixMap).
     if (data.startsWith("P3") || data.startsWith("P6")) {
-        return "ppm";
+        return "PPM";
     }
 
     // Check png file.
     if (data.startsWith("\x89PNG\x0d\x0a\x1a\x0a")) {
-        return "png";
+        return "PNG";
     }
 
     // Check svg file.
     if (data.indexOf("<svg") > -1) {
-        return "svg";
+        return "SVG";
     }
 
     // TODO(xushaohua): tga file is not supported yet.
@@ -390,24 +390,24 @@ UNIONIMAGESHARED_EXPORT QString detectImageFormat(const QString &path)
     // Check tiff file.
     if (data.startsWith("MM\x00\x2a") || data.startsWith("II\x2a\x00")) {
         // big-endian, little-endian.
-        return "tiff";
+        return "TIFF";
     }
 
     // TODO(xushaohua): Support wbmp file.
 
     // Check webp file.
     if (data.startsWith("RIFFr\x00\x00\x00WEBPVP")) {
-        return "webp";
+        return "WEBP";
     }
 
     // Check xbm file.
     if (data.indexOf("#define max_width ") > -1 && data.indexOf("#define max_height ") > -1) {
-        return "xbm";
+        return "XBM";
     }
 
     // Check xpm file.
     if (data.startsWith("/* XPM */")) {
-        return "xpm";
+        return "XPM";
     }
 
     return "";
