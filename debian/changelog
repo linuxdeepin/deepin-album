@@ -1,3 +1,10 @@
+deepin-album (6.0.18) unstable; urgency=medium
+
+  * tag 6.0.18
+  * update linglong base&runtime.
+
+ -- re2zero <yangwu@uniontech.com>  Thu, 06 Mar 2025 10:48:45 +0800
+
 deepin-album (6.0.17) unstable; urgency=medium
 
   * fix: component overlap on deleted view(Bug: 275475)
