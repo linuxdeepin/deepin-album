@@ -152,12 +152,17 @@ DBImgInfo AlbumControl::getDBInfo(const QString &srcpath, bool isVideo)
     dbi.filePath = srcpath;
     dbi.importTime = QDateTime::currentDateTime();
     if (isVideo) {
-        dbi.itemType = ItemTypeVideo;
         //获取视频信息
         MovieInfo movieInfo = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(srcpath));
+        if (!movieInfo.valid) {
+            // 不是有效的视频文件
+            dbi.itemType = ItemTypeNull;
+            return dbi;
+        }
         //对视频信息缓存
         m_movieInfos[srcpath] = movieInfo;
 
+        dbi.itemType = ItemTypeVideo;
         dbi.changeTime = srcfi.lastModified();
 
         if (movieInfo.creation.isValid()) {

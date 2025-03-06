@@ -74,7 +74,6 @@ private:
     };
 
     QStringList m_paths;//所有的本地路径
-    QStringList m_filePaths;//所有的本地文件路径
     int m_UID = -1;
     DataType m_type = DataType_NULL;
     bool m_notifyUI = true;
