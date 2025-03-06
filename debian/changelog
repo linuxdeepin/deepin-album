@@ -1,3 +1,10 @@
+deepin-album (6.0.18) unstable; urgency=medium
+
+  * fix: Fix image rotate issue(Bug: 298051)
+  * i18n: Translate desktop.ts in ja (#305)
+
+ -- renbin <renbin@uniontech.com>  Thu, 06 Mar 2025 19:52:24 +0800
+
 deepin-album (6.0.17) unstable; urgency=medium
 
   * fix: component overlap on deleted view(Bug: 275475)
