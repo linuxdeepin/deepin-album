@@ -105,3 +105,6 @@ build
 
 # translation files
 *.qm
+
+# vs code
+.vscode

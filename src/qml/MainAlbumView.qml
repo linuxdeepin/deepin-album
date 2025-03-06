@@ -265,7 +265,7 @@ FadeInoutAnimation {
             DTK.sendMessage(stackControl, qsTr("Import successful"), "notify_checked")
         }
 
-        //收到导入完成消息
+        //收到导入重复消息
         onSigRepeatUrls: (urls)=> {
             idStandardProgressDialog.close()
             leftSidebar.enabled = true
@@ -273,6 +273,15 @@ FadeInoutAnimation {
             titleAlubmRect.enabled = true
             if (urls.length === 0)
                 DTK.sendMessage(stackControl, qsTr("Import failed"), "warning")
+        }
+
+        //收到导入失败消息
+        onSigImportFailed: (error)=> {
+            idStandardProgressDialog.close()
+            leftSidebar.enabled = true
+            thumbnailImage.enabled = true
+            titleAlubmRect.enabled = true
+            DTK.sendMessage(stackControl, qsTr("Import failed"), "warning")
         }
     }
 

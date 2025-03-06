@@ -40,6 +40,7 @@ ImportImagesThread::ImportImagesThread()
     connect(this, &ImportImagesThread::sigRepeatUrls, AlbumControl::instance(), &AlbumControl::sigRepeatUrls);
     connect(this, &ImportImagesThread::sigImportProgress, AlbumControl::instance(), &AlbumControl::sigImportProgress);
     connect(this, &ImportImagesThread::sigImportFinished, AlbumControl::instance(), &AlbumControl::sigImportFinished);
+    connect(this, &ImportImagesThread::sigImportFailed, AlbumControl::instance(), &AlbumControl::sigImportFailed);
     //通知前端刷新相关界面
     connect(this, &ImportImagesThread::sigImportFinished, AlbumControl::instance(), &AlbumControl::sigRefreshAllCollection);
     connect(this, &ImportImagesThread::sigImportFinished, AlbumControl::instance(), &AlbumControl::sigRefreshImportAlbum);
@@ -94,6 +95,8 @@ void ImportImagesThread::runDetail()
     }
 
     QStringList tempPaths;
+    QStringList filePaths;
+    DBImgInfoList dbInfos;
     //判断是否含有目录
     for (QString path : m_paths) {
         //是目录，向下遍历,得到所有文件
@@ -110,34 +113,36 @@ void ImportImagesThread::runDetail()
 
     //条件过滤
     int noReadCount = 0; //记录已存在于相册中的数量，若全部存在，则不进行导入操作
+    int i = 0;
     for (QString imagePath : tempPaths) {
-        //去掉不支持的图片和视频
-        bool bIsVideo = LibUnionImage_NameSpace::isVideo(imagePath);
-        if (!bIsVideo && !LibUnionImage_NameSpace::imageSupportRead(imagePath)) {
-            noReadCount++;
-            continue;
-        }
-
-        //当前文件不存在
-        QFileInfo info(imagePath);
-        if (!info.exists()) {
-            noReadCount++;
-            continue;
-        }
-
-        //判断文件是否可读
-        if (!info.isReadable()) {
-            noReadCount++;
-            continue;
-        }
-
+        i++;
         //已导入
         if (allOldImportedPaths.contains(imagePath)) {
+            m_checkRepeat = true;
             noReadCount++;
             continue;
         }
 
-        m_filePaths << imagePath;
+        //当前文件存在和可读
+        QFileInfo info(imagePath);
+        if (info.exists() && info.isReadable()) {
+            //去掉不支持的图片和视频
+            bool bIsVideo = LibUnionImage_NameSpace::isVideo(imagePath);
+            if (!bIsVideo && !LibUnionImage_NameSpace::imageSupportRead(imagePath)) {
+                continue;
+            }
+
+            //去掉格式错误无法解析的图片和视频
+            auto dbInfo = AlbumControl::instance()->getDBInfo(imagePath, bIsVideo);
+            if (ItemType::ItemTypeNull == dbInfo.itemType) {
+                continue;
+            }
+            dbInfo.albumUID = QString::number(m_UID);
+            dbInfos << dbInfo;
+
+            filePaths << imagePath;
+        }
+        emit sigImportProgress(i, tempPaths.size());
     }
 
     //已全部存在，无需导入
@@ -149,19 +154,11 @@ void ImportImagesThread::runDetail()
         emit sigRepeatUrls(urlPaths);
         return;
     }
-
-    //导入所有
-    DBImgInfo dbInfo;
-    DBImgInfoList dbInfos;
-    int i = 1;
-    int size = m_filePaths.size();
-    for (QString path : m_filePaths) {
-        bool bIsVideo = LibUnionImage_NameSpace::isVideo(path);
-        dbInfo =  AlbumControl::instance()->getDBInfo(path, bIsVideo);
-        dbInfo.albumUID = QString::number(m_UID);
-        dbInfos << dbInfo;
-
-        emit sigImportProgress(i++, size);
+    if (filePaths.isEmpty()) {
+        // 存在无法导入
+        int skiped = tempPaths.size() - noReadCount;
+        emit sigImportFailed(skiped);
+        return;
     }
 
     std::sort(dbInfos.begin(), dbInfos.end(), [](const DBImgInfo & lhs, const DBImgInfo & rhs) {
@@ -178,7 +175,7 @@ void ImportImagesThread::runDetail()
             atype = AlbumDBType::Favourite;
         }
 
-        DBManager::instance()->insertIntoAlbum(m_UID, m_filePaths, atype);
+        DBManager::instance()->insertIntoAlbum(m_UID, filePaths, atype);
     }
 
     //原createNewCustomAutoImportAlbum逻辑
