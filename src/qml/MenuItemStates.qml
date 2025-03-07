@@ -68,7 +68,8 @@ Item {
 
     // 执行图片删除操作
     function executeDelete() {
-        albumControl.insertTrash(GStatus.selectedPaths)
+        if (GStatus.selectedPaths.length > 0)
+            albumControl.insertTrash(GStatus.selectedPaths)
     }
 
     // 执行全屏预览

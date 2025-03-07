@@ -10,6 +10,7 @@
 #include "unionimage/imageutils.h"
 #include "unionimage/unionimage.h"
 #include "unionimage/unionimage_global.h"
+#include "../albumControl.h"
 
 #include <QDebug>
 #include <QDir>
@@ -1771,6 +1772,7 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
 
     //1.生成路径hash，复制图片到deepin-album-delete，删除原图至回收站
     QStringList pathHashs;
+    int i = 1;
     for (const auto &info : infos) {
         //计算路径hash
         //要支持同文件导入到不同相册，并且可以恢复，需要将hash赋值由下面if中拿出
@@ -1781,10 +1783,6 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
             //复制操作，上面那个QFile::copy是异步拷贝，下面那个LibUnionImage_NameSpace::syncCopy是会阻塞的同步拷贝
             //QFile::copy(info.filePath, LibUnionImage_NameSpace::getDeleteFullPath(hash, info.getFileNameFromFilePath()));
             LibUnionImage_NameSpace::syncCopy(info.filePath, LibUnionImage_NameSpace::getDeleteFullPath(hash, info.getFileNameFromFilePath()));
-
-//            if (showWaitDialog) {
-//                emit dApp->signalM->progressOfWaitDialog(infos.size(), infos.indexOf(info) + 1);
-//            }
 
             //判断文件路径来自于哪里
             QString path = info.filePath;
@@ -1802,6 +1800,10 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
             }
         }
         pathHashs.push_back(hash); //不能丢进if，否则下面会炸
+
+        if (showWaitDialog) {
+            emit AlbumControl::instance()->sigDeleteProgress(i++, infos.size());
+        }
     }
 
     //文件操作完毕，释放锁

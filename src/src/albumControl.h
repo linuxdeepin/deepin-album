@@ -407,6 +407,8 @@ signals:
     void sigImportFinished();
     //导入失败
     void sigImportFailed(int error);
+    //删除进度信号
+    void sigDeleteProgress(int value, int max = 100);
 
     //自定义相册删除
     void sigDeleteCustomAlbum(int UID);
