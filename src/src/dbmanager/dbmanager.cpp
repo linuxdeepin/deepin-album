@@ -1786,7 +1786,7 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
 
             //判断文件路径来自于哪里
             QString path = info.filePath;
-            if (path.startsWith("/media/") || // U盘
+            if (path.startsWith("/media/") || path.startsWith("/run/media/") || path.startsWith("/mnt/") || //U盘
                     path.contains("smb-share:server=") || //smb地址
                     path.contains("gphoto2:host=Apple") || //apple phone
                     path.contains("ftp:host=") || //ftp路径
