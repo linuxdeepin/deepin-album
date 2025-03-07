@@ -30,8 +30,7 @@ SwitchViewAnimation {
 
     // 筛选类型改变处理事件
     onFilterTypeChanged: {
-        if (visible)
-            flushAllCollectionView()
+        flushAllCollectionView()
     }
 
     // 清空已选内容
@@ -44,6 +43,8 @@ SwitchViewAnimation {
 
     // 刷新所有项目视图内容
     function flushAllCollectionView() {
+        if (!visible)
+            return
         theView.proxyModel.refresh(filterType)
         GStatus.selectedPaths = theView.selectedUrls
         getNumLabelText()

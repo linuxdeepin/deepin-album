@@ -1424,6 +1424,9 @@ int AlbumControl::getAllCount(const int &filterType)
 
 void AlbumControl::insertTrash(const QList< QUrl > &paths)
 {
+    // notify show progress start
+    emit sigDeleteProgress(0, paths.size());
+
     QStringList tmpList;
     for (QUrl url : paths) {
         QString imagePath = url2localPath(url);
@@ -1448,7 +1451,12 @@ void AlbumControl::insertTrash(const QList< QUrl > &paths)
             infos << insertInfo;
         }
     }
-    DBManager::instance()->insertTrashImgInfos(infos, false);
+    DBManager::instance()->insertTrashImgInfos(infos, true);
+
+    // notify show progress end
+    int count = tmpList.size();
+    emit sigDeleteProgress(count + 1, count);
+
     //新增删除主相册数据库
     DBManager::instance()->removeImgInfos(tmpList);
     // 通知前端刷新相关界面，包括自定义相册/我的收藏/合集-所有项目/已导入

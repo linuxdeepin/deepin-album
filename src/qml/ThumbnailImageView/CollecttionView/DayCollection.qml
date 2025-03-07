@@ -76,6 +76,7 @@ SwitchViewAnimation {
             if (id === Album.Types.IdView) {
                 menuItemStates.executeViewImageCutSwitch(url, allUrls)
             } else if (id === Album.Types.IdMoveToTrash) {
+                deleteDialog.sigDoDeleteImg.connect(runDeleteImg)
                 deleteDialog.setDisplay(Album.Types.TrashNormal, GStatus.selectedPaths.length)
                 deleteDialog.show()
             } else if (id === Album.Types.IdFullScreen) {
@@ -142,6 +143,7 @@ SwitchViewAnimation {
     }
 
     function runDeleteImg() {
+        deleteDialog.sigDoDeleteImg.disconnect(runDeleteImg)
         menuItemStates.executeDelete()
         getNumLabelText()
     }
@@ -239,6 +241,5 @@ SwitchViewAnimation {
 
     Component.onCompleted: {
         GStatus.sigFlushAllCollectionView.connect(flushView)
-        deleteDialog.sigDoDeleteImg.connect(runDeleteImg)
     }
 }

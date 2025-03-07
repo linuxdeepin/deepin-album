@@ -229,60 +229,92 @@ FadeInoutAnimation {
 
     Connections {
         target: albumControl
+    
         // 接收外部应用打开信号
-        onSigOpenImageFromFiles: (paths)=> {
+        function onSigOpenImageFromFiles(paths) {
             openAndImportImages(paths)
         }
-
-        //收到导入开始消息
-        onSigImportStart: {
-            idStandardProgressDialog.clear()
-            idStandardProgressDialog.setTitle(qsTr("Importing..."))
-            var prevS = qsTr("Imported:")
-            var suffixS = "0"
-            idStandardProgressDialog.setContent(prevS + suffixS)
-            idStandardProgressDialog.setProgress(0, 100)
-            idStandardProgressDialog.show()
-            leftSidebar.enabled = false
-            thumbnailImage.enabled = false
-            titleAlubmRect.enabled = false
+    
+        // 收到导入开始消息
+        function onSigImportStart() {
+            var title = qsTr("Importing...")
+            var content = qsTr("Imported:") + "0"
+            showProgress(title, content)
         }
-
-        //收到导入进度消息
-        onSigImportProgress: (value, max)=> {
+    
+        // 收到导入进度消息
+        function onSigImportProgress(value, max) {
             var prevS = qsTr("Imported:")
             var suffixS = qsTr("%1/%2").arg(value).arg(max)
-            idStandardProgressDialog.setContent(prevS + suffixS)
-            idStandardProgressDialog.setProgress(value, max)
+            var contentS = prevS + suffixS
+            var percent = value * 100 / max
+            idStandardProgressDialog.setContent(contentS)
+            idStandardProgressDialog.setProgress(percent, 100)
         }
-
-        //收到导入完成消息
-        onSigImportFinished: {
-            idStandardProgressDialog.close()
-            leftSidebar.enabled = true
-            thumbnailImage.enabled = true
-            titleAlubmRect.enabled = true
+    
+        // 收到导入完成消息
+        function onSigImportFinished() {
+            delayTimer.start()
             DTK.sendMessage(stackControl, qsTr("Import successful"), "notify_checked")
         }
-
-        //收到导入重复消息
-        onSigRepeatUrls: (urls)=> {
-            idStandardProgressDialog.close()
-            leftSidebar.enabled = true
-            thumbnailImage.enabled = true
-            titleAlubmRect.enabled = true
+    
+        // 收到导入重复消息
+        function onSigRepeatUrls(urls) {
+            delayTimer.start()
             if (urls.length === 0)
                 DTK.sendMessage(stackControl, qsTr("Import failed"), "warning")
         }
-
-        //收到导入失败消息
-        onSigImportFailed: (error)=> {
-            idStandardProgressDialog.close()
-            leftSidebar.enabled = true
-            thumbnailImage.enabled = true
-            titleAlubmRect.enabled = true
+    
+        // 收到导入失败消息
+        function onSigImportFailed(error) {
+            delayTimer.start()
             DTK.sendMessage(stackControl, qsTr("Import failed"), "warning")
         }
+    
+        // 收到删除进度消息
+        function onSigDeleteProgress(value, max) {
+            var prevS = qsTr("Deleted:")
+            if (value < 1) {
+                var title = qsTr("Deleting...")
+                var content = prevS + "0"
+                showProgress(title, content)
+            } else if (value > max) {
+                // 延迟关闭
+                delayTimer.start()
+            } else {
+                var suffixS = qsTr("%1/%2").arg(value).arg(max)
+                var contentS = prevS + suffixS
+                var percent = value * 100 / max
+                idStandardProgressDialog.setContent(contentS)
+                idStandardProgressDialog.setProgress(percent, 100)
+            }
+        }
+    }
+    
+    Timer {
+        id: delayTimer
+        interval: 200 // 延迟 200ms
+        onTriggered: closeProgress()
+    }
+
+    function showProgress(title, content) {
+        idStandardProgressDialog.clear()
+        idStandardProgressDialog.setTitle(title)
+        idStandardProgressDialog.setContent(content)
+        idStandardProgressDialog.setProgress(0, 100)
+        idStandardProgressDialog.show()
+
+        leftSidebar.enabled = false
+        thumbnailImage.enabled = false
+        titleAlubmRect.enabled = false
+    }
+
+    function closeProgress() {
+        // 关闭对话框并恢复界面状态
+        idStandardProgressDialog.close()
+        leftSidebar.enabled = true
+        thumbnailImage.enabled = true
+        titleAlubmRect.enabled = true
     }
 
     //打开看图查看图片
