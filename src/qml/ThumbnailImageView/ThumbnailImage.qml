@@ -99,7 +99,7 @@ Item {
     }
 
     Shortcut {
-        enabled: visible && menuItemStates.canDelete && GStatus.currentViewType !== Album.Types.ViewDevice
+        enabled: visible && GStatus.currentViewType !== Album.Types.ViewDevice
         autoRepeat: false
         sequence : "Delete"
         onActivated : {          
@@ -107,7 +107,12 @@ Item {
                 deleteDialog.setDisplay(menuItemStates.isInTrash ? Album.Types.TrashSel : Album.Types.TrashNormal, GStatus.selectedPaths.length)
                 deleteDialog.show()
             } else {
-                deleteDialog.deleteDirectly()
+                if (menuItemStates.canDelete) {
+                    deleteDialog.deleteDirectly()
+                } else {
+                    // 源文件已不存在，从相册移除裂图
+                    menuItemStates.executeRemoveFromAlbum()
+                }
             }
         }
     }
