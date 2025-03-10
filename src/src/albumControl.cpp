@@ -1810,6 +1810,9 @@ void AlbumControl::removeFromAlbum(int UID, const QStringList &paths)
     DBManager::instance()->removeCustomAlbumIdByPaths(UID, localPaths);
 
     DBManager::instance()->removeFromAlbum(UID, localPaths, atype);
+
+    // 删除信息使更新显示时不显示该图片
+    DBManager::instance()->removeImgInfos(localPaths);
 }
 
 bool AlbumControl::insertIntoAlbum(int UID, const QStringList &paths)
