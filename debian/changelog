@@ -1,3 +1,9 @@
+deepin-album (6.0.19) unstable; urgency=medium
+
+  * chore: New version 6.0.19.
+
+ -- Wang Yu <wangyu@uniontch.com>  Wed, 12 Mar 2025 20:08:03 +0800
+
 deepin-album (6.0.18) unstable; urgency=medium
 
   * fix: Fix image rotate issue(Bug: 298051)
