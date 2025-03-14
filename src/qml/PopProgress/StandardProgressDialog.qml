@@ -39,7 +39,7 @@ FloatingPanel {
             height: 24
             font: DTK.fontManager.t5
             text: ""
-            color: Qt.rgba(0,0,0)
+            color: DTK.themeType === ApplicationHelper.LightType ? "black" : "white"
         }
 
         Rectangle {

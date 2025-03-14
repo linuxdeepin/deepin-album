@@ -51,6 +51,7 @@ DialogWindow {
             leftMargin: 46
             top: parent.top
         }
+        color: DTK.themeType === ApplicationHelper.LightType ? "black" : "white"
         font: DTK.fontManager.t5
         text: qsTr("New Album")
         verticalAlignment: Text.AlignBottom

@@ -58,12 +58,8 @@ DialogWindow {
     Text {
         id: renametitle
 
-        property Palette textColor: Palette {
-            normal: ("black")
-            normalDark: ("white")
-        }
 
-        color: ColorSelector.textColor
+        color: DTK.themeType === ApplicationHelper.LightType ? "black" : "white"
         font.pixelSize: 16
         height: 24
         horizontalAlignment: Text.AlignHCenter

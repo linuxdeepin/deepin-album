@@ -74,12 +74,7 @@ DialogWindow {
             horizontalCenter: parent.horizontalCenter
         }
 
-        property Palette textColor: Palette {
-            normal: ("black")
-            normalDark: ("white")
-        }
-
-        color: ColorSelector.textColor
+        color: DTK.themeType === ApplicationHelper.LightType ? "black" : "white"
         font: DTK.fontManager.t5
         verticalAlignment: Text.AlignBottom
         horizontalAlignment: Text.AlignHCenter
