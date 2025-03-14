@@ -37,6 +37,7 @@ DialogWindow {
             top: parent.top
             horizontalCenter: parent.horizontalCenter
         }
+        color: DTK.themeType === ApplicationHelper.LightType ? "black" : "white"
         font: DTK.fontManager.t5
         text: qsTr("Are you sure you want to delete this album?")
         verticalAlignment: Text.AlignBottom

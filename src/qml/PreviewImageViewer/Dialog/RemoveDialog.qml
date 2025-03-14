@@ -58,14 +58,9 @@ DialogWindow {
             Label {
                 id: notifyText
 
-                property Palette textColor: Palette {
-                    normal: ("black")
-                    normalDark: ("white")
-                }
-
                 Layout.alignment: Qt.AlignCenter
                 Layout.fillWidth: true
-                color: ColorSelector.textColor
+                color: DTK.themeType === ApplicationHelper.LightType ? "black" : "white"
                 font: DTK.fontManager.t5
                 horizontalAlignment: Text.AlignHCenter
                 text: qsTr("Cannot move \"%1\" to the trash. Do you want to permanently delete it?").arg(textMetics.elidedText)
