@@ -65,9 +65,21 @@ Item {
     }
 
     //info的窗口
-    InformationDialog{
-        id: albumInfomationDig
-        visible: false
+    Component {
+        id: informationDialogComponent
+        InformationDialog {
+        }
+    }
+
+    Loader {
+        id: infomationDig
+        sourceComponent: informationDialogComponent
+        active: GStatus.showImageInfo
+        asynchronous: true
+
+        function show() {
+            GStatus.showImageInfo = true;
+        }
     }
 
     //视频info窗口
