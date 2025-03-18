@@ -186,6 +186,16 @@ Item {
         target: GStatus
     }
 
+    Connections {
+        function onCurrentSourceChanged() {
+            if (imageViewer.visible && GControl.currentSource !== "") {
+                window.title = FileControl.slotGetFileName(GControl.currentSource) + FileControl.slotFileSuffix(GControl.currentSource);
+            }
+        }
+
+        target: GControl
+    }
+
     PropertyAnimation {
         id: showfullAnimation
 
@@ -671,22 +681,6 @@ Item {
             }
 
             target: GStatus
-        }
-    }
-
-    // 图片信息窗口
-    Loader {
-        id: infomationDig
-
-        function show() {
-            GStatus.showImageInfo = true;
-        }
-
-        active: GStatus.showImageInfo
-        asynchronous: true
-
-        // 图片属性信息窗口
-        sourceComponent: InformationDialog {
         }
     }
 

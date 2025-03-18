@@ -153,14 +153,6 @@ ApplicationWindow {
         }
     }
 
-    Connections {
-        function onCurrentSourceChanged() {
-            window.title = FileControl.slotGetFileName(GControl.currentSource) + FileControl.slotFileSuffix(GControl.currentSource);
-        }
-
-        target: GControl
-    }
-
     // 保存并退出程序
     function saveAndTerminate() {
         FileControl.saveSetting()

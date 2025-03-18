@@ -18,8 +18,6 @@ DialogWindow {
     width: 280
     property int leftX: 20
     property int topY: 70
-    x: window.x+window.width - width - leftX
-    y: window.y + topY
     minimumWidth: 280
     maximumWidth: 280
     minimumHeight: contentHeight4.height+60
@@ -27,9 +25,12 @@ DialogWindow {
 
     visible: false
 
-    property string filePath : ""
-
+    property url filePath : GControl.currentSource
     property string fileName: FileControl.slotGetFileNameSuffix(filePath)
+
+    property bool dismiss: false
+
+    flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint | Qt.WindowStaysOnTopHint
 
     header: DialogTitleBar {
         enableInWindowBlendBlur: true
@@ -45,6 +46,17 @@ DialogWindow {
             }
             property string title: fileName
         }
+    }
+
+    Component.onCompleted: {
+        x = window.x + window.width - width - leftX;
+        y = window.y + topY;
+    }
+
+    onActiveChanged: {
+        if (dismiss)
+            close();
+        dismiss = !dismiss
     }
 
     ColumnLayout {
@@ -201,9 +213,5 @@ DialogWindow {
                 }
             }
         }
-    }
-    onVisibleChanged: {
-        setX(window.x + window.width / 2 - width / 2)
-        setY(window.y + window.height / 2 - height / 2)
     }
 }

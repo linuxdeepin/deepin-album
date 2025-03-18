@@ -175,13 +175,17 @@ Item {
 
     // 执行照片信息查看
     function executeViewPhotoInfo() {
-        albumInfomationDig.filePath = GStatus.selectedPaths[0]
-        albumInfomationDig.show()
+        var allUrls = GStatus.selectedPaths
+        var url = GStatus.selectedPaths[0]
+        GControl.setImageFiles(allUrls, url)
+        infomationDig.show()
     }
 
     // 执行视频信息查看
     function executeViewVideoInfo() {
-        videoInfomationDig.filePath = GStatus.selectedPaths[0]
+        var allUrls = GStatus.selectedPaths
+        var url = GStatus.selectedPaths[0]
+        GControl.setImageFiles(allUrls, url)
         videoInfomationDig.show()
     }
 }
