@@ -1844,6 +1844,21 @@ bool AlbumControl::insertImportIntoAlbum(int UID, const QStringList &paths)
     return DBManager::instance()->insertIntoAlbum(UID, localPaths, atype);
 }
 
+void AlbumControl::updateInfoPath(const QString &oldPath, const QString &newPath)
+{
+    auto oldLocalPath = url2localPath(oldPath);
+    auto newLocalPath = url2localPath(newPath);
+    bool ok = DBManager::instance()->updateImgPath(oldLocalPath, newLocalPath);
+
+    if (ok) {
+        // 通知前端刷新相关界面，包括自定义相册/我的收藏/合集-所有项目/已导入
+        sigRefreshCustomAlbum(-1);
+        sigRefreshAllCollection();
+        sigRefreshImportAlbum();
+        sigRefreshSearchView();
+    }
+}
+
 bool AlbumControl::renameAlbum(int UID, const QString &newName)
 {
     DBManager::instance()->renameAlbum(UID, newName);

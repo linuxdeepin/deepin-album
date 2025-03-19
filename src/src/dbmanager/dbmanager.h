@@ -88,6 +88,7 @@ public:
     const DBImgInfoList     getInfosForKeyword(const QString &keywords) const;
     const DBImgInfoList     getTrashInfosForKeyword(const QString &keywords) const;
     const DBImgInfoList     getInfosForKeyword(int UID, const QString &keywords) const;
+    bool                    updateImgPath(const QString &oldPath, const QString &newPath);
 
     //CustomAutoImportPathTable
     //检查当前的自定义自动导入路径是否已经被监控，检查内容包括是否是子文件夹和是否是默认导入路径

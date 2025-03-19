@@ -184,6 +184,8 @@ public:
     //添加某相册中的图片 0:我的收藏  1:截图录屏  2:相机 3:画板 4-~:其他自定义   paths:需要删除的图片地址
     Q_INVOKABLE bool insertImportIntoAlbum(int UID, const QStringList &paths);
 
+    Q_INVOKABLE void updateInfoPath(const QString &oldPath, const QString &newPath);
+
     //修改相册名称
     Q_INVOKABLE bool renameAlbum(int UID, const QString &newName);
 
