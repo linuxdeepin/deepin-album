@@ -121,6 +121,10 @@ Item {
         if (selectedUrls.length > 0) {
             albumControl.removeFromAlbum(GStatus.currentCustomAlbumUId, selectedUrls)
             GStatus.sigFlushCustomAlbumView(GStatus.currentCustomAlbumUId)
+            if (GStatus.currentViewType === Album.Types.ViewCollecttion) {
+                // 合集视图下，刷新所有合集列表内容
+                GStatus.sigFlushAllCollectionView()
+            }
         }
     }
 

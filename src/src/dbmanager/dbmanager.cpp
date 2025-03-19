@@ -1054,6 +1054,55 @@ const DBImgInfoList DBManager::getInfosForKeyword(int UID, const QString &keywor
     return infos;
 }
 
+bool DBManager::updateImgPath(const QString &oldPath, const QString &newPath)
+{
+    QString oldHash = LibUnionImage_NameSpace::hashByString(oldPath);
+    QString newHash = LibUnionImage_NameSpace::hashByString(newPath);
+
+    QMutexLocker mutex(&m_dbMutex);
+
+    // 更新 AlbumTable3 表的 PathHash
+    if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
+        qDebug() << m_query->lastError();
+        return false;
+    }
+    QString updateAlbumQs = "UPDATE AlbumTable3 SET PathHash=:newHash WHERE PathHash=:oldHash";
+    if (!m_query->prepare(updateAlbumQs)) {
+        // 处理错误
+    }
+    m_query->bindValue(":newHash", newHash);
+    m_query->bindValue(":oldHash", oldHash);
+    if (!m_query->exec()) {
+        return false;
+    }
+    if (!m_query->exec("COMMIT")) {
+        qDebug() << m_query->lastError();
+        return false;
+    }
+
+    // 更新 ImageTable3 表的 PathHash 和 filePath
+    if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
+        qDebug() << m_query->lastError();
+        return false;
+    }
+    QString updateImageQs = "UPDATE ImageTable3 SET PathHash=:newHash, filePath=:newPath WHERE PathHash=:oldHash";
+    if (!m_query->prepare(updateImageQs)) {
+        // 处理错误
+    }
+    m_query->bindValue(":newHash", newHash);
+    m_query->bindValue(":newPath", newPath);
+    m_query->bindValue(":oldHash", oldHash);
+    if (!m_query->exec()) {
+        // 处理错误
+        return false;
+    }
+    if (!m_query->exec("COMMIT")) {
+    //    qDebug() << m_query->lastError();
+        return false;
+    }
+    return true;
+}
+
 const QMultiMap<QString, QString> DBManager::getAllPathAlbumNames() const
 {
     QMutexLocker mutex(&m_dbMutex);

@@ -217,6 +217,7 @@ FadeInoutAnimation {
     }
 
     Connections {
+        target: FileControl
         // 关联外部通过 DBus 等方式触发调用相册
         function onOpenImageFile(fileName) {
             var paths = []
@@ -224,7 +225,11 @@ FadeInoutAnimation {
             openAndImportImages(paths)
         }
 
-        target: FileControl
+        // 应用内重命名后，更新数据库后，需要更新缩略图显示； 应用外无法实现
+        function onImageRenamed(oldPath, newPath) {
+            // console.log("MainAlbumView onImageRenamed oldPath:", oldPath, "newPath:", newPath)
+            albumControl.updateInfoPath(oldPath, newPath)
+        }
     }
 
     Connections {
