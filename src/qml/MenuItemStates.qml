@@ -124,6 +124,9 @@ Item {
             if (GStatus.currentViewType === Album.Types.ViewCollecttion) {
                 // 合集视图下，刷新所有合集列表内容
                 GStatus.sigFlushAllCollectionView()
+            } else if (GStatus.currentViewType === Album.Types.ViewHaveImported) {
+                // 导入视图下，刷新所有导入列表内容
+                GStatus.sigFlushHaveImportedView()
             }
         }
     }
