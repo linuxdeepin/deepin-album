@@ -1,3 +1,13 @@
+deepin-album (6.0.20) unstable; urgency=medium
+
+  * chore: New version 6.0.20.
+  * Fix text color issue after change theme.
+  * Fix did not sync rename for infodialog.
+  * Update image info after rename.
+  * Fix update imported view after delete.
+
+ -- re2zero <yangwu@uniontech.com>  Thu, 20 Mar 2025 18:55:55 +0800
+
 deepin-album (6.0.19) unstable; urgency=medium
 
   * chore: New version 6.0.19.
