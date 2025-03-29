@@ -1503,7 +1503,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="156"/>
         <source>Delete All</source>
-        <translation>Excluir Tudo</translation>
+        <translation>Excluir tudo</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="196"/>
