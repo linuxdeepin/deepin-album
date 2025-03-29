@@ -282,7 +282,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="479"/>
         <source>Import Photos and Videos</source>
-        <translation>Importar Fotos e Vídeos</translation>
+        <translation>Importar fotos e vídeos</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="510"/>
@@ -1206,7 +1206,7 @@
     <message>
         <location filename="../qml/MainAlbumView.qml" line="253"/>
         <source>%1/%2</source>
-        <translation>%1/%2</translation>
+        <translation>%1 / %2</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="264"/>
@@ -1245,7 +1245,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/MonthCollection.qml" line="154"/>
         <source>%1/%2</source>
-        <translation>%1/%2</translation>
+        <translation>%1 / %2</translation>
     </message>
 </context>
 <context>
@@ -1290,7 +1290,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="60"/>
         <source>Import Photos and Videos</source>
-        <translation>Importar Fotos e Vídeos</translation>
+        <translation>Importar fotos e vídeos</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
@@ -1360,14 +1360,14 @@
     <message>
         <location filename="../src/albumControl.cpp" line="643"/>
         <source>%1/%2</source>
-        <translation>%1/%2</translation>
+        <translation>%1 / %2</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="319"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="344"/>
         <location filename="../src/albumControl.cpp" line="649"/>
         <source>%1/%2/%3</source>
-        <translation>%1/%2/%3</translation>
+        <translation>%3/%2/%1</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="387"/>
