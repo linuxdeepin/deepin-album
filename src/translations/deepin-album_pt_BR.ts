@@ -119,12 +119,12 @@
     <message>
         <location filename="../src/albumControl.cpp" line="996"/>
         <source>Favorite</source>
-        <translation>Favoritar</translation>
+        <translation>Adicionar aos favoritos</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="999"/>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Remover dos favoritos</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1002"/>
@@ -287,12 +287,12 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="510"/>
         <source>Favorite</source>
-        <translation>Favoritar</translation>
+        <translation>Adicionar aos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="510"/>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Remover dos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="542"/>
@@ -1792,7 +1792,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="817"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="948"/>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Adicionar aos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
@@ -1803,7 +1803,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="818"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="949"/>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Remover dos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="591"/>
@@ -2013,12 +2013,12 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="963"/>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Adicionar aos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="973"/>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Remover dos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="987"/>
@@ -2119,12 +2119,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="290"/>
         <source>Favorite</source>
-        <translation>Favoritar</translation>
+        <translation>Adicionar aos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="290"/>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Remover dos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="431"/>
@@ -2281,12 +2281,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="218"/>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Adicionar aos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="228"/>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Remover dos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="245"/>
