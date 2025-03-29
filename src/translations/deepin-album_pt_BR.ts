@@ -119,12 +119,12 @@
     <message>
         <location filename="../src/albumControl.cpp" line="996"/>
         <source>Favorite</source>
-        <translation>Favoritar</translation>
+        <translation>Adicionar aos favoritos</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="999"/>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Remover dos favoritos</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1002"/>
@@ -282,17 +282,17 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="479"/>
         <source>Import Photos and Videos</source>
-        <translation>Importar Fotos e Vídeos</translation>
+        <translation>Importar fotos e vídeos</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="510"/>
         <source>Favorite</source>
-        <translation>Favoritar</translation>
+        <translation>Adicionar aos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="510"/>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Remover dos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="542"/>
@@ -1206,7 +1206,7 @@
     <message>
         <location filename="../qml/MainAlbumView.qml" line="253"/>
         <source>%1/%2</source>
-        <translation>%1/%2</translation>
+        <translation>%1 / %2</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="264"/>
@@ -1245,7 +1245,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/MonthCollection.qml" line="154"/>
         <source>%1/%2</source>
-        <translation>%1/%2</translation>
+        <translation>%1 / %2</translation>
     </message>
 </context>
 <context>
@@ -1290,7 +1290,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="60"/>
         <source>Import Photos and Videos</source>
-        <translation>Importar Fotos e Vídeos</translation>
+        <translation>Importar fotos e vídeos</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
@@ -1360,14 +1360,14 @@
     <message>
         <location filename="../src/albumControl.cpp" line="643"/>
         <source>%1/%2</source>
-        <translation>%1/%2</translation>
+        <translation>%1 / %2</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="319"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="344"/>
         <location filename="../src/albumControl.cpp" line="649"/>
         <source>%1/%2/%3</source>
-        <translation>%1/%2/%3</translation>
+        <translation>%3/%2/%1</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="387"/>
@@ -1503,7 +1503,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="156"/>
         <source>Delete All</source>
-        <translation>Excluir Tudo</translation>
+        <translation>Excluir tudo</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="196"/>
@@ -1531,7 +1531,7 @@
     <message>
         <location filename="../qml/Control/RemoveAlbumDialog.qml" line="71"/>
         <source>Delete</source>
-        <translation>Apagar</translation>
+        <translation>Excluir</translation>
     </message>
 </context>
 <context>
@@ -1681,7 +1681,7 @@
         <location filename="../qml/SideBar/Sidebar.qml" line="469"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="544"/>
         <source>Delete</source>
-        <translation>Apagar</translation>
+        <translation>Excluir</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="512"/>
@@ -1792,7 +1792,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="817"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="948"/>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Adicionar aos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
@@ -1803,7 +1803,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="818"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="949"/>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Remover dos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="591"/>
@@ -2003,7 +2003,7 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="938"/>
         <source>Delete</source>
-        <translation>Apagar</translation>
+        <translation>Excluir</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="948"/>
@@ -2013,12 +2013,12 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="963"/>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Adicionar aos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="973"/>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Remover dos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="987"/>
@@ -2119,12 +2119,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="290"/>
         <source>Favorite</source>
-        <translation>Favoritar</translation>
+        <translation>Adicionar aos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="290"/>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Remover dos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="431"/>
@@ -2134,7 +2134,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="458"/>
         <source>Delete</source>
-        <translation>Apagar</translation>
+        <translation>Excluir</translation>
     </message>
 </context>
 <context>
@@ -2276,17 +2276,17 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="189"/>
         <source>Delete</source>
-        <translation>Apagar</translation>
+        <translation>Excluir</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="218"/>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Adicionar aos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="228"/>
         <source>Unfavorite</source>
-        <translation>Remover dos Favoritos</translation>
+        <translation>Remover dos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="245"/>
