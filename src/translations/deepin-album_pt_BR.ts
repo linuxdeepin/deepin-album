@@ -1531,7 +1531,7 @@
     <message>
         <location filename="../qml/Control/RemoveAlbumDialog.qml" line="71"/>
         <source>Delete</source>
-        <translation>Apagar</translation>
+        <translation>Excluir</translation>
     </message>
 </context>
 <context>
@@ -1681,7 +1681,7 @@
         <location filename="../qml/SideBar/Sidebar.qml" line="469"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="544"/>
         <source>Delete</source>
-        <translation>Apagar</translation>
+        <translation>Excluir</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="512"/>
@@ -2003,7 +2003,7 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="938"/>
         <source>Delete</source>
-        <translation>Apagar</translation>
+        <translation>Excluir</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="948"/>
@@ -2134,7 +2134,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="458"/>
         <source>Delete</source>
-        <translation>Apagar</translation>
+        <translation>Excluir</translation>
     </message>
 </context>
 <context>
@@ -2276,7 +2276,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="189"/>
         <source>Delete</source>
-        <translation>Apagar</translation>
+        <translation>Excluir</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="218"/>
