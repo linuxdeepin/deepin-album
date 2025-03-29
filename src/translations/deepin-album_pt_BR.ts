@@ -99,7 +99,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="984"/>
         <source>Zoom in</source>
-        <translation>Aumentar zoom</translation>
+        <translation>Ampliar</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="987"/>
@@ -758,7 +758,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="890"/>
         <source>Zoom in</source>
-        <translation>Aumentar zoom</translation>
+        <translation>Ampliar</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="894"/>
