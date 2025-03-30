@@ -544,7 +544,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="195"/>
         <source>Import All</source>
-        <translation>Importar Tudo</translation>
+        <translation>Importar tudo</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="196"/>
