@@ -49,7 +49,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="951"/>
         <source>View</source>
-        <translation>Visualizar</translation>
+        <translation>Exibir</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="954"/>
@@ -184,7 +184,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1719"/>
         <source>Unnamed</source>
-        <translation>Sem Nome</translation>
+        <translation>Documento</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2121"/>
@@ -1254,7 +1254,7 @@
         <location filename="../qml/Control/NewAlbumDialog.qml" line="41"/>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="86"/>
         <source>Unnamed</source>
-        <translation>Sem Nome</translation>
+        <translation>Documento</translation>
     </message>
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="54"/>
@@ -1847,7 +1847,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="910"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="936"/>
         <source>View</source>
-        <translation>Visualizar</translation>
+        <translation>Exibir</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="723"/>
@@ -1958,7 +1958,7 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="795"/>
         <source>View</source>
-        <translation>Visualizar</translation>
+        <translation>Exibir</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="804"/>
