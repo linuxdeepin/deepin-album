@@ -24,7 +24,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="933"/>
         <source>Exit fullscreen/slideshow</source>
-        <translation>Sair da Tela Cheia / Apresentação de Slides</translation>
+        <translation>Sair da tela cheia / apresentação de slides</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="939"/>
@@ -692,7 +692,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="838"/>
         <source>Exit fullscreen</source>
-        <translation>Sair da Tela Cheia</translation>
+        <translation>Sair da tela cheia</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="842"/>
@@ -2241,7 +2241,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="40"/>
         <source>Exit fullscreen</source>
-        <translation>Sair da Tela Cheia</translation>
+        <translation>Sair da tela cheia</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="60"/>
