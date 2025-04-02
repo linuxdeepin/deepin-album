@@ -1,3 +1,10 @@
+deepin-album (6.0.21) unstable; urgency=medium
+
+  * chore: update desktop file
+  * chore: update translations
+
+ -- renbin <renbin@uniontech.com>  Wed, 02 Apr 2025 15:51:34 +0800
+
 deepin-album (6.0.20) unstable; urgency=medium
 
   * chore: New version 6.0.20.
