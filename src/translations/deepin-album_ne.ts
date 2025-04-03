@@ -4,7 +4,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="257"/>
         <source>All photos and videos</source>
-        <translation type="unfinished"/>
+        <translation>सम्पूर्ण फोटो र वीडियो</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="285"/>
@@ -54,12 +54,12 @@
     <message>
         <location filename="../src/albumControl.cpp" line="927"/>
         <source>Export photos</source>
-        <translation type="unfinished"/>
+        <translation>फोटो निर्यातमा गर्नुहोस्</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="930"/>
         <source>Import photos/videos</source>
-        <translation type="unfinished"/>
+        <translation>फोटो/वीडियो भर्नुहोस्</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="933"/>
@@ -79,7 +79,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="942"/>
         <source>Photo/Video info</source>
-        <translation type="unfinished"/>
+        <translation>फोटो/वीडियो जानकारी</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="945"/>
@@ -169,17 +169,17 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1603"/>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation>स्क्रीन स्क्रिनशॅप लेनुहोस्</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1605"/>
         <source>Camera</source>
-        <translation type="unfinished"/>
+        <translation>कैमरा</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1607"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>रेडर</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1700"/>
@@ -190,12 +190,12 @@
         <location filename="../src/albumControl.cpp" line="2145"/>
         <location filename="../src/albumControl.cpp" line="2149"/>
         <source>%1Year%2Month%3Day</source>
-        <translation type="unfinished"/>
+        <translation>%1 वर्ष %2 महिना %3 दिन</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2199"/>
         <source>Channel</source>
-        <translation type="unfinished"/>
+        <translation>चैनल</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2400"/>
@@ -213,7 +213,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="119"/>
         <source>Import folders</source>
-        <translation type="unfinished"/>
+        <translation>फोल्डर भर्नुहोस्</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="130"/>
@@ -223,65 +223,65 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="133"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"/>
+        <translation>अल्बम फोटो र वीडियो देख्न र संग्रहण गर्नका लागि एउटा दृश्यक नियोजन उपकरण हो।</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">%1 %2 अधिकारमा छापाएको छ</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="177"/>
         <source>Show side pane</source>
-        <translation type="unfinished"/>
+        <translation>पक्ष बाहीर गर्नुहोस्</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="177"/>
         <source>Hide side pane</source>
-        <translation type="unfinished"/>
+        <translation>पक्ष छुपाउनुहोस्</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="222"/>
         <source>Original ratio</source>
-        <translation type="unfinished"/>
+        <translation>मूल अनुपात</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="222"/>
         <source>Square thumbnails</source>
-        <translation type="unfinished"/>
+        <translation>वर्ग प्रतिबिम्ब</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="262"/>
         <location filename="../qml/AlbumTitle.qml" line="340"/>
         <source>Y</source>
-        <translation type="unfinished"/>
+        <translation>Y</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="274"/>
         <location filename="../qml/AlbumTitle.qml" line="341"/>
         <source>M</source>
-        <translation type="unfinished"/>
+        <translation>M</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="285"/>
         <location filename="../qml/AlbumTitle.qml" line="342"/>
         <source>D</source>
-        <translation type="unfinished"/>
+        <translation>D</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="296"/>
         <location filename="../qml/AlbumTitle.qml" line="343"/>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>सम्पूर्ण</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="401"/>
         <source>Search</source>
-        <translation type="unfinished"/>
+        <translation>तयारी</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="483"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation>फोटो र वीडियो भर्नुहोस्</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="514"/>
@@ -296,7 +296,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="546"/>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>परिक्रमा गर्नुहोस्</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="566"/>
@@ -309,27 +309,27 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="73"/>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 फोटो</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="75"/>
         <source>%1 photos</source>
-        <translation type="unfinished"/>
+        <translation>%1 फोटो</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="83"/>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 वीडियो</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="85"/>
         <source>%1 videos</source>
-        <translation type="unfinished"/>
+        <translation>%1 वीडियोहरू</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="192"/>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>रिसल्टहरू छैन</translation>
     </message>
 </context>
 <context>
@@ -337,22 +337,22 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="87"/>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 फोटो</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="89"/>
         <source>%1 photos</source>
-        <translation type="unfinished"/>
+        <translation>%1 फोटो</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="97"/>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 वीडियो</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="99"/>
         <source>%1 videos</source>
-        <translation type="unfinished"/>
+        <translation>%1 वीडियोहरू</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="152"/>
@@ -362,7 +362,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="214"/>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>रिसल्टहरू छैन</translation>
     </message>
 </context>
 <context>
@@ -372,20 +372,20 @@
         <location filename="../src/dbmanager/dbmanager.cpp" line="482"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="507"/>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation>स्क्रीन स्क्रिनशॅप लेनुहोस्</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="466"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="483"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="512"/>
         <source>Camera</source>
-        <translation type="unfinished"/>
+        <translation>कैमरा</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="467"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="517"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>रेडर</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="1991"/>
@@ -407,22 +407,22 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="181"/>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 फोटो</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="183"/>
         <source>%1 photos</source>
-        <translation type="unfinished"/>
+        <translation>%1 फोटो</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="191"/>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 वीडियो</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="193"/>
         <source>%1 videos</source>
-        <translation type="unfinished"/>
+        <translation>%1 वीडियोहरू</translation>
     </message>
 </context>
 <context>
@@ -506,22 +506,22 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="66"/>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 फोटो</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="68"/>
         <source>%1 photos</source>
-        <translation type="unfinished"/>
+        <translation>%1 फोटोहरू</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="75"/>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 वीडियो</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="77"/>
         <source>%1 videos</source>
-        <translation type="unfinished"/>
+        <translation>%1 वीडियोहरू</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="168"/>
@@ -548,12 +548,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="206"/>
         <source>Import 1 Item</source>
-        <translation type="unfinished"/>
+        <translation>1 आइटम भर्नुहोस्</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="207"/>
         <source>Import %1 Items</source>
-        <translation type="unfinished"/>
+        <translation>%1 आइटमहरू भर्नुहोस्</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="214"/>
@@ -563,7 +563,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="266"/>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>रिसल्टहरू छैन</translation>
     </message>
 </context>
 <context>
@@ -571,7 +571,7 @@
     <message>
         <location filename="../qml/Control/DeviceLoadDialog.qml" line="42"/>
         <source>Loading...</source>
-        <translation type="unfinished"/>
+        <translation>लोडिन्ग...</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeviceLoadDialog.qml" line="51"/>
@@ -581,7 +581,7 @@
     <message>
         <location filename="../qml/Control/DeviceLoadDialog.qml" line="59"/>
         <source>Ignore</source>
-        <translation type="unfinished"/>
+        <translation>विछन्न</translation>
     </message>
 </context>
 <context>
@@ -589,7 +589,8 @@
     <message>
         <location filename="../qml/Control/EmptyWarningDialog.qml" line="27"/>
         <source>File name cannot be empty!</source>
-        <translation type="unfinished"/>
+        <translation>फाइल नाव छैन न सक्छ!
+</translation>
     </message>
     <message>
         <location filename="../qml/Control/EmptyWarningDialog.qml" line="36"/>
@@ -668,7 +669,7 @@
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="264"/>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>निश्चित गर्नुहोस्</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="280"/>
@@ -696,7 +697,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="842"/>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation>त्याग गर्नुहोस्</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="846"/>
@@ -742,7 +743,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="878"/>
         <source>Image info</source>
-        <translation type="unfinished"/>
+        <translation>होटा जानकारी</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="882"/>
@@ -767,7 +768,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="898"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>पनि खोल्नुहोस्</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="902"/>
@@ -777,7 +778,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="926"/>
         <source>Image Viewing</source>
-        <translation type="unfinished"/>
+        <translation>होटा देख्नुहोस्</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="930"/>
@@ -802,7 +803,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="958"/>
         <source>Live Text</source>
-        <translation type="unfinished"/>
+        <translation>जीवित टेक्स्ट</translation>
     </message>
 </context>
 <context>
@@ -810,7 +811,7 @@
     <message>
         <location filename="../qml/Control/FilterComboBox.qml" line="20"/>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>साराखाली</translation>
     </message>
     <message>
         <location filename="../qml/Control/FilterComboBox.qml" line="21"/>
@@ -828,42 +829,50 @@
     <message>
         <location filename="../src/globalstatus.cpp" line="807"/>
         <source>1 item selected (1 photo)</source>
-        <translation type="unfinished"/>
+        <translation>1 आइटम निवडिएको (1 फोटो)
+</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="809"/>
         <source>1 item selected (1 video)</source>
-        <translation type="unfinished"/>
+        <translation>1 आइटम निवडिएको (1 वीडियो)
+</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="811"/>
         <source>%1 items selected (%1 photos)</source>
-        <translation type="unfinished"/>
+        <translation>%1 आइटमहरू निवडिएको (%1 फोटोहरू)
+</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="813"/>
         <source>%1 items selected (%1 videos)</source>
-        <translation type="unfinished"/>
+        <translation>%1 आइटमहरू निवडिएको (%1 वीडियोहरू)
+</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="815"/>
         <source>%1 item selected (1 photo, 1 video)</source>
-        <translation type="unfinished"/>
+        <translation>%1 आइटम निवडिएको (1 फोटो, 1 वीडियो)
+</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="817"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
-        <translation type="unfinished"/>
+        <translation>%1 आइटमहरू निवडिएको (1 फोटो, %2 वीडियोहरू)
+</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="819"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
-        <translation type="unfinished"/>
+        <translation>%1 आइटमहरू निवडिएको (%2 फोटोहरू, 1 वीडियो)
+</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="821"/>
         <source>%1 items selected (%2 photos, %3 videos)</source>
-        <translation type="unfinished"/>
+        <translation>%1 आइटमहरू निवडिएको (%2 फोटोहरू, %3 वीडियोहरू)
+</translation>
     </message>
 </context>
 <context>
@@ -890,22 +899,22 @@
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="153"/>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 फोटो</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="155"/>
         <source>%1 photos</source>
-        <translation type="unfinished"/>
+        <translation>%1 फोटो</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="163"/>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 वीडियो</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="165"/>
         <source>%1 videos</source>
-        <translation type="unfinished"/>
+        <translation>%1 वीडियोहरू</translation>
     </message>
 </context>
 <context>
@@ -919,12 +928,12 @@
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="320"/>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 फोटो</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="322"/>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 वीडियो</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="324"/>
@@ -948,19 +957,19 @@
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>Imported on</source>
-        <translation type="unfinished"/>
+        <translation>भएको निवास</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>1 item</source>
-        <translation type="unfinished"/>
+        <translation>1 तत्व</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>%1 items</source>
-        <translation type="unfinished"/>
+        <translation>%1 तत्व</translation>
     </message>
 </context>
 <context>
@@ -971,11 +980,11 @@
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">फाइल का नाम</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">आकार</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -1064,12 +1073,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="95"/>
         <source>File name</source>
-        <translation type="unfinished"/>
+        <translation>फाइल का नाम</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="106"/>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>आकार</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="113"/>
@@ -1184,7 +1193,7 @@
         <location filename="../qml/MainAlbumView.qml" line="253"/>
         <location filename="../qml/MainAlbumView.qml" line="290"/>
         <source>%1/%2</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="263"/>
@@ -1234,7 +1243,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/MonthCollection.qml" line="154"/>
         <source>%1/%2</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2</translation>
     </message>
 </context>
 <context>
@@ -1262,7 +1271,7 @@
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="120"/>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>सुनिश्चित गर्नुहोस्</translation>
     </message>
 </context>
 <context>
@@ -1278,17 +1287,17 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="60"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation>फोटोहरू र वीडियोहरू पनि भएको भए इन्कृयामा प्रविष्ट गर्नुहोस्</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>No photos or videos found</source>
-        <translation type="unfinished"/>
+        <translation>फोटोहरू वा वीडियोहरू छैन भएको छ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>Or drag them here</source>
-        <translation type="unfinished"/>
+        <translation>यस भागमा लगाउनुहोस् वा त्योहरू रोकिन्छ</translation>
     </message>
 </context>
 <context>
@@ -1296,7 +1305,7 @@
     <message>
         <location filename="../src/widgets/widgtes/noresultwidget.cpp" line="39"/>
         <source>No results</source>
-        <translation type="unfinished"/>
+        <translation>रिजल्टहरू छैन</translation>
     </message>
 </context>
 <context>
@@ -1304,7 +1313,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NonexistImageDelegate.qml" line="42"/>
         <source>Image file not found</source>
-        <translation type="unfinished"/>
+        <translation>फाइल छैन भएको छ</translation>
     </message>
 </context>
 <context>
@@ -1312,7 +1321,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation>फाइल खोल्नुहोस्</translation>
     </message>
 </context>
 <context>
@@ -1329,7 +1338,7 @@
         <location filename="../qml/PreviewImageViewer/PropertyActionItemDelegate.qml" line="67"/>
         <location filename="../qml/PreviewImageViewer/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>फाइल छैन भएको छ, कृपया दुवै नाम लगाउनुहोस्</translation>
     </message>
 </context>
 <context>
@@ -1338,17 +1347,17 @@
         <location filename="../src/albumControl.cpp" line="614"/>
         <location filename="../src/albumControl.cpp" line="663"/>
         <source>%1/%2/%3 %4:%5</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2/%3 %4:%5</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="645"/>
         <source>%1</source>
-        <translation type="unfinished"/>
+        <translation>%1</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="651"/>
         <source>%1/%2</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="275"/>
@@ -1363,7 +1372,7 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="373"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="381"/>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>सारी</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="359"/>
@@ -1391,27 +1400,27 @@
         <location filename="../main.cpp" line="68"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation type="unfinished"/>
+        <translation>मुख्य</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="269"/>
         <source>day</source>
-        <translation type="unfinished"/>
+        <translation>दिन</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="303"/>
         <source>Imported on</source>
-        <translation type="unfinished"/>
+        <translation>भएको निवास</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="303"/>
         <source> %1-%2-%3 %4</source>
-        <translation type="unfinished"/>
+        <translation> %1-%2-%3 %4</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="306"/>
         <source>Imported on </source>
-        <translation type="unfinished"/>
+        <translation>भएको निवास</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="227"/>
@@ -1438,12 +1447,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="66"/>
         <source>Input a new name</source>
-        <translation type="unfinished"/>
+        <translation>नयाँ नाम द्याउनुहोस्</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="81"/>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>सुनिश्चित गर्नुहोस्</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="137"/>
@@ -1453,7 +1462,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="119"/>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>RecentlyDeletedView</translation>
     </message>
 </context>
 <context>
@@ -1461,22 +1470,22 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="52"/>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 फोटो</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="54"/>
         <source>%1 photos</source>
-        <translation type="unfinished"/>
+        <translation>%1 फोटोहरू</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="62"/>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 वीडियो</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="64"/>
         <source>%1 videos</source>
-        <translation type="unfinished"/>
+        <translation>%1 वीडियोहरू</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="120"/>
@@ -1486,7 +1495,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="141"/>
         <source>The files will be permanently deleted after the days shown on them</source>
-        <translation type="unfinished"/>
+        <translation>त्यहाँ दिखाएको दिनहरू बाद फाइलहरू निर्णायक रूपमा निर्मित गरिनेछन्</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="156"/>
@@ -1542,7 +1551,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="106"/>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>RecentlyDeletedView</translation>
     </message>
 </context>
 <context>
@@ -1639,17 +1648,17 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="340"/>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation>स्क्रीन स्क्रिनशॅप लेनुहोस्</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="344"/>
         <source>Camera</source>
-        <translation type="unfinished"/>
+        <translation>कैमरा</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="348"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>रेडर</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="455"/>
@@ -1723,7 +1732,7 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="441"/>
         <source>day</source>
-        <translation type="unfinished"/>
+        <translation>दिन</translation>
     </message>
 </context>
 <context>
@@ -1744,7 +1753,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="171"/>
         <source>Back to Album</source>
-        <translation type="unfinished"/>
+        <translation>अल्बममा वापस</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="203"/>
@@ -1759,7 +1768,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="264"/>
         <source>Original size</source>
-        <translation type="unfinished"/>
+        <translation>मूल आकार</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="283"/>
@@ -1769,7 +1778,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="301"/>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>परिक्रमा गर्नुहोस्</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
@@ -1796,7 +1805,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="591"/>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation>पाठ निकाल्नु</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaildelegate.cpp" line="207"/>
@@ -2049,12 +2058,12 @@
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="289"/>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 फोटो</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="291"/>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 वीडियो</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="293"/>
@@ -2077,7 +2086,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="121"/>
         <source>Back to Album</source>
-        <translation type="unfinished"/>
+        <translation>अल्बममा वापस</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="162"/>
@@ -2092,7 +2101,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="210"/>
         <source>Original size</source>
-        <translation type="unfinished"/>
+        <translation>मूल आकार</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="231"/>
@@ -2102,7 +2111,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="257"/>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>रोटेट</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="290"/>
@@ -2117,7 +2126,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="431"/>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation>पाठ निकाल्नु</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="458"/>
@@ -2135,7 +2144,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="78"/>
         <source>File name</source>
-        <translation type="unfinished"/>
+        <translation>फाइल का नाम</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="88"/>
@@ -2145,12 +2154,12 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="95"/>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>आकार</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="100"/>
         <source>Duration</source>
-        <translation type="unfinished"/>
+        <translation>दूरी</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="105"/>
@@ -2160,63 +2169,63 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="115"/>
         <source>Path</source>
-        <translation type="unfinished"/>
+        <translation>पथ</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="122"/>
         <source>Codec info</source>
-        <translation type="unfinished"/>
+        <translation>कोडक जानकारी</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="130"/>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="170"/>
         <source>Video CodecID</source>
-        <translation type="unfinished"/>
+        <translation>वीडियो कोडक आईडी</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="136"/>
         <source>Video CodeRate</source>
-        <translation type="unfinished"/>
+        <translation>वीडियो कोडरेट</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="142"/>
         <source>FPS</source>
-        <translation type="unfinished"/>
+        <translation>FPS</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="153"/>
         <source>Proportion</source>
-        <translation type="unfinished"/>
+        <translation>अनुपात</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="160"/>
         <source>Resolution</source>
-        <translation type="unfinished"/>
+        <translation>व्यवस्थापन</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="178"/>
         <source>Audio CodecID</source>
-        <translation type="unfinished"/>
+        <translation>अवस्थापन कोडक आईडी</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="184"/>
         <source>Audio CodeRate</source>
-        <translation type="unfinished"/>
+        <translation>अवस्थापन कोडरेट</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="190"/>
         <source>Audio digit</source>
-        <translation type="unfinished"/>
+        <translation>अवस्थापन अंक</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="201"/>
         <source>Channels</source>
-        <translation type="unfinished"/>
+        <translation>कैनलहरू</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="208"/>
         <source>Sampling</source>
-        <translation type="unfinished"/>
+        <translation>सैम्पलिंग</translation>
     </message>
 </context>
 <context>
@@ -2239,7 +2248,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="81"/>
         <source>Extract text</source>
-        <translation type="unfinished"/>
+        <translation>पाठ निकाल्नु</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="103"/>
@@ -2309,7 +2318,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="350"/>
         <source>Image info</source>
-        <translation type="unfinished"/>
+        <translation>इमेज जानकारी</translation>
     </message>
 </context>
 <context>
@@ -2317,22 +2326,22 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>इमेज खोल्नु</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>इमेज व्यवस्थापन एक विशाल तारिको र निरन्तर प्रदर्शन वाहनका रूपमा इमेज देख्ने उपकरण हो।</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="185"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"/>
+        <translation>अल्बम फोटो र वीडियो देख्न र संगैले प्रामुख्यावादी उपकरण हो।</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation>इमेज देखिर्का</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="189"/>
@@ -2342,7 +2351,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="193"/>
         <source>%1 is released under %2.</source>
-        <translation type="unfinished"/>
+        <translation>%1 %2 ध्यादै आउटपुट गरिन्छ।</translation>
     </message>
 </context>
 <context>
@@ -2350,17 +2359,17 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="126"/>
         <source>%1</source>
-        <translation type="unfinished"/>
+        <translation>%1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="139"/>
         <source>%1 items</source>
-        <translation type="unfinished"/>
+        <translation>%1 तत्व</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="139"/>
         <source>1 item</source>
-        <translation type="unfinished"/>
+        <translation>1 तत्व</translation>
     </message>
 </context>
 <context>
@@ -2368,7 +2377,7 @@
     <message>
         <location filename="../qml/main.qml" line="130"/>
         <source>All photos and videos</source>
-        <translation type="unfinished"/>
+        <translation>सारी फोटो र वीडियो</translation>
     </message>
 </context>
 </TS>
