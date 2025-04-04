@@ -169,7 +169,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1603"/>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation>Kuptësim Shtyllës</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1605"/>
@@ -190,7 +190,7 @@
         <location filename="../src/albumControl.cpp" line="2145"/>
         <location filename="../src/albumControl.cpp" line="2149"/>
         <source>%1Year%2Month%3Day</source>
-        <translation type="unfinished"/>
+        <translation>%1Vit%2Majtez%3 Ditë</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2199"/>
@@ -372,7 +372,7 @@
         <location filename="../src/dbmanager/dbmanager.cpp" line="482"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="507"/>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation>Kuptësim Shtyllës</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="466"/>
@@ -802,7 +802,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="958"/>
         <source>Live Text</source>
-        <translation type="unfinished"/>
+        <translation>Tekst i vërtetë</translation>
     </message>
 </context>
 <context>
@@ -1200,7 +1200,7 @@
     <message>
         <location filename="../qml/MainAlbumView.qml" line="281"/>
         <source>Deleted:</source>
-        <translation type="unfinished"/>
+        <translation>Fshihtë:</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="283"/>
@@ -1391,7 +1391,7 @@
         <location filename="../main.cpp" line="68"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation type="unfinished"/>
+        <translation>Principale</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="269"/>
@@ -1639,7 +1639,7 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="340"/>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation>Kuptësim Shtyllës</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="344"/>
@@ -2206,7 +2206,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="190"/>
         <source>Audio digit</source>
-        <translation type="unfinished"/>
+        <translation>Digit Audio</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="201"/>
@@ -2216,7 +2216,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="208"/>
         <source>Sampling</source>
-        <translation type="unfinished"/>
+        <translation>Saupë</translation>
     </message>
 </context>
 <context>

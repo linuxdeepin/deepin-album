@@ -1200,7 +1200,7 @@
     <message>
         <location filename="../qml/MainAlbumView.qml" line="281"/>
         <source>Deleted:</source>
-        <translation type="unfinished"/>
+        <translation>Eliminados:</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="283"/>
