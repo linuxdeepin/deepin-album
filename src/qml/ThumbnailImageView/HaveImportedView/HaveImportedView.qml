@@ -174,6 +174,9 @@ BaseView {
 
     // 刷新选中项数标签
     function getSelectedText(paths) {
+        if (!visible)
+            return "";
+
         var selectedNumText = GStatus.getSelectedNumText(paths, numLabelText)
         if (visible)
             GStatus.statusBarNumText = selectedNumText

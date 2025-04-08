@@ -793,9 +793,9 @@ void GlobalStatus::initConnect()
     });
 }
 
-QString GlobalStatus::getSelectedNumText(const QStringList &paths, const QString &text)
+QString GlobalStatus::getSelectedNumText(const QStringList &paths, const QString &text, const QString &devicePath)
 {
-    QList<int> ret = AlbumControl::instance()->getPicVideoCountFromPaths(paths);
+    QList<int> ret = AlbumControl::instance()->getPicVideoCountFromPaths(paths, devicePath);
 
     //QML的翻译不支持%n的特性，只能拆成这种代码
     int photoCount = ret[0];

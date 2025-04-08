@@ -88,7 +88,10 @@ BaseView {
 
     // 刷新选中项数标签
     function getSelectedText(paths) {
-        var selectedNumText = GStatus.getSelectedNumText(paths, numLabelText)
+        if (!visible)
+            return "";
+
+        var selectedNumText = GStatus.getSelectedNumText(paths, numLabelText, devicePath)
         if (visible)
             GStatus.statusBarNumText = selectedNumText
         return selectedNumText
@@ -102,7 +105,7 @@ BaseView {
     Connections {
         target: albumControl
         function onSigAddDevice() {
-            devloaddig.show()
+            devloaddig.showWithNotify()
         }
     }
 
@@ -116,9 +119,17 @@ BaseView {
             }
         }
 
+        // show loading dialog on first
+        function onDeviceAlbumInfoLoadStart(loadDevicePath) {
+            if (loadDevicePath === devicePath) {
+                devloaddig.loadStart()
+            }
+        }
+
         // device info load finished
         function onDeviceAlbumInfoCountChanged(loadDevicePath, picCount, videoCount) {
             if (loadDevicePath === devicePath) {
+                devloaddig.loadFinish()
                 setNumLabelText(picCount, videoCount)
             }
         }
@@ -220,7 +231,6 @@ BaseView {
         MouseArea {
             anchors.fill: parent
             onPressed: (mouse)=> {
-                theView.selectAll(false)
                 mouse.accepted = false
             }
         }

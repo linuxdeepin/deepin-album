@@ -267,7 +267,7 @@ public:
     Q_SIGNAL void backingToMainAlbumViewChanged();
 
     // 根据选中内容获取状态栏文本内容
-    Q_INVOKABLE QString getSelectedNumText(const QStringList &paths, const QString &text);
+    Q_INVOKABLE QString getSelectedNumText(const QStringList &paths, const QString &text, const QString &devicePath = {});
 
     // Constant properties.
     int minHeight() const;
