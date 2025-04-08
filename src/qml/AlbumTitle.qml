@@ -536,8 +536,8 @@ TitleBar {
         ToolButton {
             id: titleRotateBtn
             visible: (titleImportBtn.visible ? false : true) && GStatus.currentViewType !== Album.Types.ViewDevice
-            enabled: FileControl.isRotatable(GStatus.selectedPaths)
-            ColorSelector.disabled: !FileControl.isRotatable(GStatus.selectedPaths)
+            enabled: visible && FileControl.isRotatable(GStatus.selectedPaths)
+            ColorSelector.disabled: visible && !FileControl.isRotatable(GStatus.selectedPaths)
             Layout.preferredWidth: iconSize
             Layout.preferredHeight: iconSize
             ToolTip.delay: 500
@@ -556,8 +556,8 @@ TitleBar {
         ToolButton {
             id: titleTrashBtn
             visible: (titleImportBtn.visible ? false : true) && GStatus.currentViewType !== Album.Types.ViewDevice
-            enabled: FileControl.isCanDelete(GStatus.selectedPaths)
-            ColorSelector.disabled: !FileControl.isCanDelete(GStatus.selectedPaths)
+            enabled: visible && FileControl.isCanDelete(GStatus.selectedPaths)
+            ColorSelector.disabled: visible && !FileControl.isCanDelete(GStatus.selectedPaths)
             Layout.preferredWidth: iconSize
             Layout.preferredHeight: iconSize
             ToolTip.delay: 500

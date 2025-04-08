@@ -246,6 +246,7 @@ public:
     // Asynchronously load multimedia device data
     void loadDeviceAlbumInfoAsync(const QString &devicePath);
     DBImgInfoList getDeviceAlbumInfoList(const QString &devicePath, const int &filterType = 0, bool *loading = nullptr);
+    Q_SIGNAL void deviceAlbumInfoLoadStart(const QString &devicePath);
     Q_SIGNAL void deviceAlbumInfoLoadFinished(const QString &devicePath);
 
     Q_INVOKABLE void getDeviceAlbumInfoCountAsync(const QString &devicePath);
@@ -323,7 +324,7 @@ public:
     Q_INVOKABLE bool checkRepeatUrls(QStringList imported, QStringList urls, bool bNotify = true);
 
     //获得路径集合中视频/图片数量
-    Q_INVOKABLE QList<int> getPicVideoCountFromPaths(const QStringList &paths);
+    Q_INVOKABLE QList<int> getPicVideoCountFromPaths(const QStringList &paths, const QString &devicePath = {});
 public:
     QString getDeleteFullPath(const QString &hash, const QString &fileName);
 
@@ -461,7 +462,7 @@ private :
     struct DeviceInfo {
         int picCount{0};
         int videoCount{0};
-        QList<QPair<QString, ItemType>> fileList;
+        QMap<QString, ItemType> fileTypeMap;
     };
     using DeviceInfoPtr = QSharedPointer<DeviceInfo>;
     QMap<QString, DeviceInfoPtr> m_PhonePicFileMap;   // 外部设备及其全部图片路径

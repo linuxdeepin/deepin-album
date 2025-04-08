@@ -17,7 +17,26 @@ DialogWindow {
     width: 422
     property int lblHeight: 77
     property int btnWidth: 190
+    property bool loadFinished: true
     icon: "deepin-album"
+
+    function showWithNotify() {
+        // Not need wait load finished.
+        loadFinished = true;
+        deviceLoadDlg.show();
+    }
+
+    function loadStart() {
+        loadFinished = false;
+        deviceLoadDlg.show()
+    }
+
+    function loadFinish() {
+        loadFinished = true;
+        if (!timerDevLoad.running) {
+            deviceLoadDlg.visible = false;
+        }
+    }
 
     Item {
         Timer {
@@ -26,7 +45,7 @@ DialogWindow {
             running: deviceLoadDlg.visible
             repeat: false
             onTriggered: {
-                deviceLoadDlg.visible = false
+                deviceLoadDlg.visible = !loadFinished;
             }
         }
     }

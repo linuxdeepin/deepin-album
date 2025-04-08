@@ -76,6 +76,9 @@ BaseView {
 
     // 刷新选中项目标签内容
     function getSelectedText(paths) {
+        if (!visible)
+            return "";
+
         var selectedNumText = GStatus.getSelectedNumText(paths, numLabelText)
 
         if (visible)

@@ -32,8 +32,16 @@ Item {
 
     property var selectedUrls: GStatus.selectedPaths
 
+    // block menu on `Device` view
+    property bool blockOnDevice: GStatus.currentViewType === Album.Types.ViewDevice
+
     //已选的图片状态检查
     function updateMenuItemStates() {
+        // Not need read image info on device
+        if (blockOnDevice) {
+            return
+        }
+
         haveImage = FileControl.haveImage(GStatus.selectedPaths)
         haveVideo = FileControl.haveVideo(GStatus.selectedPaths)
         canFullScreen = (GStatus.selectedPaths.length === 1 && FileControl.pathExists(GStatus.selectedPaths[0]))
@@ -54,6 +62,10 @@ Item {
 
     // 执行图片查看操作
     function executeViewImageCutSwitch(url, allUrls) {
+        if (blockOnDevice) {
+            return
+        }
+
         if (url !== undefined) {
             if (FileControl.isVideo(url)) {
                 albumControl.openDeepinMovie(url)
@@ -74,6 +86,10 @@ Item {
 
     // 执行全屏预览
     function executeFullScreen(url, allUrls) {
+        if (blockOnDevice) {
+            return
+        }
+
         if (window.visibility !== Window.FullScreen && selectedUrls.length > 0) {
             GControl.setImageFiles(allUrls, url)
             FileControl.resetImageFiles(allUrls);
