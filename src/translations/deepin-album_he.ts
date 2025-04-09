@@ -1394,7 +1394,7 @@
     <message>
         <location filename="../main.cpp" line="65"/>
         <source>Album</source>
-        <translation type="unfinished"/>
+        <translation>אלבום</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="68"/>
