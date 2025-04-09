@@ -976,91 +976,91 @@
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">מידע בסיסי</translation>
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">שם קובץ</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">גודל</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">מידות</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">סוג</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">תאריך צילום</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">תאריך השינוי</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">פרטים</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">פער אופטי</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">תוכנית ניצול האור</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">הופך טקסט</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">ISO</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">modo ניצול האור</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">זמן ניצול האור</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">פושט</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">ה哈哈哈哈</translation>
     </message>
     <message>
         <source>Max aperture</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">פער אופטי מקסימלי</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">מרחב צבע</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">modo מדידה</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">균형 צבעים לבן</translation>
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">מودל מכשיר</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">מودל ליסן</translation>
     </message>
 </context>
 <context>
@@ -1357,7 +1357,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="651"/>
         <source>%1/%2</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="275"/>
@@ -1372,24 +1372,24 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="373"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="381"/>
         <source>All</source>
-        <translation type="unfinished"/>
+        <translation>כל</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="359"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="389"/>
         <source>Photos</source>
-        <translation type="unfinished"/>
+        <translation>תמונות</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="366"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="396"/>
         <source>Videos</source>
-        <translation type="unfinished"/>
+        <translation>וידאו</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1330"/>
         <source>Trash</source>
-        <translation type="unfinished"/>
+        <translation>מחסן מחסרים</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="65"/>
@@ -1410,7 +1410,7 @@
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="303"/>
         <source>Imported on</source>
-        <translation type="unfinished"/>
+        <translation>הועתקה ב-</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="303"/>
@@ -1452,17 +1452,17 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="81"/>
         <source>The file already exists, please use another name</source>
-        <translation type="unfinished"/>
+        <translation>הקובץ קיים כבר, אנא השתמש בשם אחר</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="137"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>בטל</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="119"/>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>אישור</translation>
     </message>
 </context>
 <context>
@@ -1470,27 +1470,27 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="52"/>
         <source>1 photo</source>
-        <translation type="unfinished"/>
+        <translation>1 תמונה</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="54"/>
         <source>%1 photos</source>
-        <translation type="unfinished"/>
+        <translation>%1 תמונות</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="62"/>
         <source>1 video</source>
-        <translation type="unfinished"/>
+        <translation>1 וידאו</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="64"/>
         <source>%1 videos</source>
-        <translation type="unfinished"/>
+        <translation>%1 וידeos</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="120"/>
         <source>Trash</source>
-        <translation type="unfinished"/>
+        <translation>מחסן מחסרים</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="141"/>
@@ -1651,47 +1651,47 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="340"/>
         <source>Screen Capture</source>
-        <translation type="unfinished"/>
+        <translation>צילום מסך</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="344"/>
         <source>Camera</source>
-        <translation type="unfinished"/>
+        <translation>מצלמה</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="348"/>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>ציור</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="455"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="480"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="534"/>
         <source>Slide show</source>
-        <translation type="unfinished"/>
+        <translation>הצגת שטיח</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="466"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="492"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="567"/>
         <source>Export</source>
-        <translation type="unfinished"/>
+        <translation>אקספורט</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="500"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="576"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>מחק</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="543"/>
         <source>New album</source>
-        <translation type="unfinished"/>
+        <translation>אלבום חדש</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="555"/>
         <source>Rename</source>
-        <translation type="unfinished"/>
+        <translation>שנה שם</translation>
     </message>
 </context>
 <context>
@@ -1699,7 +1699,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="164"/>
         <source>Previous</source>
-        <translation type="unfinished"/>
+        <translation>הקודם</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
@@ -1716,7 +1716,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="197"/>
         <source>Next</source>
-        <translation type="unfinished"/>
+        <translation>הבא</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="212"/>
@@ -1730,7 +1730,7 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="441"/>
         <source>days</source>
-        <translation type="unfinished"/>
+        <translation>ימים</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="441"/>
@@ -1751,37 +1751,37 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="926"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="943"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>מחק</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="171"/>
         <source>Back to Album</source>
-        <translation type="unfinished"/>
+        <translation>ל retour לאלבום</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="203"/>
         <source>Previous</source>
-        <translation type="unfinished"/>
+        <translation>הקודם</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="228"/>
         <source>Next</source>
-        <translation type="unfinished"/>
+        <translation>הבא</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="264"/>
         <source>Original size</source>
-        <translation type="unfinished"/>
+        <translation>גודל מקורי</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="283"/>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation> התאמה לחלון</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="301"/>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>שיפוץ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
@@ -1792,7 +1792,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="816"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="947"/>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation>المفضلة</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
@@ -1803,7 +1803,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="817"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="948"/>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>לא להדביק</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="591"/>
