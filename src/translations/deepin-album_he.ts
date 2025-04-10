@@ -1,206 +1,206 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="he">
 <context>
     <name>AlbumControl</name>
     <message>
         <location filename="../src/albumControl.cpp" line="257"/>
         <source>All photos and videos</source>
-        <translation>Vse slike in videi</translation>
+        <translation>כל התמונות ו длительнתיות</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="285"/>
         <source>Disk is busy, cannot eject now</source>
-        <translation>Disk deluje in ga trenutno ni mogoče izvreči</translation>
+        <translation>ה_TAקלים_בשימוש, לא ניתן להעניש עכשיו</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="286"/>
         <source>OK</source>
-        <translation>V redu</translation>
+        <translation>אישור</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="903"/>
         <source>Fullscreen</source>
-        <translation>Celozaslonsko</translation>
+        <translation>שנה מלאה</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="906"/>
         <source>Exit fullscreen/slideshow</source>
-        <translation>Zapri celozaslonski način/diaprojekcijo</translation>
+        <translation>הסתייה מהשנה המלאה/הצגה מ品牌形象</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="912"/>
         <source>Help</source>
-        <translation>omoč</translation>
+        <translation>עזרה</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="915"/>
         <source>Display shortcuts</source>
-        <translation>Prikaži bljižnice</translation>
+        <translation>הצגת מקצצים</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="918"/>
         <source>Display in file manager</source>
-        <translation>Prikaži v upravljalniku datotek</translation>
+        <translation>הצגת קובץ מנהל</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="921"/>
         <source>Slide show</source>
-        <translation>Diaprojekcija</translation>
+        <translation> הצגה מ品牌形象</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="924"/>
         <source>View</source>
-        <translation>Prikaz</translation>
+        <translation>הצגה</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="927"/>
         <source>Export photos</source>
-        <translation>Izvozi slike</translation>
+        <translation>יצוא תמונות</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="930"/>
         <source>Import photos/videos</source>
-        <translation>Uvozi slike/videe</translation>
+        <translation>ה違って תמונות/LONGRUNNING</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="933"/>
         <source>Select all</source>
-        <translation>Izberi vse</translation>
+        <translation>בחר הכל</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="936"/>
         <source>Copy</source>
-        <translation>Kopiraj</translation>
+        <translation>העתק</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="939"/>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>מחק</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="942"/>
         <source>Photo/Video info</source>
-        <translation>Podatki o sliki/videu</translation>
+        <translation>מידע על התמונה/ל LangeRunnning</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="945"/>
         <source>Set as wallpaper</source>
-        <translation>Določi kot ozadje namizja</translation>
+        <translation>להגדיר כ谱写ון</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="948"/>
         <source>Rotate clockwise</source>
-        <translation>Obrni proti smeri urinega kazalca</translation>
+        <translation>ה😄ון בכוונה</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="951"/>
         <source>Rotate counterclockwise</source>
-        <translation>Obrni proti smeri urinega kazalca</translation>
+        <translation>ה😄ון נגד כיוון השעון</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="957"/>
         <source>Zoom in</source>
-        <translation>Približaj</translation>
+        <translation>הגדלת</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="960"/>
         <source>Zoom out</source>
-        <translation>Oddalji</translation>
+        <translation>הקטנה</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="963"/>
         <source>Previous</source>
-        <translation>Nazaj</translation>
+        <translation>הקודם</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="966"/>
         <source>Next</source>
-        <translation>Naprej</translation>
+        <translation>הלאה</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="969"/>
         <source>Favorite</source>
-        <translation>Priljubljeno</translation>
+        <translation>ה.Preference</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="972"/>
         <source>Unfavorite</source>
-        <translation>Nepriljubljeno</translation>
+        <translation>ה.הצג</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="975"/>
         <source>New album</source>
-        <translation>Nov album</translation>
+        <translation>אלבום חדש</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="978"/>
         <source>Rename album</source>
-        <translation>Preimenuj album</translation>
+        <translation>שנה את האלבום</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="981"/>
         <source>Page up</source>
-        <translation>Prejšnja stran</translation>
+        <translation>העלא עמוד</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="984"/>
         <source>Page down</source>
-        <translation>Naslednja stran</translation>
+        <translation>היריד עמוד</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1026"/>
         <source>Photos</source>
-        <translation>Slike</translation>
+        <translation>תמונות</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1029"/>
         <source>Albums</source>
-        <translation>Albumi</translation>
+        <translation>אלבומים</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1032"/>
         <source>Settings</source>
-        <translation>Nastavitve</translation>
+        <translation>הגדרות</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1601"/>
         <source>Favorites</source>
-        <translation>Priljubljeno</translation>
+        <translation>מועדפים</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1603"/>
         <source>Screen Capture</source>
-        <translation>Zajemi Zaslon</translation>
+        <translation>צילום מסך</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1605"/>
         <source>Camera</source>
-        <translation>Kamera</translation>
+        <translation>كاميرا</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1607"/>
         <source>Draw</source>
-        <translation>Riši</translation>
+        <translation>ציור</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1700"/>
         <source>Unnamed</source>
-        <translation>brez imena</translation>
+        <translation>לא שם</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2145"/>
         <location filename="../src/albumControl.cpp" line="2149"/>
         <source>%1Year%2Month%3Day</source>
-        <translation>%1Letn%2Mese%3Dan</translation>
+        <translation>%1שנה%2חודש%3יום</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2199"/>
         <source>Channel</source>
-        <translation>Kanal</translation>
+        <translation>ערוץ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2400"/>
         <source>Pictures</source>
-        <translation>Slike</translation>
+        <translation>תמונות</translation>
     </message>
 </context>
 <context>
@@ -208,52 +208,52 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="112"/>
         <source>New album</source>
-        <translation>Nov album</translation>
+        <translation>אלבום חדש</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="119"/>
         <source>Import folders</source>
-        <translation>Uvozi mape</translation>
+        <translation>ייבא תיקיות</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="130"/>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation>אלבום</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="133"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
-        <translation>Album je stilistično uprvljalno orodje za pregledovanje in organiziranje fotografij in videev.</translation>
+        <translation>האלבום הוא-too ניהול מיטבי לשילוב והסדרת תמונות וвиידאו.</translation>
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="vanished">%1 je izdan pod %2</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="177"/>
         <source>Show side pane</source>
-        <translation>Prikaži stranski pano</translation>
+        <translation>הצג חלוןצד</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="177"/>
         <source>Hide side pane</source>
-        <translation>Skrij stranski pano</translation>
+        <translation>הסתר חלוןצד</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="222"/>
         <source>Original ratio</source>
-        <translation>Razmerje originala</translation>
+        <translation>יחס מקורי</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="222"/>
         <source>Square thumbnails</source>
-        <translation>Kvadrtane predogledne sličice</translation>
+        <translation>תבניות ריבועיות</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="262"/>
         <location filename="../qml/AlbumTitle.qml" line="340"/>
         <source>Y</source>
-        <translation>L</translation>
+        <translation>Y</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="274"/>
@@ -271,37 +271,37 @@
         <location filename="../qml/AlbumTitle.qml" line="296"/>
         <location filename="../qml/AlbumTitle.qml" line="343"/>
         <source>All</source>
-        <translation>Vse</translation>
+        <translation>כל מה</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="401"/>
         <source>Search</source>
-        <translation>Iskanje</translation>
+        <translation> חיפוש</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="483"/>
         <source>Import Photos and Videos</source>
-        <translation>Uvozite slike in videe</translation>
+        <translation>ה seiz את התמונות והסרטונים</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="514"/>
         <source>Favorite</source>
-        <translation>Priljubljeno</translation>
+        <translation>AVORIT</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="514"/>
         <source>Unfavorite</source>
-        <translation>Nepriljubljeno</translation>
+        <translation>לאAVORIT</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="546"/>
         <source>Rotate</source>
-        <translation>Zavrti</translation>
+        <translation>הHôtel</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="566"/>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>מחק</translation>
     </message>
 </context>
 <context>
@@ -309,27 +309,27 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="73"/>
         <source>1 photo</source>
-        <translation>ena slika</translation>
+        <translation>1 תמונה</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="75"/>
         <source>%1 photos</source>
-        <translation>%1 fotografij</translation>
+        <translation>%1 תמונות</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="83"/>
         <source>1 video</source>
-        <translation>en video</translation>
+        <translation>1 סרטון</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="85"/>
         <source>%1 videos</source>
-        <translation>%1 videev</translation>
+        <translation>%1 סרטונים</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="192"/>
         <source>No results</source>
-        <translation>Ni rezultatov</translation>
+        <translation>אין תוצאות</translation>
     </message>
 </context>
 <context>
@@ -337,32 +337,32 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="87"/>
         <source>1 photo</source>
-        <translation>ena slika</translation>
+        <translation>1 תמונה</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="89"/>
         <source>%1 photos</source>
-        <translation>%1 fotografij</translation>
+        <translation>%1 תמונות</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="97"/>
         <source>1 video</source>
-        <translation>en video</translation>
+        <translation>1 סרטון</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="99"/>
         <source>%1 videos</source>
-        <translation>%1 videev</translation>
+        <translation>%1 סרטונים</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="152"/>
         <source>0 item</source>
-        <translation>0 predmet</translation>
+        <translation>0 פריט</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="214"/>
         <source>No results</source>
-        <translation>Ni rezultatov</translation>
+        <translation>אין תוצאות</translation>
     </message>
 </context>
 <context>
@@ -372,20 +372,20 @@
         <location filename="../src/dbmanager/dbmanager.cpp" line="482"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="507"/>
         <source>Screen Capture</source>
-        <translation>Zajemi Zaslon</translation>
+        <translation>ה捉影</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="466"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="483"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="512"/>
         <source>Camera</source>
-        <translation>Kamera</translation>
+        <translation>מצלמה</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="467"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="517"/>
         <source>Draw</source>
-        <translation>Riši</translation>
+        <translation>ציור</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="1991"/>
@@ -394,7 +394,7 @@
         <location filename="../src/dbmanager/dbmanager.cpp" line="2017"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="2023"/>
         <source>(copy)</source>
-        <translation>(kopiraj)</translation>
+        <translation>(העתקה</translation>
     </message>
 </context>
 <context>
@@ -402,27 +402,27 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="116"/>
         <source>Successfully added to “%1”</source>
-        <translation>Uspešno dodano k &quot;%1&quot;</translation>
+        <translation>הוספה בהצלחה ל“%1”</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="181"/>
         <source>1 photo</source>
-        <translation>ena slika</translation>
+        <translation>1 תמונה</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="183"/>
         <source>%1 photos</source>
-        <translation>%1 fotografij</translation>
+        <translation>%1 תמונות</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="191"/>
         <source>1 video</source>
-        <translation>en video</translation>
+        <translation>1 וידאו</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="193"/>
         <source>%1 videos</source>
-        <translation>%1 videev</translation>
+        <translation>%1 וידeos</translation>
     </message>
 </context>
 <context>
@@ -430,22 +430,22 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1091"/>
         <source>%1 Drive</source>
-        <translation>%1 pogon</translation>
+        <translation>%1 דריב</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1095"/>
         <source>Blank %1 Disc</source>
-        <translation>Prazen %1 disk</translation>
+        <translation>דיסק ריק של %1</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1099"/>
         <source>%1 Encrypted</source>
-        <translation>%1 šifrirano</translation>
+        <translation>%1 מוצפן</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1102"/>
         <source>%1 Volume</source>
-        <translation>%1 nosilec</translation>
+        <translation>%1 כמות</translation>
     </message>
 </context>
 <context>
@@ -453,52 +453,60 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="48"/>
         <source>Are you sure you want to delete this file locally?</source>
-        <translation>Ste prepričani, da želite lokalno izbrisati to sliko?</translation>
+        <translation>האם אתה בטוח שברצונך למחוק את הקובץ המקומי?
+</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="49"/>
         <source>You can restore it in the trash</source>
-        <translation>Obnovite jo lahko iz koša</translation>
+        <translation>אתה יכול להחזיר אותו לתחבורה
+</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="51"/>
         <source>Are you sure you want to delete %1 files locally?</source>
-        <translation>Ste prepričani, da želite lokalno izbrisati %1 slik?</translation>
+        <translation>האם אתה בטוח שברצונך למחוק את %1 קבצים מקומיים?
+</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="52"/>
         <source>You can restore them in the trash</source>
-        <translation>Obnovite jih lahko iz koša</translation>
+        <translation>אתה יכול להחזיר אותם לתחבורה
+</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="56"/>
         <source>Are you sure you want to permanently delete this file?</source>
-        <translation>Ali ste prepričani, da želite trajno izbrisati to datoteko?</translation>
+        <translation>האם אתה בטוח שברצונך למחוק את הקובץ באופן קבוע?
+</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="57"/>
         <source>You cannot restore it any longer</source>
-        <translation>Ne boste je mogli obnoviti</translation>
+        <translation>אתה לא יכול להחזיר אותו יותר
+</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="59"/>
         <source>Are you sure you want to permanently delete %1 files?</source>
-        <translation>Ali ste prepričani, da želite trajno izbrisati %1 datotek?</translation>
+        <translation>האם אתה בטוח שברצונך למחוק את %1 קבצים באופן קבוע?
+</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="60"/>
         <source>You cannot restore them any longer</source>
-        <translation>Ne boste jih mogli obnoviti</translation>
+        <translation>אתה לא יכול להחזיר אותם יותר
+</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="111"/>
         <source>Cancel</source>
-        <translation>Prekini</translation>
+        <translation>ביטול</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="128"/>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>מחק</translation>
     </message>
 </context>
 <context>
@@ -506,64 +514,64 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="66"/>
         <source>1 photo</source>
-        <translation>ena slika</translation>
+        <translation>1 תמונה</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="68"/>
         <source>%1 photos</source>
-        <translation>%1 fotografij</translation>
+        <translation>%1 תמונות</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="75"/>
         <source>1 video</source>
-        <translation>en video</translation>
+        <translation>1 וידאו</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="77"/>
         <source>%1 videos</source>
-        <translation>%1 videev</translation>
+        <translation>%1 וידeos</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="168"/>
         <source>Import to:</source>
-        <translation>Uvozi v:</translation>
+        <translation>ייבא ל:</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="178"/>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="181"/>
         <source>Import</source>
-        <translation>Uvozi</translation>
+        <translation>ייבא</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="178"/>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="181"/>
         <source>New Album</source>
-        <translation>Nov album</translation>
+        <translation>אלבום חדש</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="205"/>
         <source>Import All</source>
-        <translation>Uvozi vse</translation>
+        <translation>ייבא הכל</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="206"/>
         <source>Import 1 Item</source>
-        <translation>Uvozi 1 predmet</translation>
+        <translation>ה seizור של אמצעי נתונים</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="207"/>
         <source>Import %1 Items</source>
-        <translation>Uvozi %1 predmetov</translation>
+        <translation>ה seizור של %1 אמצעי נתונים</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="214"/>
         <source>Import successful</source>
-        <translation>Uvažanje je uspelo</translation>
+        <translation>הsezור בהצלחה</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="266"/>
         <source>No results</source>
-        <translation>Ni rezultatov</translation>
+        <translation>אין תוצאות</translation>
     </message>
 </context>
 <context>
@@ -571,17 +579,17 @@
     <message>
         <location filename="../qml/Control/DeviceLoadDialog.qml" line="42"/>
         <source>Loading...</source>
-        <translation>Nalaganje...</translation>
+        <translation>טוען...</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeviceLoadDialog.qml" line="51"/>
         <source>Cancel</source>
-        <translation>Prekini</translation>
+        <translation>ביטול</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeviceLoadDialog.qml" line="59"/>
         <source>Ignore</source>
-        <translation>Prezri</translation>
+        <translation>לטפל בלתי</translation>
     </message>
 </context>
 <context>
@@ -589,12 +597,13 @@
     <message>
         <location filename="../qml/Control/EmptyWarningDialog.qml" line="27"/>
         <source>File name cannot be empty!</source>
-        <translation>Ime datoteke ne more biti prazno</translation>
+        <translation>שם הקובץ לא יכול להיות ריק!
+</translation>
     </message>
     <message>
         <location filename="../qml/Control/EmptyWarningDialog.qml" line="36"/>
         <source>OK</source>
-        <translation>V redu</translation>
+        <translation>אישור</translation>
     </message>
 </context>
 <context>
@@ -602,83 +611,83 @@
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="56"/>
         <source>Export</source>
-        <translation>Izvozi</translation>
+        <translation>אקספורט</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="73"/>
         <source>Name:</source>
-        <translation>Ime:</translation>
+        <translation>שם:</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="105"/>
         <source>Save to:</source>
-        <translation>Shrani v:</translation>
+        <translation>שמור ב:</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="121"/>
         <source>Pictures</source>
-        <translation>Slike</translation>
+        <translation>תמונות</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="122"/>
         <source>Documents</source>
-        <translation>Dokumenti</translation>
+        <translation>קבצים ניידים</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="123"/>
         <source>Downloads</source>
-        <translation>Prenosi</translation>
+        <translation>הורדות</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="124"/>
         <source>Desktop</source>
-        <translation>Namizje</translation>
+        <translation>שולחן העבודה</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="125"/>
         <source>Videos</source>
-        <translation>Video posnetki</translation>
+        <translation>וידאו</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="126"/>
         <source>Music</source>
-        <translation>Glasba</translation>
+        <translation>מוזיקה</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="127"/>
         <location filename="../qml/Control/ExportDialog.qml" line="143"/>
         <source>Select other directories</source>
-        <translation>Izberi druge mape</translation>
+        <translation>בחר את הקטגוריות האחרות</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="165"/>
         <source>Format:</source>
-        <translation>Format:</translation>
+        <translation>פורמט:</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="203"/>
         <source>Quality:</source>
-        <translation>Kakovost:</translation>
+        <translation>איכות:</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="247"/>
         <source>Cancel</source>
-        <translation>Prekini</translation>
+        <translation>ביטול</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="264"/>
         <source>Confirm</source>
-        <translation>Potrdi</translation>
+        <translation>#afirמה</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="280"/>
         <source>Export successful</source>
-        <translation>Izvažanje je uspelo</translation>
+        <translation>אקספורט בהצלחה</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="282"/>
         <source>Export failed</source>
-        <translation>Izvažanje ni uspelo</translation>
+        <translation>אקספורט נכשל</translation>
     </message>
 </context>
 <context>
@@ -686,123 +695,123 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="834"/>
         <source>Fullscreen</source>
-        <translation>Celozaslonsko</translation>
+        <translation>מסך מלא</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="838"/>
         <source>Exit fullscreen</source>
-        <translation>Zapri celozaslonski način</translation>
+        <translation>יציאה מסך מלא</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="842"/>
         <source>Extract text</source>
-        <translation>Potegni ven besedilo</translation>
+        <translation>הצג טקסט</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="846"/>
         <source>Slide show</source>
-        <translation>Diaprojekcija</translation>
+        <translation>הצגה תחכום</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="850"/>
         <source>Rename</source>
-        <translation>Preimenuj</translation>
+        <translation>שנה שם</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="854"/>
         <location filename="../src/filecontrol.cpp" line="946"/>
         <source>Copy</source>
-        <translation>Kopiraj</translation>
+        <translation>העתק</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="858"/>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>מחק</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="862"/>
         <source>Rotate clockwise</source>
-        <translation>Obrni proti smeri urinega kazalca</translation>
+        <translation>הHôtel מחוגה בדircאך ימינה</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="866"/>
         <source>Rotate counterclockwise</source>
-        <translation>Obrni proti smeri urinega kazalca</translation>
+        <translation>הHôtel מחוגה בדircאך שמאל</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="870"/>
         <source>Set as wallpaper</source>
-        <translation>Določi kot ozadje namizja</translation>
+        <translation>ת悒ן כפלנשרון</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="874"/>
         <source>Display in file manager</source>
-        <translation>Prikaži v upravljalniku datotek</translation>
+        <translation>הצג במנהל קבצים</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="878"/>
         <source>Image info</source>
-        <translation>Podatki o sliki</translation>
+        <translation>מידע על התמונה</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="882"/>
         <source>Previous</source>
-        <translation>Nazaj</translation>
+        <translation>הקודם</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="886"/>
         <source>Next</source>
-        <translation>Naprej</translation>
+        <translation>הבא</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="890"/>
         <source>Zoom in</source>
-        <translation>Približaj</translation>
+        <translation>הגדל</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="894"/>
         <source>Zoom out</source>
-        <translation>Oddalji</translation>
+        <translation>הקטן</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="898"/>
         <source>Open</source>
-        <translation>Odpri</translation>
+        <translation>פתח</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="902"/>
         <source>Print</source>
-        <translation>Tiskanje</translation>
+        <translation>דruk</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="926"/>
         <source>Image Viewing</source>
-        <translation>Prikazovanje slik</translation>
+        <translation>הצגה של תמונה</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="930"/>
         <source>Help</source>
-        <translation>omoč</translation>
+        <translation>עזרה</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="934"/>
         <source>Display shortcuts</source>
-        <translation>Prikaži bljižnice</translation>
+        <translation>הצג מקצרים</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="942"/>
         <source>Settings</source>
-        <translation>Nastavitve</translation>
+        <translation>הגדרות</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="950"/>
         <source>Select all</source>
-        <translation>Izberi vse</translation>
+        <translation>בחר הכל</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="958"/>
         <source>Live Text</source>
-        <translation>Tekst v živo</translation>
+        <translation>טקסט חי</translation>
     </message>
 </context>
 <context>
@@ -810,17 +819,17 @@
     <message>
         <location filename="../qml/Control/FilterComboBox.qml" line="20"/>
         <source>All</source>
-        <translation>Vse</translation>
+        <translation>כל</translation>
     </message>
     <message>
         <location filename="../qml/Control/FilterComboBox.qml" line="21"/>
         <source>Photos</source>
-        <translation>Slike</translation>
+        <translation>תמונות</translation>
     </message>
     <message>
         <location filename="../qml/Control/FilterComboBox.qml" line="22"/>
         <source>Videos</source>
-        <translation>Video posnetki</translation>
+        <translation>וידאו</translation>
     </message>
 </context>
 <context>
@@ -828,42 +837,42 @@
     <message>
         <location filename="../src/globalstatus.cpp" line="807"/>
         <source>1 item selected (1 photo)</source>
-        <translation>1 predmet je izbran (1 slika)</translation>
+        <translation>1 פריט נבחר (1 תמונה</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="809"/>
         <source>1 item selected (1 video)</source>
-        <translation>1 predmet je izbran (1 video)</translation>
+        <translation>1 פריט נבחר (1 וידאו</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="811"/>
         <source>%1 items selected (%1 photos)</source>
-        <translation>%1 predmetov je izbranih (&amp;1 slik)</translation>
+        <translation>%1 פריטים נבחרים (%1 תמונות</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="813"/>
         <source>%1 items selected (%1 videos)</source>
-        <translation>%1 predmetov je izbranih (&amp;1 videev)</translation>
+        <translation>%1 פריטים נבחרים (%1 וידאו</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="815"/>
         <source>%1 item selected (1 photo, 1 video)</source>
-        <translation>2 predmeta sta izbrana (1 slika, 1 video)</translation>
+        <translation>%1 פריט נבחר (1 תמונה, 1 וידאו</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="817"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
-        <translation>%1 predmetov je izbranih (1 slika, %2 videev)</translation>
+        <translation>%1 פריטים נבחרים (1 תמונה, %2 וידאו</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="819"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
-        <translation>%1 predmetov je izbranih (&amp;2 slik, 1 video)</translation>
+        <translation>%1 פריטים נבחרים (%2 תמונות, 1 וידאו</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="821"/>
         <source>%1 items selected (%2 photos, %3 videos)</source>
-        <translation>%1 predmetov je izbranih (&amp;1 slika, %3 videev)</translation>
+        <translation>%1 פריטים נבחרים (%2 תמונות, %3 וידאו</translation>
     </message>
 </context>
 <context>
@@ -871,13 +880,13 @@
     <message>
         <location filename="../qml/GlobalVar.qml" line="30"/>
         <source>The photo/video already exists</source>
-        <translation>Slika/video že obstaja</translation>
+        <translation>השooting/הווידאו קיים כבר</translation>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="38"/>
         <location filename="../qml/GlobalVar.qml" line="46"/>
         <source>The file format is not supported</source>
-        <translation>Format datoteke ni podprt</translation>
+        <translation>הצורה של קובץ לא נתמכה</translation>
     </message>
 </context>
 <context>
@@ -885,27 +894,27 @@
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="98"/>
         <source>Successfully added to “%1”</source>
-        <translation>Uspešno dodano k &quot;%1&quot;</translation>
+        <translation>הוספה בהצלחה ל-%1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="153"/>
         <source>1 photo</source>
-        <translation>ena slika</translation>
+        <translation>1 תמונה</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="155"/>
         <source>%1 photos</source>
-        <translation>%1 fotografij</translation>
+        <translation>%1 תמונות</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="163"/>
         <source>1 video</source>
-        <translation>en video</translation>
+        <translation>1 וידאו</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="165"/>
         <source>%1 videos</source>
-        <translation>%1 videev</translation>
+        <translation>%1 וידאו</translation>
     </message>
 </context>
 <context>
@@ -914,32 +923,32 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="195"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="405"/>
         <source>Import</source>
-        <translation>Uvozi</translation>
+        <translation>העתק</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="320"/>
         <source>1 photo</source>
-        <translation>ena slika</translation>
+        <translation>1 תמונה</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="322"/>
         <source>1 video</source>
-        <translation>en video</translation>
+        <translation>1 וידאו</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="324"/>
         <source>%n photos</source>
-        <translation><numerusform>%n slika</numerusform><numerusform>%n sliki</numerusform><numerusform>%n slike</numerusform><numerusform>%n slik</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="326"/>
         <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videi</numerusform><numerusform>%n videev</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="328"/>
         <source>%n items</source>
-        <translation><numerusform>%1 predmet</numerusform><numerusform>%1 predmeta</numerusform><numerusform>%1 predmeti</numerusform><numerusform>%1 predmetov</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -948,66 +957,66 @@
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>Imported on</source>
-        <translation>Uvoženo</translation>
+        <translation>הועתקה ב-</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>1 item</source>
-        <translation>1 predmet</translation>
+        <translation>1 פריט</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>%1 items</source>
-        <translation>%1 predmetov</translation>
+        <translation>%1 פריטים</translation>
     </message>
 </context>
 <context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
-        <translation type="vanished">Osnovni podatki</translation>
+        <translation type="vanished">מידע בסיסי</translation>
     </message>
     <message>
         <source>File name</source>
-        <translation type="vanished">Ime datoteke</translation>
+        <translation type="vanished">שם קובץ</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="vanished">Velikost</translation>
+        <translation type="vanished">גודל</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="vanished">Dimenzije</translation>
+        <translation type="vanished">מידות</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="vanished">Vrsta</translation>
+        <translation type="vanished">סוג</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="vanished">Datum snemanja</translation>
+        <translation type="vanished">תאריך צילום</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation type="vanished">Datum spremembe</translation>
+        <translation type="vanished">תאריך השינוי</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="vanished">Podrobnosti</translation>
+        <translation type="vanished">פרטים</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation type="vanished">Zaslonka</translation>
+        <translation type="vanished">פער אופטי</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation type="vanished">Progam osvetljevanja</translation>
+        <translation type="vanished">תוכנית ניצול האור</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation type="vanished">Goriščna razdalja</translation>
+        <translation type="vanished">הופך טקסט</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -1015,43 +1024,43 @@
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation type="vanished">Način osvetljevanja</translation>
+        <translation type="vanished">modo ניצול האור</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation type="vanished">Čas osvetljevanja</translation>
+        <translation type="vanished">זמן ניצול האור</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation type="vanished">Bliskavica</translation>
+        <translation type="vanished">פושט</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="vanished">Kompenzacija bliskavice</translation>
+        <translation type="vanished">ה哈哈哈哈</translation>
     </message>
     <message>
         <source>Max aperture</source>
-        <translation type="vanished">Največja zaslonka</translation>
+        <translation type="vanished">פער אופטי מקסימלי</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="vanished">Barvni prostor</translation>
+        <translation type="vanished">מרחב צבע</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="vanished">Način merjenja</translation>
+        <translation type="vanished">modo מדידה</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation type="vanished">Ravnovesje beline</translation>
+        <translation type="vanished">균형 צבעים לבן</translation>
     </message>
     <message>
         <source>Device model</source>
-        <translation type="vanished">Model naprave</translation>
+        <translation type="vanished">מودל מכשיר</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation type="vanished">Model objektiva</translation>
+        <translation type="vanished">מودל ליסן</translation>
     </message>
 </context>
 <context>
@@ -1059,57 +1068,57 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="82"/>
         <source>Basic info</source>
-        <translation>Osnovni podatki</translation>
+        <translation>מידע בסיסי</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="95"/>
         <source>File name</source>
-        <translation>Ime datoteke</translation>
+        <translation>שם קובץ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="106"/>
         <source>Size</source>
-        <translation>Velikost</translation>
+        <translation>גודל</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="113"/>
         <source>Dimensions</source>
-        <translation>Dimenzije</translation>
+        <translation>מידות</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="120"/>
         <source>Type</source>
-        <translation>Vrsta</translation>
+        <translation>סוג</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="132"/>
         <source>Date captured</source>
-        <translation>Datum snemanja</translation>
+        <translation>תאריך צילום</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="139"/>
         <source>Date modified</source>
-        <translation>Datum spremembe</translation>
+        <translation>תאריך השינוי</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="149"/>
         <source>Details</source>
-        <translation>Podrobnosti</translation>
+        <translation>פרטים</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="162"/>
         <source>Aperture</source>
-        <translation>Zaslonka</translation>
+        <translation>פער אופטי</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="170"/>
         <source>Exposure program</source>
-        <translation>Progam osvetljevanja</translation>
+        <translation>תוכנית ניצול האור</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="177"/>
         <source>Focal length</source>
-        <translation>Goriščna razdalja</translation>
+        <translation>הופך טקסט</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="183"/>
@@ -1119,52 +1128,52 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="190"/>
         <source>Exposure mode</source>
-        <translation>Način osvetljevanja</translation>
+        <translation>modo ניצול האור</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="196"/>
         <source>Exposure time</source>
-        <translation>Čas osvetljevanja</translation>
+        <translation>זמן ניצול האור</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="202"/>
         <source>Flash</source>
-        <translation>Bliskavica</translation>
+        <translation>פושט</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="209"/>
         <source>Flash compensation</source>
-        <translation>Kompenzacija bliskavice</translation>
+        <translation>ה哈哈哈哈</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="215"/>
         <source>Max aperture</source>
-        <translation>Največja zaslonka</translation>
+        <translation>פער אופטי מקסימלי</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="222"/>
         <source>Colorspace</source>
-        <translation>Barvni prostor</translation>
+        <translation>מרחב צבע</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="229"/>
         <source>Metering mode</source>
-        <translation>Način merjenja</translation>
+        <translation>modo מדידה</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="236"/>
         <source>White balance</source>
-        <translation>Ravnovesje beline</translation>
+        <translation>균형 צבעים לבן</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="247"/>
         <source>Device model</source>
-        <translation>Model naprave</translation>
+        <translation>מودל מכשיר</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="254"/>
         <source>Lens model</source>
-        <translation>Model objektiva</translation>
+        <translation>מودל ליסן</translation>
     </message>
 </context>
 <context>
@@ -1172,13 +1181,13 @@
     <message>
         <location filename="../qml/MainAlbumView.qml" line="245"/>
         <source>Importing...</source>
-        <translation>Uvažanje...</translation>
+        <translation>המשיכים להטמעת...</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="246"/>
         <location filename="../qml/MainAlbumView.qml" line="252"/>
         <source>Imported:</source>
-        <translation>Uvoženo:</translation>
+        <translation>הטמעו:</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="253"/>
@@ -1189,23 +1198,23 @@
     <message>
         <location filename="../qml/MainAlbumView.qml" line="263"/>
         <source>Import successful</source>
-        <translation>Uvažanje je uspelo</translation>
+        <translation>הFHפ Scotia בהצלחה</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="270"/>
         <location filename="../qml/MainAlbumView.qml" line="276"/>
         <source>Import failed</source>
-        <translation>Uvažanje ni uspelo</translation>
+        <translation>הFHפ Scotia נכשלה</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="281"/>
         <source>Deleted:</source>
-        <translation>Izbrisano:</translation>
+        <translation>מחוללים:</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="283"/>
         <source>Deleting...</source>
-        <translation>Brisanje...</translation>
+        <translation>מחוללים...</translation>
     </message>
 </context>
 <context>
@@ -1213,7 +1222,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/MainStack.qml" line="125"/>
         <source>Select pictures</source>
-        <translation>Izberi slike</translation>
+        <translation>בחר את התמונות</translation>
     </message>
 </context>
 <context>
@@ -1221,12 +1230,12 @@
     <message>
         <location filename="../qml/MenuItemStates.qml" line="104"/>
         <source>Export successful</source>
-        <translation>Izvažanje je uspelo</translation>
+        <translation>FHפ יצוא בהצלחה</translation>
     </message>
     <message>
         <location filename="../qml/MenuItemStates.qml" line="106"/>
         <source>Export failed</source>
-        <translation>Izvažanje ni uspelo</translation>
+        <translation>FHפ יצוא נכשלה</translation>
     </message>
 </context>
 <context>
@@ -1242,27 +1251,27 @@
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="25"/>
         <source>Unnamed</source>
-        <translation>brez imena</translation>
+        <translation>לאAMEה Nome</translation>
     </message>
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="56"/>
         <source>New Album</source>
-        <translation>Nov album</translation>
+        <translation>אלבום חדש</translation>
     </message>
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="72"/>
         <source>Name:</source>
-        <translation>Ime:</translation>
+        <translation>שם:</translation>
     </message>
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="103"/>
         <source>Cancel</source>
-        <translation>Prekini</translation>
+        <translation>لغת</translation>
     </message>
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="120"/>
         <source>Confirm</source>
-        <translation>Potrdi</translation>
+        <translation>אישור</translation>
     </message>
 </context>
 <context>
@@ -1270,7 +1279,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NoPermissionImageDelegate.qml" line="22"/>
         <source>You have no permission to view the image</source>
-        <translation>Nimate pravic za ogled slike</translation>
+        <translation>אין לך הרשאה להצג של תמונה</translation>
     </message>
 </context>
 <context>
@@ -1278,17 +1287,17 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="60"/>
         <source>Import Photos and Videos</source>
-        <translation>Uvozite slike in videe</translation>
+        <translation>הFHפ את התמונות והווידאו</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>No photos or videos found</source>
-        <translation>Ni najdenih slik ali videev</translation>
+        <translation>לא נמצאו תמונות או וידאו</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>Or drag them here</source>
-        <translation>Ali jih povlecite sem</translation>
+        <translation>או הגרם אותם כאן</translation>
     </message>
 </context>
 <context>
@@ -1296,7 +1305,7 @@
     <message>
         <location filename="../src/widgets/widgtes/noresultwidget.cpp" line="39"/>
         <source>No results</source>
-        <translation>Ni rezultatov</translation>
+        <translation>אין תוצאות</translation>
     </message>
 </context>
 <context>
@@ -1304,7 +1313,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NonexistImageDelegate.qml" line="42"/>
         <source>Image file not found</source>
-        <translation>Slikovna datoteka ni bila najdena</translation>
+        <translation>קובץ התמונה לא נמצא</translation>
     </message>
 </context>
 <context>
@@ -1312,7 +1321,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation>Odpri sliko</translation>
+        <translation>פתור תמונה</translation>
     </message>
 </context>
 <context>
@@ -1320,7 +1329,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1073"/>
         <source>System Disk</source>
-        <translation>Sistemski disk</translation>
+        <translation>דיסק מערכת</translation>
     </message>
 </context>
 <context>
@@ -1329,7 +1338,7 @@
         <location filename="../qml/PreviewImageViewer/PropertyActionItemDelegate.qml" line="67"/>
         <location filename="../qml/PreviewImageViewer/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation>Datoteka že obstaja. Uporabite drugo ime</translation>
+        <translation>הקובץ קיים כבר, אנא השתמש בשם אחר</translation>
     </message>
 </context>
 <context>
@@ -1355,7 +1364,7 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="306"/>
         <location filename="../src/albumControl.cpp" line="657"/>
         <source>%1/%2/%3</source>
-        <translation>%1/%2/%3</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="343"/>
@@ -1363,55 +1372,55 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="373"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="381"/>
         <source>All</source>
-        <translation>Vse</translation>
+        <translation>כל</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="359"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="389"/>
         <source>Photos</source>
-        <translation>Slike</translation>
+        <translation>תמונות</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="366"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="396"/>
         <source>Videos</source>
-        <translation>Video posnetki</translation>
+        <translation>וידאו</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1330"/>
         <source>Trash</source>
-        <translation>Smetnjak</translation>
+        <translation>מחסן מחסרים</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="65"/>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation>אלבום</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="68"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation>Glavno</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="269"/>
         <source>day</source>
-        <translation>dan</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="303"/>
         <source>Imported on</source>
-        <translation>Uvoženo</translation>
+        <translation>הועתקה ב-</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="303"/>
         <source> %1-%2-%3 %4</source>
-        <translation> %1-%2-%3 %4</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="306"/>
         <source>Imported on </source>
-        <translation>Uvoženo</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="227"/>
@@ -1423,14 +1432,14 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2086"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="415"/>
         <source>Select</source>
-        <translation>Izberi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1326"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2081"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2086"/>
         <source>Unselect</source>
-        <translation>Odstrani iz izbora</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1438,22 +1447,22 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="66"/>
         <source>Input a new name</source>
-        <translation>Vnesite nov naziv</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="81"/>
         <source>The file already exists, please use another name</source>
-        <translation>Datoteka že obstaja. Uporabite drugo ime</translation>
+        <translation>הקובץ קיים כבר, אנא השתמש בשם אחר</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="137"/>
         <source>Cancel</source>
-        <translation>Prekini</translation>
+        <translation>בטל</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="119"/>
         <source>Confirm</source>
-        <translation>Potrdi</translation>
+        <translation>אישור</translation>
     </message>
 </context>
 <context>
@@ -1461,47 +1470,47 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="52"/>
         <source>1 photo</source>
-        <translation>ena slika</translation>
+        <translation>1 תמונה</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="54"/>
         <source>%1 photos</source>
-        <translation>%1 fotografij</translation>
+        <translation>%1 תמונות</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="62"/>
         <source>1 video</source>
-        <translation>en video</translation>
+        <translation>1 וידאו</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="64"/>
         <source>%1 videos</source>
-        <translation>%1 videev</translation>
+        <translation>%1 וידeos</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="120"/>
         <source>Trash</source>
-        <translation>Smetnjak</translation>
+        <translation>מחסן מחסרים</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="141"/>
         <source>The files will be permanently deleted after the days shown on them</source>
-        <translation>Datoteke bodo trajno izbrisane po preteku prikazanega števila dni</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="156"/>
         <source>Delete All</source>
-        <translation>Izbriši vse</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="196"/>
         <source>Delete Selected (%1)</source>
-        <translation>Izbriši izbrano (%1)</translation>
+        <translation>מחק את המוצלחים (%1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="216"/>
         <source>Restore Selected (%1)</source>
-        <translation>Obnovi izbrano (%1)</translation>
+        <translation>איפוס את המוצלחים (%1</translation>
     </message>
 </context>
 <context>
@@ -1509,17 +1518,18 @@
     <message>
         <location filename="../qml/Control/RemoveAlbumDialog.qml" line="42"/>
         <source>Are you sure you want to delete this album?</source>
-        <translation>Ali ste prepričani, da želite izbrisati ta album?</translation>
+        <translation>האם אתה בטוח שברצונך למחוק את האלבום הזה?
+</translation>
     </message>
     <message>
         <location filename="../qml/Control/RemoveAlbumDialog.qml" line="55"/>
         <source>Cancel</source>
-        <translation>Prekini</translation>
+        <translation>בטל</translation>
     </message>
     <message>
         <location filename="../qml/Control/RemoveAlbumDialog.qml" line="72"/>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>מחק</translation>
     </message>
 </context>
 <context>
@@ -1527,24 +1537,24 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="66"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation>Ne morem premakniti &quot;%1&quot; v koš. Ali želite včasih izbrisati?
+        <translation>לא ניתן להזיז &quot;%1&quot; למחסן מחסרים. האם אתה רוצה למחוק אותו לנצח?
 </translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="84"/>
         <source>This action cannot be undone</source>
-        <translation>Ta dejanje se ne more odčiniti
+        <translation>הפעולה הזו לא ניתן לבטלה
 </translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="96"/>
         <source>Cancel</source>
-        <translation>Prekini</translation>
+        <translation>בטל</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="106"/>
         <source>Confirm</source>
-        <translation>Potrdi</translation>
+        <translation>#afirme</translation>
     </message>
 </context>
 <context>
@@ -1552,42 +1562,42 @@
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="51"/>
         <source>1 photo found</source>
-        <translation>en najdena slika</translation>
+        <translation>מצאו את הפוטוס</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="53"/>
         <source>%1 photos found</source>
-        <translation>%1 najdenih slik</translation>
+        <translation>&apos;%1 פוטוס נמצאו</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="57"/>
         <source>1 video found</source>
-        <translation>en najden video</translation>
+        <translation>מצאו את הווידאו</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="59"/>
         <source>%1 videos found</source>
-        <translation>%1 najdenih videev</translation>
+        <translation>&apos;%1 וידאו נמצאו</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="64"/>
         <source>%1 items found</source>
-        <translation>%1 najdenih predmetov</translation>
+        <translation>&apos;%1 פריטים נמצאו</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="96"/>
         <source>Search results</source>
-        <translation>Rezultati iskanj</translation>
+        <translation>תוצאות חיפוש</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="109"/>
         <source>Slide Show</source>
-        <translation>Diaprojekcija</translation>
+        <translation>הצגה סלולית</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="186"/>
         <source>No search results</source>
-        <translation>Ni najdenih</translation>
+        <translation>אין תוצאות לחיפוש</translation>
     </message>
 </context>
 <context>
@@ -1596,92 +1606,92 @@
         <location filename="../qml/SideBar/Sidebar.qml" line="127"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="151"/>
         <source>Album “%1” removed</source>
-        <translation>Album “%1” je bil odstranjen</translation>
+        <translation>אלבום “%1” נמחק</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="205"/>
         <source>Gallery</source>
-        <translation>Galerija</translation>
+        <translation>גלריה</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="208"/>
         <source>Collection</source>
-        <translation>Zbirka</translation>
+        <translation>קולLECTION</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="209"/>
         <source>Import</source>
-        <translation>Uvozi</translation>
+        <translation>ה zesנס</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="210"/>
         <source>Favorites</source>
-        <translation>Priljubljeno</translation>
+        <translation>מועדפים</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="211"/>
         <source>Trash</source>
-        <translation>Smetnjak</translation>
+        <translation>מחסן מחסרים</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="234"/>
         <source>Device</source>
-        <translation>Naprava</translation>
+        <translation>מכשיר</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="292"/>
         <source>Albums</source>
-        <translation>Albumi</translation>
+        <translation>ألبومات</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="313"/>
         <source>Add an album</source>
-        <translation>Dodaj album</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="340"/>
         <source>Screen Capture</source>
-        <translation>Zajemi Zaslon</translation>
+        <translation>צילום מסך</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="344"/>
         <source>Camera</source>
-        <translation>Kamera</translation>
+        <translation>מצלמה</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="348"/>
         <source>Draw</source>
-        <translation>Riši</translation>
+        <translation>ציור</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="455"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="480"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="534"/>
         <source>Slide show</source>
-        <translation>Diaprojekcija</translation>
+        <translation>הצגת שטיח</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="466"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="492"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="567"/>
         <source>Export</source>
-        <translation>Izvozi</translation>
+        <translation>אקספורט</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="500"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="576"/>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>מחק</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="543"/>
         <source>New album</source>
-        <translation>Nov album</translation>
+        <translation>אלבום חדש</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="555"/>
         <source>Rename</source>
-        <translation>Preimenuj</translation>
+        <translation>שנה שם</translation>
     </message>
 </context>
 <context>
@@ -1689,30 +1699,30 @@
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="164"/>
         <source>Previous</source>
-        <translation>Nazaj</translation>
+        <translation>הקודם</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
         <source>Pause</source>
-        <translation>Pavza</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
         <source>Play</source>
-        <translation>Predvajaj</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="197"/>
         <source>Next</source>
-        <translation>Naprej</translation>
+        <translation>הבא</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="212"/>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="253"/>
         <source>Exit</source>
-        <translation>Izhod</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1720,12 +1730,12 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="441"/>
         <source>days</source>
-        <translation>dni</translation>
+        <translation>ימים</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="441"/>
         <source>day</source>
-        <translation>dan</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1741,37 +1751,37 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="926"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="943"/>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>מחק</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="171"/>
         <source>Back to Album</source>
-        <translation>Nazaj na album</translation>
+        <translation>ל retour לאלבום</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="203"/>
         <source>Previous</source>
-        <translation>Nazaj</translation>
+        <translation>הקודם</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="228"/>
         <source>Next</source>
-        <translation>Naprej</translation>
+        <translation>הבא</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="264"/>
         <source>Original size</source>
-        <translation>Orignalna velikost</translation>
+        <translation>גודל מקורי</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="283"/>
         <source>Fit to window</source>
-        <translation>Prilagodi oknu</translation>
+        <translation> התאמה לחלון</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="301"/>
         <source>Rotate</source>
-        <translation>Zavrti</translation>
+        <translation>שיפוץ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
@@ -1782,7 +1792,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="816"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="947"/>
         <source>Favorite</source>
-        <translation>Priljubljeno</translation>
+        <translation>المفضلة</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
@@ -1793,17 +1803,17 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="817"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="948"/>
         <source>Unfavorite</source>
-        <translation>Nepriljubljeno</translation>
+        <translation>לא להדביק</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="591"/>
         <source>Extract text</source>
-        <translation>Potegni ven besedilo</translation>
+        <translation>העתקת טקסט</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaildelegate.cpp" line="207"/>
         <source>days</source>
-        <translation>dni</translation>
+        <translation>ימים</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="699"/>
@@ -1816,7 +1826,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="928"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="957"/>
         <source>Photo info</source>
-        <translation>Podatki o sliki</translation>
+        <translation>מידע על התמונה</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="700"/>
@@ -1829,7 +1839,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="929"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="958"/>
         <source>Video info</source>
-        <translation>Podatki o videu</translation>
+        <translation>מידע על רצף וידאו</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="721"/>
@@ -1837,7 +1847,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="909"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="935"/>
         <source>View</source>
-        <translation>Prikaz</translation>
+        <translation>הצג</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="722"/>
@@ -1846,7 +1856,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="855"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="936"/>
         <source>Fullscreen</source>
-        <translation>Celozaslonsko</translation>
+        <translation>מסך מלא</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="723"/>
@@ -1855,7 +1865,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="875"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="938"/>
         <source>Slide show</source>
-        <translation>Diaprojekcija</translation>
+        <translation>הצגה של רצפים</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="724"/>
@@ -1865,20 +1875,20 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="867"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="940"/>
         <source>Export</source>
-        <translation>Izvozi</translation>
+        <translation>הצג</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="734"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="941"/>
         <source>Copy</source>
-        <translation>Kopiraj</translation>
+        <translation>העתק</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="742"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="822"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="944"/>
         <source>Remove from album</source>
-        <translation>Odstrani iz albuma</translation>
+        <translation>הסר מאלבום</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="744"/>
@@ -1886,7 +1896,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="865"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="937"/>
         <source>Print</source>
-        <translation>Tiskanje</translation>
+        <translation>דפס</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="754"/>
@@ -1896,7 +1906,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="884"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="951"/>
         <source>Rotate clockwise</source>
-        <translation>Obrni proti smeri urinega kazalca</translation>
+        <translation>שובע ישר</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="755"/>
@@ -1906,14 +1916,14 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="885"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="952"/>
         <source>Rotate counterclockwise</source>
-        <translation>Obrni proti smeri urinega kazalca</translation>
+        <translation>שובע הפוך</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="756"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="859"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="956"/>
         <source>Display in file manager</source>
-        <translation>Prikaži v upravljalniku datotek</translation>
+        <translation>הצג במנהל קבצים</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="759"/>
@@ -1925,22 +1935,22 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="897"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="955"/>
         <source>Set as wallpaper</source>
-        <translation>Določi kot ozadje namizja</translation>
+        <translation>הגדר כקירות שולחן העבודה</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="927"/>
         <source>Restore</source>
-        <translation>Obnovi</translation>
+        <translation>איפוס</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="964"/>
         <source>Add to album</source>
-        <translation>Dodaj v album</translation>
+        <translation>הוסף לאלבום</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="968"/>
         <source>New album</source>
-        <translation>Nov album</translation>
+        <translation>אלבום חדש</translation>
     </message>
 </context>
 <context>
@@ -1948,102 +1958,102 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="796"/>
         <source>View</source>
-        <translation>Prikaz</translation>
+        <translation>הצג</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="805"/>
         <source>Fullscreen</source>
-        <translation>Celozaslonsko</translation>
+        <translation>מסך מלא</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="822"/>
         <source>Print</source>
-        <translation>Tiskanje</translation>
+        <translation>דפס</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="841"/>
         <source>Slide show</source>
-        <translation>Diaprojekcija</translation>
+        <translation>הצגה של רצפים</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="867"/>
         <source>Add to album</source>
-        <translation>Dodaj v album</translation>
+        <translation>הוסף לאלבום</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="870"/>
         <source>New album</source>
-        <translation>Nov album</translation>
+        <translation>אלבום חדש</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="902"/>
         <source>Successfully added to “%1”</source>
-        <translation>Uspešno dodano k &quot;%1&quot;</translation>
+        <translation>הוסף בהצלחה ל“%1”</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="911"/>
         <source>Export</source>
-        <translation>Izvozi</translation>
+        <translation>تصدير</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="930"/>
         <source>Copy</source>
-        <translation>Kopiraj</translation>
+        <translation>نسخ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="939"/>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>حذف</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="949"/>
         <source>Remove from album</source>
-        <translation>Odstrani iz albuma</translation>
+        <translation>حذف من الألبوم</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="964"/>
         <source>Favorite</source>
-        <translation>Priljubljeno</translation>
+        <translation>المفضلة</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="974"/>
         <source>Unfavorite</source>
-        <translation>Nepriljubljeno</translation>
+        <translation>إلغاء المفضلة</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="988"/>
         <source>Rotate clockwise</source>
-        <translation>Obrni proti smeri urinega kazalca</translation>
+        <translation>الدوران باتجاه عقارب الساعة</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="997"/>
         <source>Rotate counterclockwise</source>
-        <translation>Obrni proti smeri urinega kazalca</translation>
+        <translation>الدوران ضد عقارب الساعة</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1006"/>
         <source>Set as wallpaper</source>
-        <translation>Določi kot ozadje namizja</translation>
+        <translation>تعيين كخلفية</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1025"/>
         <source>Display in file manager</source>
-        <translation>Prikaži v upravljalniku datotek</translation>
+        <translation>عرض في مدير الملفات</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1044"/>
         <source>Restore</source>
-        <translation>Obnovi</translation>
+        <translation>استعادة</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1053"/>
         <source>Photo info</source>
-        <translation>Podatki o sliki</translation>
+        <translation>معلومات الصورة</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1072"/>
         <source>Video info</source>
-        <translation>Podatki o videu</translation>
+        <translation>معلومات الفيديو</translation>
     </message>
 </context>
 <context>
@@ -2051,27 +2061,27 @@
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="289"/>
         <source>1 photo</source>
-        <translation>ena slika</translation>
+        <translation>1 תמונה</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="291"/>
         <source>1 video</source>
-        <translation>en video</translation>
+        <translation>1 וידאו</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="293"/>
         <source>%n photos</source>
-        <translation><numerusform>%n slika</numerusform><numerusform>%n sliki</numerusform><numerusform>%n slike</numerusform><numerusform>%n slik</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="295"/>
         <source>%n videos</source>
-        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videi</numerusform><numerusform>%n videev</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="297"/>
         <source>%n items</source>
-        <translation><numerusform>%1 predmet</numerusform><numerusform>%1 predmeta</numerusform><numerusform>%1 predmeti</numerusform><numerusform>%1 predmetov</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -2079,52 +2089,52 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="121"/>
         <source>Back to Album</source>
-        <translation>Nazaj na album</translation>
+        <translation>ל retour לאלבום</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="162"/>
         <source>Previous</source>
-        <translation>Nazaj</translation>
+        <translation>הקודם</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="189"/>
         <source>Next</source>
-        <translation>Naprej</translation>
+        <translation>הבא</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="210"/>
         <source>Original size</source>
-        <translation>Orignalna velikost</translation>
+        <translation>גודל מקורי</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="231"/>
         <source>Fit to window</source>
-        <translation>Prilagodi oknu</translation>
+        <translation> התאמה לחלון</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="257"/>
         <source>Rotate</source>
-        <translation>Zavrti</translation>
+        <translation>שיפוץ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="290"/>
         <source>Favorite</source>
-        <translation>Priljubljeno</translation>
+        <translation>즐겨찾기</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="290"/>
         <source>Unfavorite</source>
-        <translation>Nepriljubljeno</translation>
+        <translation>לא להדביק</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="431"/>
         <source>Extract text</source>
-        <translation>Potegni ven besedilo</translation>
+        <translation>העתקת טקסט</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="458"/>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>מחק</translation>
     </message>
 </context>
 <context>
@@ -2132,93 +2142,93 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="73"/>
         <source>Basic info</source>
-        <translation>Osnovni podatki</translation>
+        <translation>מידע בסיסי</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="78"/>
         <source>File name</source>
-        <translation>Ime datoteke</translation>
+        <translation>שם קובץ</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="88"/>
         <source>Date captured</source>
-        <translation>Datum snemanja</translation>
+        <translation>תאריך צילום</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="95"/>
         <source>Size</source>
-        <translation>Velikost</translation>
+        <translation>גודל</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="100"/>
         <source>Duration</source>
-        <translation>Čas trajanja</translation>
+        <translation>משך</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="105"/>
         <source>Type</source>
-        <translation>Vrsta</translation>
+        <translation>סוג</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="115"/>
         <source>Path</source>
-        <translation>Pot</translation>
+        <translation>נתיב</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="122"/>
         <source>Codec info</source>
-        <translation>Podatki o kodeku</translation>
+        <translation>מידע על קידוד</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="130"/>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="170"/>
         <source>Video CodecID</source>
-        <translation>Video naziv kodeka</translation>
+        <translation>ID קוד קידוד וידאו</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="136"/>
         <source>Video CodeRate</source>
-        <translation>Video kakovost kodeka</translation>
+        <translation>מהירות קוד וידאו</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="142"/>
         <source>FPS</source>
-        <translation>Slik/s</translation>
+        <translation>FPS</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="153"/>
         <source>Proportion</source>
-        <translation>Razmerje</translation>
+        <translation>יחס</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="160"/>
         <source>Resolution</source>
-        <translation>Ločljivost</translation>
+        <translation>תתורסום</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="178"/>
         <source>Audio CodecID</source>
-        <translation>Zvok naziv kodeka</translation>
+        <translation>ID קוד קידוד עיבוד שמע</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="184"/>
         <source>Audio CodeRate</source>
-        <translation>Zvok kakovost kodeka</translation>
+        <translation>מהירות קוד עיבוד שמע</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="190"/>
         <source>Audio digit</source>
-        <translation>Zvok decimalke</translation>
+        <translation>דיגיטל עיבוד שמע</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="201"/>
         <source>Channels</source>
-        <translation>ali</translation>
+        <translation>נעלמים</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="208"/>
         <source>Sampling</source>
-        <translation>Vzorčenje</translation>
+        <translation>הצטברות</translation>
     </message>
 </context>
 <context>
@@ -2226,92 +2236,92 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="40"/>
         <source>Fullscreen</source>
-        <translation>Celozaslonsko</translation>
+        <translation>מסך מלא</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="40"/>
         <source>Exit fullscreen</source>
-        <translation>Zapri celozaslonski način</translation>
+        <translation>יציאה מסך מלא</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="60"/>
         <source>Print</source>
-        <translation>Tiskanje</translation>
+        <translation>דפס</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="81"/>
         <source>Extract text</source>
-        <translation>Potegni ven besedilo</translation>
+        <translation>העתקת טקסט</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="103"/>
         <source>Slide show</source>
-        <translation>Diaprojekcija</translation>
+        <translation>הצגת שטיח</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="128"/>
         <source>Export</source>
-        <translation>Izvozi</translation>
+        <translation>טמעת חיצונית</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="144"/>
         <source>Copy</source>
-        <translation>Kopiraj</translation>
+        <translation>העתק</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="168"/>
         <source>Rename</source>
-        <translation>Preimenuj</translation>
+        <translation>שנה שם</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="189"/>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>מחק</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="218"/>
         <source>Favorite</source>
-        <translation>Priljubljeno</translation>
+        <translation>즐겨찾기</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="228"/>
         <source>Unfavorite</source>
-        <translation>Nepriljubljeno</translation>
+        <translation>לא ל즐ג=findik</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="245"/>
         <source>Rotate clockwise</source>
-        <translation>Obrni proti smeri urinega kazalca</translation>
+        <translation>etur ב戎时针方向</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="267"/>
         <source>Rotate counterclockwise</source>
-        <translation>Obrni proti smeri urinega kazalca</translation>
+        <translation>etur ב戎反时针方向</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="297"/>
         <source>Show navigation window</source>
-        <translation>Prikaži navigacijsko okno</translation>
+        <translation>הצג חלון התפריט</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="297"/>
         <source>Hide navigation window</source>
-        <translation>Skrij navigacijsko okno</translation>
+        <translation>הסתר חלון התפריט</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="309"/>
         <source>Set as wallpaper</source>
-        <translation>Določi kot ozadje namizja</translation>
+        <translation>הגדר כ)((((壁纸))</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="331"/>
         <source>Display in file manager</source>
-        <translation>Prikaži v upravljalniku datotek</translation>
+        <translation>הצג במנהל קבצים</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="350"/>
         <source>Image info</source>
-        <translation>Podatki o sliki</translation>
+        <translation>מידע על התמונה</translation>
     </message>
 </context>
 <context>
@@ -2319,32 +2329,32 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation>Odpri sliko</translation>
+        <translation>열기 이미지</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Poglednik slik je pogledovalnik slik z modeškim vmesnikom in glatko izvajanje.</translation>
+        <translation>הצג התמונה היא כלי הצגת תמונות עם חיצון מודרני וpering滑顺的性能</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="185"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
-        <translation>Album je stilistično uprvljalno orodje za pregledovanje in organiziranje fotografij in videev.</translation>
+        <translation>אלבום הוא כלי ניהול סגנוני להצגת וארגון נקודות וסרטונים</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
         <source>Image Viewer</source>
-        <translation>Poglednik slik</translation>
+        <translation>צג התמונה</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="189"/>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation>אלבום</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="193"/>
         <source>%1 is released under %2.</source>
-        <translation>%1 je izdan pod %2.</translation>
+        <translation>%1 שוחרר תחת %2.</translation>
     </message>
 </context>
 <context>
@@ -2357,12 +2367,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="139"/>
         <source>%1 items</source>
-        <translation>%1 predmetov</translation>
+        <translation>%1 חפצים</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="139"/>
         <source>1 item</source>
-        <translation>1 predmet</translation>
+        <translation>1 חפץ</translation>
     </message>
 </context>
 <context>
@@ -2370,7 +2380,7 @@
     <message>
         <location filename="../qml/main.qml" line="130"/>
         <source>All photos and videos</source>
-        <translation>Vse slike in videi</translation>
+        <translation>כל התמונות והסרטונים</translation>
     </message>
 </context>
 </TS>
