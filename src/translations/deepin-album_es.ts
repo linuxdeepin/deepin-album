@@ -1527,7 +1527,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="66"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation>No se puede mover &quot;%1&quot; a la papelera. ¿Quieres eliminarlo de forma permanente?</translation>
+        <translation>No se puede mover &quot;%1&quot; a la papelera. ¿Quiere eliminarlo de forma permanente?</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="84"/>
