@@ -1,3 +1,10 @@
+deepin-album (6.0.22) unstable; urgency=medium
+
+  * chore: update translations.
+  * fix: Optimize MTP device handling(Bug: 289223)
+
+ -- renbin <renbin@uniontech.com>  Thu, 10 Apr 2025 19:29:17 +0800
+
 deepin-album (6.0.21) unstable; urgency=medium
 
   * chore: update desktop file
