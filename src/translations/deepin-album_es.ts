@@ -458,7 +458,7 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="49"/>
         <source>You can restore it in the trash</source>
-        <translation>Puedes restaurarlo en la papelera</translation>
+        <translation>Puede restaurarlo en la papelera</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="51"/>
@@ -468,7 +468,7 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="52"/>
         <source>You can restore them in the trash</source>
-        <translation>Puedes restaurarlos en la papelera</translation>
+        <translation>Puede restaurarlos en la papelera</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="56"/>
