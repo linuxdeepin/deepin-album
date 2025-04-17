@@ -78,5 +78,6 @@
         <file>qml/Control/MonthImage.qml</file>
         <file>qml/Control/Animation/SwitchViewAnimation.qml</file>
         <file>qml/Control/Animation/FadeInoutAnimation.qml</file>
+        <file>qml/Control/ListView/ThumbnailListShare.js</file>
     </qresource>
 </RCC>
