@@ -1527,7 +1527,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="66"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation>Nie można przenieść &quot;%1&quot; do kosza. Czy chcesz go trwale usunąć?</translation>
+        <translation>Nie można przenieść &quot;%1&quot; do kosza. Czy usunąć plik permanentnie?</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="84"/>
