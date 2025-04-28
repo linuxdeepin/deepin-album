@@ -1320,7 +1320,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1073"/>
         <source>System Disk</source>
-        <translation>Disco del sistema</translation>
+        <translation>Disco de sistema</translation>
     </message>
 </context>
 <context>
