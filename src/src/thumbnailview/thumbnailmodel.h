@@ -102,6 +102,7 @@ signals:
 
 private:
     void setStatus(Status status);
+    QVariantList selectUrlsVariantList();
 
 private:
     QByteArray m_sortRoleName;
