@@ -7,6 +7,7 @@
 #include "imageengine/imagedataservice.h"
 #include "unionimage/baseutils.h"
 #include "imagedatamodel.h"
+#include "globalstatus.h"
 
 #include <QDebug>
 #include <QIcon>
@@ -184,6 +185,15 @@ void ThumbnailModel::setStatus(Status status)
     }
 }
 
+// 此处的函数用于选择文件变换的时候直接设置到全局属性中，避免qml文件的数组拷贝机制的缺陷导致的大数据量时卡顿的问题
+QVariantList ThumbnailModel::selectUrlsVariantList()
+{
+    QVariantList urlList;
+    for (auto index : m_selectionModel->selectedIndexes())
+        urlList.append(data(index, Roles::UrlRole).toString());
+    return urlList;
+}
+
 void ThumbnailModel::setSourceModel(QAbstractItemModel *sourceModel)
 {
     QAbstractItemModel *oldSrcModel = QSortFilterProxyModel::sourceModel();
@@ -222,6 +232,7 @@ void ThumbnailModel::setSelected(int indexValue)
     QModelIndex index = QSortFilterProxyModel::index(indexValue, 0);
     m_selectionModel->select(index, QItemSelectionModel::Select);
     emit dataChanged(index, index);
+    GlobalStatus::instance()->setSelectedPaths(selectUrlsVariantList());
     emit selectedIndexesChanged();
 }
 
@@ -233,6 +244,7 @@ void ThumbnailModel::toggleSelected(int indexValue)
     QModelIndex index = QSortFilterProxyModel::index(indexValue, 0);
     m_selectionModel->select(index, QItemSelectionModel::Toggle);
     emit dataChanged(index, index);
+    GlobalStatus::instance()->setSelectedPaths(selectUrlsVariantList());
     emit selectedIndexesChanged();
 }
 
@@ -244,9 +256,10 @@ void ThumbnailModel::setRangeSelected(int anchor, int to)
 
     QItemSelection selection(index(anchor, 0), index(to, 0));
     m_selectionModel->select(selection, QItemSelectionModel::ClearAndSelect);
-
+    GlobalStatus::instance()->setSelectedPaths(selectUrlsVariantList());
     emit selectedIndexesChanged();
 }
+
 
 void ThumbnailModel::updateSelection(const QVariantList &rows, bool toggle)
 {
@@ -276,8 +289,10 @@ void ThumbnailModel::updateSelection(const QVariantList &rows, bool toggle)
     }
 
     // 仅选择项有改变，才向外部通知选中内容改变
-    if (oldSelecteds != selectedIndexes())
+    if (oldSelecteds != selectedIndexes()) {
+        GlobalStatus::instance()->setSelectedPaths(selectUrlsVariantList());
         emit selectedIndexesChanged();
+    }
 }
 
 void ThumbnailModel::clearSelection()
@@ -289,6 +304,7 @@ void ThumbnailModel::clearSelection()
 //            emit dataChanged(indexValue, indexValue);
 //        }
     }
+    GlobalStatus::instance()->setSelectedPaths(selectUrlsVariantList());
     emit selectedIndexesChanged();
 }
 

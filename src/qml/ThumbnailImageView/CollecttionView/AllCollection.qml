@@ -22,7 +22,7 @@ SwitchViewAnimation {
     property string numLabelText:""
     property string selectedText: getSelectedNum(selectedPaths)
     property alias count: theView.count
-    property var selectedPaths: []
+    property var selectedPaths: GStatus.selectedPaths
 
     function setDateRange(str) {
         dateRangeLabel.text = str
@@ -164,17 +164,6 @@ SwitchViewAnimation {
         visible: numLabelText !== ""
         property int m_topMargin: 10
 
-        // 监听缩略图列表选中状态，一旦改变，更新globalVar所有选中路径
-        Connections {
-            target: theView
-            function onSelectedChanged() {
-                selectedPaths = []
-                selectedPaths = theView.selectedUrls
-
-                if (parent.visible)
-                    GStatus.selectedPaths = selectedPaths
-            }
-        }
     }
 
     // 仅在自动导入相册无内容时，显示没有图片或视频时显示
