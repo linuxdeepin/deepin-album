@@ -1427,8 +1427,7 @@ void AlbumControl::insertTrash(const QList<QUrl> &paths)
     // notify show progress start
     emit sigDeleteProgress(0, paths.size());
     // 先处理一下UI事件,否则进度条不显示
-    QCoreApplication::processEvents();
-    qint64 startTime = QDateTime::currentMSecsSinceEpoch();
+    QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents, 50);
     QStringList tmpList;
     DBImgInfoList infos;
     for (const QUrl &url : paths) {

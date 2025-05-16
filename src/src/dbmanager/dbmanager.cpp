@@ -1856,7 +1856,7 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
             // 否则进度条会积累到所有删除动作完成之后才会一次性更新进度条
             // 造成UI卡死的假象
             if(i % 10 == 0)
-                QCoreApplication::processEvents();
+                QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents, 50);
         }
     }
 
