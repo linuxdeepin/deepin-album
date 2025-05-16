@@ -1852,6 +1852,11 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
 
         if (showWaitDialog) {
             emit AlbumControl::instance()->sigDeleteProgress(i++, infos.size());
+            // 这里由于是密集型任务,每处理十个文件,就处理一下UI事件,
+            // 否则进度条会积累到所有删除动作完成之后才会一次性更新进度条
+            // 造成UI卡死的假象
+            if(i % 10 == 0)
+                QCoreApplication::processEvents();
         }
     }
 
