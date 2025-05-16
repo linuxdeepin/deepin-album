@@ -51,7 +51,12 @@ GlobalStatus::GlobalStatus(QObject *parent)
     initConnect();
 }
 
-GlobalStatus::~GlobalStatus() { }
+GlobalStatus::~GlobalStatus() {
+    // 在程序退出的过程中
+    // 由于析构过成功会触发destoryed信号，从而导致qml上使用GlobalStatus对象的地方触发重新绑定，
+    // 但此时本对象已经析构，qml上会使用一些已经析构掉的对象，导致崩溃
+    disconnect(this, nullptr, nullptr, nullptr);
+}
 
 /**
    @return 返回是否全屏显示图片
