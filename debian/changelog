@@ -1,3 +1,9 @@
+deepin-album (6.0.25) unstable; urgency=medium
+
+  * Update version to 6.0.25 
+
+ -- dengzhongyuan <dengzhongyuan@uniontech.com>  Fri, 16 May 2025 17:51:07 +0800
+
 deepin-album (6.0.24) unstable; urgency=medium
 
   * fix: prevent app freeze when using ctrl+A to select all in collection view
