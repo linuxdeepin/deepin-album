@@ -1422,35 +1422,39 @@ int AlbumControl::getAllCount(const int &filterType)
     return nCount;
 }
 
-void AlbumControl::insertTrash(const QList< QUrl > &paths)
+void AlbumControl::insertTrash(const QList<QUrl> &paths)
 {
     // notify show progress start
     emit sigDeleteProgress(0, paths.size());
-
+    // 先处理一下UI事件,否则进度条不显示
+    QCoreApplication::processEvents();
+    qint64 startTime = QDateTime::currentMSecsSinceEpoch();
     QStringList tmpList;
-    for (QUrl url : paths) {
+    DBImgInfoList infos;
+    for (const QUrl &url : paths) {
         QString imagePath = url2localPath(url);
         QFileInfo info(imagePath);
-        //判断文件是否可写
-        if (info.isWritable()) {
-            tmpList << imagePath;
+        
+        // 跳过不可写文件
+        if (!info.isWritable()) {
+            continue;
         }
-    }
-
-    DBImgInfoList infos;
-    for (QString path : tmpList) {
-        //infos << DBManager::instance()->getInfoByPath(path);
-        DBImgInfoList tempInfos = DBManager::instance()->getInfosByPath(path);
+        
+        tmpList << imagePath;
+        
+        DBImgInfoList tempInfos = DBManager::instance()->getInfosByPath(imagePath);
         if (tempInfos.size()) {
             DBImgInfo insertInfo = tempInfos.first();
             QStringList uids;
-            for (DBImgInfo info : tempInfos) {
-                uids.push_back(info.albumUID);
+            for (const DBImgInfo &dbInfo : tempInfos) {
+                uids.push_back(dbInfo.albumUID);
             }
+            
             insertInfo.albumUID = uids.join(",");
             infos << insertInfo;
         }
     }
+
     DBManager::instance()->insertTrashImgInfos(infos, true);
 
     // notify show progress end
