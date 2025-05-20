@@ -256,14 +256,15 @@ BaseView {
         visible: theView.count
         property int m_topMargin: 10
 
+        // 此处更新全局选中的已经由c++端实现，为了避免qml数组拷贝触发频繁的属性函数调用， 注释掉下面的内容
         // 监听缩略图列表选中状态，一旦改变，更新globalVar所有选中路径
-        Connections {
-            target: theView
-            function onSelectedChanged() {
-                if (parent.visible)
-                    GStatus.selectedPaths = theView.selectedUrls
-            }
-        }
+        // Connections {
+        //     target: theView
+        //     function onSelectedChanged() {
+        //         if (parent.visible)
+        //             GStatus.selectedPaths = theView.selectedUrls
+        //     }
+        // }
     }
 
     // 若没有数据，显示无图片视图
