@@ -34,7 +34,6 @@
 
 #include "unionimage.h"
 
-
 namespace Libutils {
 
 namespace base {
@@ -45,11 +44,12 @@ const QString DATETIME_FORMAT_EXIF = "yyyy:MM:dd HH:mm:ss";
 QPixmap renderSVG(const QString &filePath, const QSize &size)
 {
     /*lmh0724使用USE_UNIONIMAGE*/
+    qDebug() << "Rendering SVG file:" << filePath << "with size:" << size;
     QImage tImg(size, QImage::Format_ARGB32);
     QString errMsg;
     QSize realSize;
     if (!LibUnionImage_NameSpace::loadStaticImageFromFile(filePath, tImg, errMsg)) {
-        qDebug() << errMsg;
+        qWarning() << "Failed to load SVG file:" << filePath << "Error:" << errMsg;
     }
     QPixmap pixmap;
     pixmap = QPixmap::fromImage(tImg);
@@ -83,10 +83,9 @@ QPixmap renderSVG(const QString &filePath, const QSize &size)
 
 QString timeToString(const QDateTime &time, bool normalFormat)
 {
-    if (normalFormat)
-        return time.toString(DATETIME_FORMAT_NORMAL);
-    else
-        return time.toString(DATETIME_FORMAT_EXIF);
+    QString result = normalFormat ? time.toString(DATETIME_FORMAT_NORMAL) : time.toString(DATETIME_FORMAT_EXIF);
+    qDebug() << "Converting time:" << time << "to string format:" << (normalFormat ? "normal" : "exif") << "Result:" << result;
+    return result;
 }
 
 int stringWidth(const QFont &f, const QString &str)
@@ -104,7 +103,8 @@ int stringHeight(const QFont &f, const QString &str)
 QDateTime stringToDateTime(const QString &time)
 {
     QDateTime dt = QDateTime::fromString(time, DATETIME_FORMAT_EXIF);
-    if (! dt.isValid()) {
+    if (!dt.isValid()) {
+        qDebug() << "Failed to parse time with EXIF format, trying normal format:" << time;
         dt = QDateTime::fromString(time, DATETIME_FORMAT_NORMAL);
     }
     return dt;
@@ -113,8 +113,10 @@ QDateTime stringToDateTime(const QString &time)
 void showInFileManager(const QString &path)
 {
     if (path.isEmpty() || !QFile::exists(path)) {
+        qWarning() << "Invalid path for file manager:" << path;
         return;
     }
+    qDebug() << "Opening file manager for path:" << path;
     QString m_Path = static_cast<QString>(path);
 
     QStringList spc {"#", "&", "@", "!", "?"};
@@ -128,8 +130,7 @@ void showInFileManager(const QString &path)
 
 void copyImageToClipboard(const QStringList &paths)
 {
-    //  Get clipboard
-//    QClipboard *cb = QApplication::clipboard();
+    qDebug() << "Copying" << paths.size() << "images to clipboard";
     QClipboard *cb = qApp->clipboard();
 
     // Ownership of the new data is transferred to the clipboard.
@@ -156,23 +157,21 @@ void copyImageToClipboard(const QStringList &paths)
     gnomeFormat.remove(gnomeFormat.length() - 1, 1);
     newMimeData->setData("x-special/gnome-copied-files", gnomeFormat);
 
-    // Copy Image Date
-//    QImage img(paths.first());
-//    Q_ASSERT(!img.isNull());
-//    newMimeData->setImageData(img);
-
-    // Set the mimedata
-//    cb->setMimeData(newMimeData);
     cb->setMimeData(newMimeData, QClipboard::Clipboard);
+    qDebug() << "Successfully copied images to clipboard";
 }
 
 QString getFileContent(const QString &file)
 {
+    qDebug() << "Reading content from file:" << file;
     QFile f(file);
     QString fileContent = "";
     if (f.open(QFile::ReadOnly)) {
         fileContent = QLatin1String(f.readAll());
         f.close();
+        qDebug() << "Successfully read" << fileContent.length() << "bytes from file";
+    } else {
+        qWarning() << "Failed to open file for reading:" << file;
     }
     return fileContent;
 }
@@ -192,21 +191,22 @@ QString getFileContent(const QString &file)
 
 QString getNotExistsTrashFileName(const QString &fileName)
 {
+    qDebug() << "Generating unique trash filename for:" << fileName;
     QByteArray name = fileName.toUtf8();
 
     int index = name.lastIndexOf('/');
-
     if (index >= 0)
         name = name.mid(index + 1);
 
     index = name.lastIndexOf('.');
     QByteArray suffix;
-
     if (index >= 0)
         suffix = name.mid(index);
 
-    if (suffix.size() > 200)
+    if (suffix.size() > 200) {
+        qDebug() << "Truncating suffix from" << suffix.size() << "to 200 characters";
         suffix = suffix.left(200);
+    }
 
     name.chop(suffix.size());
     name = name.left(200 - suffix.size());
@@ -219,7 +219,7 @@ QString getNotExistsTrashFileName(const QString &fileName)
         if (!info.isSymLink() && !info.exists()) {
             break;
         }
-
+        qDebug() << "Name collision detected, generating new hash for:" << name;
         name = QCryptographicHash::hash(name, QCryptographicHash::Md5).toHex();
     }
 
@@ -229,6 +229,7 @@ QString getNotExistsTrashFileName(const QString &fileName)
 bool trashFile(const QString &file)
 {
 #ifdef QT_GUI_LIB
+    qDebug() << "Moving file to trash:" << file;
     QString trashPath;
     QString trashInfoPath;
     QString trashFilesPath;
@@ -240,16 +241,19 @@ bool trashFile(const QString &file)
     trashPath = home + "/.local/share/Trash";
     trashInfoPath = trashPath + "/info";
     trashFilesPath = trashPath + "/files";
-    if (! QDir(trashFilesPath).exists()) {
+    
+    if (!QDir(trashFilesPath).exists()) {
+        qDebug() << "Creating trash files directory:" << trashFilesPath;
         QDir().mkpath(trashFilesPath);
     }
-    if (! QDir(trashInfoPath).exists()) {
+    if (!QDir(trashInfoPath).exists()) {
+        qDebug() << "Creating trash info directory:" << trashInfoPath;
         QDir().mkpath(trashInfoPath);
     }
 
     QFileInfo originalInfo(file);
-    if (! originalInfo.exists()) {
-        qWarning() << "File doesn't exists, can't move to trash";
+    if (!originalInfo.exists()) {
+        qWarning() << "File doesn't exist, can't move to trash:" << file;
         return false;
     }
     // Info for restore
@@ -263,6 +267,7 @@ bool trashFile(const QString &file)
     QString trashname = getNotExistsTrashFileName(originalInfo.fileName());
     QString infopath = trashInfoPath + "/" + trashname + ".trashinfo";
     QString filepath = trashFilesPath + "/" + trashname;
+    
     int nr = 1;
     while (QFileInfo(infopath).exists() || QFileInfo(filepath).exists()) {
         nr++;
@@ -276,6 +281,7 @@ bool trashFile(const QString &file)
         infopath = trashInfoPath + "/" + trashname + ".trashinfo";
         filepath = trashFilesPath + "/" + trashname;
     }
+
     QFile infoFile(infopath);
     if (infoFile.open(QIODevice::WriteOnly)) {
         infoFile.write(infoStr.toUtf8());
@@ -285,8 +291,9 @@ bool trashFile(const QString &file)
             qWarning() << "move to trash failed!";
             return false;
         }
+        qDebug() << "Successfully moved file to trash:" << file;
     } else {
-        qDebug() << "Move to trash failed! Could not write *.trashinfo!";
+        qWarning() << "Failed to write trash info file:" << infopath;
         return false;
     }
     // Remove thumbnail
@@ -338,6 +345,7 @@ bool trashFile(const QString &file)
 
 QString SpliteText(const QString &text, const QFont &font, int nLabelSize, bool bReturn)
 {
+    qDebug() << "Splitting text:" << text << "with font:" << font.toString() << "label size:" << nLabelSize;
     QFontMetrics fm(font);
     int nTextSize = fm.horizontalAdvance(text);
     if (nTextSize > nLabelSize) {
@@ -387,12 +395,12 @@ QString hash(const QString &str)
 
 QString hashByString(const QString &str)
 {
-    QString hashString = QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex();
-    return hashString;
+    return QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex();
 }
 
 QString hashByData(const QString &str)
 {
+    qDebug() << "Generating hash for file:" << str;
     QFile file(str);
     QString  stHashValue;
     if (file.open(QIODevice::ReadOnly)) { //只读方式打开
@@ -402,23 +410,28 @@ QString hashByData(const QString &str)
         buf = buf.append(str.toUtf8());
         hash.addData(buf);  // 将数据添加到Hash中
         stHashValue.append(hash.result().toHex());
+        qDebug() << "Successfully generated hash for file:" << str << "Result:" << stHashValue;
+    } else {
+        qWarning() << "Failed to open file for hashing:" << str;
     }
     return stHashValue;
 }
 
 bool onMountDevice(const QString &path)
 {
-    return (path.startsWith("/media/") || path.startsWith("/run/media/"));
+    bool result = (path.startsWith("/media/") || path.startsWith("/run/media/"));
+    qDebug() << "Checking if path is on mount device:" << path << "Result:" << result;
+    return result;
 }
 
 bool mountDeviceExist(const QString &path)
 {
+    qDebug() << "Checking if mount device exists for path:" << path;
     QString mountPoint;
     if (path.startsWith("/media/")) {
         const int sp = path.indexOf("/", 7) + 1;
         const int ep = path.indexOf("/", sp) + 1;
         mountPoint = path.mid(0, ep);
-
     } else if (path.startsWith("/run/media/")) {
         const int sp = path.indexOf("/", 11) + 1;
         const int ep = path.indexOf("/", sp) + 1;
@@ -430,6 +443,7 @@ bool mountDeviceExist(const QString &path)
 
 QString filePathToThumbnailPath(const QString &filePath, QString dataHash)
 {
+    qDebug() << "Converting file path to thumbnail path:" << filePath;
     QFileInfo temDir(filePath);
     //如果hash为空，制作新的hash
     if (dataHash.isEmpty()) {
@@ -447,20 +461,24 @@ QString getDeleteFullPath(const QString &hash, const QString &fileName)
 
 std::pair<QDateTime, bool> analyzeDateTime(const QVariant &data)
 {
+    qDebug() << "Analyzing date time from data:" << data;
     auto str = data.toString();
     QDateTime result = QDateTime::fromString(str, DATETIME_FORMAT_DATABASE);
     if (!result.isValid()) {
         result = stringToDateTime(str);
     }
     if (result.isValid()) {
+        qDebug() << "Successfully parsed date time:" << result;
         return std::make_pair(result, true);
     } else {
+        qWarning() << "Failed to parse date time from data:" << data;
         return std::make_pair(data.toDateTime(), false);
     }
 }
 
 bool syncCopy(const QString &srcFileName, const QString &dstFileName)
 {
+    qDebug() << "Starting synchronous copy from:" << srcFileName << "to:" << dstFileName;
     QFile src(srcFileName);
     QFile dst(dstFileName);
 
@@ -470,6 +488,7 @@ bool syncCopy(const QString &srcFileName, const QString &dstFileName)
     //0.预分配空间
     auto fileSize = src.size();
     if (!dst.resize(fileSize)) { //预分配空间失败
+        qWarning() << "Failed to pre-allocate space for destination file:" << dstFileName;
         dst.close();
         dst.remove();
         return false;
@@ -489,26 +508,33 @@ bool syncCopy(const QString &srcFileName, const QString &dstFileName)
         dst.waitForBytesWritten(30000);
     }
 
+    qDebug() << "Successfully completed synchronous copy";
     return true;
 }
 
 QString mkMutiDir(const QString &path)   //创建多级目录
 {
+    qDebug() << "Creating multi-level directory:" << path;
     QDir dir(path);
     if (dir.exists(path)) {
+        qDebug() << "Directory already exists:" << path;
         return path;
     }
     QString parentDir = mkMutiDir(path.mid(0, path.lastIndexOf('/')));
     QString dirname = path.mid(path.lastIndexOf('/') + 1);
     QDir parentPath(parentDir);
-    if (!dirname.isEmpty())
+    if (!dirname.isEmpty()) {
         parentPath.mkpath(dirname);
+        qDebug() << "Created directory:" << dirname << "in parent:" << parentDir;
+    }
     return parentDir + "/" + dirname;
 }
 
 bool checkMimeUrls(const QList<QUrl> &urls)
 {
+    qDebug() << "Checking MIME types for" << urls.size() << "URLs";
     if (1 > urls.size()) {
+        qWarning() << "Empty URL list provided";
         return false;
     }
     QList<QUrl> urlList = urls;
@@ -517,16 +543,20 @@ bool checkMimeUrls(const QList<QUrl> &urls)
         const QString path = url.toLocalFile();
         QFileInfo fileinfo(path);
         if (fileinfo.isDir()) {
-            auto finfos =  getImagesAndVideoInfo(path, false);
+            qDebug() << "Checking directory:" << path;
+            auto finfos = getImagesAndVideoInfo(path, false);
             for (auto finfo : finfos) {
                 if (imageSupportRead(finfo.absoluteFilePath()) || isVideo(finfo.absoluteFilePath())) {
+                    qDebug() << "Found supported file in directory:" << finfo.absoluteFilePath();
                     return true;
                 }
             }
         } else if (imageSupportRead(path) || isVideo(path)) {
+            qDebug() << "Found supported file:" << path;
             return true;
         }
     }
+    qDebug() << "No supported files found in URL list";
     return false;
 }
 
@@ -535,13 +565,16 @@ bool checkMimeUrls(const QList<QUrl> &urls)
  */
 bool isSupportWallpaper(const QString &path)
 {
+    qDebug() << "Checking if file supports wallpaper:" << path;
     QMimeDatabase db;
     QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchDefault);
-    return mt.name().startsWith("image")
+    bool result = mt.name().startsWith("image")
            && !mt.name().endsWith("svg+xml")
            && !mt.name().endsWith("raf")
            && !mt.name().endsWith("crw")
            && !mt.name().endsWith("x-portable-anymap");
+    qDebug() << "File" << path << "wallpaper support:" << result << "MIME type:" << mt.name();
+    return result;
 }
 
 

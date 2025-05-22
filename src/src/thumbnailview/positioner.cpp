@@ -10,6 +10,7 @@
 
 #include "positioner.h"
 #include "thumbnailmodel.h"
+#include <QDebug>
 
 #include <QTimer>
 #include <QPoint>
@@ -26,6 +27,7 @@ Positioner::Positioner(QObject *parent)
     , m_deferApplyPositions(false)
     , m_updatePositionsTimer(new QTimer(this))
 {
+    qDebug() << "Initializing Positioner";
     m_updatePositionsTimer->setSingleShot(true);
     m_updatePositionsTimer->setInterval(0);
     connect(m_updatePositionsTimer, &QTimer::timeout, this, &Positioner::updatePositions);
@@ -33,6 +35,7 @@ Positioner::Positioner(QObject *parent)
 
 Positioner::~Positioner()
 {
+    qDebug() << "Destroying Positioner";
 }
 
 bool Positioner::enabled() const
@@ -43,6 +46,7 @@ bool Positioner::enabled() const
 void Positioner::setEnabled(bool enabled)
 {
     if (m_enabled != enabled) {
+        qDebug() << "Setting enabled from" << m_enabled << "to" << enabled;
         m_enabled = enabled;
 
         beginResetModel();
@@ -69,6 +73,7 @@ ThumbnailModel *Positioner::thumbnailModel() const
 void Positioner::setThumbnailModel(ThumbnailModel *thumbnailModel)
 {
     if (m_thumbnialModel != thumbnailModel) {
+        qDebug() << "Setting thumbnail model from" << m_thumbnialModel << "to" << thumbnailModel;
         beginResetModel();
 
         if (m_thumbnialModel) {
@@ -99,6 +104,7 @@ int Positioner::perStripe() const
 void Positioner::setPerStripe(int perStripe)
 {
     if (m_perStripe != perStripe) {
+        qDebug() << "Setting per stripe from" << m_perStripe << "to" << perStripe;
         m_perStripe = perStripe;
 
         Q_EMIT perStripeChanged();
@@ -117,12 +123,14 @@ QStringList Positioner::positions() const
 void Positioner::setPositions(const QStringList &positions)
 {
     if (m_positions != positions) {
+        qDebug() << "Setting positions, count:" << positions.size();
         m_positions = positions;
 
         Q_EMIT positionsChanged();
 
         // Defer applying positions until listing completes.
         if (m_thumbnialModel->status() == ThumbnailModel::Listing) {
+            qDebug() << "Deferring position application - model is listing";
             m_deferApplyPositions = true;
         } else {
             applyPositions();
@@ -151,6 +159,7 @@ QVariantList Positioner::maps(QVariantList rows) const
                 continue;
             varList.push_back(m_proxyToSource.value(iRow, -1));
         }
+        qDebug() << "Mapping" << rows.size() << "rows to" << varList.size() << "mapped rows";
     }
 
     return varList;
@@ -159,10 +168,12 @@ QVariantList Positioner::maps(QVariantList rows) const
 int Positioner::nearestItem(int currentIndex, Qt::ArrowType direction)
 {
     if (!m_enabled || currentIndex >= rowCount()) {
+        qDebug() << "Cannot find nearest item - disabled or invalid index:" << currentIndex;
         return -1;
     }
 
     if (currentIndex < 0) {
+        qDebug() << "Current index < 0, returning first row";
         return firstRow();
     }
 
@@ -222,29 +233,24 @@ int Positioner::nearestItem(int currentIndex, Qt::ArrowType direction)
         }
     }
 
+    qDebug() << "Found nearest item:" << nearestItem << "from current:" << currentIndex << "direction:" << direction;
     return nearestItem;
 }
 
 bool Positioner::isBlank(int row) const
 {
-//    if (!m_enabled && m_thumbnailModel) {
-//        return m_thumbnailModel->isBlank(row);
-//    }
-
-//    if (m_proxyToSource.contains(row) && m_thumbnailModel && !m_thumbnailModel->isBlank(m_proxyToSource.value(row))) {
-//        return false;
-//    }
-
     return false;
 }
 
 int Positioner::indexForUrl(const QUrl &url) const
 {
     if (!m_thumbnialModel) {
+        qDebug() << "Cannot find index for URL - no thumbnail model";
         return -1;
     }
 
     const QString &name = url.fileName();
+    qDebug() << "Finding index for URL:" << name;
 
     int sourceIndex = -1;
 
@@ -252,7 +258,6 @@ int Positioner::indexForUrl(const QUrl &url) const
     for (int i = 0; i < m_thumbnialModel->rowCount(); ++i) {
         if (m_thumbnialModel->data(m_thumbnialModel->index(i, 0), Roles::FileNameRole).toString() == name) {
             sourceIndex = i;
-
             break;
         }
     }
@@ -263,9 +268,11 @@ int Positioner::indexForUrl(const QUrl &url) const
 void Positioner::setRangeSelected(int anchor, int to)
 {
     if (!m_thumbnialModel) {
+        qDebug() << "Cannot set range selection - no thumbnail model";
         return;
     }
 
+    qDebug() << "Setting range selection from" << anchor << "to" << to;
     if (m_enabled) {
         QVariantList indices;
 
@@ -359,6 +366,7 @@ int Positioner::columnCount(const QModelIndex &parent) const
 
 void Positioner::reset()
 {
+    qDebug() << "Resetting positioner";
     beginResetModel();
 
     initMaps();
@@ -373,10 +381,12 @@ int Positioner::move(const QVariantList &moves)
 {
     // Don't allow moves while listing.
     if (m_thumbnialModel->status() == ThumbnailModel::Listing) {
+        qDebug() << "Deferring move - model is listing";
         m_deferMovePositions.append(moves);
         return -1;
     }
 
+    qDebug() << "Processing" << moves.size() << "moves";
     QVector<int> fromIndices;
     QVector<int> toIndices;
     QVariantList sourceRows;
@@ -461,6 +471,7 @@ int Positioner::move(const QVariantList &moves)
 
     m_updatePositionsTimer->start();
 
+    qDebug() << "Move completed, new count:" << newCount << "old count:" << oldCount;
     return toIndices.constFirst();
 }
 
@@ -469,6 +480,7 @@ void Positioner::updatePositions()
     QStringList positions;
 
     if (m_enabled && !m_proxyToSource.isEmpty() && m_perStripe > 0) {
+        qDebug() << "Updating positions for" << m_proxyToSource.size() << "items";
         positions.append(QString::number((1 + ((rowCount() - 1) / m_perStripe))));
         positions.append(QString::number(m_perStripe));
 
@@ -480,6 +492,7 @@ void Positioner::updatePositions()
             const QString &name = m_thumbnialModel->data(m_thumbnialModel->index(it.value(), 0), Roles::UrlRole).toString();
 
             if (name.isEmpty()) {
+                qWarning() << "Empty name found while updating positions";
                 return;
             }
 
@@ -490,6 +503,7 @@ void Positioner::updatePositions()
     }
 
     if (positions != m_positions) {
+        qDebug() << "Positions updated, new count:" << positions.size();
         m_positions = positions;
 
         Q_EMIT positionsChanged();
@@ -499,10 +513,12 @@ void Positioner::updatePositions()
 void Positioner::sourceStatusChanged()
 {
     if (m_deferApplyPositions && m_thumbnialModel->status() != ThumbnailModel::Listing) {
+        qDebug() << "Applying deferred positions";
         applyPositions();
     }
 
     if (m_deferMovePositions.count() && m_thumbnialModel->status() != ThumbnailModel::Listing) {
+        qDebug() << "Processing" << m_deferMovePositions.count() << "deferred moves";
         move(m_deferMovePositions);
         m_deferMovePositions.clear();
     }
@@ -511,6 +527,7 @@ void Positioner::sourceStatusChanged()
 void Positioner::sourceDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
     if (m_enabled) {
+        qDebug() << "Source data changed from row" << topLeft.row() << "to" << bottomRight.row();
         int start = topLeft.row();
         int end = bottomRight.row();
 
@@ -543,6 +560,7 @@ void Positioner::sourceModelReset()
 void Positioner::sourceRowsAboutToBeInserted(const QModelIndex &parent, int start, int end)
 {
     if (m_enabled) {
+        qDebug() << "Source rows about to be inserted from" << start << "to" << end;
         // Don't insert yet if we're waiting for listing to complete to apply
         // initial positions;
         if (m_deferApplyPositions) {
@@ -616,6 +634,7 @@ void Positioner::sourceRowsAboutToBeMoved(const QModelIndex &sourceParent,
 void Positioner::sourceRowsAboutToBeRemoved(const QModelIndex &parent, int first, int last)
 {
     if (m_enabled) {
+        qDebug() << "Source rows about to be removed from" << first << "to" << last;
         int oldLast = lastRow();
 
         for (int i = first; i <= last; ++i) {
@@ -729,6 +748,7 @@ void Positioner::sourceLayoutChanged(const QList<QPersistentModelIndex> &parents
 
 void Positioner::initMaps(int size)
 {
+    qDebug() << "Initializing maps with size:" << size;
     m_proxyToSource.clear();
     m_sourceToProxy.clear();
 
@@ -794,6 +814,7 @@ void Positioner::applyPositions()
     // We were called while the source model is listing. Defer applying positions
     // until listing completes.
     if (m_thumbnialModel->status() == ThumbnailModel::Listing) {
+        qDebug() << "Deferring position application - model is listing";
         m_deferApplyPositions = true;
 
         return;
@@ -803,6 +824,7 @@ void Positioner::applyPositions()
         // We were waiting for listing to complete before proxying source rows,
         // but we don't have positions to apply. Reset to populate.
         if (m_deferApplyPositions) {
+            qDebug() << "No positions to apply, resetting";
             m_deferApplyPositions = false;
             reset();
         }
@@ -810,6 +832,7 @@ void Positioner::applyPositions()
         return;
     }
 
+    qDebug() << "Applying positions, count:" << m_positions.size();
     beginResetModel();
 
     m_proxyToSource.clear();
@@ -818,6 +841,7 @@ void Positioner::applyPositions()
     const QStringList &positions = m_positions.mid(2);
 
     if (positions.count() % 3 != 0) {
+        qWarning() << "Invalid positions format - count not divisible by 3:" << positions.count();
         return;
     }
 
@@ -840,6 +864,7 @@ void Positioner::applyPositions()
         offset = i * 3;
         pos = positions.at(offset + 2).toInt(&ok);
         if (!ok) {
+            qWarning() << "Invalid position value at offset" << offset + 2;
             return;
         }
 
@@ -847,6 +872,7 @@ void Positioner::applyPositions()
             name = positions.at(offset);
             stripe = positions.at(offset + 1).toInt(&ok);
             if (!ok) {
+                qWarning() << "Invalid stripe value at offset" << offset + 1;
                 return;
             }
 
@@ -872,6 +898,7 @@ void Positioner::applyPositions()
         offset = i * 3;
         pos = positions.at(offset + 2).toInt(&ok);
         if (!ok) {
+            qWarning() << "Invalid position value at offset" << offset + 2;
             return;
         }
 
@@ -922,6 +949,7 @@ void Positioner::flushPendingChanges()
         return;
     }
 
+    qDebug() << "Flushing" << m_pendingChanges.size() << "pending changes";
     int last = lastRow();
 
     for (const QModelIndex &index : m_pendingChanges) {
@@ -935,6 +963,7 @@ void Positioner::flushPendingChanges()
 
 void Positioner::connectSignals(ThumbnailModel *model)
 {
+    qDebug() << "Connecting signals to thumbnail model";
     connect(model, &QAbstractItemModel::dataChanged, this, &Positioner::sourceDataChanged, Qt::UniqueConnection);
     connect(model, &QAbstractItemModel::rowsAboutToBeInserted, this, &Positioner::sourceRowsAboutToBeInserted, Qt::UniqueConnection);
     connect(model, &QAbstractItemModel::rowsAboutToBeMoved, this, &Positioner::sourceRowsAboutToBeMoved, Qt::UniqueConnection);
@@ -950,6 +979,7 @@ void Positioner::connectSignals(ThumbnailModel *model)
 
 void Positioner::disconnectSignals(ThumbnailModel *model)
 {
+    qDebug() << "Disconnecting signals from thumbnail model";
     disconnect(model, &QAbstractItemModel::dataChanged, this, &Positioner::sourceDataChanged);
     disconnect(model, &QAbstractItemModel::rowsAboutToBeInserted, this, &Positioner::sourceRowsAboutToBeInserted);
     disconnect(model, &QAbstractItemModel::rowsAboutToBeMoved, this, &Positioner::sourceRowsAboutToBeMoved);

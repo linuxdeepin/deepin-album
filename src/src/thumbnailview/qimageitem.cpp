@@ -7,6 +7,7 @@
 
 #include "qimageitem.h"
 #include "../imageengine/imagedataservice.h"
+#include <QDebug>
 
 #include <DDciIcon>
 #include <DGuiApplicationHelper>
@@ -23,11 +24,13 @@ QImageItem::QImageItem(QQuickItem *parent)
     , m_smooth(false)
     , m_fillMode(QImageItem::Stretch)
 {
+    qDebug() << "Initializing QImageItem";
     setFlag(ItemHasContents, true);
 }
 
 QImageItem::~QImageItem()
 {
+    qDebug() << "Destroying QImageItem";
 }
 
 void QImageItem::initDamage()
@@ -50,6 +53,7 @@ void QImageItem::setImage(const QImage &image)
 #if 1
     if (ImageDataService::instance()->getLoadMode() == 1) {
         if (m_paintedRect.width() < oldPaintedRect.width() || m_paintedRect.height() < oldPaintedRect.height()) {
+            qDebug() << "Scheduling delayed update for image size change from" << oldPaintedRect.size() << "to" << m_paintedRect.size();
             QTimer::singleShot(100, this, [=] {
                 update();
             });
@@ -73,6 +77,7 @@ void QImageItem::setImage(const QImage &image)
     Q_EMIT nativeHeightChanged();
     Q_EMIT imageChanged();
     if (oldImageNull != m_image.isNull()) {
+        qDebug() << "Image null state changed from" << oldImageNull << "to" << m_image.isNull();
         Q_EMIT nullChanged();
     }
 }
@@ -84,6 +89,7 @@ QImage QImageItem::image() const
 
 void QImageItem::resetImage()
 {
+    qDebug() << "Resetting image";
     setImage(QImage());
 }
 
@@ -92,6 +98,7 @@ void QImageItem::setSmooth(const bool smooth)
     if (smooth == m_smooth) {
         return;
     }
+    qDebug() << "Setting smooth from" << m_smooth << "to" << smooth;
     m_smooth = smooth;
     update();
 }
@@ -122,6 +129,7 @@ void QImageItem::setFillMode(QImageItem::FillMode mode)
         return;
     }
 
+    qDebug() << "Setting fill mode from" << m_fillMode << "to" << mode;
     m_fillMode = mode;
     updatePaintedRect();
     update();
@@ -134,6 +142,7 @@ void QImageItem::paint(QPainter *painter)
 
     // 图片为空时，显示撕裂图
     if (m_image.isNull()) {
+        qDebug() << "Painting damage image - source image is null";
         pImage = &s_damage;
     } else {
         pImage = &m_image;
@@ -190,35 +199,36 @@ void QImageItem::updatePaintedRect()
     }
 
     QRectF sourceRect = m_paintedRect;
-
     QRectF destRect;
 
     switch (m_fillMode) {
     case PreserveAspectFit: {
         QSizeF scaled = pImage->size();
-
         QSizeF size = boundingRect().size();
         scaled.scale(boundingRect().size(), Qt::KeepAspectRatio);
         destRect = QRectF(QPoint(0, 0), scaled);
         destRect.moveCenter(boundingRect().center().toPoint());
+        qDebug() << "PreserveAspectFit: scaled size" << scaled << "from" << pImage->size();
         break;
     }
     case PreserveAspectCrop: {
         QSizeF scaled = pImage->size();
-
         scaled.scale(boundingRect().size(), Qt::KeepAspectRatioByExpanding);
         destRect = QRectF(QPoint(0, 0), scaled);
         destRect.moveCenter(boundingRect().center().toPoint());
+        qDebug() << "PreserveAspectCrop: scaled size" << scaled << "from" << pImage->size();
         break;
     }
     case TileVertically: {
         destRect = boundingRect().toRect();
         destRect.setWidth(destRect.width() / (width() / (qreal)pImage->width()));
+        qDebug() << "TileVertically: dest rect" << destRect;
         break;
     }
     case TileHorizontally: {
         destRect = boundingRect().toRect();
         destRect.setHeight(destRect.height() / (height() / (qreal)pImage->height()));
+        qDebug() << "TileHorizontally: dest rect" << destRect;
         break;
     }
     case Stretch:
@@ -226,6 +236,7 @@ void QImageItem::updatePaintedRect()
     case Pad:
     default:
         destRect = boundingRect().toRect();
+        qDebug() << "Default fill mode: dest rect" << destRect;
     }
 
     if (destRect != sourceRect) {
@@ -234,6 +245,7 @@ void QImageItem::updatePaintedRect()
         Q_EMIT paintedWidthChanged();
     }
 }
+
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 void QImageItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
 #else
@@ -245,5 +257,6 @@ void QImageItem::geometryChange(const QRectF &newGeometry, const QRectF &oldGeom
 #else
     QQuickPaintedItem::geometryChange(newGeometry, oldGeometry);
 #endif
+    qDebug() << "Geometry changed from" << oldGeometry << "to" << newGeometry;
     updatePaintedRect();
 }

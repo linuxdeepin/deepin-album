@@ -28,6 +28,7 @@ PrintHelper *PrintHelper::getIntance()
 {
     if (!m_Printer) {
         m_Printer = new PrintHelper();
+        qDebug() << "Created new PrintHelper instance";
     }
     return m_Printer;
 }
@@ -35,11 +36,13 @@ PrintHelper *PrintHelper::getIntance()
 PrintHelper::PrintHelper(QObject *parent)
     : QObject(parent)
 {
+    qDebug() << "Initializing PrintHelper";
     m_re = new RequestedSlot(this);
 }
 
 PrintHelper::~PrintHelper()
 {
+    qDebug() << "Destroying PrintHelper";
     m_re->deleteLater();
 }
 
@@ -98,6 +101,7 @@ static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction 
 void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {
     Q_UNUSED(parent)
+    qDebug() << "Showing print dialog for" << paths.size() << "files";
     m_re->m_paths.clear();
     m_re->m_imgs.clear();
 
@@ -105,9 +109,11 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     QStringList tempExsitPaths;//保存存在的图片路径
     QImage imgTemp;
     for (const QString &path : paths) {
+        qDebug() << "Processing file for printing:" << path;
         QString errMsg;
         QImageReader imgReadreder(path);
         if (imgReadreder.imageCount() > 1) {
+            qDebug() << "Found multi-page image with" << imgReadreder.imageCount() << "pages";
             for (int imgindex = 0; imgindex < imgReadreder.imageCount(); imgindex++) {
                 imgReadreder.jumpToImage(imgindex);
                 m_re->m_imgs << imgReadreder.read();
@@ -118,11 +124,15 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
             LibUnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
             if (!img.isNull()) {
                 m_re->m_imgs << img;
+                qDebug() << "Added single image to print queue, size:" << img.size();
+            } else {
+                qWarning() << "Loaded image is null for file:" << path;
             }
         }
         tempExsitPaths << paths;
-
     }
+
+    qDebug() << "Total images prepared for printing:" << m_re->m_imgs.size();
     //看图采用同步,因为只有一张图片
     DPrintPreviewDialog printDialog2(nullptr);
 #if (DTK_VERSION_MAJOR > 5 \
@@ -135,6 +145,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
             QString docName = QString(QFileInfo(tempExsitPaths.at(0)).completeBaseName());
             docName = docName + ".pdf";
             printDialog2.setDocName(docName);
+            qDebug() << "Set document name for printing:" << docName;
         }
     }
 #endif
@@ -142,55 +153,64 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
             m_re, SLOT(paintRequestSync(DPrinter *)));
 
 #ifndef USE_TEST
+    qDebug() << "Executing print preview dialog";
     printDialog2.exec();
 #else
+    qDebug() << "Showing print preview dialog";
     printDialog2.show();
 #endif
     m_re->m_paths.clear();
     m_re->m_imgs.clear();
+    qDebug() << "Print dialog closed";
 }
 
 RequestedSlot::RequestedSlot(QObject *parent)
 {
     Q_UNUSED(parent)
+    qDebug() << "Initializing RequestedSlot";
 }
 
 RequestedSlot::~RequestedSlot()
 {
-
+    qDebug() << "Destroying RequestedSlot";
 }
 
 void RequestedSlot::paintRequestSync(DPrinter *_printer)
 {
+    qDebug() << "Starting print job with" << m_imgs.size() << "images";
     //由于之前再度修改了打印的逻辑，导致了相同图片不在被显示，多余多页tiff来说不合理
     QPainter painter(_printer);
     int indexNum = 0;
     for (QImage img : m_imgs) {
         if (!img.isNull()) {
+            qDebug() << "Printing image" << indexNum + 1 << "of" << m_imgs.size() << "size:" << img.size();
             painter.setRenderHint(QPainter::Antialiasing);
             painter.setRenderHint(QPainter::SmoothPixmapTransform);
             QRectF wRect = _printer->pageRect(QPrinter::DevicePixel);
             //修复bug98129，打印不完全问题，ratio应该是适应宽或者高，不应该直接适应宽
             qreal ratio = 0.0;
-            qDebug() << wRect;
+            qDebug() << "Page rectangle:" << wRect;
             ratio = wRect.width() * 1.0 / img.width();
             if (qreal(wRect.height() - img.height() * ratio) > 0) {
+                qDebug() << "Fitting image to width, ratio:" << ratio;
                 painter.drawImage(QRectF(0, abs(qreal(wRect.height() - img.height() * ratio)) / 2,
                                          wRect.width(), img.height() * ratio), img);
             } else {
                 ratio = wRect.height() * 1.0 / img.height();
+                qDebug() << "Fitting image to height, ratio:" << ratio;
                 painter.drawImage(QRectF(qreal(wRect.width() - img.width() * ratio) / 2, 0,
                                          img.width() * ratio, wRect.height()), img);
             }
-
-
+        } else {
+            qWarning() << "Skipping null image at index" << indexNum;
         }
         indexNum++;
         if (indexNum != m_imgs.size()) {
+            qDebug() << "Adding new page for next image";
             _printer->newPage();
-
         }
     }
     painter.end();
+    qDebug() << "Print job completed";
 }
 

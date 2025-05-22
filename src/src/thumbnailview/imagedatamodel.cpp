@@ -6,6 +6,7 @@
 #include "roles.h"
 #include "dbmanager/dbmanager.h"
 #include "albumControl.h"
+#include <QDebug>
 
 #include <QUrl>
 
@@ -16,11 +17,13 @@ ImageDataModel::ImageDataModel(QObject *parent)
     , m_keyWord("")
     , m_dayToken("")
 {
+    qDebug() << "Initializing ImageDataModel";
     connect(AlbumControl::instance(), &AlbumControl::deviceAlbumInfoLoadFinished, this, &ImageDataModel::onDeviceDataLoaded);
 }
 
 QHash<int, QByteArray> ImageDataModel::roleNames() const
 {
+    qDebug() << "Getting role names for model";
     auto hash = QAbstractItemModel::roleNames();
     // the url role returns the url of the cover image of the collection
     hash.insert(Roles::ItemTypeRole, "itemType");
@@ -37,6 +40,7 @@ QHash<int, QByteArray> ImageDataModel::roleNames() const
 QVariant ImageDataModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
+        qWarning() << "Invalid index requested:" << index.row() << "role:" << role;
         return {};
     }
 
@@ -55,8 +59,10 @@ QVariant ImageDataModel::data(const QModelIndex &index, int role) const
         QString filePath = "";
         if (Types::RecentlyDeleted == m_modelType) {
             filePath = AlbumControl::instance()->getDeleteFullPath(LibUnionImage_NameSpace::hashByString(info.filePath), DBImgInfo::getFileNameFromFilePath(info.filePath));
-        } else
+            qDebug() << "Getting URL for deleted file:" << filePath;
+        } else {
             filePath = info.filePath;
+        }
         return QUrl::fromLocalFile(filePath).toString();
     }
 
@@ -87,6 +93,7 @@ QVariant ImageDataModel::data(const QModelIndex &index, int role) const
     }
     }
 
+    qWarning() << "Unknown role requested:" << role;
     return {};
 }
 
@@ -106,6 +113,7 @@ Types::ModelType ImageDataModel::modelType() const
 
 void ImageDataModel::setModelType(Types::ModelType modelType)
 {
+    qDebug() << "Setting model type from" << m_modelType << "to" << modelType;
     beginResetModel();
     m_modelType = modelType;
     endResetModel();
@@ -120,8 +128,10 @@ int ImageDataModel::albumId() const
 
 void ImageDataModel::setAlbumId(int albumId)
 {
-    if (albumId != m_albumID)
+    if (albumId != m_albumID) {
+        qDebug() << "Setting album ID from" << m_albumID << "to" << albumId;
         emit albumIdChanged();
+    }
 
     m_albumID = albumId;
 }
@@ -133,8 +143,10 @@ QString ImageDataModel::keyWord()
 
 void ImageDataModel::setKeyWord(QString keyWord)
 {
-    if (keyWord != m_keyWord)
+    if (keyWord != m_keyWord) {
+        qDebug() << "Setting keyword from" << m_keyWord << "to" << keyWord;
         emit keyWordChanged();
+    }
 
     m_keyWord = keyWord;
 }
@@ -146,8 +158,10 @@ QString ImageDataModel::devicePath()
 
 void ImageDataModel::setDevicePath(QString devicePath)
 {
-    if (m_devicePath != devicePath)
+    if (m_devicePath != devicePath) {
+        qDebug() << "Setting device path from" << m_devicePath << "to" << devicePath;
         emit devicePathChanged();
+    }
 
     m_devicePath = devicePath;
 }
@@ -159,8 +173,10 @@ QString ImageDataModel::dayToken()
 
 void ImageDataModel::setDayToken(QString dayToken)
 {
-    if (m_dayToken != dayToken)
+    if (m_dayToken != dayToken) {
+        qDebug() << "Setting day token from" << m_dayToken << "to" << dayToken;
         emit dayTokenChanged();
+    }
 
     m_dayToken = dayToken;
 }
@@ -172,16 +188,20 @@ QString ImageDataModel::importTitle()
 
 void ImageDataModel::setImportTitle(QString importTitle)
 {
-    if (m_importTitle != importTitle)
+    if (m_importTitle != importTitle) {
+        qDebug() << "Setting import title from" << m_importTitle << "to" << importTitle;
         emit importTitleChanged();
+    }
 
     m_importTitle = importTitle;
 }
 
 DBImgInfo ImageDataModel::dataForIndex(const QModelIndex &index) const
 {
-    if (!index.isValid())
+    if (!index.isValid()) {
+        qWarning() << "Invalid index requested for data";
         return DBImgInfo();
+    }
 
     return m_infoList.at(index.row());
 }
@@ -190,6 +210,8 @@ void ImageDataModel::loadData(Types::ItemType type)
 {
     QElapsedTimer time;
     time.start();
+    qDebug() << "Loading data for type:" << type << "model type:" << m_modelType;
+    
     m_loadType = ItemTypeNull;
     if (type == Types::All)
         m_loadType = ItemTypeNull;
@@ -199,39 +221,48 @@ void ImageDataModel::loadData(Types::ItemType type)
         m_loadType = ItemTypeVideo;
 
     beginResetModel();
-    if (m_modelType == Types::AllCollection)
+    if (m_modelType == Types::AllCollection) {
+        qDebug() << "Loading all collection data";
         m_infoList = DBManager::instance()->getAllInfosSort(m_loadType);
-    else if (m_modelType == Types::CustomAlbum)
+    } else if (m_modelType == Types::CustomAlbum) {
+        qDebug() << "Loading custom album data for album ID:" << m_albumID;
         m_infoList = DBManager::instance()->getInfosByAlbum(m_albumID, false, m_loadType);
-    else if (m_modelType == Types::RecentlyDeleted) {
+    } else if (m_modelType == Types::RecentlyDeleted) {
+        qDebug() << "Loading recently deleted data";
         m_infoList = AlbumControl::instance()->getTrashInfos2(m_loadType);
     } else if (m_modelType == Types::Device) {
+        qDebug() << "Loading device data for path:" << m_devicePath;
         bool waiting = false;
         m_infoList = AlbumControl::instance()->getDeviceAlbumInfoList(m_devicePath, m_loadType, &waiting);
         if (waiting) {
             m_infoList.clear();
-            qDebug() << "Device data not ready, refresh later.";
+            qDebug() << "Device data not ready, refresh later";
         }
     } else if (m_modelType == Types::SearchResult) {
+        qDebug() << "Loading search results for keyword:" << m_keyWord << "in album:" << m_albumID;
         m_infoList = AlbumControl::instance()->searchPicFromAlbum2(m_albumID, m_keyWord, false);
     } else if (m_modelType == Types::DayCollecttion) {
+        qDebug() << "Loading day collection data for token:" << m_dayToken;
         m_infoList = DBManager::instance()->getInfosByDay(m_dayToken);
     } else if (m_modelType == Types::HaveImported) {
+        qDebug() << "Loading imported data for title:" << m_importTitle;
         m_infoList = DBManager::instance()->getInfosByImportTimeline(QDateTime::fromString(m_importTitle, "yyyy/MM/dd hh:mm"), m_loadType);
     }
     endResetModel();
-    qDebug() << QString("loadData modelType:[%1] cost [%2]ms..").arg(m_modelType).arg(time.elapsed());
+    qDebug() << QString("loadData modelType:[%1] cost [%2]ms, loaded [%3] items").arg(m_modelType).arg(time.elapsed()).arg(m_infoList.size());
 }
 
 void ImageDataModel::onDeviceDataLoaded(QString devicePath)
 {
     if (devicePath != m_devicePath) {
+        qDebug() << "Ignoring device data load for different path:" << devicePath;
         return;
     }
 
+    qDebug() << "Refreshing model with device data for path:" << devicePath;
     beginResetModel();
     m_infoList = AlbumControl::instance()->getDeviceAlbumInfoList(m_devicePath, m_loadType);
     endResetModel();
 
-    qDebug() << "Device data ready, refresh model. data count" << m_infoList.size();
+    qDebug() << "Device data ready, refreshed model with" << m_infoList.size() << "items";
 }
