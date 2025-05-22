@@ -24,6 +24,7 @@
 #include <QFuture>
 #include <QtConcurrent>
 #include <QApplication>
+#include <QDebug>
 
 DWIDGET_USE_NAMESPACE
 DGUI_USE_NAMESPACE
@@ -123,29 +124,32 @@ QString formatSize(qint64 num, bool withUnitVisible = true, int precision = 1, i
 AlbumControl::AlbumControl(QObject *parent)
     : QObject(parent)
 {
+    qDebug() << "Creating AlbumControl instance";
     initMonitor();
     initDeviceMonitor();
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::newProcessInstance, this, &AlbumControl::onNewAPPOpen);
+    qDebug() << "AlbumControl initialization completed";
 }
 
 AlbumControl::~AlbumControl()
 {
-
+    qDebug() << "Destroying AlbumControl instance";
 }
 
 AlbumControl *AlbumControl::instance()
 {
     if (!m_instance) {
+        qDebug() << "Creating new AlbumControl singleton instance";
         m_instance = new AlbumControl();
         m_instance->startMonitor();
     }
-
     return m_instance;
 }
 
 DBImgInfo AlbumControl::getDBInfo(const QString &srcpath, bool isVideo)
 {
+    qDebug() << "Getting DB info for path:" << srcpath << "isVideo:" << isVideo;
     using namespace LibUnionImage_NameSpace;
     QFileInfo srcfi(srcpath);
     DBImgInfo dbi;
@@ -153,9 +157,10 @@ DBImgInfo AlbumControl::getDBInfo(const QString &srcpath, bool isVideo)
     dbi.importTime = QDateTime::currentDateTime();
     if (isVideo) {
         //获取视频信息
+        qDebug() << "Processing video file";
         MovieInfo movieInfo = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(srcpath));
         if (!movieInfo.valid) {
-            // 不是有效的视频文件
+            qWarning() << "Invalid video file:" << srcpath;
             dbi.itemType = ItemTypeNull;
             return dbi;
         }
@@ -175,6 +180,7 @@ DBImgInfo AlbumControl::getDBInfo(const QString &srcpath, bool isVideo)
             dbi.time = dbi.changeTime;
         }
     } else {
+        qDebug() << "Processing image file";
         auto mds = getAllMetaData(srcpath);
         QString value = mds.value("DateTimeOriginal");
         dbi.itemType = ItemTypePic;
@@ -189,56 +195,71 @@ DBImgInfo AlbumControl::getDBInfo(const QString &srcpath, bool isVideo)
             dbi.time = dbi.changeTime;
         }
     }
+    qDebug() << "DB info retrieved successfully for:" << srcpath;
     return dbi;
 }
 
 void AlbumControl::initDeviceMonitor()
 {
+    qDebug() << "Initializing device monitor";
     m_deviceManager = DDeviceManager::instance();
     m_deviceManager->startMonitorWatch();
 
     DeviceHelper::instance()->loadAllDeviceInfos();
     getAllBlockDeviceName();
     QStringList deviceIds = DeviceHelper::instance()->getAllDeviceIds();
+    qDebug() << "Found" << deviceIds.size() << "devices";
+    
     for (auto id : deviceIds) {
         QVariantMap deveiceInfo = DeviceHelper::instance()->loadDeviceInfo(id);
         onMounted(id, deveiceInfo.value("MountPoint").toString(), static_cast<DeviceType>(deveiceInfo.value("DeviceType").toInt()));
     }
+    
     connect(m_deviceManager, &DDeviceManager::deviceRemoved, this, &AlbumControl::onDeviceRemoved);
     connect(m_deviceManager, &DDeviceManager::mounted, this, &AlbumControl::onMounted);
     connect(m_deviceManager, &DDeviceManager::unmounted, this, &AlbumControl::onUnMounted);
+    qDebug() << "Device monitor initialization completed";
 }
 
 bool AlbumControl::findPicturePathByPhone(QString &path)
 {
+    qDebug() << "Searching for picture path in phone directory:" << path;
     QDir dir(path);
-    if (!dir.exists()) return false;
+    if (!dir.exists()) {
+        qWarning() << "Directory does not exist:" << path;
+        return false;
+    }
+    
     QFileInfoList fileInfoList = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
     QFileInfo tempFileInfo;
     foreach (tempFileInfo, fileInfoList) {
         //针对ptp模式
         if (tempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0) {
             path = tempFileInfo.absoluteFilePath();
+            qDebug() << "Found picture path:" << path;
             return true;
         } else {        //针对MTP模式
-            //  return true;
             QDir subDir;
             subDir.setPath(tempFileInfo.absoluteFilePath());
             QFileInfoList subFileInfoList = subDir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
             for (QFileInfo subTempFileInfo : subFileInfoList) {
                 if (subTempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0) {
                     path = subTempFileInfo.absoluteFilePath();
+                    qDebug() << "Found picture path in subdirectory:" << path;
                     return true;
                 }
             }
         }
     }
+    qDebug() << "No picture path found in:" << path;
     return false;
 }
 
 void AlbumControl::getAllInfos()
 {
+    qDebug() << "Getting all image infos";
     m_infoList = DBManager::instance()->getAllInfos();
+    qDebug() << "Retrieved" << m_infoList.size() << "image infos";
 }
 
 DBImgInfoList AlbumControl::getAllInfosByUID(QString uid)
@@ -792,19 +813,19 @@ void AlbumControl::slotMonitorDestroyed(int UID)
 
 void AlbumControl::onDeviceRemoved(const QString &deviceKey, DeviceType type)
 {
-    qDebug() << QString("deviceKey:%1 DeviceType:%2").arg(deviceKey).arg(static_cast<int>(type));
+    qDebug() << "Device removed - Key:" << deviceKey << "Type:" << static_cast<int>(type);
     onUnMountedExecute(deviceKey, type);
 }
 
 void AlbumControl::onMounted(const QString &deviceKey, const QString &mountPoint, DeviceType type)
 {
-    qDebug() << QString("deviceKey:%1 mountPoint:%2 DeviceType:%3").arg(deviceKey).arg(mountPoint).arg(static_cast<int>(type));
+    qDebug() << "Device mounted - Key:" << deviceKey << "MountPoint:" << mountPoint << "Type:" << static_cast<int>(type);
 
     QString uri = deviceKey;
     QString scheme = QUrl(uri).scheme();
 
     if (DeviceHelper::isSamba(uri)) {
-        qWarning() << "uri is a smb path";
+        qWarning() << "Skipping SMB path:" << uri;
         return;
     }
 
@@ -816,7 +837,7 @@ void AlbumControl::onMounted(const QString &deviceKey, const QString &mountPoint
 
         const QVariantMap deviceInfo = DeviceHelper::instance()->loadDeviceInfo(uri, true);
         if (deviceInfo.isEmpty() || deviceInfo.value("MountPoint").toString().isEmpty()) {
-            qWarning() << QString("deviceKey:%1 empty deviceInfo.").arg(uri);
+            qWarning() << "Empty device info for:" << uri;
             return;
         }
 
@@ -825,26 +846,29 @@ void AlbumControl::onMounted(const QString &deviceKey, const QString &mountPoint
             label = deviceInfo.value("IdLabel").toString();
         else if (static_cast<DeviceType>(deviceInfo.value("DeviceType").toInt()) == DeviceType::kProtocolDevice)
             label = deviceInfo.value("DisplayName").toString();
-        qDebug() << "device.name" << label << " scheme type:" << scheme;
+            
+        qDebug() << "Device name:" << label << "Scheme type:" << scheme;
+        
         if (m_durlAndNameMap.find(mountPoint) != m_durlAndNameMap.end()) {
-            qDebug() << "Already has this device in device list. mountPoint:" << mountPoint;
+            qDebug() << "Device already in list:" << mountPoint;
             return;
         }
+
         QString strPath = mountPoint;
         if (strPath.isEmpty()) {
-            qDebug() << "strPath.isEmpty()";
+            qWarning() << "Empty mount point path";
+            return;
         }
-        QString rename = "";
-        qDebug() << mountPoint;
-        rename = m_blkPath2DeviceNameMap[mountPoint];
-        if ("" == rename) {
+
+        QString rename = m_blkPath2DeviceNameMap[mountPoint];
+        if (rename.isEmpty()) {
             rename = label;
         }
         //判断路径是否存在
         bool bFind = false;
         QDir dir(strPath);
         if (!dir.exists()) {
-            qDebug() << "onLoadMountImagesStart() !dir.exists()";
+            qWarning() << "Mount point directory does not exist:" << strPath;
             bFind = false;
         } else {
             bFind = true;
@@ -857,6 +881,7 @@ void AlbumControl::onMounted(const QString &deviceKey, const QString &mountPoint
         DeviceHelper::instance()->loadAllDeviceInfos();
         //路径存在
         if (bFind) {
+            qDebug() << "Adding device to map - Path:" << strPath << "Name:" << rename;
             m_durlAndNameMap[mountPoint] = rename;
             emit sigMountsChange();
             //发送新增
@@ -2595,12 +2620,14 @@ QString AlbumControl::getVideoTime(const QString &path)
 //外部使用相册打开图片
 void AlbumControl::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 {
-    qDebug() << __FUNCTION__ << "---";
+    qDebug() << "New application instance opened - PID:" << pid;
     Q_UNUSED(pid);
     QStringList paths;
     QStringList validPaths;
+    
     if (arguments.length() > 1) {
         //arguments第1个参数是进程名，图片paths参数需要从下标1开始
+        qDebug() << "Processing" << arguments.length() - 1 << "arguments";
         for (int i = 1; i < arguments.size(); ++i) {
             QString qpath = arguments.at(i);
             //BUG#79815，添加文件URL解析（BUG是平板上的，为防止UOS的其它个别版本也改成传URL，干脆直接全部支持）
@@ -2613,17 +2640,20 @@ void AlbumControl::onNewAPPOpen(qint64 pid, const QStringList &arguments)
                 qpath = "file://" + qpath;
             }
 
-            if (LibUnionImage_NameSpace::isImage(url2localPath(qpath))
-                    || LibUnionImage_NameSpace::isVideo(url2localPath(qpath))) {
+            if (LibUnionImage_NameSpace::isImage(url2localPath(qpath)) || 
+                LibUnionImage_NameSpace::isVideo(url2localPath(qpath))) {
                 validPaths.append(qpath);
+                qDebug() << "Valid path found:" << qpath;
             }
             paths.append(qpath);
         }
 
-        if (!paths.isEmpty() > 0) {
+        if (!paths.isEmpty()) {
             if (validPaths.count() > 0) {
+                qDebug() << "Emitting signal to open" << validPaths.count() << "valid files";
                 emit sigOpenImageFromFiles(validPaths);
             } else {
+                qWarning() << "No valid files found in arguments";
                 emit sigInvalidFormat();
             }
         }

@@ -84,6 +84,7 @@ QUrl UrlInfo(QString path)
 FileControl::FileControl(QObject *parent)
     : QObject(parent)
 {
+    qDebug() << "Initializing FileControl";
     m_ocrInterface = new OcrInterface("com.deepin.Ocr", "/com/deepin/Ocr", QDBusConnection::sessionBus(), this);
     m_shortcutViewProcess = new QProcess(this);
     m_config = LibConfigSetter::instance();
@@ -122,6 +123,7 @@ FileControl::FileControl(QObject *parent)
 
 FileControl::~FileControl()
 {
+    qDebug() << "Destroying FileControl";
     saveSetting();
 }
 
@@ -195,6 +197,7 @@ void FileControl::setWallpaper(const QString &imgPath)
 {
     QThread *th1 = QThread::create([=]() {
         if (!imgPath.isNull()) {
+            qInfo() << "Setting wallpaper:" << imgPath;
             QString path = imgPath;
             // 202011/12 bug54279
             {
@@ -202,8 +205,7 @@ void FileControl::setWallpaper(const QString &imgPath)
                 if (/*!qEnvironmentVariableIsEmpty("FLATPAK_APPID")*/ 1) {
                     // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m
                     // com.deepin.daemon.Appearance.Set background /home/test/test.png
-                    qDebug() << "SettingWallpaper: "
-                             << "flatpak" << path;
+                    qDebug() << "Setting wallpaper via flatpak:" << path;
                     QDBusInterface interfaceV23(
                         "org.deepin.dde.Appearance1", "/org/deepin/dde/Appearance1", "org.deepin.dde.Appearance1");
                     QDBusInterface interfaceV20(
@@ -230,14 +232,13 @@ void FileControl::setWallpaper(const QString &imgPath)
                                 "org.deepin.dde.Display1", "/org/deepin/dde/Display1", "org.deepin.dde.Display1");
                             if (interfaceWaylandV23.isValid()) {
                                 screenname = qvariant_cast<QString>(interfaceWaylandV23.property("Primary"));
-                                qDebug() << qPrintable("SetWallpaper: v23 wayland get org.deepin.dde.Display1 Primary property");
+                                qDebug() << "Using v23 wayland interface for wallpaper setting";
 
                             } else {
                                 QDBusInterface interfaceWaylandV20(
                                     "com.deepin.daemon.Display", "/com/deepin/daemon/Display", "com.deepin.daemon.Display");
                                 screenname = qvariant_cast<QString>(interfaceWaylandV20.property("Primary"));
-                                qDebug() << qPrintable(
-                                    "SetWallpaper: v20 wayland get com.deepin.daemon.Display Primary property");
+                                qDebug() << "Using v20 wayland interface for wallpaper setting";
                             }
                         } else {
                             screenname = QGuiApplication::primaryScreen()->name();
@@ -248,28 +249,24 @@ void FileControl::setWallpaper(const QString &imgPath)
                             QDBusMessage reply = interfaceV23.call(QStringLiteral("SetMonitorBackground"), screenname, path);
                             settingSucc = reply.errorMessage().isEmpty();
 
-                            qDebug() << qPrintable(
-                                "SetWallpaper: Using v23 interface org.deepin.dde.Appearance1.SetMonitorBackground");
-                            qDebug() << qPrintable(QString("DBus Param %1, %2").arg(screenname).arg(path));
+                            qDebug() << "Using v23 interface for wallpaper setting";
+                            qDebug() << "DBus parameters - screen:" << screenname << "path:" << path;
                             if (!settingSucc) {
-                                qWarning() << qPrintable(QString("DBus error: %1").arg(reply.errorMessage()));
+                                qWarning() << "DBus error in v23 interface:" << reply.errorMessage();
                             }
                         }
 
                         if (interfaceV20.isValid() && !settingSucc) {
                             QDBusMessage reply = interfaceV20.call(QStringLiteral("SetMonitorBackground"), screenname, path);
 
-                            qDebug() << qPrintable(
-                                "SetWallpaper: Using v20 interface com.deepin.daemon.Appearance.SetMonitorBackground");
-                            qDebug() << qPrintable(QString("DBus Param %1, %2").arg(screenname).arg(path));
+                            qDebug() << "Using v20 interface for wallpaper setting";
+                            qDebug() << "DBus parameters - screen:" << screenname << "path:" << path;
                             if (!reply.errorMessage().isEmpty()) {
-                                qWarning() << qPrintable(QString("DBus error: %1").arg(reply.errorMessage()));
+                                qWarning() << "DBus error in v20 interface:" << reply.errorMessage();
                             }
                         }
                     } else {
-                        qWarning() << qPrintable(QString("SetWallpaper failed! v23 interface error: %1, v20 interface error:%2")
-                                                     .arg(interfaceV23.lastError().message())
-                                                     .arg(interfaceV20.lastError().message()));
+                        qWarning() << "Failed to set wallpaper - both v23 and v20 interfaces are invalid";
                     }
                 }
             }
@@ -284,6 +281,7 @@ bool FileControl::deleteImagePath(const QString &path)
     QUrl displayUrl = QUrl(path);
 
     if (displayUrl.isValid()) {
+        qInfo() << "Attempting to delete image:" << path;
         QStringList list;
         list << displayUrl.toString();
         QDBusInterface interface(QStringLiteral("org.freedesktop.FileManager1"),
@@ -298,18 +296,20 @@ bool FileControl::deleteImagePath(const QString &path)
 
         if (pendingCall.isError()) {
             auto error = pendingCall.error();
-            qWarning() << "Delete image by dbus error:" << error.name() << error.message();
+            qWarning() << "Failed to delete image via DBus:" << error.name() << error.message();
             return false;
         }
 
         // 删除信息未通过 DBus 返回，直接判断文件是否已被删除
         if (QFile::exists(displayUrl.toLocalFile())) {
-            qWarning() << "Delete image error, image still exists.";
+            qWarning() << "Delete operation failed - file still exists:" << displayUrl.toLocalFile();
             return false;
         }
 
+        qInfo() << "Successfully deleted image:" << path;
         return true;
     }
+    qWarning() << "Invalid URL for deletion:" << path;
     return false;
 }
 
@@ -531,6 +531,7 @@ bool FileControl::slotFileReName(const QString &name, const QString &filepath, b
     QString localPath = LibUnionImage_NameSpace::localPath(filepath);
     QFile file(localPath);
     if (file.exists()) {
+        qInfo() << "Attempting to rename file from" << localPath << "to" << name;
         QFileInfo info(localPath);
         QString path = info.path();
         QString suffix = info.suffix();
@@ -542,14 +543,17 @@ bool FileControl::slotFileReName(const QString &name, const QString &filepath, b
         }
 
         if (file.rename(_newName)) {
+            qInfo() << "Successfully renamed file to:" << _newName;
             imageFileWatcher->fileRename(localPath, _newName);
 
             Q_EMIT imageRenamed(QUrl::fromLocalFile(localPath), QUrl::fromLocalFile(_newName));
             return true;
         }
 
+        qWarning() << "Failed to rename file:" << localPath;
         return false;
     }
+    qWarning() << "File does not exist for renaming:" << localPath;
     return false;
 }
 
@@ -1093,6 +1097,7 @@ void FileControl::slotRotatePixCurrent(bool bNotifyExternal/* = false*/)
 
     m_rotateAngel = m_rotateAngel % 360;
     if (0 != m_rotateAngel) {
+        qInfo() << "Rotating image:" << m_currentPath << "by angle:" << m_rotateAngel;
         //20211019修改：特殊位置不执行写入操作
         imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(m_currentPath);
 
@@ -1107,6 +1112,8 @@ void FileControl::slotRotatePixCurrent(bool bNotifyExternal/* = false*/)
             // 保存文件后向外部(比如相册缩略图列表)发送图片更新信号，通知外部刷新图片内容
             if (bNotifyExternal)
                 emit callSavePicDone(QUrl::fromLocalFile(m_currentPath).toString());
+        } else {
+            qDebug() << "Skipping rotation for special path type:" << pathType;
         }
     }
     m_rotateAngel = 0;

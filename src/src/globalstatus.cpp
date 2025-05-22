@@ -48,10 +48,12 @@ GlobalStatus *GlobalStatus::instance()
 GlobalStatus::GlobalStatus(QObject *parent)
     : QObject(parent)
 {
+    qDebug() << "Initializing GlobalStatus";
     initConnect();
 }
 
 GlobalStatus::~GlobalStatus() {
+    qDebug() << "Destroying GlobalStatus";
     // 在程序退出的过程中
     // 由于析构过成功会触发destoryed信号，从而导致qml上使用GlobalStatus对象的地方触发重新绑定，
     // 但此时本对象已经析构，qml上会使用一些已经析构掉的对象，导致崩溃
@@ -72,6 +74,7 @@ bool GlobalStatus::showFullScreen() const
 void GlobalStatus::setShowFullScreen(bool value)
 {
     if (value != storeshowFullScreen) {
+        qDebug() << "Setting full screen from" << storeshowFullScreen << "to" << value;
         storeshowFullScreen = value;
         Q_EMIT showFullScreenChanged();
     }
@@ -91,6 +94,7 @@ bool GlobalStatus::enableNavigation() const
 void GlobalStatus::setEnableNavigation(bool value)
 {
     if (value != storeenableNavigation) {
+        qDebug() << "Setting navigation enabled from" << storeenableNavigation << "to" << value;
         storeenableNavigation = value;
         Q_EMIT enableNavigationChanged();
     }
@@ -110,6 +114,7 @@ bool GlobalStatus::showRightMenu() const
 void GlobalStatus::setShowRightMenu(bool value)
 {
     if (value != storeshowRightMenu) {
+        qDebug() << "Setting right menu visibility from" << storeshowRightMenu << "to" << value;
         storeshowRightMenu = value;
         Q_EMIT showRightMenuChanged();
     }
@@ -129,6 +134,7 @@ bool GlobalStatus::showImageInfo() const
 void GlobalStatus::setShowImageInfo(bool value)
 {
     if (value != storeshowImageInfo) {
+        qDebug() << "Setting image info visibility from" << storeshowImageInfo << "to" << value;
         storeshowImageInfo = value;
         Q_EMIT showImageInfoChanged();
     }
@@ -148,6 +154,7 @@ bool GlobalStatus::viewInteractive() const
 void GlobalStatus::setViewInteractive(bool value)
 {
     if (value != storeviewInteractive) {
+        qDebug() << "Setting view interactive from" << storeviewInteractive << "to" << value;
         storeviewInteractive = value;
         Q_EMIT viewInteractiveChanged();
     }
@@ -167,6 +174,7 @@ bool GlobalStatus::viewFlicking() const
 void GlobalStatus::setViewFlicking(bool value)
 {
     if (value != storeviewFlicking) {
+        qDebug() << "Setting view flicking from" << storeviewFlicking << "to" << value;
         storeviewFlicking = value;
         Q_EMIT viewFlickingChanged();
     }
@@ -186,6 +194,7 @@ bool GlobalStatus::animationBlock() const
 void GlobalStatus::setAnimationBlock(bool value)
 {
     if (value != storeanimationBlock) {
+        qDebug() << "Setting animation block from" << storeanimationBlock << "to" << value;
         storeanimationBlock = value;
         Q_EMIT animationBlockChanged();
     }
@@ -205,6 +214,7 @@ bool GlobalStatus::fullScreenAnimating() const
 void GlobalStatus::setFullScreenAnimating(bool value)
 {
     if (value != storefullScreenAnimating) {
+        qDebug() << "Setting full screen animating from" << storefullScreenAnimating << "to" << value;
         storefullScreenAnimating = value;
         Q_EMIT fullScreenAnimatingChanged();
     }
@@ -224,6 +234,7 @@ int GlobalStatus::thumbnailVaildWidth() const
 void GlobalStatus::setThumbnailVaildWidth(int value)
 {
     if (value != storethumbnailVaildWidth) {
+        qDebug() << "Setting thumbnail valid width from" << storethumbnailVaildWidth << "to" << value;
         storethumbnailVaildWidth = value;
         Q_EMIT thumbnailVaildWidthChanged();
     }
@@ -243,6 +254,7 @@ Types::StackPage GlobalStatus::stackPage() const
 void GlobalStatus::setStackPage(Types::StackPage value)
 {
     if (value != storestackPage) {
+        qDebug() << "Setting stack page from" << storestackPage << "to" << value;
         storestackPage = value;
         Q_EMIT stackPageChanged();
     }
@@ -256,6 +268,7 @@ bool GlobalStatus::showExportDialog() const
 void GlobalStatus::setShowExportDialog(bool value)
 {
     if (value != storeshowExportDialog) {
+        qDebug() << "Setting export dialog visibility from" << storeshowExportDialog << "to" << value;
         storeshowExportDialog = value;
         Q_EMIT showExportDialogChanged();
     }
@@ -327,21 +340,32 @@ int GlobalStatus::pathViewItemCount() const
 
 void GlobalStatus::setFileControl(FileControl *fc)
 {
+    qDebug() << "Setting file control";
     m_fileControl = fc;
 
-    if (!m_fileControl)
+    if (!m_fileControl) {
+        qWarning() << "File control is null";
         return;
+    }
 
     bool bRet = false;
     m_nAnimationDuration = m_fileControl->getConfigValue("", "animationDuration", 400).toInt(&bRet);
-    if (!bRet)
+    if (!bRet) {
+        qWarning() << "Failed to get animation duration, using default: 400";
         m_nAnimationDuration = 400;
+    }
+    
     m_nLargeImagePreviewAnimationDuration = m_fileControl->getConfigValue("", "largeImagePreviewAnimationDuration", 800).toInt(&bRet);
-    if (!bRet)
+    if (!bRet) {
+        qWarning() << "Failed to get large image preview animation duration, using default: 800";
         m_nLargeImagePreviewAnimationDuration = 800;
+    }
+    
     m_bEnableSidebarAnimation = m_fileControl->getConfigValue("", "enableSidebarAnimation", 0).toInt(&bRet);
-    if (!bRet)
+    if (!bRet) {
+        qWarning() << "Failed to get sidebar animation setting, using default: false";
         m_bEnableSidebarAnimation = false;
+    }
 }
 
 int GlobalStatus::rightMenuSeparatorHeight() const
@@ -417,6 +441,7 @@ qreal GlobalStatus::sideBarX() const
 void GlobalStatus::setSideBarX(const qreal& value)
 {
     if (!qFuzzyCompare(m_sideBar_X, value)) {
+        qDebug() << "Setting sidebar X from" << m_sideBar_X << "to" << value;
         m_sideBar_X = value;
         Q_EMIT sideBarXChanged();
     }
@@ -430,6 +455,7 @@ QVariantList GlobalStatus::selectedPaths() const
 void GlobalStatus::setSelectedPaths(const QVariantList& value)
 {
     if (m_selectedPaths != value) {
+        qDebug() << "Setting selected paths, count:" << value.size();
         m_selectedPaths = value;
         Q_EMIT selectedPathsChanged();
     }
@@ -443,6 +469,7 @@ bool GlobalStatus::bRefreshFavoriteIconFlag() const
 void GlobalStatus::setBRefreshFavoriteIconFlag(const bool& value)
 {
     if (m_bRefreshFavoriteIconFlag != value) {
+        qDebug() << "Setting refresh favorite icon flag from" << m_bRefreshFavoriteIconFlag << "to" << value;
         m_bRefreshFavoriteIconFlag = value;
         Q_EMIT bRefreshFavoriteIconFlagChanged();
     }
@@ -456,6 +483,7 @@ bool GlobalStatus::refreshRangeBtnState() const
 void GlobalStatus::setRefreshRangeBtnState(const bool& value)
 {
     if (m_bRefreshRangeBtnState != value) {
+        qDebug() << "Setting refresh range button state from" << m_bRefreshRangeBtnState << "to" << value;
         m_bRefreshRangeBtnState = value;
         Q_EMIT refreshRangeBtnStateChanged();
     }
@@ -469,12 +497,14 @@ Types::ThumbnailViewType GlobalStatus::currentViewType() const
 void GlobalStatus::setCurrentViewType(const Types::ThumbnailViewType &value)
 {
     if (m_currentViewType != value) {
+        qDebug() << "Setting current view type from" << m_currentViewType << "to" << value;
         m_currentViewType = value;
 
         setEnableRatioAnimation(false);
         setBackingToMainAlbumView(false);
-        // 若相册数据库没有图片资源，则调整显示“没有图片“提示视图
+        // 若相册数据库没有图片资源，则调整显示"没有图片"提示视图
         if (AlbumControl::instance()->getAllCount() <= 0) {
+            qDebug() << "No images in album database, adjusting view type";
             switch (value) {
             case Types::ViewImport:
             case Types::ViewNoPicture:
@@ -482,10 +512,10 @@ void GlobalStatus::setCurrentViewType(const Types::ThumbnailViewType &value)
                 break;
             case Types::ViewSearchResult:
                 m_currentViewType = Types::ViewNoPicture;
+                qDebug() << "Changing to no picture view for search result";
                 break;
             default:
                 break;
-
             }
         }
         Q_EMIT currentViewTypeChanged();
@@ -500,6 +530,7 @@ int GlobalStatus::currentCollecttionViewIndex() const
 void GlobalStatus::setCurrentCollecttionViewIndex(const int &value)
 {
     if (m_currentCollecttionViewIndex != value) {
+        qDebug() << "Setting collection view index from" << m_currentCollecttionViewIndex << "to" << value;
         m_currentCollecttionViewIndex = value;
         setEnableRatioAnimation(false);
         setBackingToMainAlbumView(false);
@@ -515,6 +546,7 @@ Types::SwitchType GlobalStatus::currentSwitchType() const
 void GlobalStatus::setCurrentSwitchType(const int &value)
 {
     if (m_currentSwitchType != value) {
+        qDebug() << "Setting switch type from" << m_currentSwitchType << "to" << value;
         m_currentSwitchType = static_cast<Types::SwitchType>(value);
         Q_EMIT currentSwitchTypeChanged();
     }
@@ -528,6 +560,7 @@ int GlobalStatus::currentCustomAlbumUId() const
 void GlobalStatus::setCurrentCustomAlbumUId(const int &value)
 {
     if (m_currentCustomAlbumUId != value) {
+        qDebug() << "Setting custom album UID from" << m_currentCustomAlbumUId << "to" << value;
         setBackingToMainAlbumView(false);
         m_currentCustomAlbumUId = value;
         Q_EMIT currentCustomAlbumUIdChanged();
@@ -542,8 +575,10 @@ int GlobalStatus::stackControlCurrent() const
 void GlobalStatus::setStackControlCurrent(const int &value)
 {
     if (m_stackControlCurrent != value) {
+        qDebug() << "Setting stack control current from" << m_stackControlCurrent << "to" << value;
 
         if (m_stackControlCurrent != 0 && value == 0) {
+            qDebug() << "Moving to album animation";
             setBackingToMainAlbumView(true);
             Q_EMIT sigMoveToAlbumAnimation();
         } else {
@@ -575,12 +610,14 @@ int GlobalStatus::thumbnailSizeLevel() const
 void GlobalStatus::setThumbnailSizeLevel(const int &value)
 {
     if (m_thumbnailSizeLevel != value) {
+        qDebug() << "Setting thumbnail size level from" << m_thumbnailSizeLevel << "to" << value;
         m_thumbnailSizeLevel = value;
 
         Q_EMIT thumbnailSizeLevelChanged();
 
         // 缩放等级有调整， 同步调整网格大小
         qreal newCellBaseWidth = m_thumbnailSizeLevel >= 0 && m_thumbnailSizeLevel <= 9 ? 80 + m_thumbnailSizeLevel * 10 : 80;
+        qDebug() << "Adjusting cell base width to:" << newCellBaseWidth;
         setCellBaseWidth(newCellBaseWidth);
     }
 }
@@ -593,6 +630,7 @@ qreal GlobalStatus::cellBaseWidth() const
 void GlobalStatus::setCellBaseWidth(const qreal& value)
 {
     if (!qFuzzyCompare(m_cellBaseWidth, value)) {
+        qDebug() << "Setting cell base width from" << m_cellBaseWidth << "to" << value;
         m_cellBaseWidth = value;
         Q_EMIT cellBaseWidthChanged();
     }
@@ -606,6 +644,7 @@ QString GlobalStatus::statusBarNumText() const
 void GlobalStatus::setStatusBarNumText(const QString &value)
 {
     if (m_statusBarNumText != value) {
+        qDebug() << "Setting status bar text from" << m_statusBarNumText << "to" << value;
         m_statusBarNumText = value;
         Q_EMIT statusBarNumTextChanged();
     }
@@ -619,6 +658,7 @@ QString GlobalStatus::searchEditText() const
 void GlobalStatus::setSearchEditText(const QString &value)
 {
     if (m_searchEditText != value) {
+        qDebug() << "Setting search edit text from" << m_searchEditText << "to" << value;
         m_searchEditText = value;
         Q_EMIT searchEditTextChanged();
     }
@@ -632,6 +672,7 @@ bool GlobalStatus::albumImportChangeList() const
 void GlobalStatus::setAlbumImportChangeList(const bool &value)
 {
     if (m_bAlbumImportChangeList != value) {
+        qDebug() << "Setting album import change list from" << m_bAlbumImportChangeList << "to" << value;
         m_bAlbumImportChangeList = value;
         Q_EMIT albumImportChangeListChanged();
     }
@@ -645,6 +686,7 @@ bool GlobalStatus::albumChangeList() const
 void GlobalStatus::setAlbumChangeList(const bool &value)
 {
     if (m_bAlbumChangeList != value) {
+        qDebug() << "Setting album change list from" << m_bAlbumChangeList << "to" << value;
         m_bAlbumChangeList = value;
         Q_EMIT albumChangeListChanged();
     }
@@ -658,6 +700,7 @@ bool GlobalStatus::sideBarIsVisible() const
 void GlobalStatus::setSideBarIsVisible(const bool &value)
 {
     if (m_bSideBarIsVisible != value) {
+        qDebug() << "Setting sidebar visibility from" << m_bSideBarIsVisible << "to" << value;
         m_bSideBarIsVisible = value;
         Q_EMIT sideBarIsVisibleChanged();
     }
@@ -671,6 +714,7 @@ QString GlobalStatus::currentDeviceName() const
 void GlobalStatus::setCurrentDeviceName(const QString &value)
 {
     if (m_currentDeviceName != value) {
+        qDebug() << "Setting current device name from" << m_currentDeviceName << "to" << value;
         m_currentDeviceName = value;
         Q_EMIT currentDeviceNameChanged();
     }
@@ -684,6 +728,7 @@ QString GlobalStatus::currentDevicePath() const
 void GlobalStatus::setCurrentDevicePath(const QString &value)
 {
     if (m_currentDevicePath != value) {
+        qDebug() << "Setting current device path from" << m_currentDevicePath << "to" << value;
         m_currentDevicePath = value;
         m_currentDeviceName = AlbumControl::instance()->getDeviceName(m_currentDevicePath);
         Q_EMIT currentDevicePathChanged();
@@ -698,6 +743,7 @@ bool GlobalStatus::windowDisactived() const
 void GlobalStatus::setWindowDisactived(const bool &value)
 {
     if (m_bWindowDisactived != value) {
+        qDebug() << "Setting window deactivated from" << m_bWindowDisactived << "to" << value;
         m_bWindowDisactived = value;
         Q_EMIT windowDisactivedChanged();
     }
@@ -711,8 +757,10 @@ bool GlobalStatus::loading() const
 void GlobalStatus::setLoading(const bool &value)
 {
     if (m_bLoading != value) {
+        qDebug() << "Setting loading state from" << m_bLoading << "to" << value;
         m_bLoading = value;
         if (!m_bLoading) {
+            qDebug() << "Enabling fade in/out animation after loading";
             setEnableFadeInoutAnimation(true);
         }
         Q_EMIT loadingChanged();
@@ -727,6 +775,7 @@ bool GlobalStatus::enableRatioAnimation() const
 void GlobalStatus::setEnableRatioAnimation(const bool &value)
 {
     if (m_bEnableRatioAnimation != value) {
+        qDebug() << "Setting ratio animation from" << m_bEnableRatioAnimation << "to" << value;
         m_bEnableRatioAnimation = value;
         Q_EMIT enableRatioAnimationChanged();
     }
@@ -741,6 +790,7 @@ bool GlobalStatus::enableFadeInoutAnimation() const
 void GlobalStatus::setEnableFadeInoutAnimation(const bool &value)
 {
     if (m_bEnableFadeInoutAnimation != value) {
+        qDebug() << "Setting fade in/out animation from" << m_bEnableFadeInoutAnimation << "to" << value;
         m_bEnableFadeInoutAnimation = value;
         Q_EMIT enableFadeInoutAnimationChanged();
     }
@@ -754,6 +804,7 @@ bool GlobalStatus::enteringImageViewer() const
 void GlobalStatus::setEnteringImageViewer(const bool &value)
 {
     if (m_bEnteringImageViewer != value) {
+        qDebug() << "Setting entering image viewer from" << m_bEnteringImageViewer << "to" << value;
         m_bEnteringImageViewer = value;
         Q_EMIT enteringImageViewerChanged();
     }
@@ -767,6 +818,7 @@ bool GlobalStatus::backingToMainAlbumView() const
 void GlobalStatus::setBackingToMainAlbumView(const bool &value)
 {
     if (m_bBackingToMainAlbumView != value) {
+        qDebug() << "Setting backing to main album view from" << m_bBackingToMainAlbumView << "to" << value;
         m_bBackingToMainAlbumView = value;
         Q_EMIT backingToMainAlbumViewChanged();
     }
@@ -774,6 +826,7 @@ void GlobalStatus::setBackingToMainAlbumView(const bool &value)
 
 void GlobalStatus::initConnect()
 {
+    qDebug() << "Initializing connections";
     // 数据库监听-删除图片后通知前端刷新自定义相册视图内容
     connect(AlbumControl::instance(), SIGNAL(sigRefreshCustomAlbum(int)), SIGNAL(sigFlushCustomAlbumView(int)));
 
@@ -782,18 +835,22 @@ void GlobalStatus::initConnect()
 
     //数据库监听-删除图片后通知前端刷新已导入视图内容
     connect(AlbumControl::instance(), &AlbumControl::sigRefreshImportAlbum, this, [=]() {
+        qDebug() << "Refreshing import album view";
         sigFlushHaveImportedView();
         setRefreshRangeBtnState(!m_bRefreshRangeBtnState);
     });
 
     // 数据库监听-删除图片后通知前端刷新搜索结果视图内容
     connect(AlbumControl::instance(), &AlbumControl::sigRefreshSearchView, this, [=]() {
-        if (m_currentViewType == Types::ViewSearchResult)
+        if (m_currentViewType == Types::ViewSearchResult) {
+            qDebug() << "Refreshing search view";
             sigFlushSearchView();
+        }
     });
 
     // 自动导入相册有新增相册，通知前端刷新侧边栏自动导入相册列表
     connect(AlbumControl::instance(), &AlbumControl::sigRefreshSlider, this, [=]() {
+        qDebug() << "Refreshing sidebar import album list";
         setAlbumImportChangeList(!m_bAlbumImportChangeList);
     });
 }

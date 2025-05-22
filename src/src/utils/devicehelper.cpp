@@ -25,18 +25,21 @@ using namespace dfmmount;
 DeviceHelper::DeviceHelper(QObject *parent)
     : QObject(parent)
 {
+    qDebug() << "Initializing DeviceHelper";
     // DFM 设备管理接口，访问文件挂载信息
     if (DSysInfo::majorVersion() == "25") {
+        qDebug() << "Using V25 file manager daemon interface";
         m_dfmDeviceManager.reset(new QDBusInterface(QStringLiteral(V25_FILEMANAGER_DAEMON_SERVICE),
                                                     QStringLiteral(V25_FILEMANAGER_DAEMON_PATH),
                                                     QStringLiteral(V25_FILEMANAGER_DAEMON_INTERFACE)));
     } else {
+        qDebug() << "Using V23 file manager daemon interface";
         m_dfmDeviceManager.reset(new QDBusInterface(QStringLiteral(V23_FILEMANAGER_DAEMON_SERVICE),
                                                     QStringLiteral(V23_FILEMANAGER_DAEMON_PATH),
                                                     QStringLiteral(V23_FILEMANAGER_DAEMON_INTERFACE)));
     }
 
-    qInfo() << "m_dfmDeviceManager: majorVersion:" << DSysInfo::majorVersion()
+    qInfo() << "DeviceHelper initialized - majorVersion:" << DSysInfo::majorVersion()
              << "dbus service:" << m_dfmDeviceManager.data()->service()
              << "interface:" << m_dfmDeviceManager.data()->interface()
              << "object:" << m_dfmDeviceManager.data()->objectName()
@@ -45,65 +48,86 @@ DeviceHelper::DeviceHelper(QObject *parent)
 
 DeviceHelper::~DeviceHelper()
 {
-
+    qDebug() << "Destroying DeviceHelper";
 }
 
 DeviceHelper *DeviceHelper::instance()
 {
+    qDebug() << "Getting DeviceHelper instance";
     if (!m_instance) {
+        qDebug() << "Creating new DeviceHelper instance";
         m_instance = new DeviceHelper();
     }
-
     return m_instance;
 }
 
 QStringList DeviceHelper::getAllMountPoints()
 {
+    qDebug() << "Getting all mount points";
     loadAllDeviceInfos();
     QStringList allMountPoints;
     for (const auto &deviceId : m_mapDevicesInfos.keys()) {
         QString mountPoint = m_mapDevicesInfos.value(deviceId).value("MountPoint").toString();
-        if (!mountPoint.isEmpty())
+        if (!mountPoint.isEmpty()) {
+            qDebug() << "Found mount point:" << mountPoint << "for device:" << deviceId;
             allMountPoints.push_back(mountPoint);
+        }
     }
+    qDebug() << "Total mount points found:" << allMountPoints.size();
     return allMountPoints;
 }
 
 QString DeviceHelper::getMountPointByDeviceId(const QString &deviceId)
 {
-    if (deviceId.isEmpty())
+    qDebug() << "Getting mount point for device ID:" << deviceId;
+    if (deviceId.isEmpty()) {
+        qWarning() << "Empty device ID provided";
         return QString("");
+    }
 
     QVariantMap infos = loadDeviceInfo(deviceId);
     if (!infos.isEmpty()) {
-        return infos.value("MountPoint").toString();
+        QString mountPoint = infos.value("MountPoint").toString();
+        qDebug() << "Found mount point:" << mountPoint << "for device:" << deviceId;
+        return mountPoint;
     }
 
+    qWarning() << "No mount point found for device:" << deviceId;
     return QString("");
 }
 
 QString DeviceHelper::getDeviceIdByMountPoint(const QString &mnp)
 {
-    if (mnp.isEmpty())
+    qDebug() << "Getting device ID for mount point:" << mnp;
+    if (mnp.isEmpty()) {
+        qWarning() << "Empty mount point provided";
         return QString("");
+    }
 
     for (const auto &deviceId : m_mapDevicesInfos.keys()) {
         QString mountPoint = m_mapDevicesInfos.value(deviceId).value("MountPoint").toString();
-        if (!mountPoint.isEmpty() && mnp == mountPoint)
+        if (!mountPoint.isEmpty() && mnp == mountPoint) {
+            qDebug() << "Found device ID:" << deviceId << "for mount point:" << mnp;
             return deviceId;
+        }
     }
 
+    qWarning() << "No device ID found for mount point:" << mnp;
     return QString("");
 }
 
 void DeviceHelper::loadAllDeviceInfos()
 {
+    qDebug() << "Loading all device information";
     m_mapDevicesInfos.clear();
     QStringList blockDeviceIds = getBlockDeviceIds();
     QStringList protocalDeviceIds = getProtocalDeviceIds();
     QStringList deviceIds;
     deviceIds << blockDeviceIds << protocalDeviceIds;
-    QMap<QString, QVariantMap> deviceInfos;
+    qDebug() << "Found" << deviceIds.size() << "devices (" 
+             << blockDeviceIds.size() << "block devices,"
+             << protocalDeviceIds.size() << "protocol devices)";
+
     for (auto id : deviceIds) {
         loadDeviceInfo(id, true);
     }
@@ -111,85 +135,103 @@ void DeviceHelper::loadAllDeviceInfos()
 
 QStringList DeviceHelper::getAllDeviceIds()
 {
-    return m_mapDevicesInfos.keys();
+    qDebug() << "Getting all device IDs";
+    QStringList ids = m_mapDevicesInfos.keys();
+    qDebug() << "Found" << ids.size() << "device IDs";
+    return ids;
 }
 
 QStringList DeviceHelper::getBlockDeviceIds()
 {
-    // 调用 DBus 接口查询可被卸载设备信息
-    // GetBlockDevicesIdList(int opts)
+    qDebug() << "Getting block device IDs";
     QDBusReply<QStringList> deviceListReply = m_dfmDeviceManager->call("GetBlockDevicesIdList", kRemovable);
     if (!deviceListReply.isValid()) {
-        qWarning() << qPrintable("DBus call GetBlockDevicesIdList failed") << deviceListReply.error().message();
+        qWarning() << "DBus call GetBlockDevicesIdList failed:" << deviceListReply.error().message();
         return QStringList();
     }
 
-    return deviceListReply.value();
+    QStringList devices = deviceListReply.value();
+    qDebug() << "Found" << devices.size() << "block devices";
+    return devices;
 }
 
 QStringList DeviceHelper::getProtocalDeviceIds()
 {
-    // 调用 DBus 接口查询可被卸载设备信息
-    // GetBlockDevicesIdList(int opts)
+    qDebug() << "Getting protocol device IDs";
     QDBusReply<QStringList> protocalDeviceListReply = m_dfmDeviceManager->call("GetProtocolDevicesIdList");
     if (!protocalDeviceListReply.isValid()) {
-        qWarning() << qPrintable("DBus call GetProtocolDevicesIdList failed") << protocalDeviceListReply.error().message();
+        qWarning() << "DBus call GetProtocolDevicesIdList failed:" << protocalDeviceListReply.error().message();
         return QStringList();
     }
 
-    return protocalDeviceListReply.value();
+    QStringList devices = protocalDeviceListReply.value();
+    qDebug() << "Found" << devices.size() << "protocol devices";
+    return devices;
 }
 
 QVariantMap DeviceHelper::loadDeviceInfo(const QString &deviceId, bool reload)
 {
+    qDebug() << "Loading device info for ID:" << deviceId << "reload:" << reload;
     if (deviceId.isEmpty()) {
+        qWarning() << "Empty device ID provided";
         return QVariantMap();
     }
 
     // 过滤samba网络路径
-    if (isSamba(deviceId))
+    if (isSamba(deviceId)) {
+        qDebug() << "Device is Samba, skipping:" << deviceId;
         return QVariantMap();
+    }
 
     if (m_mapDevicesInfos.find(deviceId) != m_mapDevicesInfos.end() && !reload) {
+        qDebug() << "Using cached device info for:" << deviceId;
         return m_mapDevicesInfos[deviceId];
     }
 
     QDBusReply<QVariantMap> deviceReply;
     QVariantMap deviceInfo;
     if (deviceId.startsWith("/org/freedesktop/")) {
+        qDebug() << "Querying block device info for:" << deviceId;
         deviceReply = m_dfmDeviceManager->call("QueryBlockDeviceInfo", deviceId, false);
         if (!deviceReply.isValid()) {
-            qWarning() << qPrintable("DBus call QueryBlockDeviceInfo failed") << deviceReply.error().message();
+            qWarning() << "DBus call QueryBlockDeviceInfo failed:" << deviceReply.error().message();
             return QVariantMap();
         }
 
         deviceInfo = deviceReply.value();
         if (QString("usb") != deviceInfo.value("ConnectionBus").toString()) {
-            qWarning() << QString("deviceId:%1 is not usb device").arg(deviceId);
+            qWarning() << "Device is not USB:" << deviceId;
             return QVariantMap();
         }
     } else {
+        qDebug() << "Querying protocol device info for:" << deviceId;
         deviceReply = m_dfmDeviceManager->call("QueryProtocolDeviceInfo", deviceId, false);
         if (!deviceReply.isValid()) {
-            qWarning() << qPrintable("DBus call QueryProtocolDeviceInfo failed") << deviceReply.error().message();
+            qWarning() << "DBus call QueryProtocolDeviceInfo failed:" << deviceReply.error().message();
             return QVariantMap();
         }
         deviceInfo = deviceReply.value();
     }
 
     if (deviceInfo.isEmpty()) {
+        qWarning() << "Empty device info received for:" << deviceId;
         if (m_mapDevicesInfos.find(deviceId) != m_mapDevicesInfos.end())
             m_mapDevicesInfos.remove(deviceId);
         return QVariantMap();
     }
 
     // 过滤为空的挂载点
-    if (deviceInfo.value("MountPoint").toString().isEmpty())
+    QString mountPoint = deviceInfo.value("MountPoint").toString();
+    if (mountPoint.isEmpty()) {
+        qDebug() << "Empty mount point for device:" << deviceId;
         return QVariantMap();
+    }
 
     // 过滤光驱
-    if (deviceInfo.contains("Optical") && deviceInfo.value("Optical").toBool())
+    if (deviceInfo.contains("Optical") && deviceInfo.value("Optical").toBool()) {
+        qDebug() << "Device is optical drive, skipping:" << deviceId;
         return QVariantMap();
+    }
 
     if (deviceId.startsWith("/org/freedesktop/"))
         deviceInfo["DeviceType"] = static_cast<int>(DeviceType::kBlockDevice);
@@ -197,23 +239,28 @@ QVariantMap DeviceHelper::loadDeviceInfo(const QString &deviceId, bool reload)
         deviceInfo["DeviceType"] = static_cast<int>(DeviceType::kProtocolDevice);
 
     m_mapDevicesInfos[deviceId] = deviceInfo;
+    qDebug() << "Successfully loaded device info for:" << deviceId 
+             << "mount point:" << mountPoint
+             << "type:" << deviceInfo["DeviceType"].toInt();
 
     return deviceInfo;
 }
 
 bool DeviceHelper::detachDevice(const QString &deviceId)
 {
+    qDebug() << "Detaching device:" << deviceId;
     if (deviceId.isEmpty()) {
-        qWarning() << "detach fail, deviceId is null.";
+        qWarning() << "Cannot detach device - empty device ID";
         return false;
     }
 
-    qDebug() << "detach device id:" << deviceId;
     QList<QVariant> argumentList;
     argumentList << QVariant::fromValue(deviceId);
     if (deviceId.startsWith("/org/freedesktop/")) {
+        qDebug() << "Detaching block device:" << deviceId;
         m_dfmDeviceManager->asyncCallWithArgumentList(QStringLiteral("DetachBlockDevice"), argumentList);
     } else {
+        qDebug() << "Detaching protocol device:" << deviceId;
         m_dfmDeviceManager->asyncCallWithArgumentList(QStringLiteral("DetachProtocolDevice"), argumentList);
     }
     return true;
@@ -221,10 +268,15 @@ bool DeviceHelper::detachDevice(const QString &deviceId)
 
 bool DeviceHelper::isExist(const QString &deviceId)
 {
-    if (deviceId.isEmpty())
+    qDebug() << "Checking if device exists:" << deviceId;
+    if (deviceId.isEmpty()) {
+        qDebug() << "Empty device ID provided";
         return false;
+    }
 
-    return m_mapDevicesInfos.find(deviceId) != m_mapDevicesInfos.end();
+    bool exists = m_mapDevicesInfos.find(deviceId) != m_mapDevicesInfos.end();
+    qDebug() << "Device" << deviceId << (exists ? "exists" : "does not exist");
+    return exists;
 }
 
 /*!
@@ -232,12 +284,17 @@ bool DeviceHelper::isExist(const QString &deviceId)
  */
 bool DeviceHelper::isSamba(const QUrl &url)
 {
-    if (!url.isValid())
+    qDebug() << "Checking if URL is Samba:" << url;
+    if (!url.isValid()) {
+        qDebug() << "Invalid URL provided";
         return false;
+    }
 
     const QString &path = url.toLocalFile();
     static const QString gvfsMatch { "(^/run/user/\\d+/gvfs/|^/root/.gvfs/|^(/run)?/media/[\\s\\S]*/smbmounts)" };
     QRegularExpression re { gvfsMatch };
     QRegularExpressionMatch match { re.match(path) };
-    return match.hasMatch();
+    bool isSamba = match.hasMatch();
+    qDebug() << "Path" << path << (isSamba ? "is" : "is not") << "Samba";
+    return isSamba;
 }

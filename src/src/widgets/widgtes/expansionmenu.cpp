@@ -11,6 +11,7 @@
 #include <DGuiApplicationHelper>
 #include <DHiDPIHelper>
 #include <DPaletteHelper>
+#include <QDebug>
 
 #include <DLabel>
 #include <QAbstractButton>
@@ -19,6 +20,7 @@
 
 FilterWidget::FilterWidget(QWidget *parent): QWidget(parent)
 {
+    qDebug() << "Creating FilterWidget";
     QHBoxLayout *hb = new QHBoxLayout(this);
     hb->setSpacing(4);
     hb->setContentsMargins(0, 0, 0, 0);
@@ -45,11 +47,12 @@ FilterWidget::FilterWidget(QWidget *parent): QWidget(parent)
 
     m_btn->installEventFilter(this);
     m_rightLabel->installEventFilter(this);
+    qDebug() << "FilterWidget initialization completed";
 }
 
 FilterWidget::~FilterWidget()
 {
-
+    qDebug() << "Destroying FilterWidget";
 }
 
 void FilterWidget::setIcon(QIcon icon)
@@ -122,6 +125,7 @@ bool FilterWidget::eventFilter(QObject *obj, QEvent *event)
             //解决触屏上点击后移动整个应用问题
             return true;
         } else if (e && e->type() == QEvent::MouseButtonPress) {
+            qDebug() << "Mouse press event on" << (obj == m_btn ? "button" : "right label");
             onClicked();
             return true;
         }
@@ -131,19 +135,21 @@ bool FilterWidget::eventFilter(QObject *obj, QEvent *event)
 
 void FilterWidget::resizeEvent(QResizeEvent *e)
 {
+    qDebug() << "Filter widget resized to width:" << this->width();
     sigWidthChanged(this->width());
     QWidget::resizeEvent(e);
 }
 
-
 ExpansionMenu::ExpansionMenu(QWidget *parent)
     : QObject(parent)
 {
+    qDebug() << "Creating ExpansionMenu";
     panel = new ExpansionPanel();
     panel->setVisible(false);
     mainButton = new FilterWidget(parent);
     connect(panel, &ExpansionPanel::currentItemChanged, this, &ExpansionMenu::onCurrentItemChanged);
     connect(mainButton, &FilterWidget::clicked, this, &ExpansionMenu::onMainButtonClicked);
+    qDebug() << "ExpansionMenu initialization completed";
 }
 
 FilterWidget *ExpansionMenu::mainWidget()
@@ -153,13 +159,14 @@ FilterWidget *ExpansionMenu::mainWidget()
 
 void ExpansionMenu::onCurrentItemChanged(ExpansionPanel::FilteData &data)
 {
+    qDebug() << "Current item changed - type:" << data.type << "text:" << data.text;
     mainButton->setFilteData(data);
     emit mainButton->currentItemChanged(data);
 }
 
 void ExpansionMenu::onMainButtonClicked()
 {
-    qDebug() << __FUNCTION__ << "---" << panel->isHidden();
+    qDebug() << "Main button clicked - panel visibility:" << panel->isHidden();
     panel->isHidden() ? panel->show() : panel->hide();
     //不允许弹窗被右侧屏幕遮挡部分
     QList<QScreen *> screens = QGuiApplication::screens();
@@ -168,6 +175,7 @@ void ExpansionMenu::onMainButtonClicked()
         width += screens.at(i)->availableGeometry().width();
     }
     if (width - QCursor().pos().x() < 190) {
+        qDebug() << "Adjusting panel position to prevent right screen overlap";
         panel->setGeometry(width - 191, QCursor().pos().y() + 15, 0, 0);
     } else {
         panel->setGeometry(QCursor().pos().x(), QCursor().pos().y() + 15, 0, 0);
@@ -184,7 +192,6 @@ void ExpansionMenu::setDefaultFilteData(ExpansionPanel::FilteData &data)
     mainButton->setFilteData(data);
 }
 
-
 FilterLabel::FilterLabel(QWidget *parent)
 {
 
@@ -192,7 +199,7 @@ FilterLabel::FilterLabel(QWidget *parent)
 
 FilterLabel::~FilterLabel()
 {
-
+    qDebug() << "Destroying FilterLabel";
 }
 
 void FilterLabel::mouseReleaseEvent(QMouseEvent *ev)
