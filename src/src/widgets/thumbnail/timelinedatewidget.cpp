@@ -9,10 +9,12 @@
 
 #include <DFontSizeManager>
 #include <dpalettehelper.h>
+#include <QDebug>
 
 TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time, const QString &num)
     :  m_chooseBtn(nullptr), m_pDate(nullptr), m_pNumCheckBox(nullptr), m_currentItem(item)
 {
+    qDebug() << "Creating TimeLineDateWidget - time:" << time << "num:" << num;
     this->setContentsMargins(0, 10, 0, 0);
     this->setFixedHeight(90);
     //时间线日期
@@ -22,6 +24,7 @@ TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time,
     ft1.setFamily("Noto Sans CJK SC");
     m_pDate->setFont(ft1);
     m_pDate->setText(time);
+    qDebug() << "Created date label with text:" << time;
 
     //数量
     m_pNumCheckBox = new DCheckBox(this);
@@ -32,6 +35,7 @@ TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time,
 
     m_pNumCheckBox->setFont(ft2);
     m_pNumCheckBox->setText(num);
+    qDebug() << "Created number checkbox with text:" << num;
 
     m_pNum = new DLabel(this);
     DFontSizeManager::instance()->bind(m_pNum, DFontSizeManager::T6, QFont::Normal);
@@ -46,6 +50,7 @@ TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time,
     m_chooseBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
     m_chooseBtn->setFocusPolicy(Qt::NoFocus);
     m_chooseBtn->setVisible(false);
+    qDebug() << "Created select button";
     //占位btn，防止显影选择按钮时，ui变化
     m_pbtn = new DCommandLinkButton(" ");
     m_pbtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
@@ -67,12 +72,14 @@ TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time,
     this->setLayout(TitleViewLayout);
 
     onThemeChanged(DGuiApplicationHelper::instance()->themeType());
+    qDebug() << "TimeLineDateWidget initialization completed";
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &TimeLineDateWidget::onThemeChanged);
 }
 
 void TimeLineDateWidget::onThemeChanged(DGuiApplicationHelper::ColorType themeType)
 {
+    qDebug() << "Theme changed to:" << (themeType == DGuiApplicationHelper::LightType ? "Light" : "Dark");
     DPalette pal = DPaletteHelper::instance()->palette(m_pNumCheckBox);
     QColor color_BT = pal.color(DPalette::BrightText);
     if (themeType == DGuiApplicationHelper::LightType) {
@@ -97,37 +104,41 @@ void TimeLineDateWidget::onThemeChanged(DGuiApplicationHelper::ColorType themeTy
 
 void TimeLineDateWidget::onShowCheckBox(bool bShow)
 {
+    qDebug() << "Setting checkbox visibility to:" << bShow;
     m_pNumCheckBox->setVisible(bShow);
     m_pNum->setVisible(!bShow);
 }
 
 void TimeLineDateWidget::onCheckBoxCliked()
 {
-    if (m_pNumCheckBox->isChecked()) {
-        emit sigIsSelectCurrentDatePic(true, m_currentItem);
-    } else {
-        emit sigIsSelectCurrentDatePic(false, m_currentItem);
-    }
+    bool isChecked = m_pNumCheckBox->isChecked();
+    qDebug() << "Checkbox clicked - checked:" << isChecked;
+    emit sigIsSelectCurrentDatePic(isChecked, m_currentItem);
 }
 
 void TimeLineDateWidget::onChangeChooseBtnVisible(bool visible)
 {
+    qDebug() << "Setting choose button visibility to:" << visible;
     m_chooseBtn->setVisible(visible);
 }
 
 void TimeLineDateWidget::onTimeLinePicSelectAll(bool selectall)
 {
+    qDebug() << "Setting checkbox checked state to:" << selectall;
     m_pNumCheckBox->setChecked(selectall);
 }
 
 QString TimeLineDateWidget::onGetBtnStatus()
 {
-    return m_chooseBtn->text();
+    QString status = m_chooseBtn->text();
+    qDebug() << "Getting button status:" << status;
+    return status;
 }
 
 importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QString &time, const QString &num)
     : m_chooseBtn(nullptr), m_pDateandNumCheckBox(nullptr), m_currentItem(item)
 {
+    qDebug() << "Creating importTimeLineDateWidget - time:" << time << "num:" << num;
     this->setContentsMargins(6, 0, 0, 0);
     this->setFixedHeight(35);
 
@@ -140,6 +151,7 @@ importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QS
     m_pDateandNumCheckBox->setFont(ft1);
     QString tempTimeAndNumber = time + " " + num;
     m_pDateandNumCheckBox->setText(tempTimeAndNumber);
+    qDebug() << "Created date and number checkbox with text:" << tempTimeAndNumber;
 
     m_pDateandNum = new DLabel(this);
     DFontSizeManager::instance()->bind(m_pDateandNum, DFontSizeManager::T6, QFont::Normal);
@@ -150,11 +162,11 @@ importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QS
 
     //选择按钮
     m_chooseBtn = new DCommandLinkButton(QObject::tr("Select"));
-    //connect(m_chooseBtn, &DCommandLinkButton::clicked, this, &importTimeLineDateWidget::onChooseBtnCliked);
     DFontSizeManager::instance()->bind(m_chooseBtn, DFontSizeManager::T5);
     m_chooseBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
     m_chooseBtn->setFocusPolicy(Qt::NoFocus);
     m_chooseBtn->setVisible(false);
+    qDebug() << "Created select button";
 
     //占位btn，防止显影选择按钮时，ui变化
     m_pbtn = new DCommandLinkButton(" ");
@@ -172,36 +184,40 @@ importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QS
     this->setLayout(TitleViewLayout);
 
     onThemeChanged(DGuiApplicationHelper::instance()->themeType());
+    qDebug() << "importTimeLineDateWidget initialization completed";
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &importTimeLineDateWidget::onThemeChanged);
 }
 
 void importTimeLineDateWidget::onCheckBoxCliked()
 {
-    if (m_pDateandNumCheckBox->isChecked()) {
-        emit sigIsSelectCurrentDatePic(true, m_currentItem);
-    } else {
-        emit sigIsSelectCurrentDatePic(false, m_currentItem);
-    }
+    bool isChecked = m_pDateandNumCheckBox->isChecked();
+    qDebug() << "Checkbox clicked - checked:" << isChecked;
+    emit sigIsSelectCurrentDatePic(isChecked, m_currentItem);
 }
 
 void importTimeLineDateWidget::onChangeChooseBtnVisible(bool visible)
 {
+    qDebug() << "Setting choose button visibility to:" << visible;
     m_chooseBtn->setVisible(visible);
 }
 
 void importTimeLineDateWidget::onTimeLinePicSelectAll(bool selectall)
 {
+    qDebug() << "Setting checkbox checked state to:" << selectall;
     m_pDateandNumCheckBox->setChecked(selectall);
 }
 
 QString importTimeLineDateWidget::onGetBtnStatus()
 {
-    return m_chooseBtn->text();
+    QString status = m_chooseBtn->text();
+    qDebug() << "Getting button status:" << status;
+    return status;
 }
 
 void importTimeLineDateWidget::onThemeChanged(DGuiApplicationHelper::ColorType themeType)
 {
+    qDebug() << "Theme changed to:" << (themeType == DGuiApplicationHelper::LightType ? "Light" : "Dark");
     DPalette pal = DPaletteHelper::instance()->palette(m_pDateandNumCheckBox);
     if (themeType == DGuiApplicationHelper::LightType) {
         pal.setBrush(DPalette::Text, lightTextColor);
@@ -220,6 +236,7 @@ void importTimeLineDateWidget::onThemeChanged(DGuiApplicationHelper::ColorType t
 
 void importTimeLineDateWidget::onShowCheckBox(bool bShow)
 {
+    qDebug() << "Setting checkbox visibility to:" << bShow;
     m_pDateandNumCheckBox->setVisible(bShow);
     m_pDateandNum->setVisible(!bShow);
 }

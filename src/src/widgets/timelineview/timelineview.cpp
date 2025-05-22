@@ -11,6 +11,7 @@
 #include <QScroller>
 #include <QMimeData>
 #include <QGraphicsOpacityEffect>
+#include <QDebug>
 
 #include <DPushButton>
 #include <DTableView>
@@ -34,6 +35,7 @@ TimeLineView::TimeLineView(QmlWidget *parent)
     , m_timeLineViewWidget(nullptr)
     , m_selPicNum(0)
 {
+    qDebug() << "Creating TimeLineView";
     m_qquickContainer = parent;
     //setAcceptDrops(true);
     QVBoxLayout *pMainBoxLayout = new QVBoxLayout(this);
@@ -52,6 +54,7 @@ TimeLineView::TimeLineView(QmlWidget *parent)
     initConnections();
 
     themeChangeSlot(DGuiApplicationHelper::instance()->themeType());
+    qDebug() << "TimeLineView initialization completed";
 }
 
 void TimeLineView::initConnections()
@@ -96,6 +99,7 @@ ThumbnailListView *TimeLineView::getThumbnailListView()
 
 void TimeLineView::clearAllSelection()
 {
+    qDebug() << "Clearing all selections";
     m_timeLineThumbnailListView->clearSelection();
 }
 
@@ -140,6 +144,7 @@ void TimeLineView::initTimeLineViewWidget()
     //bug76892藏语占用更大高度
     if (QLocale::system().language() == QLocale::Tibetan) {
         m_dateLabel->setFixedHeight(TIMELINE_TITLEHEIGHT + 25);
+        qDebug() << "Setting Tibetan language specific height";
     } else {
         m_dateLabel->setFixedHeight(TIMELINE_TITLEHEIGHT);
     }
@@ -188,17 +193,19 @@ void TimeLineView::initTimeLineViewWidget()
     m_dateNumItemWidget->setAutoFillBackground(true);
     m_dateNumItemWidget->setContentsMargins(0, 0, 0, 0);
     m_dateNumItemWidget->setGeometry(0, 0, this->width() - 15, SUSPENSION_WIDGET_HEIGHT);
+    qDebug() << "Timeline view widget initialization completed";
 }
 
 void TimeLineView::clearAndStartLayout()
 {
+    qDebug() << "Clearing and starting layout";
     //由于绘制需要使用listview的宽度，但是加载的时候listview还没有显示出来，宽度是不对的，所以在显示出来后用信号通知加载，记载完成后断开信号，
     //后面的listview就有了正确的宽度，该信号槽就不需要再连接
-    qDebug() << "------" << __FUNCTION__ << "";
 //    m_spinner->hide();
 //    m_spinner->stop();
     //获取所有时间线
     m_timelines = DBManager::instance()->getDays();
+    qDebug() << "Retrieved" << m_timelines.size() << "timelines";
     addTimelineLayout();
 
     if (m_qquickContainer) {
@@ -210,12 +217,14 @@ void TimeLineView::clearAndStartLayout()
             data.type = ItemType::ItemTypePic;
         else if (filterType == Types::Video)
             data.type = ItemType::ItemTypeVideo;
+        qDebug() << "Applying filter type:" << filterType;
         sltCurrentFilterChanged(data);
     }
 }
 
 void TimeLineView::slotTimeLineDataAndNum(QString data, QString num, QString text)
 {
+    qDebug() << "Updating timeline data - date:" << data << "num:" << num << "text:" << text;
     if (!data.isEmpty()) {
         m_dateLabel->setText(data);
     }
@@ -229,6 +238,7 @@ void TimeLineView::slotTimeLineDataAndNum(QString data, QString num, QString tex
 
 void TimeLineView::sltCurrentFilterChanged(ExpansionPanel::FilteData &data)
 {
+    qDebug() << "Filter changed to type:" << data.type;
     int filterType = Types::All;
     if (data.type == ItemType::ItemTypeNull) {
         //显示全部
@@ -254,19 +264,23 @@ void TimeLineView::sltCurrentFilterChanged(ExpansionPanel::FilteData &data)
 
 void TimeLineView::onShowCheckBox(bool bShow)
 {
+    qDebug() << "Setting checkbox visibility to:" << bShow;
     m_numCheckBox->setVisible(bShow);
     m_numLabel->setVisible(!bShow);
 }
 
 void TimeLineView::addTimelineLayout()
 {
+    qDebug() << "Adding timeline layout";
     m_timeLineThumbnailListView->clearSelection();
     m_timeLineThumbnailListView->clearAll();
     DBImgInfoList importList;
 
     for (int timelineIndex = 0; timelineIndex < m_timelines.size(); timelineIndex++) {
+        qDebug() << "Processing timeline" << timelineIndex + 1 << "of" << m_timelines.size();
         //获取当前时间照片
         DBImgInfoList ImgInfoList = DBManager::instance()->getInfosByDay(m_timelines.at(timelineIndex));
+        qDebug() << "Found" << ImgInfoList.size() << "items for timeline" << timelineIndex + 1;
 
         //加时间线标题
         QString date;
@@ -283,6 +297,7 @@ void TimeLineView::addTimelineLayout()
                 videoCount++;
             }
         }
+        qDebug() << "Timeline" << timelineIndex + 1 << "contains" << photoCount << "photos and" << videoCount << "videos";
 
         QString num;
         if (photoCount == 1 && videoCount == 0) {
@@ -298,6 +313,7 @@ void TimeLineView::addTimelineLayout()
         }
 
         if (timelineIndex == 0) {
+            qDebug() << "Setting initial timeline data - date:" << date << "num:" << num;
             m_dateLabel->setText(date);
             m_numCheckBox->setText(num);
             m_numLabel->setText(num);
@@ -330,6 +346,7 @@ void TimeLineView::addTimelineLayout()
         importList.append(ImgInfoList);
     }
 
+    qDebug() << "Inserting" << importList.size() << "items into thumbnail list view";
     m_timeLineThumbnailListView->insertThumbnails(importList);
 
     // 加空白底栏
@@ -338,10 +355,10 @@ void TimeLineView::addTimelineLayout()
 
 void TimeLineView::initDropDown()
 {
+    qDebug() << "Initializing dropdown menu";
     m_expansionMenu = new ExpansionMenu(this);
     m_ToolButton = m_expansionMenu->mainWidget();
     m_ToolButton->setText(QObject::tr("All"));
-    //m_ToolButton->setIcon(DHiDPIHelper::loadNxPixmap(":/icons/deepin/builtin/icons/light/album_all_16px.svg"));
     m_ToolButton->setIcon(DHiDPIHelper::loadNxPixmap(":/icons/deepin/builtin/icons/darkalbum_all_16px.svg"));
     ExpansionPanel::FilteData data;
 
@@ -368,10 +385,12 @@ void TimeLineView::initDropDown()
     m_expansionMenu->addNewButton(data);
 
     connect(m_ToolButton, &FilterWidget::currentItemChanged, this, &TimeLineView::sltCurrentFilterChanged);
+    qDebug() << "Dropdown menu initialization completed";
 }
 
 void TimeLineView::on_AddLabel(QString date, QString num)
 {
+    qDebug() << "Adding label - date:" << date << "num:" << num;
     if ((nullptr != m_dateNumItemWidget)) {
         QList<QLabel *> labelList = m_dateNumItemWidget->findChildren<QLabel *>();
         labelList[0]->setText(date);
@@ -385,6 +404,7 @@ void TimeLineView::onCheckBoxClicked()
 {
     bool isSelect = m_numCheckBox->isChecked();
     QString date_str = m_dateLabel->text();
+    qDebug() << "Checkbox clicked - checked:" << isSelect << "date:" << date_str;
     //选中当前时间内的所有图片
     m_timeLineThumbnailListView->timeLimeFloatBtnClicked(date_str, isSelect);
 }
@@ -393,6 +413,7 @@ void TimeLineView::resizeEvent(QResizeEvent *ev)
 {
     Q_UNUSED(ev);
     //m_spinner->move(width() / 2 - 20, (height() - 50) / 2 - 20);
+    qDebug() << "Resizing view to width:" << width();
     m_dateNumItemWidget->setGeometry(0, 0, width() - 15, SUSPENSION_WIDGET_HEIGHT);
 //    m_pStatusBar->setFixedWidth(this->width());
 //    m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
@@ -401,8 +422,10 @@ void TimeLineView::resizeEvent(QResizeEvent *ev)
 void TimeLineView::dragEnterEvent(QDragEnterEvent *e)
 {
     if (!Libutils::base::checkMimeUrls(e->mimeData()->urls())) {
+        qDebug() << "Invalid mime URLs in drag enter event";
         return;
     }
+    qDebug() << "Accepting drag enter event";
     e->setDropAction(Qt::CopyAction);
     e->accept();
 }
@@ -411,6 +434,7 @@ void TimeLineView::dropEvent(QDropEvent *event)
 {
     QList<QUrl> urls = event->mimeData()->urls();
     if (urls.isEmpty()) {
+        qDebug() << "No URLs in drop event";
         return;
     }
     //ImageEngineApi::instance()->ImportImagesFromUrlList(urls, "", -1, this);
@@ -430,6 +454,7 @@ void TimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
 void TimeLineView::mousePressEvent(QMouseEvent *e)
 {
     if (QApplication::keyboardModifiers() != Qt::ControlModifier && e->button() == Qt::LeftButton) {
+        qDebug() << "Clearing selection on left click without Ctrl modifier";
         m_timeLineThumbnailListView->clearSelection();
     }
     DWidget::mousePressEvent(e);
@@ -437,6 +462,7 @@ void TimeLineView::mousePressEvent(QMouseEvent *e)
 
 void TimeLineView::slotNoPicOrNoVideo(bool isNoResult)
 {
+    qDebug() << "No results state changed to:" << isNoResult;
     m_noResultWidget->setVisible(isNoResult);
     m_timeLineThumbnailListView->setVisible(!isNoResult);
     if (isNoResult) {

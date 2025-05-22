@@ -23,11 +23,13 @@ static const int sc_SubmitInterval = 200;  // 图片变更提交定时间隔 200
 GlobalControl::GlobalControl(QObject *parent)
     : QObject(parent)
 {
+    qDebug() << "Initializing GlobalControl";
     sourceModel = new ImageSourceModel(this);
     viewSourceModel = new PathViewProxyModel(sourceModel, this);
 
     // 图片旋转完成后触发信息变更
     connect(RotateImageHelper::instance(), &RotateImageHelper::rotateImageFinished, this, [this](const QString &path, bool ret) {
+        qDebug() << "Rotate image finished for path:" << path << "success:" << ret;
         ImageDataService::instance()->getThumnailImageByPathRealTime(path, false, true);
         if (path == currentImage.source().toLocalFile()) {
             submitImageChangeImmediately();
@@ -37,6 +39,7 @@ GlobalControl::GlobalControl(QObject *parent)
 
 GlobalControl::~GlobalControl()
 {
+    qDebug() << "Destroying GlobalControl";
     submitImageChangeImmediately();
 }
 
@@ -65,9 +68,12 @@ void GlobalControl::setCurrentSource(const QUrl &source)
         return;
     }
 
+    qDebug() << "Setting current source to:" << source;
     int index = sourceModel->indexForImagePath(source);
     if (-1 != index) {
         setIndexAndFrameIndex(index, 0);
+    } else {
+        qWarning() << "Failed to set current source - image not found in model:" << source;
     }
 }
 
@@ -127,9 +133,11 @@ void GlobalControl::setCurrentRotation(int angle)
 {
     if (imageRotation != angle) {
         if (0 != (angle % 90)) {
-            qWarning() << QString("Image rotate angle must be a multiple of 90 degrees, current is %1 .").arg(angle);
+            qWarning() << "Invalid rotation angle:" << angle << "- must be multiple of 90 degrees";
+            return;
         }
 
+        qDebug() << "Setting rotation from" << imageRotation << "to" << angle;
         // 计算相较上一次是否需要交换宽高，angle 为 0 时特殊处理，不调整
         bool needSwap = angle && !!((angle - imageRotation) % 180);
 
@@ -139,6 +147,7 @@ void GlobalControl::setCurrentRotation(int angle)
         Q_EMIT changeRotationCacheBegin();
 
         if (needSwap) {
+            qDebug() << "Swapping width and height due to rotation";
             currentImage.swapWidthAndHeight();
         }
 
@@ -280,11 +289,14 @@ bool GlobalControl::forceExit()
 void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &openFile)
 {
     Q_ASSERT(sourceModel);
+    qDebug() << "Setting image files, count:" << filePaths.size() << "open file:" << openFile;
+    
     // 优先更新数据源
     sourceModel->setImageFiles(QUrl::fromStringList(filePaths));
 
     int index = filePaths.indexOf(openFile);
     if (-1 == index || filePaths.isEmpty()) {
+        qWarning() << "Invalid open file index:" << index << "using first file instead";
         index = 0;
     }
 
@@ -308,7 +320,9 @@ void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
  */
 void GlobalControl::removeImage(const QUrl &removeImage)
 {
+    qDebug() << "Removing image:" << removeImage;
     if (0 != currentRotation()) {
+        qDebug() << "Resetting rotation before removal";
         setCurrentRotation(0);
         submitTimer.stop();
     }
@@ -321,6 +335,7 @@ void GlobalControl::removeImage(const QUrl &removeImage)
 
     // NOTE：viewModel依赖源数据模型更新
     if (removeImage == currentImage.source()) {
+        qDebug() << "Removing current image, updating view model";
         viewModel()->deleteCurrent();
     }
 
@@ -351,6 +366,7 @@ void GlobalControl::removeImage(const QUrl &removeImage)
  */
 void GlobalControl::renameImage(const QUrl &oldName, const QUrl &newName)
 {
+    qDebug() << "Renaming image from" << oldName << "to" << newName;
     int index = sourceModel->indexForImagePath(oldName);
     if (-1 != index) {
         submitImageChangeImmediately();
@@ -358,6 +374,7 @@ void GlobalControl::renameImage(const QUrl &oldName, const QUrl &newName)
         sourceModel->setData(sourceModel->index(index), newName, Types::ImageUrlRole);
 
         if (oldName == currentImage.source()) {
+            qDebug() << "Updating current image after rename";
             // 强制刷新，避免出现重命名为已缓存的删除图片
             currentImage.setSource(newName);
             currentImage.reloadData();
@@ -366,6 +383,8 @@ void GlobalControl::renameImage(const QUrl &oldName, const QUrl &newName)
             Q_EMIT currentSourceChanged();
             Q_EMIT currentIndexChanged();
         }
+    } else {
+        qWarning() << "Failed to rename image - not found in model:" << oldName;
     }
 }
 
@@ -381,6 +400,7 @@ void GlobalControl::submitImageChangeImmediately()
         return;
     }
 
+    qDebug() << "Submitting image changes, rotation:" << rotation;
     rotation = rotation % 360;
     if (0 != rotation) {
         // 请求更新图片，同步图片旋转状态到文件中，将覆写文件
@@ -440,6 +460,7 @@ void GlobalControl::setIndexAndFrameIndex(int index, int frameIndex)
 {
     int validIndex = qBound(0, index, imageCount() - 1);
     if (this->curIndex != validIndex) {
+        qDebug() << "Setting index from" << this->curIndex << "to" << validIndex;
         submitImageChangeImmediately();
 
         // 更新图像信息，无论变更均更新
@@ -453,6 +474,7 @@ void GlobalControl::setIndexAndFrameIndex(int index, int frameIndex)
 
     int validFrameIndex = qBound(0, frameIndex, qMax(0, currentImage.frameCount() - 1));
     if (this->curFrameIndex != validFrameIndex) {
+        qDebug() << "Setting frame index from" << this->curFrameIndex << "to" << validFrameIndex;
         submitImageChangeImmediately();
 
         this->curFrameIndex = validFrameIndex;
