@@ -6,12 +6,14 @@
 #include "dbmanager/dbmanager.h"
 #include "unionimage/unionimage.h"
 #include "albumControl.h"
+#include <QDebug>
 
 #include <QDirIterator>
 
 ImageEngineThreadObject::ImageEngineThreadObject()
 {
     setAutoDelete(false); //从根源上禁止auto delete
+    qDebug() << "ImageEngineThreadObject initialized";
 }
 
 void ImageEngineThreadObject::needStop(void *imageobject)
@@ -19,6 +21,7 @@ void ImageEngineThreadObject::needStop(void *imageobject)
     if (nullptr == imageobject || ifCanStopThread(imageobject)) {
         bneedstop = true;
         bbackstop = true;
+        qDebug() << "Thread stop requested";
     }
 }
 
@@ -30,13 +33,16 @@ bool ImageEngineThreadObject::ifCanStopThread(void *imgobject)
 
 void ImageEngineThreadObject::run()
 {
+    qDebug() << "Starting thread execution";
     runDetail(); //原本要run的内容
     emit runFinished(); //告诉m_obj我run完了，这里不再像之前那样直接判断不为nullptr然后解引用m_obj，因为m_obj销毁后不会自动置为nullptr
+    qDebug() << "Thread execution completed";
     this->deleteLater(); //在消息传达后销毁自己
 }
 
 ImportImagesThread::ImportImagesThread()
 {
+    qDebug() << "Initializing ImportImagesThread";
     connect(this, &ImportImagesThread::sigRepeatUrls, AlbumControl::instance(), &AlbumControl::sigRepeatUrls);
     connect(this, &ImportImagesThread::sigImportProgress, AlbumControl::instance(), &AlbumControl::sigImportProgress);
     connect(this, &ImportImagesThread::sigImportFinished, AlbumControl::instance(), &AlbumControl::sigImportFinished);
@@ -52,11 +58,12 @@ ImportImagesThread::ImportImagesThread()
 
 ImportImagesThread::~ImportImagesThread()
 {
-
+    qDebug() << "ImportImagesThread destroyed";
 }
 
 void ImportImagesThread::setData(const QStringList &paths, const int UID)
 {
+    qDebug() << "Setting string list data with" << paths.size() << "paths for UID:" << UID;
     for (QUrl path : paths) {
         m_paths << LibUnionImage_NameSpace::localPath(path);
     }
@@ -66,6 +73,7 @@ void ImportImagesThread::setData(const QStringList &paths, const int UID)
 
 void ImportImagesThread::setData(const QList<QUrl> &paths, const int UID, const bool checkRepeat)
 {
+    qDebug() << "Setting URL list data with" << paths.size() << "paths for UID:" << UID << "checkRepeat:" << checkRepeat;
     for (QUrl path : paths) {
         m_paths << LibUnionImage_NameSpace::localPath(path);
     }
@@ -76,6 +84,7 @@ void ImportImagesThread::setData(const QList<QUrl> &paths, const int UID, const 
 
 void ImportImagesThread::setNotifyUI(bool bValue)
 {
+    qDebug() << "Setting notify UI flag to:" << bValue;
     m_notifyUI = bValue;
 }
 
@@ -87,12 +96,14 @@ bool ImportImagesThread::ifCanStopThread(void *imgobject)
 
 void ImportImagesThread::runDetail()
 {
+    qDebug() << "Starting import process for UID:" << m_UID;
     //相册中本次导入之前已导入的所有路径
     DBImgInfoList oldInfos = AlbumControl::instance()->getAllInfosByUID(QString::number(m_UID));
     QStringList allOldImportedPaths;
     for (DBImgInfo info : oldInfos) {
         allOldImportedPaths.push_back(info.filePath);
     }
+    qDebug() << "Found" << allOldImportedPaths.size() << "previously imported paths";
 
     QStringList tempPaths;
     QStringList filePaths;
@@ -101,12 +112,15 @@ void ImportImagesThread::runDetail()
     for (QString path : m_paths) {
         //是目录，向下遍历,得到所有文件
         if (QDir(path).exists()) {
+            qDebug() << "Processing directory:" << path;
             QFileInfoList infos = LibUnionImage_NameSpace::getImagesAndVideoInfo(path, true);
 
             std::transform(infos.begin(), infos.end(), std::back_inserter(tempPaths), [](const QFileInfo & info) {
                 return info.absoluteFilePath();
             });
+            qDebug() << "Found" << infos.size() << "files in directory";
         } else {//非目录
+            qDebug() << "Processing file:" << path;
             tempPaths << path;
         }
     }
@@ -118,6 +132,7 @@ void ImportImagesThread::runDetail()
         i++;
         //已导入
         if (allOldImportedPaths.contains(imagePath)) {
+            qDebug() << "Skipping already imported file:" << imagePath;
             m_checkRepeat = true;
             noReadCount++;
             continue;
@@ -129,24 +144,30 @@ void ImportImagesThread::runDetail()
             //去掉不支持的图片和视频
             bool bIsVideo = LibUnionImage_NameSpace::isVideo(imagePath);
             if (!bIsVideo && !LibUnionImage_NameSpace::imageSupportRead(imagePath)) {
+                qWarning() << "Skipping unsupported file:" << imagePath;
                 continue;
             }
 
             //去掉格式错误无法解析的图片和视频
             auto dbInfo = AlbumControl::instance()->getDBInfo(imagePath, bIsVideo);
             if (ItemType::ItemTypeNull == dbInfo.itemType) {
+                qWarning() << "Skipping file with invalid format:" << imagePath;
                 continue;
             }
             dbInfo.albumUID = QString::number(m_UID);
             dbInfos << dbInfo;
 
             filePaths << imagePath;
+            qDebug() << "Added file to import list:" << imagePath;
+        } else {
+            qWarning() << "Skipping inaccessible file:" << imagePath;
         }
         emit sigImportProgress(i, tempPaths.size());
     }
 
     //已全部存在，无需导入
     if (noReadCount == tempPaths.size() && tempPaths.size() > 0 && m_checkRepeat) {
+        qDebug() << "All files already exist in album, skipping import";
         QStringList urlPaths;
         for (QString path : tempPaths) {
             urlPaths.push_back("file://" + path);
@@ -157,15 +178,18 @@ void ImportImagesThread::runDetail()
     if (filePaths.isEmpty()) {
         // 存在无法导入
         int skiped = tempPaths.size() - noReadCount;
+        qWarning() << "No valid files to import, skipped:" << skiped;
         emit sigImportFailed(skiped);
         return;
     }
 
+    qDebug() << "Sorting" << dbInfos.size() << "files by change time";
     std::sort(dbInfos.begin(), dbInfos.end(), [](const DBImgInfo & lhs, const DBImgInfo & rhs) {
         return lhs.changeTime > rhs.changeTime;
     });
 
     //导入图片数据库ImageTable3
+    qDebug() << "Inserting" << dbInfos.size() << "images into database";
     DBManager::instance()->insertImgInfos(dbInfos);
 
     //导入图片数据库AlbumTable3
@@ -174,19 +198,24 @@ void ImportImagesThread::runDetail()
         if (m_UID == 0) {
             atype = AlbumDBType::Favourite;
         }
-
+        qDebug() << "Inserting" << filePaths.size() << "files into album" << m_UID << "type:" << static_cast<int>(atype);
         DBManager::instance()->insertIntoAlbum(m_UID, filePaths, atype);
     }
 
     //原createNewCustomAutoImportAlbum逻辑
     if (m_UID > 0) {
+        qDebug() << "Refreshing UI for custom album" << m_UID;
         emit AlbumControl::instance()->sigRefreshSlider();
         emit AlbumControl::instance()->sigAddCustomAlbum(m_UID);
     }
 
     QThread::msleep(100);
     //发送导入完成信号
-    if (m_notifyUI)
+    if (m_notifyUI) {
+        qDebug() << "Import process completed, notifying UI";
         emit sigImportFinished();
+    } else {
+        qDebug() << "Import process completed without UI notification";
+    }
 }
 

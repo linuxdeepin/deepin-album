@@ -122,9 +122,11 @@ Types::ImageType imageTypeAdapator(imageViewerSpace::ImageType type)
 void LoadImageInfoRunnable::run()
 {
     if (qApp->closingDown()) {
+        qDebug() << "Application is closing down, skipping image load for:" << loadPath;
         return;
     }
 
+    qDebug() << "Loading image info for:" << loadPath << "frame:" << frameIndex;
     ImageInfoData::Ptr data(new ImageInfoData);
     data->path = loadPath;
     data->exist = QFileInfo::exists(loadPath);
@@ -133,6 +135,7 @@ void LoadImageInfoRunnable::run()
     data->readable = info.isReadable();
 
     if (!data->exist) {
+        qWarning() << "Image file does not exist:" << loadPath;
         // 缓存中存在数据，则图片为加载后删除
         data->type = (ThumbnailCache::instance()->contains(data->path)) ? Types::NonexistImage : Types::NullImage;
         notifyFinished(data->path, frameIndex, data);
@@ -140,6 +143,7 @@ void LoadImageInfoRunnable::run()
     }
 
     if (!data->readable) {
+        qWarning() << "Image file is not readable:" << loadPath;
         data->type = Types::NoPermissionImage;
         notifyFinished(data->path, frameIndex, data);
         return;
@@ -149,15 +153,18 @@ void LoadImageInfoRunnable::run()
     data->type = imageTypeAdapator(type);
 
     if (Types::NullImage == data->type) {
+        qWarning() << "Invalid image type for:" << loadPath;
         notifyFinished(data->path, frameIndex, data);
         return;
     }
 
     QImageReader reader(loadPath);
     if (Types::MultiImage == data->type) {
+        qDebug() << "Loading multi-page image:" << loadPath << "frame:" << frameIndex;
         reader.jumpToImage(frameIndex);
         QImage image = reader.read();
         if (image.isNull()) {
+            qWarning() << "Failed to read multi-page image frame:" << loadPath << "frame:" << frameIndex;
             // 数据获取异常
             data->type = Types::DamagedImage;
             notifyFinished(data->path, frameIndex, data);
@@ -166,12 +173,14 @@ void LoadImageInfoRunnable::run()
 
         data->size = image.size();
         data->frameCount = reader.imageCount();
+        qDebug() << "Multi-page image loaded successfully:" << loadPath << "size:" << data->size << "total frames:" << data->frameCount;
         // 保存图片比例缩放
         image = image.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
         // 缓存缩略图信息
         ThumbnailCache::instance()->add(data->path, frameIndex, image);
 
     } else if (0 != frameIndex) {
+        qWarning() << "Invalid frame index for non-multi-page image:" << loadPath << "frame:" << frameIndex;
         // 非多页图类型，但指定了索引，存在异常
         data->type = Types::DamagedImage;
         notifyFinished(data->path, frameIndex, data);
@@ -180,9 +189,11 @@ void LoadImageInfoRunnable::run()
     } else {
         QImage image;
         if (loadImage(image, data->size)) {
+            qDebug() << "Single image loaded successfully:" << loadPath << "size:" << data->size;
             // 缓存缩略图信息
             ThumbnailCache::instance()->add(data->path, frameIndex, image);
         } else {
+            qWarning() << "Failed to load single image:" << loadPath;
             // 读取图片数据存在异常，调整图片类型
             data->type = Types::DamagedImage;
         }
@@ -203,10 +214,11 @@ bool LoadImageInfoRunnable::loadImage(QImage &image, QSize &sourceSize) const
     bool ret = LibUnionImage_NameSpace::loadStaticImageFromFile(loadPath, image, error);
     if (ret) {
         sourceSize = image.size();
+        qDebug() << "Static image loaded successfully:" << loadPath << "size:" << sourceSize;
         // 保存图片比例缩放
         image = image.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
     } else {
-        qWarning() << "Load image " << loadPath << "error:" << error;
+        qWarning() << "Failed to load static image:" << loadPath << "error:" << error;
     }
 
     return ret;
@@ -220,6 +232,7 @@ bool LoadImageInfoRunnable::loadImage(QImage &image, QSize &sourceSize) const
  */
 void LoadImageInfoRunnable::notifyFinished(const QString &path, int frameIndex, ImageInfoData::Ptr data) const
 {
+    qDebug() << "Image load finished:" << path << "frame:" << frameIndex << "type:" << data->type;
     QMetaObject::invokeMethod(
         CacheInstance(), [=]() { CacheInstance()->loadFinished(path, frameIndex, data); }, Qt::QueuedConnection);
 }
@@ -227,11 +240,13 @@ void LoadImageInfoRunnable::notifyFinished(const QString &path, int frameIndex, 
 ImageInfoCache::ImageInfoCache()
     : localPoolPtr(new QThreadPool)
 {
+    qDebug() << "Initializing ImageInfoCache with thread count:" << qMax(2, QThread::idealThreadCount() / 2);
     // 调整后台线程，由于imageprovider部分也存在子线程调用
     localPoolPtr->setMaxThreadCount(qMax(2, QThread::idealThreadCount() / 2));
 
     // 退出时清理线程状态
     connect(qApp, &QCoreApplication::aboutToQuit, this, [this]() {
+        qDebug() << "Application about to quit, cleaning up ImageInfoCache";
         aboutToQuit = true;
         clearCache();
 
@@ -239,7 +254,10 @@ ImageInfoCache::ImageInfoCache()
     });
 }
 
-ImageInfoCache::~ImageInfoCache() { }
+ImageInfoCache::~ImageInfoCache() 
+{
+    qDebug() << "Cleaning up ImageInfoCache";
+}
 
 /**
    @return 返回缓存中文件路径为 \a path 和帧索引为 \a frameIndex 的缓存数据
@@ -257,6 +275,7 @@ ImageInfoData::Ptr ImageInfoCache::find(const QString &path, int frameIndex)
 void ImageInfoCache::load(const QString &path, int frameIndex, bool reload)
 {
     if (aboutToQuit) {
+        qDebug() << "Application is quitting, skipping image load for:" << path;
         return;
     }
 
@@ -266,8 +285,11 @@ void ImageInfoCache::load(const QString &path, int frameIndex, bool reload)
         return;
     }
     if (!reload && cache.contains(key)) {
+        qDebug() << "Image already in cache:" << path << "frame:" << frameIndex;
         return;
     }
+
+    qDebug() << "Loading image:" << path << "frame:" << frameIndex << "reload:" << reload;
     waitSet.insert(key);
 
     if (!GlobalControl::enableMultiThread()) {
@@ -291,7 +313,6 @@ void ImageInfoCache::loadFinished(const QString &path, int frameIndex, ImageInfo
     }
 
     ThumbnailCache::Key key = ThumbnailCache::toFindKey(path, frameIndex);
-
     waitSet.remove(key);
     if (data) {
         cache.insert(key, data);
@@ -308,7 +329,7 @@ void ImageInfoCache::removeCache(const QString &path, int frameIndex)
     cache.remove(ThumbnailCache::toFindKey(path, frameIndex));
     // 同时移除缓存的图像数据
     ThumbnailCache::instance()->remove(path, frameIndex);
-
+    qDebug() << "Removed image from cache:" << path << "frame:" << frameIndex;
     Q_EMIT imageDataChanged(path, frameIndex);
 }
 
@@ -334,6 +355,7 @@ void ImageInfoCache::clearCache()
 ImageInfo::ImageInfo(QObject *parent)
     : QObject(parent)
 {
+    qDebug() << "Initializing ImageInfo";
     // TODO(renbin): 这种方式效率不佳，应调整为记录文件对应的 ImageInfo 对象进行直接调用(均在同一线程)
     connect(CacheInstance(), &ImageInfoCache::imageDataChanged, this, &ImageInfo::onLoadFinished);
     connect(CacheInstance(), &ImageInfoCache::imageSizeChanged, this, &ImageInfo::onSizeChanged);
@@ -342,12 +364,16 @@ ImageInfo::ImageInfo(QObject *parent)
 ImageInfo::ImageInfo(const QUrl &source, QObject *parent)
     : QObject(parent)
 {
+    qDebug() << "Initializing ImageInfo with source:" << source;
     connect(CacheInstance(), &ImageInfoCache::imageDataChanged, this, &ImageInfo::onLoadFinished);
     connect(CacheInstance(), &ImageInfoCache::imageSizeChanged, this, &ImageInfo::onSizeChanged);
     setSource(source);
 }
 
-ImageInfo::~ImageInfo() { }
+ImageInfo::~ImageInfo() 
+{
+    qDebug() << "Cleaning up ImageInfo";
+}
 
 ImageInfo::Status ImageInfo::status() const
 {
@@ -361,6 +387,7 @@ ImageInfo::Status ImageInfo::status() const
 void ImageInfo::setSource(const QUrl &source)
 {
     if (imageUrl != source) {
+        qDebug() << "Setting new image source:" << source;
         imageUrl = source;
         Q_EMIT sourceChanged();
 
@@ -408,6 +435,7 @@ int ImageInfo::height() const
 void ImageInfo::swapWidthAndHeight()
 {
     if (data) {
+        qDebug() << "Swapping width and height for image:" << imageUrl << "from" << data->size << "to" << QSize(data->size.height(), data->size.width());
         data->size = QSize(data->size.height(), data->size.width());
         // 广播大小变更信号
         Q_EMIT CacheInstance()->imageSizeChanged(imageUrl.toLocalFile(), currentIndex);
@@ -421,6 +449,7 @@ void ImageInfo::swapWidthAndHeight()
 void ImageInfo::setFrameIndex(int index)
 {
     if (currentIndex != index) {
+        qDebug() << "Setting frame index for image:" << imageUrl << "from" << currentIndex << "to" << index;
         currentIndex = index;
         Q_EMIT frameIndexChanged();
 
@@ -452,6 +481,7 @@ int ImageInfo::frameCount() const
 void ImageInfo::setScale(qreal s)
 {
     if (data && data->scale != s) {
+        qDebug() << "Setting scale for image:" << imageUrl << "from" << data->scale << "to" << s;
         data->scale = s;
     }
 }
@@ -464,6 +494,7 @@ qreal ImageInfo::scale() const
 void ImageInfo::setX(qreal x)
 {
     if (data) {
+        qDebug() << "Setting X position for image:" << imageUrl << "from" << data->x << "to" << x;
         data->x = x;
     }
 }
@@ -476,6 +507,7 @@ qreal ImageInfo::x() const
 void ImageInfo::setY(qreal y)
 {
     if (data) {
+        qDebug() << "Setting Y position for image:" << imageUrl << "from" << data->y << "to" << y;
         data->y = y;
     }
 }
@@ -519,6 +551,7 @@ bool ImageInfo::hasCachedThumbnail() const
  */
 void ImageInfo::reloadData()
 {
+    qDebug() << "Reloading data for image:" << imageUrl;
     setStatus(Loading);
     CacheInstance()->load(imageUrl.toLocalFile(), currentIndex, true);
 }
@@ -529,6 +562,7 @@ void ImageInfo::reloadData()
 void ImageInfo::clearCurrentCache()
 {
     if (data) {
+        qDebug() << "Clearing cache for image:" << imageUrl << "frame count:" << data->frameCount;
         for (int i = 0; i < data->frameCount; ++i) {
             CacheInstance()->removeCache(imageUrl.toLocalFile(), i);
         }
@@ -541,6 +575,7 @@ void ImageInfo::clearCurrentCache()
  */
 void ImageInfo::clearCache()
 {
+    qDebug() << "Clearing all image caches";
     CacheInstance()->clearCache();
     ThumbnailCache::instance()->clear();
 }
@@ -551,6 +586,7 @@ void ImageInfo::clearCache()
 void ImageInfo::setStatus(ImageInfo::Status status)
 {
     if (imageStatus != status) {
+        qDebug() << "Changing image status for:" << imageUrl << "from" << imageStatus << "to" << status;
         imageStatus = status;
         Q_EMIT statusChanged();
     }
@@ -566,28 +602,34 @@ bool ImageInfo::updateData(const QSharedPointer<ImageInfoData> &newData)
     if (newData == data) {
         return false;
     }
+    qDebug() << "Updating image data for:" << imageUrl;
     ImageInfoData::Ptr oldData = data;
     data = newData;
 
     bool change = false;
     if (oldData->type != newData->type) {
+        qDebug() << "Image type changed from" << oldData->type << "to" << newData->type;
         Q_EMIT typeChanged();
         change = true;
     }
     if (oldData->size != newData->size) {
+        qDebug() << "Image size changed from" << oldData->size << "to" << newData->size;
         Q_EMIT widthChanged();
         Q_EMIT heightChanged();
         change = true;
     }
     if (oldData->frameIndex != newData->frameIndex) {
+        qDebug() << "Frame index changed from" << oldData->frameIndex << "to" << newData->frameIndex;
         Q_EMIT frameIndexChanged();
         change = true;
     }
     if (oldData->frameCount != newData->frameCount) {
+        qDebug() << "Frame count changed from" << oldData->frameCount << "to" << newData->frameCount;
         Q_EMIT frameCountChanged();
         change = true;
     }
     if (oldData->exist != newData->exist) {
+        qDebug() << "Image existence changed from" << oldData->exist << "to" << newData->exist;
         Q_EMIT existsChanged();
         change = true;
     }
@@ -603,10 +645,12 @@ void ImageInfo::refreshDataFromCache(bool reload)
 {
     QString localPath = imageUrl.toLocalFile();
     if (localPath.isEmpty()) {
+        qWarning() << "Cannot refresh data: empty image URL";
         setStatus(Error);
         return;
     }
 
+    qDebug() << "Refreshing data from cache for:" << localPath << "frame:" << currentIndex << "reload:" << reload;
     ImageInfoData::Ptr newData = CacheInstance()->find(localPath, currentIndex);
     if (newData) {
         if (data) {
@@ -622,9 +666,11 @@ void ImageInfo::refreshDataFromCache(bool reload)
         setStatus(data->isError() ? Error : Ready);
     } else {
         if (reload) {
+            qDebug() << "No cached data found, loading from file:" << localPath;
             setStatus(Loading);
             CacheInstance()->load(localPath, currentIndex);
         } else {
+            qWarning() << "No cached data found and reload not requested:" << localPath;
             setStatus(Error);
         }
     }
@@ -637,6 +683,7 @@ void ImageInfo::refreshDataFromCache(bool reload)
 void ImageInfo::onLoadFinished(const QString &path, int frameIndex)
 {
     if (imageUrl.toLocalFile() == path && currentIndex == frameIndex) {
+        qDebug() << "Load finished for current image:" << path << "frame:" << frameIndex;
         // 从缓存刷新数据，不重新加载
         refreshDataFromCache(false);
     }
@@ -648,6 +695,7 @@ void ImageInfo::onLoadFinished(const QString &path, int frameIndex)
 void ImageInfo::onSizeChanged(const QString &path, int frameIndex)
 {
     if (imageUrl.toLocalFile() == path && currentIndex == frameIndex) {
+        qDebug() << "Size changed for current image:" << path << "frame:" << frameIndex;
         if (data) {
             Q_EMIT widthChanged();
             Q_EMIT heightChanged();

@@ -25,6 +25,8 @@ FileInotify::FileInotify(QObject *parent)
     : QObject(parent)
     , m_Supported(LibUnionImage_NameSpace::unionImageSupportFormat() + LibUnionImage_NameSpace::videoFiletypes()) //图片+视频
 {
+    qDebug() << "Initializing FileInotify with supported formats:" << m_Supported;
+    
     for (auto &eachData : m_Supported) {
         eachData = eachData.toUpper();
     }
@@ -34,17 +36,20 @@ FileInotify::FileInotify(QObject *parent)
 
     connect(&m_watcher, &QFileSystemWatcher::directoryChanged, this, [this](const QString & path) {
         Q_UNUSED(path)
+        qDebug() << "Directory change detected, starting timer";
         m_timer->start(500);
     });
 }
 
 FileInotify::~FileInotify()
 {
+    qDebug() << "Cleaning up FileInotify resources";
     clear();
 }
 
 void FileInotify::checkNewPath()
 {
+    qDebug() << "Checking for new paths in monitored directories";
     for (const auto &currentDir : m_currentDirs) {
         QDir dir(currentDir);
         QFileInfoList list;
@@ -56,6 +61,7 @@ void FileInotify::checkNewPath()
         });
 
         if (!dirs.isEmpty()) {
+            qDebug() << "Adding new directories to watch:" << dirs;
             m_watcher.addPaths(dirs);
         }
     }
@@ -63,6 +69,7 @@ void FileInotify::checkNewPath()
 
 void FileInotify::addWather(const QStringList &paths, const QString &album, int UID)
 {
+    qDebug() << "Adding watch for paths:" << paths << "Album:" << album << "UID:" << UID;
     m_currentDirs = paths;
     m_currentAlbum = album;
     m_currentUID = UID;
@@ -84,6 +91,7 @@ void FileInotify::addWather(const QStringList &paths, const QString &album, int 
 
 void FileInotify::clear()
 {
+    qDebug() << "Clearing FileInotify state";
     m_Supported.clear();
     m_newFile.clear();
     m_Supported.clear();
@@ -96,10 +104,12 @@ void FileInotify::clear()
 
 void FileInotify::getAllPicture(bool isFirst)
 {
+    qDebug() << "Getting all pictures, isFirst:" << isFirst;
     QFileInfoList list;
     for (int i = 0; i != m_currentDirs.size(); ++i) {
         QDir dir(m_currentDirs[i]);
         if (!dir.exists()) {
+            qWarning() << "Directory no longer exists, removing from watch:" << m_currentDirs[i];
             m_currentDirs.removeAt(i);
             --i;
             continue;
@@ -110,6 +120,7 @@ void FileInotify::getAllPicture(bool isFirst)
     }
 
     if (m_currentDirs.isEmpty()) { //文件夹被删除，清理数据库
+        qWarning() << "All monitored directories were removed, cleaning up database for UID:" << m_currentUID;
         DBManager::instance()->removeCustomAutoImportPath(m_currentUID);
         m_deleteFile = DBManager::instance()->getPathsByAlbum(m_currentUID);
         m_newFile.clear();
@@ -135,6 +146,7 @@ void FileInotify::getAllPicture(bool isFirst)
     //筛选出新增图片文件
     for (auto path : filePaths) {
         if (!allPaths.contains(path)) {
+            qDebug() << "New file detected:" << path;
             m_newFile << path;
         }
     }
@@ -143,6 +155,7 @@ void FileInotify::getAllPicture(bool isFirst)
     if (!isFirst) {
         for (auto path : allPaths) {
             if (!filePaths.contains(path)) {
+                qDebug() << "File removed:" << path;
                 m_deleteFile << path;
             }
         }
@@ -176,20 +189,25 @@ void FileInotify::getAllPicture(bool isFirst)
 
 void FileInotify::onNeedSendPictures()
 {
+    qDebug() << "Processing file changes";
     checkNewPath();
     getAllPicture(false);
 
     //发送导入
     if (!m_newFile.isEmpty() || !m_deleteFile.isEmpty()) {
+        qInfo() << "Emitting monitor changed signal - New files:" << m_newFile.size() 
+                << "Deleted files:" << m_deleteFile.size();
         emit sigMonitorChanged(m_newFile, m_deleteFile, m_currentAlbum, m_currentUID);
 
         if (m_newFile.size() > 100) {
+            qDebug() << "Clearing large new file list";
             QStringList().swap(m_newFile); //强制清理内存
         } else {
             m_newFile.clear();
         }
 
         if (m_deleteFile.size() > 100) {
+            qDebug() << "Clearing large delete file list";
             QStringList().swap(m_deleteFile); //强制清理内存
         } else {
             m_deleteFile.clear();

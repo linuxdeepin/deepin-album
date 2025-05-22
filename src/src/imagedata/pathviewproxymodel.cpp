@@ -15,6 +15,7 @@ PathViewProxyModel::IndexInfo::IndexInfo(const IndexInfo &other)
     , frameCount { other.frameCount }
     , frameIndex { other.frameIndex }
 {
+    qDebug() << "Creating IndexInfo copy for:" << url.toString() << "index:" << index << "frame:" << frameIndex << "/" << frameCount;
 }
 
 /**
@@ -28,6 +29,7 @@ PathViewProxyModel::PathViewProxyModel(ImageSourceModel *srcModel, QObject *pare
     : QAbstractListModel { parent }
     , sourceModel(srcModel)
 {
+    qDebug() << "Initializing PathViewProxyModel";
     Q_ASSERT_X(nullptr != sourceModel, "init proxy model", "must contain source data");
 
     // 设置默认的环长度
@@ -35,7 +37,10 @@ PathViewProxyModel::PathViewProxyModel(ImageSourceModel *srcModel, QObject *pare
     setQueueCount(defaultCount);
 }
 
-PathViewProxyModel::~PathViewProxyModel() { }
+PathViewProxyModel::~PathViewProxyModel() 
+{
+    qDebug() << "Cleaning up PathViewProxyModel";
+}
 
 QHash<int, QByteArray> PathViewProxyModel::roleNames() const
 {
@@ -45,6 +50,7 @@ QHash<int, QByteArray> PathViewProxyModel::roleNames() const
 QVariant PathViewProxyModel::data(const QModelIndex &index, int role) const
 {
     if (!checkIndex(index, CheckIndexOption::ParentIsInvalid | CheckIndexOption::IndexIsValid)) {
+        qWarning() << "Invalid index requested:" << index.row() << "role:" << role;
         return {};
     }
 
@@ -55,6 +61,7 @@ QVariant PathViewProxyModel::data(const QModelIndex &index, int role) const
         case Types::FrameIndexRole:
             return infoPtr ? infoPtr->frameIndex : 0;
         default:
+            qWarning() << "Unknown role requested:" << role;
             break;
     }
 
@@ -84,6 +91,7 @@ int PathViewProxyModel::currentIndex() const
 void PathViewProxyModel::setCurrentIndex(int index)
 {
     if (index != currentProxyIdx) {
+        qDebug() << "Changing current index from" << currentProxyIdx << "to" << index;
         currentProxyIdx = index;
         Q_EMIT currentIndexChanged(currentProxyIdx);
     }
@@ -95,6 +103,7 @@ void PathViewProxyModel::setCurrentIndex(int index)
 void PathViewProxyModel::syncState()
 {
     if (Current != jumpFlag) {
+        qDebug() << "Syncing state after jump animation";
         refreshBothSideData();
     }
 }
@@ -122,29 +131,35 @@ void PathViewProxyModel::syncState()
 void PathViewProxyModel::setCurrentSourceIndex(int sourceIndex, int frameIndex)
 {
     if (indexQueue.isEmpty()) {
+        qWarning() << "Cannot set source index - queue is empty";
         return;
     }
 
+    qDebug() << "Setting current source index to:" << sourceIndex << "frame:" << frameIndex;
     DistanceType type = distance(sourceIndex, frameIndex);
 
     // 若跳转中途更新代理索引(打断当前动画)立即更新图片状态
     if (Current != type && Current != jumpFlag) {
+        qDebug() << "Interrupting current animation to update state";
         refreshBothSideData();
     }
 
     switch (type) {
         case Previous:
+            qDebug() << "Moving to previous image";
             movePrevoius();
             break;
         case Next:
+            qDebug() << "Moving to next image";
             moveNext();
             break;
         case OutOfRange:
             // 触发跳转动画设置
+            qDebug() << "Jumping to out of range image";
             jumpToIndex(sourceIndex, frameIndex);
             break;
         default:
-            // Current / Invalid
+            qDebug() << "No movement needed - already at target";
             break;
     }
 }
@@ -155,6 +170,7 @@ void PathViewProxyModel::setCurrentSourceIndex(int sourceIndex, int frameIndex)
  */
 void PathViewProxyModel::movePrevoius()
 {
+    qDebug() << "Moving to previous image from index:" << currentProxyIdx;
     // 同步 view 的当前位置
     setCurrentIndex(previousPorxyIdx(currentProxyIdx));
 
@@ -170,6 +186,7 @@ void PathViewProxyModel::movePrevoius()
  */
 void PathViewProxyModel::moveNext()
 {
+    qDebug() << "Moving to next image from index:" << currentProxyIdx;
     setCurrentIndex(nextProxyIdx(currentProxyIdx));
 
     int changeIndex = (currentProxyIdx + radius) % maxCount;
@@ -184,6 +201,7 @@ void PathViewProxyModel::moveNext()
  */
 void PathViewProxyModel::resetModel(int sourceIndex, int frameIndex)
 {
+    qInfo() << "Resetting model with source index:" << sourceIndex << "frame:" << frameIndex;
     beginResetModel();
 
     // 无需通知
@@ -210,6 +228,7 @@ void PathViewProxyModel::resetModel(int sourceIndex, int frameIndex)
     indexQueue.append(prependQueue);
 
     endResetModel();
+    qDebug() << "Model reset complete, queue size:" << indexQueue.size();
 }
 
 /**
@@ -218,11 +237,13 @@ void PathViewProxyModel::resetModel(int sourceIndex, int frameIndex)
 void PathViewProxyModel::deleteCurrent()
 {
     if (indexQueue.isEmpty()) {
+        qWarning() << "Cannot delete current - queue is empty";
         return;
     }
 
     // 特殊处理，此时源数据无文件
     if (0 == sourceModel->rowCount()) {
+        qInfo() << "Source model is empty, clearing proxy model";
         beginResetModel();
         setCurrentIndex(0);
         indexQueue.clear();
@@ -232,12 +253,15 @@ void PathViewProxyModel::deleteCurrent()
 
     const IndexInfoPtr &current = indexQueue[currentProxyIdx];
     if (!current) {
+        qWarning() << "Cannot delete - current index info is null";
         return;
     }
 
+    qDebug() << "Deleting current image at index:" << current->index << "frame:" << current->frameIndex;
     // 源数据模型移除当前图片，默认将后续图片前移，currentIndex将不会变更，手动提示更新
     bool atEnd = (current->index >= sourceModel->rowCount());
     if (atEnd) {
+        qDebug() << "Deleting end image, moving to previous";
         // 获取之前的索引
         int previousIdx = previousPorxyIdx(currentProxyIdx);
 
@@ -250,6 +274,7 @@ void PathViewProxyModel::deleteCurrent()
         // 更新当前索引后再更新两侧数据
         refreshBothSideData();
     } else {
+        qDebug() << "Deleting non-end image, moving to next";
         int nextIdx = nextProxyIdx(currentProxyIdx);
         // NOTE: 源数据模型移除当前图片后，index不会变更
         auto next = infoFromIndex(current->index, 0);
@@ -267,6 +292,7 @@ void PathViewProxyModel::deleteCurrent()
  */
 void PathViewProxyModel::setQueueCount(int count)
 {
+    qDebug() << "Setting queue count to:" << count;
     static int minLimit = 3;
     bool valid = (count >= minLimit) && !!(count % 2);
     Q_ASSERT(valid);
@@ -280,18 +306,18 @@ void PathViewProxyModel::setQueueCount(int count)
  */
 void PathViewProxyModel::dumpInfo()
 {
-    qWarning() << "[ProxyModel] Currnet proxy index:" << currentProxyIdx;
+    qInfo() << "[ProxyModel] Current proxy index:" << currentProxyIdx;
     for (int i = 0; i < indexQueue.size(); ++i) {
         const IndexInfoPtr &info = indexQueue.at(i);
         if (info) {
-            qWarning() << QString("[ProxyModel] index: %1, count: %2, frameIndex: %3, Url: %4 %5")
-                              .arg(info->index)
-                              .arg(info->frameCount)
-                              .arg(info->frameIndex)
-                              .arg(info->url.toString())
-                              .arg((i == currentProxyIdx) ? "  <--" : "");
+            qInfo() << QString("[ProxyModel] index: %1, count: %2, frameIndex: %3, Url: %4 %5")
+                           .arg(info->index)
+                           .arg(info->frameCount)
+                           .arg(info->frameIndex)
+                           .arg(info->url.toString())
+                           .arg((i == currentProxyIdx) ? "  <--" : "");
         } else {
-            qWarning() << QString("[ProxyModel] Empty index info");
+            qInfo() << QString("[ProxyModel] Empty index info");
         }
     }
 }
@@ -301,9 +327,10 @@ void PathViewProxyModel::dumpInfo()
  */
 void PathViewProxyModel::jumpToIndex(int sourceIndex, int frameIndex)
 {
+    qDebug() << "Jumping to index:" << sourceIndex << "frame:" << frameIndex;
     const IndexInfoPtr &current = indexQueue[currentProxyIdx];
     if (!current) {
-        qWarning() << "No current data" << currentProxyIdx;
+        qWarning() << "Cannot jump - no current data at index:" << currentProxyIdx;
         dumpInfo();
         return;
     }
@@ -335,6 +362,7 @@ void PathViewProxyModel::jumpToIndex(int sourceIndex, int frameIndex)
  */
 void PathViewProxyModel::refreshBothSideData()
 {
+    qDebug() << "Refreshing data on both sides of current index:" << currentProxyIdx;
     // 根据当前图片的位置，更新两侧半径的数据
     int previousIndex = currentProxyIdx;
     int nextIndex = currentProxyIdx;
@@ -360,15 +388,18 @@ void PathViewProxyModel::refreshBothSideData()
 PathViewProxyModel::DistanceType PathViewProxyModel::distance(int sourceIndex, int frameIndex)
 {
     if (sourceIndex < 0 || sourceIndex >= sourceModel->rowCount()) {
+        qWarning() << "Invalid source index:" << sourceIndex;
         return Invalid;
     }
 
     if (indexQueue.isEmpty()) {
+        qWarning() << "Cannot calculate distance - queue is empty";
         return Invalid;
     }
 
     const IndexInfoPtr &current = indexQueue[currentProxyIdx];
     if (!current) {
+        qWarning() << "Cannot calculate distance - current index info is null";
         return Invalid;
     }
 
@@ -393,8 +424,10 @@ PathViewProxyModel::DistanceType PathViewProxyModel::distance(int sourceIndex, i
 
     // 判断范围
     if (Previous <= range && range <= Next) {
+        qDebug() << "Distance calculated:" << range << "for source:" << sourceIndex << "frame:" << frameIndex;
         return static_cast<DistanceType>(range);
     }
+    qDebug() << "Distance out of range for source:" << sourceIndex << "frame:" << frameIndex;
     return OutOfRange;
 }
 
@@ -407,6 +440,7 @@ QUrl PathViewProxyModel::sourcePath(int sourceIndex)
         return sourceModel->data(sourceModel->index(sourceIndex), Types::ImageUrlRole).toUrl();
     }
 
+    qWarning() << "Invalid source index requested:" << sourceIndex;
     return {};
 }
 
@@ -434,14 +468,16 @@ int PathViewProxyModel::nextProxyIdx(int base)
  */
 PathViewProxyModel::IndexInfoPtr PathViewProxyModel::infoFromIndex(int sourceIndex, int frameIndex)
 {
+    qDebug() << "Getting info for source index:" << sourceIndex << "frame:" << frameIndex;
     QUrl url = sourcePath(sourceIndex);
     if (url.isEmpty()) {
+        qWarning() << "Empty URL for source index:" << sourceIndex;
         return {};
     }
 
     ImageInfo imageInfo(url);
     if (ImageInfo::Loading == imageInfo.status()) {
-        qWarning() << "Not ready image data";
+        qWarning() << "Image data not ready for:" << url.toString();
         asyncUpdateLoadInfo(url, sourceIndex, frameIndex);
     }
 
@@ -451,6 +487,7 @@ PathViewProxyModel::IndexInfoPtr PathViewProxyModel::infoFromIndex(int sourceInd
     info->frameCount = qMax(1, imageInfo.frameCount());
     info->frameIndex = qBound(0, frameIndex, info->frameCount - 1);
 
+    qDebug() << "Created index info for:" << url.toString() << "frames:" << info->frameCount << "current:" << info->frameIndex;
     return info;
 }
 
@@ -460,23 +497,28 @@ PathViewProxyModel::IndexInfoPtr PathViewProxyModel::infoFromIndex(int sourceInd
  */
 void PathViewProxyModel::asyncUpdateLoadInfo(const QUrl &url, int sourceIndex, int frameIndex)
 {
+    qDebug() << "Starting async update for:" << url.toString() << "source:" << sourceIndex << "frame:" << frameIndex;
     // 异步更新加载信息，一般仅初次加载存在此问题
     if (0 == frameIndex) {
         ImageInfo *delayInfo = new ImageInfo(url, this);
         connect(delayInfo, &ImageInfo::statusChanged, this, [this, delayInfo, sourceIndex]() {
             // 仅更新加载成功的多页图数据，其它类型的数据无需关注，默认的 frameIndex 都是 0
             if (ImageInfo::Ready == delayInfo->status() && Types::MultiImage == delayInfo->type()) {
+                qDebug() << "Async update ready for:" << delayInfo->source() << "source:" << sourceIndex;
                 auto current = indexQueue[currentProxyIdx];
                 if (!current) {
+                    qWarning() << "No current index info during async update";
                     delayInfo->deleteLater();
                     return;
                 }
 
                 if (sourceIndex == current->index) {
+                    qDebug() << "Updating current image frame count";
                     // 若为当前图片，仅需更新当前图片帧总数和两侧的数据
                     current->frameCount = delayInfo->frameCount();
                     refreshBothSideData();
                 } else if (sourceIndex < current->index) {
+                    qDebug() << "Updating previous images";
                     int previousIndex = currentProxyIdx;
                     for (int i = 0; i < radius; ++i) {
                         IndexInfoPtr previousInfo = createPreviousIndexInfo(indexQueue[previousIndex]);
@@ -484,6 +526,7 @@ void PathViewProxyModel::asyncUpdateLoadInfo(const QUrl &url, int sourceIndex, i
                         updateIndexInfo(previousIndex, previousInfo);
                     }
                 } else {
+                    qDebug() << "Updating next images";
                     int nextIndex = currentProxyIdx;
                     for (int i = 0; i < radius; ++i) {
                         IndexInfoPtr nextInfo = createNextIndexInfo(indexQueue[nextIndex]);
@@ -504,15 +547,18 @@ void PathViewProxyModel::asyncUpdateLoadInfo(const QUrl &url, int sourceIndex, i
 PathViewProxyModel::IndexInfoPtr PathViewProxyModel::createPreviousIndexInfo(const IndexInfoPtr &baseInfo)
 {
     if (!baseInfo) {
+        qWarning() << "Cannot create previous info - base info is null";
         return {};
     }
 
     if (baseInfo->frameIndex > 0) {
+        qDebug() << "Creating previous frame info for:" << baseInfo->url.toString() << "frame:" << (baseInfo->frameIndex - 1);
         IndexInfoPtr previousFrame = IndexInfoPtr::create(*baseInfo);
         previousFrame->frameIndex--;
         return previousFrame;
     }
 
+    qDebug() << "Creating previous image info from:" << baseInfo->url.toString();
     IndexInfoPtr previous = infoFromIndex(baseInfo->index - 1);
     if (previous) {
         previous->frameIndex = previous->frameCount - 1;
@@ -526,15 +572,18 @@ PathViewProxyModel::IndexInfoPtr PathViewProxyModel::createPreviousIndexInfo(con
 PathViewProxyModel::IndexInfoPtr PathViewProxyModel::createNextIndexInfo(const IndexInfoPtr &baseInfo)
 {
     if (!baseInfo) {
+        qWarning() << "Cannot create next info - base info is null";
         return {};
     }
 
     if (baseInfo->frameCount - 1 > baseInfo->frameIndex) {
+        qDebug() << "Creating next frame info for:" << baseInfo->url.toString() << "frame:" << (baseInfo->frameIndex + 1);
         IndexInfoPtr nextFrame = IndexInfoPtr::create(*baseInfo);
         nextFrame->frameIndex++;
         return nextFrame;
     }
 
+    qDebug() << "Creating next image info from:" << baseInfo->url.toString();
     IndexInfoPtr next = infoFromIndex(baseInfo->index + 1);
     return next;
 }
@@ -545,6 +594,7 @@ PathViewProxyModel::IndexInfoPtr PathViewProxyModel::createNextIndexInfo(const I
  */
 void PathViewProxyModel::updateIndexInfo(int proxyIndex, const IndexInfoPtr &info)
 {
+    qDebug() << "Updating index info at:" << proxyIndex;
     Q_ASSERT(0 <= proxyIndex && proxyIndex < indexQueue.size());
     indexQueue[proxyIndex] = info;
 
