@@ -19,6 +19,7 @@ ThumbnailModel::ThumbnailModel(QObject *parent)
     , m_screenshotSize(256, 256)
     , m_containImages(false)
 {
+    qDebug() << "Initializing ThumbnailModel";
     setSortLocaleAware(true);
     sort(0);
     m_selectionModel = new QItemSelectionModel(this);
@@ -31,7 +32,7 @@ ThumbnailModel::ThumbnailModel(QObject *parent)
 
 ThumbnailModel::~ThumbnailModel()
 {
-
+    qDebug() << "Destroying ThumbnailModel";
 }
 
 Types::ModelType ThumbnailModel::modelType() const
@@ -54,7 +55,10 @@ void ThumbnailModel::showPreview(const QString &path)
 {
     int idx = indexForFilePath(path);
     if (idx != -1) {
+        qDebug() << "Showing preview for path:" << path << "at index:" << idx;
         dataChanged(index(idx, 0, QModelIndex()), index(idx, 0, QModelIndex()));
+    } else {
+        qDebug() << "No preview available for path:" << path;
     }
 }
 
@@ -63,6 +67,7 @@ void ThumbnailModel::changeSelection(const QItemSelection &selected, const QItem
     QModelIndexList indices = selected.indexes();
     indices.append(deselected.indexes());
 
+    qDebug() << "Selection changed - selected:" << selected.indexes().size() << "deselected:" << deselected.indexes().size();
     const QVector<int> roles{Roles::SelectedRole};
 
     for (const QModelIndex &index : indices) {
@@ -79,6 +84,7 @@ QByteArray ThumbnailModel::sortRoleName() const
 void ThumbnailModel::setSortRoleName(const QByteArray &name)
 {
     if (!sourceModel()) {
+        qDebug() << "Setting sort role name to" << name << "deferred - no source model";
         m_sortRoleName = name;
         return;
     }
@@ -86,11 +92,12 @@ void ThumbnailModel::setSortRoleName(const QByteArray &name)
     const QHash<int, QByteArray> roles = sourceModel()->roleNames();
     for (auto it = roles.begin(); it != roles.end(); it++) {
         if (it.value() == name) {
+            qDebug() << "Setting sort role to" << name;
             setSortRole(it.key());
             return;
         }
     }
-    qDebug() << "Sort role" << name << "not found";
+    qWarning() << "Sort role" << name << "not found";
 }
 
 QHash<int, QByteArray> ThumbnailModel::roleNames() const
@@ -108,11 +115,11 @@ QHash<int, QByteArray> ThumbnailModel::roleNames() const
 QVariant ThumbnailModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
+        qDebug() << "Invalid index requested for role:" << role;
         return {};
     }
 
     switch (role) {
-
     case Roles::BlankRole: {
         return false;
     }
@@ -126,8 +133,10 @@ QVariant ThumbnailModel::data(const QModelIndex &index, int role) const
         QImage image = ImageDataService::instance()->getThumnailImageByPathRealTime(srcPath, modelType() == Types::RecentlyDeleted);
         if (!image.isNull()) {
             return image;
-        } else
+        } else {
+            qDebug() << "No thumbnail available for path:" << srcPath;
             return {};
+        }
     }
 
     case Roles::ReloadThumbnail: {
@@ -135,8 +144,10 @@ QVariant ThumbnailModel::data(const QModelIndex &index, int role) const
         QImage image = ImageDataService::instance()->getThumnailImageByPathRealTime(srcPath, modelType() == Types::RecentlyDeleted, true);
         if (!image.isNull()) {
             return image;
-        } else
+        } else {
+            qDebug() << "Failed to reload thumbnail for path:" << srcPath;
             return {};
+        }
     }
 
     case Roles::SourceIndex: {
@@ -169,6 +180,7 @@ QObject *ThumbnailModel::viewAdapter() const
 void ThumbnailModel::setViewAdapter(QObject *adapter)
 {
     if (m_viewAdapter != adapter) {
+        qDebug() << "Setting view adapter from" << m_viewAdapter << "to" << adapter;
         ItemViewAdapter *abstractViewAdapter = dynamic_cast<ItemViewAdapter *>(adapter);
 
         m_viewAdapter = abstractViewAdapter;
@@ -180,6 +192,7 @@ void ThumbnailModel::setViewAdapter(QObject *adapter)
 void ThumbnailModel::setStatus(Status status)
 {
     if (m_status != status) {
+        qDebug() << "Setting status from" << m_status << "to" << status;
         m_status = status;
         Q_EMIT statusChanged();
     }
@@ -200,6 +213,7 @@ void ThumbnailModel::setSourceModel(QAbstractItemModel *sourceModel)
     if (oldSrcModel)
         disconnect(oldSrcModel, SIGNAL(modelReset()), this, SIGNAL(srcModelReseted()));
 
+    qDebug() << "Setting source model from" << oldSrcModel << "to" << sourceModel;
     QSortFilterProxyModel::setSourceModel(sourceModel);
 
     connect(sourceModel, SIGNAL(modelReset()), this, SIGNAL(srcModelReseted()));
@@ -218,6 +232,7 @@ bool ThumbnailModel::containImages()
 bool ThumbnailModel::isSelected(int row)
 {
     if (row < 0) {
+        qDebug() << "Invalid row requested for selection check:" << row;
         return false;
     }
 
@@ -226,9 +241,12 @@ bool ThumbnailModel::isSelected(int row)
 
 void ThumbnailModel::setSelected(int indexValue)
 {
-    if (indexValue < 0)
+    if (indexValue < 0) {
+        qDebug() << "Invalid index for selection:" << indexValue;
         return;
+    }
 
+    qDebug() << "Setting selection for index:" << indexValue;
     QModelIndex index = QSortFilterProxyModel::index(indexValue, 0);
     m_selectionModel->select(index, QItemSelectionModel::Select);
     emit dataChanged(index, index);
@@ -238,9 +256,12 @@ void ThumbnailModel::setSelected(int indexValue)
 
 void ThumbnailModel::toggleSelected(int indexValue)
 {
-    if (indexValue < 0)
+    if (indexValue < 0) {
+        qDebug() << "Invalid index for toggle selection:" << indexValue;
         return;
+    }
 
+    qDebug() << "Toggling selection for index:" << indexValue;
     QModelIndex index = QSortFilterProxyModel::index(indexValue, 0);
     m_selectionModel->select(index, QItemSelectionModel::Toggle);
     emit dataChanged(index, index);
@@ -251,18 +272,20 @@ void ThumbnailModel::toggleSelected(int indexValue)
 void ThumbnailModel::setRangeSelected(int anchor, int to)
 {
     if (anchor < 0 || to < 0) {
+        qDebug() << "Invalid range for selection - anchor:" << anchor << "to:" << to;
         return;
     }
 
+    qDebug() << "Setting range selection from" << anchor << "to" << to;
     QItemSelection selection(index(anchor, 0), index(to, 0));
     m_selectionModel->select(selection, QItemSelectionModel::ClearAndSelect);
     GlobalStatus::instance()->setSelectedPaths(selectUrlsVariantList());
     emit selectedIndexesChanged();
 }
 
-
 void ThumbnailModel::updateSelection(const QVariantList &rows, bool toggle)
 {
+    qDebug() << "Updating selection with" << rows.size() << "rows, toggle:" << toggle;
     QItemSelection newSelection;
 
     QList<int> oldSelecteds = selectedIndexes();
@@ -273,6 +296,7 @@ void ThumbnailModel::updateSelection(const QVariantList &rows, bool toggle)
         iRow = row.toInt();
 
         if (iRow < 0) {
+            qDebug() << "Invalid row in selection update:" << iRow;
             return;
         }
 
@@ -298,11 +322,9 @@ void ThumbnailModel::updateSelection(const QVariantList &rows, bool toggle)
 void ThumbnailModel::clearSelection()
 {
     if (m_selectionModel->hasSelection()) {
+        qDebug() << "Clearing selection of" << m_selectionModel->selectedIndexes().size() << "items";
         QModelIndexList selectedIndex = m_selectionModel->selectedIndexes();
         m_selectionModel->clear();
-//        for (auto indexValue : selectedIndex) {
-//            emit dataChanged(indexValue, indexValue);
-//        }
     }
     GlobalStatus::instance()->setSelectedPaths(selectUrlsVariantList());
     emit selectedIndexesChanged();
@@ -342,6 +364,7 @@ QJsonArray ThumbnailModel::allUrls()
     for (int row = 0; row < rowCount(); row++)
         arr.append(QJsonValue(data(index(row, 0), Roles::UrlRole).toString()));
 
+    qDebug() << "Retrieved" << arr.size() << "total URLs";
     return arr;
 }
 
@@ -355,6 +378,7 @@ QStringList ThumbnailModel::allPictureUrls()
         }
     }
 
+    qDebug() << "Retrieved" << pictureUrls.size() << "picture URLs";
     return pictureUrls;
 }
 
@@ -364,6 +388,7 @@ QJsonArray ThumbnailModel::allPaths()
     for (int row = 0; row < rowCount(); row++)
         arr.append(QJsonValue(data(index(row, 0), Roles::FilePathRole).toString()));
 
+    qDebug() << "Retrieved" << arr.size() << "total paths";
     return arr;
 }
 
@@ -374,6 +399,7 @@ QJsonArray ThumbnailModel::selectedUrls()
     for (auto index : m_selectionModel->selectedIndexes())
         arr.push_back(QJsonValue(data(index, Roles::UrlRole).toString()));
 
+    qDebug() << "Retrieved" << arr.size() << "selected URLs";
     return arr;
 }
 
@@ -384,6 +410,7 @@ QJsonArray ThumbnailModel::selectedPaths()
     for (auto index : m_selectionModel->selectedIndexes())
         arr.push_back(QJsonValue(data(index, Roles::FilePathRole).toString()));
 
+    qDebug() << "Retrieved" << arr.size() << "selected paths";
     return arr;
 }
 
@@ -405,9 +432,11 @@ int ThumbnailModel::indexForUrl(const QString &url)
     }
     for (auto index : indexList) {
         if (url == data(index, Roles::UrlRole).toString()) {
+            qDebug() << "Found index" << index.row() << "for URL:" << url;
             return index.row();
         }
     }
+    qDebug() << "No index found for URL:" << url;
     return -1;
 }
 
@@ -419,6 +448,7 @@ QList<int> ThumbnailModel::indexesForUrls(const QStringList &urls)
             indexes.push_back(row);
     }
 
+    qDebug() << "Found" << indexes.size() << "indexes for" << urls.size() << "URLs";
     return indexes;
 }
 
@@ -432,17 +462,20 @@ int ThumbnailModel::indexForFilePath(const QString &filePath)
         for (auto index : indexList) {
             QString path = data(index, Roles::FilePathRole).toString();
             if (filePath == Libutils::base::getDeleteFullPath(Libutils::base::hashByString(path), DBImgInfo::getFileNameFromFilePath(path))) {
+                qDebug() << "Found index" << index.row() << "for deleted file path:" << filePath;
                 return index.row();
             }
         }
     } else {
         for (auto index : indexList) {
             if (filePath == data(index, Roles::FilePathRole).toString()) {
+                qDebug() << "Found index" << index.row() << "for file path:" << filePath;
                 return index.row();
             }
         }
     }
 
+    qDebug() << "No index found for file path:" << filePath;
     return -1;
 }
 
@@ -463,11 +496,13 @@ QVariant ThumbnailModel::data(int idx, const QString &role)
     if (roleType != -1)
         return data(index(idx, 0, QModelIndex()), roleType);
 
+    qDebug() << "Unknown role requested:" << role;
     return QVariant();
 }
 
 void ThumbnailModel::refresh(int type)
 {
+    qDebug() << "Refreshing model with type:" << type;
     ImageDataModel *dataModel = qobject_cast<ImageDataModel *>(sourceModel());
     if (dataModel)
         dataModel->loadData(static_cast<Types::ItemType>(type));
@@ -475,6 +510,7 @@ void ThumbnailModel::refresh(int type)
 
 void ThumbnailModel::selectUrls(const QStringList &urls)
 {
+    qDebug() << "Selecting" << urls.size() << "URLs";
     QItemSelection newSelection;
 
     QList<int> indexes = indexesForUrls(urls);
@@ -488,8 +524,10 @@ void ThumbnailModel::selectUrls(const QStringList &urls)
 
 DBImgInfo ThumbnailModel::indexForData(const QModelIndex &index) const
 {
-    if (!index.isValid())
+    if (!index.isValid()) {
+        qDebug() << "Invalid index requested for data";
         return DBImgInfo();
+    }
 
     return index.data().value<DBImgInfo>();
 }

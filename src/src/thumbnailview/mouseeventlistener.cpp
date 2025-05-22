@@ -29,6 +29,7 @@ MouseEventListener::MouseEventListener(QQuickItem *parent)
     , m_enableMouse(true)
     , m_acceptedButtons(Qt::LeftButton)
 {
+    qDebug() << "Initializing MouseEventListener";
     m_pressAndHoldTimer = new QTimer(this);
     m_pressAndHoldTimer->setSingleShot(true);
     connect(m_pressAndHoldTimer, &QTimer::timeout, this, &MouseEventListener::handlePressAndHold);
@@ -38,6 +39,7 @@ MouseEventListener::MouseEventListener(QQuickItem *parent)
 
 MouseEventListener::~MouseEventListener()
 {
+    qDebug() << "Destroying MouseEventListener";
 }
 
 Qt::MouseButtons MouseEventListener::acceptedButtons() const
@@ -56,6 +58,7 @@ void MouseEventListener::setCursorShape(Qt::CursorShape shape)
         return;
     }
 
+    qDebug() << "Setting cursor shape from" << cursor().shape() << "to" << shape;
     setCursor(shape);
 
     Q_EMIT cursorShapeChanged();
@@ -77,6 +80,7 @@ void MouseEventListener::setAcceptedButtons(Qt::MouseButtons buttons)
         return;
     }
 
+    qDebug() << "Setting accepted buttons from" << m_acceptedButtons << "to" << buttons;
     m_acceptedButtons = buttons;
     Q_EMIT acceptedButtonsChanged();
 }
@@ -87,6 +91,7 @@ void MouseEventListener::setHoverEnabled(bool enable)
         return;
     }
 
+    qDebug() << "Setting hover enabled from" << acceptHoverEvents() << "to" << enable;
     setAcceptHoverEvents(enable);
     Q_EMIT hoverEnabledChanged(enable);
 }
@@ -108,6 +113,7 @@ void MouseEventListener::hoverEnterEvent(QHoverEvent *event)
     if (!m_enableMouse)
         return;
 
+    qDebug() << "Mouse entered at position:" << event->pos();
     m_containsMouse = true;
     Q_EMIT containsMouseChanged(true);
 }
@@ -168,6 +174,7 @@ void MouseEventListener::mousePressEvent(QMouseEvent *me)
     }
 
     if (!QRectF(mapToScene(QPoint(0, 0)) + viewPosition, QSizeF(width(), height())).contains(me->screenPos())) {
+        qDebug() << "Mouse press ignored - outside bounds at position:" << me->screenPos();
         me->ignore();
         return;
     }
@@ -214,6 +221,7 @@ void MouseEventListener::mouseMoveEvent(QMouseEvent *me)
     }
 
     if (QPointF(me->screenPos() - m_buttonDownPos).manhattanLength() > QGuiApplication::styleHints()->startDragDistance() && m_pressAndHoldTimer->isActive()) {
+        qDebug() << "Cancelling press and hold - mouse moved beyond drag distance";
         m_pressAndHoldTimer->stop();
     }
 
@@ -254,6 +262,7 @@ void MouseEventListener::mouseReleaseEvent(QMouseEvent *me)
     Q_EMIT pressedChanged();
 
     if (boundingRect().contains(me->pos()) && m_pressAndHoldTimer->isActive()) {
+        qDebug() << "Mouse clicked at position:" << me->pos();
         Q_EMIT clicked(&dme);
         m_pressAndHoldTimer->stop();
     }
@@ -344,7 +353,6 @@ bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
                                                          screenForGlobalPos(me->globalPos()),
                                                          me->source());
 
-        // qDebug() << "pressed in sceneEventFilter";
         m_buttonDownPos = me->screenPos();
         m_pressed = true;
         Q_EMIT pressed(&dme);
@@ -399,11 +407,11 @@ bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
                                    me->modifiers(),
                                    screenForGlobalPos(me->globalPos()),
                                    me->source());
-        // qDebug() << "positionChanged..." << dme.x() << dme.y();
 
         // stop the pressandhold if mouse moved enough
         if (QPointF(me->screenPos() - m_buttonDownPos).manhattanLength() > QGuiApplication::styleHints()->startDragDistance()
                 && m_pressAndHoldTimer->isActive()) {
+            qDebug() << "Cancelling press and hold - mouse moved beyond drag distance";
             m_pressAndHoldTimer->stop();
 
             // if the mouse moves and we are waiting to emit a press and hold event, update the coordinates
@@ -448,6 +456,7 @@ bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
 
         if (QPointF(me->screenPos() - m_buttonDownPos).manhattanLength() <= QGuiApplication::styleHints()->startDragDistance()
                 && m_pressAndHoldTimer->isActive()) {
+            qDebug() << "Child mouse clicked at position:" << myPos;
             Q_EMIT clicked(&dme);
             m_pressAndHoldTimer->stop();
         }
@@ -459,6 +468,7 @@ bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
     }
     case QEvent::UngrabMouse: {
         m_lastEvent = event;
+        qDebug() << "Mouse ungrab event received";
         handleUngrab();
         break;
     }
@@ -488,7 +498,6 @@ bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
     }
 
     return QQuickItem::childMouseEventFilter(item, event);
-    //    return false;
 }
 
 QScreen *MouseEventListener::screenForGlobalPos(const QPoint &globalPos)
@@ -504,6 +513,7 @@ QScreen *MouseEventListener::screenForGlobalPos(const QPoint &globalPos)
 
 void MouseEventListener::mouseUngrabEvent()
 {
+    qDebug() << "Mouse ungrab event received";
     handleUngrab();
 
     QQuickItem::mouseUngrabEvent();
@@ -511,6 +521,7 @@ void MouseEventListener::mouseUngrabEvent()
 
 void MouseEventListener::touchUngrabEvent()
 {
+    qDebug() << "Touch ungrab event received";
     handleUngrab();
 
     QQuickItem::touchUngrabEvent();
@@ -522,6 +533,7 @@ void MouseEventListener::handleUngrab()
         return;
 
     if (m_pressed) {
+        qDebug() << "Handling ungrab while pressed";
         m_pressAndHoldTimer->stop();
 
         m_pressed = false;

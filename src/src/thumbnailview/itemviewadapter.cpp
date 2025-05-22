@@ -5,6 +5,7 @@
 */
 
 #include "itemviewadapter.h"
+#include <QDebug>
 
 #include <QModelIndex>
 #include <QPalette>
@@ -16,25 +17,30 @@ ItemViewAdapter::ItemViewAdapter(QObject *parent)
     , m_adapterModel(nullptr)
     , m_adapterIconSize(-1)
 {
+    qDebug() << "Initializing ItemViewAdapter";
 }
 
 QAbstractItemModel *ItemViewAdapter::model() const
 {
+    qDebug() << "Getting model, current model:" << (m_adapterModel ? "set" : "null");
     return m_adapterModel;
 }
 
 QSize ItemViewAdapter::iconSize() const
 {
+    qDebug() << "Getting icon size:" << m_adapterIconSize;
     return QSize(m_adapterIconSize, m_adapterIconSize);
 }
 
 QPalette ItemViewAdapter::palette() const
 {
+    qDebug() << "Getting default palette";
     return QPalette();
 }
 
 QRect ItemViewAdapter::visibleArea() const
 {
+    qDebug() << "Getting visible area:" << m_adapterVisibleArea;
     return m_adapterVisibleArea;
 }
 
@@ -86,12 +92,14 @@ void ItemViewAdapter::setAdapterModel(QAbstractItemModel *model)
 
 int ItemViewAdapter::adapterIconSize() const
 {
+    qDebug() << "Getting adapter icon size:" << m_adapterIconSize;
     return m_adapterIconSize;
 }
 
 void ItemViewAdapter::setAdapterIconSize(int size)
 {
     if (m_adapterIconSize != size) {
+        qDebug() << "Setting adapter icon size from" << m_adapterIconSize << "to" << size;
         m_adapterIconSize = size;
 
         Q_EMIT adapterIconSizeChanged();
@@ -100,12 +108,14 @@ void ItemViewAdapter::setAdapterIconSize(int size)
 
 QRect ItemViewAdapter::adapterVisibleArea() const
 {
+    qDebug() << "Getting adapter visible area:" << m_adapterVisibleArea;
     return m_adapterVisibleArea;
 }
 
 void ItemViewAdapter::setAdapterVisibleArea(QRect rect)
 {
     if (m_adapterVisibleArea != rect) {
+        qDebug() << "Setting adapter visible area from" << m_adapterVisibleArea << "to" << rect;
         m_adapterVisibleArea = rect;
 
         Q_EMIT adapterVisibleAreaChanged();
