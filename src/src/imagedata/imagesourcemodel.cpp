@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "imagesourcemodel.h"
+#include <QDebug>
 
 /**
    @class ImageSourceModel
@@ -15,9 +16,13 @@
 ImageSourceModel::ImageSourceModel(QObject *parent)
     : QAbstractListModel(parent)
 {
+    qDebug() << "ImageSourceModel initialized";
 }
 
-ImageSourceModel::~ImageSourceModel() {}
+ImageSourceModel::~ImageSourceModel() 
+{
+    qDebug() << "ImageSourceModel destroyed with" << imageUrlList.size() << "images";
+}
 
 /**
    @return 返回当前数据模型的数据类型及在QML中使用的别名
@@ -33,6 +38,7 @@ QHash<int, QByteArray> ImageSourceModel::roleNames() const
 QVariant ImageSourceModel::data(const QModelIndex &index, int role) const
 {
     if (!checkIndex(index, CheckIndexOption::ParentIsInvalid | CheckIndexOption::IndexIsValid)) {
+        qWarning() << "Invalid index requested:" << index.row() << "role:" << role;
         return {};
     }
 
@@ -53,6 +59,7 @@ QVariant ImageSourceModel::data(const QModelIndex &index, int role) const
 bool ImageSourceModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (!checkIndex(index, CheckIndexOption::ParentIsInvalid | CheckIndexOption::IndexIsValid)) {
+        qWarning() << "Invalid index for setData:" << index.row() << "role:" << role;
         return false;
     }
 
@@ -84,6 +91,7 @@ int ImageSourceModel::rowCount(const QModelIndex &parent) const
 int ImageSourceModel::indexForImagePath(const QUrl &file)
 {
     if (file.isEmpty()) {
+        qWarning() << "Empty file URL requested for index";
         return -1;
     }
 
@@ -107,8 +115,12 @@ void ImageSourceModel::removeImage(const QUrl &fileName)
 {
     int index = imageUrlList.indexOf(fileName);
     if (-1 != index) {
+        qDebug() << "Removing image at index" << index << ":" << fileName;
         beginRemoveRows(QModelIndex(), index, index);
         imageUrlList.removeAt(index);
         endRemoveRows();
+        qDebug() << "Image removed, new count:" << imageUrlList.size();
+    } else {
+        qWarning() << "Attempted to remove non-existent image:" << fileName;
     }
 }

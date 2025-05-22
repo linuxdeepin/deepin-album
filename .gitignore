@@ -108,3 +108,4 @@ build
 
 # vs code
 .vscode
+.cursor

@@ -8,23 +8,29 @@
 
 #include <QDir>
 #include <QFileSystemWatcher>
+#include <QDebug>
 
 FileInotifyGroup::FileInotifyGroup(QObject *parent) : QObject(parent)
 {
-
+    qDebug() << "Initializing FileInotifyGroup";
 }
 
 void FileInotifyGroup::startWatch(const QStringList &paths, const QString &album, int UID)
 {
+    qDebug() << "Starting watch for album:" << album << "UID:" << UID << "with paths:" << paths;
+    
     //去除不存在的路径
     QStringList watchPaths;
     for (const auto &path : paths) {
         QFileInfo info(path);
         if (info.exists() && info.isDir()) {
             watchPaths.push_back(path);
+        } else {
+            qWarning() << "Path does not exist or is not a directory, skipping:" << path;
         }
     }
     if (watchPaths.isEmpty()) {
+        qWarning() << "No valid paths to watch for album:" << album << "UID:" << UID;
         return;
     }
 
@@ -38,10 +44,12 @@ void FileInotifyGroup::startWatch(const QStringList &paths, const QString &album
 
     //加进监控list，后面方便销毁
     watchers.push_back(watcher);
+    qDebug() << "Added new watcher for album:" << album << "UID:" << UID << "Total watchers:" << watchers.size();
 }
 
 FileInotifyGroup::~FileInotifyGroup()
 {
+    qDebug() << "Cleaning up FileInotifyGroup with" << watchers.size() << "watchers";
     for (auto &watcher : watchers) {
         watcher->deleteLater();
     }

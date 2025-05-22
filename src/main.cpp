@@ -78,12 +78,15 @@ int main(int argc, char *argv[])
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();
 
     QQmlApplicationEngine engine;
+    qDebug() << "Initializing QML engine";
 
     if (!DGuiApplicationHelper::instance()->setSingleInstance(app.applicationName(), DGuiApplicationHelper::UserScope)) {
+        qWarning() << "Application instance already running, exiting";
         exit(0);
     }
 
     // 配置文件加载
+    qDebug() << "Loading application configuration";
     LibConfigSetter::instance()->loadConfig(imageViewerSpace::ImgViewerTypeAlbum);
 
     // 请在此处注册需要导入到QML中的C++类型
@@ -116,17 +119,20 @@ int main(int argc, char *argv[])
     // 部分平台支持线程数较低时，使用同步加载
     ProviderCache *providerCache = nullptr;
     if (!GlobalControl::enableMultiThread()) {
+        qInfo() << "Using synchronous image loading due to low thread support";
         ImageProvider *imageProvider = new ImageProvider;
         engine.addImageProvider(QLatin1String("ImageLoad"), imageProvider);
 
         providerCache = static_cast<ProviderCache *>(imageProvider);
     } else {
+        qInfo() << "Using asynchronous image loading";
         AsyncImageProvider *asyncImageProvider = new AsyncImageProvider;
         engine.addImageProvider(QLatin1String("ImageLoad"), asyncImageProvider);
 
         providerCache = static_cast<ProviderCache *>(asyncImageProvider);
 
         if (!cliParam.isEmpty()) {
+            qDebug() << "Preloading image from command line parameter";
             asyncImageProvider->preloadImage(cliParam);
         }
     }
@@ -153,19 +159,24 @@ int main(int argc, char *argv[])
     if (!cliParam.isEmpty()) {
         QStringList filePaths = fileControl.getDirImagePath(cliParam);
         if (!filePaths.isEmpty()) {
+            qInfo() << "Loading" << filePaths.size() << "images from command line parameter";
             control.setImageFiles(filePaths, cliParam);
             fileControl.resetImageFiles(filePaths);
 
             GlobalStatus::instance()->setStackPage(Types::ImageViewPage);
+        } else {
+            qWarning() << "No valid images found in command line parameter path:" << cliParam;
         }
     }
 
     QImageItem::initDamage();
     //设置为相册模式
+    qDebug() << "Setting viewer type to album mode";
     fileControl.setViewerType(imageViewerSpace::ImgViewerTypeAlbum);
 
     //禁止多开
     if (!fileControl.isCheckOnly()) {
+        qWarning() << "Application instance check failed, exiting";
         return 0;
     }
 
@@ -198,13 +209,18 @@ int main(int argc, char *argv[])
     qmlRegisterType<QmlWidget>(uriAlbum, 1, 0, "QmlWidget");
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
-    if (engine.rootObjects().isEmpty())
+    if (engine.rootObjects().isEmpty()) {
+        qCritical() << "Failed to load main QML file";
         return -1;
+    }
+    qInfo() << "Main QML file loaded successfully";
 
     // 设置DBus接口
+    qDebug() << "Registering DBus service and object";
     ApplicationAdaptor adaptor(&fileControl);
     QDBusConnection::sessionBus().registerService("com.deepin.album");
     QDBusConnection::sessionBus().registerObject("/", &fileControl);
 
+    qInfo() << "Application initialization completed";
     return app.exec();
 }

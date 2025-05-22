@@ -138,12 +138,14 @@ MovieService *MovieService::instance(QObject *parent)
     //线程安全单例
     std::call_once(instanceFlag, [&]() {
         m_movieService = new MovieService;
+        qDebug() << "Created new MovieService instance";
     });
     return m_movieService;
 }
 
 MovieInfo MovieService::getMovieInfo(const QUrl &url)
 {
+    qDebug() << "Getting movie info for URL:" << url.toString();
     MovieInfo result;
 
     m_bufferMutex.lock();
@@ -151,6 +153,7 @@ MovieInfo MovieService::getMovieInfo(const QUrl &url)
         return data.first == url;
     });
     if (iter != m_movieInfoBuffer.end()) {
+        qDebug() << "Found movie info in cache for URL:" << url.toString();
         m_bufferMutex.unlock();
         return iter->second;
     }
@@ -160,14 +163,18 @@ MovieInfo MovieService::getMovieInfo(const QUrl &url)
         QFileInfo fi(LibUnionImage_NameSpace::localPath(url));
 
         if (fi.exists()) {
+            qDebug() << "Parsing movie info from file:" << fi.filePath();
             auto filePath = fi.filePath();
             result = parseFromFile(fi);
+        } else {
+            qWarning() << "File does not exist:" << fi.filePath();
         }
     }
 
     m_bufferMutex.lock();
     m_movieInfoBuffer.push_back(std::make_pair(url, result));
     if (m_movieInfoBuffer.size() > 30) {
+        qDebug() << "Movie info buffer exceeded 30 items, removing oldest entry";
         m_movieInfoBuffer.pop_front();
     }
     m_bufferMutex.unlock();
@@ -177,8 +184,10 @@ MovieInfo MovieService::getMovieInfo(const QUrl &url)
 
 QImage MovieService::getMovieCover(const QUrl &url)
 {
+    qDebug() << "Getting movie cover for URL:" << url.toString();
     QMutexLocker locker(&m_queuqMutex);
     if (!m_bInitThumb) {
+        qDebug() << "Initializing thumbnail generator";
         initThumb();
         m_mvideo_thumbnailer_destroy_image_data(m_image_data);
         m_image_data = nullptr;
@@ -190,23 +199,25 @@ QImage MovieService::getMovieCover(const QUrl &url)
             || m_mvideo_thumbnailer_destroy_image_data == nullptr
             || m_mvideo_thumbnailer_generate_thumbnail_to_buffer == nullptr
             || m_video_thumbnailer == nullptr) {
+        qWarning() << "Thumbnail generator not properly initialized";
         return QImage();
     }
 
     m_video_thumbnailer->thumbnail_size = static_cast<int>(THUMBNAIL_SIZE);
-    //不取第一帧，与文管影院保持一致
-//    m_video_thumbnailer->seek_time = const_cast<char *>(SEEK_TIME);
     m_image_data = m_mvideo_thumbnailer_create_image_data();
     QString file = QFileInfo(LibUnionImage_NameSpace::localPath(url)).absoluteFilePath();
+    qDebug() << "Generating thumbnail for file:" << file;
     m_mvideo_thumbnailer_generate_thumbnail_to_buffer(m_video_thumbnailer, file.toUtf8().data(), m_image_data);
     QImage img = QImage::fromData(m_image_data->image_data_ptr, static_cast<int>(m_image_data->image_data_size), "png");
     m_mvideo_thumbnailer_destroy_image_data(m_image_data);
     m_image_data = nullptr;
+    qDebug() << "Generated thumbnail size:" << img.size();
     return img;
 }
 
 MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
 {
+    qDebug() << "Parsing movie file:" << fi.filePath();
     struct MovieInfo mi;
     mi.valid = false;
     AVFormatContext *av_ctx = nullptr;
@@ -214,25 +225,23 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
     AVCodecParameters *audio_dec_ctx = nullptr;
 
     if (!fi.exists()) {
-//        if (ok) *ok = false;
+        qWarning() << "File does not exist:" << fi.filePath();
         return mi;
     }
 
     auto ret = g_mvideo_avformat_open_input(&av_ctx, fi.filePath().toUtf8().constData(), nullptr, nullptr);
     if (ret < 0) {
-        qWarning() << "avformat: could not open input";
-//        if (ok) *ok = false;
+        qWarning() << "Failed to open input file:" << fi.filePath();
         return mi;
     }
 
     if (g_mvideo_avformat_find_stream_info(av_ctx, nullptr) < 0) {
-        qWarning() << "av_find_stream_info failed";
-//        if (ok) *ok = false;
+        qWarning() << "Failed to find stream info for file:" << fi.filePath();
         return mi;
     }
 
     if (av_ctx->nb_streams == 0) {
-//        if (ok) *ok = false;
+        qWarning() << "No streams found in file:" << fi.filePath();
         return mi;
     }
 
@@ -243,11 +252,12 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
     videoRet = g_mvideo_av_find_best_stream(av_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
     audioRet = g_mvideo_av_find_best_stream(av_ctx, AVMEDIA_TYPE_AUDIO, -1, -1, nullptr, 0);
     if (videoRet < 0 && audioRet < 0) {
-//        if (ok) *ok = false;
+        qWarning() << "No video or audio streams found in file:" << fi.filePath();
         return mi;
     }
 
     if (videoRet >= 0) {
+        qDebug() << "Found video stream at index:" << videoRet;
         int video_stream_index = -1;
         video_stream_index = videoRet;
         videoStream = av_ctx->streams[video_stream_index];
@@ -268,8 +278,10 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
         } else {
             mi.proportion = 0;
         }
+        qDebug() << "Video info - resolution:" << mi.width << "x" << mi.height << "fps:" << mi.fps;
     }
     if (audioRet >= 0) {
+        qDebug() << "Found audio stream at index:" << audioRet;
         int audio_stream_index = -1;
         audio_stream_index = audioRet;
         audioStream = av_ctx->streams[audio_stream_index];
@@ -280,6 +292,7 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
         mi.aDigit = 8;
         mi.channels = audio_dec_ctx->channels;
         mi.sampling = audio_dec_ctx->sample_rate;
+        qDebug() << "Audio info - codec:" << mi.aCodeID << "channels:" << mi.channels << "sampling:" << mi.sampling;
     }
 
     auto duration = av_ctx->duration == AV_NOPTS_VALUE ? 0 : av_ctx->duration;
@@ -298,23 +311,25 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
     tag = g_mvideo_av_dict_get(av_ctx->metadata, "creation_time", tag, AV_DICT_MATCH_CASE);
     if (tag != nullptr) {
         mi.creation = QDateTime::fromString(tag->value, Qt::ISODate);
+        qDebug() << "Found creation time in metadata:" << mi.creation;
     }
 
     g_mvideo_avformat_close_input(&av_ctx);
     mi.valid = true;
-
-//    if (ok) *ok = true;
+    qDebug() << "Successfully parsed movie file:" << fi.filePath();
     return mi;
 }
 
 MovieService::MovieService(QObject *parent)
     : QObject(parent)
 {
+    qDebug() << "Initializing MovieService";
     initFFmpeg();
 }
 
 void MovieService::initThumb()
 {
+    qDebug() << "Initializing thumbnail generator";
     QLibrary library(libPath("libffmpegthumbnailer.so"));
     m_creat_video_thumbnailer = (mvideo_thumbnailer_create) library.resolve("video_thumbnailer_create");
     m_mvideo_thumbnailer_destroy = (mvideo_thumbnailer_destroy) library.resolve("video_thumbnailer_destroy");
@@ -328,16 +343,19 @@ void MovieService::initThumb()
             || m_mvideo_thumbnailer_destroy_image_data == nullptr
             || m_mvideo_thumbnailer_generate_thumbnail_to_buffer == nullptr
             || m_video_thumbnailer == nullptr) {
+        qWarning() << "Failed to resolve thumbnail generator functions";
         return;
     }
 
     m_image_data = m_mvideo_thumbnailer_create_image_data();
     m_video_thumbnailer->thumbnail_size = 400 * qApp->devicePixelRatio();
     m_bInitThumb = true;
+    qDebug() << "Thumbnail generator initialized successfully";
 }
 
 void MovieService::initFFmpeg()
 {
+    qDebug() << "Initializing FFmpeg libraries";
     QLibrary avcodecLibrary(libPath("libavcodec.so"));
     QLibrary avformatLibrary(libPath("libavformat.so"));
     QLibrary avutilLibrary(libPath("libavutil.so"));
@@ -347,27 +365,38 @@ void MovieService::initFFmpeg()
     g_mvideo_av_find_best_stream = (mvideo_av_find_best_stream) avformatLibrary.resolve("av_find_best_stream");
     g_mvideo_avformat_close_input = (mvideo_avformat_close_input) avformatLibrary.resolve("avformat_close_input");
     g_mvideo_av_dict_get = (mvideo_av_dict_get) avutilLibrary.resolve("av_dict_get");
+
+    if (!g_mvideo_avformat_open_input || !g_mvideo_avformat_find_stream_info || 
+        !g_mvideo_av_find_best_stream || !g_mvideo_avformat_close_input || !g_mvideo_av_dict_get) {
+        qWarning() << "Failed to resolve FFmpeg functions";
+    } else {
+        qDebug() << "FFmpeg libraries initialized successfully";
+    }
 }
 
 QString MovieService::libPath(const QString &strlib)
 {
+    qDebug() << "Looking for library:" << strlib;
     QDir  dir;
     QString path  = QLibraryInfo::location(QLibraryInfo::LibrariesPath);
 
     dir.setPath(path);
     QStringList list = dir.entryList(QStringList() << (strlib + "*"), QDir::NoDotAndDotDot | QDir::Files); //filter name with strlib
     if (list.contains(strlib)) {
+        qDebug() << "Found library in Qt libraries path:" << strlib;
         return strlib;
     } else {
         list.sort();
     }
 
     if(list.isEmpty()) {
+        qDebug() << "Library not found in Qt path, checking LD_LIBRARY_PATH";
         auto libLdPaths = qEnvironmentVariable("LD_LIBRARY_PATH").split(":");
         for(auto &eachPath : libLdPaths) {
             dir.setPath(eachPath);
             QStringList list = dir.entryList(QStringList() << (strlib + "*"), QDir::NoDotAndDotDot | QDir::Files); //filter name with strlib
             if (list.contains(strlib)) {
+                qDebug() << "Found library in LD_LIBRARY_PATH:" << strlib;
                 return strlib;
             } else {
                 list.sort();
@@ -378,9 +407,11 @@ QString MovieService::libPath(const QString &strlib)
         }
     }
 
-    if(list.size() > 0)
+    if(list.size() > 0) {
+        qDebug() << "Found library version:" << list.last();
         return list.last();
+    }
 
-    // Qt LibrariesPath 不包含，返回默认名称
+    qWarning() << "Library not found, returning default name:" << strlib;
     return strlib;
 }

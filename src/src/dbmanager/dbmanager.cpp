@@ -41,7 +41,7 @@ DBManager::DBManager(QObject *parent)
 {
     //指定路径
     DATABASE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator();
-    qDebug() << "----current DataBase path--" << DATABASE_PATH;
+    qInfo() << "Database path:" << DATABASE_PATH;
     DATABASE_NAME = "deepinalbum.db";
 
     EMPTY_HASH_STR = LibUnionImage_NameSpace::hashByString(QString(" "));
@@ -297,12 +297,16 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-//        qDebug() << query.lastError();
+        qWarning() << "Failed to begin transaction:" << m_query->lastError().text();
+        return;
     }
+
     QString qs("REPLACE INTO ImageTable3 (PathHash, FilePath, FileName, Time, "
                "ChangeTime, ImportTime, FileType, UID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
     if (!m_query->prepare(qs)) {
+        qWarning() << "Failed to prepare insert statement:" << m_query->lastError().text();
+        return;
     }
 
     for (const auto &info : infos) {
@@ -315,26 +319,26 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
         m_query->addBindValue(info.itemType);
         m_query->addBindValue(info.albumUID);
         if (!m_query->exec()) {
-            ;
+            qWarning() << "Failed to insert image:" << info.filePath << m_query->lastError().text();
         }
     }
 
     if (!m_query->exec("COMMIT")) {
-//            qDebug() << query.lastError();
+        qWarning() << "Failed to commit transaction:" << m_query->lastError().text();
+    } else {
+        qInfo() << "Successfully inserted" << infos.size() << "images";
     }
-    mutex.unlock();
-    //暂时屏蔽以节省导入时内存，如果有问题再放开
-    /*for (DBImgInfo info : infos) {
-        ImageEngineApi::instance()->addImageData(info.filePath, info);
-    }*/
-//    emit dApp->signalM->imagesInserted();
 }
 
 void DBManager::removeImgInfos(const QStringList &paths)
 {
     if (paths.isEmpty()) {
+        qDebug() << "No images to remove";
         return;
     }
+
+    qInfo() << "Removing" << paths.size() << "images from database";
+
     // Collect info before removing data
     QStringList pathHashs;
     std::transform(paths.begin(), paths.end(), std::back_inserter(pathHashs), [](const QString & path) {
@@ -346,40 +350,51 @@ void DBManager::removeImgInfos(const QStringList &paths)
     // Remove from albums table
     m_query->setForwardOnly(true);
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-//        qDebug() << query.lastError();
+        qWarning() << "Failed to begin transaction:" << m_query->lastError().text();
+        return;
     }
+
     QString qs("DELETE FROM AlbumTable3 WHERE PathHash=:hash");
     if (!m_query->prepare(qs)) {
+        qWarning() << "Failed to prepare delete statement:" << m_query->lastError().text();
+        return;
     }
+
     for (auto &eachHash : pathHashs) {
         m_query->bindValue(":hash", eachHash);
         if (!m_query->exec()) {
-            ;
+            qWarning() << "Failed to remove from AlbumTable3:" << m_query->lastError().text();
         }
     }
+
     if (!m_query->exec("COMMIT")) {
-//        qDebug() << query.lastError();
+        qWarning() << "Failed to commit transaction:" << m_query->lastError().text();
     }
 
     // Remove from image table
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-//        qDebug() << query.lastError();
+        qWarning() << "Failed to begin transaction:" << m_query->lastError().text();
+        return;
     }
+
     qs = "DELETE FROM ImageTable3 WHERE PathHash=:hash";
     if (!m_query->prepare(qs)) {
+        qWarning() << "Failed to prepare delete statement:" << m_query->lastError().text();
+        return;
     }
+
     for (auto &eachHash : pathHashs) {
         m_query->bindValue(":hash", eachHash);
         if (!m_query->exec()) {
-            ;
+            qWarning() << "Failed to remove from ImageTable3:" << m_query->lastError().text();
         }
     }
+
     if (!m_query->exec("COMMIT")) {
-//            qDebug() << query.lastError();
+        qWarning() << "Failed to commit transaction:" << m_query->lastError().text();
+    } else {
+        qInfo() << "Successfully removed" << paths.size() << "images";
     }
-    mutex.unlock();
-//    emit dApp->signalM->imagesRemoved();
-//    emit dApp->signalM->imagesRemovedPar(paths);
 }
 
 void DBManager::removeImgInfosNoSignal(const QStringList &paths)
@@ -1339,13 +1354,15 @@ void DBManager::checkDatabase()
     QDir dd(DATABASE_PATH);
     if (! dd.exists()) {
         dd.mkpath(DATABASE_PATH);
+        qDebug() << "Created database directory:" << DATABASE_PATH;
     }
 
     auto db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
     if (!db.open()) {
-        qDebug() << "DataBase open fail";
-        qDebug() << db.lastError().text();
+        qCritical() << "Failed to open database:" << db.lastError().text();
+    } else {
+        qInfo() << "Database opened successfully";
     }
     m_query = new QSqlQuery(db);
 
@@ -1370,7 +1387,7 @@ void DBManager::checkDatabase()
                                    "UID TEXT, "
                                    "primary key(PathHash, UID))"));
     if (!b) {
-        qDebug() << "b CREATE TABLE exec failed.";
+        qWarning() << "Failed to create ImageTable3:" << m_query->lastError().text();
     }
 
     // AlbumTable3
@@ -1385,7 +1402,7 @@ void DBManager::checkDatabase()
                                    "AlbumDBType INTEGER,"
                                    "UID INTEGER)"));
     if (!c) {
-        qDebug() << "c CREATE TABLE exec failed.";
+        qWarning() << "Failed to create AlbumTable3:" << m_query->lastError().text();
     }
     // TrashTable3
     /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1403,7 +1420,7 @@ void DBManager::checkDatabase()
                                    "FileType INTEGER, "
                                    "UID TEXT)"));
     if (!d) {
-        qDebug() << "d CREATE TABLE exec failed.";
+        qWarning() << "Failed to create TrashTable3:" << m_query->lastError().text();
     }
 
     // 自定义导入路径表
@@ -1417,7 +1434,7 @@ void DBManager::checkDatabase()
                                    "FullPath TEXT, "
                                    "AlbumName TEXT)"));
     if (!e) {
-        qDebug() << "d CREATE TABLE exec failed.";
+        qWarning() << "Failed to create CustomAutoImportPathTable3:" << m_query->lastError().text();
     }
 
     // 判断ImageTable3中是否有ChangeTime字段
@@ -1615,18 +1632,23 @@ void DBManager::checkDatabase()
 
     //创建索引以加速
     if (!m_query->exec("CREATE INDEX IF NOT EXISTS album_hash_index ON AlbumTable3 (PathHash)")) {
+        qWarning() << "Failed to create album_hash_index:" << m_query->lastError().text();
     }
 
     if (!m_query->exec("CREATE INDEX IF NOT EXISTS image_hash_index ON ImageTable3 (PathHash)")) {
+        qWarning() << "Failed to create image_hash_index:" << m_query->lastError().text();
     }
 
     if (!m_query->exec("CREATE INDEX IF NOT EXISTS album_hash_uid_index ON AlbumTable3 (PathHash, UID)")) {
+        qWarning() << "Failed to create album_hash_uid_index:" << m_query->lastError().text();
     }
 
     if (!m_query->exec("CREATE INDEX IF NOT EXISTS image_hash_uid_index ON ImageTable3 (PathHash, UID)")) {
+        qWarning() << "Failed to create image_hash_uid_index:" << m_query->lastError().text();
     }
 
     if (!m_query->exec("CREATE INDEX IF NOT EXISTS trash_hash_index ON TrashTable3 (PathHash)")) {
+        qWarning() << "Failed to create trash_hash_index:" << m_query->lastError().text();
     }
 
     //新版删除需求的数据表策略
@@ -1946,8 +1968,11 @@ void DBManager::removeTrashImgInfos(const QStringList &paths)
 QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
 {
     if (paths.isEmpty()) {
+        qDebug() << "No images to recover from trash";
         return QStringList();
     }
+
+    qInfo() << "Attempting to recover" << paths.size() << "images from trash";
 
     //1.计算路径hash
     QStringList pathHashs;
