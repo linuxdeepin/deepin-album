@@ -27,7 +27,6 @@ class GlobalStatus : public QObject
     Q_PROPERTY(double animationDefaultDuration READ animationDefaultDuration CONSTANT)
     Q_PROPERTY(int pathViewItemCount READ pathViewItemCount CONSTANT)
 
-    Q_PROPERTY(int rightMenuSeparatorHeight READ rightMenuSeparatorHeight CONSTANT)
     Q_PROPERTY(int needHideSideBarWidth READ needHideSideBarWidth CONSTANT)
     Q_PROPERTY(int sideBarWidth READ sideBarWidth CONSTANT)
     Q_PROPERTY(int statusBarHeight READ statusBarHeight CONSTANT)
@@ -283,8 +282,6 @@ public:
 
     double animationDefaultDuration() const;
     int pathViewItemCount() const;
-
-    int rightMenuSeparatorHeight() const;
 
     int needHideSideBarWidth() const;
     int sideBarWidth() const;

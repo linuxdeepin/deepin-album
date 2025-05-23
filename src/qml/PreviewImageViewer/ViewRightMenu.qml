@@ -209,7 +209,7 @@ Menu {
     MenuSeparator {
         visible: !menuItemStates.isInTrash && FileControl.isAlbum()
         // 不显示分割条时调整高度，防止菜单项间距不齐
-        height: visible ? firstSeparator.height : 0
+        height: visible ? undefined : 0
     }
 
     //添加到我的收藏
@@ -235,7 +235,7 @@ Menu {
     // 不允许无读写权限时上方选项已屏蔽，不展示此分割条
     MenuSeparator {
         // 不显示分割条时调整高度，防止菜单项间距不齐
-        height: visible ? firstSeparator.height : 0
+        height: visible ? undefined : 0
         visible: FileControl.isCanReadable(imageSource.toString()) || FileControl.isCanDelete(imageSource.toString())
     }
 
@@ -286,7 +286,7 @@ Menu {
     // 不允许无读写权限时上方选项已屏蔽，不展示此分割条
     MenuSeparator {
         // 不显示分割条时调整高度，防止菜单项间距不齐
-        height: visible ? firstSeparator.height : 0
+        height: visible ? undefined : 0
         visible: rotateClockItem.visible || rotateCounterClockItem.visible
     }
 

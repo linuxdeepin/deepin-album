@@ -856,7 +856,7 @@ FocusScope {
 
         MenuSeparator {
             visible: thumnailListType !== Album.Types.ThumbnailTrash
-            height: visible ? GStatus.rightMenuSeparatorHeight : 0
+            height: visible ? undefined : 0
         }
 
         //添加到相册子菜单
@@ -955,7 +955,7 @@ FocusScope {
 
         MenuSeparator {
             visible: thumnailListType !== Album.Types.ThumbnailTrash
-            height: visible ? GStatus.rightMenuSeparatorHeight : 0
+            height: visible ? undefined : 0
         }
 
         //添加到我的收藏
@@ -980,7 +980,7 @@ FocusScope {
 
         MenuSeparator {
             visible: menuItemStates.canRotate
-            height: visible ? GStatus.rightMenuSeparatorHeight : 0
+            height: visible ? undefined : 0
         }
 
         //顺时针旋转
