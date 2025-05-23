@@ -21,7 +21,6 @@ static const double sc_AnimationDefaultDuration = 366;  // 默认动画时长
 static const int sc_PathViewItemCount = 3;              // 默认 PathView 在路径中的 Item 计数
 
 // 相册相关状态变量
-static const int sc_RightMenuSeparatorHeight = 12;   // 右键菜单分割层的高度
 static const int sc_NeedHideSideBarWidth = 783;      // 需要隐藏侧边栏的时，主界面宽度
 static const int sc_SideBarWidth = 200;              // 侧边栏宽度
 static const int sc_StatusBarHeight = 30;            // 状态栏高度
@@ -366,11 +365,6 @@ void GlobalStatus::setFileControl(FileControl *fc)
         qWarning() << "Failed to get sidebar animation setting, using default: false";
         m_bEnableSidebarAnimation = false;
     }
-}
-
-int GlobalStatus::rightMenuSeparatorHeight() const
-{
-    return sc_RightMenuSeparatorHeight;
 }
 
 int GlobalStatus::sideBarWidth() const
