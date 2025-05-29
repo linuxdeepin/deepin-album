@@ -192,14 +192,16 @@ BaseView {
         visible: numLabelText !== ""
         property int m_topMargin: 10
 
+        // 为了防止数组拷贝的时候多次触发属性访问，导致在大量数据的时候重复触发调用c++的选中逻辑，造成界面卡顿，
+        // 此处注释掉，完全由c++端处理选中赋值操作。
         // 监听缩略图列表选中状态，一旦改变，更新globalVar所有选中路径
-        Connections {
-            target: theView
-            function onSelectedChanged() {
-                if (parent.visible)
-                    GStatus.selectedPaths = theView.selectedUrls
-            }
-        }
+        // Connections {
+        //     target: theView
+        //     function onSelectedChanged() {
+        //         if (parent.visible)
+        //             GStatus.selectedPaths = theView.selectedUrls
+        //     }
+        // }
     }
 
     // 筛选无内容时，显示无结果
