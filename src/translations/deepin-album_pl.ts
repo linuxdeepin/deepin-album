@@ -453,22 +453,22 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="48"/>
         <source>Are you sure you want to delete this file locally?</source>
-        <translation>Czy na pewno chcesz usunąć ten plik lokalnie?</translation>
+        <translation>Czy na pewno chcesz usunąć ten plik lokalny?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="49"/>
         <source>You can restore it in the trash</source>
-        <translation>Możesz przywrócić go z kosza</translation>
+        <translation>Zdjęcia możesz jeszcze przywrócić z kosza</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="51"/>
         <source>Are you sure you want to delete %1 files locally?</source>
-        <translation>Czy na pewno chcesz usunąć %1 plików lokalnie?</translation>
+        <translation>Czy na pewno chcesz usunąć %1 plików lokalnych?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="52"/>
         <source>You can restore them in the trash</source>
-        <translation>Możesz przywrócić je z kosza</translation>
+        <translation>Zdjęcia możesz przywrócić z kosza</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="56"/>
@@ -1527,7 +1527,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="66"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation>Nie można przenieść &quot;%1&quot; do kosza. Czy chcesz go trwale usunąć?</translation>
+        <translation>Nie można przenieść &quot;%1&quot; do kosza. Czy usunąć plik permanentnie?</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="84"/>
