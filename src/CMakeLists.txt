@@ -3,6 +3,11 @@ cmake_minimum_required(VERSION 3.13)
 #玲珑构建依赖目录
 include_directories(${CMAKE_INSTALL_PREFIX}/include)
 
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIE")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pie")
+
 set(APP_BIN_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/bin/)
 set(BIN_NAME ${CMAKE_PROJECT_NAME})
 
