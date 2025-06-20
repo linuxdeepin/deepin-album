@@ -4,8 +4,6 @@
 
 Album is a stylish and smooth photo and video management tool, supporting photo and video viewing and managing in various formats. You can sort your photos and videos by date or timeline, add them to the Favorites or category them into different albums to manage photos and videos in perfect order.
 
-![1|main](fig/main.png)
-
 ## Guide
 
 You can run, close, and create a desktop shortcut for Album in the following ways.
