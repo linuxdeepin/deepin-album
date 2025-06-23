@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="cs">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="cs">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -448,29 +446,17 @@
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
-        <translation>
-            <numerusform>%n fotka</numerusform>
-            <numerusform>%n fotky</numerusform>
-            <numerusform>%n fotek</numerusform>
-        </translation>
+        <translation><numerusform>%n fotka</numerusform><numerusform>%n fotky</numerusform><numerusform>%n fotek</numerusform><numerusform>%n fotky</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
-        <translation>
-            <numerusform>%n video</numerusform>
-            <numerusform>%n videa</numerusform>
-            <numerusform>%n videí</numerusform>
-        </translation>
+        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videí</numerusform><numerusform>%n videa</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
-        <translation>
-            <numerusform>%n položka</numerusform>
-            <numerusform>%n položky</numerusform>
-            <numerusform>%n položek</numerusform>
-        </translation>
+        <translation><numerusform>%n položka</numerusform><numerusform>%n položky</numerusform><numerusform>%n položek</numerusform><numerusform>%n položky</numerusform></translation>
     </message>
 </context>
 <context>
@@ -771,29 +757,17 @@
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
-        <translation>
-            <numerusform>%n fotka</numerusform>
-            <numerusform>%n fotky</numerusform>
-            <numerusform>%n fotek</numerusform>
-        </translation>
+        <translation><numerusform>%n fotka</numerusform><numerusform>%n fotky</numerusform><numerusform>%n fotek</numerusform><numerusform>%n fotky</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
-        <translation>
-            <numerusform>%n video</numerusform>
-            <numerusform>%n videa</numerusform>
-            <numerusform>%n videí</numerusform>
-        </translation>
+        <translation><numerusform>%n video</numerusform><numerusform>%n videa</numerusform><numerusform>%n videí</numerusform><numerusform>%n videa</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
-        <translation>
-            <numerusform>%n položka</numerusform>
-            <numerusform>%n položky</numerusform>
-            <numerusform>%n položek</numerusform>
-        </translation>
+        <translation><numerusform>%n položka</numerusform><numerusform>%n položky</numerusform><numerusform>%n položek</numerusform><numerusform>%n položky</numerusform></translation>
     </message>
 </context>
 </TS>
