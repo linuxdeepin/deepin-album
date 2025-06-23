@@ -449,27 +449,27 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
         <translation>
-            &lt;numerusform&gt;%n fotografií&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n fotografií&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n fotografií&lt;/numerusform&gt;
+            <numerusform>%n fotografií</numerusform>
+            <numerusform>%n fotografií</numerusform>
+            <numerusform>%n fotografií</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
         <translation>
-            &lt;numerusform&gt;%n videí&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n videí&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n videí&lt;/numerusform&gt;
+            <numerusform>%n videí</numerusform>
+            <numerusform>%n videí</numerusform>
+            <numerusform>%n videí</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
         <translation>
-            &lt;numerusform&gt;%n položiek&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n položiek&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n položiek&lt;/numerusform&gt;
+            <numerusform>%n položiek</numerusform>
+            <numerusform>%n položiek</numerusform>
+            <numerusform>%n položiek</numerusform>
         </translation>
     </message>
 </context>
@@ -772,27 +772,27 @@
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
         <translation>
-            &lt;numerusform&gt;%n fotografií&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n fotografií&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n fotografií&lt;/numerusform&gt;
+            <numerusform>%n fotografií</numerusform>
+            <numerusform>%n fotografií</numerusform>
+            <numerusform>%n fotografií</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
         <translation>
-            &lt;numerusform&gt;%n videí&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n videí&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n videí&lt;/numerusform&gt;
+            <numerusform>%n videí</numerusform>
+            <numerusform>%n videí</numerusform>
+            <numerusform>%n videí</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
         <translation>
-            &lt;numerusform&gt;%n položiek&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n položiek&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n položiek&lt;/numerusform&gt;
+            <numerusform>%n položiek</numerusform>
+            <numerusform>%n položiek</numerusform>
+            <numerusform>%n položiek</numerusform>
         </translation>
     </message>
 </context>
