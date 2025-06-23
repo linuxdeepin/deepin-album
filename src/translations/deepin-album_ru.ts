@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ru">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ru">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -448,29 +446,17 @@
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
-        <translation>
-            <numerusform>%n фото</numerusform>
-            <numerusform>%n фото</numerusform>
-            <numerusform>%n фото</numerusform>
-        </translation>
+        <translation><numerusform>%n фото</numerusform><numerusform>%n фото</numerusform><numerusform>%n фото</numerusform><numerusform>%n фото</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
-        <translation>
-            <numerusform>%n видео</numerusform>
-            <numerusform>%n видео</numerusform>
-            <numerusform>%n видео</numerusform>
-        </translation>
+        <translation><numerusform>%n видео</numerusform><numerusform>%n видео</numerusform><numerusform>%n видео</numerusform><numerusform>%n видео</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
-        <translation>
-            <numerusform>%n элемент</numerusform>
-            <numerusform>%n элементов</numerusform>
-            <numerusform>%n элементов</numerusform>
-        </translation>
+        <translation><numerusform>%n элемент</numerusform><numerusform>%n элементов</numerusform><numerusform>%n элементов</numerusform><numerusform>%n элементов</numerusform></translation>
     </message>
 </context>
 <context>
@@ -771,29 +757,17 @@
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
-        <translation>
-            <numerusform>%n фото</numerusform>
-            <numerusform>%n фото</numerusform>
-            <numerusform>%n фото</numerusform>
-        </translation>
+        <translation><numerusform>%n фото</numerusform><numerusform>%n фото</numerusform><numerusform>%n фото</numerusform><numerusform>%n фото</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
-        <translation>
-            <numerusform>%n видео</numerusform>
-            <numerusform>%n видео</numerusform>
-            <numerusform>%n видео</numerusform>
-        </translation>
+        <translation><numerusform>%n видео</numerusform><numerusform>%n видео</numerusform><numerusform>%n видео</numerusform><numerusform>%n видео</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
-        <translation>
-            <numerusform>%n элемент</numerusform>
-            <numerusform>%n элементов</numerusform>
-            <numerusform>%n элементов</numerusform>
-        </translation>
+        <translation><numerusform>%n элемент</numerusform><numerusform>%n элементов</numerusform><numerusform>%n элементов</numerusform><numerusform>%n элементов</numerusform></translation>
     </message>
 </context>
 </TS>
