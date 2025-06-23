@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="de">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="de">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -448,26 +446,17 @@
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
-        <translation>
-            <numerusform>%n Fotos</numerusform>
-            <numerusform>%n Fotos</numerusform>
-        </translation>
+        <translation><numerusform>%n Fotos</numerusform><numerusform>%n Fotos</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
-        <translation>
-            <numerusform>%n Videos</numerusform>
-            <numerusform>%n Videos</numerusform>
-        </translation>
+        <translation><numerusform>%n Videos</numerusform><numerusform>%n Videos</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
-        <translation>
-            <numerusform>%n Objekte</numerusform>
-            <numerusform>%n Objekte</numerusform>
-        </translation>
+        <translation><numerusform>%n Objekte</numerusform><numerusform>%n Objekte</numerusform></translation>
     </message>
 </context>
 <context>
@@ -768,26 +757,17 @@
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
-        <translation>
-            <numerusform>%n Fotos</numerusform>
-            <numerusform>%n Fotos</numerusform>
-        </translation>
+        <translation><numerusform>%n Fotos</numerusform><numerusform>%n Fotos</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
-        <translation>
-            <numerusform>%n Videos</numerusform>
-            <numerusform>%n Videos</numerusform>
-        </translation>
+        <translation><numerusform>%n Videos</numerusform><numerusform>%n Videos</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
-        <translation>
-            <numerusform>%n Objekte</numerusform>
-            <numerusform>%n Objekte</numerusform>
-        </translation>
+        <translation><numerusform>%n Objekte</numerusform><numerusform>%n Objekte</numerusform></translation>
     </message>
 </context>
 </TS>
