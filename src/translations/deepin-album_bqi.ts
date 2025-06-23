@@ -89,12 +89,12 @@
     <message>
         <location filename="../src/albumControl.cpp" line="948"/>
         <source>Rotate clockwise</source>
-        <translation>dêr xardên vê jo&apos;meštê šāxakā sāat </translation>
+        <translation>dêr xardên vê jo'meštê šāxakā sāat </translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="951"/>
         <source>Rotate counterclockwise</source>
-        <translation>dêr xardên čavāsê jo&apos;mêštê šāxakā sāat</translation>
+        <translation>dêr xardên čavāsê jo'mêštê šāxakā sāat</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="957"/>
@@ -188,9 +188,8 @@
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2145"/>
-        <location filename="../src/albumControl.cpp" line="2149"/>
         <source>%1Year%2Month%3Day</source>
-        <translation type="unfinished"/>
+        <translation>%1سال%2ماه%3روز</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2199"/>
@@ -251,25 +250,21 @@
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="262"/>
-        <location filename="../qml/AlbumTitle.qml" line="340"/>
         <source>Y</source>
         <translation>s</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="274"/>
-        <location filename="../qml/AlbumTitle.qml" line="341"/>
         <source>M</source>
         <translation>m</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="285"/>
-        <location filename="../qml/AlbumTitle.qml" line="342"/>
         <source>D</source>
         <translation>r</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="296"/>
-        <location filename="../qml/AlbumTitle.qml" line="343"/>
         <source>All</source>
         <translation>poy</translation>
     </message>
@@ -357,7 +352,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="152"/>
         <source>0 item</source>
-        <translation type="unfinished"/>
+        <translation>0 عنصر</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="214"/>
@@ -369,30 +364,21 @@
     <name>DBManager</name>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="465"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="482"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="507"/>
         <source>Screen Capture</source>
         <translation>zaftê niyaštgêr</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="466"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="483"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="512"/>
         <source>Camera</source>
         <translation>šîvātgêr</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="467"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="517"/>
         <source>Draw</source>
         <translation>kašiďên</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="1991"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="2011"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="2015"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="2017"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="2023"/>
         <source>(copy)</source>
         <translation>(lefgiri)</translation>
     </message>
@@ -530,13 +516,11 @@
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="178"/>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="181"/>
         <source>Import</source>
         <translation>vê mên avordên</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="178"/>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="181"/>
         <source>New Album</source>
         <translation>ālbom nu</translation>
     </message>
@@ -571,7 +555,7 @@
     <message>
         <location filename="../qml/Control/DeviceLoadDialog.qml" line="42"/>
         <source>Loading...</source>
-        <translation>enê lo&apos;d ebu...</translation>
+        <translation>enê lo'd ebu...</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeviceLoadDialog.qml" line="51"/>
@@ -646,7 +630,6 @@
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="127"/>
-        <location filename="../qml/Control/ExportDialog.qml" line="143"/>
         <source>Select other directories</source>
         <translation>pêsandê dobalgêyalê dýar</translation>
     </message>
@@ -710,7 +693,6 @@
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="854"/>
-        <location filename="../src/filecontrol.cpp" line="946"/>
         <source>Copy</source>
         <translation>lefgiri</translation>
     </message>
@@ -722,12 +704,12 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="862"/>
         <source>Rotate clockwise</source>
-        <translation>dêr xardên vê jo&apos;meštê šāxakā sāat </translation>
+        <translation>dêr xardên vê jo'meštê šāxakā sāat </translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="866"/>
         <source>Rotate counterclockwise</source>
-        <translation>dêr xardên čavāsê jo&apos;mêštê šāxakā sāat</translation>
+        <translation>dêr xardên čavāsê jo'mêštê šāxakā sāat</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="870"/>
@@ -875,7 +857,6 @@
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="38"/>
-        <location filename="../qml/GlobalVar.qml" line="46"/>
         <source>The file format is not supported</source>
         <translation>formatê fāyl lādêrār navâbiďê</translation>
     </message>
@@ -912,7 +893,6 @@
     <name>ImportTimeLineView</name>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="195"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="405"/>
         <source>Import</source>
         <translation>vê mên avordên</translation>
     </message>
@@ -926,39 +906,36 @@
         <source>1 video</source>
         <translation>1 film</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="324"/>
         <source>%n photos</source>
-        <translation><numerusform>%n šîvāt</numerusform><numerusform>%n šîvāt</numerusform></translation>
+        <translation>%n šîvāt%n šîvāt</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="326"/>
         <source>%n videos</source>
-        <translation><numerusform>%n film</numerusform><numerusform>%n film</numerusform></translation>
+        <translation>%n film%n film</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="328"/>
         <source>%n items</source>
-        <translation><numerusform>%n āytêm</numerusform><numerusform>%n āytêm</numerusform></translation>
+        <translation>%n āytêm%n āytêm</translation>
     </message>
 </context>
 <context>
     <name>ImportedlListView</name>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>Imported on</source>
         <translation>vayďê mênê</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>1 item</source>
         <translation>1 āytêm</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>%1 items</source>
         <translation>%1 āytêm</translation>
     </message>
@@ -979,11 +956,11 @@
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="vanished">bo&apos;dā</translation>
+        <translation type="vanished">bo'dā</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="vanished">&apos;no </translation>
+        <translation type="vanished">'no </translation>
     </message>
     <message>
         <source>Date captured</source>
@@ -1035,7 +1012,7 @@
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="vanished">jāga&apos; rańgi</translation>
+        <translation type="vanished">jāga' rańgi</translation>
     </message>
     <message>
         <source>Metering mode</source>
@@ -1074,12 +1051,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="113"/>
         <source>Dimensions</source>
-        <translation>bo&apos;dā</translation>
+        <translation>bo'dā</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="120"/>
         <source>Type</source>
-        <translation>&apos;no </translation>
+        <translation>'no </translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="132"/>
@@ -1144,7 +1121,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="222"/>
         <source>Colorspace</source>
-        <translation>jāga&apos; rańgi</translation>
+        <translation>jāga' rańgi</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="229"/>
@@ -1176,13 +1153,11 @@
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="246"/>
-        <location filename="../qml/MainAlbumView.qml" line="252"/>
         <source>Imported:</source>
         <translation>mênês vayďê:</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="253"/>
-        <location filename="../qml/MainAlbumView.qml" line="290"/>
         <source>%1/%2</source>
         <translation>%1/%2</translation>
     </message>
@@ -1193,14 +1168,13 @@
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="270"/>
-        <location filename="../qml/MainAlbumView.qml" line="276"/>
         <source>Import failed</source>
         <translation>vê mên avordên raď vâbi</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="281"/>
         <source>Deleted:</source>
-        <translation type="unfinished"/>
+        <translation>تم حذف:</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="283"/>
@@ -1270,7 +1244,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NoPermissionImageDelegate.qml" line="22"/>
         <source>You have no permission to view the image</source>
-        <translation>navā šîvātê nýa&apos;ri</translation>
+        <translation>navā šîvātê nýa'ri</translation>
     </message>
 </context>
 <context>
@@ -1312,7 +1286,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation>فتح الصورة</translation>
     </message>
 </context>
 <context>
@@ -1327,7 +1301,6 @@
     <name>PropertyActionItemDelegate</name>
     <message>
         <location filename="../qml/PreviewImageViewer/PropertyActionItemDelegate.qml" line="67"/>
-        <location filename="../qml/PreviewImageViewer/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
         <translation>fāyl zê pîštar hêďês, ya nomê di vê kār bêgêr</translation>
     </message>
@@ -1336,7 +1309,6 @@
     <name>QObject</name>
     <message>
         <location filename="../src/albumControl.cpp" line="614"/>
-        <location filename="../src/albumControl.cpp" line="663"/>
         <source>%1/%2/%3 %4:%5</source>
         <translation>%1/%2/%3 %4:%5</translation>
     </message>
@@ -1352,28 +1324,21 @@
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="275"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="306"/>
-        <location filename="../src/albumControl.cpp" line="657"/>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="343"/>
-        <location filename="../src/widgets/timelineview/timelineview.cpp" line="351"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="373"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="381"/>
         <source>All</source>
         <translation>poy</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="359"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="389"/>
         <source>Photos</source>
         <translation>šîvātā</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="366"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="396"/>
         <source>Videos</source>
         <translation>filmā</translation>
     </message>
@@ -1391,7 +1356,7 @@
         <location filename="../main.cpp" line="68"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation type="unfinished"/>
+        <translation>الرئيسية</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="269"/>
@@ -1415,20 +1380,11 @@
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="227"/>
-        <location filename="../src/widgets/thumbnail/timelinedatewidget.cpp" line="44"/>
-        <location filename="../src/widgets/thumbnail/timelinedatewidget.cpp" line="152"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1326"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2073"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2081"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2086"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="415"/>
         <source>Select</source>
         <translation>pêsand</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1326"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2081"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2086"/>
         <source>Unselect</source>
         <translation>pêsand nako</translation>
     </message>
@@ -1438,7 +1394,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="66"/>
         <source>Input a new name</source>
-        <translation type="unfinished"/>
+        <translation>أدخل اسمًا جديدًا</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="81"/>
@@ -1486,7 +1442,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="141"/>
         <source>The files will be permanently deleted after the days shown on them</source>
-        <translation>fāylā ba&apos;ď zê ruzā nêšow dāďê mênêsow si hamîša pāk ebun</translation>
+        <translation>fāylā ba'ď zê ruzā nêšow dāďê mênêsow si hamîša pāk ebun</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="156"/>
@@ -1526,13 +1482,13 @@
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="66"/>
-        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"/>
+        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
+        <translation>لا يمكن نقل "%1" إلى سلة المهملات. هل ترغب في حذفها بشكل دائم؟</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="84"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"/>
+        <translation>هذا الإجراء لا يمكن إلغاؤه</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="96"/>
@@ -1592,7 +1548,6 @@
     <name>Sidebar</name>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="127"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="151"/>
         <source>Album “%1” removed</source>
         <translation>ālbom “%1” pāk vâbiďê</translation>
     </message>
@@ -1653,21 +1608,16 @@
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="455"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="480"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="534"/>
         <source>Slide show</source>
         <translation>nêšow dāďênê êslāyd</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="466"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="492"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="567"/>
         <source>Export</source>
         <translation>vêdar kerdên</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="500"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="576"/>
         <source>Delete</source>
         <translation>pāk kerdên</translation>
     </message>
@@ -1691,13 +1641,11 @@
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
         <source>Pause</source>
         <translation>vāstāďên</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
         <source>Play</source>
         <translation>pêšk</translation>
     </message>
@@ -1708,7 +1656,6 @@
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="212"/>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="253"/>
         <source>Exit</source>
         <translation>vêdar zayďên</translation>
     </message>
@@ -1730,14 +1677,6 @@
     <name>ThumbnailListView</name>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="610"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="737"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="739"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="779"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="782"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="784"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="794"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="926"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="943"/>
         <source>Delete</source>
         <translation>pāk kerdên</translation>
     </message>
@@ -1773,23 +1712,11 @@
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="747"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="751"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="803"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="814"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="816"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="947"/>
         <source>Favorite</source>
         <translation>xāsta</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="748"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="750"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="805"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="813"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="817"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="948"/>
         <source>Unfavorite</source>
         <translation>naxāsta</translation>
     </message>
@@ -1805,123 +1732,66 @@
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="699"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="702"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="706"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="757"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="846"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="854"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="860"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="928"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="957"/>
         <source>Photo info</source>
         <translation>dovêsmandi šîvāt</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="700"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="703"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="707"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="758"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="847"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="850"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="861"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="929"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="958"/>
         <source>Video info</source>
         <translation>dowêsmandiyā film</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="721"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="773"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="909"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="935"/>
         <source>View</source>
         <translation>niyaštên</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="722"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="774"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="848"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="855"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="936"/>
         <source>Fullscreen</source>
         <translation>poy balga</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="723"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="852"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="866"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="875"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="938"/>
         <source>Slide show</source>
         <translation>nêšow dāďênê êslāyd</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="724"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="729"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="792"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="853"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="867"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="940"/>
         <source>Export</source>
         <translation>vêdar kerdên</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="734"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="941"/>
         <source>Copy</source>
         <translation>lefgiri</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="742"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="822"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="944"/>
         <source>Remove from album</source>
         <translation>pāk kerdên zê ālbom</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="744"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="851"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="865"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="937"/>
         <source>Print</source>
         <translation>čāp</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="754"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="837"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="840"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="881"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="884"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="951"/>
         <source>Rotate clockwise</source>
-        <translation>dêr xardên vê jo&apos;meštê šāxakā sāat </translation>
+        <translation>dêr xardên vê jo'meštê šāxakā sāat </translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="755"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="838"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="841"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="882"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="885"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="952"/>
         <source>Rotate counterclockwise</source>
-        <translation>dêr xardên čavāsê jo&apos;mêštê šāxakā sāat</translation>
+        <translation>dêr xardên čavāsê jo'mêštê šāxakā sāat</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="756"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="859"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="956"/>
         <source>Display in file manager</source>
         <translation>niyaštgêr mênê dîvowdâri fāyl</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="759"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="765"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="766"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="856"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="892"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="894"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="897"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="955"/>
         <source>Set as wallpaper</source>
         <translation>sāmov vê onvānê balga zêmîna</translation>
     </message>
@@ -2011,12 +1881,12 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="988"/>
         <source>Rotate clockwise</source>
-        <translation>dêr xardên vê jo&apos;meštê šāxakā sāat </translation>
+        <translation>dêr xardên vê jo'meštê šāxakā sāat </translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="997"/>
         <source>Rotate counterclockwise</source>
-        <translation>dêr xardên čavāsê jo&apos;mêštê šāxakā sāat</translation>
+        <translation>dêr xardên čavāsê jo'mêštê šāxakā sāat</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1006"/>
@@ -2056,20 +1926,20 @@
         <source>1 video</source>
         <translation>1 film</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="293"/>
         <source>%n photos</source>
-        <translation><numerusform>%n šîvāt</numerusform><numerusform>%n šîvāt</numerusform></translation>
+        <translation>%n šîvāt%n šîvāt</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="295"/>
         <source>%n videos</source>
-        <translation><numerusform>%n film</numerusform><numerusform>%n film</numerusform></translation>
+        <translation>%n film%n film</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="297"/>
         <source>%n items</source>
-        <translation><numerusform>%n āytêm</numerusform><numerusform>%n āytêm</numerusform></translation>
+        <translation>%n āytêm%n āytêm</translation>
     </message>
 </context>
 <context>
@@ -2155,12 +2025,12 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="105"/>
         <source>Type</source>
-        <translation>&apos;no </translation>
+        <translation>'no </translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="115"/>
         <source>Path</source>
-        <translation>ra&apos;</translation>
+        <translation>ra'</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="122"/>
@@ -2169,7 +2039,6 @@
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="130"/>
-        <location filename="../qml/Control/VideoInfoDialog.qml" line="170"/>
         <source>Video CodecID</source>
         <translation>âydi kodêkê film</translation>
     </message>
@@ -2279,22 +2148,22 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="245"/>
         <source>Rotate clockwise</source>
-        <translation>dêr xardên vê jo&apos;meštê šāxakā sāat </translation>
+        <translation>dêr xardên vê jo'meštê šāxakā sāat </translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="267"/>
         <source>Rotate counterclockwise</source>
-        <translation>dêr xardên čavāsê jo&apos;mêštê šāxakā sāat</translation>
+        <translation>dêr xardên čavāsê jo'mêštê šāxakā sāat</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="297"/>
         <source>Show navigation window</source>
-        <translation>nêšow dāďênê ra&apos;jurê nimdari</translation>
+        <translation>nêšow dāďênê ra'jurê nimdari</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="297"/>
         <source>Hide navigation window</source>
-        <translation>bîďār kerdênê ra&apos;jurê nimdari</translation>
+        <translation>bîďār kerdênê ra'jurê nimdari</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="309"/>
@@ -2317,12 +2186,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>فتح الصورة</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>Image Viewer هو أداة عرض الصور بواجهة أنيقة و أداء سلس.</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="185"/>
@@ -2332,7 +2201,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation>Image Viewer</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="189"/>
@@ -2342,7 +2211,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="193"/>
         <source>%1 is released under %2.</source>
-        <translation type="unfinished"/>
+        <translation>%1 تم نشره بموجب %2.</translation>
     </message>
 </context>
 <context>
