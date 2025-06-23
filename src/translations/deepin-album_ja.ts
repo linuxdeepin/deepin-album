@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ja">
+<TS version="2.1" language="ja_JP">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -448,22 +448,22 @@
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
-        <translation type="unfinished">
-            &lt;numerusform&gt;&lt;/numerusform&gt;
+        <translation>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
-        <translation type="unfinished">
-            &lt;numerusform&gt;&lt;/numerusform&gt;
+        <translation>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
-        <translation type="unfinished">
-            &lt;numerusform&gt;&lt;/numerusform&gt;
+        <translation>
+            <numerusform></numerusform>
         </translation>
     </message>
 </context>
@@ -765,22 +765,22 @@
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
-        <translation type="unfinished">
-            &lt;numerusform&gt;&lt;/numerusform&gt;
+        <translation>
+            <numerusform>%n 個の画像</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
-        <translation type="unfinished">
-            &lt;numerusform&gt;&lt;/numerusform&gt;
+        <translation>
+            <numerusform>%n 個の動画</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
-        <translation type="unfinished">
-            &lt;numerusform&gt;&lt;/numerusform&gt;
+        <translation>
+            <numerusform></numerusform>
         </translation>
     </message>
 </context>

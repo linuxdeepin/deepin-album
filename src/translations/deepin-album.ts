@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en">
+<TS version="2.1" language="en_US">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -192,7 +192,7 @@
         <location filename="../src/albumControl.cpp" line="2173"/>
         <location filename="../src/albumControl.cpp" line="2177"/>
         <source>%1Year%2Month%3Day</source>
-        <translation type="unfinished"></translation>
+        <translation>%1Year%2Month%3Day</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2227"/>
@@ -389,42 +389,42 @@
     <message>
         <location filename="../src/globalstatus.cpp" line="863"/>
         <source>1 item selected (1 photo)</source>
-        <translation type="unfinished">1 item selected (1 photo)</translation>
+        <translation>1 item selected (1 photo)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="865"/>
         <source>1 item selected (1 video)</source>
-        <translation type="unfinished">1 item selected (1 video)</translation>
+        <translation>1 item selected (1 video)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="867"/>
         <source>%1 items selected (%1 photos)</source>
-        <translation type="unfinished">%1 items selected (%1 photos)</translation>
+        <translation>%1 items selected (%1 photos)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="869"/>
         <source>%1 items selected (%1 videos)</source>
-        <translation type="unfinished">%1 items selected (%1 videos)</translation>
+        <translation>%1 items selected (%1 videos)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="871"/>
         <source>%1 item selected (1 photo, 1 video)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 item selected (1 photo, 1 video)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="873"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
-        <translation type="unfinished">%1 items selected (1 photo, %2 videos)</translation>
+        <translation>%1 items selected (1 photo, %2 videos)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="875"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
-        <translation type="unfinished">%1 items selected (%2 photos, 1 video)</translation>
+        <translation>%1 items selected (%2 photos, 1 video)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="877"/>
         <source>%1 items selected (%2 photos, %3 videos)</source>
-        <translation type="unfinished">%1 items selected (%2 photos, %3 videos)</translation>
+        <translation>%1 items selected (%2 photos, %3 videos)</translation>
     </message>
 </context>
 <context>
@@ -433,40 +433,40 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="211"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="430"/>
         <source>Import</source>
-        <translation type="unfinished">Import</translation>
+        <translation>Import</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="341"/>
         <source>1 photo</source>
-        <translation type="unfinished">1 photo</translation>
+        <translation>1 photo</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="343"/>
         <source>1 video</source>
-        <translation type="unfinished">1 video</translation>
+        <translation>1 video</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
-        <translation type="unfinished">
-            &lt;numerusform&gt;&lt;/numerusform&gt;
-            &lt;numerusform&gt;&lt;/numerusform&gt;
+        <translation>
+            <numerusform>%n photos</numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
-        <translation type="unfinished">
-            &lt;numerusform&gt;&lt;/numerusform&gt;
-            &lt;numerusform&gt;&lt;/numerusform&gt;
+        <translation>
+            <numerusform>%n videos</numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
-        <translation type="unfinished">
-            &lt;numerusform&gt;&lt;/numerusform&gt;
-            &lt;numerusform&gt;&lt;/numerusform&gt;
+        <translation>
+            <numerusform>%n items</numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
 </context>
@@ -475,7 +475,7 @@
     <message>
         <location filename="../src/widgets/widgtes/noresultwidget.cpp" line="39"/>
         <source>No results</source>
-        <translation type="unfinished">No results</translation>
+        <translation>No results</translation>
     </message>
 </context>
 <context>
@@ -517,19 +517,19 @@
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="361"/>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="368"/>
         <source>All</source>
-        <translation type="unfinished">All</translation>
+        <translation>All</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="412"/>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="376"/>
         <source>Photos</source>
-        <translation type="unfinished">Photos</translation>
+        <translation>Photos</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="419"/>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="383"/>
         <source>Videos</source>
-        <translation type="unfinished">Videos</translation>
+        <translation>Videos</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1355"/>
@@ -539,22 +539,22 @@
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="269"/>
         <source>day</source>
-        <translation type="unfinished">day</translation>
+        <translation>day</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="322"/>
         <source>Imported on</source>
-        <translation type="unfinished">Imported on</translation>
+        <translation>Imported on</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="322"/>
         <source> %1-%2-%3 %4</source>
-        <translation type="unfinished"></translation>
+        <translation>%1-%2-%3 %4</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="325"/>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation>Imported on </translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="440"/>
@@ -566,14 +566,14 @@
         <location filename="../src/widgets/thumbnail/timelinedatewidget.cpp" line="164"/>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="236"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation>Select</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1360"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2115"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2121"/>
         <source>Unselect</source>
-        <translation type="unfinished"></translation>
+        <translation>Unselect</translation>
     </message>
 </context>
 <context>
@@ -613,7 +613,7 @@
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaildelegate.cpp" line="207"/>
         <source>days</source>
-        <translation type="unfinished">days</translation>
+        <translation>days</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="723"/>
@@ -626,7 +626,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="950"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="979"/>
         <source>Photo info</source>
-        <translation type="unfinished">Photo info</translation>
+        <translation>Photo info</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="724"/>
@@ -639,7 +639,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="951"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="980"/>
         <source>Video info</source>
-        <translation type="unfinished">Video info</translation>
+        <translation>Video info</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="746"/>
@@ -647,7 +647,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="931"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="957"/>
         <source>View</source>
-        <translation type="unfinished">View</translation>
+        <translation>View</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="747"/>
@@ -656,7 +656,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="877"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="958"/>
         <source>Fullscreen</source>
-        <translation type="unfinished">Fullscreen</translation>
+        <translation>Fullscreen</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="748"/>
@@ -665,7 +665,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="897"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="960"/>
         <source>Slide show</source>
-        <translation type="unfinished">Slide show</translation>
+        <translation>Slide show</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="749"/>
@@ -675,20 +675,20 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="889"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="962"/>
         <source>Export</source>
-        <translation type="unfinished">Export</translation>
+        <translation>Export</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="759"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="963"/>
         <source>Copy</source>
-        <translation type="unfinished">Copy</translation>
+        <translation>Copy</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="767"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="844"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="966"/>
         <source>Remove from album</source>
-        <translation type="unfinished">Remove from album</translation>
+        <translation>Remove from album</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="769"/>
@@ -696,7 +696,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="887"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="959"/>
         <source>Print</source>
-        <translation type="unfinished">Print</translation>
+        <translation>Print</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="779"/>
@@ -706,7 +706,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="906"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="973"/>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Rotate clockwise</translation>
+        <translation>Rotate clockwise</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="780"/>
@@ -716,14 +716,14 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="907"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="974"/>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Rotate counterclockwise</translation>
+        <translation>Rotate counterclockwise</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="781"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="881"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="978"/>
         <source>Display in file manager</source>
-        <translation type="unfinished">Display in file manager</translation>
+        <translation>Display in file manager</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="784"/>
@@ -735,22 +735,22 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="919"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="977"/>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Set as wallpaper</translation>
+        <translation>Set as wallpaper</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="949"/>
         <source>Restore</source>
-        <translation type="unfinished">Restore</translation>
+        <translation>Restore</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="986"/>
         <source>Add to album</source>
-        <translation type="unfinished">Add to album</translation>
+        <translation>Add to album</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="990"/>
         <source>New album</source>
-        <translation type="unfinished">New album</translation>
+        <translation>New album</translation>
     </message>
 </context>
 <context>
@@ -758,35 +758,35 @@
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="304"/>
         <source>1 photo</source>
-        <translation type="unfinished">1 photo</translation>
+        <translation>1 photo</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="306"/>
         <source>1 video</source>
-        <translation type="unfinished">1 video</translation>
+        <translation>1 video</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
-        <translation type="unfinished">
-            &lt;numerusform&gt;&lt;/numerusform&gt;
-            &lt;numerusform&gt;&lt;/numerusform&gt;
+        <translation>
+            <numerusform>%n photos</numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
-        <translation type="unfinished">
-            &lt;numerusform&gt;&lt;/numerusform&gt;
-            &lt;numerusform&gt;&lt;/numerusform&gt;
+        <translation>
+            <numerusform>%n videos</numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
-        <translation type="unfinished">
-            &lt;numerusform&gt;&lt;/numerusform&gt;
-            &lt;numerusform&gt;&lt;/numerusform&gt;
+        <translation>
+            <numerusform>%n items</numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
 </context>

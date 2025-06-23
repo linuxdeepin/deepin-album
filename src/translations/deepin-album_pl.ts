@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="pl">
+<TS version="2.1" language="pl_PL">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -449,27 +449,27 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
         <translation>
-            &lt;numerusform&gt;%n zdjęcie&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n zdjęcia&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n zdjęć&lt;/numerusform&gt;
+            <numerusform>%n zdjęcie</numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
         <translation>
-            &lt;numerusform&gt;%n film&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n filmy&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n filmów&lt;/numerusform&gt;
+            <numerusform>%n film</numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
         <translation>
-            &lt;numerusform&gt;%n przedmiot&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n przedmioty&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n przedmiotów&lt;/numerusform&gt;
+            <numerusform>%n przedmiot</numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
 </context>
@@ -772,27 +772,27 @@
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
         <translation>
-            &lt;numerusform&gt;%n zdjęcie&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n zdjęcia&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n zdjęć&lt;/numerusform&gt;
+            <numerusform>%n zdjęcie</numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
         <translation>
-            &lt;numerusform&gt;%n film&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n filmy&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n filmów&lt;/numerusform&gt;
+            <numerusform>%n film</numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
         <translation>
-            &lt;numerusform&gt;%n przedmiot&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n przedmioty&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n przedmiotów&lt;/numerusform&gt;
+            <numerusform>%n przedmiot</numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
 </context>

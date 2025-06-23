@@ -463,7 +463,7 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
         <translation>
-            <numerusform>共%n项</numerusform>
+            <numerusform>共1个项</numerusform>
         </translation>
     </message>
 </context>
@@ -780,7 +780,7 @@
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
         <translation>
-            <numerusform>共%n项</numerusform>
+            <numerusform>共1个项</numerusform>
         </translation>
     </message>
 </context>

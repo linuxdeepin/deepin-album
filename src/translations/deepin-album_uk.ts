@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="uk">
+<TS version="2.1" language="uk_UA">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -449,27 +449,27 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
         <translation>
-            &lt;numerusform&gt;%n фотографія&lt;/numerusform&gt;
-            &lt;numerusform&gt;%1 фотографії&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n фотографій&lt;/numerusform&gt;
+            <numerusform>%n фотографія</numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
         <translation>
-            &lt;numerusform&gt;%n відео&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n відео&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n відео&lt;/numerusform&gt;
+            <numerusform>%n відео</numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
         <translation>
-            &lt;numerusform&gt;%n запис&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n записи&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n записів&lt;/numerusform&gt;
+            <numerusform>%n запис</numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
 </context>
@@ -772,27 +772,27 @@
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
         <translation>
-            &lt;numerusform&gt;%n фотографія&lt;/numerusform&gt;
-            &lt;numerusform&gt;%1 фотографії&lt;/numerusform&gt;
-            &lt;numerusform&gt;%1 фотографій&lt;/numerusform&gt;
+            <numerusform>%n фотографія</numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
         <translation>
-            &lt;numerusform&gt;%n відео&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n відео&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n відео&lt;/numerusform&gt;
+            <numerusform>%n відео</numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
         <translation>
-            &lt;numerusform&gt;%n запис&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n записи&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n записів&lt;/numerusform&gt;
+            <numerusform>%n запис</numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
 </context>
