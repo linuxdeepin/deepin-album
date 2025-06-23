@@ -449,24 +449,24 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
         <translation>
-            &lt;numerusform&gt;%n fotolar&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n şəkillər&lt;/numerusform&gt;
+            <numerusform>%n fotolar</numerusform>
+            <numerusform>%n şəkillər</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
         <translation>
-            &lt;numerusform&gt;%n videolar&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n videolar&lt;/numerusform&gt;
+            <numerusform>%n videolar</numerusform>
+            <numerusform>%n videolar</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
         <translation>
-            &lt;numerusform&gt;%n elementlər&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n elementlər&lt;/numerusform&gt;
+            <numerusform>%n elementlər</numerusform>
+            <numerusform>%n elementlər</numerusform>
         </translation>
     </message>
 </context>
@@ -769,24 +769,24 @@
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
         <translation>
-            &lt;numerusform&gt;%n şəkil&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n şəkil&lt;/numerusform&gt;
+            <numerusform>%n şəkil</numerusform>
+            <numerusform>%n şəkil</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
         <translation>
-            &lt;numerusform&gt;%n şəkil&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n şəkil&lt;/numerusform&gt;
+            <numerusform>%n şəkil</numerusform>
+            <numerusform>%n şəkil</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
         <translation>
-            &lt;numerusform&gt;%n element&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n element&lt;/numerusform&gt;
+            <numerusform>%n element</numerusform>
+            <numerusform>%n element</numerusform>
         </translation>
     </message>
 </context>

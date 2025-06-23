@@ -449,24 +449,24 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
         <translation>
-            &lt;numerusform&gt;%n fotografia&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n fotografies&lt;/numerusform&gt;
+            <numerusform>%n fotografia</numerusform>
+            <numerusform>%n fotografies</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
         <translation>
-            &lt;numerusform&gt;%n vídeo&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n vídeos&lt;/numerusform&gt;
+            <numerusform>%n vídeo</numerusform>
+            <numerusform>%n vídeos</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
         <translation>
-            &lt;numerusform&gt;%n element&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n elements&lt;/numerusform&gt;
+            <numerusform>%n element</numerusform>
+            <numerusform>%n elements</numerusform>
         </translation>
     </message>
 </context>
@@ -769,24 +769,24 @@
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
         <translation>
-            &lt;numerusform&gt;%n fotografia&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n fotografies&lt;/numerusform&gt;
+            <numerusform>%n fotografia</numerusform>
+            <numerusform>%n fotografies</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
         <translation>
-            &lt;numerusform&gt;%n vídeo&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n vídeos&lt;/numerusform&gt;
+            <numerusform>%n vídeo</numerusform>
+            <numerusform>%n vídeos</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
         <translation>
-            &lt;numerusform&gt;%n element&lt;/numerusform&gt;
-            &lt;numerusform&gt;%n elements&lt;/numerusform&gt;
+            <numerusform>%n element</numerusform>
+            <numerusform>%n elements</numerusform>
         </translation>
     </message>
 </context>

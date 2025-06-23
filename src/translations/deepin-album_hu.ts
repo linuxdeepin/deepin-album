@@ -449,21 +449,21 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
         <translation>
-            &lt;numerusform&gt;%n kép(ek)&lt;/numerusform&gt;
+            <numerusform>%n kép(ek)</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
         <translation>
-            &lt;numerusform&gt;%n videó(k)&lt;/numerusform&gt;
+            <numerusform>%n videó(k)</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
         <translation>
-            &lt;numerusform&gt;%n elem(ek)&lt;/numerusform&gt;
+            <numerusform>%n elem(ek)</numerusform>
         </translation>
     </message>
 </context>
@@ -766,21 +766,21 @@
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
         <translation>
-            &lt;numerusform&gt;%n kép(ek)&lt;/numerusform&gt;
+            <numerusform>%n kép(ek)</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
         <translation>
-            &lt;numerusform&gt;%n videó(k)&lt;/numerusform&gt;
+            <numerusform>%n videó(k)</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
         <translation>
-            &lt;numerusform&gt;%n elem(ek)&lt;/numerusform&gt;
+            <numerusform>%n elem(ek)</numerusform>
         </translation>
     </message>
 </context>
