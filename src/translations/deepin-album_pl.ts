@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pl">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -448,29 +446,17 @@
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
-        <translation>
-            <numerusform>%n zdjęcie</numerusform>
-            <numerusform>%n zdjęcia</numerusform>
-            <numerusform>%n zdjęć</numerusform>
-        </translation>
+        <translation><numerusform>%n zdjęcie</numerusform><numerusform>%n zdjęcia</numerusform><numerusform>%n zdjęć</numerusform><numerusform>%n zdjęć</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
-        <translation>
-            <numerusform>%n film</numerusform>
-            <numerusform>%n filmy</numerusform>
-            <numerusform>%n filmów</numerusform>
-        </translation>
+        <translation><numerusform>%n film</numerusform><numerusform>%n filmy</numerusform><numerusform>%n filmów</numerusform><numerusform>%n filmów</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
-        <translation>
-            <numerusform>%n przedmiot</numerusform>
-            <numerusform>%n przedmioty</numerusform>
-            <numerusform>%n przedmiotów</numerusform>
-        </translation>
+        <translation><numerusform>%n przedmiot</numerusform><numerusform>%n przedmioty</numerusform><numerusform>%n przedmiotów</numerusform><numerusform>%n przedmiotów</numerusform></translation>
     </message>
 </context>
 <context>
@@ -771,29 +757,17 @@
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
-        <translation>
-            <numerusform>%n zdjęcie</numerusform>
-            <numerusform>%n zdjęcia</numerusform>
-            <numerusform>%n zdjęć</numerusform>
-        </translation>
+        <translation><numerusform>%n zdjęcie</numerusform><numerusform>%n zdjęcia</numerusform><numerusform>%n zdjęć</numerusform><numerusform>%n zdjęć</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
-        <translation>
-            <numerusform>%n film</numerusform>
-            <numerusform>%n filmy</numerusform>
-            <numerusform>%n filmów</numerusform>
-        </translation>
+        <translation><numerusform>%n film</numerusform><numerusform>%n filmy</numerusform><numerusform>%n filmów</numerusform><numerusform>%n filmów</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
-        <translation>
-            <numerusform>%n przedmiot</numerusform>
-            <numerusform>%n przedmioty</numerusform>
-            <numerusform>%n przedmiotów</numerusform>
-        </translation>
+        <translation><numerusform>%n przedmiot</numerusform><numerusform>%n przedmioty</numerusform><numerusform>%n przedmiotów</numerusform><numerusform>%n przedmiotów</numerusform></translation>
     </message>
 </context>
 </TS>

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sq">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="sq">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -171,7 +169,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1631"/>
         <source>Screen Capture</source>
-        <translation>Kuptësim Shtyllës</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1633"/>
@@ -192,7 +190,7 @@
         <location filename="../src/albumControl.cpp" line="2173"/>
         <location filename="../src/albumControl.cpp" line="2177"/>
         <source>%1Year%2Month%3Day</source>
-        <translation>%1Vit%2Majtez%3 Ditë</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2227"/>
@@ -212,7 +210,7 @@
         <location filename="../src/dbmanager/dbmanager.cpp" line="497"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="522"/>
         <source>Screen Capture</source>
-        <translation>Kuptësim Shtyllës</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="481"/>
@@ -381,7 +379,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="962"/>
         <source>Live Text</source>
-        <translation>Tekst i vërtetë</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -448,26 +446,17 @@
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
-        <translation>
-            <numerusform>%n foto</numerusform>
-            <numerusform>%n foto</numerusform>
-        </translation>
+        <translation><numerusform>%n foto</numerusform><numerusform>%n foto</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
-        <translation>
-            <numerusform>%n video</numerusform>
-            <numerusform>%n video</numerusform>
-        </translation>
+        <translation><numerusform>%n video</numerusform><numerusform>%n video</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
-        <translation>
-            <numerusform>%n objekt</numerusform>
-            <numerusform>%n objekte</numerusform>
-        </translation>
+        <translation><numerusform>%n objekt</numerusform><numerusform>%n objekte</numerusform></translation>
     </message>
 </context>
 <context>
@@ -768,26 +757,17 @@
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
-        <translation>
-            <numerusform>%n foto</numerusform>
-            <numerusform>%n foto</numerusform>
-        </translation>
+        <translation><numerusform>%n foto</numerusform><numerusform>%n foto</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
-        <translation>
-            <numerusform>%n video</numerusform>
-            <numerusform>%n video</numerusform>
-        </translation>
+        <translation><numerusform>%n video</numerusform><numerusform>%n video</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
-        <translation>
-            <numerusform>%n objekt</numerusform>
-            <numerusform>%n objekte</numerusform>
-        </translation>
+        <translation><numerusform>%n objekt</numerusform><numerusform>%n objekte</numerusform></translation>
     </message>
 </context>
 </TS>

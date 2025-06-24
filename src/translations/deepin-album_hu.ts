@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="hu">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -448,23 +446,17 @@
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
-        <translation>
-            <numerusform>%n kép(ek)</numerusform>
-        </translation>
+        <translation><numerusform>%n kép(ek)</numerusform><numerusform>%n kép(ek)</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
-        <translation>
-            <numerusform>%n videó(k)</numerusform>
-        </translation>
+        <translation><numerusform>%n videó(k)</numerusform><numerusform>%n videó(k)</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
-        <translation>
-            <numerusform>%n elem(ek)</numerusform>
-        </translation>
+        <translation><numerusform>%n elem(ek)</numerusform><numerusform>%n elem(ek)</numerusform></translation>
     </message>
 </context>
 <context>
@@ -765,23 +757,17 @@
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
-        <translation>
-            <numerusform>%n kép(ek)</numerusform>
-        </translation>
+        <translation><numerusform>%n kép(ek)</numerusform><numerusform>%n kép(ek)</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
-        <translation>
-            <numerusform>%n videó(k)</numerusform>
-        </translation>
+        <translation><numerusform>%n videó(k)</numerusform><numerusform>%n videó(k)</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
-        <translation>
-            <numerusform>%n elem(ek)</numerusform>
-        </translation>
+        <translation><numerusform>%n elem(ek)</numerusform><numerusform>%n elem(ek)</numerusform></translation>
     </message>
 </context>
 </TS>
