@@ -169,7 +169,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1631"/>
         <source>Screen Capture</source>
-        <translation>Kuptësim Shtyllës</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1633"/>
@@ -190,7 +190,7 @@
         <location filename="../src/albumControl.cpp" line="2173"/>
         <location filename="../src/albumControl.cpp" line="2177"/>
         <source>%1Year%2Month%3Day</source>
-        <translation>%1Vit%2Majtez%3 Ditë</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2227"/>
@@ -210,7 +210,7 @@
         <location filename="../src/dbmanager/dbmanager.cpp" line="497"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="522"/>
         <source>Screen Capture</source>
-        <translation>Kuptësim Shtyllës</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="481"/>
@@ -379,7 +379,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="962"/>
         <source>Live Text</source>
-        <translation>Tekst i vërtetë</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
