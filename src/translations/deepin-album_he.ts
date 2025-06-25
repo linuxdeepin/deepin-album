@@ -1269,7 +1269,7 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="325"/>
         <location filename="../src/albumControl.cpp" line="678"/>
         <source>%1/%2/%3</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2/%3</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="361"/>
@@ -1305,12 +1305,12 @@
         <location filename="../main.cpp" line="68"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation type="unfinished"/>
+        <translation>ראשי</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="269"/>
         <source>day</source>
-        <translation type="unfinished"/>
+        <translation>יום</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="322"/>
@@ -1320,12 +1320,12 @@
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="322"/>
         <source> %1-%2-%3 %4</source>
-        <translation type="unfinished"/>
+        <translation> %1-%2-%3 %4</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="325"/>
         <source>Imported on </source>
-        <translation type="unfinished"/>
+        <translation>הועלה ב </translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="236"/>
@@ -1337,14 +1337,14 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2121"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="440"/>
         <source>Select</source>
-        <translation type="unfinished"/>
+        <translation>בחר</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1360"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2115"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2121"/>
         <source>Unselect</source>
-        <translation type="unfinished"/>
+        <translation>בטל בחירה</translation>
     </message>
 </context>
 <context>
@@ -1352,7 +1352,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="66"/>
         <source>Input a new name</source>
-        <translation type="unfinished"/>
+        <translation>הכנס שם חדש</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="81"/>
@@ -1400,12 +1400,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="144"/>
         <source>The files will be permanently deleted after the days shown on them</source>
-        <translation type="unfinished"/>
+        <translation>הקבצים יימחקו לצמיתות לאחר الأيام שמוצגות עליהם</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="159"/>
         <source>Delete All</source>
-        <translation type="unfinished"/>
+        <translation>הסר הכל</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="199"/>
@@ -1551,7 +1551,7 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="313"/>
         <source>Add an album</source>
-        <translation type="unfinished"/>
+        <translation>הוסף אלבום</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="340"/>
@@ -1610,13 +1610,13 @@
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
         <source>Pause</source>
-        <translation type="unfinished"/>
+        <translation>остановить</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
         <source>Play</source>
-        <translation type="unfinished"/>
+        <translation>Воспроизвести</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="197"/>
@@ -1627,7 +1627,7 @@
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="212"/>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="253"/>
         <source>Exit</source>
-        <translation type="unfinished"/>
+        <translation>Выйти</translation>
     </message>
 </context>
 <context>
@@ -1640,7 +1640,7 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="441"/>
         <source>day</source>
-        <translation type="unfinished"/>
+        <translation>יום</translation>
     </message>
 </context>
 <context>
