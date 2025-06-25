@@ -170,7 +170,6 @@ QString ImageDataService::getMovieDurationStrByPath(const QString &path)
 {
     QMutexLocker locker(&m_imgDataMutex);
     bool hasDuration = m_movieDurationStrMap.contains(path);
-    qDebug() << "Getting movie duration for path:" << path << "found:" << hasDuration;
     return hasDuration ? m_movieDurationStrMap[path] : QString();
 }
 
