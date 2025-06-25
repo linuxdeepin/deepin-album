@@ -1174,7 +1174,7 @@
     <message>
         <location filename="../qml/MainAlbumView.qml" line="281"/>
         <source>Deleted:</source>
-        <translation>تم حذف:</translation>
+        <translation>تم الحذف:</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="283"/>
@@ -1483,7 +1483,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="66"/>
         <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
-        <translation>لا يمكن نقل "%1" إلى سلة المهملات. هل ترغب في حذفها بشكل دائم؟</translation>
+        <translation>لا يمكن نقل "%1" إلى سلة المهملات. هل تريد حذفها بشكل دائم؟</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="84"/>
@@ -2191,7 +2191,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Image Viewer هو أداة عرض الصور بواجهة أنيقة و أداء سلس.</translation>
+        <translation>مُحَوِّر الصور هو أداة لعرض الصور مع واجهة أنيقة ومستوى أداء سلس.</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="185"/>
@@ -2201,7 +2201,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
         <source>Image Viewer</source>
-        <translation>Image Viewer</translation>
+        <translation>مُحَوِّر الصور</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="189"/>
@@ -2211,7 +2211,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="193"/>
         <source>%1 is released under %2.</source>
-        <translation>%1 تم نشره بموجب %2.</translation>
+        <translation>%1 تم الإفراج عنه بموجب %2.</translation>
     </message>
 </context>
 <context>
