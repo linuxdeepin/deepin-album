@@ -1269,7 +1269,7 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="325"/>
         <location filename="../src/albumControl.cpp" line="678"/>
         <source>%1/%2/%3</source>
-        <translation type="unfinished"/>
+        <translation>%1/%2/%3</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="361"/>
@@ -1305,7 +1305,7 @@
         <location filename="../main.cpp" line="68"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation type="unfinished"/>
+        <translation>Pagrindinis</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="269"/>
@@ -1320,12 +1320,12 @@
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="322"/>
         <source> %1-%2-%3 %4</source>
-        <translation type="unfinished"/>
+        <translation> %1-%2-%3 %4</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="325"/>
         <source>Imported on </source>
-        <translation type="unfinished"/>
+        <translation>Importuotas </translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="236"/>
@@ -1337,14 +1337,14 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2121"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="440"/>
         <source>Select</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkti</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1360"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2115"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2121"/>
         <source>Unselect</source>
-        <translation type="unfinished"/>
+        <translation>Atsikratyti</translation>
     </message>
 </context>
 <context>
@@ -1352,7 +1352,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="66"/>
         <source>Input a new name</source>
-        <translation type="unfinished"/>
+        <translation>Įveskite naują pavadinimą</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="81"/>
@@ -1400,12 +1400,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="144"/>
         <source>The files will be permanently deleted after the days shown on them</source>
-        <translation type="unfinished"/>
+        <translation>Failai bus visiškai pašalinti po nurodytų dienų</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="159"/>
         <source>Delete All</source>
-        <translation type="unfinished"/>
+        <translation>Pašalinti visus</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="199"/>
