@@ -1,162 +1,160 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="si">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="si">
 <context>
     <name>AlbumControl</name>
     <message>
         <location filename="../src/albumControl.cpp" line="278"/>
         <source>All photos and videos</source>
-        <translation>සියලුම පින්තූර සහ සිනමා තුවාල</translation>
+        <translation>എല്ലാ ഫോട്ടോകളും വിഡിയോകളും</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="306"/>
         <source>Disk is busy, cannot eject now</source>
-        <translation>ඩිස්ක් ක්‍රමලු අවශ්‍ය විය හැකි නොවේ</translation>
+        <translation>ഡിസ്ക് പ്രവർത്തിക്കുന്നു, ഇപ്പോൾ പുഞ്ചിൽ വലിച്ചെറിയാൻ കഴിയില്ല</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="307"/>
         <source>OK</source>
-        <translation>ඇක්කේ</translation>
+        <translation>හරි</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="928"/>
         <source>Fullscreen</source>
-        <translation>පූර්ණ ප්‍රමාණය</translation>
+        <translation>පූර්ණ තිරය</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="931"/>
         <source>Exit fullscreen/slideshow</source>
-        <translation>පූර්ණ ප්‍රමාණය/සිනමා තුවාල අවසන් කරන්න</translation>
+        <translation>ഫുൾസ്ക്രീൻ/സ്ലീഡ് ഷോ വിട്ടുകളയുക</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="937"/>
         <source>Help</source>
-        <translation>උපකාරය</translation>
+        <translation>സഹായം</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="940"/>
         <source>Display shortcuts</source>
-        <translation>කුළුණු ප්‍රමාණය දර්ශනය කරන්න</translation>
+        <translation>ശ്രുതികൾ പ്രദര്ശിപ്പിക്കുക</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="943"/>
         <source>Display in file manager</source>
-        <translation>ගොනු ප්‍රබන්ධකයෙන් දර්ශනය කරන්න</translation>
+        <translation>ഫയൽ മാനേജർ വഴി പ്രദര്ശിപ്പിക്കുക</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="946"/>
         <source>Slide show</source>
-        <translation>සිනමා තුවාල</translation>
+        <translation>സ്ലീഡ് ഷോ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="949"/>
         <source>View</source>
-        <translation>දර්ශනය කරන්න</translation>
+        <translation>നോക്കുക</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="952"/>
         <source>Export photos</source>
-        <translation>පින්තූර ප්‍රකළාමාණය කරන්න</translation>
+        <translation>ഫോട്ടോകൾ പുറത്തെടുക്കുക</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="955"/>
         <source>Import photos/videos</source>
-        <translation>පින්තූර සහ සිනමා තුවාල ප්‍රතික්‍රියා කරන්න</translation>
+        <translation>ഫോട്ടോകൾ/വിഡിയോകൾ ഇറക്കുക</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="958"/>
         <source>Select all</source>
-        <translation>සියලුම අත්හැරීම</translation>
+        <translation>എല്ലാവരെയും തിരഞ്ഞെടുക്കുക</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="961"/>
         <source>Copy</source>
-        <translation>කොපි කරන්න</translation>
+        <translation>පිටපතක්</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="964"/>
         <source>Delete</source>
-        <translation>ඇති අවශ්‍ය කරන්න</translation>
+        <translation>මකන්න</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="967"/>
         <source>Photo/Video info</source>
-        <translation>පින්තූර/සිනමා තුවාල සිතියම</translation>
+        <translation>ഫോട്ടോ/വിഡിയോ വിവരങ്ങൾ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="970"/>
         <source>Set as wallpaper</source>
-        <translation>බොර්ඩර් ලෙස අත්හැරීම</translation>
+        <translation>ഭൂമിയുടെ പടിമാടി ആക്കുക</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="973"/>
         <source>Rotate clockwise</source>
-        <translation>ප්‍රතිලෝම අගයට පරිවර්තනය කරන්න</translation>
+        <translation>ഉപരിലതുവശം കൂട്ടിയിടാൻ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="976"/>
         <source>Rotate counterclockwise</source>
-        <translation>ප්‍රතිලෝම අගයට පරිවර්තනය කරන්න</translation>
+        <translation>ഉപരിലതുവശത്ത് നിന്ന് താഴെയിടാൻ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="982"/>
         <source>Zoom in</source>
-        <translation>සමීපයට ප්‍රවේශය කරන්න</translation>
+        <translation>ജൂം ഇൻ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="985"/>
         <source>Zoom out</source>
-        <translation>අභිමානයට ප්‍රවේශය කරන්න</translation>
+        <translation>ജൂം ഔട്ട്</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="988"/>
         <source>Previous</source>
-        <translation>පෙර ප්‍රකාශය</translation>
+        <translation>പഴയത്</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="991"/>
         <source>Next</source>
-        <translation>නැවත ප්‍රකාශය</translation>
+        <translation>അടുത്തത്</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="994"/>
         <source>Favorite</source>
-        <translation>ප්‍රිය ප්‍රකාශය</translation>
+        <translation>ප්‍රියතම</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="997"/>
         <source>Unfavorite</source>
-        <translation>ප්‍රිය අවශ්‍ය කරන්න</translation>
+        <translation>പ്രിയപ്പെട്ടതല്ല</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1000"/>
         <source>New album</source>
-        <translation>නව ප්‍රකාශය</translation>
+        <translation>പുതിയ പുസ്തകം</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1003"/>
         <source>Rename album</source>
-        <translation>ප්‍රකාශය නම් අවශ්‍ය කරන්න</translation>
+        <translation>പുസ്തകത്തിന്റെ പേര് മാറ്റുക</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1006"/>
         <source>Page up</source>
-        <translation>පිටිය අභිමානය</translation>
+        <translation>പേജ് മുകളിലേക്ക്</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1009"/>
         <source>Page down</source>
-        <translation>පිටිය සමීපයට</translation>
+        <translation>പേജ് താഴെയിലേക്ക്</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1051"/>
         <source>Photos</source>
-        <translation>පින්තූර</translation>
+        <translation>ഫോട്ടോകൾ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1054"/>
         <source>Albums</source>
-        <translation>ආල්බම්</translation>
+        <translation>උපාංග</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1057"/>
@@ -166,65 +164,261 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1629"/>
         <source>Favorites</source>
-        <translation>විශේෂිත</translation>
+        <translation>ප්‍රියතමයන්</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1631"/>
         <source>Screen Capture</source>
-        <translation>සිරිත් අඟුරු</translation>
+        <translation>පරීක්ෂා කිරීම</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1633"/>
         <source>Camera</source>
-        <translation>කැමරා</translation>
+        <translation>කාමර</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1635"/>
         <source>Draw</source>
-        <translation>ලිඛිතය</translation>
+        <translation>ලියාපදිංචි කරන්න</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1728"/>
         <source>Unnamed</source>
-        <translation>අභිලාශිත</translation>
+        <translation>නම් නොකළ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2173"/>
+        <location filename="../src/albumControl.cpp" line="2177"/>
         <source>%1Year%2Month%3Day</source>
-        <translation>'%1වසර%2මාස%3දින'</translation>
+        <translation>&apos;%1වසර%2මාස%3දින&apos;</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2227"/>
         <source>Channel</source>
-        <translation>කාන්ත්‍ර</translation>
+        <translation>කාන්තල්</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2448"/>
         <source>Pictures</source>
-        <translation>පින්තුර</translation>
+        <translation>ඡායාරූප</translation>
+    </message>
+</context>
+<context>
+    <name>AlbumTitle</name>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="112"/>
+        <source>New album</source>
+        <translation>නව උපාංග</translation>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="119"/>
+        <source>Import folders</source>
+        <translation>පට්ටිකා පැත්තුරු අන්‍යාම් කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="130"/>
+        <source>Album</source>
+        <translation>ඕවුන්</translation>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="133"/>
+        <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
+        <translation>උපාංග යනු පිටුරු සහ වීඩියෝ බලන්න සහ අන්‍යාම් කරන්න සඳහා ප්‍රමාණික විස්තර ප්‍රමාණික පුවත් පාට්ඨියක් වන අතර.</translation>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="177"/>
+        <source>Show side pane</source>
+        <translation>සිත් පාන් පැත්තුරු බලන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="177"/>
+        <source>Hide side pane</source>
+        <translation>සිත් පාන් පැත්තුරු අත්හැරීම</translation>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="222"/>
+        <source>Original ratio</source>
+        <translation>ප්‍රාථමික ප්‍රතිශතය</translation>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="222"/>
+        <source>Square thumbnails</source>
+        <translation>සිත් පැත්තුරු ප්‍රතිශතය</translation>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="262"/>
+        <location filename="../qml/AlbumTitle.qml" line="340"/>
+        <source>Y</source>
+        <translation>&apos;ය&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="274"/>
+        <location filename="../qml/AlbumTitle.qml" line="341"/>
+        <source>M</source>
+        <translation>මාසය</translation>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="285"/>
+        <location filename="../qml/AlbumTitle.qml" line="342"/>
+        <source>D</source>
+        <translation>දිනය</translation>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="296"/>
+        <location filename="../qml/AlbumTitle.qml" line="343"/>
+        <source>All</source>
+        <translation>සිය</translation>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="401"/>
+        <source>Search</source>
+        <translation>සොයන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="483"/>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="514"/>
+        <source>Favorite</source>
+        <translation>ප්‍රියතම</translation>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="514"/>
+        <source>Unfavorite</source>
+        <translation>ජනප්‍රිය අයිතිමත් නොවීම</translation>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="546"/>
+        <source>Rotate</source>
+        <translation>ඇසීම</translation>
+    </message>
+    <message>
+        <location filename="../qml/AlbumTitle.qml" line="566"/>
+        <source>Delete</source>
+        <translation>මකන්න</translation>
+    </message>
+</context>
+<context>
+    <name>AllCollection</name>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="73"/>
+        <source>1 photo</source>
+        <translation>1 පිටුර</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="75"/>
+        <source>%1 photos</source>
+        <translation>&apos;%1 පිටුරු&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="83"/>
+        <source>1 video</source>
+        <translation>1 වීඩියෝ</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="85"/>
+        <source>%1 videos</source>
+        <translation>%1 දෙන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/AllCollection.qml" line="181"/>
+        <source>No results</source>
+        <translation>නිලධාරී</translation>
+    </message>
+</context>
+<context>
+    <name>CustomAlbum</name>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="87"/>
+        <source>1 photo</source>
+        <translation>1 පින්තූරය</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="89"/>
+        <source>%1 photos</source>
+        <translation>%1 පින්තූර</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="97"/>
+        <source>1 video</source>
+        <translation>1 දෙන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="99"/>
+        <source>%1 videos</source>
+        <translation>%1 දෙන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="155"/>
+        <source>0 item</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="219"/>
+        <source>No results</source>
+        <translation>නිලධාරී</translation>
     </message>
 </context>
 <context>
     <name>DBManager</name>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="480"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="497"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="522"/>
         <source>Screen Capture</source>
-        <translation>සිරිත් අඟුරු</translation>
+        <translation>සිරියා අභියෝගය</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="481"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="498"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="527"/>
         <source>Camera</source>
-        <translation>කැමරා</translation>
+        <translation>කෙම්පා</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="482"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="532"/>
         <source>Draw</source>
-        <translation>ලිඛිතය</translation>
+        <translation>ලියාපදිංචි කරන්න</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="2021"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="2041"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="2045"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="2047"/>
+        <location filename="../src/dbmanager/dbmanager.cpp" line="2053"/>
         <source>(copy)</source>
-        <translation>(කොපි)</translation>
+        <translation>(පිරින්දීම)</translation>
+    </message>
+</context>
+<context>
+    <name>DayCollection</name>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="116"/>
+        <source>Successfully added to “%1”</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="181"/>
+        <source>1 photo</source>
+        <translation>1 පින්තූරය</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="183"/>
+        <source>%1 photos</source>
+        <translation>%1 පින්තූර</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="191"/>
+        <source>1 video</source>
+        <translation>1 දෙන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="193"/>
+        <source>%1 videos</source>
+        <translation>%1 දෙන්න</translation>
     </message>
 </context>
 <context>
@@ -232,22 +426,255 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1116"/>
         <source>%1 Drive</source>
-        <translation>'%1 ද්‍රීව'</translation>
+        <translation>%1 ද්‍රව්‍යය</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1120"/>
         <source>Blank %1 Disc</source>
-        <translation>අභිලාශිත %1 දිස්</translation>
+        <translation>%1 ද්‍රව්‍යය නිරූපිත කළ නොමැත</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1124"/>
         <source>%1 Encrypted</source>
-        <translation>'%1 අන්වෙන්නා විය</translation>
+        <translation>%1 අන්තර්ගත කරන්න</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1127"/>
         <source>%1 Volume</source>
-        <translation>'%1 විලුම්'</translation>
+        <translation>%1 වෝලුම්</translation>
+    </message>
+</context>
+<context>
+    <name>DeleteDialog</name>
+    <message>
+        <location filename="../qml/Control/DeleteDialog.qml" line="48"/>
+        <source>Are you sure you want to delete this file locally?</source>
+        <translation>ඔබ මෙම අංශය අවමානය කරන්නේ ප්‍රමාණික බාහිර විසින්ද ද?</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/DeleteDialog.qml" line="49"/>
+        <source>You can restore it in the trash</source>
+        <translation>ඔබ එය ප්‍රමාණික බාහිර විසින් නැවත ප්‍රමාණික කර ගත හැකිය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/DeleteDialog.qml" line="51"/>
+        <source>Are you sure you want to delete %1 files locally?</source>
+        <translation>ඔබ %1 අංශයන් අවමානය කරන්නේ ප්‍රමාණික බාහිර විසින්ද ද?</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/DeleteDialog.qml" line="52"/>
+        <source>You can restore them in the trash</source>
+        <translation>ඔබ එවා ප්‍රමාණික බාහිර විසින් නැවත ප්‍රමාණික කර ගත හැකිය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/DeleteDialog.qml" line="56"/>
+        <source>Are you sure you want to permanently delete this file?</source>
+        <translation>ඔබ මෙම අංශය ප්‍රමාණික බාහිර විසින් අවමානය කරන්නේ ද?</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/DeleteDialog.qml" line="57"/>
+        <source>You cannot restore it any longer</source>
+        <translation>ඔබ එය නැවත ප්‍රමාණික කර ගත නොහැකිය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/DeleteDialog.qml" line="59"/>
+        <source>Are you sure you want to permanently delete %1 files?</source>
+        <translation>ඔබ %1 අංශයන් ප්‍රමාණික බාහිර විසින් අවමානය කරන්නේ ද?</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/DeleteDialog.qml" line="60"/>
+        <source>You cannot restore them any longer</source>
+        <translation>ඔබ එවා නැවත ප්‍රමාණික කර ගත නොහැකිය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/DeleteDialog.qml" line="111"/>
+        <source>Cancel</source>
+        <translation>අවලංගු</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/DeleteDialog.qml" line="128"/>
+        <source>Delete</source>
+        <translation>මකන්න</translation>
+    </message>
+</context>
+<context>
+    <name>DeviceAlbum</name>
+    <message>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="66"/>
+        <source>1 photo</source>
+        <translation>1 පින්තූරය</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="68"/>
+        <source>%1 photos</source>
+        <translation>%1 පිරිනිරිය</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="75"/>
+        <source>1 video</source>
+        <translation>1 වීඩියෝ</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="77"/>
+        <source>%1 videos</source>
+        <translation>%1 වීඩියෝ</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="179"/>
+        <source>Import to:</source>
+        <translation>ස්ථානයට:</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="189"/>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="192"/>
+        <source>Import</source>
+        <translation>ආයාතය</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="189"/>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="192"/>
+        <source>New Album</source>
+        <translation>නව පුවත්පත</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="216"/>
+        <source>Import All</source>
+        <translation>සියල්ල ආයාතය</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="217"/>
+        <source>Import 1 Item</source>
+        <translation>1 ප්‍රමාණය උපුටා ගැනීම</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="218"/>
+        <source>Import %1 Items</source>
+        <translation>Import %1 ප්‍රමාණය</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="225"/>
+        <source>Import successful</source>
+        <translation>උපුටා ගැනීම නිරාකරණය විය</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="276"/>
+        <source>No results</source>
+        <translation>කිසියම් ප්‍රමාණයක් නොමැත</translation>
+    </message>
+</context>
+<context>
+    <name>DeviceLoadDialog</name>
+    <message>
+        <location filename="../qml/Control/DeviceLoadDialog.qml" line="61"/>
+        <source>Loading...</source>
+        <translation>පූරණය වෙමින්...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/DeviceLoadDialog.qml" line="70"/>
+        <source>Cancel</source>
+        <translation>අවලංගු</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/DeviceLoadDialog.qml" line="78"/>
+        <source>Ignore</source>
+        <translation>නොසලකන්න</translation>
+    </message>
+</context>
+<context>
+    <name>EmptyWarningDialog</name>
+    <message>
+        <location filename="../qml/Control/EmptyWarningDialog.qml" line="27"/>
+        <source>File name cannot be empty!</source>
+        <translation>ගේ නම වෙනි නොවිය හැකිය!</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/EmptyWarningDialog.qml" line="36"/>
+        <source>OK</source>
+        <translation>හරි</translation>
+    </message>
+</context>
+<context>
+    <name>ExportDialog</name>
+    <message>
+        <location filename="../qml/Control/ExportDialog.qml" line="56"/>
+        <source>Export</source>
+        <translation>නිර්යාතය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ExportDialog.qml" line="73"/>
+        <source>Name:</source>
+        <translation>නම:</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ExportDialog.qml" line="105"/>
+        <source>Save to:</source>
+        <translation>ස්ථානයට:</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ExportDialog.qml" line="121"/>
+        <source>Pictures</source>
+        <translation>ඡායාරූප</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ExportDialog.qml" line="122"/>
+        <source>Documents</source>
+        <translation>ලේඛන</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ExportDialog.qml" line="123"/>
+        <source>Downloads</source>
+        <translation>බාගැනීම්</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ExportDialog.qml" line="124"/>
+        <source>Desktop</source>
+        <translation>වැඩතලය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ExportDialog.qml" line="125"/>
+        <source>Videos</source>
+        <translation>දෘශ්‍යක</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ExportDialog.qml" line="126"/>
+        <source>Music</source>
+        <translation>සංගීතය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ExportDialog.qml" line="127"/>
+        <location filename="../qml/Control/ExportDialog.qml" line="143"/>
+        <source>Select other directories</source>
+        <translation>අනෙකුත් දිරියන් තෝරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ExportDialog.qml" line="165"/>
+        <source>Format:</source>
+        <translation>ස්වරූපය:</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ExportDialog.qml" line="203"/>
+        <source>Quality:</source>
+        <translation>රූප ස්වරූපය:</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ExportDialog.qml" line="247"/>
+        <source>Cancel</source>
+        <translation>අවලංගු</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ExportDialog.qml" line="264"/>
+        <source>Confirm</source>
+        <translation>තහවුරු කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ExportDialog.qml" line="280"/>
+        <source>Export successful</source>
+        <translation>ස්ථාන අත්හැරීම නිරාකරණය විය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ExportDialog.qml" line="282"/>
+        <source>Export failed</source>
+        <translation>අອුතුවා නොහැක</translation>
     </message>
 </context>
 <context>
@@ -255,87 +682,88 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="838"/>
         <source>Fullscreen</source>
-        <translation>පුරා අඟුරු</translation>
+        <translation>පූර්ණ තිරය</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="842"/>
         <source>Exit fullscreen</source>
-        <translation>අඟුරු අවලඟනය</translation>
+        <translation>පුරා ප්‍රදර්ශනය සම්පූර්ණයෙන්ම අවලඟන්න</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="846"/>
         <source>Extract text</source>
-        <translation>තේක්ස් අඟුරු කරනය</translation>
+        <translation>පින්තූරයෙන් තොරතුරු අභියෝගය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="850"/>
         <source>Slide show</source>
-        <translation>ස්ලයිඩ් ස්‍රාවා</translation>
+        <translation>ස්ලයිඩ් ප්‍රදර්ශනය</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="854"/>
         <source>Rename</source>
-        <translation>නම වෙනස් කරනය</translation>
+        <translation>නම වෙනස් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="858"/>
+        <location filename="../src/filecontrol.cpp" line="950"/>
         <source>Copy</source>
-        <translation>කොපි කරනය</translation>
+        <translation>පිටපතක්</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="862"/>
         <source>Delete</source>
-        <translation>ඇතුළුවනය</translation>
+        <translation>මකන්න</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="866"/>
         <source>Rotate clockwise</source>
-        <translation>ප්‍රතිලෝකය ප්‍රාණ්‍තියට පරිවර්තනය</translation>
+        <translation>පිරිසිරි අගය වෙනස් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="870"/>
         <source>Rotate counterclockwise</source>
-        <translation>ප්‍රතිලෝකය අභිලෝකයට පරිවර්තනය</translation>
+        <translation>පිරිසිරි අගය අවම කරන්න</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="874"/>
         <source>Set as wallpaper</source>
-        <translation>විල්ලිප්පාර ලක්ෂ්‍යය ලෙස අඟුල්ලා කරනය</translation>
+        <translation>සියලුම පින්තූරය මිනිහු අභියෝගය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="878"/>
         <source>Display in file manager</source>
-        <translation>ගොඩනඟුරු අඟුරු දින අඟුරු මානාගරුවේ අඟුරු අර්ථය</translation>
+        <translation>ගුවන් අභියෝගය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="882"/>
         <source>Image info</source>
-        <translation>පින්තුර අර්ථය</translation>
+        <translation>පින්තූරයේ තොරතුරු</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="886"/>
         <source>Previous</source>
-        <translation>පෙර</translation>
+        <translation>පෙර තිරස්</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="890"/>
         <source>Next</source>
-        <translation>මෙහි පසු</translation>
+        <translation>පෙර තිරස්</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="894"/>
         <source>Zoom in</source>
-        <translation>ස්ක්‍රීනය අභිරෝධනය කරන්න</translation>
+        <translation>ස්පාර්ෂනය අභියෝගය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="898"/>
         <source>Zoom out</source>
-        <translation>ස්ක්‍රීනය අභිරෝධනය අඩු කරන්න</translation>
+        <translation>ස්පාර්ෂනය අභියෝගය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="902"/>
         <source>Open</source>
-        <translation>විවර්තනය කරන්න</translation>
+        <translation>වෙනස් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="906"/>
@@ -345,7 +773,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="930"/>
         <source>Image Viewing</source>
-        <translation>රිසෝම් නිරීක්ෂණය</translation>
+        <translation>පින්තූර ප්‍රදර්ශනය</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="934"/>
@@ -355,22 +783,40 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="938"/>
         <source>Display shortcuts</source>
-        <translation>ජැල්ප් අඩුවන්න</translation>
+        <translation>කුළු සේවා ප්‍රදර්ශනය කරන්න</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="946"/>
         <source>Settings</source>
-        <translation>සැකසුම්</translation>
+        <translation>සැකසීම්</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="954"/>
         <source>Select all</source>
-        <translation>සියලුම අවමත් කරන්න</translation>
+        <translation>සියලුම තෝරා ගැනීම</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="962"/>
         <source>Live Text</source>
-        <translation>ලයිව් තෙක්ස්</translation>
+        <translation>සියලුම තොරතුරු</translation>
+    </message>
+</context>
+<context>
+    <name>FilterComboBox</name>
+    <message>
+        <location filename="../qml/Control/FilterComboBox.qml" line="20"/>
+        <source>All</source>
+        <translation>සියලුම</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/FilterComboBox.qml" line="21"/>
+        <source>Photos</source>
+        <translation>පින්තූර</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/FilterComboBox.qml" line="22"/>
+        <source>Videos</source>
+        <translation>දෘශ්‍යක</translation>
     </message>
 </context>
 <context>
@@ -378,75 +824,376 @@
     <message>
         <location filename="../src/globalstatus.cpp" line="863"/>
         <source>1 item selected (1 photo)</source>
-        <translation type="unfinished">1 item selected (1 photo)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="865"/>
         <source>1 item selected (1 video)</source>
-        <translation type="unfinished">1 item selected (1 video)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="867"/>
         <source>%1 items selected (%1 photos)</source>
-        <translation type="unfinished">%1 items selected (%1 photos)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="869"/>
         <source>%1 items selected (%1 videos)</source>
-        <translation type="unfinished">%1 items selected (%1 videos)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="871"/>
         <source>%1 item selected (1 photo, 1 video)</source>
-        <translation>%1 අවමත් කරන ලද ප්‍රමාණය (1 රිසෝම්, 1 වීඩියෝ)</translation>
+        <translation>%1 තෝරා ගැනීම (1 පින්තූරය, 1 වීඩියෝ)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="873"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
-        <translation type="unfinished">%1 items selected (1 photo, %2 videos)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="875"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
-        <translation type="unfinished">%1 items selected (%2 photos, 1 video)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="877"/>
         <source>%1 items selected (%2 photos, %3 videos)</source>
-        <translation type="unfinished">%1 items selected (%2 photos, %3 videos)</translation>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>GlobalVar</name>
+    <message>
+        <location filename="../qml/GlobalVar.qml" line="30"/>
+        <source>The photo/video already exists</source>
+        <translation>පින්තූරය හෝ වීඩියෝ එතරම් අභියෝගය තිබේ</translation>
+    </message>
+    <message>
+        <location filename="../qml/GlobalVar.qml" line="38"/>
+        <location filename="../qml/GlobalVar.qml" line="46"/>
+        <source>The file format is not supported</source>
+        <translation>නියෝජිත ප්‍රශ්නය අසාමාන්‍ය නොවේ</translation>
+    </message>
+</context>
+<context>
+    <name>HaveImportedView</name>
+    <message>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="98"/>
+        <source>Successfully added to “%1”</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="153"/>
+        <source>1 photo</source>
+        <translation>1 පින්තූරය</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="155"/>
+        <source>%1 photos</source>
+        <translation>&apos;%1 පින්තූරයි&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="163"/>
+        <source>1 video</source>
+        <translation>1 වීඩියෝ</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="165"/>
+        <source>%1 videos</source>
+        <translation>&apos;%1 වීඩියෝයි&apos;</translation>
     </message>
 </context>
 <context>
     <name>ImportTimeLineView</name>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="211"/>
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="430"/>
         <source>Import</source>
-        <translation type="unfinished">Import</translation>
+        <translation>ආයාතය</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="341"/>
         <source>1 photo</source>
-        <translation type="unfinished">1 photo</translation>
+        <translation>1 පින්තූරය</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="343"/>
         <source>1 video</source>
-        <translation type="unfinished">1 video</translation>
+        <translation>1 වීඩියෝ</translation>
     </message>
-    <message>
+    <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
-        <translation>%n රිසෝම්</translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
-    <message>
+    <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
-        <translation>%n වීඩියෝ</translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
-    <message>
+    <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
-        <translation>%n ප්‍රමාණය</translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+</context>
+<context>
+    <name>ImportedlListView</name>
+    <message>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
+        <source>Imported on</source>
+        <translation>ඇති තුළින්</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
+        <source>1 item</source>
+        <translation>1 ප්‍රමාණය</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
+        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
+        <source>%1 items</source>
+        <translation>&apos;%1 ප්‍රමාණයි&apos;</translation>
+    </message>
+</context>
+<context>
+    <name>InformationDialog</name>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="82"/>
+        <source>Basic info</source>
+        <translation>මූල සේවය</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="95"/>
+        <source>File name</source>
+        <translation>ගොඩනඟා නම</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="106"/>
+        <source>Size</source>
+        <translation>ප්‍රමාණය</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="113"/>
+        <source>Dimensions</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="120"/>
+        <source>Type</source>
+        <translation>වර්ගය</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="132"/>
+        <source>Date captured</source>
+        <translation>සැງෙවීමේ දිනය</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="139"/>
+        <source>Date modified</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="149"/>
+        <source>Details</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="162"/>
+        <source>Aperture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="170"/>
+        <source>Exposure program</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="177"/>
+        <source>Focal length</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="183"/>
+        <source>ISO</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="190"/>
+        <source>Exposure mode</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="196"/>
+        <source>Exposure time</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="202"/>
+        <source>Flash</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="209"/>
+        <source>Flash compensation</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="215"/>
+        <source>Max aperture</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="222"/>
+        <source>Colorspace</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="229"/>
+        <source>Metering mode</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="236"/>
+        <source>White balance</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="247"/>
+        <source>Device model</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="254"/>
+        <source>Lens model</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>MainAlbumView</name>
+    <message>
+        <location filename="../qml/MainAlbumView.qml" line="245"/>
+        <source>Importing...</source>
+        <translation>ඇති කරමින්...</translation>
+    </message>
+    <message>
+        <location filename="../qml/MainAlbumView.qml" line="246"/>
+        <location filename="../qml/MainAlbumView.qml" line="252"/>
+        <source>Imported:</source>
+        <translation>&apos;ඇති කරන ලද්දේ:&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/MainAlbumView.qml" line="253"/>
+        <location filename="../qml/MainAlbumView.qml" line="290"/>
+        <source>%1/%2</source>
+        <translation>%1/%2</translation>
+    </message>
+    <message>
+        <location filename="../qml/MainAlbumView.qml" line="263"/>
+        <source>Import successful</source>
+        <translation>ඇති කරන ලද්දේ සාර්ථක විය</translation>
+    </message>
+    <message>
+        <location filename="../qml/MainAlbumView.qml" line="270"/>
+        <location filename="../qml/MainAlbumView.qml" line="276"/>
+        <source>Import failed</source>
+        <translation>ඇති කරන ලද්දේ අසාර්ථක විය</translation>
+    </message>
+    <message>
+        <location filename="../qml/MainAlbumView.qml" line="281"/>
+        <source>Deleted:</source>
+        <translation>&apos;ඇති කරන ලද්දේ:&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/MainAlbumView.qml" line="283"/>
+        <source>Deleting...</source>
+        <translation>ඇති කරමින්...</translation>
+    </message>
+</context>
+<context>
+    <name>MainStack</name>
+    <message>
+        <location filename="../qml/PreviewImageViewer/MainStack.qml" line="125"/>
+        <source>Select pictures</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>MenuItemStates</name>
+    <message>
+        <location filename="../qml/MenuItemStates.qml" line="120"/>
+        <source>Export successful</source>
+        <translation>ස්ථාන අත්හැරීම නිරාකරණය විය</translation>
+    </message>
+    <message>
+        <location filename="../qml/MenuItemStates.qml" line="122"/>
+        <source>Export failed</source>
+        <translation>අອුතුවා නොහැක</translation>
+    </message>
+</context>
+<context>
+    <name>MonthCollection</name>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/MonthCollection.qml" line="154"/>
+        <source>%1/%2</source>
+        <translation>%1/%2</translation>
+    </message>
+</context>
+<context>
+    <name>NewAlbumDialog</name>
+    <message>
+        <location filename="../qml/Control/NewAlbumDialog.qml" line="25"/>
+        <source>Unnamed</source>
+        <translation>නම් නොකළ</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/NewAlbumDialog.qml" line="56"/>
+        <source>New Album</source>
+        <translation>නව ප්‍රමාණය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/NewAlbumDialog.qml" line="72"/>
+        <source>Name:</source>
+        <translation>නම:</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/NewAlbumDialog.qml" line="103"/>
+        <source>Cancel</source>
+        <translation>අවලංගු</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/NewAlbumDialog.qml" line="120"/>
+        <source>Confirm</source>
+        <translation>සාක්‍රමාණය කරන්න</translation>
+    </message>
+</context>
+<context>
+    <name>NoPermissionImageDelegate</name>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ImageDelegate/NoPermissionImageDelegate.qml" line="22"/>
+        <source>You have no permission to view the image</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>NoPictureView</name>
+    <message>
+        <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="60"/>
+        <source>Import Photos and Videos</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
+        <source>No photos or videos found</source>
+        <translation>පින්තූර හෝ වීඩියෝ නොමැති</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
+        <source>Or drag them here</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -454,7 +1201,23 @@
     <message>
         <location filename="../src/widgets/widgtes/noresultwidget.cpp" line="39"/>
         <source>No results</source>
-        <translation type="unfinished">No results</translation>
+        <translation>කිසියම් ප්‍රමාණයක් නොමැත</translation>
+    </message>
+</context>
+<context>
+    <name>NonexistImageDelegate</name>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ImageDelegate/NonexistImageDelegate.qml" line="42"/>
+        <source>Image file not found</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>OpenImageWidget</name>
+    <message>
+        <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="35"/>
+        <source>Open Image</source>
+        <translation>පින්ස්තූරය ඇති කරන්න</translation>
     </message>
 </context>
 <context>
@@ -462,20 +1225,30 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1098"/>
         <source>System Disk</source>
-        <translation>ස්යුස්ටම් ඩිස්ක්</translation>
+        <translation>පද්ධතියේ තැටිය</translation>
+    </message>
+</context>
+<context>
+    <name>PropertyActionItemDelegate</name>
+    <message>
+        <location filename="../qml/PreviewImageViewer/PropertyActionItemDelegate.qml" line="67"/>
+        <location filename="../qml/PreviewImageViewer/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
+        <source>The file already exists, please use another name</source>
+        <translation>ගොඩනැගී ඇති ප්‍රමානයක් ඇත, අනෙකු නමක් භාවිතා කරන්න</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <location filename="../src/albumControl.cpp" line="635"/>
+        <location filename="../src/albumControl.cpp" line="684"/>
         <source>%1/%2/%3 %4:%5</source>
-        <translation>%1/%2/%3 %4:%5</translation>
+        <translation>&apos;%1/%2/%3 %4:%5&apos;</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="666"/>
         <source>%1</source>
-        <translation>%1</translation>
+        <translation>&apos;%1&apos;</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="672"/>
@@ -483,39 +1256,57 @@
         <translation>%1/%2</translation>
     </message>
     <message>
+        <location filename="../src/widgets/timelineview/timelineview.cpp" line="289"/>
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="325"/>
         <location filename="../src/albumControl.cpp" line="678"/>
         <source>%1/%2/%3</source>
-        <translation>%1/%2/%3</translation>
+        <translation>සියලුම ප්‍රමාණය %1/%2/%3</translation>
     </message>
     <message>
+        <location filename="../src/widgets/timelineview/timelineview.cpp" line="361"/>
+        <location filename="../src/widgets/timelineview/timelineview.cpp" line="368"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="397"/>
+        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="404"/>
         <source>All</source>
-        <translation type="unfinished">All</translation>
+        <translation>සිය</translation>
     </message>
     <message>
+        <location filename="../src/widgets/timelineview/timelineview.cpp" line="376"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="412"/>
         <source>Photos</source>
-        <translation type="unfinished">Photos</translation>
+        <translation>පින්තූර</translation>
     </message>
     <message>
+        <location filename="../src/widgets/timelineview/timelineview.cpp" line="383"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="419"/>
         <source>Videos</source>
-        <translation type="unfinished">Videos</translation>
+        <translation>දෘශ්‍යක</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1355"/>
         <source>Trash</source>
-        <translation>රැස්</translation>
+        <translation>කුණුබඳුන</translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="65"/>
+        <source>Album</source>
+        <translation>ඕවුන්</translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="68"/>
+        <source>Main</source>
+        <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
+        <translation>ප්‍රධාන</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="269"/>
         <source>day</source>
-        <translation type="unfinished">day</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="322"/>
         <source>Imported on</source>
-        <translation type="unfinished">Imported on</translation>
+        <translation>ඇති තුළින්</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="322"/>
@@ -525,120 +1316,637 @@
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="325"/>
         <source>Imported on </source>
-        <translation>අභිරෝධනය කරන ලද්දේ </translation>
+        <translation>සියලුම ප්‍රමාණය අවයව කරන ලදී</translation>
     </message>
     <message>
+        <location filename="../src/widgets/timelineview/timelineview.cpp" line="236"/>
+        <location filename="../src/widgets/thumbnail/timelinedatewidget.cpp" line="48"/>
+        <location filename="../src/widgets/thumbnail/timelinedatewidget.cpp" line="164"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1360"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2106"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2115"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2121"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="440"/>
         <source>Select</source>
-        <translation>අවමත් කරන්න</translation>
+        <translation>සේලෙක් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1360"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2115"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2121"/>
         <source>Unselect</source>
-        <translation>අවමත් අවමත් කරන්න</translation>
+        <translation>අසේලෙක් කරන්න</translation>
+    </message>
+</context>
+<context>
+    <name>ReName</name>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ReName.qml" line="66"/>
+        <source>Input a new name</source>
+        <translation>නව නමක් ඇතුළත් කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ReName.qml" line="81"/>
+        <source>The file already exists, please use another name</source>
+        <translation>ගොඩනැගී ඇති ප්‍රමානයක් ඇත, අනෙකු නමක් භාවිතා කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ReName.qml" line="137"/>
+        <source>Cancel</source>
+        <translation>අවලංගු</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ReName.qml" line="119"/>
+        <source>Confirm</source>
+        <translation>සාක්‍රම්‍ය කරන්න</translation>
+    </message>
+</context>
+<context>
+    <name>RecentlyDeletedView</name>
+    <message>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="52"/>
+        <source>1 photo</source>
+        <translation>1 පොතෝ</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="54"/>
+        <source>%1 photos</source>
+        <translation>%1 පොතෝ</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="62"/>
+        <source>1 video</source>
+        <translation>1 වීඩියෝ</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="64"/>
+        <source>%1 videos</source>
+        <translation>%1 වීඩියෝ</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="123"/>
+        <source>Trash</source>
+        <translation>කුණුබඳුන</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="144"/>
+        <source>The files will be permanently deleted after the days shown on them</source>
+        <translation>ඕනෑම දින පෙනීමට පසුව මෙම අංශයන් ප්‍රමාණය අවලංගු කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="159"/>
+        <source>Delete All</source>
+        <translation>සියලුම අවලංගු කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="199"/>
+        <source>Delete Selected (%1)</source>
+        <translation>සේලෙක් කරන අංශයන් අවලංගු කරන්න (%1)</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="219"/>
+        <source>Restore Selected (%1)</source>
+        <translation>සේලෙක් කරන අංශයන් ප්‍රවර්තනය කරන්න (%1)</translation>
+    </message>
+</context>
+<context>
+    <name>RemoveAlbumDialog</name>
+    <message>
+        <location filename="../qml/Control/RemoveAlbumDialog.qml" line="42"/>
+        <source>Are you sure you want to delete this album?</source>
+        <translation>ඔබ මෙම අල්බමය අවලංගු කරන්න යෝ නොයෝ?</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/RemoveAlbumDialog.qml" line="55"/>
+        <source>Cancel</source>
+        <translation>අවලංගු</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/RemoveAlbumDialog.qml" line="72"/>
+        <source>Delete</source>
+        <translation>මකන්න</translation>
+    </message>
+</context>
+<context>
+    <name>RemoveDialog</name>
+    <message>
+        <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="66"/>
+        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
+        <translation>&quot;%1&quot; අංශය ත්‍රාශ් දිගට නොවිය හැකිය. ඔබ එය ප්‍රමාණය අවලංගු කරන්න යෝ නොයෝ?</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="84"/>
+        <source>This action cannot be undone</source>
+        <translation>මෙම ක්‍රියාව අවලංගු කරන්න නොහැකිය</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="96"/>
+        <source>Cancel</source>
+        <translation>අවලංගු</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="106"/>
+        <source>Confirm</source>
+        <translation>සාක්‍රමාණය කරන්න</translation>
+    </message>
+</context>
+<context>
+    <name>SearchView</name>
+    <message>
+        <location filename="../qml/ThumbnailImageView/SearchView.qml" line="51"/>
+        <source>1 photo found</source>
+        <translation>1 පොතෝ පෙනීම</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/SearchView.qml" line="53"/>
+        <source>%1 photos found</source>
+        <translation>%1 පොතෝ පෙනීම</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/SearchView.qml" line="57"/>
+        <source>1 video found</source>
+        <translation>1 වීඩියෝ පෙනීම</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/SearchView.qml" line="59"/>
+        <source>%1 videos found</source>
+        <translation>%1 වීඩියෝ පෙනීම</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/SearchView.qml" line="64"/>
+        <source>%1 items found</source>
+        <translation>%1 අංශයන් පෙනීම</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/SearchView.qml" line="99"/>
+        <source>Search results</source>
+        <translation>වියෙදීම්</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/SearchView.qml" line="112"/>
+        <source>Slide Show</source>
+        <translation>සලයිඩ් ස්‍රාවා</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/SearchView.qml" line="189"/>
+        <source>No search results</source>
+        <translation>වියෙදීම් නොමැත</translation>
+    </message>
+</context>
+<context>
+    <name>Sidebar</name>
+    <message>
+        <location filename="../qml/SideBar/Sidebar.qml" line="127"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="151"/>
+        <source>Album “%1” removed</source>
+        <translation>අල්බමය “%1” නිතර අල්බමයක් අසා</translation>
+    </message>
+    <message>
+        <location filename="../qml/SideBar/Sidebar.qml" line="205"/>
+        <source>Gallery</source>
+        <translation>ග්‍රේලර්</translation>
+    </message>
+    <message>
+        <location filename="../qml/SideBar/Sidebar.qml" line="208"/>
+        <source>Collection</source>
+        <translation>සම්පූර්ණය</translation>
+    </message>
+    <message>
+        <location filename="../qml/SideBar/Sidebar.qml" line="209"/>
+        <source>Import</source>
+        <translation>ආයාතය</translation>
+    </message>
+    <message>
+        <location filename="../qml/SideBar/Sidebar.qml" line="210"/>
+        <source>Favorites</source>
+        <translation>ප්‍රියතමයන්</translation>
+    </message>
+    <message>
+        <location filename="../qml/SideBar/Sidebar.qml" line="211"/>
+        <source>Trash</source>
+        <translation>කුණුබඳුන</translation>
+    </message>
+    <message>
+        <location filename="../qml/SideBar/Sidebar.qml" line="234"/>
+        <source>Device</source>
+        <translation>ප්‍රාථමික ප්‍රදේශ</translation>
+    </message>
+    <message>
+        <location filename="../qml/SideBar/Sidebar.qml" line="292"/>
+        <source>Albums</source>
+        <translation>උපාංග</translation>
+    </message>
+    <message>
+        <location filename="../qml/SideBar/Sidebar.qml" line="313"/>
+        <source>Add an album</source>
+        <translation>අල්බමයක් තිරස්සා</translation>
+    </message>
+    <message>
+        <location filename="../qml/SideBar/Sidebar.qml" line="340"/>
+        <source>Screen Capture</source>
+        <translation>ප්‍රදේශ අභිලාපය</translation>
+    </message>
+    <message>
+        <location filename="../qml/SideBar/Sidebar.qml" line="344"/>
+        <source>Camera</source>
+        <translation>කාමරා</translation>
+    </message>
+    <message>
+        <location filename="../qml/SideBar/Sidebar.qml" line="348"/>
+        <source>Draw</source>
+        <translation>ලියාපදිංචි කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/SideBar/Sidebar.qml" line="455"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="480"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="534"/>
+        <source>Slide show</source>
+        <translation>සලයිඩ් ස්‍රාවා</translation>
+    </message>
+    <message>
+        <location filename="../qml/SideBar/Sidebar.qml" line="466"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="492"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="567"/>
+        <source>Export</source>
+        <translation>නිර්යාතය</translation>
+    </message>
+    <message>
+        <location filename="../qml/SideBar/Sidebar.qml" line="500"/>
+        <location filename="../qml/SideBar/Sidebar.qml" line="576"/>
+        <source>Delete</source>
+        <translation>මකන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/SideBar/Sidebar.qml" line="543"/>
+        <source>New album</source>
+        <translation>නව අල්බමය</translation>
+    </message>
+    <message>
+        <location filename="../qml/SideBar/Sidebar.qml" line="555"/>
+        <source>Rename</source>
+        <translation>නම වෙනස් කරන්න</translation>
+    </message>
+</context>
+<context>
+    <name>SliderShow</name>
+    <message>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="164"/>
+        <source>Previous</source>
+        <translation>පෙර වියෙදීම</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
+        <source>Pause</source>
+        <translation>සිව්‍යා</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
+        <source>Play</source>
+        <translation>උණිස්සා</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="197"/>
+        <source>Next</source>
+        <translation>පළමු වියෙදීම</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="212"/>
+        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="253"/>
+        <source>Exit</source>
+        <translation>අවසන් කරන්න</translation>
+    </message>
+</context>
+<context>
+    <name>ThumbnailListDelegate</name>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="441"/>
+        <source>days</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="441"/>
+        <source>day</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="610"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="762"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="764"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="804"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="807"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="809"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="819"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="948"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="965"/>
         <source>Delete</source>
-        <translation>ජැල්ප් කරන්න</translation>
+        <translation>මකන්න</translation>
     </message>
     <message>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="171"/>
+        <source>Back to Album</source>
+        <translation>ආල්බම දැක්වී තිබේ</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="203"/>
+        <source>Previous</source>
+        <translation>പഴയത്</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="228"/>
+        <source>Next</source>
+        <translation>පෙර ප්‍රවර්ගය</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="264"/>
+        <source>Original size</source>
+        <translation>ප්‍රාථමික ප්‍රමාණය</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="283"/>
+        <source>Fit to window</source>
+        <translation>වින්ඩෝවට පෙනී තිබේ</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="301"/>
+        <source>Rotate</source>
+        <translation>ඇල්ලීම</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="772"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="776"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="828"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="836"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="838"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="969"/>
         <source>Favorite</source>
-        <translation>විශේෂ අවමත් කරන්න</translation>
+        <translation>ප්‍රියතම</translation>
     </message>
     <message>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="773"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="775"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="830"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="835"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="839"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="970"/>
         <source>Unfavorite</source>
-        <translation>විශේෂ අවමත් අවමත් කරන්න</translation>
+        <translation>අආදරිත</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="591"/>
+        <source>Extract text</source>
+        <translation>ගොඩනඟා ගැනීම</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaildelegate.cpp" line="207"/>
         <source>days</source>
-        <translation type="unfinished">days</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="723"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="726"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="730"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="782"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="868"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="876"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="882"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="950"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="979"/>
         <source>Photo info</source>
-        <translation type="unfinished">Photo info</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="724"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="727"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="731"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="783"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="869"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="872"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="883"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="951"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="980"/>
         <source>Video info</source>
-        <translation type="unfinished">Video info</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="746"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="798"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="931"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="957"/>
         <source>View</source>
-        <translation type="unfinished">View</translation>
+        <translation>നോക്കുക</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="747"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="799"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="870"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="877"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="958"/>
         <source>Fullscreen</source>
-        <translation type="unfinished">Fullscreen</translation>
+        <translation>පූර්ණ තිරය</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="748"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="874"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="888"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="897"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="960"/>
         <source>Slide show</source>
-        <translation type="unfinished">Slide show</translation>
+        <translation>ස්ලයිඩ් ස්‍රාවය</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="749"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="754"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="817"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="875"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="889"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="962"/>
         <source>Export</source>
-        <translation type="unfinished">Export</translation>
+        <translation>නිර්යාතය</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="759"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="963"/>
         <source>Copy</source>
-        <translation type="unfinished">Copy</translation>
+        <translation>පිටපතක්</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="767"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="844"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="966"/>
         <source>Remove from album</source>
-        <translation type="unfinished">Remove from album</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="769"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="873"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="887"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="959"/>
         <source>Print</source>
-        <translation type="unfinished">Print</translation>
+        <translation>ලිපිනය</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="779"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="859"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="862"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="903"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="906"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="973"/>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Rotate clockwise</translation>
+        <translation>පිරිසිරි අගය වෙනස් කරන්න</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="780"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="860"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="863"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="904"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="907"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="974"/>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Rotate counterclockwise</translation>
+        <translation>පිරිසිරි අගය අවම කරන්න</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="781"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="881"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="978"/>
         <source>Display in file manager</source>
-        <translation type="unfinished">Display in file manager</translation>
+        <translation>ගොඩනඟා කරන්න</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="784"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="790"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="791"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="878"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="914"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="916"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="919"/>
+        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="977"/>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Set as wallpaper</translation>
+        <translation>ഭൂമിയുടെ പടിമാടി ആക്കുക</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="949"/>
         <source>Restore</source>
-        <translation type="unfinished">Restore</translation>
+        <translation>ප්‍රත්‍යර්පණය</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="986"/>
         <source>Add to album</source>
-        <translation type="unfinished">Add to album</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="990"/>
         <source>New album</source>
-        <translation type="unfinished">New album</translation>
+        <translation>නව අල්බමය</translation>
+    </message>
+</context>
+<context>
+    <name>ThumbnailListViewAlbum</name>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="796"/>
+        <source>View</source>
+        <translation>നോക്കുക</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="805"/>
+        <source>Fullscreen</source>
+        <translation>පූර්ණ තිරය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="822"/>
+        <source>Print</source>
+        <translation>ලිපිනය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="841"/>
+        <source>Slide show</source>
+        <translation>ස්ලයිඩ් ස්‍රාවය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="867"/>
+        <source>Add to album</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="870"/>
+        <source>New album</source>
+        <translation>නව අල්බමය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="902"/>
+        <source>Successfully added to “%1”</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="911"/>
+        <source>Export</source>
+        <translation>නිර්යාතය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="930"/>
+        <source>Copy</source>
+        <translation>පිටපතක්</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="939"/>
+        <source>Delete</source>
+        <translation>මකන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="949"/>
+        <source>Remove from album</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="964"/>
+        <source>Favorite</source>
+        <translation>ප්‍රියතම</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="974"/>
+        <source>Unfavorite</source>
+        <translation>අආදරිත</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="988"/>
+        <source>Rotate clockwise</source>
+        <translation>පිරිසිරි අගය වෙනස් කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="997"/>
+        <source>Rotate counterclockwise</source>
+        <translation>පිරිසිරි අගය අවම කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1006"/>
+        <source>Set as wallpaper</source>
+        <translation>ഭൂമിയുടെ പടിമാടി ആക്കുക</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1025"/>
+        <source>Display in file manager</source>
+        <translation>ගොඩනඟා කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1044"/>
+        <source>Restore</source>
+        <translation>ප්‍රත්‍යර්පණය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1053"/>
+        <source>Photo info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1072"/>
+        <source>Video info</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -646,27 +1954,326 @@
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="304"/>
         <source>1 photo</source>
-        <translation type="unfinished">1 photo</translation>
+        <translation>1 පින්තූරය</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="306"/>
         <source>1 video</source>
-        <translation type="unfinished">1 video</translation>
+        <translation>1 වීඩියෝ</translation>
     </message>
-    <message>
+    <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
-        <translation>%n රිසෝම්</translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
-    <message>
+    <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
-        <translation>%n දී තිරය</translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
-    <message>
+    <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
-        <translation>%n ප්‍රමාණය</translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+</context>
+<context>
+    <name>ToolBarThumbnailListView</name>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="121"/>
+        <source>Back to Album</source>
+        <translation>ආල්බම දැක්වී තිබේ</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="162"/>
+        <source>Previous</source>
+        <translation>පෙර ප්‍රවර්ගය</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="189"/>
+        <source>Next</source>
+        <translation>පෙර ප්‍රවර්ගය</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="210"/>
+        <source>Original size</source>
+        <translation>ප්‍රාථමික ප්‍රමාණය</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="231"/>
+        <source>Fit to window</source>
+        <translation>වින්ඩෝවට පෙනී තිබේ</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="257"/>
+        <source>Rotate</source>
+        <translation>ඇල්ලීම</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="290"/>
+        <source>Favorite</source>
+        <translation>ප්‍රියතම</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="290"/>
+        <source>Unfavorite</source>
+        <translation>අආදරිත</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="431"/>
+        <source>Extract text</source>
+        <translation>ගොඩනඟා ගැනීම</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="458"/>
+        <source>Delete</source>
+        <translation>මකන්න</translation>
+    </message>
+</context>
+<context>
+    <name>VideoInfoDialog</name>
+    <message>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="73"/>
+        <source>Basic info</source>
+        <translation>මූල සේවය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="78"/>
+        <source>File name</source>
+        <translation>ගොඩනඟා නම</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="88"/>
+        <source>Date captured</source>
+        <translation>සැງෙවීමේ දිනය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="95"/>
+        <source>Size</source>
+        <translation>ප්‍රමාණය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="100"/>
+        <source>Duration</source>
+        <translation>කාලය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="105"/>
+        <source>Type</source>
+        <translation>වර්ගය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="115"/>
+        <source>Path</source>
+        <translation>සාදා ගොඩනඟා</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="122"/>
+        <source>Codec info</source>
+        <translation>කෝඩ් සේවය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="130"/>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="170"/>
+        <source>Video CodecID</source>
+        <translation>වීඩියෝ කෝඩ් ඩී ප්‍රමාණය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="136"/>
+        <source>Video CodeRate</source>
+        <translation>වීඩියෝ කෝඩ් රාට්</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="142"/>
+        <source>FPS</source>
+        <translation>FPS</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="153"/>
+        <source>Proportion</source>
+        <translation>අනුපාතය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="160"/>
+        <source>Resolution</source>
+        <translation>අභිලාපය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="178"/>
+        <source>Audio CodecID</source>
+        <translation>සාර්ථක කෝඩ් ඩී ප්‍රමාණය</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="184"/>
+        <source>Audio CodeRate</source>
+        <translation>සාර්ථක කෝඩ් රාඩ්</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="190"/>
+        <source>Audio digit</source>
+        <translation>ආඳියෝ දිගිත</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="201"/>
+        <source>Channels</source>
+        <translation>කාන්ති</translation>
+    </message>
+    <message>
+        <location filename="../qml/Control/VideoInfoDialog.qml" line="208"/>
+        <source>Sampling</source>
+        <translation>සාමාන්‍යය</translation>
+    </message>
+</context>
+<context>
+    <name>ViewRightMenu</name>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="40"/>
+        <source>Fullscreen</source>
+        <translation>පූර්ණ තිරය</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="40"/>
+        <source>Exit fullscreen</source>
+        <translation>පුරා ප්‍රමාණය අවලඟා කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="60"/>
+        <source>Print</source>
+        <translation>ලිපිනය</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="81"/>
+        <source>Extract text</source>
+        <translation>ගොඩනඟා කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="103"/>
+        <source>Slide show</source>
+        <translation>ස්ලයිඩ් ස්‍රාවය</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="128"/>
+        <source>Export</source>
+        <translation>නිර්යාතය</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="144"/>
+        <source>Copy</source>
+        <translation>පිටපතක්</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="168"/>
+        <source>Rename</source>
+        <translation>නම වෙනස් කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="189"/>
+        <source>Delete</source>
+        <translation>මකන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="218"/>
+        <source>Favorite</source>
+        <translation>ප්‍රියතම</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="228"/>
+        <source>Unfavorite</source>
+        <translation>විශේෂ අවලඟා කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="245"/>
+        <source>Rotate clockwise</source>
+        <translation>පිට දිගිත අංශු කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="267"/>
+        <source>Rotate counterclockwise</source>
+        <translation>පිට දිගිත අංශු කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="297"/>
+        <source>Show navigation window</source>
+        <translation>නාවිගේෂන ප්‍රමාණය පෙන්වන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="297"/>
+        <source>Hide navigation window</source>
+        <translation>නාවිගේෂන ප්‍රමාණය අවලඟා කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="309"/>
+        <source>Set as wallpaper</source>
+        <translation>විශේෂ කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="331"/>
+        <source>Display in file manager</source>
+        <translation>ගොඩනඟා කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="350"/>
+        <source>Image info</source>
+        <translation>පින්තූරය අවබෝධය</translation>
+    </message>
+</context>
+<context>
+    <name>ViewTopTitle</name>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="162"/>
+        <source>Open image</source>
+        <translation>පින්තූරය තුවත් කරන්න</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>පින්තූර අවබෝධය යනු පින්තූර පෙන්වා ගැනීමට සුදුසු අභියෝගයකින් පවතින පින්තූර පෙන්වා ගැනීමේ සුදුසු නිර්මාණයකි</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="185"/>
+        <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
+        <translation>අල්බමය යනු පින්තූර සහ ප්‍රතිබිඬු පෙන්වා ගැනීම සහ අනුවාදය සඳහා අමුදුසු නිර්මාණයකි</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
+        <source>Image Viewer</source>
+        <translation>පින්තූර අවබෝධය</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="189"/>
+        <source>Album</source>
+        <translation>ඕවුන්</translation>
+    </message>
+    <message>
+        <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="193"/>
+        <source>%1 is released under %2.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>YearCollection</name>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="126"/>
+        <source>%1</source>
+        <translation>&apos;%1&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="139"/>
+        <source>%1 items</source>
+        <translation>&apos;%1 ප්‍රමාණය&apos;</translation>
+    </message>
+    <message>
+        <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="139"/>
+        <source>1 item</source>
+        <translation>1 ප්‍රමාණය</translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <location filename="../qml/main.qml" line="130"/>
+        <source>All photos and videos</source>
+        <translation>සියලුම පින්තූර සහ ප්‍රතිබිඬු</translation>
     </message>
 </context>
 </TS>
