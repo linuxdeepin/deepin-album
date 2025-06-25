@@ -190,7 +190,6 @@
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2173"/>
-        <location filename="../src/albumControl.cpp" line="2177"/>
         <source>%1Year%2Month%3Day</source>
         <translation>%1שנה%2חודש%3יום</translation>
     </message>
@@ -249,25 +248,21 @@
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="262"/>
-        <location filename="../qml/AlbumTitle.qml" line="340"/>
         <source>Y</source>
         <translation>Y</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="274"/>
-        <location filename="../qml/AlbumTitle.qml" line="341"/>
         <source>M</source>
         <translation>M</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="285"/>
-        <location filename="../qml/AlbumTitle.qml" line="342"/>
         <source>D</source>
         <translation>D</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="296"/>
-        <location filename="../qml/AlbumTitle.qml" line="343"/>
         <source>All</source>
         <translation>כל מה</translation>
     </message>
@@ -367,30 +362,21 @@
     <name>DBManager</name>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="480"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="497"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="522"/>
         <source>Screen Capture</source>
         <translation>ה捉影</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="481"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="498"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="527"/>
         <source>Camera</source>
         <translation>מצלמה</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="482"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="532"/>
         <source>Draw</source>
         <translation>ציור</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="2021"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="2041"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="2045"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="2047"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="2053"/>
         <source>(copy)</source>
         <translation>(העתקה</translation>
     </message>
@@ -536,13 +522,11 @@
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="189"/>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="192"/>
         <source>Import</source>
         <translation>ייבא</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="189"/>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="192"/>
         <source>New Album</source>
         <translation>אלבום חדש</translation>
     </message>
@@ -653,7 +637,6 @@
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="127"/>
-        <location filename="../qml/Control/ExportDialog.qml" line="143"/>
         <source>Select other directories</source>
         <translation>בחר את הקטגוריות האחרות</translation>
     </message>
@@ -717,7 +700,6 @@
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="858"/>
-        <location filename="../src/filecontrol.cpp" line="950"/>
         <source>Copy</source>
         <translation>העתק</translation>
     </message>
@@ -882,7 +864,6 @@
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="38"/>
-        <location filename="../qml/GlobalVar.qml" line="46"/>
         <source>The file format is not supported</source>
         <translation>הצורה של קובץ לא נתמכה</translation>
     </message>
@@ -919,7 +900,6 @@
     <name>ImportTimeLineView</name>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="211"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="430"/>
         <source>Import</source>
         <translation>העתק</translation>
     </message>
@@ -933,48 +913,36 @@
         <source>1 video</source>
         <translation>1 וידאו</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation>%n תמונות</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation>%n וידאו</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation>%n פריטים</translation>
     </message>
 </context>
 <context>
     <name>ImportedlListView</name>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>Imported on</source>
         <translation>הועתקה ב-</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>1 item</source>
         <translation>1 פריט</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>%1 items</source>
         <translation>%1 פריטים</translation>
     </message>
@@ -1101,13 +1069,11 @@
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="246"/>
-        <location filename="../qml/MainAlbumView.qml" line="252"/>
         <source>Imported:</source>
         <translation>הטמעו:</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="253"/>
-        <location filename="../qml/MainAlbumView.qml" line="290"/>
         <source>%1/%2</source>
         <translation>%1/%2</translation>
     </message>
@@ -1118,7 +1084,6 @@
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="270"/>
-        <location filename="../qml/MainAlbumView.qml" line="276"/>
         <source>Import failed</source>
         <translation>הFHפ Scotia נכשלה</translation>
     </message>
@@ -1252,7 +1217,6 @@
     <name>PropertyActionItemDelegate</name>
     <message>
         <location filename="../qml/PreviewImageViewer/PropertyActionItemDelegate.qml" line="67"/>
-        <location filename="../qml/PreviewImageViewer/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
         <translation>הקובץ קיים כבר, אנא השתמש בשם אחר</translation>
     </message>
@@ -1261,7 +1225,6 @@
     <name>QObject</name>
     <message>
         <location filename="../src/albumControl.cpp" line="635"/>
-        <location filename="../src/albumControl.cpp" line="684"/>
         <source>%1/%2/%3 %4:%5</source>
         <translation>%1/%2/%3 %4:%5</translation>
     </message>
@@ -1277,28 +1240,21 @@
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="289"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="325"/>
-        <location filename="../src/albumControl.cpp" line="678"/>
         <source>%1/%2/%3</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/%2/%3</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="361"/>
-        <location filename="../src/widgets/timelineview/timelineview.cpp" line="368"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="397"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="404"/>
         <source>All</source>
         <translation>כל</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="376"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="412"/>
         <source>Photos</source>
         <translation>תמונות</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="383"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="419"/>
         <source>Videos</source>
         <translation>וידאו</translation>
     </message>
@@ -1316,12 +1272,12 @@
         <location filename="../main.cpp" line="68"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation type="unfinished"></translation>
+        <translation>ראשי</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="269"/>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>יום</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="322"/>
@@ -1331,31 +1287,22 @@
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="322"/>
         <source> %1-%2-%3 %4</source>
-        <translation type="unfinished"></translation>
+        <translation> %1-%2-%3 %4</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="325"/>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation>הועלה ב </translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="236"/>
-        <location filename="../src/widgets/thumbnail/timelinedatewidget.cpp" line="48"/>
-        <location filename="../src/widgets/thumbnail/timelinedatewidget.cpp" line="164"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1360"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2106"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2115"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2121"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="440"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation>בחר</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1360"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2115"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2121"/>
         <source>Unselect</source>
-        <translation type="unfinished"></translation>
+        <translation>בטל בחירה</translation>
     </message>
 </context>
 <context>
@@ -1363,7 +1310,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="66"/>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>הכנס שם חדש</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="81"/>
@@ -1411,12 +1358,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="144"/>
         <source>The files will be permanently deleted after the days shown on them</source>
-        <translation type="unfinished"></translation>
+        <translation>הקבצים יימחקו לצמיתות לאחר الأيام שמוצגות עליהם</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="159"/>
         <source>Delete All</source>
-        <translation type="unfinished"></translation>
+        <translation>הסר הכל</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="199"/>
@@ -1452,8 +1399,8 @@
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="66"/>
-        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation>לא ניתן להזיז &quot;%1&quot; למחסן מחסרים. האם אתה רוצה למחוק אותו לנצח?
+        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
+        <translation>לא ניתן להזיז "%1" למחסן מחסרים. האם אתה רוצה למחוק אותו לנצח?
 </translation>
     </message>
     <message>
@@ -1483,7 +1430,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="53"/>
         <source>%1 photos found</source>
-        <translation>&apos;%1 פוטוס נמצאו</translation>
+        <translation>'%1 פוטוס נמצאו</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="57"/>
@@ -1493,12 +1440,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="59"/>
         <source>%1 videos found</source>
-        <translation>&apos;%1 וידאו נמצאו</translation>
+        <translation>'%1 וידאו נמצאו</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="64"/>
         <source>%1 items found</source>
-        <translation>&apos;%1 פריטים נמצאו</translation>
+        <translation>'%1 פריטים נמצאו</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="99"/>
@@ -1520,7 +1467,6 @@
     <name>Sidebar</name>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="127"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="151"/>
         <source>Album “%1” removed</source>
         <translation>אלבום “%1” נמחק</translation>
     </message>
@@ -1562,7 +1508,7 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="313"/>
         <source>Add an album</source>
-        <translation type="unfinished"></translation>
+        <translation>הוסף אלבום</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="340"/>
@@ -1581,21 +1527,16 @@
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="455"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="480"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="534"/>
         <source>Slide show</source>
         <translation>הצגת שטיח</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="466"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="492"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="567"/>
         <source>Export</source>
         <translation>אקספורט</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="500"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="576"/>
         <source>Delete</source>
         <translation>מחק</translation>
     </message>
@@ -1619,15 +1560,13 @@
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>остановить</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Воспроизвести</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="197"/>
@@ -1636,9 +1575,8 @@
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="212"/>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="253"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Выйти</translation>
     </message>
 </context>
 <context>
@@ -1651,21 +1589,13 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="441"/>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>יום</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailListView</name>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="610"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="762"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="764"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="804"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="807"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="809"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="819"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="948"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="965"/>
         <source>Delete</source>
         <translation>מחק</translation>
     </message>
@@ -1701,23 +1631,11 @@
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="772"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="776"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="828"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="836"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="838"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="969"/>
         <source>Favorite</source>
         <translation>المفضلة</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="773"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="775"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="830"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="835"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="839"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="970"/>
         <source>Unfavorite</source>
         <translation>לא להדביק</translation>
     </message>
@@ -1733,123 +1651,66 @@
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="723"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="726"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="730"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="782"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="868"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="876"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="882"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="950"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="979"/>
         <source>Photo info</source>
         <translation>מידע על התמונה</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="724"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="727"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="731"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="783"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="869"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="872"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="883"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="951"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="980"/>
         <source>Video info</source>
         <translation>מידע על רצף וידאו</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="746"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="798"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="931"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="957"/>
         <source>View</source>
         <translation>הצג</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="747"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="799"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="870"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="877"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="958"/>
         <source>Fullscreen</source>
         <translation>מסך מלא</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="748"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="874"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="888"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="897"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="960"/>
         <source>Slide show</source>
         <translation>הצגה של רצפים</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="749"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="754"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="817"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="875"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="889"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="962"/>
         <source>Export</source>
         <translation>הצג</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="759"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="963"/>
         <source>Copy</source>
         <translation>העתק</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="767"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="844"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="966"/>
         <source>Remove from album</source>
         <translation>הסר מאלבום</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="769"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="873"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="887"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="959"/>
         <source>Print</source>
         <translation>דפס</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="779"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="859"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="862"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="903"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="906"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="973"/>
         <source>Rotate clockwise</source>
         <translation>שובע ישר</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="780"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="860"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="863"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="904"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="907"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="974"/>
         <source>Rotate counterclockwise</source>
         <translation>שובע הפוך</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="781"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="881"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="978"/>
         <source>Display in file manager</source>
         <translation>הצג במנהל קבצים</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="784"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="790"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="791"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="878"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="914"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="916"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="919"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="977"/>
         <source>Set as wallpaper</source>
         <translation>הגדר כקירות שולחן העבודה</translation>
     </message>
@@ -1984,29 +1845,20 @@
         <source>1 video</source>
         <translation>1 וידאו</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation>%n תמונות</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation>%n וידאו</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation>%n פריטים</translation>
     </message>
 </context>
 <context>
@@ -2106,7 +1958,6 @@
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="130"/>
-        <location filename="../qml/Control/VideoInfoDialog.qml" line="170"/>
         <source>Video CodecID</source>
         <translation>ID קוד קידוד וידאו</translation>
     </message>
