@@ -353,7 +353,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="155"/>
         <source>0 item</source>
-        <translation type="unfinished"/>
+        <translation>0 वस्तु</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="219"/>
@@ -390,7 +390,7 @@
         <location filename="../src/dbmanager/dbmanager.cpp" line="2047"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="2053"/>
         <source>(copy)</source>
-        <translation type="unfinished"/>
+        <translation>(कॉपी)</translation>
     </message>
 </context>
 <context>
@@ -449,42 +449,42 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="48"/>
         <source>Are you sure you want to delete this file locally?</source>
-        <translation type="unfinished"/>
+        <translation>के तपाईं यो फाइल आफ्नै ठाउँमा लिन चाहानु छुनु छ?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="49"/>
         <source>You can restore it in the trash</source>
-        <translation type="unfinished"/>
+        <translation>तपाईं यसलाई ट्राशमा पुन: स्थापित गर्न सक्नु छ</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="51"/>
         <source>Are you sure you want to delete %1 files locally?</source>
-        <translation type="unfinished"/>
+        <translation>के तपाईं यो %1 फाइलहरू आफ्नै ठाउँमा लिन चाहानु छुनु छ?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="52"/>
         <source>You can restore them in the trash</source>
-        <translation type="unfinished"/>
+        <translation>तपाईं यी फाइलहरू ट्राशमा पुन: स्थापित गर्न सक्नु छ</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="56"/>
         <source>Are you sure you want to permanently delete this file?</source>
-        <translation type="unfinished"/>
+        <translation>के तपाईं यो फाइल अनिवार्य रूपमा लिन चाहानु छुनु छ?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="57"/>
         <source>You cannot restore it any longer</source>
-        <translation type="unfinished"/>
+        <translation>तपाईं यसलाई अब फर्काउन सक्नु छैन</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="59"/>
         <source>Are you sure you want to permanently delete %1 files?</source>
-        <translation type="unfinished"/>
+        <translation>के तपाईं यो %1 फाइलहरू अनिवार्य रूपमा लिन चाहानु छुनु छ?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="60"/>
         <source>You cannot restore them any longer</source>
-        <translation type="unfinished"/>
+        <translation>तपाईं यी फाइलहरू अब फर्काउन सक्नु छैन</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="111"/>
@@ -876,13 +876,13 @@
     <message>
         <location filename="../qml/GlobalVar.qml" line="30"/>
         <source>The photo/video already exists</source>
-        <translation type="unfinished"/>
+        <translation>फोटो/भिडियो अहिले अस्तित्वमा छ</translation>
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="38"/>
         <location filename="../qml/GlobalVar.qml" line="46"/>
         <source>The file format is not supported</source>
-        <translation type="unfinished"/>
+        <translation>फाइल फारमाट समर्थन गरिन्छ न</translation>
     </message>
 </context>
 <context>
@@ -1073,7 +1073,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="247"/>
         <source>Device model</source>
-        <translation type="unfinished"/>
+        <translation>उपकरण मॉडल</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="254"/>
@@ -1092,7 +1092,7 @@
         <location filename="../qml/MainAlbumView.qml" line="246"/>
         <location filename="../qml/MainAlbumView.qml" line="252"/>
         <source>Imported:</source>
-        <translation type="unfinished"/>
+        <translation>आयोग भएको:</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="253"/>
@@ -1114,7 +1114,7 @@
     <message>
         <location filename="../qml/MainAlbumView.qml" line="281"/>
         <source>Deleted:</source>
-        <translation type="unfinished"/>
+        <translation>हटाइएका:</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="283"/>
@@ -1127,7 +1127,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/MainStack.qml" line="125"/>
         <source>Select pictures</source>
-        <translation type="unfinished"/>
+        <translation>चयन गर्नुहोस् छायांकन</translation>
     </message>
 </context>
 <context>
@@ -1410,12 +1410,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="199"/>
         <source>Delete Selected (%1)</source>
-        <translation type="unfinished"/>
+        <translation>चयन गरिएको डिलिट गर्नु (%1)</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="219"/>
         <source>Restore Selected (%1)</source>
-        <translation type="unfinished"/>
+        <translation>चयन गरिएको पुन: स्थापित गर्नु (%1)</translation>
     </message>
 </context>
 <context>
@@ -1441,12 +1441,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="66"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1&quot; ट्राशमा लिन नसकिने छ। तपाईं यसलाई अनिवार्य रूपमा हटाउन चाहानु छुनु छ?</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="84"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"/>
+        <translation>यो कार्य अनुमोदन गरिन सक्दैन</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="96"/>
@@ -1464,27 +1464,27 @@
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="51"/>
         <source>1 photo found</source>
-        <translation type="unfinished"/>
+        <translation>1 फोടो फेला पारिएको</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="53"/>
         <source>%1 photos found</source>
-        <translation type="unfinished"/>
+        <translation>&apos;%1 फोटो फेला पारिएको&apos;</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="57"/>
         <source>1 video found</source>
-        <translation type="unfinished"/>
+        <translation>1 भिडियो फेला पारिएको</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="59"/>
         <source>%1 videos found</source>
-        <translation type="unfinished"/>
+        <translation>&apos;%1 भिडियो फेला पारिएको&apos;</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="64"/>
         <source>%1 items found</source>
-        <translation type="unfinished"/>
+        <translation>&apos;%1 वस्तु फेला पारिएको&apos;</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="99"/>
@@ -1518,7 +1518,7 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="208"/>
         <source>Collection</source>
-        <translation type="unfinished"/>
+        <translation>संग्रह</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="209"/>
@@ -1548,7 +1548,7 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="313"/>
         <source>Add an album</source>
-        <translation type="unfinished"/>
+        <translation>एल्बम थप्नु</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="340"/>
@@ -1741,7 +1741,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="951"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="980"/>
         <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation>भिडियो जानकारी</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="746"/>
@@ -1955,7 +1955,7 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1072"/>
         <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation>भिडियो जानकारी</translation>
     </message>
 </context>
 <context>
