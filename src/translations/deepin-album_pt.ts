@@ -190,9 +190,8 @@
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2173"/>
-        <location filename="../src/albumControl.cpp" line="2177"/>
         <source>%1Year%2Month%3Day</source>
-        <translation type="unfinished"></translation>
+        <translation>Ano%1Mês%2Dia</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2227"/>
@@ -249,25 +248,21 @@
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="262"/>
-        <location filename="../qml/AlbumTitle.qml" line="340"/>
         <source>Y</source>
         <translation>A</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="274"/>
-        <location filename="../qml/AlbumTitle.qml" line="341"/>
         <source>M</source>
         <translation>M</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="285"/>
-        <location filename="../qml/AlbumTitle.qml" line="342"/>
         <source>D</source>
         <translation>D</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="296"/>
-        <location filename="../qml/AlbumTitle.qml" line="343"/>
         <source>All</source>
         <translation>Tudo</translation>
     </message>
@@ -355,7 +350,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="155"/>
         <source>0 item</source>
-        <translation type="unfinished"></translation>
+        <translation>0 item</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="219"/>
@@ -367,30 +362,21 @@
     <name>DBManager</name>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="480"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="497"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="522"/>
         <source>Screen Capture</source>
         <translation>Captura de ecrã</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="481"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="498"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="527"/>
         <source>Camera</source>
         <translation>Câmara</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="482"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="532"/>
         <source>Draw</source>
         <translation>Desenho</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="2021"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="2041"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="2045"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="2047"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="2053"/>
         <source>(copy)</source>
         <translation>(copiar)</translation>
     </message>
@@ -400,7 +386,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="116"/>
         <source>Successfully added to “%1”</source>
-        <translation>Adicionado com sucesso a &quot;%1&quot;</translation>
+        <translation>Adicionado com sucesso a "%1"</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="181"/>
@@ -528,13 +514,11 @@
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="189"/>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="192"/>
         <source>Import</source>
         <translation>Importar</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="189"/>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="192"/>
         <source>New Album</source>
         <translation>Novo álbum</translation>
     </message>
@@ -644,7 +628,6 @@
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="127"/>
-        <location filename="../qml/Control/ExportDialog.qml" line="143"/>
         <source>Select other directories</source>
         <translation>Selecionar outros diretórios</translation>
     </message>
@@ -708,7 +691,6 @@
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="858"/>
-        <location filename="../src/filecontrol.cpp" line="950"/>
         <source>Copy</source>
         <translation>Copiar</translation>
     </message>
@@ -873,7 +855,6 @@
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="38"/>
-        <location filename="../qml/GlobalVar.qml" line="46"/>
         <source>The file format is not supported</source>
         <translation>O formato do ficheiro não é suportado</translation>
     </message>
@@ -883,7 +864,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="98"/>
         <source>Successfully added to “%1”</source>
-        <translation>Adicionado com sucesso a &quot;%1&quot;</translation>
+        <translation>Adicionado com sucesso a "%1"</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="153"/>
@@ -910,7 +891,6 @@
     <name>ImportTimeLineView</name>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="211"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="430"/>
         <source>Import</source>
         <translation>Importar</translation>
     </message>
@@ -924,28 +904,28 @@
         <source>1 video</source>
         <translation>1 vídeo</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
         <translation>
-            <numerusform>%n foto</numerusform>
-            <numerusform>%n fotos</numerusform>
+            %n foto
+            %n fotos
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
         <translation>
-            <numerusform>%n vídeo</numerusform>
-            <numerusform>%n vídeos</numerusform>
+            %n vídeo
+            %n vídeos
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
         <translation>
-            <numerusform>%n item</numerusform>
-            <numerusform>%n itens</numerusform>
+            %n item
+            %n itens
         </translation>
     </message>
 </context>
@@ -953,19 +933,16 @@
     <name>ImportedlListView</name>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>Imported on</source>
         <translation>Importado em</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>1 item</source>
         <translation>1 item</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>%1 items</source>
         <translation>%1 itens</translation>
     </message>
@@ -1092,13 +1069,11 @@
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="246"/>
-        <location filename="../qml/MainAlbumView.qml" line="252"/>
         <source>Imported:</source>
         <translation>Importado:</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="253"/>
-        <location filename="../qml/MainAlbumView.qml" line="290"/>
         <source>%1/%2</source>
         <translation>%1/%2</translation>
     </message>
@@ -1109,14 +1084,13 @@
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="270"/>
-        <location filename="../qml/MainAlbumView.qml" line="276"/>
         <source>Import failed</source>
         <translation>Falha ao importar</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="281"/>
         <source>Deleted:</source>
-        <translation type="unfinished"></translation>
+        <translation>Excluído:</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="283"/>
@@ -1228,7 +1202,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir Imagem</translation>
     </message>
 </context>
 <context>
@@ -1243,7 +1217,6 @@
     <name>PropertyActionItemDelegate</name>
     <message>
         <location filename="../qml/PreviewImageViewer/PropertyActionItemDelegate.qml" line="67"/>
-        <location filename="../qml/PreviewImageViewer/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
         <translation>O ficheiro já existe. Utilize outro nome</translation>
     </message>
@@ -1252,7 +1225,6 @@
     <name>QObject</name>
     <message>
         <location filename="../src/albumControl.cpp" line="635"/>
-        <location filename="../src/albumControl.cpp" line="684"/>
         <source>%1/%2/%3 %4:%5</source>
         <translation>%3/%2/%1 %4:%5</translation>
     </message>
@@ -1268,28 +1240,21 @@
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="289"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="325"/>
-        <location filename="../src/albumControl.cpp" line="678"/>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="361"/>
-        <location filename="../src/widgets/timelineview/timelineview.cpp" line="368"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="397"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="404"/>
         <source>All</source>
         <translation>Tudo</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="376"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="412"/>
         <source>Photos</source>
         <translation>Fotos</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="383"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="419"/>
         <source>Videos</source>
         <translation>Vídeos</translation>
     </message>
@@ -1307,7 +1272,7 @@
         <location filename="../main.cpp" line="68"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation type="unfinished"></translation>
+        <translation>Principal</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="269"/>
@@ -1331,20 +1296,11 @@
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="236"/>
-        <location filename="../src/widgets/thumbnail/timelinedatewidget.cpp" line="48"/>
-        <location filename="../src/widgets/thumbnail/timelinedatewidget.cpp" line="164"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1360"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2106"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2115"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2121"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="440"/>
         <source>Select</source>
         <translation>Selecionar</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1360"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2115"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2121"/>
         <source>Unselect</source>
         <translation>Desselecionar</translation>
     </message>
@@ -1354,7 +1310,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="66"/>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Insira um novo nome</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="81"/>
@@ -1442,13 +1398,13 @@
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="66"/>
-        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"></translation>
+        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
+        <translation>Não é possível mover "%1" para a lixeira. Deseja excluir permanentemente?</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="84"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"></translation>
+        <translation>Essa ação não pode ser desfeita</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="96"/>
@@ -1508,7 +1464,6 @@
     <name>Sidebar</name>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="127"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="151"/>
         <source>Album “%1” removed</source>
         <translation>Álbum “%1” removido</translation>
     </message>
@@ -1569,21 +1524,16 @@
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="455"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="480"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="534"/>
         <source>Slide show</source>
         <translation>Apresentação</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="466"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="492"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="567"/>
         <source>Export</source>
         <translation>Exportar</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="500"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="576"/>
         <source>Delete</source>
         <translation>Eliminar</translation>
     </message>
@@ -1607,13 +1557,11 @@
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
         <source>Pause</source>
         <translation>Pausa</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
         <source>Play</source>
         <translation>Reproduzir</translation>
     </message>
@@ -1624,7 +1572,6 @@
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="212"/>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="253"/>
         <source>Exit</source>
         <translation>Sair</translation>
     </message>
@@ -1646,14 +1593,6 @@
     <name>ThumbnailListView</name>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="610"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="762"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="764"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="804"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="807"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="809"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="819"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="948"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="965"/>
         <source>Delete</source>
         <translation>Eliminar</translation>
     </message>
@@ -1689,23 +1628,11 @@
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="772"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="776"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="828"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="836"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="838"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="969"/>
         <source>Favorite</source>
         <translation>Adicionar aos favoritos</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="773"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="775"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="830"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="835"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="839"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="970"/>
         <source>Unfavorite</source>
         <translation>Remover dos favoritos</translation>
     </message>
@@ -1721,123 +1648,66 @@
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="723"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="726"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="730"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="782"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="868"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="876"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="882"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="950"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="979"/>
         <source>Photo info</source>
         <translation>Informações da foto</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="724"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="727"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="731"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="783"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="869"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="872"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="883"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="951"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="980"/>
         <source>Video info</source>
         <translation>Informações do vídeo</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="746"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="798"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="931"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="957"/>
         <source>View</source>
         <translation>Ver</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="747"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="799"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="870"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="877"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="958"/>
         <source>Fullscreen</source>
         <translation>Ecrã inteiro</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="748"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="874"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="888"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="897"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="960"/>
         <source>Slide show</source>
         <translation>Apresentação</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="749"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="754"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="817"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="875"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="889"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="962"/>
         <source>Export</source>
         <translation>Exportar</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="759"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="963"/>
         <source>Copy</source>
         <translation>Copiar</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="767"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="844"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="966"/>
         <source>Remove from album</source>
         <translation>Remover do álbum</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="769"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="873"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="887"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="959"/>
         <source>Print</source>
         <translation>Imprimir</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="779"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="859"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="862"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="903"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="906"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="973"/>
         <source>Rotate clockwise</source>
         <translation>Rodar para a direita</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="780"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="860"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="863"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="904"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="907"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="974"/>
         <source>Rotate counterclockwise</source>
         <translation>Rodar para a esquerda</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="781"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="881"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="978"/>
         <source>Display in file manager</source>
         <translation>Mostrar no gestor de ficheiros</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="784"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="790"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="791"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="878"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="914"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="916"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="919"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="977"/>
         <source>Set as wallpaper</source>
         <translation>Definir como papel de parede</translation>
     </message>
@@ -1892,7 +1762,7 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="902"/>
         <source>Successfully added to “%1”</source>
-        <translation>Adicionado com sucesso a &quot;%1&quot;</translation>
+        <translation>Adicionado com sucesso a "%1"</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="911"/>
@@ -1972,28 +1842,28 @@
         <source>1 video</source>
         <translation>1 vídeo</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
         <translation>
-            <numerusform>%n foto</numerusform>
-            <numerusform>%n fotos</numerusform>
+            %n foto
+            %n fotos
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
         <translation>
-            <numerusform>%n vídeo</numerusform>
-            <numerusform>%n vídeos</numerusform>
+            %n vídeo
+            %n vídeos
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
         <translation>
-            <numerusform>%n item</numerusform>
-            <numerusform>%n itens</numerusform>
+            %n item
+            %n itens
         </translation>
     </message>
 </context>
@@ -2094,7 +1964,6 @@
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="130"/>
-        <location filename="../qml/Control/VideoInfoDialog.qml" line="170"/>
         <source>Video CodecID</source>
         <translation>ID do código de vídeo</translation>
     </message>
@@ -2242,12 +2111,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir imagem</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>O Image Viewer é uma ferramenta de visualização de imagens com interface elegante e desempenho suave.</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="185"/>
@@ -2257,7 +2126,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Image Viewer</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="189"/>
@@ -2267,7 +2136,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="193"/>
         <source>%1 is released under %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 é liberado sob %2.</translation>
     </message>
 </context>
 <context>

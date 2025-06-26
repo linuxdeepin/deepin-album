@@ -790,7 +790,7 @@
     <message>
         <location filename="../qml/Control/FilterComboBox.qml" line="20"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>كل</translation>
     </message>
     <message>
         <location filename="../qml/Control/FilterComboBox.qml" line="21"/>

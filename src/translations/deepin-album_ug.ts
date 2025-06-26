@@ -190,9 +190,8 @@
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2173"/>
-        <location filename="../src/albumControl.cpp" line="2177"/>
         <source>%1Year%2Month%3Day</source>
-        <translation type="unfinished"></translation>
+        <translation>%1سنه%2ئام%3كۈن</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2227"/>
@@ -225,56 +224,52 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="133"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"></translation>
+        <translation>ئالبوم سەنەن ئەمەلەتىن ئىشلەتكەن، رەسىملىرى ۋە ئۈزۈنلەرنى كۆرۈش ۋە تەقسىملاش چارچۇرىدۇ.</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="177"/>
         <source>Show side pane</source>
-        <translation type="unfinished"></translation>
+        <translation>جانبه تەرەپنى كۆرۈش</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="177"/>
         <source>Hide side pane</source>
-        <translation type="unfinished"></translation>
+        <translation>جانبه تەرەپنى كۆپەرەش</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="222"/>
         <source>Original ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>ئەسلىك نىسبەت</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="222"/>
         <source>Square thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation>كەسەپ ئىشىتىن ئۈزۈنلەر</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="262"/>
-        <location filename="../qml/AlbumTitle.qml" line="340"/>
         <source>Y</source>
-        <translation type="unfinished"></translation>
+        <translation>يىل</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="274"/>
-        <location filename="../qml/AlbumTitle.qml" line="341"/>
         <source>M</source>
-        <translation type="unfinished"></translation>
+        <translation>ئەي</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="285"/>
-        <location filename="../qml/AlbumTitle.qml" line="342"/>
         <source>D</source>
-        <translation type="unfinished"></translation>
+        <translation>كۈن</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="296"/>
-        <location filename="../qml/AlbumTitle.qml" line="343"/>
         <source>All</source>
         <translation>بارلىق تۈرلەر</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="401"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>ئىزدە</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="483"/>
@@ -294,7 +289,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="546"/>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>چەقلەش</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="566"/>
@@ -355,7 +350,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="155"/>
         <source>0 item</source>
-        <translation type="unfinished"></translation>
+        <translation>0 ئەلەمنى</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="219"/>
@@ -367,30 +362,21 @@
     <name>DBManager</name>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="480"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="497"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="522"/>
         <source>Screen Capture</source>
         <translation>ئېكراننى تۇتۇش</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="481"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="498"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="527"/>
         <source>Camera</source>
         <translation>كامېرا</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="482"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="532"/>
         <source>Draw</source>
         <translation>سىزمىچىلىق تاختىسى</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="2021"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="2041"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="2045"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="2047"/>
-        <location filename="../src/dbmanager/dbmanager.cpp" line="2053"/>
         <source>(copy)</source>
         <translation>(قوشۇمچە نۇسخا)</translation>
     </message>
@@ -456,7 +442,7 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="49"/>
         <source>You can restore it in the trash</source>
-        <translation>&quot;يېقىندا ئۆچۈرۈلگەنلىرى&apos; دىن ئەسلىگە كەلتۈرەلەيسىز</translation>
+        <translation>"يېقىندا ئۆچۈرۈلگەنلىرى' دىن ئەسلىگە كەلتۈرەلەيسىز</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="51"/>
@@ -466,7 +452,7 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="52"/>
         <source>You can restore them in the trash</source>
-        <translation>&quot;يېقىندا ئۆچۈرۈلگەنلىرى&apos; دىن ئەسلىگە كەلتۈرەلەيسىز</translation>
+        <translation>"يېقىندا ئۆچۈرۈلگەنلىرى' دىن ئەسلىگە كەلتۈرەلەيسىز</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="56"/>
@@ -528,13 +514,11 @@
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="189"/>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="192"/>
         <source>Import</source>
         <translation>ئەكىرىش</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="189"/>
-        <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="192"/>
         <source>New Album</source>
         <translation>يىڭى ئالبۇم</translation>
     </message>
@@ -546,12 +530,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="217"/>
         <source>Import 1 Item</source>
-        <translation type="unfinished"></translation>
+        <translation>1 ئەلەمنى كىرگۈزۈش</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="218"/>
         <source>Import %1 Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Import %1 ئەلەمنى</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="225"/>
@@ -587,7 +571,7 @@
     <message>
         <location filename="../qml/Control/EmptyWarningDialog.qml" line="27"/>
         <source>File name cannot be empty!</source>
-        <translation type="unfinished"></translation>
+        <translation>فەيل نىسىمى ئەمەلەتىن!</translation>
     </message>
     <message>
         <location filename="../qml/Control/EmptyWarningDialog.qml" line="36"/>
@@ -644,7 +628,6 @@
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="127"/>
-        <location filename="../qml/Control/ExportDialog.qml" line="143"/>
         <source>Select other directories</source>
         <translation>باشقا مۇندەرىجىلەرنى تاللاڭ</translation>
     </message>
@@ -694,7 +677,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="846"/>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>متننى ئېكسترەكت قىلىش</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="850"/>
@@ -708,7 +691,6 @@
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="858"/>
-        <location filename="../src/filecontrol.cpp" line="950"/>
         <source>Copy</source>
         <translation>كۆچۈرۈش</translation>
     </message>
@@ -765,7 +747,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="902"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>بىر قىلىش</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="906"/>
@@ -775,7 +757,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="930"/>
         <source>Image Viewing</source>
-        <translation type="unfinished"></translation>
+        <translation>رەسىم كۆرۈش</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="934"/>
@@ -800,7 +782,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="962"/>
         <source>Live Text</source>
-        <translation type="unfinished"></translation>
+        <translation>ھەيدىيە متن</translation>
     </message>
 </context>
 <context>
@@ -826,12 +808,12 @@
     <message>
         <location filename="../src/globalstatus.cpp" line="863"/>
         <source>1 item selected (1 photo)</source>
-        <translation type="unfinished"></translation>
+        <translation>1 ئەلەمنى ئەللىق قىلغان (1 رەسىم)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="865"/>
         <source>1 item selected (1 video)</source>
-        <translation type="unfinished"></translation>
+        <translation>1 ئەلەمنى ئەللىق قىلغان (1 ئۈزۈن)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="867"/>
@@ -873,7 +855,6 @@
     </message>
     <message>
         <location filename="../qml/GlobalVar.qml" line="38"/>
-        <location filename="../qml/GlobalVar.qml" line="46"/>
         <source>The file format is not supported</source>
         <translation>فайл فۆرماتى ئەسەرلىك بولمىغان</translation>
     </message>
@@ -910,7 +891,6 @@
     <name>ImportTimeLineView</name>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="211"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="430"/>
         <source>Import</source>
         <translation>ئەكىرىش</translation>
     </message>
@@ -924,37 +904,37 @@
         <source>1 video</source>
         <translation>1 سىن</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
         <translation type="unfinished">
-            <numerusform>
+            
             %n پارچە سۈرەت
             %n پارچە سۈرەت
-        </numerusform>
-            <numerusform></numerusform>
+        
+            
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
         <translation type="unfinished">
-            <numerusform>
+            
             %n سىن
             %n سىن
-        </numerusform>
-            <numerusform></numerusform>
+        
+            
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
         <translation type="unfinished">
-            <numerusform>
+            
             %n تۈر
             %n تۈر
-        </numerusform>
-            <numerusform></numerusform>
+        
+            
         </translation>
     </message>
 </context>
@@ -962,19 +942,16 @@
     <name>ImportedlListView</name>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>Imported on</source>
         <translation>ئەكىرگىنىڭىز:</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>1 item</source>
         <translation>1 ئەسەر</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
-        <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>%1 items</source>
         <translation>%1 ئەسەر</translation>
     </message>
@@ -1101,13 +1078,11 @@
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="246"/>
-        <location filename="../qml/MainAlbumView.qml" line="252"/>
         <source>Imported:</source>
         <translation>ئىشلەيدىغان:</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="253"/>
-        <location filename="../qml/MainAlbumView.qml" line="290"/>
         <source>%1/%2</source>
         <translation>%1/%2</translation>
     </message>
@@ -1118,7 +1093,6 @@
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="270"/>
-        <location filename="../qml/MainAlbumView.qml" line="276"/>
         <source>Import failed</source>
         <translation>ئەكىرىش مەغلۇپ بولدى</translation>
     </message>
@@ -1252,7 +1226,6 @@
     <name>PropertyActionItemDelegate</name>
     <message>
         <location filename="../qml/PreviewImageViewer/PropertyActionItemDelegate.qml" line="67"/>
-        <location filename="../qml/PreviewImageViewer/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
         <translation>فайл ئەسەرلىك بار، بارغۇچىلىق نىسىم ئۆزگەرتىڭ</translation>
     </message>
@@ -1261,7 +1234,6 @@
     <name>QObject</name>
     <message>
         <location filename="../src/albumControl.cpp" line="635"/>
-        <location filename="../src/albumControl.cpp" line="684"/>
         <source>%1/%2/%3 %4:%5</source>
         <translation>%1/%2/%3 %4:%5</translation>
     </message>
@@ -1277,28 +1249,21 @@
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="289"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="325"/>
-        <location filename="../src/albumControl.cpp" line="678"/>
         <source>%1/%2/%3</source>
         <translation>%1/%2/%3</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="361"/>
-        <location filename="../src/widgets/timelineview/timelineview.cpp" line="368"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="397"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="404"/>
         <source>All</source>
         <translation>بارلىق تۈرلەر</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="376"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="412"/>
         <source>Photos</source>
         <translation>سۈرەتلەر</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="383"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="419"/>
         <source>Videos</source>
         <translation>ۋىدىيو</translation>
     </message>
@@ -1340,20 +1305,11 @@
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="236"/>
-        <location filename="../src/widgets/thumbnail/timelinedatewidget.cpp" line="48"/>
-        <location filename="../src/widgets/thumbnail/timelinedatewidget.cpp" line="164"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1360"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2106"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2115"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2121"/>
-        <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="440"/>
         <source>Select</source>
         <translation>تاللاش</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1360"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2115"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2121"/>
         <source>Unselect</source>
         <translation>تاللاشنى بىكار قىلىش</translation>
     </message>
@@ -1421,12 +1377,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="199"/>
         <source>Delete Selected (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>ئەللىق ئەلەمنى ئۆچۈرۈش (%1)</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="219"/>
         <source>Restore Selected (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>ئەللىق ئەلەمنى ئەپەت قىلىش (%1)</translation>
     </message>
 </context>
 <context>
@@ -1451,13 +1407,13 @@
     <name>RemoveDialog</name>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="66"/>
-        <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"></translation>
+        <source>Cannot move "%1" to the trash. Do you want to permanently delete it?</source>
+        <translation>"%1" نى ئىشلەتكەن بىر قىلىشنى ئۆچۈرۈش چەقىرىشىدۇ. ئۇنى ئەمەلەتىن ئۆچۈرۈشنى بىر قىلىشنى ئۇچرىقىدۇ؟</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="84"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"></translation>
+        <translation>بۇ ھەرىكەت ئۆچۈرۈلمەيدۇ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="96"/>
@@ -1480,7 +1436,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="53"/>
         <source>%1 photos found</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 رەسىم تاپتى</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="57"/>
@@ -1490,12 +1446,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="59"/>
         <source>%1 videos found</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ئۈزۈن تاپتى</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="64"/>
         <source>%1 items found</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ئەلەمنى تاپتى</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="99"/>
@@ -1517,7 +1473,6 @@
     <name>Sidebar</name>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="127"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="151"/>
         <source>Album “%1” removed</source>
         <translation>ئالبوم «%1» ئۆچۈرۈلدى</translation>
     </message>
@@ -1529,7 +1484,7 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="208"/>
         <source>Collection</source>
-        <translation type="unfinished"></translation>
+        <translation>تەقسىملىش</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="209"/>
@@ -1559,7 +1514,7 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="313"/>
         <source>Add an album</source>
-        <translation type="unfinished"></translation>
+        <translation>ئالبوم قوشۇش</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="340"/>
@@ -1578,21 +1533,16 @@
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="455"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="480"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="534"/>
         <source>Slide show</source>
         <translation>تام تەسۋىر</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="466"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="492"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="567"/>
         <source>Export</source>
         <translation>چىقىرىش</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="500"/>
-        <location filename="../qml/SideBar/Sidebar.qml" line="576"/>
         <source>Delete</source>
         <translation>ئۆچۈرۈش</translation>
     </message>
@@ -1616,13 +1566,11 @@
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
         <source>Pause</source>
         <translation>توختىتىش</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
         <source>Play</source>
         <translation>قويۇش</translation>
     </message>
@@ -1633,7 +1581,6 @@
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="212"/>
-        <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="253"/>
         <source>Exit</source>
         <translation>چېكىنىش</translation>
     </message>
@@ -1655,21 +1602,13 @@
     <name>ThumbnailListView</name>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="610"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="762"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="764"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="804"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="807"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="809"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="819"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="948"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="965"/>
         <source>Delete</source>
         <translation>ئۆچۈرۈش</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="171"/>
         <source>Back to Album</source>
-        <translation type="unfinished"></translation>
+        <translation>ئەلبيمغا چۈشۈر</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="203"/>
@@ -1684,7 +1623,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="264"/>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation>ئەڭ ئامېلىيەتلىك ھەجم</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="283"/>
@@ -1694,34 +1633,22 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="301"/>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>تۆرەت</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="772"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="776"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="828"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="836"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="838"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="969"/>
         <source>Favorite</source>
         <translation>ياقتۇرغانلىرىم</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="773"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="775"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="830"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="835"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="839"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="970"/>
         <source>Unfavorite</source>
         <translation>ياقمىغانلىرى</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="591"/>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>متننى ئېرىش</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaildelegate.cpp" line="207"/>
@@ -1730,123 +1657,66 @@
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="723"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="726"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="730"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="782"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="868"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="876"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="882"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="950"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="979"/>
         <source>Photo info</source>
         <translation>سۈرەت ئۇچۇرى</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="724"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="727"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="731"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="783"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="869"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="872"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="883"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="951"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="980"/>
         <source>Video info</source>
         <translation>سىن ئۇچۇرى</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="746"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="798"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="931"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="957"/>
         <source>View</source>
         <translation>كۆرۈش</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="747"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="799"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="870"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="877"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="958"/>
         <source>Fullscreen</source>
         <translation>تولۇق ئېكران</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="748"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="874"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="888"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="897"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="960"/>
         <source>Slide show</source>
         <translation>تام تەسۋىر</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="749"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="754"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="817"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="875"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="889"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="962"/>
         <source>Export</source>
         <translation>چىقىرىش</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="759"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="963"/>
         <source>Copy</source>
         <translation>كۆچۈرۈش</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="767"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="844"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="966"/>
         <source>Remove from album</source>
         <translation>ئالبومغا قايتا نام بېرىش</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="769"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="873"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="887"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="959"/>
         <source>Print</source>
         <translation>بېسىپ چىقىرىش</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="779"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="859"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="862"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="903"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="906"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="973"/>
         <source>Rotate clockwise</source>
         <translation>سائەت يۆنىلىشىدە ئايلىنىدۇ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="780"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="860"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="863"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="904"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="907"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="974"/>
         <source>Rotate counterclockwise</source>
         <translation>سائەتكە قارشى يۆنىلىشنى ئايلاندۇرۇڭ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="781"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="881"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="978"/>
         <source>Display in file manager</source>
         <translation>ھۆججەت باشقۇرغۇچتا كۆرسىتىلىدۇ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="784"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="790"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="791"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="878"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="914"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="916"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="919"/>
-        <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="977"/>
         <source>Set as wallpaper</source>
         <translation>تام قەغىزى قىلىپ تەڭشەڭ</translation>
     </message>
@@ -1981,37 +1851,37 @@
         <source>1 video</source>
         <translation>1 سىن</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
         <translation type="unfinished">
-            <numerusform>
+            
             %n پارچە سۈرەت
             %n پارچە سۈرەت
-        </numerusform>
-            <numerusform></numerusform>
+        
+            
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
         <translation type="unfinished">
-            <numerusform>
+            
             %n سىن
             %n سىن
-        </numerusform>
-            <numerusform></numerusform>
+        
+            
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
         <translation type="unfinished">
-            <numerusform>
+            
             %n تۈر
             %n تۈر
-        </numerusform>
-            <numerusform></numerusform>
+        
+            
         </translation>
     </message>
 </context>
@@ -2020,7 +1890,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="121"/>
         <source>Back to Album</source>
-        <translation type="unfinished"></translation>
+        <translation>ئەلبيمغا چۈشۈر</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="162"/>
@@ -2035,7 +1905,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="210"/>
         <source>Original size</source>
-        <translation type="unfinished"></translation>
+        <translation>ئەڭ ئامېلىيەتلىك ھەجم</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="231"/>
@@ -2045,7 +1915,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="257"/>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>تۆرەت</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="290"/>
@@ -2060,7 +1930,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="431"/>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>متننى ئېرىش</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="458"/>
@@ -2112,7 +1982,6 @@
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="130"/>
-        <location filename="../qml/Control/VideoInfoDialog.qml" line="170"/>
         <source>Video CodecID</source>
         <translation>سىن مىقدارى ئۇچۇرى</translation>
     </message>
@@ -2182,7 +2051,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="81"/>
         <source>Extract text</source>
-        <translation type="unfinished"></translation>
+        <translation>متننى ئېرىش</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="103"/>
@@ -2260,22 +2129,22 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation type="unfinished"></translation>
+        <translation>رەسىم ئېچ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>رەسىم كۆرۈشچى رەسىم كۆرۈش ئۈسۈتى، ئىشلىتىشچى ئىنتەرفيسىسى ۋە سۈيەتلىك ئىشلىتىش ئەمەللىكى</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="185"/>
         <source>Album is a stylish management tool for viewing and organizing photos and videos.</source>
-        <translation type="unfinished"></translation>
+        <translation>ئەلبيم ئىشلىتىشچى ئىنتەرفيسىسى ۋە رەسىم ۋە فيلىملىرىنى كۆرۈش ۋە تەييارلىق ئۈسۈتى</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>رەسىم كۆرۈشچى</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="189"/>
@@ -2285,7 +2154,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="193"/>
         <source>%1 is released under %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>'%1 %2 ئىچىن تەييارلىنىدۇ.'</translation>
     </message>
 </context>
 <context>
