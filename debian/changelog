@@ -1,3 +1,9 @@
+deepin-album (6.0.34) unstable; urgency=medium
+
+  * update version to 6.0.34.
+
+ -- Tian ShiLin <tianshilin@uniontech.com>  Tue, 01 Jul 2025 20:47:25 +0800
+
 deepin-album (6.0.33) unstable; urgency=medium
 
   * chore: update translations
