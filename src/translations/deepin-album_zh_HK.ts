@@ -1319,12 +1319,12 @@
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="322"/>
         <source> %1-%2-%3 %4</source>
-        <translation type="unfinished"></translation>
+        <translation>%1年%2月%3日 %4</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="325"/>
         <source>Imported on </source>
-        <translation type="unfinished"></translation>
+        <translation>導入於 </translation>
     </message>
     <message>
         <source>%1-%2-%3 %4</source>
