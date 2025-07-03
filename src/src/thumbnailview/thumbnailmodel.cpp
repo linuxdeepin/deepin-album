@@ -399,7 +399,6 @@ QJsonArray ThumbnailModel::selectedUrls()
     for (auto index : m_selectionModel->selectedIndexes())
         arr.push_back(QJsonValue(data(index, Roles::UrlRole).toString()));
 
-    qDebug() << "Retrieved" << arr.size() << "selected URLs";
     return arr;
 }
 
@@ -410,7 +409,6 @@ QJsonArray ThumbnailModel::selectedPaths()
     for (auto index : m_selectionModel->selectedIndexes())
         arr.push_back(QJsonValue(data(index, Roles::FilePathRole).toString()));
 
-    qDebug() << "Retrieved" << arr.size() << "selected paths";
     return arr;
 }
 
