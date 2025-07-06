@@ -282,7 +282,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="514"/>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Añadir a favoritos</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="514"/>
