@@ -1,30 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>button/add</title>
-    <defs>
-        <linearGradient x1="50%" y1="0%" x2="50%" y2="95.6533653%" id="linearGradient-1">
-            <stop stop-color="#E6E6E6" offset="0%"></stop>
-            <stop stop-color="#E3E3E3" offset="100%"></stop>
-        </linearGradient>
-        <rect id="path-2" x="0" y="0" width="36" height="36" rx="8"></rect>
-        <filter x="-19.4%" y="-13.9%" width="138.9%" height="138.9%" filterUnits="objectBoundingBox" id="filter-3">
-            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
-            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
-            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
-            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.05 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
-        </filter>
-    </defs>
-    <g id="1040" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="音乐首页" transform="translate(-1245.000000, -205.000000)">
-            <g id="编组" transform="translate(1249.000000, 207.000000)">
-                <g id="Rectangle">
-                    <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
-                    <rect stroke-opacity="0.03" stroke="#000000" stroke-width="1" stroke-linejoin="square" fill="url(#linearGradient-1)" fill-rule="evenodd" x="0.5" y="0.5" width="35" height="35" rx="8"></rect>
-                </g>
-                <g id="Line-2-+-Line-3" transform="translate(13.000000, 13.000000)" fill="#536076">
-                    <path d="M6,0 L6,5 L11,5 L11,6 L6,6 L6,11 L5,11 L5,6 L0,6 L0,5 L5,5 L5,0 L6,0 Z" id="Combined-Shape"></path>
-                </g>
-            </g>
-        </g>
-    </g>
+<?xml version="1.0" encoding="utf-8" ?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="36" height="36">
+	<path fill-opacity="0.7019608" transform="translate(10.5 9.5)" d="M12.5 0C14.914273 0 16.884489 1.9012365 16.995102 4.2881641L17 4.5L17 8.6269627C17 8.9031048 16.776142 9.1269627 16.5 9.1269627C16.254539 9.1269627 16.050392 8.9500875 16.008055 8.7168379L16 8.6269627L16 4.5C16 2.6314366 14.535723 1.1048735 12.692036 1.0051788L12.5 1L4.5 1C2.6314366 1 1.1048735 2.4642775 1.0051788 4.3079648L1 4.5L1 12.5C1 14.368564 2.4642775 15.895126 4.3079648 15.994822L4.5 16L8.5267258 16C8.8028679 16 9.0267258 16.223858 9.0267258 16.5C9.0267258 16.745461 8.8498507 16.949608 8.6166019 16.991945L8.5267258 17L4.5 17C2.0857267 17 0.11551091 15.098763 0.0048979893 12.711836L0 12.5L0 4.5C0 2.0857267 1.9012365 0.11551091 4.2881641 0.0048979893L4.5 0L12.5 0ZM10.537509 8.6484175C10.725535 8.8062038 10.768218 9.0729246 10.650711 9.2788115L10.599108 9.3528366L8.7969999 11.5L16 11.5C16.276142 11.5 16.5 11.723858 16.5 12C16.5 12.24546 16.323124 12.449609 16.089876 12.491944L16 12.5L8.7770004 12.5L10.601906 14.713381C10.75804 14.902781 10.751419 15.172813 10.59837 15.353848L10.534144 15.417233C10.344745 15.573369 10.074712 15.566747 9.8936768 15.413698L9.8302917 15.349473L7.3351874 12.322775C7.201045 12.160053 7.1851778 11.933861 7.287096 11.756175L7.337985 11.68332L9.8330898 8.7100172C10.010599 8.4984875 10.325978 8.4709082 10.537509 8.6484175Z"/>
 </svg>
