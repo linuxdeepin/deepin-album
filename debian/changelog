@@ -1,3 +1,9 @@
+deepin-album (6.0.36) unstable; urgency=medium
+
+  * chore: Update deepin-manual resources (#354)
+
+ -- dengzhongyuan <dengzhongyuan@uniontech.com>  Thu, 10 Jul 2025 18:56:18 +0800
+
 deepin-album (6.0.35) unstable; urgency=medium
 
   * fix bugs
