@@ -1437,7 +1437,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="84"/>
         <source>This action cannot be undone</source>
-        <translation type="unfinished"/>
+        <translation>この操作は取り消すことができません</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="96"/>
@@ -1455,42 +1455,42 @@
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="51"/>
         <source>1 photo found</source>
-        <translation type="unfinished"/>
+        <translation>1件の画像が見つかりました</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="53"/>
         <source>%1 photos found</source>
-        <translation type="unfinished"/>
+        <translation>%1件の画像が見つかりました</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="57"/>
         <source>1 video found</source>
-        <translation type="unfinished"/>
+        <translation>1件の動画が見つかりました</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="59"/>
         <source>%1 videos found</source>
-        <translation type="unfinished"/>
+        <translation>%1件の動画が見つかりました</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="64"/>
         <source>%1 items found</source>
-        <translation type="unfinished"/>
+        <translation>%1件のアイテムが見つかりました</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="99"/>
         <source>Search results</source>
-        <translation type="unfinished"/>
+        <translation>検索結果</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="112"/>
         <source>Slide Show</source>
-        <translation type="unfinished"/>
+        <translation>スライドショー</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="189"/>
         <source>No search results</source>
-        <translation type="unfinished"/>
+        <translation>検索結果はありません</translation>
     </message>
 </context>
 <context>
@@ -1499,7 +1499,7 @@
         <location filename="../qml/SideBar/Sidebar.qml" line="127"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="151"/>
         <source>Album “%1” removed</source>
-        <translation type="unfinished"/>
+        <translation>アルバム&quot;%1&quot;が削除されました</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="205"/>
@@ -1781,7 +1781,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="844"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="966"/>
         <source>Remove from album</source>
-        <translation type="unfinished"/>
+        <translation>アルバムから削除</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="769"/>
@@ -1833,12 +1833,12 @@
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="949"/>
         <source>Restore</source>
-        <translation type="unfinished"/>
+        <translation>復元</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="986"/>
         <source>Add to album</source>
-        <translation type="unfinished"/>
+        <translation>アルバムに追加</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="990"/>
@@ -1871,7 +1871,7 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="867"/>
         <source>Add to album</source>
-        <translation type="unfinished"/>
+        <translation>アルバムに追加</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="870"/>
@@ -1901,7 +1901,7 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="949"/>
         <source>Remove from album</source>
-        <translation type="unfinished"/>
+        <translation>アルバムから削除</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="964"/>
@@ -1936,7 +1936,7 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1044"/>
         <source>Restore</source>
-        <translation type="unfinished"/>
+        <translation>復元</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1053"/>
