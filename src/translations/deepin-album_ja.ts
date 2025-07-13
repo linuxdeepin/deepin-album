@@ -598,7 +598,7 @@
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="56"/>
         <source>Export</source>
-        <translation type="unfinished"/>
+        <translation>エクスポート</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="73"/>
@@ -1285,7 +1285,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1355"/>
         <source>Trash</source>
-        <translation type="unfinished"/>
+        <translation>ゴミ箱</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="65"/>
@@ -1386,7 +1386,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="123"/>
         <source>Trash</source>
-        <translation type="unfinished"/>
+        <translation>ゴミ箱</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="144"/>
@@ -1504,12 +1504,12 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="205"/>
         <source>Gallery</source>
-        <translation type="unfinished"/>
+        <translation>ギャラリー</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="208"/>
         <source>Collection</source>
-        <translation type="unfinished"/>
+        <translation>コレクション</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="209"/>
@@ -1524,12 +1524,12 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="211"/>
         <source>Trash</source>
-        <translation type="unfinished"/>
+        <translation>ゴミ箱</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="234"/>
         <source>Device</source>
-        <translation type="unfinished"/>
+        <translation>デバイス</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="292"/>
@@ -1539,7 +1539,7 @@
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="313"/>
         <source>Add an album</source>
-        <translation type="unfinished"/>
+        <translation>アルバムに追加</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="340"/>
@@ -1568,7 +1568,7 @@
         <location filename="../qml/SideBar/Sidebar.qml" line="492"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="567"/>
         <source>Export</source>
-        <translation type="unfinished"/>
+        <translation>エクスポート</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="500"/>
@@ -1598,13 +1598,13 @@
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
         <source>Pause</source>
-        <translation type="unfinished"/>
+        <translation>一時停止</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
         <source>Play</source>
-        <translation type="unfinished"/>
+        <translation>再生</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="197"/>
@@ -1615,7 +1615,7 @@
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="212"/>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="253"/>
         <source>Exit</source>
-        <translation type="unfinished"/>
+        <translation>終了</translation>
     </message>
 </context>
 <context>
@@ -1649,7 +1649,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="171"/>
         <source>Back to Album</source>
-        <translation type="unfinished"/>
+        <translation>アルバムに戻る</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="203"/>
@@ -1768,7 +1768,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="889"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="962"/>
         <source>Export</source>
-        <translation type="unfinished"/>
+        <translation>エクスポート</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="759"/>
@@ -1886,7 +1886,7 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="911"/>
         <source>Export</source>
-        <translation type="unfinished"/>
+        <translation>エクスポート</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="930"/>
@@ -1982,7 +1982,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="121"/>
         <source>Back to Album</source>
-        <translation type="unfinished"/>
+        <translation>アルバムに戻る</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="162"/>
@@ -2154,7 +2154,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="128"/>
         <source>Export</source>
-        <translation type="unfinished"/>
+        <translation>エクスポート</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="144"/>
@@ -2222,7 +2222,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation type="unfinished"/>
+        <translation>画像を開く</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
