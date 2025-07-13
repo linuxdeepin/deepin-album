@@ -554,7 +554,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="225"/>
         <source>Import successful</source>
-        <translation type="unfinished"/>
+        <translation>インポートが完了しました</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="276"/>
@@ -1083,7 +1083,7 @@
         <location filename="../qml/MainAlbumView.qml" line="246"/>
         <location filename="../qml/MainAlbumView.qml" line="252"/>
         <source>Imported:</source>
-        <translation type="unfinished"/>
+        <translation>インポートの進捗:</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="253"/>
@@ -1094,23 +1094,23 @@
     <message>
         <location filename="../qml/MainAlbumView.qml" line="263"/>
         <source>Import successful</source>
-        <translation type="unfinished"/>
+        <translation>インポートが完了しました</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="270"/>
         <location filename="../qml/MainAlbumView.qml" line="276"/>
         <source>Import failed</source>
-        <translation type="unfinished"/>
+        <translation>インポートできませんでした</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="281"/>
         <source>Deleted:</source>
-        <translation type="unfinished"/>
+        <translation>削除の進捗:</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="283"/>
         <source>Deleting...</source>
-        <translation type="unfinished"/>
+        <translation>削除しています...</translation>
     </message>
 </context>
 <context>
@@ -1401,12 +1401,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="199"/>
         <source>Delete Selected (%1)</source>
-        <translation type="unfinished"/>
+        <translation>選択したアイテム(%1)を削除</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="219"/>
         <source>Restore Selected (%1)</source>
-        <translation type="unfinished"/>
+        <translation>選択したアイテム(%1)を復元</translation>
     </message>
 </context>
 <context>
@@ -1414,7 +1414,7 @@
     <message>
         <location filename="../qml/Control/RemoveAlbumDialog.qml" line="42"/>
         <source>Are you sure you want to delete this album?</source>
-        <translation type="unfinished"/>
+        <translation>このアルバムを削除してもよろしいですか？</translation>
     </message>
     <message>
         <location filename="../qml/Control/RemoveAlbumDialog.qml" line="55"/>
@@ -1432,7 +1432,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="66"/>
         <source>Cannot move &quot;%1&quot; to the trash. Do you want to permanently delete it?</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1&quot;をゴミ箱に移動できません。完全に削除してもよろしいですか？</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/Dialog/RemoveDialog.qml" line="84"/>
@@ -1623,7 +1623,7 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="441"/>
         <source>days</source>
-        <translation type="unfinished"/>
+        <translation>日</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="441"/>
@@ -1706,7 +1706,7 @@
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaildelegate.cpp" line="207"/>
         <source>days</source>
-        <translation type="unfinished"/>
+        <translation>日</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="723"/>
