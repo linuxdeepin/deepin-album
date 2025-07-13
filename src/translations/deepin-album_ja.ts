@@ -249,19 +249,19 @@
         <location filename="../qml/AlbumTitle.qml" line="262"/>
         <location filename="../qml/AlbumTitle.qml" line="340"/>
         <source>Y</source>
-        <translation type="unfinished"/>
+        <translation>年</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="274"/>
         <location filename="../qml/AlbumTitle.qml" line="341"/>
         <source>M</source>
-        <translation type="unfinished"/>
+        <translation>月</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="285"/>
         <location filename="../qml/AlbumTitle.qml" line="342"/>
         <source>D</source>
-        <translation type="unfinished"/>
+        <translation>日</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="296"/>
@@ -964,42 +964,42 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="82"/>
         <source>Basic info</source>
-        <translation type="unfinished"/>
+        <translation>基本情報</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="95"/>
         <source>File name</source>
-        <translation type="unfinished"/>
+        <translation>ファイル名</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="106"/>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>サイズ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="113"/>
         <source>Dimensions</source>
-        <translation type="unfinished"/>
+        <translation>解像度</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="120"/>
         <source>Type</source>
-        <translation type="unfinished"/>
+        <translation>種類</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="132"/>
         <source>Date captured</source>
-        <translation type="unfinished"/>
+        <translation>撮影日</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="139"/>
         <source>Date modified</source>
-        <translation type="unfinished"/>
+        <translation>最終編集日</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="149"/>
         <source>Details</source>
-        <translation type="unfinished"/>
+        <translation>詳細</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="162"/>
@@ -1019,7 +1019,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="183"/>
         <source>ISO</source>
-        <translation type="unfinished"/>
+        <translation>ISO</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="190"/>
@@ -2035,22 +2035,22 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="73"/>
         <source>Basic info</source>
-        <translation type="unfinished"/>
+        <translation>基本情報</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="78"/>
         <source>File name</source>
-        <translation type="unfinished"/>
+        <translation>ファイル名</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="88"/>
         <source>Date captured</source>
-        <translation type="unfinished"/>
+        <translation>撮影日</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="95"/>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>サイズ</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="100"/>
@@ -2060,7 +2060,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="105"/>
         <source>Type</source>
-        <translation type="unfinished"/>
+        <translation>種類</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="115"/>
