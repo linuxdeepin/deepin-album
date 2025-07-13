@@ -479,12 +479,12 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="59"/>
         <source>Are you sure you want to permanently delete %1 files?</source>
-        <translation type="unfinished"/>
+        <translation>%1件のファイルを完全に削除してもよろしいですか？</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="60"/>
         <source>You cannot restore them any longer</source>
-        <translation type="unfinished"/>
+        <translation>復元することはできません</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="111"/>
@@ -544,12 +544,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="217"/>
         <source>Import 1 Item</source>
-        <translation type="unfinished"/>
+        <translation>1件のアイテムをインポート</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="218"/>
         <source>Import %1 Items</source>
-        <translation type="unfinished"/>
+        <translation>%1件のアイテムをインポート</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="225"/>
@@ -608,7 +608,7 @@
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="105"/>
         <source>Save to:</source>
-        <translation type="unfinished"/>
+        <translation>保存先:</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="121"/>
@@ -798,7 +798,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="962"/>
         <source>Live Text</source>
-        <translation type="unfinished"/>
+        <translation>Live Text</translation>
     </message>
 </context>
 <context>
