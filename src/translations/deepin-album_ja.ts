@@ -1664,12 +1664,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="264"/>
         <source>Original size</source>
-        <translation type="unfinished"/>
+        <translation>オリジナルのサイズ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="283"/>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>ウィンドウに合わせる</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="301"/>
@@ -1719,7 +1719,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="950"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="979"/>
         <source>Photo info</source>
-        <translation type="unfinished"/>
+        <translation>画像の情報</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="724"/>
@@ -1732,7 +1732,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="951"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="980"/>
         <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation>動画の情報</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="746"/>
@@ -1941,12 +1941,12 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1053"/>
         <source>Photo info</source>
-        <translation type="unfinished"/>
+        <translation>画像の情報</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1072"/>
         <source>Video info</source>
-        <translation type="unfinished"/>
+        <translation>動画の情報</translation>
     </message>
 </context>
 <context>
@@ -1997,12 +1997,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="210"/>
         <source>Original size</source>
-        <translation type="unfinished"/>
+        <translation>オリジナルのサイズ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="231"/>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>ウィンドウに合わせる</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="257"/>
@@ -2070,7 +2070,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="122"/>
         <source>Codec info</source>
-        <translation type="unfinished"/>
+        <translation>コーデック情報</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="130"/>
