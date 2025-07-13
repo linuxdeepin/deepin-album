@@ -1024,52 +1024,52 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="190"/>
         <source>Exposure mode</source>
-        <translation type="unfinished"/>
+        <translation>露出モード</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="196"/>
         <source>Exposure time</source>
-        <translation type="unfinished"/>
+        <translation>露出時間</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="202"/>
         <source>Flash</source>
-        <translation type="unfinished"/>
+        <translation>フラッシュ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="209"/>
         <source>Flash compensation</source>
-        <translation type="unfinished"/>
+        <translation>フラッシュ補正</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="215"/>
         <source>Max aperture</source>
-        <translation type="unfinished"/>
+        <translation>最大絞り</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="222"/>
         <source>Colorspace</source>
-        <translation type="unfinished"/>
+        <translation>色空間</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="229"/>
         <source>Metering mode</source>
-        <translation type="unfinished"/>
+        <translation>測光モード</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="236"/>
         <source>White balance</source>
-        <translation type="unfinished"/>
+        <translation>ホワイトバランス</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="247"/>
         <source>Device model</source>
-        <translation type="unfinished"/>
+        <translation>デバイス</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="254"/>
         <source>Lens model</source>
-        <translation type="unfinished"/>
+        <translation>レンズ</translation>
     </message>
 </context>
 <context>
@@ -1077,7 +1077,7 @@
     <message>
         <location filename="../qml/MainAlbumView.qml" line="245"/>
         <source>Importing...</source>
-        <translation type="unfinished"/>
+        <translation>インポートしています...</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="246"/>
