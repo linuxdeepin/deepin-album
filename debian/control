@@ -45,7 +45,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends},
     qml6-module-qt5compat-graphicaleffects,
     libqt6sql6-sqlite,
     qt6-image-formats-plugins
-Recommends: qt6-gtk-platformtheme, deepin-ocr
+Recommends: qt6-gtk-platformtheme, deepin-ocr, kimageformat6-plugins
 Description: Simple description
  A detailed description.
 
