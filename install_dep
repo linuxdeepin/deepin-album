@@ -120,6 +120,8 @@ while IFS= read -r deb_file; do
     # 复制/lib,/bin,/usr目录
     cp -rP "$data_list_dir/lib" "$target" 2>/dev/null || true
     cp -rP "$data_list_dir/bin" "$target" 2>/dev/null || true
+    rm -r "${data_list_dir:?}/usr/share/systemd" 2>/dev/null || true
+    rm -r "${data_list_dir:?}/usr/lib/systemd" 2>/dev/null || true
     cp -rP "$data_list_dir"/usr/* "$target" || true
     rm -r "$data_list_dir"
 done <"$deb_list_file"
