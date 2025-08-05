@@ -2194,12 +2194,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="297"/>
         <source>Show navigation window</source>
-        <translation>Wyświetl okno nawigacji</translation>
+        <translation>Wyświetl okno nawigacyjne</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="297"/>
         <source>Hide navigation window</source>
-        <translation>Ukryj okno nawigacji</translation>
+        <translation>Ukryj okno nawigacyjne</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="309"/>
