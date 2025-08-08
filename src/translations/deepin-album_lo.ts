@@ -6,47 +6,47 @@
     <message>
         <location filename="../src/albumControl.cpp" line="278"/>
         <source>All photos and videos</source>
-        <translation>ទីត្រូវការទាំងអស់នូវរូបថតនិងវីដេអូ</translation>
+        <translation>ຮູບພາບ ແລະ ວິດີໂອທັງໝົດ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="306"/>
         <source>Disk is busy, cannot eject now</source>
-        <translation>ດ຿ວງກ່ོངས་ມີ່ນົມ, ບໍ່ສາມາດອອກຈາກດ຿ວງກ່ོངསທັນທີ</translation>
+        <translation>ດິສກ໌ບ່ວ່າງ, ບໍ່ສາມາດເອົາອອກໄດ້ໃນຕອນນີ້</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="307"/>
         <source>OK</source>
-        <translation>ຕົວຢ່າງ</translation>
+        <translation>ຕົກລົງ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="928"/>
         <source>Fullscreen</source>
-        <translation>ແຜ່ນແບບໃຫ້ເບິ່ງຄ່ອງ</translation>
+        <translation>ເຕັມຈໍ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="931"/>
         <source>Exit fullscreen/slideshow</source>
-        <translation>ອອກຈາກແຜ່ນແບບໃຫ້ເບິ່ງຄ່ອງ/ໂຄງສ້າງສົນທະນາ</translation>
+        <translation>ອອກຈາກເຕັມຈໍ/ການສະແດງສະໄລ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="937"/>
         <source>Help</source>
-        <translation>ຊ່ວຍເບິ່ງ</translation>
+        <translation>ຊ່ວຍເຫຼືອ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="940"/>
         <source>Display shortcuts</source>
-        <translation>ສະແໜ່ລາຍການຂ້ອນຂ້າງ</translation>
+        <translation>ສະແດງທາງລັດ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="943"/>
         <source>Display in file manager</source>
-        <translation>ສະແໜ່ໃນຜູ້ຈັດການເອົາໄຂ່ໄມໂດຽ</translation>
+        <translation>ສະແດງໃນຕົວຈັດການໄຟລ໌</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="946"/>
         <source>Slide show</source>
-        <translation>ໂຄງສ້າງສົນທະນາ</translation>
+        <translation>ການສະແດງສະໄລ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="949"/>
@@ -56,22 +56,22 @@
     <message>
         <location filename="../src/albumControl.cpp" line="952"/>
         <source>Export photos</source>
-        <translation>ចោលរូបថតចេញ</translation>
+        <translation>ສົ່ງອອກຮູບພາບ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="955"/>
         <source>Import photos/videos</source>
-        <translation>បញ្ចូលរូបថតនិងវីដេអូ</translation>
+        <translation>ນຳເຂົ້າຮູບພາບ/ວິດີໂອ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="958"/>
         <source>Select all</source>
-        <translation>ເລົ່າທີ່ງົນ</translation>
+        <translation>ເລືອກທັງໝົດ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="961"/>
         <source>Copy</source>
-        <translation>ຄຸມຄອບ</translation>
+        <translation>ສຳເນົາ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="964"/>
@@ -81,7 +81,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="967"/>
         <source>Photo/Video info</source>
-        <translation>ຂំណុោះរូប/វីដេអូ</translation>
+        <translation>ຂໍ້ມູນຮູບພາບ/ວິດີໂອ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="970"/>
@@ -91,12 +91,12 @@
     <message>
         <location filename="../src/albumControl.cpp" line="973"/>
         <source>Rotate clockwise</source>
-        <translation>ຫມຸນຕາມຕົວເລກ</translation>
+        <translation>ຫມຸນຕາມເຂັມໂມງ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="976"/>
         <source>Rotate counterclockwise</source>
-        <translation>ຫມຸນຕາມຕົວເລກ</translation>
+        <translation>ຫມຸນທາງຊ້າຍ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="982"/>
@@ -106,17 +106,17 @@
     <message>
         <location filename="../src/albumControl.cpp" line="985"/>
         <source>Zoom out</source>
-        <translation>ຢັບຢອດ</translation>
+        <translation>ຫຍໍ້ເຂົ້າ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="988"/>
         <source>Previous</source>
-        <translation>ກາງກັນ</translation>
+        <translation>ກ່ອນໜ້າ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="991"/>
         <source>Next</source>
-        <translation>ຕົວເລກ</translation>
+        <translation>ຖັດໄປ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="994"/>
@@ -141,12 +141,12 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1006"/>
         <source>Page up</source>
-        <translation>ກາງກັນ</translation>
+        <translation>ໜ້າຂຶ້ນ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1009"/>
         <source>Page down</source>
-        <translation>ຕົວເລກ</translation>
+        <translation>ໜ້າລົງ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1051"/>
@@ -171,17 +171,17 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1631"/>
         <source>Screen Capture</source>
-        <translation>ບິດສຽງຈາກຫນ້າຈອດ</translation>
+        <translation>ຈັບພາບໜ້າຈໍ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1633"/>
         <source>Camera</source>
-        <translation>ການຖ່າຍຮູບ</translation>
+        <translation>ກ້ອງຖ່າຍຮູບ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1635"/>
         <source>Draw</source>
-        <translation>ວັດ</translation>
+        <translation>ແຕ້ມ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1728"/>
@@ -192,17 +192,17 @@
         <location filename="../src/albumControl.cpp" line="2170"/>
         <location filename="../src/albumControl.cpp" line="2174"/>
         <source>%1Year%2Month%3Day</source>
-        <translation>%1ខែ%2ថ្ម%3ឆ្នាំ</translation>
+        <translation>%1ປີ%2ເດືອນ%3ວັນ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2224"/>
         <source>Channel</source>
-        <translation>បណ្ឌិត</translation>
+        <translation>ຊ່ອງ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="2445"/>
         <source>Pictures</source>
-        <translation>រូបភាព</translation>
+        <translation>ຮູບພາບ</translation>
     </message>
 </context>
 <context>
@@ -215,7 +215,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="119"/>
         <source>Import folders</source>
-        <translation>ນໍາເຂົ້າຮູບພາບ</translation>
+        <translation>ນຳເຂົ້າໂຟເດີ</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="130"/>
@@ -229,7 +229,7 @@
     </message>
     <message>
         <source>%1 is released under %2</source>
-        <translation type="vanished">%1ត្រូវបានចេញផ្អើលនៅក្រោម%2</translation>
+        <translation type="vanished">%1 ໄດ້ຖືກປ່ອຍຕົວຕິດຕັ້ງຕອບສະຫຼະວັນທີທີ່ສະແດງຢູ່ໃນ %2</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="177"/>
@@ -255,19 +255,19 @@
         <location filename="../qml/AlbumTitle.qml" line="262"/>
         <location filename="../qml/AlbumTitle.qml" line="340"/>
         <source>Y</source>
-        <translation>ཡ</translation>
+        <translation>ປີ</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="274"/>
         <location filename="../qml/AlbumTitle.qml" line="341"/>
         <source>M</source>
-        <translation>ម</translation>
+        <translation>ເດືອນ</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="285"/>
         <location filename="../qml/AlbumTitle.qml" line="342"/>
         <source>D</source>
-        <translation>D</translation>
+        <translation>ວັນ</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="296"/>
@@ -278,7 +278,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="401"/>
         <source>Search</source>
-        <translation>ស្ទាក់រក</translation>
+        <translation>ຄົ້ນຫາ</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="483"/>
@@ -359,7 +359,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="155"/>
         <source>0 item</source>
-        <translation>0 ອັນຕະລາງ</translation>
+        <translation>0 ລາຍການ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="219"/>
@@ -374,20 +374,20 @@
         <location filename="../src/dbmanager/dbmanager.cpp" line="497"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="522"/>
         <source>Screen Capture</source>
-        <translation>ບິດສຽງຈາກຫນ້າຈອດ</translation>
+        <translation>ຈັບພາບໜ້າຈໍ</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="481"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="498"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="527"/>
         <source>Camera</source>
-        <translation>ການຖ່າຍຮູບ</translation>
+        <translation>ກ້ອງຖ່າຍຮູບ</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="482"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="532"/>
         <source>Draw</source>
-        <translation>ວັດ</translation>
+        <translation>ແຕ້ມ</translation>
     </message>
     <message>
         <location filename="../src/dbmanager/dbmanager.cpp" line="2021"/>
@@ -396,15 +396,19 @@
         <location filename="../src/dbmanager/dbmanager.cpp" line="2047"/>
         <location filename="../src/dbmanager/dbmanager.cpp" line="2053"/>
         <source>(copy)</source>
-        <translation>(ចំណាកស់)</translation>
+        <translation>(ສຳເນົາ)</translation>
     </message>
 </context>
 <context>
     <name>DayCollection</name>
     <message>
+        <source>Successfully added to &quot;%1&quot;</source>
+        <translation type="vanished">ເພີ່ມສຳເລັດເຂົ້າໃນ &quot;%1&quot;</translation>
+    </message>
+    <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="116"/>
         <source>Successfully added to “%1”</source>
-        <translation>បានបង្កើតជំរុញទៅ «%1» ជាសេចក្តើន</translation>
+        <translation>ເພີ່ມສຳເລັດໃສ່ “%1”</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="181"/>
@@ -432,22 +436,22 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1116"/>
         <source>%1 Drive</source>
-        <translation>%1 ດັບ</translation>
+        <translation>%1 ໄດຣ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1120"/>
         <source>Blank %1 Disc</source>
-        <translation>ພາກະ ນີ້ %1</translation>
+        <translation>ແຜ່ນດິສ %1 ເປົ່າ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1124"/>
         <source>%1 Encrypted</source>
-        <translation>%1 ຈົບ</translation>
+        <translation>%1 ເຂົ້າລະຫັດ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1127"/>
         <source>%1 Volume</source>
-        <translation>%1 ສ້ວນ</translation>
+        <translation>%1 ໂວລຸ້ມ</translation>
     </message>
 </context>
 <context>
@@ -455,52 +459,52 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="48"/>
         <source>Are you sure you want to delete this file locally?</source>
-        <translation>ທີ່ໄດ້ເອົ້າໃຈນີ້ ເຈົ້າແນ່ນອນບໍ່ວ່າຈະຢາຍອອກມາຈາກບໍລິສືບທ້ອງຖິ່?</translation>
+        <translation>ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບໄຟລ໌ນີ້ໃນທ້ອງຖິ່ນ?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="49"/>
         <source>You can restore it in the trash</source>
-        <translation>ມັນອາດຈະຖືກກົດກົງໄປສູ່ຖານທົດແທນໄດ້</translation>
+        <translation>ທ່ານສາມາດກູ້ຄືນໃນຖັງຂີ້ເຫຍື້ອ</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="51"/>
         <source>Are you sure you want to delete %1 files locally?</source>
-        <translation>ທີ່ໄດ້ເອົ້າໃຈ %1 ເຈົ້າແນ່ນອນບໍ່ວ່າຈະຢາຍອອກມາຈາກບໍລິສືບທ້ອງຖິ່?</translation>
+        <translation>ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບ %1 ໄຟລ໌ໃນທ້ອງຖິ່ນ?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="52"/>
         <source>You can restore them in the trash</source>
-        <translation>%1 ເອົ້າໃຈອາດຈະຖືກກົດກົງໄປສູ່ຖານທົດແທນໄດ້</translation>
+        <translation>ທ່ານສາມາດກູ້ຄືນພວກມັນໃນຖັງຂີ້ເຫຍື້ອ</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="56"/>
         <source>Are you sure you want to permanently delete this file?</source>
-        <translation>ທີ່ໄດ້ເອົ້າໃຈນີ້ ເຈົ້າແນ່ນອນບໍ່ວ່າຈະຢາຍທົດແທນອອກໄປໄສ້ແທ້ແທ້?</translation>
+        <translation>ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບໄຟລ໌ນີ້ຢ່າງຖາວອນ?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="57"/>
         <source>You cannot restore it any longer</source>
-        <translation>ມັນອາດຈະບໍ່ສາມາດຖືກກົດກົງຄືນມາໄດ້ອັ້ນຕອນອັນດີ້</translation>
+        <translation>ທ່ານບໍ່ສາມາດກູ້ຄືນມັນໄດ້ອີກແລ້ວ</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="59"/>
         <source>Are you sure you want to permanently delete %1 files?</source>
-        <translation>ທີ່ໄດ້ເອົ້າໃຈ %1 ເຈົ້າແນ່ນອນບໍ່ວ່າຈະຢາຍທົດແທນອອກໄປໄສ້ແທ້ແທ້?</translation>
+        <translation>ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບ %1 ໄຟລ໌ຢ່າງຖາວອນ?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="60"/>
         <source>You cannot restore them any longer</source>
-        <translation>អ្នកមិនអាចស្លាប់វិញទៀតបានទេ</translation>
+        <translation>ທ່ານບໍ່ສາມາດກູ້ຄືນພວກມັນໄດ້ອີກແລ້ວ</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="111"/>
         <source>Cancel</source>
-        <translation>បំបាក</translation>
+        <translation>ຍົກເລີກ</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="128"/>
         <source>Delete</source>
-        <translation>លើយ៉ាងទេ</translation>
+        <translation>ລຶບ</translation>
     </message>
 </context>
 <context>
@@ -508,64 +512,64 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="66"/>
         <source>1 photo</source>
-        <translation>1 រូបថ្ម</translation>
+        <translation>1 ຮູບພາບ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="68"/>
         <source>%1 photos</source>
-        <translation>%1 រូបថ្ម</translation>
+        <translation>%1 ຮູບພາບ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="75"/>
         <source>1 video</source>
-        <translation>1 វិдеអីវូ</translation>
+        <translation>1 ວິດີໂອ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="77"/>
         <source>%1 videos</source>
-        <translation>%1 វិдеអីវូ</translation>
+        <translation>%1 ວິດີໂອ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="179"/>
         <source>Import to:</source>
-        <translation>បញ្ចូលទៅ:</translation>
+        <translation>ນຳເຂົ້າໄປທີ່:</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="189"/>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="192"/>
         <source>Import</source>
-        <translation>បញ្ចូល</translation>
+        <translation>ນຳເຂົ້າ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="189"/>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="192"/>
         <source>New Album</source>
-        <translation>បាល់បាសថ្មី</translation>
+        <translation>ອັລບັ້ມໃຫມ່</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="216"/>
         <source>Import All</source>
-        <translation>បញ្ចូលទាំងអស់</translation>
+        <translation>ນຳເຂົ້າທັງໝົດ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="217"/>
         <source>Import 1 Item</source>
-        <translation>បញ្ចូល 1 ធាតុ</translation>
+        <translation>ນຳເຂົ້າ 1 ລາຍການ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="218"/>
         <source>Import %1 Items</source>
-        <translation>បញ្ចូល %1 ធាតុ</translation>
+        <translation>ນຳເຂົ້າ %1 ລາຍການ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="225"/>
         <source>Import successful</source>
-        <translation>បញ្ចូលជៀរជ្រៅ</translation>
+        <translation>ນຳເຂົ້າສຳເລັດ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="276"/>
         <source>No results</source>
-        <translation>គ្មានលទ្ធភាពណ៍</translation>
+        <translation>ບໍ່ມີຜົນລັບ</translation>
     </message>
 </context>
 <context>
@@ -573,17 +577,17 @@
     <message>
         <location filename="../qml/Control/DeviceLoadDialog.qml" line="61"/>
         <source>Loading...</source>
-        <translation>กำลading...</translation>
+        <translation>ກຳລັງໂຫຼດ...</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeviceLoadDialog.qml" line="70"/>
         <source>Cancel</source>
-        <translation>ប៉ុلغ</translation>
+        <translation>ຍົກເລີກ</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeviceLoadDialog.qml" line="78"/>
         <source>Ignore</source>
-        <translation>បរាយលាក់ចេញ</translation>
+        <translation>ລະເລີຍ</translation>
     </message>
 </context>
 <context>
@@ -591,12 +595,12 @@
     <message>
         <location filename="../qml/Control/EmptyWarningDialog.qml" line="27"/>
         <source>File name cannot be empty!</source>
-        <translation>ชื่อไฟล์ไม่สามารถเว้นว่าง!</translation>
+        <translation>ຊື່ໄຟລ໌ຫ້າມເປົ່າ!</translation>
     </message>
     <message>
         <location filename="../qml/Control/EmptyWarningDialog.qml" line="36"/>
         <source>OK</source>
-        <translation>ตกลง</translation>
+        <translation>ຕົກລົງ</translation>
     </message>
 </context>
 <context>
@@ -604,83 +608,83 @@
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="56"/>
         <source>Export</source>
-        <translation>ส่งออก</translation>
+        <translation>ສົ່ງອອກ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="73"/>
         <source>Name:</source>
-        <translation>ชื่อ:</translation>
+        <translation>ຊື່:</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="105"/>
         <source>Save to:</source>
-        <translation>บันทึกไปยัง:</translation>
+        <translation>ບັນທຶກໄປທີ່:</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="121"/>
         <source>Pictures</source>
-        <translation>รูปภาพ</translation>
+        <translation>ຮູບພາບ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="122"/>
         <source>Documents</source>
-        <translation>เอกสาร</translation>
+        <translation>ເອກະສານ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="123"/>
         <source>Downloads</source>
-        <translation>ดาวน์โหลด</translation>
+        <translation>ດາວໂຫຼດ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="124"/>
         <source>Desktop</source>
-        <translation>เดสก์ท็อป</translation>
+        <translation>ໂຕະທຳງານ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="125"/>
         <source>Videos</source>
-        <translation>วิดีโอ</translation>
+        <translation>ວິດີໂອ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="126"/>
         <source>Music</source>
-        <translation>เพลง</translation>
+        <translation>ດົນຕີ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="127"/>
         <location filename="../qml/Control/ExportDialog.qml" line="143"/>
         <source>Select other directories</source>
-        <translation>เลือกไดเรกทอรีอื่น</translation>
+        <translation>ເລືອກໄດເຣກທໍຣີອື່ນ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="165"/>
         <source>Format:</source>
-        <translation>រូប dạng:</translation>
+        <translation>ຮູບແບບ:</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="203"/>
         <source>Quality:</source>
-        <translation>គុណភាព:</translation>
+        <translation>ຄຸນນະພາບ:</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="247"/>
         <source>Cancel</source>
-        <translation>បះបោក</translation>
+        <translation>ຍົກເລີກ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="264"/>
         <source>Confirm</source>
-        <translation>បញ្ចាក់</translation>
+        <translation>ຢືນຢັນ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="280"/>
         <source>Export successful</source>
-        <translation>បញ្ជូនជំរៅបានបញ្ហេចជំហាត់</translation>
+        <translation>ສົ່ງອອກສຳເລັດ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="282"/>
         <source>Export failed</source>
-        <translation>បញ្ជូនជំរៅបរាញមិនបាន</translation>
+        <translation>ສົ່ງອອກລົ້ມເຫຼວ</translation>
     </message>
 </context>
 <context>
@@ -830,42 +834,50 @@
     <message>
         <location filename="../src/globalstatus.cpp" line="863"/>
         <source>1 item selected (1 photo)</source>
-        <translation>1 រូបត្រូវបានជ្រើនជម្ល់</translation>
+        <translation>ເລືອກ 1 ລາຍການ (1 ຮູບພາບ)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="865"/>
         <source>1 item selected (1 video)</source>
-        <translation>1 វីដេអូត្រូវបានជ្រើនជម្ល់</translation>
+        <translation>ເລືອກ 1 ລາຍການ (1 ວິດີໂອ)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="867"/>
         <source>%1 items selected (%1 photos)</source>
-        <translation>%1 រូបត្រូវបានជ្រើនជម្ល់</translation>
+        <translation>ເລືອກ %1 ລາຍການ (%1 ຮູບພາບ)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="869"/>
         <source>%1 items selected (%1 videos)</source>
-        <translation>%1 វីដេអូត្រូវបានជ្រើនជម្ល់</translation>
+        <translation>ເລືອກ %1 ລາຍການ (%1 ວິດີໂອ)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="871"/>
         <source>%1 item selected (1 photo, 1 video)</source>
-        <translation>%1 រូបត្រូវបានជ្រើនជម្ល់ (រូបភាព ଓ ଼ីដេអូ)</translation>
+        <translation>ເລືອກ %1 ລາຍການ (1 ຮູບພາບ, 1 ວິດີໂອ)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="873"/>
         <source>%1 items selected (1 photo, %2 videos)</source>
-        <translation>%1 រូបត្រូវបានជ្រើនជម្ល់ (1 ଼ីដេអូ, %2 ଼ីដេអូ)</translation>
+        <translation>ເລືອກ %1 ລາຍການ (1 ຮູບພາບ, %2 ວິດີໂອ)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="875"/>
         <source>%1 items selected (%2 photos, 1 video)</source>
-        <translation>%1 រូបត្រូវបានជ្រើនជម្ល់ (%2 ଼ីដេអូ, 1 ଼ីដេអូ)</translation>
+        <translation>ເລືອກ %1 ລາຍການ (%2 ຮູບພາບ, 1 ວິດີໂອ)</translation>
     </message>
     <message>
         <location filename="../src/globalstatus.cpp" line="877"/>
         <source>%1 items selected (%2 photos, %3 videos)</source>
-        <translation>%1 រូបត្រូវបានជ្រើនជម្ល់ (%2 ଼ីដេអូ, %3 ଼ីដេអូ)</translation>
+        <translation>ເລືອກ %1 ລາຍການ (%2 ຮູບພາບ, %3 ວິດີໂອ)</translation>
+    </message>
+    <message>
+        <source>Photos</source>
+        <translation type="vanished">ຮູບພາບ</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="vanished">ວິດີໂອ</translation>
     </message>
 </context>
 <context>
@@ -885,29 +897,33 @@
 <context>
     <name>HaveImportedView</name>
     <message>
+        <source>Successfully added to &quot;%1&quot;</source>
+        <translation type="vanished">ເພີ່ມສຳເລັດໃສ່ &quot;%1&quot;</translation>
+    </message>
+    <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="98"/>
         <source>Successfully added to “%1”</source>
-        <translation>បានបញ្ចូលជាសំបុត «%1» ជាស័ំណាក</translation>
+        <translation>ເພີ່ມສຳເລັດໃສ່ “%1”</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="153"/>
         <source>1 photo</source>
-        <translation>1 ଼ីដេអូ</translation>
+        <translation>1 ຮູບພາບ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="155"/>
         <source>%1 photos</source>
-        <translation>%1 ဓាន</translation>
+        <translation>%1 ຮູບພາບ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="163"/>
         <source>1 video</source>
-        <translation>1 វិデអីង</translation>
+        <translation>1 ວິດີໂອ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="165"/>
         <source>%1 videos</source>
-        <translation>%1 វិデអីង</translation>
+        <translation>%1 ວິດີໂອ</translation>
     </message>
 </context>
 <context>
@@ -933,6 +949,7 @@
         <source>%n photos</source>
         <translation>
             <numerusform>%n ຮູບພາບ</numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -940,6 +957,7 @@
         <source>%n videos</source>
         <translation>
             <numerusform>%n ວິດີໂອ</numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -947,8 +965,8 @@
         <source>%n items</source>
         <translation>
             <numerusform>%n ລາຍການ</numerusform>
+            <numerusform></numerusform>
         </translation>
-    </message>
     </message>
 </context>
 <context>
@@ -957,66 +975,66 @@
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>Imported on</source>
-        <translation>ចាក់ចំណាក់នៃ</translation>
+        <translation>ນຳເຂົ້າໃນ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>1 item</source>
-        <translation>1 ធាតុ</translation>
+        <translation>1 ລາຍການ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>%1 items</source>
-        <translation>%1 ធាតុ</translation>
+        <translation>%1 ລາຍການ</translation>
     </message>
 </context>
 <context>
     <name>InfomationDialog</name>
     <message>
         <source>Basic info</source>
-        <translation type="vanished">ព័ត៍ទូទៅ</translation>
+        <translation type="vanished">ຂໍ້ມູນພື້ນຖານ</translation>
     </message>
     <message>
         <source>File name</source>
-        <translation type="vanished">ឈ្មោះឯកសារ</translation>
+        <translation type="vanished">ຊື່ໄຟລ໌</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="vanished">ទៅហ្គ្រេង</translation>
+        <translation type="vanished">ຂະໜາດ</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="vanished">ទីវัด</translation>
+        <translation type="vanished">ຂະໜາດ</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="vanished">ប្រភេទ</translation>
+        <translation type="vanished">ປະເພດ</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="vanished">ថ្តិការបញ្ចប់</translation>
+        <translation type="vanished">ວັນທີ່ຖ່າຍ</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation type="vanished">ថ្តិការកំណត់</translation>
+        <translation type="vanished">ວັນທີ່ແກ້ໄຂ</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="vanished">លក្ខណៈ</translation>
+        <translation type="vanished">ລາຍລະອຽດ</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation type="vanished">ទូទៅ</translation>
+        <translation type="vanished">ຊ່ອງແສງ</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation type="vanished">កម្មវិធីការបញ្ចុច</translation>
+        <translation type="vanished">ໂປຣແກຣມການເປີດຮັບແສງ</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation type="vanished">ប្រវត្តិភាព</translation>
+        <translation type="vanished">ຄວາມຍາວຈຸດໂຟກັດ</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -1024,43 +1042,43 @@
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation type="vanished">របូរ៉</translation>
+        <translation type="vanished">ໂໝດການເປີດຮັບແສງ</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation type="vanished">ពេលការបញ្ចុច</translation>
+        <translation type="vanished">ເວລາເປີດຮັບແສງ</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation type="vanished">ភ្នំភ្លើង</translation>
+        <translation type="vanished">ແຟລດ</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="vanished">ការប្រកប់ភ្នំភ្លើង</translation>
+        <translation type="vanished">ການຊົດເຊີຍແຟລດ</translation>
     </message>
     <message>
         <source>Max aperture</source>
-        <translation type="vanished">ទូទៅអតិក៍តិច</translation>
+        <translation type="vanished">ຊ່ອງແສງສູງສຸດ</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="vanished">លំដាប់ពណ៌</translation>
+        <translation type="vanished">ພື້ນທີ່ສີ</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="vanished">ລోវියා ཟියුគ្រោះ</translation>
+        <translation type="vanished">ໂໝດການວັດແສງ</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation type="vanished">ខៀរ མានភាពសញ្ញាពណ៌</translation>
+        <translation type="vanished">ຄວາມສົມດຸນສີຂາວ</translation>
     </message>
     <message>
         <source>Device model</source>
-        <translation type="vanished">ອື໅ື໅ མຸນୀນ ཏຳງ</translation>
+        <translation type="vanished">ລຸ້ນອຸປະກອນ</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation type="vanished">ເປັນໂປິດ མຸນୀນ</translation>
+        <translation type="vanished">ລຸ້ນເລນ</translation>
     </message>
 </context>
 <context>
@@ -1181,40 +1199,40 @@
     <message>
         <location filename="../qml/MainAlbumView.qml" line="245"/>
         <source>Importing...</source>
-        <translation>ISO</translation>
+        <translation>ກຳລັງນຳເຂົ້າ...</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="246"/>
         <location filename="../qml/MainAlbumView.qml" line="252"/>
         <source>Imported:</source>
-        <translation>ISO</translation>
+        <translation>ນຳເຂົ້າແລ້ວ:</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="253"/>
         <location filename="../qml/MainAlbumView.qml" line="290"/>
         <source>%1/%2</source>
-        <translation>ISO</translation>
+        <translation>%1/%2</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="263"/>
         <source>Import successful</source>
-        <translation>ISO</translation>
+        <translation>ນຳເຂົ້າສຳເລັດ</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="270"/>
         <location filename="../qml/MainAlbumView.qml" line="276"/>
         <source>Import failed</source>
-        <translation>អន្តញ្ញាណបញ្ចូនបរិច្ចាណចំនុចបានล้มเหลว</translation>
+        <translation>ນຳເຂົ້າລົ້ມເຫຼວ</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="281"/>
         <source>Deleted:</source>
-        <translation>លើកិច្ចសន្ទID</translation>
+        <translation>ລຶບອອກແລ້ວ</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="283"/>
         <source>Deleting...</source>
-        <translation>កំពុងលើកិច្ចសន្ទID</translation>
+        <translation>ກຳລັງລຶບ...</translation>
     </message>
 </context>
 <context>
@@ -1222,7 +1240,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/MainStack.qml" line="125"/>
         <source>Select pictures</source>
-        <translation>ជ្រួតរូបភាព</translation>
+        <translation>ເລືອກຮູບພາບ</translation>
     </message>
 </context>
 <context>
@@ -1230,12 +1248,12 @@
     <message>
         <location filename="../qml/MenuItemStates.qml" line="120"/>
         <source>Export successful</source>
-        <translation>ចំណាយចេញបានជោតល្អៗ</translation>
+        <translation>ສຳເລັດການສົ່ງອອກ</translation>
     </message>
     <message>
         <location filename="../qml/MenuItemStates.qml" line="122"/>
         <source>Export failed</source>
-        <translation>ចំណាយចេញបានលាយលង្កា</translation>
+        <translation>ສົ່ງອອກລົ້ມເຫຼວ</translation>
     </message>
 </context>
 <context>
@@ -1251,27 +1269,27 @@
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="25"/>
         <source>Unnamed</source>
-        <translation>មិនមានឈ្មោះ</translation>
+        <translation>ບໍ່ມີຊື່</translation>
     </message>
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="56"/>
         <source>New Album</source>
-        <translation>បញ្ចាក់ថ្មី</translation>
+        <translation>ອັລບັ້ມໃຫມ່</translation>
     </message>
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="72"/>
         <source>Name:</source>
-        <translation>ឈ្មោះ:</translation>
+        <translation>ຊື່:</translation>
     </message>
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="103"/>
         <source>Cancel</source>
-        <translation>បញ្ចាក់ចេញ</translation>
+        <translation>ຍົກເລີກ</translation>
     </message>
     <message>
         <location filename="../qml/Control/NewAlbumDialog.qml" line="120"/>
         <source>Confirm</source>
-        <translation>បញ្ចាក់ទៅ</translation>
+        <translation>ຢືນຢັນ</translation>
     </message>
 </context>
 <context>
@@ -1279,7 +1297,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NoPermissionImageDelegate.qml" line="22"/>
         <source>You have no permission to view the image</source>
-        <translation>អ្នកគ្រប់គ្រាន់មិនមានសិទ្ធិមើលរូបភាព</translation>
+        <translation>ທ່ານບໍ່ມີສິດເບິ່ງຮູບພາບ</translation>
     </message>
 </context>
 <context>
@@ -1287,17 +1305,17 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="60"/>
         <source>Import Photos and Videos</source>
-        <translation>អន្តញ្ញាណរូបភាពនិងវិдеូ</translation>
+        <translation>ນຳເຂົ້າຮູບພາບ ແລະ ວິດີໂອ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>No photos or videos found</source>
-        <translation>មិនរកឃើញរូបភាពឬវិдеូទេ</translation>
+        <translation>ບໍ່ພົບຮູບພາບ ຫຼື ວິດີໂອ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
         <source>Or drag them here</source>
-        <translation>ូរតៅទីនេះ</translation>
+        <translation>ຫຼື ລາກພວກມັນມາທີ່ນີ້</translation>
     </message>
 </context>
 <context>
@@ -1305,7 +1323,7 @@
     <message>
         <location filename="../src/widgets/widgtes/noresultwidget.cpp" line="39"/>
         <source>No results</source>
-        <translation>លទ្ធភាពមិនមាន</translation>
+        <translation>ບໍ່ມີຜົນລັບ</translation>
     </message>
 </context>
 <context>
@@ -1313,7 +1331,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ImageDelegate/NonexistImageDelegate.qml" line="42"/>
         <source>Image file not found</source>
-        <translation>ឯកសាររូបភាពមិនพบ</translation>
+        <translation>ຮູບພາບບໍ່ພົບ</translation>
     </message>
 </context>
 <context>
@@ -1321,7 +1339,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation>បុករូបភាព</translation>
+        <translation>ເປີດຮູບພາບ</translation>
     </message>
 </context>
 <context>
@@ -1329,7 +1347,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="1098"/>
         <source>System Disk</source>
-        <translation>រាល់កាន់ទូរទឹក</translation>
+        <translation>ດິສກ໌ລະບົບ</translation>
     </message>
 </context>
 <context>
@@ -1338,7 +1356,7 @@
         <location filename="../qml/PreviewImageViewer/PropertyActionItemDelegate.qml" line="67"/>
         <location filename="../qml/PreviewImageViewer/InformationDialog/PropertyActionItemDelegate.qml" line="95"/>
         <source>The file already exists, please use another name</source>
-        <translation>ឯកសារនេះទាន់មានរួចទុកឈ្មោះថ្មើង</translation>
+        <translation>ໄຟລ໌ນີ້ມີຢູ່ແລ້ວ, ກະລຸນາໃຊ້ຊື່ອື່ນ</translation>
     </message>
 </context>
 <context>
@@ -1372,45 +1390,45 @@
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="397"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="404"/>
         <source>All</source>
-        <translation>ទាំងអស់</translation>
+        <translation>ທັງໝົດ</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="376"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="412"/>
         <source>Photos</source>
-        <translation>រូបថត</translation>
+        <translation>ຮູບພາບ</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="383"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="419"/>
         <source>Videos</source>
-        <translation>វិdeo</translation>
+        <translation>ວິດີໂອ</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="1355"/>
         <source>Trash</source>
-        <translation>គ្រូងស្លាប់</translation>
+        <translation>ຂີ້ເຫຍື້ອ</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="65"/>
         <source>Album</source>
-        <translation>អាល់ប៊ូម</translation>
+        <translation>ອັລບັ້ມ</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="68"/>
         <source>Main</source>
         <comment>Album is a fashion manager for viewing and organizing photos and videos.</comment>
-        <translation>ລోເອົ້າ</translation>
+        <translation>ຫຼັກ</translation>
     </message>
     <message>
         <location filename="../src/unionimage/unionimage_global.h" line="269"/>
         <source>day</source>
-        <translation>ມືໜຶ</translation>
+        <translation>ວັນ</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="322"/>
         <source>Imported on</source>
-        <translation>ນີ້ມື འຮືག རູກ</translation>
+        <translation>ນຳເຂົ້າວັນທີ່</translation>
     </message>
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="322"/>
@@ -1420,7 +1438,7 @@
     <message>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="325"/>
         <source>Imported on </source>
-        <translation>ນີ້ມື འຮືག རູກ </translation>
+        <translation>ນຳເຂົ້າວັນທີ່ </translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="236"/>
@@ -1432,14 +1450,14 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2121"/>
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="440"/>
         <source>Select</source>
-        <translation>ເລັ໡</translation>
+        <translation>ເລືອກ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="1360"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2115"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="2121"/>
         <source>Unselect</source>
-        <translation>ບໍ່ເລັ໡</translation>
+        <translation>ຍົກເລີກການເລືອກ</translation>
     </message>
 </context>
 <context>
@@ -1447,22 +1465,22 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="66"/>
         <source>Input a new name</source>
-        <translation>ປ້ອນຊື່ໃຫ້ມາ</translation>
+        <translation>ປ້ອນຊື່ໃຫມາ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="81"/>
         <source>The file already exists, please use another name</source>
-        <translation>ອີງກ່ຽວນີ້ມື མີ່ໄດ້ມົນແລ້ວ, གྷະຫຼອງຊື່ອີ່ງໜຶ</translation>
+        <translation>ໄຟລ໌ນີ້ມີຢູ່ແລ້ວ, ກະລຸນາໃຊ້ຊື່ອື່ນ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="137"/>
         <source>Cancel</source>
-        <translation>ຍົກເລື່ອງ</translation>
+        <translation>ຍົກເລີກ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ReName.qml" line="119"/>
         <source>Confirm</source>
-        <translation>ຢັງກັບ</translation>
+        <translation>ຢືນຢັນ</translation>
     </message>
 </context>
 <context>
@@ -1470,27 +1488,27 @@
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="52"/>
         <source>1 photo</source>
-        <translation>1 འຮືག</translation>
+        <translation>1 ຮູບພາບ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="54"/>
         <source>%1 photos</source>
-        <translation>%1 འຮືག</translation>
+        <translation>%1 ຮູບພາບ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="62"/>
         <source>1 video</source>
-        <translation>1 རູກ</translation>
+        <translation>1 ວິດີໂອ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="64"/>
         <source>%1 videos</source>
-        <translation>%1 རູກ</translation>
+        <translation>%1 ວິດີໂອ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="123"/>
         <source>Trash</source>
-        <translation>င་ဝ་</translation>
+        <translation>ຖັງຂີ້ເຫຍື້ອ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml" line="144"/>
@@ -1514,23 +1532,23 @@
     </message>
     <message>
         <source>%1 videos found</source>
-        <translation type="vanished">%1 видео найдено</translation>
+        <translation type="vanished">%1 ວິດີໂອທີ່ພົບ</translation>
     </message>
     <message>
         <source>%1 items found</source>
-        <translation type="vanished">%1 элементов найдено</translation>
+        <translation type="vanished">%1 ລາຍການທີ່ພົບ</translation>
     </message>
     <message>
         <source>Search results</source>
-        <translation type="vanished">Результати пошуку</translation>
+        <translation type="vanished">ຜົນການຄົ້ນຫາ</translation>
     </message>
     <message>
         <source>Slide Show</source>
-        <translation type="vanished">Слайд-шоу</translation>
+        <translation type="vanished">ສະແດງຮູບພາບຕໍ່ເນື່ອງ</translation>
     </message>
     <message>
         <source>No search results</source>
-        <translation type="vanished">Нічого не знайдено</translation>
+        <translation type="vanished">ບໍ່ພົບຜົນການຄົ້ນຫາ</translation>
     </message>
 </context>
 <context>
@@ -1599,7 +1617,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="64"/>
         <source>%1 items found</source>
-        <translation>ພົບ %1 ລາຍການ</translation>
+        <translation>%1 ລາຍການ</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/SearchView.qml" line="99"/>
@@ -1620,95 +1638,103 @@
 <context>
     <name>Sidebar</name>
     <message>
+        <source>Album &quot;%1&quot; removed</source>
+        <translation type="vanished">ອະລະບໍ່ «%1» ຖືກລຶບອອກແລ້ວ</translation>
+    </message>
+    <message>
+        <source>Album &quot; %1 &quot; removed</source>
+        <translation type="vanished">ອະລະບໍ່ &quot; %1 &quot; ຖືກລຶບອອກແລ້ວ</translation>
+    </message>
+    <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="127"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="151"/>
         <source>Album “%1” removed</source>
-        <translation>Альбом «%1» видалений</translation>
+        <translation>ອະລະບໍ່ “%1” ຖືກລຶບອອກແລ້ວ</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="205"/>
         <source>Gallery</source>
-        <translation>Галерея</translation>
+        <translation>ຮູບພາບ</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="208"/>
         <source>Collection</source>
-        <translation>Колекція</translation>
+        <translation>ຄອລເລການ</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="209"/>
         <source>Import</source>
-        <translation>Імпорт</translation>
+        <translation>ນຳເຂົ້າ</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="210"/>
         <source>Favorites</source>
-        <translation>Улюблені</translation>
+        <translation>ສະຫງວນທີ່ຊອບ</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="211"/>
         <source>Trash</source>
-        <translation>Кошик</translation>
+        <translation>ຖັງຂີ້ເຫຍື້ອ</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="234"/>
         <source>Device</source>
-        <translation>Устройство</translation>
+        <translation>ອຸປະກອນ</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="292"/>
         <source>Albums</source>
-        <translation>Альбоми</translation>
+        <translation>ອັລບັ້ມ</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="313"/>
         <source>Add an album</source>
-        <translation>Додати альбом</translation>
+        <translation>ເພີ່ມອັລບັ້ມ</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="340"/>
         <source>Screen Capture</source>
-        <translation>បញ្ចាក់ផ្ទាំង</translation>
+        <translation>ບັນທຶກຫນ້າຈອດ</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="344"/>
         <source>Camera</source>
-        <translation> камерой</translation>
+        <translation>ການຖອດຣູບ</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="348"/>
         <source>Draw</source>
-        <translation>วาด</translation>
+        <translation>ວາດ</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="455"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="480"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="534"/>
         <source>Slide show</source>
-        <translation>ภาพลื่น</translation>
+        <translation>ສະແດງຮູບພາບຕໍ່ເນື່ອງ</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="466"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="492"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="567"/>
         <source>Export</source>
-        <translation>ส่งออก</translation>
+        <translation>ສ່ງອອກ</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="500"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="576"/>
         <source>Delete</source>
-        <translation>ลบ</translation>
+        <translation>ລຶບ</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="543"/>
         <source>New album</source>
-        <translation>อัลบั้มใหม่</translation>
+        <translation>ອະລະບໍ່ໃຫມ່</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="555"/>
         <source>Rename</source>
-        <translation>เปลี่ยนชื่อ</translation>
+        <translation>ປ່ອຍຊື່</translation>
     </message>
 </context>
 <context>
@@ -1716,30 +1742,30 @@
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="164"/>
         <source>Previous</source>
-        <translation>ก่อนหน้า</translation>
+        <translation>ກ່ອນຫນ້າ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
         <source>Pause</source>
-        <translation>หยุด</translation>
+        <translation>ຫຢຸດ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="181"/>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="232"/>
         <source>Play</source>
-        <translation>เล่น</translation>
+        <translation>ເລີ່ມ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="197"/>
         <source>Next</source>
-        <translation>ถัดไป</translation>
+        <translation>ຖັດໄປ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="212"/>
         <location filename="../qml/PreviewImageViewer/SliderShow.qml" line="253"/>
         <source>Exit</source>
-        <translation>ออก</translation>
+        <translation>ອອກ</translation>
     </message>
 </context>
 <context>
@@ -1747,12 +1773,12 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="441"/>
         <source>days</source>
-        <translation>ថ្ងៃ</translation>
+        <translation>ວັນ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListDelegate.qml" line="441"/>
         <source>day</source>
-        <translation>ថ្ងៃ</translation>
+        <translation>ວັນ</translation>
     </message>
 </context>
 <context>
@@ -1768,37 +1794,37 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="948"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="965"/>
         <source>Delete</source>
-        <translation>លើងយក</translation>
+        <translation>ລຶບ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="171"/>
         <source>Back to Album</source>
-        <translation>ត្រូវក្បាលចេញពីសន្លឹករូបភាព</translation>
+        <translation>ກັບຄືນອະລະບໍ່</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="203"/>
         <source>Previous</source>
-        <translation>មុន</translation>
+        <translation>ກ່ອນຫນ້າ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="228"/>
         <source>Next</source>
-        <translation>បន្ទាប់</translation>
+        <translation>ຖັດໄປ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="264"/>
         <source>Original size</source>
-        <translation>ទៅលើទៀត</translation>
+        <translation>ຂະຫຍາຍຂອບ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="283"/>
         <source>Fit to window</source>
-        <translation>ច្រើនបំផុតសម្រាប់រប៉ាត់មត្រ</translation>
+        <translation>ຂະຫຍາຍຂອບ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="301"/>
         <source>Rotate</source>
-        <translation>ប្រែបប្រុង</translation>
+        <translation>ບັນທຶກ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
@@ -1809,7 +1835,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="838"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="969"/>
         <source>Favorite</source>
-        <translation>ស្វែងយកជាទូទៅ</translation>
+        <translation>ສະຫງວນທີ່ຊອບ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="335"/>
@@ -1820,17 +1846,17 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="839"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="970"/>
         <source>Unfavorite</source>
-        <translation>បំបាកស្វែងយកជាទូទៅ</translation>
+        <translation>ລຶບສະຫງວນທີ່ຊອບ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ThumbnailListView.qml" line="591"/>
         <source>Extract text</source>
-        <translation>ចោលអក្សរាចេញ</translation>
+        <translation>ດຶງຂໍ້ຄວາມ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaildelegate.cpp" line="207"/>
         <source>days</source>
-        <translation>ថ្ងៃ</translation>
+        <translation>ວັນ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="723"/>
@@ -1843,7 +1869,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="950"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="979"/>
         <source>Photo info</source>
-        <translation>ពិន្ឌៅថ្មូង</translation>
+        <translation>ຂໍ້ມູນຣູບ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="724"/>
@@ -1856,7 +1882,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="951"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="980"/>
         <source>Video info</source>
-        <translation>វីដេអូព័ត៌មាន</translation>
+        <translation>ຂໍ້ມູນວິດີໂອ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="746"/>
@@ -1864,7 +1890,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="931"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="957"/>
         <source>View</source>
-        <translation>មើល</translation>
+        <translation>ເບິ່ງ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="747"/>
@@ -1873,7 +1899,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="877"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="958"/>
         <source>Fullscreen</source>
-        <translation>ពេញ화ុយស្រាប់</translation>
+        <translation>ເຕັມຫນ້າ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="748"/>
@@ -1882,7 +1908,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="897"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="960"/>
         <source>Slide show</source>
-        <translation>ស្តាកស្តាញ</translation>
+        <translation>ສະແດງສະໄລ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="749"/>
@@ -1892,20 +1918,20 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="889"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="962"/>
         <source>Export</source>
-        <translation>ចាក់ចេញ</translation>
+        <translation>ສ່ງອອກ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="759"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="963"/>
         <source>Copy</source>
-        <translation>ចិត្បារបស់</translation>
+        <translation>ຄັດລອກ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="767"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="844"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="966"/>
         <source>Remove from album</source>
-        <translation>ចែកចេញពីបញ្ចាំងរូបភាព</translation>
+        <translation>ລຶບອອກຈากອັລບັ້ມ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="769"/>
@@ -1913,7 +1939,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="887"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="959"/>
         <source>Print</source>
-        <translation>រុញ</translation>
+        <translation>ພິມ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="779"/>
@@ -1923,7 +1949,7 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="906"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="973"/>
         <source>Rotate clockwise</source>
-        <translation>បង្វើលិចជំរុង</translation>
+        <translation>ບັນທຶກ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="780"/>
@@ -1933,14 +1959,14 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="907"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="974"/>
         <source>Rotate counterclockwise</source>
-        <translation>បង្វើលិចប្រឆាំង</translation>
+        <translation>ບັນທຶກ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="781"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="881"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="978"/>
         <source>Display in file manager</source>
-        <translation>បង្ហាញនៅក្នុងឧបកម្មគ្រប់គ្រងឯកសារ</translation>
+        <translation>ດູດວັນທີ່ລວມທັງຫມື່ນຄ້າງຄືນສະຫນາມວັນທີ່ລວມທັງຫມື່ນຄ້າງຄືນສະຫນາມ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="784"/>
@@ -1952,22 +1978,22 @@
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="919"/>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="977"/>
         <source>Set as wallpaper</source>
-        <translation>កំណត់ជាបំពូលរូបភាព</translation>
+        <translation>ຕັງຄ້າງຄືນສະຫນາມ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="949"/>
         <source>Restore</source>
-        <translation>ចំណុចសន្ធិសញ្ញា</translation>
+        <translation>ກູ້ຄືນ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="986"/>
         <source>Add to album</source>
-        <translation>បញ្ចូរទៅក្នុងបញ្ចាំងរូបភាព</translation>
+        <translation>ເພີ່ມເຂົ້າໃນອັລບັ້ມ</translation>
     </message>
     <message>
         <location filename="../src/widgets/thumbnail/thumbnaillistview.cpp" line="990"/>
         <source>New album</source>
-        <translation>បញ្ចាំងរូបភាពថ្មី</translation>
+        <translation>ອັລບັ້ມໃຫມ່</translation>
     </message>
 </context>
 <context>
@@ -1975,102 +2001,106 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="796"/>
         <source>View</source>
-        <translation>មើល</translation>
+        <translation>ເບິ່ງ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="805"/>
         <source>Fullscreen</source>
-        <translation>ផ្ទឹកសីតុណ្ហភាពពេញទៅ</translation>
+        <translation>ເຕັມຫນ້າ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="822"/>
         <source>Print</source>
-        <translation>រុញ</translation>
+        <translation>ພິມ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="841"/>
         <source>Slide show</source>
-        <translation>សន្ធិសញ្ញាប្រភេទសន្ធិសញ្ញាបែបភាព</translation>
+        <translation>ສະແດງສະໄລ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="867"/>
         <source>Add to album</source>
-        <translation>ເလរបស់ថ្មតុបញ្ចុចរបស់អ្នក</translation>
+        <translation>ເພີ່ມເຂົ້າໃນອັລບັ້ມ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="870"/>
         <source>New album</source>
-        <translation>បញ្ចប់ថ្មី</translation>
+        <translation>ອັລບັ້ມໃຫມ່</translation>
+    </message>
+    <message>
+        <source>Successfully added to &quot;%1&quot;</source>
+        <translation type="vanished">ເພີ່ມສຳເລັດໃສ່ &quot; %1 &quot;</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="902"/>
         <source>Successfully added to “%1”</source>
-        <translation>ដោយសេចkaruកបានបញ្ចូលទៅក្នុង «%1»</translation>
+        <translation>ເພີ່ມເຂົ້າສຳເລັດໃນ “%1”</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="911"/>
         <source>Export</source>
-        <translation>ចែកចាយ</translation>
+        <translation>ສ່ງອອກ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="930"/>
         <source>Copy</source>
-        <translation>ច្រើនត្រឹមត្រូវ</translation>
+        <translation>ຄັດລອກ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="939"/>
         <source>Delete</source>
-        <translation>លើយល់</translation>
+        <translation>ລຶບ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="949"/>
         <source>Remove from album</source>
-        <translation>ដកចេញពីសំបុតម្ហាយ</translation>
+        <translation>ລຶບອອກຈากອັລບັ້ມ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="964"/>
         <source>Favorite</source>
-        <translation>ស្វែងយល់</translation>
+        <translation>ສະຫງວນທີ່ຊອບ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="974"/>
         <source>Unfavorite</source>
-        <translation>បញ្ចុំស្វែងយល់</translation>
+        <translation>ລຶບສະຫງວນທີ່ຊອບ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="988"/>
         <source>Rotate clockwise</source>
-        <translation>បង្វើប្រតិបត្តិការប្រើប្រាស់លេខ 0x00000000</translation>
+        <translation>ບັນທຶກ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="997"/>
         <source>Rotate counterclockwise</source>
-        <translation>បញ្ចក់ផ្កាប់មិនទៅសុទ្ធតេ</translation>
+        <translation>ບັນທຶກ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1006"/>
         <source>Set as wallpaper</source>
-        <translation>ជាអයිក្រេង</translation>
+        <translation>ຕັງຄ້າງຄືນສະຫນາມ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1025"/>
         <source>Display in file manager</source>
-        <translation>ໄລබ්រeri ក្នុង file manager</translation>
+        <translation>ໄລຍະດູດວັນທີ່ລວມທັງຫມື່ນຄ້າງຄືນສະຫນາມ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1044"/>
         <source>Restore</source>
-        <translation>ស្វែងយកត្រឡប់មកវិញ</translation>
+        <translation>ກູ້ຄືນ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1053"/>
         <source>Photo info</source>
-        <translation>រូបភាពព័ត៌មាន</translation>
+        <translation>ຂໍ້ມູນບັນທຶກຣູບພາບ</translation>
     </message>
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1072"/>
         <source>Video info</source>
-        <translation>ຂ้อมูลវីដេអូ</translation>
+        <translation>ຂໍ້ມູນວິດີໂອ</translation>
     </message>
 </context>
 <context>
@@ -2078,34 +2108,34 @@
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="304"/>
         <source>1 photo</source>
-        <translation>1 រូប</translation>
+        <translation>1 ບັນທຶກຣູບພາບ</translation>
     </message>
     <message>
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="306"/>
         <source>1 video</source>
-        <translation>1 វីដេអូ</translation>
+        <translation>1 ວິດີໂອ</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
-        <translation type="unfinished">
-            <numerusform>%n រូប</numerusform>
+        <translation>
+            <numerusform>%n ບັນທຶກຣູບພາບ</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
-        <translation type="unfinished">
-            <numerusform>%n វីដេអូ</numerusform>
+        <translation>
+            <numerusform>%n ວິດີໂອ</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
-        <translation type="unfinished">
-            <numerusform>%n ធាតុ</numerusform>
+        <translation>
+            <numerusform>%n ສິນຄ້າ</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -2115,52 +2145,52 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="121"/>
         <source>Back to Album</source>
-        <translation>ត្រូវការត្រូវត្រលប់ទៅរូបបណ្ណាល់</translation>
+        <translation>ກັບໄປອັລບັ້ມ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="162"/>
         <source>Previous</source>
-        <translation>មុន</translation>
+        <translation>ກ່ອນໜ້າ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="189"/>
         <source>Next</source>
-        <translation>បន្ត</translation>
+        <translation>ຖັດໄປ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="210"/>
         <source>Original size</source>
-        <translation>ទៅលើទៀត</translation>
+        <translation>ຂະໜາດເດີມ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="231"/>
         <source>Fit to window</source>
-        <translation>ស្តីបទៅខ្លឹម 창</translation>
+        <translation>ປັບໃຫ້ເໝາະກັບໜ້າຕ່າງ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="257"/>
         <source>Rotate</source>
-        <translation>បញ្ជაលេង</translation>
+        <translation>ບັນທຶກ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="290"/>
         <source>Favorite</source>
-        <translation>ស្វែងយកជាទស្ីត្រើង</translation>
+        <translation>ທີ່ມັກ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="290"/>
         <source>Unfavorite</source>
-        <translation>ដកចេញពីទស្ីត្រើង</translation>
+        <translation>ເອົາອອກຈາກທີ່ມັກ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="431"/>
         <source>Extract text</source>
-        <translation>ដកអត្ថបទ</translation>
+        <translation>ດຶງເອົາຂໍ້ຄວາມ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ToolBarThumbnailListView.qml" line="458"/>
         <source>Delete</source>
-        <translation>លិចឆ្នាំង</translation>
+        <translation>ລຶບ</translation>
     </message>
 </context>
 <context>
@@ -2168,53 +2198,53 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="73"/>
         <source>Basic info</source>
-        <translation>ព័ត៍មានមូលដ្ឋាន</translation>
+        <translation>ຂໍ້ມູນພື້ນຖານ</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="78"/>
         <source>File name</source>
-        <translation>ឈ្មោះឯកសារ</translation>
+        <translation>ຊື່ໄຟລ໌</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="88"/>
         <source>Date captured</source>
-        <translation>ថ្លេកបានបញ្ចប់</translation>
+        <translation>ວັນທີ່ຖ່າຍ</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="95"/>
         <source>Size</source>
-        <translation>ទំហំ</translation>
+        <translation>ຂະໜາດ</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="100"/>
         <source>Duration</source>
-        <translation>រយៈពេល</translation>
+        <translation>ໄລຍະເວລາ</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="105"/>
         <source>Type</source>
-        <translation>ប្រភេទ</translation>
+        <translation>ປະເພດ</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="115"/>
         <source>Path</source>
-        <translation>ដំណាក់ផ្នែក</translation>
+        <translation>ເສັ້ນທາງ</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="122"/>
         <source>Codec info</source>
-        <translation>ព័ត៍មានកម្រិត</translation>
+        <translation>ຂໍ້ມູນການເຂົ້າລະຫັດ</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="130"/>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="170"/>
         <source>Video CodecID</source>
-        <translation>IDកម្រិតវិдеអីវី</translation>
+        <translation>ລະຫັດ Codec ວິດີໂອ</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="136"/>
         <source>Video CodeRate</source>
-        <translation>តិចកម្រិតវិдеអីវី</translation>
+        <translation>ອັດຕາລະຫັດວິດີໂອ</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="142"/>
@@ -2224,37 +2254,37 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="153"/>
         <source>Proportion</source>
-        <translation>ផ្នែកនោះ</translation>
+        <translation>ອັດຕາສ່ວນ</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="160"/>
         <source>Resolution</source>
-        <translation>ភាពប្រភេទ</translation>
+        <translation>ຄວາມລະອຽດ</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="178"/>
         <source>Audio CodecID</source>
-        <translation>សញ្ញាណ codec ID</translation>
+        <translation>ID ລະຫັດສຽງ</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="184"/>
         <source>Audio CodeRate</source>
-        <translation>ລోក ཀාධිබී གොභරු</translation>
+        <translation>ອັດຕາລະຫັດສຽງ</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="190"/>
         <source>Audio digit</source>
-        <translation>លេខ ཐອນ ཐອນ</translation>
+        <translation>ຈຳນວນບິດສຽງ</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="201"/>
         <source>Channels</source>
-        <translation> དිගා དྷුන්</translation>
+        <translation>ຊ່ອງ</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="208"/>
         <source>Sampling</source>
-        <translation> ཀාධි ཀාධි</translation>
+        <translation>ການຕົວຢ່າງ</translation>
     </message>
 </context>
 <context>
@@ -2262,67 +2292,67 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="40"/>
         <source>Fullscreen</source>
-        <translation> སྤྱོད་ཡོད་པ་</translation>
+        <translation>ເຕັມຈໍ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="40"/>
         <source>Exit fullscreen</source>
-        <translation> སྤྱོད ལོག ཐུབ ང་</translation>
+        <translation>ອອກຈາກເຕັມຈໍ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="60"/>
         <source>Print</source>
-        <translation> དཔྱད་པ་</translation>
+        <translation>ພິມ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="81"/>
         <source>Extract text</source>
-        <translation> ང་ཚོས བྱས་པའི དཔྱད་པ་</translation>
+        <translation>ດຶງເອົາຂໍ້ຄວາມ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="103"/>
         <source>Slide show</source>
-        <translation> དཔྱད་པ་</translation>
+        <translation>ການສະແດງສະໄລ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="128"/>
         <source>Export</source>
-        <translation> དཔྱད་པ་</translation>
+        <translation>ສ່ງອອກ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="144"/>
         <source>Copy</source>
-        <translation> ཐུབ་པ་</translation>
+        <translation>ສຳເນົາ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="168"/>
         <source>Rename</source>
-        <translation> དཔྱད་པ་</translation>
+        <translation>ຕັ້ງຊື່</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="189"/>
         <source>Delete</source>
-        <translation> དཔྱད་པ་</translation>
+        <translation>ລຶບ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="218"/>
         <source>Favorite</source>
-        <translation> དཔྱད་པ་</translation>
+        <translation>ສະຫງວນທີ່ຊອບ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="228"/>
         <source>Unfavorite</source>
-        <translation> དཔྱད་པ་</translation>
+        <translation>ລຶບສະຫງວນທີ່ຊອບ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="245"/>
         <source>Rotate clockwise</source>
-        <translation>ຊూນු ൄීිරේකීරිය කිරීම</translation>
+        <translation>ບັນທຶກ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="267"/>
         <source>Rotate counterclockwise</source>
-        <translation>ຊັກຍານາດຊັກຍານາດ</translation>
+        <translation>ບັນທຶກ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="297"/>
@@ -2375,12 +2405,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="189"/>
         <source>Album</source>
-        <translation>אלבום</translation>
+        <translation>ອັລບັ້ມ</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="193"/>
         <source>%1 is released under %2.</source>
-        <translation>%1 លើ %2 បានចេញផ្សំ</translation>
+        <translation>%1 ປ່ອຍຕົວຕັງຄ້າງຄືນສະຫນາມ %2</translation>
     </message>
 </context>
 <context>
@@ -2393,12 +2423,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="139"/>
         <source>%1 items</source>
-        <translation>&apos;%1 དཔྱད་པའི་ལོ་རྒྱུས།</translation>
+        <translation>&apos;%1 ສິນຄ້າ&apos;</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="139"/>
         <source>1 item</source>
-        <translation>1 รายการ</translation>
+        <translation>1 ສິນຄ້າ</translation>
     </message>
 </context>
 <context>
@@ -2406,7 +2436,7 @@
     <message>
         <location filename="../qml/main.qml" line="130"/>
         <source>All photos and videos</source>
-        <translation>ทั้งหมด รูปภาพ และวิดีโอ</translation>
+        <translation>ຮູບພາບ ແລະ ວິດີໂອທັງໝົດ</translation>
     </message>
 </context>
 </TS>
