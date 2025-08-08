@@ -1,3 +1,9 @@
+deepin-album (6.0.38) unstable; urgency=medium
+
+  * Update version to 6.0.38. 
+
+ -- Tian ShiLin <tianshilin@uniontech.com>  Thu, 07 Aug 2025 19:44:28 +0800
+
 deepin-album (6.0.37) unstable; urgency=medium
 
   * feat: Image format extension support
