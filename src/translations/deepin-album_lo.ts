@@ -228,10 +228,6 @@
         <translation>ອັລບັ້ມແມ່ນເຄື່ອງມືຈັດການທີ່ທັນສະໄໝ ສໍາລັບເບິ່ງ ແລະ ຈັດລຽງຮູບພາບ ແລະ ວິດີໂອ.</translation>
     </message>
     <message>
-        <source>%1 is released under %2</source>
-        <translation type="vanished">%1 ໄດ້ຖືກປ່ອຍຕົວຕິດຕັ້ງຕອບສະຫຼະວັນທີທີ່ສະແດງຢູ່ໃນ %2</translation>
-    </message>
-    <message>
         <location filename="../qml/AlbumTitle.qml" line="177"/>
         <source>Show side pane</source>
         <translation>ສະແດງພາຍໃນດ້ານຂ້າງ</translation>
@@ -261,13 +257,13 @@
         <location filename="../qml/AlbumTitle.qml" line="274"/>
         <location filename="../qml/AlbumTitle.qml" line="341"/>
         <source>M</source>
-        <translation>ເດືອນ</translation>
+        <translation>ດ</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="285"/>
         <location filename="../qml/AlbumTitle.qml" line="342"/>
         <source>D</source>
-        <translation>ວັນ</translation>
+        <translation>ປ</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="296"/>
@@ -401,10 +397,6 @@
 </context>
 <context>
     <name>DayCollection</name>
-    <message>
-        <source>Successfully added to &quot;%1&quot;</source>
-        <translation type="vanished">ເພີ່ມສຳເລັດເຂົ້າໃນ &quot;%1&quot;</translation>
-    </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/DayCollection.qml" line="116"/>
         <source>Successfully added to “%1”</source>
@@ -871,14 +863,6 @@
         <source>%1 items selected (%2 photos, %3 videos)</source>
         <translation>ເລືອກ %1 ລາຍການ (%2 ຮູບພາບ, %3 ວິດີໂອ)</translation>
     </message>
-    <message>
-        <source>Photos</source>
-        <translation type="vanished">ຮູບພາບ</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation type="vanished">ວິດີໂອ</translation>
-    </message>
 </context>
 <context>
     <name>GlobalVar</name>
@@ -896,10 +880,6 @@
 </context>
 <context>
     <name>HaveImportedView</name>
-    <message>
-        <source>Successfully added to &quot;%1&quot;</source>
-        <translation type="vanished">ເພີ່ມສຳເລັດໃສ່ &quot;%1&quot;</translation>
-    </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml" line="98"/>
         <source>Successfully added to “%1”</source>
@@ -949,7 +929,7 @@
         <source>%n photos</source>
         <translation>
             <numerusform>%n ຮູບພາບ</numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n ຮູບພາບ</numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -957,7 +937,7 @@
         <source>%n videos</source>
         <translation>
             <numerusform>%n ວິດີໂອ</numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n ວິດີໂອ</numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -965,7 +945,7 @@
         <source>%n items</source>
         <translation>
             <numerusform>%n ລາຍການ</numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n ລາຍການ</numerusform>
         </translation>
     </message>
 </context>
@@ -988,97 +968,6 @@
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>%1 items</source>
         <translation>%1 ລາຍການ</translation>
-    </message>
-</context>
-<context>
-    <name>InfomationDialog</name>
-    <message>
-        <source>Basic info</source>
-        <translation type="vanished">ຂໍ້ມູນພື້ນຖານ</translation>
-    </message>
-    <message>
-        <source>File name</source>
-        <translation type="vanished">ຊື່ໄຟລ໌</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation type="vanished">ຂະໜາດ</translation>
-    </message>
-    <message>
-        <source>Dimensions</source>
-        <translation type="vanished">ຂະໜາດ</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation type="vanished">ປະເພດ</translation>
-    </message>
-    <message>
-        <source>Date captured</source>
-        <translation type="vanished">ວັນທີ່ຖ່າຍ</translation>
-    </message>
-    <message>
-        <source>Date modified</source>
-        <translation type="vanished">ວັນທີ່ແກ້ໄຂ</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="vanished">ລາຍລະອຽດ</translation>
-    </message>
-    <message>
-        <source>Aperture</source>
-        <translation type="vanished">ຊ່ອງແສງ</translation>
-    </message>
-    <message>
-        <source>Exposure program</source>
-        <translation type="vanished">ໂປຣແກຣມການເປີດຮັບແສງ</translation>
-    </message>
-    <message>
-        <source>Focal length</source>
-        <translation type="vanished">ຄວາມຍາວຈຸດໂຟກັດ</translation>
-    </message>
-    <message>
-        <source>ISO</source>
-        <translation type="vanished">ISO</translation>
-    </message>
-    <message>
-        <source>Exposure mode</source>
-        <translation type="vanished">ໂໝດການເປີດຮັບແສງ</translation>
-    </message>
-    <message>
-        <source>Exposure time</source>
-        <translation type="vanished">ເວລາເປີດຮັບແສງ</translation>
-    </message>
-    <message>
-        <source>Flash</source>
-        <translation type="vanished">ແຟລດ</translation>
-    </message>
-    <message>
-        <source>Flash compensation</source>
-        <translation type="vanished">ການຊົດເຊີຍແຟລດ</translation>
-    </message>
-    <message>
-        <source>Max aperture</source>
-        <translation type="vanished">ຊ່ອງແສງສູງສຸດ</translation>
-    </message>
-    <message>
-        <source>Colorspace</source>
-        <translation type="vanished">ພື້ນທີ່ສີ</translation>
-    </message>
-    <message>
-        <source>Metering mode</source>
-        <translation type="vanished">ໂໝດການວັດແສງ</translation>
-    </message>
-    <message>
-        <source>White balance</source>
-        <translation type="vanished">ຄວາມສົມດຸນສີຂາວ</translation>
-    </message>
-    <message>
-        <source>Device model</source>
-        <translation type="vanished">ລຸ້ນອຸປະກອນ</translation>
-    </message>
-    <message>
-        <source>Lens model</source>
-        <translation type="vanished">ລຸ້ນເລນ</translation>
     </message>
 </context>
 <context>
@@ -1530,26 +1419,6 @@
         <source>Restore Selected (%1)</source>
         <translation>ກູ້ຄືນລາຍການທີ່ເລືອກ (%1)</translation>
     </message>
-    <message>
-        <source>%1 videos found</source>
-        <translation type="vanished">%1 ວິດີໂອທີ່ພົບ</translation>
-    </message>
-    <message>
-        <source>%1 items found</source>
-        <translation type="vanished">%1 ລາຍການທີ່ພົບ</translation>
-    </message>
-    <message>
-        <source>Search results</source>
-        <translation type="vanished">ຜົນການຄົ້ນຫາ</translation>
-    </message>
-    <message>
-        <source>Slide Show</source>
-        <translation type="vanished">ສະແດງຮູບພາບຕໍ່ເນື່ອງ</translation>
-    </message>
-    <message>
-        <source>No search results</source>
-        <translation type="vanished">ບໍ່ພົບຜົນການຄົ້ນຫາ</translation>
-    </message>
 </context>
 <context>
     <name>RemoveAlbumDialog</name>
@@ -1637,14 +1506,6 @@
 </context>
 <context>
     <name>Sidebar</name>
-    <message>
-        <source>Album &quot;%1&quot; removed</source>
-        <translation type="vanished">ອະລະບໍ່ «%1» ຖືກລຶບອອກແລ້ວ</translation>
-    </message>
-    <message>
-        <source>Album &quot; %1 &quot; removed</source>
-        <translation type="vanished">ອະລະບໍ່ &quot; %1 &quot; ຖືກລຶບອອກແລ້ວ</translation>
-    </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="127"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="151"/>
@@ -2029,10 +1890,6 @@
         <translation>ອັລບັ້ມໃຫມ່</translation>
     </message>
     <message>
-        <source>Successfully added to &quot;%1&quot;</source>
-        <translation type="vanished">ເພີ່ມສຳເລັດໃສ່ &quot; %1 &quot;</translation>
-    </message>
-    <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="902"/>
         <source>Successfully added to “%1”</source>
         <translation>ເພີ່ມເຂົ້າສຳເລັດໃນ “%1”</translation>
@@ -2120,7 +1977,7 @@
         <source>%n photos</source>
         <translation>
             <numerusform>%n ບັນທຶກຣູບພາບ</numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n ບັນທຶກຣູບພາບ</numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -2128,7 +1985,7 @@
         <source>%n videos</source>
         <translation>
             <numerusform>%n ວິດີໂອ</numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n ວິດີໂອ</numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -2136,7 +1993,7 @@
         <source>%n items</source>
         <translation>
             <numerusform>%n ສິນຄ້າ</numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n ສິນຄ້າ</numerusform>
         </translation>
     </message>
 </context>
