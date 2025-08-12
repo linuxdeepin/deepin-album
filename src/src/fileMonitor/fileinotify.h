@@ -41,11 +41,18 @@ public slots:
 private:
     //检查是否新建了子文件夹
     void checkNewPath();
+    //检查待创建的目录是否已经创建
+    void checkPendingDirectories(const QString &changedPath);
+    //添加父级目录监听
+    void addParentWatcher(const QString &parentPath, const QString &targetChild);
 
     bool m_running = false;
     QStringList m_newFile;      //当前新添加的
     QStringList m_deleteFile;   //当前删除的
     QStringList m_currentDirs;  //给定的当前监控路径
+    QStringList m_pendingDirs;  //等待创建的目标目录
+    QStringList m_parentDirs;   //当前监听的父级目录
+    QMap<QString, QStringList> m_parentToChildren; //父级目录到子目录的映射
     QString m_currentAlbum;     //给定当前的相册
     int m_currentUID;           //给定当前的相册的UID
     QStringList  m_Supported;   //支持的格式
