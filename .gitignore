@@ -109,3 +109,5 @@ build
 # vs code
 .vscode
 .cursor
+.cursorindexingignore
+.specstory
