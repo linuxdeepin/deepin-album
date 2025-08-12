@@ -18,25 +18,9 @@ FileInotifyGroup::FileInotifyGroup(QObject *parent) : QObject(parent)
 void FileInotifyGroup::startWatch(const QStringList &paths, const QString &album, int UID)
 {
     qDebug() << "Starting watch for album:" << album << "UID:" << UID << "with paths:" << paths;
-    
-    //去除不存在的路径
-    QStringList watchPaths;
-    for (const auto &path : paths) {
-        QFileInfo info(path);
-        if (info.exists() && info.isDir()) {
-            watchPaths.push_back(path);
-        } else {
-            qWarning() << "Path does not exist or is not a directory, skipping:" << path;
-        }
-    }
-    if (watchPaths.isEmpty()) {
-        qWarning() << "No valid paths to watch for album:" << album << "UID:" << UID;
-        return;
-    }
-
     //启动监控
     auto watcher = new FileInotify;
-    watcher->addWather(watchPaths, album, UID);
+    watcher->addWather(paths, album, UID);
 
     //原cpp为signal发送的全局信号,现在改为传递的方法,发送回albumControl
     connect(watcher, &FileInotify::sigMonitorChanged, this, &FileInotifyGroup::sigMonitorChanged);
