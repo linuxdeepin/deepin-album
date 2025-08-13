@@ -73,8 +73,10 @@ void ImportTimeLineView::updateDateNumLabel()
 void ImportTimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
 {
     qDebug() << "Theme changed to:" << (themeType == DGuiApplicationHelper::LightType ? "Light" : "Dark");
-    DPalette pa1 = DPaletteHelper::instance()->palette(m_timeLineViewWidget);
-    pa1.setBrush(DPalette::Base, pa1.color(DPalette::Window));
+    DPalette pa1 = DPaletteHelper::instance()->palette(this);
+    auto bakColor = pa1.color(DPalette::Window);
+    bakColor.setAlpha(0.95 * 255);
+    pa1.setBrush(DPalette::Window, bakColor);
     m_timeLineViewWidget->setPalette(pa1);
 
     m_importTitleItem->setForegroundRole(DPalette::Window);
@@ -256,12 +258,6 @@ void ImportTimeLineView::initTimeLineViewWidget()
     titleViewLayout->addLayout(hDateNumLayout);
     titleViewLayout->addStretch(100);
 
-    DPalette ppal_light = DPaletteHelper::instance()->palette(m_importTitleItem);
-    ppal_light.setBrush(DPalette::Window, ppal_light.color(DPalette::Base));
-    QGraphicsOpacityEffect *opacityEffect_light = new QGraphicsOpacityEffect;
-    opacityEffect_light->setOpacity(0.95);
-    m_importTitleItem->setPalette(ppal_light);
-    m_importTitleItem->setGraphicsEffect(opacityEffect_light);
     m_importTitleItem->setAutoFillBackground(true);
     m_importTitleItem->setContentsMargins(0, 0, 0, 0);
     m_importTitleItem->setGeometry(0, 0, this->width() - 15, SUSPENSION_WIDGET_HEIGHT);

@@ -64,8 +64,10 @@ void TimeLineView::initConnections()
 
 void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
 {
-    DPalette pa1 = DPaletteHelper::instance()->palette(m_timeLineViewWidget);
-    pa1.setBrush(DPalette::Base, pa1.color(DPalette::Window));
+    DPalette pa1 = DPaletteHelper::instance()->palette(this);
+    auto bakColor = pa1.color(DPalette::Window);
+    bakColor.setAlpha(0.95 * 255);
+    pa1.setBrush(DPalette::Window, bakColor);
     m_timeLineViewWidget->setPalette(pa1);
 
     m_dateNumItemWidget->setForegroundRole(DPalette::Window);
@@ -184,12 +186,6 @@ void TimeLineView::initTimeLineViewWidget()
     titleViewLayout->addLayout(hNumLayout);
     titleViewLayout->addStretch(100);
 
-    DPalette ppal_light = DPaletteHelper::instance()->palette(m_dateNumItemWidget);
-    ppal_light.setBrush(DPalette::Window, ppal_light.color(DPalette::Base));
-    QGraphicsOpacityEffect *opacityEffect_light = new QGraphicsOpacityEffect;
-    opacityEffect_light->setOpacity(0.95);
-    m_dateNumItemWidget->setPalette(ppal_light);
-    m_dateNumItemWidget->setGraphicsEffect(opacityEffect_light);
     m_dateNumItemWidget->setAutoFillBackground(true);
     m_dateNumItemWidget->setContentsMargins(0, 0, 0, 0);
     m_dateNumItemWidget->setGeometry(0, 0, this->width() - 15, SUSPENSION_WIDGET_HEIGHT);
