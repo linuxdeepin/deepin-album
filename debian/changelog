@@ -1,3 +1,9 @@
+deepin-album (6.0.42) unstable; urgency=medium
+
+  * fix bugs
+
+ -- Liu Zhangjian <liuzhangjian@uniontech.com>  Wed, 13 Aug 2025 11:39:40 +0800
+
 deepin-album (6.0.41) unstable; urgency=medium
 
   * chore: Update .gitignore and clean up Lao translations
