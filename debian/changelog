@@ -1,3 +1,9 @@
+deepin-album (6.0.43) unstable; urgency=medium
+
+  * fix: Add Lao translations to deepin-album.desktop
+
+ -- dengzhongyuan <dengzhongyuan@uniontech.com>  Wed, 13 Aug 2025 13:36:45 +0800
+
 deepin-album (6.0.42) unstable; urgency=medium
 
   * fix bugs
