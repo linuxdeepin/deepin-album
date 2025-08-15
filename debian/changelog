@@ -1,3 +1,9 @@
+deepin-album (6.0.44) unstable; urgency=medium
+
+  * fix: Fixed CMYK image display issue Fixed CMYK image display issue
+
+ -- Liu Zhangjian <liuzhangjian@uniontech.com>  Fri, 15 Aug 2025 10:04:43 +0800
+
 deepin-album (6.0.43) unstable; urgency=medium
 
   * fix: Add Lao translations to deepin-album.desktop
