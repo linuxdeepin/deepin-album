@@ -361,7 +361,8 @@ void LeftListView::showMenu(const QPoint &pos)
         m_pCustomizeListView->setCurrentIndex(m_pCustomizeListView->indexAt(pos));
         emit m_pCustomizeListView->pressed(m_pCustomizeListView->indexAt(pos));
     }
-    m_pMenu->setVisible(true);
+    // popup之前不应该setVisible，不然在wayland设备上位置会出错
+    //m_pMenu->setVisible(true);
     foreach (QAction *action, m_MenuActionMap.values()) {
         action->setVisible(true);
         action->setEnabled(true);
@@ -398,6 +399,7 @@ void LeftListView::showMenu(const QPoint &pos)
 
     //菜单里面可能没有内容，强行显示出来会造成BUG
     if (needShowMenu) {
+        qDebug() << "Menu popup at cursor pos:" << QCursor::pos();
         m_pMenu->popup(QCursor::pos());
     } else {
         m_pMenu->setVisible(false);
