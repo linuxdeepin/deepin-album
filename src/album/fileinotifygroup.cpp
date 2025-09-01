@@ -17,21 +17,9 @@ FileInotifyGroup::FileInotifyGroup(QObject *parent) : QObject(parent)
 
 void FileInotifyGroup::startWatch(const QStringList &paths, const QString &album, int UID)
 {
-    //去除不存在的路径
-    QStringList watchPaths;
-    for (const auto &path : paths) {
-        QFileInfo info(path);
-        if (info.exists() && info.isDir()) {
-            watchPaths.push_back(path);
-        }
-    }
-    if (watchPaths.isEmpty()) {
-        return;
-    }
-
     //启动监控
     auto watcher = new FileInotify;
-    watcher->addWather(watchPaths, album, UID);
+    watcher->addWatcher(paths, album, UID);
 
     //设置销毁链接
     connect(watcher, &FileInotify::pathDestroyed, dApp->signalM, &SignalManager::sigMonitorDestroyed);
