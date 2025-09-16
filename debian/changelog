@@ -1,3 +1,9 @@
+deepin-album (6.0.45) unstable; urgency=medium
+
+  * fix: Update layout and icon size in AlbumTitle.qml
+
+ -- Liu Zhangjian <liuzhangjian@uniontech.com>  Tue, 16 Sep 2025 14:54:07 +0800
+
 deepin-album (6.0.44) unstable; urgency=medium
 
   * fix: Fixed CMYK image display issue Fixed CMYK image display issue
