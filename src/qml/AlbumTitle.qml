@@ -162,16 +162,16 @@ TitleBar {
         id: showHideleftSidebarButton
         anchors {
             top: parent.top
-            topMargin: 7
+            topMargin: 10
             left: appTitleIcon.right
-            leftMargin: 0
+            leftMargin: 10
         }
-        width : iconSize
-        height : iconSize
+        width : 30
+        height : 30
         icon {
             name: "topleft"
-            width: iconSize
-            height: iconSize
+            width: 16
+            height: 16
         }
         ToolTip.visible: hovered
         ToolTip.text: GStatus.sideBarX !== 0 ? qsTr("Show side pane") : qsTr("Hide side pane")
