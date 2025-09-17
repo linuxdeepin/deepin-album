@@ -1,3 +1,9 @@
+deepin-album (6.0.46) unstable; urgency=medium
+
+  * chore: Update linglong base and runtime
+
+ -- wangrong <wangrong@uniontech.com>  Wed, 17 Sep 2025 13:03:40 +0800
+
 deepin-album (6.0.45) unstable; urgency=medium
 
   * fix: Update layout and icon size in AlbumTitle.qml
