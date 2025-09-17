@@ -30,6 +30,7 @@
 #include <DApplication>
 #include <DDciIcon>
 //#include <timelinedatewidget.h>
+#include <QDebug>
 
 DWIDGET_USE_NAMESPACE
 
@@ -50,36 +51,45 @@ ThumbnailDelegate::ThumbnailDelegate(DelegateType type, QObject *parent)
     , m_imageTypeStr(IMAGE_DEFAULTTYPE)
     , m_delegatetype(type)
 {
+    // qDebug() << "ThumbnailDelegate::ThumbnailDelegate - Constructor entry, type:" << static_cast<int>(type);
 }
 
 void ThumbnailDelegate::setItemSize(QSize size)
 {
+    // qDebug() << "ThumbnailDelegate::setItemSize - Function entry, size:" << size;
     m_size = size;
 }
 
 void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    // qDebug() << "ThumbnailDelegate::paint - Function entry";
     if (!bneedpaint) {
+        // qDebug() << "not need paint, returning";
         return;
     }
     const DBImgInfo data = itemData(index);
     switch (data.itemType) {
     case ItemType::ItemTypeBlank: {
+        // qDebug() << "blank item, returning";
         //空白项，什么都不绘制
         break;
     }
     case ItemType::ItemTypeTimeLineTitle: {
+        // qDebug() << "time line title item, returning";
         break;
     }
     case ItemType::ItemTypeImportTimeLineTitle: {
+        // qDebug() << "import time line title item, returning";
         break;
     }
     case ItemType::ItemTypePic:
     case ItemType::ItemTypeVideo: {
+        // qDebug() << "draw img and video";
         drawImgAndVideo(painter, option, index);
         break;
     }
     default:
+        // qDebug() << "draw img and video";
         drawImgAndVideo(painter, option, index);
         break;
     }
@@ -88,6 +98,7 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 
 void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    // qDebug() << "ThumbnailDelegate::drawImgAndVideo - Function entry";
     painter->save();
     const DBImgInfo data = itemData(index);
     bool selected = false;
@@ -293,46 +304,57 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     }
 
     painter->restore();
+    // qDebug() << "ThumbnailDelegate::drawImgAndVideo - Function exit";
 }
 
 void ThumbnailDelegate::onThemeTypeChanged(int themeType)
 {
+    // qDebug() << "ThumbnailDelegate::onThemeTypeChanged - Function entry, themeType:" << themeType;
     Q_UNUSED(themeType)
     m_damagePixmap = Libutils::image::getDamagePixmap(DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType);
 
     if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType) {
+        // qDebug() << "light theme";
         m_default = Libutils::base::renderSVG(":/icons/deepin/builtin/icons/light/picture_default_light.svg", QSize(60, 45));
         m_videoDefault = Libutils::base::renderSVG(":/icons/deepin/builtin/icons/light/video_default_light.svg", QSize(60, 45));
     } else {
+        // qDebug() << "dark theme";
         m_default = Libutils::base::renderSVG(":/icons/deepin/builtin/icons/dark/picture_default_dark.svg", QSize(60, 45));
         m_videoDefault = Libutils::base::renderSVG(":/icons/deepin/builtin/icons/dark/video_default_dark.svg", QSize(60, 45));
     }
+    // qDebug() << "ThumbnailDelegate::onThemeTypeChanged - Function exit";
 }
 
 QSize ThumbnailDelegate::sizeHint(const QStyleOptionViewItem &option,
                                   const QModelIndex &index) const
 {
+    // qDebug() << "ThumbnailDelegate::sizeHint - Function entry, option:" << option << "index:" << index;
     Q_UNUSED(option)
     DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
     if (data.itemType == ItemType::ItemTypeBlank
             || data.itemType == ItemType::ItemTypeTimeLineTitle
             || data.itemType == ItemType::ItemTypeImportTimeLineTitle) {
         QSize size(data.imgWidth, data.imgHeight);
+        // qDebug() << "ThumbnailDelegate::sizeHint - Function exit, returning size:" << size;
         return size;
     } else {
+        // qDebug() << "ThumbnailDelegate::sizeHint - Function exit, returning m_size:" << m_size;
         return m_size;
     }
 }
 
 DBImgInfo ThumbnailDelegate::itemData(const QModelIndex &index) const
 {
+    // qDebug() << "ThumbnailDelegate::itemData - Function entry, index:" << index;
     DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
     data.isSelected = index.data(Qt::UserRole).toBool();
+    // qDebug() << "ThumbnailDelegate::itemData - Function exit, returning data for path:" << data.filePath;
     return data;
 }
 
 QRect ThumbnailDelegate::updatePaintedRect(const QRectF &boundingRect, const QImage& image) const
 {
+    // qDebug() << "ThumbnailDelegate::updatePaintedRect - Function entry, boundingRect:" << boundingRect << "image size:" << image.size();
     QRectF destRect;
 
     QSizeF scaled = image.size();
@@ -342,14 +364,18 @@ QRect ThumbnailDelegate::updatePaintedRect(const QRectF &boundingRect, const QIm
     destRect = QRectF(QPoint(0, 0), scaled);
     destRect.moveCenter(boundingRect.center().toPoint());
 
+    // qDebug() << "ThumbnailDelegate::updatePaintedRect - Function exit, returning:" << destRect.toRect();
     return destRect.toRect();
 }
 
 bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
+    // qDebug() << "ThumbnailDelegate::editorEvent - Function entry, event type:" << event->type() << "index:" << index;
     Q_UNUSED(model);
-    if (!index.isValid())
+    if (!index.isValid()) {
+        // qDebug() << "invalid index, returning false";
         return false;
+    }
     //跟随收藏按钮变化位置
     QMouseEvent *pMouseEvent = static_cast<QMouseEvent *>(event);
     {
@@ -378,5 +404,6 @@ bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
             }
         }
     }
+    // qDebug() << "ThumbnailDelegate::editorEvent - Function exit, returning false";
     return false;
 }

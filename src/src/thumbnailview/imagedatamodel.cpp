@@ -39,6 +39,7 @@ QHash<int, QByteArray> ImageDataModel::roleNames() const
 
 QVariant ImageDataModel::data(const QModelIndex &index, int role) const
 {
+    // qDebug() << "ImageDataModel::data - Entry";
     if (!index.isValid()) {
         qWarning() << "Invalid index requested:" << index.row() << "role:" << role;
         return {};
@@ -48,14 +49,17 @@ QVariant ImageDataModel::data(const QModelIndex &index, int role) const
 
     switch (role) {
     case Qt::DisplayRole: {
+        // qDebug() << "role is Qt::DisplayRole";
         return QVariant::fromValue(info);
     }
 
     case Roles::FileNameRole: {
+        // qDebug() << "role is Roles::FileNameRole";
         return QUrl::fromLocalFile(info.filePath).fileName();
     }
 
     case Roles::UrlRole: {
+        // qDebug() << "role is Roles::UrlRole";
         QString filePath = "";
         if (Types::RecentlyDeleted == m_modelType) {
             filePath = AlbumControl::instance()->getDeleteFullPath(LibUnionImage_NameSpace::hashByString(info.filePath), DBImgInfo::getFileNameFromFilePath(info.filePath));
@@ -67,18 +71,22 @@ QVariant ImageDataModel::data(const QModelIndex &index, int role) const
     }
 
     case Roles::FilePathRole: {
+        // qDebug() << "role is Roles::FilePathRole";
         return info.filePath;
     }
 
     case Roles::PathHashRole: {
+        // qDebug() << "role is Roles::PathHashRole";
         return info.pathHash;
     }
 
     case Roles::RemainDaysRole: {
+        // qDebug() << "role is Roles::RemainDaysRole";
         return info.remainDays;
     }
 
     case Roles::ItemTypeRole: {
+        // qDebug() << "role is Roles::ItemTypeRole";
         if (info.itemType == ItemTypePic) {
             return "picture";
         } else if (info.itemType == ItemTypeVideo) {
@@ -89,11 +97,12 @@ QVariant ImageDataModel::data(const QModelIndex &index, int role) const
     }
 
     case Roles::ItemTypeFlagRole: {
+        // qDebug() << "role is Roles::ItemTypeFlagRole";
         return info.itemType;
     }
     }
 
-    qWarning() << "Unknown role requested:" << role;
+    // qWarning() << "Unknown role requested:" << role;
     return {};
 }
 

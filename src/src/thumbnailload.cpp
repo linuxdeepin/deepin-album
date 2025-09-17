@@ -21,6 +21,7 @@ ThumbnailLoad::ThumbnailLoad()
 
 QImage ThumbnailLoad::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
+    qDebug() << "ThumbnailLoad::requestImage - Function entry, id:" << id;
     QString tempPath = LibUnionImage_NameSpace::localPath(id);
     QImage Img;
     QString error;
@@ -35,6 +36,7 @@ QImage ThumbnailLoad::requestImage(const QString &id, QSize *size, const QSize &
         // 保存图片比例缩放
         QImage reImg = Img.scaled(100, 100, Qt::KeepAspectRatio);
         m_imgMap[tempPath] = reImg;
+        qDebug() << "ThumbnailLoad::requestImage - Function exit, returning new image";
         return reImg;
     } else {
         qDebug() << "Using cached image:" << tempPath;
@@ -44,6 +46,7 @@ QImage ThumbnailLoad::requestImage(const QString &id, QSize *size, const QSize &
 
 QPixmap ThumbnailLoad::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
+    qDebug() << "ThumbnailLoad::requestPixmap - Function entry, id:" << id;
     QString tempPath = LibUnionImage_NameSpace::localPath(id);
     QImage Img;
     QString error;
@@ -54,11 +57,13 @@ QPixmap ThumbnailLoad::requestPixmap(const QString &id, QSize *size, const QSize
     if (!error.isEmpty()) {
         qWarning() << "Failed to load pixmap:" << tempPath << "Error:" << error;
     }
+    qDebug() << "ThumbnailLoad::requestPixmap - Function exit";
     return QPixmap::fromImage(Img);
 }
 
 bool ThumbnailLoad::imageIsNull(const QString &path)
 {
+    qDebug() << "Checking if image is null:" << path;
     QString tempPath = LibUnionImage_NameSpace::localPath(path);
 
     QMutexLocker _locker(&m_mutex);
@@ -107,12 +112,15 @@ double LoadImage::getFitWindowScale(const QString &path, double WindowWidth, dou
 
 bool LoadImage::imageIsNull(const QString &path)
 {
+    qDebug() << "Checking if image is null:" << path;
     return m_pThumbnail->imageIsNull(path);
 }
 
 int LoadImage::getImageWidth(const QString &path)
 {
+    qDebug() << "Getting image width for:" << path;
     if (Invalid != m_FrameIndex) {
+        qDebug() << "Getting image width for frame:" << m_FrameIndex;
         return m_multiLoad->getImageWidth(path, m_FrameIndex);
     }
 
@@ -122,7 +130,9 @@ int LoadImage::getImageWidth(const QString &path)
 
 int LoadImage::getImageHeight(const QString &path)
 {
+    qDebug() << "Getting image height for:" << path;
     if (Invalid != m_FrameIndex) {
+        qDebug() << "Getting image height for frame:" << m_FrameIndex;
         return m_multiLoad->getImageHeight(path, m_FrameIndex);
     }
 
@@ -132,7 +142,9 @@ int LoadImage::getImageHeight(const QString &path)
 
 double LoadImage::getrealWidthHeightRatio(const QString &path)
 {
+    qDebug() << "Getting real width height ratio for:" << path;
     if (Invalid != m_FrameIndex) {
+        qDebug() << "Getting real width height ratio for frame:" << m_FrameIndex;
         double width = double(m_multiLoad->getImageWidth(path, m_FrameIndex));
         double height = double(m_multiLoad->getImageHeight(path, m_FrameIndex));
         return width / height;
@@ -147,6 +159,7 @@ double LoadImage::getrealWidthHeightRatio(const QString &path)
 
 void LoadImage::setMultiFrameIndex(int index)
 {
+    qDebug() << "Setting multi frame index:" << index;
     m_FrameIndex = index;
 
 }
@@ -156,6 +169,7 @@ void LoadImage::setMultiFrameIndex(int index)
  */
 void LoadImage::setReverseHeightWidth(bool b)
 {
+    qDebug() << "Setting reverse height width:" << b;
     m_bReverseHeightWidth = b;
 }
 
@@ -175,6 +189,7 @@ void LoadImage::loadThumbnail(const QString path)
 
 void LoadImage::catThumbnail(const QStringList &list)
 {
+    qDebug() << "Caching thumbnails for:" << list;
     if (list.size() < 1) {
         qDebug() << "Empty thumbnail list provided";
         return;
@@ -216,6 +231,7 @@ void LoadImage::catThumbnail(const QStringList &list)
             }
         }
     }
+    qDebug() << "Caching thumbnails for:" << list;
 }
 
 /**
@@ -231,11 +247,13 @@ void LoadImage::onImageFileChanged(const QString &path, bool isMultiImage, bool 
 {
     qDebug() << "Image file changed:" << path << "isMultiImage:" << isMultiImage << "isExist:" << isExist;
     if (isMultiImage) {
+        qDebug() << "Removing image cache for multi-image:" << path;
         m_multiLoad->removeImageCache(path);
     }
 
     // 判断变更后文件是否存在，若存在，重新加载缩略图(防止文件被替换), 重新获取图像大小信息
     if (isExist) {
+        qDebug() << "Removing image cache for:" << path;
         m_pThumbnail->removeImageCache(path);
         QSize size, requestSize;
         m_pThumbnail->requestImage(path, &size, requestSize);
@@ -244,12 +262,14 @@ void LoadImage::onImageFileChanged(const QString &path, bool isMultiImage, bool 
         m_viewLoad->reloadImageCache(path);
     } else {
         // 文件移除，移除图片信息
+        qDebug() << "Removing image cache for:" << path;
         m_viewLoad->removeImageCache(path);
     }
 }
 
 void LoadImage::loadThumbnails(const QStringList list)
 {
+    qDebug() << "Loading thumbnails for:" << list;
     QImage Img;
     QString error;
     for (QString path : list) {
@@ -266,6 +286,7 @@ ViewLoad::ViewLoad()
 
 QImage ViewLoad::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
+    qDebug() << "Requesting image:" << id << "Requested size:" << requestedSize;
     QString tempPath = LibUnionImage_NameSpace::localPath(id);
     QImage Img;
     QString error;
@@ -291,11 +312,13 @@ QImage ViewLoad::requestImage(const QString &id, QSize *size, const QSize &reque
         Img = m_Img.scaled(requestedSize);
     }
 
+    qDebug() << "Requesting image:" << tempPath << "Requested size:" << requestedSize << "Returning image";
     return Img;
 }
 
 QPixmap ViewLoad::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
+    qDebug() << "Requesting pixmap:" << id << "Requested size:" << requestedSize;
     QString tempPath = LibUnionImage_NameSpace::localPath(id);
     QImage Img;
     QString error;
@@ -308,11 +331,13 @@ QPixmap ViewLoad::requestPixmap(const QString &id, QSize *size, const QSize &req
     m_imgSizes[tempPath] = Img.size();
     m_Img = Img;
     m_currentPath = tempPath;
+    qDebug() << "Requesting pixmap:" << tempPath << "Requested size:" << requestedSize << "Returning pixmap";
     return QPixmap::fromImage(Img);
 }
 
 int ViewLoad::getImageWidth(const QString &path)
 {
+    qDebug() << "Getting image width for:" << path;
     QString tempPath = LibUnionImage_NameSpace::localPath(path);
 
     QMutexLocker _locker(&m_mutex);
@@ -321,6 +346,7 @@ int ViewLoad::getImageWidth(const QString &path)
 
 int ViewLoad::getImageHeight(const QString &path)
 {
+    qDebug() << "Getting image height for:" << path;
     QString tempPath = LibUnionImage_NameSpace::localPath(path);
 
     QMutexLocker _locker(&m_mutex);
@@ -329,6 +355,7 @@ int ViewLoad::getImageHeight(const QString &path)
 
 double ViewLoad::getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight, bool bReverse)
 {
+    qDebug() << "Getting fit window scale for:" << path << "Window width:" << WindowWidth << "Window height:" << WindowHeight << "Reverse:" << bReverse;
     double scale = 0.0;
     double width = getImageWidth(path);
     double height = getImageHeight(path);
@@ -341,6 +368,7 @@ double ViewLoad::getFitWindowScale(const QString &path, double WindowWidth, doub
         scale = scaleHeight;
     }
 
+    qDebug() << "Getting fit window scale:" << scale;
     return scale;
 }
 
@@ -360,6 +388,7 @@ void ViewLoad::removeImageCache(const QString &path)
         qDebug() << "Clearing current path";
         m_currentPath.clear();
     }
+    qDebug() << "Removing image from cache:" << tempPath;
 }
 
 /**
@@ -381,6 +410,7 @@ void ViewLoad::reloadImageCache(const QString &path)
     if (tempPath == m_currentPath) {
         m_Img = Img;
     }
+    qDebug() << "Reloading image cache:" << tempPath;
 }
 
 
@@ -406,6 +436,7 @@ MultiImageLoad::MultiImageLoad()
  */
 QImage MultiImageLoad::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
+    qDebug() << "Requesting multi-image:" << id << "Requested size:" << requestedSize;
     Q_UNUSED(size)
     // 拆分id，获取当前读取的文件和图片索引
     static const QString s_tagFrame = "#frame_";
@@ -469,6 +500,7 @@ QImage MultiImageLoad::requestImage(const QString &id, QSize *size, const QSize 
         qDebug() << "Scaling image to:" << requestedSize;
         img = img.scaled(requestedSize);
     }
+    qDebug() << "Requesting multi-image:" << tempPath << "Frame:" << frame << "Use thumbnail:" << useThumbnail << "Returning image";
     return img;
 }
 
@@ -477,6 +509,7 @@ QImage MultiImageLoad::requestImage(const QString &id, QSize *size, const QSize 
  */
 QPixmap MultiImageLoad::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
+    // qDebug() << "Requesting multi-image pixmap:" << id << "Requested size:" << requestedSize;
     return QPixmap::fromImage(requestImage(id, size, requestedSize));
 }
 
@@ -485,6 +518,7 @@ QPixmap MultiImageLoad::requestPixmap(const QString &id, QSize *size, const QSiz
  */
 int MultiImageLoad::getImageWidth(const QString &path, int frameIndex)
 {
+    qDebug() << "Getting image width for:" << path << "Frame index:" << frameIndex;
     QString tempPath = LibUnionImage_NameSpace::localPath(path);
     auto key = qMakePair(tempPath, frameIndex);
 
@@ -493,6 +527,7 @@ int MultiImageLoad::getImageWidth(const QString &path, int frameIndex)
     if (cache) {
         return cache->originSize.width();
     }
+    qDebug() << "Getting image Returning 0";
     return 0;
 }
 
@@ -501,6 +536,7 @@ int MultiImageLoad::getImageWidth(const QString &path, int frameIndex)
  */
 int MultiImageLoad::getImageHeight(const QString &path, int frameIndex)
 {
+    qDebug() << "Getting image height for:" << path << "Frame index:" << frameIndex;
     QString tempPath = LibUnionImage_NameSpace::localPath(path);
     auto key = qMakePair(tempPath, frameIndex);
 
@@ -509,6 +545,7 @@ int MultiImageLoad::getImageHeight(const QString &path, int frameIndex)
     if (cache) {
         return cache->originSize.height();
     }
+    qDebug() << "Getting image Returning 0";
     return 0;
 }
 
@@ -523,6 +560,7 @@ int MultiImageLoad::getImageHeight(const QString &path, int frameIndex)
  */
 double MultiImageLoad::getFitWindowScale(const QString &path, double WindowWidth, double WindowHeight, int frameIndex)
 {
+    qDebug() << "Getting fit window scale for:" << path << "Window width:" << WindowWidth << "Window height:" << WindowHeight << "Frame index:" << frameIndex;
     double scale = 0.0;
     double width = getImageWidth(path, frameIndex);
     double height = getImageHeight(path, frameIndex);
@@ -535,6 +573,7 @@ double MultiImageLoad::getFitWindowScale(const QString &path, double WindowWidth
         scale = scaleHeight;
     }
 
+    qDebug() << "Getting fit window scale:" << scale;
     return scale;
 }
 
@@ -545,6 +584,7 @@ double MultiImageLoad::getFitWindowScale(const QString &path, double WindowWidth
  */
 void MultiImageLoad::removeImageCache(const QString &path)
 {
+    qDebug() << "Removing multi-image cache:" << path;
     QString tempPath = LibUnionImage_NameSpace::localPath(path);
     qDebug() << "Removing multi-image cache:" << tempPath;
     QMutexLocker _locker(&m_mutex);
@@ -564,6 +604,7 @@ void MultiImageLoad::removeImageCache(const QString &path)
 
 MultiImageLoad::CacheImage::CacheImage(const QImage &img)
 {
+    qDebug() << "Initializing CacheImage";
     // 缩略图大小
     static const QSize s_ThumbnailSize(100, 100);
     imgThumbnail = img.scaled(s_ThumbnailSize);
@@ -573,6 +614,7 @@ MultiImageLoad::CacheImage::CacheImage(const QImage &img)
 ImagePublisher::ImagePublisher(QObject *parent)
     : QQuickImageProvider(Image)
 {
+    qDebug() << "Initializing ImagePublisher";
     //初始化的时候读取上次退出时的状态
     m_loadMode = LibConfigSetter::instance()->value(SETTINGS_GROUP, SETTINGS_DISPLAY_MODE, 0).toInt();
 }
@@ -600,12 +642,14 @@ void ImagePublisher::switchLoadMode()
 
 int ImagePublisher::getLoadMode()
 {
+    qDebug() << "Getting load mode:" << m_loadMode;
     return m_loadMode;
 }
 
 //将图片裁剪为方图，逻辑与原来一样
 QImage ImagePublisher::clipToRect(const QImage &src)
 {
+    qDebug() << "Clipping image to rect";
     auto tImg = src;
 
     if (!tImg.isNull() && 0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
@@ -629,6 +673,7 @@ QImage ImagePublisher::clipToRect(const QImage &src)
     }
 
     if (!tImg.isNull()) {
+        qDebug() << "Clipping image is not null";
         int width = tImg.width();
         int height = tImg.height();
         if (abs((width - height) * 10 / width) >= 1) {
@@ -647,12 +692,14 @@ QImage ImagePublisher::clipToRect(const QImage &src)
         }
     }
 
+    qDebug() << "Clipping image to rect returning image";
     return tImg;
 }
 
 //将图片按比例缩小
 QImage ImagePublisher::addPadAndScaled(const QImage &src)
 {
+    qDebug() << "Adding pad and scaled image";
     auto result = src.convertToFormat(QImage::Format_RGBA8888);
 
     if (result.height() > result.width()) {
@@ -661,6 +708,7 @@ QImage ImagePublisher::addPadAndScaled(const QImage &src)
         result = result.scaledToWidth(THUMBNAIL_MAX_SIZE, Qt::SmoothTransformation);
     }
 
+    qDebug() << "Adding pad and scaled image returning image";
     return result;
 }
 
@@ -668,6 +716,7 @@ QImage ImagePublisher::addPadAndScaled(const QImage &src)
 //警告：这个函数将会被多线程执行，需要确保它是可重入的
 QImage ImagePublisher::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
+    qDebug() << "Requesting image:" << id << "Requested size:" << requestedSize;
     //id的前几个字符是强制刷新用的，需要排除出去
     auto startIndex = id.indexOf('_') + 1;
     QUrl url(id.mid(startIndex));
@@ -770,6 +819,7 @@ QImage CollectionPublisher::createYearImage(const QString &year)
 
 QImage CollectionPublisher::createMonthCellImage(const QString &path, const CollectionPublisher::ImageSize &sizeType)
 {
+    qDebug() << "Creating month cell image for:" << path << "Size type:" << sizeType;
     // 计算图片尺寸
     QSize requestSize(outputWidth, outputHeight);
     if (ImageSize_Full == sizeType)
@@ -797,12 +847,14 @@ QImage CollectionPublisher::createMonthCellImage(const QString &path, const Coll
     // 2.根据比例裁剪
     image = clipHelper(image, requestSize.width(), requestSize.height());
 
+    qDebug() << "Creating month cell image returning image";
     return image;
 }
 
 //KeepAspectRatioByExpanding，但是保留中间，Qt是裁的右侧或下侧
 QImage CollectionPublisher::clipHelper(const QImage &image, int width, int height)
 {
+    qDebug() << "Clipping image to:" << width << "Height:" << height;
     QImage temp;
     double x = 0;
     double y = 0;
@@ -838,11 +890,13 @@ QImage CollectionPublisher::clipHelper(const QImage &image, int width, int heigh
     QRect rect(static_cast<int>(x), static_cast<int>(y), width, height);
     QImage result(width, height, QImage::Format_RGB888);
     result = temp.copy(rect);
+    qDebug() << "Clipping image returning image";
     return result;
 }
 
 void AsyncImageResponseAlbum::run()
 {
+    qDebug() << "Processing async image:" << m_id;
     //id的前几个字符是强制刷新用的，需要排除出去
     auto startIndex = m_id.indexOf('_') + 1;
     QUrl url(m_id.mid(startIndex));
@@ -880,6 +934,7 @@ void AsyncImageResponseAlbum::run()
 //将图片裁剪为方图，逻辑与原来一样
 QImage AsyncImageResponseAlbum::clipToRect(const QImage &src)
 {
+    qDebug() << "Clipping image to rect";
     auto tImg = src;
 
     if (!tImg.isNull() && 0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
@@ -921,12 +976,14 @@ QImage AsyncImageResponseAlbum::clipToRect(const QImage &src)
         }
     }
 
+    qDebug() << "Clipping image to rect returning image";
     return tImg;
 }
 
 //将图片按比例缩小
 QImage AsyncImageResponseAlbum::addPadAndScaled(const QImage &src)
 {
+    qDebug() << "Adding pad and scaled image";
     auto result = src.convertToFormat(QImage::Format_RGBA8888);
 
     if (result.height() > result.width()) {
@@ -935,12 +992,14 @@ QImage AsyncImageResponseAlbum::addPadAndScaled(const QImage &src)
         result = result.scaledToWidth(THUMBNAIL_MAX_SIZE, Qt::SmoothTransformation);
     }
 
+    qDebug() << "Adding pad and scaled image returning image";
     return result;
 }
 
 AsyncImageProviderAlbum::AsyncImageProviderAlbum(QObject *parent)
     : QQuickAsyncImageProvider()
 {
+    qDebug() << "Initializing AsyncImageProviderAlbum";
     //初始化的时候读取上次退出时的状态
     m_loadMode = LibConfigSetter::instance()->value(SETTINGS_GROUP, SETTINGS_DISPLAY_MODE, 0).toInt();
 }
@@ -968,5 +1027,6 @@ void AsyncImageProviderAlbum::switchLoadMode()
 
 int AsyncImageProviderAlbum::getLoadMode()
 {
+    qDebug() << "Getting load mode:" << m_loadMode;
     return m_loadMode;
 }
