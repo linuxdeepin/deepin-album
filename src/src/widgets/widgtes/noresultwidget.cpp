@@ -14,24 +14,29 @@
 
 NoResultWidget::NoResultWidget(QWidget *parent): QWidget(parent)
 {
+    qDebug() << "NoResultWidget::NoResultWidget - Entry";
     initNoSearchResultView();
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &NoResultWidget::changeTheme);
+    qDebug() << "NoResultWidget::NoResultWidget - Exit";
 }
 
 NoResultWidget::~NoResultWidget()
 {
-
+    // qDebug() << "NoResultWidget::~NoResultWidget - Entry";
 }
 
 void NoResultWidget::showEvent(QShowEvent *ev)
 {
+    // qDebug() << "NoResultWidget::showEvent - Entry";
     changeTheme();
     QWidget::showEvent(ev);
+    // qDebug() << "NoResultWidget::showEvent - Exit";
 }
 
 void NoResultWidget::initNoSearchResultView()
 {
+    qDebug() << "NoResultWidget::initNoSearchResultView - Entry";
     QHBoxLayout *pHBoxLayout = new QHBoxLayout(this);
     this->setLayout(pHBoxLayout);
 
@@ -55,10 +60,12 @@ void NoResultWidget::initNoSearchResultView()
         pNoResult->setForegroundRole(DPalette::Text);
         pNoResult->setPalette(palette);
     }
+    qDebug() << "NoResultWidget::initNoSearchResultView - Exit";
 }
 
 void NoResultWidget::changeTheme()
 {
+    qDebug() << "NoResultWidget::changeTheme - Entry";
     DPalette pale = DPaletteHelper::instance()->palette(pNoResult);
     pale.setBrush(DPalette::Text, pale.color(DPalette::ToolTipText));
     pNoResult->setPalette(pale);
@@ -70,12 +77,15 @@ void NoResultWidget::changeTheme()
 
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     if (themeType == DGuiApplicationHelper::LightType) {
+        qDebug() << "NoResultWidget::changeTheme - LightType";
         color_TTT.setAlphaF(0.3);
         pa.setBrush(DPalette::Text, color_TTT);
         pNoResult->setPalette(pa);
     } else if (themeType == DGuiApplicationHelper::DarkType) {
+        qDebug() << "NoResultWidget::changeTheme - DarkType";
         color_TTT.setAlphaF(0.4);
         pa.setBrush(DPalette::Text, color_TTT);
         pNoResult->setPalette(pa);
     }
+    qDebug() << "NoResultWidget::changeTheme - Exit";
 }

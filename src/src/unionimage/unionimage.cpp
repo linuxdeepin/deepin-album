@@ -42,7 +42,9 @@ const QString DATETIME_FORMAT_EXIF = "yyyy:MM:dd HH:mm";
  */
 static QImage convertToSRgbColorSpace(const QImage &image)
 {
+    qDebug() << "convertToSRgbColorSpace - Function entry";
     if (image.isNull()) {
+        qDebug() << "convertToSRgbColorSpace - Branch: image is null, function exit";
         return image;
     }
 
@@ -115,6 +117,7 @@ static QImage convertToSRgbColorSpace(const QImage &image)
         return image;
     }
 
+    qDebug() << "convertToSRgbColorSpace - Function exit, returning converted image";
     return convertedImage;
 }
 #endif
@@ -543,6 +546,7 @@ UNIONIMAGESHARED_EXPORT QString detectImageFormat(const QString &path)
 
 UNIONIMAGESHARED_EXPORT bool isNoneQImage(const QImage &qi)
 {
+    qDebug() << "Checking if image is none QImage";
     return (qi == noneQImage());
 }
 
@@ -783,11 +787,13 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
 
 UNIONIMAGESHARED_EXPORT bool isImageSupportRotate(const QString &path)
 {
+    qDebug() << "Checking if image is support rotate:" << path;
     return canSave(path) ;
 }
 
 UNIONIMAGESHARED_EXPORT int getOrientation(const QString &path)
 {
+    qDebug() << "Getting orientation for:" << path;
     Q_UNUSED(path);
     return 1;
 }
@@ -955,6 +961,7 @@ QString PrivateDetectImageFormat(const QString &filepath)
 
 UNIONIMAGESHARED_EXPORT QString hashByString(const QString &str)
 {
+    qDebug() << "Hashing string:" << str;
     return Libutils::base::hashByString(str);
 }
 
@@ -966,6 +973,7 @@ UNIONIMAGESHARED_EXPORT void getAllFileInDir(const QDir &dir, QFileInfoList &res
 
 UNIONIMAGESHARED_EXPORT std::pair<QDateTime, bool> analyzeDateTime(const QVariant &data)
 {
+    qDebug() << "Analyzing date time:" << data;
     return Libutils::base::analyzeDateTime(data);
 }
 

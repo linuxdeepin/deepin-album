@@ -46,17 +46,22 @@ const int MAINWIDGET_MINIMUN_WIDTH = 658;
 
 bool compareByFileInfo(const QFileInfo &str1, const QFileInfo &str2)
 {
+    qDebug() << "compareByFileInfo - Function entry";
     static QCollator sortCollator;
     sortCollator.setNumericMode(true);
-    return sortCollator.compare(str1.baseName(), str2.baseName()) < 0;
+    bool result = sortCollator.compare(str1.baseName(), str2.baseName()) < 0;
+    qDebug() << "compareByFileInfo - Function exit, returning:" << result;
+    return result;
 }
 
 // 转换路径
 QUrl UrlInfo(QString path)
 {
+    qDebug() << "UrlInfo - Function entry, path:" << path;
     QUrl url;
     // Just check if the path is an existing file.
     if (QFile::exists(path)) {
+        qDebug() << "UrlInfo - Branch: file exists, creating URL from local file";
         url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
         return url;
     }
@@ -64,6 +69,7 @@ QUrl UrlInfo(QString path)
     const auto match = QRegularExpression(QStringLiteral(":(\\d+)(?::(\\d+))?:?$")).match(path);
 
     if (match.isValid()) {
+        qDebug() << "UrlInfo - Branch: found line/column specification, removing it";
         // cut away line/column specification from the path.
         path.chop(match.capturedLength());
     }
@@ -75,9 +81,11 @@ QUrl UrlInfo(QString path)
     // in some cases, this will fail, e.g.
     // assume a local file and just convert it to an url.
     if (!url.isValid()) {
+        qDebug() << "UrlInfo - Branch: URL invalid, creating from local file path";
         // create absolute file path, we will e.g. pass this over dbus to other processes
         url = QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
     }
+    qDebug() << "UrlInfo - Function exit, returning url:" << url;
     return url;
 }
 
@@ -94,6 +102,7 @@ FileControl::FileControl(QObject *parent)
 
     // 在1000ms以内只保存一次配置信息
     if (!m_tSaveSetting) {
+        qDebug() << "FileControl::FileControl - Branch: creating save setting timer";
         m_tSaveSetting = new QTimer(this);
         connect(m_tSaveSetting, &QTimer::timeout, this, [=]() { saveSetting(); });
     }
@@ -112,6 +121,7 @@ FileControl::FileControl(QObject *parent)
 
     // 实时保存旋转后图片太卡，因此采用10ms后延时保存的问题
     if (!m_tSaveImage) {
+        qDebug() << "FileControl::FileControl - Branch: creating save image timer";
         m_tSaveImage = new QTimer(this);
         connect(m_tSaveImage, &QTimer::timeout, this, [ = ]() {
             //保存旋转的图片
@@ -119,22 +129,29 @@ FileControl::FileControl(QObject *parent)
             emit callSavePicDone(QUrl::fromLocalFile(m_currentPath).toString());
         });
     }
+    qDebug() << "FileControl::FileControl - Function exit";
 }
 
 FileControl::~FileControl()
 {
     qDebug() << "Destroying FileControl";
     saveSetting();
+    qDebug() << "FileControl::~FileControl - Function exit";
 }
 
 QString FileControl::standardPicturesPath() const
 {
-    return QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    qDebug() << "FileControl::standardPicturesPath - Function entry";
+    QString path = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    qDebug() << "FileControl::standardPicturesPath - Function exit, returning path:" << path;
+    return path;
 }
 
 QStringList FileControl::getDirImagePath(const QString &path)
 {
+    qDebug() << "FileControl::getDirImagePath - Function entry, path:" << path;
     if (path.isEmpty()) {
+        qDebug() << "FileControl::getDirImagePath - Branch: path is empty, returning empty list";
         return QStringList();
     }
 
@@ -156,6 +173,7 @@ QStringList FileControl::getDirImagePath(const QString &path)
             image_list << QUrl::fromLocalFile(tmpPath).toString();
         }
     }
+    qDebug() << "FileControl::getDirImagePath - Function exit, returning" << image_list.size() << "images";
     return image_list;
 }
 
@@ -164,11 +182,15 @@ QStringList FileControl::getDirImagePath(const QString &path)
  */
 bool FileControl::isCurrentWatcherDir(const QUrl &path)
 {
-    return imageFileWatcher->isCurrentDir(path.toLocalFile());
+    qDebug() << "FileControl::isCurrentWatcherDir - Function entry, path:" << path;
+    bool result = imageFileWatcher->isCurrentDir(path.toLocalFile());
+    qDebug() << "FileControl::isCurrentWatcherDir - Function exit, returning:" << result;
+    return result;
 }
 
 QString FileControl::getNamePath(const  QString &oldPath, const QString &newName)
 {
+    qDebug() << "FileControl::getNamePath - Function entry, oldPath:" << oldPath << "newName:" << newName;
     QString old = LibUnionImage_NameSpace::localPath(oldPath);
     QString now = LibUnionImage_NameSpace::localPath(newName);
 
@@ -176,25 +198,33 @@ QString FileControl::getNamePath(const  QString &oldPath, const QString &newName
     QString path = info.path();
     QString suffix = info.suffix();
     QString newPath = path + "/" + newName + "." + suffix;
+    qDebug() << "FileControl::getNamePath - Function exit, returning:" << newPath;
     return QUrl::fromLocalFile(newPath).toString();
 }
 
 bool FileControl::isImage(const QString &path)
 {
+    qDebug() << "FileControl::isImage - Function entry, path:" << path;
     // 将传入path路径统一为绝对路径
     QString tmpPath = LibUnionImage_NameSpace::localPath(path);
-    return LibUnionImage_NameSpace::isImage(tmpPath);
+    bool result = LibUnionImage_NameSpace::isImage(tmpPath);
+    qDebug() << "FileControl::isImage - Function exit, returning:" << result;
+    return result;
 }
 
 bool FileControl::isVideo(const QString &path)
 {
+    qDebug() << "FileControl::isVideo - Function entry, path:" << path;
     // 将传入path路径统一为绝对路径
     QString tmpPath = LibUnionImage_NameSpace::localPath(path);
-    return LibUnionImage_NameSpace::isVideo(tmpPath);
+    bool result = LibUnionImage_NameSpace::isVideo(tmpPath);
+    qDebug() << "FileControl::isVideo - Function exit, returning:" << result;
+    return result;
 }
 
 void FileControl::setWallpaper(const QString &imgPath)
 {
+    qDebug() << "FileControl::setWallpaper - Function entry, imgPath:" << imgPath;
     QThread *th1 = QThread::create([=]() {
         if (!imgPath.isNull()) {
             qInfo() << "Setting wallpaper:" << imgPath;
@@ -274,10 +304,12 @@ void FileControl::setWallpaper(const QString &imgPath)
     });
     connect(th1, &QThread::finished, th1, &QObject::deleteLater);
     th1->start();
+    qDebug() << "FileControl::setWallpaper - Function exit";
 }
 
 bool FileControl::deleteImagePath(const QString &path)
 {
+    qDebug() << "FileControl::deleteImagePath - Function entry, path:" << path;
     QUrl displayUrl = QUrl(path);
 
     if (displayUrl.isValid()) {
@@ -315,6 +347,7 @@ bool FileControl::deleteImagePath(const QString &path)
 
 bool FileControl::displayinFileManager(const QString &path)
 {
+    qDebug() << "FileControl::displayinFileManager - Function entry, path:" << path;
     bool bRet = false;
     QUrl displayUrl = QUrl(path);
 
@@ -323,15 +356,18 @@ bool FileControl::displayinFileManager(const QString &path)
                              QStringLiteral("org.freedesktop.FileManager1"));
 
     if (interface.isValid()) {
+        qDebug() << "FileControl::displayinFileManager - Branch: interface is valid";
         QStringList list;
         list << displayUrl.toString();
         bRet = interface.call("ShowItems", list, "").type() != QDBusMessage::ErrorMessage;
     }
+    qDebug() << "FileControl::displayinFileManager - Function exit, returning:" << bRet;
     return bRet;
 }
 
 void FileControl::copyImage(const QString &path)
 {
+    qDebug() << "FileControl::copyImage - Function entry, path:" << path;
     QString localPath = QUrl(path).toLocalFile();
 
     QClipboard *cb = qApp->clipboard();
@@ -367,36 +403,45 @@ void FileControl::copyImage(const QString &path)
     // Set the mimedata
     //    cb->setMimeData(newMimeData);
     cb->setMimeData(newMimeData, QClipboard::Clipboard);
+    qDebug() << "FileControl::copyImage - Function exit";
 }
 
 void FileControl::copyText(const QString &str)
 {
+    qDebug() << "FileControl::copyText - Function entry, str:" << str;
     qApp->clipboard()->setText(str);
 }
 
 bool FileControl::isRotatable(const QString &path)
 {
+    qDebug() << "FileControl::isRotatable - Function entry, path:" << path;
     bool bRet = false;
     QString localPath = LibUnionImage_NameSpace::localPath(path);
     QFileInfo info(localPath);
     if (!info.isFile() || !info.exists() || !info.isWritable() || !info.isReadable()) {
+        qDebug() << "FileControl::isRotatable - Branch: file is not valid";
         bRet = false;
     } else {
+        qDebug() << "FileControl::isRotatable - Branch: file is valid";
         bRet = LibUnionImage_NameSpace::isImageSupportRotate(localPath);
     }
+    qDebug() << "FileControl::isRotatable - Function exit, returning:" << bRet;
     return bRet;
 }
 
 bool FileControl::isCanWrite(const QString &path)
 {
+    qDebug() << "FileControl::isCanWrite - Function entry, path:" << path;
     QString localPath = LibUnionImage_NameSpace::localPath(path);
     QFileInfo info(localPath);
     bool bRet = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();  // 是否可写
+    qDebug() << "FileControl::isCanWrite - Function exit, returning:" << bRet;
     return bRet;
 }
 
 bool FileControl::isCanDelete(const QStringList &pathList)
 {
+    qDebug() << "FileControl::isCanDelete - Function entry, pathList:" << pathList;
     bool bCanDelete = false;
     for (int i = 0; i < pathList.size(); i++) {
         if (!pathList[i].isEmpty() && isCanDelete(pathList[i])) {
@@ -405,11 +450,13 @@ bool FileControl::isCanDelete(const QStringList &pathList)
         }
     }
 
+    qDebug() << "FileControl::isCanDelete - Function exit, returning:" << bCanDelete;
     return bCanDelete;
 }
 
 bool FileControl::isCanDelete(const QString &path)
 {
+    qDebug() << "FileControl::isCanDelete - Function entry, path:" << path;
     bool bRet = false;
     bool isAlbum = false;
     QString localPath = LibUnionImage_NameSpace::localPath(path);
@@ -421,22 +468,28 @@ bool FileControl::isCanDelete(const QString &path)
          imageViewerSpace::PathTypeRECYCLEBIN != pathType && imageViewerSpace::PathTypeMTP != pathType &&
          imageViewerSpace::PathTypePTP != pathType && isWritable && isReadable) ||
         (isAlbum && isWritable)) {
+        qDebug() << "FileControl::isCanDelete - Branch: isCanDelete";
         bRet = true;
     } else {
+        qDebug() << "FileControl::isCanDelete - Branch: is not CanDelete";
         bRet = false;
     }
+    qDebug() << "FileControl::isCanDelete - Function exit, returning:" << bRet;
     return bRet;
 }
 
 void FileControl::ocrImage(const QString &path, int index)
 {
+    qDebug() << "FileControl::ocrImage - Function entry, path:" << path << "index:" << index;
     QString localPath = QUrl(path).toLocalFile();
     // 此处借用已取得的缓存信息，一般状态下，调用OCR前已完成图像的加载
     ImageInfo info(path);
 
     if (Types::MultiImage != info.type()) {  // 非多页图使用路径直接进行识别
+        qDebug() << "FileControl::ocrImage - Branch: non multi image";
         m_ocrInterface->openFile(localPath);
     } else {  // 多页图需要确定识别哪一页
+        qDebug() << "FileControl::ocrImage - Branch: multi image";
         QImageReader imageReader(localPath);
         imageReader.jumpToImage(index);
         auto image = imageReader.read();
@@ -450,10 +503,12 @@ void FileControl::ocrImage(const QString &path, int index)
         image.save(tempFileName);
         m_ocrInterface->openFile(tempFileName);
     }
+    qDebug() << "FileControl::ocrImage - Function exit";
 }
 
 bool FileControl::isCanPrint(const QVariantList &pathList)
 {
+    qDebug() << "FileControl::isCanPrint - Function entry, pathList:" << pathList;
     bool bCanPrint = true;
     for (int i = 0; i < pathList.size(); i++) {
         if (!pathList[i].toString().isEmpty() && !isCanPrint(pathList[i].toString())) {
@@ -462,17 +517,22 @@ bool FileControl::isCanPrint(const QVariantList &pathList)
         }
     }
 
+    qDebug() << "FileControl::isCanPrint - Function exit, returning:" << bCanPrint;
     return bCanPrint;
 }
 
 bool FileControl::isCanPrint(const QString &path)
 {
+    qDebug() << "FileControl::isCanPrint - Function entry, path:" << path;
     QFileInfo info(LibUnionImage_NameSpace::localPath(path));
-    return isImage(path) && info.isReadable();
+    bool bRet = isImage(path) && info.isReadable();
+    qDebug() << "FileControl::isCanPrint - Function exit, returning:" << bRet;
+    return bRet;
 }
 
 QStringList FileControl::parseCommandlineGetPaths()
 {
+    qDebug() << "FileControl::parseCommandlineGetPaths - Function entry";
     QStringList paths;
     QStringList validPaths;
     QString filepath = "";
@@ -491,11 +551,13 @@ QStringList FileControl::parseCommandlineGetPaths()
     if (validPaths.empty() && !paths.isEmpty())
         emit invalidFormat();
 
+    qDebug() << "FileControl::parseCommandlineGetPaths - Function exit, returning:" << validPaths;
     return validPaths;
 }
 
 QString FileControl::slotGetFileName(const QString &path)
 {
+    qDebug() << "FileControl::slotGetFileName - Function entry, path:" << path;
     QString tmppath = LibUnionImage_NameSpace::localPath(path);
 
     QFileInfo info(tmppath);
@@ -504,6 +566,7 @@ QString FileControl::slotGetFileName(const QString &path)
 
 QString FileControl::slotGetFileNameSuffix(const QString &path)
 {
+    qDebug() << "FileControl::slotGetFileNameSuffix - Function entry, path:" << path;
     QString tmppath = LibUnionImage_NameSpace::localPath(path);
 
     QFileInfo info(tmppath);
@@ -512,6 +575,7 @@ QString FileControl::slotGetFileNameSuffix(const QString &path)
 
 QString FileControl::slotGetInfo(const QString &key, const QString &path)
 {
+    qDebug() << "FileControl::slotGetInfo - Function entry, key:" << key << "path:" << path;
     QString localPath = LibUnionImage_NameSpace::localPath(path);
     if (localPath != m_currentPath) {
         m_currentPath = localPath;
@@ -520,14 +584,17 @@ QString FileControl::slotGetInfo(const QString &key, const QString &path)
 
     QString returnString = m_currentAllInfo.value(key);
     if (returnString.isEmpty()) {
+        qDebug() << "FileControl::slotGetInfo - Branch: returnString is empty";
         returnString = "-";
     }
 
+    qDebug() << "FileControl::slotGetInfo - Function exit, returning:" << returnString;
     return returnString;
 }
 
 bool FileControl::slotFileReName(const QString &name, const QString &filepath, bool isSuffix)
 {
+    qDebug() << "FileControl::slotFileReName - Function entry, name:" << name << "filepath:" << filepath << "isSuffix:" << isSuffix;
     QString localPath = LibUnionImage_NameSpace::localPath(filepath);
     QFile file(localPath);
     if (file.exists()) {
@@ -547,6 +614,7 @@ bool FileControl::slotFileReName(const QString &name, const QString &filepath, b
             imageFileWatcher->fileRename(localPath, _newName);
 
             Q_EMIT imageRenamed(QUrl::fromLocalFile(localPath), QUrl::fromLocalFile(_newName));
+            qDebug() << "FileControl::slotFileReName - Function exit, returning true";
             return true;
         }
 
@@ -559,24 +627,30 @@ bool FileControl::slotFileReName(const QString &name, const QString &filepath, b
 
 QString FileControl::slotFileSuffix(const QString &path, bool ret)
 {
+    qDebug() << "FileControl::slotFileSuffix - Function entry, path:" << path << "ret:" << ret;
     QString returnSuffix = "";
 
     QString localPath = LibUnionImage_NameSpace::localPath(path);
     if (!path.isEmpty() && QFile::exists(localPath)) {
+        qDebug() << "FileControl::slotFileSuffix - Branch: path is not empty and file exists";
         QString tmppath = path;
         QFileInfo info(tmppath);
         if (ret) {
+            qDebug() << "FileControl::slotFileSuffix - Branch: ret is true";
             returnSuffix = "." + info.completeSuffix();
         } else {
+            qDebug() << "FileControl::slotFileSuffix - Branch: ret is false";
             returnSuffix = info.completeSuffix();
         }
     }
 
+    qDebug() << "FileControl::slotFileSuffix - Function exit, returning:" << returnSuffix;
     return returnSuffix;
 }
 
 bool FileControl::isShowToolTip(const QString &oldPath, const QString &name)
 {
+    qDebug() << "FileControl::isShowToolTip - Function entry, oldPath:" << oldPath << "name:" << name;
     bool bRet = false;
     QString path = LibUnionImage_NameSpace::localPath(oldPath);
     QFileInfo fileinfo(path);
@@ -590,21 +664,26 @@ bool FileControl::isShowToolTip(const QString &oldPath, const QString &name)
     QString fileabname = DirPath + "/" + name + "." + format;
     QFile file(fileabname);
     if (file.exists() && fileabname != path) {
+        qDebug() << "file exists and fileabname is not equal to path";
         bRet = true;
     } else {
+        qDebug() << "file does not exist or fileabname is equal to path";
         bRet = false;
     }
+    qDebug() << "FileControl::isShowToolTip - Function exit, returning:" << bRet;
     return bRet;
 }
 
 void FileControl::showPrintDialog(const QString &path)
 {
+    qDebug() << "FileControl::showPrintDialog - Function entry, path:" << path;
     QString oldPath = LibUnionImage_NameSpace::localPath(path);
     PrintHelper::getIntance()->showPrintDialog(QStringList(oldPath));
 }
 
 void FileControl::showPrintDialog(const QStringList &paths)
 {
+    qDebug() << "FileControl::showPrintDialog - Function entry, paths:" << paths;
     QStringList localPaths ;
     for (QString path : paths) {
         localPaths << LibUnionImage_NameSpace::localPath(path);
@@ -614,16 +693,19 @@ void FileControl::showPrintDialog(const QStringList &paths)
 
 QVariant FileControl::getConfigValue(const QString &group, const QString &key, const QVariant &defaultValue)
 {
+    qDebug() << "FileControl::getConfigValue - Function entry, group:" << group << "key:" << key;
     return m_config->value(group, key, defaultValue);
 }
 
 void FileControl::setConfigValue(const QString &group, const QString &key, const QVariant &value)
 {
+    qDebug() << "FileControl::setConfigValue - Function entry, group:" << group << "key:" << key;
     m_config->setValue(group, key, value);
 }
 
 int FileControl::getlastWidth()
 {
+    qDebug() << "FileControl::getlastWidth - Function entry";
     int reWidth = 0;
     int defaultW = 0;
 
@@ -635,8 +717,10 @@ int FileControl::getlastWidth()
 
     // 默认高度 在1920下为1150
     if (QGuiApplication::screens().size() > 1 && screen) {
+        qDebug() << "FileControl::getlastWidth - Branch: multi screen";
         defaultW = int(double(screen->size().width()) * 0.599);
     } else {
+        qDebug() << "FileControl::getlastWidth - Branch: single screen";
         defaultW = int(double(screen->geometry().width()) * 0.599);
     }
 
@@ -644,11 +728,13 @@ int FileControl::getlastWidth()
 
     reWidth = ww >= MAINWIDGET_MINIMUN_WIDTH ? ww : MAINWIDGET_MINIMUN_WIDTH;
     m_windowWidth = reWidth;
+    qDebug() << "FileControl::getlastWidth - Function exit, returning:" << reWidth;
     return reWidth;
 }
 
 int FileControl::getlastHeight()
 {
+    qDebug() << "FileControl::getlastHeight - Function entry";
     int reHeight = 0;
     int defaultH = 0;
 
@@ -660,8 +746,10 @@ int FileControl::getlastHeight()
 
     // 默认高度 在1080下为800
     if (QGuiApplication::screens().size() > 1 && screen) {
+        qDebug() << "FileControl::getlastHeight - Branch: multi screen";
         defaultH = int(double(screen->size().height()) * 0.741);
     } else {
+        qDebug() << "FileControl::getlastHeight - Branch: single screen";
         defaultH = int(double(screen->geometry().height()) * 0.741);
     }
 
@@ -669,11 +757,13 @@ int FileControl::getlastHeight()
 
     reHeight = wh >= MAINWIDGET_MINIMUN_HEIGHT ? wh : MAINWIDGET_MINIMUN_HEIGHT;
     m_windowHeight = reHeight;
+    qDebug() << "FileControl::getlastHeight - Function exit, returning:" << reHeight;
     return reHeight;
 }
 
 void FileControl::setSettingWidth(int width)
 {
+    qDebug() << "FileControl::setSettingWidth - Function entry, width:" << width;
     m_windowWidth = width;
     m_tSaveSetting->setSingleShot(true);
     m_tSaveSetting->start(1000);
@@ -681,6 +771,7 @@ void FileControl::setSettingWidth(int width)
 
 void FileControl::setSettingHeight(int height)
 {
+    qDebug() << "FileControl::setSettingHeight - Function entry, height:" << height;
     m_windowHeight = height;
     m_tSaveSetting->setSingleShot(true);
     m_tSaveSetting->start(1000);
@@ -688,40 +779,50 @@ void FileControl::setSettingHeight(int height)
 
 void FileControl::setEnableNavigation(bool b)
 {
+    qDebug() << "FileControl::setEnableNavigation - Function entry, b:" << b;
     setConfigValue(SETTINGS_GROUP, SETTINGS_ENABLE_NAVIGATION, b);
 }
 
 bool FileControl::isEnableNavigation()
 {
+    qDebug() << "FileControl::isEnableNavigation - Function entry";
     return getConfigValue(SETTINGS_GROUP, SETTINGS_ENABLE_NAVIGATION, true).toBool();
 }
 
 void FileControl::saveSetting()
 {
+    qDebug() << "FileControl::saveSetting - Function entry";
     if (m_lastSaveWidth != m_windowWidth) {
+        qDebug() << "FileControl::saveSetting - Branch: m_lastSaveWidth != m_windowWidth";
         setConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, m_windowWidth);
         m_lastSaveWidth = m_windowWidth;
     }
     if (m_lastSaveHeight != m_windowHeight) {
+        qDebug() << "FileControl::saveSetting - Branch: m_lastSaveHeight != m_windowHeight";
         setConfigValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, m_windowHeight);
         m_lastSaveHeight = m_windowHeight;
     }
+    qDebug() << "FileControl::saveSetting - Function exit";
 }
 
 bool FileControl::isSupportSetWallpaper(const QString &path)
 {
+    qDebug() << "FileControl::isSupportSetWallpaper - Function entry, path:" << path;
     QString path1 = LibUnionImage_NameSpace::localPath(path);
     QFileInfo fileinfo(path1);
     QString format = fileinfo.suffix().toLower();
     // 设置为壁纸需要判断是否有读取权限
     if (listsupportWallPaper.contains(format) && fileinfo.isReadable()) {
+        qDebug() << "FileControl::isSupportSetWallpaper - Branch: listsupportWallPaper.contains(format) && fileinfo.isReadable()";
         return true;
     }
+    qDebug() << "FileControl::isSupportSetWallpaper - Function exit, returning:" << false;
     return false;
 }
 
 bool FileControl::isCheckOnly()
 {
+    qDebug() << "FileControl::isCheckOnly - Function entry";
     // single
     QString userName = QDir::homePath().section("/", -1, -1);
     QString appName = "deepin-image-viewer";
@@ -747,23 +848,28 @@ bool FileControl::isCheckOnly()
         perror("lock file error/n");
         return false;
     }
+    qDebug() << "FileControl::isCheckOnly - Function exit, returning true";
     return true;
 }
 
 bool FileControl::isCanSupportOcr(const QString &path)
 {
+    qDebug() << "FileControl::isCanSupportOcr - Function entry, path:" << path;
     bool bRet = false;
     QString localPath = LibUnionImage_NameSpace::localPath(path);
     QFileInfo info(localPath);
     imageViewerSpace::ImageType type = LibUnionImage_NameSpace::getImageType(localPath);
     if (imageViewerSpace::ImageTypeDynamic != type && info.isReadable()) {
+        qDebug() << "imageViewerSpace::ImageTypeDynamic != type && info.isReadable()";
         bRet = true;
     }
+    qDebug() << "FileControl::isCanSupportOcr - Function exit, returning:" << bRet;
     return bRet;
 }
 
 bool FileControl::isCanRename(const QString &path)
 {
+    qDebug() << "FileControl::isCanRename - Function entry, path:" << path;
     bool bRet = false;
     QString localPath = LibUnionImage_NameSpace::localPath(path);
     imageViewerSpace::PathType pathType = LibUnionImage_NameSpace::getPathType(localPath);  // 路径类型
@@ -771,19 +877,24 @@ bool FileControl::isCanRename(const QString &path)
     bool isWritable = info.isWritable() && QFileInfo(info.dir(), info.dir().path()).isWritable();  // 是否可写
     if (info.isReadable() && isWritable && imageViewerSpace::PathTypeMTP != pathType &&
         imageViewerSpace::PathTypePTP != pathType && imageViewerSpace::PathTypeAPPLE != pathType) {
+        qDebug() << "info.isReadable() && isWritable && imageViewerSpace::PathTypeMTP != pathType && imageViewerSpace::PathTypePTP != pathType && imageViewerSpace::PathTypeAPPLE != pathType";
         bRet = true;
     }
+    qDebug() << "FileControl::isCanRename - Function exit, returning:" << bRet;
     return bRet;
 }
 
 bool FileControl::isCanReadable(const QString &path)
 {
+    qDebug() << "FileControl::isCanReadable - Function entry, path:" << path;
     bool bRet = false;
     QString localPath = LibUnionImage_NameSpace::localPath(path);
     QFileInfo info(localPath);
     if (info.isReadable()) {
+        qDebug() << "info.isReadable()";
         bRet = true;
     }
+    qDebug() << "FileControl::isCanReadable - Function exit, returning:" << bRet;
     return bRet;
 }
 
@@ -793,10 +904,12 @@ bool FileControl::isCanReadable(const QString &path)
  */
 void FileControl::resetImageFiles(const QStringList &filePaths)
 {
+    qDebug() << "FileControl::resetImageFiles - Function entry, filePaths:" << filePaths;
     // 变更监控的文件
     imageFileWatcher->resetImageFiles(filePaths);
     // 清理缩略图缓存记录
     ImageInfo::clearCache();
+    qDebug() << "FileControl::resetImageFiles - Function exit";
 }
 
 /**
@@ -804,18 +917,21 @@ void FileControl::resetImageFiles(const QStringList &filePaths)
  */
 QUrl FileControl::getCompanyLogo()
 {
+    qDebug() << "FileControl::getCompanyLogo - Function entry";
     QString logoPath = DSysInfo::distributionOrgLogo(DSysInfo::Distribution, DSysInfo::Light, ":/assets/images/deepin-logo.svg");
     return QUrl::fromLocalFile(logoPath);
 }
 
 void FileControl::terminateShortcutPanelProcess()
 {
+    qDebug() << "FileControl::terminateShortcutPanelProcess - Function entry";
     m_shortcutViewProcess->terminate();
     m_shortcutViewProcess->waitForFinished(2000);
 }
 
 void FileControl::showShortcutPanel(int windowCenterX, int windowCenterY)
 {
+    qDebug() << "FileControl::showShortcutPanel - Function entry, windowCenterX:" << windowCenterX << "windowCenterY:" << windowCenterY;
     QPoint pos(windowCenterX, windowCenterY);
     QStringList shortcutString;
     auto json = createShortcutString();
@@ -826,10 +942,12 @@ void FileControl::showShortcutPanel(int windowCenterX, int windowCenterY)
 
     terminateShortcutPanelProcess();
     m_shortcutViewProcess->start("deepin-shortcut-viewer", shortcutString);
+    qDebug() << "FileControl::showShortcutPanel - Function exit";
 }
 
 QString FileControl::createShortcutString()
 {
+    qDebug() << "FileControl::createShortcutString - Function entry";
     if (!m_shortcutString.isEmpty()) {
         return m_shortcutString;
     }
@@ -972,11 +1090,13 @@ QString FileControl::createShortcutString()
 
     m_shortcutString = QJsonDocument(main_shortcut).toJson();
 
+    qDebug() << "FileControl::createShortcutString - Function exit, returning:" << m_shortcutString;
     return m_shortcutString;
 }
 
 void FileControl::copyImage(const QStringList &paths)
 {
+    qDebug() << "FileControl::copyImage - Function entry, paths:" << paths;
     //  Get clipboard
     QClipboard *cb = qApp->clipboard();
 
@@ -999,10 +1119,12 @@ void FileControl::copyImage(const QStringList &paths)
 
     // Set the mimedata
     cb->setMimeData(newMimeData, QClipboard::Clipboard);
+    qDebug() << "FileControl::copyImage - Function exit";
 }
 
 bool FileControl::isRotatable(const QStringList &pathList)
 {
+    qDebug() << "FileControl::isRotatable - Function entry, pathList:" << pathList;
     bool bRotateable = true;
     for (int i = 0; i < pathList.size(); i++) {
         if (!pathList[i].isEmpty() && !isRotatable(pathList[i])) {
@@ -1011,11 +1133,13 @@ bool FileControl::isRotatable(const QStringList &pathList)
         }
     }
 
+    qDebug() << "FileControl::isRotatable - Function exit, returning:" << bRotateable;
     return bRotateable;
 }
 
 QString FileControl::getDirPath(const QString &path)
 {
+    qDebug() << "FileControl::getDirPath - Function entry, path:" << path;
     QFileInfo firstFileInfo(path);
 
     return firstFileInfo.dir().path();
@@ -1023,38 +1147,45 @@ QString FileControl::getDirPath(const QString &path)
 
 bool FileControl::pathExists(const QString &path)
 {
+    qDebug() << "FileControl::pathExists - Function entry, path:" << path;
     QUrl url(path);
     return QFileInfo::exists(LibUnionImage_NameSpace::localPath(url));
 }
 
 bool FileControl::haveImage(const QVariantList &urls)
 {
+    qDebug() << "FileControl::haveImage - Function entry, urls:" << urls;
     for (auto &url : urls) {
         if (!url.isNull() && isImage(LibUnionImage_NameSpace::localPath(url.toString()))) {
             return true;
         }
     }
+    qDebug() << "FileControl::haveImage - Function exit, returning false";
     return false;
 }
 
 bool FileControl::haveVideo(const QVariantList &urls)
 {
+    qDebug() << "FileControl::haveVideo - Function entry, urls:" << urls;
     for (auto &url : urls) {
         if (!url.isNull() && isVideo(url.toString())) {
             return true;
         }
     }
+    qDebug() << "FileControl::haveVideo - Function exit, returning false";
     return false;
 }
 
 bool FileControl::isFile(const QString &path)
 {
+    qDebug() << "FileControl::isFile - Function entry, path:" << path;
     QString localPath = LibUnionImage_NameSpace::localPath(path);
     return QFileInfo(localPath).isFile();
 }
 
 bool FileControl::rotateFile(const QVariantList &pathList, const int &rotateAngel)
 {
+    qDebug() << "FileControl::rotateFile - Function entry, pathList:" << pathList << "rotateAngel:" << rotateAngel;
     bool bRet = true;
     for (int i = 0; i < pathList.size(); i++) {
         if (!pathList[i].toString().isEmpty()) {
@@ -1062,11 +1193,13 @@ bool FileControl::rotateFile(const QVariantList &pathList, const int &rotateAnge
         }
     }
 
+    qDebug() << "FileControl::rotateFile - Function exit, returning:" << bRet;
     return bRet;
 }
 
 bool FileControl::rotateFile(const QString &path, const int &rotateAngel)
 {
+    qDebug() << "FileControl::rotateFile - Function entry, path:" << path << "rotateAngel:" << rotateAngel;
     bool bRet = true;
     QString localPath = LibUnionImage_NameSpace::localPath(path);
     if (m_currentPath != localPath) {
@@ -1081,6 +1214,7 @@ bool FileControl::rotateFile(const QString &path, const int &rotateAngel)
     m_tSaveImage->setSingleShot(true);
     m_tSaveImage->start(100);
 
+    qDebug() << "FileControl::rotateFile - Function exit, returning:" << bRet;
     return bRet;
 }
 
@@ -1090,6 +1224,7 @@ bool FileControl::rotateFile(const QString &path, const int &rotateAngel)
  */
 void FileControl::slotRotatePixCurrent(bool bNotifyExternal/* = false*/)
 {
+    qDebug() << "FileControl::slotRotatePixCurrent - Function entry, bNotifyExternal:" << bNotifyExternal;
     // 由QML调用(切换图片)时，停止定时器，防止二次触发
     if (m_tSaveImage->isActive()) {
         m_tSaveImage->stop();
@@ -1117,25 +1252,31 @@ void FileControl::slotRotatePixCurrent(bool bNotifyExternal/* = false*/)
         }
     }
     m_rotateAngel = 0;
+    qDebug() << "FileControl::slotRotatePixCurrent - Function exit";
 }
 
 void FileControl::setViewerType(imageViewerSpace::ImgViewerType type)
 {
+    qDebug() << "FileControl::setViewerType - Function entry, type:" << type;
     m_viewerType = type;
 }
 
 bool FileControl::isAlbum()
 {
+    qDebug() << "FileControl::isAlbum - Function entry";
     bool bRet = false;
     if (m_viewerType == imageViewerSpace::ImgViewerTypeAlbum) {
         bRet = true;
     }
+    qDebug() << "FileControl::isAlbum - Function exit, returning:" << bRet;
     return bRet;
 }
 
 bool FileControl::checkMimeUrls(const QList<QUrl> &urls)
 {
+    qDebug() << "FileControl::checkMimeUrls - Function entry, urls:" << urls;
     if (1 > urls.size()) {
+        qDebug() << "FileControl::checkMimeUrls - Branch: urls.size() <= 0";
         return false;
     }
     QList<QUrl> urlList = urls;
@@ -1146,12 +1287,15 @@ bool FileControl::checkMimeUrls(const QList<QUrl> &urls)
             auto finfos = LibUnionImage_NameSpace::getImagesAndVideoInfo(path, false);
             for (auto finfo : finfos) {
                 if (LibUnionImage_NameSpace::imageSupportRead(finfo.absoluteFilePath()) || LibUnionImage_NameSpace::isVideo(finfo.absoluteFilePath())) {
+                    qDebug() << "image support read or is video, return true";
                     return true;
                 }
             }
         } else if (LibUnionImage_NameSpace::imageSupportRead(path) || LibUnionImage_NameSpace::isVideo(path)) {
+            qDebug() << "image support read or is video, return true";
             return true;
         }
     }
+    qDebug() << "FileControl::checkMimeUrls - Function exit, returning false";
     return false;
 }

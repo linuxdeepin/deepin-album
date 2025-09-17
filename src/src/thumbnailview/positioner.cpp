@@ -35,16 +35,18 @@ Positioner::Positioner(QObject *parent)
 
 Positioner::~Positioner()
 {
-    qDebug() << "Destroying Positioner";
+    // qDebug() << "Destroying Positioner";
 }
 
 bool Positioner::enabled() const
 {
+    // qDebug() << "Positioner::enabled - Function entry, returning:" << m_enabled;
     return m_enabled;
 }
 
 void Positioner::setEnabled(bool enabled)
 {
+    // qDebug() << "Positioner::setEnabled - Function entry, enabled:" << enabled;
     if (m_enabled != enabled) {
         qDebug() << "Setting enabled from" << m_enabled << "to" << enabled;
         m_enabled = enabled;
@@ -63,15 +65,18 @@ void Positioner::setEnabled(bool enabled)
             m_updatePositionsTimer->start();
         }
     }
+    // qDebug() << "Positioner::setEnabled - Function exit";
 }
 
 ThumbnailModel *Positioner::thumbnailModel() const
 {
+    // qDebug() << "Positioner::thumbnailModel - Function entry, returning:" << (m_thumbnialModel ? "set" : "null");
     return m_thumbnialModel;
 }
 
 void Positioner::setThumbnailModel(ThumbnailModel *thumbnailModel)
 {
+    // qDebug() << "Positioner::setThumbnailModel - Function entry, thumbnailModel:" << thumbnailModel;
     if (m_thumbnialModel != thumbnailModel) {
         qDebug() << "Setting thumbnail model from" << m_thumbnialModel << "to" << thumbnailModel;
         beginResetModel();
@@ -94,15 +99,18 @@ void Positioner::setThumbnailModel(ThumbnailModel *thumbnailModel)
 
         Q_EMIT sortModelChanged();
     }
+    // qDebug() << "Positioner::setThumbnailModel - Function exit";
 }
 
 int Positioner::perStripe() const
 {
+    // qDebug() << "Positioner::perStripe - Function entry, returning:" << m_perStripe;
     return m_perStripe;
 }
 
 void Positioner::setPerStripe(int perStripe)
 {
+    // qDebug() << "Positioner::setPerStripe - Function entry, perStripe:" << perStripe;
     if (m_perStripe != perStripe) {
         qDebug() << "Setting per stripe from" << m_perStripe << "to" << perStripe;
         m_perStripe = perStripe;
@@ -113,15 +121,18 @@ void Positioner::setPerStripe(int perStripe)
             applyPositions();
         }
     }
+    // qDebug() << "Positioner::setPerStripe - Function exit";
 }
 
 QStringList Positioner::positions() const
 {
+    // qDebug() << "Positioner::positions - Function entry, returning" << m_positions.size() << "positions";
     return m_positions;
 }
 
 void Positioner::setPositions(const QStringList &positions)
 {
+    // qDebug() << "Positioner::setPositions - Function entry, positions:" << positions;
     if (m_positions != positions) {
         qDebug() << "Setting positions, count:" << positions.size();
         m_positions = positions;
@@ -136,19 +147,24 @@ void Positioner::setPositions(const QStringList &positions)
             applyPositions();
         }
     }
+    // qDebug() << "Positioner::setPositions - Function exit";
 }
 
 int Positioner::map(int row) const
 {
+    // qDebug() << "Positioner::map - Function entry, row:" << row;
     if (m_enabled && m_thumbnialModel) {
+        // qDebug() << "Positioner::map - Branch: enabled, returning mapped row:" << m_proxyToSource.value(row, -1);
         return m_proxyToSource.value(row, -1);
     }
 
+    // qDebug() << "Positioner::map - Branch: disabled or no model, returning original row:" << row;
     return row;
 }
 
 QVariantList Positioner::maps(QVariantList rows) const
 {
+    // qDebug() << "Positioner::maps - Function entry, rows:" << rows;
     QVariantList varList;
     varList.clear();
     if (m_enabled && m_thumbnialModel) {
@@ -162,11 +178,13 @@ QVariantList Positioner::maps(QVariantList rows) const
         qDebug() << "Mapping" << rows.size() << "rows to" << varList.size() << "mapped rows";
     }
 
+    // qDebug() << "Positioner::maps - Function exit, returning" << varList.size() << "mapped rows";
     return varList;
 }
 
 int Positioner::nearestItem(int currentIndex, Qt::ArrowType direction)
 {
+    // qDebug() << "Positioner::nearestItem - Function entry, currentIndex:" << currentIndex << "direction:" << direction;
     if (!m_enabled || currentIndex >= rowCount()) {
         qDebug() << "Cannot find nearest item - disabled or invalid index:" << currentIndex;
         return -1;
@@ -239,11 +257,13 @@ int Positioner::nearestItem(int currentIndex, Qt::ArrowType direction)
 
 bool Positioner::isBlank(int row) const
 {
+    // qDebug() << "Positioner::isBlank - Function entry, row:" << row << "returning false";
     return false;
 }
 
 int Positioner::indexForUrl(const QUrl &url) const
 {
+    // qDebug() << "Positioner::isBlank - Function entry, row:" << row << "returning false";
     if (!m_thumbnialModel) {
         qDebug() << "Cannot find index for URL - no thumbnail model";
         return -1;
@@ -262,11 +282,13 @@ int Positioner::indexForUrl(const QUrl &url) const
         }
     }
 
+    // qDebug() << "Positioner::isBlank - Function exit, returning" << m_sourceToProxy.value(sourceIndex, -1);
     return m_sourceToProxy.value(sourceIndex, -1);
 }
 
 void Positioner::setRangeSelected(int anchor, int to)
 {
+    // qDebug() << "Positioner::setRangeSelected - Function entry, anchor:" << anchor << "to:" << to;
     if (!m_thumbnialModel) {
         qDebug() << "Cannot set range selection - no thumbnail model";
         return;
@@ -288,35 +310,43 @@ void Positioner::setRangeSelected(int anchor, int to)
     } else {
         m_thumbnialModel->setRangeSelected(anchor, to);
     }
+    // qDebug() << "Positioner::setRangeSelected - Function exit";
 }
 
 QHash<int, QByteArray> Positioner::roleNames() const
 {
+    // qDebug() << "Positioner::roleNames - Function entry";
     if (!m_thumbnialModel)
         return QHash<int, QByteArray>();
+    // qDebug() << "Positioner::roleNames - Function exit, returning" << m_thumbnialModel->roleNames();
     return m_thumbnialModel->roleNames();
 }
 
 QModelIndex Positioner::index(int row, int column, const QModelIndex &parent) const
 {
+    // qDebug() << "Positioner::index - Function entry, row:" << row << "column:" << column << "parent:" << parent;
     if (parent.isValid()) {
         return QModelIndex();
     }
 
+    // qDebug() << "Positioner::index - Function exit, returning" << createIndex(row, column);
     return createIndex(row, column);
 }
 
 QModelIndex Positioner::parent(const QModelIndex &index) const
 {
+    // qDebug() << "Positioner::parent - Function entry, index:" << index;
     if (m_thumbnialModel) {
         m_thumbnialModel->parent(index);
     }
 
+    // qDebug() << "Positioner::parent - Function exit, returning" << QModelIndex();
     return QModelIndex();
 }
 
 QVariant Positioner::data(const QModelIndex &index, int role) const
 {
+    // qDebug() << "Positioner::data - Function entry, index:" << index << "role:" << role;
     if (!index.isValid()) {
         return QVariant();
     }
@@ -333,11 +363,13 @@ QVariant Positioner::data(const QModelIndex &index, int role) const
         }
     }
 
+    // qDebug() << "Positioner::data - Function exit, returning" << QVariant();
     return QVariant();
 }
 
 int Positioner::rowCount(const QModelIndex &parent) const
 {
+    // qDebug() << "Positioner::rowCount - Function entry, parent:" << parent;
     if (m_thumbnialModel) {
         if (m_enabled) {
             if (parent.isValid()) {
@@ -350,17 +382,21 @@ int Positioner::rowCount(const QModelIndex &parent) const
         }
     }
 
+    // qDebug() << "Positioner::rowCount - Function exit, returning" << 0;
     return 0;
 }
 
 int Positioner::columnCount(const QModelIndex &parent) const
 {
+    // qDebug() << "Positioner::columnCount - Function entry, parent:" << parent;
     Q_UNUSED(parent)
 
     if (m_thumbnialModel) {
+        // qDebug() << "Positioner::columnCount - Branch: model is valid, returning 1";
         return 1;
     }
 
+    // qDebug() << "Positioner::columnCount - Function exit, returning" << 0;
     return 0;
 }
 
@@ -379,6 +415,7 @@ void Positioner::reset()
 
 int Positioner::move(const QVariantList &moves)
 {
+    // qDebug() << "Positioner::move - Function entry, moves:" << moves;
     // Don't allow moves while listing.
     if (m_thumbnialModel->status() == ThumbnailModel::Listing) {
         qDebug() << "Deferring move - model is listing";
@@ -477,6 +514,7 @@ int Positioner::move(const QVariantList &moves)
 
 void Positioner::updatePositions()
 {
+    // qDebug() << "Positioner::updatePositions - Function entry";
     QStringList positions;
 
     if (m_enabled && !m_proxyToSource.isEmpty() && m_perStripe > 0) {
@@ -508,10 +546,12 @@ void Positioner::updatePositions()
 
         Q_EMIT positionsChanged();
     }
+    // qDebug() << "Positioner::updatePositions - Function exit";
 }
 
 void Positioner::sourceStatusChanged()
 {
+    // qDebug() << "Positioner::sourceStatusChanged - Function entry";
     if (m_deferApplyPositions && m_thumbnialModel->status() != ThumbnailModel::Listing) {
         qDebug() << "Applying deferred positions";
         applyPositions();
@@ -522,10 +562,12 @@ void Positioner::sourceStatusChanged()
         move(m_deferMovePositions);
         m_deferMovePositions.clear();
     }
+    // qDebug() << "Positioner::sourceStatusChanged - Function exit";
 }
 
 void Positioner::sourceDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
+    // qDebug() << "Positioner::sourceDataChanged - Function entry, topLeft:" << topLeft << "bottomRight:" << bottomRight << "roles:" << roles;
     if (m_enabled) {
         qDebug() << "Source data changed from row" << topLeft.row() << "to" << bottomRight.row();
         int start = topLeft.row();
@@ -539,26 +581,32 @@ void Positioner::sourceDataChanged(const QModelIndex &topLeft, const QModelIndex
             }
         }
     } else {
+        // qDebug() << "Positioner::sourceDataChanged - Branch: disabled, emitting dataChanged";
         Q_EMIT dataChanged(topLeft, bottomRight, roles);
     }
+    // qDebug() << "Positioner::sourceDataChanged - Function exit";
 }
 
 void Positioner::sourceModelAboutToBeReset()
 {
+    // qDebug() << "Positioner::sourceModelAboutToBeReset - Function entry";
     beginResetModel();
 }
 
 void Positioner::sourceModelReset()
 {
+    // qDebug() << "Positioner::sourceModelReset - Function entry";
     if (m_enabled) {
         initMaps();
     }
 
     endResetModel();
+    // qDebug() << "Positioner::sourceModelReset - Function exit";
 }
 
 void Positioner::sourceRowsAboutToBeInserted(const QModelIndex &parent, int start, int end)
 {
+    // qDebug() << "Positioner::sourceRowsAboutToBeInserted - Function entry, parent:" << parent << "start:" << start << "end:" << end;
     if (m_enabled) {
         qDebug() << "Source rows about to be inserted from" << start << "to" << end;
         // Don't insert yet if we're waiting for listing to complete to apply
@@ -620,6 +668,7 @@ void Positioner::sourceRowsAboutToBeInserted(const QModelIndex &parent, int star
         beginInsertRows(parent, start, end);
         m_beginInsertRowsCalled = true;
     }
+    // qDebug() << "Positioner::sourceRowsAboutToBeInserted - Function exit";
 }
 
 void Positioner::sourceRowsAboutToBeMoved(const QModelIndex &sourceParent,
@@ -628,11 +677,13 @@ void Positioner::sourceRowsAboutToBeMoved(const QModelIndex &sourceParent,
                                           const QModelIndex &destinationParent,
                                           int destinationRow)
 {
+    // qDebug() << "Positioner::sourceRowsAboutToBeMoved - Function entry, sourceParent:" << sourceParent << "sourceStart:" << sourceStart << "sourceEnd:" << sourceEnd << "destinationParent:" << destinationParent << "destinationRow:" << destinationRow;
     beginMoveRows(sourceParent, sourceStart, sourceEnd, destinationParent, destinationRow);
 }
 
 void Positioner::sourceRowsAboutToBeRemoved(const QModelIndex &parent, int first, int last)
 {
+    // qDebug() << "Positioner::sourceRowsAboutToBeRemoved - Function entry, parent:" << parent << "first:" << first << "last:" << last;
     if (m_enabled) {
         qDebug() << "Source rows about to be removed from" << first << "to" << last;
         int oldLast = lastRow();
@@ -674,10 +725,12 @@ void Positioner::sourceRowsAboutToBeRemoved(const QModelIndex &parent, int first
     } else {
         beginRemoveRows(parent, first, last);
     }
+    // qDebug() << "Positioner::sourceRowsAboutToBeRemoved - Function exit";
 }
 
 void Positioner::sourceLayoutAboutToBeChanged(const QList<QPersistentModelIndex> &parents, QAbstractItemModel::LayoutChangeHint hint)
 {
+    // qDebug() << "Positioner::sourceLayoutAboutToBeChanged - Function entry, parents:" << parents << "hint:" << hint;
     Q_UNUSED(parents)
 
     Q_EMIT layoutAboutToBeChanged(QList<QPersistentModelIndex>(), hint);
@@ -685,6 +738,7 @@ void Positioner::sourceLayoutAboutToBeChanged(const QList<QPersistentModelIndex>
 
 void Positioner::sourceRowsInserted(const QModelIndex &parent, int first, int last)
 {
+    // qDebug() << "Positioner::sourceRowsInserted - Function entry, parent:" << parent << "first:" << first << "last:" << last;
     Q_UNUSED(parent)
     Q_UNUSED(first)
     Q_UNUSED(last)
@@ -705,10 +759,12 @@ void Positioner::sourceRowsInserted(const QModelIndex &parent, int first, int la
     if (!m_deferApplyPositions) {
         m_updatePositionsTimer->start();
     }
+    // qDebug() << "Positioner::sourceRowsInserted - Function exit";
 }
 
 void Positioner::sourceRowsMoved(const QModelIndex &sourceParent, int sourceStart, int sourceEnd, const QModelIndex &destinationParent, int destinationRow)
 {
+    // qDebug() << "Positioner::sourceRowsMoved - Function entry, sourceParent:" << sourceParent << "sourceStart:" << sourceStart << "sourceEnd:" << sourceEnd << "destinationParent:" << destinationParent << "destinationRow:" << destinationRow;
     Q_UNUSED(sourceParent)
     Q_UNUSED(sourceStart)
     Q_UNUSED(sourceEnd)
@@ -720,6 +776,7 @@ void Positioner::sourceRowsMoved(const QModelIndex &sourceParent, int sourceStar
 
 void Positioner::sourceRowsRemoved(const QModelIndex &parent, int first, int last)
 {
+    // qDebug() << "Positioner::sourceRowsRemoved - Function entry, parent:" << parent << "first:" << first << "last:" << last;
     Q_UNUSED(parent)
     Q_UNUSED(first)
     Q_UNUSED(last)
@@ -733,10 +790,12 @@ void Positioner::sourceRowsRemoved(const QModelIndex &parent, int first, int las
     flushPendingChanges();
 
     m_updatePositionsTimer->start();
+    // qDebug() << "Positioner::sourceRowsRemoved - Function exit";
 }
 
 void Positioner::sourceLayoutChanged(const QList<QPersistentModelIndex> &parents, QAbstractItemModel::LayoutChangeHint hint)
 {
+    // qDebug() << "Positioner::sourceLayoutChanged - Function entry, parents:" << parents << "hint:" << hint;
     Q_UNUSED(parents)
 
     if (m_enabled) {
@@ -744,6 +803,7 @@ void Positioner::sourceLayoutChanged(const QList<QPersistentModelIndex> &parents
     }
 
     Q_EMIT layoutChanged(QList<QPersistentModelIndex>(), hint);
+    // qDebug() << "Positioner::sourceLayoutChanged - Function exit";
 }
 
 void Positioner::initMaps(int size)
@@ -757,22 +817,26 @@ void Positioner::initMaps(int size)
     }
 
     if (!size) {
+        qDebug() << "Positioner::initMaps - Branch: size is 0, returning";
         return;
     }
 
     for (int i = 0; i < size; ++i) {
         updateMaps(i, i);
     }
+    qDebug() << "Positioner::initMaps - Function exit";
 }
 
 void Positioner::updateMaps(int proxyIndex, int sourceIndex)
 {
+    qDebug() << "Positioner::updateMaps - Function entry, proxyIndex:" << proxyIndex << "sourceIndex:" << sourceIndex;
     m_proxyToSource.insert(proxyIndex, sourceIndex);
     m_sourceToProxy.insert(sourceIndex, proxyIndex);
 }
 
 int Positioner::firstRow() const
 {
+    qDebug() << "Positioner::firstRow - Function entry";
     if (!m_proxyToSource.isEmpty()) {
         QList<int> keys(m_proxyToSource.keys());
         std::sort(keys.begin(), keys.end());
@@ -780,22 +844,26 @@ int Positioner::firstRow() const
         return keys.first();
     }
 
+    qDebug() << "Positioner::firstRow - Function exit, returning" << -1;
     return -1;
 }
 
 int Positioner::lastRow() const
 {
+    qDebug() << "Positioner::lastRow - Function entry";
     if (!m_proxyToSource.isEmpty()) {
         QList<int> keys(m_proxyToSource.keys());
         std::sort(keys.begin(), keys.end());
         return keys.last();
     }
 
+    qDebug() << "Positioner::lastRow - Function exit, returning" << 0;
     return 0;
 }
 
 int Positioner::firstFreeRow() const
 {
+    qDebug() << "Positioner::firstFreeRow - Function entry";
     if (!m_proxyToSource.isEmpty()) {
         int last = lastRow();
 
@@ -806,11 +874,13 @@ int Positioner::firstFreeRow() const
         }
     }
 
+    qDebug() << "Positioner::firstFreeRow - Function exit, returning" << -1;
     return -1;
 }
 
 void Positioner::applyPositions()
 {
+    qDebug() << "Positioner::applyPositions - Function entry";
     // We were called while the source model is listing. Defer applying positions
     // until listing completes.
     if (m_thumbnialModel->status() == ThumbnailModel::Listing) {
@@ -941,10 +1011,12 @@ void Positioner::applyPositions()
     m_deferApplyPositions = false;
 
     m_updatePositionsTimer->start();
+    qDebug() << "Positioner::applyPositions - Function exit";
 }
 
 void Positioner::flushPendingChanges()
 {
+    qDebug() << "Positioner::flushPendingChanges - Function entry";
     if (m_pendingChanges.isEmpty()) {
         return;
     }
@@ -959,6 +1031,7 @@ void Positioner::flushPendingChanges()
     }
 
     m_pendingChanges.clear();
+    qDebug() << "Positioner::flushPendingChanges - Function exit";
 }
 
 void Positioner::connectSignals(ThumbnailModel *model)

@@ -29,6 +29,7 @@ ImageSourceModel::~ImageSourceModel()
  */
 QHash<int, QByteArray> ImageSourceModel::roleNames() const
 {
+    // qDebug() << "ImageSourceModel::roleNames - Entry";
     return {{Types::ImageUrlRole, "imageUrl"}};
 }
 
@@ -37,6 +38,7 @@ QHash<int, QByteArray> ImageSourceModel::roleNames() const
  */
 QVariant ImageSourceModel::data(const QModelIndex &index, int role) const
 {
+    // qDebug() << "ImageSourceModel::data - Entry";
     if (!checkIndex(index, CheckIndexOption::ParentIsInvalid | CheckIndexOption::IndexIsValid)) {
         qWarning() << "Invalid index requested:" << index.row() << "role:" << role;
         return {};
@@ -49,6 +51,7 @@ QVariant ImageSourceModel::data(const QModelIndex &index, int role) const
             break;
     }
 
+    // qDebug() << "ImageSourceModel::data - Exit";
     return {};
 }
 
@@ -58,6 +61,7 @@ QVariant ImageSourceModel::data(const QModelIndex &index, int role) const
  */
 bool ImageSourceModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    // qDebug() << "ImageSourceModel::setData - Entry";
     if (!checkIndex(index, CheckIndexOption::ParentIsInvalid | CheckIndexOption::IndexIsValid)) {
         qWarning() << "Invalid index for setData:" << index.row() << "role:" << role;
         return false;
@@ -73,6 +77,7 @@ bool ImageSourceModel::setData(const QModelIndex &index, const QVariant &value, 
             break;
     }
 
+    // qDebug() << "ImageSourceModel::setData - Exit";
     return false;
 }
 
@@ -81,6 +86,7 @@ bool ImageSourceModel::setData(const QModelIndex &index, const QVariant &value, 
  */
 int ImageSourceModel::rowCount(const QModelIndex &parent) const
 {
+    // qDebug() << "ImageSourceModel::rowCount - Entry";
     Q_UNUSED(parent);
     return imageUrlList.count();
 }
@@ -90,11 +96,13 @@ int ImageSourceModel::rowCount(const QModelIndex &parent) const
  */
 int ImageSourceModel::indexForImagePath(const QUrl &file)
 {
+    // qDebug() << "ImageSourceModel::indexForImagePath - Entry";
     if (file.isEmpty()) {
         qWarning() << "Empty file URL requested for index";
         return -1;
     }
 
+    // qDebug() << "ImageSourceModel::indexForImagePath - Exit";
     return imageUrlList.indexOf(file);
 }
 
@@ -103,6 +111,7 @@ int ImageSourceModel::indexForImagePath(const QUrl &file)
  */
 void ImageSourceModel::setImageFiles(const QList<QUrl> &files)
 {
+    // qDebug() << "ImageSourceModel::setImageFiles - Entry";
     beginResetModel();
     imageUrlList = files;
     endResetModel();
@@ -113,6 +122,7 @@ void ImageSourceModel::setImageFiles(const QList<QUrl> &files)
  */
 void ImageSourceModel::removeImage(const QUrl &fileName)
 {
+    // qDebug() << "ImageSourceModel::removeImage - Entry";
     int index = imageUrlList.indexOf(fileName);
     if (-1 != index) {
         qDebug() << "Removing image at index" << index << ":" << fileName;
@@ -123,4 +133,5 @@ void ImageSourceModel::removeImage(const QUrl &fileName)
     } else {
         qWarning() << "Attempted to remove non-existent image:" << fileName;
     }
+    // qDebug() << "ImageSourceModel::removeImage - Exit";
 }

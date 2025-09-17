@@ -3,3 +3,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "roles.h"
+#include <QDebug>
+
+Roles::Roles()
+{
+    qDebug() << "Roles::Roles - Entry";
+}

@@ -14,11 +14,12 @@ ThumbnailCache::ThumbnailCache()
 
 ThumbnailCache::~ThumbnailCache() 
 {
-    qDebug() << "ThumbnailCache destroyed";
+    // qDebug() << "ThumbnailCache destroyed";
 }
 
 ThumbnailCache *ThumbnailCache::instance()
 {
+    // qDebug() << "ThumbnailCache::instance - Entry";
     static ThumbnailCache ins;
     return &ins;
 }
@@ -28,6 +29,7 @@ ThumbnailCache *ThumbnailCache::instance()
  */
 bool ThumbnailCache::contains(const QString &path, int frameIndex)
 {
+    // qDebug() << "ThumbnailCache::contains - Entry";
     QMutexLocker _locker(&mutex);
     bool result = cache.contains(toFindKey(path, frameIndex));
     qDebug() << "Checking thumbnail cache for path:" << path << "frame:" << frameIndex << "result:" << result;
@@ -40,6 +42,7 @@ bool ThumbnailCache::contains(const QString &path, int frameIndex)
  */
 QImage ThumbnailCache::get(const QString &path, int frameIndex)
 {
+    // qDebug() << "ThumbnailCache::get - Entry";
     QMutexLocker _locker(&mutex);
     QImage *image = cache.object(toFindKey(path, frameIndex));
     if (image) {
@@ -56,6 +59,7 @@ QImage ThumbnailCache::get(const QString &path, int frameIndex)
  */
 void ThumbnailCache::add(const QString &path, int frameIndex, const QImage &image)
 {
+    // qDebug() << "ThumbnailCache::add - Entry";
     QMutexLocker _locker(&mutex);
     cache.insert(toFindKey(path, frameIndex), new QImage(image));
     qDebug() << "Added thumbnail to cache for path:" << path << "frame:" << frameIndex << "size:" << image.size();
@@ -66,6 +70,7 @@ void ThumbnailCache::add(const QString &path, int frameIndex, const QImage &imag
  */
 void ThumbnailCache::remove(const QString &path, int frameIndex)
 {
+    // qDebug() << "ThumbnailCache::remove - Entry";
     QMutexLocker _locker(&mutex);
     cache.remove(toFindKey(path, frameIndex));
     qDebug() << "Removed thumbnail from cache for path:" << path << "frame:" << frameIndex;
@@ -76,6 +81,7 @@ void ThumbnailCache::remove(const QString &path, int frameIndex)
  */
 void ThumbnailCache::setMaxCost(int maxCost)
 {
+    // qDebug() << "ThumbnailCache::setMaxCost - Entry";
     QMutexLocker _locker(&mutex);
     cache.setMaxCost(maxCost);
     qDebug() << "Set thumbnail cache max cost to:" << maxCost;
@@ -86,6 +92,7 @@ void ThumbnailCache::setMaxCost(int maxCost)
  */
 void ThumbnailCache::clear()
 {
+    // qDebug() << "ThumbnailCache::clear - Entry";
     QMutexLocker _locker(&mutex);
     cache.clear();
     qDebug() << "Cleared all thumbnails from cache";
@@ -96,6 +103,7 @@ void ThumbnailCache::clear()
  */
 QList<ThumbnailCache::Key> ThumbnailCache::keys()
 {
+    // qDebug() << "ThumbnailCache::keys - Entry";
     return cache.keys();
 }
 
@@ -104,5 +112,6 @@ QList<ThumbnailCache::Key> ThumbnailCache::keys()
  */
 ThumbnailCache::Key ThumbnailCache::toFindKey(const QString &path, int frameIndex)
 {
+    // qDebug() << "ThumbnailCache::toFindKey - Entry";
     return qMakePair(path, frameIndex);
 }

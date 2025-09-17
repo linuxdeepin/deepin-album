@@ -13,6 +13,7 @@ static const int sc_ESampleInterval = 50;  // 采样间隔 50ms
 CursorTool::CursorTool(QObject *parent)
     : QObject(parent)
 {
+    qDebug() << "CursorTool::CursorTool - Function entry";
     m_CaptureTimer = new QTimer(this);
     m_CaptureTimer->setInterval(sc_ESampleInterval);
 
@@ -29,6 +30,7 @@ CursorTool::CursorTool(QObject *parent)
         auto newColor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
         emit activeColorChanged(newColor);
     });
+    qDebug() << "CursorTool::CursorTool - Function exit";
 }
 
 /**
@@ -36,6 +38,7 @@ CursorTool::CursorTool(QObject *parent)
  */
 QPoint CursorTool::currentCursorPos() const
 {
+    // qDebug() << "CursorTool::currentCursorPos - Function entry";
     return QCursor::pos();
 }
 
@@ -45,14 +48,21 @@ QPoint CursorTool::currentCursorPos() const
  */
 void CursorTool::setCaptureCursor(bool b)
 {
+    qDebug() << "CursorTool::setCaptureCursor - Function entry, b:" << b;
     if (b) {
+        qDebug() << "CursorTool::setCaptureCursor - Branch: starting timer";
         m_CaptureTimer->start();
     } else {
+        qDebug() << "CursorTool::setCaptureCursor - Branch: stopping timer";
         m_CaptureTimer->stop();
     }
+    qDebug() << "CursorTool::setCaptureCursor - Function exit";
 }
 
 QColor CursorTool::activeColor()
 {
-    return Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+    // qDebug() << "CursorTool::activeColor - Function entry";
+    QColor color = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
+    // qDebug() << "CursorTool::activeColor - Function exit, returning color:" << color;
+    return color;
 }

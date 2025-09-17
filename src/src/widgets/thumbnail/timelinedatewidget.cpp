@@ -83,12 +83,14 @@ void TimeLineDateWidget::onThemeChanged(DGuiApplicationHelper::ColorType themeTy
     DPalette pal = DPaletteHelper::instance()->palette(m_pNumCheckBox);
     QColor color_BT = pal.color(DPalette::BrightText);
     if (themeType == DGuiApplicationHelper::LightType) {
+        qDebug() << "Theme changed to Light";
         pal.setBrush(DPalette::Text, lightTextColor);
         m_pNumCheckBox->setForegroundRole(DPalette::Text);
         m_pNumCheckBox->setPalette(pal);
         m_pNum->setForegroundRole(DPalette::Text);
         m_pNum->setPalette(pal);
     } else if (themeType == DGuiApplicationHelper::DarkType) {
+        qDebug() << "Theme changed to Dark";
         color_BT.setAlphaF(0.75);
         pal.setBrush(DPalette::Text, darkTextColor);
         m_pNumCheckBox->setForegroundRole(DPalette::Text);
@@ -100,6 +102,7 @@ void TimeLineDateWidget::onThemeChanged(DGuiApplicationHelper::ColorType themeTy
     DPalette color = DPaletteHelper::instance()->palette(m_pDate);
     color.setBrush(DPalette::Text, themeType == DGuiApplicationHelper::LightType ? lightTextColor : darkTextColor);
     m_pDate->setPalette(color);
+    qDebug() << "Theme changed to:" << (themeType == DGuiApplicationHelper::LightType ? "Light" : "Dark");
 }
 
 void TimeLineDateWidget::onShowCheckBox(bool bShow)
@@ -111,6 +114,7 @@ void TimeLineDateWidget::onShowCheckBox(bool bShow)
 
 void TimeLineDateWidget::onCheckBoxCliked()
 {
+    qDebug() << "Checkbox clicked - Entry";
     bool isChecked = m_pNumCheckBox->isChecked();
     qDebug() << "Checkbox clicked - checked:" << isChecked;
     emit sigIsSelectCurrentDatePic(isChecked, m_currentItem);
@@ -130,6 +134,7 @@ void TimeLineDateWidget::onTimeLinePicSelectAll(bool selectall)
 
 QString TimeLineDateWidget::onGetBtnStatus()
 {
+    qDebug() << "Getting button status - Entry";
     QString status = m_chooseBtn->text();
     qDebug() << "Getting button status:" << status;
     return status;
@@ -191,6 +196,7 @@ importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QS
 
 void importTimeLineDateWidget::onCheckBoxCliked()
 {
+    qDebug() << "Checkbox clicked - Entry";
     bool isChecked = m_pDateandNumCheckBox->isChecked();
     qDebug() << "Checkbox clicked - checked:" << isChecked;
     emit sigIsSelectCurrentDatePic(isChecked, m_currentItem);
@@ -210,6 +216,7 @@ void importTimeLineDateWidget::onTimeLinePicSelectAll(bool selectall)
 
 QString importTimeLineDateWidget::onGetBtnStatus()
 {
+    qDebug() << "Getting button status - Entry";
     QString status = m_chooseBtn->text();
     qDebug() << "Getting button status:" << status;
     return status;
@@ -220,18 +227,21 @@ void importTimeLineDateWidget::onThemeChanged(DGuiApplicationHelper::ColorType t
     qDebug() << "Theme changed to:" << (themeType == DGuiApplicationHelper::LightType ? "Light" : "Dark");
     DPalette pal = DPaletteHelper::instance()->palette(m_pDateandNumCheckBox);
     if (themeType == DGuiApplicationHelper::LightType) {
+        qDebug() << "Theme changed to Light";
         pal.setBrush(DPalette::Text, lightTextColor);
         m_pDateandNumCheckBox->setForegroundRole(DPalette::Text);
         m_pDateandNumCheckBox->setPalette(pal);
         m_pDateandNum->setForegroundRole(DPalette::Text);
         m_pDateandNum->setPalette(pal);
     } else if (themeType == DGuiApplicationHelper::DarkType) {
+        qDebug() << "Theme changed to Dark";
         pal.setBrush(DPalette::Text, darkTextColor);
         m_pDateandNumCheckBox->setForegroundRole(DPalette::Text);
         m_pDateandNumCheckBox->setPalette(pal);
         m_pDateandNum->setForegroundRole(DPalette::Text);
         m_pDateandNum->setPalette(pal);
     }
+    qDebug() << "Theme changed to:" << (themeType == DGuiApplicationHelper::LightType ? "Light" : "Dark");
 }
 
 void importTimeLineDateWidget::onShowCheckBox(bool bShow)

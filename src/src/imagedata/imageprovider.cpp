@@ -20,6 +20,7 @@ static const QString s_tagFrame = "#frame_";
  */
 static void parseProviderID(const QString &id, QString &filePath, int &frameIndex)
 {
+    // qDebug() << "Parsing provider ID:" << id;
     // 从后向前查询索引标识
     int index = id.lastIndexOf(QRegularExpression(QString("%1\\d+$").arg(s_tagFrame)));
     if (-1 == index) {
@@ -60,6 +61,7 @@ static QImage readMultiImage(const QString &imagePath, int frameIndex)
     QImageReader reader(imagePath);
 
     if (reader.jumpToImage(frameIndex)) {
+        // qDebug() << "Jumping to frame:" << frameIndex << "in image:" << imagePath;
         // 读取图像数据
         QImage image = reader.read();
         if (!image.isNull()) {
@@ -103,11 +105,12 @@ AsyncImageResponse::AsyncImageResponse(AsyncImageProvider *p, const QString &i, 
 
 AsyncImageResponse::~AsyncImageResponse() 
 {
-    qDebug() << "Cleaning up async image response for:" << providerId;
+    // qDebug() << "Cleaning up async image response for:" << providerId;
 }
 
 QQuickTextureFactory *AsyncImageResponse::textureFactory() const
 {
+    // qDebug() << "Getting texture factory for image:" << image;
     return QQuickTextureFactory::textureFactoryForImage(image);
 }
 
@@ -154,12 +157,12 @@ void AsyncImageResponse::run()
  */
 ProviderCache::ProviderCache() 
 {
-    qDebug() << "Initializing provider cache";
+    // qDebug() << "Initializing provider cache";
 }
 
 ProviderCache::~ProviderCache() 
 {
-    qDebug() << "Cleaning up provider cache";
+    // qDebug() << "Cleaning up provider cache";
 }
 
 /**
@@ -250,6 +253,7 @@ void ProviderCache::clearCache()
  */
 void ProviderCache::preloadImage(const QString &)
 {
+    // qDebug() << "Preloading image:" << filePath;
     // Nothing
 }
 
@@ -308,7 +312,7 @@ ImageProvider::ImageProvider()
 
 ImageProvider::~ImageProvider() 
 {
-    qDebug() << "Cleaning up image provider";
+    // qDebug() << "Cleaning up image provider";
 }
 
 /**
@@ -374,7 +378,7 @@ ThumbnailProvider::ThumbnailProvider()
 
 ThumbnailProvider::~ThumbnailProvider() 
 {
-    qDebug() << "Cleaning up thumbnail provider";
+    // qDebug() << "Cleaning up thumbnail provider";
 }
 
 /**

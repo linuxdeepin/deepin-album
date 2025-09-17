@@ -111,3 +111,5 @@ build
 .cursor
 .cursorindexingignore
 .specstory
+.promptx/
+.spec-workflow/

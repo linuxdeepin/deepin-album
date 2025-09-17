@@ -12,7 +12,7 @@ class Roles : public QObject
     Q_OBJECT
     Q_ENUMS(RoleNames)
 public:
-    using QObject::QObject;
+    Roles();
     ~Roles() = default;
     enum RoleNames {
         BlankRole = Qt::UserRole + 1,

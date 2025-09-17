@@ -44,16 +44,19 @@ MouseEventListener::~MouseEventListener()
 
 Qt::MouseButtons MouseEventListener::acceptedButtons() const
 {
+    // qDebug() << "MouseEventListener::acceptedButtons - Function entry, returning:" << m_acceptedButtons;
     return m_acceptedButtons;
 }
 
 Qt::CursorShape MouseEventListener::cursorShape() const
 {
+    // qDebug() << "MouseEventListener::cursorShape - Function entry, returning:" << cursor().shape();
     return cursor().shape();
 }
 
 void MouseEventListener::setCursorShape(Qt::CursorShape shape)
 {
+    // qDebug() << "MouseEventListener::setCursorShape - Function entry, shape:" << shape;
     if (cursor().shape() == shape || !m_enableMouse) {
         return;
     }
@@ -66,17 +69,21 @@ void MouseEventListener::setCursorShape(Qt::CursorShape shape)
 
 bool MouseEventListener::enableMouse()
 {
+    // qDebug() << "MouseEventListener::enableMouse - Function entry, returning:" << m_enableMouse;
     return m_enableMouse;
 }
 
 void MouseEventListener::setEnableMouse(bool enable)
 {
+    // qDebug() << "MouseEventListener::setEnableMouse - Function entry, enable:" << enable;
     m_enableMouse = enable;
 }
 
 void MouseEventListener::setAcceptedButtons(Qt::MouseButtons buttons)
 {
+    // qDebug() << "MouseEventListener::setAcceptedButtons - Function entry, buttons:" << buttons;
     if (buttons == m_acceptedButtons) {
+        // qDebug() << "MouseEventListener::setAcceptedButtons - Branch: buttons unchanged";
         return;
     }
 
@@ -87,7 +94,9 @@ void MouseEventListener::setAcceptedButtons(Qt::MouseButtons buttons)
 
 void MouseEventListener::setHoverEnabled(bool enable)
 {
+    // qDebug() << "MouseEventListener::setHoverEnabled - Function entry, enable:" << enable;
     if (enable == acceptHoverEvents()) {
+        // qDebug() << "MouseEventListener::setHoverEnabled - Branch: enable unchanged";
         return;
     }
 
@@ -98,16 +107,19 @@ void MouseEventListener::setHoverEnabled(bool enable)
 
 bool MouseEventListener::hoverEnabled() const
 {
+    // qDebug() << "MouseEventListener::hoverEnabled - Function entry, returning:" << acceptHoverEvents();
     return acceptHoverEvents();
 }
 
 bool MouseEventListener::isPressed() const
 {
+    // qDebug() << "MouseEventListener::isPressed - Function entry, returning:" << m_pressed;
     return m_pressed;
 }
 
 void MouseEventListener::hoverEnterEvent(QHoverEvent *event)
 {
+    // qDebug() << "MouseEventListener::hoverEnterEvent - Function entry, event:" << event;
     Q_UNUSED(event);
 
     if (!m_enableMouse)
@@ -120,6 +132,7 @@ void MouseEventListener::hoverEnterEvent(QHoverEvent *event)
 
 void MouseEventListener::hoverLeaveEvent(QHoverEvent *event)
 {
+    // qDebug() << "MouseEventListener::hoverLeaveEvent - Function entry, event:" << event;
     Q_UNUSED(event);
 
     if (!m_enableMouse)
@@ -131,7 +144,9 @@ void MouseEventListener::hoverLeaveEvent(QHoverEvent *event)
 
 void MouseEventListener::hoverMoveEvent(QHoverEvent *event)
 {
+    // qDebug() << "MouseEventListener::hoverMoveEvent - Function entry, event:" << event;
     if (m_lastEvent == event || !m_enableMouse) {
+        // qDebug() << "MouseEventListener::hoverMoveEvent - Branch: event or enableMouse is false";
         return;
     }
 
@@ -151,16 +166,20 @@ void MouseEventListener::hoverMoveEvent(QHoverEvent *event)
                                nullptr,
                                Qt::MouseEventNotSynthesized);
     Q_EMIT positionChanged(&dme);
+    // qDebug() << "MouseEventListener::hoverMoveEvent - Function exit";
 }
 
 bool MouseEventListener::containsMouse() const
 {
+    // qDebug() << "MouseEventListener::containsMouse - Function entry, returning:" << m_containsMouse;
     return m_containsMouse;
 }
 
 void MouseEventListener::mousePressEvent(QMouseEvent *me)
 {
+    // qDebug() << "MouseEventListener::mousePressEvent - Function entry, me:" << me;
     if (m_lastEvent == me || !(me->buttons() & m_acceptedButtons) || !m_enableMouse) {
+        // qDebug() << "MouseEventListener::mousePressEvent - Branch: event or acceptedButtons or enableMouse is false";
         me->setAccepted(false);
         return;
     }
@@ -211,11 +230,14 @@ void MouseEventListener::mousePressEvent(QMouseEvent *me)
     }
 
     m_pressAndHoldTimer->start(QGuiApplication::styleHints()->mousePressAndHoldInterval());
+    // qDebug() << "MouseEventListener::mousePressEvent - Function exit";
 }
 
 void MouseEventListener::mouseMoveEvent(QMouseEvent *me)
 {
+    // qDebug() << "MouseEventListener::mouseMoveEvent - Function entry, me:" << me;
     if (m_lastEvent == me || !(me->buttons() & m_acceptedButtons) || !m_enableMouse) {
+        // qDebug() << "MouseEventListener::mouseMoveEvent - Branch: event or acceptedButtons or enableMouse is false";
         me->setAccepted(false);
         return;
     }
@@ -237,13 +259,17 @@ void MouseEventListener::mouseMoveEvent(QMouseEvent *me)
     Q_EMIT positionChanged(&dme);
 
     if (dme.isAccepted()) {
+        // qDebug() << "MouseEventListener::mouseMoveEvent - Branch: dme is accepted";
         me->setAccepted(true);
     }
+    // qDebug() << "MouseEventListener::mouseMoveEvent - Function exit";
 }
 
 void MouseEventListener::mouseReleaseEvent(QMouseEvent *me)
 {
+    // qDebug() << "MouseEventListener::mouseReleaseEvent - Function entry, me:" << me;
     if (m_lastEvent == me || !m_enableMouse) {
+        // qDebug() << "MouseEventListener::mouseReleaseEvent - Branch: event or enableMouse is false";
         me->setAccepted(false);
         return;
     }
@@ -270,11 +296,14 @@ void MouseEventListener::mouseReleaseEvent(QMouseEvent *me)
     if (dme.isAccepted()) {
         me->setAccepted(true);
     }
+    // qDebug() << "MouseEventListener::mouseReleaseEvent - Function exit";
 }
 
 void MouseEventListener::wheelEvent(QWheelEvent *we)
 {
+    // qDebug() << "MouseEventListener::wheelEvent - Function entry, we:" << we;
     if (m_lastEvent == we || !m_enableMouse) {
+        // qDebug() << "MouseEventListener::wheelEvent - Branch: event or enableMouse is false";
         we->setAccepted(false);
         return;
     }
@@ -295,10 +324,12 @@ void MouseEventListener::wheelEvent(QWheelEvent *we)
                                Qt::Vertical /* HACK, deprecated, remove */);
 #endif
     Q_EMIT wheelMoved(&dwe);
+    // qDebug() << "MouseEventListener::wheelEvent - Function exit";
 }
 
 void MouseEventListener::handlePressAndHold()
 {
+    // qDebug() << "MouseEventListener::handlePressAndHold - Function entry";
     if (!m_enableMouse)
         return;
 
@@ -312,21 +343,26 @@ void MouseEventListener::handlePressAndHold()
 
 bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
 {
+    // qDebug() << "MouseEventListener::childMouseEventFilter - Function entry, item:" << item << "event:" << event;
     if (!isEnabled() || !m_enableMouse) {
+        // qDebug() << "MouseEventListener::childMouseEventFilter - Branch: isEnabled or enableMouse is false";
         return false;
     }
 
     // don't filter other mouseeventlisteners
     if (qobject_cast<MouseEventListener *>(item)) {
+        // qDebug() << "MouseEventListener::childMouseEventFilter - Branch: item is a MouseEventListener";
         return false;
     }
 
     switch (event->type()) {
     case QEvent::MouseButtonPress: {
+        // qDebug() << "MouseEventListener::childMouseEventFilter - Branch: MouseButtonPress";
         m_lastEvent = event;
         QMouseEvent *me = static_cast<QMouseEvent *>(event);
 
         if (!(me->buttons() & m_acceptedButtons)) {
+            // qDebug() << "MouseEventListener::childMouseEventFilter - Branch: buttons not accepted";
             break;
         }
 
@@ -367,6 +403,7 @@ bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
         break;
     }
     case QEvent::HoverMove: {
+        // qDebug() << "MouseEventListener::childMouseEventFilter - Branch: HoverMove";
         if (!acceptHoverEvents()) {
             break;
         }
@@ -391,6 +428,7 @@ bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
         break;
     }
     case QEvent::MouseMove: {
+        // qDebug() << "MouseEventListener::childMouseEventFilter - Branch: MouseMove";
         m_lastEvent = event;
         QMouseEvent *me = static_cast<QMouseEvent *>(event);
         if (!(me->buttons() & m_acceptedButtons)) {
@@ -436,6 +474,7 @@ bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
         break;
     }
     case QEvent::MouseButtonRelease: {
+        // qDebug() << "MouseEventListener::childMouseEventFilter - Branch: MouseButtonRelease";
         m_lastEvent = event;
         QMouseEvent *me = static_cast<QMouseEvent *>(event);
 
@@ -467,12 +506,14 @@ bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
         break;
     }
     case QEvent::UngrabMouse: {
+        // qDebug() << "MouseEventListener::childMouseEventFilter - Branch: UngrabMouse";
         m_lastEvent = event;
         qDebug() << "Mouse ungrab event received";
         handleUngrab();
         break;
     }
     case QEvent::Wheel: {
+        // qDebug() << "MouseEventListener::childMouseEventFilter - Branch: Wheel";
         m_lastEvent = event;
         QWheelEvent *we = static_cast<QWheelEvent *>(event);
 #if (QT_VERSION >= QT_VERSION_CHECK(5,15,2))
@@ -497,17 +538,21 @@ bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
         break;
     }
 
+    // qDebug() << "MouseEventListener::childMouseEventFilter - Function exit";
     return QQuickItem::childMouseEventFilter(item, event);
 }
 
 QScreen *MouseEventListener::screenForGlobalPos(const QPoint &globalPos)
 {
+    // qDebug() << "MouseEventListener::screenForGlobalPos - Function entry, globalPos:" << globalPos;
     const auto screens = QGuiApplication::screens();
     for (QScreen *screen : screens) {
         if (screen->geometry().contains(globalPos)) {
+            // qDebug() << "MouseEventListener::screenForGlobalPos - Branch: found screen for position";
             return screen;
         }
     }
+    // qDebug() << "MouseEventListener::screenForGlobalPos - Function exit, returning nullptr";
     return nullptr;
 }
 
@@ -529,6 +574,7 @@ void MouseEventListener::touchUngrabEvent()
 
 void MouseEventListener::handleUngrab()
 {
+    qDebug() << "MouseEventListener::handleUngrab - Function entry";
     if (!m_enableMouse)
         return;
 
@@ -541,4 +587,5 @@ void MouseEventListener::handleUngrab()
 
         Q_EMIT canceled();
     }
+    qDebug() << "MouseEventListener::handleUngrab - Function exit";
 }

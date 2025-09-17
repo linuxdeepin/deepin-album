@@ -52,21 +52,24 @@ FilterWidget::FilterWidget(QWidget *parent): QWidget(parent)
 
 FilterWidget::~FilterWidget()
 {
-    qDebug() << "Destroying FilterWidget";
+    // qDebug() << "Destroying FilterWidget";
 }
 
 void FilterWidget::setIcon(QIcon icon)
 {
+    // qDebug() << "FilterWidget::setIcon - Entry";
     m_leftLabel->setPixmap(icon.pixmap(QSize(14, 14)));
 }
 
 void FilterWidget::setText(QString text)
 {
+    // qDebug() << "FilterWidget::setText - Entry";
     m_btn->setText(text);
 }
 
 void FilterWidget::setFilteData(ExpansionPanel::FilteData &data)
 {
+    // qDebug() << "FilterWidget::setFilteData - Entry";
     m_data = data;
     themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
     m_btn->setText(data.text);
@@ -74,23 +77,28 @@ void FilterWidget::setFilteData(ExpansionPanel::FilteData &data)
 
 ExpansionPanel::FilteData FilterWidget::getFilterData()
 {
+    // qDebug() << "FilterWidget::getFilterData - Entry";
     return m_data;
 }
 
 ItemType FilterWidget::getFilteType()
 {
+    // qDebug() << "FilterWidget::getFilteType - Entry";
     return m_data.type;
 }
 
 void FilterWidget::onClicked()
 {
+    // qDebug() << "FilterWidget::onClicked - Entry";
     emit clicked();
 }
 
 void FilterWidget::themeTypeChanged(int type)
 {
+    // qDebug() << "FilterWidget::themeTypeChanged - Entry";
     DPalette pal = DPaletteHelper::instance()->palette(m_btn);
     if (type == 1) {
+        // qDebug() << "FilterWidget::themeTypeChanged - Entry, type is 1";
         QString path = ":/icons/deepin/builtin/icons/light/";
         path += m_data.icon_r_path;
         path += "_16px.svg";
@@ -102,6 +110,7 @@ void FilterWidget::themeTypeChanged(int type)
         m_btn->setText(m_data.text);
         pal.setBrush(DPalette::Text, lightTextColor);
     } else {
+        // qDebug() << "FilterWidget::themeTypeChanged - Entry, type is 2";
         QString path = ":/icons/deepin/builtin/icons/dark";
         path += m_data.icon_r_path;
         path += "_16px.svg";
@@ -115,10 +124,12 @@ void FilterWidget::themeTypeChanged(int type)
     }
     m_btn->setForegroundRole(DPalette::Text);
     m_btn->setPalette(pal);
+    // qDebug() << "FilterWidget::themeTypeChanged - Exit";
 }
 
 bool FilterWidget::eventFilter(QObject *obj, QEvent *event)
 {
+    // qDebug() << "FilterWidget::eventFilter - Entry";
     if (obj == m_btn || obj == m_rightLabel) {
         QMouseEvent *e = dynamic_cast<QMouseEvent *>(event);
         if (e && (e->type() == QEvent::MouseMove)) {
@@ -130,12 +141,13 @@ bool FilterWidget::eventFilter(QObject *obj, QEvent *event)
             return true;
         }
     }
+    // qDebug() << "FilterWidget::eventFilter - Exit";
     return QWidget::eventFilter(obj, event);
 }
 
 void FilterWidget::resizeEvent(QResizeEvent *e)
 {
-    qDebug() << "Filter widget resized to width:" << this->width();
+    // qDebug() << "Filter widget resized to width:" << this->width();
     sigWidthChanged(this->width());
     QWidget::resizeEvent(e);
 }
@@ -154,6 +166,7 @@ ExpansionMenu::ExpansionMenu(QWidget *parent)
 
 FilterWidget *ExpansionMenu::mainWidget()
 {
+    // qDebug() << "ExpansionMenu::mainWidget - Entry";
     return mainButton;
 }
 
@@ -184,26 +197,30 @@ void ExpansionMenu::onMainButtonClicked()
 
 void ExpansionMenu::addNewButton(ExpansionPanel::FilteData &data)
 {
+    // qDebug() << "ExpansionMenu::addNewButton - Entry";
     panel->addNewButton(data);
 }
 
 void ExpansionMenu::setDefaultFilteData(ExpansionPanel::FilteData &data)
 {
+    // qDebug() << "ExpansionMenu::setDefaultFilteData - Entry";
     mainButton->setFilteData(data);
 }
 
 FilterLabel::FilterLabel(QWidget *parent)
 {
-
+    // qDebug() << "Creating FilterLabel";
 }
 
 FilterLabel::~FilterLabel()
 {
-    qDebug() << "Destroying FilterLabel";
+    // qDebug() << "Destroying FilterLabel";
 }
 
 void FilterLabel::mouseReleaseEvent(QMouseEvent *ev)
 {
+    // qDebug() << "FilterLabel::mouseReleaseEvent - Entry";
     emit clicked();
     QLabel::mouseReleaseEvent(ev);
+    // qDebug() << "FilterLabel::mouseReleaseEvent - Exit";
 }

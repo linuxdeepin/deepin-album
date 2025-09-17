@@ -83,6 +83,7 @@ QPixmap renderSVG(const QString &filePath, const QSize &size)
 
 QString timeToString(const QDateTime &time, bool normalFormat)
 {
+    // qDebug() << "Converting time to string";
     QString result = normalFormat ? time.toString(DATETIME_FORMAT_NORMAL) : time.toString(DATETIME_FORMAT_EXIF);
     qDebug() << "Converting time:" << time << "to string format:" << (normalFormat ? "normal" : "exif") << "Result:" << result;
     return result;
@@ -90,18 +91,21 @@ QString timeToString(const QDateTime &time, bool normalFormat)
 
 int stringWidth(const QFont &f, const QString &str)
 {
+    // qDebug() << "Calculating string width";
     QFontMetrics fm(f);
     return fm.boundingRect(str).width();
 }
 
 int stringHeight(const QFont &f, const QString &str)
 {
+    // qDebug() << "Calculating string height";
     QFontMetrics fm(f);
     return fm.boundingRect(str).height();
 }
 
 QDateTime stringToDateTime(const QString &time)
 {
+    // qDebug() << "Converting string to date time";
     QDateTime dt = QDateTime::fromString(time, DATETIME_FORMAT_EXIF);
     if (!dt.isValid()) {
         qDebug() << "Failed to parse time with EXIF format, trying normal format:" << time;
@@ -112,6 +116,7 @@ QDateTime stringToDateTime(const QString &time)
 
 void showInFileManager(const QString &path)
 {
+    // qDebug() << "Showing file manager for path:" << path;
     if (path.isEmpty() || !QFile::exists(path)) {
         qWarning() << "Invalid path for file manager:" << path;
         return;
@@ -389,12 +394,14 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize, bool 
 
 QString hash(const QString &str)
 {
+    // qDebug() << "Hashing string:" << str;
     return QString(QCryptographicHash::hash(str.toUtf8(),
                                             QCryptographicHash::Md5).toHex());
 }
 
 QString hashByString(const QString &str)
 {
+    // qDebug() << "Hashing string:" << str;
     return QCryptographicHash::hash(str.toUtf8(), QCryptographicHash::Md5).toHex();
 }
 
@@ -419,6 +426,7 @@ QString hashByData(const QString &str)
 
 bool onMountDevice(const QString &path)
 {
+    qDebug() << "Checking if path is on mount device:" << path;
     bool result = (path.startsWith("/media/") || path.startsWith("/run/media/"));
     qDebug() << "Checking if path is on mount device:" << path << "Result:" << result;
     return result;
@@ -455,6 +463,7 @@ QString filePathToThumbnailPath(const QString &filePath, QString dataHash)
 
 QString getDeleteFullPath(const QString &hash, const QString &fileName)
 {
+    // qDebug() << "Getting delete full path for hash:" << hash << "and file name:" << fileName;
     //防止文件过长,采用只用hash的名称;
     return albumGlobal::DELETE_PATH + "/" + hash + "." + QFileInfo(fileName).suffix();
 }
