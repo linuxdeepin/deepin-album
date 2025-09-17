@@ -7,7 +7,7 @@ version: '1'
 package:
   id: org.deepin.album
   name: deepin-album
-  version: 6.0.45.1
+  version: 6.0.46.1
   kind: app
   description: |
     album for deepin os.
@@ -15,8 +15,8 @@ package:
 command:
   - deepin-album
 
-base: org.deepin.base/25.2.0/arm64
-runtime: org.deepin.runtime.webengine/25.2.0/arm64
+base: org.deepin.base/25.2.1/arm64
+runtime: org.deepin.runtime.webengine/25.2.1/arm64
 
 build: |
   bash ./install_dep linglong/sources "$PREFIX"
