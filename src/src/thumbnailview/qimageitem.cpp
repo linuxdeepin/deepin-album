@@ -30,20 +30,25 @@ QImageItem::QImageItem(QQuickItem *parent)
 
 QImageItem::~QImageItem()
 {
-    qDebug() << "Destroying QImageItem";
+    // qDebug() << "Destroying QImageItem";
 }
 
 void QImageItem::initDamage()
 {
+    qDebug() << "QImageItem::initDamage - Function entry";
     DDciIcon::Theme theme = DDciIcon::Light;
-    if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::DarkType)
+    if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::DarkType) {
+        qDebug() << "QImageItem::initDamage - Branch: using dark theme";
         theme = DDciIcon::Dark;
+    }
 
     s_damage = DDciIcon::fromTheme("photo_breach").pixmap(1, 200, theme).toImage();
+    qDebug() << "QImageItem::initDamage - Function exit";
 }
 
 void QImageItem::setImage(const QImage &image)
 {
+    qDebug() << "QImageItem::setImage - Function entry";
     bool oldImageNull = m_image.isNull();
     m_image = image;
 
@@ -80,10 +85,12 @@ void QImageItem::setImage(const QImage &image)
         qDebug() << "Image null state changed from" << oldImageNull << "to" << m_image.isNull();
         Q_EMIT nullChanged();
     }
+    qDebug() << "QImageItem::setImage - Function exit";
 }
 
 QImage QImageItem::image() const
 {
+    // qDebug() << "QImageItem::image - Function entry, returning image";
     return m_image;
 }
 
@@ -95,36 +102,43 @@ void QImageItem::resetImage()
 
 void QImageItem::setSmooth(const bool smooth)
 {
+    qDebug() << "QImageItem::setSmooth - Function entry, smooth:" << smooth;
     if (smooth == m_smooth) {
         return;
     }
     qDebug() << "Setting smooth from" << m_smooth << "to" << smooth;
     m_smooth = smooth;
     update();
+    qDebug() << "QImageItem::setSmooth - Function exit";
 }
 
 bool QImageItem::smooth() const
 {
+    // qDebug() << "QImageItem::smooth - Function entry, returning:" << m_smooth;
     return m_smooth;
 }
 
 int QImageItem::nativeWidth() const
 {
+    qDebug() << "QImageItem::nativeWidth - Function entry";
     return m_image.size().width() / m_image.devicePixelRatio();
 }
 
 int QImageItem::nativeHeight() const
 {
+    qDebug() << "QImageItem::nativeHeight - Function entry";
     return m_image.size().height() / m_image.devicePixelRatio();
 }
 
 QImageItem::FillMode QImageItem::fillMode() const
 {
+    // qDebug() << "QImageItem::fillMode - Function entry, returning:" << static_cast<int>(m_fillMode);
     return m_fillMode;
 }
 
 void QImageItem::setFillMode(QImageItem::FillMode mode)
 {
+    qDebug() << "QImageItem::setFillMode - Function entry, mode:" << mode;
     if (mode == m_fillMode) {
         return;
     }
@@ -138,11 +152,12 @@ void QImageItem::setFillMode(QImageItem::FillMode mode)
 
 void QImageItem::paint(QPainter *painter)
 {
+    // qDebug() << "QImageItem::paint - Function entry";
     QImage *pImage = nullptr;
 
     // 图片为空时，显示撕裂图
     if (m_image.isNull()) {
-        qDebug() << "Painting damage image - source image is null";
+        // qDebug() << "Painting damage image - source image is null";
         pImage = &s_damage;
     } else {
         pImage = &m_image;
@@ -171,25 +186,30 @@ void QImageItem::paint(QPainter *painter)
     }
 
     painter->restore();
+    // qDebug() << "QImageItem::paint - Function exit";
 }
 
 bool QImageItem::isNull() const
 {
+    // qDebug() << "QImageItem::isNull - Function entry, returning:" << m_image.isNull();
     return m_image.isNull();
 }
 
 int QImageItem::paintedWidth() const
 {
+    // qDebug() << "QImageItem::paintedWidth - Function entry";
     return m_paintedRect.width();
 }
 
 int QImageItem::paintedHeight() const
 {
+    // qDebug() << "QImageItem::paintedHeight - Function entry";
     return m_paintedRect.height();
 }
 
 void QImageItem::updatePaintedRect()
 {
+    // qDebug() << "QImageItem::updatePaintedRect - Function entry";
     QImage *pImage = nullptr;
 
     if (m_image.isNull()) {
@@ -203,6 +223,7 @@ void QImageItem::updatePaintedRect()
 
     switch (m_fillMode) {
     case PreserveAspectFit: {
+        // qDebug() << "PreserveAspectFit - Function entry";
         QSizeF scaled = pImage->size();
         QSizeF size = boundingRect().size();
         scaled.scale(boundingRect().size(), Qt::KeepAspectRatio);
@@ -212,6 +233,7 @@ void QImageItem::updatePaintedRect()
         break;
     }
     case PreserveAspectCrop: {
+        // qDebug() << "PreserveAspectCrop - Function entry";
         QSizeF scaled = pImage->size();
         scaled.scale(boundingRect().size(), Qt::KeepAspectRatioByExpanding);
         destRect = QRectF(QPoint(0, 0), scaled);
@@ -220,12 +242,14 @@ void QImageItem::updatePaintedRect()
         break;
     }
     case TileVertically: {
+        // qDebug() << "TileVertically - Function entry";
         destRect = boundingRect().toRect();
         destRect.setWidth(destRect.width() / (width() / (qreal)pImage->width()));
         qDebug() << "TileVertically: dest rect" << destRect;
         break;
     }
     case TileHorizontally: {
+        // qDebug() << "TileHorizontally - Function entry";
         destRect = boundingRect().toRect();
         destRect.setHeight(destRect.height() / (height() / (qreal)pImage->height()));
         qDebug() << "TileHorizontally: dest rect" << destRect;
@@ -235,6 +259,7 @@ void QImageItem::updatePaintedRect()
     case Tile:
     case Pad:
     default:
+        // qDebug() << "Default fill mode - Function entry";
         destRect = boundingRect().toRect();
         qDebug() << "Default fill mode: dest rect" << destRect;
     }
@@ -244,6 +269,7 @@ void QImageItem::updatePaintedRect()
         Q_EMIT paintedHeightChanged();
         Q_EMIT paintedWidthChanged();
     }
+    // qDebug() << "QImageItem::updatePaintedRect - Function exit";
 }
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)

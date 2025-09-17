@@ -59,11 +59,13 @@ TimeLineView::TimeLineView(QmlWidget *parent)
 
 void TimeLineView::initConnections()
 {
+    qDebug() << "TimeLineView::themeChangeSlot - Entry";
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &TimeLineView::themeChangeSlot);
 }
 
 void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
 {
+    qDebug() << "TimeLineView::themeChangeSlot - Entry";
     DPalette pa1 = DPaletteHelper::instance()->palette(this);
     auto bakColor = pa1.color(DPalette::Window);
     bakColor.setAlpha(0.95 * 255);
@@ -80,22 +82,26 @@ void TimeLineView::themeChangeSlot(DGuiApplicationHelper::ColorType themeType)
 
     DPalette pal1 = DPaletteHelper::instance()->palette(m_numCheckBox);
     if (themeType == DGuiApplicationHelper::LightType) {
+        qDebug() << "Theme changed to Light";
         pal1.setBrush(DPalette::Text, lightTextColor);
         m_numCheckBox->setForegroundRole(DPalette::Text);
         m_numCheckBox->setPalette(pal1);
         m_numLabel->setForegroundRole(DPalette::Text);
         m_numLabel->setPalette(pal1);
     } else if (themeType == DGuiApplicationHelper::DarkType) {
+        qDebug() << "Theme changed to Dark";
         pal1.setBrush(DPalette::Text, darkTextColor);
         m_numCheckBox->setForegroundRole(DPalette::Text);
         m_numCheckBox->setPalette(pal1);
         m_numLabel->setForegroundRole(DPalette::Text);
         m_numLabel->setPalette(pal1);
     }
+    qDebug() << "TimeLineView::themeChangeSlot - Exit";
 }
 
 ThumbnailListView *TimeLineView::getThumbnailListView()
 {
+    // qDebug() << "TimeLineView::getThumbnailListView - Entry";
     return m_timeLineThumbnailListView;
 }
 
@@ -107,6 +113,7 @@ void TimeLineView::clearAllSelection()
 
 void TimeLineView::initTimeLineViewWidget()
 {
+    qDebug() << "TimeLineView::initTimeLineViewWidget - Entry";
     m_mainLayout = new QVBoxLayout();
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_timeLineViewWidget->setLayout(m_mainLayout);
@@ -237,25 +244,30 @@ void TimeLineView::sltCurrentFilterChanged(ExpansionPanel::FilteData &data)
     qDebug() << "Filter changed to type:" << data.type;
     int filterType = Types::All;
     if (data.type == ItemType::ItemTypeNull) {
+        qDebug() << "Filter changed to type: All";
         //显示全部
         m_timeLineThumbnailListView->showAppointTypeItem(ItemType::ItemTypeNull);
         filterType = Types::All;
     } else if (data.type == ItemType::ItemTypePic) {
+        qDebug() << "Filter changed to type: Picture";
         //显示图片
         m_timeLineThumbnailListView->showAppointTypeItem(ItemType::ItemTypePic);
         filterType = Types::Picture;
     } else if (data.type == ItemType::ItemTypeVideo) {
+        qDebug() << "Filter changed to type: Video";
         //显示视频
         m_timeLineThumbnailListView->showAppointTypeItem(ItemType::ItemTypeVideo);
         filterType = Types::Video;
     }
     if (m_qquickContainer) {
+        qDebug() << "Setting filter type to:" << filterType;
         m_qquickContainer->setFilterType(filterType);
     }
     clearAllSelection();
     //如果过滤会后数量<=0，则不可用
     m_ToolButton->setEnabled(m_timeLineThumbnailListView->getAppointTypeItemCount(m_ToolButton->getFilteType()) > 0);
     m_timeLineThumbnailListView->setFocus();
+    qDebug() << "Filter changed to type - Exit";
 }
 
 void TimeLineView::onShowCheckBox(bool bShow)
@@ -388,6 +400,7 @@ void TimeLineView::on_AddLabel(QString date, QString num)
 {
     qDebug() << "Adding label - date:" << date << "num:" << num;
     if ((nullptr != m_dateNumItemWidget)) {
+        qDebug() << "Adding label - date:" << date << "num:" << num;
         QList<QLabel *> labelList = m_dateNumItemWidget->findChildren<QLabel *>();
         labelList[0]->setText(date);
         labelList[1]->setText(num);
@@ -398,18 +411,21 @@ void TimeLineView::on_AddLabel(QString date, QString num)
 
 void TimeLineView::onCheckBoxClicked()
 {
+    qDebug() << "Checkbox clicked - Entry";
     bool isSelect = m_numCheckBox->isChecked();
     QString date_str = m_dateLabel->text();
     qDebug() << "Checkbox clicked - checked:" << isSelect << "date:" << date_str;
     //选中当前时间内的所有图片
     m_timeLineThumbnailListView->timeLimeFloatBtnClicked(date_str, isSelect);
+    qDebug() << "Checkbox clicked - Exit";
 }
 
 void TimeLineView::resizeEvent(QResizeEvent *ev)
 {
+    // qDebug() << "Resizing view to width:" << width();
     Q_UNUSED(ev);
     //m_spinner->move(width() / 2 - 20, (height() - 50) / 2 - 20);
-    qDebug() << "Resizing view to width:" << width();
+    // qDebug() << "Resizing view to width:" << width();
     m_dateNumItemWidget->setGeometry(0, 0, width() - 15, SUSPENSION_WIDGET_HEIGHT);
 //    m_pStatusBar->setFixedWidth(this->width());
 //    m_pStatusBar->move(0, this->height() - m_pStatusBar->height());
@@ -417,17 +433,19 @@ void TimeLineView::resizeEvent(QResizeEvent *ev)
 
 void TimeLineView::dragEnterEvent(QDragEnterEvent *e)
 {
+    // qDebug() << "Drag enter event - Entry";
     if (!Libutils::base::checkMimeUrls(e->mimeData()->urls())) {
         qDebug() << "Invalid mime URLs in drag enter event";
         return;
     }
-    qDebug() << "Accepting drag enter event";
+    // qDebug() << "Accepting drag enter event";
     e->setDropAction(Qt::CopyAction);
     e->accept();
 }
 
 void TimeLineView::dropEvent(QDropEvent *event)
 {
+    // qDebug() << "Drop event - Entry";
     QList<QUrl> urls = event->mimeData()->urls();
     if (urls.isEmpty()) {
         qDebug() << "No URLs in drop event";
@@ -435,25 +453,30 @@ void TimeLineView::dropEvent(QDropEvent *event)
     }
     //ImageEngineApi::instance()->ImportImagesFromUrlList(urls, "", -1, this);
     event->accept();
+    // qDebug() << "Drop event - Exit";
 }
 
 void TimeLineView::dragMoveEvent(QDragMoveEvent *event)
 {
+    // qDebug() << "Drag move event - Entry";
     event->accept();
 }
 
 void TimeLineView::dragLeaveEvent(QDragLeaveEvent *e)
 {
+    // qDebug() << "Drag leave event - Entry";
     Q_UNUSED(e);
 }
 
 void TimeLineView::mousePressEvent(QMouseEvent *e)
 {
+    // qDebug() << "Mouse press event - Entry";
     if (QApplication::keyboardModifiers() != Qt::ControlModifier && e->button() == Qt::LeftButton) {
-        qDebug() << "Clearing selection on left click without Ctrl modifier";
+        // qDebug() << "Clearing selection on left click without Ctrl modifier";
         m_timeLineThumbnailListView->clearSelection();
     }
     DWidget::mousePressEvent(e);
+    // qDebug() << "Mouse press event - Exit";
 }
 
 void TimeLineView::slotNoPicOrNoVideo(bool isNoResult)
@@ -466,15 +489,18 @@ void TimeLineView::slotNoPicOrNoVideo(bool isNoResult)
         m_numCheckBox->setText("");
         m_numLabel->setText("");
     }
+    qDebug() << "No results state changed to - Exit";
 }
 
 QPaintEngine *TimeLineView::paintEngine() const
 {
+    // qDebug() << "Paint engine - Entry";
     return nullptr;
 }
 
 void TimeLineView::paintEvent(QPaintEvent *event)
 {
+    // qDebug() << "Paint event - Entry";
     QWidget::paintEvent(event);
     if (m_qquickContainer)
         m_qquickContainer->update(event->rect());

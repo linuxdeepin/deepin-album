@@ -35,11 +35,12 @@ GlobalControl::GlobalControl(QObject *parent)
             submitImageChangeImmediately();
         }
     });
+    qDebug() << "GlobalControl::GlobalControl - Function exit";
 }
 
 GlobalControl::~GlobalControl()
 {
-    qDebug() << "Destroying GlobalControl";
+    // qDebug() << "Destroying GlobalControl";
     submitImageChangeImmediately();
 }
 
@@ -48,6 +49,7 @@ GlobalControl::~GlobalControl()
  */
 ImageSourceModel *GlobalControl::globalModel() const
 {
+    // qDebug() << "GlobalControl::globalModel - Function entry/exit";
     return sourceModel;
 }
 
@@ -56,6 +58,7 @@ ImageSourceModel *GlobalControl::globalModel() const
  */
 PathViewProxyModel *GlobalControl::viewModel() const
 {
+    // qDebug() << "GlobalControl::viewModel - Function entry/exit";
     return viewSourceModel;
 }
 
@@ -64,17 +67,21 @@ PathViewProxyModel *GlobalControl::viewModel() const
  */
 void GlobalControl::setCurrentSource(const QUrl &source)
 {
+    qDebug() << "GlobalControl::setCurrentSource - Function entry, source:" << source;
     if (currentImage.source() == source) {
+        qDebug() << "GlobalControl::setCurrentSource - Branch: source unchanged, function exit";
         return;
     }
 
     qDebug() << "Setting current source to:" << source;
     int index = sourceModel->indexForImagePath(source);
     if (-1 != index) {
+        qDebug() << "GlobalControl::setCurrentSource - Branch: found index" << index << ", setting";
         setIndexAndFrameIndex(index, 0);
     } else {
         qWarning() << "Failed to set current source - image not found in model:" << source;
     }
+    qDebug() << "GlobalControl::setCurrentSource - Function exit";
 }
 
 /**
@@ -82,6 +89,7 @@ void GlobalControl::setCurrentSource(const QUrl &source)
  */
 QUrl GlobalControl::currentSource() const
 {
+    // qDebug() << "GlobalControl::currentSource - Function entry, returning:" << currentImage.source();
     return currentImage.source();
 }
 
@@ -90,6 +98,7 @@ QUrl GlobalControl::currentSource() const
  */
 void GlobalControl::setCurrentIndex(int index)
 {
+    // qDebug() << "GlobalControl::setCurrentIndex - Function entry, index:" << index;
     setIndexAndFrameIndex(index, curFrameIndex);
 }
 
@@ -98,6 +107,7 @@ void GlobalControl::setCurrentIndex(int index)
  */
 int GlobalControl::currentIndex() const
 {
+    // qDebug() << "GlobalControl::currentIndex - Function entry, returning:" << curIndex;
     return curIndex;
 }
 
@@ -106,6 +116,7 @@ int GlobalControl::currentIndex() const
  */
 void GlobalControl::setCurrentFrameIndex(int frameIndex)
 {
+    // qDebug() << "GlobalControl::setCurrentFrameIndex - Function entry, frameIndex:" << frameIndex;
     setIndexAndFrameIndex(curIndex, frameIndex);
 }
 
@@ -114,6 +125,7 @@ void GlobalControl::setCurrentFrameIndex(int frameIndex)
  */
 int GlobalControl::currentFrameIndex() const
 {
+    // qDebug() << "GlobalControl::currentFrameIndex - Function entry, returning:" << curFrameIndex;
     return curFrameIndex;
 }
 
@@ -122,6 +134,7 @@ int GlobalControl::currentFrameIndex() const
  */
 int GlobalControl::imageCount() const
 {
+    // qDebug() << "GlobalControl::imageCount - Function entry, returning:" << sourceModel->rowCount();
     return sourceModel->rowCount();
 }
 
@@ -131,6 +144,7 @@ int GlobalControl::imageCount() const
  */
 void GlobalControl::setCurrentRotation(int angle)
 {
+    qDebug() << "GlobalControl::setCurrentRotation - Function entry, angle:" << angle;
     if (imageRotation != angle) {
         if (0 != (angle % 90)) {
             qWarning() << "Invalid rotation angle:" << angle << "- must be multiple of 90 degrees";
@@ -160,6 +174,7 @@ void GlobalControl::setCurrentRotation(int angle)
         // 启动提交定时器
         submitTimer.start(sc_SubmitInterval, this);
     }
+    qDebug() << "GlobalControl::setCurrentRotation - Function exit";
 }
 
 /**
@@ -167,6 +182,7 @@ void GlobalControl::setCurrentRotation(int angle)
  */
 int GlobalControl::currentRotation()
 {
+    // qDebug() << "GlobalControl::currentRotation - Function entry, returning:" << imageRotation;
     return imageRotation;
 }
 
@@ -175,6 +191,7 @@ int GlobalControl::currentRotation()
  */
 bool GlobalControl::hasPreviousImage() const
 {
+    // qDebug() << "GlobalControl::hasPreviousImage - Function entry, returning:" << hasPrevious;
     return hasPrevious;
 }
 
@@ -183,6 +200,7 @@ bool GlobalControl::hasPreviousImage() const
  */
 bool GlobalControl::hasNextImage() const
 {
+    // qDebug() << "GlobalControl::hasNextImage - Function entry, returning:" << hasNext;
     return hasNext;
 }
 
@@ -191,12 +209,15 @@ bool GlobalControl::hasNextImage() const
  */
 bool GlobalControl::previousImage()
 {
+    qDebug() << "GlobalControl::previousImage - Function entry";
     submitImageChangeImmediately();
 
     if (hasPreviousImage()) {
+        qDebug() << "GlobalControl::previousImage - Branch: hasPreviousImage()";
         Q_ASSERT(sourceModel);
         if (Types::MultiImage == currentImage.type()) {
             if (curFrameIndex > 0) {
+                qDebug() << "GlobalControl::previousImage - Branch: Types::MultiImage == currentImage.type()";
                 setIndexAndFrameIndex(curIndex, curFrameIndex - 1);
                 return true;
             }
@@ -204,11 +225,13 @@ bool GlobalControl::previousImage()
 
         if (curIndex > 0) {
             // 不确定前一张图片是何种类型，使用 INT_MAX 限定帧索引从尾部开始
+            qDebug() << "GlobalControl::previousImage - Branch: curIndex > 0";
             setIndexAndFrameIndex(curIndex - 1, INT_MAX);
             return true;
         }
     }
 
+    qDebug() << "GlobalControl::previousImage - Function exit, returning false";
     return false;
 }
 
@@ -217,12 +240,15 @@ bool GlobalControl::previousImage()
  */
 bool GlobalControl::nextImage()
 {
+    qDebug() << "GlobalControl::nextImage - Function entry";
     submitImageChangeImmediately();
 
     if (hasNextImage()) {
+        qDebug() << "GlobalControl::nextImage - Branch: hasNextImage()";
         Q_ASSERT(sourceModel);
         if (Types::MultiImage == currentImage.type()) {
             if (curFrameIndex < currentImage.frameCount() - 1) {
+                qDebug() << "GlobalControl::nextImage - Branch: Types::MultiImage == currentImage.type()";
                 setIndexAndFrameIndex(curIndex, curFrameIndex + 1);
                 return true;
             }
@@ -230,11 +256,13 @@ bool GlobalControl::nextImage()
 
         if (curIndex < sourceModel->rowCount() - 1) {
             // 无论是否为多页图，均设置为0
+            qDebug() << "GlobalControl::nextImage - Branch: curIndex < sourceModel->rowCount() - 1";
             setIndexAndFrameIndex(curIndex + 1, 0);
             return true;
         }
     }
 
+    qDebug() << "GlobalControl::nextImage - Function exit, returning false";
     return false;
 }
 
@@ -243,6 +271,7 @@ bool GlobalControl::nextImage()
  */
 bool GlobalControl::firstImage()
 {
+    qDebug() << "GlobalControl::firstImage - Function entry";
     submitImageChangeImmediately();
 
     Q_ASSERT(sourceModel);
@@ -250,6 +279,7 @@ bool GlobalControl::firstImage()
         setIndexAndFrameIndex(0, 0);
         return true;
     }
+    qDebug() << "GlobalControl::firstImage - Function exit, returning false";
     return false;
 }
 
@@ -258,26 +288,31 @@ bool GlobalControl::firstImage()
  */
 bool GlobalControl::lastImage()
 {
+    qDebug() << "GlobalControl::lastImage - Function entry";
     submitImageChangeImmediately();
 
     Q_ASSERT(sourceModel);
     int count = sourceModel->rowCount();
     if (count) {
+        qDebug() << "GlobalControl::lastImage - Branch: count > 0";
         int index = count - 1;
         int frameIndex = 0;
 
         if (Types::MultiImage == currentImage.type()) {
+            qDebug() << "GlobalControl::lastImage - Branch: Types::MultiImage == currentImage.type()";
             frameIndex = currentImage.frameCount() - 1;
         }
 
         setIndexAndFrameIndex(index, frameIndex);
         return true;
     }
+    qDebug() << "GlobalControl::lastImage - Function exit, returning false";
     return false;
 }
 
 bool GlobalControl::forceExit()
 {
+    qDebug() << "GlobalControl::forceExit - Function entry";
     QApplication::exit(0);
     _Exit(0);
 }
@@ -304,6 +339,7 @@ void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
 
     // 更新图像信息，无论变更均更新
     if (currentImage.source() != openFile) {
+        qDebug() << "GlobalControl::setImageFiles - Branch: currentImage.source() != openFile";
         currentImage.setSource(openFile);
     }
     Q_EMIT currentSourceChanged();
@@ -313,6 +349,7 @@ void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
 
     // 更新视图展示模型
     viewSourceModel->resetModel(index, 0);
+    qDebug() << "GlobalControl::setImageFiles - Function exit";
 }
 
 /**
@@ -340,6 +377,7 @@ void GlobalControl::removeImage(const QUrl &removeImage)
     }
 
     if (!atEnd) {
+        qDebug() << "GlobalControl::removeImage - Branch: !atEnd";
         // 需要提示的情况下不会越界
         const QUrl image = sourceModel->data(sourceModel->index(curIndex), Types::ImageUrlRole).toUrl();
         currentImage.setSource(image);
@@ -349,6 +387,7 @@ void GlobalControl::removeImage(const QUrl &removeImage)
         Q_EMIT currentIndexChanged();
     } else if (/*atEnd &&*/ (0 != sourceModel->rowCount())) {
         // 删除的尾部文件且仍有数据，更新当前文件信息
+        qDebug() << "GlobalControl::removeImage - Branch: atEnd && (0 != sourceModel->rowCount())";
         const QUrl image = sourceModel->data(sourceModel->index(curIndex - 1), Types::ImageUrlRole).toUrl();
         currentImage.setSource(image);
 
@@ -359,6 +398,7 @@ void GlobalControl::removeImage(const QUrl &removeImage)
 
     checkSwitchEnable();
     Q_EMIT imageCountChanged();
+    qDebug() << "GlobalControl::removeImage - Function exit";
 }
 
 /**
@@ -369,6 +409,7 @@ void GlobalControl::renameImage(const QUrl &oldName, const QUrl &newName)
     qDebug() << "Renaming image from" << oldName << "to" << newName;
     int index = sourceModel->indexForImagePath(oldName);
     if (-1 != index) {
+        qDebug() << "GlobalControl::renameImage - Branch: -1 != index";
         submitImageChangeImmediately();
 
         sourceModel->setData(sourceModel->index(index), newName, Types::ImageUrlRole);
@@ -386,6 +427,7 @@ void GlobalControl::renameImage(const QUrl &oldName, const QUrl &newName)
     } else {
         qWarning() << "Failed to rename image - not found in model:" << oldName;
     }
+    qDebug() << "GlobalControl::checkSwitchEnable - Function exit";
 }
 
 /**
@@ -394,21 +436,25 @@ void GlobalControl::renameImage(const QUrl &oldName, const QUrl &newName)
  */
 void GlobalControl::submitImageChangeImmediately()
 {
+    qDebug() << "GlobalControl::submitImageChangeImmediately - Function entry";
     submitTimer.stop();
     int rotation = currentRotation();
     if (0 == rotation) {
+        qDebug() << "Branch: 0 == rotation";
         return;
     }
 
     qDebug() << "Submitting image changes, rotation:" << rotation;
     rotation = rotation % 360;
     if (0 != rotation) {
+        qDebug() << "Branch: 0 != rotation";
         // 请求更新图片，同步图片旋转状态到文件中，将覆写文件
         Q_EMIT requestRotateImage(currentImage.source().toLocalFile(), rotation);
     }
 
     // 重置状态
     setCurrentRotation(0);
+    qDebug() << "GlobalControl::submitImageChangeImmediately - Function exit";
 }
 
 /**
@@ -417,6 +463,7 @@ void GlobalControl::submitImageChangeImmediately()
  */
 bool GlobalControl::enableMultiThread()
 {
+    // qDebug() << "GlobalControl::enableMultiThread - Function entry";
     static const int sc_MaxThreadCountLimit = 2;
     return bool(QThread::idealThreadCount() > sc_MaxThreadCountLimit);
 }
@@ -426,10 +473,13 @@ bool GlobalControl::enableMultiThread()
  */
 void GlobalControl::timerEvent(QTimerEvent *event)
 {
+    // qDebug() << "GlobalControl::timerEvent - Function entry";
     if (submitTimer.timerId() == event->timerId()) {
+        // qDebug() << "Branch: submitTimer.timerId() == event->timerId()";
         submitTimer.stop();
         submitImageChangeImmediately();
     }
+    // qDebug() << "GlobalControl::timerEvent - Function exit";
 }
 
 /**
@@ -437,18 +487,22 @@ void GlobalControl::timerEvent(QTimerEvent *event)
  */
 void GlobalControl::checkSwitchEnable()
 {
+    qDebug() << "GlobalControl::checkSwitchEnable - Function entry";
     Q_ASSERT(sourceModel);
     bool previous = (curIndex > 0 || curFrameIndex > 0);
     bool next = (curIndex < (sourceModel->rowCount() - 1) || curFrameIndex < (currentImage.frameCount() - 1));
 
     if (previous != hasPrevious) {
+        qDebug() << "GlobalControl::checkSwitchEnable - Branch: previous != hasPrevious";
         hasPrevious = previous;
         Q_EMIT hasPreviousImageChanged();
     }
     if (next != hasNext) {
+        qDebug() << "GlobalControl::checkSwitchEnable - Branch: next != hasNext";
         hasNext = next;
         Q_EMIT hasNextImageChanged();
     }
+    qDebug() << "GlobalControl::checkSwitchEnable - Function exit";
 }
 
 /**
@@ -458,6 +512,7 @@ void GlobalControl::checkSwitchEnable()
  */
 void GlobalControl::setIndexAndFrameIndex(int index, int frameIndex)
 {
+    qDebug() << "GlobalControl::setIndexAndFrameIndex - Function entry, index:" << index << "frameIndex:" << frameIndex;
     int validIndex = qBound(0, index, imageCount() - 1);
     if (this->curIndex != validIndex) {
         qDebug() << "Setting index from" << this->curIndex << "to" << validIndex;
@@ -485,4 +540,5 @@ void GlobalControl::setIndexAndFrameIndex(int index, int frameIndex)
 
     // 更新视图模型
     viewSourceModel->setCurrentSourceIndex(curIndex, curFrameIndex);
+    qDebug() << "GlobalControl::setIndexAndFrameIndex - Function exit";
 }

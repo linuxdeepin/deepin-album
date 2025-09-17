@@ -127,23 +127,28 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, int U
 
 ThumbnailListView::~ThumbnailListView()
 {
-    qDebug() << "Destroying ThumbnailListView";
+    // qDebug() << "Destroying ThumbnailListView";
     if (m_loadTimer) {
-        if (m_loadTimer->isActive())
+        if (m_loadTimer->isActive()) {
+            // qDebug() << "Stopping active load timer";
             m_loadTimer->stop();
+        }
         m_loadTimer->deleteLater();
     }
+    // qDebug() << "ThumbnailListView::~ThumbnailListView - Exit: destruction completed";
 }
 
 static QString myMimeType()
 {
+    // qDebug() << "ThumbnailListView::~ThumbnailListView - Entry: destruction completed";
     return QStringLiteral("TestListView/text-icon-icon_hover");
 }
 
 void ThumbnailListView::mousePressEvent(QMouseEvent *event)
 {
+    // qDebug() << "ThumbnailListView::mousePressEvent - Entry";
     QTime curTime = QTime::currentTime();
-    qDebug() << "Mouse press event at position:" << event->pos() << "button:" << event->button();
+    // qDebug() << "Mouse press event at position:" << event->pos() << "button:" << event->button();
 
     //点击时将焦点设置到当前
     setFocus();
@@ -151,11 +156,13 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
     activeClick = true;
     // 当事件source为MouseEventSynthesizedByQt，认为此事件为TouchBegin转换而来
     if (event->source() == Qt::MouseEventSynthesizedByQt) {
+        // qDebug() << "Touch event detected - setting touch begin position";
         lastTouchBeginPos = event->pos();
-        qDebug() << "Touch event detected at position:" << lastTouchBeginPos;
+        // qDebug() << "Touch event detected at position:" << lastTouchBeginPos;
 
         // 清空触屏滚动操作，因为在鼠标按下时还不知道即将进行的是触屏滚动还是文件框选
         if (QScroller::hasScroller(this)) {
+            // qDebug() << "Clearing existing scroller";
             // 不可使用 ungrab，会导致应用崩溃，或许是Qt的bug
             QScroller::scroller(this)->deleteLater();
         }
@@ -164,11 +171,12 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
     }
 
     if ((QApplication::keyboardModifiers() == Qt::ShiftModifier && event->button() == Qt::LeftButton)) {
+        // qDebug() << "Shift+Left click detected";
         // 最近删除界面单指循环选中、取消选中
         if (selectionModel()->selectedIndexes().contains(this->indexAt(event->pos()))
                 && selectionModel()->selectedIndexes().size() == 1 && m_imageType == COMMON_STR_TRASH) {
             if (event->button() != Qt::MouseButton::RightButton) { // 优化最近删除界面,长按时不清除选中
-                qDebug() << "Clearing selection in trash view";
+                // qDebug() << "Clearing selection in trash view";
                 clearSelection();
             }
         }
@@ -195,49 +203,55 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *event)
             && (m_imageType != ALBUM_PATHTYPE_BY_PHONE)) {
         if (info.itemType == ItemTypeImportTimeLineTitle) {
             //已导入时间线标题不可拖动
-            qDebug() << "Disabling drag for import timeline title";
+            // qDebug() << "Disabling drag for import timeline title";
             setDragEnabled(false);
         } else if (dragDropMode() != NoDragDrop) {
+            // qDebug() << "Enabling drag drop mode";
             setDragDropMode(DragDrop);
         }
     } else {
+        // qDebug() << "Disabling drag for special view types";
         setDragEnabled(false);
     }
     m_pressed = event->pos();
 
     if (event->button() == Qt::LeftButton) {
         if (m_lastPressTime.msecsTo(curTime) < 200) {
-            qDebug() << "Double click detected";
+            // qDebug() << "Double click detected";
             emit doubleClicked(index);
         }
         m_lastPressTime = curTime;
     }
 
     DListView::mousePressEvent(event);
+    // qDebug() << "ThumbnailListView::mousePressEvent - Exit: event processed";
 }
 
 void ThumbnailListView::mouseMoveEvent(QMouseEvent *event)
 {
+    // qDebug() << "ThumbnailListView::mouseMoveEvent - Entry: pos=" << event->pos();
     QRectF rect(QPointF((lastTouchBeginPos.x() - 30), (lastTouchBeginPos.y() - 30)),
                 QPointF((lastTouchBeginPos.x() + 30), (lastTouchBeginPos.y() + 30)));
     if (rect.contains(event->pos())) {
+        // qDebug() << "Mouse move within touch tolerance area - ignoring";
         return;
     }
 
     if (touchStatus == 0) {
-        qDebug() << "Touch status changed to 1";
+        // qDebug() << "Touch status changed to 1";
         touchStatus = 1;
         activeClick = false;
     }
 
     if (touchStatus == 1) {
         if (event->source() == Qt::MouseEventSynthesizedByQt) {
-            qDebug() << "Touch move event detected";
+            // qDebug() << "Touch move event detected";
         }
     }
 
     emit sigMouseMove();
     DListView::mouseMoveEvent(event);
+    // qDebug() << "ThumbnailListView::mouseMoveEvent - Exit: event processed";
 }
 
 void ThumbnailListView::startDrag(Qt::DropActions supportedActions)
@@ -272,32 +286,42 @@ void ThumbnailListView::showEvent(QShowEvent *event)
 
 void ThumbnailListView::hideEvent(QHideEvent *event)
 {
+    // qDebug() << "ThumbnailListView::hideEvent - Entry: widget hiding";
     // 控件隐藏时，若有焦点，清空焦点，可以避免焦点自动跳转到下一控件
     QWidget* fw = QApplication::focusWidget();
-    if (fw == this)
+    if (fw == this) {
+        // qDebug() << "Clearing focus from hidden widget";
         this->clearFocus();
+    }
 
     DListView::hideEvent(event);
+    // qDebug() << "ThumbnailListView::hideEvent - Exit: widget hidden";
 }
 
 void ThumbnailListView::wheelEvent(QWheelEvent *event)
 {
+    // qDebug() << "ThumbnailListView::wheelEvent - Entry: delta=" << event->angleDelta().y();
     if (event->angleDelta().y() < 0) {
         //向下滑时才可执行
+        // qDebug() << "Wheel down - disabling animation";
         m_animationEnable = false;
     } else {
+        // qDebug() << "Wheel up - enabling animation";
         m_animationEnable = true;
     }
 
     if (DApplication::keyboardModifiers() == Qt::ControlModifier) {
+        // qDebug() << "Ctrl+Wheel detected - zooming";
         GlobalStatus::instance()->sigZoomInOutFromQWidget(event->angleDelta().y());
     }
 
     DListView::wheelEvent(event);
+    // qDebug() << "ThumbnailListView::wheelEvent - Exit: wheel event processed";
 }
 
 QRect ThumbnailListView::visualRect(const QModelIndex &index) const
 {
+    // qDebug() << "ThumbnailListView::visualRect - Entry: index=" << index;
     //获取当前视图中的item项,找到视图中的index,注意：获取到的index可能不是最大值,但已经足够了
     return QListView::visualRect(index);
 }
@@ -333,24 +357,28 @@ void ThumbnailListView::sltReloadAfterFilterEnd(const QVector<DBImgInfo> &allIma
 
 void ThumbnailListView::onUpdateListview()
 {
+    // qDebug() << "ThumbnailListView::onUpdateListview - Entry";
     if (this->isVisible()) {
-        qDebug() << "Updating listview";
+        // qDebug() << "Updating listview";
         this->update();
     }
 }
 
 void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
 {
+    // qDebug() << "ThumbnailListView::mouseReleaseEvent - Entry";
     //触屏状态复位
     touchStatus = 0;
     updateEnableSelectionByMouseTimer->stop();
     m_animationEnable = false;
 
     if (COMMON_STR_RECENT_IMPORTED  == m_imageType) {
+        // qDebug() << "COMMON_STR_RECENT_IMPORTED";
         if (QApplication::keyboardModifiers() == Qt::NoModifier) {
             emit sigMouseRelease();
         }
     } else {
+        // qDebug() << "COMMON_STR_RECENT_IMPORTED";
         emit sigMouseRelease();
     }
 
@@ -359,10 +387,12 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *event)
     //每次选中需要更新右键菜单，以便快捷键响应，多选不响应，单选响应
     //BUG#101481 调整为在list view响应事件后刷新菜单
     updateMenuContents();
+    // qDebug() << "ThumbnailListView::mouseReleaseEvent - Exit";
 }
 
 void ThumbnailListView::keyPressEvent(QKeyEvent *event)
 {
+    // qDebug() << "ThumbnailListView::keyPressEvent - Entry";
     DListView::keyPressEvent(event);
     m_dragItemPath = selectedPaths();
     int id = -1;
@@ -396,14 +426,17 @@ void ThumbnailListView::keyPressEvent(QKeyEvent *event)
     }
 
     if (id != -1) {
-        qDebug() << "Emitting menu item clicked signal with id:" << id;
+        // qDebug() << "Emitting menu item clicked signal with id:" << id;
         GlobalStatus::instance()->sigMenuItemClickedFromQWidget(id);
     }
+    // qDebug() << "ThumbnailListView::keyPressEvent - Exit";
 }
 
 void ThumbnailListView::dragEnterEvent(QDragEnterEvent *event)
 {
+    // qDebug() << "ThumbnailListView::dragEnterEvent - Entry";
     if (event->mimeData()->hasFormat(myMimeType())) {
+        // qDebug() << "Mime data has format";
         if (event->source() == this) {
             event->setDropAction(Qt::MoveAction);
             event->accept();
@@ -417,11 +450,14 @@ void ThumbnailListView::dragEnterEvent(QDragEnterEvent *event)
     } else {
         event->ignore();
     }
+    // qDebug() << "ThumbnailListView::dragEnterEvent - Exit";
 }
 
 void ThumbnailListView::dragMoveEvent(QDragMoveEvent *event)
 {
+    // qDebug() << "ThumbnailListView::dragMoveEvent - Entry";
     if (event->mimeData()->hasFormat(myMimeType())) {
+        // qDebug() << "Mime data has format";
         if (event->source() == this) {
             event->setDropAction(Qt::MoveAction);
             event->accept();
@@ -435,19 +471,23 @@ void ThumbnailListView::dragMoveEvent(QDragMoveEvent *event)
     } else {
         event->ignore();
     }
+    // qDebug() << "ThumbnailListView::dragMoveEvent - Exit";
 }
 
 void ThumbnailListView::dragLeaveEvent(QDragLeaveEvent *event)
 {
+    // qDebug() << "ThumbnailListView::dragLeaveEvent - Entry";
     m_dragItemPath = selectedPaths();
     DListView::dragLeaveEvent(event);
 }
 
 void ThumbnailListView::dropEvent(QDropEvent *event)
 {
+    // qDebug() << "ThumbnailListView::dropEvent - Entry";
     if (event->mimeData()->hasFormat("TestListView/text-icon-icon_hover"))
         return;
     DListView::dropEvent(event);
+    // qDebug() << "ThumbnailListView::dropEvent - Exit";
 }
 
 void ThumbnailListView::initConnections()
@@ -502,6 +542,7 @@ void ThumbnailListView::insertThumbnail(const DBImgInfo &dBImgInfo)
 
 void ThumbnailListView::insertThumbnails(const DBImgInfoList &infos)
 {
+    qDebug() << "ThumbnailListView::insertThumbnails - Entry: count=" << infos.size();
     std::vector<std::pair<QModelIndex, DWidget *>> timelines;
 
     for (const auto &dBImgInfo : infos) {
@@ -541,13 +582,16 @@ void ThumbnailListView::insertThumbnails(const DBImgInfoList &infos)
     for (const auto &eachLine : timelines) {
         this->setIndexWidget(eachLine.first, eachLine.second);
     }
+    qDebug() << "ThumbnailListView::insertThumbnails - Exit: all thumbnails inserted successfully";
 }
 
 void ThumbnailListView::stopLoadAndClear(bool bClearModel)
 {
+    qDebug() << "ThumbnailListView::stopLoadAndClear - Entry: bClearModel=" << bClearModel;
     if (bClearModel)
         m_model->clear();   //清除模型中的数据
     m_allfileslist.clear();
+    qDebug() << "ThumbnailListView::stopLoadAndClear - Exit: cleanup completed";
 }
 //根据显示类型，返回不同列表，如所有照片返回所有，时间线返回当前时间下内容
 QStringList ThumbnailListView::getFileList(int row, ItemType type)
@@ -618,6 +662,7 @@ QStringList ThumbnailListView::getFileList(int row, ItemType type)
 
 QList<DBImgInfo> ThumbnailListView::getAllFileInfo(int row)
 {
+    qDebug() << "ThumbnailListView::getAllFileInfo - Entry: row=" << row;
     QList<DBImgInfo> DBImgInfos;
     if (m_delegatetype == ThumbnailDelegate::AllPicViewType
             || m_delegatetype == ThumbnailDelegate::AlbumViewCustomType
@@ -657,11 +702,13 @@ QList<DBImgInfo> ThumbnailListView::getAllFileInfo(int row)
             }
         }
     }
+    qDebug() << "ThumbnailListView::getAllFileInfo - Exit: returning" << DBImgInfos.size() << "files";
     return DBImgInfos;
 }
 
 int ThumbnailListView::getRow(const QString &path)
 {
+    qDebug() << "ThumbnailListView::getRow - Entry: path=" << path;
     int row = -1;
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
@@ -672,11 +719,13 @@ int ThumbnailListView::getRow(const QString &path)
             }
         }
     }
+    qDebug() << "ThumbnailListView::getRow - Exit: row=" << row;
     return row;
 }
 
 void ThumbnailListView::onShowMenu(const QPoint &pos)
 {
+    qDebug() << "ThumbnailListView::onShowMenu - Entry: pos=" << pos;
     //外接设备显示照片时，禁用鼠标右键菜单
     QModelIndex index = this->indexAt(pos);
     if (!index.isValid() || ALBUM_PATHTYPE_BY_PHONE == m_imageType) {
@@ -705,6 +754,7 @@ void ThumbnailListView::onShowMenu(const QPoint &pos)
     updateMenuContents();
     m_pMenu->popup(QCursor::pos());
 #endif
+    qDebug() << "ThumbnailListView::onShowMenu - Exit: menu displayed";
 }
 
 void ThumbnailListView::updateMenuContents()
@@ -919,30 +969,36 @@ void ThumbnailListView::updateMenuContents()
         m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(false);
     }
 #endif
+    qDebug() << "ThumbnailListView::onShowMenu - Exit";
 }
 
 void ThumbnailListView::appendAction(int id, const QString &text, const QString &shortcut)
 {
+    qDebug() << "ThumbnailListView::appendAction - Entry: id=" << id << "text=" << text << "shortcut=" << shortcut;
     QAction *ac = new QAction(this);
     addAction(ac);
     ac->setText(text);
     ac->setProperty("MenuID", id);
     //如果是查看照片，需要响应Enter键，而Enter键有两个Key-Enter和Return
     if (text.compare(tr("View")) == 0) {
+        qDebug() << "text is View";
         QList<QKeySequence> shortcuts;
         shortcuts.append(QKeySequence(ENTER_SHORTCUT));
         shortcuts.append(QKeySequence(RETURN_SHORTCUT));
         ac->setShortcuts(shortcuts);
     } else {
+        qDebug() << "text is not View";
         ac->setShortcut(QKeySequence(shortcut));
     }
     ac->setShortcutContext(Qt::WidgetShortcut);
     m_MenuActionMap.insert(text, ac);
     m_pMenu->addAction(ac);
+    qDebug() << "ThumbnailListView::appendAction - Exit";
 }
 
 void ThumbnailListView::initMenuAction()
 {
+    qDebug() << "ThumbnailListView::initMenuAction - Entry";
     m_pMenu->clear();
     if (m_imageType.compare(COMMON_STR_TRASH) == 0) {
         appendAction(Types::IdMoveToTrash, tr("Delete"), ss(""));
@@ -979,10 +1035,12 @@ void ThumbnailListView::initMenuAction()
     appendAction(Types::IdImageInfo, tr("Photo info"), ss(ImageInfo_CONTEXT_MENU));
     appendAction(Types::IdVideoInfo, tr("Video info"), ss(VideoInfo_CONTEXT_MENU));
 #endif
+    qDebug() << "ThumbnailListView::initMenuAction - Exit";
 }
 
 DMenu *ThumbnailListView::createAlbumMenu()
 {
+    qDebug() << "ThumbnailListView::createAlbumMenu - Entry";
     DMenu *am = new DMenu(tr("Add to album"));
     auto albums = DBManager::instance()->getAllAlbumNames();
     QAction *ac1 = new QAction(am);
@@ -1014,6 +1072,7 @@ DMenu *ThumbnailListView::createAlbumMenu()
             ac->setEnabled(false);
         }
     }
+    qDebug() << "ThumbnailListView::createAlbumMenu - Exit";
     return am;
 }
 
@@ -1047,6 +1106,7 @@ QStringList ThumbnailListView::selectedPaths()
 
 QVariantList ThumbnailListView::selectedUrls()
 {
+    qDebug() << "ThumbnailListView::selectedUrls - Entry";
     QVariantList urls;
     for (QModelIndex index : selectionModel()->selectedIndexes()) {
         if (isRowHidden(index.row())) {
@@ -1060,11 +1120,13 @@ QVariantList ThumbnailListView::selectedUrls()
             urls << QUrl::fromLocalFile(info.filePath);
         }
     }
+    qDebug() << "ThumbnailListView::selectedUrls - Exit";
     return urls;
 }
 
 QVariantList ThumbnailListView::allUrls()
 {
+    qDebug() << "ThumbnailListView::allUrls - Entry";
     QVariantList urls;
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
@@ -1079,6 +1141,7 @@ QVariantList ThumbnailListView::allUrls()
             urls << QUrl::fromLocalFile(info.filePath);
         }
     }
+    qDebug() << "ThumbnailListView::allUrls - Exit";
     return urls;
 }
 
@@ -1163,6 +1226,7 @@ void ThumbnailListView::onSelectionChanged()
     qDebug() << "Selection changed";
     updatetimeLimeBtnText();
     GlobalStatus::instance()->setSelectedPaths(selectedUrls());
+    qDebug() << "ThumbnailListView::onSelectionChanged - Exit: selection update completed";
 }
 
 void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
@@ -1173,11 +1237,12 @@ void ThumbnailListView::onCancelFavorite(const QModelIndex &index)
     str << info.filePath;
     //通知其它界面更新取消收藏
     DBManager::instance()->removeFromAlbum(DBManager::SpUID::u_Favorite, str, AlbumDBType::Favourite);
+    qDebug() << "ThumbnailListView::onCancelFavorite - Exit: favorite removed";
 }
 
 void ThumbnailListView::resizeEvent(QResizeEvent *e)
 {
-    qDebug() << "Resize event";
+    // qDebug() << "Resize event";
     Q_UNUSED(e)
     //改变第一个空白项和标题项的宽度
     for (int i = 0; i < m_model->rowCount(); i++) {
@@ -1196,10 +1261,12 @@ void ThumbnailListView::resizeEvent(QResizeEvent *e)
 
     resizeEventF();
     this->verticalScrollBar()->setFixedHeight(this->height());
+    // qDebug() << "ThumbnailListView::resizeEvent - Exit: resize completed";
 }
 
 bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
 {
+    // qDebug() << "ThumbnailListView::eventFilter - Entry";
     if (obj == verticalScrollBar()) {
         if (e->type() == QEvent::MouseButtonPress) {
             //刷新鼠标在滚动条上按下标志位
@@ -1216,6 +1283,7 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
     }
 
     if (e->type() == QEvent::Wheel && QApplication::keyboardModifiers() == Qt::ControlModifier) {
+        // qDebug() << "ThumbnailListView::eventFilter - Exit: wheel event";
         return true;
     } else if (e->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(e);
@@ -1235,6 +1303,7 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
             return true;
         }
     }
+    // qDebug() << "ThumbnailListView::eventFilter - Exit";
     return false;
 }
 
@@ -1263,7 +1332,9 @@ QStringList ThumbnailListView::getCurrentIndexTime(const QModelIndex &index)
 
 bool ThumbnailListView::getCurrentIndexSelectStatus(const QModelIndex &index, bool isPic)
 {
+    qDebug() << "ThumbnailListView::getCurrentIndexSelectStatus - Entry";
     if (!index.isValid()) {
+        qDebug() << "Invalid index provided";
         return false;
     }
     if (isPic) {
@@ -1276,6 +1347,7 @@ bool ThumbnailListView::getCurrentIndexSelectStatus(const QModelIndex &index, bo
                 break;
             }
             if (!selectionModel()->isSelected(idx)) {
+                qDebug() << "Not selected";
                 return false;
             }
         }
@@ -1288,6 +1360,7 @@ bool ThumbnailListView::getCurrentIndexSelectStatus(const QModelIndex &index, bo
                 break;
             }
             if (!selectionModel()->isSelected(idx)) {
+                qDebug() << "Not selected";
                 return false;
             }
         }
@@ -1300,15 +1373,18 @@ bool ThumbnailListView::getCurrentIndexSelectStatus(const QModelIndex &index, bo
                 break;
             }
             if (!selectionModel()->isSelected(idx)) {
+                qDebug() << "Not selected";
                 return false;
             }
         }
     }
+    qDebug() << "ThumbnailListView::getCurrentIndexSelectStatus - Exit";
     return true;
 }
 
 bool ThumbnailListView::isAllAppointType(ItemType type)
 {
+    qDebug() << "ThumbnailListView::isAllAppointType - Entry";
     bool isAllAppointType = true;
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
@@ -1331,6 +1407,7 @@ bool ThumbnailListView::isAllAppointType(ItemType type)
 
 void ThumbnailListView::hideAllAppointType(ItemType type)
 {
+    qDebug() << "ThumbnailListView::hideAllAppointType - Entry";
     for (int i = 0; i < m_model->rowCount(); i++) {
         QModelIndex index = m_model->index(i, 0);
         DBImgInfo info = index.data(Qt::DisplayRole).value<DBImgInfo>();
@@ -1391,33 +1468,39 @@ void ThumbnailListView::hideAllAppointType(ItemType type)
     }
 
     flushTopTimeLine(8); //筛完了要刷新顶部
+    qDebug() << "ThumbnailListView::hideAllAppointType - Exit";
 }
 
 int ThumbnailListView::getRow(QPoint point)
 {
+    // qDebug() << "ThumbnailListView::getRow - Entry: point=" << point;
     return indexAt(point).row();
 }
 
 void ThumbnailListView::setListViewUseFor(ThumbnailListView::ListViewUseFor usefor)
 {
+    // qDebug() << "ThumbnailListView::setListViewUseFor - Entry";
     m_useFor = usefor;
 }
 
 //add start 3975
 int ThumbnailListView::getListViewHeight()
 {
+    // qDebug() << "ThumbnailListView::getListViewHeight - Entry";
     return m_height;
 }
 //add end 3975
 //有文件删除，刷新所有列表
 void ThumbnailListView::updateThumbnailViewAfterDelete(const QStringList &paths)
 {
+    qDebug() << "ThumbnailListView::updateThumbnailViewAfterDelete - Entry";
     //列表上移除所有图片项
     if (m_delegatetype == ThumbnailDelegate::AllPicViewType
             || m_delegatetype == ThumbnailDelegate::AlbumViewCustomType
             || m_delegatetype == ThumbnailDelegate::AlbumViewFavoriteType
             || m_delegatetype == ThumbnailDelegate::TimeLineViewType
             || m_delegatetype == ThumbnailDelegate::AlbumViewImportTimeLineViewType) {
+        qDebug() << "type is AllPicViewType, AlbumViewCustomType, AlbumViewFavoriteType, TimeLineViewType, AlbumViewImportTimeLineViewType";
         for (int i = (m_model->rowCount() - 1); i >= 0; i--) {
             QModelIndex index = m_model->index(i, 0);
             DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
@@ -1429,6 +1512,7 @@ void ThumbnailListView::updateThumbnailViewAfterDelete(const QStringList &paths)
     }
     if (m_delegatetype == ThumbnailDelegate::TimeLineViewType
             || m_delegatetype == ThumbnailDelegate::AlbumViewImportTimeLineViewType) {
+        qDebug() << "type is TimeLineViewType, AlbumViewImportTimeLineViewType";
         //给需要移除的项添加标志
         for (int i = 0; i < m_model->rowCount(); i++) {
             QModelIndex index = m_model->index(i, 0);
@@ -1474,10 +1558,12 @@ void ThumbnailListView::updateThumbnailViewAfterDelete(const QStringList &paths)
             }
         }
     }
+    qDebug() << "ThumbnailListView::updateThumbnailViewAfterDelete - Exit: update completed";
 }
 
 void ThumbnailListView::slotSelectCurrentDatePic(bool isSelect, QStandardItem *item)
 {
+    qDebug() << "ThumbnailListView::slotSelectCurrentDatePic - Entry";
     if (item == nullptr || !m_model->indexFromItem(item).isValid()) {
         return;
     }
@@ -1505,6 +1591,7 @@ void ThumbnailListView::slotSelectCurrentDatePic(bool isSelect, QStandardItem *i
     QItemSelection deselected;
     emit this->selectionModel()->selectionChanged(selected, deselected);
     flushTopTimeLine(8);
+    qDebug() << "ThumbnailListView::slotSelectCurrentDatePic - Exit";
 }
 
 void ThumbnailListView::onKeyPressFromQml(const QString &key)
@@ -1529,11 +1616,13 @@ void ThumbnailListView::onKeyPressFromQml(const QString &key)
         posValue += this->height();
         vb->setValue(posValue);
     }
+    qDebug() << "ThumbnailListView::onKeyPressFromQml - Exit";
 }
 
 //刷新所有标题中选择按钮的状态
 void ThumbnailListView::slotChangeAllSelectBtnVisible(bool visible)
 {
+    qDebug() << "ThumbnailListView::slotChangeAllSelectBtnVisible - Entry";
 //    if (m_delegatetype == ThumbnailDelegate::TimeLineViewType) {
 //        TimeLineDateWidget *w = nullptr;
 //        for (int i = 0; i < m_model->rowCount(); i++) {
@@ -1663,6 +1752,7 @@ void ThumbnailListView::insertBlankOrTitleItem(ItemType type, const QString &dat
     info.date = date;
     info.num = num;
     insertThumbnail(info);
+    qDebug() << "ThumbnailListView::insertBlankOrTitleItem - Exit: blank/title item inserted";
 }
 //更新空白栏高度
 void ThumbnailListView::resetBlankItemHeight(int height)
@@ -1683,6 +1773,7 @@ void ThumbnailListView::resetBlankItemHeight(int height)
         }
     }
     doItemsLayout();
+    qDebug() << "ThumbnailListView::resetBlankItemHeight - Exit: blank item height reset completed";
 }
 
 void ThumbnailListView::insertThumbnailByImgInfos(DBImgInfoList infoList)
@@ -1705,6 +1796,7 @@ void ThumbnailListView::insertThumbnailByImgInfos(DBImgInfoList infoList)
     qDebug() << "Starting import timer";
     m_importTimer->start(100);
     m_importActiveCount = 150;
+    qDebug() << "ThumbnailListView::insertThumbnailByImgInfos - Exit: thumbnails inserted and timer started";
 }
 //判断所有图片是否全选中
 bool ThumbnailListView::isAllSelected(ItemType type)
@@ -1713,6 +1805,7 @@ bool ThumbnailListView::isAllSelected(ItemType type)
     qDebug() << __FUNCTION__ << "---type = " << type;
 
     if (this->selectionModel()->selection().size() == 0) {
+        qDebug() << "ThumbnailListView::isAllSelected - Exit: no selection, returning false";
         return false;
     }
     for (int i = 0; i < m_model->rowCount(); i++) {
@@ -1737,14 +1830,17 @@ bool ThumbnailListView::isAllSelected(ItemType type)
             }
         }
     }
+    qDebug() << "ThumbnailListView::isAllSelected - Exit: returning" << isAllSelected;
     return isAllSelected;
 }
 
 //判断选中图片是否都可旋转
 bool ThumbnailListView::isAllSelectedSupportRotate()
 {
+    qDebug() << "ThumbnailListView::isAllSelectedSupportRotate - Entry: checking rotate support";
     QStringList list = selectedPaths();
     if (list.isEmpty()) {
+        qDebug() << "ThumbnailListView::isAllSelectedSupportRotate - Exit: no selection, returning false";
         return false;
     }
     bool isAllSelectedSupportRotate = true;
@@ -1754,13 +1850,16 @@ bool ThumbnailListView::isAllSelectedSupportRotate()
             break;
         }
     }
+    qDebug() << "ThumbnailListView::isAllSelectedSupportRotate - Exit: returning" << isAllSelectedSupportRotate;
     return isAllSelectedSupportRotate;
 }
 
 bool ThumbnailListView::isSelectedCanUseFavorite()
 {
+    qDebug() << "ThumbnailListView::isSelectedCanUseFavorite - Entry: checking favorite support";
     QStringList list = selectedPaths();
     if (list.isEmpty()) {
+        qDebug() << "ThumbnailListView::isSelectedCanUseFavorite - Exit: no selection, returning false";
         return false;
     }
     bool canUseFavorite = true;
@@ -1770,13 +1869,16 @@ bool ThumbnailListView::isSelectedCanUseFavorite()
             break;
         }
     }
+    qDebug() << "ThumbnailListView::isSelectedCanUseFavorite - Exit: returning" << canUseFavorite;
     return canUseFavorite;
 }
 
 bool ThumbnailListView::isSelectedCanUseDelete()
 {
+    qDebug() << "ThumbnailListView::isSelectedCanUseDelete - Entry: checking delete support";
     QStringList list = selectedPaths();
     if (list.isEmpty()) {
+        qDebug() << "ThumbnailListView::isSelectedCanUseDelete - Exit: no selection, returning false";
         return false;
     }
     bool isSelectedCanUseDelete = false;
@@ -1794,12 +1896,14 @@ bool ThumbnailListView::isSelectedCanUseDelete()
         }
     }
 
+    qDebug() << "ThumbnailListView::isSelectedCanUseDelete - Exit: returning" << isSelectedCanUseDelete;
     return isSelectedCanUseDelete;
 }
 
 //删除到相册已删除
 void ThumbnailListView::removeSelectToTrash(QStringList paths)
 {
+    qDebug() << "ThumbnailListView::removeSelectToTrash - Entry: paths count=" << paths.size();
     DBImgInfoList infos;
     DBImgInfo info;
     int count = 0;
@@ -1833,6 +1937,7 @@ void ThumbnailListView::removeSelectToTrash(QStringList paths)
 //更新时间线界面内各个按钮的text状态，单选/框选
 void ThumbnailListView::updatetimeLimeBtnText()
 {
+    qDebug() << "ThumbnailListView::updatetimeLimeBtnText - Entry";
    QModelIndexList indexs = selectionModel()->selectedIndexes();
    emit sigShowCheckBox(!indexs.isEmpty());
    bool isSelectAll = true;
@@ -1888,10 +1993,12 @@ void ThumbnailListView::updatetimeLimeBtnText()
    }
     //刷新顶部栏
     flushTopTimeLine(8);
+    qDebug() << "ThumbnailListView::updatetimeLimeBtnText - Exit";
 }
 
 void ThumbnailListView::showAppointTypeItem(ItemType type)
 {
+    qDebug() << "ThumbnailListView::showAppointTypeItem - Entry: type=" << type;
     //记录当前显示类型
     m_currentShowItemType = type;
     //切换显示之前先清除选中
@@ -1923,11 +2030,13 @@ void ThumbnailListView::showAppointTypeItem(ItemType type)
         hideAllAppointType(ItemTypeNull);
         emit sigNoPicOrNoVideo(false);
     }
+    qDebug() << "ThumbnailListView::showAppointTypeItem - Exit: type filtering completed";
 }
 
 //显示类型数量
 int ThumbnailListView::getAppointTypeItemCount(ItemType type)
 {
+    qDebug() << "ThumbnailListView::getAppointTypeItemCount - Entry: type=" << type;
     int count = 0;
     for (int i = 0;  i < m_model->rowCount(); i++) {
         if (isRowHidden(i)) {
@@ -1944,11 +2053,13 @@ int ThumbnailListView::getAppointTypeItemCount(ItemType type)
             count++;
         }
     }
+    qDebug() << "ThumbnailListView::getAppointTypeItemCount - Exit: returning count=" << count;
     return count;
 }
 //显示指定类型选中项数量
 int ThumbnailListView::getAppointTypeSelectItemCount(ItemType type)
 {
+    qDebug() << "ThumbnailListView::getAppointTypeSelectItemCount - Entry: type=" << type;
     int count = 0;
     QModelIndexList list = selectedIndexes();
     int size = list.size();
@@ -1967,6 +2078,7 @@ int ThumbnailListView::getAppointTypeSelectItemCount(ItemType type)
             count++;
         }
     }
+    qDebug() << "ThumbnailListView::getAppointTypeSelectItemCount - Exit: returning count=" << count;
     return count;
 }
 //按类型选择
@@ -1992,6 +2104,7 @@ void ThumbnailListView::selectAllByItemType(ItemType type)
 
 void ThumbnailListView::TimeLineSelectAllBtn()
 {
+    qDebug() << "ThumbnailListView::TimeLineSelectAllBtn - Entry";
 //    if (m_delegatetype == ThumbnailDelegate::TimeLineViewType || m_delegatetype == ThumbnailDelegate:: AlbumViewImportTimeLineViewType) {
 //        for (int i = 0; i < m_model->rowCount(); i++) {
 //            QModelIndex idx = m_model->index(i, 0);
@@ -2013,6 +2126,7 @@ void ThumbnailListView::TimeLineSelectAllBtn()
 
 void ThumbnailListView::setBatchOperateWidget(BatchOperateWidget *widget)
 {
+    qDebug() << "ThumbnailListView::setBatchOperateWidget - Entry";
     m_batchOperateWidget = widget;
 }
 
@@ -2039,6 +2153,7 @@ void ThumbnailListView::navigateToMonth(const QString &month)
             scrollTo(index, QAbstractItemView::PositionAtTop);
         }
     }
+    qDebug() << "ThumbnailListView::navigateToMonth - Exit";
 }
 
 void ThumbnailListView::slotLoadFirstPageThumbnailsFinish()
@@ -2080,6 +2195,7 @@ void ThumbnailListView::onScrollTimerOut()
 
 void ThumbnailListView::onScrollbarValueChanged(int value)
 {
+    qDebug() << "ThumbnailListView::onScrollbarValueChanged - Entry";
     Q_UNUSED(value)
     //滚动条向下滑动
     qDebug() << "Scrollbar value changed to:" << value;
@@ -2091,6 +2207,7 @@ void ThumbnailListView::onScrollbarValueChanged(int value)
     }
 
     flushTopTimeLine(8); //滑完了要刷新顶部
+    qDebug() << "ThumbnailListView::onScrollbarValueChanged - Exit";
 }
 
 void ThumbnailListView::flushTopTimeLine(int offset)
@@ -2121,6 +2238,7 @@ void ThumbnailListView::flushTopTimeLine(int offset)
             emit sigTimeLineDataAndNum(currentIndexTimeList.at(0), currentIndexTimeList.at(1), isSelect ? QObject::tr("Unselect") : QObject::tr("Select"));
         }
     }
+    qDebug() << "ThumbnailListView::flushTopTimeLine - Exit";
 }
 
 void ThumbnailListView::onDoubleClicked(const QModelIndex &index)
@@ -2188,6 +2306,7 @@ void ThumbnailListView::cutPixmap(DBImgInfo &DBImgInfo)
 
 void ThumbnailListView::timeLimeFloatBtnClicked(const QString &date, bool isSelect)
 {
+    qDebug() << "ThumbnailListView::timeLimeFloatBtnClicked - Entry";
    QString tmpdate = date;
    for (int i = 0; i < m_model->rowCount(); i++) {
        QModelIndex index = m_model->index(i, 0);
@@ -2260,6 +2379,7 @@ void ThumbnailListView::timeLimeFloatBtnClicked(const QString &date, bool isSele
            break;//已完成，跳出循环，后面index的不需要处理
        }
    }
+   qDebug() << "ThumbnailListView::timeLimeFloatBtnClicked - Exit";
 }
 
 void ThumbnailListView::resizeEventF()
