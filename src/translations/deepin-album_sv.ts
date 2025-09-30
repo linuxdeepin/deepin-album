@@ -277,7 +277,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="483"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation>Importera Bilder och Videor</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="514"/>
@@ -353,7 +353,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="155"/>
         <source>0 item</source>
-        <translation type="unfinished"/>
+        <translation>1 objekt {0 ?}</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="219"/>
@@ -1183,7 +1183,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="60"/>
         <source>Import Photos and Videos</source>
-        <translation type="unfinished"/>
+        <translation>Importera Bilder och Videor</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/NoPictureView.qml" line="69"/>
