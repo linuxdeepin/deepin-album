@@ -5,7 +5,9 @@
 #include "imageenginethread.h"
 #include "dbmanager/dbmanager.h"
 #include "unionimage/unionimage.h"
+#include "unionimage/baseutils.h"
 #include "albumControl.h"
+#include "utils/classifyutils.h"
 #include <QDebug>
 
 #include <QDirIterator>
@@ -219,3 +221,43 @@ void ImportImagesThread::runDetail()
     }
 }
 
+ImagesClassifyThread::ImagesClassifyThread()
+{
+
+}
+
+ImagesClassifyThread::~ImagesClassifyThread()
+{
+
+}
+
+void ImagesClassifyThread::setData(const DBImgInfoList &infos)
+{
+    m_infos = infos;
+}
+
+void ImagesClassifyThread::runDetail()
+{
+    int infoCount = m_infos.size();
+
+    emit AlbumControl::instance()->progressOfImageClassify(infoCount, 0);
+    int i = 0 ;
+    for (auto &info : m_infos) {
+        if (info.className.isEmpty()) {
+            QFileInfo srcfi(info.filePath);
+            if (srcfi.exists() && Libutils::base::isSupportClassify(info.filePath) && srcfi.isReadable())
+                info.className = Classifyutils::GetInstance()->imageClassify(info.filePath.toStdString().c_str());
+            else
+                info.className = "";
+            if (info.className.isEmpty() && srcfi.isReadable())
+                info.className = "Other";
+
+            emit AlbumControl::instance()->progressOfImageClassify(infoCount, i++);
+        }
+    }
+    DBManager::instance()->updateClassName2DB(m_infos);
+
+    m_infos.clear();
+
+    emit AlbumControl::instance()->sigImageClassifyFinished();
+}

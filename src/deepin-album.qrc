@@ -78,5 +78,8 @@
         <file>qml/Control/MonthImage.qml</file>
         <file>qml/Control/Animation/SwitchViewAnimation.qml</file>
         <file>qml/Control/Animation/FadeInoutAnimation.qml</file>
+        <file>qml/ClassificationView/ClassificationItem.qml</file>
+        <file>qml/ClassificationView/ClassificationView.qml</file>
+        <file>qml/ClassificationView/ClassificationDetailView.qml</file>
     </qresource>
 </RCC>

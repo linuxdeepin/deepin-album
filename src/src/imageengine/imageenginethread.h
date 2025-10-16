@@ -6,6 +6,8 @@
 #ifndef IMAGEENGINETHREAD_H
 #define IMAGEENGINETHREAD_H
 
+#include "unionimage/unionimage_global.h"
+
 #include <QObject>
 #include <QPixmap>
 #include <QThreadPool>
@@ -78,6 +80,21 @@ private:
     DataType m_type = DataType_NULL;
     bool m_notifyUI = true;
     bool m_checkRepeat = true;
+};
+
+class ImagesClassifyThread : public ImageEngineThreadObject
+{
+    Q_OBJECT
+public:
+    ImagesClassifyThread();
+    ~ImagesClassifyThread() override;
+    void setData(const DBImgInfoList &infos);
+
+protected:
+    void runDetail() override;
+
+private:
+    DBImgInfoList m_infos;
 };
 
 #endif // IMAGEENGINETHREAD_H

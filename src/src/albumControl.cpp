@@ -7,6 +7,7 @@
 #include "fileMonitor/fileinotifygroup.h"
 #include "imageengine/imageenginethread.h"
 #include "utils/devicehelper.h"
+#include "utils/classifyutils.h"
 
 #include <DDialog>
 #include <DMessageBox>
@@ -229,12 +230,12 @@ void AlbumControl::initDeviceMonitor()
     getAllBlockDeviceName();
     QStringList deviceIds = DeviceHelper::instance()->getAllDeviceIds();
     qDebug() << "Found" << deviceIds.size() << "devices";
-    
+
     for (auto id : deviceIds) {
         QVariantMap deveiceInfo = DeviceHelper::instance()->loadDeviceInfo(id);
         onMounted(id, deveiceInfo.value("MountPoint").toString(), static_cast<DeviceType>(deveiceInfo.value("DeviceType").toInt()));
     }
-    
+
     connect(m_deviceManager, &DDeviceManager::deviceRemoved, this, &AlbumControl::onDeviceRemoved);
     connect(m_deviceManager, &DDeviceManager::mounted, this, &AlbumControl::onMounted);
     connect(m_deviceManager, &DDeviceManager::unmounted, this, &AlbumControl::onUnMounted);
@@ -249,7 +250,7 @@ bool AlbumControl::findPicturePathByPhone(QString &path)
         qWarning() << "Directory does not exist:" << path;
         return false;
     }
-    
+
     QFileInfoList fileInfoList = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
     QFileInfo tempFileInfo;
     foreach (tempFileInfo, fileInfoList) {
@@ -467,6 +468,20 @@ bool AlbumControl::importAllImagesAndVideosUrl(const QList<QUrl> &paths, const i
     QThreadPool::globalInstance()->start(imagesthread);
 
     qDebug() << "AlbumControl::importAllImagesAndVideosUrl - Function exit, returning true";
+    return true;
+}
+
+bool AlbumControl::classifyOldDBInfo(const DBImgInfoList &infos)
+{
+    if (infos.size() == 0)
+        return false;
+
+    emit sigImageClassifyStarted();
+
+    ImagesClassifyThread *imagethread = new ImagesClassifyThread;
+    imagethread->setData(infos);
+    QThreadPool::globalInstance()->start(imagethread);
+
     return true;
 }
 
@@ -945,9 +960,9 @@ void AlbumControl::onMounted(const QString &deviceKey, const QString &mountPoint
             label = deviceInfo.value("IdLabel").toString();
         else if (static_cast<DeviceType>(deviceInfo.value("DeviceType").toInt()) == DeviceType::kProtocolDevice)
             label = deviceInfo.value("DisplayName").toString();
-            
+
         qDebug() << "Device name:" << label << "Scheme type:" << scheme;
-        
+
         if (m_durlAndNameMap.find(mountPoint) != m_durlAndNameMap.end()) {
             qDebug() << "Device already in list:" << mountPoint;
             return;
@@ -1631,15 +1646,15 @@ void AlbumControl::insertTrash(const QList<QUrl> &paths)
     for (const QUrl &url : paths) {
         QString imagePath = url2localPath(url);
         QFileInfo info(imagePath);
-        
+
         // 跳过不可写文件
         if (!info.isWritable()) {
             // qDebug() << "AlbumControl::insertTrash - Branch: skipping non-writable file:" << imagePath;
             continue;
         }
-        
+
         tmpList << imagePath;
-        
+
         DBImgInfoList tempInfos = DBManager::instance()->getInfosByPath(imagePath);
         if (tempInfos.size()) {
             // qDebug() << "AlbumControl::insertTrash - Branch: found" << tempInfos.size() << "database entries for:" << imagePath;
@@ -1648,7 +1663,7 @@ void AlbumControl::insertTrash(const QList<QUrl> &paths)
             for (const DBImgInfo &dbInfo : tempInfos) {
                 uids.push_back(dbInfo.albumUID);
             }
-            
+
             insertInfo.albumUID = uids.join(",");
             infos << insertInfo;
         }
@@ -2225,6 +2240,54 @@ DBImgInfoList AlbumControl::searchPicFromAlbum2(int UID, const QString &keywords
     return dbInfos;
 }
 
+bool AlbumControl::isClassificationServiceAvailable()
+{
+    return Classifyutils::GetInstance()->isDBusExist();
+}
+
+QVariantList AlbumControl::getClassificationData()
+{
+    QVariantList result;
+
+    // 检查分类服务是否可用
+    if (!isClassificationServiceAvailable()) {
+        return result;
+    }
+
+    // 获取所有图片信息
+    DBImgInfoList allInfos = DBManager::instance()->getAllInfos(ItemTypePic);
+
+    bool hasUnclassified = std::any_of(allInfos.begin(), allInfos.end(), [](const DBImgInfo &info) {
+        return info.className.isEmpty();
+    });
+
+    // 如果存在未分类图片，触发重新分类
+    if (hasUnclassified) {
+        qDebug() << "Found unclassified images, starting classification...";
+        classifyOldDBInfo(allInfos);
+        return result;
+    }
+
+    // 直接获取分类结果，不在这里触发分类
+    for (const QString &className : g_classList) {
+        DBImgInfoList classImages = DBManager::instance()->getInfosForClass(className);
+        if (classImages.isEmpty())
+            continue;
+        QVariantMap classification;
+        classification["count"] = classImages.size();
+        classification["className"] = className;
+
+        // 获取第一张图片作为缩略图
+        if (!classImages.isEmpty()) {
+            classification["thumbnail"] = classImages.first().filePath;
+        }
+
+        result.append(classification);
+    }
+
+    return result;
+}
+
 QStringList AlbumControl::imageCanExportFormat(const QString &path)
 {
     qDebug() << "AlbumControl::imageCanExportFormat - Function entry, path:" << path;
@@ -2710,7 +2773,7 @@ void AlbumControl::loadDeviceAlbumInfoAsync(const QString &devicePath)
         // GUI thread, notify update data
         QMetaObject::invokeMethod(qApp, [=](){
                 m_PhonePicFileMap.insert(devicePath, devicePtr);
-                
+
                 Q_EMIT deviceAlbumInfoLoadFinished(devicePath);
                 Q_EMIT deviceAlbumInfoCountChanged(devicePath, devicePtr->picCount, devicePtr->videoCount);
             }, Qt::QueuedConnection);
@@ -3021,7 +3084,7 @@ void AlbumControl::onNewAPPOpen(qint64 pid, const QStringList &arguments)
     Q_UNUSED(pid);
     QStringList paths;
     QStringList validPaths;
-    
+
     if (arguments.length() > 1) {
         qDebug() << "AlbumControl::onNewAPPOpen - Branch: processing" << arguments.length() - 1 << "arguments";
         //arguments第1个参数是进程名，图片paths参数需要从下标1开始
@@ -3038,7 +3101,7 @@ void AlbumControl::onNewAPPOpen(qint64 pid, const QStringList &arguments)
                 qpath = "file://" + qpath;
             }
 
-            if (LibUnionImage_NameSpace::isImage(url2localPath(qpath)) || 
+            if (LibUnionImage_NameSpace::isImage(url2localPath(qpath)) ||
                 LibUnionImage_NameSpace::isVideo(url2localPath(qpath))) {
                 validPaths.append(qpath);
                 qDebug() << "Valid path found:" << qpath;

@@ -204,20 +204,37 @@ ScrollView {
             Layout.alignment:  Qt.AlignTop; Layout.topMargin: 15
             title: qsTr("Gallery")
             group: paneListGroup
-            sideModel: ListModel {
-                ListElement{checked: true; icon: "images"; displayName: qsTr("Collection"); uuid: "collection"; editable: false; deleteable: false}
-                ListElement{checked: false; icon: "import_left"; displayName: qsTr("Import"); uuid: "import"; editable: false; deleteable: false}
-                ListElement{checked: false; icon: "collection"; displayName: qsTr("Favorites"); uuid: "favorites"; editable: false; deleteable: false}
-                ListElement{checked: false; icon: "trash"; displayName: qsTr("Trash"); uuid: "trash"; editable: false; deleteable: false}
+            ListModel {
+                id: galleryModel
+            }
+
+            sideModel: galleryModel
+
+            Component.onCompleted: {
+                // 基础项目
+                galleryModel.append({checked: true, icon: "images", displayName: qsTr("Collection"), uuid: "collection", editable: false, deleteable: false})
+                galleryModel.append({checked: false, icon: "import_left", displayName: qsTr("Import"), uuid: "import", editable: false, deleteable: false})
+                galleryModel.append({checked: false, icon: "collection", displayName: qsTr("Favorites"), uuid: "favorites", editable: false, deleteable: false})
+                galleryModel.append({checked: false, icon: "trash", displayName: qsTr("Trash"), uuid: "trash", editable: false, deleteable: false})
+
+                // 只有当分类服务可用时才添加分类项
+                if (albumControl.isClassificationServiceAvailable()) {
+                    galleryModel.append({checked: false, icon: "item", displayName: qsTr("Classification"), uuid: "classification", editable: false, deleteable: false})
+                }
             }
 
             onItemClicked: (uuid)=> {
-                GStatus.currentViewType = view.currentIndex + 2
-                // 导航页选中我的收藏时，设定自定相册索引为0，使用CutomAlbum控件按自定义相册界面逻辑显示我的收藏内容
-                if (GStatus.currentViewType === Album.Types.ViewFavorite) {
-                    GStatus.currentCustomAlbumUId = 0
-                } else {
+                if (uuid === "classification") {
+                    GStatus.currentViewType = Album.Types.ViewClassification
                     GStatus.currentCustomAlbumUId = -1
+                } else {
+                    GStatus.currentViewType = view.currentIndex + 2
+                    // 导航页选中我的收藏时，设定自定相册索引为0，使用CutomAlbum控件按自定义相册界面逻辑显示我的收藏内容
+                    if (GStatus.currentViewType === Album.Types.ViewFavorite) {
+                        GStatus.currentCustomAlbumUId = 0
+                    } else {
+                        GStatus.currentCustomAlbumUId = -1
+                    }
                 }
 
                 GStatus.searchEditText = ""
@@ -253,7 +270,7 @@ ScrollView {
                             forceActiveFocus()
                         }
                         albumControl.unMountDevice(sidebarScrollView.devicePaths[index])
-                    }                
+                    }
                 }
             }
 

@@ -246,7 +246,7 @@ bool trashFile(const QString &file)
     trashPath = home + "/.local/share/Trash";
     trashInfoPath = trashPath + "/info";
     trashFilesPath = trashPath + "/files";
-    
+
     if (!QDir(trashFilesPath).exists()) {
         qDebug() << "Creating trash files directory:" << trashFilesPath;
         QDir().mkpath(trashFilesPath);
@@ -272,7 +272,7 @@ bool trashFile(const QString &file)
     QString trashname = getNotExistsTrashFileName(originalInfo.fileName());
     QString infopath = trashInfoPath + "/" + trashname + ".trashinfo";
     QString filepath = trashFilesPath + "/" + trashname;
-    
+
     int nr = 1;
     while (QFileInfo(infopath).exists() || QFileInfo(filepath).exists()) {
         nr++;
@@ -584,6 +584,33 @@ bool isSupportWallpaper(const QString &path)
            && !mt.name().endsWith("x-portable-anymap");
     qDebug() << "File" << path << "wallpaper support:" << result << "MIME type:" << mt.name();
     return result;
+}
+
+bool isSupportClassify(const QString &path)
+{
+    bool bRet = false;
+    //路径为空直接跳出
+    if (!path.isEmpty()) {
+        QMimeDatabase db;
+        QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
+
+        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
+            if (!mt.name().startsWith("image/gif") && !mt.name().startsWith("image/tiff")) {
+                bRet = true;
+            }
+        }
+
+        if (!bRet) {
+            QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
+            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+                if (!mt1.name().startsWith("image/gif") && !mt1.name().startsWith("image/tiff")) {
+                    bRet = true;
+                }
+            }
+        }
+    }
+
+    return bRet;
 }
 
 
