@@ -85,6 +85,8 @@ public:
     void                    insertImgInfo(const DBImgInfo &info);
     void                    removeImgInfos(const QStringList &paths);
     void                    removeImgInfosNoSignal(const QStringList &paths);
+    const DBImgInfoList     getInfosForClass(const QString &className) const;
+    const DBImgInfoList     getInfosForClassAndKeyword(const QString &className, const QString &keywords) const;
     const DBImgInfoList     getInfosForKeyword(const QString &keywords) const;
     const DBImgInfoList     getTrashInfosForKeyword(const QString &keywords) const;
     const DBImgInfoList     getInfosForKeyword(int UID, const QString &keywords) const;
@@ -130,6 +132,7 @@ public:
     void                    removeAlbum(int UID);
     void                    removeFromAlbum(int UID, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
     bool                    renameAlbum(int UID, const QString &newAlbum, AlbumDBType atype = AlbumDBType::Custom);
+    void                    updateClassName2DB(const DBImgInfoList &infos);
     // TabelTrash
     const DBImgInfoList     getAllTrashInfos(bool needTimeData) const;
     const DBImgInfoList     getAllTrashInfos_getRemainDays() const;

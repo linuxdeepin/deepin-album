@@ -41,7 +41,8 @@ public:
         RecentlyDeleted,           // 最近删除视图model
         CustomAlbum,               // 自定义相册视图model
         SearchResult,              // 搜索结果视图model
-        Device                     // 设备视图mode
+        Device,                    // 设备视图mode
+        ClassificationDetail       // 分类详情视图model
     };
 
     // 视图类型枚举
@@ -54,7 +55,9 @@ public:
         ViewRecentlyDeleted,       // 最近删除视图
         ViewCustomAlbum,           // 系统/自定义相册视图
         ViewSearchResult,          // 搜索结果视图
-        ViewDevice                 // 设备视图
+        ViewDevice,                // 设备视图
+        ViewClassification,        // 照片分类视图
+        ViewClassificationDetail   // 分类详情视图
     };
 
     //缩略图列表类型枚举

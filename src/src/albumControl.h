@@ -60,6 +60,8 @@ public:
     //导入图片，导入图片接口urls
     Q_INVOKABLE bool importAllImagesAndVideosUrl(const QList <QUrl> &paths, const int UID, bool checkRepeat = true);
 
+    Q_INVOKABLE bool classifyOldDBInfo(const DBImgInfoList& infos);
+
     //获得全部创建时间线
     Q_INVOKABLE QStringList getAllTimelinesTitle(const int &filterType = 0);
 
@@ -194,6 +196,12 @@ public:
     Q_INVOKABLE QVariant searchPicFromAlbum(int UID, const QString &keywords, bool useAI);
 
     Q_INVOKABLE DBImgInfoList searchPicFromAlbum2(int UID, const QString &keywords, bool useAI);
+
+    //检查图片分类DBus服务是否存在
+    Q_INVOKABLE bool isClassificationServiceAvailable();
+
+    //获取分类数据，如果存在未分类图片会触发重新分类
+    Q_INVOKABLE QVariantList getClassificationData();
 
     //输入一张图片，获得可以导出的格式
     Q_INVOKABLE QStringList imageCanExportFormat(const QString &path);
@@ -436,6 +444,12 @@ signals:
 
     // 通知打开了非图片/视频文件的格式
     void sigInvalidFormat();
+
+    void sigImageClassifyStarted();
+
+    void progressOfImageClassify(int total, int value);
+
+    void sigImageClassifyFinished();
 
 private :
     static AlbumControl *m_instance;

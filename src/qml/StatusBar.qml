@@ -22,6 +22,8 @@ Item {
         slider.value = value
     }
 
+    visible: !(GStatus.currentViewType === Album.Types.ViewClassification)
+
     Label {
         height: parent.height
         anchors.centerIn: parent

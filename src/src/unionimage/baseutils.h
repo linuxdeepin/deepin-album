@@ -242,6 +242,8 @@ std::pair<QDateTime, bool>          analyzeDateTime(const QVariant &data);
 
 //同步文件拷贝，用于区分QFile::copy的异步拷贝
 bool syncCopy(const QString &srcFileName, const QString &dstFileName);
+//判断图片路径是否支持图片分类
+bool isSupportClassify(const QString &path);
 //判断图片是否支持设置壁纸
 bool isSupportWallpaper(const QString &path);
 }  // namespace base

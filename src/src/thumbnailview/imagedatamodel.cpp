@@ -16,6 +16,7 @@ ImageDataModel::ImageDataModel(QObject *parent)
     , m_albumID(-1)
     , m_keyWord("")
     , m_dayToken("")
+    , m_className("")
 {
     qDebug() << "Initializing ImageDataModel";
     connect(AlbumControl::instance(), &AlbumControl::deviceAlbumInfoLoadFinished, this, &ImageDataModel::onDeviceDataLoaded);
@@ -205,6 +206,21 @@ void ImageDataModel::setImportTitle(QString importTitle)
     m_importTitle = importTitle;
 }
 
+QString ImageDataModel::className()
+{
+    return m_className;
+}
+
+void ImageDataModel::setClassName(QString className)
+{
+    if (m_className != className) {
+        qDebug() << "Setting class name from" << m_className << "to" << className;
+        emit classNameChanged();
+    }
+
+    m_className = className;
+}
+
 DBImgInfo ImageDataModel::dataForIndex(const QModelIndex &index) const
 {
     if (!index.isValid()) {
@@ -220,7 +236,7 @@ void ImageDataModel::loadData(Types::ItemType type)
     QElapsedTimer time;
     time.start();
     qDebug() << "Loading data for type:" << type << "model type:" << m_modelType;
-    
+
     m_loadType = ItemTypeNull;
     if (type == Types::All)
         m_loadType = ItemTypeNull;
@@ -256,6 +272,9 @@ void ImageDataModel::loadData(Types::ItemType type)
     } else if (m_modelType == Types::HaveImported) {
         qDebug() << "Loading imported data for title:" << m_importTitle;
         m_infoList = DBManager::instance()->getInfosByImportTimeline(QDateTime::fromString(m_importTitle, "yyyy/MM/dd hh:mm"), m_loadType);
+    } else if (m_modelType == Types::ClassificationDetail) {
+        qDebug() << "Loading classification detail data for " << m_className;
+        m_infoList = DBManager::instance()->getInfosForClass(m_className);
     }
     endResetModel();
     qDebug() << QString("loadData modelType:[%1] cost [%2]ms, loaded [%3] items").arg(m_modelType).arg(time.elapsed()).arg(m_infoList.size());

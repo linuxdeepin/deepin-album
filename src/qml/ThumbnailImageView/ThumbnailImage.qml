@@ -15,6 +15,7 @@ import "./RecentlyDeletedView"
 import "./CustomAlbum"
 import "./DeviceAlbum"
 import "./"
+import "../ClassificationView"
 
 import "./../Control"
 import "./../"
@@ -43,6 +44,21 @@ Item {
     }
     DeviceAlbum{
         show: GStatus.currentViewType === Album.Types.ViewDevice
+    }
+    ClassificationView{
+        id: classificationView
+        show: GStatus.currentViewType === Album.Types.ViewClassification
+
+        onShowClassificationDetail: function(name, className) {
+            // 设置分类详情数据并切换视图
+            classificationDetailView.setClassificationData(name, className)
+            GStatus.currentViewType = Album.Types.ViewClassificationDetail
+        }
+    }
+
+    ClassificationDetailView{
+        id: classificationDetailView
+        show: GStatus.currentViewType === Album.Types.ViewClassificationDetail
     }
 
     EmptyWarningDialog {
@@ -102,7 +118,7 @@ Item {
         enabled: visible && GStatus.currentViewType !== Album.Types.ViewDevice
         autoRepeat: false
         sequence : "Delete"
-        onActivated : {          
+        onActivated : {
             if (menuItemStates.isInTrash) {
                 deleteDialog.setDisplay(menuItemStates.isInTrash ? Album.Types.TrashSel : Album.Types.TrashNormal, GStatus.selectedPaths.length)
                 deleteDialog.show()

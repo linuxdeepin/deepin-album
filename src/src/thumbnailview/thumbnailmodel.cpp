@@ -61,8 +61,6 @@ void ThumbnailModel::showPreview(const QString &path)
     if (idx != -1) {
         qDebug() << "Showing preview for path:" << path << "at index:" << idx;
         dataChanged(index(idx, 0, QModelIndex()), index(idx, 0, QModelIndex()));
-    } else {
-        qDebug() << "No preview available for path:" << path;
     }
 }
 
@@ -523,7 +521,6 @@ int ThumbnailModel::indexForFilePath(const QString &filePath)
         }
     }
 
-    qDebug() << "No index found for file path:" << filePath;
     return -1;
 }
 

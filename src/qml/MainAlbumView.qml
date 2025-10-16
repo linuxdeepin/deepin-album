@@ -234,19 +234,19 @@ FadeInoutAnimation {
 
     Connections {
         target: albumControl
-    
+
         // 接收外部应用打开信号
         function onSigOpenImageFromFiles(paths) {
             openAndImportImages(paths)
         }
-    
+
         // 收到导入开始消息
         function onSigImportStart() {
             var title = qsTr("Importing...")
             var content = qsTr("Imported:") + "0"
             showProgress(title, content)
         }
-    
+
         // 收到导入进度消息
         function onSigImportProgress(value, max) {
             var prevS = qsTr("Imported:")
@@ -256,26 +256,26 @@ FadeInoutAnimation {
             idStandardProgressDialog.setContent(contentS)
             idStandardProgressDialog.setProgress(percent, 100)
         }
-    
+
         // 收到导入完成消息
         function onSigImportFinished() {
             delayTimer.start()
             DTK.sendMessage(stackControl, qsTr("Import successful"), "notify_checked")
         }
-    
+
         // 收到导入重复消息
         function onSigRepeatUrls(urls) {
             delayTimer.start()
             if (urls.length === 0)
                 DTK.sendMessage(stackControl, qsTr("Import failed"), "warning")
         }
-    
+
         // 收到导入失败消息
         function onSigImportFailed(error) {
             delayTimer.start()
             DTK.sendMessage(stackControl, qsTr("Import failed"), "warning")
         }
-    
+
         // 收到删除进度消息
         function onSigDeleteProgress(value, max) {
             var prevS = qsTr("Deleted:")
@@ -294,8 +294,31 @@ FadeInoutAnimation {
                 idStandardProgressDialog.setProgress(percent, 100)
             }
         }
+
+        // 收到图片分类开始消息
+        function onSigImageClassifyStarted() {
+            var title = qsTr("Classifying images...")
+            var content = qsTr("Classified:") + "0"
+            showProgress(title, content)
+        }
+
+        // 收到图片分类进度消息
+        function onProgressOfImageClassify(total, value) {
+            var prevS = qsTr("Classified:")
+            var suffixS = qsTr("%1/%2").arg(value).arg(total)
+            var contentS = prevS + suffixS
+            var percent = value * 100 / total
+            idStandardProgressDialog.setContent(contentS)
+            idStandardProgressDialog.setProgress(percent, 100)
+        }
+
+        // 收到图片分类完成消息
+        function onSigImageClassifyFinished() {
+            delayTimer.start()
+            DTK.sendMessage(stackControl, qsTr("Classification completed"), "notify_checked")
+        }
     }
-    
+
     Timer {
         id: delayTimer
         interval: 200 // 延迟 200ms
