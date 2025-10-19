@@ -238,7 +238,7 @@
     <message>
         <location filename="../qml/AlbumTitle.qml" line="222"/>
         <source>Original ratio</source>
-        <translation>Përpjestimi origjinal</translation>
+        <translation>Përpjesëtimi origjinal</translation>
     </message>
     <message>
         <location filename="../qml/AlbumTitle.qml" line="222"/>
@@ -2111,7 +2111,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="190"/>
         <source>Audio digit</source>
-        <translation>Digit Audio</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="201"/>
