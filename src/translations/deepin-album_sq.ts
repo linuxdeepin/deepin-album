@@ -2121,7 +2121,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="208"/>
         <source>Sampling</source>
-        <translation>Saupë</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
