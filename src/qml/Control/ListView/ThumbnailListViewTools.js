@@ -47,11 +47,17 @@ function executeDelete() {
 
 // 执行全屏预览
 function executeFullScreen() {
-    if (window.visibility !== Window.FullScreen && selectedUrls.length > 0) {
+    // 使用 selectedIndexes 来判断，因为 selectedUrls 可能为空数组
+    var indexes = thumbnailModel.selectedIndexes
+    
+    if (window.visibility !== Window.FullScreen && indexes.length > 0) {
         var allUrls = thumbnailModel.allPictureUrls()
-        var indexes = thumbnailModel.selectedIndexes
+        
         if (indexes.length > 0) {
-            menuItemStates.executeFullScreen(allUrls[indexes[0]], allUrls)
+            // 从模型中获取选中的URL，因为 indexes 是在完整模型中的索引
+            // 而 allUrls 只包含图片，索引可能对不上
+            var selectedUrl = thumbnailModel.data(indexes[0], "url").toString()
+            menuItemStates.executeFullScreen(selectedUrl, allUrls)
         }
     }
 }

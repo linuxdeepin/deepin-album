@@ -202,6 +202,13 @@ BaseView {
         property int m_topMargin: 10
     }
 
+    // 监听选中路径变化，更新全局选中状态
+    onSelectedPathsChanged: {
+        if (show) {
+            GStatus.selectedPaths = selectedPaths
+        }
+    }
+
     // 筛选无内容时，显示无结果
     Label {
         anchors {
