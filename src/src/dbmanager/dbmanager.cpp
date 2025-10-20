@@ -1596,6 +1596,7 @@ void DBManager::checkDatabase()
                                    "FileType INTEGER, "
                                    "DataHash TEXT, "
                                    "UID TEXT, "
+                                   "ClassName TEXT, "
                                    "primary key(PathHash, UID))"));
     if (!b) {
         qWarning() << "Failed to create ImageTable3:" << m_query->lastError().text();
@@ -1629,7 +1630,8 @@ void DBManager::checkDatabase()
                                    "ChangeTime TEXT, "
                                    "ImportTime TEXT, "
                                    "FileType INTEGER, "
-                                   "UID TEXT)"));
+                                   "UID TEXT, "
+                                   "ClassName TEXT)"));
     if (!d) {
         qWarning() << "Failed to create TrashTable3:" << m_query->lastError().text();
     }
@@ -1797,7 +1799,8 @@ void DBManager::checkDatabase()
                                    "ChangeTime TEXT, "
                                    "ImportTime TEXT, "
                                    "FileType INTEGER, "
-                                   "UID TEXT)"))) {
+                                   "UID TEXT, "
+                                   "ClassName TEXT)"))) {
             qDebug() << m_query->lastError();
         }
     } else {
@@ -1876,13 +1879,35 @@ void DBManager::checkDatabase()
 
     //检查时间数据，以相册版本表为准
     if (!m_query->exec("SELECT * FROM AlbumVersion")) {
-        //创建表
+        //创建表（新数据库）
         if (!m_query->exec("CREATE TABLE AlbumVersion (version TEXT primary key)")) {
         }
-        if (!m_query->exec("INSERT INTO AlbumVersion (version) VALUES (\"5.9\")")) {
+        if (!m_query->exec("INSERT INTO AlbumVersion (version) VALUES (\"6.0\")")) {
         }
         checkTimeColumn("ImageTable3");
         checkTimeColumn("TrashTable3");
+    } else {
+        // 检查版本并升级（已存在的数据库）
+        if (m_query->next()) {
+            QString currentVersion = m_query->value(0).toString();
+            qDebug() << "Current database version:" << currentVersion;
+            
+            // 如果是5.9或更早版本，升级到6.0
+            if (currentVersion == "5.9" || currentVersion < "6.0") {
+                qDebug() << "Upgrading database from" << currentVersion << "to 6.0";
+                
+                // 添加 ClassName 字段
+                checkClassNameColumn("ImageTable3");
+                checkClassNameColumn("TrashTable3");
+                
+                // 更新版本号
+                if (!m_query->exec("UPDATE AlbumVersion SET version = \"6.0\"")) {
+                    qWarning() << "Failed to update version:" << m_query->lastError().text();
+                } else {
+                    qDebug() << "Database upgraded to version 6.0 successfully";
+                }
+            }
+        }
     }
 
     //每次启动后释放一次文件空间，防止占用过多无效空间
@@ -1944,6 +1969,31 @@ void DBManager::checkTimeColumn(const QString &tableName)
         }
     }
     qDebug() << "DBManager::checkTimeColumn - Exit";
+}
+
+void DBManager::checkClassNameColumn(const QString &tableName)
+{
+    qDebug() << "DBManager::checkClassNameColumn - Entry";
+    // 检查表中是否已存在 ClassName 字段
+    QString checkSql = QString("SELECT sql FROM sqlite_master WHERE type='table' AND name='%1'").arg(tableName);
+    if (m_query->exec(checkSql) && m_query->next()) {
+        QString tableSql = m_query->value(0).toString();
+        // 如果表定义中不包含 ClassName，则添加该字段
+        if (!tableSql.contains("ClassName", Qt::CaseInsensitive)) {
+            qDebug() << "Adding ClassName column to" << tableName;
+            QString alterSql = QString("ALTER TABLE %1 ADD COLUMN ClassName TEXT").arg(tableName);
+            if (!m_query->exec(alterSql)) {
+                qWarning() << "Failed to add ClassName column to" << tableName << ":" << m_query->lastError().text();
+            } else {
+                qDebug() << "Successfully added ClassName column to" << tableName;
+            }
+        } else {
+            qDebug() << tableName << "already has ClassName column";
+        }
+    } else {
+        qWarning() << "Failed to check table" << tableName << ":" << m_query->lastError().text();
+    }
+    qDebug() << "DBManager::checkClassNameColumn - Exit";
 }
 
 void DBManager::insertSpUID(const QString &albumName, AlbumDBType astype, SpUID UID)
