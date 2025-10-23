@@ -1,3 +1,9 @@
+deepin-album (6.0.47) unstable; urgency=medium
+
+  * fix bugs
+
+ -- Liu Zhangjian <liuzhangjian@uniontech.com>  Thu, 23 Oct 2025 19:46:17 +0800
+
 deepin-album (6.0.46) unstable; urgency=medium
 
   * chore: Update linglong base and runtime
