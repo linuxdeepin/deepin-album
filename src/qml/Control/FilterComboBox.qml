@@ -32,26 +32,5 @@ ComboBox {
         autoExclusive: true
         checked: comboBox.currentIndex === index
     }
-
-    // 为符合UI效果，弹框宽度比下拉框宽度略大
-    popup: Popup {
-        clip: true
-        x: -15
-        implicitWidth: comboBox.width + 15
-        contentItem: ArrowListView {
-            maxVisibleItems: comboBox.maxVisibleItems
-            view.model: comboBox.delegateModel
-            view.currentIndex: comboBox.highlightedIndex
-            view.highlightRangeMode: ListView.ApplyRange
-            view.highlightMoveDuration: 0
-        }
-
-        background: FloatingPanel {
-            implicitWidth: DS.Style.menu.item.width
-            implicitHeight: DS.Style.menu.item.height
-            radius: DS.Style.menu.radius
-            backgroundColor: DS.Style.menu.background
-        }
-    }
 }
 
