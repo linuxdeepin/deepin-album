@@ -219,12 +219,13 @@ BaseView {
         text: qsTr("No results")
     }
 
-    // 1.自定义相册，若没有数据，显示导入图片视图
-    // 2.自动导入相册，无内容时，显示没有图片或视频时显示
+    // 自定义/系统自动导入/普通自动导入相册无内容时，显示导入图片视图
     NoPictureView {
         visible: numLabelText === ""  && filterType === 0
-        bShowImportBtn: isCustom
-        iconName: isCustom ? "nopicture1" : (GStatus.currentViewType === Album.Types.ViewCustomAlbum ? "nopicture2" : "nopicture3")
+        bShowImportBtn: isCustom || isSystemAutoImport || isNormalAutoImport
+        iconName: (isCustom || isSystemAutoImport || isNormalAutoImport)
+                  ? "nopicture1"
+                  : (GStatus.currentViewType === Album.Types.ViewCustomAlbum ? "nopicture2" : "nopicture3")
     }
 
     NumberAnimation {
