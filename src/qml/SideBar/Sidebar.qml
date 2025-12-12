@@ -20,6 +20,7 @@ ScrollView {
     signal sideBarListChanged(string type, string displayName)
     property int currentImportCustomIndex: 0 //自动导入相册当前索引值
     property int currentCustomIndex: 0 //自定义相册当前索引值
+    property int currentSystemIndex: 0 //系统相册当前索引值
     property var devicePaths : albumControl.getDevicePaths()
     property var albumPaths : albumControl.getAlbumPaths(GStatus.currentCustomAlbumUId)
     property var importAlbumNames : {
@@ -153,6 +154,39 @@ ScrollView {
         // 自定义相册被清空，返回到上一级相册
         if(albumControl.getAllCustomAlbumId().length === 0){
             backSystemAlbum()
+        }
+    }
+
+    // 删除系统相册（仅移除数据库记录和侧边栏入口，不删除实际文件）
+    function deleteSystemAlbum() {
+        var delAlbumName = albumControl.getCustomAlbumByUid(GStatus.currentCustomAlbumUId)
+        albumControl.removeAlbum(GStatus.currentCustomAlbumUId)
+
+        if (currentSystemIndex >= sysListModel.count) {
+            currentSystemIndex = sysListModel.count - 1
+        }
+
+        if (currentSystemIndex >= 0 && currentSystemIndex < sysListModel.count) {
+            sysListModel.remove(currentSystemIndex)
+        }
+
+        DTK.sendMessage(thumbnailImage, qsTr("Album “%1” removed").arg(qsTr(delAlbumName)), "notify_checked")
+
+        if (sysListModel.count > 0) {
+            var newIndex = currentSystemIndex
+            if (newIndex < 0)
+                newIndex = 0
+            if (newIndex >= sysListModel.count)
+                newIndex = sysListModel.count - 1
+
+            systemSideBar.view.currentIndex = newIndex
+            systemSideBar.view.currentItem.checked = true
+            GStatus.currentViewType = Album.Types.ViewCustomAlbum
+            GStatus.currentCustomAlbumUId = sysListModel.get(newIndex).uuid
+            GStatus.searchEditText = ""
+            systemSideBar.view.currentItem.forceActiveFocus()
+        } else {
+            backCollection()
         }
     }
 
@@ -338,6 +372,7 @@ ScrollView {
             }
 
             onItemClicked: (uuid)=> {
+                currentSystemIndex = systemSideBar.indexFromUuid(uuid)
                 GStatus.currentViewType = Album.Types.ViewCustomAlbum
                 GStatus.currentCustomAlbumUId = uuid
                 GStatus.searchEditText = ""
@@ -345,24 +380,24 @@ ScrollView {
             }
 
             onItemRightClicked: {
-                if (sidebarScrollView.albumPaths.length > 0) {
-                    systemMenu.popup()
-                }
+                // 即使当前相册为空，也允许弹出菜单，保证交互一致性
+                // 菜单项本身会根据 albumPaths.length 控制可见性
+                systemMenu.popup()
             }
 
             Component.onCompleted: {
                 //根据文件夹情况刷新当前的默认路径相册显示
                 //1: 截图，2: 相机，3: 画板
                 if(albumControl.isDefaultPathExists(1)) {
-                    sysListModel.append({checked: false, icon: "screenshot", displayName: qsTr("Screen Capture"), uuid: "1", editable: false})
+                    sysListModel.append({checked: false, icon: "screenshot", displayName: qsTr("Screen Capture"), uuid: "1", editable: true})
                 }
 
                 if(albumControl.isDefaultPathExists(2)) {
-                    sysListModel.append({checked: false, icon: "camera", displayName: qsTr("Camera"), uuid: "2", editable: false})
+                    sysListModel.append({checked: false, icon: "camera", displayName: qsTr("Camera"), uuid: "2", editable: true})
                 }
 
                 if(albumControl.isDefaultPathExists(3)) {
-                    sysListModel.append({checked: false, icon: "draw", displayName: qsTr("Draw"), uuid: "3", editable: false})
+                    sysListModel.append({checked: false, icon: "draw", displayName: qsTr("Draw"), uuid: "3", editable: true})
                 }
             }
         }
@@ -470,7 +505,9 @@ ScrollView {
         //显示大图预览
         RightMenuItem {
             text: qsTr("Slide show")
-            visible: albumPaths.length >0
+            // 始终显示该项，内容为空时仅禁用，避免菜单为空
+            visible: true
+            enabled: albumPaths.length > 0
             onTriggered: {
                 stackControl.startMainSliderShow(albumPaths, 0)
             }
@@ -481,9 +518,30 @@ ScrollView {
 
         RightMenuItem {
             text: qsTr("Export")
-            visible:  albumPaths.length >0
+            // 始终显示该项，内容为空时仅禁用，避免菜单为空
+            visible: true
+            enabled: albumPaths.length > 0
             onTriggered: {
                 albumControl.exportFolders(albumPaths,albumControl.getCustomAlbumByUid(GStatus.currentCustomAlbumUId))
+            }
+        }
+
+        MenuSeparator { }
+
+        // 重命名系统相册
+        RightMenuItem {
+            text: qsTr("Rename")
+            onTriggered: {
+                systemSideBar.view.currentItem.rename()
+            }
+        }
+
+        // 删除系统相册入口
+        RightMenuItem {
+            text: qsTr("Delete")
+            onTriggered: {
+                removeAlbumDialog.deleteType = 2
+                removeAlbumDialog.show()
             }
         }
     }
@@ -534,7 +592,10 @@ ScrollView {
             deleteCustomAlbum()
         } else if(type === 1) {
             // 删除自动导入相册
-           deleteImportAlbum()
+            deleteImportAlbum()
+        } else if (type === 2) {
+            // 删除系统相册
+            deleteSystemAlbum()
         }
     }
 

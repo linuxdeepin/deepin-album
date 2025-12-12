@@ -2180,9 +2180,17 @@ void AlbumControl::updateInfoPath(const QString &oldPath, const QString &newPath
 bool AlbumControl::renameAlbum(int UID, const QString &newName)
 {
     qDebug() << "AlbumControl::renameAlbum - Function entry, UID:" << UID << "newName:" << newName;
-    DBManager::instance()->renameAlbum(UID, newName);
-    qDebug() << "AlbumControl::renameAlbum - Function exit, returning: true";
-    return true;
+    // 根据 UID 推断相册类型
+    AlbumDBType atype = AlbumDBType::Custom;
+    if (UID == 0) {
+        atype = AlbumDBType::Favourite;
+    } else if (isAutoImportAlbum(UID)) {
+        atype = AlbumDBType::AutoImport;
+    }
+
+    bool ok = DBManager::instance()->renameAlbum(UID, newName, atype);
+    qDebug() << "AlbumControl::renameAlbum - Function exit, returning:" << ok;
+    return ok;
 }
 
 QVariant AlbumControl::searchPicFromAlbum(int UID, const QString &keywords, bool useAI)

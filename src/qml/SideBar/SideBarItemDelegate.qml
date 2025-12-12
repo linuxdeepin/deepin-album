@@ -155,10 +155,10 @@ ItemDelegate {
         songName.visible = true;
         siderIcon.visible = true;
         keyLineEdit.visible = false;
-        if (keyLineEdit.text !== "" && albumControl.renameAlbum(albumControl.getAllCustomAlbumId()[index], keyLineEdit.text)) {
+        if (keyLineEdit.text !== "" && albumControl.renameAlbum(model.uuid, keyLineEdit.text)) {
             songName.text = keyLineEdit.text
 
-            // 通知自定义相册视图刷新相册名称
+            // 通知相册视图刷新相册名称（包括系统相册和自定义相册）
             GStatus.sigCustomAlbumNameChaged(GStatus.currentCustomAlbumUId, songName.text)
         }
     }
