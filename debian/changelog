@@ -1,3 +1,11 @@
+deepin-album (6.0.49) unstable; urgency=medium
+
+  * chore: Update version to 6.0.49
+  * fix(ui): scale large images and preserve original dimensions
+  * feat: Support mips64 linglong build (#374)
+
+ -- zhanghongyuan <zhanghongyuan@uniontech.com>  Fri, 12 Dec 2025 10:08:02 +0800
+
 deepin-album (6.0.48) unstable; urgency=medium
 
   * fix bug.
