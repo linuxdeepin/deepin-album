@@ -403,6 +403,23 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
             reader.setFormat(format_bar.toLatin1());
         }
         reader.setAutoTransform(true);
+        
+        // 增加内存限制，支持加载大图片
+        reader.setAllocationLimit(2048);
+        qDebug() << "Set QImageReader allocation limit to 2048MB";
+        
+        QSize originalSize = reader.size();
+        const int maxDimension = 4096;
+        if (originalSize.width() > maxDimension || originalSize.height() > maxDimension) {
+            qDebug() << "Large image detected (" << originalSize.width() << "x" << originalSize.height()
+                                  << "), scaling down to max dimension:" << maxDimension;
+            
+            QSize scaledSize = originalSize;
+            scaledSize.scale(maxDimension, maxDimension, Qt::KeepAspectRatio);
+            reader.setScaledSize(scaledSize);
+            qDebug() << "Image scaled to:" << scaledSize;
+        }
+        
         if (reader.imageCount() > 0 || file_suffix_upper != "ICNS") {
             res_qt = reader.read();
             if (res_qt.isNull()) {
@@ -767,10 +784,35 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
     }
     admMap.insert("DateTimeDigitized",  info.lastModified().toString("yyyy/MM/dd HH:mm"));
 
-           // The value of width and height might incorrect
+    // The value of width and height might incorrect
     QImageReader reader(path);
-    int w = reader.size().width();
-    int h = reader.size().height();
+    
+    // 增加内存限制，支持读取大图片的元数据
+    reader.setAllocationLimit(2048);
+    qDebug() << "Set QImageReader allocation limit to 2048MB for metadata reading";
+    
+    QSize originalSize = reader.size();
+    const int maxDimension = 4096;
+    int w = originalSize.width();
+    int h = originalSize.height();
+    
+    if (originalSize.width() > maxDimension || originalSize.height() > maxDimension) {
+        qDebug() << "Large image detected for metadata reading (" << originalSize.width() << "x" << originalSize.height()
+                              << "), scaling down to max dimension:" << maxDimension;
+        
+        QSize scaledSize = originalSize;
+        scaledSize.scale(maxDimension, maxDimension, Qt::KeepAspectRatio);
+        
+        admMap.insert("OriginalDimension", QString::number(w) + "x" + QString::number(h));
+        admMap.insert("OriginalWidth", QString::number(w));
+        admMap.insert("OriginalHeight", QString::number(h));
+        
+        w = scaledSize.width();
+        h = scaledSize.height();
+
+        qDebug() << "Image scaled for metadata to:" << scaledSize;
+    }
+    
     admMap.insert("Dimension", QString::number(w) + "x" + QString::number(h));
     // 记录图片宽高
     admMap.insert("Width", QString::number(w));
