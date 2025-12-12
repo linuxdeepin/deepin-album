@@ -109,7 +109,14 @@ DialogWindow {
                     PropertyItemDelegate {
                         Layout.fillWidth: true
                         contrlImplicitWidth: propMidWidth
-                        description: dimensionsStr
+                        description: {
+                            var originalDim = FileControl.slotGetInfo("OriginalDimension", filePath);
+                            if (originalDim && originalDim !== "-") {
+                                return originalDim;
+                            } else {
+                                return dimensionsStr;
+                            }
+                        }
                         title: qsTr("Dimensions")
                     }
 
