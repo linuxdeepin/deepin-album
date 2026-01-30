@@ -98,8 +98,6 @@ if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
     TARGET_COMPILE_DEFINITIONS(${BIN_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 endif ()
 
-set_target_properties(${BIN_NAME} PROPERTIES INSTALL_RPATH ${DTK_QML_APP_PLUGIN_PATH})
-
 set(PREFIX ${CMAKE_INSTALL_PREFIX})
 set(AppIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
 set(APPSHAREDIR  ${CMAKE_INSTALL_PREFIX}/share/${CMAKE_PROJECT_NAME})
@@ -109,9 +107,6 @@ install(TARGETS ${BIN_NAME} DESTINATION ${APP_BIN_INSTALL_DIR})
 install(FILES ${PROJECT_SOURCE_DIR}/src/${CMAKE_PROJECT_NAME}.desktop DESTINATION share/applications)
 install(FILES ${PROJECT_SOURCE_DIR}/src/icon/deepin-album.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps)
 install(FILES com.deepin.album.service DESTINATION ${CMAKE_INSTALL_PREFIX}/share/dbus-1/services/)
-
-install(TARGETS ${LIB_NAME} DESTINATION ${DTK_QML_APP_PLUGIN_PATH})
-install(TARGETS ${LIB_NAME} DESTINATION ${PREFIX}/plugins/imageformats)
 
 #translations
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/translations
