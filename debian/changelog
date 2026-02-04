@@ -1,3 +1,9 @@
+deepin-album (6.0.50) unstable; urgency=medium
+
+  * chore: Update compiler flags for security enhancements
+
+ -- wangrong <wangrong@uniontech.com>  Wed, 04 Feb 2026 10:48:40 +0800
+
 deepin-album (6.0.49) unstable; urgency=medium
 
   * chore: Update version to 6.0.49
