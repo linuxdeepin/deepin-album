@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -128,6 +128,8 @@ BaseView {
     }
 
     function runDeleteImg() {
+        if (!visible)
+            return
         menuItemStates.executeDelete()
         getNumLabelText()
     }
@@ -223,6 +225,13 @@ BaseView {
         to: 0
         duration: GStatus.sidebarAnimationEnabled ? GStatus.animationDuration : 0
         easing.type: Easing.OutExpo
+    }
+
+    Connections {
+        target: deleteDialog
+        function onSigDoDeleteImg() {
+            runDeleteImg()
+        }
     }
 
     Component.onCompleted: {
