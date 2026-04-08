@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -181,6 +181,11 @@ void ImportImagesThread::runDetail()
         // 存在无法导入
         int skiped = tempPaths.size() - noReadCount;
         qWarning() << "No valid files to import, skipped:" << skiped;
+        // 防止空文件夹导入后重启仍显示空相册
+        if (m_UID >= DBManager::u_CustomStart) {
+            qDebug() << "Removing empty custom auto-import album, UID:" << m_UID;
+            DBManager::instance()->removeCustomAutoImportPath(m_UID);
+        }
         emit sigImportFailed(skiped);
         return;
     }
