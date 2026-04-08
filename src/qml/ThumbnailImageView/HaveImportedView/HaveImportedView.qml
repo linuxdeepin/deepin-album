@@ -88,7 +88,7 @@ BaseView {
             } else if (id === Album.Types.IdVideoInfo) {
                 menuItemStates.executeViewVideoInfo()
             } else if (id === Album.Types.IdNewAlbum) {
-                newAlbum.isChangeView = false
+                newAlbum.isChangeView = true
                 newAlbum.importSelected = true
                 newAlbum.setNormalEdit()
                 newAlbum.show()

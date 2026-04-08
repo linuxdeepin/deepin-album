@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -1744,13 +1744,14 @@ void AlbumControl::insertCollection(const QList< QUrl > &paths)
     qDebug() << "AlbumControl::insertCollection - Function exit, processed" << infos.size() << "items";
 }
 
-void AlbumControl::createAlbum(const QString &newName)
+int AlbumControl::createAlbum(const QString &newName)
 {
     qDebug() << "AlbumControl::createAlbum - Function entry, newName:" << newName;
     QString createAlbumName = getNewAlbumName(newName);
     int createUID = DBManager::instance()->createAlbum(createAlbumName, QStringList(" "));
     DBManager::instance()->insertIntoAlbum(createUID, QStringList(" "));
     qDebug() << "AlbumControl::createAlbum - Function exit, created album with UID:" << createUID;
+    return createUID;
 }
 
 QList<int> AlbumControl::getAllNormlAutoImportAlbumId()
