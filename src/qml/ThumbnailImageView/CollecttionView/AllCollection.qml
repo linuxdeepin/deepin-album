@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -23,6 +23,7 @@ SwitchViewAnimation {
     property string selectedText: getSelectedNum(selectedPaths)
     property alias count: theView.count
     property var selectedPaths: GStatus.selectedPaths
+    property int totalItemCount: 0
 
     function setDateRange(str) {
         dateRangeLabel.text = str
@@ -77,6 +78,7 @@ SwitchViewAnimation {
 
         var videoCountText = ""
         var videoCount = albumControl.getAllCount(2)
+        totalItemCount = photoCount + videoCount
         if(videoCount === 0) {
             videoCountText = ""
         } else if(videoCount === 1) {
@@ -138,7 +140,7 @@ SwitchViewAnimation {
             }
             width: 115
             height: 30
-            visible: parent.visible && albumControl.getAllCount() !== 0
+            visible: parent.visible && totalItemCount > 0
         }
 
         MouseArea {
@@ -175,7 +177,7 @@ SwitchViewAnimation {
             right: parent.right
             centerIn: parent
         }
-        visible: numLabelText === "" && albumControl.getAllCount() !== 0
+        visible: numLabelText === "" && totalItemCount > 0
         font: DTK.fontManager.t4
         color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
         text: qsTr("No results")
