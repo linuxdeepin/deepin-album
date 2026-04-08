@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -106,7 +106,7 @@ SwitchViewAnimation {
             } else if (id === Album.Types.IdVideoInfo) {
                 menuItemStates.executeViewVideoInfo()
             } else if (id === Album.Types.IdNewAlbum) {
-                newAlbum.isChangeView = false
+                newAlbum.isChangeView = true
                 newAlbum.importSelected = true
                 newAlbum.setNormalEdit()
                 newAlbum.show()

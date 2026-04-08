@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -123,22 +123,22 @@ DialogWindow {
         height: 38
 
         onClicked: {
-            albumControl.createAlbum(nameedit.text )
+            var newAlbumId = albumControl.createAlbum(nameedit.text)
             GStatus.albumChangeList = !GStatus.albumChangeList
             renamedialog.visible = false
 
-            // 获取新相册index
-            var index = albumControl.getAllCustomAlbumId().length - 1
+            if (newAlbumId < 0)
+                return
 
             // 导入已选图片
             if (importSelected) {
-                albumControl.insertIntoAlbum(albumControl.getAllCustomAlbumId()[index] , GStatus.selectedPaths)
+                albumControl.insertIntoAlbum(newAlbumId, GStatus.selectedPaths)
             }
 
             // 切换到对应相册视图
             if (isChangeView) {
                 GStatus.currentViewType = Album.Types.ViewCustomAlbum
-                GStatus.currentCustomAlbumUId = albumControl.getAllCustomAlbumId()[index]
+                GStatus.currentCustomAlbumUId = newAlbumId
                 sigCreateAlbumDone()
             }
 
