@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -170,6 +170,7 @@ void ImportTimeLineView::sltCurrentFilterChanged(ExpansionPanel::FilteData &data
     //如果过滤会后数量<=0，则不可用
     bool hasItems = m_importTimeLineListView->getAppointTypeItemCount(m_ToolButton->getFilteType()) > 0;
     m_ToolButton->setEnabled(hasItems);
+    m_ToolButton->setVisible(hasItems);
     qDebug() << "Filter applied, items available:" << hasItems;
     m_importTimeLineListView->setFocus();
 }

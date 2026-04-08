@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -265,7 +265,9 @@ void TimeLineView::sltCurrentFilterChanged(ExpansionPanel::FilteData &data)
     }
     clearAllSelection();
     //如果过滤会后数量<=0，则不可用
-    m_ToolButton->setEnabled(m_timeLineThumbnailListView->getAppointTypeItemCount(m_ToolButton->getFilteType()) > 0);
+    bool hasItems = m_timeLineThumbnailListView->getAppointTypeItemCount(m_ToolButton->getFilteType()) > 0;
+    m_ToolButton->setEnabled(hasItems);
+    m_ToolButton->setVisible(hasItems);
     m_timeLineThumbnailListView->setFocus();
     qDebug() << "Filter changed to type - Exit";
 }

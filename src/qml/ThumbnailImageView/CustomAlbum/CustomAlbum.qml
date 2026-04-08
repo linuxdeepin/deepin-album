@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -91,6 +91,7 @@ BaseView {
 
         var videoCountText = ""
         var videoCount = albumControl.getCustomAlbumInfoConut(customAlbumUId, 2)
+        totalPictrueAndVideos = photoCount + videoCount
         if(videoCount === 0) {
             videoCountText = ""
         } else if(videoCount === 1) {
@@ -165,6 +166,7 @@ BaseView {
             }
             width: 115
             height: 30
+            visible: totalPictrueAndVideos > 0
         }
 
         MouseArea {
