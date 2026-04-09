@@ -57,6 +57,15 @@ UNIONIMAGESHARED_EXPORT const QStringList unionImageSupportFormat();
 UNIONIMAGESHARED_EXPORT const QStringList supportStaticFormat();
 UNIONIMAGESHARED_EXPORT const QStringList supportMovieFormat();
 
+/**
+ * @brief getFileFormat
+ * @param path
+ * @return QString
+ * @author LMH
+ * 获取文件格式，优先基于文件内容检测，支持修改后缀的图片文件
+ */
+UNIONIMAGESHARED_EXPORT const QString getFileFormat(const QString &path);
+
 UNIONIMAGESHARED_EXPORT bool isDynamicFormat();
 /**
  * @brief CreatNewImage
