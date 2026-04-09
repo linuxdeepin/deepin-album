@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -248,6 +248,8 @@ UNIONIMAGESHARED_EXPORT QString size2Human(const qlonglong bytes)
     }
 }
 
+// Forward declaration for PrivateDetectImageFormat
+QString PrivateDetectImageFormat(const QString &filepath);
 /**
  * @brief getFileFormat
  * @param path
@@ -257,9 +259,15 @@ UNIONIMAGESHARED_EXPORT QString size2Human(const qlonglong bytes)
  */
 UNIONIMAGESHARED_EXPORT const QString getFileFormat(const QString &path)
 {
-    QFileInfo fi(path);
-    QString suffix = fi.suffix();
-    return suffix;
+    // 先尝试通过文件内容检测格式，避免修改后缀后无法正常打开图片的问题
+    QString format = PrivateDetectImageFormat(path);
+    if (format.isEmpty()) {
+        // 如果内容检测失败，回退到后缀名判断
+        QFileInfo fi(path);
+        QString suffix = fi.suffix();
+        return suffix;
+    }
+    return format;
 }
 
 /**
@@ -287,7 +295,9 @@ UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
     if (r.imageCount() > 1) {
         return false;
     }
-    if (union_image_private.m_canSave.contains(info.suffix().toUpper()))
+    // 优先使用文件内容检测的格式，避免修改后缀后无法判断是否可以保存
+    QString format = getFileFormat(path).toUpper();
+    if (union_image_private.m_canSave.contains(format))
         return true;
     return false;
 }

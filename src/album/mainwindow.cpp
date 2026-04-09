@@ -496,7 +496,8 @@ bool MainWindow::processOption(QStringList &paslist)
         QMimeType mt = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchContent);
         QMimeType mt1 = db.mimeTypeForFile(info.filePath(), QMimeDatabase::MatchExtension);
 
-        QString str = info.suffix().toLower();
+        // 优先基于文件内容检测格式，支持修改后缀的图片
+        QString str = UnionImage_NameSpace::getFileFormat(filepath).toLower();
         if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")
                 || mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
             if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive)) {

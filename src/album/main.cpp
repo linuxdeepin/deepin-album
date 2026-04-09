@@ -12,6 +12,7 @@
 #include "imageengine/imageengineapi.h"
 #include "accessibledefine.h"
 #include "accessible.h"
+#include "utils/unionimage.h"
 
 #include <DMainWindow>
 #include <DWidgetUtil>
@@ -75,7 +76,8 @@ int main(int argc, char *argv[])
         filepath = utils::base::UrlInfo(path).toLocalFile();
 
         QFileInfo info(filepath);
-        QString str = info.suffix().toLower();
+        // 优先基于文件内容检测格式，支持修改后缀的图片
+        QString str = UnionImage_NameSpace::getFileFormat(filepath).toLower();
         qDebug() << __FUNCTION__ << "---" << str;
         if (utils::image::supportedImageFormats().contains(str, Qt::CaseInsensitive) ||
                 utils::base::isVideo(filepath)) { //增加对视频格式的支持

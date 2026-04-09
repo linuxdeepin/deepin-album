@@ -189,9 +189,27 @@ void FileInotify::getAllPicture(bool isFirst)
         return;
     }
 
-    //移除不支持的文件
+    //移除不支持的文件，同时支持通过文件内容检测格式
     auto removeIter = std::remove_if(list.begin(), list.end(), [this](const QFileInfo & info) {
-        return !m_Supported.contains(info.suffix().toUpper());
+        // 首先检查后缀名是否支持（快速路径）
+        QString suffix = info.suffix().toUpper();
+        if (m_Supported.contains(suffix)) {
+            return false;
+        }
+        // 后缀名不支持时，通过文件内容检测实际格式（支持修改后缀的图片）
+        QString actualFormat = UnionImage_NameSpace::getFileFormat(info.absoluteFilePath()).toUpper();
+        // 检测到的实际格式是否在支持列表中（但排除视频格式）
+        if (!actualFormat.isEmpty() && m_Supported.contains(actualFormat)) {
+            // 图片格式支持，但需要排除视频格式
+            QStringList videoSuffixes;
+            for (auto &eachData : utils::base::m_videoFiletypes) {
+                videoSuffixes << eachData.toUpper();
+            }
+            if (!videoSuffixes.contains(actualFormat)) {
+                return false;
+            }
+        }
+        return true;
     });
     list.erase(removeIter, list.end());
 
