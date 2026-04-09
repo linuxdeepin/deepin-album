@@ -63,7 +63,6 @@ aux_source_directory(./album/timelineview allSource)
 aux_source_directory(./album/utils allSource)
 aux_source_directory(./album/widgets allSource)
 aux_source_directory(./album/widgets/dialogs allSource)
-aux_source_directory(./../libUnionImage/UnionImage allSource)
 
 FILE (GLOB allHeaders
     "./album/module/*.h"
@@ -133,7 +132,6 @@ if(DOTEST)
     aux_source_directory(./album/utils allTestSource)
     aux_source_directory(./album/widgets allTestSource)
     aux_source_directory(./album/widgets/dialogs allTestSource)
-    aux_source_directory(./../libUnionImage/UnionImage allTestSource)
 
     FILE(GLOB allTestSource1
         "./album/application.cpp"

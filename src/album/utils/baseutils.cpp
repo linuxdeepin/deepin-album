@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -296,8 +296,15 @@ QUrl UrlInfo(QString path)
 
 bool isVideo(QString path)
 {
+    // 优先通过文件内容检测格式，支持修改后缀的视频
+    QString format = UnionImage_NameSpace::getFileFormat(path).toLower();
+    if (!format.isEmpty()) {
+        return m_videoFiletypes.contains(format);
+    }
+
+    // 内容检测失败时，回退到后缀判断
     QFileInfo temDir(path);
-    QString fileName = temDir.suffix().toLower(); //扩展名
+    QString fileName = temDir.suffix().toLower();
     return m_videoFiletypes.contains(fileName);
 }
 

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -198,38 +198,41 @@ void DBandImgOperate::sltLoadMountFileList(const QString &path)
     QString strPath = path;
     if (!m_PhonePicFileMap.contains(strPath)) {
         m_couldRun.store(true);
-        //获取所选文件类型过滤器
-        QStringList filters;
-        for (QString i : UnionImage_NameSpace::unionImageSupportFormat()) {
-            filters << "*." + i;
-        }
+        // 获取支持的图片和视频格式（用于后续验证）
+        QStringList supportedFormats = UnionImage_NameSpace::unionImageSupportFormat();
+        QStringList videoFormats = utils::base::m_videoFiletypes;
 
-        for (QString i : utils::base::m_videoFiletypes) {
-            filters << "*." + i;
-        }
-        //定义迭代器并设置过滤器，包括子目录：QDirIterator::Subdirectories
+        // 定义迭代器，遍历所有文件（不使用后缀过滤器）
         QDirIterator dir_iterator(strPath,
-                                  filters,
                                   QDir::Files | QDir::NoSymLinks,
                                   QDirIterator::Subdirectories);
         QStringList allfiles;
         while (dir_iterator.hasNext()) {
-            //需要停止则跳出循环
+            // 需要停止则跳出循环
             if (!m_couldRun.load()) {
                 break;
             }
             dir_iterator.next();
-            allfiles << dir_iterator.filePath();
-            if (allfiles.size() == 50) {
-                emit sigMountFileListLoadReady(strPath, allfiles);
+            QString filePath = dir_iterator.filePath();
+
+            // 使用基于文件内容的格式检测（支持修改后缀的图片）
+            QString actualFormat = UnionImage_NameSpace::getFileFormat(filePath).toUpper();
+
+            // 检查检测到的格式是否在支持列表中
+            if (!actualFormat.isEmpty() &&
+                (supportedFormats.contains(actualFormat) || videoFormats.contains(actualFormat))) {
+                allfiles << filePath;
+                if (allfiles.size() == 50) {
+                    emit sigMountFileListLoadReady(strPath, allfiles);
+                }
             }
         }
-        //重置标志位，可以执行线程
+        // 重置标志位，可以执行线程
         m_couldRun.store(true);
         m_PhonePicFileMap[strPath] = allfiles;
         emit sigMountFileListLoadReady(strPath, allfiles);
     } else {
-        //已加载过的设备，直接发送缓存的路径
+        // 已加载过的设备，直接发送缓存的路径
         emit sigMountFileListLoadReady(strPath, m_PhonePicFileMap[strPath]);
     }
 }
