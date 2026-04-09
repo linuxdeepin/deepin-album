@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -32,15 +32,25 @@ namespace image {
 
 bool imageSupportRead(const QString &path)
 {
-    const QString suffix = QFileInfo(path).suffix();
-    // take them here for good.
+    // 优先通过文件内容检测格式，支持修改后缀的图片
+    QString format = UnionImage_NameSpace::getFileFormat(path).toUpper();
+    if (!format.isEmpty()) {
+        QStringList errorList;
+        errorList << "X3F";
+        if (errorList.contains(format)) {
+            return false;
+        }
+        return UnionImage_NameSpace::unionImageSupportFormat().contains(format);
+    }
+
+    // 内容检测失败时，回退到后缀判断
+    const QString suffix = QFileInfo(path).suffix().toUpper();
     QStringList errorList;
     errorList << "X3F";
-    if (errorList.indexOf(suffix.toUpper()) != -1) {
+    if (errorList.contains(suffix)) {
         return false;
     }
-    //return QImageReader::supportedImageFormats().contains(suffix.toUtf8());
-    return UnionImage_NameSpace::unionImageSupportFormat().contains(suffix.toUpper());
+    return UnionImage_NameSpace::unionImageSupportFormat().contains(suffix);
 }
 
 void getAllDirInDir(const QDir &dir, QFileInfoList &result)

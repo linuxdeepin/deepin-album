@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -8,9 +8,9 @@
 #include <QtCore/qglobal.h>
 
 #if defined(UNIONIMAGE_LIBRARY)
-#    define UNIONIMAGESHARED_EXPORT Q_DECL_EXPORT
+#  define UNIONIMAGESHARED_EXPORT Q_DECL_EXPORT
 #else
-#    define UNIONIMAGESHARED_EXPORT Q_DECL_IMPORT
+#  define UNIONIMAGESHARED_EXPORT Q_DECL_IMPORT
 #endif
 
 #include <QHash>
@@ -21,28 +21,24 @@
 #include <QStringList>
 #include <QMap>
 
-namespace UnionImage_NameSpace {
+namespace  UnionImage_NameSpace {
 
 enum SupportType {
-    UNKNOWNTYPE = 0,   // unknown type
-    BITMAP = 1,   // standard image               : 1-, 4-, 8-, 16-, 24-, 32-bit
-    UINT16 = 2,   // array of unsigned short      : unsigned 16-bit
-    INT16 = 3,   // array of short               : signed 16-bit
-    UINT32 = 4,   // array of unsigned long       : unsigned 32-bit
-    INT32 = 5,   // array of long                : signed 32-bit
-    FLOAT = 6,   // array of float               : 32-bit IEEE floating point
-    DOUBLE = 7,   // array of double              : 64-bit IEEE floating point
-    COMPLEX = 8,   // array of FICOMPLEX           : 2 x 64-bit IEEE floating point
-    RGB16 = 9,   // 48-bit RGB image             : 3 x 16-bit
-    RGBA16 = 10,   // 64-bit RGBA image            : 4 x 16-bit
-    RGBF = 11,   // 96-bit RGB float image       : 3 x 32-bit IEEE floating point
-    RGBAF = 12   // 128-bit RGBA float image     : 4 x 32-bit IEEE floating point
+    UNKNOWNTYPE = 0,    // unknown type
+    BITMAP      = 1,    // standard image               : 1-, 4-, 8-, 16-, 24-, 32-bit
+    UINT16      = 2,    // array of unsigned short      : unsigned 16-bit
+    INT16       = 3,    // array of short               : signed 16-bit
+    UINT32      = 4,    // array of unsigned long       : unsigned 32-bit
+    INT32       = 5,    // array of long                : signed 32-bit
+    FLOAT       = 6,    // array of float               : 32-bit IEEE floating point
+    DOUBLE      = 7,    // array of double              : 64-bit IEEE floating point
+    COMPLEX     = 8,    // array of FICOMPLEX           : 2 x 64-bit IEEE floating point
+    RGB16       = 9,    // 48-bit RGB image             : 3 x 16-bit
+    RGBA16      = 10,   // 64-bit RGBA image            : 4 x 16-bit
+    RGBF        = 11,   // 96-bit RGB float image       : 3 x 32-bit IEEE floating point
+    RGBAF       = 12    // 128-bit RGBA float image     : 4 x 32-bit IEEE floating point
 };
 
-/**
- * @brief UnionImageVersion
- * @return 版本信息
- */
 UNIONIMAGESHARED_EXPORT QString unionImageVersion();
 
 /**
@@ -57,14 +53,6 @@ UNIONIMAGESHARED_EXPORT const QStringList unionImageSupportFormat();
 UNIONIMAGESHARED_EXPORT const QStringList supportStaticFormat();
 UNIONIMAGESHARED_EXPORT const QStringList supportMovieFormat();
 
-/**
- * @brief getFileFormat
- * @param path
- * @return QString
- * @author LMH
- * 获取文件格式，优先基于文件内容检测，支持修改后缀的图片文件
- */
-UNIONIMAGESHARED_EXPORT const QString getFileFormat(const QString &path);
 
 UNIONIMAGESHARED_EXPORT bool isDynamicFormat();
 /**
@@ -90,7 +78,7 @@ UNIONIMAGESHARED_EXPORT bool creatNewImage(QImage &res, int width = 0, int heigh
  * 从文件载入图片
  * 载入成功返回true，图片数据返回到res
  * 载入失败返回false，如果需要可以读取errorMsg返回错误信息
- * 载入动态图片时，只会返回动态图片的第一帧，如果需要动图请使用UnionDynamicImage
+ * 载入动态图片时，只会返回动态图片的第一帧，如果需要动图请使用UUnionMovieImage
  */
 UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage &res, QString &errorMsg, const QString &format_bar = "");
 
@@ -102,6 +90,15 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
  */
 UNIONIMAGESHARED_EXPORT QString detectImageFormat(const QString &path);
 
+
+/**
+ * @brief getFileFormat
+ * @param path
+ * @return QString
+ * @author LMH
+ * 获取文件格式，优先基于文件内容检测，支持修改后缀的图片文件
+ */
+UNIONIMAGESHARED_EXPORT const QString getFileFormat(const QString &path);
 /**
  * @brief isNoneQImage
  * @param[in]           qi
@@ -175,10 +172,6 @@ UNIONIMAGESHARED_EXPORT bool isImageSupportRotate(const QString &path);
  */
 UNIONIMAGESHARED_EXPORT bool canSave(const QString &path);
 
-UNIONIMAGESHARED_EXPORT bool isSupportReading(const QString &path);
-
-UNIONIMAGESHARED_EXPORT bool isSupportWritting(const QString &path);
-
 /**
  * @brief getOrientation
  * @param path
@@ -188,6 +181,8 @@ UNIONIMAGESHARED_EXPORT bool isSupportWritting(const QString &path);
  */
 UNIONIMAGESHARED_EXPORT int getOrientation(const QString &path);
 
+
 };
 
-#endif   // UNIONIMAGE_H
+
+#endif // UNIONIMAGE_H

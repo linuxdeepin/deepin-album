@@ -335,34 +335,45 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
     }
     QString file_suffix_upper = file_info.suffix().toUpper();
     QString file_suffix_lower = file_suffix_upper.toLower();
-    if (union_image_private.m_qtSupported.contains(file_suffix_upper)) {
-        QImageReader reader;
-        QImage res_qt;
-        reader.setFileName(path);
-        if (format_bar.isEmpty()) {
-            reader.setFormat(file_suffix_lower.toLatin1());
-        } else {
-            reader.setFormat(format_bar.toLatin1());
-        }
-        reader.setAutoTransform(true);
-        if (reader.imageCount() > 0 || file_suffix_upper != "ICNS") {
-            res_qt = reader.read();
-            if (res_qt.isNull()) {
-                //try old loading method
-                QString format = PrivateDetectImageFormat(path);
-                QImageReader readerF(path, format.toLatin1());
-                QImage try_res;
-                readerF.setAutoTransform(true);
-                if (readerF.canRead() && readerF.imageCount() > 0) {
-                    try_res = readerF.read();
-                } else {
-                    errorMsg = "can't read image:" + readerF.errorString() + format;
-                    try_res = QImage();
-                }
 
+    // 优先通过文件内容检测实际格式，支持修改后缀的图片
+    QString actualFormat = format_bar;
+    if (actualFormat.isEmpty()) {
+        actualFormat = PrivateDetectImageFormat(path);
+        // 内容检测失败时，回退到后缀判断
+        if (actualFormat.isEmpty()) {
+            actualFormat = file_suffix_lower;
+        }
+    }
+
+    // 检查文件格式是否支持或文件后缀是否在支持列表中
+    if (!union_image_private.m_qtSupported.contains(actualFormat.toUpper()) &&
+        !union_image_private.m_qtSupported.contains(file_suffix_upper)) {
+        res = QImage();
+        errorMsg = "unsupported format: " + actualFormat;
+        return false;
+    }
+
+    QImageReader reader;
+    QImage res_qt;
+    reader.setFileName(path);
+    reader.setFormat(actualFormat.toLatin1());
+    reader.setAutoTransform(true);
+    if (reader.imageCount() > 0 || actualFormat.toUpper() != "ICNS") {
+        res_qt = reader.read();
+        if (res_qt.isNull()) {
+            // 尝试使用后缀名重新加载（向后兼容）
+            if (!format_bar.isEmpty() && actualFormat != format_bar) {
+                QImageReader readerFallback(path, format_bar.toLatin1());
+                readerFallback.setAutoTransform(true);
+                res_qt = readerFallback.read();
+            }
+
+            if (res_qt.isNull()) {
                 // 单独处理TIF格式情况
-                if (try_res.isNull() && (file_suffix_upper == "TIF" || file_suffix_upper == "TIFF")) {
-                    // 读取失败，tif需要单独处理，尝试通过转换函数处理
+                bool isTIF = (actualFormat.toUpper() == "TIF" || actualFormat.toUpper() == "TIFF" ||
+                              file_suffix_upper == "TIF" || file_suffix_upper == "TIFF");
+                if (isTIF) {
                     QFileInfo imageFile(path);
                     QString cachDir = albumGlobal::CACHE_PATH + QDir::separator() + "TIF";
                     QDir dir(cachDir);
@@ -376,26 +387,26 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
                     if (s_nFlagSucc == nRet) {
                         if (QFile::exists(cacheFile)) {
                             // 成功获取图片内容后，删除缓存的tiff转换文件
-                            try_res = QImage(cacheFile);
+                            res_qt = QImage(cacheFile);
                             QFile::remove(cacheFile);
                         }
                     }
                 }
 
-                if (try_res.isNull()) {
+                if (res_qt.isNull()) {
                     errorMsg = "load image by qt failed, use format:" + reader.format() + " ,path:" + path;
                     res = QImage();
                     return false;
                 }
-                errorMsg = "use old method to load QImage";
-                res = try_res;
-                return true;
             }
         }
         errorMsg = "use QImage";
         res = res_qt;
         return true;
     }
+
+    res = QImage();
+    errorMsg = "can't create QImageReader for file: " + path;
     return false;
 }
 

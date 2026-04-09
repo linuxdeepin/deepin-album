@@ -36,6 +36,7 @@ License: CC0-1.0
 # config files
 Files: src/album/controller/com.deepin.DeepinImageViewer.xml
        src/deepin-album.desktop
+       config.h.in
 Copyright: UnionTech Software Technology Co., Ltd.
 License: CC0-1.0
 
