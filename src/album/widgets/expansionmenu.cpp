@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -153,17 +153,23 @@ void ExpansionMenu::onCurrentItemChanged(ExpansionPanel::FilteData &data)
 void ExpansionMenu::onMainButtonClicked()
 {
     qDebug() << __FUNCTION__ << "---" << panel->isHidden();
-    panel->isHidden() ? panel->show() : panel->hide();
-    //不允许弹窗被右侧屏幕遮挡部分
-    QList<QScreen *> screens = QGuiApplication::screens();
-    int width = 0;//所有屏幕整体宽度
-    for (int i = 0; i < screens.size(); i++) {
-        width += screens.at(i)->availableGeometry().width();
-    }
-    if (width - QCursor().pos().x() < 190) {
-        panel->setGeometry(width - 191, QCursor().pos().y() + 15, 0, 0);
+
+    if (panel->isHidden()) {
+        //不允许弹窗被右侧屏幕遮挡部分
+        QList<QScreen *> screens = QGuiApplication::screens();
+        int width = 0;//所有屏幕整体宽度
+        for (int i = 0; i < screens.size(); i++) {
+            width += screens.at(i)->availableGeometry().width();
+        }
+        //先设置位置，再显示窗口，避免Wayland环境下弹窗位置异常
+        if (width - QCursor().pos().x() < 190) {
+            panel->setGeometry(width - 191, QCursor().pos().y() + 15, 0, 0);
+        } else {
+            panel->setGeometry(QCursor().pos().x(), QCursor().pos().y() + 15, 0, 0);
+        }
+        panel->show();
     } else {
-        panel->setGeometry(QCursor().pos().x(), QCursor().pos().y() + 15, 0, 0);
+        panel->hide();
     }
 }
 
