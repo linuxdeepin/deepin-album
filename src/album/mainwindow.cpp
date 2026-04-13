@@ -2424,9 +2424,12 @@ void MainWindow::onAddImageBtnClicked(bool checked)
 
 void MainWindow::onHideFromFullScreen()
 {
-    setTitleBarHideden(false);
-
-    m_pCenterWidget->setCurrentIndex(m_backIndex);
+    if (m_backIndex_fromFullScreen == VIEW_IMAGE) {
+        m_pCenterWidget->setCurrentIndex(VIEW_IMAGE);
+    } else {
+        setTitleBarHideden(false);
+        m_pCenterWidget->setCurrentIndex(m_backIndex);
+    }
 }
 
 void MainWindow::onExportImage(QStringList paths)
