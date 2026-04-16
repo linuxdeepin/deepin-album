@@ -1,3 +1,12 @@
+deepin-album (6.0.52) unstable; urgency=medium
+
+  * fix(import): remove DB record when importing empty folder
+  * fix: auto-navigate to new album after creation from context menu
+  * fix: hide filter button when no photos or videos exist
+  * fix: connect delete signal for imported images deletion
+
+ -- Wang Yu <wangyu@uniontech.com>  Thu, 16 Apr 2026 20:40:38 +0800
+
 deepin-album (6.0.51) unstable; urgency=medium
 
   * chore: Unify linglong.yaml
