@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -204,6 +204,14 @@ bool GlobalControl::hasNextImage() const
     return hasNext;
 }
 
+bool GlobalControl::hasMultipleImages() const
+{
+    if (imageCount() <= 1) {
+        return false;
+    }
+    return hasPrevious || hasNext;
+}
+
 /**
    @return 切换到前一张图片并返回是否切换成功
  */
@@ -346,6 +354,7 @@ void GlobalControl::setImageFiles(const QStringList &filePaths, const QString &o
 
     checkSwitchEnable();
     Q_EMIT imageCountChanged();
+    Q_EMIT hasMultipleImagesChanged();
 
     // 更新视图展示模型
     viewSourceModel->resetModel(index, 0);
@@ -492,6 +501,8 @@ void GlobalControl::checkSwitchEnable()
     bool previous = (curIndex > 0 || curFrameIndex > 0);
     bool next = (curIndex < (sourceModel->rowCount() - 1) || curFrameIndex < (currentImage.frameCount() - 1));
 
+    bool oldHasMultiple = hasMultipleImages();
+
     if (previous != hasPrevious) {
         qDebug() << "GlobalControl::checkSwitchEnable - Branch: previous != hasPrevious";
         hasPrevious = previous;
@@ -501,6 +512,10 @@ void GlobalControl::checkSwitchEnable()
         qDebug() << "GlobalControl::checkSwitchEnable - Branch: next != hasNext";
         hasNext = next;
         Q_EMIT hasNextImageChanged();
+    }
+
+    if (oldHasMultiple != hasMultipleImages()) {
+        Q_EMIT hasMultipleImagesChanged();
     }
     qDebug() << "GlobalControl::checkSwitchEnable - Function exit";
 }
