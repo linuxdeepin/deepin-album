@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -67,7 +67,13 @@ Item {
         repeat: true
         running: autoRun
 
-        onTriggered: switchNextImage()
+        onTriggered: {
+            if (GControl.hasMultipleImages) {
+                switchNextImage();
+            } else {
+                fadeInOutImage.restart();
+            }
+        }
     }
 
     SFadeInOut {
@@ -164,6 +170,7 @@ Item {
                     ToolTip.text: qsTr("Previous")
                     ToolTip.timeout: 5000
                     ToolTip.visible: hovered
+                    enabled: GControl.hasMultipleImages
                     height: parent.height
                     icon.name: "icon_previous"
                     width: 50
@@ -197,6 +204,7 @@ Item {
                     ToolTip.text: qsTr("Next")
                     ToolTip.timeout: 5000
                     ToolTip.visible: hovered
+                    enabled: GControl.hasMultipleImages
                     height: parent.height
                     icon.name: "icon_next"
                     width: 50

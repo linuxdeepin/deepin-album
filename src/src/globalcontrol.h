@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -26,6 +26,7 @@ class GlobalControl : public QObject
     Q_PROPERTY(int currentRotation READ currentRotation WRITE setCurrentRotation NOTIFY currentRotationChanged)
     Q_PROPERTY(bool hasPreviousImage READ hasPreviousImage NOTIFY hasPreviousImageChanged)
     Q_PROPERTY(bool hasNextImage READ hasNextImage NOTIFY hasNextImageChanged)
+    Q_PROPERTY(bool hasMultipleImages READ hasMultipleImages NOTIFY hasMultipleImagesChanged)
 
 public:
     explicit GlobalControl(QObject *parent = nullptr);
@@ -65,6 +66,8 @@ public:
     Q_SIGNAL void hasPreviousImageChanged();
     bool hasNextImage() const;
     Q_SIGNAL void hasNextImageChanged();
+    bool hasMultipleImages() const;
+    Q_SIGNAL void hasMultipleImagesChanged();
     Q_INVOKABLE bool previousImage();
     Q_INVOKABLE bool nextImage();
     Q_INVOKABLE bool firstImage();
