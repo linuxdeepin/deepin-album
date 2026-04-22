@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023-2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -690,6 +690,15 @@ Item {
 
         // 导航窗口是否显示
         property bool expectShow: GStatus.enableNavigation && (null !== targetImage) && (targetImage.scale > 1)
+        // Whether navigation is available (image overflows viewport),
+        // falls back to matching conditions when Loader is inactive
+        readonly property bool imageNeedNavi: item
+            ? item.imageNeedNavi
+            : (null !== targetImage
+               && window.height > GStatus.minHideHeight
+               && window.width > GStatus.minWidth
+               && (targetImage.paintedWidth * targetImage.scale > window.width
+                   || targetImage.paintedHeight * targetImage.scale > window.height))
 
         height: 112
         width: 150
