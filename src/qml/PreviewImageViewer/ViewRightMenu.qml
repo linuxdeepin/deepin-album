@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -21,6 +21,7 @@ Menu {
     property bool isNullImage: imageInfo.type === Album.Types.NullImage
     property bool readable: !isNullImage && FileControl.isCanReadable(imageSource)
     property bool renamable: !isNullImage && FileControl.isCanRename(imageSource)
+    readonly property bool navigationMenuVisible: !isNullImage && naviLoader.imageNeedNavi
     property bool rotatable: !isNullImage && FileControl.isRotatable(imageSource.toString())
     property bool supportOcr: !isNullImage && FileControl.isCanSupportOcr(imageSource)
     property bool supportWallpaper: !isNullImage && FileControl.isSupportSetWallpaper(imageSource)
@@ -295,7 +296,7 @@ Menu {
 
         enabled: visible && window.height > GStatus.minHideHeight && window.width > GStatus.minWidth
         text: !GStatus.enableNavigation ? qsTr("Show navigation window") : qsTr("Hide navigation window")
-        visible: !isNullImage
+        visible: navigationMenuVisible
 
         onTriggered: {
             if (!parent.enabled) {
