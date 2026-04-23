@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -36,7 +36,7 @@ static void parseProviderID(const QString &id, QString &filePath, int &frameInde
 }
 
 /**
-   @return 读取 \a imagePath 的图像数据并返回
+   @return 读取 \a imagePath 的图像数据并返回（受 unionimage 4096 限制）
  */
 static QImage readNormalImage(const QString &imagePath)
 {
@@ -49,6 +49,36 @@ static QImage readNormalImage(const QString &imagePath)
         qDebug() << "Successfully loaded image:" << imagePath << "size:" << image.size();
     }
     return image;
+}
+
+/**
+   @brief 直接用 QImageReader 读取 \a imagePath，若 \a targetSize 有效且小于原图尺寸，
+          通过 setScaledSize 让解码器直接输出目标尺寸，绕过 unionimage 的 4096 限制。
+ */
+static const int s_maxTotalPixels = 225 * 1000 * 1000; // ~900MB RGBA
+
+static QImage readNormalImageScaled(const QString &imagePath, const QSize &targetSize)
+{
+    QImageReader reader(imagePath);
+    reader.setAutoTransform(true);
+    reader.setAllocationLimit(2048);
+    const QSize orig = reader.size();
+
+    bool needsDownscale = targetSize.isValid() && orig.isValid()
+        && targetSize.width() <= orig.width() && targetSize.height() <= orig.height();
+
+    if (needsDownscale) {
+        QSize scaledSize = orig;
+        scaledSize.scale(targetSize, Qt::KeepAspectRatio);
+        reader.setScaledSize(scaledSize);
+    } else if (orig.isValid() && orig.width() * orig.height() > s_maxTotalPixels) {
+        QSize loadSize = orig;
+        double factor = std::sqrt(double(s_maxTotalPixels) / (orig.width() * orig.height()));
+        loadSize.setWidth(qMax(1, int(orig.width() * factor)));
+        loadSize.setHeight(qMax(1, int(orig.height() * factor)));
+        reader.setScaledSize(loadSize);
+    }
+    return reader.read();
 }
 
 /**
@@ -99,7 +129,7 @@ AsyncImageResponse::AsyncImageResponse(AsyncImageProvider *p, const QString &i, 
     , providerId(i)
     , requestedSize(r)
 {
-    qDebug() << "Creating async image response for:" << i << "requested size:" << r;
+    qDebug() << "AsyncImageResponse:" << i << "size:" << r;
     setAutoDelete(false);
 }
 
@@ -119,8 +149,6 @@ QQuickTextureFactory *AsyncImageResponse::textureFactory() const
  */
 void AsyncImageResponse::run()
 {
-    qDebug() << "Starting async image load for:" << providerId;
-    // 解析id，获取当前读取的文件和图片索引
     QString tempPath;
     int frameIndex;
     parseProviderID(providerId, tempPath, frameIndex);
@@ -128,26 +156,35 @@ void AsyncImageResponse::run()
     // 判断缓存中是否存在图片
     image = provider->imageCache.get(tempPath, frameIndex);
     if (image.isNull()) {
-        qDebug() << "Image not found in cache, loading from file:" << tempPath;
         if (frameIndex) {
             image = readMultiImage(tempPath, frameIndex);
         } else {
-            image = readNormalImage(tempPath);
+            image = readNormalImageScaled(tempPath, requestedSize);
         }
 
-        // 缓存图片信息，即使是异常图片
-        provider->imageCache.add(tempPath, frameIndex, image);
+        if (!image.isNull()) {
+            provider->imageCache.add(tempPath, frameIndex, image);
+        }
     } else {
-        qDebug() << "Using cached image for:" << tempPath << "frame:" << frameIndex;
+        // 缓存比请求小，需要重新加载更大尺寸
+        if (requestedSize.isValid()
+            && (image.width() < requestedSize.width() || image.height() < requestedSize.height())) {
+            provider->imageCache.remove(tempPath, frameIndex);
+            if (frameIndex) {
+                image = readMultiImage(tempPath, frameIndex);
+            } else {
+                image = readNormalImageScaled(tempPath, requestedSize);
+            }
+            if (!image.isNull()) {
+                provider->imageCache.add(tempPath, frameIndex, image);
+            }
+        } else if (!image.isNull() && requestedSize.isValid()
+                   && (image.width() > requestedSize.width() || image.height() > requestedSize.height())) {
+            image = image.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        }
     }
 
-    // 调整图像大小
-    if (!image.isNull() && image.size() != requestedSize && requestedSize.isValid()) {
-        qDebug() << "Resizing image from" << image.size() << "to" << requestedSize;
-        image = image.scaled(requestedSize);
-    }
-
-    qDebug() << "Async image load completed for:" << providerId;
+    qDebug() << "Async load done:" << providerId << "size:" << image.size();
     emit finished();
 }
 
@@ -171,17 +208,15 @@ ProviderCache::~ProviderCache()
  */
 void ProviderCache::rotateImageCached(int angle, const QString &imagePath, int frameIndex)
 {
-    qDebug() << "Rotating cached image:" << imagePath << "frame:" << frameIndex << "angle:" << angle;
+    qDebug() << "rotateImageCached:" << imagePath << "frame:" << frameIndex << "angle:" << angle;
     // 旋转角度为0时，清除旋转状态缓存，防止外部文件变更后仍使用上一次的旋转状态。
     QMutexLocker _locker(&mutex);
     if (0 == angle) {
-        qDebug() << "Skipping rotation for zero angle";
         return;
     }
 
     QImage image;
     if (imagePath != lastRotatePath) {
-        qDebug() << "First rotation for image:" << imagePath;
         image = imageCache.get(imagePath, frameIndex);
 
         // 首次处理时记录图像数据，防止多次旋转处理导致图片质量降低
@@ -189,7 +224,6 @@ void ProviderCache::rotateImageCached(int angle, const QString &imagePath, int f
         lastRotatePath = imagePath;
         lastRotation = angle;
     } else {
-        qDebug() << "Subsequent rotation for image:" << imagePath << "total angle:" << (lastRotation + angle);
         image = lastRotateImage;
         lastRotation += angle;
     }
@@ -198,10 +232,7 @@ void ProviderCache::rotateImageCached(int angle, const QString &imagePath, int f
     if (!image.isNull()) {
         // 360度不执行旋转
         if (!!(lastRotation % 360)) {
-            qDebug() << "Applying rotation:" << lastRotation << "degrees";
             LibUnionImage_NameSpace::rotateImage(lastRotation, image);
-        } else {
-            qDebug() << "Skipping rotation for 360 degrees";
         }
 
         // 更新图片缓存
@@ -264,7 +295,6 @@ void ProviderCache::preloadImage(const QString &)
  */
 AsyncImageProvider::AsyncImageProvider()
 {
-    qDebug() << "Initializing async image provider";
     // 缓存最近 3 张图片 + 1 张切换之前的图片
     imageCache.setMaxCost(4);
 }
@@ -307,10 +337,9 @@ void AsyncImageProvider::preloadImage(const QString &filePath)
 ImageProvider::ImageProvider()
     : QQuickImageProvider(QQmlImageProviderBase::Image)
 {
-    qDebug() << "Initializing image provider";
 }
 
-ImageProvider::~ImageProvider() 
+ImageProvider::~ImageProvider()
 {
     // qDebug() << "Cleaning up image provider";
 }
@@ -326,7 +355,6 @@ ImageProvider::~ImageProvider()
  */
 QImage ImageProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
-    qDebug() << "Requesting image:" << id << "requested size:" << requestedSize;
     // 解析id，获取当前读取的文件和图片索引
     QString tempPath;
     int frameIndex;
@@ -335,27 +363,39 @@ QImage ImageProvider::requestImage(const QString &id, QSize *size, const QSize &
     // 判断缓存中是否存在图片
     QImage image = imageCache.get(tempPath, frameIndex);
     if (image.isNull()) {
-        qDebug() << "Image not found in cache, loading from file:" << tempPath;
         if (frameIndex) {
             image = readMultiImage(tempPath, frameIndex);
         } else {
-            image = readNormalImage(tempPath);
+            image = readNormalImageScaled(tempPath, requestedSize);
         }
 
         if (size) {
             *size = image.size();
         }
 
-        // 缓存图片信息，即使是异常图片
-        imageCache.add(tempPath, frameIndex, image);
+        if (!image.isNull()) {
+            imageCache.add(tempPath, frameIndex, image);
+        }
     } else {
-        qDebug() << "Using cached image for:" << tempPath << "frame:" << frameIndex;
+        // 缓存比请求小，重新加载
+        if (requestedSize.isValid()
+            && (image.width() < requestedSize.width() || image.height() < requestedSize.height())) {
+            imageCache.remove(tempPath, frameIndex);
+            if (frameIndex) {
+                image = readMultiImage(tempPath, frameIndex);
+            } else {
+                image = readNormalImageScaled(tempPath, requestedSize);
+            }
+            if (!image.isNull()) {
+                imageCache.add(tempPath, frameIndex, image);
+            }
+        }
     }
 
     // 调整图像大小
-    if (!image.isNull() && image.size() != requestedSize && requestedSize.isValid()) {
-        qDebug() << "Resizing image from" << image.size() << "to" << requestedSize;
-        image = image.scaled(requestedSize);
+    if (!image.isNull() && requestedSize.isValid()
+        && (image.width() > requestedSize.width() || image.height() > requestedSize.height())) {
+        image = image.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     }
 
     return image;
