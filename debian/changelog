@@ -1,3 +1,11 @@
+deepin-album (6.0.53) unstable; urgency=medium
+
+  * fix(preview): use scaled decoding to bypass unionimage 4096 limit
+  * fix(preview): show navigation menu only when image is zoomed in
+  * fix(slideshow): disable prev/next buttons for single image slideshow
+
+ -- Wang Yu <wangyu@uniontech.com>  Thu, 23 Apr 2026 19:57:47 +0800
+
 deepin-album (6.0.52) unstable; urgency=medium
 
   * fix(import): remove DB record when importing empty folder
