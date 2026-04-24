@@ -876,9 +876,6 @@ FocusScope {
                 }
             }
 
-            MenuSeparator {
-            }
-
             Repeater {
                 id: recentFilesInstantiator
                 property bool bRreshEnableState: false
@@ -887,6 +884,13 @@ FocusScope {
                     albumControl.getAllCustomAlbumId().length
                 }
                 delegate: RightMenuItem {
+                    readonly property bool isFirstAlbum: index === 0
+                    height: {
+                        if (!visible)
+                            return 0
+                        return isFirstAlbum ? GStatus.rightMenuItemHeight + separatorLoader.height : GStatus.rightMenuItemHeight
+                    }
+                    topPadding: isFirstAlbum && separatorLoader.active ? separatorLoader.height : 0
                     text: {
                         GStatus.albumChangeList
                         return albumControl.getAllCustomAlbumName()[index]
@@ -901,6 +905,14 @@ FocusScope {
                         albumControl.insertIntoAlbum(customAlbumId , GStatus.selectedPaths)
                         DTK.sendMessage(thumbnailImage, qsTr("Successfully added to “%1”").arg(albumControl.getAllCustomAlbumName(GStatus.albumChangeList)[index]), "notify_checked")
                         recentFilesInstantiator.bRreshEnableState = !recentFilesInstantiator.bRreshEnableState
+                    }
+
+                    Loader {
+                        id: separatorLoader
+                        active: isFirstAlbum
+                        anchors.top: parent.top
+                        width: parent.width
+                        sourceComponent: MenuSeparator {}
                     }
                 }
             }
