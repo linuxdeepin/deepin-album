@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -21,7 +21,11 @@ ScrollView {
     property int currentImportCustomIndex: 0 //自动导入相册当前索引值
     property int currentCustomIndex: 0 //自定义相册当前索引值
     property var devicePaths : albumControl.getDevicePaths()
-    property var albumPaths : albumControl.getAlbumPaths(GStatus.currentCustomAlbumUId)
+    property var albumPaths: []
+
+    function updateAlbumPaths() {
+        albumPaths = albumControl.getAlbumPaths(GStatus.currentCustomAlbumUId)
+    }
     property var importAlbumNames : {
         GStatus.albumImportChangeList
         albumControl.getImportAlubumAllNames()
@@ -345,6 +349,7 @@ ScrollView {
             }
 
             onItemRightClicked: {
+                updateAlbumPaths()
                 if (sidebarScrollView.albumPaths.length > 0) {
                     systemMenu.popup()
                 }
@@ -402,6 +407,7 @@ ScrollView {
             }
 
             onItemRightClicked: {
+                updateAlbumPaths()
                 importMenu.popup()
             }
 
@@ -426,6 +432,7 @@ ScrollView {
             }
 
             onItemRightClicked: {
+                updateAlbumPaths()
                 customMenu.popup()
             }
 
@@ -444,6 +451,12 @@ ScrollView {
             if (devicePaths.length === 0 && GStatus.currentViewType === Album.Types.ViewDevice)
                 backCollection()
         }
+    }
+
+    Connections {
+        target: GStatus
+        function onCurrentCustomAlbumUIdChanged() { updateAlbumPaths() }
+        function onSigFlushCustomAlbumView() { updateAlbumPaths() }
     }
 
     // 通过自定义相册列表创建相册后，导航到新相册所在行
