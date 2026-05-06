@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -13,7 +13,7 @@ Control {
 
     property Component action: ActionButton {
         Layout.alignment: Qt.AlignRight
-        visible: showPicLabel.visible
+        visible: showPicLabel.visible && control.editable
 
         onClicked: {
             dealShowPicLabelClick();
@@ -29,6 +29,8 @@ Control {
     property string description
     property int descriptionWidth: control.width - leftPadding - rightPadding - 20
     property string iconName
+    // 控制是否允许编辑，为 false 时隐藏编辑按钮且无法进入编辑模式
+    property bool editable: true
     property Palette infoTextColor: Palette {
         normal: Qt.rgba(0, 0, 0, 1)
         normalDark: Qt.rgba(1, 1, 1, 1)
@@ -42,6 +44,8 @@ Control {
     signal clicked
 
     function dealShowPicLabelClick() {
+        if (!control.editable)
+            return;
         if (showPicLabel.visible) {
             showPicLabel.visible = false;
             // 每次显示编辑框时显示为图片名称
