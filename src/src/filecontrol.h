@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -52,6 +52,7 @@ public:
     Q_INVOKABLE bool isCheckOnly();                               // 判断当前进程是否为唯一看图实例
     Q_INVOKABLE bool isSupportSetWallpaper(const QString &path);  // 是否支持设置壁纸
     Q_INVOKABLE bool isCanSupportOcr(const QString &path);
+    Q_INVOKABLE bool isTrashPath(const QString &path);
     Q_INVOKABLE bool isCanRename(const QString &path);
     Q_INVOKABLE bool isCanReadable(const QString &path);
     Q_INVOKABLE bool isRotatable(const QString &path);  // 是否可以被选旋转

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -9,6 +9,7 @@
 #include "printdialog/printhelper.h"
 #include "ocr/ocrinterface.h"
 #include "imagedata/imageinfo.h"
+#include "dbmanager/dbmanager.h"
 
 #include <DSysInfo>
 
@@ -35,6 +36,8 @@
 #include <unistd.h>
 
 DCORE_USE_NAMESPACE
+
+static const QString TRASH_DIR = QDir::cleanPath(albumGlobal::DELETE_PATH);
 
 const QString SETTINGS_GROUP = "MAINWINDOW";
 const QString SETTINGS_WINSIZE_W_KEY = "WindowWidth";
@@ -567,7 +570,19 @@ QString FileControl::slotGetFileName(const QString &path)
 QString FileControl::slotGetFileNameSuffix(const QString &path)
 {
     qDebug() << "FileControl::slotGetFileNameSuffix - Function entry, path:" << path;
-    QString tmppath = LibUnionImage_NameSpace::localPath(path);
+    QString tmppath = QDir::cleanPath(LibUnionImage_NameSpace::localPath(path));
+
+    // Trashed files are renamed to <hash>.<suffix> in cache dir, look up
+    // TrashTable3 by hash to recover the original filename for display
+    if (tmppath.startsWith(TRASH_DIR + "/")) {
+        QFileInfo fi(tmppath);
+        QString hash = fi.completeBaseName();
+        if (!hash.isEmpty()) {
+            DBImgInfoList infos = DBManager::instance()->getTrashImgInfos("PathHash", hash);
+            if (!infos.isEmpty())
+                return DBImgInfo::getFileNameFromFilePath(infos.first().filePath);
+        }
+    }
 
     QFileInfo info(tmppath);
     return info.fileName();
@@ -865,6 +880,15 @@ bool FileControl::isCanSupportOcr(const QString &path)
     }
     qDebug() << "FileControl::isCanSupportOcr - Function exit, returning:" << bRet;
     return bRet;
+}
+
+bool FileControl::isTrashPath(const QString &path)
+{
+    qDebug() << "FileControl::isTrashPath - Function entry, path:" << path;
+    QString localPath = QDir::cleanPath(LibUnionImage_NameSpace::localPath(path));
+    bool ret = localPath.startsWith(TRASH_DIR + "/");
+    qDebug() << "FileControl::isTrashPath - Function exit, returning:" << ret;
+    return ret;
 }
 
 bool FileControl::isCanRename(const QString &path)
