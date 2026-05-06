@@ -26,24 +26,34 @@ QImageItem::QImageItem(QQuickItem *parent)
 {
     qDebug() << "Initializing QImageItem";
     setFlag(ItemHasContents, true);
+
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+                     this, [this](DGuiApplicationHelper::ColorType) {
+        if (isNull())
+            update();
+    });
 }
 
 QImageItem::~QImageItem()
 {
-    // qDebug() << "Destroying QImageItem";
 }
 
 void QImageItem::initDamage()
 {
-    qDebug() << "QImageItem::initDamage - Function entry";
-    DDciIcon::Theme theme = DDciIcon::Light;
-    if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::DarkType) {
-        qDebug() << "QImageItem::initDamage - Branch: using dark theme";
-        theme = DDciIcon::Dark;
-    }
+    updateDamageImage();
 
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+                     [](DGuiApplicationHelper::ColorType type) {
+        Q_UNUSED(type)
+        QImageItem::updateDamageImage();
+    });
+}
+
+void QImageItem::updateDamageImage()
+{
+    DDciIcon::Theme theme = DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::DarkType
+        ? DDciIcon::Dark : DDciIcon::Light;
     s_damage = DDciIcon::fromTheme("photo_breach").pixmap(1, 200, theme).toImage();
-    qDebug() << "QImageItem::initDamage - Function exit";
 }
 
 void QImageItem::setImage(const QImage &image)
@@ -152,12 +162,9 @@ void QImageItem::setFillMode(QImageItem::FillMode mode)
 
 void QImageItem::paint(QPainter *painter)
 {
-    // qDebug() << "QImageItem::paint - Function entry";
     QImage *pImage = nullptr;
 
-    // 图片为空时，显示撕裂图
     if (m_image.isNull()) {
-        // qDebug() << "Painting damage image - source image is null";
         pImage = &s_damage;
     } else {
         pImage = &m_image;
@@ -186,7 +193,6 @@ void QImageItem::paint(QPainter *painter)
     }
 
     painter->restore();
-    // qDebug() << "QImageItem::paint - Function exit";
 }
 
 bool QImageItem::isNull() const

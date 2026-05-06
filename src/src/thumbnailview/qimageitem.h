@@ -78,6 +78,7 @@ protected:
 
 private:
     static QImage s_damage;
+    static void updateDamageImage();
 private:
     QImage m_image;
     bool m_smooth;
