@@ -1,10 +1,9 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "thumbnaildelegate.h"
 #include "thumbnaillistview.h"
-#include "unionimage/imageutils.h"
 #include "unionimage/baseutils.h"
 #include "dbmanager/dbmanager.h"
 #include "globalstatus.h"
@@ -52,6 +51,9 @@ ThumbnailDelegate::ThumbnailDelegate(DelegateType type, QObject *parent)
     , m_delegatetype(type)
 {
     // qDebug() << "ThumbnailDelegate::ThumbnailDelegate - Constructor entry, type:" << static_cast<int>(type);
+    onThemeTypeChanged(DGuiApplicationHelper::instance()->themeType());
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+            this, [this](DGuiApplicationHelper::ColorType type) { onThemeTypeChanged(type); });
 }
 
 void ThumbnailDelegate::setItemSize(QSize size)
@@ -62,7 +64,6 @@ void ThumbnailDelegate::setItemSize(QSize size)
 
 void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    // qDebug() << "ThumbnailDelegate::paint - Function entry";
     if (!bneedpaint) {
         // qDebug() << "not need paint, returning";
         return;
@@ -98,7 +99,6 @@ void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 
 void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    // qDebug() << "ThumbnailDelegate::drawImgAndVideo - Function entry";
     painter->save();
     const DBImgInfo data = itemData(index);
     bool selected = false;
@@ -109,11 +109,12 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
                             QPainter::Antialiasing);
     QRect backgroundRect = option.rect;
     QImage img = ImageDataService::instance()->getThumnailImageByPathRealTime(data.filePath, COMMON_STR_TRASH == m_imageTypeStr);
+    bool isDamaged = false;
     if (img.isNull()) {
         if (data.itemType == ItemTypeVideo) {
             img = m_videoDefault.toImage();
         } else {
-            img = m_damagePixmap.toImage();
+            isDamaged = true;
         }
     }
 
@@ -149,17 +150,10 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     }
 
     QRect pixmapRect;
-    if (img.isNull()) {
-        pixmapRect.setX(backgroundRect.x() + backgroundRect.width() / 2 - NotSupportedOrDamagedWidth / 2);
-        pixmapRect.setY(backgroundRect.y() + backgroundRect.height() / 2 - NotSupportedOrDamagedHeigh / 2);
-        pixmapRect.setWidth(NotSupportedOrDamagedWidth);
-        pixmapRect.setHeight(NotSupportedOrDamagedHeigh);
-    } else {
-        pixmapRect.setX(backgroundRect.x() + 8);
-        pixmapRect.setY(backgroundRect.y() + 8);
-        pixmapRect.setWidth(backgroundRect.width() - 16);
-        pixmapRect.setHeight(backgroundRect.height() - 16);
-    }
+    pixmapRect.setX(backgroundRect.x() + 8);
+    pixmapRect.setY(backgroundRect.y() + 8);
+    pixmapRect.setWidth(backgroundRect.width() - 16);
+    pixmapRect.setHeight(backgroundRect.height() - 16);
     //2020/6/9 DJH UI 透明图片背景
     QBrush transparentbrush;
     if (themeType == DGuiApplicationHelper::LightType) {
@@ -179,16 +173,11 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
 
     if (!ImageDataService::instance()->imageIsLoaded(data.filePath, COMMON_STR_TRASH == m_imageTypeStr)) {
         painter->drawPixmap(pixmapRect, m_default);
+    } else if (isDamaged) {
+        DDciIcon::Theme dciTheme = themeType == DGuiApplicationHelper::DarkType ? DDciIcon::Dark : DDciIcon::Light;
+        DDciIcon::fromTheme("photo_breach").paint(painter, pixmapRect, painter->device()->devicePixelRatioF(), dciTheme);
     } else {
-        if (img.isNull()) {
-            if (data.itemType == ItemTypeVideo) {
-                painter->drawPixmap(pixmapRect, m_videoDefault);
-            } else {
-                painter->drawPixmap(pixmapRect, m_damagePixmap);
-            }
-        } else {
-            painter->drawPixmap(pixmapRect, QPixmap::fromImage(img));
-        }
+        painter->drawPixmap(pixmapRect, QPixmap::fromImage(img));
     }
 
     //绘制选中图标
@@ -307,22 +296,18 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     // qDebug() << "ThumbnailDelegate::drawImgAndVideo - Function exit";
 }
 
-void ThumbnailDelegate::onThemeTypeChanged(int themeType)
+void ThumbnailDelegate::onThemeTypeChanged(DGuiApplicationHelper::ColorType themeType)
 {
-    // qDebug() << "ThumbnailDelegate::onThemeTypeChanged - Function entry, themeType:" << themeType;
     Q_UNUSED(themeType)
-    m_damagePixmap = Libutils::image::getDamagePixmap(DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType);
+    bool isLight = DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType;
 
-    if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType) {
-        // qDebug() << "light theme";
+    if (isLight) {
         m_default = Libutils::base::renderSVG(":/icons/deepin/builtin/icons/light/picture_default_light.svg", QSize(60, 45));
         m_videoDefault = Libutils::base::renderSVG(":/icons/deepin/builtin/icons/light/video_default_light.svg", QSize(60, 45));
     } else {
-        // qDebug() << "dark theme";
         m_default = Libutils::base::renderSVG(":/icons/deepin/builtin/icons/dark/picture_default_dark.svg", QSize(60, 45));
         m_videoDefault = Libutils::base::renderSVG(":/icons/deepin/builtin/icons/dark/video_default_dark.svg", QSize(60, 45));
     }
-    // qDebug() << "ThumbnailDelegate::onThemeTypeChanged - Function exit";
 }
 
 QSize ThumbnailDelegate::sizeHint(const QStyleOptionViewItem &option,
@@ -387,8 +372,6 @@ bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
             if (img.isNull()) {
                 if (data.itemType == ItemTypeVideo) {
                     img = m_videoDefault.toImage();
-                } else {
-                    img = m_damagePixmap.toImage();
                 }
             }
             QRect favoriteRect = updatePaintedRect(backgroundRect, img);

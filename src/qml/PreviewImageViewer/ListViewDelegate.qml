@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -86,11 +86,19 @@ Item {
             cache: false
 
             onStatusChanged: {
-                // 错误图片显示撕裂图
-                if (img.status === Image.Error) {
-                    img.source = "qrc:/res/picture_damaged_58.svg"
-                }
+                damagedIcon.visible = (img.status === Image.Error)
             }
+        }
+
+        // 使用 DCI 图标显示损坏图片，自动适应主题
+        DciIcon {
+            id: damagedIcon
+            anchors.centerIn: parent
+            width: Math.min(imgItem.width, imgItem.height) * 0.6
+            height: width
+            name: "photo_breach"
+            theme: DTK.themeType
+            visible: false
         }
 
         Rectangle {

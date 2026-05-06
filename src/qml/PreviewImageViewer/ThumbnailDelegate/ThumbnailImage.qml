@@ -1,9 +1,10 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
 import org.deepin.image.viewer 1.0 as IV
+import org.deepin.dtk 1.0 as DTK
 
 Item {
     id: thumbnailImage
@@ -43,6 +44,18 @@ Item {
         }
         smooth: true
         width: thumbnailImage.width
+        visible: !damagedIcon.visible
+    }
+
+    // 使用 DCI 图标显示损坏图片，自动适应主题
+    DTK.DciIcon {
+        id: damagedIcon
+        anchors.centerIn: thumbnailImage
+        width: Math.min(thumbnailImage.width, thumbnailImage.height) * 0.6
+        height: width
+        name: "photo_breach"
+        theme: DTK.themeType
+        visible: imageInfo.status === IV.ImageInfo.Error && !imageInfo.hasCachedThumbnail
     }
 
     // 使用 ImageInfo 控制加载状态
@@ -57,8 +70,6 @@ Item {
             if (IV.ImageInfo.Error === imageInfo.status) {
                 if (imageInfo.hasCachedThumbnail) {
                     contentImage.source = imageSource;
-                } else {
-                    contentImage.source = "qrc:/res/picture_damaged_58.svg";
                 }
             } else if (IV.ImageInfo.Ready === imageInfo.status) {
                 contentImage.source = imageSource;

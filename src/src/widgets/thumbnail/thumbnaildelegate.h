@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -9,6 +9,9 @@
 #include <QDateTime>
 #include <QStyledItemDelegate>
 #include <QDebug>
+#include <DGuiApplicationHelper>
+
+DGUI_USE_NAMESPACE
 
 #include "unionimage/unionimage_global.h"
 
@@ -41,7 +44,7 @@ public:
     //绘制图片和视频
     void drawImgAndVideo(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 private slots:
-    void onThemeTypeChanged(int themeType);
+    void onThemeTypeChanged(DGuiApplicationHelper::ColorType themeType);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE;
@@ -75,7 +78,6 @@ private:
     QSize m_size;
     QPixmap m_default;//图片默认图片
     QPixmap m_videoDefault;//视频默认图片
-    QPixmap m_damagePixmap;
 };
 
 #endif // ALBUMDELEGATE_H

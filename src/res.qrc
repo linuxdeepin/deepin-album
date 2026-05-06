@@ -64,7 +64,7 @@
         <file>dsg/icons/custom.dci</file>
         <file>res/close_hover.svg</file>
         <file>res/video_default_light.svg</file>
-        <file>res/picture damaged_light.svg</file>
+        <file>res/picture_damaged_light.svg</file>
         <file>res/picture_default_light.svg</file>
         <file>dsg/icons/list_add.dci</file>
         <file>res/picture_damaged_58.svg</file>
@@ -89,9 +89,9 @@
         <file>icons/dark/album_video_16px.svg</file>
         <file>icons/dark/album_arrowdown_10px.svg</file>
         <file>icons/light/album_arrowdown_10px.svg</file>
-        <file>icons/light/picture damaged_light.svg</file>
+        <file>icons/light/picture_damaged_light.svg</file>
         <file>icons/light/picture_default_light.svg</file>
-        <file>icons/dark/picture damaged_dark.svg</file>
+        <file>icons/dark/picture_damaged_dark.svg</file>
         <file>icons/dark/picture_default_dark.svg</file>
         <file>icons/dark/video_default_dark.svg</file>
         <file>icons/light/video_default_light.svg</file>
