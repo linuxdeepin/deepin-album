@@ -35,6 +35,31 @@ DialogWindow {
 
     signal sigCreateAlbumDone() //创建相册完成信号
 
+    function confirmCreate() {
+        if (nameedit.text === "")
+            return
+        var newAlbumId = albumControl.createAlbum(nameedit.text)
+        GStatus.albumChangeList = !GStatus.albumChangeList
+        renamedialog.visible = false
+
+        if (newAlbumId < 0)
+            return
+
+        if (importSelected) {
+            albumControl.insertIntoAlbum(newAlbumId, GStatus.selectedPaths)
+        }
+
+        if (isChangeView) {
+            GStatus.currentViewType = Album.Types.ViewCustomAlbum
+            GStatus.currentCustomAlbumUId = newAlbumId
+            sigCreateAlbumDone()
+        }
+
+        if (leftSidebar.x !== 0) {
+            showSliderAnimation.start()
+        }
+    }
+
     function setNormalEdit(num)
     {
         //重新设置焦点和名称
@@ -89,6 +114,7 @@ DialogWindow {
         selectByMouse: true
 //        alertText: qsTr("The file already exists, please use another name")
 //        showAlert: FileControl.isShowToolTip(source,nameedit.text)
+        onAccepted: confirmCreate()
     }
 
 
@@ -122,31 +148,7 @@ DialogWindow {
         width: 185
         height: 38
 
-        onClicked: {
-            var newAlbumId = albumControl.createAlbum(nameedit.text)
-            GStatus.albumChangeList = !GStatus.albumChangeList
-            renamedialog.visible = false
-
-            if (newAlbumId < 0)
-                return
-
-            // 导入已选图片
-            if (importSelected) {
-                albumControl.insertIntoAlbum(newAlbumId, GStatus.selectedPaths)
-            }
-
-            // 切换到对应相册视图
-            if (isChangeView) {
-                GStatus.currentViewType = Album.Types.ViewCustomAlbum
-                GStatus.currentCustomAlbumUId = newAlbumId
-                sigCreateAlbumDone()
-            }
-
-            //侧边栏如果是关闭状态，侧边栏会自动打开
-            if (leftSidebar.x !== 0) {
-                showSliderAnimation.start()
-            }
-        }
+        onClicked: confirmCreate()
     }
 
     onVisibleChanged: {
