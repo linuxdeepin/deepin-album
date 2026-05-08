@@ -2172,6 +2172,14 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
                "(PathHash, FilePath, FileName, Time, ChangeTime, ImportTime, FileType, UID, ClassName) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
     if (!m_query->prepare(qs)) {
     }
+    const QString favoriteUidStr = QString::number(u_Favorite);
+    const QString notInAnyAlbumStr = QString::number(u_NotInAnyAlbum);
+    QStringList albumUIDs;
+    for (const auto &info : infos) {
+        QStringList uidList = info.albumUID.split(",");
+        uidList.removeAll(favoriteUidStr);
+        albumUIDs << (uidList.isEmpty() ? notInAnyAlbumStr : uidList.join(","));
+    }
     for (int i = 0; i != infos.size(); ++i) {
         if (pathHashs[i].isEmpty()) {
             continue;
@@ -2183,7 +2191,7 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
         m_query->addBindValue(infos[i].changeTime);
         m_query->addBindValue(infos[i].importTime);
         m_query->addBindValue(infos[i].itemType);
-        m_query->addBindValue(infos[i].albumUID);
+        m_query->addBindValue(albumUIDs[i]);
         m_query->addBindValue(infos[i].className);
         if (!m_query->exec()) {
         }
