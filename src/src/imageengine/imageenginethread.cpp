@@ -99,12 +99,8 @@ bool ImportImagesThread::ifCanStopThread(void *imgobject)
 void ImportImagesThread::runDetail()
 {
     qDebug() << "Starting import process for UID:" << m_UID;
-    //相册中本次导入之前已导入的所有路径
-    DBImgInfoList oldInfos = AlbumControl::instance()->getAllInfosByUID(QString::number(m_UID));
-    QStringList allOldImportedPaths;
-    for (DBImgInfo info : oldInfos) {
-        allOldImportedPaths.push_back(info.filePath);
-    }
+    //数据库中已导入的所有路径（不区分UID，避免重复导入）
+    QStringList allOldImportedPaths = DBManager::instance()->getAllPaths();
     qDebug() << "Found" << allOldImportedPaths.size() << "previously imported paths";
 
     QStringList tempPaths;
