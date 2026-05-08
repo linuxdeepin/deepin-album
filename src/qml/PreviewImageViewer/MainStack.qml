@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -128,7 +128,7 @@ FadeInoutAnimation {
                 fileDialog.open();
             }
             onAccepted: {
-                var path = fileDialog.fileUrls[0]
+                var path = fileDialog.selectedFiles[0]
                 stackView.setSourcePath(path);
                 if (FileControl.isAlbum() && GControl.currentSource.toString() !== "") {
                     var sourcePaths = FileControl.getDirImagePath(path);
