@@ -182,6 +182,18 @@ MovieInfo MovieService::getMovieInfo(const QUrl &url)
     return result;
 }
 
+void MovieService::clearMovieInfoCache(const QUrl &url)
+{
+    QMutexLocker locker(&m_bufferMutex);
+    auto it = std::remove_if(m_movieInfoBuffer.begin(), m_movieInfoBuffer.end(),
+                             [url](const std::pair<QUrl, MovieInfo> &data) {
+                                 return data.first == url;
+                             });
+    if (it != m_movieInfoBuffer.end()) {
+        m_movieInfoBuffer.erase(it, m_movieInfoBuffer.end());
+    }
+}
+
 QImage MovieService::getMovieCover(const QUrl &url)
 {
     qDebug() << "Getting movie cover for URL:" << url.toString();
@@ -237,11 +249,13 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
 
     if (g_mvideo_avformat_find_stream_info(av_ctx, nullptr) < 0) {
         qWarning() << "Failed to find stream info for file:" << fi.filePath();
+        g_mvideo_avformat_close_input(&av_ctx);
         return mi;
     }
 
     if (av_ctx->nb_streams == 0) {
         qWarning() << "No streams found in file:" << fi.filePath();
+        g_mvideo_avformat_close_input(&av_ctx);
         return mi;
     }
 
@@ -253,6 +267,7 @@ MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
     audioRet = g_mvideo_av_find_best_stream(av_ctx, AVMEDIA_TYPE_AUDIO, -1, -1, nullptr, 0);
     if (videoRet < 0 && audioRet < 0) {
         qWarning() << "No video or audio streams found in file:" << fi.filePath();
+        g_mvideo_avformat_close_input(&av_ctx);
         return mi;
     }
 

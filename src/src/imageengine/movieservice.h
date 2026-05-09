@@ -96,6 +96,8 @@ public:
     MovieInfo   getMovieInfo(const QUrl &url);
     //获取视频首帧图片
     QImage      getMovieCover(const QUrl &url);
+    //清除指定URL的视频信息缓存
+    void        clearMovieInfoCache(const QUrl &url);
 private:
     struct MovieInfo parseFromFile(const QFileInfo &fi);
     explicit MovieService(QObject *parent = nullptr);

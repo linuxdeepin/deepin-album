@@ -6,6 +6,9 @@
 #include "dbmanager/dbmanager.h"
 #include "fileMonitor/fileinotifygroup.h"
 #include "imageengine/imageenginethread.h"
+#include "imageengine/imagedataservice.h"
+#include "imageengine/movieservice.h"
+#include "unionimage/unionimage.h"
 #include "utils/devicehelper.h"
 #include "utils/classifyutils.h"
 
@@ -16,6 +19,7 @@
 
 #include <QStandardPaths>
 #include <QFileInfo>
+#include <QTimer>
 #include <QUrl>
 #include <QFileDialog>
 #include <QProcess>
@@ -807,6 +811,7 @@ void AlbumControl::initMonitor()
     m_fileInotifygroup = new FileInotifyGroup(this) ;
     connect(m_fileInotifygroup, &FileInotifyGroup::sigMonitorChanged, this, &AlbumControl::slotMonitorChanged);
     connect(m_fileInotifygroup, &FileInotifyGroup::sigMonitorDestroyed, this, &AlbumControl::slotMonitorDestroyed);
+    connect(m_fileInotifygroup, &FileInotifyGroup::sigVideoFileStable, this, &AlbumControl::slotVideoFileStable);
     qDebug() << "AlbumControl::initMonitor - Function exit";
 }
 
@@ -914,6 +919,76 @@ void AlbumControl::slotMonitorChanged(QStringList fileAdd, QStringList fileDelet
     emit sigRefreshAllCollection();
 
     qDebug() << "AlbumControl::slotMonitorChanged - Function exit";
+}
+
+static const int kVideoRetryIntervalMs = 2000;
+static const int kVideoStableRetryLimit = 3;
+
+bool AlbumControl::shouldRetryVideo(const QString &path)
+{
+    qint64 currentSize = QFileInfo(path).size();
+    if (m_videoStableSize.value(path, 0) != currentSize) {
+        m_videoStableSize[path] = currentSize;
+        m_videoStableCount.remove(path);
+        return true;
+    }
+    int count = m_videoStableCount.value(path, 0) + 1;
+    if (count < kVideoStableRetryLimit) {
+        m_videoStableCount[path] = count;
+        return true;
+    }
+    qWarning() << "Video file size unchanged after" << kVideoStableRetryLimit
+                << "retries, giving up:" << path;
+    m_videoStableSize.remove(path);
+    m_videoStableCount.remove(path);
+    return false;
+}
+
+void AlbumControl::slotVideoFileStable(const QStringList &files)
+{
+    QStringList needRetry;
+    for (const QString &path : files) {
+        if (!QFile::exists(path)) {
+            qWarning() << "Video file no longer exists, stop retrying:" << path;
+            m_videoStableSize.remove(path);
+            m_videoStableCount.remove(path);
+            continue;
+        }
+        if (LibUnionImage_NameSpace::isVideo(path)) {
+            MovieService::instance()->clearMovieInfoCache(QUrl::fromLocalFile(path));
+            DBImgInfo info = getDBInfo(path, true);
+            if (info.itemType == ItemTypeNull) {
+                qWarning() << "Video file still invalid, will retry:" << path;
+                needRetry << path;
+                continue;
+            }
+            ImageDataService::instance()->addMovieDurationStr(path, m_movieInfos.value(path).duration);
+            DBImgInfo oldInfo = DBManager::instance()->getInfoByPath(path);
+            if (!oldInfo.filePath.isEmpty()) {
+                info.albumUID = oldInfo.albumUID;
+            }
+            DBManager::instance()->insertImgInfos(DBImgInfoList() << info);
+            m_videoStableSize.remove(path);
+        }
+        ImageDataService::instance()->getThumnailImageByPathRealTime(path, false, true);
+    }
+    emit sigRefreshCustomAlbum(-1);
+    emit sigRefreshImportAlbum();
+    emit sigRefreshAllCollection();
+
+    if (!needRetry.isEmpty()) {
+        QStringList filteredRetry;
+        for (const QString &path : needRetry) {
+            if (shouldRetryVideo(path)) {
+                filteredRetry << path;
+            }
+        }
+        if (!filteredRetry.isEmpty()) {
+            QTimer::singleShot(kVideoRetryIntervalMs, this, [this, filteredRetry]() {
+                slotVideoFileStable(filteredRetry);
+            });
+        }
+    }
 }
 
 void AlbumControl::slotMonitorDestroyed(int UID)

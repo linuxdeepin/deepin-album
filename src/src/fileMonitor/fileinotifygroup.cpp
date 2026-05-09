@@ -25,6 +25,7 @@ void FileInotifyGroup::startWatch(const QStringList &paths, const QString &album
     //原cpp为signal发送的全局信号,现在改为传递的方法,发送回albumControl
     connect(watcher, &FileInotify::sigMonitorChanged, this, &FileInotifyGroup::sigMonitorChanged);
     connect(watcher, &FileInotify::pathDestroyed, this, &FileInotifyGroup::sigMonitorDestroyed);
+    connect(watcher, &FileInotify::sigVideoFileStable, this, &FileInotifyGroup::sigVideoFileStable);
 
     //加进监控list，后面方便销毁
     watchers.push_back(watcher);
