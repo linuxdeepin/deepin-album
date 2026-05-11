@@ -186,9 +186,10 @@ SwitchViewAnimation {
     onVisibleChanged: {
         // 窗口显示时，重置显示内容
         if (visible && GStatus.currentCollecttionViewIndex === 3) {
-            if (!GStatus.loading && !GStatus.backingToMainAlbumView) {
+            if (!GStatus.loading) {
                 flushAllCollectionView()
-                showAnimation.start()
+                if (!GStatus.backingToMainAlbumView)
+                    showAnimation.start()
             }
         }
     }
