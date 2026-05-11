@@ -120,7 +120,7 @@ SwitchViewAnimation {
 
     onVisibleChanged: {
         // 窗口显示时，重置显示内容
-        if (visible && !GStatus.backingToMainAlbumView) {
+        if (visible) {
             flushView()
         }
     }

@@ -101,9 +101,9 @@ BaseView {
     }
 
     onVisibleChanged: {
-        if (visible && !GStatus.backingToMainAlbumView) {
+        if (visible) {
             flushView()
-            if (show)
+            if (show && !GStatus.backingToMainAlbumView)
                 showAnimation.start()
         }
     }
