@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -21,8 +21,7 @@ Control {
     property bool imageIsNull: null === targetImage
 
     // 用于外部获取当前缩略图栏内容的长度，用于布局, 10px为焦点缩略图不在ListView中的边框像素宽度(radius = 4 * 1.25)
-    property int listContentWidth: bottomthumbnaillistView.count > 10 ? (bottomthumbnaillistView.contentWidth + 10)
-                                                                      : (55 + (bottomthumbnaillistView.count - 1) * 30 + 20)
+    property int listContentWidth: bottomthumbnaillistView.contentWidth + 10
     property Image targetImage
 
     function deleteCurrentImage() {
