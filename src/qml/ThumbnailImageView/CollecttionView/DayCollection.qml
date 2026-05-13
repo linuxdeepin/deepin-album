@@ -41,6 +41,7 @@ SwitchViewAnimation {
     // property alias count: theModel.count
 
     Rectangle {
+        id: dayContainer
         anchors.fill : parent
         color: DTK.themeType === ApplicationHelper.LightType ? "#f8f8f8"
                                                               : "#202020"
@@ -48,9 +49,15 @@ SwitchViewAnimation {
         Album.QmlWidget{
             id: timeline
             anchors.fill: parent
-            anchors.margins: 0
+            anchors.rightMargin: GStatus.verticalScrollBarWidth
             focus: false
             viewType: Album.Types.WidgetDayView
+        }
+
+        WidgetScrollBar {
+            contentRatio: timeline.contentRatio
+            scrollPosition: timeline.scrollPosition
+            onScrollPositionChangedFromDrag: (pos) => timeline.setScrollPosition(pos)
         }
     }
 

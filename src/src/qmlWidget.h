@@ -4,6 +4,7 @@
 #include "types.h"
 
 #include <QQuickPaintedItem>
+#include <QAbstractScrollArea>
 #include <QWidget>
 #include <DWidget>
 
@@ -35,6 +36,8 @@ class QmlWidget : public QQuickPaintedItem
 
     Q_PROPERTY(int viewType READ viewType WRITE setViewType NOTIFY viewTypeChanged)
     Q_PROPERTY(int filterType READ filterType WRITE setFilterType NOTIFY filterTypeChanged)
+    Q_PROPERTY(qreal scrollPosition READ scrollPosition NOTIFY scrollPositionChanged)
+    Q_PROPERTY(qreal contentRatio READ contentRatio NOTIFY contentRatioChanged)
 public:
     explicit QmlWidget(QQuickItem *parent = nullptr);
     void paint(QPainter *painter);
@@ -45,11 +48,15 @@ public:
     void setFilterType(int filterType);
     int filterType();
 
+    qreal scrollPosition() const;
+    qreal contentRatio() const;
+
     Q_INVOKABLE void refresh();
     Q_INVOKABLE void navigateToMonth(const QString& month);
     Q_INVOKABLE QVariantList allUrls();
     Q_INVOKABLE void unSelectAll();
     Q_INVOKABLE void selectUrls(const QStringList& urls);
+    Q_INVOKABLE void setScrollPosition(qreal pos);
 
 public slots:
     void setFocus(bool arg);
@@ -57,8 +64,11 @@ public slots:
 Q_SIGNALS:
     void viewTypeChanged();
     void filterTypeChanged();
+    void scrollPositionChanged();
+    void contentRatioChanged();
 private:
     void initWidget();
+    void connectScrollSignals();
 private:
 #ifdef USE_INNER
     QmlCustomInternalWidget *m_view;
@@ -67,6 +77,9 @@ private:
 #endif
 
     QWidget *m_lastHoveredWidget = nullptr;
+    qreal m_scrollPosition = 0.0;
+    qreal m_contentRatio = 1.0;
+    QAbstractScrollArea *m_scrollArea = nullptr;
 protected:
     virtual void geometryChanged(const QRectF & newGeometry,
                                  const QRectF & oldGeometry);
