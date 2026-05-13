@@ -52,6 +52,8 @@
         <file>qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml</file>
         <file>qml/StatusBar.qml</file>
         <file>qml/Control/FilterComboBox.qml</file>
+        <file>qml/Control/WidgetScrollBar.qml</file>
+        <file>qml/Control/FlickableScrollBar.qml</file>
         <file>qml/Control/ListView/VideoLabel.qml</file>
         <file>qml/ThumbnailImageView/SearchView.qml</file>
         <file>qml/Control/ExportDialog.qml</file>

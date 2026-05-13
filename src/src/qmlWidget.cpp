@@ -8,6 +8,8 @@
 #include <QQuickWindow>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QScrollBar>
+#include <QAbstractScrollArea>
 #include <QDebug>
 QmlCustomInternalWidget::QmlCustomInternalWidget(QQuickPaintedItem *parent) :
     QWidget(nullptr)
@@ -114,6 +116,7 @@ void QmlWidget::initWidget()
         m_view->setAttribute(Qt::WA_WState_Created, true);
         m_view->setAutoFillBackground(true);
         m_view->setVisible(true);
+        connectScrollSignals();
     }
 }
 
@@ -334,6 +337,69 @@ bool QmlWidget::event(QEvent *e)
     }
 
     return QQuickPaintedItem::event(e);
+}
+
+qreal QmlWidget::scrollPosition() const
+{
+    return m_scrollPosition;
+}
+
+qreal QmlWidget::contentRatio() const
+{
+    return m_contentRatio;
+}
+
+void QmlWidget::setScrollPosition(qreal pos)
+{
+    if (!m_scrollArea)
+        return;
+
+    QScrollBar *vbar = m_scrollArea->verticalScrollBar();
+    qreal max = vbar->maximum();
+    vbar->setValue(qBound(0, qRound(qBound(0.0, pos, 1.0) * max), vbar->maximum()));
+}
+
+void QmlWidget::connectScrollSignals()
+{
+    if (!m_view)
+        return;
+
+    if (m_viewType == Types::WidgetDayView) {
+        if (auto *timeLine = dynamic_cast<TimeLineView*>(m_view))
+            m_scrollArea = qobject_cast<QAbstractScrollArea*>(timeLine->getThumbnailListView());
+    } else if (m_viewType == Types::WidgetImportedView) {
+        if (auto *importTimeLine = dynamic_cast<ImportTimeLineView*>(m_view))
+            m_scrollArea = qobject_cast<QAbstractScrollArea*>(importTimeLine->getListView());
+    }
+
+    if (!m_scrollArea)
+        return;
+
+    QScrollBar *vbar = m_scrollArea->verticalScrollBar();
+    if (!vbar)
+        return;
+
+    auto updateScrollInfo = [this, vbar]() {
+        int max = vbar->maximum();
+        int val = vbar->value();
+        int pageStep = vbar->pageStep();
+
+        qreal newPos = max > 0 ? qreal(val) / max : 0.0;
+        qreal newRatio = (max + pageStep) > 0 ? qreal(pageStep) / (max + pageStep) : 1.0;
+
+        if (!qFuzzyCompare(m_scrollPosition, newPos)) {
+            m_scrollPosition = newPos;
+            Q_EMIT scrollPositionChanged();
+        }
+        if (!qFuzzyCompare(m_contentRatio, newRatio)) {
+            m_contentRatio = newRatio;
+            Q_EMIT contentRatioChanged();
+        }
+    };
+
+    connect(vbar, &QScrollBar::valueChanged, this, updateScrollInfo);
+    connect(vbar, &QScrollBar::rangeChanged, this, updateScrollInfo);
+    updateScrollInfo();
 }
 
 void QmlWidget::updateGeometry()

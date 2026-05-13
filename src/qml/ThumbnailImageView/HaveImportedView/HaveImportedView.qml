@@ -31,9 +31,15 @@ BaseView {
         Album.QmlWidget{
             id: timeline
             anchors.fill: parent
-            anchors.margins: 0
+            anchors.rightMargin: GStatus.verticalScrollBarWidth
             focus: false
             viewType: Album.Types.WidgetImportedView
+        }
+
+        WidgetScrollBar {
+            contentRatio: timeline.contentRatio
+            scrollPosition: timeline.scrollPosition
+            onScrollPositionChangedFromDrag: (pos) => timeline.setScrollPosition(pos)
         }
     }
 
