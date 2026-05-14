@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -6,25 +6,38 @@
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QFontMetrics>
 
 #include <DFontSizeManager>
 #include <dpalettehelper.h>
 #include <QDebug>
 
+static const int CONTROL_TEXT_PAD = 6;
+static const int TITLE_LINE_SPACING = 4;
+static const int TITLE_TOP_PAD = 10;
+static const int IMPORT_TIMELINE_TOP_PAD = 8;
+static const int TIMELINE_TITLEHEIGHT = 36;
+
 TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time, const QString &num)
     :  m_chooseBtn(nullptr), m_pDate(nullptr), m_pNumCheckBox(nullptr), m_currentItem(item)
 {
     qDebug() << "Creating TimeLineDateWidget - time:" << time << "num:" << num;
-    this->setContentsMargins(0, 10, 0, 0);
-    this->setFixedHeight(90);
+    this->setContentsMargins(0, 0, 0, 0);
+
     //时间线日期
     m_pDate = new DLabel(this);
     DFontSizeManager::instance()->bind(m_pDate, DFontSizeManager::T3, QFont::DemiBold);
     QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
     ft1.setFamily("Noto Sans CJK SC");
     m_pDate->setFont(ft1);
+    m_pDate->setContentsMargins(0, 0, 0, 0);
     m_pDate->setText(time);
-    qDebug() << "Created date label with text:" << time;
+    int dateH = QFontMetrics(ft1).tightBoundingRect("Ayjg").height();
+    int dateFixedH = dateH + CONTROL_TEXT_PAD;
+    // bug76892 藏语占用更大高度
+    if (QLocale::system().language() == QLocale::Tibetan)
+        dateFixedH = qMax(dateFixedH, TIMELINE_TITLEHEIGHT + 25);
+    m_pDate->setFixedHeight(dateFixedH);
 
     //数量
     m_pNumCheckBox = new DCheckBox(this);
@@ -34,13 +47,17 @@ TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time,
     ft2.setFamily("Noto Sans CJK SC");
 
     m_pNumCheckBox->setFont(ft2);
+    m_pNumCheckBox->setContentsMargins(0, 0, 0, 0);
     m_pNumCheckBox->setText(num);
-    qDebug() << "Created number checkbox with text:" << num;
+    int numH = QFontMetrics(ft2).tightBoundingRect("Ayjg").height();
+    m_pNumCheckBox->setFixedHeight(numH + CONTROL_TEXT_PAD);
 
     m_pNum = new DLabel(this);
     DFontSizeManager::instance()->bind(m_pNum, DFontSizeManager::T6, QFont::Normal);
     m_pNum->setFont(ft2);
+    m_pNum->setContentsMargins(0, 0, 0, 0);
     m_pNum->setText(num);
+    m_pNum->setFixedHeight(numH + CONTROL_TEXT_PAD);
 
     onShowCheckBox(false);
 
@@ -57,7 +74,7 @@ TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time,
     m_pbtn->setFocusPolicy(Qt::NoFocus);
 
     QHBoxLayout *NumandBtnLayout = new QHBoxLayout();
-    NumandBtnLayout->setContentsMargins(0, 0, 0, 0);
+    NumandBtnLayout->setContentsMargins(0, TITLE_LINE_SPACING, 0, 0);
     NumandBtnLayout->addWidget(m_pNumCheckBox);
     NumandBtnLayout->addWidget(m_pNum);
     NumandBtnLayout->addStretch();
@@ -65,10 +82,11 @@ TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time,
     NumandBtnLayout->addWidget(m_chooseBtn);
 
     QVBoxLayout *TitleViewLayout = new QVBoxLayout(this);
-    TitleViewLayout->setContentsMargins(6, 0, 23, 0);
+    TitleViewLayout->setContentsMargins(6, TITLE_TOP_PAD, 23, 0);
+    TitleViewLayout->setSpacing(0);
     TitleViewLayout->addWidget(m_pDate);
-    TitleViewLayout->addStretch();
     TitleViewLayout->addLayout(NumandBtnLayout);
+    TitleViewLayout->addStretch();
     this->setLayout(TitleViewLayout);
 
     onThemeChanged(DGuiApplicationHelper::instance()->themeType());
@@ -145,7 +163,6 @@ importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QS
 {
     qDebug() << "Creating importTimeLineDateWidget - time:" << time << "num:" << num;
     this->setContentsMargins(6, 0, 0, 0);
-    this->setFixedHeight(35);
 
     //时间+照片数量
     m_pDateandNumCheckBox = new DCheckBox(this);
@@ -156,12 +173,14 @@ importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QS
     m_pDateandNumCheckBox->setFont(ft1);
     QString tempTimeAndNumber = time + " " + num;
     m_pDateandNumCheckBox->setText(tempTimeAndNumber);
-    qDebug() << "Created date and number checkbox with text:" << tempTimeAndNumber;
+    int dateNumH = QFontMetrics(ft1).tightBoundingRect("Ayjg").height();
+    m_pDateandNumCheckBox->setFixedHeight(dateNumH + CONTROL_TEXT_PAD);
 
     m_pDateandNum = new DLabel(this);
     DFontSizeManager::instance()->bind(m_pDateandNum, DFontSizeManager::T6, QFont::Normal);
     m_pDateandNum->setFont(ft1);
     m_pDateandNum->setText(tempTimeAndNumber);
+    m_pDateandNum->setFixedHeight(dateNumH + CONTROL_TEXT_PAD);
 
     onShowCheckBox(false);
 
@@ -179,8 +198,9 @@ importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QS
     m_pbtn->setFocusPolicy(Qt::NoFocus);
 
     //开始布局
+    // 顶部边距8px为与上一时间段图片的间距，底部通过m_timelineTitleHeight控制
     QHBoxLayout *TitleViewLayout = new QHBoxLayout(this);
-    TitleViewLayout->setContentsMargins(0, 0, 25, 0);
+    TitleViewLayout->setContentsMargins(0, IMPORT_TIMELINE_TOP_PAD, 25, 0);
     TitleViewLayout->addWidget(m_pDateandNumCheckBox);
     TitleViewLayout->addWidget(m_pDateandNum);
     TitleViewLayout->addStretch();
