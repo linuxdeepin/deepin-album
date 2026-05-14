@@ -1,3 +1,13 @@
+deepin-album (6.0.56) unstable; urgency=medium
+
+  * fix(view): dynamic timeline title height based on font metrics
+  * [skip CI] Translate deepin-album.ts in ru
+  * fix(scrollbar): add scrollbar to all collection and imported views
+  * fix(view): fix multi-page image thumbnails truncated in bottom toolbar
+  * fix(view): refresh album views after returning from image viewer
+
+ -- Wang Yu <wangyu@uniontech.com>  Thu, 14 May 2026 19:34:26 +0800
+
 deepin-album (6.0.55) unstable; urgency=medium
 
   * chore: bump version to 6.0.55
