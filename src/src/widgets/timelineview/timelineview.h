@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -51,6 +51,8 @@ private:
     void initConnections();
     void addTimelineLayout();
     void initDropDown();
+    void updateSize();
+    void applyHeights();
     void dragEnterEvent(QDragEnterEvent *e) override;
     void dropEvent(QDropEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
@@ -85,6 +87,8 @@ public:
     int m_selPicNum;
 
     QmlWidget *m_qquickContainer;
+    int m_suspensionHeight = 0;
+    int m_timelineTitleHeight = 0;
 };
 
 #endif // TIMELINEVIEW_H
