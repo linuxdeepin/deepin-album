@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -23,7 +23,9 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
-    Q_INVOKABLE int indexForImagePath(const QUrl &file);
+    Q_INVOKABLE int indexForImagePath(const QUrl &file) const;
+    Q_INVOKABLE bool containsImagePath(const QUrl &file) const;
+    Q_INVOKABLE QStringList imageUrlStrings() const;
     Q_SLOT void setImageFiles(const QList<QUrl> &files);
     Q_SLOT void removeImage(const QUrl &fileName);
 
