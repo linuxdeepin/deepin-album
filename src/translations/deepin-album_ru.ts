@@ -29,7 +29,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="937"/>
         <source>Help</source>
-        <translation>Помощь</translation>
+        <translation>Справка</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="940"/>
@@ -778,7 +778,7 @@
     <message>
         <location filename="../src/filecontrol.cpp" line="934"/>
         <source>Help</source>
-        <translation>Помощь</translation>
+        <translation>Справка</translation>
     </message>
     <message>
         <location filename="../src/filecontrol.cpp" line="938"/>
