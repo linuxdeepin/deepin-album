@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -94,7 +94,7 @@ int ImageSourceModel::rowCount(const QModelIndex &parent) const
 /**
    @return 返回传入文件路径 \a file 在数据模型中的索引，无此文件则返回 -1
  */
-int ImageSourceModel::indexForImagePath(const QUrl &file)
+int ImageSourceModel::indexForImagePath(const QUrl &file) const
 {
     // qDebug() << "ImageSourceModel::indexForImagePath - Entry";
     if (file.isEmpty()) {
@@ -104,6 +104,20 @@ int ImageSourceModel::indexForImagePath(const QUrl &file)
 
     // qDebug() << "ImageSourceModel::indexForImagePath - Exit";
     return imageUrlList.indexOf(file);
+}
+
+bool ImageSourceModel::containsImagePath(const QUrl &file) const
+{
+    return !file.isEmpty() && imageUrlList.contains(file);
+}
+
+QStringList ImageSourceModel::imageUrlStrings() const
+{
+    QStringList result;
+    result.reserve(imageUrlList.size());
+    for (const QUrl &url : imageUrlList)
+        result << url.toString();
+    return result;
 }
 
 /**
