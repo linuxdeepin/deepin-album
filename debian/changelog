@@ -1,3 +1,10 @@
+deepin-album (6.0.57) unstable; urgency=medium
+
+  * fix(album): refresh album name in context menu after rename
+  * fix(view): fix unable to open image already imported via main menu
+
+ -- Wang Yu <wangyu@uniontech.com>  Tue, 19 May 2026 19:22:18 +0800
+
 deepin-album (6.0.56) unstable; urgency=medium
 
   * fix(view): dynamic timeline title height based on font metrics
