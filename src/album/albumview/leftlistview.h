@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -37,6 +37,7 @@ public:
     void updatePhotoListView();
     void updateAlbumItemsColor();
     void updateCustomizeListView();
+    void setFocusToCustomizeView();
 
 private:
     void initUI();

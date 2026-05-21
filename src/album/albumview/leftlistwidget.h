@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -40,8 +40,6 @@ signals:
     void sigMouseMoveEvent();
     void sigMouseReleaseEvent(QModelIndex index);
 private:
-    //最近点击item的索引
-    int m_indexLastPress = -1;
 };
 
 #endif  // LEFTLISTWIDGET_H
