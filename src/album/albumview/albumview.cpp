@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -428,9 +428,13 @@ void AlbumView::onCreateNewAlbumFromDialog(const QString &newalbumname, int UID)
     }
 
     m_pLeftListView->onUpdateLeftListview();
-    //清除其他已选中的项
-    QModelIndex index2;
-    emit m_pLeftListView->m_pCustomizeListView->pressed(index2);
+    // 同步AlbumView状态到新创建的相册，确保右侧视图显示正确
+    m_currentAlbum = newalbumname;
+    m_currentUID = UID;
+    m_currentType = COMMON_STR_CUSTOM;
+    m_currentItemType = ablumType;
+    m_pLeftListView->setFocusToCustomizeView();
+    updateRightView();
 }
 
 void AlbumView::onCreateNewAlbumFrom(const QString &albumname, int UID)

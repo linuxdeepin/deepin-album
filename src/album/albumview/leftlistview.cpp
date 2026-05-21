@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -763,6 +763,13 @@ QString LeftListView::getItemCurrentType()
 int LeftListView::getItemDataType()
 {
     return  m_ItemCurrentDataType;
+}
+
+void LeftListView::setFocusToCustomizeView()
+{
+    if (m_pCustomizeListView) {
+        m_pCustomizeListView->setFocus();
+    }
 }
 
 void LeftListView::updateAlbumItemsColor()
