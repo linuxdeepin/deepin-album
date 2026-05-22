@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -239,6 +239,19 @@ void SearchView::improtSearchResultsIntoThumbnailView(QString s, const QString &
         m_searchPicNum = 0;
         m_stackWidget->setCurrentIndex(0);
     }
+}
+
+bool SearchView::hasSearchResults() const
+{
+    return m_searchPicNum > 0;
+}
+
+int SearchView::getItemCount(ItemType type) const
+{
+    if (m_pThumbnailListView) {
+        return m_pThumbnailListView->getAppointTypeItemCount(type);
+    }
+    return 0;
 }
 
 void SearchView::onSlideShowBtnClicked()

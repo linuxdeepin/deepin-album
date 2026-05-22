@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -605,14 +605,24 @@ void TimeLineView::restorePicNum()
 {
     int photoCount = 0;
     int videoCount = 0;
-    if (VIEW_TIMELINE == m_pStackedWidget->currentIndex()) {
+    const int viewIndex = m_pStackedWidget->currentIndex();
+    if (VIEW_TIMELINE == viewIndex) {
         photoCount = m_timeLineThumbnailListView->getAppointTypeItemCount(ItemTypePic);
         videoCount = m_timeLineThumbnailListView->getAppointTypeItemCount(ItemTypeVideo);
-    } else if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
-        photoCount = pSearchView->m_pThumbnailListView->getAppointTypeItemCount(ItemTypePic);
-        videoCount = pSearchView->m_pThumbnailListView->getAppointTypeItemCount(ItemTypeVideo);
+    } else if (VIEW_SEARCH == viewIndex) {
+        if (pSearchView) {
+            photoCount = pSearchView->getItemCount(ItemTypePic);
+            videoCount = pSearchView->getItemCount(ItemTypeVideo);
+        }
     }
     m_pStatusBar->resetUnselectedStatue(photoCount, videoCount);
+    bool shouldBeVisible = true;
+    if (VIEW_SEARCH == viewIndex) {
+        shouldBeVisible = pSearchView && pSearchView->hasSearchResults();
+    }
+    if (m_pStatusBar->isVisible() != shouldBeVisible) {
+        m_pStatusBar->setVisible(shouldBeVisible);
+    }
 }
 
 void TimeLineView::onKeyDelete()
