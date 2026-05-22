@@ -2349,9 +2349,12 @@ void AlbumView::restorePicNum()
 
     int photoCount = 0;
     int videoCount = 0;
-    if (4 == m_pRightStackWidget->currentIndex()) {
-        photoCount = m_pSearchView->m_pThumbnailListView->getAppointTypeItemCount(ItemTypePic);
-        videoCount = m_pSearchView->m_pThumbnailListView->getAppointTypeItemCount(ItemTypeVideo);
+    int viewIndex = m_pRightStackWidget->currentIndex();
+    if (RIGHT_VIEW_SEARCH == viewIndex) {
+        if (m_pSearchView) {
+            photoCount = m_pSearchView->getItemCount(ItemTypePic);
+            videoCount = m_pSearchView->getItemCount(ItemTypeVideo);
+        }
     } else {
         if (COMMON_STR_RECENT_IMPORTED == m_currentAlbum) {
             photoCount = m_pImpTimeLineView->getListView()->getAppointTypeItemCount(ItemTypePic);
@@ -2365,7 +2368,7 @@ void AlbumView::restorePicNum()
         } else if (COMMON_STR_FAVORITES == m_currentAlbum) {
             photoCount = m_favoriteThumbnailList->getAppointTypeItemCount(ItemTypePic);
             videoCount = m_favoriteThumbnailList->getAppointTypeItemCount(ItemTypeVideo);
-        } else if (RIGHT_VIEW_PHONE == m_pRightStackWidget->currentIndex()) {
+        } else if (RIGHT_VIEW_PHONE == viewIndex) {
             photoCount = m_pRightPhoneThumbnailList->getAppointTypeItemCount(ItemTypePic);
             videoCount = m_pRightPhoneThumbnailList->getAppointTypeItemCount(ItemTypeVideo);
         } else {
@@ -2380,6 +2383,12 @@ void AlbumView::restorePicNum()
     }
 
     m_pStatusBar->resetUnselectedStatue(photoCount, videoCount);
+    if (RIGHT_VIEW_SEARCH == viewIndex) {
+        bool shouldBeVisible = m_pSearchView && m_pSearchView->hasSearchResults();
+        if (m_pStatusBar->isVisible() != shouldBeVisible) {
+            m_pStatusBar->setVisible(shouldBeVisible);
+        }
+    }
 }
 
 void AlbumView::paintEvent(QPaintEvent *event)

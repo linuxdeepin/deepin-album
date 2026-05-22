@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -396,14 +396,24 @@ void AllPicView::restorePicNum()
 {
     int photoCount = 0;
     int videoCount = 0;
-    if (VIEW_ALLPICS == m_pStackedWidget->currentIndex()) {
+    const int viewIndex = m_pStackedWidget->currentIndex();
+    if (VIEW_ALLPICS == viewIndex) {
         photoCount = m_pThumbnailListView->getAppointTypeItemCount(ItemTypePic);
         videoCount = m_pThumbnailListView->getAppointTypeItemCount(ItemTypeVideo);
-    } else if (VIEW_SEARCH == m_pStackedWidget->currentIndex()) {
-        photoCount = m_pSearchView->m_pThumbnailListView->getAppointTypeItemCount(ItemTypePic);
-        videoCount = m_pSearchView->m_pThumbnailListView->getAppointTypeItemCount(ItemTypeVideo);
+    } else if (VIEW_SEARCH == viewIndex) {
+        if (m_pSearchView) {
+            photoCount = m_pSearchView->getItemCount(ItemTypePic);
+            videoCount = m_pSearchView->getItemCount(ItemTypeVideo);
+        }
     }
     m_pStatusBar->resetUnselectedStatue(photoCount, videoCount);
+    bool shouldBeVisible = true;
+    if (VIEW_SEARCH == viewIndex) {
+        shouldBeVisible = m_pSearchView && m_pSearchView->hasSearchResults();
+    }
+    if (m_pStatusBar->isVisible() != shouldBeVisible) {
+        m_pStatusBar->setVisible(shouldBeVisible);
+    }
 }
 
 void AllPicView::onKeyDelete()

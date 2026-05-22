@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -41,6 +41,8 @@ class SearchView : public QWidget
 public:
     SearchView();
     void improtSearchResultsIntoThumbnailView(QString s, const QString &album, int UID, const QString& className);
+    bool hasSearchResults() const;
+    int getItemCount(ItemType type) const;
 
 public slots:
     void onSlideShowBtnClicked();
