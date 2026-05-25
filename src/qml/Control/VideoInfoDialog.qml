@@ -33,7 +33,7 @@ DialogWindow {
     flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint | Qt.WindowStaysOnTopHint
 
     header: DialogTitleBar {
-        enableInWindowBlendBlur: true
+        enableInWindowBlendBlur: false
         content: Loader {
             sourceComponent: Label {
                 anchors.centerIn: parent
