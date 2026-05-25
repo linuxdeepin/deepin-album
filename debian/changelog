@@ -1,3 +1,11 @@
+deepin-album (6.0.58) unstable; urgency=medium
+
+  * fix(dialog): disable enableInWindowBlendBlur effect in all dialogs
+  * fix: remove redundant blank title from dialog windows
+  * [skip CI] Translate deepin-album.ts in ru
+
+ -- Wang Yu <wangyu@uniontech.com>  Mon, 25 May 2026 17:15:55 +0800
+
 deepin-album (6.0.57) unstable; urgency=medium
 
   * fix(album): refresh album name in context menu after rename
