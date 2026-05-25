@@ -28,7 +28,7 @@ DialogWindow {
     height: 160
 
     header: DialogTitleBar {
-        enableInWindowBlendBlur: true
+        enableInWindowBlendBlur: false
         icon {
             mode: DTK.NormalState
             name: "deepin-album"
