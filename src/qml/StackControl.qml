@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -90,6 +90,7 @@ Item {
     //相册界面启动幻灯片（和看图界面启动有区别）
     //images: 图片路径 startIndex: 启动后一个图的下标索引
     function startMainSliderShow(images, startIndex) {
+        showfullAnimation.start()
         showFullScreen()
         GControl.setImageFiles(images, images[startIndex])
         FileControl.resetImageFiles(images);
@@ -99,6 +100,5 @@ Item {
         mainSliderShow.restart()
         GStatus.stackControlCurrent = 2
         mainAlbumView.visible = false
-        showfullAnimation.start()
     }
 }
