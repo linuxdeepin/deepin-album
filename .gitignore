@@ -113,3 +113,6 @@ build
 .specstory
 .promptx/
 .spec-workflow/
+.claude/
+.trellis/
+AGENTS.md

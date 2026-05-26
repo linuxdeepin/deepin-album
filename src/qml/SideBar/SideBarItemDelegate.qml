@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -158,8 +158,10 @@ ItemDelegate {
         if (keyLineEdit.text !== "" && albumControl.renameAlbum(albumControl.getAllCustomAlbumId()[index], keyLineEdit.text)) {
             songName.text = keyLineEdit.text
 
-            // 通知自定义相册视图刷新相册名称
+            // Notify custom album view to refresh album name
             GStatus.sigCustomAlbumNameChaged(GStatus.currentCustomAlbumUId, songName.text)
+            // Refresh album list in context menu
+            GStatus.albumChangeList = !GStatus.albumChangeList
         }
     }
     function switchToPrevious(){

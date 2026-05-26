@@ -33,6 +33,8 @@ signals:
 
     //监控到改变
     void sigMonitorChanged(QStringList fileAdd, QStringList fileDelete, QString album, int UID);
+    //视频文件写入完成，需要刷新缩略图
+    void sigVideoFileStable(const QStringList &files);
 
 public slots:
     //发送插入
@@ -53,6 +55,8 @@ private:
     QStringList m_pendingDirs;  //等待创建的目标目录
     QStringList m_parentDirs;   //当前监听的父级目录
     QMap<QString, QStringList> m_parentToChildren; //父级目录到子目录的映射
+    QMap<QString, qint64> m_pendingFileSize; //文件路径到上次检查时的大小的映射，用于检测文件写入完成
+    QStringList m_pendingVideoFiles; //新发现的视频文件，等待记录初始大小
     QString m_currentAlbum;     //给定当前的相册
     int m_currentUID;           //给定当前的相册的UID
     QStringList  m_Supported;   //支持的格式

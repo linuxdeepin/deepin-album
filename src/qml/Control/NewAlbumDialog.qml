@@ -18,7 +18,6 @@ DialogWindow {
     id: renamedialog
     modality: Qt.WindowModal
     flags: Qt.Window | Qt.WindowCloseButtonHint | Qt.WindowStaysOnTopHint
-    title: " "
     visible: false
     property bool isChangeView: false
     property bool importSelected: false

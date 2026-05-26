@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -70,6 +70,7 @@ private slots:
      * 调整已导入界面的整体大小
      */
     void updateSize();
+    void applyHeights();
     void onCheckBoxClicked();
     //筛选显示，当先列表中内容为无结果
     void slotNoPicOrNoVideo(bool isNoResult);
@@ -80,7 +81,6 @@ signals:
     //筛选显示图片或者视频，无结果时
     void sigNoPicOrNoVideo(bool isNoResult);//1050
 public:
-    const static int title_HEIGHT = 87;
 private:
     QLayout *m_mainLayout;
     QList<QDateTime> m_timelines;
@@ -102,6 +102,8 @@ private:
     bool m_ctrlPress;
 
     QmlWidget *m_qquickContainer;
+    int m_suspensionHeight = 0;
+    int m_timelineTitleHeight = 0;
 };
 
 #endif // IMPORTTIMELINEVIEW_H

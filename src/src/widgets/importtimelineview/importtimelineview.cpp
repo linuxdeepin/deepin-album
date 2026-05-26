@@ -12,19 +12,25 @@
 #include <QGraphicsOpacityEffect>
 #include <QTimer>
 #include <QStackedWidget>
+#include <QFontMetrics>
 
 #include <DPushButton>
 #include <DTableView>
 #include <DCheckBox>
 #include <DHiDPIHelper>
 #include <DPaletteHelper>
+#include <DFontSizeManager>
 
-const int MAINWINDOW_NEEDCUT_WIDTH = 775;
-const int LISTVIEW_MINMUN_WIDTH = 520;
-const int IMPORTTITLE_FIX_WIDTH = 90;
-const int STATUSBAR_HEIGHT = 27;
-const int TIMELINE_TITLEHEIGHT = 36;
-const int SUSPENSION_WIDGET_HEIGHT = 87;//悬浮控件高度
+static const int MAINWINDOW_NEEDCUT_WIDTH = 775;
+static const int LISTVIEW_MINMUN_WIDTH = 520;
+static const int IMPORTTITLE_FIX_WIDTH = 90;
+static const int STATUSBAR_HEIGHT = 27;
+static const int TIMELINE_TITLEHEIGHT = 36;
+static const int TITLE_TOP_PAD = 10;
+static const int TITLE_BOTTOM_PAD = 5;
+static const int TITLE_LINE_SPACING = 4;
+static const int CONTROL_TEXT_PAD = 6;
+static const int ITEM_SPACING_COMPENSATION = 4; // 补偿QListView::spacing
 
 ImportTimeLineView::ImportTimeLineView(QmlWidget *parent)
     : m_mainLayout(nullptr)
@@ -114,9 +120,29 @@ ThumbnailListView *ImportTimeLineView::getListView()
 
 void ImportTimeLineView::updateSize()
 {
-    qDebug() << "Updating ImportTimeLineView size";
-    m_importTitleItem->setGeometry(0, 0, width() - 15, SUSPENSION_WIDGET_HEIGHT);
-    qDebug() << "ImportTimeLineView size updated to:" << width() - 15 << "x" << SUSPENSION_WIDGET_HEIGHT;
+    applyHeights();
+}
+
+void ImportTimeLineView::applyHeights()
+{
+    QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
+    ft3.setFamily("Noto Sans CJK SC");
+    QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
+    ft6.setFamily("Noto Sans CJK SC");
+    int importH = QFontMetrics(ft3).tightBoundingRect("Ayjg").height();
+    int dateNumH = QFontMetrics(ft6).tightBoundingRect("Ayjg").height();
+    int importLabelH = importH + CONTROL_TEXT_PAD;
+    // bug76892 藏语占用更大高度
+    if (QLocale::system().language() == QLocale::Tibetan)
+        importLabelH = qMax(importLabelH, TIMELINE_TITLEHEIGHT + 25);
+    m_importLabel->setFixedHeight(importLabelH);
+    m_dateNumCheckBox->setFixedHeight(dateNumH + CONTROL_TEXT_PAD);
+    m_dateNumLabel->setFixedHeight(dateNumH + CONTROL_TEXT_PAD);
+    m_suspensionHeight = TITLE_TOP_PAD + importLabelH + TITLE_LINE_SPACING + (dateNumH + CONTROL_TEXT_PAD) + TITLE_BOTTOM_PAD;
+    // 时间线标题项高度：时间段间距(8) + 单行文字 + 标题到图片间距(2) + 补偿ITEM_SPACING
+    m_timelineTitleHeight = 8 + (dateNumH + CONTROL_TEXT_PAD) + 2 + ITEM_SPACING_COMPENSATION;
+    m_importTimeLineListView->m_blankItemHeight = qMax(m_suspensionHeight - ITEM_SPACING_COMPENSATION, TIMELINE_TITLEHEIGHT);
+    m_importTitleItem->setGeometry(0, 0, width() - 15, m_suspensionHeight);
 }
 
 void ImportTimeLineView::onCheckBoxClicked()
@@ -216,7 +242,8 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_importTitleItem = new DWidget(m_timeLineViewWidget);
     m_importTitleItem->setFocusPolicy(Qt::NoFocus);
     QVBoxLayout *titleViewLayout = new QVBoxLayout();
-    titleViewLayout->setContentsMargins(18, 10, 0, 0);
+    titleViewLayout->setContentsMargins(18, TITLE_TOP_PAD, 0, 0);
+    titleViewLayout->setSpacing(0);
     m_importTitleItem->setLayout(titleViewLayout);
 
     //已导入
@@ -227,13 +254,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
     DFontSizeManager::instance()->bind(m_importLabel, DFontSizeManager::T3, QFont::Normal);
     QFont ft3 = DFontSizeManager::instance()->get(DFontSizeManager::T3);
     ft3.setFamily("Noto Sans CJK SC");
-
-    //bug76892藏语占用更大高度
-    if (QLocale::system().language() == QLocale::Tibetan) {
-        m_importLabel->setFixedHeight(TIMELINE_TITLEHEIGHT + 25);
-    } else {
-        m_importLabel->setFixedHeight(TIMELINE_TITLEHEIGHT);
-    }
+    m_importLabel->setContentsMargins(0, 0, 0, 0);
     m_importLabel->setFont(ft3);
 
     hImportLayout->addStretch(1);
@@ -242,6 +263,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
 
     // 已导入下的时间和计数
     QHBoxLayout *hDateNumLayout = new QHBoxLayout();
+    hDateNumLayout->setContentsMargins(0, TITLE_LINE_SPACING, 0, 0);
     m_dateNumCheckBox = new DCheckBox();
     connect(m_dateNumCheckBox, &DCheckBox::clicked, this, &ImportTimeLineView::onCheckBoxClicked);
     hDateNumLayout->addWidget(m_dateNumCheckBox);
@@ -249,13 +271,13 @@ void ImportTimeLineView::initTimeLineViewWidget()
     QFont ft6 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
     ft6.setFamily("Noto Sans CJK SC");
 
-    m_dateNumCheckBox->setFixedHeight(TIMELINE_TITLEHEIGHT);
     m_dateNumCheckBox->setFont(ft6);
+    m_dateNumCheckBox->setContentsMargins(0, 0, 0, 0);
 
     m_dateNumLabel = new DLabel();
-    m_dateNumLabel->setFixedHeight(TIMELINE_TITLEHEIGHT);
     DFontSizeManager::instance()->bind(m_dateNumLabel, DFontSizeManager::T6, QFont::Medium);
     m_dateNumLabel->setFont(ft6);
+    m_dateNumLabel->setContentsMargins(0, 0, 0, 0);
     hDateNumLayout->addWidget(m_dateNumLabel);
 
     connect(m_importTimeLineListView, &ThumbnailListView::sigShowCheckBox, this, &ImportTimeLineView::onShowCheckBox);
@@ -272,7 +294,7 @@ void ImportTimeLineView::initTimeLineViewWidget()
 
     m_importTitleItem->setAutoFillBackground(true);
     m_importTitleItem->setContentsMargins(0, 0, 0, 0);
-    m_importTitleItem->setGeometry(0, 0, this->width() - 15, SUSPENSION_WIDGET_HEIGHT);
+    applyHeights();
     qDebug() << "ImportTimeLineView::initTimeLineViewWidget - Function exit";
 }
 
@@ -369,8 +391,8 @@ void ImportTimeLineView::addTimelineLayout()
             DBImgInfo info;
             info.itemType = ItemTypeBlank;
             info.imgWidth = m_importTimeLineListView->width();
-            m_importTimeLineListView->m_blankItemHeight = SUSPENSION_WIDGET_HEIGHT;
-            info.imgHeight = SUSPENSION_WIDGET_HEIGHT;
+            m_importTimeLineListView->m_blankItemHeight = qMax(m_suspensionHeight - ITEM_SPACING_COMPENSATION, TIMELINE_TITLEHEIGHT);
+            info.imgHeight = qMax(m_suspensionHeight - ITEM_SPACING_COMPENSATION, TIMELINE_TITLEHEIGHT);
             info.date = date;
             info.num = num;
             importList.append(info);
@@ -379,7 +401,7 @@ void ImportTimeLineView::addTimelineLayout()
             DBImgInfo info;
             info.itemType = ItemTypeImportTimeLineTitle;
             info.imgWidth = this->width();
-            info.imgHeight = 40;
+            info.imgHeight = m_timelineTitleHeight;
             info.date = date;
             info.num = num;
             importList.append(info);
@@ -454,18 +476,14 @@ void ImportTimeLineView::slotTimeLineDataAndNum(QString data, QString num, QStri
 
 void ImportTimeLineView::resizeEvent(QResizeEvent *ev)
 {
-    // qDebug() << "ImportTimeLineView::resizeEvent - Function entry, new size:" << ev->size();
     Q_UNUSED(ev);
     updateSize();
-    // qDebug() << "ImportTimeLineView::resizeEvent - Function exit";
 }
 
 void ImportTimeLineView::showEvent(QShowEvent *ev)
 {
-    // qDebug() << "ImportTimeLineView::showEvent - Function entry";
     Q_UNUSED(ev);
     updateSize();
-    // qDebug() << "ImportTimeLineView::showEvent - Function exit";
 }
 
 void ImportTimeLineView::dragEnterEvent(QDragEnterEvent *e)

@@ -26,23 +26,23 @@ FadeInoutAnimation {
         }
     }
 
-    // 设置当前使用的图片源
+    // 设置当前使用的图片源，返回目录下的图片列表供调用方复用
     function setSourcePath(path) {
-        if (FileControl.isCurrentWatcherDir(path)) {
-            // 更新当前文件路径
+        if (FileControl.isCurrentWatcherDir(path)
+                && GControl.globalModel.containsImagePath(path)) {
             GControl.currentSource = path;
-        } else {
-            var sourcePaths = FileControl.getDirImagePath(path);
-            if (sourcePaths.length > 0) {
-                GControl.setImageFiles(sourcePaths, path);
-                // 记录当前读取的图片信息
-                FileControl.resetImageFiles(sourcePaths);
-                console.log("Load image info", path);
-                switchImageView();
-            } else {
-                switchOpenImage();
-            }
+            return GControl.globalModel.imageUrlStrings();
         }
+        let sourcePaths = FileControl.getDirImagePath(path);
+        if (sourcePaths.length > 0) {
+            GControl.setImageFiles(sourcePaths, path);
+            // 记录当前读取的图片信息
+            FileControl.resetImageFiles(sourcePaths);
+            switchImageView();
+        } else {
+            switchOpenImage();
+        }
+        return sourcePaths;
     }
 
     function switchImageView() {
@@ -128,10 +128,11 @@ FadeInoutAnimation {
                 fileDialog.open();
             }
             onAccepted: {
-                var path = fileDialog.selectedFiles[0]
-                stackView.setSourcePath(path);
-                if (FileControl.isAlbum() && GControl.currentSource.toString() !== "") {
-                    var sourcePaths = FileControl.getDirImagePath(path);
+                if (fileDialog.selectedFiles.length === 0)
+                    return;
+                let path = fileDialog.selectedFiles[0];
+                let sourcePaths = stackView.setSourcePath(path);
+                if (FileControl.isAlbum() && sourcePaths.length > 0) {
                     albumControl.importAllImagesAndVideos(sourcePaths);
                 }
             }

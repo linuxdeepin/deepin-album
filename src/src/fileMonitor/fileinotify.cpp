@@ -20,6 +20,8 @@
 #include <QDir>
 
 enum {MASK = IN_MODIFY | IN_CREATE | IN_DELETE};
+static const int kVideoStableCheckIntervalMs = 1000;
+static const qint64 kVideoSizeFirstRecord = -1;
 
 FileInotify::FileInotify(QObject *parent)
     : QObject(parent)
@@ -158,6 +160,8 @@ void FileInotify::clear()
     m_pendingDirs.clear();
     m_parentDirs.clear();
     m_parentToChildren.clear();
+    m_pendingFileSize.clear();
+    m_pendingVideoFiles.clear();
 
     if (m_timer && m_timer->isActive()) {
         m_timer->stop();
@@ -209,9 +213,13 @@ void FileInotify::getAllPicture(bool isFirst)
 
     //筛选出新增图片文件
     for (auto path : filePaths) {
-        if (!allPaths.contains(path)) {
+        if (!allPaths.contains(path) && !m_newFile.contains(path)) {
             qDebug() << "New file detected:" << path;
             m_newFile << path;
+            //对视频文件标记为待监控（不记录大小，在onNeedSendPictures末尾记录）
+            if (LibUnionImage_NameSpace::isVideo(path)) {
+                m_pendingVideoFiles << path;
+            }
         }
     }
 
@@ -278,7 +286,45 @@ void FileInotify::onNeedSendPictures()
         }
     }
 
-    m_timer->stop();
+    //将新发现的视频文件标记为待监控，用-1表示首次记录，下次定时器才记录实际大小
+    for (const QString &path : m_pendingVideoFiles) {
+        m_pendingFileSize[path] = kVideoSizeFirstRecord;
+    }
+    m_pendingVideoFiles.clear();
+
+    //检查正在写入的视频文件是否已完成
+    QStringList stableFiles;
+    for (auto it = m_pendingFileSize.begin(); it != m_pendingFileSize.end();) {
+        QString path = it.key();
+        qint64 lastSize = it.value();
+        QFileInfo info(path);
+        if (!info.exists()) {
+            it = m_pendingFileSize.erase(it);
+            continue;
+        }
+        qint64 currentSize = info.size();
+        if (lastSize == kVideoSizeFirstRecord) {
+            it.value() = currentSize;
+            ++it;
+        } else if (currentSize > 0 && currentSize == lastSize) {
+            stableFiles << path;
+            it = m_pendingFileSize.erase(it);
+        } else {
+            it.value() = currentSize;
+            ++it;
+        }
+    }
+
+    if (!stableFiles.isEmpty()) {
+        emit sigVideoFileStable(stableFiles);
+    }
+
+    //如果还有未稳定的文件（正在写入），继续定时检查
+    if (!m_pendingFileSize.isEmpty()) {
+        m_timer->start(kVideoStableCheckIntervalMs);
+    } else {
+        m_timer->stop();
+    }
 }
 
 void FileInotify::addParentWatcher(const QString &parentPath, const QString &targetChild)

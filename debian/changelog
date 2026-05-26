@@ -1,3 +1,47 @@
+deepin-album (6.0.58) unstable; urgency=medium
+
+  * fix(dialog): disable enableInWindowBlendBlur effect in all dialogs
+  * fix: remove redundant blank title from dialog windows
+  * [skip CI] Translate deepin-album.ts in ru
+
+ -- Wang Yu <wangyu@uniontech.com>  Mon, 25 May 2026 17:15:55 +0800
+
+deepin-album (6.0.57) unstable; urgency=medium
+
+  * fix(album): refresh album name in context menu after rename
+  * fix(view): fix unable to open image already imported via main menu
+
+ -- Wang Yu <wangyu@uniontech.com>  Tue, 19 May 2026 19:22:18 +0800
+
+deepin-album (6.0.56) unstable; urgency=medium
+
+  * fix(view): dynamic timeline title height based on font metrics
+  * [skip CI] Translate deepin-album.ts in ru
+  * fix(scrollbar): add scrollbar to all collection and imported views
+  * fix(view): fix multi-page image thumbnails truncated in bottom toolbar
+  * fix(view): refresh album views after returning from image viewer
+
+ -- Wang Yu <wangyu@uniontech.com>  Thu, 14 May 2026 19:34:26 +0800
+
+deepin-album (6.0.55) unstable; urgency=medium
+
+  * chore: bump version to 6.0.55
+
+ -- Wang Yu <wangyu@uniontech.com>  Sat, 09 May 2026 17:19:07 +0800
+
+deepin-album (6.0.54) unstable; urgency=medium
+
+  * fix(video): refresh thumbnail and duration after camera recording
+  * [skip CI] Translate deepin-album.ts in ja
+  * fix(viewer): use Qt6 FileDialog API for opening images
+  * fix: Keyboard shortcut issue
+  * fix: disable filename editing and show original name in trash
+  * fix(thumbnail): use DCI icon for damaged image with theme support
+  * fix(sidebar): refresh album paths before showing context menu
+  * fix: move menu separator above first custom album item
+
+ -- Wang Yu <wangyu@uniontech.com>  Sat, 09 May 2026 11:39:08 +0800
+
 deepin-album (6.0.53) unstable; urgency=medium
 
   * fix(preview): use scaled decoding to bypass unionimage 4096 limit

@@ -385,6 +385,9 @@ public slots:
     //自动导入路径被删除
     void slotMonitorDestroyed(int UID);
 
+    //视频文件写入完成后刷新缩略图和视频信息
+    void slotVideoFileStable(const QStringList &files);
+
 #if 0
     //加载设备路径的数据
     void sltLoadMountFileList(const QString &strPath);
@@ -403,6 +406,7 @@ private:
     void getAllBlockDeviceName();
     void updateBlockDeviceName(const QString &blks);
     void onUnMountedExecute(const QString &deviceKey, DeviceType type);
+    bool shouldRetryVideo(const QString &path);
 
 signals:
     void sigRefreshAllCollection();
@@ -465,6 +469,8 @@ private :
     QMap < QString, DBImgInfoList > m_dayDateMap; //日数据集
     QMap < int, QString > m_customAlbum; //自定义相册
     QMap < QString, MovieInfo> m_movieInfos; //movieInfo的合集
+    QMap<QString, qint64> m_videoStableSize; //视频重试时记录的文件大小
+    QMap<QString, int> m_videoStableCount; //视频文件大小连续不变的次数
 
     FileInotifyGroup *m_fileInotifygroup {nullptr}; //固定文件夹监控
 

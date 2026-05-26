@@ -25,6 +25,8 @@ signals:
     void sigMonitorChanged(QStringList fileAdd, QStringList fileDelete, QString album, int UID);
     //自动导入路径被删除
     void sigMonitorDestroyed(int UID);
+    //视频文件写入完成，需要刷新缩略图
+    void sigVideoFileStable(const QStringList &files);
 private:
     QList<FileInotify *> watchers;
 };
