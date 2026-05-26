@@ -44,9 +44,9 @@ SwitchViewAnimation {
 
     // 刷新所有项目视图内容
     function flushAllCollectionView() {
+        theView.proxyModel.refresh(filterType)
         if (!visible)
             return
-        theView.proxyModel.refresh(filterType)
         GStatus.selectedPaths = theView.selectedUrls
         getNumLabelText()
         totalTimepScopeTimer.start()
