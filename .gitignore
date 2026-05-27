@@ -116,3 +116,4 @@ build
 .claude/
 .trellis/
 AGENTS.md
+.codegraph/
