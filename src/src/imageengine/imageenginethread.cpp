@@ -9,6 +9,7 @@
 #include "albumControl.h"
 #include "utils/classifyutils.h"
 #include <QDebug>
+#include <QSet>
 
 #include <QDirIterator>
 
@@ -99,19 +100,16 @@ bool ImportImagesThread::ifCanStopThread(void *imgobject)
 void ImportImagesThread::runDetail()
 {
     qDebug() << "Starting import process for UID:" << m_UID;
-    //相册中本次导入之前已导入的所有路径
-    DBImgInfoList oldInfos = AlbumControl::instance()->getAllInfosByUID(QString::number(m_UID));
-    QStringList allOldImportedPaths;
-    for (DBImgInfo info : oldInfos) {
-        allOldImportedPaths.push_back(info.filePath);
-    }
+    //相册中本次导入之前已导入的所有路径(查AlbumTable3而非ImageTable3的UID字段)
+    QStringList allOldImportedPathsList = DBManager::instance()->getPathsByAlbum(m_UID);
+    QSet<QString> allOldImportedPaths(allOldImportedPathsList.begin(), allOldImportedPathsList.end());
     qDebug() << "Found" << allOldImportedPaths.size() << "previously imported paths";
 
     QStringList tempPaths;
     QStringList filePaths;
     DBImgInfoList dbInfos;
     //判断是否含有目录
-    for (QString path : m_paths) {
+    for (const QString &path : m_paths) {
         //是目录，向下遍历,得到所有文件
         if (QDir(path).exists()) {
             qDebug() << "Processing directory:" << path;
@@ -127,12 +125,17 @@ void ImportImagesThread::runDetail()
         }
     }
 
+    //针对候选路径查询ImageTable3中已存在的路径，避免全表加载
+    QSet<QString> allDBPaths = DBManager::instance()->getExistingPaths(tempPaths);
+
     //条件过滤
     int noReadCount = 0; //记录已存在于相册中的数量，若全部存在，则不进行导入操作
+    QStringList alreadyInDBPaths; //已存在于数据库中(其他相册)的路径，只需关联不需要重新插入
+    //注意：alreadyInDBPaths 与 allOldImportedPaths 互斥——allOldImportedPaths 命中时已 continue，不会进入下方的 allDBPaths 判断
     int i = 0;
-    for (QString imagePath : tempPaths) {
+    for (const QString &imagePath : tempPaths) {
         i++;
-        //已导入
+        //已导入当前相册
         if (allOldImportedPaths.contains(imagePath)) {
             qDebug() << "Skipping already imported file:" << imagePath;
             m_checkRepeat = true;
@@ -156,22 +159,40 @@ void ImportImagesThread::runDetail()
                 qWarning() << "Skipping file with invalid format:" << imagePath;
                 continue;
             }
-            dbInfo.albumUID = QString::number(m_UID);
-            dbInfos << dbInfo;
 
+            //检查ImageTable3中是否已存在该路径(可能在其他相册UID下)
+            if (allDBPaths.contains(imagePath)) {
+                //已存在，只需关联到当前相册，不重复插入
+                alreadyInDBPaths << imagePath;
+                qDebug() << "File already in DB, linking to album only:" << imagePath;
+            } else {
+                dbInfo.albumUID = QString::number(m_UID);
+                dbInfos << dbInfo;
+                qDebug() << "Added file to import list:" << imagePath;
+            }
             filePaths << imagePath;
-            qDebug() << "Added file to import list:" << imagePath;
         } else {
             qWarning() << "Skipping inaccessible file:" << imagePath;
         }
         emit sigImportProgress(i, tempPaths.size());
     }
 
-    //已全部存在，无需导入
-    if (noReadCount == tempPaths.size() && tempPaths.size() > 0 && m_checkRepeat) {
+    //已全部存在于当前相册，无需导入
+    if (noReadCount == tempPaths.size() && tempPaths.size() > 0) {
         qDebug() << "All files already exist in album, skipping import";
         QStringList urlPaths;
-        for (QString path : tempPaths) {
+        for (const QString &path : tempPaths) {
+            urlPaths.push_back("file://" + path);
+        }
+        emit sigRepeatUrls(urlPaths);
+        return;
+    }
+    //合集/已导入视图下(UID<0)，全部图片已在数据库中(当前相册或其他相册)，显示已导入提示
+    //收藏(UID=0)和自定义相册(UID>0)不应被拦截，需要走正常流程关联到对应相册
+    if (noReadCount + alreadyInDBPaths.size() == tempPaths.size() && tempPaths.size() > 0 && m_checkRepeat && m_UID < 0) {
+        qDebug() << "All files already exist in DB, showing repeat notification";
+        QStringList urlPaths;
+        for (const QString &path : tempPaths) {
             urlPaths.push_back("file://" + path);
         }
         emit sigRepeatUrls(urlPaths);
@@ -196,8 +217,16 @@ void ImportImagesThread::runDetail()
     });
 
     //导入图片数据库ImageTable3
-    qDebug() << "Inserting" << dbInfos.size() << "images into database";
-    DBManager::instance()->insertImgInfos(dbInfos);
+    if (!dbInfos.isEmpty()) {
+        qDebug() << "Inserting" << dbInfos.size() << "images into database";
+        DBManager::instance()->insertImgInfos(dbInfos);
+    }
+
+    //更新已存在于数据库中的图片的UID关联
+    if (!alreadyInDBPaths.isEmpty() && m_UID >= 0) {
+        qDebug() << "Updating UID for" << alreadyInDBPaths.size() << "existing images";
+        DBManager::instance()->addCustomAlbumIdByPaths(m_UID, alreadyInDBPaths);
+    }
 
     //导入图片数据库AlbumTable3
     if (m_UID >= 0) {

@@ -1,5 +1,4 @@
-// Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -68,6 +67,7 @@ public:
 
     // TableImage
     const QStringList       getAllPaths(const ItemType &filterType = ItemTypeNull) const;
+    QSet<QString>           getExistingPaths(const QStringList &paths) const;
     const DBImgInfoList     getAllInfos(int loadCount = 0) const;
     const DBImgInfoList     getAllInfosSort(const ItemType &filterType = ItemTypeNull) const;
     const DBImgInfoList     getAllInfosByUID(QString UID) const;

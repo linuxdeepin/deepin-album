@@ -1,5 +1,4 @@
-// Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -22,6 +21,8 @@
 #include <QtConcurrent/QtConcurrent>
 
 //#include "imageengineapi.h"
+
+static const int kSqlBatchSize = 500;
 
 DBManager *DBManager::m_dbManager = nullptr;
 std::once_flag DBManager::instanceFlag;
@@ -84,6 +85,41 @@ const QStringList DBManager::getAllPaths(const ItemType &filterType) const
 
     qDebug() << "DBManager::getAllPaths - Exit, paths:" << paths;
     return paths;
+}
+
+QSet<QString> DBManager::getExistingPaths(const QStringList &paths) const
+{
+    QSet<QString> existing;
+    if (paths.isEmpty())
+        return existing;
+
+    QMutexLocker mutex(&m_dbMutex);
+    m_query->setForwardOnly(true);
+
+    //分批查询，避免超过 SQLITE_MAX_VARIABLE_NUMBER（默认999）
+    for (int batchStart = 0; batchStart < paths.size(); batchStart += kSqlBatchSize) {
+        int batchEnd = std::min(batchStart + kSqlBatchSize, static_cast<int>(paths.size()));
+        int batchCount = batchEnd - batchStart;
+
+        QStringList placeholders;
+        for (int i = 0; i < batchCount; ++i)
+            placeholders << "?";
+
+        QString sql = QString("SELECT DISTINCT FilePath FROM ImageTable3 WHERE PathHash IN (%1)").arg(placeholders.join(","));
+        if (!m_query->prepare(sql))
+            return existing;
+
+        for (int i = batchStart; i < batchEnd; ++i)
+            m_query->addBindValue(LibUnionImage_NameSpace::hashByString(paths.at(i)));
+
+        if (!m_query->exec())
+            return existing;
+
+        while (m_query->next())
+            existing << m_query->value(0).toString();
+    }
+
+    return existing;
 }
 
 const DBImgInfoList DBManager::getAllInfos(int loadCount)const
