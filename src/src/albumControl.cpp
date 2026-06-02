@@ -1821,7 +1821,7 @@ void AlbumControl::insertCollection(const QList< QUrl > &paths)
 
 int AlbumControl::createAlbum(const QString &newName)
 {
-    qDebug() << "AlbumControl::createAlbum - Function entry, newName:" << newName;
+    qDebug() << "AlbumControl::createAlbum - Function entry";
     QString createAlbumName = getNewAlbumName(newName);
     int createUID = DBManager::instance()->createAlbum(createAlbumName, QStringList(" "));
     DBManager::instance()->insertIntoAlbum(createUID, QStringList(" "));
@@ -2042,10 +2042,9 @@ QString AlbumControl::getDeleteFullPath(const QString &hash, const QString &file
     return result;
 }
 
-//需求变更：允许相册重名，空字符串返回Unnamed，其余字符串返回本名
 const QString AlbumControl::getNewAlbumName(const QString &baseName)
 {
-    qDebug() << "AlbumControl::getNewAlbumName - Function entry, baseName:" << baseName;
+    qDebug() << "AlbumControl::getNewAlbumName - Function entry";
     QString albumName;
     if (baseName.isEmpty()) {
         qDebug() << "AlbumControl::getNewAlbumName - Branch: baseName is empty, using 'Unnamed'";
@@ -2054,8 +2053,67 @@ const QString AlbumControl::getNewAlbumName(const QString &baseName)
         qDebug() << "AlbumControl::getNewAlbumName - Branch: using provided baseName";
         albumName = baseName;
     }
-    qDebug() << "AlbumControl::getNewAlbumName - Function exit, returning:" << albumName;
-    return static_cast<const QString>(albumName);
+
+    // Collect existing custom album names
+    QSet<QString> existingNames;
+    QList<std::pair<int, QString>> albumList = DBManager::instance()->getAllAlbumNames(Custom);
+    for (const auto &pair : albumList) {
+        existingNames.insert(pair.second);
+    }
+
+    if (!existingNames.contains(albumName)) {
+        qDebug() << "AlbumControl::getNewAlbumName - Function exit, name available";
+        return albumName;
+    }
+
+    // Strip trailing digits to get the base name for number allocation
+    // Only strip when there's a non-digit prefix (e.g. "相册1" → "相册")
+    // Pure-digit names (e.g. "123") cannot be split, just append number after
+    int lastNonDigit = -1;
+    for (int i = albumName.size() - 1; i >= 0; --i) {
+        if (!albumName.at(i).isDigit()) {
+            lastNonDigit = i;
+            break;
+        }
+    }
+    QString nameBase = (lastNonDigit >= 0 && lastNonDigit < albumName.size() - 1)
+        ? albumName.left(lastNonDigit + 1) : albumName;
+
+    // Find next available number suffix using string operations (no regex)
+    // nameBase always ends with a non-digit (from strip logic above),
+    // so startsWith won't cause false prefix matches across number boundaries.
+    QSet<int> usedNums;
+    usedNums.insert(0); // base name itself counts as slot 0
+    for (const QString &name : existingNames) {
+        if (name == nameBase) {
+            continue; // already counted as slot 0
+        }
+        if (name.startsWith(nameBase) && name.size() > nameBase.size()
+            && name.at(nameBase.size()).isDigit()) {
+            QString suffix = name.mid(nameBase.size());
+            bool ok = false;
+            int n = suffix.toInt(&ok);
+            // toInt + round-trip check ensures suffix is purely numeric,
+            // no leading zeros, and fits in int range
+            if (ok && QString::number(n) == suffix) {
+                usedNums.insert(n);
+            }
+        }
+    }
+
+    int num = 1;
+    static const int maxSuffix = 9999;
+    while (usedNums.contains(num) && num <= maxSuffix) {
+        num++;
+    }
+    if (num > maxSuffix) {
+        qDebug() << "AlbumControl::getNewAlbumName - max suffix reached, using timestamp";
+        return nameBase + QString::number(QDateTime::currentMSecsSinceEpoch());
+    }
+
+    albumName = nameBase + QString::number(num);
+    qDebug() << "AlbumControl::getNewAlbumName - Function exit, generated name with suffix";
+    return albumName;
 }
 
 bool AlbumControl::canFavorite(const QStringList &pathList)
@@ -2255,10 +2313,30 @@ void AlbumControl::updateInfoPath(const QString &oldPath, const QString &newPath
 
 bool AlbumControl::renameAlbum(int UID, const QString &newName)
 {
-    qDebug() << "AlbumControl::renameAlbum - Function entry, UID:" << UID << "newName:" << newName;
-    DBManager::instance()->renameAlbum(UID, newName);
-    qDebug() << "AlbumControl::renameAlbum - Function exit, returning: true";
-    return true;
+    qDebug() << "AlbumControl::renameAlbum - Function entry, UID:" << UID;
+    if (newName.isEmpty()) {
+        qDebug() << "AlbumControl::renameAlbum - empty name, keeping original";
+        return false;
+    }
+
+    // Check if name conflicts with other albums; if so, keep original name
+    QList<std::pair<int, QString>> albumList = DBManager::instance()->getAllAlbumNames(Custom);
+    for (const auto &pair : albumList) {
+        if (pair.first == UID) {
+            // Name unchanged, no need to update
+            if (pair.second == newName) {
+                qDebug() << "AlbumControl::renameAlbum - name unchanged, skipping";
+                return true;
+            }
+        } else if (pair.second == newName) {
+            qDebug() << "AlbumControl::renameAlbum - name already exists, keeping original";
+            return false;
+        }
+    }
+
+    bool ok = DBManager::instance()->renameAlbum(UID, newName);
+    qDebug() << "AlbumControl::renameAlbum - Function exit, success:" << ok;
+    return ok;
 }
 
 QVariant AlbumControl::searchPicFromAlbum(int UID, const QString &keywords, bool useAI)
