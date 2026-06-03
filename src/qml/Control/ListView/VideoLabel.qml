@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -17,11 +17,7 @@ Label {
     verticalAlignment: Text.AlignVCenter
     horizontalAlignment: Text.AlignHCenter
 
-    property Palette textColor: Palette {
-        normal: ("black")
-        normalDark: ("white")
-    }
-    color: ColorSelector.textColor
+    color: DTK.themeType === ApplicationHelper.LightType ? "black" : "white"
     background: Rectangle {
         color: DTK.themeType === ApplicationHelper.LightType ? "#EEEEEE" : "#111111"
         radius: 20
