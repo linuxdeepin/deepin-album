@@ -1,3 +1,11 @@
+deepin-album (6.0.60) unstable; urgency=medium
+
+  * fix(startup): eliminate dock flicker and content pop-in
+  * fix(qml): fix video time label color not updating on theme switch
+  * fix(album): prevent duplicate album names on create and rename
+
+ -- Wang Yu <wangyu@uniontech.com>  Thu, 04 Jun 2026 21:18:23 +0800
+
 deepin-album (6.0.59) unstable; urgency=medium
 
   * fix(import): prevent duplicate entries and wrong prompts on re-import
