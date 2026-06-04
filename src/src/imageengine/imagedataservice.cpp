@@ -346,6 +346,9 @@ void ReadThumbnailManager::readThumbnail()
 {
     qDebug() << "Starting thumbnail read process";
     int sendCounter = 0; //刷新上层界面指示
+    int loadedCount = 0; // Total processed images for first-screen prioritized refresh
+    // Refresh every image on first screen for quick appearance; batch every 5 after to reduce overhead
+    const int kFirstScreenCount = 15;
     runningFlag = true;  //告诉外面加载队列处于激活状态
 
     while (1) {
@@ -365,8 +368,9 @@ void ReadThumbnailManager::readThumbnail()
 
         mutex.unlock();
 
+        loadedCount++;
         sendCounter++;
-        if (sendCounter == 5) { //每加载5张图，就让上层界面主动刷新一次
+        if (loadedCount <= kFirstScreenCount || sendCounter == 5) { // Each image on first screen, then every 5 loaded
             sendCounter = 0;
             emit ImageDataService::instance()->sigeUpdateListview();
         }

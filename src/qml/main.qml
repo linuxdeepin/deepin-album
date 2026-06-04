@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -89,12 +89,13 @@ ApplicationWindow {
     minimumWidth: GStatus.minWidth
     width: FileControl.getlastWidth()
     height: FileControl.getlastHeight()
+    // Bind centered coordinates at declaration time so first frame map is already centered,
+    // avoiding position jump/flicker from mapping at (0,0) then setX/setY in onCompleted.
+    x: Screen.width / 2 - width / 2
+    y: Screen.height / 2 - height / 2
 
     flags: Qt.Window | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
     Component.onCompleted: {
-        setX(screen.width / 2 - width / 2);
-        setY(screen.height / 2 - height / 2);
-
         // 合集-所有项视图延迟刷新，解决其加载时会闪烁显示一张缩略图的问题
         GStatus.currentViewType = Album.Types.ViewCollecttion
         GStatus.currentDeviceName = albumControl.getDeviceName(GStatus.currentDevicePath)
