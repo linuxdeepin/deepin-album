@@ -17,6 +17,14 @@ BaseView {
     property int currentViewIndex: 3
     property int rollingWidth: collecttView.width + 20
 
+    // DayCollection contains heavy QWidget(TimeLineView) that slows window map.
+    // Defer creation via Loader until after map or when switching to day view (index===2).
+    // Once dayReady is true, loading is locked (active implies status===Loader.Ready).
+    property bool dayReady: false
+    // Stash day/month switch requests before Loader is ready, replay in onLoaded.
+    property bool pendingDaySwitch: false
+    property var pendingMonthArgs: undefined
+
     // 通知日视图刷新状态栏提示信息
     signal flushDayViewStatusText()
 
@@ -35,15 +43,14 @@ BaseView {
             if (monthCollection.x < 0)
                 monthCollection.x = rollingWidth
         } else if (index === 2) {
-            if (dayCollection.count === 0)
-                dayCollection.flushView()
-            if (dayCollection.x < 0)
-                dayCollection.x = rollingWidth
-            if (!dayCollection.visible) {
-                dayCollection.visible = true
+            var dayItem = dayCollectionLoader.item
+            if (!dayItem) {
+                // Day view not created yet: stash request, activate Loader, replay onLoaded
+                pendingDaySwitch = true
+                dayCollectionLoader.active = true
+            } else {
+                applyDayViewState(dayItem)
             }
-            dayCollection.unSelectAll()
-            flushDayViewStatusText()
         } else if (index === 3) {
             if (allCollection.x < 0)
                 allCollection.x = rollingWidth
@@ -59,20 +66,34 @@ BaseView {
         }
     }
 
+    // Apply day view state when switching to it (requires dayItem already created).
+    function applyDayViewState(dayItem) {
+        if (dayItem.count === 0)
+            dayItem.flushView()
+        if (dayItem.x < 0)
+            dayItem.x = rollingWidth
+        if (!dayItem.visible) {
+            dayItem.visible = true
+        }
+        dayItem.unSelectAll()
+        flushDayViewStatusText()
+    }
+
     onWidthChanged: {
         if (yearCollection.x < 0)
             yearCollection.x = -rollingWidth
         if (monthCollection.x < 0)
             monthCollection.x = -rollingWidth
-        if (dayCollection.x < 0)
-            dayCollection.x = -rollingWidth
+        if (dayCollectionLoader.item && dayCollectionLoader.item.x < 0)
+            dayCollectionLoader.item.x = -rollingWidth
         if (allCollection.x < 0)
             allCollection.x = -rollingWidth
     }
 
     onVisibleChanged: {
         allCollection.clearSelecteds()
-        dayCollection.unSelectAll()
+        if (dayCollectionLoader.item)
+            dayCollectionLoader.item.unSelectAll()
 
         if (visible) {
             GStatus.selectedPaths = []
@@ -100,13 +121,44 @@ BaseView {
         show: currentViewIndex === 1
     }
 
-    DayCollection {
-        id: dayCollection
-        visible: false
+    // DayCollection deferred/lazy-loaded (heavy QWidget, not involved in startup map).
+    Loader {
+        id: dayCollectionLoader
+        x: 0
         width: collecttView.width
         height: collecttView.height
-        viewType: 2
-        show: currentViewIndex === 2
+        asynchronous: false
+        active: dayReady || currentViewIndex === 2
+        sourceComponent: DayCollection {
+            id: dayCollection
+            visible: false
+            width: collecttView.width
+            height: collecttView.height
+            viewType: 2
+            show: collecttView.currentViewIndex === 2
+        }
+        onLoaded: {
+            // Exclusive visibility: only show when current view is actually day view
+            item.visible = collecttView.currentViewIndex === 2
+            if (collecttView.pendingDaySwitch) {
+                collecttView.pendingDaySwitch = false
+                collecttView.applyDayViewState(item)
+            }
+            if (collecttView.pendingMonthArgs !== undefined) {
+                var args = collecttView.pendingMonthArgs
+                collecttView.pendingMonthArgs = undefined
+                item.scrollToMonth(args.year, args.month)
+            }
+        }
+    }
+
+    // Create DayCollection after map so its embedded QWidget doesn't slow startup.
+    Timer {
+        id: dayDelayTimer
+        interval: 1
+        running: true
+        repeat: false
+        onTriggered: collecttView.dayReady = true
     }
 
     AllCollection {
@@ -135,7 +187,8 @@ BaseView {
         GStatus.currentSwitchType = Album.Types.ScaleInOUt
         setIndex(1)
         allCollection.x = -rollingWidth
-        dayCollection.x = -rollingWidth
+        if (dayCollectionLoader.item)
+            dayCollectionLoader.item.x = -rollingWidth
         monthCollection.scrollToYear(year)
     }
 
@@ -144,12 +197,17 @@ BaseView {
         GStatus.currentSwitchType = Album.Types.ScaleInOUt
         setIndex(2)
         allCollection.x = -rollingWidth
-        dayCollection.scrollToMonth(year, month)
+        var dayItem = dayCollectionLoader.item
+        if (dayItem) {
+            dayItem.scrollToMonth(year, month)
+        } else {
+            // Day view not created yet: stash jump params; setIndex(2) already activated Loader, replay onLoaded
+            pendingMonthArgs = { "year": year, "month": month }
+        }
     }
 
     Component.onCompleted: {
-        // 保证日聚合和所有照片视图互斥显示，以便列表控件全选逻辑只在显示的视图中生效
-        dayCollection.visible = currentViewIndex === 2
+        // dayCollection deferred; its exclusive visibility is set in Loader.onLoaded
         allCollection.visible = currentViewIndex === 3
 
         yearCollection.yearClicked.connect(onYearClicked)

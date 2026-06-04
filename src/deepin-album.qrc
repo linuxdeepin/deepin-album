@@ -11,6 +11,7 @@
         <file>qml/ThumbnailImageView/HaveImportedView/HaveImportedView.qml</file>
         <file>qml/ThumbnailImageView/RecentlyDeletedView/RecentlyDeletedView.qml</file>
         <file>qml/ThumbnailImageView/ThumbnailImage.qml</file>
+        <file>qml/ThumbnailImageView/DeferredView.qml</file>
         <file>qml/ThumbnailImageView/NoPictureView.qml</file>
         <file>qml/PreviewImageViewer/MainStack.qml</file>
         <file>qml/PreviewImageViewer/OpenImageWidget.qml</file>
