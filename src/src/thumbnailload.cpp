@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -806,12 +806,20 @@ QImage CollectionPublisher::createYearImage(const QString &year)
     }
     auto picPath = paths.at(0);
 
-    //TODO: 异常处理：裂图问题
-
-    //加载原图
+    // Fix: year cover may be a video file; use video frame to avoid corrupt image.
     QImage image;
-    QString error;
-    LibUnionImage_NameSpace::loadStaticImageFromFile(picPath, image, error);
+    if (LibUnionImage_NameSpace::isVideo(picPath)) {
+        image = MovieService::instance()->getMovieCover(QUrl::fromLocalFile(picPath));
+    } else {
+        QString error;
+        if (!LibUnionImage_NameSpace::loadStaticImageFromFile(picPath, image, error)) {
+            qWarning() << "Failed to load year cover image:" << picPath << "Error:" << error;
+        }
+    }
+    if (image.isNull()) {
+        qWarning() << "Failed to create year cover image:" << picPath;
+        return image;
+    }
     image = image.scaled(outputWidth, outputHeight, Qt::KeepAspectRatioByExpanding);
 
     return image;
