@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -13,12 +13,15 @@ FloatingPanel {
     //原生属性-开始
     id: idWindow
     width: 480; height: 93
-    opacity: 0.9
     visible: false
-    //原生属性-结束
 
-    //自定义属性-开始
-    //自定义属性-结束
+    // 不透明背景层，覆盖 FloatingPanel 默认的半透明模糊效果
+    Rectangle {
+        anchors.fill: parent
+        radius: idWindow.radius
+        color: palette.window
+        z: -1
+    }
 
     //窗口布局-开始
     ColumnLayout {
