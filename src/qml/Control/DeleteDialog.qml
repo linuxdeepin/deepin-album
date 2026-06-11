@@ -5,7 +5,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
-import QtQuick.Controls
 import QtQuick.Layouts
 
 import org.deepin.dtk 1.0
@@ -41,18 +40,18 @@ DialogWindow {
         type = deltype
         if(deltype === Album.Types.TrashNormal) {
             if(count === 1) {
-                textMetics.text = qsTr("Are you sure you want to delete this file locally?")
+                textMetrics.text = qsTr("Are you sure you want to delete this file locally?")
                 deleteTips.text  = qsTr("You can restore it in the trash")
             } else {
-                textMetics.text = qsTr("Are you sure you want to delete %1 files locally?").arg(count)
+                textMetrics.text = qsTr("Are you sure you want to delete %1 files locally?").arg(count)
                 deleteTips.text  = qsTr("You can restore them in the trash")
             }
         } else {
             if(count === 1) {
-                textMetics.text = qsTr("Are you sure you want to permanently delete this file?")
+                textMetrics.text = qsTr("Are you sure you want to permanently delete this file?")
                 deleteTips.text  = qsTr("You cannot restore it any longer")
             } else {
-                textMetics.text = qsTr("Are you sure you want to permanently delete %1 files?").arg(count)
+                textMetrics.text = qsTr("Are you sure you want to permanently delete %1 files?").arg(count)
                 deleteTips.text  = qsTr("You cannot restore them any longer")
             }
         }
@@ -75,12 +74,11 @@ DialogWindow {
             font: DTK.fontManager.t5
             verticalAlignment: Text.AlignBottom
             horizontalAlignment: Text.AlignHCenter
-            elide: Text.ElideRight
-            text: textMetics.elidedText
+            text: textMetrics.elidedText
             TextMetrics {
-                id: textMetics
+                id: textMetrics
                 elide: Text.ElideRight
-                elideWidth: 400
+                elideWidth: deleteTitle.width
                 font: deleteTitle.font
             }
         }
