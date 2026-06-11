@@ -21,11 +21,8 @@ DialogWindow {
 
     minimumWidth: 400
     maximumWidth: 400
-    minimumHeight: 160
-    maximumHeight: 160
 
     width: 400
-    height: 160
 
     header: DialogTitleBar {
         enableInWindowBlendBlur: false
@@ -61,86 +58,82 @@ DialogWindow {
         }
     }
 
-    //不显示弹窗直接删除
     function deleteDirectly() {
         sigDoDeleteImg()
     }
 
-    Label {
-        id: deleteTitle
-        anchors {
-            top: parent.top
-            horizontalCenter: parent.horizontalCenter
-        }
+    ColumnLayout {
+        id: mainLayout
+        spacing: 0
 
-        color: DTK.themeType === ApplicationHelper.LightType ? "black" : "white"
-        font: DTK.fontManager.t5
-        verticalAlignment: Text.AlignBottom
-        horizontalAlignment: Text.AlignHCenter
-        elide: Text.ElideRight
-        text: textMetics.elidedText
-        TextMetrics {
-            id: textMetics
+        Label {
+            id: deleteTitle
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignHCenter
+            Layout.topMargin: 10
+            color: DTK.themeType === ApplicationHelper.LightType ? "black" : "white"
+            font: DTK.fontManager.t5
+            verticalAlignment: Text.AlignBottom
+            horizontalAlignment: Text.AlignHCenter
             elide: Text.ElideRight
-            elideWidth: 400
-            font: deleteTitle.font
+            text: textMetics.elidedText
+            TextMetrics {
+                id: textMetics
+                elide: Text.ElideRight
+                elideWidth: 400
+                font: deleteTitle.font
+            }
         }
-    }
 
-    Label {
-        id: deleteTips
-        opacity: 0.7
-        anchors {
-            top: deleteTitle.bottom
-            horizontalCenter: deleteTitle.horizontalCenter
+        Label {
+            id: deleteTips
+            opacity: 0.7
+            Layout.fillWidth: true
+            Layout.topMargin: 4
+            Layout.alignment: Qt.AlignHCenter
+            font: DTK.fontManager.t6
+            verticalAlignment: Text.AlignBottom
+            horizontalAlignment: Text.AlignHCenter
         }
-        font: DTK.fontManager.t6
-        verticalAlignment: Text.AlignBottom
-        horizontalAlignment: Text.AlignHCenter
-    }
 
-    Button {
-        id: cancelbtn
-        anchors {
-            top: deleteTips.bottom
-            topMargin: 15
-            left: parent.left
-            leftMargin: 0
-        }
-        text: qsTr("Cancel")
-        width: 185
-        height: 36
-        font: DTK.fontManager.t6
-        onClicked: {
-            deleteDialog.visible = false
-        }
-    }
+        RowLayout {
+            Layout.fillWidth: true
+            Layout.topMargin: 15
+            Layout.bottomMargin: 10
+            Layout.alignment: Qt.AlignHCenter
 
-    WarningButton {
-        id: enterbtn
-        anchors {
-            top: deleteTips.bottom
-            topMargin: 15
-            left: cancelbtn.right
-            leftMargin: 10
-        }
-        text: qsTr("Delete")
-        width: 185
-        height: 36
-        font: DTK.fontManager.t6
-
-        onClicked: {
-            deleteDialog.visible = false
-            switch (type) {
-                case Album.Types.TrashNormal:
-                case Album.Types.TrashSel:
-                    sigDoDeleteImg()
-                    break
-                case Album.Types.TrashAll:
-                    sigDoAllDeleteImg()
-                    break
+            Button {
+                id: cancelbtn
+                Layout.preferredWidth: 185
+                Layout.preferredHeight: 36
+                text: qsTr("Cancel")
+                font: DTK.fontManager.t6
+                onClicked: {
+                    deleteDialog.visible = false
+                }
             }
 
+            WarningButton {
+                id: enterbtn
+                Layout.preferredWidth: 185
+                Layout.preferredHeight: 36
+                Layout.leftMargin: 10
+                text: qsTr("Delete")
+                font: DTK.fontManager.t6
+
+                onClicked: {
+                    deleteDialog.visible = false
+                    switch (type) {
+                        case Album.Types.TrashNormal:
+                        case Album.Types.TrashSel:
+                            sigDoDeleteImg()
+                            break
+                        case Album.Types.TrashAll:
+                            sigDoAllDeleteImg()
+                            break
+                    }
+                }
+            }
         }
     }
 
