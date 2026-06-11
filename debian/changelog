@@ -1,3 +1,12 @@
+deepin-album (6.0.61) unstable; urgency=medium
+
+  * fix: remove redundant import, fix typo and hardcode in DeleteDialog
+  * fix(dialog): use ColumnLayout for delete dialog to adapt to large font
+  * fix: fix progress dialog transparency overlapping import button
+  * fix(year-view): use video frame as cover to avoid corrupt image
+
+ -- Wang Yu <wangyu@uniontech.com>  Thu, 11 Jun 2026 19:33:41 +0800
+
 deepin-album (6.0.60) unstable; urgency=medium
 
   * fix(startup): eliminate dock flicker and content pop-in
