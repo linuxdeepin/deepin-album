@@ -36,6 +36,7 @@ class QmlWidget : public QQuickPaintedItem
 
     Q_PROPERTY(int viewType READ viewType WRITE setViewType NOTIFY viewTypeChanged)
     Q_PROPERTY(int filterType READ filterType WRITE setFilterType NOTIFY filterTypeChanged)
+    Q_PROPERTY(bool hideBuiltinFilter READ hideBuiltinFilter WRITE setHideBuiltinFilter)
     Q_PROPERTY(qreal scrollPosition READ scrollPosition NOTIFY scrollPositionChanged)
     Q_PROPERTY(qreal contentRatio READ contentRatio NOTIFY contentRatioChanged)
 public:
@@ -47,6 +48,10 @@ public:
 
     void setFilterType(int filterType);
     int filterType();
+
+    // Hide the builtin C++ filter widget; a QML FilterComboBox overlays it
+    void setHideBuiltinFilter(bool hide);
+    bool hideBuiltinFilter() const;
 
     qreal scrollPosition() const;
     qreal contentRatio() const;
@@ -90,6 +95,7 @@ protected slots:
 private:
     int m_viewType = Types::WidgetViewUnknown; //0:日视图 1:已导入视图
     int m_filterType = Types::All; // 0:所有 1:照片 2:视频
+    bool m_hideBuiltinFilter = false; // hide builtin C++ FilterWidget (QML overlay mode)
     bool m_disableHoverEvent {false}; // 日视图和已导入视图在刷新时，鼠标悬停事件路由不能执行，否则会访问之前已析构的QWidget控件，导致程序崩溃
 };
 

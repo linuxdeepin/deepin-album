@@ -61,6 +61,8 @@ public:
     ThumbnailListView *getListView();
     //tab进入时清除其他所有选中
     void clearAllSelection();
+    // Hide the builtin C++ FilterWidget so a QML FilterComboBox can overlay it
+    void setHideBuiltinFilter(bool hide);
 #if 1
     QStringList selectPaths();
 #endif
@@ -104,6 +106,9 @@ private:
     QmlWidget *m_qquickContainer;
     int m_suspensionHeight = 0;
     int m_timelineTitleHeight = 0;
+    // When true the builtin FilterWidget is hidden and filter changes are
+    // driven by QmlWidget::filterTypeChanged (QML FilterComboBox overlay)
+    bool m_hideBuiltinFilter = false;
 };
 
 #endif // IMPORTTIMELINEVIEW_H

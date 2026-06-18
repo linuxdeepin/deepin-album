@@ -168,6 +168,33 @@ void ImportTimeLineView::slotNoPicOrNoVideo(bool isNoResult)
     qDebug() << "No result state changed - Exit";
 }
 
+void ImportTimeLineView::setHideBuiltinFilter(bool hide)
+{
+    if (m_hideBuiltinFilter == hide)
+        return;
+
+    m_hideBuiltinFilter = hide;
+
+    // Toggle the builtin FilterWidget visibility at runtime
+    m_ToolButton->setVisible(!hide);
+
+    // In overlay mode filter changes come from QmlWidget::filterTypeChanged
+    // (written by the QML FilterComboBox); connect it to the existing handler
+    if (hide && m_qquickContainer) {
+        connect(m_qquickContainer, &QmlWidget::filterTypeChanged, this, [this]() {
+            int filterType = m_qquickContainer->filterType();
+            ExpansionPanel::FilteData data;
+            if (filterType == Types::Video)
+                data.type = ItemType::ItemTypeVideo;
+            else if (filterType == Types::Picture)
+                data.type = ItemType::ItemTypePic;
+            else
+                data.type = ItemType::ItemTypeNull;
+            sltCurrentFilterChanged(data);
+        });
+    }
+}
+
 void ImportTimeLineView::sltCurrentFilterChanged(ExpansionPanel::FilteData &data)
 {
     qDebug() << "Filter changed to type:" << data.type;
@@ -193,10 +220,13 @@ void ImportTimeLineView::sltCurrentFilterChanged(ExpansionPanel::FilteData &data
         m_qquickContainer->setFilterType(filterType);
     }
     clearAllSelection();
-    //如果过滤会后数量<=0，则不可用
-    bool hasItems = m_importTimeLineListView->getAppointTypeItemCount(m_ToolButton->getFilteType()) > 0;
-    m_ToolButton->setEnabled(hasItems);
-    m_ToolButton->setVisible(hasItems);
+    // If filtered count <= 0 the filter button is disabled
+    bool hasItems = m_importTimeLineListView->getAppointTypeItemCount(data.type) > 0;
+    // In overlay mode the builtin filter widget stays hidden regardless of item count
+    if (!m_hideBuiltinFilter) {
+        m_ToolButton->setEnabled(hasItems);
+        m_ToolButton->setVisible(hasItems);
+    }
     qDebug() << "Filter applied, items available:" << hasItems;
     m_importTimeLineListView->setFocus();
 }
@@ -286,7 +316,12 @@ void ImportTimeLineView::initTimeLineViewWidget()
     initDropDown();
 
     hDateNumLayout->addStretch(100);
-    hDateNumLayout->addWidget(m_ToolButton);
+    // Builtin FilterWidget is only added when not hidden (QML overlay mode)
+    if (!m_hideBuiltinFilter) {
+        hDateNumLayout->addWidget(m_ToolButton);
+    } else {
+        m_ToolButton->hide();
+    }
 
     titleViewLayout->addLayout(hImportLayout);
     titleViewLayout->addLayout(hDateNumLayout);
