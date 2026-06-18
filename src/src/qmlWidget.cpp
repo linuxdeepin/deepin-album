@@ -100,6 +100,27 @@ int QmlWidget::filterType()
     return m_filterType;
 }
 
+void QmlWidget::setHideBuiltinFilter(bool hide)
+{
+    if (m_hideBuiltinFilter == hide)
+        return;
+
+    m_hideBuiltinFilter = hide;
+
+    // Forward to the concrete view (built lazily by initWidget)
+    if (m_view) {
+        if (TimeLineView *view = dynamic_cast<TimeLineView *>(m_view))
+            view->setHideBuiltinFilter(hide);
+        else if (ImportTimeLineView *view = dynamic_cast<ImportTimeLineView *>(m_view))
+            view->setHideBuiltinFilter(hide);
+    }
+}
+
+bool QmlWidget::hideBuiltinFilter() const
+{
+    return m_hideBuiltinFilter;
+}
+
 void QmlWidget::initWidget()
 {
     if (nullptr == m_view) {
@@ -117,6 +138,15 @@ void QmlWidget::initWidget()
         m_view->setAutoFillBackground(true);
         m_view->setVisible(true);
         connectScrollSignals();
+
+        // Replay any hideBuiltinFilter value set before the view existed
+        // (QML may evaluate hideBuiltinFilter before viewType triggers init)
+        if (m_hideBuiltinFilter) {
+            if (TimeLineView *view = dynamic_cast<TimeLineView *>(m_view))
+                view->setHideBuiltinFilter(true);
+            else if (ImportTimeLineView *view = dynamic_cast<ImportTimeLineView *>(m_view))
+                view->setHideBuiltinFilter(true);
+        }
     }
 }
 
