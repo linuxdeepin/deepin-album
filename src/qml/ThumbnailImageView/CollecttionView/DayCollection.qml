@@ -52,6 +52,22 @@ SwitchViewAnimation {
             anchors.rightMargin: GStatus.verticalScrollBarWidth
             focus: false
             viewType: Album.Types.WidgetDayView
+            hideBuiltinFilter: true
+        }
+
+        // QML FilterComboBox overlay, replaces the builtin C++ filter widget
+        FilterComboBox {
+            id: filterCombo
+            anchors {
+                top: timeline.top
+                topMargin: 36
+                right: timeline.right
+                rightMargin: 6
+            }
+            width: 115
+            height: 30
+            currentIndex: timeline.filterType
+            onActivated: timeline.filterType = currentIndex
         }
 
         WidgetScrollBar {
