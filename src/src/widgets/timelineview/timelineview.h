@@ -94,6 +94,8 @@ public:
     // When true the builtin FilterWidget is hidden and filter changes are
     // driven by QmlWidget::filterTypeChanged (QML FilterComboBox overlay)
     bool m_hideBuiltinFilter = false;
+    // Guarded so a true->false->true toggle doesn't stack duplicate connections
+    QMetaObject::Connection m_filterTypeConn;
 };
 
 #endif // TIMELINEVIEW_H

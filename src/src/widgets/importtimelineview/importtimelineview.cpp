@@ -179,19 +179,24 @@ void ImportTimeLineView::setHideBuiltinFilter(bool hide)
     m_ToolButton->setVisible(!hide);
 
     // In overlay mode filter changes come from QmlWidget::filterTypeChanged
-    // (written by the QML FilterComboBox); connect it to the existing handler
-    if (hide && m_qquickContainer) {
-        connect(m_qquickContainer, &QmlWidget::filterTypeChanged, this, [this]() {
+    // (written by the QML FilterComboBox). Apply only the side effects the
+    // overlay needs — sltCurrentFilterChanged also drives the builtin button
+    // (count + enable/visible), which is hidden here, so bypass it.
+    if (hide && m_qquickContainer && !m_filterTypeConn) {
+        m_filterTypeConn = connect(m_qquickContainer, &QmlWidget::filterTypeChanged, this, [this]() {
+            ItemType type = ItemType::ItemTypeNull;
             int filterType = m_qquickContainer->filterType();
-            ExpansionPanel::FilteData data;
             if (filterType == Types::Video)
-                data.type = ItemType::ItemTypeVideo;
+                type = ItemType::ItemTypeVideo;
             else if (filterType == Types::Picture)
-                data.type = ItemType::ItemTypePic;
-            else
-                data.type = ItemType::ItemTypeNull;
-            sltCurrentFilterChanged(data);
+                type = ItemType::ItemTypePic;
+            m_importTimeLineListView->showAppointTypeItem(type);
+            clearAllSelection();
+            m_importTimeLineListView->setFocus();
         });
+    } else if (!hide && m_filterTypeConn) {
+        disconnect(m_filterTypeConn);
+        m_filterTypeConn = QMetaObject::Connection();
     }
 }
 
