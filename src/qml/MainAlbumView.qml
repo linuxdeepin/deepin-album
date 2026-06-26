@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -19,12 +19,55 @@ FadeInoutAnimation {
     property int lastWidth: 0
 
     //rename窗口
-    NewAlbumDialog {
+    Loader {
         id: newAlbum
+        active: false
+        property bool isChangeView: false
+        property bool importSelected: false
 
-        Component.onCompleted: {
-            GStatus.loading = false
+        sourceComponent: NewAlbumDialog {
+            isChangeView: newAlbum.isChangeView
+            importSelected: newAlbum.importSelected
+            onSigCreateAlbumDone: newAlbum.sigCreateAlbumDone()
         }
+
+        signal sigCreateAlbumDone()
+
+        function ensureDialog() {
+            active = true
+            return item
+        }
+
+        function setNormalEdit(num) {
+            var dialog = ensureDialog()
+            if (dialog)
+                dialog.setNormalEdit(num)
+        }
+
+        function getDefaultName() {
+            var dialog = ensureDialog()
+            return dialog ? dialog.defaultName : ""
+        }
+
+        function setX(value) {
+            var dialog = ensureDialog()
+            if (dialog)
+                dialog.setX(value)
+        }
+
+        function setY(value) {
+            var dialog = ensureDialog()
+            if (dialog)
+                dialog.setY(value)
+        }
+
+        function show() {
+            var dialog = ensureDialog()
+            if (dialog)
+                dialog.show()
+        }
+
+        Component.onCompleted: GStatus.loading = false
     }
 
     // 侧边导航栏
