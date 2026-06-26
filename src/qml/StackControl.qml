@@ -50,18 +50,78 @@ Item {
         id: menuItemStates
     }
 
-    EmptyWarningDialog {
+    Loader {
         id: emptyWarningDig
+        active: false
+        sourceComponent: EmptyWarningDialog {
+        }
+
+        function show() {
+            active = true
+            if (item)
+                item.show()
+        }
     }
 
     //delete窗口
-    DeleteDialog {
+    Loader {
         id: deleteDialog
+        active: false
+        sourceComponent: DeleteDialog {
+            onSigDoDeleteImg: deleteDialog.sigDoDeleteImg()
+            onSigDoAllDeleteImg: deleteDialog.sigDoAllDeleteImg()
+        }
+
+        signal sigDoDeleteImg()
+        signal sigDoAllDeleteImg()
+
+        function ensureDialog() {
+            active = true
+            return item
+        }
+
+        function setDisplay(deltype, count) {
+            var dialog = ensureDialog()
+            if (dialog)
+                dialog.setDisplay(deltype, count)
+        }
+
+        function show() {
+            var dialog = ensureDialog()
+            if (dialog)
+                dialog.show()
+        }
+
+        function deleteDirectly() {
+            var dialog = ensureDialog()
+            if (dialog)
+                dialog.deleteDirectly()
+        }
     }
 
     //export窗口
-    ExportDialog {
+    Loader {
         id: exportdig
+        active: false
+        sourceComponent: ExportDialog {
+        }
+
+        function ensureDialog() {
+            active = true
+            return item
+        }
+
+        function setParameter(path, toId) {
+            var dialog = ensureDialog()
+            if (dialog)
+                dialog.setParameter(path, toId)
+        }
+
+        function show() {
+            var dialog = ensureDialog()
+            if (dialog)
+                dialog.show()
+        }
     }
 
     //info的窗口
@@ -83,8 +143,17 @@ Item {
     }
 
     //视频info窗口
-    VideoInfoDialog{
+    Loader {
         id: videoInfomationDig
+        active: false
+        sourceComponent: VideoInfoDialog {
+        }
+
+        function show() {
+            active = true
+            if (item)
+                item.show()
+        }
     }
 
     //相册界面启动幻灯片（和看图界面启动有区别）

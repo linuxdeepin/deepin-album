@@ -118,8 +118,17 @@ Item {
         }
     }
 
-    EmptyWarningDialog {
+    Loader {
         id: emptyWarningDig
+        active: false
+        sourceComponent: EmptyWarningDialog {
+        }
+
+        function show() {
+            active = true
+            if (item)
+                item.show()
+        }
     }
 
     Connections {

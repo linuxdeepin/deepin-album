@@ -18,6 +18,7 @@ ApplicationWindow {
     id: window
 
     property bool isFullScreen: window.visibility === Window.FullScreen
+    property bool backgroundBlurReady: false
 
     // Bug fix: 使用 ListView 替换 PathView 时，出现内部的 mouseArea 鼠标操作会被 DWindow 截取
     // 导致 flicking 时拖动窗口，此处使用此标志禁用此行为
@@ -41,19 +42,23 @@ ApplicationWindow {
         color: "transparent"
         Row {
             anchors.fill: parent
-            BehindWindowBlur {
+            Loader {
                 id: leftBgArea
                 width: GStatus.sideBarWidth
                 height: parent.height
                 anchors.top: parent.top
-                blendColor: DTK.themeType === ApplicationHelper.LightType ? "#eaf7f7f7"
-                                                                          : "#ee252525"
-                Rectangle {
-                    width: 1
-                    height: parent.height
-                    anchors.right: parent.right
-                    color: DTK.themeType === ApplicationHelper.LightType ? "#eee7e7e7"
-                                                                         : "#11a2a2a2"
+                active: window.backgroundBlurReady && GStatus.stackControlCurrent === 0
+                sourceComponent: BehindWindowBlur {
+                    anchors.fill: parent
+                    blendColor: DTK.themeType === ApplicationHelper.LightType ? "#eaf7f7f7"
+                                                                              : "#ee252525"
+                    Rectangle {
+                        width: 1
+                        height: parent.height
+                        anchors.right: parent.right
+                        color: DTK.themeType === ApplicationHelper.LightType ? "#eee7e7e7"
+                                                                             : "#11a2a2a2"
+                    }
                 }
             }
             Rectangle {
@@ -99,6 +104,9 @@ ApplicationWindow {
         // 合集-所有项视图延迟刷新，解决其加载时会闪烁显示一张缩略图的问题
         GStatus.currentViewType = Album.Types.ViewCollecttion
         GStatus.currentDeviceName = albumControl.getDeviceName(GStatus.currentDevicePath)
+        Qt.callLater(function() {
+            backgroundBlurReady = true
+        })
     }
 
     onActiveChanged: {

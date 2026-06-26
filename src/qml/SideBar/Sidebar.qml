@@ -173,7 +173,10 @@ ScrollView {
         var numSet = new Set();
 
         // 正则表达式来匹配 defaultName 后面的数字
-        var regex = new RegExp("^" + newAlbum.defaultName + "(\\d*)$");
+        var baseName = newAlbum.getDefaultName();
+        // Escape regex metacharacters to prevent injection or parse errors
+        var escapedBaseName = baseName.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        var regex = new RegExp("^" + escapedBaseName + "(\\d*)$");
 
         for (var i = 0; i < customListModel.count; i++) {
             var displayName = customListModel.get(i).displayName;
@@ -536,8 +539,25 @@ ScrollView {
     }
 
     //删除相册确认弹窗
-    RemoveAlbumDialog {
+    Loader {
         id: removeAlbumDialog
+        active: false
+        property int deleteType: 0
+
+        sourceComponent: RemoveAlbumDialog {
+            deleteType: removeAlbumDialog.deleteType
+            onSigDoRemoveAlbum: function(type) {
+                removeAlbumDialog.sigDoRemoveAlbum(type)
+            }
+        }
+
+        signal sigDoRemoveAlbum(int type)
+
+        function show() {
+            active = true
+            if (item)
+                item.show()
+        }
     }
 
     //删除相册执行函数
