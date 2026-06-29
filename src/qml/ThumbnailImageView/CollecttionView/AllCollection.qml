@@ -20,13 +20,40 @@ SwitchViewAnimation {
 
     property int filterType: filterCombo.currentIndex // 筛选类型，默认所有
     property string numLabelText:""
-    property string selectedText: getSelectedNum(selectedPaths)
+    // Cached property: drop auto-binding so selectedPaths/numLabelText no longer each trigger a C++ count
+    property string selectedText: ""
     property alias count: theView.count
-    property var selectedPaths: GStatus.selectedPaths
     property int totalItemCount: 0
+    // Coalesce flag: multiple schedules in the same frame run doUpdateSelectedText only once
+    property bool updateSelectedTextPending: false
 
     function setDateRange(str) {
         dateRangeLabel.text = str
+    }
+
+    // Visibility gate: hidden views are not woken by selectedPathsChanged to do a type count
+    function shouldUpdateSelectedText() {
+        return visible && GStatus.currentCollecttionViewIndex === 3
+    }
+
+    // Schedule update: coalesce same-frame sources (selectedPathsChanged/flush/numLabelText change)
+    function scheduleUpdateSelectedText() {
+        if (!shouldUpdateSelectedText() || updateSelectedTextPending)
+            return
+        updateSelectedTextPending = true
+        Qt.callLater(doUpdateSelectedText)
+    }
+
+    // Actual update: read latest selectedPaths + numLabelText, count only once
+    function doUpdateSelectedText() {
+        updateSelectedTextPending = false
+        if (!shouldUpdateSelectedText())
+            return
+        var paths = GStatus.selectedPaths || []
+        selectedText = paths.length === 0
+                ? numLabelText
+                : GStatus.getSelectedNumText(paths, numLabelText)
+        GStatus.statusBarNumText = selectedText
     }
 
     // 筛选类型改变处理事件
@@ -38,8 +65,8 @@ SwitchViewAnimation {
     function clearSelecteds()
     {
         theView.selectAll(false)
-        selectedPaths = []
-        GStatus.selectedPaths = selectedPaths
+        GStatus.selectedPaths = []
+        scheduleUpdateSelectedText()
     }
 
     // 刷新所有项目视图内容
@@ -49,6 +76,8 @@ SwitchViewAnimation {
             return
         GStatus.selectedPaths = theView.selectedUrls
         getNumLabelText()
+        // numLabelText change does not auto-trigger an update, schedule explicitly
+        scheduleUpdateSelectedText()
         totalTimepScopeTimer.start()
     }
 
@@ -94,12 +123,12 @@ SwitchViewAnimation {
         }
     }
 
-    // 刷新选择项数标签
-    function getSelectedNum(paths) {
-        var selectedNumText = GStatus.getSelectedNumText(paths, numLabelText)
-        if (visible && GStatus.currentCollecttionViewIndex === 3)
-            GStatus.statusBarNumText = selectedNumText
-        return selectedNumText
+    // Unified selection entry: C++ setSelectedPaths also converges through this signal
+    Connections {
+        target: GStatus
+        function onSelectedPathsChanged() {
+            scheduleUpdateSelectedText()
+        }
     }
 
     Connections {
