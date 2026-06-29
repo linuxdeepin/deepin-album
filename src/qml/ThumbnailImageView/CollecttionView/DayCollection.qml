@@ -30,9 +30,11 @@ SwitchViewAnimation {
     // property var dayHeights: []
 
     property int filterType: timeline.filterType
-    property var selectedPaths: GStatus.selectedPaths
     property string numLabelText: "" //总数标签显示内容
-    property string selectedText: getSelectedText(selectedPaths)
+    // Cached property: drop auto-binding so selectedPaths/numLabelText no longer each trigger a C++ count
+    property string selectedText: ""
+    // Coalesce flag: multiple schedules in the same frame run doUpdateSelectedText only once
+    property bool updateSelectedTextPending: false
     property bool bShowImportTips: GStatus.currentViewType === Album.Types.ViewCollecttion
                                    && GStatus.currentCollecttionViewIndex === 2
                                    && numLabelText === ""
@@ -141,6 +143,31 @@ SwitchViewAnimation {
         }
     }
 
+    // Visibility gate: hidden views are not woken by selectedPathsChanged to do a type count
+    function shouldUpdateSelectedText() {
+        return visible && GStatus.currentCollecttionViewIndex === 2
+    }
+
+    // Schedule update: coalesce same-frame sources (selectedPathsChanged/filter/flush/external refresh)
+    function scheduleUpdateSelectedText() {
+        if (!shouldUpdateSelectedText() || updateSelectedTextPending)
+            return
+        updateSelectedTextPending = true
+        Qt.callLater(doUpdateSelectedText)
+    }
+
+    // Actual update: read latest selectedPaths + numLabelText, count only once
+    function doUpdateSelectedText() {
+        updateSelectedTextPending = false
+        if (!shouldUpdateSelectedText())
+            return
+        var paths = GStatus.selectedPaths || []
+        selectedText = paths.length === 0
+                ? numLabelText
+                : GStatus.getSelectedNumText(paths, numLabelText)
+        GStatus.statusBarNumText = selectedText
+    }
+
     onVisibleChanged: {
         // 窗口显示时，重置显示内容
         if (visible) {
@@ -150,8 +177,11 @@ SwitchViewAnimation {
 
     // 筛选类型改变处理事件
     onFilterTypeChanged: {
-        if (visible)
+        if (visible) {
             getNumLabelText()
+            // numLabelText change does not auto-trigger an update, schedule explicitly
+            scheduleUpdateSelectedText()
+        }
     }
 
     function flushView() {
@@ -159,6 +189,7 @@ SwitchViewAnimation {
             return
         timeline.refresh()
         getNumLabelText()
+        scheduleUpdateSelectedText()
     }
 
     function unSelectAll() {
@@ -175,10 +206,12 @@ SwitchViewAnimation {
         target: collecttionView
         function onFlushDayViewStatusText() {
             if (visible) {
-                if (selectedPaths.length > 0)
-                    getSelectedText(selectedPaths)
-                else
+                if (GStatus.selectedPaths.length > 0)
+                    getSelectedText(GStatus.selectedPaths)
+                else {
                     getNumLabelText()
+                    scheduleUpdateSelectedText()
+                }
             }
         }
     }
@@ -224,15 +257,10 @@ SwitchViewAnimation {
         }
     }
 
-    // 刷新选中项目标签内容
+    // Refresh selected-item label (wrapper: forwards to the coalesced entry; param kept for call compat)
     function getSelectedText(paths) {
-        if (!visible)
-            return "";
-
-        var selectedNumText = GStatus.getSelectedNumText(paths, numLabelText)
-        if (visible)
-            GStatus.statusBarNumText = selectedNumText
-        return selectedNumText
+        scheduleUpdateSelectedText()
+        return selectedText
     }
 
     //月视图切日视图
@@ -242,6 +270,11 @@ SwitchViewAnimation {
 
     Connections {
         target: GStatus
+
+        // Unified selection entry: C++ setSelectedPaths also converges through this signal
+        function onSelectedPathsChanged() {
+            scheduleUpdateSelectedText()
+        }
 
         function onSigSelectAll(sel) {
             if (visible) {
