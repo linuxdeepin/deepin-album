@@ -58,7 +58,15 @@ SwitchViewAnimation {
 
     // 筛选类型改变处理事件
     onFilterTypeChanged: {
-        flushAllCollectionView()
+        filterRefreshTimer.restart()
+    }
+
+    // Filter changes can arrive in quick succession; coalesce them before rebuilding the proxy model.
+    Timer {
+        id: filterRefreshTimer
+        interval: 100
+        repeat: false
+        onTriggered: flushAllCollectionView()
     }
 
     // 清空已选内容
