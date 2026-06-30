@@ -308,20 +308,21 @@ TitleBar {
                 }
 
                 function setChecked(index) {
-                    switch (index) {
-                    case 0:
-                        yButton.checked = true
-                        break
-                    case 1:
-                        mButton.checked = true
-                        break
-                    case 2:
-                        dButton.checked = true
-                        break
-                    case 3:
-                        allButton.checked = true
-                        break
-                    }
+                    yButton.checked = index === 0
+                    mButton.checked = index === 1
+                    dButton.checked = index === 2
+                    allButton.checked = index === 3
+                }
+
+                Component.onCompleted: {
+                    setChecked(GStatus.currentCollecttionViewIndex)
+                }
+            }
+
+            Connections {
+                target: GStatus
+                function onCurrentCollecttionViewIndexChanged() {
+                    collectionBtnBox.setChecked(GStatus.currentCollecttionViewIndex)
                 }
             }
 
@@ -329,7 +330,7 @@ TitleBar {
             // Only narrow windows (width<=showCollComboWidth) need this ComboBox; wide windows use the button group above.
             // Wrap in Loader for on-demand creation to avoid eager instantiation of a DTK ComboBox (popup/menu/listview) at wide-screen startup.
             // active does NOT bind window.width: binding it once caused width jitter to rebuild the ComboBox during popup hover, losing highlight state.
-            // collectionComboEverNarrow is a once-latch (monotonic true) — once the window has been narrow, create it and never destroy (stable, no jitter).
+            // collectionComboEverNarrow is a once-latch (monotonic true): once the window has been narrow, keep the ComboBox across width changes.
             Loader {
                 id: collectionComboLoader
                 Layout.minimumWidth: 100
@@ -360,14 +361,19 @@ TitleBar {
                     }
 
                     function setCurrentIndex(index) {
+                        if (collectionCombo.currentIndex === index) {
+                            collectionBtnBox.setChecked(index)
+                            return
+                        }
+
+                        blocksignal = true
                         collectionCombo.currentIndex = index
+                        blocksignal = false
+                        collectionBtnBox.setChecked(index)
                     }
 
                     function updateIndex() {
-                        blocksignal = true
-                        collectionCombo.currentIndex = GStatus.currentCollecttionViewIndex
-                        blocksignal = false
-                        collectionBtnBox.setChecked(collectionCombo.currentIndex)
+                        setCurrentIndex(GStatus.currentCollecttionViewIndex)
                     }
 
                     onCurrentIndexChanged: {
