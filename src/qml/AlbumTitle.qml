@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -49,15 +49,17 @@ TitleBar {
     property int showCollComboWidth: 884 //需要显示年月日下拉框时，主界面宽度
     property int layoutLeftMargin_AlignLeft: showHideleftSidebarButton.x + showHideleftSidebarButton.width // 显示比例按钮向标题左侧对齐时的布局留白宽度
     property int layoutLeftMargin_AlignRight: GStatus.sideBarWidth + 10 // 显示比例按钮向标题右侧对齐时的布局留白宽度
+    property bool collectionComboEverNarrow: false
 
     property int lastWidth: 0
     onWidthChanged: {
+        if (window.width <= showCollComboWidth)
+            collectionComboEverNarrow = true
 
         // 合集视图下，宽度变化，控制年月日控件显示类型
         if (GStatus.currentViewType === Album.Types.ViewCollecttion) {
             if (albumControl.getYears().length !== 0) {
                 collectionBtnBox.refreshVisilbe = !collectionBtnBox.refreshVisilbe
-                collectionCombo.refreshVisible = !collectionCombo.refreshVisible
             }
         }
 
@@ -204,7 +206,8 @@ TitleBar {
         spacing: 10
 
         width: {
-            var widthValue = window.width <= showCollComboWidth ? range1Button.width + 5 + collectionCombo.width + 10
+            var collComboW = collectionComboLoader.item ? collectionComboLoader.item.width : 0
+            var widthValue = window.width <= showCollComboWidth ? range1Button.width + 5 + collComboW + 10
                                                      : (range1Button.width + iconSize * 3 + allButton.width)
             return widthValue
         }
@@ -217,7 +220,7 @@ TitleBar {
                 id: range1Button
                 Layout.preferredWidth: iconSize
                 Layout.preferredHeight: iconSize
-                enabled: GStatus.statusBarNumText !== "" && !(GStatus.currentViewType === Album.Types.ViewCollecttion &&  collectionCombo.currentIndex === 0)
+                enabled: GStatus.statusBarNumText !== "" && !(GStatus.currentViewType === Album.Types.ViewCollecttion && GStatus.currentCollecttionViewIndex === 0)
                 ToolTip.visible: hovered
                 ToolTip.text: icon.name === "range1" ? qsTr("Original ratio") : qsTr("Square thumbnails")
                 icon {
@@ -263,7 +266,8 @@ TitleBar {
                     checked: true
                     onClicked: {
                         collectionBtnClicked(0)
-                        collectionCombo.setCurrentIndex(0)
+                        if (collectionComboLoader.item)
+                            collectionComboLoader.item.setCurrentIndex(0)
                     }
                 }
                 ToolButton {
@@ -274,7 +278,8 @@ TitleBar {
                     text: qsTr("M")
                     onClicked: {
                         collectionBtnClicked(1)
-                        collectionCombo.setCurrentIndex(1)
+                        if (collectionComboLoader.item)
+                            collectionComboLoader.item.setCurrentIndex(1)
                     }
                 }
                 ToolButton {
@@ -285,7 +290,8 @@ TitleBar {
                     text: qsTr("D")
                     onClicked: {
                         collectionBtnClicked(2)
-                        collectionCombo.setCurrentIndex(2)
+                        if (collectionComboLoader.item)
+                            collectionComboLoader.item.setCurrentIndex(2)
                     }
                 }
                 ToolButton {
@@ -296,7 +302,8 @@ TitleBar {
                     text: qsTr("All")
                     onClicked: {
                         collectionBtnClicked(3)
-                        collectionCombo.setCurrentIndex(3)
+                        if (collectionComboLoader.item)
+                            collectionComboLoader.item.setCurrentIndex(3)
                     }
                 }
 
@@ -318,49 +325,62 @@ TitleBar {
                 }
             }
 
-            // 年月日下拉框
-            ComboBox {
-                id: collectionCombo
+            // Y/M/D/All dropdown
+            // Only narrow windows (width<=showCollComboWidth) need this ComboBox; wide windows use the button group above.
+            // Wrap in Loader for on-demand creation to avoid eager instantiation of a DTK ComboBox (popup/menu/listview) at wide-screen startup.
+            // active does NOT bind window.width: binding it once caused width jitter to rebuild the ComboBox during popup hover, losing highlight state.
+            // collectionComboEverNarrow is a once-latch (monotonic true) — once the window has been narrow, create it and never destroy (stable, no jitter).
+            Loader {
+                id: collectionComboLoader
                 Layout.minimumWidth: 100
                 Layout.maximumWidth: 120
                 Layout.fillWidth: true
-                textRole: "text"
-                iconNameRole: "icon"
-                currentIndex: 3
-                flat: false
-                visible: {
-                    refreshVisible
-                    return GStatus.currentViewType === Album.Types.ViewCollecttion && albumControl.getYears().length !== 0 && window.width <= showCollComboWidth
-                }
+                active: collectionComboEverNarrow
+                        && GStatus.currentViewType === Album.Types.ViewCollecttion
+                        && albumControl.getYears().length !== 0
+                visible: GStatus.currentViewType === Album.Types.ViewCollecttion
+                         && albumControl.getYears().length !== 0
+                         && window.width <= showCollComboWidth
+                sourceComponent: ComboBox {
+                    id: collectionCombo
+                    textRole: "text"
+                    iconNameRole: "icon"
+                    currentIndex: 3
+                    flat: false
+                    hoverEnabled: true
+                    visible: collectionComboLoader.visible
 
-                property bool refreshVisible: false
-                property bool blocksignal: false
+                    property bool blocksignal: false
 
-                model: ListModel {
-                    ListElement { text: qsTr("Y"); icon: "" }
-                    ListElement { text: qsTr("M"); icon: "" }
-                    ListElement { text: qsTr("D"); icon: "" }
-                    ListElement { text: qsTr("All"); icon: "" }
-                }
+                    model: ListModel {
+                        ListElement { text: qsTr("Y"); icon: "" }
+                        ListElement { text: qsTr("M"); icon: "" }
+                        ListElement { text: qsTr("D"); icon: "" }
+                        ListElement { text: qsTr("All"); icon: "" }
+                    }
 
-                function setCurrentIndex(index) {
-                    collectionCombo.currentIndex = index
-                }
+                    function setCurrentIndex(index) {
+                        collectionCombo.currentIndex = index
+                    }
 
-                function updateIndex() {
-                    blocksignal = true
-                    collectionCombo.currentIndex = GStatus.currentCollecttionViewIndex
-                    blocksignal = false
-                }
+                    function updateIndex() {
+                        blocksignal = true
+                        collectionCombo.currentIndex = GStatus.currentCollecttionViewIndex
+                        blocksignal = false
+                        collectionBtnBox.setChecked(collectionCombo.currentIndex)
+                    }
 
-                onCurrentIndexChanged: {
-                    if (!blocksignal)
-                        collectionBtnClicked(currentIndex)
-                    collectionBtnBox.setChecked(currentIndex)
-                }
+                    onCurrentIndexChanged: {
+                        if (!blocksignal) {
+                            collectionBtnClicked(currentIndex)
+                            collectionBtnBox.setChecked(currentIndex)
+                        }
+                    }
 
-                Component.onCompleted: {
-                    GStatus.currentCollecttionViewIndexChanged.connect(updateIndex)
+                    Component.onCompleted: {
+                        GStatus.currentCollecttionViewIndexChanged.connect(updateIndex)
+                        updateIndex()
+                    }
                 }
             }
         }
@@ -371,6 +391,9 @@ TitleBar {
 
         Component.onCompleted: {
             rightLayout.anchors.leftMargin = title.width <= GStatus.needHideSideBarWidth ? layoutLeftMargin_AlignLeft : layoutLeftMargin_AlignRight
+            // onWidthChanged has not fired yet when startup is already narrow; re-check here
+            if (window.width <= showCollComboWidth)
+                collectionComboEverNarrow = true
         }
     }
 
