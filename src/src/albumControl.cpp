@@ -158,7 +158,8 @@ AlbumControl *AlbumControl::instance()
     if (!m_instance) {
         // qDebug() << "AlbumControl::instance - Branch: creating new AlbumControl singleton instance";
         m_instance = new AlbumControl();
-        m_instance->startMonitor();
+        // Defer to the event loop: startMonitor's DB/FS scans must not block first paint
+        QTimer::singleShot(0, m_instance, &AlbumControl::startMonitor);
     }
     // qDebug() << "AlbumControl::instance - Function exit";
     return m_instance;
