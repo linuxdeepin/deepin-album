@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 ~ 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -77,13 +77,14 @@ int main(int argc, char *argv[])
                    .arg(app.applicationVersion());
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();
 
-    QQmlApplicationEngine engine;
-    qDebug() << "Initializing QML engine";
-
+    // Reject duplicate instances before constructing the QML engine
     if (!DGuiApplicationHelper::instance()->setSingleInstance(app.applicationName(), DGuiApplicationHelper::UserScope)) {
         qWarning() << "Application instance already running, exiting";
         exit(0);
     }
+
+    QQmlApplicationEngine engine;
+    qDebug() << "Initializing QML engine";
 
     // 配置文件加载
     qDebug() << "Loading application configuration";
