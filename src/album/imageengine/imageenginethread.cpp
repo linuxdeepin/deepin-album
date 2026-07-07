@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -384,6 +384,22 @@ void ImportImagesThread::runDetail()
 
 void ImportImagesThread::pathCheck(QStringList *image_list, QStringList *curAlbumImportedPathList, QStringList &curAlbumImgPathList, const QString &path)
 {
+    // Check both DAC permissions (stat) and actual readability (open),
+    // because LSM-based access control (e.g. filearmor) only blocks open()
+    // but leaves stat()/access() untouched, making QFileInfo::isReadable()
+    // insufficient on its own.
+    if (!QFileInfo(path).isReadable()) {
+        qDebug() << "Skip unreadable file during import (DAC):" << path;
+        return;
+    }
+    {
+        QFile file(path);
+        if (!file.open(QIODevice::ReadOnly)) {
+            qDebug() << "Skip unreadable file during import (open failed):" << path;
+            return;
+        }
+        file.close();
+    }
     if (utils::image::imageSupportRead(path)) {
         if (curAlbumImgPathList.contains(path)) {
             *curAlbumImportedPathList << path;
