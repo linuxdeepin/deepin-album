@@ -61,21 +61,23 @@ ApplicationWindow {
                     }
                 }
             }
-            Rectangle {
-                id: rightBgArea
+            Loader {
+                active: window.backgroundBlurReady
                 width: parent.width
                 height: 50
-                anchors.top: parent.top
-                color: Qt.rgba(0, 0, 0, 0.01)
-                BoxShadow {
-                    anchors.fill: rightBgArea
-                    shadowOffsetX: 0
-                    shadowOffsetY: 4
-                    shadowColor: Qt.rgba(0, 0, 0, 0.05)
-                    shadowBlur: 10
-                    cornerRadius: rightBgArea.radius
-                    spread: 0
-                    hollow: true
+                sourceComponent: Rectangle {
+                    anchors.fill: parent
+                    color: Qt.rgba(0, 0, 0, 0.01)
+                    BoxShadow {
+                        anchors.fill: parent
+                        shadowOffsetX: 0
+                        shadowOffsetY: 4
+                        shadowColor: Qt.rgba(0, 0, 0, 0.05)
+                        shadowBlur: 10
+                        cornerRadius: parent.radius
+                        spread: 0
+                        hollow: true
+                    }
                 }
             }
         }
