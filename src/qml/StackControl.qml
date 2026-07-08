@@ -12,23 +12,42 @@ import org.deepin.album 1.0 as Album
 Item {
     anchors.fill: parent
     //本文件用于替代stackwidget的作用，通过改变GStatus的0-n来切换窗口
+
+    // Defer MainStack/SliderShow to the next event-loop tick so they don't gate first paint
+    property bool deferredStackReady: false
+    Timer {
+        id: deferredStackTimer
+        interval: 1
+        running: true
+        repeat: false
+        onTriggered: deferredStackReady = true
+    }
+
     MainAlbumView{
         id: mainAlbumView
         idName: "mainAlbumView"
         show: GStatus.stackControlCurrent === 0
     }
-    MainStack{
+    Loader {
         id: mainStack
-        idName: "mainStack"
         anchors.fill: parent
-        show: GStatus.stackControlCurrent === 1
-        iconName: "deepin-album"
+        active: deferredStackReady
+        sourceComponent: MainStack {
+            idName: "mainStack"
+            anchors.fill: parent
+            show: GStatus.stackControlCurrent === 1
+            iconName: "deepin-album"
+        }
     }
-    SliderShow{
+    Loader {
         id: mainSliderShow
-        idName: "albumview"
         anchors.fill: parent
-        visible: GStatus.stackControlCurrent === 2
+        active: deferredStackReady
+        sourceComponent: SliderShow {
+            idName: "albumview"
+            anchors.fill: parent
+            visible: GStatus.stackControlCurrent === 2
+        }
     }
 
     //全屏动画
@@ -156,17 +175,27 @@ Item {
         }
     }
 
+    // Switch the deferred MainStack into image-view mode; no-op until the Loader finishes.
+    function switchMainStackView() {
+        if (mainStack.item)
+            mainStack.item.switchImageView()
+    }
+
     //相册界面启动幻灯片（和看图界面启动有区别）
     //images: 图片路径 startIndex: 启动后一个图的下标索引
     function startMainSliderShow(images, startIndex) {
+        // Bail if deferred views aren't loaded yet; otherwise state would flip
+        // to slideshow (stackControlCurrent=2) with a blank screen.
+        if (!mainStack.item || !mainSliderShow.item)
+            return
         showfullAnimation.start()
         showFullScreen()
         GControl.setImageFiles(images, images[startIndex])
         FileControl.resetImageFiles(images);
-        mainStack.switchImageView()
-        mainSliderShow.autoRun = true
-        mainSliderShow.source = "image://ImageLoad/" + GControl.currentSource + "#frame_" + GControl.currentFrameIndex;
-        mainSliderShow.restart()
+        switchMainStackView()
+        mainSliderShow.item.autoRun = true
+        mainSliderShow.item.source = "image://ImageLoad/" + GControl.currentSource + "#frame_" + GControl.currentFrameIndex;
+        mainSliderShow.item.restart()
         GStatus.stackControlCurrent = 2
         mainAlbumView.visible = false
     }
