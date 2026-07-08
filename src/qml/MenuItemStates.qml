@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -72,7 +72,7 @@ Item {
             } else {
                 GControl.setImageFiles(allUrls, url)
                 FileControl.resetImageFiles(allUrls);
-                mainStack.switchImageView()
+                stackControl.switchMainStackView()
                 GStatus.stackControlCurrent = 1
             }
         }
@@ -93,7 +93,7 @@ Item {
         if (window.visibility !== Window.FullScreen && selectedUrls.length > 0) {
             GControl.setImageFiles(allUrls, url)
             FileControl.resetImageFiles(allUrls);
-            mainStack.switchImageView()
+            stackControl.switchMainStackView()
             GStatus.stackControlLastCurrent = GStatus.stackControlCurrent
             GStatus.stackControlCurrent = 1
             GStatus.showFullScreen = true

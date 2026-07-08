@@ -406,7 +406,7 @@ FadeInoutAnimation {
             } else if (FileControl.isImage(tempPath)){
                 GControl.setImageFiles(paths, tempPath)
                 FileControl.resetImageFiles(paths);
-                mainStack.switchImageView()
+                stackControl.switchMainStackView()
                 GStatus.stackControlCurrent = 1
             }
         }
