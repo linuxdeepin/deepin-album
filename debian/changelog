@@ -1,3 +1,21 @@
+deepin-album (6.0.62) unstable; urgency=medium
+
+  * chore: Update version to 6.0.62
+  * fix: defer top shadow BoxShadow to backgroundBlurReady
+  * fix: defer MainStack/SliderShow construction to event loop
+  * fix: move single-instance check before QML engine
+  * fix: defer AlbumControl monitor start to event loop
+  * fix(view): simplify AlbumTitle setChecked and sync on GStatus change
+  * perf(qml): lazy-load AlbumTitle collectionCombo for wide-screen startup
+  * perf(qml): debounce AllCollection filter change refresh
+  * perf(qml): coalesce status-bar text updates in All/Day views
+  * perf(qml): lazy-load startup dialogs and background blur
+  * fix(view): QML filter overlay change handler
+  * feat(view): add QML FilterComboBox overlay to DayCollection
+  * feat(view): replace C++ FilterWidget with QML FilterComboBox overlay
+
+ -- zhanghongyuan <zhanghongyuan@uniontech.com>  Thu, 09 Jul 2026 13:07:33 +0800
+
 deepin-album (6.0.61) unstable; urgency=medium
 
   * fix: remove redundant import, fix typo and hardcode in DeleteDialog
