@@ -7,7 +7,7 @@ version: '1'
 package:
   id: org.deepin.album
   name: deepin-album
-  version: 6.0.61.1
+  version: 6.0.62.1
   kind: app
   description: |
     album for deepin os.
@@ -16,7 +16,7 @@ command:
   - deepin-album
 
 base: org.deepin.base/25.2.2
-runtime: org.deepin.runtime.webengine/25.2.2
+runtime: org.deepin.runtime.webengine/6.7.0
 
 build: |
   # 下载和安装依赖
