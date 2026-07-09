@@ -353,7 +353,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="155"/>
         <source>0 item</source>
-        <translation>1 предмет {0 }</translation>
+        <translation>1 предмет {0 ?}</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CustomAlbum/CustomAlbum.qml" line="219"/>
@@ -449,17 +449,17 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="48"/>
         <source>Are you sure you want to delete this file locally?</source>
-        <translation>Вы уверены, что хотите локально удалить этот файл?</translation>
+        <translation>Уверены, что хотите локально удалить этот файл?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="49"/>
         <source>You can restore it in the trash</source>
-        <translation>Вы можете восстановить их в корзину</translation>
+        <translation>Вы можете восстановить их в корзине</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="51"/>
         <source>Are you sure you want to delete %1 files locally?</source>
-        <translation>Вы уверены, что хотите локально удалить %1 файлов?</translation>
+        <translation>Уверены, что хотите локально удалить %1 файлов?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="52"/>
@@ -469,7 +469,7 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="56"/>
         <source>Are you sure you want to permanently delete this file?</source>
-        <translation>Вы уверены, что хотите навсегда удалить этот файл?</translation>
+        <translation>Уверены, что хотите навсегда удалить этот файл?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="57"/>
@@ -479,7 +479,7 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="59"/>
         <source>Are you sure you want to permanently delete %1 files?</source>
-        <translation>Вы уверены, что хотите безвозвратно удалить %1 файлов?</translation>
+        <translation>Уверены, что хотите безвозвратно удалить %1 файлов?</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="60"/>
@@ -1044,7 +1044,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="215"/>
         <source>Max aperture</source>
-        <translation>Максимальная Диафрагма</translation>
+        <translation>Максимальная диафрагма</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/InformationDialog/InformationDialog.qml" line="222"/>
@@ -1094,7 +1094,7 @@
     <message>
         <location filename="../qml/MainAlbumView.qml" line="263"/>
         <source>Import successful</source>
-        <translation>Импорт успешно завершен</translation>
+        <translation>Импорт успешно завершён</translation>
     </message>
     <message>
         <location filename="../qml/MainAlbumView.qml" line="270"/>
@@ -1414,7 +1414,7 @@
     <message>
         <location filename="../qml/Control/RemoveAlbumDialog.qml" line="42"/>
         <source>Are you sure you want to delete this album?</source>
-        <translation>Вы уверены, что хотите удалить этот альбом?</translation>
+        <translation>Уверены, что хотите удалить этот альбом?</translation>
     </message>
     <message>
         <location filename="../qml/Control/RemoveAlbumDialog.qml" line="55"/>
@@ -1499,7 +1499,7 @@
         <location filename="../qml/SideBar/Sidebar.qml" line="127"/>
         <location filename="../qml/SideBar/Sidebar.qml" line="151"/>
         <source>Album “%1” removed</source>
-        <translation>Альбом “%1” удален</translation>
+        <translation>Альбом «%1» удалён</translation>
     </message>
     <message>
         <location filename="../qml/SideBar/Sidebar.qml" line="205"/>
@@ -1946,7 +1946,7 @@
     <message>
         <location filename="../qml/Control/ListView/ThumbnailListViewAlbum.qml" line="1072"/>
         <source>Video info</source>
-        <translation>Информация о  видео</translation>
+        <translation>Информация о видео</translation>
     </message>
 </context>
 <context>
