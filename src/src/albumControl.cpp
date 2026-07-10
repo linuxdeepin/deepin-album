@@ -2888,8 +2888,10 @@ void AlbumControl::loadDeviceAlbumInfoAsync(const QString &devicePath)
 
     m_PhonePicFileMap.insert(devicePath, nullptr);
     QThreadPool::globalInstance()->start([=](){
-        // Notify load device info
-        Q_EMIT deviceAlbumInfoLoadStart(devicePath);
+        // Notify QML through the GUI thread before updating the loading dialog.
+        QMetaObject::invokeMethod(qApp, [=](){
+            Q_EMIT deviceAlbumInfoLoadStart(devicePath);
+        }, Qt::QueuedConnection);
 
         //获取所选文件类型过滤器
         QStringList filters;
