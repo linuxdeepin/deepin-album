@@ -33,7 +33,7 @@ FileInotify::FileInotify(QObject *parent)
         eachData = eachData.toUpper();
     }
 
-    m_timer = new QTimer();
+    m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &FileInotify::onNeedSendPictures);
 
     connect(&m_watcher, &QFileSystemWatcher::directoryChanged, this, [this](const QString & path) {
