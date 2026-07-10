@@ -152,6 +152,10 @@ void AsyncImageResponse::run()
     QString tempPath;
     int frameIndex;
     parseProviderID(providerId, tempPath, frameIndex);
+    if (tempPath.isEmpty()) {
+        emit finished();
+        return;
+    }
 
     // 判断缓存中是否存在图片
     image = provider->imageCache.get(tempPath, frameIndex);
