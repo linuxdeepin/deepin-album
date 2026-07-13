@@ -20,7 +20,7 @@ BaseView {
     property string deviceName: GStatus.currentDeviceName
     property int filterType: 0
     property int currentImportIndex: 0
-    property var numLabelText
+    property string numLabelText: ""
     property string selectedText: getSelectedText(selectedPaths)
     property alias selectedPaths: theView.selectedPaths
 
