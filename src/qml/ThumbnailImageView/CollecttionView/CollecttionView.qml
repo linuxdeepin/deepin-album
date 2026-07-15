@@ -17,12 +17,12 @@ BaseView {
     property int currentViewIndex: 3
     property int rollingWidth: collecttView.width + 20
 
-    // DayCollection contains heavy QWidget(TimeLineView) that slows window map.
-    // Defer creation via Loader until after map or when switching to day view (index===2).
-    // Once dayReady is true, loading is locked (active implies status===Loader.Ready).
-    property bool dayReady: false
+    // DayCollection contains heavy QWidget(TimeLineView); create it only when
+    // the user switches to the day view (index===2).
     // Stash day/month switch requests before Loader is ready, replay in onLoaded.
     property bool pendingDaySwitch: false
+    // Keep the heavy day view after its first explicit selection.
+    property bool dayLoadedOnce: false
     property var pendingMonthArgs: undefined
 
     // 通知日视图刷新状态栏提示信息
@@ -47,7 +47,7 @@ BaseView {
             if (!dayItem) {
                 // Day view not created yet: stash request, activate Loader, replay onLoaded
                 pendingDaySwitch = true
-                dayCollectionLoader.active = true
+                dayLoadedOnce = true
             } else {
                 applyDayViewState(dayItem)
             }
@@ -128,7 +128,7 @@ BaseView {
         width: collecttView.width
         height: collecttView.height
         asynchronous: false
-        active: dayReady || currentViewIndex === 2
+        active: currentViewIndex === 2 || dayLoadedOnce
         sourceComponent: DayCollection {
             id: dayCollection
             visible: false
@@ -150,15 +150,6 @@ BaseView {
                 item.scrollToMonth(args.year, args.month)
             }
         }
-    }
-
-    // Create DayCollection after map so its embedded QWidget doesn't slow startup.
-    Timer {
-        id: dayDelayTimer
-        interval: 1
-        running: true
-        repeat: false
-        onTriggered: collecttView.dayReady = true
     }
 
     AllCollection {

@@ -5,16 +5,14 @@
 import QtQuick
 import org.deepin.album 1.0 as Album
 
-// View Loader deferred until after window map (or when this view becomes current), stays loaded once created.
-// Delay logic unified in one place to avoid repetition across views.
-//   active = ready (after map) || current view is this view
+// View Loader created only when this view becomes current, then stays loaded.
 Loader {
-    // Set to true by host to signal deferral can start (after map).
-    property bool ready: false
     // The Album.Types.View* type this Loader carries.
     property int viewType: -1
+    property bool loadedOnce: false
 
     anchors.fill: parent
     asynchronous: false
-    active: ready || GStatus.currentViewType === viewType
+    active: loadedOnce || GStatus.currentViewType === viewType
+    onLoaded: loadedOnce = true
 }

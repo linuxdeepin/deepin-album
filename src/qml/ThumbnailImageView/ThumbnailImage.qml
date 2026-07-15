@@ -24,24 +24,14 @@ import "./../"
 Item {
     id: thumbView
 
-    // Window must map quickly: slow map triggers dock launcher timeout, causing icon flicker.
-    // Only default CollecttionView is created sync during engine.load; other 8 views all embed
-    // QWidgets (can't use async Loader), so they're deferred by viewDelayTimer until after map.
-    // interval is minimal (next event loop), just yields current frame to let window map first.
-    property bool delayedViewsReady: false
-    Timer {
-        id: viewDelayTimer
-        interval: 1
-        running: true
-        repeat: false
-        onTriggered: thumbView.delayedViewsReady = true
-    }
+    // Window must map quickly: only the default collection view is created at
+    // startup. Other views are created when first selected.
 
     // Default Collection view created sync (active: true) so window map shows real thumbnails
     // (AllCollection) immediately, eliminating "shell->content" pop-in. Its heavy DayCollection child
-    // is already split into Loader in CollecttionView.qml, keeping this light. Other 8 views still
-    // deferred by viewDelayTimer. If user clicks year/month/day before this view loads, setIndex
-    // would be lost (item is null), so use pendingCollectionIndex to stash and replay onLoaded.
+    // is already split into Loader in CollecttionView.qml, keeping this light. Other views load on
+    // first selection. If user clicks year/month/day before this view loads, setIndex would be lost
+    // (item is null), so use pendingCollectionIndex to stash and replay onLoaded.
     property int pendingCollectionIndex: -1
     Loader {
         id: collecttionViewLoader
@@ -59,41 +49,33 @@ Item {
             }
         }
     }
-    // Other views deferred until after map (or when selected), stay loaded once created.
-    // Delay logic unified in DeferredView, not repeated per view.
+    // Other views are loaded on first selection and stay loaded afterwards.
     DeferredView {
-        ready: delayedViewsReady
         viewType: Album.Types.ViewHaveImported
         sourceComponent: HaveImportedView { show: GStatus.currentViewType === Album.Types.ViewHaveImported }
     }
     DeferredView {
-        ready: delayedViewsReady
         viewType: Album.Types.ViewFavorite
         sourceComponent: CustomAlbum { show: GStatus.currentViewType === Album.Types.ViewFavorite }
     }
     DeferredView {
-        ready: delayedViewsReady
         viewType: Album.Types.ViewRecentlyDeleted
         sourceComponent: RecentlyDeletedView { show: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted }
     }
     DeferredView {
-        ready: delayedViewsReady
         viewType: Album.Types.ViewCustomAlbum
         sourceComponent: CustomAlbum { show: GStatus.currentViewType === Album.Types.ViewCustomAlbum }
     }
     DeferredView {
-        ready: delayedViewsReady
         viewType: Album.Types.ViewSearchResult
         sourceComponent: SearchView { show: GStatus.currentViewType === Album.Types.ViewSearchResult }
     }
     DeferredView {
-        ready: delayedViewsReady
         viewType: Album.Types.ViewDevice
         sourceComponent: DeviceAlbum { show: GStatus.currentViewType === Album.Types.ViewDevice }
     }
     DeferredView {
         id: classificationViewLoader
-        ready: delayedViewsReady
         viewType: Album.Types.ViewClassification
         sourceComponent: ClassificationView {
             id: classificationView
@@ -110,7 +92,6 @@ Item {
     }
     DeferredView {
         id: classificationDetailViewLoader
-        ready: delayedViewsReady
         viewType: Album.Types.ViewClassificationDetail
         sourceComponent: ClassificationDetailView {
             id: classificationDetailView
