@@ -9,10 +9,22 @@ import org.deepin.album 1.0 as Album
 Loader {
     // The Album.Types.View* type this Loader carries.
     property int viewType: -1
-    property bool loadedOnce: false
 
     anchors.fill: parent
     asynchronous: false
-    active: loadedOnce || GStatus.currentViewType === viewType
-    onLoaded: loadedOnce = true
+    active: false
+
+    function loadCurrentView() {
+        if (!active && GStatus.currentViewType === viewType)
+            active = true
+    }
+
+    Connections {
+        target: GStatus
+        function onCurrentViewTypeChanged() {
+            loadCurrentView()
+        }
+    }
+
+    Component.onCompleted: loadCurrentView()
 }
