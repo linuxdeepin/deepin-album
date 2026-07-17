@@ -18,6 +18,8 @@ BaseView {
     property string selectedText: getSelectedText(selectedPaths)
     property var selectedPaths: GStatus.selectedPaths
     property real titleOpacity: 0.7
+    // Set after a visible refresh so first construction can fall back safely.
+    property bool initialContentInitialized: false
     property bool bShowImportTips: numLabelText === ""
                                    && filterType === 0
                                    && albumControl.getAllCount() === 0
@@ -143,6 +145,7 @@ BaseView {
         unSelectAll()
         timeline.refresh()
         getNumLabelText()
+        initialContentInitialized = true
     }
 
     function unSelectAll() {
@@ -258,5 +261,13 @@ BaseView {
 
     Component.onCompleted: {
         GStatus.sigFlushHaveImportedView.connect(flushView)
+
+        // When this view is created by DeferredView after its show binding has
+        // already become true, onVisibleChanged has no transition to refresh
+        // the timeline. Fill it once so the first imported-view click renders.
+        Qt.callLater(function() {
+            if (visible && !initialContentInitialized)
+                flushView()
+        })
     }
 }
