@@ -105,6 +105,18 @@ FocusScope {
         ThumbnailTools.executeDelete()
     }
 
+    // Coalesce scroll and layout changes before querying the visible date range.
+    function scheduleTimeScope() {
+        timeScopeTimer.restart()
+    }
+
+    Timer {
+        id: timeScopeTimer
+        interval: 16
+        repeat: false
+        onTriggered: totalTimeScope()
+    }
+
     //统计当前页面的缩略图时间范围
     function totalTimeScope() {
         if(thumnailListType === Album.Types.ThumbnailAllCollection &&
@@ -116,7 +128,7 @@ FocusScope {
                 var url2 = thumbnailModel.data(visilbeIndexs[visilbeIndexs.length - 1], "url")
                 var str = albumControl.getFileTime(url1, url2)
                 timeChanged(str)
-            } else {
+            } else if (thumbnailModel.rowCount() === 0) {
                 timeChanged("")
             }
         }
@@ -475,7 +487,7 @@ FocusScope {
                 id: vbar
                 active: false
                 onPositionChanged: {
-                    totalTimeScope()
+                    scheduleTimeScope()
                 }
             }
 
@@ -1124,7 +1136,7 @@ FocusScope {
     }
 
     onRealCellWidthChanged: {
-        totalTimeScope()
+        scheduleTimeScope()
     }
 
 }
