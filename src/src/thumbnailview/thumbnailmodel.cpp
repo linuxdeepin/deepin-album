@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -109,7 +109,9 @@ void ThumbnailModel::setSortRoleName(const QByteArray &name)
 QHash<int, QByteArray> ThumbnailModel::roleNames() const
 {
     qDebug() << "ThumbnailModel::roleNames - Entry";
-    QHash<int, QByteArray> hash = sourceModel()->roleNames();
+    QHash<int, QByteArray> hash;
+    if (auto *model = sourceModel())
+        hash = model->roleNames();
     hash.insert(Roles::BlankRole, "blank");
     hash.insert(Roles::SelectedRole, "selected");
     hash.insert(Roles::Thumbnail, "thumbnail");

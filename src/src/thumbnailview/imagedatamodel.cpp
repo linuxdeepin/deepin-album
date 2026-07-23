@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -278,6 +278,19 @@ void ImageDataModel::loadData(Types::ItemType type)
     }
     endResetModel();
     qDebug() << QString("loadData modelType:[%1] cost [%2]ms, loaded [%3] items").arg(m_modelType).arg(time.elapsed()).arg(m_infoList.size());
+}
+
+int ImageDataModel::itemCount() const
+{
+    return m_infoList.size();
+}
+
+QString ImageDataModel::urlAt(int row) const
+{
+    if (row < 0 || row >= m_infoList.size())
+        return {};
+
+    return QUrl::fromLocalFile(m_infoList.at(row).filePath).toString();
 }
 
 void ImageDataModel::onDeviceDataLoaded(QString devicePath)

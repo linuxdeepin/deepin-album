@@ -18,12 +18,21 @@ import "../../"
 
 SwitchViewAnimation {
 
+    // The default all-items page is constructed with show=true.  Do not let
+    // UnknownSwitchType fade it in before the parent collection view appears.
+    property bool initialStateApplied: false
+    switchType: initialStateApplied ? GStatus.currentSwitchType : Album.Types.HardCut
+
     property int filterType: filterCombo.currentIndex // 筛选类型，默认所有
     property string numLabelText:""
     // Cached property: drop auto-binding so selectedPaths/numLabelText no longer each trigger a C++ count
     property string selectedText: ""
-    property alias count: theView.count
+    property int count: theViewLoader.item ? theViewLoader.item.count : 0
     property int totalItemCount: 0
+    property bool initialContentRefreshPending: true
+    property bool initialContentActivationPending: false
+    property bool pendingModelRefresh: false
+    property bool collectionModelLoaded: false
     // Coalesce flag: multiple schedules in the same frame run doUpdateSelectedText only once
     property bool updateSelectedTextPending: false
 
@@ -58,35 +67,94 @@ SwitchViewAnimation {
 
     // 筛选类型改变处理事件
     onFilterTypeChanged: {
+        // The initial currentIndex binding may change before the deferred
+        // thumbnail view is created. initialTitleTimer will consume the final
+        // value, so do not schedule a second full model refresh at startup.
+        if (initialContentRefreshPending) {
+            scheduleInitialTitle()
+            return
+        }
+        if (!updateTitle())
+            scheduleInitialTitle()
         filterRefreshTimer.restart()
     }
+
+    onWidthChanged: scheduleInitialTitle()
+    onHeightChanged: scheduleInitialTitle()
 
     // Filter changes can arrive in quick succession; coalesce them before rebuilding the proxy model.
     Timer {
         id: filterRefreshTimer
         interval: 100
         repeat: false
-        onTriggered: flushAllCollectionView()
+        onTriggered: flushAllCollectionView(false)
     }
 
     // 清空已选内容
     function clearSelecteds()
     {
-        theView.selectAll(false)
+        if (theViewLoader.item)
+            theViewLoader.item.selectAll(false)
         GStatus.selectedPaths = []
         scheduleUpdateSelectedText()
     }
 
     // 刷新所有项目视图内容
-    function flushAllCollectionView() {
-        theView.proxyModel.refresh(filterType)
+    function flushAllCollectionView(refreshTitleModel) {
+        if (refreshTitleModel === undefined)
+            refreshTitleModel = true
+        if (initialContentRefreshPending || !theViewLoader.item) {
+            if (refreshTitleModel)
+                pendingModelRefresh = true
+            return
+        }
+
+        if (refreshTitleModel || pendingModelRefresh) {
+            theViewLoader.item.proxyModel.refresh(filterType)
+            pendingModelRefresh = false
+        }
         if (!visible)
             return
-        GStatus.selectedPaths = theView.selectedUrls
-        getNumLabelText()
+        GStatus.selectedPaths = theViewLoader.item.selectedUrls
+        updateTitle(false)
         // numLabelText change does not auto-trigger an update, schedule explicitly
         scheduleUpdateSelectedText()
         totalTimepScopeTimer.start()
+    }
+
+    // Wait for QML to settle the parent geometry before calculating the first
+    // visible grid range. This still runs before the first frame is presented.
+    Timer {
+        id: initialTitleTimer
+        interval: 0
+        repeat: false
+        onTriggered: updateTitle()
+    }
+
+    function scheduleInitialTitle() {
+        if (initialContentRefreshPending && visible)
+            initialTitleTimer.restart()
+    }
+
+    // The title and grid share allCollectionDataModel, so constructing the
+    // initial grid does not trigger a second all-items database query.
+    function startInitialContent() {
+        if (GStatus.currentViewType === Album.Types.ViewCollecttion
+                && GStatus.currentCollecttionViewIndex === 3
+                && !theViewLoader.active) {
+            initialContentActivationPending = true
+        }
+    }
+
+    function activateInitialContent() {
+        if (!initialContentActivationPending)
+            return
+
+        initialContentActivationPending = false
+        if (GStatus.currentViewType === Album.Types.ViewCollecttion
+                && GStatus.currentCollecttionViewIndex === 3) {
+            theViewLoader.active = true
+        }
     }
 
     // 筛选相册内容后，使用定时器延迟刷新时间范围标签内容
@@ -95,8 +163,61 @@ SwitchViewAnimation {
         interval: 100
         repeat: false
         onTriggered: {
-            theView.totalTimeScope()
+            if (theViewLoader.item)
+                theViewLoader.item.totalTimeScope()
         }
+    }
+
+    // Match ThumbnailListViewAlbum's GridView.rectIndexes(0, 0, width, height)
+    // without constructing the thumbnail view during the first frame.
+    function initialTimeScopeEndIndex() {
+        var availableWidth = theViewLoader.width - GStatus.thumbnailListRightMargin
+        var rowSizeHint = parseInt(availableWidth / GStatus.cellBaseWidth)
+        if (!(rowSizeHint > 0))
+            return 0
+
+        var cellWidth = availableWidth / rowSizeHint
+        var columns = Math.floor(theViewLoader.width / cellWidth)
+        var rows = Math.ceil((theViewLoader.height - theViewLoader.contentTopMargin) / cellWidth)
+        if (!(columns > 0) || !(rows > 0))
+            return 0
+
+        return columns * rows - 1
+    }
+
+    function updateTitle(refreshTitleModel) {
+        if (refreshTitleModel === undefined)
+            refreshTitleModel = true
+        if (!(theViewLoader.width > 0)
+                || !(theViewLoader.height > theViewLoader.contentTopMargin))
+            return false
+
+        getNumLabelText()
+        if (refreshTitleModel) {
+            allCollectionDataModel.loadData(filterType)
+            collectionModelLoaded = true
+        }
+        if (!collectionModelLoaded)
+            return false
+
+        var itemCount = allCollectionDataModel.itemCount()
+        if (itemCount === 0) {
+            setDateRange("")
+            return true
+        }
+
+        var lastIndex = Math.min(initialTimeScopeEndIndex(), itemCount - 1)
+        var firstUrl = allCollectionDataModel.urlAt(0)
+        var lastUrl = allCollectionDataModel.urlAt(lastIndex)
+        setDateRange(albumControl.getFileTime(firstUrl, lastUrl))
+        return true
+    }
+
+    // Load title data before the first frame; the deferred grid uses this
+    // source directly and does not perform a second all-items query.
+    Album.ImageDataModel {
+        id: allCollectionDataModel
+        modelType: Album.Types.AllCollection
     }
 
     // 刷新总数标签
@@ -137,13 +258,27 @@ SwitchViewAnimation {
         function onSelectedPathsChanged() {
             scheduleUpdateSelectedText()
         }
+        function onCurrentViewTypeChanged() {
+            startInitialContent()
+        }
+        function onCurrentCollecttionViewIndexChanged() {
+            startInitialContent()
+        }
+    }
+
+    Connections {
+        target: window
+        function onFrameSwapped() {
+            activateInitialContent()
+        }
     }
 
     Connections {
         target: albumControl
         function onSigRepeatUrls(urls) {
             if (visible && collecttionView.currentViewIndex === 3) {
-                theView.selectUrls(urls)
+                if (theViewLoader.item)
+                    theViewLoader.item.selectUrls(urls)
             }
         }
     }
@@ -183,26 +318,39 @@ SwitchViewAnimation {
         MouseArea {
             anchors.fill: parent
             onPressed: (mouse)=> {
-                theView.selectAll(false)
+                if (theViewLoader.item)
+                    theViewLoader.item.selectAll(false)
                 mouse.accepted = false
             }
         }
     }
 
-    ThumbnailListViewAlbum {
-        id: theView
-        anchors {
-            top: allCollectionTitleRect.bottom
-            topMargin: m_topMargin
-        }
+    Loader {
+        id: theViewLoader
+        anchors.top: allCollectionTitleRect.bottom
         width: parent.width
-        height: parent.height - allCollectionTitleRect.height - m_topMargin
-        thumnailListType: Album.Types.ThumbnailAllCollection
-        proxyModel.sourceModel: Album.ImageDataModel { modelType: Album.Types.AllCollection }
-
-        visible: numLabelText !== ""
-        property int m_topMargin: 10
-
+        height: parent.height - allCollectionTitleRect.height
+        property int contentTopMargin: 10
+        active: false
+        asynchronous: false
+        sourceComponent: ThumbnailListViewAlbum {
+            anchors {
+                top: parent.top
+                topMargin: theViewLoader.contentTopMargin
+            }
+            width: parent.width
+            height: parent.height - theViewLoader.contentTopMargin
+            thumnailListType: Album.Types.ThumbnailAllCollection
+            proxyModel.sourceModel: allCollectionDataModel
+            visible: numLabelText !== ""
+        }
+        onLoaded: {
+            item.timeChanged.connect(setDateRange)
+            initialContentRefreshPending = false
+            flushAllCollectionView(pendingModelRefresh)
+            if (!GStatus.backingToMainAlbumView)
+                showAnimation.start()
+        }
     }
 
     // 仅在自动导入相册无内容时，显示没有图片或视频时显示
@@ -210,7 +358,7 @@ SwitchViewAnimation {
         anchors {
             top: allCollectionTitleRect.bottom
             left: parent.left
-            bottom: theView.bottom
+            bottom: theViewLoader.bottom
             right: parent.right
             centerIn: parent
         }
@@ -221,28 +369,36 @@ SwitchViewAnimation {
     }
 
     onVisibleChanged: {
+        scheduleInitialTitle()
         // 窗口显示时，重置显示内容
         if (visible && GStatus.currentCollecttionViewIndex === 3) {
+            startInitialContent()
             if (!GStatus.loading) {
                 flushAllCollectionView()
-                if (!GStatus.backingToMainAlbumView)
-                    showAnimation.start()
             }
         }
     }
 
     NumberAnimation {
         id: showAnimation
-        target: theView
+        target: theViewLoader.item
         property: "anchors.topMargin"
-        from: 10 + theView.height
-        to: 10
+        from: theViewLoader.contentTopMargin + theViewLoader.height
+        to: theViewLoader.contentTopMargin
         duration: GStatus.sidebarAnimationEnabled ? GStatus.animationDuration : 0
         easing.type: Easing.OutExpo
     }
 
     Component.onCompleted: {
-        theView.timeChanged.connect(setDateRange)
         GStatus.sigFlushAllCollectionView.connect(flushAllCollectionView)
+
+        // Populate the shared source model before creating the initial grid.
+        GStatus.selectedPaths = []
+        if (updateTitle())
+            initialTitleTimer.stop()
+        else
+            scheduleInitialTitle()
+        initialStateApplied = true
+        startInitialContent()
     }
 }

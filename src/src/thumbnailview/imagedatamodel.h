@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -52,6 +52,8 @@ public:
     DBImgInfo dataForIndex(const QModelIndex &index) const;
 
     Q_INVOKABLE void loadData(Types::ItemType type = Types::All);
+    Q_INVOKABLE int itemCount() const;
+    Q_INVOKABLE QString urlAt(int row) const;
 
     Q_SLOT void onDeviceDataLoaded(QString devicePath);
 
