@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -193,6 +193,12 @@ public:
     void setStatusBarNumText(const QString& value);
     Q_SIGNAL void statusBarNumTextChanged();
 
+    // 全部合集内容数量是否已完成解析
+    Q_PROPERTY(bool allCollectionContentResolved READ allCollectionContentResolved WRITE setAllCollectionContentResolved NOTIFY allCollectionContentResolvedChanged)
+    bool allCollectionContentResolved() const;
+    void setAllCollectionContentResolved(const bool& value);
+    Q_SIGNAL void allCollectionContentResolvedChanged();
+
     // 搜索框文本内容
     Q_PROPERTY(QString searchEditText READ searchEditText WRITE setSearchEditText NOTIFY searchEditTextChanged)
     QString searchEditText() const;
@@ -350,6 +356,7 @@ private:
     int m_thumbnailSizeLevel = -1;              // 缩略图缩放等级
     qreal m_cellBaseWidth;                      // 缩略图网格大小
     QString m_statusBarNumText = "";            // 状态栏显示的总数文本内容
+    bool m_allCollectionContentResolved = false; // 全部合集内容数量是否已完成解析
     QString m_searchEditText = "";              // 搜索框文本内容
 
     bool m_bAlbumImportChangeList = false;      // 自动导入相册改变标记

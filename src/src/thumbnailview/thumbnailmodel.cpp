@@ -239,6 +239,7 @@ void ThumbnailModel::setSourceModel(QAbstractItemModel *sourceModel)
     QSortFilterProxyModel::setSourceModel(sourceModel);
 
     connect(sourceModel, SIGNAL(modelReset()), this, SIGNAL(srcModelReseted()));
+    Q_EMIT srcModelReseted();
 
     if (!m_sortRoleName.isEmpty()) {
         setSortRoleName(m_sortRoleName);
