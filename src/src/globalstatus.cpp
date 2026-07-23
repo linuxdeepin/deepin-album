@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -741,6 +741,19 @@ void GlobalStatus::setStatusBarNumText(const QString &value)
         Q_EMIT statusBarNumTextChanged();
     }
     qDebug() << "GlobalStatus::setStatusBarNumText - Function exit";
+}
+
+bool GlobalStatus::allCollectionContentResolved() const
+{
+    return m_allCollectionContentResolved;
+}
+
+void GlobalStatus::setAllCollectionContentResolved(const bool &value)
+{
+    if (m_allCollectionContentResolved != value) {
+        m_allCollectionContentResolved = value;
+        Q_EMIT allCollectionContentResolvedChanged();
+    }
 }
 
 QString GlobalStatus::searchEditText() const

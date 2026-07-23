@@ -74,7 +74,7 @@ SwitchViewAnimation {
             scheduleInitialTitle()
             return
         }
-        if (!updateTitle())
+        if (!updateTitle(false, false))
             scheduleInitialTitle()
         filterRefreshTimer.restart()
     }
@@ -87,7 +87,7 @@ SwitchViewAnimation {
         id: filterRefreshTimer
         interval: 100
         repeat: false
-        onTriggered: flushAllCollectionView(false)
+        onTriggered: flushAllCollectionView()
     }
 
     // 清空已选内容
@@ -116,7 +116,7 @@ SwitchViewAnimation {
         if (!visible)
             return
         GStatus.selectedPaths = theViewLoader.item.selectedUrls
-        updateTitle(false)
+        updateTitle(false, false)
         // numLabelText change does not auto-trigger an update, schedule explicitly
         scheduleUpdateSelectedText()
         totalTimepScopeTimer.start()
@@ -174,20 +174,22 @@ SwitchViewAnimation {
         var availableWidth = theViewLoader.width - GStatus.thumbnailListRightMargin
         var rowSizeHint = parseInt(availableWidth / GStatus.cellBaseWidth)
         if (!(rowSizeHint > 0))
-            return 0
+            return -1
 
         var cellWidth = availableWidth / rowSizeHint
         var columns = Math.floor(theViewLoader.width / cellWidth)
         var rows = Math.ceil((theViewLoader.height - theViewLoader.contentTopMargin) / cellWidth)
         if (!(columns > 0) || !(rows > 0))
-            return 0
+            return -1
 
         return columns * rows - 1
     }
 
-    function updateTitle(refreshTitleModel) {
+    function updateTitle(refreshTitleModel, updateDateRange) {
         if (refreshTitleModel === undefined)
             refreshTitleModel = true
+        if (updateDateRange === undefined)
+            updateDateRange = true
         if (!(theViewLoader.width > 0)
                 || !(theViewLoader.height > theViewLoader.contentTopMargin))
             return false
@@ -205,8 +207,14 @@ SwitchViewAnimation {
             setDateRange("")
             return true
         }
+        if (!updateDateRange)
+            return true
 
-        var lastIndex = Math.min(initialTimeScopeEndIndex(), itemCount - 1)
+        var initialEndIndex = initialTimeScopeEndIndex()
+        if (initialEndIndex < 0)
+            return false
+
+        var lastIndex = Math.min(initialEndIndex, itemCount - 1)
         var firstUrl = allCollectionDataModel.urlAt(0)
         var lastUrl = allCollectionDataModel.urlAt(lastIndex)
         setDateRange(albumControl.getFileTime(firstUrl, lastUrl))
@@ -247,8 +255,10 @@ SwitchViewAnimation {
 
         numLabelText = filterType == 0 ? (photoCountText + (videoCountText !== "" ? ((photoCountText !== "" ? " " : "") + videoCountText) : ""))
                                            : (filterType == 1 ? photoCountText : videoCountText)
-        if (visible) {
+        if (show && GStatus.currentViewType === Album.Types.ViewCollecttion
+                && GStatus.currentCollecttionViewIndex === 3) {
             GStatus.statusBarNumText = numLabelText
+            GStatus.allCollectionContentResolved = true
         }
     }
 
@@ -263,6 +273,9 @@ SwitchViewAnimation {
         }
         function onCurrentCollecttionViewIndexChanged() {
             startInitialContent()
+        }
+        function onCellBaseWidthChanged() {
+            scheduleInitialTitle()
         }
     }
 
@@ -350,6 +363,15 @@ SwitchViewAnimation {
             flushAllCollectionView(pendingModelRefresh)
             if (!GStatus.backingToMainAlbumView)
                 showAnimation.start()
+        }
+    }
+
+    // 同步延迟创建的缩略图列表选中项，供右键菜单更新状态。
+    Connections {
+        target: theViewLoader.item
+        function onSelectedChanged() {
+            if (parent.visible && theViewLoader.item)
+                GStatus.selectedPaths = theViewLoader.item.selectedUrls
         }
     }
 

@@ -50,12 +50,6 @@ TitleBar {
     property int layoutLeftMargin_AlignLeft: showHideleftSidebarButton.x + showHideleftSidebarButton.width // 显示比例按钮向标题左侧对齐时的布局留白宽度
     property int layoutLeftMargin_AlignRight: GStatus.sideBarWidth + 10 // 显示比例按钮向标题右侧对齐时的布局留白宽度
     property bool collectionComboEverNarrow: false
-    // Do not wait for the asynchronously populated status text to render the
-    // ratio button. Once a view has supplied status text, that text remains
-    // the authoritative availability state for subsequent view changes.
-    property bool initialRatioContentAvailable: albumControl.getAllCount() > 0
-    property bool ratioContentStateResolved: false
-
     property int lastWidth: 0
     onWidthChanged: {
         if (window.width <= showCollComboWidth)
@@ -86,18 +80,6 @@ TitleBar {
         }
 
         lastWidth = width
-    }
-
-    Connections {
-        target: GStatus
-        function onStatusBarNumTextChanged() {
-            if (GStatus.statusBarNumText !== "")
-                title.ratioContentStateResolved = true
-        }
-    }
-
-    Component.onCompleted: {
-        ratioContentStateResolved = GStatus.statusBarNumText !== ""
     }
 
     // 显示比例按钮向左对齐动画
@@ -240,10 +222,9 @@ TitleBar {
                 enabled: !(GStatus.currentViewType === Album.Types.ViewCollecttion
                            && GStatus.currentCollecttionViewIndex === 0)
                          && (GStatus.statusBarNumText !== ""
-                             || (!title.ratioContentStateResolved
+                             || (!GStatus.allCollectionContentResolved
                                  && GStatus.currentViewType === Album.Types.ViewCollecttion
-                                 && GStatus.currentCollecttionViewIndex === 3
-                                 && title.initialRatioContentAvailable))
+                                 && GStatus.currentCollecttionViewIndex === 3))
                 ToolTip.visible: hovered
                 ToolTip.text: icon.name === "range1" ? qsTr("Original ratio") : qsTr("Square thumbnails")
                 icon {

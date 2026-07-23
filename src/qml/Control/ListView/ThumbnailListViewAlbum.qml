@@ -270,9 +270,11 @@ FocusScope {
                 }
 
                 clearPressState();
-                if (GStatus.currentViewType !== Album.Types.ViewDevice && haveSelect) {
+                if (GStatus.currentViewType !== Album.Types.ViewDevice
+                        && thumbnailModel.selectedIndexes.length > 0) {
+                    menuItemStates.updateMenuItemStates()
                     thumbnailMenu.popup(mouse.x, mouse.y)
-		        }
+                }
                 mouse.accepted = false;
             }
         }
@@ -280,8 +282,13 @@ FocusScope {
         onCanceled: pressCanceled()
 
         onReleased: (mouse)=> {
+            if (mouse.button === Qt.RightButton) {
+                pressCanceled();
+                return;
+            }
+
             // 多选后，单选逻辑处理
-            if (pressedItem && !pressedItem.blank && mouse.button !== Qt.RightButton && !main.rubberBand) {
+            if (pressedItem && !pressedItem.blank && !main.rubberBand) {
                 var pos = mapToItem(pressedItem, mouse.x, mouse.y);
                 if ((pos.x <= pressedItem.width && pos.y <= pressedItem.height)
                         && (!(gridView.shiftPressed && gridView.currentIndex != -1) && !gridView.ctrlPressed) && haveSelectCount > 1) {
