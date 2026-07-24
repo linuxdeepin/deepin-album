@@ -190,6 +190,7 @@ SwitchViewAnimation {
             refreshTitleModel = true
         if (updateDateRange === undefined)
             updateDateRange = true
+        GStatus.allCollectionContentResolved = false
         if (!(theViewLoader.width > 0)
                 || !(theViewLoader.height > theViewLoader.contentTopMargin))
             return false
