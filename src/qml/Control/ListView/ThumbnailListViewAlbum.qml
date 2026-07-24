@@ -283,6 +283,7 @@ FocusScope {
 
         onReleased: (mouse)=> {
             if (mouse.button === Qt.RightButton) {
+                GStatus.windowDisActived = false
                 pressCanceled();
                 return;
             }
