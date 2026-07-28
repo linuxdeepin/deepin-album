@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -190,7 +190,6 @@ Rectangle {
                     version: Qt.application.version
                     websiteName:DTK.deepinWebsiteName
                     websiteLink:DTK.deepinWebsiteLink
-                    license:qsTr("%1 is released under %2.").arg(productName).arg("GPLV3")
                 }
             }
 
