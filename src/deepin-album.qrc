@@ -30,6 +30,7 @@
         <file>qml/PreviewImageViewer/InformationDialog/PropertyItemDelegate.qml</file>
         <file>qml/PreviewImageViewer/ImageDelegate/BaseImageDelegate.qml</file>
         <file>qml/PreviewImageViewer/ImageDelegate/NormalImageDelegate.qml</file>
+        <file>qml/PreviewImageViewer/ImageDelegate/SourceSizeOptimizer.qml</file>
         <file>qml/PreviewImageViewer/ImageDelegate/SvgImageDelegate.qml</file>
         <file>qml/PreviewImageViewer/ImageDelegate/DynamicImageDelegate.qml</file>
         <file>qml/PreviewImageViewer/ImageDelegate/NonexistImageDelegate.qml</file>

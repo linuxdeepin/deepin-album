@@ -1,4 +1,4 @@
-﻿// SPDX-FileCopyrightText: 2023 - 2024 UnionTech Software Technology Co., Ltd.
+﻿// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -184,8 +184,8 @@ void LoadImageInfoRunnable::run()
         data->size = image.size();
         data->frameCount = reader.imageCount();
         qDebug() << "Multi-page image loaded successfully:" << loadPath << "size:" << data->size << "total frames:" << data->frameCount;
-        // 保存图片比例缩放
-        image = image.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+        // 保持缩略图比例，确保预览占位图与原图尺寸一致
+        image = image.scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         // 缓存缩略图信息
         ThumbnailCache::instance()->add(data->path, frameIndex, image);
 
@@ -227,8 +227,8 @@ bool LoadImageInfoRunnable::loadImage(QImage &image, QSize &sourceSize) const
     if (ret) {
         sourceSize = image.size();
         qDebug() << "Static image loaded successfully:" << loadPath << "size:" << sourceSize;
-        // 保存图片比例缩放
-        image = image.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+        // 保持缩略图比例，确保预览占位图与原图尺寸一致
+        image = image.scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     } else {
         qWarning() << "Failed to load static image:" << loadPath << "error:" << error;
     }

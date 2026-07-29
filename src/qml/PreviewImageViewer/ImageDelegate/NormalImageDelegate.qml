@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023~2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -10,8 +10,31 @@ BaseImageDelegate {
     id: delegate
 
     property bool rotationRunning: false
+    property bool sourceUpdatePending: false
+    readonly property int neighborPreviewMaxDimension: 960
+
+    function previewSize(maxDimension) {
+        if (delegate.width <= 0 || delegate.height <= 0) {
+            return Qt.size(maxDimension, maxDimension)
+        }
+
+        var longestEdge = Math.max(delegate.width, delegate.height)
+        if (longestEdge <= maxDimension) {
+            return Qt.size(delegate.width, delegate.height)
+        }
+
+        var scale = maxDimension / longestEdge
+        return Qt.size(Math.round(delegate.width * scale), Math.round(delegate.height * scale))
+    }
+
+    function neighborPreviewSize() {
+        return previewSize(neighborPreviewMaxDimension)
+    }
 
     function resetSource() {
+        // check if source rename
+        updateSource();
+
         // 加载完成，触发动画效果
         var temp = image.source;
         image.source = "";
@@ -21,10 +44,14 @@ BaseImageDelegate {
     }
 
     function updateSource() {
+        sourceSizeOptimizer.resetSourceSize()
         if (delegate.source != "") {
+            // Do not retain the old texture while changing images; retain it only for same-image scale upgrades.
+            sourceUpdatePending = true
             // 由于会 resetSource() 破坏绑定，因此重新设置源数据
             image.source = "image://ImageLoad/" + delegate.source + "#frame_" + delegate.frameIndex;
         } else {
+            sourceUpdatePending = false
             image.source = "";
         }
     }
@@ -47,12 +74,54 @@ BaseImageDelegate {
         scale: 1.0
         smooth: true
         source: "image://ImageLoad/" + delegate.source + "#frame_" + delegate.frameIndex
+        sourceSize: delegate.isCurrentImage ? sourceSizeOptimizer.optimizedSourceSize
+                                             : delegate.neighborPreviewSize()
         width: delegate.width
+        // debounced (scroll wheel): retain old texture for smooth transition
+        // immediate (large jump): no retain, use snapshot instead
+        retainWhileLoading: !delegate.sourceUpdatePending && !sourceSizeOptimizer.immediateUpgrade
+
+        onScaleChanged: {
+            sourceSizeOptimizer.requestUpdate()
+        }
 
         onStatusChanged: {
+            if (Image.Ready === image.status || Image.Error === image.status) {
+                sourceUpdatePending = false
+            }
             if (Image.Ready === image.status && !rotationRunning) {
                 rotateAnimationLoader.active = false;
+                if (upgradeSnapshotLoader.active) {
+                    upgradeSnapshotLoader.active = false
+                }
             }
+        }
+    }
+
+    SourceSizeOptimizer {
+        id: sourceSizeOptimizer
+        targetImage: image
+        imageInfo: targetImageInfo
+        delegateWidth: delegate.width
+        delegateHeight: delegate.height
+    }
+
+    // Snapshot for immediate mode: shows old texture while new texture loads
+    Loader {
+        id: upgradeSnapshotLoader
+        active: sourceSizeOptimizer.showUpgradeSnapshot
+        anchors.fill: parent
+
+        sourceComponent: ShaderEffectSource {
+            anchors.centerIn: parent
+            width: image.width
+            height: image.height
+            sourceItem: image
+            live: false
+            hideSource: true
+            scale: image.scale
+            mipmap: true
+            smooth: true
         }
     }
 
@@ -69,7 +138,7 @@ BaseImageDelegate {
             property real previousRealWidth: 0
 
             function calcAnimation() {
-                rotationAnimation.to = GControl.currentRotation;
+                rotationAnimation.to = IV.GControl.currentRotation;
                 // 初始化缩放比后再允许动画
                 imageProxy.scale = image.scale;
                 imageScaleBehavior.enabled = true;
@@ -110,7 +179,7 @@ BaseImageDelegate {
                     NumberAnimation {
                         id: scaleAnimation
 
-                        duration: GStatus.animationDefaultDuration - delayUpdate.interval
+                        duration: IV.GStatus.animationDefaultDuration - delayUpdate.interval
                         easing.type: Easing.OutExpo
                     }
                 }
@@ -154,13 +223,13 @@ BaseImageDelegate {
                     id: rotationAnimation
 
                     direction: RotationAnimation.Shortest
-                    duration: GStatus.animationDefaultDuration
+                    duration: IV.GStatus.animationDefaultDuration
                     easing.type: Easing.OutExpo
                     target: imageProxy
                 }
 
                 NumberAnimation {
-                    duration: GStatus.animationDefaultDuration
+                    duration: IV.GStatus.animationDefaultDuration
                     easing.type: Easing.OutExpo
                     properties: "x, y"
                     target: imageProxy
@@ -174,7 +243,7 @@ BaseImageDelegate {
         id: imageInput
 
         anchors.fill: parent
-        isRotatable: FileControl.isRotatable(delegate.source.toString())
+        isRotatable: IV.FileControl.isRotatable(delegate.source)
         targetImage: image.status === Image.Ready ? image : null
     }
 
@@ -182,13 +251,13 @@ BaseImageDelegate {
         function onChangeRotationCacheBegin() {
             // Note: 确保缓存中的数据已刷新后更新界面
             // 0 为复位，缓存中的数据已转换，无需再次加载
-            if (0 !== GControl.currentRotation) {
+            if (0 !== IV.GControl.currentRotation) {
                 // 激活旋转动画加载器
                 rotateAnimationLoader.active = true;
             }
         }
 
         enabled: isCurrentImage
-        target: GControl
+        target: IV.GControl
     }
 }

@@ -64,6 +64,45 @@ static QImage readNormalImageScaled(const QString &imagePath, const QSize &targe
     reader.setAllocationLimit(2048);
     const QSize orig = reader.size();
 
+    // RAW handlers can report sensor dimensions that differ from decoded pixels.
+    // Use the bounded UnionImage result to obtain the display aspect ratio before
+    // requesting the final RAW decode, so large RAW files are not fully decoded first.
+    if (reader.format().compare(QLatin1String("raw"), Qt::CaseInsensitive) == 0) {
+        QImage aspectProbe = readNormalImage(imagePath);
+        if (aspectProbe.isNull()) {
+            return aspectProbe;
+        }
+
+        if (!targetSize.isValid()) {
+            return aspectProbe;
+        }
+
+        QSize scaledSize = aspectProbe.size();
+        scaledSize.scale(targetSize, Qt::KeepAspectRatio);
+        if (scaledSize.width() > orig.width() || scaledSize.height() > orig.height()) {
+            return aspectProbe;
+        }
+
+        if (scaledSize.width() > 15000 || scaledSize.height() > 15000) {
+            scaledSize.scale(15000, 15000, Qt::KeepAspectRatio);
+        }
+        if (scaledSize.width() * scaledSize.height() > s_maxTotalPixels) {
+            const double factor = std::sqrt(double(s_maxTotalPixels) / (scaledSize.width() * scaledSize.height()));
+            scaledSize.setWidth(qMax(1, int(scaledSize.width() * factor)));
+            scaledSize.setHeight(qMax(1, int(scaledSize.height() * factor)));
+        }
+
+        reader.setScaledSize(scaledSize);
+        QImage image = reader.read();
+        if (image.isNull()) {
+            // Some RAW files expose only an embedded TIFF preview to Qt/libraw.
+            // Keep the main image consistent with the preview placeholder in that case.
+            qWarning() << "RAW decoder failed, using embedded preview:" << imagePath;
+            return aspectProbe;
+        }
+        return image;
+    }
+
     bool needsDownscale = targetSize.isValid() && orig.isValid()
         && targetSize.width() <= orig.width() && targetSize.height() <= orig.height();
 
@@ -242,8 +281,8 @@ void ProviderCache::rotateImageCached(int angle, const QString &imagePath, int f
         // 更新图片缓存
         imageCache.add(imagePath, frameIndex, image);
 
-        // 同样更新缩略图缓存
-        QImage tmpImage = image.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+        // 保持缩略图比例，避免预览占位图与原图尺寸不一致
+        QImage tmpImage = image.scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         ThumbnailCache::instance()->add(imagePath, frameIndex, tmpImage);
     } else {
         qWarning() << "Failed to rotate image - image is null:" << imagePath;
@@ -458,8 +497,8 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
     } else {
         image = readNormalImage(tempPath);
     }
-    // 不存在缩略图信息，缓存图片
-    QImage tmpImage = image.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+    // 不存在缩略图信息，缓存保持比例的缩略图
+    QImage tmpImage = image.scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     ThumbnailCache::instance()->add(tempPath, frameIndex, tmpImage);
 
     if (size) {
