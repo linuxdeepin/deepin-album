@@ -14,6 +14,7 @@
 #include <QApplication>
 
 static const int sc_SubmitInterval = 200;  // 图片变更提交定时间隔 200ms
+static const int sc_ViewModelSyncInterval = 200;  // Main image view-model synchronization debounce interval.
 
 /**
    @class GlobalControl
@@ -487,6 +488,9 @@ void GlobalControl::timerEvent(QTimerEvent *event)
         // qDebug() << "Branch: submitTimer.timerId() == event->timerId()";
         submitTimer.stop();
         submitImageChangeImmediately();
+    } else if (viewModelSyncTimer.timerId() == event->timerId()) {
+        viewModelSyncTimer.stop();
+        viewSourceModel->setCurrentSourceIndex(curIndex, curFrameIndex);
     }
     // qDebug() << "GlobalControl::timerEvent - Function exit";
 }
@@ -553,7 +557,7 @@ void GlobalControl::setIndexAndFrameIndex(int index, int frameIndex)
 
     checkSwitchEnable();
 
-    // 更新视图模型
-    viewSourceModel->setCurrentSourceIndex(curIndex, curFrameIndex);
+    // 快速导航时仅同步最终索引，避免解码中间图片。
+    viewModelSyncTimer.start(sc_ViewModelSyncInterval, this);
     qDebug() << "GlobalControl::setIndexAndFrameIndex - Function exit";
 }
