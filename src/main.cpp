@@ -40,12 +40,23 @@
 #include <QQmlContext>
 #include <QIcon>
 
+#ifdef Q_OS_LINUX
+#include <malloc.h>
+#endif
+
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 DGUI_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
+#ifdef Q_OS_LINUX
+    constexpr int imageBufferMmapThreshold = 128 * 1024;
+    if (!mallopt(M_MMAP_THRESHOLD, imageBufferMmapThreshold)) {
+        qWarning() << "Failed to set image buffer mmap threshold";
+    }
+#endif
+
     //qputenv("QML_DISABLE_DISK_CACHE", "1");
     qputenv("D_POPUP_MODE", "embed");
     if (qEnvironmentVariableIsEmpty("XDG_CURRENT_DESKTOP")) {
