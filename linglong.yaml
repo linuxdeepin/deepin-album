@@ -7,7 +7,7 @@ version: '1'
 package:
   id: org.deepin.album
   name: deepin-album
-  version: 6.0.62.1
+  version: 6.0.63.1
   kind: app
   description: |
     album for deepin os.
