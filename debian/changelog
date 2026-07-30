@@ -1,3 +1,29 @@
+deepin-album (6.0.63) unstable; urgency=medium
+
+  * chore: Update version to 6.0.63
+  * fix(memory): release large image buffers through mmap
+  * fix(preview): load images at display resolution
+  * fix(preview): debounce navigation and defer neighbor loading
+  * fix(view): prevent About dialog details from being clipped
+  * fix(view): reset all-items content state before title update
+  * fix(view): reset inactive state after right-click
+  * fix(view): initialize deferred all-items grid state
+  * fix(view): defer all-items grid initialization
+  * fix: bump actions/checkout to v7 and allow unsafe PR checkout
+  * fix(view): defer visible date range refresh
+  * fix(title): enable ratio control before status text is ready
+  * fix: add X-Deepin-Singleton flag to desktop file
+  * fix: refresh deferred imported view on first display
+  * fix: remove deepin prefix from Chinese translations in desktop file
+  * fix(view): lazily create nondefault thumbnail views
+  * fix(device): initialize album count text
+  * fix(image): ignore empty async image provider paths
+  * fix(device): dispatch device load notifications on GUI thread
+  * [skip CI] Translate deepin-album.ts in ru
+  * [skip CI] Translate deepin-album.ts in it
+
+ -- zhanghongyuan <zhanghongyuan@uniontech.com>  Thu, 30 Jul 2026 15:03:47 +0800
+
 deepin-album (6.0.62) unstable; urgency=medium
 
   * chore: Update version to 6.0.62
