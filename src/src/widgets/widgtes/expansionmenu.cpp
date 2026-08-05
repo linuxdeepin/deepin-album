@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -21,6 +21,8 @@
 FilterWidget::FilterWidget(QWidget *parent): QWidget(parent)
 {
     qDebug() << "Creating FilterWidget";
+    setObjectName("FilterWidget");
+    setAccessibleName("FilterWidget");
     QHBoxLayout *hb = new QHBoxLayout(this);
     hb->setSpacing(4);
     hb->setContentsMargins(0, 0, 0, 0);
@@ -209,6 +211,8 @@ void ExpansionMenu::setDefaultFilteData(ExpansionPanel::FilteData &data)
 
 FilterLabel::FilterLabel(QWidget *parent)
 {
+    setObjectName("FilterLabel");
+    setAccessibleName("FilterLabel");
     // qDebug() << "Creating FilterLabel";
 }
 

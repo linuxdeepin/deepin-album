@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -12,6 +12,8 @@
 
 ToolButton::ToolButton(QWidget *parent) : DPushButton(parent)
 {
+    setObjectName("ToolButton");
+    setAccessibleName("ToolButton");
     // qDebug() << "ToolButton::ToolButton - Entry";
     setMinimumSize(200, 11);
     // qDebug() << "ToolButton::ToolButton - Exit";

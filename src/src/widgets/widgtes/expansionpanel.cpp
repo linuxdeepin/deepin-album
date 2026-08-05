@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -16,6 +16,8 @@ ExpansionPanel::ExpansionPanel(QWidget *parent)
     : DBlurEffectWidget(parent)
 {
     qDebug() << "ExpansionPanel::ExpansionPanel - Entry";
+    setObjectName("ExpansionPanel");
+    setAccessibleName("ExpansionPanel");
     //wayland背景透明问题
     DPalette imgInfoDlgPl = this->palette();
     QColor imgInfoDlgColor("#F7F7F7");

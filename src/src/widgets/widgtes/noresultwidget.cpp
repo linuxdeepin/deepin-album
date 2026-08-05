@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -15,6 +15,8 @@
 NoResultWidget::NoResultWidget(QWidget *parent): QWidget(parent)
 {
     qDebug() << "NoResultWidget::NoResultWidget - Entry";
+    setObjectName("NoResultWidget");
+    setAccessibleName("NoResultWidget");
     initNoSearchResultView();
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &NoResultWidget::changeTheme);

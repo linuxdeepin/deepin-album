@@ -1,0 +1,74 @@
+# Expected AT-SPI names — deepin-album
+# Auto-generated from manual code analysis
+# Version: 1.0
+
+widgets:
+  - accessible_name: "TimeLineView"
+    object_name: "TimeLineView"
+    class: "TimeLineView"
+    file: "src/src/widgets/timelineview/timelineview.cpp"
+    line: 41
+    role: "panel"
+
+  - accessible_name: "ImportTimeLineView"
+    object_name: "ImportTimeLineView"
+    class: "ImportTimeLineView"
+    file: "src/src/widgets/importtimelineview/importtimelineview.cpp"
+    line: 40
+    role: "panel"
+
+  - accessible_name: "ThumbnailListView"
+    object_name: "ThumbnailListView"
+    class: "ThumbnailListView"
+    file: "src/src/widgets/thumbnail/thumbnaillistview.cpp"
+    line: 64
+    role: "list"
+
+  - accessible_name: "NoResultWidget"
+    object_name: "NoResultWidget"
+    class: "NoResultWidget"
+    file: "src/src/widgets/widgtes/noresultwidget.cpp"
+    line: 18
+    role: "label"
+
+  - accessible_name: "FilterWidget"
+    object_name: "FilterWidget"
+    class: "FilterWidget"
+    file: "src/src/widgets/widgtes/expansionmenu.cpp"
+    line: 24
+    role: "panel"
+
+  - accessible_name: "FilterLabel"
+    object_name: "FilterLabel"
+    class: "FilterLabel"
+    file: "src/src/widgets/widgtes/expansionmenu.cpp"
+    line: 214
+    role: "label"
+
+  - accessible_name: "ToolButton"
+    object_name: "ToolButton"
+    class: "ToolButton"
+    file: "src/src/widgets/widgtes/toolbutton.cpp"
+    line: 15
+    role: "push button"
+
+  - accessible_name: "ExpansionPanel"
+    object_name: "ExpansionPanel"
+    class: "ExpansionPanel"
+    file: "src/src/widgets/widgtes/expansionpanel.cpp"
+    line: 19
+    role: "panel"
+
+  - accessible_name: "TimeLineDateWidget"
+    object_name: "TimeLineDateWidget"
+    class: "TimeLineDateWidget"
+    file: "src/src/widgets/thumbnail/timelinedatewidget.cpp"
+    line: 25
+    role: "panel"
+
+  - accessible_name: "ImportTimeLineDateWidget"
+    object_name: "ImportTimeLineDateWidget"
+    class: "importTimeLineDateWidget"
+    file: "src/src/widgets/thumbnail/timelinedatewidget.cpp"
+    line: 167
+    role: "panel"

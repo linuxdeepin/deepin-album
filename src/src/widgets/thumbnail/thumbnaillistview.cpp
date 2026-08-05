@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -61,6 +61,8 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, int U
     :  DListView(parent), m_delegatetype(type), m_allfileslist(), updateEnableSelectionByMouseTimer(nullptr)
 {
     qDebug() << "Initializing ThumbnailListView with type:" << type << "UID:" << UID << "imageType:" << imgtype;
+    setObjectName("ThumbnailListView");
+    setAccessibleName("ThumbnailListView");
     m_model = new QStandardItemModel(this);
     m_imageType = imgtype;
     m_currentUID = UID;

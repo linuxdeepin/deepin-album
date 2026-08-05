@@ -22,6 +22,8 @@ TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time,
     :  m_chooseBtn(nullptr), m_pDate(nullptr), m_pNumCheckBox(nullptr), m_currentItem(item)
 {
     qDebug() << "Creating TimeLineDateWidget - time:" << time << "num:" << num;
+    setObjectName("TimeLineDateWidget");
+    setAccessibleName("TimeLineDateWidget");
     this->setContentsMargins(0, 0, 0, 0);
 
     //时间线日期
@@ -162,6 +164,8 @@ importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QS
     : m_chooseBtn(nullptr), m_pDateandNumCheckBox(nullptr), m_currentItem(item)
 {
     qDebug() << "Creating importTimeLineDateWidget - time:" << time << "num:" << num;
+    setObjectName("ImportTimeLineDateWidget");
+    setAccessibleName("ImportTimeLineDateWidget");
     this->setContentsMargins(6, 0, 0, 0);
 
     //时间+照片数量

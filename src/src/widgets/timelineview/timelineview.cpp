@@ -38,6 +38,8 @@ TimeLineView::TimeLineView(QmlWidget *parent)
     , m_selPicNum(0)
 {
     qDebug() << "Creating TimeLineView";
+    setObjectName("TimeLineView");
+    setAccessibleName("TimeLineView");
     m_qquickContainer = parent;
     //setAcceptDrops(true);
     QVBoxLayout *pMainBoxLayout = new QVBoxLayout(this);
