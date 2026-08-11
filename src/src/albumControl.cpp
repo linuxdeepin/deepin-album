@@ -847,7 +847,8 @@ void AlbumControl::startMonitor()
         QFileInfoList infos = LibUnionImage_NameSpace::getImagesAndVideoInfo(eachItem, false);
         QStringList currentPaths;
         std::transform(infos.begin(), infos.end(), std::back_inserter(currentPaths), [](const QFileInfo & info) {
-            return info.isSymLink() ? info.readSymLink() : info.absoluteFilePath();
+            const QString canonical = info.canonicalFilePath();
+            return canonical.isEmpty() ? info.absoluteFilePath() : canonical;
         });
 
         //3.1获取已不存在的路径

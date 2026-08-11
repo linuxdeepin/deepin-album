@@ -108,6 +108,11 @@ void ImportImagesThread::runDetail()
     QStringList tempPaths;
     QStringList filePaths;
     DBImgInfoList dbInfos;
+    // Resolve symlinks to canonical paths so links to the same target share one record.
+    const auto importPath = [](const QFileInfo &info) {
+        const QString canonical = info.canonicalFilePath();
+        return canonical.isEmpty() ? info.absoluteFilePath() : canonical;
+    };
     //判断是否含有目录
     for (const QString &path : m_paths) {
         //是目录，向下遍历,得到所有文件
@@ -115,14 +120,28 @@ void ImportImagesThread::runDetail()
             qDebug() << "Processing directory:" << path;
             QFileInfoList infos = LibUnionImage_NameSpace::getImagesAndVideoInfo(path, true);
 
-            std::transform(infos.begin(), infos.end(), std::back_inserter(tempPaths), [](const QFileInfo & info) {
-                return info.absoluteFilePath();
-            });
+            std::transform(infos.begin(), infos.end(), std::back_inserter(tempPaths), importPath);
             qDebug() << "Found" << infos.size() << "files in directory";
         } else {//非目录
             qDebug() << "Processing file:" << path;
-            tempPaths << path;
+            tempPaths << importPath(QFileInfo(path));
         }
+    }
+
+    // De-duplicate canonical paths before the database lookup.
+    {
+        QSet<QString> seen;
+        QStringList deduped;
+        deduped.reserve(tempPaths.size());
+        for (const QString &p : tempPaths) {
+            if (!seen.contains(p)) {
+                seen.insert(p);
+                deduped << p;
+            }
+        }
+        if (deduped.size() != tempPaths.size())
+            qDebug() << "Removed" << (tempPaths.size() - deduped.size()) << "duplicate paths after symlink resolution";
+        tempPaths = std::move(deduped);
     }
 
     //针对候选路径查询ImageTable3中已存在的路径，避免全表加载
