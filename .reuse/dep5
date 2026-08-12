@@ -64,3 +64,8 @@ Files: tests/*
 Copyright: UnionTech Software Technology Co., Ltd.
 License: GPL-3.0-or-later
 
+# at-spi expected names
+Files: tests/at/*
+Copyright: UnionTech Software Technology Co., Ltd.
+License: CC0-1.0
+

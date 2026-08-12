@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -293,6 +293,8 @@ Item {
     ToolButton {
         height: 22
         width: 22
+        Accessible.name: "NavigationCloseButton"
+        Accessible.role: Accessible.Button
         z: 100
 
         background: Rectangle {

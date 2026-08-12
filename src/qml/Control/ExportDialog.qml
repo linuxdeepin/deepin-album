@@ -237,6 +237,8 @@ DialogWindow {
 
     Button {
         id: cancelbtn
+        Accessible.name: "ExportCancelButton"
+        Accessible.role: Accessible.Button
         anchors {
             top: bfLable.bottom
             topMargin: 9
@@ -254,6 +256,8 @@ DialogWindow {
 
     RecommandButton {
         id: enterbtn
+        Accessible.name: "ExportConfirmButton"
+        Accessible.role: Accessible.Button
         anchors {
             top: bfLable.bottom
             topMargin: 8

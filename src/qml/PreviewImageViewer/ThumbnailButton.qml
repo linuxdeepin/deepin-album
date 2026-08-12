@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -7,7 +7,7 @@ import QtQuick.Controls 2.4
 
 ToolButton {
 
-
+    Accessible.role: Accessible.Button
 
     property color clr_enter: "#dcdcdc"
     property color clr_exit: "#ffffff"

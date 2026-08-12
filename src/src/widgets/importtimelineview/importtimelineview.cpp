@@ -37,6 +37,8 @@ ImportTimeLineView::ImportTimeLineView(QmlWidget *parent)
     , m_oe(nullptr), m_oet(nullptr), m_ctrlPress(false)
 {
     qDebug() << "Initializing ImportTimeLineView";
+    this->setObjectName("ImportTimeLineView");
+    this->setAccessibleName("ImportTimeLineView");
     m_qquickContainer = parent;
     //setAcceptDrops(true);
     QVBoxLayout *pMainBoxLayout = new QVBoxLayout(this);
