@@ -119,6 +119,8 @@ DialogWindow {
 
     Button {
         id: cancelbtn
+        Accessible.name: "NewAlbumCancelButton"
+        Accessible.role: Accessible.Button
         anchors {
             top: nameedit.bottom
             topMargin: 15
@@ -136,6 +138,8 @@ DialogWindow {
 
     RecommandButton {
         id: enterbtn
+        Accessible.name: "NewAlbumConfirmButton"
+        Accessible.role: Accessible.Button
         anchors {
             top: nameedit.bottom
             topMargin: 14

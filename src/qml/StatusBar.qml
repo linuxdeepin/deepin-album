@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -25,6 +25,8 @@ Item {
     visible: !(GStatus.currentViewType === Album.Types.ViewClassification)
 
     Label {
+        Accessible.name: "StatusLabel"
+        Accessible.role: Accessible.StaticText
         height: parent.height
         anchors.centerIn: parent
         verticalAlignment: Text.AlignVCenter
@@ -34,6 +36,8 @@ Item {
 
     Slider {
         id: slider
+        Accessible.name: "ThumbnailSizeSlider"
+        Accessible.role: Accessible.Slider
         width: 160
         height: parent.height
         anchors {

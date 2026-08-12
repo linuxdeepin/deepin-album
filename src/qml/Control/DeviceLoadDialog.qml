@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -67,6 +67,8 @@ DialogWindow {
             Layout.bottomMargin: 10
             Layout.topMargin: 10
             Button {
+                Accessible.name: "DeviceLoadCancelButton"
+                Accessible.role: Accessible.Button
                 text: qsTr("Cancel")
                 Layout.preferredWidth: btnWidth
                 onClicked: {
@@ -75,6 +77,8 @@ DialogWindow {
                 }
             }
             Button {
+                Accessible.name: "DeviceLoadIgnoreButton"
+                Accessible.role: Accessible.Button
                 text: qsTr("Ignore")
                 Layout.preferredWidth: btnWidth
                 Layout.alignment: Qt.AlignRight

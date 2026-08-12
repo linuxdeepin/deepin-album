@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -12,6 +12,8 @@ import org.deepin.dtk.style 1.0 as DS
 
 ComboBox {
     id: comboBox
+    Accessible.name: "FilterComboBox"
+    Accessible.role: Accessible.ComboBox
     textRole: "text"
     iconNameRole: "icon"
     flat: true

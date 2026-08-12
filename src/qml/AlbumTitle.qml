@@ -144,6 +144,8 @@ TitleBar {
     }
     ActionButton {
         id: appTitleIcon
+        Accessible.name: "AlbumIcon"
+        Accessible.role: Accessible.Button
         anchors {
             top: parent.top
             topMargin: 0
@@ -161,6 +163,8 @@ TitleBar {
 
     ToolButton {
         id: showHideleftSidebarButton
+        Accessible.name: "ToggleSidebarButton"
+        Accessible.role: Accessible.Button
         anchors {
             top: parent.top
             topMargin: 10
@@ -217,6 +221,8 @@ TitleBar {
             // 比例按钮
             ToolButton {
                 id: range1Button
+                Accessible.name: "ZoomRatioButton"
+                Accessible.role: Accessible.Button
                 Layout.preferredWidth: iconSize
                 Layout.preferredHeight: iconSize
                 enabled: !(GStatus.currentViewType === Album.Types.ViewCollecttion
@@ -263,6 +269,8 @@ TitleBar {
                 padding: 3
                 ToolButton {
                     id:yButton
+                    Accessible.name: "YearViewButton"
+                    Accessible.role: Accessible.Button
                     Layout.preferredHeight: parent.height
                     Layout.preferredWidth: parent.height
                     checkable: true
@@ -276,6 +284,8 @@ TitleBar {
                 }
                 ToolButton {
                     id:mButton
+                    Accessible.name: "MonthViewButton"
+                    Accessible.role: Accessible.Button
                     Layout.preferredHeight: parent.height
                     Layout.preferredWidth: parent.height
                     checkable: true
@@ -288,6 +298,8 @@ TitleBar {
                 }
                 ToolButton {
                     id:dButton
+                    Accessible.name: "DayViewButton"
+                    Accessible.role: Accessible.Button
                     Layout.preferredHeight: parent.height
                     Layout.preferredWidth: parent.height
                     checkable: true
@@ -300,6 +312,8 @@ TitleBar {
                 }
                 ToolButton {
                     id:allButton
+                    Accessible.name: "AllCollectionViewButton"
+                    Accessible.role: Accessible.Button
                     Layout.preferredHeight: parent.height
                     checkable: true
                     checked: true
@@ -507,6 +521,8 @@ TitleBar {
         ToolButton {
             visible: GStatus.selectedPaths.length === 0 || GStatus.currentViewType === Album.Types.ViewDevice || GStatus.currentViewType === Album.Types.ViewRecentlyDeleted
             id: titleImportBtn
+            Accessible.name: "ImportButton"
+            Accessible.role: Accessible.Button
             Layout.preferredWidth: iconSize
             Layout.preferredHeight: iconSize
             Layout.alignment: Qt.AlignRight
@@ -534,6 +550,8 @@ TitleBar {
         }
         ToolButton {
             id: titleCollectionBtn
+            Accessible.name: "FavoriteButton"
+            Accessible.role: Accessible.Button
             property bool canFavorite: {
                 GStatus.bRefreshFavoriteIconFlag
                 return albumControl.canFavorite(GStatus.selectedPaths)
@@ -568,6 +586,8 @@ TitleBar {
 
         ToolButton {
             id: titleRotateBtn
+            Accessible.name: "RotateButton"
+            Accessible.role: Accessible.Button
             visible: (titleImportBtn.visible ? false : true) && GStatus.currentViewType !== Album.Types.ViewDevice
             enabled: visible && FileControl.isRotatable(GStatus.selectedPaths)
             ColorSelector.disabled: visible && !FileControl.isRotatable(GStatus.selectedPaths)
@@ -588,6 +608,8 @@ TitleBar {
         }
         ToolButton {
             id: titleTrashBtn
+            Accessible.name: "DeleteButton"
+            Accessible.role: Accessible.Button
             visible: (titleImportBtn.visible ? false : true) && GStatus.currentViewType !== Album.Types.ViewDevice
             enabled: visible && FileControl.isCanDelete(GStatus.selectedPaths)
             ColorSelector.disabled: visible && !FileControl.isCanDelete(GStatus.selectedPaths)

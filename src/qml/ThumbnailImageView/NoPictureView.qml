@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -52,6 +52,8 @@ Item {
 
         RecommandButton {
             id: openPictureBtn
+            Accessible.name: "ImportPhotosButton"
+            Accessible.role: Accessible.Button
 
             Layout.alignment: Qt.AlignHCenter
             Layout.preferredWidth: 302
@@ -65,6 +67,8 @@ Item {
         }
         Label {
             Layout.alignment: Qt.AlignHCenter
+            Accessible.name: "NoContentLabel"
+            Accessible.role: Accessible.StaticText
             color: "#7A7A7A"
             text: bShowImportBtn ? qsTr("Or drag them here") : qsTr("No photos or videos found")
         }
