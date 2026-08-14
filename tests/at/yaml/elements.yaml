@@ -1,0 +1,172 @@
+elements:
+  NewAlbumConfirmButton:
+    name: NewAlbumConfirmButton
+    role: push button
+  ImportButton:
+    name: ImportButton
+    role: push button
+  StatusLabel:
+    name: StatusLabel
+    role: label
+  AlbumIcon:
+    name: AlbumIcon
+    role: panel
+  AllCollectionViewButton:
+    name: AllCollectionViewButton
+    role: push button
+  ImportPhotosButton:
+    name: ImportPhotosButton
+    role: push button
+  DeleteButton:
+    name: DeleteButton
+    role: push button
+  ThumbnailListView:
+    name: ThumbnailListView
+    role: list
+  FavoriteButton:
+    name: FavoriteButton
+    role: push button
+  TimeLineView:
+    name: TimeLineView
+    role: list
+  NoContentLabel:
+    name: NoContentLabel
+    role: label
+  NavigationCloseButton:
+    name: NavigationCloseButton
+    role: push button
+  ThumbnailSizeSlider:
+    name: ThumbnailSizeSlider
+    role: slider
+  CustomAlbumMenu:
+    name: CustomAlbumMenu
+    role: push button
+  RotateButton:
+    name: RotateButton
+    role: push button
+  YearViewButton:
+    name: YearViewButton
+    role: push button
+  DayViewButton:
+    name: DayViewButton
+    role: push button
+  CancelButton:
+    name: CancelButton
+    role: push button
+  FilterComboBox:
+    name: FilterComboBox
+    role: push button
+  n0:
+    name: FilterLabel
+    role: panel
+  n1:
+    name: NoResultWidget
+    role: panel
+  n2:
+    name: ToolButton
+    role: panel
+  n3:
+    name: TimeLineDateWidget
+    role: panel
+  n4:
+    name: ImportTimeLineDateWidget
+    role: panel
+  q0:
+    name: AlbumIcon
+    role: push button
+  q1:
+    name: ToggleSidebarButton
+    role: push button
+  q2:
+    name: ZoomRatioButton
+    role: push button
+  q3:
+    name: YearViewButton
+    role: push button
+  q4:
+    name: MonthViewButton
+    role: push button
+  q5:
+    name: DayViewButton
+    role: push button
+  q6:
+    name: AllCollectionViewButton
+    role: push button
+  q7:
+    name: ImportButton
+    role: push button
+  q8:
+    name: FavoriteButton
+    role: push button
+  q9:
+    name: RotateButton
+    role: push button
+  q10:
+    name: DeleteButton
+    role: push button
+  q11:
+    name: DeleteCancelButton
+    role: push button
+  q12:
+    name: DeleteConfirmButton
+    role: push button
+  q13:
+    name: DeviceLoadCancelButton
+    role: push button
+  q14:
+    name: DeviceLoadIgnoreButton
+    role: push button
+  q15:
+    name: WarningOkButton
+    role: push button
+  q16:
+    name: ExportCancelButton
+    role: push button
+  q17:
+    name: ExportConfirmButton
+    role: push button
+  q18:
+    name: FilterComboBox
+    role: push button
+  q19:
+    name: NewAlbumCancelButton
+    role: push button
+  q20:
+    name: NewAlbumConfirmButton
+    role: push button
+  q21:
+    name: CancelButton
+    role: push button
+  q22:
+    name: ConfirmDeleteButton
+    role: push button
+  q23:
+    name: NavigationCloseButton
+    role: push button
+  q24:
+    name: RemoveDeviceButton
+    role: push button
+  q25:
+    name: AddAlbumButton
+    role: push button
+  q26:
+    name: SystemAlbumMenu
+    role: push button
+  q27:
+    name: ImportAlbumMenu
+    role: push button
+  q28:
+    name: CustomAlbumMenu
+    role: push button
+  q29:
+    name: StatusLabel
+    role: push button
+  q30:
+    name: ThumbnailSizeSlider
+    role: push button
+  q31:
+    name: ImportPhotosButton
+    role: push button
+  q32:
+    name: NoContentLabel
+    role: push button

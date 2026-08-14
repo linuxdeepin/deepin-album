@@ -1,0 +1,712 @@
+name: 文件显示区(#115555)_suite
+app: deepin-album
+description: ''
+module: 文件显示区(#115555)
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_0192_s1
+  name: 自动导入-自定义路径相册无文件显示
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_main_menu
+    items:
+    - 导入
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0193_s1
+  name: '[119]视频预览-同时选择视频和照片使用Enter键'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: keyboard_press
+    key: return
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0194_s1
+  name: '[120][smoke][acp1]查看视频-双击视频查看'
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_double_click
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0195_s1
+  name: '[121]查看视频-选择多个视频快捷键查看'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0196_s1
+  name: '[122]查看视频-选择单个视频快捷键查看'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0197_s1
+  name: 预览-按page up/down浏览照片
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0198_s1
+  name: 预览-鼠标滚动浏览照片
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0199_s1
+  name: 预览-拖动滚动条浏览照片
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0200_s1
+  name: 合集-缩略图图显示
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ThumbnailListView
+      role: list
+- id: suite_0201_s1
+  name: '[173][core]调整缩略图大小-快捷键加鼠标滚轮放大照片'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ThumbnailListView
+      role: list
+- id: suite_0202_s1
+  name: '[174][core]调整缩略图大小-快捷键加鼠标滚轮缩小照片'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ThumbnailListView
+      role: list
+- id: suite_0203_s1
+  name: '[182][core]调整缩略图大小-快捷键缩小照片'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ThumbnailListView
+      role: list
+- id: suite_0204_s1
+  name: '[181][core]调整缩略图大小-快捷键放大照片'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ThumbnailListView
+      role: list
+- id: suite_0205_s1
+  name: '[165][core][acp1]视频时长显示-视频显示检查'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ThumbnailListView
+      role: list
+- id: suite_0206_s1
+  name: 缩放-缩放条缩放照片和视频显示
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ThumbnailSizeSlider
+      role: slider
+    do: click
+  - action: mouse_click
+    selector:
+      name: ThumbnailSizeSlider
+      role: slider
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ThumbnailSizeSlider
+      role: slider
+  - action: assert_element
+    selector:
+      name: ThumbnailSizeSlider
+      role: slider
+- id: suite_0207_s1
+  name: '[064]调整缩略图大小-使用快捷键缩放照片和视频显示'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ThumbnailSizeSlider
+      role: slider
+- id: suite_0208_s1
+  name: 视图-初始界面导入按钮文案检查
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0209_s1
+  name: '[core]取消选择-Esc键取消文件选中'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: keyboard_press
+    key: escape
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: CancelButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0210_s1
+  name: '[core]取消选择-相册窗口激活下，鼠标点击相册空白处取消文件选中'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: CancelButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0211_s1
+  name: 取消选择则-相册窗口非激活下，鼠标点击相册空白处取消文件选中
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: CancelButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0212_s1
+  name: 收藏-已收藏的文件在相册各视图下的显示
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0213_s1
+  name: '[core]收藏-缩略图上的收藏图标取消文件收藏'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: FavoriteButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0214_s1
+  name: '[core]选择-合集日视图选择任意文件后，文件列表显示'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: DayViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DayViewButton
+      role: push button
+- id: suite_0215_s1
+  name: '[core]选择-已导入视图选择任意文件后，文件列表显示'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DayViewButton
+      role: push button
+- id: suite_0216_s1
+  name: '[core]选择-合集日视图全选按钮全选当日的文件'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: DayViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: DayViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DayViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+- id: suite_0217_s1
+  name: '[core]选择-已导入视图全选按钮全选当日的文件'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: DayViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DayViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+- id: suite_0218_s1
+  name: '[core]选择-已导入视图全选按钮取消全选当日的文件'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: DayViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DayViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+- id: suite_0219_s1
+  name: 选择-合集日视图文件列表全选按钮隐藏
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: DayViewButton
+      role: push button
+    do: click
+  - action: keyboard_press
+    key: escape
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DayViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: CancelButton
+      role: push button
+teardown:
+- action: session_stop

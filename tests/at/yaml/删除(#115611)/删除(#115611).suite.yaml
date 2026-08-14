@@ -1,0 +1,1585 @@
+name: 删除(#115611)_suite
+app: deepin-album
+description: ''
+module: 删除(#115611)
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_0007_s1
+  name: 删除-删除大量照片和视频
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: keyboard_press
+    key: delete
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+- id: suite_0008_s1
+  name: 删除-删除多个文件删除弹窗文案显示
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0009_s1
+  name: 删除-删除单个文件删除弹窗文案显示
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0010_s1
+  name: 删除-反复删除相同文件，最近删除视图显示
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: keyboard_press
+    key: delete
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0011_s1
+  name: '[241][core][acp1]删除-查看照片界面快捷键Delete删除只读权限文件夹内的照片'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_double_click
+    selector:
+      name: ImportButton
+      role: push button
+  - action: keyboard_press
+    key: delete
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0012_s1
+  name: '[240][core][acp1]删除-查看照片界面快捷键Delete删除照片'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_double_click
+    selector:
+      name: ImportButton
+      role: push button
+  - action: keyboard_press
+    key: delete
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0013_s1
+  name: '[239][core][acp1]删除-查看照片界面工具栏删除按钮删除只读权限照片'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_double_click
+    selector:
+      name: ImportButton
+      role: push button
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0014_s1
+  name: '[238][core][acp1]删除-查看照片界面工具栏删除按钮删除照片'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_double_click
+    selector:
+      name: ImportButton
+      role: push button
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0015_s1
+  name: '[237][core][acp1]删除-查看照片界面全屏右键菜单删除照片'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_double_click
+    selector:
+      name: ImportButton
+      role: push button
+  - action: mouse_double_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: dtk_context_menu
+    selector:
+      name: DeleteButton
+      role: push button
+    items:
+    - 删除
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0016_s1
+  name: '[225][core][acp1]删除-查看照片界面右键菜单删除只读权限照片'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_double_click
+    selector:
+      name: ImportButton
+      role: push button
+  - action: dtk_context_menu
+    selector:
+      name: DeleteButton
+      role: push button
+    items:
+    - 删除
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0017_s1
+  name: '[220][smoke][acp1]删除-查看照片界面右键菜单删除照片'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_double_click
+    selector:
+      name: ImportButton
+      role: push button
+  - action: dtk_context_menu
+    selector:
+      name: DeleteButton
+      role: push button
+    items:
+    - 删除
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0018_s1
+  name: 删除-快捷键Delete删除安卓手机中照片和视频
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: keyboard_press
+    key: delete
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0019_s1
+  name: '[230][core][acp1]删除-快捷键Delete删除本地只读权限文件夹内的照片和视频'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: keyboard_press
+    key: delete
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0020_s1
+  name: '[229][smoke][acp1]删除-快捷键Delete删除照片和视频'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: keyboard_press
+    key: delete
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0021_s1
+  name: 删除-右键菜单删除苹果手机中照片和视频
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0022_s1
+  name: 删除-右键菜单删除U盘中照片和视频
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0023_s1
+  name: 删除-右键菜单删除只读权限文件夹内照片的软链接
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0024_s1
+  name: 删除-右键菜单删除软链接照片
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0025_s1
+  name: '[228][core][acp1]删除-右键菜单同时删除只读权限文件夹的照片和读写权限文件夹的视频'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0026_s1
+  name: '[227][core][acp1]删除-右键菜单删除只读权限文件夹内的照片和视频'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0027_s1
+  name: '[226][core][acp1]删除-右键菜单删除本地只读权限文件夹内的视频'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0028_s1
+  name: '[225][core][acp1]删除-右键菜单删除本地只读权限文件夹的照片'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ImportButton
+      role: push button
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ImportButton
+      role: push button
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0029_s1
+  name: '[224][smoke][acp1]删除-右键菜单删除照片和视频'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0030_s1
+  name: '[223][smoke][acp1]删除-右键菜单删除多个视频'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: FavoriteButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: FavoriteButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0031_s1
+  name: '[222][smoke][acp1]删除-右键菜单删除单个视频'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+- id: suite_0032_s1
+  name: '[221][smoke][acp1]删除-右键菜单删除多个照片'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: TimeLineView
+      role: list
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: TimeLineView
+      role: list
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0033_s1
+  name: '[220][smoke][acp1]删除-右键菜单删除单个照片'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0034_s1
+  name: '[009][smoke][acp1]右键菜单-删除-各界面下删除图片'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+- id: suite_0035_s1
+  name: '[105][core][acp1]右键菜单-删除-全选选删除照片'
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: DeleteButton
+      role: push button
+    items:
+    - 删除
+  - action: dtk_context_menu
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    items:
+    - 删除
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0036_s1
+  name: 查看界面-照片状态监测
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0037_s1
+  name: '[149][core][acp1]查看界面-查看源文件已删除的照片'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ThumbnailListView
+      role: list
+- id: suite_0038_s1
+  name: 删除-删除进度提示文案检查
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_right_click
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+teardown:
+- action: session_stop

@@ -1,0 +1,306 @@
+version: '1.0'
+tree:
+- id: n0
+  role: panel
+  name: FilterLabel
+  object_name: FilterLabel
+  accessible_id: ''
+  classification: container
+  comment: 'GUI位置: src/src/widgets/widgtes/expansionmenu.cpp | 功能: FilterLabel'
+  annotation_status: ''
+- id: n1
+  role: panel
+  name: NoResultWidget
+  object_name: NoResultWidget
+  accessible_id: ''
+  classification: container
+  comment: 'GUI位置: src/src/widgets/widgtes/noresultwidget.cpp | 功能: NoResultWidget'
+  annotation_status: ''
+- id: n2
+  role: panel
+  name: ToolButton
+  object_name: ToolButton
+  accessible_id: ''
+  classification: container
+  comment: 'GUI位置: src/src/widgets/widgtes/toolbutton.cpp | 功能: ToolButton'
+  annotation_status: ''
+- id: n3
+  role: panel
+  name: TimeLineDateWidget
+  object_name: TimeLineDateWidget
+  accessible_id: ''
+  classification: container
+  comment: 'GUI位置: src/src/widgets/thumbnail/timelinedatewidget.cpp | 功能: TimeLineDateWidget'
+  annotation_status: ''
+- id: n4
+  role: panel
+  name: ImportTimeLineDateWidget
+  object_name: ImportTimeLineDateWidget
+  accessible_id: ''
+  classification: container
+  comment: 'GUI位置: src/src/widgets/thumbnail/timelinedatewidget.cpp | 功能: importTimeLineDateWidget'
+  annotation_status: ''
+- id: q0
+  role: push button
+  name: AlbumIcon
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: AlbumIcon'
+  annotation_status: ''
+- id: q1
+  role: push button
+  name: ToggleSidebarButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: ToggleSidebarButton'
+  annotation_status: ''
+- id: q2
+  role: push button
+  name: ZoomRatioButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: ZoomRatioButton'
+  annotation_status: ''
+- id: q3
+  role: push button
+  name: YearViewButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: YearViewButton'
+  annotation_status: ''
+- id: q4
+  role: push button
+  name: MonthViewButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: MonthViewButton'
+  annotation_status: ''
+- id: q5
+  role: push button
+  name: DayViewButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: DayViewButton'
+  annotation_status: ''
+- id: q6
+  role: push button
+  name: AllCollectionViewButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: AllCollectionViewButton'
+  annotation_status: ''
+- id: q7
+  role: push button
+  name: ImportButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: ImportButton'
+  annotation_status: ''
+- id: q8
+  role: push button
+  name: FavoriteButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: FavoriteButton'
+  annotation_status: ''
+- id: q9
+  role: push button
+  name: RotateButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: RotateButton'
+  annotation_status: ''
+- id: q10
+  role: push button
+  name: DeleteButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: DeleteButton'
+  annotation_status: ''
+- id: q11
+  role: push button
+  name: DeleteCancelButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: DeleteCancelButton'
+  annotation_status: ''
+- id: q12
+  role: push button
+  name: DeleteConfirmButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: DeleteConfirmButton'
+  annotation_status: ''
+- id: q13
+  role: push button
+  name: DeviceLoadCancelButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: DeviceLoadCancelButton'
+  annotation_status: ''
+- id: q14
+  role: push button
+  name: DeviceLoadIgnoreButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: DeviceLoadIgnoreButton'
+  annotation_status: ''
+- id: q15
+  role: push button
+  name: WarningOkButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: WarningOkButton'
+  annotation_status: ''
+- id: q16
+  role: push button
+  name: ExportCancelButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: ExportCancelButton'
+  annotation_status: ''
+- id: q17
+  role: push button
+  name: ExportConfirmButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: ExportConfirmButton'
+  annotation_status: ''
+- id: q18
+  role: push button
+  name: FilterComboBox
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: FilterComboBox'
+  annotation_status: ''
+- id: q19
+  role: push button
+  name: NewAlbumCancelButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: NewAlbumCancelButton'
+  annotation_status: ''
+- id: q20
+  role: push button
+  name: NewAlbumConfirmButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: NewAlbumConfirmButton'
+  annotation_status: ''
+- id: q21
+  role: push button
+  name: CancelButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: CancelButton'
+  annotation_status: ''
+- id: q22
+  role: push button
+  name: ConfirmDeleteButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: ConfirmDeleteButton'
+  annotation_status: ''
+- id: q23
+  role: push button
+  name: NavigationCloseButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: NavigationCloseButton'
+  annotation_status: ''
+- id: q24
+  role: push button
+  name: RemoveDeviceButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: RemoveDeviceButton'
+  annotation_status: ''
+- id: q25
+  role: push button
+  name: AddAlbumButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: AddAlbumButton'
+  annotation_status: ''
+- id: q26
+  role: push button
+  name: SystemAlbumMenu
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: SystemAlbumMenu'
+  annotation_status: ''
+- id: q27
+  role: push button
+  name: ImportAlbumMenu
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: ImportAlbumMenu'
+  annotation_status: ''
+- id: q28
+  role: push button
+  name: CustomAlbumMenu
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: CustomAlbumMenu'
+  annotation_status: ''
+- id: q29
+  role: push button
+  name: StatusLabel
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: StatusLabel'
+  annotation_status: ''
+- id: q30
+  role: push button
+  name: ThumbnailSizeSlider
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: ThumbnailSizeSlider'
+  annotation_status: ''
+- id: q31
+  role: push button
+  name: ImportPhotosButton
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: ImportPhotosButton'
+  annotation_status: ''
+- id: q32
+  role: push button
+  name: NoContentLabel
+  object_name: ''
+  accessible_id: ''
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: NoContentLabel'
+  annotation_status: ''

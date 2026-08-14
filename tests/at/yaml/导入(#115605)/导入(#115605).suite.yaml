@@ -1,0 +1,999 @@
+name: 导入(#115605)_suite
+app: deepin-album
+description: ''
+module: 导入(#115605)
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_0061_s1
+  name: '[188][core]自动导入-自定义路径相册全局导入按钮导入文件'
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_main_menu
+    items:
+    - 导入
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: dtk_main_menu
+    items:
+    - 主菜单
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+- id: suite_0062_s1
+  name: 导入-画板默认路径相册全局导入按钮导入文件
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: dtk_main_menu
+    items:
+    - 主菜单
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+- id: suite_0063_s1
+  name: 导入-截图录屏默认路径相册全局导入按钮导入文件
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: dtk_main_menu
+    items:
+    - 主菜单
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+- id: suite_0064_s1
+  name: 导入-相机默认路径相册全局导入按钮导入文件
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: dtk_main_menu
+    items:
+    - 主菜单
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+- id: suite_0065_s1
+  name: '[189][core]导入相册-拖拽文件至自定义路径相册'
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_main_menu
+    items:
+    - 导入
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_click
+    selector:
+      name: ImportButton
+      role: push button
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0066_s1
+  name: '[194][core]导入-拖拽文件至画板默认路径相册'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: mouse_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0067_s1
+  name: '[195][core]导入-拖拽文件至截图录屏默认路径相册'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: mouse_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0068_s1
+  name: '[141][core][acp1]导入照片-导入相同照片'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0069_s1
+  name: 导入照片-导入扩展名不同的照片
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0070_s1
+  name: 导入照片-导入不同路径相同照片
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0071_s1
+  name: '[142][core][acp1]快捷键-CTRL+O导入照片文件夹'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0072_s1
+  name: '[148][core][acp1]快捷键-CTRL+O导入照片'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0073_s1
+  name: 导入照片-导入大量图片
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0074_s1
+  name: 导入照片-导入损坏的照片
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0075_s1
+  name: '[151][smoke][acp1]导入照片-通过导入按钮选择文件夹导入'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0076_s1
+  name: '[152][smoke][acp1]导入照片-通过导入按钮选择照片导入'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0077_s1
+  name: '[185][core]导入照片-拖拽多个文件夹导入'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0078_s1
+  name: '[162][smoke][acp1]导入照片-拖拽单个文件夹导入'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0079_s1
+  name: '[163][smoke][acp1]导入照片-拖拽多张照片导入'
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: mouse_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0080_s1
+  name: '[023][smoke][acp1]导入照片-拖拽单张照片导入'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0081_s1
+  name: 导入照片-导入无读写权限的照片
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0082_s1
+  name: 导入照片-导入只读权限的照片
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0083_s1
+  name: 导入照片-导入修改后缀名的照片
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0084_s1
+  name: 相册-移动设备-图片导入-安卓
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0085_s1
+  name: 相册-移动设备-图片导入-iphone
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0086_s1
+  name: 导入-导入失败检查
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0087_s1
+  name: 导入-导入过程移除本地导入文件
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0088_s1
+  name: 导入-外部设备导入过程移除设备提示检查
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0089_s1
+  name: 导入-导入过程文案显示
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0090_s1
+  name: 导入-重复导入部分相同路径视频或照片
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0091_s1
+  name: 导入-重复导入相同路径视频或照片
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_window
+- id: suite_0092_s1
+  name: 导入-批量导入照片和视频显示
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: mouse_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0093_s1
+  name: 导入-导入选择弹窗检查
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+- id: suite_0094_s1
+  name: 导入-视频导入同步检查
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+- id: suite_0095_s1
+  name: '[core]导入-设备视图视频导入相册'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+- id: suite_0096_s1
+  name: '[core]导入-设备视频加载'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0097_s1
+  name: '[175][core]导入-同时拖拽视频和照片导入'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: mouse_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0098_s1
+  name: '[161][smoke][acp1]导入-拖拽视频文件夹导入'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: mouse_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0099_s1
+  name: '[160][smoke][acp1]导入-拖拽单个视频导入'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: mouse_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0100_s1
+  name: 导入-初始界面导入按钮导入权限为“000”视频
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0101_s1
+  name: '[159][smoke][acp1]导入-初始界面导入按钮导入视频和照片文件夹'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0102_s1
+  name: '[158][smoke][acp1]导入-初始界面导入按钮导入视频和照片'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0103_s1
+  name: '[157][smoke][acp1]导入-初始界面导入按钮导入视频文件夹'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0104_s1
+  name: '[156][smoke][acp1]导入-初始界面导入按钮导入视频'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+teardown:
+- action: session_stop

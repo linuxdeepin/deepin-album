@@ -1,0 +1,39 @@
+name: 控制中心(#115617)_suite
+app: deepin-album
+description: ''
+module: 控制中心(#115617)
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_0137_s1
+  name: 交互-切换系统语言
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0138_s1
+  name: 英文-切换英文检查文案显示
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+  - action: assert_window
+teardown:
+- action: session_stop

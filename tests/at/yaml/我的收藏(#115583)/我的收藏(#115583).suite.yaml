@@ -1,0 +1,34 @@
+name: 我的收藏(#115583)_suite
+app: deepin-album
+description: ''
+module: 我的收藏(#115583)
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_0129_s1
+  name: 我的收藏-标题显示位置检查
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: FavoriteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+teardown:
+- action: session_stop

@@ -1,0 +1,85 @@
+version: '1.0'
+app: deepin-album
+summary:
+  total_ui_classes: 16
+  classes_with_names: 5
+  classes_missing_names: 11
+gaps:
+- class_name: FilterWidget
+  source_file: src/src/widgets/widgtes/expansionmenu.cpp
+  base_classes:
+  - QWidget
+  object_names: []
+  accessible_names: []
+  dtk_instantiations: []
+- class_name: FilterLabel
+  source_file: src/src/widgets/widgtes/expansionmenu.h
+  base_classes:
+  - QLabel
+  object_names: []
+  accessible_names: []
+  dtk_instantiations: []
+- class_name: FilterWidget
+  source_file: src/src/widgets/widgtes/expansionmenu.h
+  base_classes:
+  - QWidget
+  object_names: []
+  accessible_names: []
+  dtk_instantiations: []
+- class_name: NoResultWidget
+  source_file: src/src/widgets/widgtes/noresultwidget.h
+  base_classes:
+  - QWidget
+  object_names: []
+  accessible_names: []
+  dtk_instantiations: []
+- class_name: ToolButton
+  source_file: src/src/widgets/widgtes/toolbutton.h
+  base_classes:
+  - DPushButton
+  object_names: []
+  accessible_names: []
+  dtk_instantiations: []
+- class_name: ThumbnailListView
+  source_file: src/src/widgets/thumbnail/thumbnaillistview.cpp
+  base_classes:
+  - DListView
+  object_names: []
+  accessible_names: []
+  dtk_instantiations:
+  - DListView
+- class_name: ThumbnailListView
+  source_file: src/src/widgets/thumbnail/thumbnaillistview.h
+  base_classes:
+  - DListView
+  object_names: []
+  accessible_names: []
+  dtk_instantiations: []
+- class_name: TimeLineDateWidget
+  source_file: src/src/widgets/thumbnail/timelinedatewidget.h
+  base_classes:
+  - DWidget
+  object_names: []
+  accessible_names: []
+  dtk_instantiations: []
+- class_name: importTimeLineDateWidget
+  source_file: src/src/widgets/thumbnail/timelinedatewidget.h
+  base_classes:
+  - DWidget
+  object_names: []
+  accessible_names: []
+  dtk_instantiations: []
+- class_name: QmlCustomInternalWidget
+  source_file: src/src/qmlWidget.cpp
+  base_classes:
+  - QWidget
+  object_names: []
+  accessible_names: []
+  dtk_instantiations: []
+- class_name: QmlCustomInternalWidget
+  source_file: src/src/qmlWidget.h
+  base_classes:
+  - QWidget
+  object_names: []
+  accessible_names: []
+  dtk_instantiations: []

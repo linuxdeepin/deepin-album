@@ -1,0 +1,145 @@
+name: 窗口操作(#115599)_suite
+app: deepin-album
+description: ''
+module: 窗口操作(#115599)
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_0279_s1
+  name: 查看界面-图片放大最大比例
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0280_s1
+  name: 查看照片-双击查看照片窗口照片查看
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0281_s1
+  name: '[054][acp1]查看照片-双击文件管理照片查看'
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_double_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0282_s1
+  name: '[053][smoke][acp1]查看照片-文件管理照片右键打开查看'
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_right_click
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0283_s1
+  name: '[052][core][acp1]查看照片-选中照片Enter键查看'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ThumbnailListView
+      role: list
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0284_s1
+  name: '[055][smoke][acp1]查看照片-双击照片缩略图查看'
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_double_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0285_s1
+  name: 重命名-读写图片重命名
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0286_s1
+  name: OCR-入口检查-窗口下点击工具栏按钮
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+teardown:
+- action: session_stop

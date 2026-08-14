@@ -1,0 +1,342 @@
+name: 外部交互(#115561)_suite
+app: deepin-album
+description: ''
+module: 外部交互(#115561)
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_0044_s1
+  name: 交互-回收站还原相册中自定义路径相册删除的照片和视频
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_main_menu
+    items:
+    - 导入
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: keyboard_press
+    key: delete
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+- id: suite_0045_s1
+  name: 交互-回收站还原相册中默认路径相册删除的照片和视频
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+- id: suite_0046_s1
+  name: 交互操作-文案翻译
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+- id: suite_0047_s1
+  name: 交互操作-读取其他应用照片同步刷新
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: NoContentLabel
+      role: label
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+- id: suite_0048_s1
+  name: 交互操作-读取其他应用照片
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: NavigationCloseButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: NoContentLabel
+      role: label
+  - action: assert_window
+  - action: assert_window
+- id: suite_0049_s1
+  name: 交互操作-缩略图展示，不同分辨率、缩放比、多屏的适应情况
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: assert_element
+    selector:
+      name: ThumbnailSizeSlider
+      role: slider
+  - action: assert_element
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: assert_element
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: assert_element
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: assert_element
+    selector:
+      name: ThumbnailListView
+      role: list
+- id: suite_0050_s1
+  name: 交互操作-默认设置
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+- id: suite_0051_s1
+  name: '[core]交互操作-多次打开图片'
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_double_click
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+- id: suite_0052_s1
+  name: 交互操作-压缩文件
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_double_click
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+- id: suite_0053_s1
+  name: '[smoke]交互操作-打开图片'
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_double_click
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: mouse_right_click
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: mouse_right_click
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: mouse_right_click
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+teardown:
+- action: session_stop

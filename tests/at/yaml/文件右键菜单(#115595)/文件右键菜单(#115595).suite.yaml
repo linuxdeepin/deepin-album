@@ -1,0 +1,1006 @@
+name: 文件右键菜单(#115595)_suite
+app: deepin-album
+description: ''
+module: 文件右键菜单(#115595)
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_0145_s1
+  name: 右键菜单-右键菜单添加到相册的二级菜单无自动导入相册选项检查
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_right_click
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0146_s1
+  name: 右键菜单-自定义路径相册文件右键菜单选项检查
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_main_menu
+    items:
+    - 导入
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+- id: suite_0147_s1
+  name: 右键菜单-画板默认路径相册文件右键菜单选项检查
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+- id: suite_0148_s1
+  name: 右键菜单-截图录屏默认路径相册文件右键菜单选项检查
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+- id: suite_0149_s1
+  name: 右键菜单-相机默认路径相册文件右键菜单选项检查
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+- id: suite_0150_s1
+  name: '[118]右键菜单-自建相册只包含视频右键菜单显示'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0151_s1
+  name: '[128]右键菜单-多个视频右键菜单-添加到相册-新建相册'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+    do: click
+  - action: keyboard_press
+    key: return
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+  - action: assert_window
+- id: suite_0152_s1
+  name: '[129][core][acp1]右键菜单-多个视频右键菜单-删除'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+- id: suite_0153_s1
+  name: '[130][core][acp1]右键菜单-多个视频右键菜单-复制'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: dtk_context_menu
+    selector:
+      name: ThumbnailListView
+      role: list
+    items:
+    - 粘贴
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0154_s1
+  name: 右键菜单-单个视频右键菜单-视频信息
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0155_s1
+  name: '[131]右键菜单-单个视频右键菜单-在文件管理器中显示'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0156_s1
+  name: '[132][core][acp1]右键菜单-单个视频右键菜单-收藏'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: element_action
+    selector:
+      name: FavoriteButton
+      role: push button
+    do: click
+  - action: dtk_context_menu
+    selector:
+      name: FavoriteButton
+      role: push button
+    items:
+    - 取消收藏
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+- id: suite_0157_s1
+  name: '[133][core][acp1]右键菜单-单个视频右键菜单-删除'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+- id: suite_0158_s1
+  name: '[134]右键菜单-单个视频右键菜单-复制'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: dtk_context_menu
+    selector:
+      name: ThumbnailListView
+      role: list
+    items:
+    - 粘贴
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0159_s1
+  name: '[135][core][acp1]右键菜单-单个视频右键菜单-添加到相册-已有相册'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0160_s1
+  name: '[136][core][acp1]右键菜单-单个视频右键菜单-添加到相册-新建相册'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+    do: click
+  - action: keyboard_press
+    key: return
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+  - action: assert_window
+- id: suite_0161_s1
+  name: '[137][core][acp1]右键菜单-单个视频右键菜单-查看'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0162_s1
+  name: '[138][core][acp1]右键菜单-选择照片和视频右键菜单'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0163_s1
+  name: '[139][core][acp1]右键菜单-多个视频右键菜单选项'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0164_s1
+  name: '[140][core][acp1]右键菜单-单个视频右键菜单选项'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+- id: suite_0165_s1
+  name: 右键菜单-重复添加文件至相同相册显示
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: CustomAlbumMenu
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: dtk_context_menu
+    selector:
+      name: ThumbnailListView
+      role: list
+    items:
+    - 添加到相册
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0166_s1
+  name: 右键菜单-添加到相册-选项查看
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+- id: suite_0167_s1
+  name: '[022][core][acp1]右键菜单-添加到相册-已有相册'
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: ThumbnailListView
+      role: list
+    items:
+    - 添加到相册
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0168_s1
+  name: '[021][core][acp1]右键菜单-添加到相册-新建相册'
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+    items:
+    - 添加到相册
+    - 新建相册
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+- id: suite_0169_s1
+  name: '[026][core][acp1]照片右键菜单-打印'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0170_s1
+  name: 照片右键菜单-照片信息
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0171_s1
+  name: '[208][core]照片右键菜单-在文件管理器中显示'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0172_s1
+  name: 右键菜单-设为壁纸-不支持照片
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0173_s1
+  name: '[004][core][acp1]照片右键菜单-设为壁纸'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0174_s1
+  name: 照片右键菜单-只读权限照片逆时针显示
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: RotateButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: RotateButton
+      role: push button
+- id: suite_0175_s1
+  name: 照片右键菜单-只读权限照片顺时针显示
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: RotateButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: RotateButton
+      role: push button
+- id: suite_0176_s1
+  name: '[006][core][acp1]照片右键菜单-逆时针旋转'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0177_s1
+  name: '[005][core][acp1]照片右键菜单-顺时针旋转'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0178_s1
+  name: '[008][core][acp1]照片右键菜单-取消收藏'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+- id: suite_0179_s1
+  name: '[007][smoke][acp1]照片右键菜单-收藏'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+- id: suite_0180_s1
+  name: '[097][core]照片右键菜单-自定义相册-从相册中移除照片'
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+    items:
+    - 新建相册
+    - 从相册中移除
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+- id: suite_0181_s1
+  name: '[096][smoke][acp1]照片右键菜单-复制'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0182_s1
+  name: '[093][smoke][acp1]照片右键菜单-添加到相册-已有相册'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0183_s1
+  name: '[092][smoke][acp1]照片右键菜单-添加到相册-新建相册'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+- id: suite_0184_s1
+  name: '[001、101][smoke][acp1]照片右键菜单-查看'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+- id: suite_0185_s1
+  name: '[080][]相册-已导入-界面展示'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: YearViewButton
+      role: push button
+- id: suite_0186_s1
+  name: 时间线-界面展示
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DayViewButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: DayViewButton
+      role: push button
+- id: suite_0187_s1
+  name: '[051][core][acp1]右键菜单-添加到相册-历史相册'
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: ThumbnailListView
+      role: list
+    items:
+    - 添加到相册
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0188_s1
+  name: '[050][core][acp1]右键菜单-添加到相册-新建相册'
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+    items:
+    - 添加到相册
+    - 新建相册
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+- id: suite_0189_s1
+  name: '[011]右键菜单-退出全屏'
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_right_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: mouse_right_click
+    selector:
+      name: NavigationCloseButton
+      role: push button
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: NavigationCloseButton
+      role: push button
+- id: suite_0190_s1
+  name: '[010][core]右键菜单-全屏'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+- id: suite_0191_s1
+  name: '[046][core][acp1]右键菜单-添加到相册-添加1张图片'
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: ThumbnailListView
+      role: list
+    items:
+    - 添加到相册
+  - action: dtk_context_menu
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+    items:
+    - 添加到相册
+    - 新建相册
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+teardown:
+- action: session_stop

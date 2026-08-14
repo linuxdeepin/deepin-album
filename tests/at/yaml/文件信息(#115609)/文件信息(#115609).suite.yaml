@@ -1,0 +1,145 @@
+name: 文件信息(#115609)_suite
+app: deepin-album
+description: ''
+module: 文件信息(#115609)
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_0139_s1
+  name: 视频信息-弹窗操作
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: mouse_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: NavigationCloseButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: NavigationCloseButton
+      role: push button
+  - action: assert_window
+- id: suite_0140_s1
+  name: 视频信息-视频信息内容显示
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    items:
+    - 信息
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0141_s1
+  name: 视频信息-入口检查
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    items:
+    - 信息
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0142_s1
+  name: 右键菜单-最近删除-视频信息
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  - action: dtk_context_menu
+    selector:
+      name: ThumbnailListView
+      role: list
+    items:
+    - 信息
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_window
+- id: suite_0143_s1
+  name: 右键菜单-照片信息-详细信息
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: NoContentLabel
+      role: label
+  - action: assert_window
+- id: suite_0144_s1
+  name: 右键菜单-照片信息-基本信息
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+teardown:
+- action: session_stop
