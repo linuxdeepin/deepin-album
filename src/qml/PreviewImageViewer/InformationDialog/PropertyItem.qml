@@ -18,6 +18,7 @@ ColumnLayout {
     width: 280
 
     ItemDelegate {
+        Accessible.name: "TitleBar_2"
         id: titleBar
 
         property Palette titleTextColor: Palette {
@@ -52,6 +53,7 @@ ColumnLayout {
     }
 
     ListView {
+        Accessible.name: "Info_2"
         id: info
 
         Layout.fillWidth: true

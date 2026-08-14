@@ -95,6 +95,7 @@ BaseView {
         clip: true
 
         GridView {
+            Accessible.name: "ClassificationGrid"
             id: classificationGrid
             anchors.fill: parent
             cellWidth: 280

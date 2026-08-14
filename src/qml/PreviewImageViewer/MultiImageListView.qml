@@ -29,6 +29,7 @@ Item {
     height: parent.height
 
     ListView {
+        Accessible.name: "ListView"
         id: listView
         anchors.fill: parent
 

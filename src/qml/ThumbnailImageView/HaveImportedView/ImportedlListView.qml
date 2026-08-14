@@ -101,6 +101,7 @@ Item {
 
     //已导入列表本体
     ListView {
+        Accessible.name: "TheView_7"
         id: theView
         clip: true
         interactive: false //禁用原有的交互逻辑，重新开始定制
@@ -119,6 +120,7 @@ Item {
 
         //激活滚动条
         ScrollBar.vertical: ScrollBar {
+            Accessible.name: "Vbar"
             id: vbar
             active: true
 
@@ -374,6 +376,8 @@ Item {
             }
 
             CheckBox {
+                Accessible.name: "ImportedCheckBox"
+                Accessible.role: Accessible.CheckBox
                 id: importedCheckBox
                 height: importedListView.importCheckboxHeight
                 visible: selectedPaths.length > 0 && index > 0

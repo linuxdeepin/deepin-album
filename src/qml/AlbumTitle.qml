@@ -107,6 +107,8 @@ TitleBar {
 
 
     menu: Menu {
+        Accessible.name: "SettingsMenu"
+        Accessible.role: Accessible.Menu
         x: 0; y: 0
         Action {
             id: equalizerControl
@@ -114,9 +116,12 @@ TitleBar {
             onTriggered: {
                 showNewAlbumDialog()
             }
+                Accessible.name: "SettingsControl"
+                Accessible.role: Accessible.MenuItem
         }
         MenuItem {
             id: settingsControl
+            Accessible.name: "ImportFoldersMenuItem"
             text: qsTr("Import folders")
             onTriggered: {
                 albumControl.createNewCustomAutoImportAlbum()
@@ -358,6 +363,8 @@ TitleBar {
                         && GStatus.currentViewType === Album.Types.ViewCollecttion
                         && albumControl.getYears().length !== 0
                 visible: GStatus.currentViewType === Album.Types.ViewCollecttion
+                    Accessible.name: "CollectionCombo"
+                    Accessible.role: Accessible.ComboBox
                          && albumControl.getYears().length !== 0
                          && window.width <= showCollComboWidth
                 sourceComponent: ComboBox {

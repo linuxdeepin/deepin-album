@@ -6,6 +6,8 @@ import QtQuick 2.11
 import QtQuick.Controls 2.4
 
 ToolButton {
+        Accessible.name: "ThumbnailButton_ToolButton"
+        Accessible.role: Accessible.Button
 
     Accessible.role: Accessible.Button
 

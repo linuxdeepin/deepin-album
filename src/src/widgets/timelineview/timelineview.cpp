@@ -156,6 +156,8 @@ void TimeLineView::initTimeLineViewWidget()
     m_timeLineViewWidget->setLayout(m_mainLayout);
 
     m_timeLineThumbnailListView = new ThumbnailListView(ThumbnailDelegate::TimeLineViewType, -1, "timelineview", m_timeLineViewWidget);
+    m_timeLineThumbnailListView->setObjectName("TimeLineThumbnailListView");
+    m_timeLineThumbnailListView->setAccessibleName("TimeLineThumbnailListView");
     m_timeLineThumbnailListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_timeLineThumbnailListView->setContextMenuPolicy(Qt::CustomContextMenu);
     m_timeLineThumbnailListView->setContentsMargins(0, 0, 0, 0);
@@ -198,6 +200,8 @@ void TimeLineView::initTimeLineViewWidget()
     QHBoxLayout *hNumLayout = new QHBoxLayout();
     hNumLayout->setContentsMargins(0, TITLE_LINE_SPACING, 0, 0);
     m_numCheckBox = new DCheckBox();
+    m_numCheckBox->setObjectName("NumCheckBox");
+    m_numCheckBox->setAccessibleName("NumCheckBox");
     connect(m_numCheckBox, &DCheckBox::clicked, this, &TimeLineView::onCheckBoxClicked);
     hNumLayout->addWidget(m_numCheckBox);
     DFontSizeManager::instance()->bind(m_numCheckBox, DFontSizeManager::T6, QFont::Normal);

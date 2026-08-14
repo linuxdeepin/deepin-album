@@ -58,6 +58,7 @@ ColumnLayout {
     }
     spacing: 10
     ListView {
+        Accessible.name: "SideListView"
         id: sideListView
         implicitHeight: contentHeight
         width: 180

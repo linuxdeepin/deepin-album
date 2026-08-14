@@ -12,6 +12,7 @@ BaseImageDelegate {
     id: multiImageDelegate
 
     ListView {
+        Accessible.name: "MultiImageView"
         id: multiImageView
 
         width: multiImageDelegate.width

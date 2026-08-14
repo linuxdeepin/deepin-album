@@ -256,6 +256,8 @@ void ImportTimeLineView::initTimeLineViewWidget()
     m_timeLineViewWidget->setLayout(m_mainLayout);
 
     m_importTimeLineListView = new ThumbnailListView(ThumbnailDelegate::AlbumViewImportTimeLineViewType, -1, COMMON_STR_RECENT_IMPORTED, m_timeLineViewWidget);
+    m_importTimeLineListView->setObjectName("ImportTimeLineListView");
+    m_importTimeLineListView->setAccessibleName("ImportTimeLineListView");
     m_importTimeLineListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_importTimeLineListView->setContextMenuPolicy(Qt::CustomContextMenu);
     m_importTimeLineListView->setContentsMargins(0, 0, 0, 0);
@@ -302,6 +304,8 @@ void ImportTimeLineView::initTimeLineViewWidget()
     QHBoxLayout *hDateNumLayout = new QHBoxLayout();
     hDateNumLayout->setContentsMargins(0, TITLE_LINE_SPACING, 0, 0);
     m_dateNumCheckBox = new DCheckBox();
+    m_dateNumCheckBox->setObjectName("DateNumCheckBox");
+    m_dateNumCheckBox->setAccessibleName("DateNumCheckBox");
     connect(m_dateNumCheckBox, &DCheckBox::clicked, this, &ImportTimeLineView::onCheckBoxClicked);
     hDateNumLayout->addWidget(m_dateNumCheckBox);
     DFontSizeManager::instance()->bind(m_dateNumCheckBox, DFontSizeManager::T6, QFont::Normal);

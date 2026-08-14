@@ -14,6 +14,7 @@ ColumnLayout {
     default property alias content: itemModel.children
 
     ItemDelegate {
+        Accessible.name: "TitleBar"
         id: titleBar
         Layout.fillWidth: true; Layout.preferredHeight: 24
         text: title
@@ -30,6 +31,7 @@ ColumnLayout {
         }
     }
     ListView {
+        Accessible.name: "Info"
         id: info
         Layout.fillWidth: true
         Layout.preferredHeight: contentHeight

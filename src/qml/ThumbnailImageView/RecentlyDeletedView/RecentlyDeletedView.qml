@@ -206,6 +206,8 @@ BaseView {
         }
 
         Button {
+            Accessible.name: "RestoreSelectedBtn"
+            Accessible.role: Accessible.Button
             id: restoreSelectedBtn
             anchors {
                 top: recentDelLabel.bottom

@@ -50,6 +50,7 @@ BaseThumbnailDelegate {
     ]
 
     ListView {
+        Accessible.name: "ListView_2"
         id: listView
 
         // 计算调整的 item 宽度，item 宽度允许范围内处于 10px ~ 30px, count一定 >=2
