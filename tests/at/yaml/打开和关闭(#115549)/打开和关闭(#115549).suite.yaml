@@ -1,0 +1,100 @@
+name: 打开和关闭(#115549)_suite
+app: deepin-album
+description: ''
+module: 打开和关闭(#115549)
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_0131_s1
+  name: '[038][smoke][acp1]打开应用-任务栏右键打开'
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_right_click
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0132_s1
+  name: '[037][smoke][acp1]打开应用-任务栏双击打开'
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_double_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0133_s1
+  name: '[036][smoke][acp1]打开应用-桌面双击打开'
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_double_click
+    selector:
+      name: ThumbnailListView
+      role: list
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0134_s1
+  name: '[035][smoke][acp1]打开应用-桌面右键打开'
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_right_click
+    selector:
+      name: ImportPhotosButton
+      role: push button
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0135_s1
+  name: '[034][smoke][acp1]打开应用-启动器右键打开'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0136_s1
+  name: '[033][smoke][acp1]打开应用-启动器双击应用图标'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+teardown:
+- action: session_stop

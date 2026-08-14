@@ -1,0 +1,26 @@
+name: 右键菜单(#115601)_suite
+app: deepin-album
+description: ''
+module: 右键菜单(#115601)
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_0042_s1
+  name: '[145][core][acp1]查看照片右键菜单-顺时针旋转'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+teardown:
+- action: session_stop

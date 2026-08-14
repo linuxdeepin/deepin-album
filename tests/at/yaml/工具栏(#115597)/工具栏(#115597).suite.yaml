@@ -1,0 +1,28 @@
+name: 工具栏(#115597)_suite
+app: deepin-album
+description: ''
+module: 工具栏(#115597)
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_0117_s1
+  name: '[090][smoke][acp1]查看界面-删除图片'
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: DeleteButton
+      role: push button
+teardown:
+- action: session_stop

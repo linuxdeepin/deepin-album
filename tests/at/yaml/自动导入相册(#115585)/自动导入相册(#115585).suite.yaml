@@ -1,0 +1,110 @@
+name: 自动导入相册(#115585)_suite
+app: deepin-album
+description: ''
+module: 自动导入相册(#115585)
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_0294_s1
+  name: '[190][core]自动导入-自动导入相册文件排序'
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_main_menu
+    items:
+    - 导入
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0295_s1
+  name: '[193][smoke]自动导入-自定义路径文件读取'
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_main_menu
+    items:
+    - 导入
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+- id: suite_0296_s1
+  name: '[smkoe]自动导入-画板默认路径文件读取'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+- id: suite_0297_s1
+  name: '[smkoe]自动导入-截图录屏默认路径文件读取'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+- id: suite_0298_s1
+  name: '[205][smoke]自动导入-相机默认路径文件读取'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+teardown:
+- action: session_stop

@@ -1,0 +1,143 @@
+name: 标题栏(#115551)_suite
+app: deepin-album
+description: ''
+module: 标题栏(#115551)
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_0226_s1
+  name: '[acp1][116][smoke]全局导入-导入视频'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0227_s1
+  name: '[acp1][117][smoke]全局导入-导入照片'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportPhotosButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0228_s1
+  name: '[acp1][041][smoke]窗口操作-关闭按钮退出'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AlbumIcon
+      role: panel
+- id: suite_0229_s1
+  name: '[core]收藏-标题栏收藏按钮收藏文件'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: FavoriteButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: FavoriteButton
+      role: push button
+- id: suite_0230_s1
+  name: '[core]旋转-选择有执行权限的图片点击标题栏的旋转按钮'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: RotateButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: RotateButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: RotateButton
+      role: push button
+teardown:
+- action: session_stop

@@ -1,0 +1,313 @@
+version: '2.0'
+app: deepin-album
+tree:
+- id: n0
+  role: panel
+  name: FilterLabel
+  object_name: FilterLabel
+  accessible_name: FilterLabel
+  class_name: FilterLabel
+  source_file: src/src/widgets/widgtes/expansionmenu.cpp
+  classification: interactive
+  comment: 'GUI位置: src/src/widgets/widgtes/expansionmenu.cpp | 功能: FilterLabel'
+- id: n1
+  role: panel
+  name: NoResultWidget
+  object_name: NoResultWidget
+  accessible_name: NoResultWidget
+  class_name: NoResultWidget
+  source_file: src/src/widgets/widgtes/noresultwidget.cpp
+  classification: interactive
+  comment: 'GUI位置: src/src/widgets/widgtes/noresultwidget.cpp | 功能: NoResultWidget'
+- id: n2
+  role: panel
+  name: ToolButton
+  object_name: ToolButton
+  accessible_name: ToolButton
+  class_name: ToolButton
+  source_file: src/src/widgets/widgtes/toolbutton.cpp
+  classification: interactive
+  comment: 'GUI位置: src/src/widgets/widgtes/toolbutton.cpp | 功能: ToolButton'
+- id: n3
+  role: panel
+  name: TimeLineDateWidget
+  object_name: TimeLineDateWidget
+  accessible_name: TimeLineDateWidget
+  class_name: TimeLineDateWidget
+  source_file: src/src/widgets/thumbnail/timelinedatewidget.cpp
+  classification: interactive
+  comment: 'GUI位置: src/src/widgets/thumbnail/timelinedatewidget.cpp | 功能: TimeLineDateWidget'
+- id: n4
+  role: panel
+  name: ImportTimeLineDateWidget
+  object_name: ImportTimeLineDateWidget
+  accessible_name: ImportTimeLineDateWidget
+  class_name: importTimeLineDateWidget
+  source_file: src/src/widgets/thumbnail/timelinedatewidget.cpp
+  classification: interactive
+  comment: 'GUI位置: src/src/widgets/thumbnail/timelinedatewidget.cpp | 功能: importTimeLineDateWidget'
+- id: q0
+  role: push button
+  name: AlbumIcon
+  accessible_name: AlbumIcon
+  class_name: ''
+  source_file: src/qml/AlbumTitle.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: AlbumIcon'
+- id: q1
+  role: push button
+  name: ToggleSidebarButton
+  accessible_name: ToggleSidebarButton
+  class_name: ''
+  source_file: src/qml/AlbumTitle.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: ToggleSidebarButton'
+- id: q2
+  role: push button
+  name: ZoomRatioButton
+  accessible_name: ZoomRatioButton
+  class_name: ''
+  source_file: src/qml/AlbumTitle.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: ZoomRatioButton'
+- id: q3
+  role: push button
+  name: YearViewButton
+  accessible_name: YearViewButton
+  class_name: ''
+  source_file: src/qml/AlbumTitle.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: YearViewButton'
+- id: q4
+  role: push button
+  name: MonthViewButton
+  accessible_name: MonthViewButton
+  class_name: ''
+  source_file: src/qml/AlbumTitle.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: MonthViewButton'
+- id: q5
+  role: push button
+  name: DayViewButton
+  accessible_name: DayViewButton
+  class_name: ''
+  source_file: src/qml/AlbumTitle.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: DayViewButton'
+- id: q6
+  role: push button
+  name: AllCollectionViewButton
+  accessible_name: AllCollectionViewButton
+  class_name: ''
+  source_file: src/qml/AlbumTitle.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: AllCollectionViewButton'
+- id: q7
+  role: push button
+  name: ImportButton
+  accessible_name: ImportButton
+  class_name: ''
+  source_file: src/qml/AlbumTitle.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: ImportButton'
+- id: q8
+  role: push button
+  name: FavoriteButton
+  accessible_name: FavoriteButton
+  class_name: ''
+  source_file: src/qml/AlbumTitle.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: FavoriteButton'
+- id: q9
+  role: push button
+  name: RotateButton
+  accessible_name: RotateButton
+  class_name: ''
+  source_file: src/qml/AlbumTitle.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: RotateButton'
+- id: q10
+  role: push button
+  name: DeleteButton
+  accessible_name: DeleteButton
+  class_name: ''
+  source_file: src/qml/AlbumTitle.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: DeleteButton'
+- id: q11
+  role: push button
+  name: DeleteCancelButton
+  accessible_name: DeleteCancelButton
+  class_name: ''
+  source_file: src/qml/Control/DeleteDialog.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: DeleteCancelButton'
+- id: q12
+  role: push button
+  name: DeleteConfirmButton
+  accessible_name: DeleteConfirmButton
+  class_name: ''
+  source_file: src/qml/Control/DeleteDialog.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: DeleteConfirmButton'
+- id: q13
+  role: push button
+  name: DeviceLoadCancelButton
+  accessible_name: DeviceLoadCancelButton
+  class_name: ''
+  source_file: src/qml/Control/DeviceLoadDialog.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: DeviceLoadCancelButton'
+- id: q14
+  role: push button
+  name: DeviceLoadIgnoreButton
+  accessible_name: DeviceLoadIgnoreButton
+  class_name: ''
+  source_file: src/qml/Control/DeviceLoadDialog.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: DeviceLoadIgnoreButton'
+- id: q15
+  role: push button
+  name: WarningOkButton
+  accessible_name: WarningOkButton
+  class_name: ''
+  source_file: src/qml/Control/EmptyWarningDialog.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: WarningOkButton'
+- id: q16
+  role: push button
+  name: ExportCancelButton
+  accessible_name: ExportCancelButton
+  class_name: ''
+  source_file: src/qml/Control/ExportDialog.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: ExportCancelButton'
+- id: q17
+  role: push button
+  name: ExportConfirmButton
+  accessible_name: ExportConfirmButton
+  class_name: ''
+  source_file: src/qml/Control/ExportDialog.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: ExportConfirmButton'
+- id: q18
+  role: push button
+  name: FilterComboBox
+  accessible_name: FilterComboBox
+  class_name: ''
+  source_file: src/qml/Control/FilterComboBox.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: FilterComboBox'
+- id: q19
+  role: push button
+  name: NewAlbumCancelButton
+  accessible_name: NewAlbumCancelButton
+  class_name: ''
+  source_file: src/qml/Control/NewAlbumDialog.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: NewAlbumCancelButton'
+- id: q20
+  role: push button
+  name: NewAlbumConfirmButton
+  accessible_name: NewAlbumConfirmButton
+  class_name: ''
+  source_file: src/qml/Control/NewAlbumDialog.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: NewAlbumConfirmButton'
+- id: q21
+  role: push button
+  name: CancelButton
+  accessible_name: CancelButton
+  class_name: ''
+  source_file: src/qml/Control/RemoveAlbumDialog.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: CancelButton'
+- id: q22
+  role: push button
+  name: ConfirmDeleteButton
+  accessible_name: ConfirmDeleteButton
+  class_name: ''
+  source_file: src/qml/Control/RemoveAlbumDialog.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: ConfirmDeleteButton'
+- id: q23
+  role: push button
+  name: NavigationCloseButton
+  accessible_name: NavigationCloseButton
+  class_name: ''
+  source_file: src/qml/PreviewImageViewer/NavigationWidget.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: NavigationCloseButton'
+- id: q24
+  role: push button
+  name: RemoveDeviceButton
+  accessible_name: RemoveDeviceButton
+  class_name: ''
+  source_file: src/qml/SideBar/SideBarItemDelegate.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: RemoveDeviceButton'
+- id: q25
+  role: push button
+  name: AddAlbumButton
+  accessible_name: AddAlbumButton
+  class_name: ''
+  source_file: src/qml/SideBar/Sidebar.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: AddAlbumButton'
+- id: q26
+  role: push button
+  name: SystemAlbumMenu
+  accessible_name: SystemAlbumMenu
+  class_name: ''
+  source_file: src/qml/SideBar/Sidebar.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: SystemAlbumMenu'
+- id: q27
+  role: push button
+  name: ImportAlbumMenu
+  accessible_name: ImportAlbumMenu
+  class_name: ''
+  source_file: src/qml/SideBar/Sidebar.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: ImportAlbumMenu'
+- id: q28
+  role: push button
+  name: CustomAlbumMenu
+  accessible_name: CustomAlbumMenu
+  class_name: ''
+  source_file: src/qml/SideBar/Sidebar.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: CustomAlbumMenu'
+- id: q29
+  role: push button
+  name: StatusLabel
+  accessible_name: StatusLabel
+  class_name: ''
+  source_file: src/qml/StatusBar.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: StatusLabel'
+- id: q30
+  role: push button
+  name: ThumbnailSizeSlider
+  accessible_name: ThumbnailSizeSlider
+  class_name: ''
+  source_file: src/qml/StatusBar.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: ThumbnailSizeSlider'
+- id: q31
+  role: push button
+  name: ImportPhotosButton
+  accessible_name: ImportPhotosButton
+  class_name: ''
+  source_file: src/qml/ThumbnailImageView/NoPictureView.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: ImportPhotosButton'
+- id: q32
+  role: push button
+  name: NoContentLabel
+  accessible_name: NoContentLabel
+  class_name: ''
+  source_file: src/qml/ThumbnailImageView/NoPictureView.qml
+  classification: interactive
+  comment: 'GUI位置: QML界面 | 功能: NoContentLabel'
+transient_contexts: []

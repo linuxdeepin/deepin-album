@@ -1,0 +1,70 @@
+---
+class_name: FilterLabel
+source_file: src/src/widgets/widgtes/expansionmenu.cpp
+base_classes:
+- QLabel
+is_ui_widget: true
+object_names:
+- FilterLabel
+accessible_names:
+- FilterLabel
+dtk_instantiations: []
+action_texts: []
+menu_actions: []
+---
+class_name: NoResultWidget
+source_file: src/src/widgets/widgtes/noresultwidget.cpp
+base_classes:
+- QWidget
+is_ui_widget: true
+object_names:
+- NoResultWidget
+accessible_names:
+- NoResultWidget
+dtk_instantiations:
+- DLabel
+action_texts: []
+menu_actions: []
+---
+class_name: ToolButton
+source_file: src/src/widgets/widgtes/toolbutton.cpp
+base_classes:
+- DPushButton
+is_ui_widget: true
+object_names:
+- ToolButton
+accessible_names:
+- ToolButton
+dtk_instantiations: []
+action_texts: []
+menu_actions: []
+---
+class_name: TimeLineDateWidget
+source_file: src/src/widgets/thumbnail/timelinedatewidget.cpp
+base_classes:
+- DWidget
+is_ui_widget: true
+object_names:
+- TimeLineDateWidget
+accessible_names:
+- TimeLineDateWidget
+dtk_instantiations:
+- DCommandLinkButton
+- DLabel
+action_texts: []
+menu_actions: []
+---
+class_name: importTimeLineDateWidget
+source_file: src/src/widgets/thumbnail/timelinedatewidget.cpp
+base_classes:
+- DWidget
+is_ui_widget: true
+object_names:
+- ImportTimeLineDateWidget
+accessible_names:
+- ImportTimeLineDateWidget
+dtk_instantiations:
+- DCommandLinkButton
+- DLabel
+action_texts: []
+menu_actions: []

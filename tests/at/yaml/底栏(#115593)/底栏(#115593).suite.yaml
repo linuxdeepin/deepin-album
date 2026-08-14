@@ -1,0 +1,270 @@
+name: 底栏(#115593)_suite
+app: deepin-album
+description: ''
+module: 底栏(#115593)
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_0118_s1
+  name: 调整缩略图大小-缩放条调整缩略图大小
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_click
+    selector:
+      name: ThumbnailSizeSlider
+      role: slider
+  - action: mouse_click
+    selector:
+      name: ThumbnailSizeSlider
+      role: slider
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: assert_element
+    selector:
+      name: ThumbnailListView
+      role: list
+- id: suite_0119_s1
+  name: 下方状态栏-导入加载文案显示
+  description: ''
+  tags: []
+  steps:
+  - action: mouse_click
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+- id: suite_0120_s1
+  name: 下方状态栏-导入照片和视频状态栏文案检查
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+  - action: assert_window
+- id: suite_0121_s1
+  name: 下方状态栏-只导入视频状态栏文案检查
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ImportButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+- id: suite_0122_s1
+  name: 文件数量显示-选择视频和照片底部状态栏文案显示
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+- id: suite_0123_s1
+  name: 文件数量显示-选择视频底部状态栏文案显示
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+- id: suite_0124_s1
+  name: 底栏-英文下底栏数量提示文案显示
+  description: ''
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+- id: suite_0125_s1
+  name: 底栏-只选择照片时，底栏选择文案提示
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+- id: suite_0126_s1
+  name: 底栏-只选择视频时，底栏选择文案提示
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+- id: suite_0127_s1
+  name: 底栏-同时选择照片和视频时，底栏选择文案提示
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+teardown:
+- action: session_stop

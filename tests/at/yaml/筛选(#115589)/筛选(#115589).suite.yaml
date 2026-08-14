@@ -1,0 +1,196 @@
+name: 筛选(#115589)_suite
+app: deepin-album
+description: ''
+module: 筛选(#115589)
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_0287_s1
+  name: 筛选-筛选视频无结果显示
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ThumbnailListView
+      role: list
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+- id: suite_0288_s1
+  name: 筛选-筛选照片无结果显示
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: NoContentLabel
+      role: label
+- id: suite_0289_s1
+  name: '[166][core][acp1]筛选-筛选-“视频”功能检查'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ThumbnailListView
+      role: list
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+- id: suite_0290_s1
+  name: '[165][core][acp1]筛选-筛选-“照片”功能检查'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: FilterComboBox
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_window
+- id: suite_0291_s1
+  name: '[063][core][acp1]筛选-筛选-“所有项目”功能检查'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ThumbnailListView
+      role: list
+    do: click
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+- id: suite_0292_s1
+  name: '[062]筛选-筛选功能选项展开'
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ThumbnailListView
+      role: list
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+- id: suite_0293_s1
+  name: 筛选-筛选按钮显示-当前视图无照片或视频
+  description: ''
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ThumbnailListView
+      role: list
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: FilterComboBox
+      role: push button
+teardown:
+- action: session_stop
