@@ -465,6 +465,7 @@ FocusScope {
         }
 
         GridView {
+            Accessible.name: "GridView"
             id: gridView
             anchors.fill: parent
             clip: true
@@ -492,6 +493,7 @@ FocusScope {
 
             //激活滚动条
             ScrollBar.vertical: ScrollBar {
+                Accessible.name: "Vbar_2"
                 id: vbar
                 active: false
                 onPositionChanged: {
@@ -816,6 +818,8 @@ FocusScope {
     //注意：涉及界面切换的，需要做到从哪里进来，就退出到哪里
     //菜单显隐逻辑有点绕，建议头脑清醒的时候再处理
     Menu {
+        Accessible.name: "ThumbnailMenu"
+        Accessible.role: Accessible.Menu
         id: thumbnailMenu
         maxVisibleItems: 30
         //显示大图预览
@@ -890,6 +894,8 @@ FocusScope {
         //隐藏交给后面的Component.onCompleted解决
         Menu {
             enabled: thumnailListType !== Album.Types.ThumbnailTrash
+            Accessible.name: "AddToAlbum"
+            Accessible.role: Accessible.Menu
             id: addToAlbum
             title: qsTr("Add to album")
 

@@ -107,6 +107,8 @@ TitleBar {
 
 
     menu: Menu {
+        Accessible.name: "SettingsMenu"
+        Accessible.role: Accessible.Menu
         x: 0; y: 0
         Action {
             id: equalizerControl
@@ -118,6 +120,7 @@ TitleBar {
         MenuItem {
             id: settingsControl
             text: qsTr("Import folders")
+            Accessible.name: "ImportFoldersMenuItem"
             onTriggered: {
                 albumControl.createNewCustomAutoImportAlbum()
             }
@@ -362,6 +365,7 @@ TitleBar {
                          && window.width <= showCollComboWidth
                 sourceComponent: ComboBox {
                     id: collectionCombo
+                    Accessible.name: "CollectionCombo"
                     textRole: "text"
                     iconNameRole: "icon"
                     currentIndex: 3
