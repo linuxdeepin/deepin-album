@@ -1041,7 +1041,7 @@ void AlbumView::updateRightView()
     } else if (COMMON_STR_TRASH == m_currentType) {
         updateRightTrashView();
         setAcceptDrops(false);
-        emit sigSearchEditIsDisplay(false);
+        emit sigSearchEditIsDisplay(true);
     } else if (COMMON_STR_CLASS == m_currentType) {
         m_bHasClassified = false;
         updateRightClassView();
