@@ -1,5 +1,5 @@
-// Copyright (C) 2022 UnionTech Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// Copyright (C) 2022-2026 UnionTech Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -58,6 +58,7 @@ ColumnLayout {
     }
     spacing: 10
     ListView {
+        Accessible.name: "SideListView"
         id: sideListView
         implicitHeight: contentHeight
         width: 180
