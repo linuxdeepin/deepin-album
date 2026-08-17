@@ -183,12 +183,16 @@ BaseView {
             }
 
             ComboBox {
+                Accessible.name: "FilterCombo"
+                Accessible.role: Accessible.ComboBox
                 id: filterCombo
                 width: 180
                 height: 36
                 displayText : currentIndex == 0?qsTr("Import") : currentIndex == 1? qsTr("New Album")  :albumControl.getAllCustomAlbumName(GStatus.albumChangeList)[currentIndex-2]
                 model: albumControl.getAllCustomAlbumId(GStatus.albumChangeList).length+2
                 delegate: MenuItem {
+                    Accessible.name: "Import"
+                    Accessible.role: Accessible.MenuItem
                     text: index == 0?qsTr("Import") : index == 1? qsTr("New Album")  :albumControl.getAllCustomAlbumName(GStatus.albumChangeList)[index-2]
                     onTriggered:{
                         if(index == 0 ){
