@@ -45,6 +45,8 @@ DialogWindow {
 
     Button {
         id: cancelbtn
+        Accessible.name: "CancelButton"
+        Accessible.role: Accessible.Button
         anchors {
             top: deleteTitle.bottom
             topMargin: 15
@@ -62,6 +64,8 @@ DialogWindow {
 
     WarningButton {
         id: enterbtn
+        Accessible.name: "ConfirmDeleteButton"
+        Accessible.role: Accessible.Button
         anchors {
             top: deleteTitle.bottom
             topMargin: 15

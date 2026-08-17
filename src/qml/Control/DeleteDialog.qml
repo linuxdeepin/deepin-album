@@ -102,6 +102,8 @@ DialogWindow {
 
             Button {
                 id: cancelbtn
+                Accessible.name: "DeleteCancelButton"
+                Accessible.role: Accessible.Button
                 Layout.preferredWidth: 185
                 Layout.preferredHeight: 36
                 text: qsTr("Cancel")
@@ -113,6 +115,8 @@ DialogWindow {
 
             WarningButton {
                 id: enterbtn
+                Accessible.name: "DeleteConfirmButton"
+                Accessible.role: Accessible.Button
                 Layout.preferredWidth: 185
                 Layout.preferredHeight: 36
                 Layout.leftMargin: 10

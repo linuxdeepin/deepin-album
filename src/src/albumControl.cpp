@@ -65,6 +65,19 @@ static std::initializer_list<std::pair<QString, QString>> opticalmediakeys {
 static QVector<std::pair<QString, QString>> opticalmediakv(opticalmediakeys);
 static QMap<QString, QString> opticalmediamap(opticalmediakeys);
 
+// QML passes recent-deleted selections as either file URLs or raw paths. Keep
+// absolute raw paths unchanged: constructing a QUrl from a filename containing
+// literal percent escapes (for example, "%CF") changes the path and its hash.
+QString trashOperationPath(const QString &path)
+{
+    if (QDir::isAbsolutePath(path)) {
+        return path;
+    }
+
+    const QUrl url(path);
+    return url.isLocalFile() ? url.toLocalFile() : path;
+}
+
 } //namespace
 
 AlbumControl *AlbumControl::m_instance = nullptr;
@@ -847,7 +860,8 @@ void AlbumControl::startMonitor()
         QFileInfoList infos = LibUnionImage_NameSpace::getImagesAndVideoInfo(eachItem, false);
         QStringList currentPaths;
         std::transform(infos.begin(), infos.end(), std::back_inserter(currentPaths), [](const QFileInfo & info) {
-            return info.isSymLink() ? info.readSymLink() : info.absoluteFilePath();
+            const QString canonical = info.canonicalFilePath();
+            return canonical.isEmpty() ? info.absoluteFilePath() : canonical;
         });
 
         //3.1获取已不存在的路径
@@ -1776,14 +1790,8 @@ QStringList AlbumControl::recoveryImgFromTrash(const QStringList &paths)
 {
     qDebug() << "AlbumControl::recoveryImgFromTrash - Function entry, paths count:" << paths.size();
     QStringList localPaths;
-    for (QUrl path : paths) {
-        if (path.isLocalFile()) {
-            // qDebug() << "AlbumControl::recoveryImgFromTrash - Branch: processing local file:" << path;
-            localPaths << url2localPath(path);
-        } else {
-            // qDebug() << "AlbumControl::recoveryImgFromTrash - Branch: processing non-local URL:" << path;
-            localPaths << path.toString();
-        }
+    for (const QString &path : paths) {
+        localPaths << trashOperationPath(path);
     }
     qDebug() << "AlbumControl::recoveryImgFromTrash - Function exit, returning" << localPaths.size() << "paths";
     return DBManager::instance()->recoveryImgFromTrash(localPaths);
@@ -1792,15 +1800,9 @@ QStringList AlbumControl::recoveryImgFromTrash(const QStringList &paths)
 void AlbumControl::deleteImgFromTrash(const QStringList &paths)
 {
     qDebug() << "AlbumControl::deleteImgFromTrash - Function entry, paths count:" << paths.size();
-    QStringList localPaths ;
-    for (QUrl path : paths) {
-        if (path.isLocalFile()) {
-            // qDebug() << "AlbumControl::deleteImgFromTrash - Branch: processing local file:" << path;
-            localPaths << url2localPath(path);
-        } else {
-            // qDebug() << "AlbumControl::deleteImgFromTrash - Branch: processing non-local URL:" << path;
-            localPaths << path.toString();
-        }
+    QStringList localPaths;
+    for (const QString &path : paths) {
+        localPaths << trashOperationPath(path);
     }
     DBManager::instance()->removeTrashImgInfos(localPaths);
     qDebug() << "AlbumControl::deleteImgFromTrash - Function exit";

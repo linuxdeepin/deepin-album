@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -30,6 +30,8 @@ DialogWindow {
         }
 
         Button {
+            Accessible.name: "WarningOkButton"
+            Accessible.role: Accessible.Button
             Layout.alignment: Qt.AlignBottom | Qt.AlignHCenter
             Layout.bottomMargin: 10
             Layout.fillWidth: true
