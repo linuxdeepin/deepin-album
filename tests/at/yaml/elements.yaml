@@ -1,0 +1,54 @@
+elements:
+  ImportButton:
+    name: ImportButton
+    role: push button
+  GridView:
+    name: GridView
+    role: list
+  FavoriteButton:
+    name: FavoriteButton
+    role: push button
+  RotateButton:
+    name: RotateButton
+    role: push button
+  StatusLabel:
+    name: StatusLabel
+    role: panel
+  NavigationCloseButton:
+    name: NavigationCloseButton
+    role: push button
+  AllCollectionViewButton:
+    name: AllCollectionViewButton
+    role: push button
+  ClassificationGrid:
+    name: ClassificationGrid
+    role: list
+  CustomAlbumMenu:
+    name: CustomAlbumMenu
+  Vbar_2:
+    name: Vbar_2
+    role: scroll bar
+  ThumbnailSizeSlider:
+    name: ThumbnailSizeSlider
+    role: slider
+  DayViewButton:
+    name: DayViewButton
+    role: push button
+  DeleteButton:
+    name: DeleteButton
+    role: push button
+  NoContentLabel:
+    name: NoContentLabel
+    role: panel
+  DeleteCancelButton:
+    name: DeleteCancelButton
+    role: push button
+  WarningOkButton:
+    name: WarningOkButton
+    role: push button
+  ThumbnailMenu:
+    name: ThumbnailMenu
+    role: menu
+  FilterComboBox:
+    name: FilterComboBox
+    role: combo box

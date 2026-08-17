@@ -1,0 +1,61 @@
+name: 主菜单_suite
+app: deepin-album
+description: ''
+module: 主菜单
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_album_主菜单_s1
+  name: 主菜单功能测试
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_main_menu
+    items:
+    - 新建相册
+  - action: dtk_main_menu
+    items:
+    - 主题
+  - action: dtk_main_menu
+    items:
+    - 深色
+  - action: dtk_main_menu
+    items:
+    - 关于
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_window
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: panel
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: panel
+teardown:
+- action: session_stop

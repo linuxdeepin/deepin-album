@@ -1,0 +1,463 @@
+name: 导入_suite
+app: deepin-album
+description: ''
+module: 导入
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_album_导入_1_s1
+  name: 导入功能测试(1)
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_main_menu
+    items:
+    - 导入文件夹
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: wait
+    wait: 1.0
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: wait
+    wait: 1.0
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: wait
+    wait: 1.0
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  - action: element_action
+    selector:
+      name: AllCollectionViewButton
+      role: push button
+    do: click
+  - action: wait
+    wait: 1.0
+  - action: dtk_main_menu
+    items:
+    - 导入文件夹
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  - action: wait
+    wait: 1.0
+  - action: wait
+    wait: 1.0
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  - action: keyboard_hot_key
+    key: ctrl+o
+  - action: dtk_main_menu
+    items:
+    - 导入文件夹
+  - action: keyboard_hot_key
+    key: ctrl+o
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_window
+  - action: assert_ocr_exists
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_window
+  - action: assert_ocr_exists
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_window
+  - action: assert_ocr_exists
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_window
+  - action: assert_ocr_exists
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_ocr_exists
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+- id: suite_album_导入_2_s1
+  name: 导入功能测试(2)
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: wait
+    wait: 1.0
+  - action: wait
+    wait: 1.0
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: keyboard_type
+    text: /tmp/empty-dir
+  - action: keyboard_press
+    key: return
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  assert_steps:
+  - action: assert_window
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_ocr_exists
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_ocr_exists
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_window
+  - action: assert_ocr_exists
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_ocr_exists
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_ocr_exists
+- id: suite_album_导入_3_s1
+  name: 导入功能测试(3)
+  description: ''
+  tags: []
+  steps:
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: keyboard_type
+    text: /tmp/test.txt
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: keyboard_type
+    text: /tmp/no-permission.mp4
+  - action: keyboard_press
+    key: return
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  - action: element_action
+    selector:
+      name: ImportButton
+      role: push button
+    do: click
+  - action: keyboard_type
+    text: /tmp/deepin-album-import
+  - action: keyboard_press
+    key: return
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_ocr_exists
+  - action: assert_window
+  - action: assert_ocr_exists
+  - action: assert_ocr_exists
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_ocr_exists
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_window
+  - action: assert_window
+  - action: assert_ocr_exists
+  - action: assert_window
+  - action: assert_window
+  - action: assert_ocr_exists
+  - action: assert_window
+  - action: assert_window
+  - action: assert_ocr_exists
+  - action: assert_window
+  - action: assert_window
+  - action: assert_ocr_exists
+  - action: assert_window
+  - action: assert_window
+  - action: assert_ocr_exists
+teardown:
+- action: session_stop
