@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -12,6 +12,7 @@ BaseImageDelegate {
     id: multiImageDelegate
 
     ListView {
+        Accessible.name: "MultiImageView"
         id: multiImageView
 
         width: multiImageDelegate.width
