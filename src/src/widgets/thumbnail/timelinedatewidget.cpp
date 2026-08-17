@@ -43,6 +43,8 @@ TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time,
 
     //数量
     m_pNumCheckBox = new DCheckBox(this);
+    m_pNumCheckBox->setObjectName("PNumCheckBox");
+    m_pNumCheckBox->setAccessibleName("PNumCheckBox");
     connect(m_pNumCheckBox, &DCheckBox::clicked, this, &TimeLineDateWidget::onCheckBoxCliked);
     DFontSizeManager::instance()->bind(m_pNumCheckBox, DFontSizeManager::T6, QFont::Normal);
     QFont ft2 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
@@ -65,6 +67,8 @@ TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time,
 
     //选择按钮
     m_chooseBtn = new DCommandLinkButton(QObject::tr("Select"));
+    m_chooseBtn->setObjectName("ChooseBtn");
+    m_chooseBtn->setAccessibleName("ChooseBtn");
     DFontSizeManager::instance()->bind(m_chooseBtn, DFontSizeManager::T5);
     m_chooseBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
     m_chooseBtn->setFocusPolicy(Qt::NoFocus);
@@ -72,6 +76,8 @@ TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time,
     qDebug() << "Created select button";
     //占位btn，防止显影选择按钮时，ui变化
     m_pbtn = new DCommandLinkButton(" ");
+    m_pbtn->setObjectName("Pbtn");
+    m_pbtn->setAccessibleName("Pbtn");
     m_pbtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
     m_pbtn->setFocusPolicy(Qt::NoFocus);
 
@@ -170,6 +176,8 @@ importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QS
 
     //时间+照片数量
     m_pDateandNumCheckBox = new DCheckBox(this);
+    m_pDateandNumCheckBox->setObjectName("PDateandNumCheckBox");
+    m_pDateandNumCheckBox->setAccessibleName("PDateandNumCheckBox");
     connect(m_pDateandNumCheckBox, &DCheckBox::clicked, this, &importTimeLineDateWidget::onCheckBoxCliked);
     DFontSizeManager::instance()->bind(m_pDateandNumCheckBox, DFontSizeManager::T6, QFont::Normal);
     QFont ft1 = DFontSizeManager::instance()->get(DFontSizeManager::T6);
