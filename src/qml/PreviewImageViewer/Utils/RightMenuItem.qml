@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -9,5 +9,7 @@ import org.deepin.dtk 1.0
 import org.deepin.image.viewer 1.0 as IV
 
 MenuItem {
+        Accessible.name: "RightMenuItem_MenuItem_2"
+        Accessible.role: Accessible.MenuItem
     height: visible ? GStatus.rightMenuItemHeight : 0
 }
