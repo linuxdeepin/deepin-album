@@ -8,6 +8,7 @@ import QtQuick.Controls
 // 适用于纯 QML Flickable/ListView 的 ScrollBar 封装
 // 内置绑定循环防护和拖拽冲突处理
 ScrollBar {
+        Accessible.name: "Control"
     id: control
 
     required property Flickable flickable
