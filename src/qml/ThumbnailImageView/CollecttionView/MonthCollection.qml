@@ -66,6 +66,7 @@ SwitchViewAnimation {
     }
 
     ListView {
+        Accessible.name: "TheView_6"
         property double displayFlushHelper: 0
 
         id: theView
