@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -18,6 +18,7 @@ ColumnLayout {
     width: 280
 
     ItemDelegate {
+        Accessible.name: "TitleBar_2"
         id: titleBar
 
         property Palette titleTextColor: Palette {
@@ -52,6 +53,7 @@ ColumnLayout {
     }
 
     ListView {
+        Accessible.name: "Info_2"
         id: info
 
         Layout.fillWidth: true

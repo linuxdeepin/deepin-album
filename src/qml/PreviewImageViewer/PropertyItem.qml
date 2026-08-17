@@ -1,5 +1,5 @@
-// Copyright (C) 2022 UnionTech Technology Co., Ltd.
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// Copyright (C) 2022-2026 UnionTech Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -14,6 +14,7 @@ ColumnLayout {
     default property alias content: itemModel.children
 
     ItemDelegate {
+        Accessible.name: "TitleBar"
         id: titleBar
         Layout.fillWidth: true; Layout.preferredHeight: 24
         text: title
@@ -30,6 +31,7 @@ ColumnLayout {
         }
     }
     ListView {
+        Accessible.name: "Info"
         id: info
         Layout.fillWidth: true
         Layout.preferredHeight: contentHeight
