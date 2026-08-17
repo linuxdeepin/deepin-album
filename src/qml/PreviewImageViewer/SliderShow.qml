@@ -231,12 +231,16 @@ Item {
     }
 
     Menu {
+        Accessible.name: "SliderMenu"
+        Accessible.role: Accessible.Menu
         id: sliderMenu
 
         x: 250
         y: 600
 
         MenuItem {
+            Accessible.name: "Pause"
+            Accessible.role: Accessible.MenuItem
             text: autoRun ? qsTr("Pause") : qsTr("Play")
 
             onTriggered: {
@@ -258,6 +262,8 @@ Item {
         }
 
         MenuItem {
+            Accessible.name: "Exit"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Exit")
 
             onTriggered: outSliderShow()
