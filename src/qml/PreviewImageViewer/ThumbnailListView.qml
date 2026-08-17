@@ -336,6 +336,7 @@ Control {
     }
 
     ListView {
+        Accessible.name: "BottomthumbnaillistView"
         id: bottomthumbnaillistView
 
         property bool lastIsMultiImage: false
