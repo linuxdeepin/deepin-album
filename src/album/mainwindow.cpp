@@ -1291,6 +1291,8 @@ void MainWindow::onSearchEditFinished()
                 emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_FAVORITES, DBManager::SpUID::u_Favorite);
             } else if (COMMON_STR_CUSTOM == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
                 emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, m_pAlbumview->m_pLeftListView->getItemCurrentName(), m_pAlbumview->m_pLeftListView->getItemCurrentUID());
+            } else if (COMMON_STR_TRASH == m_pAlbumview->m_pLeftListView->getItemCurrentType()) {
+                emit dApp->signalM->sigSendKeywordsIntoALLPic(keywords, COMMON_STR_TRASH);
             }
 
             m_pAlbumview->m_pRightStackWidget->setCurrentIndex(5);
@@ -2245,9 +2247,8 @@ void MainWindow::onButtonClicked(int id)
             createAlbumView();
         }
         albumBtnClicked();
-        // 如果是最近删除或者移动设备,则搜索框不显示
-        if (2 == m_pAlbumview->m_pRightStackWidget->currentIndex()
-                || 6 == m_pAlbumview->m_pRightStackWidget->currentIndex()
+        // 如果是移动设备或分类封面,则搜索框不显示
+        if (6 == m_pAlbumview->m_pRightStackWidget->currentIndex()
                 || (3 == m_pAlbumview->m_pRightStackWidget->currentIndex() && m_pAlbumview->m_currentType == COMMON_STR_CLASS)) {
             m_pSearchEdit->setVisible(false);
         } else {
