@@ -85,6 +85,8 @@ ThumbnailListView::ThumbnailListView(ThumbnailDelegate::DelegateType type, int U
     setItemDelegate(m_delegate);
     setModel(m_model);
     m_pMenu = new DMenu();
+    m_pMenu->setObjectName("PMenu");
+    m_pMenu->setAccessibleName("PMenu");
     setViewportMargins(0, 0, 0, 0);
     initMenuAction();
     initConnections();
@@ -1044,6 +1046,8 @@ DMenu *ThumbnailListView::createAlbumMenu()
 {
     qDebug() << "ThumbnailListView::createAlbumMenu - Entry";
     DMenu *am = new DMenu(tr("Add to album"));
+    am->setObjectName("AlbumMenu");
+    am->setAccessibleName("AlbumMenu");
     auto albums = DBManager::instance()->getAllAlbumNames();
     QAction *ac1 = new QAction(am);
     ac1->setProperty("MenuID", Types::IdAddToAlbum);
