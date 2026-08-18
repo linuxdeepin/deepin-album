@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -19,6 +19,10 @@ import "../../"
 import "./"
 
 Item {
+    Accessible.role: Accessible.ListItem
+    Accessible.name: "ThumbnailItem_" + (model.index !== undefined ? model.index : 0)
+
+
     id: main
     //注意：在model里面加进去的变量，这边可以直接进行使用，只是部分位置不好拿到，需要使用变量
     property string m_index

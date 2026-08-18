@@ -1,0 +1,83 @@
+name: 查看照片_suite
+app: deepin-album
+description: ''
+module: 查看照片
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_view_photo_s1
+  name: 双击查看照片
+  description: 双击照片缩略图进入查看界面
+  tags: []
+  steps:
+  - action: mouse_double_click
+    selector:
+      name: GridView
+      role: list
+      child_index: '0'
+  - action: element_action
+    selector:
+      name: NavigationCloseButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: NavigationCloseButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+- id: suite_view_rotate_right_s1
+  name: 查看照片右键旋转
+  description: 查看照片界面右键菜单顺时针旋转
+  tags: []
+  steps:
+  - action: mouse_double_click
+    selector:
+      name: GridView
+      role: list
+      child_index: '0'
+  - action: dtk_context_menu
+    selector:
+      name: MultiImageView
+    items:
+    - 顺时针旋转
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: MultiImageView
+      role: list
+- id: suite_view_delete_s1
+  name: 查看界面删除图片
+  description: 查看界面截图删除图片
+  tags: []
+  steps:
+  - action: mouse_double_click
+    selector:
+      name: GridView
+      role: list
+      child_index: '0'
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: DeleteConfirmButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteCancelButton
+      role: push button
+teardown:
+- action: session_stop

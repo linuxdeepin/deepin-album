@@ -1,0 +1,51 @@
+name: 自定义相册_suite
+app: deepin-album
+description: ''
+module: 自定义相册
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_album_create_s1
+  name: 新建自定义相册
+  description: 新建自定义相册并确认
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: AddAlbumButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: NewAlbumCancelButton
+      role: push button
+- id: suite_album_rename_s1
+  name: 重命名自定义相册
+  description: F2重命名自定义相册
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: CustomAlbumMenu
+      role: menu
+    do: click
+  - action: keyboard_press
+    key: f2
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+teardown:
+- action: session_stop

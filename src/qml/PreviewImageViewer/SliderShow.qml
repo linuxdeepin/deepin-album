@@ -231,8 +231,6 @@ Item {
     }
 
     Menu {
-        Accessible.name: "SliderMenu"
-        Accessible.role: Accessible.Menu
         id: sliderMenu
 
         x: 250
