@@ -107,12 +107,11 @@ TitleBar {
 
 
     menu: Menu {
-        Accessible.name: "SettingsMenu"
-        Accessible.role: Accessible.Menu
         x: 0; y: 0
         Action {
             id: equalizerControl
             text: qsTr("New album")
+            Accessible.name: "NewAlbumMenuItem"
             onTriggered: {
                 showNewAlbumDialog()
             }
@@ -128,8 +127,11 @@ TitleBar {
         MenuSeparator { }
         ThemeMenu { }
         MenuSeparator { }
-        HelpAction { }
+        HelpAction {
+            Accessible.name: "HelpMenuItem"
+        }
         AboutAction {
+            Accessible.name: "AboutMenuItem"
             aboutDialog: AboutDialog {
                 productName: qsTr("Album")
                 productIcon: "deepin-album"
@@ -140,6 +142,7 @@ TitleBar {
             }
         }
         QuitAction {
+            Accessible.name: "QuitMenuItem"
             onTriggered: {
                 forceExit();
             }

@@ -1,0 +1,29 @@
+name: 底栏_suite
+app: deepin-album
+description: ''
+module: 底栏
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_statusbar_text_s1
+  name: 底栏状态文案
+  description: 选择文件后底栏选择文案显示
+  tags: []
+  steps:
+  - action: mouse_click
+    selector:
+      name: GridView
+      role: list
+      child_index: '0'
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+teardown:
+- action: session_stop

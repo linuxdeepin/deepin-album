@@ -1,0 +1,30 @@
+name: 自动导入相册_suite
+app: deepin-album
+description: 自动导入相册文件读取测试
+module: 自动导入相册
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_autoimport_s1
+  name: 自动导入相册文件读取
+  description: 自动导入相册文件读取显示
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl+o
+    wait: 1.0
+  - action: file_dialog_select
+    path: ${TEST_FILES_DIR}/album_test
+    wait: 3.0
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+teardown:
+- action: session_stop

@@ -1,0 +1,152 @@
+name: 删除_suite
+app: deepin-album
+description: ''
+module: 删除
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_delete_ctxmenu_s1
+  name: 右键菜单删除照片
+  description: 右键菜单删除单个照片和视频
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl+o
+    wait: 1.0
+  - action: file_dialog_select
+    path: ${TEST_FILES_DIR}/album_test
+    wait: 3.0
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+      child_index: '3'
+    items:
+    - 删除
+  - action: element_action
+    selector:
+      name: DeleteConfirmButton
+      role: push button
+    do: click
+  - action: element_action
+    selector:
+      name: 最近删除
+      role: label
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: DeleteCancelButton
+      role: push button
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+- id: suite_delete_hotkey_s1
+  name: 快捷键Delete删除
+  description: 快捷键Delete删除照片和视频
+  tags: []
+  steps:
+  - action: mouse_click
+    selector:
+      name: GridView
+      role: list
+      child_index: '0'
+  - action: keyboard_press
+    key: delete
+  - action: element_action
+    selector:
+      name: DeleteConfirmButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+- id: suite_delete_view_hotkey_s1
+  name: 查看照片界面Delete删除
+  description: 查看照片界面快捷键Delete删除照片
+  tags: []
+  steps:
+  - action: mouse_double_click
+    selector:
+      name: GridView
+      role: list
+      child_index: '1'
+  - action: keyboard_press
+    key: delete
+  - action: element_action
+    selector:
+      name: DeleteConfirmButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+- id: suite_delete_view_ctxmenu_s1
+  name: 查看照片界面右键删除
+  description: 查看照片界面右键删除照片
+  tags: []
+  steps:
+  - action: mouse_double_click
+    selector:
+      name: GridView
+      role: list
+      child_index: '1'
+  - action: dtk_context_menu
+    selector:
+      name: MultiImageView
+    items:
+    - 删除
+  - action: element_action
+    selector:
+      name: DeleteConfirmButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+- id: suite_delete_large_s1
+  name: 删除大量照片和视频
+  description: 全选大量照片和视频删除
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl+a
+  - action: keyboard_press
+    key: delete
+  - action: element_action
+    selector:
+      name: DeleteConfirmButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+- id: suite_delete_progress_s1
+  name: 删除进度提示文案
+  description: 删除进度提示文案显示
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl+a
+  - action: keyboard_press
+    key: delete
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: StatusLabel
+      role: label
+teardown:
+- action: session_stop
