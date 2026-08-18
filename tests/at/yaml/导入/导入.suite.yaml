@@ -1,0 +1,114 @@
+name: 导入_suite
+app: deepin-album
+description: 导入照片功能测试
+module: 导入
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_import_button_s1
+  name: 初始界面导入按钮
+  description: 空视图导入按钮导入照片视频
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl+o
+    wait: 1.0
+  - action: file_dialog_select
+    path: ${TEST_FILES_DIR}/album_test
+    wait: 3.0
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+
+- id: suite_import_hotkey_s1
+  name: Ctrl+O导入照片
+  description: Ctrl+O导入照片和文件夹
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl+o
+    wait: 1.0
+  - action: file_dialog_select
+    path: ${TEST_FILES_DIR}/album_test
+    wait: 3.0
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+
+- id: suite_import_duplicate_s1
+  name: 重复导入相同照片
+  description: 导入相同照片不重复显示
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl+o
+    wait: 1.0
+  - action: file_dialog_select
+    path: ${TEST_FILES_DIR}/album_test
+    wait: 3.0
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+
+- id: suite_import_damaged_s1
+  name: 导入异常文件
+  description: 导入损坏照片提示
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl+o
+    wait: 1.0
+  - action: file_dialog_select
+    path: ${TEST_FILES_DIR}/album_test/damaged.png
+    wait: 3.0
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+
+- id: suite_import_large_s1
+  name: 批量导入照片视频
+  description: 批量导入大量照片和视频
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl+o
+    wait: 1.0
+  - action: file_dialog_select
+    path: ${TEST_FILES_DIR}/album_test
+    wait: 3.0
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+
+- id: suite_import_dialog_s1
+  name: 导入选择弹窗检查
+  description: 导入选择弹窗显示
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl+o
+    wait: 1.0
+  - action: file_dialog_cancel
+    wait: 1.0
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+teardown:
+- action: session_stop

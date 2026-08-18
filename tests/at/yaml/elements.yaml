@@ -1,0 +1,93 @@
+elements:
+  NewAlbumConfirmButton:
+    name: NewAlbumConfirmButton
+    role: push button
+  NewAlbumCancelButton:
+    name: NewAlbumCancelButton
+    role: push button
+  GridView:
+    name: GridView
+    role: list
+  ImportButton:
+    name: ImportButton
+    role: push button
+  FavoriteButton:
+    name: FavoriteButton
+    role: push button
+  我的收藏:
+    name: 我的收藏
+    role: label
+  RotateButton:
+    name: RotateButton
+    role: push button
+  NavigationCloseButton:
+    name: NavigationCloseButton
+    role: push button
+  MultiImageView:
+    name: MultiImageView
+  DeleteButton:
+    name: DeleteButton
+    role: push button
+  DeleteConfirmButton:
+    name: DeleteConfirmButton
+    role: push button
+  DeleteCancelButton:
+    name: DeleteCancelButton
+    role: push button
+  ZoomRatioButton:
+    name: ZoomRatioButton
+    role: push button
+  ThumbnailSizeSlider:
+    name: ThumbnailSizeSlider
+    role: slider
+  StatusLabel:
+    name: StatusLabel
+    role: label
+  FilterComboBox:
+    name: FilterComboBox
+    role: combo box
+  FilterComboBoxItem:
+    name: FilterComboBoxItem
+    role: menu item
+  Info:
+    name: Info
+    role: panel
+  最近删除:
+    name: 最近删除
+    role: label
+  ImportPhotosButton:
+    name: ImportPhotosButton
+    role: push button
+  ExportConfirmButton:
+    name: ExportConfirmButton
+    role: push button
+  ExportCancelButton:
+    name: ExportCancelButton
+    role: push button
+  SliderMenu:
+    name: SliderMenu
+    role: menu
+  RestoreSelectedBtn:
+    name: RestoreSelectedBtn
+    role: push button
+  AllCollectionViewButton:
+    name: AllCollectionViewButton
+    role: push button
+  ClassificationGrid:
+    name: ClassificationGrid
+    role: list
+  AddAlbumButton:
+    name: AddAlbumButton
+    role: push button
+  CustomAlbumMenu:
+    name: CustomAlbumMenu
+    role: menu
+  TimeLineView:
+    name: TimeLineView
+    role: panel
+  FilterCombo:
+    name: FilterCombo
+    role: combo box
+  Import:
+    name: Import
+    role: menu item

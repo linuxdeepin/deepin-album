@@ -484,8 +484,6 @@ ScrollView {
     // 系统相册菜单
     Menu {
         id: systemMenu
-        Accessible.name: "SystemAlbumMenu"
-        Accessible.role: Accessible.Menu
 
         //显示大图预览
         RightMenuItem {
@@ -511,8 +509,6 @@ ScrollView {
     // 自动导入相册菜单
     Menu {
         id: importMenu
-        Accessible.name: "ImportAlbumMenu"
-        Accessible.role: Accessible.Menu
 
         //显示大图预览
         RightMenuItem {
@@ -584,8 +580,6 @@ ScrollView {
     // 自定义相册菜单
     Menu {
         id: customMenu
-        Accessible.name: "CustomAlbumMenu"
-        Accessible.role: Accessible.Menu
 
         // 显示大图预览
         RightMenuItem {

@@ -1,0 +1,77 @@
+name: 导出_suite
+app: deepin-album
+description: ''
+module: 导出
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_export_default_s1
+  name: 右键导出默认路径
+  description: 右键菜单导出照片到默认路径
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+      child_index: '0'
+    items:
+    - 导出
+  - action: element_action
+    selector:
+      name: ExportConfirmButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ExportCancelButton
+      role: push button
+- id: suite_export_options_s1
+  name: 导出选项修改
+  description: 修改导出格式/路径/文件名
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+      child_index: '0'
+    items:
+    - 导出
+  - action: element_action
+    selector:
+      name: ExportConfirmButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ExportCancelButton
+      role: push button
+- id: suite_export_multi_s1
+  name: 右键导出多张照片
+  description: 多选照片右键导出
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+      child_index: '0'
+    items:
+    - 导出
+  - action: element_action
+    selector:
+      name: ExportConfirmButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ExportCancelButton
+      role: push button
+teardown:
+- action: session_stop

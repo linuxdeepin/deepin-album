@@ -1,0 +1,62 @@
+name: 幻灯片播放_suite
+app: deepin-album
+description: ''
+module: 幻灯片播放
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_slideshow_start_s1
+  name: 幻灯片放映启动
+  description: F5启动幻灯片放映
+  tags: []
+  steps:
+  - action: keyboard_press
+    key: f5
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: SliderMenu
+      role: menu
+- id: suite_slideshow_toolbar_s1
+  name: 幻灯片工具栏操作
+  description: 幻灯片工具栏暂停/下一张/退出
+  tags: []
+  steps:
+  - action: keyboard_press
+    key: f5
+  - action: dtk_context_menu
+    selector:
+      name: SliderMenu
+    items:
+    - 暂停
+  - action: dtk_context_menu
+    selector:
+      name: SliderMenu
+    items:
+    - 退出
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+- id: suite_slideshow_hotkey_s1
+  name: 幻灯片快捷键退出
+  description: 快捷键ESC退出幻灯片播放
+  tags: []
+  steps:
+  - action: keyboard_press
+    key: f5
+  - action: keyboard_press
+    key: escape
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+teardown:
+- action: session_stop

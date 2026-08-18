@@ -1,0 +1,40 @@
+name: 主菜单_suite
+app: deepin-album
+description: ''
+module: 主菜单
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_mainmenu_s1
+  name: 主菜单新建相册/关于/深色主题
+  description: 主菜单新建相册、深色主题、关于对话框
+  tags: []
+  steps:
+  - action: dtk_main_menu
+    items:
+    - NewAlbumMenuItem
+  - action: element_action
+    selector:
+      name: NewAlbumCancelButton
+      role: push button
+    do: click
+- id: suite_mainmenu_import_s1
+  name: 主菜单导入照片
+  description: 主菜单导入时间线/所有照片
+  tags: []
+  steps:
+  - action: dtk_main_menu
+    items:
+    - ImportFoldersMenuItem
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+teardown:
+- action: session_stop
