@@ -1,0 +1,1332 @@
+version: '2.0'
+app: deepin-album
+tree:
+- id: ''
+  name: deepin-album
+  role: frame
+  object_name: ''
+  accessible_id: ''
+  source: runtime
+  class_name: ''
+  classification: container
+  description: ''
+  actions: []
+  index_in_parent: -1
+  states: []
+  state_labels: []
+  comment: ''
+  annotation_status: draft
+  children:
+  - id: ''
+    name: SideBar
+    role: panel
+    object_name: SideListView
+    accessible_id: ''
+    source: static
+    class_name: SideBar
+    classification: container
+    description: ''
+    actions: []
+    index_in_parent: -1
+    states: []
+    state_labels: []
+    comment: ''
+    annotation_status: draft
+    children:
+    - id: ''
+      name: 照片库
+      role: label
+      object_name: ''
+      accessible_id: ''
+      source: runtime
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: 合集
+      role: label
+      object_name: ''
+      accessible_id: ''
+      source: runtime
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: 已导入
+      role: label
+      object_name: ''
+      accessible_id: ''
+      source: runtime
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: 我的收藏
+      role: label
+      object_name: ''
+      accessible_id: ''
+      source: runtime
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: 最近删除
+      role: label
+      object_name: ''
+      accessible_id: ''
+      source: runtime
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: 设备
+      role: label
+      object_name: ''
+      accessible_id: ''
+      source: runtime
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: 相册
+      role: label
+      object_name: ''
+      accessible_id: ''
+      source: runtime
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: 截图录屏
+      role: label
+      object_name: ''
+      accessible_id: ''
+      source: runtime
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: AddAlbumButton
+      role: push button
+      object_name: AddAlbumButton
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: RemoveDeviceButton
+      role: push button
+      object_name: RemoveDeviceButton
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: SystemAlbumMenu
+      role: menu
+      object_name: SystemAlbumMenu
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: ImportAlbumMenu
+      role: menu
+      object_name: ImportAlbumMenu
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: CustomAlbumMenu
+      role: menu
+      object_name: CustomAlbumMenu
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+  - id: ''
+    name: AlbumTitle
+    role: panel
+    object_name: AlbumTitle
+    accessible_id: ''
+    source: static
+    class_name: AlbumTitle
+    classification: container
+    description: ''
+    actions: []
+    index_in_parent: -1
+    states: []
+    state_labels: []
+    comment: ''
+    annotation_status: draft
+    children:
+    - id: ''
+      name: AlbumIcon
+      role: push button
+      object_name: AlbumIcon
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: ToggleSidebarButton
+      role: push button
+      object_name: ToggleSidebarButton
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: ZoomRatioButton
+      role: push button
+      object_name: ZoomRatioButton
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: YearViewButton
+      role: push button
+      object_name: YearViewButton
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: MonthViewButton
+      role: push button
+      object_name: MonthViewButton
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: DayViewButton
+      role: push button
+      object_name: DayViewButton
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: AllCollectionViewButton
+      role: push button
+      object_name: AllCollectionViewButton
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: ImportButton
+      role: push button
+      object_name: ImportButton
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: FavoriteButton
+      role: push button
+      object_name: FavoriteButton
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: RotateButton
+      role: push button
+      object_name: RotateButton
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: DeleteButton
+      role: push button
+      object_name: DeleteButton
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: CollectionCombo
+      role: combo box
+      object_name: CollectionCombo
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: SettingsMenu
+      role: menu
+      object_name: SettingsMenu
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: ImportFoldersMenuItem
+      role: menu item
+      object_name: ImportFoldersMenuItem
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+  - id: ''
+    name: StatusBar
+    role: panel
+    object_name: StatusBar
+    accessible_id: ''
+    source: static
+    class_name: StatusBar
+    classification: container
+    description: ''
+    actions: []
+    index_in_parent: -1
+    states: []
+    state_labels: []
+    comment: ''
+    annotation_status: draft
+    children:
+    - id: ''
+      name: StatusLabel
+      role: label
+      object_name: StatusLabel
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: ThumbnailSizeSlider
+      role: slider
+      object_name: ThumbnailSizeSlider
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+  - id: ''
+    name: ThumbnailListView
+    role: panel
+    object_name: ThumbnailListView
+    accessible_id: ''
+    source: static
+    class_name: ThumbnailListView
+    classification: container
+    description: ''
+    actions: []
+    index_in_parent: -1
+    states: []
+    state_labels: []
+    comment: ''
+    annotation_status: draft
+    children:
+    - id: ''
+      name: NoResultWidget
+      role: panel
+      object_name: NoResultWidget
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: ImportPhotosButton
+      role: push button
+      object_name: ImportPhotosButton
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: NoContentLabel
+      role: label
+      object_name: NoContentLabel
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: GridView
+      role: list
+      object_name: GridView
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: ThumbnailMenu
+      role: menu
+      object_name: ThumbnailMenu
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: AddToAlbum
+      role: menu
+      object_name: AddToAlbum
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: FilterComboBox
+      role: combo box
+      object_name: FilterComboBox
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: FilterComboBoxItem
+      role: menu item
+      object_name: FilterComboBoxItem
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+  - id: ''
+    name: 导入照片和视频
+    role: push button
+    object_name: ''
+    accessible_id: ''
+    source: runtime
+    class_name: ''
+    classification: interactive
+    description: ''
+    actions: []
+    index_in_parent: -1
+    states: []
+    state_labels: []
+    comment: ''
+    annotation_status: draft
+  - id: ''
+    name: 删除0项
+    role: push button
+    object_name: ''
+    accessible_id: ''
+    source: runtime
+    class_name: ''
+    classification: interactive
+    description: ''
+    actions: []
+    index_in_parent: -1
+    states: []
+    state_labels: []
+    comment: ''
+    annotation_status: draft
+  - id: ''
+    name: 恢复0项
+    role: push button
+    object_name: ''
+    accessible_id: ''
+    source: runtime
+    class_name: ''
+    classification: interactive
+    description: ''
+    actions: []
+    index_in_parent: -1
+    states: []
+    state_labels: []
+    comment: ''
+    annotation_status: draft
+  - id: ''
+    name: 幻灯片放映
+    role: push button
+    object_name: ''
+    accessible_id: ''
+    source: runtime
+    class_name: ''
+    classification: interactive
+    description: ''
+    actions: []
+    index_in_parent: -1
+    states: []
+    state_labels: []
+    comment: ''
+    annotation_status: draft
+  - id: ''
+    name: 全部导入
+    role: push button
+    object_name: ''
+    accessible_id: ''
+    source: runtime
+    class_name: ''
+    classification: interactive
+    description: ''
+    actions: []
+    index_in_parent: -1
+    states: []
+    state_labels: []
+    comment: ''
+    annotation_status: draft
+  - id: ''
+    name: 打开图片
+    role: push button
+    object_name: ''
+    accessible_id: ''
+    source: runtime
+    class_name: ''
+    classification: interactive
+    description: ''
+    actions: []
+    index_in_parent: -1
+    states: []
+    state_labels: []
+    comment: ''
+    annotation_status: draft
+  - id: ''
+    name: 所有项目
+    role: combo box
+    object_name: ''
+    accessible_id: ''
+    source: runtime
+    class_name: ''
+    classification: interactive
+    description: ''
+    actions: []
+    index_in_parent: -1
+    states: []
+    state_labels: []
+    comment: ''
+    annotation_status: draft
+  - id: ''
+    name: 导入
+    role: combo box
+    object_name: ''
+    accessible_id: ''
+    source: runtime
+    class_name: ''
+    classification: interactive
+    description: ''
+    actions: []
+    index_in_parent: -1
+    states: []
+    state_labels: []
+    comment: ''
+    annotation_status: draft
+  - id: ''
+    name: Dialogs
+    role: panel
+    object_name: ''
+    accessible_id: ''
+    source: static
+    class_name: Dialogs
+    classification: container
+    description: ''
+    actions: []
+    index_in_parent: -1
+    states: []
+    state_labels: []
+    comment: ''
+    annotation_status: draft
+    children:
+    - id: ''
+      name: DeleteCancelButton
+      role: push button
+      object_name: DeleteCancelButton
+      accessible_id: ''
+      source: static
+      class_name: DeleteDialog
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: DeleteConfirmButton
+      role: push button
+      object_name: DeleteConfirmButton
+      accessible_id: ''
+      source: static
+      class_name: DeleteDialog
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: DeviceLoadCancelButton
+      role: push button
+      object_name: DeviceLoadCancelButton
+      accessible_id: ''
+      source: static
+      class_name: DeviceLoadDialog
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: DeviceLoadIgnoreButton
+      role: push button
+      object_name: DeviceLoadIgnoreButton
+      accessible_id: ''
+      source: static
+      class_name: DeviceLoadDialog
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: WarningOkButton
+      role: push button
+      object_name: WarningOkButton
+      accessible_id: ''
+      source: static
+      class_name: EmptyWarningDialog
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: ExportCancelButton
+      role: push button
+      object_name: ExportCancelButton
+      accessible_id: ''
+      source: static
+      class_name: ExportDialog
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: ExportConfirmButton
+      role: push button
+      object_name: ExportConfirmButton
+      accessible_id: ''
+      source: static
+      class_name: ExportDialog
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: NewAlbumCancelButton
+      role: push button
+      object_name: NewAlbumCancelButton
+      accessible_id: ''
+      source: static
+      class_name: NewAlbumDialog
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: NewAlbumConfirmButton
+      role: push button
+      object_name: NewAlbumConfirmButton
+      accessible_id: ''
+      source: static
+      class_name: NewAlbumDialog
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: CancelButton
+      role: push button
+      object_name: CancelButton
+      accessible_id: ''
+      source: static
+      class_name: RemoveAlbumDialog
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: ConfirmDeleteButton
+      role: push button
+      object_name: ConfirmDeleteButton
+      accessible_id: ''
+      source: static
+      class_name: RemoveAlbumDialog
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: Cancel
+      role: push button
+      object_name: Cancel
+      accessible_id: ''
+      source: static
+      class_name: RemoveDialog
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+  - id: ''
+    name: PreviewImageViewer
+    role: panel
+    object_name: ''
+    accessible_id: ''
+    source: static
+    class_name: PreviewImageViewer
+    classification: container
+    description: ''
+    actions: []
+    index_in_parent: -1
+    states: []
+    state_labels: []
+    comment: ''
+    annotation_status: draft
+    children:
+    - id: ''
+      name: NavigationCloseButton
+      role: push button
+      object_name: NavigationCloseButton
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: ThumbnailButton_ToolButton
+      role: push button
+      object_name: ThumbnailButton_ToolButton
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: SliderMenu
+      role: menu
+      object_name: SliderMenu
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: Pause
+      role: menu item
+      object_name: Pause
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: Exit
+      role: menu item
+      object_name: Exit
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: OptionMenu
+      role: menu
+      object_name: OptionMenu
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: ViewTopTitle_Menu
+      role: menu
+      object_name: ViewTopTitle_Menu
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: RightMenuItem_MenuItem
+      role: menu item
+      object_name: RightMenuItem_MenuItem
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: RightMenuItem_MenuItem_2
+      role: menu item
+      object_name: RightMenuItem_MenuItem_2
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: TitleBar
+      role: panel
+      object_name: TitleBar
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: Info
+      role: panel
+      object_name: Info
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: MultiImageView
+      role: list
+      object_name: MultiImageView
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: BottomthumbnaillistView
+      role: list
+      object_name: BottomthumbnaillistView
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+  - id: ''
+    name: OtherViews
+    role: panel
+    object_name: ''
+    accessible_id: ''
+    source: static
+    class_name: OtherViews
+    classification: container
+    description: ''
+    actions: []
+    index_in_parent: -1
+    states: []
+    state_labels: []
+    comment: ''
+    annotation_status: draft
+    children:
+    - id: ''
+      name: ClassificationGrid
+      role: list
+      object_name: ClassificationGrid
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: FilterCombo
+      role: combo box
+      object_name: FilterCombo
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: Import
+      role: menu item
+      object_name: Import
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: ImportedCheckBox
+      role: check box
+      object_name: ImportedCheckBox
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: RestoreSelectedBtn
+      role: push button
+      object_name: RestoreSelectedBtn
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: TimeLineView
+      role: panel
+      object_name: TimeLineView
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: ImportTimeLineView
+      role: panel
+      object_name: ImportTimeLineView
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: TheView_5
+      role: list
+      object_name: TheView_5
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: TheView_6
+      role: list
+      object_name: TheView_6
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+    - id: ''
+      name: TheView_7
+      role: list
+      object_name: TheView_7
+      accessible_id: ''
+      source: static
+      class_name: ''
+      classification: interactive
+      description: ''
+      actions: []
+      index_in_parent: -1
+      states: []
+      state_labels: []
+      comment: ''
+      annotation_status: draft
+transient_contexts: []

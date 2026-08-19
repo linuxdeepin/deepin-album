@@ -1,0 +1,173 @@
+name: 文件右键菜单_suite
+app: deepin-album
+description: ''
+module: 文件右键菜单
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_ctxmenu_basic_s1
+  name: 文件右键菜单基础项
+  description: 右键菜单收藏/删除
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+      child_index: '0'
+    items:
+    - 收藏
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+      child_index: '0'
+    items:
+    - 删除
+  - action: element_action
+    selector:
+      name: DeleteConfirmButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: 我的收藏
+      role: label
+  - action: assert_element
+    selector:
+      name: DeleteCancelButton
+      role: push button
+- id: suite_ctxmenu_view_s1
+  name: 右键菜单查看
+  description: 右键菜单查看照片
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+      child_index: '0'
+    items:
+    - 查看
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: NavigationCloseButton
+      role: push button
+- id: suite_ctxmenu_rotate_s1
+  name: 右键菜单旋转
+  description: 右键菜单顺时针/逆时针旋转
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+      child_index: '0'
+    items:
+    - 顺时针旋转
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+      child_index: '0'
+    items:
+    - 逆时针旋转
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+- id: suite_ctxmenu_add_album_s1
+  name: 右键菜单添加到相册
+  description: 右键菜单添加到相册-新建相册
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+      child_index: '0'
+    items:
+    - 添加到相册
+    - 新建相册
+  - action: element_action
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: NewAlbumCancelButton
+      role: push button
+- id: suite_ctxmenu_wallpaper_s1
+  name: 右键菜单设为壁纸
+  description: 右键设为壁纸
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+      child_index: '0'
+    items:
+    - 设为壁纸
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+- id: suite_ctxmenu_fullscreen_s1
+  name: 右键菜单全屏
+  description: 右键全屏/退出全屏
+  tags: []
+  steps:
+  - action: mouse_double_click
+    selector:
+      name: GridView
+      role: list
+      child_index: '0'
+  - action: dtk_context_menu
+    selector:
+      name: MultiImageView
+    items:
+    - 全屏
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: MultiImageView
+      role: list
+- id: suite_ctxmenu_print_info_s1
+  name: 右键菜单打印与照片信息
+  description: 右键打印/照片信息
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+      child_index: '0'
+    items:
+    - 照片信息
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Info
+      role: panel
+- id: suite_ctxmenu_showfile_s1
+  name: 右键菜单在文件管理器中显示
+  description: 右键在文件管理器中显示
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+      child_index: '0'
+    items:
+    - 在文件管理器中显示
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+teardown:
+- action: session_stop

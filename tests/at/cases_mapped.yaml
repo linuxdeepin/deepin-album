@@ -1,0 +1,1542 @@
+# === 格式范例 ===
+# metadata:
+#   generated_at: "2026-08-18"
+#   source: "相册V25-用例.xlsx"
+# cases:
+#   - id: "suite-id"
+#     name: "Suite name"
+#     module: "module-name"
+#     status: "active"
+#     annotation:
+#       测试界面: "主窗口"
+#       测试功能: "工具栏操作"
+#       前置条件: "应用已启动"
+#       AT元素引用: ["ImportButton"]
+#     steps:
+#       - step_type: "action"
+#         description: "启动相册应用"
+#         action: "session_start"
+#         command: "deepin-album"
+#       - step_type: "action"
+#         description: "点击导入按钮"
+#         action: "element_action"
+#         selector: {name: "ImportButton", role: "push button"}
+#         do: "click"
+#       - step_type: "assert"
+#         description: "验证缩略图区显示"
+#         action: "assert_element"
+#         selector: {name: "GridView", role: "list"}
+# === 格式范例结束 ===
+
+metadata:
+  generated_at: "2026-08-18"
+  source: "相册V25-用例.xlsx"
+cases:
+  # ============ 主菜单 ============
+  - id: "suite_mainmenu"
+    name: "主菜单新建相册/关于/深色主题"
+    module: "主菜单"
+    description: "主菜单新建相册、深色主题、关于对话框"
+    status: "active"
+    annotation:
+      测试界面: "标题栏-主菜单"
+      测试功能: "主菜单新建相册/深色主题/关于"
+      前置条件: "相册已启动"
+      AT元素引用: ["SettingsMenu", "NewAlbumConfirmButton", "NewAlbumCancelButton"]
+    steps:
+      - step_type: "action"
+        description: "打开主菜单并选择新建相册"
+        action: "dtk_main_menu"
+        items: ["新建相册"]
+      - step_type: "action"
+        description: "新建相册对话框输入名称点击确定"
+        action: "element_action"
+        selector: {name: "NewAlbumConfirmButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认自定义相册创建成功"
+        action: "assert_element"
+        selector: {name: "NewAlbumCancelButton", role: "push button"}
+
+  - id: "suite_mainmenu_import"
+    name: "主菜单导入照片"
+    module: "主菜单"
+    description: "主菜单导入时间线/所有照片"
+    status: "active"
+    annotation:
+      测试界面: "标题栏-主菜单"
+      测试功能: "主菜单导入时间线/所有照片"
+      前置条件: "相册已启动，本地有照片文件"
+      AT元素引用: ["SettingsMenu", "ImportFoldersMenuItem", "GridView"]
+    steps:
+      - step_type: "action"
+        description: "打开主菜单选择导入文件夹"
+        action: "dtk_main_menu"
+        items: ["导入照片", "从文件夹导入"]
+      - step_type: "assert"
+        description: "确认照片导入后缩略图区显示"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  # ============ 标题栏 ============
+  - id: "suite_titlebar_import"
+    name: "标题栏导入照片视频"
+    module: "标题栏"
+    description: "标题栏导入按钮导入照片和视频"
+    status: "active"
+    annotation:
+      测试界面: "标题栏"
+      测试功能: "标题栏导入按钮导入照片和视频"
+      前置条件: "相册已启动，本地有照片/视频文件"
+      AT元素引用: ["ImportButton", "GridView"]
+    steps:
+      - step_type: "action"
+        description: "点击标题栏导入按钮"
+        action: "element_action"
+        selector: {name: "ImportButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认照片导入后缩略图区显示"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  - id: "suite_titlebar_close"
+    name: "窗口关闭按钮退出"
+    module: "标题栏"
+    description: "点击关闭按钮退出相册"
+    status: "active"
+    annotation:
+      测试界面: "标题栏"
+      测试功能: "窗口关闭按钮退出相册"
+      前置条件: "相册已启动"
+      AT元素引用: ["AlbumIcon"]
+    steps:
+      - step_type: "action"
+        description: "点击窗口关闭按钮退出相册"
+        action: "keyboard_hot_key"
+        key: "ctrl+q"
+      - step_type: "assert"
+        description: "确认相册进程已退出"
+        action: "assert_process_not_running"
+        text: "deepin-album"
+
+  - id: "suite_titlebar_favorite_rotate"
+    name: "标题栏收藏与旋转"
+    module: "标题栏"
+    description: "标题栏收藏按钮和旋转按钮"
+    status: "active"
+    annotation:
+      测试界面: "标题栏"
+      测试功能: "标题栏收藏按钮和旋转按钮操作"
+      前置条件: "相册已启动，已导入至少一张照片并选中"
+      AT元素引用: ["FavoriteButton", "RotateButton"]
+    steps:
+      - step_type: "action"
+        description: "选择一张照片"
+        action: "mouse_click"
+        selector: {name: "GridView", role: "list", child_index: "0"}
+      - step_type: "action"
+        description: "点击标题栏收藏按钮"
+        action: "element_action"
+        selector: {name: "FavoriteButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认照片收藏成功"
+        action: "assert_element"
+        selector: {name: "我的收藏", role: "label"}
+      - step_type: "action"
+        description: "点击标题栏旋转按钮"
+        action: "element_action"
+        selector: {name: "RotateButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认照片状态无异常"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  # ============ 查看照片/窗口操作 ============
+  - id: "suite_view_photo"
+    name: "双击查看照片"
+    module: "查看照片"
+    description: "双击照片缩略图进入查看界面"
+    status: "active"
+    annotation:
+      测试界面: "查看照片界面"
+      测试功能: "双击照片缩略图查看"
+      前置条件: "相册已启动，已导入照片"
+      AT元素引用: ["GridView", "NavigationCloseButton"]
+    steps:
+      - step_type: "action"
+        description: "双击照片缩略图进入查看界面"
+        action: "mouse_double_click"
+        selector: {name: "GridView", role: "list", child_index: "0"}
+      - step_type: "assert"
+        description: "确认进入查看照片界面"
+        action: "assert_element"
+        selector: {name: "NavigationCloseButton", role: "push button"}
+      - step_type: "action"
+        description: "点击导航关闭按钮返回"
+        action: "element_action"
+        selector: {name: "NavigationCloseButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认返回缩略图视图"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  - id: "suite_view_rotate_right"
+    name: "查看照片右键旋转"
+    module: "查看照片"
+    description: "查看照片界面右键菜单顺时针旋转"
+    status: "active"
+    annotation:
+      测试界面: "查看照片界面"
+      测试功能: "查看照片右键菜单顺时针旋转"
+      前置条件: "相册已启动，已导入照片并进入查看界面"
+      AT元素引用: ["GridView", "OptionMenu"]
+    steps:
+      - step_type: "action"
+        description: "双击照片进入查看界面"
+        action: "mouse_double_click"
+        selector: {name: "GridView", role: "list", child_index: "0"}
+      - step_type: "action"
+        description: "右键照片显示区选择顺时针旋转"
+        action: "dtk_context_menu"
+        selector: {name: "MultiImageView"}
+        items: ["顺时针旋转"]
+      - step_type: "assert"
+        description: "确认照片已旋转"
+        action: "assert_element"
+        selector: {name: "MultiImageView", role: "list"}
+
+  - id: "suite_view_delete"
+    name: "查看界面删除图片"
+    module: "查看照片"
+    description: "查看界面截图删除图片"
+    status: "active"
+    annotation:
+      测试界面: "查看照片界面"
+      测试功能: "查看界面删除图片"
+      前置条件: "相册已启动，已导入照片并进入查看界面"
+      AT元素引用: ["DeleteButton", "DeleteConfirmButton", "DeleteCancelButton", "最近删除"]
+    steps:
+      - step_type: "action"
+        description: "双击照片进入查看界面"
+        action: "mouse_double_click"
+        selector: {name: "GridView", role: "list", child_index: "0"}
+      - step_type: "action"
+        description: "点击查看界面删除按钮"
+        action: "element_action"
+        selector: {name: "DeleteButton", role: "push button"}
+        do: "click"
+      - step_type: "action"
+        description: "删除确认弹窗点击确定"
+        action: "element_action"
+        selector: {name: "DeleteConfirmButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认照片已删除"
+        action: "assert_element"
+        selector: {name: "DeleteCancelButton", role: "push button"}
+
+  - id: "suite_window_ops"
+    name: "窗口操作查看照片"
+    module: "窗口操作"
+    description: "窗口操作双击查看/图片放大"
+    status: "active"
+    annotation:
+      测试界面: "查看照片界面"
+      测试功能: "双击查看照片窗口照片查看"
+      前置条件: "相册已启动，已导入照片"
+      AT元素引用: ["GridView", "NavigationCloseButton"]
+    steps:
+      - step_type: "action"
+        description: "双击照片缩略图查看"
+        action: "mouse_double_click"
+        selector: {name: "GridView", role: "list", child_index: "0"}
+      - step_type: "assert"
+        description: "确认进入查看照片界面"
+        action: "assert_element"
+        selector: {name: "NavigationCloseButton", role: "push button"}
+
+  - id: "suite_rename"
+    name: "图片重命名"
+    module: "窗口操作"
+    description: "读写图片重命名"
+    status: "active"
+    annotation:
+      测试界面: "查看照片界面"
+      测试功能: "读写图片重命名"
+      前置条件: "相册已启动，已导入可写图片"
+      AT元素引用: ["GridView"]
+    steps:
+      - step_type: "action"
+        description: "选中照片并重命名"
+        action: "element_action"
+        selector: {name: "GridView", role: "list", child_index: "0"}
+        do: "click"
+      - step_type: "action"
+        description: "按回车重命名"
+        action: "keyboard_press"
+        key: "F2"
+      - step_type: "assert"
+        description: "确认重命名成功"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  # ============ 文件显示区 ============
+  - id: "suite_display_zoom"
+    name: "缩略图缩放"
+    module: "文件显示区"
+    description: "缩放条与快捷键调整缩略图大小"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区"
+      测试功能: "缩放条/快捷键调整缩略图大小"
+      前置条件: "相册已启动，已导入照片"
+      AT元素引用: ["ThumbnailSizeSlider", "ZoomRatioButton"]
+    steps:
+      - step_type: "action"
+        description: "使用快捷键放大缩略图"
+        action: "keyboard_hot_key"
+        key: "ctrl++"
+      - step_type: "assert"
+        description: "确认缩略图放大"
+        action: "assert_element"
+        selector: {name: "ZoomRatioButton", role: "push button"}
+      - step_type: "action"
+        description: "拖动缩放条调整缩略图大小"
+        action: "element_action"
+        selector: {name: "ThumbnailSizeSlider", role: "slider"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认缩略图大小变化"
+        action: "assert_element"
+        selector: {name: "ThumbnailSizeSlider", role: "slider"}
+
+  - id: "suite_display_select_deselect"
+    name: "文件选择取消选择"
+    module: "文件显示区"
+    description: "选择文件与取消选择"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区"
+      测试功能: "选择文件后取消选中、全选"
+      前置条件: "相册已启动，已导入多个文件"
+      AT元素引用: ["GridView", "StatusLabel"]
+    steps:
+      - step_type: "action"
+        description: "选择照片文件"
+        action: "mouse_click"
+        selector: {name: "GridView", role: "list", child_index: "0"}
+      - step_type: "assert"
+        description: "检查底栏选择文案显示"
+        action: "assert_element"
+        selector: {name: "StatusLabel", role: "label"}
+      - step_type: "action"
+        description: "按Esc取消选中"
+        action: "keyboard_press"
+        key: "escape"
+      - step_type: "assert"
+        description: "确认文件已取消选中"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  - id: "suite_display_favorite"
+    name: "缩略图收藏"
+    module: "文件显示区"
+    description: "缩略图收藏/取消收藏"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区"
+      测试功能: "缩略图收藏图标文件收藏"
+      前置条件: "相册已启动，已导入照片"
+      AT元素引用: ["GridView", "我的收藏"]
+    steps:
+      - step_type: "action"
+        description: "选中照片点击缩略图收藏图标"
+        action: "element_action"
+        selector: {name: "GridView", role: "list", child_index: "0"}
+        do: "click"
+      - step_type: "action"
+        description: "点击标题栏收藏按钮收藏"
+        action: "element_action"
+        selector: {name: "FavoriteButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认文件已收藏"
+        action: "assert_element"
+        selector: {name: "我的收藏", role: "label"}
+
+  - id: "suite_display_preview_nav"
+    name: "预览照片浏览"
+    module: "文件显示区"
+    description: "预览界面浏览照片"
+    status: "active"
+    annotation:
+      测试界面: "查看照片界面"
+      测试功能: "PageUp/PageDown浏览照片"
+      前置条件: "相册已启动，已导入多张照片并进入查看界面"
+      AT元素引用: ["GridView", "NavigationCloseButton"]
+    steps:
+      - step_type: "action"
+        description: "双击照片进入查看界面"
+        action: "mouse_double_click"
+        selector: {name: "GridView", role: "list", child_index: "0"}
+      - step_type: "action"
+        description: "按PageDown浏览下一张照片"
+        action: "keyboard_press"
+        key: "Page_Down"
+      - step_type: "assert"
+        description: "确认照片已切换"
+        action: "assert_element"
+        selector: {name: "MultiImageView", role: "list"}
+
+  - id: "suite_display_video_time"
+    name: "视频时长显示"
+    module: "文件显示区"
+    description: "视频时长显示检查"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区"
+      测试功能: "视频时长显示检查"
+      前置条件: "相册已启动，已导入视频"
+      AT元素引用: ["GridView"]
+    steps:
+      - step_type: "action"
+        description: "选中视频文件"
+        action: "mouse_click"
+        selector: {name: "GridView", role: "list", child_index: "0"}
+      - step_type: "assert"
+        description: "确认视频缩略图存在"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  # ============ 底栏 ============
+  - id: "suite_statusbar_text"
+    name: "底栏状态文案"
+    module: "底栏"
+    description: "选择文件后底栏选择文案显示"
+    status: "active"
+    annotation:
+      测试界面: "底部状态栏"
+      测试功能: "选择文件后底栏选择/数量文案显示"
+      前置条件: "相册已启动，已导入照片"
+      AT元素引用: ["StatusLabel", "GridView"]
+    steps:
+      - step_type: "action"
+        description: "选择一张照片"
+        action: "mouse_click"
+        selector: {name: "GridView", role: "list", child_index: "0"}
+      - step_type: "assert"
+        description: "检查底栏文件数量状态文案显示"
+        action: "assert_element"
+        selector: {name: "StatusLabel", role: "label"}
+
+  # ============ 筛选 ============
+  - id: "suite_filter"
+    name: "筛选功能"
+    module: "筛选"
+    description: "筛选按钮所有项目/照片/视频"
+    status: "active"
+    annotation:
+      测试界面: "筛选区"
+      测试功能: "筛选按钮所有项目/照片/视频"
+      前置条件: "相册已启动，已导入照片和视频"
+      AT元素引用: ["FilterComboBox", "FilterComboBoxItem", "GridView", "所有项目"]
+    steps:
+      - step_type: "action"
+        description: "点击筛选下拉框展开选项"
+        action: "element_action"
+        selector: {name: "FilterComboBox", role: "combo box"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认筛选选项展开"
+        action: "assert_element"
+        selector: {name: "FilterComboBoxItem", role: "menu item"}
+      - step_type: "action"
+        description: "选择视频筛选"
+        action: "element_action"
+        selector: {name: "FilterComboBoxItem", role: "menu item"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认筛选结果视图存在"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  # ============ 文件右键菜单 ============
+  - id: "suite_ctxmenu_basic"
+    name: "文件右键菜单基础项"
+    module: "文件右键菜单"
+    description: "右键菜单收藏/删除"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区-缩略图右键菜单"
+      测试功能: "右键菜单收藏/删除"
+      前置条件: "相册已启动，已导入照片"
+      AT元素引用: ["GridView", "ThumbnailMenu", "DeleteConfirmButton"]
+    steps:
+      - step_type: "action"
+        description: "右键照片打开菜单"
+        action: "dtk_context_menu"
+        selector: {name: "GridView", child_index: "0"}
+        items: ["收藏"]
+      - step_type: "assert"
+        description: "确认照片收藏成功"
+        action: "assert_element"
+        selector: {name: "我的收藏", role: "label"}
+      - step_type: "action"
+        description: "右键照片选择删除"
+        action: "dtk_context_menu"
+        selector: {name: "GridView", child_index: "0"}
+        items: ["删除"]
+      - step_type: "action"
+        description: "删除确认弹窗点击确定"
+        action: "element_action"
+        selector: {name: "DeleteConfirmButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认删除成功"
+        action: "assert_element"
+        selector: {name: "DeleteCancelButton", role: "push button"}
+
+  - id: "suite_ctxmenu_view"
+    name: "右键菜单查看"
+    module: "文件右键菜单"
+    description: "右键菜单查看照片"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区-缩略图右键菜单"
+      测试功能: "右键菜单查看"
+      前置条件: "相册已启动，已导入照片"
+      AT元素引用: ["GridView", "ThumbnailMenu", "NavigationCloseButton"]
+    steps:
+      - step_type: "action"
+        description: "右键照片选择查看"
+        action: "dtk_context_menu"
+        selector: {name: "GridView", child_index: "0"}
+        items: ["查看"]
+      - step_type: "assert"
+        description: "确认进入查看照片界面"
+        action: "assert_element"
+        selector: {name: "NavigationCloseButton", role: "push button"}
+
+  - id: "suite_ctxmenu_rotate"
+    name: "右键菜单旋转"
+    module: "文件右键菜单"
+    description: "右键菜单顺时针/逆时针旋转"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区-缩略图右键菜单"
+      测试功能: "右键菜单顺时针/逆时针旋转"
+      前置条件: "相册已启动，已导入照片"
+      AT元素引用: ["GridView", "ThumbnailMenu"]
+    steps:
+      - step_type: "action"
+        description: "右键照片选择顺时针旋转"
+        action: "dtk_context_menu"
+        selector: {name: "GridView", child_index: "0"}
+        items: ["顺时针旋转"]
+      - step_type: "action"
+        description: "右键照片选择逆时针旋转"
+        action: "dtk_context_menu"
+        selector: {name: "GridView", child_index: "0"}
+        items: ["逆时针旋转"]
+      - step_type: "assert"
+        description: "确认照片旋转后视图存在"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  - id: "suite_ctxmenu_add_album"
+    name: "右键菜单添加到相册"
+    module: "文件右键菜单"
+    description: "右键菜单添加到相册-新建相册"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区-缩略图右键菜单"
+      测试功能: "右键菜单添加到相册"
+      前置条件: "相册已启动，已导入照片"
+      AT元素引用: ["GridView", "ThumbnailMenu", "AddToAlbum", "NewAlbumConfirmButton"]
+    steps:
+      - step_type: "action"
+        description: "右键照片选择添加到相册-新建相册"
+        action: "dtk_context_menu"
+        selector: {name: "GridView", child_index: "0"}
+        items: ["添加到相册", "新建相册"]
+      - step_type: "action"
+        description: "新建相册对话框输入名称点击确定"
+        action: "element_action"
+        selector: {name: "NewAlbumConfirmButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认添加到新相册成功"
+        action: "assert_element"
+        selector: {name: "NewAlbumCancelButton", role: "push button"}
+
+  - id: "suite_ctxmenu_wallpaper"
+    name: "右键菜单设为壁纸"
+    module: "文件右键菜单"
+    description: "右键设为壁纸"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区-缩略图右键菜单"
+      测试功能: "右键菜单设为壁纸"
+      前置条件: "相册已启动，已导入照片"
+      AT元素引用: ["GridView", "ThumbnailMenu"]
+    steps:
+      - step_type: "action"
+        description: "右键照片选择设为壁纸"
+        action: "dtk_context_menu"
+        selector: {name: "GridView", child_index: "0"}
+        items: ["设为壁纸"]
+      - step_type: "assert"
+        description: "确认网格视图仍存在"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  - id: "suite_ctxmenu_fullscreen"
+    name: "右键菜单全屏"
+    module: "文件右键菜单"
+    description: "右键全屏/退出全屏"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区-缩略图右键菜单"
+      测试功能: "右键菜单全屏/退出全屏"
+      前置条件: "相册已启动，已导入照片"
+      AT元素引用: ["GridView", "ThumbnailMenu", "MultiImageView"]
+    steps:
+      - step_type: "action"
+        description: "双击照片进入查看界面"
+        action: "mouse_double_click"
+        selector: {name: "GridView", role: "list", child_index: "0"}
+      - step_type: "action"
+        description: "右键照片显示区选择全屏"
+        action: "dtk_context_menu"
+        selector: {name: "MultiImageView"}
+        items: ["全屏"]
+      - step_type: "assert"
+        description: "确认进入全屏显示"
+        action: "assert_element"
+        selector: {name: "MultiImageView", role: "list"}
+
+  - id: "suite_ctxmenu_print_info"
+    name: "右键菜单打印与照片信息"
+    module: "文件右键菜单"
+    description: "右键打印/照片信息"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区-缩略图右键菜单"
+      测试功能: "右键菜单照片信息"
+      前置条件: "相册已启动，已导入照片"
+      AT元素引用: ["GridView", "ThumbnailMenu", "Info"]
+    steps:
+      - step_type: "action"
+        description: "右键照片选择照片信息"
+        action: "dtk_context_menu"
+        selector: {name: "GridView", child_index: "0"}
+        items: ["照片信息"]
+      - step_type: "assert"
+        description: "确认照片信息窗口显示"
+        action: "assert_element"
+        selector: {name: "Info", role: "panel"}
+
+  - id: "suite_ctxmenu_showfile"
+    name: "右键菜单在文件管理器中显示"
+    module: "文件右键菜单"
+    description: "右键在文件管理器中显示"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区-缩略图右键菜单"
+      测试功能: "右键菜单在文件管理器中显示"
+      前置条件: "相册已启动，已导入照片"
+      AT元素引用: ["GridView", "ThumbnailMenu"]
+    steps:
+      - step_type: "action"
+        description: "右键照片选择在文件管理器中显示"
+        action: "dtk_context_menu"
+        selector: {name: "GridView", child_index: "0"}
+        items: ["在文件管理器中显示"]
+      - step_type: "assert"
+        description: "确认网格视图仍存在"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  # ============ 删除 ============
+  - id: "suite_delete_ctxmenu"
+    name: "右键菜单删除照片"
+    module: "删除"
+    description: "右键菜单删除单个照片和视频"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区-右键菜单"
+      测试功能: "右键菜单删除照片和视频"
+      前置条件: "相册已启动，已导入照片"
+      AT元素引用: ["GridView", "ThumbnailMenu", "DeleteConfirmButton", "DeleteCancelButton", "最近删除"]
+    steps:
+      - step_type: "action"
+        description: "点击标题栏导入按钮导入照片"
+        action: "element_action"
+        selector: {name: "ImportButton", role: "push button"}
+        do: "click"
+      - step_type: "action"
+        description: "选中照片右键选择删除"
+        action: "dtk_context_menu"
+        selector: {name: "GridView", child_index: "0"}
+        items: ["删除"]
+      - step_type: "action"
+        description: "删除确认弹窗点击确定"
+        action: "element_action"
+        selector: {name: "DeleteConfirmButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认照片已删除"
+        action: "assert_element"
+        selector: {name: "DeleteCancelButton", role: "push button"}
+      - step_type: "action"
+        description: "点击侧边栏最近删除"
+        action: "element_action"
+        selector: {name: "最近删除", role: "label"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认最近删除视图显示"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  - id: "suite_delete_hotkey"
+    name: "快捷键Delete删除"
+    module: "删除"
+    description: "快捷键Delete删除照片和视频"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区"
+      测试功能: "快捷键Delete删除照片和视频"
+      前置条件: "相册已启动，已导入照片和视频"
+      AT元素引用: ["GridView", "DeleteConfirmButton", "最近删除"]
+    steps:
+      - step_type: "action"
+        description: "选中照片视频"
+        action: "mouse_click"
+        selector: {name: "GridView", role: "list", child_index: "0"}
+      - step_type: "action"
+        description: "按Delete键删除"
+        action: "keyboard_press"
+        key: "Delete"
+      - step_type: "action"
+        description: "删除确认弹窗点击确定"
+        action: "element_action"
+        selector: {name: "DeleteConfirmButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认删除成功"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  - id: "suite_delete_view_hotkey"
+    name: "查看照片界面Delete删除"
+    module: "删除"
+    description: "查看照片界面快捷键Delete删除照片"
+    status: "active"
+    annotation:
+      测试界面: "查看照片界面"
+      测试功能: "查看照片界面Delete删除照片"
+      前置条件: "相册已启动，已导入照片并进入查看界面"
+      AT元素引用: ["GridView", "DeleteConfirmButton", "最近删除"]
+    steps:
+      - step_type: "action"
+        description: "双击照片进入查看界面"
+        action: "mouse_double_click"
+        selector: {name: "GridView", role: "list", child_index: "0"}
+      - step_type: "action"
+        description: "按Delete键删除照片"
+        action: "keyboard_press"
+        key: "Delete"
+      - step_type: "action"
+        description: "删除确认弹窗点击确定"
+        action: "element_action"
+        selector: {name: "DeleteConfirmButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认照片删除成功"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  - id: "suite_delete_view_ctxmenu"
+    name: "查看照片界面右键删除"
+    module: "删除"
+    description: "查看照片界面右键删除照片"
+    status: "active"
+    annotation:
+      测试界面: "查看照片界面"
+      测试功能: "查看照片界面右键删除照片"
+      前置条件: "相册已启动，已导入照片并进入查看界面"
+      AT元素引用: ["GridView", "OptionMenu", "DeleteConfirmButton"]
+    steps:
+      - step_type: "action"
+        description: "双击照片进入查看界面"
+        action: "mouse_double_click"
+        selector: {name: "GridView", role: "list", child_index: "0"}
+      - step_type: "action"
+        description: "右键照片显示区域选择删除"
+        action: "dtk_context_menu"
+        selector: {name: "MultiImageView"}
+        items: ["删除"]
+      - step_type: "action"
+        description: "删除确认弹窗点击确定"
+        action: "element_action"
+        selector: {name: "DeleteConfirmButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认照片删除成功"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  - id: "suite_delete_large"
+    name: "删除大量照片和视频"
+    module: "删除"
+    description: "全选大量照片和视频删除"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区"
+      测试功能: "Ctrl+A全选大量照片视频删除"
+      前置条件: "相册已启动，已导入大量照片视频"
+      AT元素引用: ["GridView", "DeleteButton", "DeleteConfirmButton", "最近删除"]
+    steps:
+      - step_type: "action"
+        description: "按Ctrl+A全选所有文件"
+        action: "keyboard_hot_key"
+        key: "ctrl+a"
+      - step_type: "action"
+        description: "按Delete键删除"
+        action: "keyboard_press"
+        key: "Delete"
+      - step_type: "action"
+        description: "删除确认弹窗点击确定"
+        action: "element_action"
+        selector: {name: "DeleteConfirmButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认大量文件已删除"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  - id: "suite_delete_progress"
+    name: "删除进度提示文案"
+    module: "删除"
+    description: "删除进度提示文案显示"
+    status: "active"
+    annotation:
+      测试界面: "删除过程"
+      测试功能: "删除进度提示文案检查"
+      前置条件: "相册已启动，已导入多个文件"
+      AT元素引用: ["GridView", "StatusLabel"]
+    steps:
+      - step_type: "action"
+        description: "选中多个文件执行删除"
+        action: "keyboard_hot_key"
+        key: "ctrl+a"
+      - step_type: "action"
+        description: "按Delete键删除"
+        action: "keyboard_press"
+        key: "Delete"
+      - step_type: "assert"
+        description: "检查删除进度提示状态栏文案"
+        action: "assert_element"
+        selector: {name: "StatusLabel", role: "label"}
+
+  # ============ 文件信息 ============
+  - id: "suite_fileinfo_photo"
+    name: "照片信息显示"
+    module: "文件信息"
+    description: "照片信息基本信息/详细信息显示与折叠"
+    status: "active"
+    annotation:
+      测试界面: "文件信息弹窗"
+      测试功能: "照片信息基本信息/详细信息显示"
+      前置条件: "相册已启动，已导入有详细信息的照片"
+      AT元素引用: ["GridView", "ThumbnailMenu", "Info"]
+    steps:
+      - step_type: "action"
+        description: "右键照片选择照片信息"
+        action: "dtk_context_menu"
+        selector: {name: "GridView", child_index: "0"}
+        items: ["照片信息"]
+      - step_type: "assert"
+        description: "确认照片信息窗口显示"
+        action: "assert_element"
+        selector: {name: "Info", role: "panel"}
+
+  - id: "suite_fileinfo_video"
+    name: "视频信息显示"
+    module: "文件信息"
+    description: "视频信息弹窗内容显示与操作"
+    status: "active"
+    annotation:
+      测试界面: "文件信息弹窗"
+      测试功能: "视频信息弹窗显示与关闭"
+      前置条件: "相册已启动，已导入视频"
+      AT元素引用: ["GridView", "ThumbnailMenu", "Info"]
+    steps:
+      - step_type: "action"
+        description: "右键视频选择视频信息"
+        action: "dtk_context_menu"
+        selector: {name: "GridView", child_index: "0"}
+        items: ["视频信息"]
+      - step_type: "assert"
+        description: "确认视频信息弹窗显示"
+        action: "assert_element"
+        selector: {name: "Info", role: "panel"}
+
+  # ============ 导入 ============
+  - id: "suite_import_button"
+    name: "初始界面导入按钮"
+    module: "导入"
+    description: "空视图导入按钮导入照片视频"
+    status: "active"
+    annotation:
+      测试界面: "初始界面-空视图"
+      测试功能: "空视图导入按钮导入照片视频"
+      前置条件: "相册已启动（空相册）"
+      AT元素引用: ["ImportPhotosButton", "ImportButton", "GridView"]
+    steps:
+      - step_type: "action"
+        description: "点击空视图中央导入按钮"
+        action: "element_action"
+        selector: {name: "ImportPhotosButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认网格视图显示"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  - id: "suite_import_hotkey"
+    name: "Ctrl+O导入照片"
+    module: "导入"
+    description: "Ctrl+O导入照片和文件夹"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区"
+      测试功能: "Ctrl+O导入照片/文件夹"
+      前置条件: "相册已启动，本地有照片文件和文件夹"
+      AT元素引用: ["GridView", "ImportButton"]
+    steps:
+      - step_type: "action"
+        description: "按Ctrl+O打开导入对话框"
+        action: "keyboard_hot_key"
+        key: "ctrl+o"
+      - step_type: "action"
+        description: "确认导入后的网格视图"
+        action: "element_action"
+        selector: {name: "GridView", role: "list"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认照片导入显示"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  - id: "suite_import_duplicate"
+    name: "重复导入相同照片"
+    module: "导入"
+    description: "导入相同照片不重复显示"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区"
+      测试功能: "重复导入相同照片"
+      前置条件: "相册已启动，已导入照片"
+      AT元素引用: ["ImportButton", "GridView"]
+    steps:
+      - step_type: "action"
+        description: "点击标题栏导入按钮"
+        action: "element_action"
+        selector: {name: "ImportButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认网格视图显示"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  - id: "suite_import_damaged"
+    name: "导入异常文件"
+    module: "导入"
+    description: "导入损坏照片提示"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区"
+      测试功能: "导入损坏/无权限照片检查"
+      前置条件: "相册已启动，本地有异常照片文件"
+      AT元素引用: ["ImportButton", "GridView", "WarningOkButton"]
+    steps:
+      - step_type: "action"
+        description: "点击标题栏导入按钮导入异常文件"
+        action: "element_action"
+        selector: {name: "ImportButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认网格视图存在"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  - id: "suite_import_large"
+    name: "批量导入照片视频"
+    module: "导入"
+    description: "批量导入大量照片和视频"
+    status: "active"
+    annotation:
+      测试界面: "文件显示区"
+      测试功能: "批量导入照片和视频显示"
+      前置条件: "相册已启动，本地有大量文件"
+      AT元素引用: ["ImportButton", "GridView", "StatusLabel"]
+    steps:
+      - step_type: "action"
+        description: "点击标题栏导入按钮批量导入"
+        action: "element_action"
+        selector: {name: "ImportButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认导入后网格视图显示"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  - id: "suite_import_dialog"
+    name: "导入选择弹窗检查"
+    module: "导入"
+    description: "导入选择弹窗显示"
+    status: "active"
+    annotation:
+      测试界面: "导入选择弹窗"
+      测试功能: "导入选择弹窗显示"
+      前置条件: "相册已启动"
+      AT元素引用: ["ImportButton", "全部导入", "Import"]
+    steps:
+      - step_type: "action"
+        description: "点击标题栏导入按钮打开导入选择弹窗"
+        action: "element_action"
+        selector: {name: "ImportButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认导入网格视图显示"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  # ============ 导出 ============
+  - id: "suite_export_default"
+    name: "右键导出默认路径"
+    module: "导出"
+    description: "右键菜单导出照片到默认路径"
+    status: "active"
+    annotation:
+      测试界面: "导出对话框"
+      测试功能: "右键菜单导出照片到默认路径"
+      前置条件: "相册已启动，已导入照片"
+      AT元素引用: ["ThumbnailMenu", "ExportConfirmButton", "ExportCancelButton", "GridView"]
+    steps:
+      - step_type: "action"
+        description: "右键照片选择导出"
+        action: "dtk_context_menu"
+        selector: {name: "GridView", child_index: "0"}
+        items: ["导出"]
+      - step_type: "action"
+        description: "导出对话框点击确认"
+        action: "element_action"
+        selector: {name: "ExportConfirmButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认导出对话框已关闭"
+        action: "assert_element"
+        selector: {name: "ExportCancelButton", role: "push button"}
+
+  - id: "suite_export_options"
+    name: "导出选项修改"
+    module: "导出"
+    description: "修改导出格式/路径/文件名"
+    status: "active"
+    annotation:
+      测试界面: "导出对话框"
+      测试功能: "修改导出格式/路径/文件名"
+      前置条件: "相册已启动，已导入照片"
+      AT元素引用: ["ThumbnailMenu", "ExportConfirmButton", "ExportCancelButton"]
+    steps:
+      - step_type: "action"
+        description: "右键照片选择导出打开导出对话框"
+        action: "dtk_context_menu"
+        selector: {name: "GridView", child_index: "0"}
+        items: ["导出"]
+      - step_type: "action"
+        description: "导出对话框点击确认"
+        action: "element_action"
+        selector: {name: "ExportConfirmButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认导出完成"
+        action: "assert_element"
+        selector: {name: "ExportCancelButton", role: "push button"}
+
+  - id: "suite_export_multi"
+    name: "右键导出多张照片"
+    module: "导出"
+    description: "多选照片右键导出"
+    status: "active"
+    annotation:
+      测试界面: "导出对话框"
+      测试功能: "导出多张照片"
+      前置条件: "相册已启动，已导入多张照片"
+      AT元素引用: ["GridView", "ThumbnailMenu", "ExportConfirmButton"]
+    steps:
+      - step_type: "action"
+        description: "多选照片右键导出"
+        action: "dtk_context_menu"
+        selector: {name: "GridView", child_index: "0"}
+        items: ["导出"]
+      - step_type: "action"
+        description: "导出对话框点击确认"
+        action: "element_action"
+        selector: {name: "ExportConfirmButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认多张照片导出完成"
+        action: "assert_element"
+        selector: {name: "ExportCancelButton", role: "push button"}
+
+  # ============ 幻灯片播放 ============
+  - id: "suite_slideshow_start"
+    name: "幻灯片放映启动"
+    module: "幻灯片播放"
+    description: "F5启动幻灯片放映"
+    status: "active"
+    annotation:
+      测试界面: "预览-幻灯片模式"
+      测试功能: "F5启动幻灯片放映"
+      前置条件: "相册已启动，已导入照片并选中"
+      AT元素引用: ["GridView", "幻灯片放映", "SliderMenu"]
+    steps:
+      - step_type: "action"
+        description: "选中照片按F5播放幻灯片"
+        action: "keyboard_press"
+        key: "F5"
+      - step_type: "assert"
+        description: "确认进入幻灯片播放模式"
+        action: "assert_element"
+        selector: {name: "SliderMenu", role: "menu"}
+
+  - id: "suite_slideshow_toolbar"
+    name: "幻灯片工具栏操作"
+    module: "幻灯片播放"
+    description: "幻灯片工具栏暂停/下一张/退出"
+    status: "active"
+    annotation:
+      测试界面: "幻灯片播放工具栏"
+      测试功能: "工具栏暂停/下一张/退出"
+      前置条件: "相册已启动，已进入幻灯片播放"
+      AT元素引用: ["SliderMenu", "Pause", "Exit", "幻灯片放映"]
+    steps:
+      - step_type: "action"
+        description: "进入幻灯片播放"
+        action: "keyboard_press"
+        key: "F5"
+      - step_type: "action"
+        description: "打开幻灯片控制菜单并暂停"
+        action: "dtk_context_menu"
+        selector: {name: "SliderMenu"}
+        items: ["暂停"]
+      - step_type: "action"
+        description: "打开幻灯片控制菜单选择退出"
+        action: "dtk_context_menu"
+        selector: {name: "SliderMenu"}
+        items: ["退出"]
+      - step_type: "assert"
+        description: "确认退出幻灯片播放"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  - id: "suite_slideshow_hotkey"
+    name: "幻灯片快捷键退出"
+    module: "幻灯片播放"
+    description: "快捷键ESC退出幻灯片播放"
+    status: "active"
+    annotation:
+      测试界面: "幻灯片播放"
+      测试功能: "快捷键ESC退出幻灯片播放"
+      前置条件: "相册已启动，已进入幻灯片播放"
+      AT元素引用: ["幻灯片放映", "GridView"]
+    steps:
+      - step_type: "action"
+        description: "选中照片按F5播放幻灯片"
+        action: "keyboard_press"
+        key: "F5"
+      - step_type: "action"
+        description: "按ESC退出幻灯片播放"
+        action: "keyboard_press"
+        key: "escape"
+      - step_type: "assert"
+        description: "确认退出幻灯片播放返回网格视图"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  # ============ 最近删除 ============
+  - id: "suite_recent_restore"
+    name: "最近删除恢复文件"
+    module: "最近删除"
+    description: "最近删除恢复按钮恢复文件"
+    status: "active"
+    annotation:
+      测试界面: "最近删除视图"
+      测试功能: "最近删除恢复按钮恢复文件"
+      前置条件: "相册已启动，最近删除中有文件"
+      AT元素引用: ["最近删除", "RestoreSelectedBtn", "恢复0项", "GridView"]
+    steps:
+      - step_type: "action"
+        description: "点击侧边栏最近删除"
+        action: "element_action"
+        selector: {name: "最近删除", role: "label"}
+        do: "click"
+      - step_type: "action"
+        description: "选中文件点击恢复按钮"
+        action: "element_action"
+        selector: {name: "RestoreSelectedBtn", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认文件恢复成功"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  - id: "suite_recent_delete"
+    name: "最近删除永久删除"
+    module: "最近删除"
+    description: "最近删除视图永久删除文件"
+    status: "active"
+    annotation:
+      测试界面: "最近删除视图"
+      测试功能: "标题栏删除按钮永久删除文件"
+      前置条件: "相册已启动，最近删除中有文件"
+      AT元素引用: ["最近删除", "DeleteButton", "DeleteConfirmButton"]
+    steps:
+      - step_type: "action"
+        description: "点击侧边栏最近删除"
+        action: "element_action"
+        selector: {name: "最近删除", role: "label"}
+        do: "click"
+      - step_type: "action"
+        description: "选中文件点击删除按钮"
+        action: "element_action"
+        selector: {name: "DeleteButton", role: "push button"}
+        do: "click"
+      - step_type: "action"
+        description: "删除确认弹窗点击确定"
+        action: "element_action"
+        selector: {name: "DeleteConfirmButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认文件被永久删除"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  # ============ 我的收藏 ============
+  - id: "suite_favorite_view"
+    name: "我的收藏标题显示"
+    module: "我的收藏"
+    description: "我的收藏视图标题显示"
+    status: "active"
+    annotation:
+      测试界面: "我的收藏视图"
+      测试功能: "我的收藏标题显示位置检查"
+      前置条件: "相册已启动，有收藏文件"
+      AT元素引用: ["我的收藏", "GridView"]
+    steps:
+      - step_type: "action"
+        description: "点击侧边栏我的收藏"
+        action: "element_action"
+        selector: {name: "我的收藏", role: "label"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认我的收藏视图显示"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  # ============ 合集 ============
+  - id: "suite_collection_view"
+    name: "合集视图切换"
+    module: "合集"
+    description: "点击所有项目按钮切换合集显示"
+    status: "active"
+    annotation:
+      测试界面: "标题栏视图切换区"
+      测试功能: "所有项目按钮切换合集显示"
+      前置条件: "相册已启动，已导入文件"
+      AT元素引用: ["AllCollectionViewButton", "GridView", "ClassificationGrid"]
+    steps:
+      - step_type: "action"
+        description: "点击所有项目按钮切换合集显示"
+        action: "element_action"
+        selector: {name: "AllCollectionViewButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认合集视图显示"
+        action: "assert_element"
+        selector: {name: "ClassificationGrid", role: "list"}
+
+  # ============ 自定义相册 ============
+  - id: "suite_album_create"
+    name: "新建自定义相册"
+    module: "自定义相册"
+    description: "新建自定义相册并确认"
+    status: "active"
+    annotation:
+      测试界面: "新建相册对话框"
+      测试功能: "新建自定义相册"
+      前置条件: "相册已启动"
+      AT元素引用: ["AddAlbumButton", "NewAlbumConfirmButton", "NewAlbumCancelButton"]
+    steps:
+      - step_type: "action"
+        description: "点击新建相册按钮打开对话框"
+        action: "element_action"
+        selector: {name: "AddAlbumButton", role: "push button"}
+        do: "click"
+      - step_type: "action"
+        description: "新建相册对话框输入名称点击确定"
+        action: "element_action"
+        selector: {name: "NewAlbumConfirmButton", role: "push button"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认自定义相册创建成功"
+        action: "assert_element"
+        selector: {name: "NewAlbumCancelButton", role: "push button"}
+
+  - id: "suite_album_rename"
+    name: "重命名自定义相册"
+    module: "自定义相册"
+    description: "F2重命名自定义相册"
+    status: "active"
+    annotation:
+      测试界面: "侧边栏"
+      测试功能: "F2重命名自定义相册"
+      前置条件: "相册已启动，有自定义相册"
+      AT元素引用: ["CustomAlbumMenu", "GridView"]
+    steps:
+      - step_type: "action"
+        description: "选中自定义相册"
+        action: "element_action"
+        selector: {name: "CustomAlbumMenu", role: "menu"}
+        do: "click"
+      - step_type: "action"
+        description: "按F2重命名相册"
+        action: "keyboard_press"
+        key: "F2"
+      - step_type: "assert"
+        description: "确认相册重命名状态"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  # ============ 自动导入相册 ============
+  - id: "suite_autoimport"
+    name: "自动导入相册文件读取"
+    module: "自动导入相册"
+    description: "自动导入相册文件读取显示"
+    status: "active"
+    annotation:
+      测试界面: "自动导入相册视图"
+      测试功能: "默认路径相册文件读取"
+      前置条件: "相册已启动，默认路径有文件"
+      AT元素引用: ["GridView", "ImportTimeLineView", "TimeLineView"]
+    steps:
+      - step_type: "action"
+        description: "切换到位图时间线视图"
+        action: "element_action"
+        selector: {name: "TimeLineView", role: "panel"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认时间线视图显示"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  # ============ 设备 ============
+  - id: "suite_device"
+    name: "设备图片加载"
+    module: "设备"
+    description: "移动设备图片加载提示框"
+    status: "active"
+    annotation:
+      测试界面: "设备加载"
+      测试功能: "移动设备图片加载"
+      前置条件: "相册已启动，连接移动设备"
+      AT元素引用: ["DeviceLoadCancelButton", "DeviceLoadIgnoreButton", "FilterCombo", "Import"]
+    steps:
+      - step_type: "action"
+        description: "加载移动设备图片"
+        action: "element_action"
+        selector: {name: "FilterCombo", role: "combo box"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认设备相册筛选显示"
+        action: "assert_element"
+        selector: {name: "Import", role: "menu item"}
+
+  # ============ 快捷键(触控板模块内可自动化) ============
+  - id: "suite_hotkey_album"
+    name: "相册快捷键操作"
+    module: "快捷键"
+    description: "Ctrl+Shift+N新建相册/Enter查看"
+    status: "active"
+    annotation:
+      测试界面: "主界面各视图"
+      测试功能: "快捷键新建相册/查看"
+      前置条件: "相册已启动，已导入文件"
+      AT元素引用: ["GridView", "NewAlbumConfirmButton"]
+    steps:
+      - step_type: "action"
+        description: "按Ctrl+Shift+N新建相册"
+        action: "keyboard_hot_key"
+        key: "ctrl+shift+n"
+      - step_type: "action"
+        description: "新建相册对话框点击确定"
+        action: "element_action"
+        selector: {name: "NewAlbumConfirmButton", role: "push button"}
+        do: "click"
+      - step_type: "action"
+        description: "选中照片按Enter查看"
+        action: "keyboard_press"
+        key: "enter"
+      - step_type: "assert"
+        description: "确认进入查看照片界面"
+        action: "assert_element"
+        selector: {name: "NavigationCloseButton", role: "push button"}
+
+  - id: "suite_hotkey_favorite"
+    name: "查看照片界面收藏快捷键"
+    module: "快捷键"
+    description: "查看照片界面“.”收藏/取消收藏"
+    status: "active"
+    annotation:
+      测试界面: "查看照片界面"
+      测试功能: "查看照片界面“.”收藏/取消收藏"
+      前置条件: "相册已启动，已导入照片并进入查看界面"
+      AT元素引用: ["GridView", "我的收藏", "FavoriteButton"]
+    steps:
+      - step_type: "action"
+        description: "双击照片进入查看界面"
+        action: "mouse_double_click"
+        selector: {name: "GridView", role: "list", child_index: "0"}
+      - step_type: "action"
+        description: "查看照片界面按下“.”收藏"
+        action: "keyboard_press"
+        key: "period"
+      - step_type: "assert"
+        description: "确认照片收藏状态"
+        action: "assert_element"
+        selector: {name: "我的收藏", role: "label"}
+
+  - id: "suite_hotkey_zoom"
+    name: "查看照片缩放快捷键"
+    module: "快捷键"
+    description: "查看照片界面Ctrl加减小显示"
+    status: "active"
+    annotation:
+      测试界面: "查看照片界面"
+      测试功能: "Ctrl+加减放大/缩小文件显示"
+      前置条件: "相册已启动，已导入照片并进入查看界面"
+      AT元素引用: ["GridView", "ZoomRatioButton"]
+    steps:
+      - step_type: "action"
+        description: "双击照片进入查看界面"
+        action: "mouse_double_click"
+        selector: {name: "GridView", role: "list", child_index: "0"}
+      - step_type: "action"
+        description: "按Ctrl++放大显示"
+        action: "keyboard_hot_key"
+        key: "ctrl++"
+      - step_type: "assert"
+        description: "确认放大比例按钮显示"
+        action: "assert_element"
+        selector: {name: "ZoomRatioButton", role: "push button"}
+
+  - id: "suite_hotkey_filedir"
+    name: "查看照片文件位置快捷键"
+    module: "快捷键"
+    description: "查看照片界面Alt+D查看文件位置"
+    status: "active"
+    annotation:
+      测试界面: "查看照片界面"
+      测试功能: "Alt+D查看文件所在位置"
+      前置条件: "相册已启动，已导入照片并进入查看界面"
+      AT元素引用: ["GridView"]
+    steps:
+      - step_type: "action"
+        description: "双击照片进入查看界面"
+        action: "mouse_double_click"
+        selector: {name: "GridView", role: "list", child_index: "0"}
+      - step_type: "action"
+        description: "按Alt+D查看文件所在位置"
+        action: "keyboard_hot_key"
+        key: "alt+d"
+      - step_type: "assert"
+        description: "确认网格视图仍存在"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  # ============ 打开和关闭（终端启动） ============
+  - id: "suite_open_terminal"
+    name: "终端命令启动相册"
+    module: "打开和关闭"
+    description: "终端命令启动相册应用"
+    status: "active"
+    annotation:
+      测试界面: "应用启动"
+      测试功能: "终端命令启动相册应用"
+      前置条件: "相册未启动，终端可用"
+      AT元素引用: ["GridView"]
+    steps:
+      - step_type: "action"
+        description: "启动相册应用"
+        action: "session_start"
+        command: "deepin-album"
+      - step_type: "assert"
+        description: "确认相册窗口打开"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  # ============ 格式 ============
+  - id: "suite_format"
+    name: "相册读取格式检查"
+    module: "格式"
+    description: "默认路径相册读取照片/视频格式"
+    status: "active"
+    annotation:
+      测试界面: "自动导入相册视图"
+      测试功能: "默认路径相册读取照片/视频格式"
+      前置条件: "相册已启动，默认路径有照片视频文件"
+      AT元素引用: ["GridView", "TimeLineView", "ImportTimeLineView"]
+    steps:
+      - step_type: "action"
+        description: "切换到时间线视图读取文件"
+        action: "element_action"
+        selector: {name: "TimeLineView", role: "panel"}
+        do: "click"
+      - step_type: "assert"
+        description: "确认时间线视图读取照片视频显示"
+        action: "assert_element"
+        selector: {name: "GridView", role: "list"}
+
+  # ============ 非GUI用例（不参与生成） ============
+  - id: "suite_non_gui_terminal"
+    name: "玲珑终端命令"
+    module: "non_gui"
+    description: "玲珑应用安装/卸载/更新/运行/查看信息"
+    status: "non_gui"
+    reason: "ll-cli 终端命令操作，无GUI界面，无法通过AT-SPI自动化"
+    annotation:
+      测试界面: "终端"
+      测试功能: "玲珑应用终端命令操作"
+      前置条件: "终端可用"
+      AT元素引用: []
+    steps: []
+
+  - id: "suite_non_gui_unsupported"
+    name: "不可自动化用例汇总"
+    module: "non_gui"
+    description: "依赖外部系统环境/人工判断/纯视觉/硬件的不可自动化用例"
+    status: "non_gui"
+    reason: "依赖外部系统环境/人工判断/纯视觉/硬件，无法通过AT-SPI自动化"
+    annotation:
+      测试界面: "无"
+      测试功能: "不可自动化用例"
+      前置条件: "无"
+      AT元素引用: []
+    steps: []

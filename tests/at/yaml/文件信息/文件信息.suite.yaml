@@ -1,0 +1,46 @@
+name: 文件信息_suite
+app: deepin-album
+description: ''
+module: 文件信息
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_fileinfo_photo_s1
+  name: 照片信息显示
+  description: 照片信息基本信息/详细信息显示与折叠
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+      child_index: '0'
+    items:
+    - 照片信息
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Info
+      role: panel
+- id: suite_fileinfo_video_s1
+  name: 视频信息显示
+  description: 视频信息弹窗内容显示与操作
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+      child_index: '0'
+    items:
+    - 视频信息
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Info
+      role: panel
+teardown:
+- action: session_stop

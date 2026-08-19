@@ -1,0 +1,84 @@
+name: 快捷键_suite
+app: deepin-album
+description: ''
+module: 快捷键
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_hotkey_album_s1
+  name: 相册快捷键操作
+  description: Ctrl+Shift+N新建相册/Enter查看
+  tags: []
+  steps:
+  - action: keyboard_hot_key
+    key: ctrl+shift+n
+  - action: element_action
+    selector:
+      name: NewAlbumConfirmButton
+      role: push button
+    do: click
+  - action: keyboard_press
+    key: enter
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: NavigationCloseButton
+      role: push button
+- id: suite_hotkey_favorite_s1
+  name: 查看照片界面收藏快捷键
+  description: 查看照片界面“.”收藏/取消收藏
+  tags: []
+  steps:
+  - action: mouse_double_click
+    selector:
+      name: GridView
+      role: list
+      child_index: '0'
+  - action: keyboard_press
+    key: period
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: 我的收藏
+      role: label
+- id: suite_hotkey_zoom_s1
+  name: 查看照片缩放快捷键
+  description: 查看照片界面Ctrl加减小显示
+  tags: []
+  steps:
+  - action: mouse_double_click
+    selector:
+      name: GridView
+      role: list
+      child_index: '0'
+  - action: keyboard_hot_key
+    key: ctrl++
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: ZoomRatioButton
+      role: push button
+- id: suite_hotkey_filedir_s1
+  name: 查看照片文件位置快捷键
+  description: 查看照片界面Alt+D查看文件位置
+  tags: []
+  steps:
+  - action: mouse_double_click
+    selector:
+      name: GridView
+      role: list
+      child_index: '0'
+  - action: keyboard_hot_key
+    key: alt+d
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+teardown:
+- action: session_stop

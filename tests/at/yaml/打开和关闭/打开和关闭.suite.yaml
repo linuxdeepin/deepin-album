@@ -1,0 +1,24 @@
+name: 打开和关闭_suite
+app: deepin-album
+description: ''
+module: 打开和关闭
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_open_terminal_s1
+  name: 终端命令启动相册
+  description: 终端命令启动相册应用
+  tags: []
+  steps: []
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+teardown:
+- action: session_stop

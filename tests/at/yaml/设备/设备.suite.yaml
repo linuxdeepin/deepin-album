@@ -1,0 +1,29 @@
+name: 设备_suite
+app: deepin-album
+description: ''
+module: 设备
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_device_s1
+  name: 设备图片加载
+  description: 移动设备图片加载提示框
+  tags: []
+  steps:
+  - action: element_action
+    selector:
+      name: FilterCombo
+      role: combo box
+    do: click
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: Import
+      role: menu item
+teardown:
+- action: session_stop
