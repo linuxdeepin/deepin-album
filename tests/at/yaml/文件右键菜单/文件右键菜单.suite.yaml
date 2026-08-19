@@ -1,0 +1,286 @@
+name: 文件右键菜单_suite
+app: deepin-album
+description: ''
+module: 文件右键菜单
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_album_文件右键菜单_1_s1
+  name: 文件右键菜单功能测试(1)
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 添加到相册
+  - action: dtk_main_menu
+    items:
+    - 从文件夹导入
+  - action: keyboard_press
+    key: return
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 删除
+  - action: mouse_right_click
+    selector:
+      name: GridView
+      role: list
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 删除
+  - action: element_action
+    selector:
+      name: DeleteButton
+      role: push button
+    do: click
+  - action: mouse_right_click
+    selector:
+      name: GridView
+      role: list
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 复制
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 视频信息
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 在文件管理器中显示
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 收藏
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 添加到相册
+    - 新建相册
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_ocr_exists
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_ocr_exists
+- id: suite_album_文件右键菜单_2_s1
+  name: 文件右键菜单功能测试(2)
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 添加到相册
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 添加到相册
+    - 新建相册
+  - action: keyboard_press
+    key: return
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 查看
+  - action: mouse_right_click
+    selector:
+      name: GridView
+      role: list
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 幻灯片放映
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 添加到相册
+    - 相册A
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 打印
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 设为壁纸
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 逆时针旋转
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_ocr_exists
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_ocr_exists
+  - action: assert_ocr_exists
+  - action: assert_ocr_exists
+  - action: assert_ocr_exists
+  - action: assert_ocr_not_exists
+- id: suite_album_文件右键菜单_3_s1
+  name: 文件右键菜单功能测试(3)
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 逆时针旋转
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 顺时针旋转
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 取消收藏
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 从相册中移除
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 复制
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 添加到相册
+    - 相册1
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 添加到相册
+    - 新建相册
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 全屏
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 退出全屏
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_ocr_exists
+  - action: assert_ocr_exists
+  - action: assert_ocr_exists
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_ocr_exists
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_ocr_exists
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+- id: suite_album_文件右键菜单_4_s1
+  name: 文件右键菜单功能测试(4)
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 全屏
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 全屏
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 添加到相册
+    - 相册1
+  - action: dtk_context_menu
+    selector:
+      name: GridView
+    items:
+    - 添加到相册
+    - 新建相册
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+  - action: assert_ocr_exists
+  - action: assert_ocr_exists
+  - action: assert_ocr_exists
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+teardown:
+- action: session_stop

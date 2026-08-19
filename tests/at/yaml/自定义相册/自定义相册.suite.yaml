@@ -1,0 +1,48 @@
+name: 自定义相册_suite
+app: deepin-album
+description: ''
+module: 自定义相册
+tags: []
+fast_fail: false
+env_check: []
+setup:
+- action: session_start
+  command: deepin-album
+  wait: 3.0
+suites:
+- id: suite_album_自定义相册_s1
+  name: 自定义相册功能测试
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: CustomAlbumMenu
+    items:
+    - 重命名相册
+  - action: keyboard_type
+    text: album_rename_001
+  - action: keyboard_press
+    key: enter
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: GridView
+      role: list
+- id: suite_album_自定义相册_s2
+  name: 自定义相册功能测试
+  description: ''
+  tags: []
+  steps:
+  - action: dtk_context_menu
+    selector:
+      name: CustomAlbumMenu
+    items:
+    - 新建相册
+  assert_steps:
+  - action: assert_element
+    selector:
+      name: CustomAlbumMenu
+      role: menu
+teardown:
+- action: session_stop

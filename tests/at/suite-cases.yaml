@@ -1,0 +1,4892 @@
+metadata:
+  generated_at: '2026-08-17'
+  source: 相册V25-用例.xlsx
+cases:
+- id: suite_album_基础
+  name: 基础功能测试
+  module: 基础
+  status: active
+  annotation:
+    测试界面: 主窗口
+    测试功能: 相册基本功能验证
+    前置条件: 应用已启动
+    AT元素引用:
+    - ToggleSidebarButton
+    - ImportButton
+  steps:
+  - step_type: action
+    description: 1. 在终端执行命令：ll-cli uninstall deepin-album
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 在终端执行命令：ll-cli info deepin-album
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册卸载成功
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 没有相册玲珑的应用相关信息
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 在终端执行命令：ll-cli upgrade deepin-album
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 在终端执行命令：ll-cli run deepin-album
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册升级成功，默认升级到最新版本，可以使用命令查看信息：ll-cli info deepin-album
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册打开运行成功，版本为升级后的版本
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 导入照片/视频，收藏，新建相册、移除照片/视频等
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 打开相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 操作正常
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 在终端执行命令：ll-cli run deepin-album
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 打开运行相册应用
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 在终端执行命令：ll-cli install deepin-album
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 等待一段时间后，相册安装完成(如果有多个版本，默认安装最高版本)，可以使用命令查看信息：ll-cli info deepin-album
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 在终端执行命令：ll-cli info deepin-album
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 展示玲珑应用(相册)的应用信息；
+    needs_accessible_name: false
+  - step_type: assert
+    description: 'PS: 没有安装则不展示应用信息'
+    needs_accessible_name: false
+- id: suite_album_文件信息
+  name: 文件信息功能测试
+  module: 文件信息
+  status: active
+  annotation:
+    测试界面: 文件信息
+    测试功能: 查看文件信息
+    前置条件: 应用已启动
+    AT元素引用:
+    - GridView
+  steps:
+  - step_type: action
+    description: 1. 弹出视频信息弹窗后，点击右上角的“X”
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 弹出视频信息弹窗后，点击相册窗口区域
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 弹出视频信息弹窗后，拖动视频信息弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 视频信息弹窗关闭
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 视频信息弹窗关闭
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 视频信息弹窗可以任意拖动
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 在所有照片视图选择单个视频右键选择视频信息
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 视频信息弹窗显示“基本信息、编码信息、音频信息”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 在所有照片视图选择单个视频右键选择视频信息
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 在所有照片视图选择单个视频使用快捷键Ctrl+i
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册窗口右边弹窗显示视频信息
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册窗口右边弹窗显示视频信息
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 在最近删除视图选择单个视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 右键点击，选择视频信息
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示右键菜单“删除、恢复、视频信息”
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 弹窗显示视频的基本信息
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，右键点击任意一张照片，点击照片信息
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 打开有详细信息的照片时，查看照片信息窗口显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点击详细信息页面上折叠按钮
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 弹出照片信息窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示详细信息，默认显示信息为：颜⾊空间、曝光模式、曝光程序、曝光时间、闪光灯、光圈⼤⼩、焦距、ISO感光度、最⼤光圈值、测光模式、横向像素、纵向像素、⽩平衡、闪光灯补偿、镜头型号，无对应信息时不显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 点击折叠按钮后，详细信息被隐藏显示，再次点击后，信息重新展开显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，右键点击任意一张照片，点击照片信息
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 查看基本信息
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点击基本信息页面上折叠按钮
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 弹出照片信息窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 默认显示：名称、⽂件⼤⼩、图片类型、分辨率、拍摄时间、修改时间，无对应信息时不显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 点击折叠按钮后，基本信息被隐藏显示，再次点击后，信息重新展开显示
+    needs_accessible_name: false
+- id: suite_album_删除_1
+  name: 删除功能测试(1)
+  module: 删除
+  status: active
+  annotation:
+    测试界面: 删除流程
+    测试功能: 删除照片视频
+    前置条件: 应用已启动
+    AT元素引用: &id001
+    - DeleteButton
+    - DeleteCancelButton
+  steps:
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地有读写权限照片和视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 点击侧边栏的【已导入】
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. ctrl+a选择所有文件，使用快捷键delete删除
+    needs_accessible_name: false
+  - step_type: action
+    description: 6. 点击照片库【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册提示导入成功
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 进入已导入视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 删除的照片和视频从相册中移除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 进入“最近删除视图”，且最近删除显示删除的所有照片视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择多个照片，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 合集视图选择多个个照片，右键点击
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 选择【删除】选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 显示单个照片右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 显示删除确认弹窗，删除弹窗文案显示“您确定要从本地删除这%n个文件吗？”和“您可以在“最近删除”中进行恢复”，且“您可以在“最近删除”中进行恢复”显示灰暗
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择照片，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 合集视图选择单个照片，右键点击
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 选择【删除】选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 显示单个照片右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 显示删除确认弹窗，删除弹窗文案显示“您确定要从本地删除此文件吗？”和“您可以在“最近删除”中进行恢复”，且“您可以在“最近删除”中进行恢复”显示灰暗
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地有读写权限照片和视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 选择导入的照片和视频，使用快捷键Delete
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 在删除的照片和视频源路径中放入相同文件，执行步骤1、2、3、4、5、6,查看最近删除视图显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 删除的照片和视频从相册中移除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 显示最近删除视图,最近删除视图显示删除的照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 最近删除中删除的照片和视频只显示一份，不会重复显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地只读权限文件夹内的照片，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 双击导入的照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 使用快捷键Delete
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 点击查看照片界面左下角的【返回】
+    needs_accessible_name: false
+  - step_type: action
+    description: 7. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 查看删除的照片是否在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 在照片源路径查看相册删除的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 查看照片界面显示双击的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 使用Delete后，查看照片界面无任何变化，当前照片任然显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 查看照片界面关闭，显示合集视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 最近删除中无删除的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 删除的照片本地源文件依然存在
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地单个有读写权限照片，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 双击导入的照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 使用快捷键Delete
+    needs_accessible_name: false
+  - step_type: action
+    description: 6. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 查看删除的照片是否在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 在照片源路径查看相册删除的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 查看照片界面显示双击的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 查看照片界面关闭，删除的照片从相册中移除，显示合集视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 选择删除的照片在最近删除中存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 删除的照片本地源文件从本地删除
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地单个只读权限照片，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 双击导入的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 点击查看照片界面工具栏【删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的文件
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 双击导入的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 删除按钮显示置灰状态，不能点击
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地单个有读写权限照片，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 双击导入的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 点击查看照片界面工具栏【删除】
+    needs_accessible_name: false
+  - step_type: action
+    description: 6. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 查看删除的照片是否在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 在照片源路径查看相册删除的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 查看照片界面显示双击的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 查看照片界面关闭，删除的照片从相册中移除，显示合集视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 选择删除的照片在最近删除中存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 删除的照片本地源文件从本地删除
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地单个有读写权限照片，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 双击导入的照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 双击照片显示区域
+    needs_accessible_name: false
+  - step_type: action
+    description: 6. 右键点击照片显示区域，选择【删除】
+    needs_accessible_name: false
+  - step_type: action
+    description: 7. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 查看删除的照片是否在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 在照片源路径查看相册删除的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 查看照片界面显示双击的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 全屏显示当前照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 查看照片界面关闭，删除的照片从相册中移除，显示合集视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 选择删除的照片在最近删除中存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 删除的照片本地源文件从本地删除
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地单个只读权限照片，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 双击导入的照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 右键点击照片显示区域，选择【删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 查看照片界面显示双击的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 显示照片右键菜单，且无[删除]选项显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地单个有读写权限照片，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 双击导入的照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 右键点击照片显示区域，选择【删除】
+    needs_accessible_name: false
+  - step_type: action
+    description: 6. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 查看删除的照片是否在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 在照片源路径查看相册删除的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 查看照片界面显示双击的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 查看照片界面关闭，删除的照片从相册中移除，显示合集视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 选择删除的照片在最近删除中存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 删除的照片本地源文件从本地删除
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点击挂载的安卓手机，选择照片和视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 选择导入的视频和照片，按键盘Delete键
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 查看删除的照片和视频是否在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 在安卓手机中查看相册删除的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 删除的照片和视频从相册中移除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 最近删除中无删除的照片和视频中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 删除的照片和视频在安卓手机中依然存在
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地只读权限文件夹的照片和视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 选择导入的视频和照片，按键盘Delete键
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 查看删除的照片和视频是否在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 在照片和视频源路径查看相册删除的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. Delete键使用后，删除的照片和视频依然存在，相册无任何反应
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 最近删除中无删除的照片和视频中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 删除的照片和视频本地源文件依然存在
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地有读写权限照片和视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 选择导入的视频和照片，按键盘Delete键
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 查看删除的照片和视频是否在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 在照片和视频源路径查看相册删除的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 删除的照片和视频从相册中移除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 最近删除中存删除的照片和视频中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 删除的照片和视频本地源文件从本地删除
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点击挂载的苹果手机，选择照片和视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 所有照片选择导入的照片和视频，右键点击
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 选择【删除】选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 删除确认弹窗点击【删除】
+    needs_accessible_name: false
+  - step_type: action
+    description: 7. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 查看删除的照片和视频是否在存在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 在苹果手机中查看相册删除的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 显示选择照片和视频右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 显示删除确认弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 删除的照片和视频从相册中移除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 删除的照片和视频不在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 删除的照片和视频在苹果手机中依然存在
+    needs_accessible_name: false
+- id: suite_album_删除_2
+  name: 删除功能测试(2)
+  module: 删除
+  status: active
+  annotation:
+    测试界面: 删除流程
+    测试功能: 删除照片视频
+    前置条件: 应用已启动
+    AT元素引用: *id001
+  steps:
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点击挂载的U盘，选择照片和视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 所有照片选择导入的照片和视频，右键点击
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 选择【删除】选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 删除确认弹窗点击【删除】
+    needs_accessible_name: false
+  - step_type: action
+    description: 7. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 查看删除的照片和视频是否在存在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 在U盘中查看相册删除的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 显示选择照片和视频右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 显示删除确认弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 删除的照片和视频从相册中移除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 删除的照片和视频不在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 删除的照片和视频在U盘中依然存在
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地只读权限文件夹内照片的软连接，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 所有照片选择导入的照片，右键点击
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 显示选择照片右键菜单，且无'删除'选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地软连接后的照片，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 所有照片选择导入的照片，右键点击
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 选择【删除】选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 删除确认弹窗点击【删除】
+    needs_accessible_name: false
+  - step_type: action
+    description: 7. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 查看删除的照片是否在存在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 在照片源路径查看相册删除的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 显示选择照片照片右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 显示删除确认弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 删除的照片从相册中移除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 删除的照片在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 删除的照片本地源文件从本地删除
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择前置条件准备好的只读权限文件夹和读写权限的文件夹，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 所有照片选择导入的照片和视频，右键点击
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 选择【删除】选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 删除确认弹窗点击【删除】
+    needs_accessible_name: false
+  - step_type: action
+    description: 7. 点击视频库的【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 查看删除的文件是否在存在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 在视频源路径查看相册删除的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 显示选择照片和视频右的键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 显示删除确认弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 删除的视频从相册中移除，照片任然显示在相册中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 选择删除的视频在最近删除中，选择【删除】的照片不在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 删除的视频文件从本地删除，选择【删除】的照片源文件任然存在
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地只读权限文件夹内的照片和视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 所有照片选择导入的照片和视频，右键点击
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 显示选择照片和视频右键菜单，且无'删除'选项显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地只读权限文件夹内的视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 所有视频选择单个视频，右键点击
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 显示单个视频右键菜单，且无'删除'选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地只读权限文件夹的照片，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 选择导入的照片右键点击，
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 移动鼠标至【添加到相册】选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 6. 点击【新建相册】选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 7. 新建相册输入弹窗点击【新建】
+    needs_accessible_name: false
+  - step_type: action
+    description: 8. 选择导入的照片，右键点击
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 显示照片右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 显示添加到相册右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 显示新建相册确认弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 显示当前新建相册视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 显示照片右键菜单，且无'删除'选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击从文件夹导入
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择照片和视频，右键点击
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 选择【删除】选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 删除确认弹窗点击【删除】
+    needs_accessible_name: false
+  - step_type: action
+    description: 6. 点击照片库【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 查看删除的照片和视频是否在存在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 在照片和视频源路径查看相册删除的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 进入文管页面选择要导入的图片、视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 显示多选视频右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 显示删除确认弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 删除的照片和视频从相册中移除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 删除的照片和视频在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 删除的照片和视频本地源文件从本地删除
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地多个有读写权限视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 选择多个视频，点击操作栏的收藏
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 点击照片库的【我的收藏】
+    needs_accessible_name: false
+  - step_type: action
+    description: 6. 选择多个视频，右键点击
+    needs_accessible_name: false
+  - step_type: action
+    description: 7. 选择【删除】选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 删除确认弹窗点击【删除】
+    needs_accessible_name: false
+  - step_type: action
+    description: 9. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 10. 查看删除的视频是否在存在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 11. 在视频源路径查看相册删除的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 操作栏收藏按钮显示收藏状态
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 显示我的收藏视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 显示多选视频右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 显示删除确认弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 删除的视频从相册中移除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 10. 删除的视频在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 11. 删除的视频本地源文件从本地删除
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地多个有读写权限视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 选择单个视频，右键点击
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 选择【删除】选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 删除确认弹窗点击【删除】
+    needs_accessible_name: false
+  - step_type: action
+    description: 7. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 查看删除的视频是否在存在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 在视频源路径查看相册删除的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 显示单个视频右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 显示删除确认弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 删除的视频从相册中移除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 删除的视频在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9删除的视频本地源文件从本地删除
+    needs_accessible_name: false
+  - step_type: assert
+    description: '9.'
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地多个有读写权限照片，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 点击标题栏的【时间线】
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 选择多个照片，右键点击
+    needs_accessible_name: false
+  - step_type: action
+    description: 6. 选择【删除】选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 删除确认弹窗点击【删除】
+    needs_accessible_name: false
+  - step_type: action
+    description: 8. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 查看删除的照片是否在存在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 10. 在照片源路径查看相册删除的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 相册显示时间线视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 显示多个照片右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 显示删除确认弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 删除的照片从相册中移除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 删除的照片在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 10. 删除的照片本地源文件从本地删除
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地有读写权限照片，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 所有照片选择单个照片，右键点击
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 选择【删除】选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 删除确认弹窗点击【删除】
+    needs_accessible_name: false
+  - step_type: action
+    description: 7. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 查看删除的照片是否在存在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 在照片源路径查看相册删除的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 合集视图显示导入的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 显示单个照片右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 显示删除确认弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 删除的照片从相册中移除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 删除的照片在最近删除中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 删除的照片本地源文件从本地删除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 分别进入所有照片，时间线，相册下打开的图片中点击右键－删除，查看图片显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 弹出确认窗口，点击取消，弹窗关闭，停留在原页面；点击删除则成功删除照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 框选多张照片，唤出右键菜单，点击删除按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 框选全部照片，右键删除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 弹出确认窗口，点击取消，弹窗关闭，停留在原页面；点击删除，则成功删除照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 照片被删除，且回到初始界面
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 打开相册，导入多张照片，删除部分照片源文件，打开查看这些照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 打开相册，导入多张照片，删除部分照片源文件，重启相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示’未发现照片文件‘
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 被删除源文件的照片被移除在相册中显示
+    needs_accessible_name: false
+- id: suite_album_删除_3
+  name: 删除功能测试(3)
+  module: 删除
+  status: active
+  annotation:
+    测试界面: 删除流程
+    测试功能: 删除照片视频
+    前置条件: 应用已启动
+    AT元素引用: *id001
+  steps:
+  - step_type: assert
+    description: 1. 打开相册，删除照片的源文件，打开查看已删除源文件的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 界面显示照片的缩略图以及提示：未发现照片文件
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 相册选中所有照片，右键点击
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 选择删除，删除确认弹窗选择确认
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 查看删除进度文案显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示删除进度条
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 文案显示“正在删除，已删除%1%2项”
+    needs_accessible_name: false
+- id: suite_album_灯片播放_1
+  name: 灯片播放功能测试(1)
+  module: 灯片播放
+  status: active
+  annotation:
+    测试界面: 灯幻片播放
+    测试功能: 灯幻片播放
+    前置条件: 应用已启动
+    AT元素引用: &id002
+    - GridView
+  steps:
+  - step_type: action
+    description: 1. 幻灯片播放时，点击退出按钮
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 退出幻灯片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 幻灯片播放时，点击暂停按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 幻灯片暂停时，点击播放按钮
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 幻灯片进入暂停播放状态
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 幻灯片继续播放
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 幻灯片播放时，点击下一张
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 切换播放下一张且幻灯片进入暂停状态
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 幻灯片播放时，点击上一张
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 切换播放上一张且幻灯片进入暂停状态
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 幻灯片播放界面，移动鼠标到界面底部，查看界面展示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 工具栏显示上一张、下一张、暂停/播放、退出
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 工具栏展示后，移出鼠标到界面底部外，查看界面展示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 工具栏从界面底部隐藏显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 幻灯片播放界面，移动鼠标到界面底部，查看界面展示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 工具栏从界面底部展示出来
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 幻灯片暂停时，点击右键菜单中退出选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 退出到进入幻灯片播放前界面
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 幻灯片播放时，点击右键菜单中退出选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 退出到进入幻灯片播放前界面
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 幻灯片暂停时，点击右键菜单中播放选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 幻灯片继续播放
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 幻灯片播放时，点击右键菜单中暂停选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 幻灯片暂停播放
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 播放幻灯片时，点击鼠标右键，查看右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 右键菜单显示2个选项为：暂停或播放，退出
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册后，右键点击一张照片，点击菜单中幻灯片播放
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 开始播放当前相册中所有照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 当前文件夹中有多张图片时，然后进行幻灯片播放
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 轮播所有图片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 当前文件夹中只有一张图片时，然后进行幻灯片播放
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 停留在当前照片播放界面
+    needs_accessible_name: false
+- id: suite_album_灯片播放_2
+  name: 灯片播放功能测试(2)
+  module: 灯片播放
+  status: active
+  annotation:
+    测试界面: 灯幻片播放
+    测试功能: 灯幻片播放
+    前置条件: 应用已启动
+    AT元素引用: *id002
+  steps:
+  - step_type: assert
+    description: 1. 在幻灯片播放的过程中，查看图片切换时间
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 切换时间为2s
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 幻灯片播放过程中，移动鼠标到屏幕底部，点击弹出的按钮（上、下一张，暂停/播放，关闭）
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册做出正确对应响应（切换上、下一张图片，暂停/播放幻灯片，退出幻灯片播放）
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 幻灯片播放过程中，按空格键，再次按空格键
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 幻灯片暂停播放，再次按空格键后，继续播放
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 幻灯片播放过程中，鼠标双击图片区域
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 自动退出幻灯片播放
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 幻灯片播放过程中，按ESC键，查看软件显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 自动退出幻灯片播放
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 用相册打开图片后，按F5键，查看软件显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 自动进行幻灯播放
+    needs_accessible_name: false
+- id: suite_album_格式
+  name: 格式功能测试
+  module: 格式
+  status: active
+  annotation:
+    测试界面: 格式兼容
+    测试功能: 格式支持验证
+    前置条件: 应用已启动
+    AT元素引用:
+    - GridView
+  steps:
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册分栏的截图录屏默认路径相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 在~/Pictures/路径下截图录屏默认文件夹中放入相册应用支持的视频格式，查看截图录屏默认路径相册显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示截图录屏默认路径相册视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册应用的截图录屏默认路径相册显示~/Pictures/路径下截图录屏默认文件夹中放入的所有格式视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册分栏的相机默认路径相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 在~/Pictures/路径下相机默认文件夹中放入相册应用支持的视频格式，查看相机默认路径相册显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示相机默认路径相册视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册应用的相机默认路径相册显示~/Pictures/路径下相机默认文件夹中放入的所有格式视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册分栏的画板默认路径相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 在~/Pictures/路径下画板默认文件夹中放入相册应用支持的视频格式，查看画板默认路径相册显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示画板默认路径相册视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册应用的画板默认路径相册显示~/Pictures/路径下画板默认文件夹中放入的所有格式视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏的【相册】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点击相册分栏的截图录屏默认路径相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 在~/Pictures/路径下截图录屏默认文件夹中放入相册应用支持的照片格式，查看截图录屏默认路径相册显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册应用进入相册视图，并且在相册分栏下显示名为“相机”的相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 显示截图录屏默认路径相册视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 相册应用的截图录屏默认路径相册显示~/Pictures/路径下截图录屏默认文件夹中放入的所有格式照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册分栏的相机默认路径相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 在~/Pictures/路径下相机默认文件夹中放入相册应用支持的照片格式，查看相机默认路径相册显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示相机默认路径相册视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册应用的相机默认路径相册显示~/Pictures/路径下相机默认文件夹中放入的所有格式照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册分栏的画板默认路径相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 在~/Pictures/路径下画板默认文件夹中放入相册应用支持的照片格式，查看画板默认路径相册显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示画板默认路径相册视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册应用的画板默认路径相册显示~/Pictures/路径下画板默认文件夹中放入的所有格式照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册，导入命名后的视频文件
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册提示导入失败
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册，导入影院支持播放的各种视频文件(https://shimo.im/docs/1c9eb53a6f6d402b/read--影院需求)
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册均能正常导入
+    needs_accessible_name: false
+- id: suite_album_导入_1
+  name: 导入功能测试(1)
+  module: 导入
+  status: active
+  annotation:
+    测试界面: 导入流程
+    测试功能: 导入照片视频
+    前置条件: 应用已启动
+    AT元素引用: &id003
+    - ImportButton
+  steps:
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【主菜单】，选择【从文件夹导入】选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择前置条件准备好的文件夹，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 点击主菜单【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 选择照片和视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 6. 点击照片库的【合集】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 正常显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册视图自动切换至导入的自定义路径相册，且自定义路径相册显示源路径下的所有照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 当前视图提示“导入成功”，在自定义路径下无导入的文件
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 合集视图显示导入的照片和视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册分栏的画板默认路径相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点击主菜单【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 选择照片和视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 点击照片库的【合集】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册中画板默认路径相册视图显示~/Pictures/路径下画板默认文件夹中所有照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 当前视图提示“导入成功”，在自定义路径下无导入的文件
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 合集视图显示导入的照片和视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册分栏的截录屏默认路径相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点击主菜单【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 选择照片和视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 点击照片库的【合集】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册中截图录屏默认路径相册视图显示~/Pictures/和~/Videos/路径下截图录屏默认文件夹中所有照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 当前视图提示“导入成功”，在自定义路径下无导入的文件
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 合集视图显示导入的照片和视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏的【相册】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点击相册分栏的相机默认路径相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 点击主菜单【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 选择照片和视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 6. 点击照片库的【合集】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册应用进入相册视图，并且在相册分栏下显示名为“相机”的相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册中相机默认路径相册视图显示~/Pictures/和~/Videos/路径下相机默认文件夹中所有照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 当前视图提示“导入成功”，在自定义路径下无导入的文件
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 合集视图显示导入的照片和视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【主菜单】，选择【从文件夹导入】选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择前置条件准备好的文件夹，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 拖拽照片和视频至导入的自定义路径相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 正常显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册视图自动切换至导入的自定义路径相册，且自定义路径相册显示源路径下的所有照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 拖拽显示不可导入状态
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册分栏的默认路径相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 拖拽照片和视频至画板默认路径相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 正常显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 截图录屏默认路径相册视图显示~/Pictures/路径下画板默认文件夹中所有照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 拖拽显示不可导入状态
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册分栏的默认路径相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 拖拽照片和视频至截图录屏默认路径相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册中截图录屏默认路径相册视图显示~/Pictures/和~/Videos/路径下截图录屏默认文件夹中所有照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 拖拽文件至默认路径相册，显示不可导入状态
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 导入名字+路径一致，拓展名不同的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 提示'图片已存在'，并对该图片显示为选中状态
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 导入名字+路径一致，拓展名不同的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 能成功导入
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 导入名字+拓展名一致，路径不同的图片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 能成功导入
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，按CTRL+O快捷键
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击文件夹导入
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示选择界面，支持格式的照片可以选择，不支持格式的照片被置灰显示，无法选择
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 可以导入文件夹中所有支持格式的照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，按CTRL+O快捷键
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 选择一张照片并导入
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示选择界面，支持格式的照片可以选择，不支持格式的照片被置灰显示，无法选择
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 成功导入照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，点击窗口右上角“+”按钮，选择1000张照片并导入
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 选择2000张照片并导入
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择5000张照片并导入
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 成功导入，相册工作正常
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 成功导入，相册工作正常
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 成功导入，相册工作正常
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，导入损坏的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 可以导入损坏的照片，导入后相册中显示损坏图片对应的缩略图
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 相册无照片时，点击界面中导入照片按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 选择文件夹导入
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示选择界面，支持格式的照片可以选择，不支持格式的照片被置灰显示，无法选择
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 可以导入文件夹中所有支持格式的照片
+    needs_accessible_name: false
+- id: suite_album_导入_2
+  name: 导入功能测试(2)
+  module: 导入
+  status: active
+  annotation:
+    测试界面: 导入流程
+    测试功能: 导入照片视频
+    前置条件: 应用已启动
+    AT元素引用: *id003
+  steps:
+  - step_type: action
+    description: 1. 相册无照片时，点击界面中导入照片按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 选择一张照片并导入
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示选择界面，支持格式的照片可以选择，不支持格式的照片被置灰显示，无法选择
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 成功导入照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，拖拽多个文件夹到相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 成功导入文件夹中支持格式的照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，拖拽一个包含照片的文件夹到相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 打开相册，拖拽一个没有照片的文件夹到相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 成功导入支持格式的图片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 无法导入照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，拖拽多张支持格式的照片到相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 拖拽多张不支持格式的照片到相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 拖拽多张包含支持和不支持格式的照片到相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 成功导入拖拽的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 无法导入拖拽的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 成功导入支持格式的照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，拖拽一张支持格式的照片到相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 成功导入到相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，导入无读写权限的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 可以导入照片，相册中缩略图显示为该照片对应的缩略图
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，导入一张只读权限的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 可以导入照片，相册中缩略图显示为该照片对应的缩略图
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，导入修改后缀名的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 可以导入照片，相册中缩略图显示为损坏照片缩略图
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 连接安卓，等待图片加载完成后，点击全部导入
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择安卓手机中图片，点击导入
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 分别选择照片库和新建相册，再导入图片
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 可以成功导入图片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 可以成功导入图片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 图片导入到对应相册中
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 连接Iphone，等待图片加载完成后，点击全部导入
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择Iphone手机中图片，点击导入
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 分别选择照片库和新建相册，再导入图片
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 可以成功导入图片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 可以成功导入图片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 图片导入到对应相册中
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 点击初始界面的“导入照片和视频”按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 选择空文件夹打开
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示文件管理弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册提示“导入失败”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 导入本地照片或视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 在导入进度条未消失之前删除本地照片或视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册显示导入进度条
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册提示“导入失败”，且在导入失败下方提示“未发现照片或视频文件”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 连接外部设备，启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 相册点击连接的外部设备
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择设备中的照片或视频导入相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 在导入过程中，移除外部设备
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: '2.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: '3.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 相册提示“%1个项目导入成功，%2个项目导入失败”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、自定义相册执行步骤2
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 选择批量视频或照片拖拽至相册，查看导入过程文案显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示“正在导入，请稍后,,,”以及“已导入%1/%2项”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册，导入照片或视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 再次导入已导入的部分照片或视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 照片或视频正常导入相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册提示“XX个项目导入成功，XX个项目已存在”，且相册选中导入文件
+    needs_accessible_name: false
+- id: suite_album_导入_3
+  name: 导入功能测试(3)
+  module: 导入
+  status: active
+  annotation:
+    测试界面: 导入流程
+    测试功能: 导入照片视频
+    前置条件: 应用已启动
+    AT元素引用: *id003
+  steps:
+  - step_type: action
+    description: 1. 启动相册，导入照片或视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 再次导入已导入的照片或视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 照片或视频正常导入相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册提示“照片/视频已存在”，且相册界面中定位到该项目，置为选中状态
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、自定义相册执行步骤2
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 拖拽批量照片和视频到相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 导入的照片和视频优先显示第一屏，快速下拉鼠标显示缩略图加载过程
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 点击相册标题栏的导入按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 文件管理弹窗选择非视频和照片文件
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择视频文件以及照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示文件管理选择弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 非视频和照片文件不能选择、置灰，且“打开”选项置灰不能点击
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 选择的视频和照片文件显示选择状态，且“打开”显示可点击状态
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 在所有照片视图导入视频后，查看时间线和相册/已导入是否有导入的视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 在所有照片视图导入视频后，时间线、和相册/已导入同步显示导入的视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 设备视图选择视频，点击导入
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 切换所有照片、时间线、已导入视图查看是否存在导入的视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册提示导入成功
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 所有照片、时间线、已导入视图均存在导入的视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册，点击设备
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击忽略
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 设备视图加载显示视频文件
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、自定义相册执行步骤2
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 拖拽视频和照片到相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册中显示拖拽导入的视频，并提示“导入成功”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、自定义相册执行步骤2
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 拖拽视频文件夹到相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册中显示拖拽导入的视频，并提示“导入成功”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、自定义相册执行步骤2
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 拖拽单个视频到相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册中显示拖拽导入的视频，并提示“导入成功”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册初始界面的“导入照片和视频”按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 文件管理弹窗选择无权限视频文件打开
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 正常显示文件管理弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册提示“导入失败”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册初始界面的“导入照片和视频”按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 文件管理弹窗选择视频和照片文件夹打开
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 正常显示文件管理弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册显示导入视频和照片并在视图下方提示“导入成功”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册初始界面的“导入照片和视频”按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 文件管理弹窗选择视频和照片打开
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 正常显示文件管理弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册显示导入视频和照片并在视图下方提示“导入成功”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击初始界面的“导入照片和视频”按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 文件管理弹窗选择视频文件夹打开
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 正常显示文件管理弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册显示导入视频并在视图下方提示“导入成功”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册初始界面的“导入照片和视频”按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 文件管理弹窗选择视频文件打开
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 正常显示文件管理弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册导入视频并在视图下方提示“导入成功”
+    needs_accessible_name: false
+- id: suite_album_导出
+  name: 导出功能测试
+  module: 导出
+  status: active
+  annotation:
+    测试界面: 导出流程
+    测试功能: 导出照片视频
+    前置条件: 应用已启动
+    AT元素引用:
+    - ImportButton
+  steps:
+  - step_type: action
+    description: 1. 打开相册后，右键点击一张照片，点击右键菜单中导出选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示导出弹窗
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，右键点击一张照片，点击导出选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 修改照片质量为100%，点击保存
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 修改照片质量为50%，点击保存
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 修改照片质量为1%，点击保存
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 选择导出格式为jpeg,jpg,png,bmp后，查看照片质量选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 选择导出格式为xbm,xpm,pgm后，查看照片质量选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 选择导出格式为xbm,xpm,pgm中的格式后，再选择格式为jpeg,jpg,png,bmp中的格式，查看照片质量选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 弹出导出窗口，默认导出照片质量为100%
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 照片导出成功，查看导出的照片，照片质量与原照片一致
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 照片导出成功，查看导出的照片，照片质量较差
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 照片导出成功，查看导出的照片，照片质量较模糊
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 可以修改照片质量
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 无法修改照片质量
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 可以修改照片质量
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，右键点击一张照片，点击导出选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 分别选择导出格式为jpeg、png、pgm、xbm、xpm、bmp、jpg后，点击保存
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 弹出导出窗口，默认导出格式为jpeg
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 照片导出成功，且照片格式与导出格式一致，照片能正常打开查看
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，右键点击一张照片，点击导出选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 修改路径为无读写权限的文件夹后，点击保存
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 弹出导出窗口，默认导出路径为图片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 提示导出失败
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，右键点击一张照片，点击导出选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 修改路径为桌面，点击保存
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 弹出导出窗口，默认导出路径为图片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册提示导出成功，且桌面文件夹有导出的照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，右键点击一张照片，点击导出选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击保存
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 弹出导出窗口，默认导出路径为图片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册提示导出成功，且图片文件夹有导出的照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 修改文件名字符长度超过255时，导出照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 无法输入字符长度超过255
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 修改文件名包含特殊字符时，导出照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. . 成功导出照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 修改文件名包含英文时，导出照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. . 成功导出照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 修改文件名包含中文时，导出照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. . 成功导出照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 修改文件名为空时，导出照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 提示文件名不能为空，导出失败
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，选择多张照片，右键点击选中的照片，点击菜单中的导出选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 弹出“导出照片”弹窗，默认导出路径为照片文件夹，可以修改保存路径，点击保存后，导出照片到对应路径下
+    needs_accessible_name: false
+- id: suite_album_文件右键菜单_1
+  name: 文件右键菜单功能测试(1)
+  module: 文件右键菜单
+  status: active
+  annotation:
+    测试界面: 文件显示区右键菜单
+    测试功能: 文件右键菜单操作
+    前置条件: 应用已启动
+    AT元素引用: &id004
+    - ThumbnailMenu
+    - AddToAlbum
+  steps:
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 合集视图选择照片右键点击
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 移动鼠标光标至“添加到相册”选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 正常显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示照片或视频右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. “添加到相册”选项二级菜单显示无自动导入相册的选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【主菜单】，选择【从文件夹导入】选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择空文件夹，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 右键点击单个照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 多选照片和视频，右键点击
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 正常显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册视图自动切换至导入的自定义路径相册，且自定义路径相册显示源路径下的所有照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 右键菜单显示无“从相册中移除”选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 右键菜单显示无“从相册中移除”选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册窗口
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册分栏的画板默认路径相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 右键点击单个照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 多选照片和视频，右键点击
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册中画板默认路径相册视图显示~/Pictures/路径下画板默认文件夹中所有照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 右键菜单显示无“从相册中移除”选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 右键菜单显示无“从相册中移除”选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册窗口
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册分栏的截图录屏默认路径相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 右键点击单个照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 多选照片和视频，右键点击
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册中截图录屏默认路径相册视图显示~/Pictures/和~/Videos/路径下截图录屏默认文件夹中所有照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 右键菜单显示无“从相册中移除”选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 右键菜单显示无“从相册中移除”选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册窗口
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册分栏的相机默认路径相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 右键点击单个照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 多选照片和视频，右键点击
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册中相机默认路径相册视图显示~/Pictures/和~/Videos/路径下相机默认文件夹中所有照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 右键菜单显示无“从相册中移除”选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 右键菜单显示无“从相册中移除”选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 导入视频到自建相册中
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 右键点击自建相册名
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 导入视频在自建相册中正常显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 自建相册右键菜单显示“新建相册、重命名、删除”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、我的收藏、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 所有照片和视频视图右键点击多个视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择“添加到相册”
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 二级菜单选择新建相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 回车
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示视频右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 显示添加到相册的二级菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 弹出新建相册的弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 视图自动跳转到相册视图
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、我的收藏、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 相册中右键点击多个视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择“删除”
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 确认弹窗选择确认
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 查看相册最近删除中是否有删除的视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 在文件管理器查看视频源文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示视频文件右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 弹窗显示是否确认删除视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 删除的视频从相册中消失
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 最近删除中有当前删除的视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 文件管理中的源文件依旧存在
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、我的收藏、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 相册中右键点击多个视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择“复制”
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 在桌面右键粘贴
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示视频文件右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 复制能正常响应
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 视频正常粘贴至桌面
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、最近删除、我的收藏、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 所有照片和视频右键点击单个视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择“视频信息”
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示视频右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册界面右侧弹窗显示当前视频的信息
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、我的收藏、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 相册中右键点击单个视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择“在文件管理器中显示”
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示视频文件右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 弹窗显示当前视频所在的路径，且选中当前视频文件
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 相册中右键点击单个视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择“收藏”
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 选择当前视频右键点击取消收藏
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示视频文件右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 收藏选项正常响应,且我的收藏中有收藏的视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 收藏的视频从我的收藏中消失
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、我的收藏、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2相册中右键点击单个视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 选择“删除”
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 确认弹窗选择确认
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 查看相册最近删除中是否有删除的视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 在文件管理器查看视频源文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 弹窗显示是否确认删除视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 删除的视频从相册中消失
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 最近删除中有当前删除的视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 文件管理中的源文件依旧存在
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、最近删除、我的收藏、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 相册中右键点击单个视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择“复制”
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 在桌面右键粘贴
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示视频文件右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 复制能正常响应
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 视频正常粘贴至桌面
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、我的收藏、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 所有照片和视频右键点击单个视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择“添加到相册”
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 二级菜单选择“相册列表的相册”
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示视频右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 显示添加到相册的二级菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 提示成功添加到“xxx”
+    needs_accessible_name: false
+- id: suite_album_文件右键菜单_2
+  name: 文件右键菜单功能测试(2)
+  module: 文件右键菜单
+  status: active
+  annotation:
+    测试界面: 文件显示区右键菜单
+    测试功能: 文件右键菜单操作
+    前置条件: 应用已启动
+    AT元素引用: *id004
+  steps:
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、我的收藏、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 相册中右键点击单个视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择“添加到相册”
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 二级菜单选择新建相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 回车
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示视频右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 显示添加到相册的二级菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 弹出新建相册的弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 视图自动跳转到相册视图
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、我的收藏、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 所有照片和视频右键点击单个视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 选择查看
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示视频右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 调起影院播放当前操作的视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、我的收藏、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 启动相册选中视频和照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 右键点击选中的视频或照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 目标图片和视频显示选中状态
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 显示右键菜单：幻灯片放映、添加到相册、复制、删除
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、我的收藏、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 启动相册选中多个视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 右键点击选中的视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 目标视频显示选中状态
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 显示右键菜单：添加到相册、复制、删除
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、我的收藏、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 启动相册选中单个视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 右键点击选中的视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 目标视频显示选中状态
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 显示右键菜单：查看、添加到相册、复制、删除、收藏(取消收藏)、在文件管理器中显示、视频信息
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 新建几个自定义相册A、B、C、D
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 添加一张照片到相册A
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 再次选择该照片，右键添加到相册A
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 能成功添加，提示成功添加到相册A
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 添加到相册A时，该选项置灰
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 打开相册，多选几张照片，鼠标右键点击选中的照片，查看菜单选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 菜单显示“新建相册”和已有相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 选中照片右键点击选择添加到相册，点击已有相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 照片成功添加到选择的相册中
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 选中照片右键点击选择添加到相册，点击新建相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 弹出新建相册窗口，点击新建后，新建一个相册并将选中照片添加到新建的相册中
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册后，右键点击一张照片，点击右键菜单中打印选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 弹出打印预览界面
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册后，右键点击一张照片，点击右键菜单中照片信息选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 弹出照片信息窗口，点击窗口外其他地方，窗口关闭
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册后，右键点击一张照片，点击右键菜单中在文件管理器中显示选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 跳转到该照片存储位置，默认选中该照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 右键点击一张不支持设置为壁纸的照片时，查看右键菜单显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 无设为壁纸选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册后，右键点击一张照片，点击右键菜单中设为壁纸选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 成功设置选中照片为壁纸
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 查看一张只读权限的照片，点击右键菜单中逆时针旋转选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 无逆时针旋转选项
+    needs_accessible_name: false
+- id: suite_album_文件右键菜单_3
+  name: 文件右键菜单功能测试(3)
+  module: 文件右键菜单
+  status: active
+  annotation:
+    测试界面: 文件显示区右键菜单
+    测试功能: 文件右键菜单操作
+    前置条件: 应用已启动
+    AT元素引用: *id004
+  steps:
+  - step_type: assert
+    description: 1. 查看一张只读权限的照片，点击右键菜单中顺时针旋转选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 无顺时针旋转选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册后，右键点击一张照片，点击右键菜单中逆时针旋转选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 照片进行逆时针
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册后，右键点击一张照片，点击右键菜单中顺时针旋转选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 照片进行顺时针
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册后，右键点击一张已收藏的照片，选择取消收藏
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 选项中包含取消收藏选项，点击取消收藏选项后该照片被取消收藏成功，该照片从我的收藏中移除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 打开相册后，右键点击一张未收藏的照片，查看右键菜单选项显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 选项中包含收藏选项，点击收藏选项后该照片被收藏成功，可以进入我的收藏相册中查看该照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，创建新建相册，导入照片到新建相册中
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 右键点击新建相册中照片，选择“从相册中移除”选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 正常导入照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 选中的照片从相册中移除，但是该照片不会从相册中删除
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册后，右键点击一张照片，点击右键菜单中复制选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 成功复制该照片，可以粘贴该照片到桌面等位置
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册后，右键点击一张照片，点击菜单中添加到相册，选择已有相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 成功添加照片到已有相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册后，右键点击一张照片，点击菜单中添加到相册，选择新建相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 弹出新建相册窗口，再次点击新建后，成功新建相册，选择的照片被添加到新建相册中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 在所有照片和时间线视图下，右键点击一张照片，点击菜单中查看选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 成功打开查看选中的照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 点击照片库的【已导入】，查看界面显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 照片按照导入时间分组展示,且每个导入时间文案显示为：导入于x年x月x日 xx:xx 共xx张照片;界面右侧显示选择/取消选择按钮，用于选择或取消选择该导入时间下的图片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册，导入文件
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 点击标题栏时间选择控件的【日】，查看界面显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 日聚合中的按照日期划分，根据拍摄时间分组，不同日期的分栏排列，最新的日期在最上面；如无拍摄时间，按照导入时间排序；当日期被刷出窗口外时，日期以悬浮状态显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 右键选中多张图片，点击添加到相册，选择相册1
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 提示‘成功添加照片到‘相册1’’，如果相册1中已存在该图片，则无提示；可以在相册1下查看到添加的图片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 右键选中多张图片，点击添加到相册，选择新建相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 新建相册弹窗出现后，点击确定
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示新建相册弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 左侧出现新建相册，点击可以在新建相册下查看到添加的图片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册，导入照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 选择任意照片右键点击，选择【全屏】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 右键点击图片显示区域，选择【退出全屏】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册显示导入的照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 查看照片界面全屏显示选择照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 退出全屏查看照片界面，返回全屏之前的窗口
+    needs_accessible_name: false
+- id: suite_album_文件右键菜单_4
+  name: 文件右键菜单功能测试(4)
+  module: 文件右键菜单
+  status: active
+  annotation:
+    测试界面: 文件显示区右键菜单
+    测试功能: 文件右键菜单操作
+    前置条件: 应用已启动
+    AT元素引用: *id004
+  steps:
+  - step_type: assert
+    description: 1. 用相册打开一张图片后，点击右键查看菜单显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 在打开的图片中点击右键全屏，查看图片显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 右键菜单会显示：全屏．幻灯片．复制．丢到回收站．顺时针．逆时针．设为壁纸．详细信息
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 软件会自动全屏显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 右键选中一张图片，点击添加到相册，选择相册1
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 右键选中一张图片，点击添加到相册，选择新建相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 提示‘成功添加照片到‘相册1’’，如果相册1中已存在该图片，则选项置灰，
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 弹出新建相册框，可以修改相册名称，点击新建后，左侧相册列表出现新建相册名称，选择的图片在新建相册下
+    needs_accessible_name: false
+- id: suite_album_筛选
+  name: 筛选功能测试
+  module: 筛选
+  status: active
+  annotation:
+    测试界面: 文件显示区筛选
+    测试功能: 时间范围筛选
+    前置条件: 应用已启动
+    AT元素引用:
+    - FilterComboBox
+  steps:
+  - step_type: action
+    description: 1. 分别切换合集、已导入、最近删除、我的收藏、相册视图执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击文件显示区域的筛选按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点击视频后
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示筛选的选项，默认选择所有项目
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 无视频显示，且提示“无结果”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别切换合集、已导入、最近删除、我的收藏、相册视图执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击文件操作区域的“所有项目”下拉箭头
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点击照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示筛选的选项，默认选择所有项目
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 无照片显示，且提示“无结果”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别切换合集、已导入、最近删除、我的收藏、相册视图执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击文件显示区域的筛选按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点击视频后
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示筛选的选项，默认选择所有项目
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 当前视图切换只显示视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别切换所有照片和视频、时间线、已导入、最近删除、我的收藏、相册视图执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击操作栏的筛选按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点击照片后
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示筛选的选项，默认选择所有项目
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 当前视图切换只显示照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别切换合集、已导入、最近删除、我的收藏、相册视图执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击文件显示区域的筛选按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点击照片后，点击所有项目
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示筛选的选项，默认选择所有项目
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 点击照片后，能正常切换回所有项目显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别切换合集、已导入、最近删除、我的收藏、相册视图执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击文件显示区域的筛选按钮
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示筛选选项：所有项目、照片、视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别切换合集、已导入、最近删除、我的收藏、相册视图执行步骤2、3
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 启动相册，查看文件显示区域筛选按钮显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 操作栏无筛选按钮
+    needs_accessible_name: false
+- id: suite_album_底栏
+  name: 底栏功能测试
+  module: 底栏
+  status: active
+  annotation:
+    测试界面: 底栏
+    测试功能: 底栏状态与缩放
+    前置条件: 应用已启动
+    AT元素引用:
+    - StatusLabel
+    - ThumbnailSizeSlider
+  steps:
+  - step_type: action
+    description: 1. 打开相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 向左拖动右下方缩放条
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 向右拖动右下方缩放条
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 缩略图整体流畅进行缩小，排版正确
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 缩略图整体流畅进行放大，排版正确
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 拖拽视频到相册所有照片视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 在文件加载过程中查看状态栏加载文案
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册所有照片显示导入的文件，导入进度完成后，底部状态栏显示加载文案
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 状态栏显示“正在导入：%1”
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 导入图片和视频，查看所有照片视图下方状态栏文案显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 分别在所有照片、自定义相册执行步骤1
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 分别在时间线、已导入执行步骤1
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 状态栏显示“%1张照片，%2个视频”
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 状态栏显示“%1张照片，%2个视频”
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 共%n项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 只导入视频，查看相册下方状态栏文案显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 分别在所有照片、自定义相册执行步骤1
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 分别在时间线、已导入执行步骤1
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 状态栏显示“%2个视频”
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 状态栏显示“%2个视频”
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 状态栏显示“共%n个视频”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在合集、已导入、最近删除、我的收藏、自动导入相册、自定义相册执行步骤2
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 选择视频和照片，查看底部状态栏显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 状态栏显示“已选择%n项”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在合集、已导入、最近删除、我的收藏、自动导入相册、自定义相册执行步骤2
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 选择视频，查看底部状态栏显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 状态栏显示“已选择%n个视频”
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 分别查看合集、已导入、最近删除、我的收藏、设备、相册视图的底栏文案显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 英文下的底栏文案显示，图片和视频之间有“，”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 点击标题栏的【所有项目】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 选择任意多个照片，查看底栏显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 分别在已导入、最近删除、我的收藏、设备、相册视图执行步骤2
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 合集视图下显示所有文件
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册底栏显示“已选择n项（n张照片）”
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册底栏显示“已选择n项（n张照片）”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 点击标题栏的【所有项目】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 选择任意多个视频，查看底栏显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 分别在已导入、最近删除、我的收藏、设备、相册视图执行步骤2
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 合集视图下显示所有文件
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册底栏显示“已选择n项（n个视频）”
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册底栏显示“已选择n项（n个视频）”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 点击标题栏的【所有项目】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 选择任意多个照片和视频，查看底栏显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 分别在已导入、最近删除、我的收藏、设备、相册视图执行步骤2
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 合集视图下显示所有文件
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册底栏显示“已选择n项（m个视频，w张照片）”
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册底栏显示“已选择n项（m个视频，w张照片）”
+    needs_accessible_name: false
+- id: suite_album_文件显示区_1
+  name: 文件显示区功能测试(1)
+  module: 文件显示区
+  status: active
+  annotation:
+    测试界面: 文件显示区
+    测试功能: 照片缩略图浏览
+    前置条件: 应用已启动
+    AT元素引用: &id005
+    - GridView
+    - ThumbnailSizeSlider
+  steps:
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【主菜单】，选择【从文件夹导入】选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择前置条件准备好的文件夹，点击【打开】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 正常显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册底部显示“导入失败”左侧无新增相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 在合集视图同时选择照片和视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 使用Enter
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 视频和照片都显示选择状态
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 选择视频和照片均无任何反应
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 在所有照片视图双击任意视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 调起默认播放器播放点击的视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 在所有照片视图选择多个视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 使用Enter查看视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 视频显示选中状态
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 选择视频无任何反应，无调起默认播放器动作
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 在所有照片视图选择单个视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 使用Enter查看视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 视频显示选中状态
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 调起默认播放器播放选择的视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，切换到所有照片视图下
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 按page up/down浏览图片
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 滚动条跟随浏览进度移动，移动流畅
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，切换到所有照片视图下
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 鼠标滚动浏览图片
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 滚动条跟随浏览进度移动，移动流畅
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，切换到所有照片视图下
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 拖动右侧滚动条浏览图片
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 拖动时，图片和滚动条移动较流畅
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 查看界面显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 所有缩略图以固定大小展示，缩略图以原图中心向外拓展截取
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 在所有照片、时间线、相册界面分别执行步骤2
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 按ctrl，使用鼠标滚轮向下滚
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 放大缩略图显示，数值以整数显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 在所有照片、时间线、相册界面分别执行步骤2
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 按ctrl，使用鼠标滚轮向上滚
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 缩小缩略图显示，数值以整数显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 在所有照片、时间线、相册界面分别执行步骤2
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 按ctrl和-键
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 缩小缩略图显示，数值以整数显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 在所有照片、时间线、相册界面分别执行步骤2
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 按ctrl和+键
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 放大缩略图显示，数值以整数显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、自定义相册执行步骤2
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. . 查看视频相册中的显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 缩略图右下角显示视频时长
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在合集、已导入、自定义相册执行步骤2、3
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击右下角缩放条任意位置
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点按右下角缩放条调节按钮拖动缩放
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 照片和视频跟随缩放条正常缩放
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 照片和视频跟随缩放条正常缩放
+    needs_accessible_name: false
+- id: suite_album_文件显示区_2
+  name: 文件显示区功能测试(2)
+  module: 文件显示区
+  status: active
+  annotation:
+    测试界面: 文件显示区
+    测试功能: 照片缩略图浏览
+    前置条件: 应用已启动
+    AT元素引用: *id005
+  steps:
+  - step_type: action
+    description: 1. 分别在所有照片、时间线、已导入、自定义相册执行步骤2
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 在所有照片视图下按住Ctrl键，使用鼠标滚轮上下滚动
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 照片和视频跟随鼠标滚轮正常缩放
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 分别在合集、已导入、自定义相册执行步骤2、3、4
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 查看相册导入按钮的文案
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 查看相册导入按钮下方文案
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册启动
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 导入按钮文案显示“导入照片和视频”
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 导入按钮下方文案显示“您也可以拖拽照片和视频到此”
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 点击标题栏的【所有项目】
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 选择任意多个文件
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 使用快捷键Esc
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 分别在已导入、最近删除、我的收藏、设备、相册视图执行步骤2、3
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 合集视图下显示所有文件
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 选择的文件显示勾选状态
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 文件选中效果被取消
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 在已导入、最近删除、我的收藏、设备、相册视图均能使用Esc取消选中效果
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 点击标题栏的【所有项目】
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 选择任意多个文件
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 鼠标左键点击相册任意空白处
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 分别在已导入、最近删除、我的收藏、设备、相册视图执行步骤2、3
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 合集视图下显示所有文件
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 选择的文件显示勾选状态
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 文件选中效果被取消
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 在已导入、最近删除、我的收藏、设备、相册视图均能点击相册空白处取消选中效果
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 点击标题栏的【所有项目】
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 选择任意多个文件
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 鼠标左键点击相册任意空白处
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 鼠标左键再次点击相册任意空白处
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 分别在已导入、最近删除、我的收藏、设备、相册视图执行步骤2、3、4
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 合集视图下显示所有文件
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 选择的文件显示勾选状态
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册窗口被激活，文件选中效果未消失
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 文件选中效果被取消
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 在已导入、最近删除、我的收藏、设备、相册视图均能点击相册空白处取消选中效果
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 点击标题栏的【所有项目】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 查看已收藏的文件的缩略图显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 分别在已导入、最近删除、我的收藏、设备、相册视图执行步骤2
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 合集视图下显示所有文件
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 已收藏的文件在缩略图上显示收藏图标
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 已收藏的文件在已导入、最近删除、我的收藏、相册视图下缩略图上均显示收藏图标
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 点击标题栏的【所有项目】
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击已收藏文件缩略图上的收藏图标
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 点击侧边栏的【我的收藏】，查看取消收藏的文件在我的收藏视图是否存在
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 分别在已导入、最近删除、我的收藏、设备、相册视图执行步骤2
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 合集视图下显示所有文件
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 选择操作的文件缩略图上收藏图标消失
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 选择取消收藏的文件在我的收藏中不存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 已收藏的文件在已导入、最近删除、我的收藏、相册视图下缩略图上均显示收藏图标
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 点击标题栏的【日】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 选择任意文件，查看文件列表显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册显示合集日视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 文件列表所有日期前显示文件全选按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 点击侧边栏的【已导入】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 选择任意文件，查看文件列表显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册显示已导入视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 文件列表所有日期前显示文件全选按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 点击标题栏的【日】
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 选择任意文件
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点击文件列表日期前的【全选】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册显示合集日视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 文件列表所有日期前显示文件全选按钮
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 当前点击日期下的文件显示全部选中，日期外的文件显示未选中
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 点击侧边栏的【已导入】
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 选择任意文件
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点击文件列表日期前的【全选】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册显示已导入视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 文件列表所有日期前显示文件全选按钮
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 当前点击日期下的文件显示全部选中，日期外的文件显示未选中
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 点击侧边栏的【已导入】
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 选择任意文件
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点击文件列表日期前的【全选】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 再次点击步骤3点击的【全选】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册显示已导入视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 文件列表所有日期前显示文件全选按钮
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 当前点击日期下的文件显示全部选中，日期外的文件显示未选中
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 当前点击日期下的文件全部取消全选，日期外的文件状态未被改变
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 点击标题栏的【日】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 选择任意文件，查看文件列表显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 使用快捷键Esc
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册显示合集日视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 文件列表所有日期前显示文件全选按钮
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 文件列表的选中效果被取消，且全选按钮入口隐藏
+    needs_accessible_name: false
+- id: suite_album_打开关闭
+  name: 打开关闭功能测试
+  module: 打开关闭
+  status: active
+  annotation:
+    测试界面: 主窗口
+    测试功能: 应用打开与关闭
+    前置条件: 应用已安装
+    AT元素引用:
+    - ImportButton
+  steps:
+  - step_type: action
+    description: 1. 玲珑应用在终端输入ll-cli run org.deepin.album回车
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 正常应用在终端输入deepin-album
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册正常启动
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册正常启动
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动器右键相册图标选择发送至任务栏
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 右键点击任务栏相册图标，选择打开
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册图标任务栏显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册正常启动
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动器右键相册图标选择发送至任务栏
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 双击任务栏相册图标
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册图标任务栏显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册正常启动
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动器右键相册图标选择发送至桌面
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 双击桌面相册图标
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册图标桌面显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册正常启动
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动器右键相册图标选择发送至桌面
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 右键点击桌面相册图标，选择打开
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册图标桌面显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册正常启动
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动器右键点击相册图标，选择打开
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册正常启动
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动器双击相册图标
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册正常启动
+    needs_accessible_name: false
+- id: suite_album_照片右键菜单
+  name: 照片右键菜单功能测试
+  module: 照片右键菜单
+  status: active
+  annotation:
+    测试界面: 查看照片右键菜单
+    测试功能: 照片右键菜单操作
+    前置条件: 应用已启动
+    AT元素引用:
+    - ThumbnailMenu
+  steps:
+  - step_type: action
+    description: 1. 查看照片界面，右键点击一张照片，点击右键菜单中顺时针
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 照片进行顺时针
+    needs_accessible_name: false
+- id: suite_album_照片工具栏
+  name: 照片工具栏功能测试
+  module: 照片工具栏
+  status: active
+  annotation:
+    测试界面: 查看照片工具栏
+    测试功能: 照片工具栏操作
+    前置条件: 应用已启动
+    AT元素引用:
+    - RotateButton
+    - DeleteButton
+    - FavoriteButton
+  steps:
+  - step_type: action
+    description: 1. 查看照片界面，点击删除按钮
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 当前查看图片被删除同时相册中图片被移除，本地源文件同步删除
+    needs_accessible_name: false
+- id: suite_album_窗口操作
+  name: 窗口操作功能测试
+  module: 窗口操作
+  status: active
+  annotation:
+    测试界面: 查看照片窗口
+    测试功能: 窗口操作
+    前置条件: 应用已启动
+    AT元素引用:
+    - NavigationCloseButton
+  steps:
+  - step_type: assert
+    description: 1. 持续放大图片，查看最大放大比例显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 图片最大可以放大到2000%，无法继续放大
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 双击查看照片窗口照片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 全屏显示查看照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 在文件管理中双击图片
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 进入查看照片页面，照片成功展示在页面上
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 右键点击文件管理中图片，选择打开
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 进入查看照片页面，照片成功展示在页面上
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 进入任意相册或视图下，选中照片缩略图后，按enter键
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 进入查看照片页面，照片成功展示在页面上
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 进入任意相册或视图下，双击缩略图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 进入查看照片页面，照片成功展示在页面上
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 在图片查看任意区域点击【鼠标右键】
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击【重命名】选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 输入任意名称
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 点击【确定】按钮
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 唤起右键菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 弹出重命名窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 修改为任意名称
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 图片名称修改成功
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 点击工具栏【识别文字】按钮
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 调起OCR识别窗口
+    needs_accessible_name: false
+- id: suite_album_最近删除
+  name: 最近删除功能测试
+  module: 最近删除
+  status: active
+  annotation:
+    测试界面: 最近删除视图
+    测试功能: 最近删除管理
+    前置条件: 应用已启动
+    AT元素引用:
+    - DeleteButton
+  steps:
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地有读写权限照片和视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 选择导入的视频和照片，按键盘Delete键
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: action
+    description: 6. 最近删除中选择所有照片和视频，按键盘Delete键
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 删除确认弹窗点击【删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 所有照片视图显示导入的照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 删除的照片和视频从相册中移除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 显示最近删除视图，且显示删除的照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 显示删除确认弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 删除的照片和视频从最近删除中移除
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地有读写权限照片和视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 选择导入的视频和照片，按键盘Delete键
+    needs_accessible_name: false
+  - step_type: action
+    description: 5. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: action
+    description: 6. 最近删除中选择所有照片和视频，点击标题栏【删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 删除确认弹窗点击【删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 所有照片视图显示导入的照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 删除的照片和视频从相册中移除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 显示删除确认弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 删除的照片和视频从最近删除中移除
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地有读写权限照片和视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 选择导入的照片和视频，使用快捷键Delete
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 返回删除的照片和视频源路径查看删除的照片和视频是否存在
+    needs_accessible_name: false
+  - step_type: action
+    description: 6. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: action
+    description: 7. 选择删除的照片和视频，点击操作栏【恢复】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 点击照片库的合集，查看恢复的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 返回删除的照片和视频源路径查看删除的照片和视频是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 所有照片视图显示导入的照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 删除的照片和视频从相册中移除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 照片和视频源路径中无删除的照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 选择恢复的照片从最近删除中消失
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 合集视图显示恢复的照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 照片和视频源路径中显示操作的照片和视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【+】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择本地有读写权限照片和视频，点击【打开】
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 选择导入的照片和视频，使用快捷键Delete
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 返回删除的照片和视频源路径查看删除的照片和视频是否存在
+    needs_accessible_name: false
+  - step_type: action
+    description: 6. 点击照片库的【最近删除】
+    needs_accessible_name: false
+  - step_type: action
+    description: 7. 选择删除的照片和视频，右键点击，选择[恢复]选项
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 点击照片库的合集，查看恢复的文件是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 返回删除的照片和视频源路径查看删除的照片和视频是否存在
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 所有照片视图显示导入的照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 删除的照片和视频从相册中移除
+    needs_accessible_name: false
+  - step_type: assert
+    description: 5. 照片和视频源路径中无删除的照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 6. 显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 7. 选择恢复的照片从最近删除中消失
+    needs_accessible_name: false
+  - step_type: assert
+    description: 8. 合集视图显示恢复的照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 9. 照片和视频源路径中显示操作的照片和视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 在最近删除视图选择视频和照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 右键点击，选择恢复
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 显示右键菜单“删除和恢复”
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 图片自动恢复到相册中，在所有照片、时间线、已导入均有恢复的照片或视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 点击侧边栏的【最近删除】
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击操作栏的【删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 点击删除确认弹窗的【删除】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册显示最近删除视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示删除确认弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 最近删除视图下选择删除的文件从最近删除视图消失
+    needs_accessible_name: false
+- id: suite_album_我的收藏
+  name: 我的收藏功能测试
+  module: 我的收藏
+  status: active
+  annotation:
+    测试界面: 我的收藏视图
+    测试功能: 收藏照片
+    前置条件: 应用已启动
+    AT元素引用:
+    - FavoriteButton
+  steps:
+  - step_type: action
+    description: 1. 点击侧边栏的【我的收藏】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 查看标题显示
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册显示我的收藏视图
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 我的收藏标题显示在操作栏左侧
+    needs_accessible_name: false
+- id: suite_album_合集
+  name: 合集功能测试
+  module: 合集
+  status: active
+  annotation:
+    测试界面: 合集视图
+    测试功能: 合集浏览
+    前置条件: 应用已启动
+    AT元素引用:
+    - ClassificationGrid
+  steps:
+  - step_type: action
+    description: 1. 点击标题栏【所有项目】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册合集视图文件显示区域平铺显示相册文件
+    needs_accessible_name: false
+- id: suite_album_自动导入相册
+  name: 自动导入相册功能测试
+  module: 自动导入相册
+  status: active
+  annotation:
+    测试界面: 自动导入相册
+    测试功能: 自动导入管理
+    前置条件: 应用已启动
+    AT元素引用:
+    - ImportAlbumMenu
+  steps:
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【主菜单】，选择【从文件夹导入】选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择前置条件准备好的文件夹，点击【打开】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 查看自动导入相册文件排序
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 正常显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册视图自动切换至导入的自定义路径相册，且自定义路径相册显示源路径下的所有照片和视频
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 自动导入相册排序按文件导入时间最新的排在最后
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏【主菜单】，选择【从文件夹导入】选项
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择前置条件准备好的文件夹，点击【打开】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 正常显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件选择框
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 创建的相册名称显示为选择的文件夹名称，相册视图自动切换至导入的自定义路径相册，且自定义路径相册显示源路径下的所有照片和视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册分栏的画板默认路径相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 正常显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 截图录屏默认路径相册视图显示~/Pictures/路径下画板默认文件夹中所有照片和视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册分栏的截图录屏默认路径相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 正常显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册中截图录屏默认路径相册视图显示~/Pictures/和~/Videos/路径下截图录屏默认文件夹中所有照片和视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册分栏的相机默认路径相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 正常显示相册窗口
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册中相机默认路径相册视图显示~/Pictures/和~/Videos/路径下相机默认路径中所有照片和视频
+    needs_accessible_name: false
+- id: suite_album_自定义相册
+  name: 自定义相册功能测试
+  module: 自定义相册
+  status: active
+  annotation:
+    测试界面: 自定义相册
+    测试功能: 自定义相册管理
+    前置条件: 应用已启动
+    AT元素引用:
+    - CustomAlbumMenu
+  steps:
+  - step_type: action
+    description: 1. 运行相册，点击进入相册页面
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 右键点击左侧菜单栏右击相册名称
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 点击菜单中的“重命名相册”，输入内容后点击enter键保存
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 弹出菜单
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 重命名相册成功
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 运行相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击相册进入相册页面
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 右键点击已有相册，点击右键菜单中的新建相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: '2.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 直接生成一个新建相册‘未命名相册x’,相册名为可编辑状态
+    needs_accessible_name: false
+- id: suite_album_设备
+  name: 设备功能测试
+  module: 设备
+  status: active
+  annotation:
+    测试界面: 设备视图
+    测试功能: 设备加载管理
+    前置条件: 应用已启动
+    AT元素引用:
+    - DeviceLoadCancelButton
+    - DeviceLoadIgnoreButton
+  steps:
+  - step_type: action
+    description: 1. 打开相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 连接移动设备，成功挂载后，点击进入查看移动设备相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 弹出加载提示框后，点击忽略
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 弹出加载提示框后，点击取消
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 弹出正在加载提示信息，固定2秒展示“正在加载图片，请稍候...”。
+    needs_accessible_name: false
+  - step_type: assert
+    description: 没有人为操作,   提示框至少显示2秒。2秒到了加载结束就自动退出提示框，如果还没结束就继续显示；人为操作的话,    关闭的时候如果加载完了就直接显示..
+      如果关闭的时候还没加载完, 页面继续加载图片直至完成
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 图片继续加载，弹框消失，且点击其他页面再返回移动设备相册时，弹框不会再次出现
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 图片停止加载，弹框消失，已加载完成的图片可以正常导入
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 连接Iphone手机
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 查看图片加载
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 可以挂载Iphone手机，正确显示设备名称，左上角显示图片数量正确
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 图片可以正常加载，加载完成后图片数量与第二步中显示的一致，无空白图片出现
+    needs_accessible_name: false
+- id: suite_album_主菜单
+  name: 主菜单功能测试
+  module: 主菜单
+  status: active
+  annotation:
+    测试界面: 标题栏主菜单
+    测试功能: 主菜单操作
+    前置条件: 应用已启动
+    AT元素引用:
+    - SettingsMenu
+    - ImportFoldersMenuItem
+  steps:
+  - step_type: action
+    description: 1. 打开相册，点击主菜单，点击新建相册
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 弹出新建相册窗口，点击新建按钮，成功新建相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，点击主菜单，点击主题
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 切换为深色主题
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 弹出主题选项：深色，浅色，跟随系统
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册各个界面主题变为深色主题，且文案显示清楚
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 打开相册，点击主菜单，点击关于
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 弹出关于窗口，相册版本，网站链接以及相册简介信息正确显示
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 运行相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击左上角“时间线”按钮，从菜单栏导入或拖拽导入
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 图片导入成功，底部状态栏显示导入成功提示框；如导入图片较多时底部状态栏同步显示导入进度
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 运行相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 从菜单栏点击导入按钮或拖拽图片到所有照片界面进行导入
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 默认打开所有照片页面
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 图片导入成功，底部状态栏显示导入成功提示框；如导入图片较多时底部状态栏同步显示导入进度
+    needs_accessible_name: false
+- id: suite_album_标题栏
+  name: 标题栏功能测试
+  module: 标题栏
+  status: active
+  annotation:
+    测试界面: 标题栏
+    测试功能: 标题栏按钮操作
+    前置条件: 应用已启动
+    AT元素引用:
+    - ToggleSidebarButton
+    - ZoomRatioButton
+    - ImportButton
+    - FavoriteButton
+    - RotateButton
+    - DeleteButton
+  steps:
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏全局导入按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择照片打开
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件管理导入弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册提示导入成功，且当前视图显示当前导入视频
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 启动相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏全局导入按钮
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 选择照片打开
+    needs_accessible_name: false
+  - step_type: assert
+    description: '1.'
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 显示文件管理导入弹窗
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 相册提示导入成功，且当前视图显示当前导入照片
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 运行相册
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击界面右上角的“X”按钮
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 相册成功运行
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 相册成功退出
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 选择任意文件
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏的【收藏】
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 点击侧边栏【我的收藏】，查看收藏文件是否存在
+    needs_accessible_name: false
+  - step_type: action
+    description: 4. 分别在合集、已导入、自定义相册、搜索结果页、搜索结果页执行步骤1、2、3
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 标题栏显示图片操作按钮
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 标题栏收藏显示收藏状态，选择收藏文件缩略图显示收藏图标
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 我的收藏中有收藏的文件
+    needs_accessible_name: false
+  - step_type: assert
+    description: 4. 标题栏收藏按钮均能正常收藏文件
+    needs_accessible_name: false
+  - step_type: action
+    description: 1. 选择任意有执行权限的文件
+    needs_accessible_name: false
+  - step_type: action
+    description: 2. 点击标题栏的【旋转】
+    needs_accessible_name: false
+  - step_type: action
+    description: 3. 分别在合集、已导入、我的收藏、自定义相册、搜索结果页执行步骤1、2
+    needs_accessible_name: false
+  - step_type: assert
+    description: 1. 标题栏显示图片操作按钮
+    needs_accessible_name: false
+  - step_type: assert
+    description: 2. 选择旋转的文件显示逆时针旋转90度
+    needs_accessible_name: false
+  - step_type: assert
+    description: 3. 标题栏按钮按钮均能正常旋转
+    needs_accessible_name: false
