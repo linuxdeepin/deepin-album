@@ -7,6 +7,7 @@
 #include "configsetter.h"
 #include "imageengine/movieservice.h"
 #include "dbmanager/dbmanager.h"
+#include "utils/devicehelper.h"
 #include <QPainter>
 
 const QString SETTINGS_GROUP = "Thumbnail";
@@ -723,6 +724,12 @@ QImage ImagePublisher::requestImage(const QString &id, QSize *size, const QSize 
     QString localPath = LibUnionImage_NameSpace::localPath(url);
 
     qDebug() << "Requesting image:" << localPath << "Requested size:" << requestedSize;
+    // Atomically check device state and register the in-flight read, to avoid racing unmount with reads
+    DeviceReadGuard readGuard(localPath);
+    if (!readGuard.isActive()) {
+        qDebug() << "Device is unmounting, skip loading image:" << localPath;
+        return QImage();
+    }
     QString error;
     QImage image;
     LibUnionImage_NameSpace::loadStaticImageFromFile(localPath, image, error);
@@ -805,6 +812,11 @@ QImage CollectionPublisher::createYearImage(const QString &year)
         return QImage();
     }
     auto picPath = paths.at(0);
+    DeviceReadGuard readGuard(picPath);
+    if (!readGuard.isActive()) {
+        qDebug() << "Device is unmounting, skip year cover:" << picPath;
+        return QImage();
+    }
 
     // Fix: year cover may be a video file; use video frame to avoid corrupt image.
     QImage image;
@@ -844,6 +856,11 @@ QImage CollectionPublisher::createMonthCellImage(const QString &path, const Coll
         requestSize = QSize(outputWidth / 5, static_cast<int>(outputHeight * (1 - 0.618)));
 
     //1.加载原图
+    DeviceReadGuard readGuard(path);
+    if (!readGuard.isActive()) {
+        qDebug() << "Device is unmounting, skip month cover:" << path;
+        return QImage();
+    }
     QImage image;
     QString error;
     if (LibUnionImage_NameSpace::isVideo(path))
@@ -911,6 +928,13 @@ void AsyncImageResponseAlbum::run()
     QString localPath = LibUnionImage_NameSpace::localPath(url);
 
     qDebug() << "Processing async image:" << localPath;
+    // Atomically check device state and register the in-flight read, to avoid racing unmount with reads
+    DeviceReadGuard readGuard(localPath);
+    if (!readGuard.isActive()) {
+        qDebug() << "Device is unmounting, skip loading image:" << localPath;
+        emit finished();
+        return;
+    }
     QString error;
     LibUnionImage_NameSpace::loadStaticImageFromFile(localPath, m_image, error);
     if (!error.isEmpty()) {

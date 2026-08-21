@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2024-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -8,12 +8,20 @@
 #include <DSysInfo>
 
 #include <QDBusReply>
+#include <QFileInfo>
 #include <QDebug>
+#include <QElapsedTimer>
+
+#include <algorithm>
 #include <QRegularExpression>
 
 DCORE_USE_NAMESPACE
 
 DeviceHelper *DeviceHelper::m_instance = nullptr;
+QMutex DeviceHelper::s_unmountMutex;
+QWaitCondition DeviceHelper::s_readCondition;
+QStringList DeviceHelper::s_unmountingPaths;
+QStringList DeviceHelper::s_activeReads;
 using namespace dfmmount;
 
 /*!
@@ -49,6 +57,93 @@ DeviceHelper::DeviceHelper(QObject *parent)
 DeviceHelper::~DeviceHelper()
 {
     qDebug() << "Destroying DeviceHelper";
+}
+
+namespace {
+QString normalizedPath(const QString &path)
+{
+    if (path.isEmpty()) {
+        return {};
+    }
+    return QDir::cleanPath(QFileInfo(path).absoluteFilePath());
+}
+
+bool pathUnderMountPoint(const QString &path, const QString &mountPoint)
+{
+    return path == mountPoint || path.startsWith(mountPoint + QLatin1Char('/'));
+}
+}
+
+void DeviceHelper::markUnmounting(const QString &mountPoint, bool unmounting)
+{
+    const QString normalizedMountPoint = normalizedPath(mountPoint);
+    if (normalizedMountPoint.isEmpty()) {
+        return;
+    }
+
+    QMutexLocker locker(&s_unmountMutex);
+    if (unmounting) {
+        if (!s_unmountingPaths.contains(normalizedMountPoint)) {
+            s_unmountingPaths.append(normalizedMountPoint);
+        }
+    } else {
+        s_unmountingPaths.removeAll(normalizedMountPoint);
+    }
+}
+
+bool DeviceHelper::tryBeginRead(const QString &path)
+{
+    const QString normalized = normalizedPath(path);
+    if (normalized.isEmpty()) {
+        return false;
+    }
+
+    QMutexLocker locker(&s_unmountMutex);
+    const bool unmounting = std::any_of(
+        s_unmountingPaths.cbegin(), s_unmountingPaths.cend(),
+        [&normalized](const QString &root) { return pathUnderMountPoint(normalized, root); });
+    if (unmounting) {
+        return false;
+    }
+
+    s_activeReads.append(normalized);
+    return true;
+}
+
+void DeviceHelper::endRead(const QString &path)
+{
+    const QString normalized = normalizedPath(path);
+    QMutexLocker locker(&s_unmountMutex);
+    s_activeReads.removeOne(normalized);
+    s_readCondition.wakeAll();
+}
+
+bool DeviceHelper::waitForReadsDone(const QString &mountPoint, int timeoutMs)
+{
+    const QString normalizedRoot = normalizedPath(mountPoint);
+    if (normalizedRoot.isEmpty()) {
+        return true;
+    }
+
+    auto hasActiveRead = [&normalizedRoot]() {
+        return std::any_of(s_activeReads.cbegin(), s_activeReads.cend(),
+                           [&normalizedRoot](const QString &readPath) {
+                               return pathUnderMountPoint(readPath, normalizedRoot);
+                           });
+    };
+
+    QMutexLocker locker(&s_unmountMutex);
+    QElapsedTimer timer;
+    timer.start();
+    while (hasActiveRead()) {
+        const int remaining = timeoutMs - static_cast<int>(timer.elapsed());
+        if (remaining <= 0 || !s_readCondition.wait(&s_unmountMutex, remaining)) {
+            qWarning() << "DeviceHelper::waitForReadsDone timeout, remaining reads:"
+                       << s_activeReads.size();
+            return false;
+        }
+    }
+    return true;
 }
 
 DeviceHelper *DeviceHelper::instance()

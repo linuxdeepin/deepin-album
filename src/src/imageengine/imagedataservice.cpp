@@ -25,6 +25,7 @@
 #include "dbmanager/dbmanager.h"
 #include "configsetter.h"
 #include "movieservice.h"
+#include "utils/devicehelper.h"
 #include <QDebug>
 
 #include <QMetaType>
@@ -377,6 +378,16 @@ void ReadThumbnailManager::readThumbnail()
 
         if (!QFileInfo(path).exists()) {
             qWarning() << "File no longer exists:" << path;
+            DBManager::m_fileMutex.unlock();
+            continue;
+        }
+
+        // Atomically check device state and register the in-flight read, to avoid racing unmount with reads
+        // Note: the guard takes s_unmountMutex while we hold the m_fileMutex read lock (lock order m_fileMutex→s_unmountMutex);
+        // the unmount flow must not call waitForReadsDone while holding m_fileMutex, or a circular wait results
+        DeviceReadGuard readGuard(path);
+        if (!readGuard.isActive()) {
+            qDebug() << "Device is unmounting, skip loading:" << path;
             DBManager::m_fileMutex.unlock();
             continue;
         }

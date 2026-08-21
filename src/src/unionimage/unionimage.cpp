@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -25,6 +25,7 @@
 #endif
 
 #include "unionimage/imageutils.h"
+#include "utils/devicehelper.h"
 
 #include <cstring>
 
@@ -380,6 +381,15 @@ QString PrivateDetectImageFormat(const QString &filepath);
 UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage &res, QString &errorMsg, const QString &format_bar)
 {
     qDebug() << "Loading static image from file:" << path;
+    // Register the in-flight read centrally here, covering all static image load entry points,
+    // to avoid racing unmount with reads
+    DeviceReadGuard readGuard(path);
+    if (!readGuard.isActive()) {
+        qWarning() << "Device is unmounting, skip loading image:" << path;
+        res = QImage();
+        errorMsg = "device unmounting!";
+        return false;
+    }
     QFileInfo file_info(path);
     if (file_info.size() == 0) {
         qWarning() << "File is empty:" << path;
