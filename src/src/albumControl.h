@@ -407,6 +407,7 @@ private:
     void updateBlockDeviceName(const QString &blks);
     void onUnMountedExecute(const QString &deviceKey, DeviceType type);
     bool shouldRetryVideo(const QString &path);
+    void doUnmountDevice(const QString &devicePath); // actual unmount handling, invoked deferred by unMountDevice
 
 signals:
     void sigRefreshAllCollection();
@@ -488,6 +489,7 @@ private :
     QMap<QString, DeviceInfoPtr> m_PhonePicFileMap;   // 外部设备及其全部图片路径
     std::atomic_bool m_couldRun;
     bool m_bneedstop = false;
+    bool m_unmountingDevice = false; // unmount-in-progress flag, prevents re-entry from repeated clicks during nested event loops
     QMutex m_mutex;
 };
 

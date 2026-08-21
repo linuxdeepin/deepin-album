@@ -5,6 +5,7 @@
 
 #include "movieservice.h"
 #include "unionimage/unionimage.h"
+#include "utils/devicehelper.h"
 #include <QMetaType>
 #include <QDirIterator>
 #include <QStandardPaths>
@@ -146,7 +147,7 @@ MovieService *MovieService::instance(QObject *parent)
 MovieInfo MovieService::getMovieInfo(const QUrl &url)
 {
     qDebug() << "Getting movie info for URL:" << url.toString();
-    MovieInfo result;
+    MovieInfo result{};
 
     m_bufferMutex.lock();
     auto iter = std::find_if(m_movieInfoBuffer.begin(), m_movieInfoBuffer.end(), [url](const std::pair<QUrl, MovieInfo> &data) {
@@ -154,8 +155,10 @@ MovieInfo MovieService::getMovieInfo(const QUrl &url)
     });
     if (iter != m_movieInfoBuffer.end()) {
         qDebug() << "Found movie info in cache for URL:" << url.toString();
+        // Copy before unlocking; a pop_front by another thread after unlock would invalidate the iterator
+        MovieInfo cached = iter->second;
         m_bufferMutex.unlock();
-        return iter->second;
+        return cached;
     }
     m_bufferMutex.unlock();
 
@@ -163,14 +166,21 @@ MovieInfo MovieService::getMovieInfo(const QUrl &url)
         QFileInfo fi(LibUnionImage_NameSpace::localPath(url));
 
         if (fi.exists()) {
+            DeviceReadGuard readGuard(fi.filePath());
+            if (!readGuard.isActive()) {
+                qDebug() << "Device is unmounting, skip movie info:" << fi.filePath();
+                return result;
+            }
             qDebug() << "Parsing movie info from file:" << fi.filePath();
-            auto filePath = fi.filePath();
             result = parseFromFile(fi);
         } else {
             qWarning() << "File does not exist:" << fi.filePath();
         }
     }
 
+
+    // Cache invalid results too, so unparseable videos are not re-parsed on every call;
+    // the unmount-race path above returns early and is never cached
     m_bufferMutex.lock();
     m_movieInfoBuffer.push_back(std::make_pair(url, result));
     if (m_movieInfoBuffer.size() > 30) {
@@ -218,6 +228,14 @@ QImage MovieService::getMovieCover(const QUrl &url)
     m_video_thumbnailer->thumbnail_size = static_cast<int>(THUMBNAIL_SIZE);
     m_image_data = m_mvideo_thumbnailer_create_image_data();
     QString file = QFileInfo(LibUnionImage_NameSpace::localPath(url)).absoluteFilePath();
+    // Atomically check device state and register the in-flight read, to avoid racing unmount with reads
+    DeviceReadGuard readGuard(file);
+    if (!readGuard.isActive()) {
+        qDebug() << "Device is unmounting, skip generating thumbnail:" << file;
+        m_mvideo_thumbnailer_destroy_image_data(m_image_data);
+        m_image_data = nullptr;
+        return QImage();
+    }
     qDebug() << "Generating thumbnail for file:" << file;
     m_mvideo_thumbnailer_generate_thumbnail_to_buffer(m_video_thumbnailer, file.toUtf8().data(), m_image_data);
     QImage img = QImage::fromData(m_image_data->image_data_ptr, static_cast<int>(m_image_data->image_data_size), "png");
@@ -230,6 +248,9 @@ QImage MovieService::getMovieCover(const QUrl &url)
 MovieInfo MovieService::parseFromFile(const QFileInfo &fi)
 {
     qDebug() << "Parsing movie file:" << fi.filePath();
+    // Serialize with getMovieCover: both paths enter libav (directly or via ffmpegthumbnailer),
+    // and concurrent libav use corrupts the heap on some platforms (e.g. sw_64)
+    QMutexLocker locker(&m_queuqMutex);
     struct MovieInfo mi;
     mi.valid = false;
     AVFormatContext *av_ctx = nullptr;

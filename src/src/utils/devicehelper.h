@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2024-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -7,6 +7,8 @@
 
 #include <QDBusInterface>
 #include <QDir>
+#include <QMutex>
+#include <QWaitCondition>
 #include <QObject>
 #include <QUrl>
 
@@ -50,13 +52,56 @@ public:
 
     // 判断url是否为smb网络路径
     static bool isSamba(const QUrl &url);
+
+    // Mark/clear a mount point as unmounting; while marked, parsing of files on that device is blocked
+    static void markUnmounting(const QString &mountPoint, bool unmounting);
+
+    // Atomically check a path and register one in-flight file read
+    static bool tryBeginRead(const QString &path);
+    // Unregister one in-flight read; must be given the same path passed to tryBeginRead
+    static void endRead(const QString &path);
+    // Wait for all in-flight reads under the given mount point to finish; returns false on timeout
+    // Note: the blocking wait processes no events; calling it on the main thread briefly freezes the UI (bounded by timeoutMs)
+    static bool waitForReadsDone(const QString &mountPoint, int timeoutMs);
+
 private:
     static DeviceHelper *m_instance;
+    static QMutex s_unmountMutex;
+    static QWaitCondition s_readCondition;
+    static QStringList s_unmountingPaths;
+    static QStringList s_activeReads; // normalized paths of in-flight reads (the same path may appear more than once)
 
     QStringList getProtocalDeviceIds();
 private:
     QScopedPointer<QDBusInterface> m_dfmDeviceManager; // 文管设备管理DBus服务接口
     QMap<QString, QVariantMap> m_mapDevicesInfos; // 记录所有可插拔设备信息，设备id-设备信息map表
+};
+
+// In-flight file read guard: registers/unregisters the read on construction/destruction,
+// so unmount can drain reads by mount point
+class DeviceReadGuard
+{
+    Q_DISABLE_COPY(DeviceReadGuard)
+
+public:
+    explicit DeviceReadGuard(const QString &path)
+        : m_path(path)
+        , m_active(DeviceHelper::tryBeginRead(path))
+    {
+    }
+
+    ~DeviceReadGuard()
+    {
+        if (m_active) {
+            DeviceHelper::endRead(m_path);
+        }
+    }
+
+    bool isActive() const { return m_active; }
+
+private:
+    QString m_path;
+    bool m_active = false;
 };
 
 #endif  // DEVICEHELPER_H

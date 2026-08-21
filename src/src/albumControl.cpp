@@ -327,7 +327,41 @@ QString AlbumControl::getAllFilters()
 void AlbumControl::unMountDevice(const QString &devicePath)
 {
     qDebug() << "AlbumControl::unMountDevice - Function entry, devicePath:" << devicePath;
+    // The unmount flow runs nested event loops; repeated clicks during it would re-enter this flow, so ignore them
+    if (m_unmountingDevice)
+        return;
+    m_unmountingDevice = true;
+    // Defer until the current QML click signal handler returns: a nested event loop that destroys
+    // the view button mid-handler aborts with QML's fatal "signal handler in progress" error
+    QTimer::singleShot(0, this, [this, devicePath]() {
+        doUnmountDevice(devicePath);
+        m_unmountingDevice = false;
+    });
+}
+
+void AlbumControl::doUnmountDevice(const QString &devicePath)
+{
     QString deviceId = DeviceHelper::instance()->getDeviceIdByMountPoint(devicePath);
+    if (!deviceId.isEmpty()) {
+        // Block new reads and wait for in-flight reads to finish first, so the unmount cannot
+        // interrupt device file parsing mid-way and corrupt the parser library's heap
+        DeviceHelper::markUnmounting(devicePath, true);
+        if (!DeviceHelper::waitForReadsDone(devicePath, 1000)) {
+            qWarning() << "AlbumControl::doUnmountDevice - Active reads did not finish";
+            // Reads not drained in time, give up this unmount; the filesystem is untouched,
+            // so unblock reads and inform the user
+            DeviceHelper::markUnmounting(devicePath, false);
+            DDialog busybox;
+            busybox.setFixedWidth(400);
+            busybox.setIcon(DMessageBox::standardIcon(DMessageBox::Critical));
+            busybox.setTextFormat(Qt::AutoText);
+            busybox.setMessage(tr("Disk is busy, cannot eject now"));
+            busybox.addButton(tr("OK"), false, DDialog::ButtonNormal);
+            busybox.exec();
+            emit sigMountsChange();
+            return;
+        }
+    }
     if (!deviceId.isEmpty() && DeviceHelper::instance()->detachDevice(deviceId)) {
         qDebug() << "AlbumControl::unMountDevice - Branch: device detach initiated, waiting for completion";
         // 等待最多200ms超时
@@ -345,19 +379,23 @@ void AlbumControl::unMountDevice(const QString &devicePath)
             m_PhonePicFileMap.remove(devicePath);
         } else {
             qDebug() << "AlbumControl::unMountDevice - Branch: device still exists, showing error dialog";
+            // Unmount failed and the filesystem is still there: unblock reads early so reads
+            // from this device are not rejected while the dialog is up
+            DeviceHelper::markUnmounting(devicePath, false);
             DDialog msgbox;
             msgbox.setFixedWidth(400);
             msgbox.setIcon(DMessageBox::standardIcon(DMessageBox::Critical));
             msgbox.setTextFormat(Qt::AutoText);
             msgbox.setMessage(tr("Disk is busy, cannot eject now"));
-            msgbox.insertButton(1, tr("OK"), false, DDialog::ButtonNormal);
+            msgbox.addButton(tr("OK"), false, DDialog::ButtonNormal);
             auto ret = msgbox.exec();
             Q_UNUSED(ret);
         }
     }
 
+    DeviceHelper::markUnmounting(devicePath, false);
     emit sigMountsChange();
-    qDebug() << "AlbumControl::unMountDevice - Function exit";
+    qDebug() << "AlbumControl::doUnmountDevice - Function exit";
 }
 
 QStringList AlbumControl::getAllUrlPaths(const int &filterType)

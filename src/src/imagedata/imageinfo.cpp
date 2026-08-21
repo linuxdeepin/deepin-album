@@ -7,6 +7,7 @@
 #include "thumbnailcache.h"
 #include "unionimage/unionimage.h"
 #include "globalcontrol.h"
+#include "utils/devicehelper.h"
 
 #include <QSet>
 #include <QSize>
@@ -139,6 +140,15 @@ void LoadImageInfoRunnable::run()
     qDebug() << "Loading image info for:" << loadPath << "frame:" << frameIndex;
     ImageInfoData::Ptr data(new ImageInfoData);
     data->path = loadPath;
+
+    DeviceReadGuard readGuard(loadPath);
+    if (!readGuard.isActive()) {
+        qDebug() << "Device is unmounting, skip image info:" << loadPath;
+        data->type = Types::NullImage;
+        notifyFinished(data->path, frameIndex, data);
+        return;
+    }
+
     data->exist = QFileInfo::exists(loadPath);
 
     QFileInfo info(loadPath);

@@ -5,6 +5,7 @@
 #include "imageprovider.h"
 #include "unionimage/unionimage.h"
 #include "imagedata/thumbnailcache.h"
+#include "utils/devicehelper.h"
 
 #include <QThread>
 #include <QThreadPool>
@@ -192,6 +193,13 @@ void AsyncImageResponse::run()
     int frameIndex;
     parseProviderID(providerId, tempPath, frameIndex);
     if (tempPath.isEmpty()) {
+        emit finished();
+        return;
+    }
+
+    DeviceReadGuard readGuard(tempPath);
+    if (!readGuard.isActive()) {
+        qDebug() << "Device is unmounting, skip async image:" << tempPath;
         emit finished();
         return;
     }
@@ -403,6 +411,12 @@ QImage ImageProvider::requestImage(const QString &id, QSize *size, const QSize &
     int frameIndex;
     parseProviderID(id, tempPath, frameIndex);
 
+    DeviceReadGuard readGuard(tempPath);
+    if (!readGuard.isActive()) {
+        qDebug() << "Device is unmounting, skip image:" << tempPath;
+        return QImage();
+    }
+
     // 判断缓存中是否存在图片
     QImage image = imageCache.get(tempPath, frameIndex);
     if (image.isNull()) {
@@ -483,6 +497,12 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
     QString tempPath;
     int frameIndex;
     parseProviderID(id, tempPath, frameIndex);
+
+    DeviceReadGuard readGuard(tempPath);
+    if (!readGuard.isActive()) {
+        qDebug() << "Device is unmounting, skip thumbnail:" << tempPath;
+        return QImage();
+    }
 
     // 判断缓存中是否存在缩略图
     if (ThumbnailCache::instance()->contains(tempPath, frameIndex)) {
