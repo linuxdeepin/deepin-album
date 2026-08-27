@@ -9,12 +9,20 @@
 #include <QMimeData>
 #include <QMouseEvent>
 #include <QAbstractItemView>
+#include <DApplicationHelper>
+#include <DPalette>
 #include "widgets/albumlefttabitem.h"
 
 LeftListWidget::LeftListWidget()
 {
     setViewportMargins(8, 0, 8, 0);
     setAcceptDrops(true);
+
+    // 让背景色适合主题颜色：仅在构造和主题变更时设置一次调色板，
+    // 不在 paintEvent 中反复设置，避免删除/恢复相册时界面闪烁
+    updateItemBackgroundPalette();
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged,
+            this, &LeftListWidget::updateItemBackgroundPalette);
 }
 
 void LeftListWidget::mouseMoveEvent(QMouseEvent *e)
@@ -61,15 +69,13 @@ void LeftListWidget::dragEnterEvent(QDragEnterEvent *event)
     }
 }
 
-void LeftListWidget::paintEvent(QPaintEvent *event)
+void LeftListWidget::updateItemBackgroundPalette()
 {
-    // 让背景色适合主题颜色
-    DPalette pa;
-    pa = DApplicationHelper::instance()->palette(this);
+    // 先重置自定义调色板缓存，使 palette() 能按当前主题重新解析
+    DApplicationHelper::instance()->resetPalette(this);
+    DPalette pa = DApplicationHelper::instance()->palette(this);
     pa.setBrush(DPalette::ItemBackground, pa.brush(DPalette::Base));
     DApplicationHelper::instance()->setPalette(this, pa);
-
-    DListWidget::paintEvent(event);
 }
 
 void LeftListWidget::mousePressEvent(QMouseEvent *e)

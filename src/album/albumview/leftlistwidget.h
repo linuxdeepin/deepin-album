@@ -31,8 +31,10 @@ protected:
 
     void dragEnterEvent(QDragEnterEvent *event) override;
 
-    /**@brief:事件重写*/
-    void paintEvent(QPaintEvent *event) override;
+private slots:
+    // 让侧边栏列表项背景色与主题一致：仅在构造和主题变更时设置一次，
+    // 避免在 paintEvent 中反复 setPalette 导致删除/恢复相册时界面闪烁
+    void updateItemBackgroundPalette();
 
 signals:
     void signalDropEvent(QModelIndex index);
