@@ -175,8 +175,9 @@ Item {
         }
     }
 
-    // Switch the deferred MainStack into image-view mode; no-op until the Loader finishes.
+    // Record the target page before the deferred MainStack is created.
     function switchMainStackView() {
+        GStatus.stackPage = Number(Album.Types.ImageViewPage)
         if (mainStack.item)
             mainStack.item.switchImageView()
     }
