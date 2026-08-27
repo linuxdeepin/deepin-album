@@ -1,3 +1,21 @@
+deepin-album (6.0.65) unstable; urgency=medium
+
+  * fix: set stackPage before deferred MainStack is created
+  * test(accessibility): add AT-SPI YAML test suites for album
+  * fix: resolve crash when unmounting a device being parsed
+  * chore: Sync by https://github.com/linuxdeepin/.github/commit/a300f8523d4876677112edab6a0772f7ad112976
+  * feat(accessibility): add AT-SPI names to collection and toolbar QML
+  * feat(accessibility): add AT-SPI names to preview viewer navigation QML
+  * feat(accessibility): add AT-SPI names to sidebar and device view QML
+  * feat(accessibility): add AT-SPI names to preview viewer thumbnail QML
+  * feat(accessibility): add AT-SPI names to preview viewer item QML
+  * chore: add SPDX header to expected_names.yaml
+  * feat(accessibility): add AT-SPI names to C++ child widgets
+  * chore: update copyright year of ClassificationView to 2026
+  * feat(accessibility): add AT-SPI names to album view QML elements
+
+ -- Wang Yu <wangyu@uniontech.com>  Thu, 27 Aug 2026 19:58:34 +0800
+
 deepin-album (6.0.64) unstable; urgency=medium
 
   * fix: preserve literal percent signs in trash restore/delete paths
