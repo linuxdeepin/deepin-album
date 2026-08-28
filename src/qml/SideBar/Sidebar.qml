@@ -364,11 +364,11 @@ ScrollView {
                 //根据文件夹情况刷新当前的默认路径相册显示
                 //1: 截图，2: 相机，3: 画板
                 if(albumControl.isDefaultPathExists(1)) {
-                    sysListModel.append({checked: false, icon: "screenshot", displayName: qsTr("Screen Capture"), uuid: "1", editable: false})
+                    sysListModel.append({checked: false, icon: "screenshot_album", displayName: qsTr("Screen Capture"), uuid: "1", editable: false})
                 }
 
                 if(albumControl.isDefaultPathExists(2)) {
-                    sysListModel.append({checked: false, icon: "camera", displayName: qsTr("Camera"), uuid: "2", editable: false})
+                    sysListModel.append({checked: false, icon: "camera_album", displayName: qsTr("Camera"), uuid: "2", editable: false})
                 }
 
                 if(albumControl.isDefaultPathExists(3)) {
