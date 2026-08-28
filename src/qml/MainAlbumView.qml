@@ -91,7 +91,7 @@ FadeInoutAnimation {
     Binding {
         target: leftBgArea
         property: "visible"
-        value: leftSidebar.x === 0
+        value: leftSidebar.x > -GStatus.sideBarWidth
     }
 
     Binding {
