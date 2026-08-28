@@ -20,8 +20,8 @@ suites:
   assert_steps:
   - action: assert_element
     selector:
-      name: SliderMenu
-      role: menu
+      name: FadeInOutImage
+      role: client
 - id: suite_slideshow_toolbar_s1
   name: 幻灯片工具栏操作
   description: 幻灯片工具栏暂停/下一张/退出
@@ -31,12 +31,12 @@ suites:
     key: f5
   - action: dtk_context_menu
     selector:
-      name: SliderMenu
+      name: FadeInOutImage
     items:
     - 暂停
   - action: dtk_context_menu
     selector:
-      name: SliderMenu
+      name: FadeInOutImage
     items:
     - 退出
   assert_steps:

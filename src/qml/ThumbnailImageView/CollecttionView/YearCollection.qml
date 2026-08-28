@@ -15,6 +15,8 @@ import "../../Control/Animation"
 import "../../"
 
 SwitchViewAnimation {
+    Accessible.name: "YearView"
+    Accessible.role: Accessible.Client
     id: yearView
 
     signal yearClicked(string year)
@@ -60,6 +62,8 @@ SwitchViewAnimation {
     }
 
     FlickableScrollBar {
+        Accessible.name: "YearCollectionScrollBar"
+        Accessible.role: Accessible.ScrollBar
         flickable: theView
     }
 

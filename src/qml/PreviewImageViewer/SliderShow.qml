@@ -77,6 +77,8 @@ Item {
     }
 
     SFadeInOut {
+        Accessible.name: "FadeInOutImage"
+        Accessible.role: Accessible.Client
         id: fadeInOutImage
 
         anchors.fill: parent

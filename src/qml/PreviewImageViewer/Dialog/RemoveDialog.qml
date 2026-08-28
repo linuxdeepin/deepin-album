@@ -92,6 +92,7 @@ DialogWindow {
             spacing: 10
 
             Button {
+                Accessible.name: "Cancel"
                 height: 36
                 text: qsTr("Cancel")
                 width: 185

@@ -9,6 +9,8 @@ import "../Utils"
 
 // 使用嵌套的ListView进行浏览
 BaseImageDelegate {
+    Accessible.name: "MultiImageDelegate"
+    Accessible.role: Accessible.ListItem
     id: multiImageDelegate
 
     ListView {
@@ -100,6 +102,8 @@ BaseImageDelegate {
 
                 // 和 image 保持同一层级
                 ImageInputHandler {
+                    Accessible.name: "ImageInput"
+                    Accessible.role: Accessible.Client
                     id: imageInput
 
                     anchors.fill: parent

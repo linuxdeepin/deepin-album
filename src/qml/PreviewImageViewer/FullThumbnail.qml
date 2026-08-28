@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -315,6 +315,8 @@ Item {
     }
 
     ImageViewer {
+        Accessible.name: "FullThumbnailImageViewer"
+        Accessible.role: Accessible.Pane
         id: imageViewer
         anchors.fill: parent
     }
@@ -447,12 +449,16 @@ Item {
     }
 
     ToolBarThumbnailListView {
+        Accessible.name: "ToolBarthumbnailListView"
+        Accessible.role: Accessible.List
         id: toolBarthumbnailListView
         anchors.fill: thumbnailViewBackGround
     }
 
     //浮动提示框
     FloatingNotice {
+        Accessible.name: "FullThumbnailFloatLabel"
+        Accessible.role: Accessible.StaticText
         id: floatLabel
         visible: false
         anchors.bottom: thumbnailViewBackGround.top

@@ -280,6 +280,8 @@ Item {
 
             //橡皮筋控件
             RubberBand {
+                Accessible.name: "RubberBandImport"
+                Accessible.role: Accessible.Client
                 id: rubberBandImport
                 visible: theView.inPress
             }
@@ -438,6 +440,8 @@ Item {
 
             //缩略图网格表
             ThumbnailListViewAlbum {
+                Accessible.name: "ImportedGridView"
+                Accessible.role: Accessible.List
                 id: importedGridView
                 anchors {
                     left: parent.left

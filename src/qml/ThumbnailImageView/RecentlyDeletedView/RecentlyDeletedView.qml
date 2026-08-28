@@ -13,6 +13,8 @@ import "../../"
 import "../"
 
 BaseView {
+    Accessible.name: "RecentlyDeletedView_BaseView"
+    Accessible.role: Accessible.Pane
 
     property int filterType : filterCombo.currentIndex // 筛选类型，默认所有
     property string numLabelText: ""
@@ -175,6 +177,8 @@ BaseView {
 
         // 筛选下拉框
         FilterComboBox {
+            Accessible.name: "RecentlyDeletedFilterComboBox"
+            Accessible.role: Accessible.ComboBox
             id: filterCombo
             anchors {
                 top: recentDelLabel.bottom
@@ -244,6 +248,8 @@ BaseView {
 
     // 缩略图列表控件
     ThumbnailListViewAlbum {
+        Accessible.name: "RecentlyDeletedListView"
+        Accessible.role: Accessible.List
         id: theView
         anchors {
             top: recentDelTitleRect.bottom
@@ -271,6 +277,8 @@ BaseView {
 
     // 若没有数据，显示无图片视图
     NoPictureView {
+        Accessible.name: "RecentlyDeletedView_NoPictureView"
+        Accessible.role: Accessible.Pane
         visible: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted && numLabelText === ""/* && filterType === 0*/
     }
 

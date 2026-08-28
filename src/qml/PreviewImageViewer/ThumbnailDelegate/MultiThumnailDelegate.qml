@@ -7,6 +7,8 @@ import org.deepin.image.viewer 1.0 as IV
 
 // 用于多页图的缩略图代理
 BaseThumbnailDelegate {
+    Accessible.name: "MultiThumnailDelegate"
+    Accessible.role: Accessible.ListItem
     id: multiThumnailDelegate
 
     // 请求的显示宽度
@@ -96,6 +98,8 @@ BaseThumbnailDelegate {
             }
 
             ThumbnailImage {
+                Accessible.name: "MultiThumnailFrameImage"
+                Accessible.role: Accessible.Graphic
                 id: img
 
                 anchors.fill: parent

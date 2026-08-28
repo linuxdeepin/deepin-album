@@ -25,6 +25,7 @@ ComboBox {
     }
 
     delegate: MenuItem {
+        Accessible.name: "FilterComboBoxItem"
         useIndicatorPadding: true
         width: parent.width
         text: comboBox.textRole ? (Array.isArray(comboBox.model) ? modelData[comboBox.textRole] : model[comboBox.textRole]) : modelData

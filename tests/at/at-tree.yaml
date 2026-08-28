@@ -425,21 +425,6 @@ tree:
       comment: ''
       annotation_status: draft
     - id: ''
-      name: SettingsMenu
-      role: menu
-      object_name: SettingsMenu
-      accessible_id: ''
-      source: static
-      class_name: ''
-      classification: interactive
-      description: ''
-      actions: []
-      index_in_parent: -1
-      states: []
-      state_labels: []
-      comment: ''
-      annotation_status: draft
-    - id: ''
       name: ImportFoldersMenuItem
       role: menu item
       object_name: ImportFoldersMenuItem
@@ -565,36 +550,6 @@ tree:
       name: GridView
       role: list
       object_name: GridView
-      accessible_id: ''
-      source: static
-      class_name: ''
-      classification: interactive
-      description: ''
-      actions: []
-      index_in_parent: -1
-      states: []
-      state_labels: []
-      comment: ''
-      annotation_status: draft
-    - id: ''
-      name: ThumbnailMenu
-      role: menu
-      object_name: ThumbnailMenu
-      accessible_id: ''
-      source: static
-      class_name: ''
-      classification: interactive
-      description: ''
-      actions: []
-      index_in_parent: -1
-      states: []
-      state_labels: []
-      comment: ''
-      annotation_status: draft
-    - id: ''
-      name: AddToAlbum
-      role: menu
-      object_name: AddToAlbum
       accessible_id: ''
       source: static
       class_name: ''
@@ -999,21 +954,6 @@ tree:
       comment: ''
       annotation_status: draft
     - id: ''
-      name: SliderMenu
-      role: menu
-      object_name: SliderMenu
-      accessible_id: ''
-      source: static
-      class_name: ''
-      classification: interactive
-      description: ''
-      actions: []
-      index_in_parent: -1
-      states: []
-      state_labels: []
-      comment: ''
-      annotation_status: draft
-    - id: ''
       name: Pause
       role: menu item
       object_name: Pause
@@ -1032,36 +972,6 @@ tree:
       name: Exit
       role: menu item
       object_name: Exit
-      accessible_id: ''
-      source: static
-      class_name: ''
-      classification: interactive
-      description: ''
-      actions: []
-      index_in_parent: -1
-      states: []
-      state_labels: []
-      comment: ''
-      annotation_status: draft
-    - id: ''
-      name: OptionMenu
-      role: menu
-      object_name: OptionMenu
-      accessible_id: ''
-      source: static
-      class_name: ''
-      classification: interactive
-      description: ''
-      actions: []
-      index_in_parent: -1
-      states: []
-      state_labels: []
-      comment: ''
-      annotation_status: draft
-    - id: ''
-      name: ViewTopTitle_Menu
-      role: menu
-      object_name: ViewTopTitle_Menu
       accessible_id: ''
       source: static
       class_name: ''

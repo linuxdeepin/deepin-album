@@ -15,6 +15,8 @@ import "./PopProgress"
 import "./Control/Animation"
 
 FadeInoutAnimation {
+    Accessible.name: "MainAlbumView_FadeInoutAnimation"
+    Accessible.role: Accessible.Client
     anchors.fill: parent
     property int lastWidth: 0
 
@@ -72,6 +74,8 @@ FadeInoutAnimation {
 
     // 侧边导航栏
     Sidebar{
+        Accessible.name: "LeftSidebar"
+        Accessible.role: Accessible.Pane
         id : leftSidebar
         width: visible ? GStatus.sideBarWidth : 0
         anchors {
@@ -176,6 +180,8 @@ FadeInoutAnimation {
     }
 
     ThumbnailImage{
+        Accessible.name: "ThumbnailImage"
+        Accessible.role: Accessible.Graphic
         id: thumbnailImage
         clip: true
         anchors {
@@ -189,6 +195,8 @@ FadeInoutAnimation {
     }
 
     StatusBar {
+        Accessible.name: "StatusBar"
+        Accessible.role: Accessible.StatusBar
         id: statusBar
         anchors {
             bottom: parent.bottom
@@ -212,6 +220,8 @@ FadeInoutAnimation {
 
     //标准弹出式进度条窗口
     StandardProgressDialog {
+        Accessible.name: "IdStandardProgressDialog"
+        Accessible.role: Accessible.Dialog
         id: idStandardProgressDialog
         z: leftSidebar.z + 1
     }

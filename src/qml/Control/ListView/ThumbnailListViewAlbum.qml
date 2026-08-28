@@ -405,6 +405,8 @@ FocusScope {
             id: rubberBandObject
 
             Album.RubberBand {
+                Accessible.name: "RubberBand"
+                Accessible.role: Accessible.Client
                 id: rubberBand
 
                 width: 0
@@ -506,6 +508,8 @@ FocusScope {
             cellHeight: itemHeight
 
             delegate: ThumbnailListDelegate {
+                Accessible.name: "ThumbnailListDelegate"
+                Accessible.role: Accessible.ListItem
                 id: thumbnailListDelegate
                 modelData: model
                 m_index: index
@@ -823,6 +827,8 @@ FocusScope {
         maxVisibleItems: 30
         //显示大图预览
         RightMenuItem {
+            Accessible.name: "View"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("View")
             visible: menuItemStates.canView
             onTriggered: {
@@ -832,6 +838,8 @@ FocusScope {
 
         //全屏预览
         RightMenuItem {
+            Accessible.name: "Fullscreen"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Fullscreen")
             visible:  menuItemStates.canFullScreen
             onTriggered: {
@@ -849,6 +857,8 @@ FocusScope {
 
         //调起打印接口
         RightMenuItem {
+            Accessible.name: "Print"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Print")
             visible: menuItemStates.canPrint
 
@@ -868,6 +878,8 @@ FocusScope {
 
         //幻灯片
         RightMenuItem {
+            Accessible.name: "SlideShow"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Slide show")
             visible: menuItemStates.canSlideShow
             onTriggered: {
@@ -897,6 +909,8 @@ FocusScope {
             title: qsTr("Add to album")
 
             RightMenuItem {
+                Accessible.name: "NewAlbum"
+                Accessible.role: Accessible.MenuItem
                 text: qsTr("New album")
                 onTriggered: {
                     newAlbum.isChangeView = true
@@ -914,6 +928,8 @@ FocusScope {
                     albumControl.getAllCustomAlbumId().length
                 }
                 delegate: RightMenuItem {
+                    Accessible.name: "Repeater_RightMenuItem"
+                    Accessible.role: Accessible.MenuItem
                     readonly property bool isFirstAlbum: index === 0
                     height: {
                         if (!visible)
@@ -950,6 +966,8 @@ FocusScope {
 
         //导出图片为其它格式
         RightMenuItem {
+            Accessible.name: "Export"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Export")
             visible: thumnailListType !== Album.Types.ThumbnailTrash
                      && ((selectedUrls.length === 1 && FileControl.pathExists(selectedUrls[0]) && menuItemStates.haveImage) || !menuItemStates.haveVideo)
@@ -969,6 +987,8 @@ FocusScope {
 
         //复制图片
         RightMenuItem {
+            Accessible.name: "Copy"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Copy")
             visible: menuItemStates.canCopy
             onTriggered: {
@@ -978,6 +998,8 @@ FocusScope {
 
         //删除图片
         RightMenuItem {
+            Accessible.name: "Delete"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Delete")
             visible: menuItemStates.canDelete && !menuItemStates.isInDevice
             onTriggered: {
@@ -988,6 +1010,8 @@ FocusScope {
 
         //从相册移除（只在自定义相册中显示）
         RightMenuItem {
+            Accessible.name: "RemoveFromAlbum"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Remove from album")
             visible: thumnailListType === Album.Types.ThumbnailCustomAlbum
             onTriggered: {
@@ -1002,6 +1026,8 @@ FocusScope {
 
         //添加到我的收藏
         RightMenuItem {
+            Accessible.name: "FavoriteAction"
+            Accessible.role: Accessible.MenuItem
             id: favoriteAction
             text: qsTr("Favorite")
             visible: !menuItemStates.isInTrash && !menuItemStates.isInDevice && menuItemStates.canFavorite
@@ -1012,6 +1038,8 @@ FocusScope {
 
         //从我的收藏中移除
         RightMenuItem {
+            Accessible.name: "UnFavoriteAction"
+            Accessible.role: Accessible.MenuItem
             id: unFavoriteAction
             text: qsTr("Unfavorite")
             visible: !menuItemStates.isInTrash && !menuItemStates.isInDevice && !menuItemStates.canFavorite
@@ -1027,6 +1055,8 @@ FocusScope {
 
         //顺时针旋转
         RightMenuItem {
+            Accessible.name: "RotateClockwise"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Rotate clockwise")
             visible: menuItemStates.canRotate
             onTriggered: {
@@ -1036,6 +1066,8 @@ FocusScope {
 
         //逆时针旋转
         RightMenuItem {
+            Accessible.name: "RotateCounterclockwise"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Rotate counterclockwise")
             visible: menuItemStates.canRotate
             onTriggered: {
@@ -1045,6 +1077,8 @@ FocusScope {
 
         //设置为壁纸
         RightMenuItem {
+            Accessible.name: "SetAsWallpaperAction"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Set as wallpaper")
             id: setAsWallpaperAction
             visible: menuItemStates.canWallpaper
@@ -1064,6 +1098,8 @@ FocusScope {
 
         //在文件管理器中显示
         RightMenuItem {
+            Accessible.name: "DisplayInFileManagerAction"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Display in file manager")
             id: displayInFileManagerAction
             visible: menuItemStates.canDisplayInFolder
@@ -1083,6 +1119,8 @@ FocusScope {
 
         //恢复
         RightMenuItem {
+            Accessible.name: "Restore"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Restore")
             visible: thumnailListType === Album.Types.ThumbnailTrash
             onTriggered: {
@@ -1092,6 +1130,8 @@ FocusScope {
 
         //照片信息
         RightMenuItem {
+            Accessible.name: "PhotoInfoAction"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Photo info")
             id: photoInfoAction
             visible: menuItemStates.canViewPhotoInfo
@@ -1111,6 +1151,8 @@ FocusScope {
 
         //视频信息
         RightMenuItem {
+            Accessible.name: "VideoInfoAction"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Video info")
             id: videoInfoAction
             visible: menuItemStates.canViewVideoInfo

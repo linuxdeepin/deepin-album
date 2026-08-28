@@ -13,6 +13,8 @@ import "../../"
 import "../"
 
 BaseView {
+    Accessible.name: "CustomAlbum_BaseView"
+    Accessible.role: Accessible.Pane
 
     property int customAlbumUId: GStatus.currentCustomAlbumUId
     property string customAlbumName: "" //相册名称显示内容
@@ -158,6 +160,8 @@ BaseView {
 
         // 筛选下拉框
         FilterComboBox {
+            Accessible.name: "CustomAlbumFilterComboBox"
+            Accessible.role: Accessible.ComboBox
             id: filterCombo
             anchors {
                 top: customAlbumLabel.bottom
@@ -180,6 +184,8 @@ BaseView {
 
     // 缩略图列表控件
     ThumbnailListViewAlbum {
+        Accessible.name: "CustomAlbumListView"
+        Accessible.role: Accessible.List
         id: theView
         anchors {
             top: customAlbumTitleRect.bottom
@@ -224,6 +230,8 @@ BaseView {
     // 1.自定义相册，若没有数据，显示导入图片视图
     // 2.自动导入相册，无内容时，显示没有图片或视频时显示
     NoPictureView {
+        Accessible.name: "CustomAlbum_NoPictureView"
+        Accessible.role: Accessible.Pane
         visible: numLabelText === ""  && filterType === 0
         bShowImportBtn: isCustom
         iconName: isCustom ? "nopicture1" : (GStatus.currentViewType === Album.Types.ViewCustomAlbum ? "nopicture2" : "nopicture3")

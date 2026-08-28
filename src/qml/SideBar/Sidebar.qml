@@ -207,6 +207,8 @@ ScrollView {
 
         // 照片库侧边栏
         SideBarItem {
+            Accessible.name: "GallerySideBar"
+            Accessible.role: Accessible.ListItem
             id: gallerySideBar
             Layout.alignment:  Qt.AlignTop; Layout.topMargin: 15
             title: qsTr("Gallery")
@@ -252,6 +254,8 @@ ScrollView {
 
         // 设备列表侧边栏
         SideBarItem {
+            Accessible.name: "DeviceSideBar"
+            Accessible.role: Accessible.ListItem
             id: deviceSideBar
             visible: devicePaths.length
             Layout.alignment:  Qt.AlignTop; Layout.topMargin: 15
@@ -312,6 +316,8 @@ ScrollView {
 
         // 相册侧边栏(系统相册 + 自定导入相册 + 自定义相册)
         SideBarItem {
+            Accessible.name: "SystemSideBar"
+            Accessible.role: Accessible.ListItem
             id: systemSideBar
             title: qsTr("Albums")
             group: paneListGroup
@@ -379,6 +385,8 @@ ScrollView {
 
         // 自动导入的相册列表(拖拽图片文件夹导入的相册列表)
         SideBarItem {
+            Accessible.name: "ImportSideBar"
+            Accessible.role: Accessible.ListItem
             id: importSideBar
             showTitle: false
             group: paneListGroup
@@ -424,6 +432,8 @@ ScrollView {
 
         // 用户自定义相册列表
         SideBarItem {
+            Accessible.name: "CustomSideBar"
+            Accessible.role: Accessible.ListItem
             id: customSideBar
             showTitle: false
             group: paneListGroup
@@ -487,6 +497,8 @@ ScrollView {
 
         //显示大图预览
         RightMenuItem {
+            Accessible.name: "SystemMenuSlideShow"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Slide show")
             visible: albumPaths.length >0
             onTriggered: {
@@ -498,6 +510,8 @@ ScrollView {
         }
 
         RightMenuItem {
+            Accessible.name: "SystemMenuExport"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Export")
             visible:  albumPaths.length >0
             onTriggered: {
@@ -512,6 +526,8 @@ ScrollView {
 
         //显示大图预览
         RightMenuItem {
+            Accessible.name: "ImportMenuSlideShow"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Slide show")
             visible: albumPaths.length > 0
             onTriggered: {
@@ -524,6 +540,8 @@ ScrollView {
         }
 
         RightMenuItem {
+            Accessible.name: "ImportMenuExport"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Export")
             visible: albumPaths.length > 0
             onTriggered: {
@@ -532,6 +550,8 @@ ScrollView {
         }
 
         RightMenuItem {
+            Accessible.name: "ImportMenuDelete"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Delete")
             onTriggered: {
                 removeAlbumDialog.deleteType = 1
@@ -583,6 +603,8 @@ ScrollView {
 
         // 显示大图预览
         RightMenuItem {
+            Accessible.name: "CustomMenuSlideShow"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Slide show")
             visible: albumPaths.length > 0
             onTriggered: {
@@ -592,6 +614,8 @@ ScrollView {
 
         // 新建相册
         RightMenuItem {
+            Accessible.name: "NewAlbum"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("New album")
             visible: GStatus.currentCustomAlbumUId > 3 ? true : false
             onTriggered: {
@@ -604,6 +628,8 @@ ScrollView {
 
         // 重命名相册
         RightMenuItem {
+            Accessible.name: "CustomMenuRename"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Rename")
             visible: GStatus.currentCustomAlbumUId > 3 ? true : false
             onTriggered: {
@@ -616,6 +642,8 @@ ScrollView {
 
         // 导出相册
         RightMenuItem {
+            Accessible.name: "CustomMenuExport"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Export")
             visible: albumPaths.length > 0
             onTriggered: {
@@ -625,6 +653,8 @@ ScrollView {
 
         // 删除相册
         RightMenuItem {
+            Accessible.name: "CustomMenuDelete"
+            Accessible.role: Accessible.MenuItem
             text: qsTr("Delete")
             visible: GStatus.currentCustomAlbumUId > 3 ? true : false
             onTriggered: {

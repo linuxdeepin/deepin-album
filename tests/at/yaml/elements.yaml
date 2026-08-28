@@ -64,9 +64,9 @@ elements:
   ExportCancelButton:
     name: ExportCancelButton
     role: push button
-  SliderMenu:
-    name: SliderMenu
-    role: menu
+  FadeInOutImage:
+    name: FadeInOutImage
+    role: client
   RestoreSelectedBtn:
     name: RestoreSelectedBtn
     role: push button

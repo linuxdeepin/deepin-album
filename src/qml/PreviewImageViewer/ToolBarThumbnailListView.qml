@@ -386,6 +386,8 @@ Item {
         cacheBuffer: 400
         model: mainView.sourcePaths.length
         delegate: ListViewDelegate {
+            Accessible.name: "ListView_ListViewDelegate"
+            Accessible.role: Accessible.ListItem
         }
 
          // 添加两组空的表头表尾用于占位，防止在边界的高亮缩略图被遮挡

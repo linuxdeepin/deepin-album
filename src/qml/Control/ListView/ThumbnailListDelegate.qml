@@ -411,6 +411,8 @@ Item {
             }
 
             VideoLabel {
+                Accessible.name: "LabelRemainDays"
+                Accessible.role: Accessible.StaticText
                 id: labelRemainDays
                 visible: true
                 width: contentWidth
@@ -455,6 +457,8 @@ Item {
             property real contentWidth: videoLabel.width
 
             VideoLabel {
+                Accessible.name: "VideoLabel"
+                Accessible.role: Accessible.StaticText
                 id: videoLabel
                 visible: bShowVideoLabel
                 anchors {

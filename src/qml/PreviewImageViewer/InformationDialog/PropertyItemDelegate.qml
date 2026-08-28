@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -59,6 +59,8 @@ Control {
         spacing: 0
 
         ElideLabel {
+            Accessible.name: "PropertyItemDelegateTitle"
+            Accessible.role: Accessible.StaticText
             Layout.fillWidth: true
             // 系数微调整以满足默认字号标签均显示的效果
             Layout.minimumWidth: descriptionWidth + 5
@@ -72,6 +74,8 @@ Control {
             id: content
 
             ElideLabel {
+                Accessible.name: "PropertyItemDelegateValue"
+                Accessible.role: Accessible.StaticText
                 Layout.fillWidth: true
                 color: control.ColorSelector.infoTextColor
                 sourceText: control.description

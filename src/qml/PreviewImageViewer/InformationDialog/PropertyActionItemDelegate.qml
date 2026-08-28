@@ -81,6 +81,8 @@ Control {
         spacing: 0
 
         ElideLabel {
+            Accessible.name: "PropertyActionItemDelegate_ElideLabel"
+            Accessible.role: Accessible.StaticText
             Layout.fillWidth: true
             // 系数微调整以满足默认字号标签均显示的效果
             Layout.minimumWidth: descriptionWidth + 5

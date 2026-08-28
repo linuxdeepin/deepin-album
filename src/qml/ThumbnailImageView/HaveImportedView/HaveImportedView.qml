@@ -12,6 +12,8 @@ import "../../"
 import "../"
 
 BaseView {
+    Accessible.name: "HaveImportedListView"
+    Accessible.role: Accessible.Pane
     id: haveImportedListView
     property int filterType : timeline.filterType// 筛选类型，默认所有
     property string numLabelText: "" //总数标签显示内容
@@ -41,6 +43,8 @@ BaseView {
 
         // QML FilterComboBox overlay, replaces the builtin C++ filter widget
         FilterComboBox {
+            Accessible.name: "HaveImportedFilterComboBox"
+            Accessible.role: Accessible.ComboBox
             id: filterCombo
             anchors {
                 top: timeline.top
@@ -55,6 +59,8 @@ BaseView {
         }
 
         WidgetScrollBar {
+            Accessible.name: "BaseView_WidgetScrollBar"
+            Accessible.role: Accessible.ScrollBar
             contentRatio: timeline.contentRatio
             scrollPosition: timeline.scrollPosition
             onScrollPositionChangedFromDrag: (pos) => timeline.setScrollPosition(pos)
@@ -237,6 +243,8 @@ BaseView {
 
     // 若没有数据，显示导入图片视图
     NoPictureView {
+        Accessible.name: "HaveImportedView_NoPictureView"
+        Accessible.role: Accessible.Pane
         visible: bShowImportTips
         bShowImportBtn: true
         iconName: "nopicture1"

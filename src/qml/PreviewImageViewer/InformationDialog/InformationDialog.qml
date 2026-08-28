@@ -79,12 +79,16 @@ DialogWindow {
         }
 
         PropertyItem {
+            Accessible.name: "BasicInfo"
+            Accessible.role: Accessible.List
             title: qsTr("Basic info")
 
             ColumnLayout {
                 spacing: 1
 
                 PropertyActionItemDelegate {
+                    Accessible.name: "FileNameProp"
+                    Accessible.role: Accessible.ListItem
                     id: fileNameProp
 
                     Layout.fillWidth: true
@@ -101,6 +105,8 @@ DialogWindow {
                     spacing: 1
 
                     PropertyItemDelegate {
+                        Accessible.name: "Size"
+                        Accessible.role: Accessible.ListItem
                         contrlImplicitWidth: propLeftWidth
                         corners: RoundRectangle.BottomLeftCorner
                         description: FileControl.slotGetInfo("FileSize", filePath)
@@ -108,6 +114,8 @@ DialogWindow {
                     }
 
                     PropertyItemDelegate {
+                        Accessible.name: "Dimensions"
+                        Accessible.role: Accessible.ListItem
                         Layout.fillWidth: true
                         contrlImplicitWidth: propMidWidth
                         description: {
@@ -122,6 +130,8 @@ DialogWindow {
                     }
 
                     PropertyItemDelegate {
+                        Accessible.name: "Type"
+                        Accessible.role: Accessible.ListItem
                         contrlImplicitWidth: propRightWidth
                         corners: RoundRectangle.BottomRightCorner
                         description: FileControl.slotFileSuffix(filePath, false)
@@ -134,6 +144,8 @@ DialogWindow {
                 spacing: 1
 
                 PropertyItemDelegate {
+                    Accessible.name: "DateCaptured"
+                    Accessible.role: Accessible.ListItem
                     Layout.fillWidth: true
                     corners: RoundRectangle.TopCorner
                     description: FileControl.slotGetInfo("DateTimeOriginal", filePath)
@@ -141,6 +153,8 @@ DialogWindow {
                 }
 
                 PropertyItemDelegate {
+                    Accessible.name: "DateModified"
+                    Accessible.role: Accessible.ListItem
                     Layout.fillWidth: true
                     corners: RoundRectangle.BottomCorner
                     description: FileControl.slotGetInfo("DateTimeDigitized", filePath)
@@ -150,6 +164,8 @@ DialogWindow {
         }
 
         PropertyItem {
+            Accessible.name: "DetailInfoItem"
+            Accessible.role: Accessible.List
             id: detailInfoItem
 
             // 详细信息默认不显示，会影响自动布局效果，因此目前设置为固定布局
@@ -164,6 +180,8 @@ DialogWindow {
                 rows: 4
 
                 PropertyItemDelegate {
+                    Accessible.name: "Aperture"
+                    Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propLeftWidth
                     corners: RoundRectangle.TopLeftCorner
                     description: FileControl.slotGetInfo("ApertureValue", filePath)
@@ -171,6 +189,8 @@ DialogWindow {
                 }
 
                 PropertyItemDelegate {
+                    Accessible.name: "ExposureProgram"
+                    Accessible.role: Accessible.ListItem
                     Layout.fillWidth: true
                     Layout.minimumWidth: propMidWidth
                     contrlImplicitWidth: propMidWidth
@@ -179,6 +199,8 @@ DialogWindow {
                 }
 
                 PropertyItemDelegate {
+                    Accessible.name: "FocalLength"
+                    Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propRightWidth
                     corners: RoundRectangle.TopRightCorner
                     description: FileControl.slotGetInfo("FocalLength", filePath)
@@ -186,12 +208,16 @@ DialogWindow {
                 }
 
                 PropertyItemDelegate {
+                    Accessible.name: "Iso"
+                    Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propLeftWidth
                     description: FileControl.slotGetInfo("ISOSpeedRatings", filePath)
                     title: qsTr("ISO")
                 }
 
                 PropertyItemDelegate {
+                    Accessible.name: "ExposureMode"
+                    Accessible.role: Accessible.ListItem
                     Layout.fillWidth: true
                     contrlImplicitWidth: propMidWidth
                     description: FileControl.slotGetInfo("ExposureMode", filePath)
@@ -199,18 +225,24 @@ DialogWindow {
                 }
 
                 PropertyItemDelegate {
+                    Accessible.name: "ExposureTime"
+                    Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propRightWidth
                     description: FileControl.slotGetInfo("ExposureTime", filePath)
                     title: qsTr("Exposure time")
                 }
 
                 PropertyItemDelegate {
+                    Accessible.name: "Flash"
+                    Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propLeftWidth
                     description: FileControl.slotGetInfo("Flash", filePath)
                     title: qsTr("Flash")
                 }
 
                 PropertyItemDelegate {
+                    Accessible.name: "FlashCompensation"
+                    Accessible.role: Accessible.ListItem
                     Layout.fillWidth: true
                     contrlImplicitWidth: propMidWidth
                     description: FileControl.slotGetInfo("FlashExposureComp", filePath)
@@ -218,12 +250,16 @@ DialogWindow {
                 }
 
                 PropertyItemDelegate {
+                    Accessible.name: "MaxAperture"
+                    Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propRightWidth
                     description: FileControl.slotGetInfo("MaxApertureValue", filePath)
                     title: qsTr("Max aperture")
                 }
 
                 PropertyItemDelegate {
+                    Accessible.name: "Colorspace"
+                    Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propLeftWidth
                     corners: RoundRectangle.BottomLeftCorner
                     description: FileControl.slotGetInfo("ColorSpace", filePath)
@@ -231,6 +267,8 @@ DialogWindow {
                 }
 
                 PropertyItemDelegate {
+                    Accessible.name: "MeteringMode"
+                    Accessible.role: Accessible.ListItem
                     Layout.fillWidth: true
                     contrlImplicitWidth: propMidWidth
                     description: FileControl.slotGetInfo("MeteringMode", filePath)
@@ -238,6 +276,8 @@ DialogWindow {
                 }
 
                 PropertyItemDelegate {
+                    Accessible.name: "WhiteBalance"
+                    Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propRightWidth
                     corners: RoundRectangle.BottomRightCorner
                     description: FileControl.slotGetInfo("WhiteBalance", filePath)
@@ -249,6 +289,8 @@ DialogWindow {
                 spacing: 1
 
                 PropertyItemDelegate {
+                    Accessible.name: "DeviceModel"
+                    Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propFullWidth
                     corners: RoundRectangle.AllCorner
                     description: FileControl.slotGetInfo("Model", filePath)
@@ -256,6 +298,8 @@ DialogWindow {
                 }
 
                 PropertyItemDelegate {
+                    Accessible.name: "LensModel"
+                    Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propFullWidth
                     corners: RoundRectangle.AllCorner
                     description: FileControl.slotGetInfo("LensType", filePath)

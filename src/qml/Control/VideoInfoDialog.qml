@@ -70,10 +70,14 @@ DialogWindow {
 //            source: "qrc:/assets/popup/nointeractive.svg"
 //        }
         PropertyItem {
+            Accessible.name: "BasicInfo"
+            Accessible.role: Accessible.List
             title: qsTr("Basic info")
             ColumnLayout {
                 spacing: 1
                 PropertyActionItemDelegate {
+                    Accessible.name: "FileName"
+                    Accessible.role: Accessible.ListItem
                     Layout.fillWidth: true
                     title: qsTr("File name")
                     description: fileName
@@ -85,6 +89,8 @@ DialogWindow {
                     corners: RoundRectangle.TopCorner
                 }
                 PropertyActionItemDelegate {
+                    Accessible.name: "DateCaptured"
+                    Accessible.role: Accessible.ListItem
                     Layout.fillWidth: true
                     title: qsTr("Date captured")
                     description: albumControl.getMovieInfo("DateTimeOriginal",filePath)
@@ -93,16 +99,22 @@ DialogWindow {
                     Layout.fillWidth: true
                     spacing: 1
                     PropertyItemDelegate {
+                        Accessible.name: "Size"
+                        Accessible.role: Accessible.ListItem
                         title: qsTr("Size")
                         description: albumControl.getMovieInfo("Size",filePath)
                         corners: RoundRectangle.BottomLeftCorner
                     }
                     PropertyItemDelegate {
+                        Accessible.name: "Duration"
+                        Accessible.role: Accessible.ListItem
                         title: qsTr("Duration")
                         description: albumControl.getMovieInfo("Duration",filePath)
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
+                        Accessible.name: "Type"
+                        Accessible.role: Accessible.ListItem
                         title: qsTr("Type")
                         description: FileControl.slotFileSuffix(filePath,false)
                         corners: RoundRectangle.BottomRightCorner
@@ -112,6 +124,8 @@ DialogWindow {
             ColumnLayout {
                 spacing: 1
                 PropertyActionItemDelegate {
+                    Accessible.name: "Path"
+                    Accessible.role: Accessible.ListItem
                     Layout.fillWidth: true
                     title: qsTr("Path")
                     description: albumControl.getMovieInfo("Path",filePath)
@@ -120,6 +134,8 @@ DialogWindow {
             }
         }
         PropertyItem {
+            Accessible.name: "CodecInfo"
+            Accessible.role: Accessible.List
             title: qsTr("Codec info")
             ColumnLayout {
                 spacing: 1
@@ -127,18 +143,24 @@ DialogWindow {
                     Layout.fillWidth: true
                     spacing: 1
                     PropertyItemDelegate {
+                        Accessible.name: "VideoCodecId"
+                        Accessible.role: Accessible.ListItem
                         contrlImplicitWidth:66
                         title: qsTr("Video CodecID")
                         description: albumControl.getMovieInfo("Video CodecID",filePath)
                         corners: RoundRectangle.TopLeftCorner
                     }
                     PropertyItemDelegate {
+                        Accessible.name: "VideoCodeRate"
+                        Accessible.role: Accessible.ListItem
                         contrlImplicitWidth:106
                         title: qsTr("Video CodeRate")
                         description: albumControl.getMovieInfo("Video CodeRate",filePath)
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
+                        Accessible.name: "Fps"
+                        Accessible.role: Accessible.ListItem
                         contrlImplicitWidth:86
                         title: qsTr("FPS")
                         description: albumControl.getMovieInfo("FPS",filePath)
@@ -150,6 +172,8 @@ DialogWindow {
                     Layout.fillWidth: true
                     spacing: 1
                     PropertyItemDelegate {
+                        Accessible.name: "Proportion"
+                        Accessible.role: Accessible.ListItem
                         contrlImplicitWidth: 66
                         title: qsTr("Proportion")
                         description: albumControl.getMovieInfo("Proportion",filePath)
@@ -157,6 +181,8 @@ DialogWindow {
 
                     }
                     PropertyItemDelegate {
+                        Accessible.name: "Resolution"
+                        Accessible.role: Accessible.ListItem
                         contrlImplicitWidth: 106
                         title: qsTr("Resolution")
                         description: albumControl.getMovieInfo("Resolution",filePath)
@@ -168,6 +194,8 @@ DialogWindow {
         }
 
         PropertyItem {
+            Accessible.name: "AudioCodecInfo"
+            Accessible.role: Accessible.List
             title: qsTr("Video CodecID")
             ColumnLayout {
                 spacing: 1
@@ -175,18 +203,24 @@ DialogWindow {
                     Layout.fillWidth: true
                     spacing: 1
                     PropertyItemDelegate {
+                        Accessible.name: "AudioCodecId"
+                        Accessible.role: Accessible.ListItem
                         contrlImplicitWidth:66
                         title: qsTr("Audio CodecID")
                         description: albumControl.getMovieInfo("Audio CodecID",filePath)
                         corners: RoundRectangle.TopLeftCorner
                     }
                     PropertyItemDelegate {
+                        Accessible.name: "AudioCodeRate"
+                        Accessible.role: Accessible.ListItem
                         contrlImplicitWidth:106
                         title: qsTr("Audio CodeRate")
                         description: albumControl.getMovieInfo("Audio CodeRate",filePath)
                         Layout.fillWidth: true
                     }
                     PropertyItemDelegate {
+                        Accessible.name: "AudioDigit"
+                        Accessible.role: Accessible.ListItem
                         contrlImplicitWidth:86
                         title: qsTr("Audio digit")
                         description: albumControl.getMovieInfo("Audio digit",filePath)
@@ -198,6 +232,8 @@ DialogWindow {
                     Layout.fillWidth: true
                     spacing: 1
                     PropertyItemDelegate {
+                        Accessible.name: "Channels"
+                        Accessible.role: Accessible.ListItem
                         contrlImplicitWidth: 66
                         title: qsTr("Channels")
                         description: albumControl.getMovieInfo("Channels",filePath)
@@ -205,6 +241,8 @@ DialogWindow {
 
                     }
                     PropertyItemDelegate {
+                        Accessible.name: "Sampling"
+                        Accessible.role: Accessible.ListItem
                         contrlImplicitWidth: 106
                         title: qsTr("Sampling")
                         description: albumControl.getMovieInfo("Sampling",filePath)

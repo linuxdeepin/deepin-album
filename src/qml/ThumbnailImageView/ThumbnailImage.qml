@@ -39,6 +39,8 @@ Item {
         asynchronous: false
         active: true
         sourceComponent: CollecttionView {
+            Accessible.name: "CollecttionView"
+            Accessible.role: Accessible.Pane
             id: collecttionView
             show: GStatus.currentViewType === Album.Types.ViewCollecttion
         }
@@ -51,33 +53,73 @@ Item {
     }
     // Other views are loaded on first selection and stay loaded afterwards.
     DeferredView {
+        Accessible.name: "HaveImportedViewLoader"
+        Accessible.role: Accessible.Client
         viewType: Album.Types.ViewHaveImported
-        sourceComponent: HaveImportedView { show: GStatus.currentViewType === Album.Types.ViewHaveImported }
+        sourceComponent: HaveImportedView {
+            Accessible.name: "DeferredView_HaveImportedView"
+            Accessible.role: Accessible.Pane
+            show: GStatus.currentViewType === Album.Types.ViewHaveImported
+        }
     }
     DeferredView {
+        Accessible.name: "FavoriteViewLoader"
+        Accessible.role: Accessible.Client
         viewType: Album.Types.ViewFavorite
-        sourceComponent: CustomAlbum { show: GStatus.currentViewType === Album.Types.ViewFavorite }
+        sourceComponent: CustomAlbum {
+            Accessible.name: "DeferredView_FavoriteAlbum"
+            Accessible.role: Accessible.Pane
+            show: GStatus.currentViewType === Album.Types.ViewFavorite
+        }
     }
     DeferredView {
+        Accessible.name: "RecentlyDeletedViewLoader"
+        Accessible.role: Accessible.Client
         viewType: Album.Types.ViewRecentlyDeleted
-        sourceComponent: RecentlyDeletedView { show: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted }
+        sourceComponent: RecentlyDeletedView {
+            Accessible.name: "DeferredView_RecentlyDeletedView"
+            Accessible.role: Accessible.Pane
+            show: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted
+        }
     }
     DeferredView {
+        Accessible.name: "CustomAlbumViewLoader"
+        Accessible.role: Accessible.Client
         viewType: Album.Types.ViewCustomAlbum
-        sourceComponent: CustomAlbum { show: GStatus.currentViewType === Album.Types.ViewCustomAlbum }
+        sourceComponent: CustomAlbum {
+            Accessible.name: "DeferredView_CustomAlbum"
+            Accessible.role: Accessible.Pane
+            show: GStatus.currentViewType === Album.Types.ViewCustomAlbum
+        }
     }
     DeferredView {
+        Accessible.name: "SearchViewLoader"
+        Accessible.role: Accessible.Client
         viewType: Album.Types.ViewSearchResult
-        sourceComponent: SearchView { show: GStatus.currentViewType === Album.Types.ViewSearchResult }
+        sourceComponent: SearchView {
+            Accessible.name: "DeferredView_SearchView"
+            Accessible.role: Accessible.Pane
+            show: GStatus.currentViewType === Album.Types.ViewSearchResult
+        }
     }
     DeferredView {
+        Accessible.name: "DeviceAlbumViewLoader"
+        Accessible.role: Accessible.Client
         viewType: Album.Types.ViewDevice
-        sourceComponent: DeviceAlbum { show: GStatus.currentViewType === Album.Types.ViewDevice }
+        sourceComponent: DeviceAlbum {
+            Accessible.name: "DeferredView_DeviceAlbum"
+            Accessible.role: Accessible.Pane
+            show: GStatus.currentViewType === Album.Types.ViewDevice
+        }
     }
     DeferredView {
+        Accessible.name: "ClassificationViewLoader"
+        Accessible.role: Accessible.Client
         id: classificationViewLoader
         viewType: Album.Types.ViewClassification
         sourceComponent: ClassificationView {
+            Accessible.name: "ClassificationView"
+            Accessible.role: Accessible.Pane
             id: classificationView
             show: GStatus.currentViewType === Album.Types.ViewClassification
             onShowClassificationDetail: function(name, className) {
@@ -91,9 +133,13 @@ Item {
         }
     }
     DeferredView {
+        Accessible.name: "ClassificationDetailViewLoader"
+        Accessible.role: Accessible.Client
         id: classificationDetailViewLoader
         viewType: Album.Types.ViewClassificationDetail
         sourceComponent: ClassificationDetailView {
+            Accessible.name: "ClassificationDetailView"
+            Accessible.role: Accessible.Pane
             id: classificationDetailView
             show: GStatus.currentViewType === Album.Types.ViewClassificationDetail
         }
@@ -103,6 +149,8 @@ Item {
         id: emptyWarningDig
         active: false
         sourceComponent: EmptyWarningDialog {
+            Accessible.name: "EmptyWarningDialogLoader"
+            Accessible.role: Accessible.Dialog
         }
 
         function show() {

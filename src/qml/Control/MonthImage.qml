@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -32,6 +32,8 @@ Rectangle {
         id: monthComponent_1pic
 
         BorderImageEx {
+            Accessible.name: "Component_BorderImageEx"
+            Accessible.role: Accessible.Graphic
             width: monthImage.width
             height: monthImage.height
             source: "image://collectionPublisher/" + monthImage.displayFlushHelper.toString() + "_M_1_" + paths[0]
@@ -47,6 +49,8 @@ Rectangle {
             Repeater {
                 model: paths
                 BorderImageEx {
+                    Accessible.name: "Repeater_BorderImageEx"
+                    Accessible.role: Accessible.Graphic
                     width: monthImage.width / 2
                     height: monthImage.height
                     source: "image://collectionPublisher/" + monthImage.displayFlushHelper.toString() + "_M_1_" + modelData
@@ -62,6 +66,8 @@ Rectangle {
         Row {
             spacing: 2
             BorderImageEx {
+                Accessible.name: "MonthImage_3picMain"
+                Accessible.role: Accessible.Graphic
                 width: monthImage.width / 2
                 height: monthImage.height
                 source: "image://collectionPublisher/" + monthImage.displayFlushHelper.toString() + "_M_1_" + paths[0]
@@ -73,6 +79,8 @@ Rectangle {
                 Repeater {
                     model: [paths[1], paths[2]]
                     BorderImageEx {
+                        Accessible.name: "MonthImage_3picSub"
+                        Accessible.role: Accessible.Graphic
                         width: monthImage.width / 2
                         height: monthImage.height / 2
                         source: "image://collectionPublisher/" + monthImage.displayFlushHelper.toString() + "_M_2_" + modelData
@@ -93,6 +101,8 @@ Rectangle {
             Repeater {
                 model: paths
                 BorderImageEx {
+                    Accessible.name: "MonthImage_4pic"
+                    Accessible.role: Accessible.Graphic
                     width: monthImage.width / 2
                     height: monthImage.height / 2
                     source: "image://collectionPublisher/" + monthImage.displayFlushHelper.toString() + "_M_2_" + modelData
@@ -108,6 +118,8 @@ Rectangle {
         Column {
             spacing: 2
             BorderImageEx {
+                Accessible.name: "MonthImage_5picMain"
+                Accessible.role: Accessible.Graphic
                 width: monthImage.width
                 height: monthImage.height * 0.618
                 source: "image://collectionPublisher/" + monthImage.displayFlushHelper.toString() + "_M_3_" + paths[0]
@@ -119,6 +131,8 @@ Rectangle {
                 Repeater {
                     model: [paths[1], paths[2], paths[3], paths[4]]
                     BorderImageEx {
+                        Accessible.name: "MonthImage_5picSub"
+                        Accessible.role: Accessible.Graphic
                         width: monthImage.width / 4
                         height: monthImage.height * (1 - 0.618)
                         source: "image://collectionPublisher/" + monthImage.displayFlushHelper.toString() + "_M_4_" + modelData
@@ -135,6 +149,8 @@ Rectangle {
         Column {
             spacing: 2
             BorderImageEx {
+                Accessible.name: "MonthImage_6picMain"
+                Accessible.role: Accessible.Graphic
                 width: monthImage.width
                 height: monthImage.height * 0.618
                 source: "image://collectionPublisher/" + monthImage.displayFlushHelper.toString() + "_M_3_" + paths[0]
@@ -146,6 +162,8 @@ Rectangle {
                 Repeater {
                     model: [paths[1], paths[2], paths[3], paths[4], paths[5]]
                     BorderImageEx {
+                        Accessible.name: "MonthImage_6picSub"
+                        Accessible.role: Accessible.Graphic
                         width: monthImage.width / 5
                         height: monthImage.height * (1 - 0.618)
                         source: "image://collectionPublisher/" + monthImage.displayFlushHelper.toString() + "_M_5_" + modelData

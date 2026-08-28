@@ -16,6 +16,8 @@ import "../Control"
  * 以网格形式显示图片分类结果，支持延迟加载
  */
 BaseView {
+    Accessible.name: "ClassificationView"
+    Accessible.role: Accessible.Pane
     id: classificationView
 
     //property bool dataLoaded: false
@@ -103,6 +105,8 @@ BaseView {
             model: classificationModel  // 使用ListModel而不是QVariantList
 
             delegate: ClassificationItem {
+                Accessible.name: "GridView_ClassificationItem"
+                Accessible.role: Accessible.ListItem
                 width: classificationGrid.cellWidth - 10
                 height: classificationGrid.cellHeight - 10
 

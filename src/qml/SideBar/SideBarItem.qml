@@ -1,4 +1,4 @@
-// Copyright (C) 2022-2026 UnionTech Technology Co., Ltd.
+// Copyright (C) 2022 - 2026 UnionTech Technology Co., Ltd.
 // SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -66,6 +66,8 @@ ColumnLayout {
         model: sideModel
         interactive: false
         delegate: SideBarItemDelegate{
+            Accessible.name: "SidebarItem"
+            Accessible.role: Accessible.ListItem
             id: sidebarItem
             width: 180
             height: 36
