@@ -17,6 +17,8 @@ import "../../"
 import org.deepin.album 1.0 as Album
 
 SwitchViewAnimation {
+    Accessible.name: "MonthView"
+    Accessible.role: Accessible.Client
     id: monthView
 
     idName: "monthView"
@@ -84,6 +86,8 @@ SwitchViewAnimation {
     }
 
     FlickableScrollBar {
+        Accessible.name: "SwitchViewAnimation_FlickableScrollBar"
+        Accessible.role: Accessible.ScrollBar
         flickable: theView
     }
 
@@ -98,6 +102,8 @@ SwitchViewAnimation {
             property var paths: albumControl.getMonthPaths(year, month)
 
             MonthImage {
+                Accessible.name: "Image"
+                Accessible.role: Accessible.Pane
                 id: image
                 anchors.verticalCenter: parent.verticalCenter
                 clip: true

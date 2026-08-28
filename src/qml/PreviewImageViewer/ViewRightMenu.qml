@@ -32,6 +32,8 @@ Menu {
     y: 600
 
     RightMenuItem {
+        Accessible.name: "RightFullscreen"
+        Accessible.role: Accessible.MenuItem
         id: rightFullscreen
 
         function switchFullScreen() {
@@ -58,6 +60,8 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: "Print"
+        Accessible.role: Accessible.MenuItem
         text: qsTr("Print")
         visible: !isNullImage
 
@@ -79,6 +83,8 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: "ExtractText"
+        Accessible.role: Accessible.MenuItem
         text: qsTr("Extract text")
         visible: supportOcr
 
@@ -101,6 +107,8 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: "SlideShow"
+        Accessible.role: Accessible.MenuItem
         text: qsTr("Slide show")
 
         onTriggered: {
@@ -126,6 +134,8 @@ Menu {
 
     //导出图片为其它格式
     RightMenuItem {
+        Accessible.name: "Export"
+        Accessible.role: Accessible.MenuItem
         text: qsTr("Export")
         visible: canExport && !menuItemStates.isInTrash && FileControl.isAlbum()
         onTriggered: {
@@ -142,6 +152,8 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: "Copy"
+        Accessible.role: Accessible.MenuItem
         text: qsTr("Copy")
         visible: readable
 
@@ -166,6 +178,8 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: "Rename"
+        Accessible.role: Accessible.MenuItem
         text: qsTr("Rename")
         visible: renamable
 
@@ -186,6 +200,8 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: "Delete"
+        Accessible.role: Accessible.MenuItem
         enabled: !thumbnailViewBackGround.imageDeleting
         text: qsTr("Delete")
         visible: deletable
@@ -215,6 +231,8 @@ Menu {
 
     //添加到我的收藏
     RightMenuItem {
+        Accessible.name: "FavoriteAction"
+        Accessible.role: Accessible.MenuItem
         id: favoriteAction
         text: qsTr("Favorite")
         visible: !menuItemStates.isInTrash && imageViewer.canFavorite && FileControl.isAlbum()
@@ -225,6 +243,8 @@ Menu {
 
     //从我的收藏中移除
     RightMenuItem {
+        Accessible.name: "UnFavoriteAction"
+        Accessible.role: Accessible.MenuItem
         id: unFavoriteAction
         text: qsTr("Unfavorite")
         visible: !menuItemStates.isInTrash && !imageViewer.canFavorite && FileControl.isAlbum()
@@ -241,6 +261,8 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: "RotateClockItem"
+        Accessible.role: Accessible.MenuItem
         id: rotateClockItem
 
         text: qsTr("Rotate clockwise")
@@ -263,6 +285,8 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: "RotateCounterClockItem"
+        Accessible.role: Accessible.MenuItem
         id: rotateCounterClockItem
 
         text: qsTr("Rotate counterclockwise")
@@ -292,6 +316,8 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: "EnableNavigation"
+        Accessible.role: Accessible.MenuItem
         id: enableNavigation
 
         enabled: visible && window.height > GStatus.minHideHeight && window.width > GStatus.minWidth
@@ -307,6 +333,8 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: "SetAsWallpaper"
+        Accessible.role: Accessible.MenuItem
         text: qsTr("Set as wallpaper")
         visible: supportWallpaper
 
@@ -329,6 +357,8 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: "DisplayInFileManager"
+        Accessible.role: Accessible.MenuItem
         text: qsTr("Display in file manager")
 
         onTriggered: {
@@ -348,6 +378,8 @@ Menu {
     }
 
     RightMenuItem {
+        Accessible.name: "ImageInfo"
+        Accessible.role: Accessible.MenuItem
         text: qsTr("Image info")
 
         onTriggered: {

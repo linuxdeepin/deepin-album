@@ -13,6 +13,8 @@ import org.deepin.album 1.0 as Album
 import "../Control/Animation"
 
 FadeInoutAnimation {
+    Accessible.name: "StackView"
+    Accessible.role: Accessible.Client
     id: stackView
 
     property alias iconName: titleRect.iconName
@@ -77,6 +79,8 @@ FadeInoutAnimation {
 
     // 标题栏
     ViewTopTitle {
+        Accessible.name: "TitleRect"
+        Accessible.role: Accessible.Pane
         id: titleRect
 
         z: parent.z + 1

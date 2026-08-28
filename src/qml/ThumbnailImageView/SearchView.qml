@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -15,6 +15,8 @@ import "../Control"
 import "../Control/ListView"
 
 BaseView {
+    Accessible.name: "SearchView_BaseView"
+    Accessible.role: Accessible.Pane
 
     property string currentKeyword: ""
     property var searchResults: new Array
@@ -149,6 +151,8 @@ BaseView {
 
     //缩略图视图
     ThumbnailListViewAlbum {
+        Accessible.name: "View"
+        Accessible.role: Accessible.List
         id: view
         anchors {
             top: resultViewTitleRect.bottom

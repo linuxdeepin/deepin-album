@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -8,6 +8,8 @@ import org.deepin.image.viewer 1.0 as IV
 import "../Utils"
 
 BaseImageDelegate {
+    Accessible.name: "SvgImageDelegate"
+    Accessible.role: Accessible.ListItem
     id: delegate
 
     status: image.status
@@ -32,6 +34,8 @@ BaseImageDelegate {
     }
 
     ImageInputHandler {
+        Accessible.name: "SvgImageInput"
+        Accessible.role: Accessible.Client
         id: imageInput
 
         anchors.fill: parent

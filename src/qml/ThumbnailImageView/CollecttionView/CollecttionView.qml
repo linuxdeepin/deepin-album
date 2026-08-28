@@ -12,6 +12,8 @@ import "../../"
 import "../../Control"
 
 BaseView {
+    Accessible.name: "CollecttView"
+    Accessible.role: Accessible.Pane
     id: collecttView
 
     property int currentViewIndex: 3
@@ -106,6 +108,8 @@ BaseView {
     }
 
     YearCollection {
+        Accessible.name: "YearCollection"
+        Accessible.role: Accessible.Pane
         id: yearCollection
         width: collecttView.width
         height: collecttView.height
@@ -114,6 +118,8 @@ BaseView {
     }
 
     MonthCollection {
+        Accessible.name: "MonthCollection"
+        Accessible.role: Accessible.Pane
         id: monthCollection
         width: collecttView.width
         height: collecttView.height
@@ -130,6 +136,8 @@ BaseView {
         asynchronous: false
         active: currentViewIndex === 2 || dayLoadedOnce
         sourceComponent: DayCollection {
+            Accessible.name: "DayCollection"
+            Accessible.role: Accessible.Pane
             id: dayCollection
             visible: false
             width: collecttView.width
@@ -153,6 +161,8 @@ BaseView {
     }
 
     AllCollection {
+        Accessible.name: "AllCollection"
+        Accessible.role: Accessible.Pane
         id: allCollection
         x: 0
         width: collecttView.width
@@ -163,6 +173,8 @@ BaseView {
 
     // 若没有数据，显示导入图片视图
     NoPictureView {
+        Accessible.name: "BaseView_NoPictureView"
+        Accessible.role: Accessible.Pane
         visible: GStatus.currentViewType === Album.Types.ViewCollecttion && allCollection.numLabelText === "" && albumControl.getAllCount() === 0
         bShowImportBtn: true
         iconName: "nopicture1"

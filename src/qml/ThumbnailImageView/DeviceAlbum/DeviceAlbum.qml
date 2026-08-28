@@ -13,6 +13,8 @@ import "../../Control/ListView"
 import "../../"
 
 BaseView {
+    Accessible.name: "DeviceAlbum_BaseView"
+    Accessible.role: Accessible.Pane
     anchors.fill: parent
 
     property int customAlbumUId: 0
@@ -242,6 +244,8 @@ BaseView {
 
     // 缩略图列表控件
     ThumbnailListViewAlbum {
+        Accessible.name: "DeviceAlbumListView"
+        Accessible.role: Accessible.List
         id: theView
         anchors {
             top: deviceAlbumTitleRect.bottom

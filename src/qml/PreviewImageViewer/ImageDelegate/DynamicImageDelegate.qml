@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -6,6 +6,8 @@ import QtQuick
 import "../Utils"
 
 BaseImageDelegate {
+    Accessible.name: "DynamicImageDelegate"
+    Accessible.role: Accessible.ListItem
     id: delegate
 
     property bool needInit: true
@@ -29,6 +31,8 @@ BaseImageDelegate {
     }
 
     ImageInputHandler {
+        Accessible.name: "DynamicImageInput"
+        Accessible.role: Accessible.Client
         id: imageInput
 
         anchors.fill: parent

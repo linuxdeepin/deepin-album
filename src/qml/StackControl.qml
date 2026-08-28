@@ -24,6 +24,8 @@ Item {
     }
 
     MainAlbumView{
+        Accessible.name: "MainAlbumView"
+        Accessible.role: Accessible.Pane
         id: mainAlbumView
         idName: "mainAlbumView"
         show: GStatus.stackControlCurrent === 0
@@ -33,6 +35,8 @@ Item {
         anchors.fill: parent
         active: deferredStackReady
         sourceComponent: MainStack {
+            Accessible.name: "Loader_MainStack"
+            Accessible.role: Accessible.LayeredPane
             idName: "mainStack"
             anchors.fill: parent
             show: GStatus.stackControlCurrent === 1
@@ -44,6 +48,8 @@ Item {
         anchors.fill: parent
         active: deferredStackReady
         sourceComponent: SliderShow {
+            Accessible.name: "Loader_SliderShow"
+            Accessible.role: Accessible.Pane
             idName: "albumview"
             anchors.fill: parent
             visible: GStatus.stackControlCurrent === 2
@@ -62,10 +68,14 @@ Item {
     }
 
     GlobalVar{
+        Accessible.name: "Global"
+        Accessible.role: Accessible.Client
         id: global
     }
 
     MenuItemStates {
+        Accessible.name: "MenuItemStates"
+        Accessible.role: Accessible.MenuItem
         id: menuItemStates
     }
 

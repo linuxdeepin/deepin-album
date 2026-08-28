@@ -17,6 +17,8 @@ import "../../Control/Animation"
 import "../../"
 
 SwitchViewAnimation {
+    Accessible.name: "DayView"
+    Accessible.role: Accessible.Client
     id: dayView
 
     signal sigListViewPressed(int x, int y)
@@ -59,6 +61,8 @@ SwitchViewAnimation {
 
         // QML FilterComboBox overlay, replaces the builtin C++ filter widget
         FilterComboBox {
+            Accessible.name: "DayCollectionFilterComboBox"
+            Accessible.role: Accessible.ComboBox
             id: filterCombo
             anchors {
                 top: timeline.top
@@ -73,6 +77,8 @@ SwitchViewAnimation {
         }
 
         WidgetScrollBar {
+            Accessible.name: "SwitchViewAnimation_WidgetScrollBar"
+            Accessible.role: Accessible.ScrollBar
             contentRatio: timeline.contentRatio
             scrollPosition: timeline.scrollPosition
             onScrollPositionChangedFromDrag: (pos) => timeline.setScrollPosition(pos)

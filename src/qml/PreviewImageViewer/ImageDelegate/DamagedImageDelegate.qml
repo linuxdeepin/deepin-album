@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -6,6 +6,8 @@ import QtQuick
 import org.deepin.dtk 1.0 as DTK
 
 BaseImageDelegate {
+    Accessible.name: "DamagedImageDelegate"
+    Accessible.role: Accessible.ListItem
     id: delegate
 
     paintedPaddingWidth: (width - damagedIcon.width) / 2

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -19,6 +19,8 @@ import "../ThumbnailImageView"
  * 展示指定分类下的所有图片，参考自定义相册的实现方式
  */
 BaseView {
+    Accessible.name: "ClassificationDetailView"
+    Accessible.role: Accessible.Pane
     id: classificationDetailView
 
     property string classificationName: ""  // 分类名称
@@ -185,6 +187,8 @@ BaseView {
 
     // 缩略图列表控件
     ThumbnailListViewAlbum {
+        Accessible.name: "ClassificationDetailListView"
+        Accessible.role: Accessible.List
         id: theView
         anchors {
             top: classificationDetailTitleRect.bottom

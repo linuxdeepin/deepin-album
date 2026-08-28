@@ -17,6 +17,8 @@ import "../../Control/Animation"
 import "../../"
 
 SwitchViewAnimation {
+    Accessible.name: "AllCollection_SwitchViewAnimation"
+    Accessible.role: Accessible.Client
 
     // The default all-items page is constructed with show=true.  Do not let
     // UnknownSwitchType fade it in before the parent collection view appears.
@@ -318,6 +320,8 @@ SwitchViewAnimation {
 
         // 筛选下拉框
         FilterComboBox {
+            Accessible.name: "AllCollectionFilterComboBox"
+            Accessible.role: Accessible.ComboBox
             id: filterCombo
             anchors {
                 top: dateRangeLabel.top
@@ -348,6 +352,8 @@ SwitchViewAnimation {
         active: false
         asynchronous: false
         sourceComponent: ThumbnailListViewAlbum {
+            Accessible.name: "Loader_ThumbnailListViewAlbum"
+            Accessible.role: Accessible.List
             anchors {
                 top: parent.top
                 topMargin: theViewLoader.contentTopMargin

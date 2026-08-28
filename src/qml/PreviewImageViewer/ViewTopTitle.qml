@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -198,6 +198,8 @@ Rectangle {
         }
 
         windowButtonGroup: WindowButtonGroupEx {
+            Accessible.name: "ViewTopTitle_WindowButtonGroupEx"
+            Accessible.role: Accessible.Grouping
             Layout.alignment: Qt.AlignRight
             Layout.fillHeight: true
             embedMode: titlebar.embedMode

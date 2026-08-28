@@ -29,6 +29,8 @@ ApplicationWindow {
     DWindow.alphaBufferSize: 8
     title: ""
     header: AlbumTitle {
+        Accessible.name: "TitleAlubmRect"
+        Accessible.role: Accessible.Pane
         id: titleAlubmRect
 
         onForceExit: {
@@ -150,6 +152,8 @@ ApplicationWindow {
     }
 
     StackControl{
+        Accessible.name: "StackControl"
+        Accessible.role: Accessible.LayeredPane
         id: stackControl
     }
 

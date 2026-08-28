@@ -142,6 +142,8 @@ Item {
 
     // 图像动画：缩放
     ImageAnimation {
+        Accessible.name: "ImageAnimation"
+        Accessible.role: Accessible.Client
         id: imageAnimation
 
         targetImage: imageViewer.targetImage
@@ -473,6 +475,8 @@ Item {
 
         // 代理组件加载器
         delegate: ViewDelegateLoader {
+            Accessible.name: "ImageViewer_ViewDelegateLoader"
+            Accessible.role: Accessible.Client
         }
         Behavior on offset {
             id: offsetBehavior
@@ -724,6 +728,8 @@ Item {
         width: 150
 
         sourceComponent: NavigationWidget {
+            Accessible.name: "Loader_NavigationWidget"
+            Accessible.role: Accessible.Pane
             // 根据当前缩放动画预期的缩放比例调整导航窗口是否提前触发隐藏
             prefferHide: {
                 if (imageAnimation.running) {

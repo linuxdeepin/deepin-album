@@ -1,4 +1,4 @@
-// Copyright (C) 2022 UnionTech Technology Co., Ltd.
+// Copyright (C) 2022 - 2026 UnionTech Technology Co., Ltd.
 // SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -86,6 +86,8 @@ Control {
                     hoverEnabled: true
 
                     AlertToolTip {
+                        Accessible.name: "PropertyActionItemTip"
+                        Accessible.role: Accessible.ToolTip
                         id:tip
                         parent: parent
                         visible: parent.focus

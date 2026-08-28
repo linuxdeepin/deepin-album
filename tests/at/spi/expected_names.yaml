@@ -369,13 +369,6 @@ qml_elements:
   source_file: src/qml/ThumbnailImageView/NoPictureView.qml
   parent_type: ''
   line: 0
-- element_type: Menu
-  id: ''
-  accessible_name: SettingsMenu
-  accessible_role: Accessible.Menu
-  source_file: src/qml/AlbumTitle.qml
-  parent_type: ''
-  line: 109
 - element_type: MenuItem
   id: settingsControl
   accessible_name: ImportFoldersMenuItem
@@ -425,20 +418,6 @@ qml_elements:
   source_file: src/qml/Control/ListView/ThumbnailListViewAlbum.qml
   parent_type: GridView
   line: 495
-- element_type: Menu
-  id: thumbnailMenu
-  accessible_name: ThumbnailMenu
-  accessible_role: Accessible.Menu
-  source_file: src/qml/Control/ListView/ThumbnailListViewAlbum.qml
-  parent_type: ''
-  line: 820
-- element_type: Menu
-  id: addToAlbum
-  accessible_name: AddToAlbum
-  accessible_role: Accessible.Menu
-  source_file: src/qml/Control/ListView/ThumbnailListViewAlbum.qml
-  parent_type: Menu
-  line: 895
 - element_type: Button
   id: ''
   accessible_name: Cancel
@@ -495,13 +474,6 @@ qml_elements:
   source_file: src/qml/PreviewImageViewer/RightMenuItem.qml
   parent_type: ''
   line: 10
-- element_type: Menu
-  id: sliderMenu
-  accessible_name: SliderMenu
-  accessible_role: Accessible.Menu
-  source_file: src/qml/PreviewImageViewer/SliderShow.qml
-  parent_type: ''
-  line: 233
 - element_type: MenuItem
   id: ''
   accessible_name: Pause
@@ -551,20 +523,6 @@ qml_elements:
   source_file: src/qml/PreviewImageViewer/Utils/RightMenuItem.qml
   parent_type: ''
   line: 11
-- element_type: Menu
-  id: optionMenu
-  accessible_name: OptionMenu
-  accessible_role: Accessible.Menu
-  source_file: src/qml/PreviewImageViewer/ViewRightMenu.qml
-  parent_type: ''
-  line: 14
-- element_type: Menu
-  id: ''
-  accessible_name: ViewTopTitle_Menu
-  accessible_role: Accessible.Menu
-  source_file: src/qml/PreviewImageViewer/ViewTopTitle.qml
-  parent_type: ''
-  line: 152
 - element_type: ListView
   id: sideListView
   accessible_name: SideListView
