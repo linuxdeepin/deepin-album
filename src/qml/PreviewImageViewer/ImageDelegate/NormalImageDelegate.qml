@@ -138,7 +138,7 @@ BaseImageDelegate {
             property real previousRealWidth: 0
 
             function calcAnimation() {
-                rotationAnimation.to = IV.GControl.currentRotation;
+                rotationAnimation.to = GControl.currentRotation;
                 // 初始化缩放比后再允许动画
                 imageProxy.scale = image.scale;
                 imageScaleBehavior.enabled = true;
@@ -179,7 +179,7 @@ BaseImageDelegate {
                     NumberAnimation {
                         id: scaleAnimation
 
-                        duration: IV.GStatus.animationDefaultDuration - delayUpdate.interval
+                        duration: GStatus.animationDefaultDuration - delayUpdate.interval
                         easing.type: Easing.OutExpo
                     }
                 }
@@ -223,13 +223,13 @@ BaseImageDelegate {
                     id: rotationAnimation
 
                     direction: RotationAnimation.Shortest
-                    duration: IV.GStatus.animationDefaultDuration
+                    duration: GStatus.animationDefaultDuration
                     easing.type: Easing.OutExpo
                     target: imageProxy
                 }
 
                 NumberAnimation {
-                    duration: IV.GStatus.animationDefaultDuration
+                    duration: GStatus.animationDefaultDuration
                     easing.type: Easing.OutExpo
                     properties: "x, y"
                     target: imageProxy
@@ -243,7 +243,7 @@ BaseImageDelegate {
         id: imageInput
 
         anchors.fill: parent
-        isRotatable: IV.FileControl.isRotatable(delegate.source)
+        isRotatable: FileControl.isRotatable(delegate.source)
         targetImage: image.status === Image.Ready ? image : null
     }
 
@@ -251,13 +251,13 @@ BaseImageDelegate {
         function onChangeRotationCacheBegin() {
             // Note: 确保缓存中的数据已刷新后更新界面
             // 0 为复位，缓存中的数据已转换，无需再次加载
-            if (0 !== IV.GControl.currentRotation) {
+            if (0 !== GControl.currentRotation) {
                 // 激活旋转动画加载器
                 rotateAnimationLoader.active = true;
             }
         }
 
         enabled: isCurrentImage
-        target: IV.GControl
+        target: GControl
     }
 }
