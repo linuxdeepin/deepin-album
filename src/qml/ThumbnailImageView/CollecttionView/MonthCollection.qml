@@ -166,12 +166,50 @@ SwitchViewAnimation {
                 }
             }
 
+            // 数量角标毛玻璃背景：模糊底层缩略图后裁成药丸形，
+            // 与同文件 opacityMask 一致地复用 image 作为特效源。
+            Item {
+                id: badgeBlurSource
+                anchors.fill: image
+                visible: false
+
+                FastBlur {
+                    anchors.fill: parent
+                    source: image
+                    radius: 24
+                }
+            }
+
+            Rectangle {
+                id: badgeMask
+                visible: false
+                width: 60
+                height: 30
+                radius: 20
+
+                anchors {
+                    right: image.right
+                    rightMargin: 10
+                    bottom: image.bottom
+                    bottomMargin: 10
+                }
+            }
+
+            OpacityMask {
+                id: itemCountBlur
+                anchors.fill: image
+                source: badgeBlurSource
+                maskSource: badgeMask
+                visible: itemCount > 6
+                antialiasing: true
+                smooth: true
+            }
+
             Rectangle {
                 id: itemCountLabel
                 visible: itemCount > 6
-                color: "#000000"
+                color: Qt.rgba(0, 0, 0, 0.30)
                 radius: 20
-                opacity: 0.7
                 width: 60
                 height: 30
 
@@ -182,9 +220,9 @@ SwitchViewAnimation {
                 }
 
                 anchors {
-                    right: parent.right
+                    right: image.right
                     rightMargin: 10
-                    bottom: parent.bottom
+                    bottom: image.bottom
                     bottomMargin: 10
                 }
             }
