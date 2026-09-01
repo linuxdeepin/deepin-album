@@ -10,6 +10,7 @@ import QtQuick.Controls
 import QtQuick.Dialogs
 
 import org.deepin.dtk 1.0
+import org.deepin.dtk.style 1.0 as DS
 import org.deepin.album 1.0 as Album
 
 import "./Control/Animation"
@@ -19,6 +20,7 @@ ApplicationWindow {
 
     property bool isFullScreen: window.visibility === Window.FullScreen
     property bool backgroundBlurReady: false
+    color: "transparent"
 
     // Bug fix: 使用 ListView 替换 PathView 时，出现内部的 mouseArea 鼠标操作会被 DWindow 截取
     // 导致 flicking 时拖动窗口，此处使用此标志禁用此行为
@@ -27,6 +29,7 @@ ApplicationWindow {
     // 设置 dtk 风格窗口
     DWindow.enabled: true
     DWindow.alphaBufferSize: 8
+    DWindow.enableBlurWindow: true
     title: ""
     header: AlbumTitle {
         id: titleAlubmRect
@@ -38,8 +41,31 @@ ApplicationWindow {
 
     background: Rectangle {
         anchors.fill: parent
-        visible: GStatus.stackControlCurrent === 0 ? true : false
         color: "transparent"
+
+        // uos-design: right content area opaque base — must not extend under the
+        // blur sidebar or the frosted area degrades into a solid panel.
+        Rectangle {
+            id: rightContentBg
+            visible: GStatus.stackControlCurrent === 0
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+                left: parent.left
+                leftMargin: leftBgArea.width
+                right: parent.right
+            }
+            color: DTK.themeType === ApplicationHelper.LightType ? "#f8f8f8" : "#202020"
+        }
+
+        // Opaque base for image viewer / slideshow so a transparent window
+        // surface doesn't show the desktop behind content.
+        Rectangle {
+            visible: GStatus.stackControlCurrent !== 0
+            anchors.fill: parent
+            color: DTK.themeType === ApplicationHelper.LightType ? "#f8f8f8" : "#202020"
+        }
+
         Row {
             anchors.fill: parent
             Loader {
@@ -48,10 +74,23 @@ ApplicationWindow {
                 height: parent.height
                 anchors.top: parent.top
                 active: window.backgroundBlurReady && GStatus.stackControlCurrent === 0
-                sourceComponent: BehindWindowBlur {
+                sourceComponent: StyledBehindWindowBlur {
+                    // uos-design: sidebar frosted-glass surface via the verified DTK
+                    // compositor behind-window blur path (dde-control-center baseline).
+                    control: window
                     anchors.fill: parent
-                    blendColor: DTK.themeType === ApplicationHelper.LightType ? "#eaf7f7f7"
-                                                                              : "#ee252525"
+                    blendColor: {
+                        // Compositor blur available: translucent tint so the blur reads through.
+                        if (valid) {
+                            return DS.Style.control.selectColor(undefined,
+                                Qt.rgba(238 / 255, 238 / 255, 238 / 255, 0.8),
+                                Qt.rgba(20 / 255, 20 / 255, 20 / 255, 0.8))
+                        }
+                        // No compositor blur: solid panel via the system no-blur token.
+                        return DS.Style.control.selectColor(undefined,
+                            DS.Style.behindWindowBlur.lightNoBlurColor,
+                            DS.Style.behindWindowBlur.darkNoBlurColor)
+                    }
                     Rectangle {
                         width: 1
                         height: parent.height
@@ -63,6 +102,7 @@ ApplicationWindow {
             }
             Loader {
                 active: window.backgroundBlurReady
+                visible: GStatus.stackControlCurrent === 0
                 width: parent.width
                 height: 50
                 sourceComponent: Rectangle {
