@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ar">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ar">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -927,38 +925,17 @@
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
-        <translation>
-            <numerusform>%n صورة</numerusform>
-            <numerusform>%n صورتان</numerusform>
-            <numerusform>%n صور</numerusform>
-            <numerusform>%n صورة</numerusform>
-            <numerusform>%n صور</numerusform>
-            <numerusform>%n صور</numerusform>
-        </translation>
+        <translation><numerusform>%n صورة</numerusform><numerusform>%n صورتان</numerusform><numerusform>%n صور</numerusform><numerusform>%n صورة</numerusform><numerusform>%n صور</numerusform><numerusform>%n صور</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
-        <translation>
-            <numerusform>%n مقطع فيديو</numerusform>
-            <numerusform>%n مقطعا فيديو</numerusform>
-            <numerusform>%n مقاطع فيديو</numerusform>
-            <numerusform>%n مقطع فيديو</numerusform>
-            <numerusform>%n مقطع فيديو</numerusform>
-            <numerusform>%n مقطع فيديو</numerusform>
-        </translation>
+        <translation><numerusform>%n مقطع فيديو</numerusform><numerusform>%n مقطعا فيديو</numerusform><numerusform>%n مقاطع فيديو</numerusform><numerusform>%n مقطع فيديو</numerusform><numerusform>%n مقطع فيديو</numerusform><numerusform>%n مقطع فيديو</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
-        <translation>
-            <numerusform>%n عنصر</numerusform>
-            <numerusform>%n عنصران</numerusform>
-            <numerusform>%n عناصر</numerusform>
-            <numerusform>%n عنصرا</numerusform>
-            <numerusform>%n عنصر</numerusform>
-            <numerusform>%n عنصر</numerusform>
-        </translation>
+        <translation><numerusform>%n عنصر</numerusform><numerusform>%n عنصران</numerusform><numerusform>%n عناصر</numerusform><numerusform>%n عنصرا</numerusform><numerusform>%n عنصر</numerusform><numerusform>%n عنصر</numerusform></translation>
     </message>
 </context>
 <context>
@@ -1987,38 +1964,17 @@
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
-        <translation>
-            <numerusform>%n صورة</numerusform>
-            <numerusform>%n صورتان</numerusform>
-            <numerusform>%n صور</numerusform>
-            <numerusform>%n صورة</numerusform>
-            <numerusform>%n صور</numerusform>
-            <numerusform>%n صور</numerusform>
-        </translation>
+        <translation><numerusform>%n صورة</numerusform><numerusform>%n صورتان</numerusform><numerusform>%n صور</numerusform><numerusform>%n صورة</numerusform><numerusform>%n صور</numerusform><numerusform>%n صور</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
-        <translation>
-            <numerusform>%n مقطع فيديو</numerusform>
-            <numerusform>%n مقطعا فيديو</numerusform>
-            <numerusform>%n مقاطع فيديو</numerusform>
-            <numerusform>%n مقطع فيديو</numerusform>
-            <numerusform>%n مقطع فيديو</numerusform>
-            <numerusform>%n مقطع فيديو</numerusform>
-        </translation>
+        <translation><numerusform>%n مقطع فيديو</numerusform><numerusform>%n مقطعا فيديو</numerusform><numerusform>%n مقاطع فيديو</numerusform><numerusform>%n مقطع فيديو</numerusform><numerusform>%n مقطع فيديو</numerusform><numerusform>%n مقطع فيديو</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
-        <translation>
-            <numerusform>%n عنصر</numerusform>
-            <numerusform>%n عنصران</numerusform>
-            <numerusform>%n عناصر</numerusform>
-            <numerusform>%n عنصرا</numerusform>
-            <numerusform>%n عنصر</numerusform>
-            <numerusform>%n عنصر</numerusform>
-        </translation>
+        <translation><numerusform>%n عنصر</numerusform><numerusform>%n عنصران</numerusform><numerusform>%n عناصر</numerusform><numerusform>%n عنصرا</numerusform><numerusform>%n عنصر</numerusform><numerusform>%n عنصر</numerusform></translation>
     </message>
 </context>
 <context>
