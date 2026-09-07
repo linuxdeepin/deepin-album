@@ -1,3 +1,13 @@
+deepin-album (6.0.67) unstable; urgency=medium
+
+  * fix: update Arabic (ar) translations
+  * [skip CI] Translate deepin-album.ts in fi
+  * [skip CI] Translate deepin-album.ts in sv
+  * [skip CI] Translate deepin-album.ts in ar
+  * fix(accessibility): add AT-SPI accessible names and roles for QML widgets
+
+ -- Liu Zhangjian <liuzhangjian@uniontech.com>  Mon, 07 Sep 2026 11:46:52 +0800
+
 deepin-album (6.0.66) unstable; urgency=medium
 
   * fix(preview): resolve invalid IV-prefixed references in NormalImageDelegate
