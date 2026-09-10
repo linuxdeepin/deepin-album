@@ -6,3 +6,6 @@ add_subdirectory(dapploader)
 
 # AlbumControl 单元测试
 add_subdirectory(albumcontrol)
+
+# ThumbnailListView 单元测试
+add_subdirectory(thumbnaillistview)
