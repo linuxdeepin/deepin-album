@@ -19,6 +19,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,relro -Wl,-z,now")
 endif()
 
+option(BUILD_TESTS "Build unit tests" OFF)
+
 include_directories(${PROJECT_BINARY_DIR})
 configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_BINARY_DIR}/config.h @ONLY)
 
@@ -40,6 +42,8 @@ endif()
 add_subdirectory(src)
 
 # Unit Tests
-#add_subdirectory(tests)
+if(BUILD_TESTS)
+    add_subdirectory(tests)
+endif()
 TARGET_COMPILE_DEFINITIONS(deepin-album
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)

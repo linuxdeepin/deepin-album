@@ -69,3 +69,10 @@ Files: tests/at/*
 Copyright: UnionTech Software Technology Co., Ltd.
 License: CC0-1.0
 
+
+# tests 3rdparty stub (MIT licensed)
+Files: tests/3rdparty/stub/*
+Copyright: 2019 coolxv
+           Serge Lamikhov-Center
+           2026 UnionTech Software Technology Co., Ltd.
+License: MIT

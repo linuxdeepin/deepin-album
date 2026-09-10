@@ -117,3 +117,4 @@ build
 .trellis/
 AGENTS.md
 .codegraph/
+reuse_lint_report.md
