@@ -15,6 +15,9 @@
 // | updateMenuContents | high | complexity:35 | 3 | 4 |
 // | updateThumbnailViewAfterDelete | high | complexity:13 | 3 | 4 |
 // | updatetimeLimeBtnText | high | complexity:14 | 3 | 4 |
+// | eventFilter | high | complexity:8 | 3 | 4 |
+// | keyPressEvent | high | complexity:14 | 3 | 5 |
+// | mousePressEvent | high | complexity:12 | 3 | 4 |
 // ─── 生成后填入 actual 列，低于 min 即违规 ───
 //
 // 最小清单完成情况（test-code-gen §最小清单）：
@@ -98,6 +101,12 @@
 #include "imageengine/imagedataservice.h"
 #include "globalstatus.h"
 #include "dbmanager/dbmanager.h"
+#include <QKeyEvent>
+#include <QWheelEvent>
+#include <QTimer>
+#include <QScroller>
+#include <QScrollBar>
+#include "albumControl.h"
 
 #include "stubext.h"
 #include "addr_pri.h"
@@ -137,6 +146,24 @@ ACCESS_PRIVATE_FUN(ThumbnailListView, void(), resizeEventF)
 ACCESS_PRIVATE_FUN(ThumbnailListView, void(), updateMenuContents)
 ACCESS_PRIVATE_FUN(ThumbnailListView, void(const QStringList &), updateThumbnailViewAfterDelete)
 ACCESS_PRIVATE_FUN(ThumbnailListView, DMenu *(), createAlbumMenu)
+
+// Private field accessors for eventFilter / keyPressEvent / mousePressEvent tests
+ACCESS_PRIVATE_FIELD(ThumbnailListView, bool, m_animationEnable)
+ACCESS_PRIVATE_FIELD(ThumbnailListView, QStringList, m_dragItemPath)
+ACCESS_PRIVATE_FIELD(ThumbnailListView, QPoint, m_pressed)
+ACCESS_PRIVATE_FIELD(ThumbnailListView, QTime, m_lastPressTime)
+ACCESS_PRIVATE_FIELD(ThumbnailListView, bool, activeClick)
+ACCESS_PRIVATE_FIELD(ThumbnailListView, QPoint, lastTouchBeginPos)
+ACCESS_PRIVATE_FUN(ThumbnailListView, void(QKeyEvent *), keyPressEvent)
+ACCESS_PRIVATE_FUN(ThumbnailListView, void(QMouseEvent *), mousePressEvent)
+ACCESS_PRIVATE_FUN(ThumbnailListView, bool(QObject *, QEvent *), eventFilter)
+
+// Subclass to expose the protected GlobalStatus constructor for testing
+class TestGlobalStatus : public GlobalStatus
+{
+public:
+    TestGlobalStatus() : GlobalStatus(nullptr) {}
+};
 
 // ── Helper: create a DBImgInfo for model rows ──
 
@@ -241,6 +268,42 @@ protected:
     QStringList &getAllFilesList(ThumbnailListView *view)
     {
         return access_private_field::ThumbnailListViewm_allfileslist(*view);
+    }
+
+    // Access the private m_animationEnable field
+    bool &getAnimationEnable(ThumbnailListView *view)
+    {
+        return access_private_field::ThumbnailListViewm_animationEnable(*view);
+    }
+
+    // Access the private m_dragItemPath field
+    QStringList &getDragItemPath(ThumbnailListView *view)
+    {
+        return access_private_field::ThumbnailListViewm_dragItemPath(*view);
+    }
+
+    // Access the private m_pressed field
+    QPoint &getPressed(ThumbnailListView *view)
+    {
+        return access_private_field::ThumbnailListViewm_pressed(*view);
+    }
+
+    // Access the private m_lastPressTime field
+    QTime &getLastPressTime(ThumbnailListView *view)
+    {
+        return access_private_field::ThumbnailListViewm_lastPressTime(*view);
+    }
+
+    // Access the private activeClick field
+    bool &getActiveClick(ThumbnailListView *view)
+    {
+        return access_private_field::ThumbnailListViewactiveClick(*view);
+    }
+
+    // Access the private lastTouchBeginPos field
+    QPoint &getLastTouchBeginPos(ThumbnailListView *view)
+    {
+        return access_private_field::ThumbnailListViewlastTouchBeginPos(*view);
     }
 };
 
@@ -1192,4 +1255,246 @@ TEST_F(ThumbnailListViewTest, UpdatetimeLimeBtnText_ImportTimeLineViewType_Emits
     ASSERT_EQ(spy.count(), 1);
     EXPECT_TRUE(spy.takeFirst().at(0).toBool());
     EXPECT_EQ(view->selectionModel()->selectedIndexes().size(), 1);
+}
+
+// 分支清单映射（eventFilter complexity=8）：
+// B1: obj==verticalScrollBar() + MouseButtonPress → cursor in rect → m_animationEnable=true
+// B2: obj==verticalScrollBar() + MouseButtonRelease → m_animationEnable=false
+// B3: Wheel + ControlModifier → return true
+// B4: KeyPress + Key_PageDown → scroll down, return true
+// B5: KeyPress + Key_PageUp → scroll up, return true
+// B6: default → return false
+// 用例映射: B4→PageDown, B5→PageUp, B2→MouseButtonRelease, B6→UnhandledEvent
+
+// ============ eventFilter ============
+
+TEST_F(ThumbnailListViewTest, EventFilter_KeyPressPageDown_ReturnsTrue)
+{
+    // Arrange
+    auto view = createView(ThumbnailDelegate::AllPicViewType);
+    QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_PageDown, Qt::NoModifier);
+
+    // Act
+    bool result = call_private_fun::ThumbnailListVieweventFilter(*view, view.get(), &keyEvent);
+
+    // Assert
+    EXPECT_TRUE(result);
+}
+
+TEST_F(ThumbnailListViewTest, EventFilter_KeyPressPageUp_ReturnsTrue)
+{
+    // Arrange
+    auto view = createView(ThumbnailDelegate::AllPicViewType);
+    QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_PageUp, Qt::NoModifier);
+
+    // Act
+    bool result = call_private_fun::ThumbnailListVieweventFilter(*view, view.get(), &keyEvent);
+
+    // Assert
+    EXPECT_TRUE(result);
+}
+
+TEST_F(ThumbnailListViewTest, EventFilter_MouseButtonReleaseOnScrollBar_DisablesAnimation)
+{
+    // Arrange
+    auto view = createView(ThumbnailDelegate::AllPicViewType);
+    getAnimationEnable(view.get()) = true;
+    QMouseEvent mouseEvent(QEvent::MouseButtonRelease, QPointF(0, 0), QPointF(0, 0),
+                           Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+
+    // Act
+    bool result = call_private_fun::ThumbnailListVieweventFilter(*view, static_cast<QObject *>(view->verticalScrollBar()), &mouseEvent);
+
+    // Assert
+    EXPECT_FALSE(result);
+    EXPECT_FALSE(getAnimationEnable(view.get()));
+}
+
+TEST_F(ThumbnailListViewTest, EventFilter_UnhandledEvent_ReturnsFalse)
+{
+    // Arrange
+    auto view = createView(ThumbnailDelegate::AllPicViewType);
+    QEvent event(QEvent::FocusIn);
+
+    // Act
+    bool result = call_private_fun::ThumbnailListVieweventFilter(*view, view.get(), &event);
+
+    // Assert
+    EXPECT_FALSE(result);
+}
+
+// 分支清单映射（keyPressEvent complexity=14）：
+// B1: Key_F11 → IdFullScreen
+// B2: Key_F5 → IdStartSlideShow
+// B3: Key_Enter/Key_Return → IdView
+// B4: Key_Period → canFavorite true→IdAddToFavorites, false→IdRemoveFromFavorites
+// B5: Ctrl+Key_E → IdExport
+// B6: Ctrl+Key_I → empty path early return; isVideo→IdVideoInfo, else→IdImageInfo
+// B7: Ctrl+Key_F9 → IdSetAsWallpaper
+// B8: Alt+Key_D → IdDisplayInFileManager
+// B9: no match → id stays -1, no signal
+// 用例映射: B9→NoMatchKey, B1→F11, B5→CtrlE, B6→CtrlIEmpty, B8→AltD
+
+// ============ keyPressEvent ============
+
+TEST_F(ThumbnailListViewTest, KeyPressEvent_NoMatchKey_NoCrash)
+{
+    // Arrange
+    auto view = createView(ThumbnailDelegate::AllPicViewType);
+    QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_A, Qt::NoModifier);
+
+    // Act
+    call_private_fun::ThumbnailListViewkeyPressEvent(*view, &keyEvent);
+
+    // Assert - id stays -1, no signal emitted, no crash
+    EXPECT_TRUE(getDragItemPath(view.get()).isEmpty());
+}
+
+TEST_F(ThumbnailListViewTest, KeyPressEvent_F11_EmitsFullScreenSignal)
+{
+    // Arrange
+    stub.set_lamda(ADDR(AlbumControl, instance), []() -> AlbumControl * { return nullptr; });
+    static TestGlobalStatus g_status;
+    stub.set_lamda(ADDR(GlobalStatus, instance), []() -> GlobalStatus * { return &g_status; });
+    QSignalSpy spy(&g_status, &GlobalStatus::sigMenuItemClickedFromQWidget);
+
+    auto view = createView(ThumbnailDelegate::AllPicViewType);
+    QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_F11, Qt::NoModifier);
+
+    // Act
+    call_private_fun::ThumbnailListViewkeyPressEvent(*view, &keyEvent);
+
+    // Assert
+    EXPECT_EQ(spy.count(), 1);
+    EXPECT_EQ(spy.takeFirst().at(0).toInt(), static_cast<int>(Types::IdFullScreen));
+}
+
+TEST_F(ThumbnailListViewTest, KeyPressEvent_CtrlE_EmitsExportSignal)
+{
+    // Arrange
+    stub.set_lamda(ADDR(AlbumControl, instance), []() -> AlbumControl * { return nullptr; });
+    static TestGlobalStatus g_status;
+    stub.set_lamda(ADDR(GlobalStatus, instance), []() -> GlobalStatus * { return &g_status; });
+    QSignalSpy spy(&g_status, &GlobalStatus::sigMenuItemClickedFromQWidget);
+
+    auto view = createView(ThumbnailDelegate::AllPicViewType);
+    QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_E, Qt::ControlModifier);
+
+    // Act
+    call_private_fun::ThumbnailListViewkeyPressEvent(*view, &keyEvent);
+
+    // Assert
+    EXPECT_EQ(spy.count(), 1);
+    EXPECT_EQ(spy.takeFirst().at(0).toInt(), static_cast<int>(Types::IdExport));
+}
+
+TEST_F(ThumbnailListViewTest, KeyPressEvent_CtrlI_EmptyPath_ReturnsEarly)
+{
+    // Arrange
+    auto view = createView(ThumbnailDelegate::AllPicViewType);
+    QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_I, Qt::ControlModifier);
+
+    // Act
+    call_private_fun::ThumbnailListViewkeyPressEvent(*view, &keyEvent);
+
+    // Assert - early return due to empty m_dragItemPath, no crash
+    EXPECT_TRUE(getDragItemPath(view.get()).isEmpty());
+}
+
+TEST_F(ThumbnailListViewTest, KeyPressEvent_AltD_EmitsDisplayInFileManager)
+{
+    // Arrange
+    stub.set_lamda(ADDR(AlbumControl, instance), []() -> AlbumControl * { return nullptr; });
+    static TestGlobalStatus g_status;
+    stub.set_lamda(ADDR(GlobalStatus, instance), []() -> GlobalStatus * { return &g_status; });
+    QSignalSpy spy(&g_status, &GlobalStatus::sigMenuItemClickedFromQWidget);
+
+    auto view = createView(ThumbnailDelegate::AllPicViewType);
+    QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_D, Qt::AltModifier);
+
+    // Act
+    call_private_fun::ThumbnailListViewkeyPressEvent(*view, &keyEvent);
+
+    // Assert
+    EXPECT_EQ(spy.count(), 1);
+    EXPECT_EQ(spy.takeFirst().at(0).toInt(), static_cast<int>(Types::IdDisplayInFileManager));
+}
+
+// 分支清单映射（mousePressEvent complexity=12）：
+// B1: MouseEventSynthesizedByQt → set lastTouchBeginPos, clear scroller, start timer
+// B2: Shift+LeftButton + trash view + single selection → clearSelection
+// B3: Non-special view + ItemTypeImportTimeLineTitle → setDragEnabled(false)
+// B4: Non-special view + dragDropMode!=NoDragDrop → setDragDropMode(DragDrop)
+// B5: Special view (timeline/allpic/trash/phone) → setDragEnabled(false)
+// B6: LeftButton + double click (<200ms) → emit doubleClicked(index)
+// Always: setFocus(), activeClick=true, m_pressed=pos, DListView::mousePressEvent
+// 用例映射: B1→TouchEvent, B4→NonSpecialViewDragDrop, B5→AllPicViewDisablesDrag, B6→DoubleClick
+
+// ============ mousePressEvent ============
+
+TEST_F(ThumbnailListViewTest, MousePressEvent_LeftButton_SetsPressedAndActiveClick)
+{
+    // Arrange
+    auto view = createView(ThumbnailDelegate::AllPicViewType);
+    getActiveClick(view.get()) = false;
+    QMouseEvent mouseEvent(QEvent::MouseButtonPress, QPointF(10, 10), QPointF(10, 10),
+                           Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+
+    // Act
+    call_private_fun::ThumbnailListViewmousePressEvent(*view, &mouseEvent);
+
+    // Assert
+    EXPECT_EQ(getPressed(view.get()), QPoint(10, 10));
+    EXPECT_TRUE(getActiveClick(view.get()));
+}
+
+TEST_F(ThumbnailListViewTest, MousePressEvent_TouchEvent_SetsLastTouchBeginPos)
+{
+    // Arrange
+    auto view = createView(ThumbnailDelegate::AllPicViewType);
+    QMouseEvent touchEvent(QEvent::MouseButtonPress, QPointF(20, 20), QPointF(20, 20), QPointF(20, 20),
+                           Qt::LeftButton, Qt::LeftButton, Qt::NoModifier,
+                           Qt::MouseEventSynthesizedByQt);
+
+    // Act
+    call_private_fun::ThumbnailListViewmousePressEvent(*view, &touchEvent);
+
+    // Assert
+    EXPECT_EQ(getLastTouchBeginPos(view.get()), QPoint(20, 20));
+}
+
+TEST_F(ThumbnailListViewTest, MousePressEvent_NonSpecialView_SetsDragDropMode)
+{
+    // Arrange
+    auto view = createView(ThumbnailDelegate::AlbumViewImportTimeLineViewType);
+    setDelegateType(view.get(), ThumbnailDelegate::AlbumViewImportTimeLineViewType);
+    access_private_field::ThumbnailListViewm_imageType(*view) = "custom";
+    view->setDragDropMode(QAbstractItemView::InternalMove);
+    QMouseEvent mouseEvent(QEvent::MouseButtonPress, QPointF(10, 10), QPointF(10, 10),
+                           Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+
+    // Act
+    call_private_fun::ThumbnailListViewmousePressEvent(*view, &mouseEvent);
+
+    // Assert - non-special view, non-ImportTitle item, dragDropMode != NoDragDrop → setDragDropMode(DragDrop)
+    EXPECT_EQ(view->dragDropMode(), QAbstractItemView::DragDrop);
+}
+
+TEST_F(ThumbnailListViewTest, MousePressEvent_LeftButtonDoubleClick_EmitsDoubleClicked)
+{
+    // Arrange
+    auto view = createView(ThumbnailDelegate::AllPicViewType);
+    QMouseEvent click1(QEvent::MouseButtonPress, QPointF(10, 10), QPointF(10, 10),
+                       Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    call_private_fun::ThumbnailListViewmousePressEvent(*view, &click1);
+
+    QSignalSpy spy(view.get(), &QAbstractItemView::doubleClicked);
+    QMouseEvent click2(QEvent::MouseButtonPress, QPointF(10, 10), QPointF(10, 10),
+                       Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+
+    // Act
+    call_private_fun::ThumbnailListViewmousePressEvent(*view, &click2);
+
+    // Assert - second press within 200ms → emit doubleClicked
+    EXPECT_EQ(spy.count(), 1);
 }
