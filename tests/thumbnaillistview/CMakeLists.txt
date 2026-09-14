@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.13)
 # ---- 确保依赖包在测试作用域可见 ----
 find_package(GTest REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} CONFIG REQUIRED COMPONENTS
-    Core Gui DBus Concurrent Sql Svg PrintSupport
+    Core Gui DBus Concurrent Sql Svg PrintSupport Test
 )
 find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS Widget Gui Declarative)
 find_package(PkgConfig REQUIRED)
@@ -46,6 +46,7 @@ target_link_libraries(test_thumbnaillistview PRIVATE
     Qt${QT_VERSION_MAJOR}::Sql
     Qt${QT_VERSION_MAJOR}::Svg
     Qt${QT_VERSION_MAJOR}::PrintSupport
+    Qt${QT_VERSION_MAJOR}::Test
     Dtk${DTK_VERSION_MAJOR}::Widget
     Dtk${DTK_VERSION_MAJOR}::Gui
     Dtk${DTK_VERSION_MAJOR}::Declarative
