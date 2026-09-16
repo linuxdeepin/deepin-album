@@ -18,6 +18,8 @@
 #include "unionimage/unionimage_global.h"
 #include "utils/classifyutils.h"
 
+#include <QFile>
+#include <QDir>
 #include "stubext.h"
 #include "addr_pri.h"
 
@@ -34,6 +36,8 @@ ACCESS_PRIVATE_FIELD(AlbumControl, DBImgInfoListMap, m_monthDateMap)
 ACCESS_PRIVATE_FIELD(AlbumControl, DBImgInfoListMap, m_dayDateMap)
 ACCESS_PRIVATE_FIELD(AlbumControl, DBImgInfoListMap, m_importTimeLinePathsMap)
 ACCESS_PRIVATE_FIELD(AlbumControl, MovieInfoMap, m_movieInfos)
+using IntStringMap = QMap<int, QString>;
+ACCESS_PRIVATE_FIELD(AlbumControl, IntStringMap, m_customAlbum)
 // ---- Shared stub data ----
 
 static DBImgInfoList g_allPicInfos;
@@ -44,6 +48,9 @@ static QList<QDateTime> g_timelines;
 static QList<QDateTime> g_importTimelines;
 static MovieInfo g_movieInfo;
 static QMap<QString, QString> g_metaData;
+static QList<std::pair<int, QString>> g_albumNames;
+static QMap<int, QString> g_autoImportUIDs;
+static DBImgInfoList g_trashInfos;
 
 static DBImgInfo makeInfo(const QString &path, ItemType type,
                           const QString &cls = QString(),
@@ -85,6 +92,9 @@ protected:
         g_timelines.clear();
         g_importTimelines.clear();
         g_metaData.clear();
+        g_albumNames.clear();
+        g_autoImportUIDs.clear();
+        g_trashInfos.clear();
 
         g_movieInfo.valid = true;
         g_movieInfo.creation = QDateTime(QDate(2024, 1, 15), QTime(10, 30));
@@ -146,6 +156,17 @@ protected:
             [](QString) -> bool { return false; });
         stub.set_lamda(ADDR(LibUnionImage_NameSpace, localPath),
             [](const QUrl &url) -> QString { return url.toLocalFile(); });
+
+        stub.set_lamda(ADDR(DBManager, getAllAlbumNames),
+            [](DBManager *, AlbumDBType) -> QList<std::pair<int, QString>> { return g_albumNames; });
+        stub.set_lamda(ADDR(DBManager, getAllCustomAutoImportUIDAndPath),
+            [](DBManager *) -> QMap<int, QString> { return g_autoImportUIDs; });
+        stub.set_lamda(ADDR(DBManager, getAllTrashInfos_getRemainDays),
+            [](DBManager *) -> const DBImgInfoList { return g_trashInfos; });
+        stub.set_lamda(ADDR(DBManager, removeTrashImgInfosNoSignal),
+            [](DBManager *, const QStringList &) -> void {});
+        stub.set_lamda(ADDR(LibUnionImage_NameSpace, hashByString),
+            [](const QString &) -> QString { return QStringLiteral("dummyhash"); });
     }
 
     std::unique_ptr<AlbumControl> createAC()
@@ -402,4 +423,348 @@ TEST_F(AlbumControlTest, GetMonthTimelinesInfos_FilterVideoOnly)
             EXPECT_NE(item.toMap().value("itemType").toString().toStdString(), "picture");
         }
     }
+}
+
+// ============ getAllCustomAlbumName ============
+
+TEST_F(AlbumControlTest, GetAllCustomAlbumName_Empty)
+{
+    auto ac = createAC();
+    g_albumNames.clear();
+    QList<QString> result = ac->getAllCustomAlbumName();
+    EXPECT_TRUE(result.isEmpty());
+}
+
+TEST_F(AlbumControlTest, GetAllCustomAlbumName_MultipleAlbums)
+{
+    auto ac = createAC();
+    g_albumNames.clear();
+    g_albumNames << std::make_pair(1, QString("Album1"))
+                 << std::make_pair(2, QString("Album2"))
+                 << std::make_pair(3, QString("Album3"));
+    QList<QString> result = ac->getAllCustomAlbumName();
+    ASSERT_EQ(result.size(), 3);
+    EXPECT_EQ(result[0].toStdString(), "Album1");
+    EXPECT_EQ(result[1].toStdString(), "Album2");
+    EXPECT_EQ(result[2].toStdString(), "Album3");
+    auto &customAlbum = access_private_field::AlbumControlm_customAlbum(*ac);
+    EXPECT_EQ(customAlbum.size(), 3);
+}
+
+// ============ getImportAlubumAllId ============
+
+TEST_F(AlbumControlTest, GetImportAlubumAllId_Empty)
+{
+    auto ac = createAC();
+    g_autoImportUIDs.clear();
+    QList<int> result = ac->getImportAlubumAllId();
+    EXPECT_TRUE(result.isEmpty());
+}
+
+TEST_F(AlbumControlTest, GetImportAlubumAllId_MultipleEntries)
+{
+    auto ac = createAC();
+    g_autoImportUIDs.clear();
+    g_autoImportUIDs.insert(10, "/path/a");
+    g_autoImportUIDs.insert(20, "/path/b");
+    QList<int> result = ac->getImportAlubumAllId();
+    ASSERT_EQ(result.size(), 2);
+    EXPECT_TRUE(result.contains(10));
+    EXPECT_TRUE(result.contains(20));
+}
+
+// ============ getImportTimelinesTitleInfos ============
+
+TEST_F(AlbumControlTest, GetImportTimelinesTitleInfos_NonEmpty)
+{
+    auto ac = createAC();
+    QDateTime dt(QDate(2024, 1, 15), QTime(10, 30));
+    g_importTimelines.clear();
+    g_importTimelines << dt;
+    g_importTimelineInfos.clear();
+    g_importTimelineInfos << makeInfo("/tmp/pic.jpg", ItemTypePic);
+
+    QVariantMap result = ac->getImportTimelinesTitleInfos(0);
+    EXPECT_FALSE(result.isEmpty());
+}
+
+TEST_F(AlbumControlTest, GetImportTimelinesTitleInfos_FilterPicOnly)
+{
+    auto ac = createAC();
+    QDateTime dt(QDate(2024, 1, 15), QTime(10, 30));
+    g_importTimelines.clear();
+    g_importTimelines << dt;
+    g_importTimelineInfos.clear();
+    g_importTimelineInfos << makeInfo("/tmp/pic.jpg", ItemTypePic)
+                          << makeInfo("/tmp/vid.mp4", ItemTypeVideo);
+
+    QVariantMap result = ac->getImportTimelinesTitleInfos(1);
+    ASSERT_FALSE(result.isEmpty());
+    for (const auto &val : result) {
+        for (const auto &item : val.toList()) {
+            EXPECT_NE(item.toMap().value("itemType").toString().toStdString(), "video");
+        }
+    }
+}
+
+TEST_F(AlbumControlTest, GetImportTimelinesTitleInfos_FilterVideoOnly)
+{
+    auto ac = createAC();
+    QDateTime dt(QDate(2024, 1, 15), QTime(10, 30));
+    g_importTimelines.clear();
+    g_importTimelines << dt;
+    g_importTimelineInfos.clear();
+    g_importTimelineInfos << makeInfo("/tmp/pic.jpg", ItemTypePic)
+                          << makeInfo("/tmp/vid.mp4", ItemTypeVideo);
+
+    QVariantMap result = ac->getImportTimelinesTitleInfos(2);
+    ASSERT_FALSE(result.isEmpty());
+    for (const auto &val : result) {
+        for (const auto &item : val.toList()) {
+            EXPECT_NE(item.toMap().value("itemType").toString().toStdString(), "pciture");
+        }
+    }
+}
+
+TEST_F(AlbumControlTest, GetImportTimelinesTitleInfos_Empty)
+{
+    auto ac = createAC();
+    g_importTimelines.clear();
+    g_importTimelineInfos.clear();
+    QVariantMap result = ac->getImportTimelinesTitleInfos(0);
+    EXPECT_TRUE(result.isEmpty());
+}
+
+// ============ getNewAlbumName ============
+
+TEST_F(AlbumControlTest, GetNewAlbumName_EmptyBaseName)
+{
+    auto ac = createAC();
+    g_albumNames.clear();
+    QString result = ac->getNewAlbumName("");
+    EXPECT_FALSE(result.isEmpty());
+}
+
+TEST_F(AlbumControlTest, GetNewAlbumName_NameNotInUse)
+{
+    auto ac = createAC();
+    g_albumNames.clear();
+    g_albumNames << std::make_pair(1, QString("Existing"));
+    QString result = ac->getNewAlbumName("NewAlbum");
+    EXPECT_EQ(result.toStdString(), "NewAlbum");
+}
+
+TEST_F(AlbumControlTest, GetNewAlbumName_NameInUse_GeneratesSuffix)
+{
+    auto ac = createAC();
+    g_albumNames.clear();
+    g_albumNames << std::make_pair(1, QString("Album"))
+                 << std::make_pair(2, QString("Album1"));
+    QString result = ac->getNewAlbumName("Album");
+    EXPECT_EQ(result.toStdString(), "Album2");
+}
+
+TEST_F(AlbumControlTest, GetNewAlbumName_NameWithGap)
+{
+    auto ac = createAC();
+    g_albumNames.clear();
+    g_albumNames << std::make_pair(1, QString("Album"))
+                 << std::make_pair(2, QString("Album1"))
+                 << std::make_pair(3, QString("Album3"));
+    QString result = ac->getNewAlbumName("Album");
+    EXPECT_EQ(result.toStdString(), "Album2");
+}
+
+// ============ getYearTimelinesInfos ============
+
+TEST_F(AlbumControlTest, GetYearTimelinesInfos_NonEmpty)
+{
+    auto ac = createAC();
+    QDateTime dt(QDate(2024, 1, 15), QTime(10, 30));
+    g_timelines.clear();
+    g_timelines << dt;
+    g_timelineInfos.clear();
+    g_timelineInfos << makeInfo("/tmp/pic.jpg", ItemTypePic);
+
+    QVariantMap result = ac->getYearTimelinesInfos(0);
+    EXPECT_FALSE(result.isEmpty());
+}
+
+TEST_F(AlbumControlTest, GetYearTimelinesInfos_FilterPicOnly)
+{
+    auto ac = createAC();
+    QDateTime dt(QDate(2024, 1, 15), QTime(10, 30));
+    g_timelines.clear();
+    g_timelines << dt;
+    g_timelineInfos.clear();
+    g_timelineInfos << makeInfo("/tmp/pic.jpg", ItemTypePic)
+                    << makeInfo("/tmp/vid.mp4", ItemTypeVideo);
+
+    QVariantMap result = ac->getYearTimelinesInfos(1);
+    ASSERT_FALSE(result.isEmpty());
+    for (const auto &val : result) {
+        for (const auto &item : val.toList()) {
+            EXPECT_NE(item.toMap().value("itemType").toString().toStdString(), "video");
+        }
+    }
+}
+
+TEST_F(AlbumControlTest, GetYearTimelinesInfos_Empty)
+{
+    auto ac = createAC();
+    g_timelines.clear();
+    g_timelineInfos.clear();
+    QVariantMap result = ac->getYearTimelinesInfos(0);
+    EXPECT_TRUE(result.isEmpty());
+}
+
+// ============ getTrashInfos ============
+
+static QString g_trashTempDir = QDir::tempPath() + "/ut_trash_test";
+
+static void createTrashTempFile(const QString &path)
+{
+    QDir().mkpath(QFileInfo(path).absolutePath());
+    QFile f(path);
+    f.open(QIODevice::WriteOnly);
+    f.write("x");
+    f.close();
+}
+
+static void cleanupTrashTempDir()
+{
+    QDir dir(g_trashTempDir);
+    dir.removeRecursively();
+}
+
+TEST_F(AlbumControlTest, GetTrashInfos_Empty)
+{
+    auto ac = createAC();
+    g_trashInfos.clear();
+    DBImgInfoList result = ac->getTrashInfos(0);
+    EXPECT_TRUE(result.isEmpty());
+}
+
+TEST_F(AlbumControlTest, GetTrashInfos_FilesExist_ReturnsAll)
+{
+    auto ac = createAC();
+    cleanupTrashTempDir();
+    QString p1 = g_trashTempDir + "/pic1.jpg";
+    QString p2 = g_trashTempDir + "/vid1.mp4";
+    createTrashTempFile(p1);
+    createTrashTempFile(p2);
+
+    g_trashInfos.clear();
+    g_trashInfos << makeInfo(p1, ItemTypePic)
+                 << makeInfo(p2, ItemTypeVideo);
+    DBImgInfoList result = ac->getTrashInfos(0);
+    EXPECT_EQ(result.size(), 2);
+    cleanupTrashTempDir();
+}
+
+TEST_F(AlbumControlTest, GetTrashInfos_RemainDaysZero_Removed)
+{
+    auto ac = createAC();
+    cleanupTrashTempDir();
+    QString p1 = g_trashTempDir + "/pic1.jpg";
+    createTrashTempFile(p1);
+
+    DBImgInfo info = makeInfo(p1, ItemTypePic);
+    info.remainDays = 0;
+    g_trashInfos.clear();
+    g_trashInfos << info;
+    DBImgInfoList result = ac->getTrashInfos(0);
+    EXPECT_TRUE(result.isEmpty());
+    cleanupTrashTempDir();
+}
+
+TEST_F(AlbumControlTest, GetTrashInfos_FilterType2_PicturesRemoved)
+{
+    auto ac = createAC();
+    cleanupTrashTempDir();
+    QString p1 = g_trashTempDir + "/pic1.jpg";
+    QString p2 = g_trashTempDir + "/vid1.mp4";
+    createTrashTempFile(p1);
+    createTrashTempFile(p2);
+
+    g_trashInfos.clear();
+    g_trashInfos << makeInfo(p1, ItemTypePic)
+                 << makeInfo(p2, ItemTypeVideo);
+    DBImgInfoList result = ac->getTrashInfos(2);
+    ASSERT_EQ(result.size(), 1);
+    EXPECT_EQ(result[0].itemType, ItemTypeVideo);
+    cleanupTrashTempDir();
+}
+
+TEST_F(AlbumControlTest, GetTrashInfos_FilterType1_VideosRemoved)
+{
+    auto ac = createAC();
+    cleanupTrashTempDir();
+    QString p1 = g_trashTempDir + "/pic1.jpg";
+    QString p2 = g_trashTempDir + "/vid1.mp4";
+    createTrashTempFile(p1);
+    createTrashTempFile(p2);
+
+    g_trashInfos.clear();
+    g_trashInfos << makeInfo(p1, ItemTypePic)
+                 << makeInfo(p2, ItemTypeVideo);
+    DBImgInfoList result = ac->getTrashInfos(1);
+    ASSERT_EQ(result.size(), 1);
+    EXPECT_EQ(result[0].itemType, ItemTypePic);
+    cleanupTrashTempDir();
+}
+
+TEST_F(AlbumControlTest, GetTrashInfos_NonExistentFile_Removed)
+{
+    auto ac = createAC();
+    g_trashInfos.clear();
+    g_trashInfos << makeInfo("/nonexistent/path/pic.jpg", ItemTypePic);
+    DBImgInfoList result = ac->getTrashInfos(0);
+    EXPECT_TRUE(result.isEmpty());
+}
+
+// ============ getTrashAlbumInfos ============
+
+TEST_F(AlbumControlTest, GetTrashAlbumInfos_NonEmpty)
+{
+    auto ac = createAC();
+    cleanupTrashTempDir();
+    QString p1 = g_trashTempDir + "/pic1.jpg";
+    createTrashTempFile(p1);
+
+    g_trashInfos.clear();
+    g_trashInfos << makeInfo(p1, ItemTypePic);
+    QVariantMap result = ac->getTrashAlbumInfos(0);
+    EXPECT_FALSE(result.isEmpty());
+    cleanupTrashTempDir();
+}
+
+TEST_F(AlbumControlTest, GetTrashAlbumInfos_Empty)
+{
+    auto ac = createAC();
+    g_trashInfos.clear();
+    QVariantMap result = ac->getTrashAlbumInfos(0);
+    EXPECT_TRUE(result.isEmpty());
+}
+
+TEST_F(AlbumControlTest, GetTrashAlbumInfos_FilterType2_VideoOnly)
+{
+    auto ac = createAC();
+    cleanupTrashTempDir();
+    QString p1 = g_trashTempDir + "/pic1.jpg";
+    QString p2 = g_trashTempDir + "/vid1.mp4";
+    createTrashTempFile(p1);
+    createTrashTempFile(p2);
+
+    g_trashInfos.clear();
+    g_trashInfos << makeInfo(p1, ItemTypePic)
+                 << makeInfo(p2, ItemTypeVideo);
+    QVariantMap result = ac->getTrashAlbumInfos(2);
+    ASSERT_FALSE(result.isEmpty());
+    for (const auto &val : result) {
+        for (const auto &item : val.toList()) {
+            EXPECT_NE(item.toMap().value("itemType").toString().toStdString(), "pciture");
+        }
+    }
+    cleanupTrashTempDir();
 }
