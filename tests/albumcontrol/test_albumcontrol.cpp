@@ -4,6 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <QGuiApplication>
+#include <QThread>
 #include <memory>
 #include <QDateTime>
 #include <QMap>
@@ -17,6 +18,8 @@
 #include "unionimage/unionimage.h"
 #include "unionimage/unionimage_global.h"
 #include "utils/classifyutils.h"
+#include "utils/devicehelper.h"
+#include "fileMonitor/fileinotifygroup.h"
 
 #include <QFile>
 #include <QDir>
@@ -38,6 +41,12 @@ ACCESS_PRIVATE_FIELD(AlbumControl, DBImgInfoListMap, m_importTimeLinePathsMap)
 ACCESS_PRIVATE_FIELD(AlbumControl, MovieInfoMap, m_movieInfos)
 using IntStringMap = QMap<int, QString>;
 ACCESS_PRIVATE_FIELD(AlbumControl, IntStringMap, m_customAlbum)
+using StringStringMap = QMap<QString, QString>;
+ACCESS_PRIVATE_FIELD(AlbumControl, StringStringMap, m_durlAndNameMap)
+ACCESS_PRIVATE_FIELD(AlbumControl, StringStringMap, m_blkPath2DeviceNameMap)
+using FileInotifyGroupPtr = FileInotifyGroup*;
+ACCESS_PRIVATE_FIELD(AlbumControl, FileInotifyGroupPtr, m_fileInotifygroup)
+ACCESS_PRIVATE_FUN(AlbumControl, void(const QString &), updateBlockDeviceName)
 // ---- Shared stub data ----
 
 static DBImgInfoList g_allPicInfos;
@@ -51,6 +60,7 @@ static QMap<QString, QString> g_metaData;
 static QList<std::pair<int, QString>> g_albumNames;
 static QMap<int, QString> g_autoImportUIDs;
 static DBImgInfoList g_trashInfos;
+static QVariantMap g_deviceInfo;
 
 static DBImgInfo makeInfo(const QString &path, ItemType type,
                           const QString &cls = QString(),
@@ -767,4 +777,253 @@ TEST_F(AlbumControlTest, GetTrashAlbumInfos_FilterType2_VideoOnly)
         }
     }
     cleanupTrashTempDir();
+}
+
+// ============ urls2localPaths ============
+
+TEST_F(AlbumControlTest, Urls2localPaths_Empty)
+{
+    auto ac = createAC();
+    QStringList result = ac->urls2localPaths({});
+    EXPECT_TRUE(result.isEmpty());
+}
+
+TEST_F(AlbumControlTest, Urls2localPaths_MultipleUrls)
+{
+    auto ac = createAC();
+    QStringList urls = {"file:///tmp/a.jpg", "file:///tmp/b.png"};
+    QStringList result = ac->urls2localPaths(urls);
+    ASSERT_EQ(result.size(), 2);
+    EXPECT_EQ(result[0].toStdString(), "/tmp/a.jpg");
+    EXPECT_EQ(result[1].toStdString(), "/tmp/b.png");
+}
+
+// ============ onNewAPPOpen ============
+
+TEST_F(AlbumControlTest, OnNewAPPOpen_EmptyArguments)
+{
+    auto ac = createAC();
+    ac->onNewAPPOpen(0, {});
+}
+
+TEST_F(AlbumControlTest, OnNewAPPOpen_ValidImagePath)
+{
+    auto ac = createAC();
+    bool emitted = false;
+    QObject::connect(ac.get(), &AlbumControl::sigOpenImageFromFiles,
+        [&emitted](const QStringList &) { emitted = true; });
+    ac->onNewAPPOpen(0, {"appname", "file:///tmp/test.jpg"});
+    EXPECT_TRUE(emitted);
+}
+
+TEST_F(AlbumControlTest, OnNewAPPOpen_InvalidFormat)
+{
+    auto ac = createAC();
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, isImage),
+        [](const QString &) -> bool { return false; });
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, isVideo),
+        [](QString) -> bool { return false; });
+    bool emitted = false;
+    QObject::connect(ac.get(), &AlbumControl::sigInvalidFormat,
+        [&emitted]() { emitted = true; });
+    ac->onNewAPPOpen(0, {"appname", "file:///tmp/test.unknown"});
+    EXPECT_TRUE(emitted);
+}
+
+// ============ startMonitor ============
+
+TEST_F(AlbumControlTest, StartMonitor_EmptyPaths)
+{
+    auto ac = createAC();
+    stub.set_lamda(ADDR(DBManager, getDefaultNotifyPaths_group),
+        []() -> std::tuple<QList<QStringList>, QStringList, QList<int>> { return {}; });
+    stub.set_lamda(ADDR(DBManager, getAllPaths),
+        [](DBManager *, const ItemType &) -> QStringList { return {}; });
+    stub.set_lamda(ADDR(DBManager, removeImgInfos),
+        [](DBManager *, const QStringList &) -> void {});
+    ac->startMonitor();
+}
+
+TEST_F(AlbumControlTest, StartMonitor_NonExistentCustomPath)
+{
+    auto ac = createAC();
+    stub.set_lamda(ADDR(DBManager, getDefaultNotifyPaths_group),
+        []() -> std::tuple<QList<QStringList>, QStringList, QList<int>> { return {}; });
+    stub.set_lamda(ADDR(DBManager, getAllPaths),
+        [](DBManager *, const ItemType &) -> QStringList { return {}; });
+    stub.set_lamda(ADDR(DBManager, removeImgInfos),
+        [](DBManager *, const QStringList &) -> void {});
+    g_autoImportUIDs.clear();
+    g_autoImportUIDs[1] = "/nonexistent/path/ut_12345";
+    bool removeCalled = false;
+    stub.set_lamda(ADDR(DBManager, removeCustomAutoImportPath),
+        [&removeCalled](DBManager *, int) -> void { removeCalled = true; });
+    ac->startMonitor();
+    EXPECT_TRUE(removeCalled);
+}
+
+// ============ importFromMountDevice ============
+
+static bool g_insertImgInfosCalled = false;
+static bool g_insertIntoAlbumCalled = false;
+
+TEST_F(AlbumControlTest, ImportFromMountDevice_EmptyPaths)
+{
+    auto ac = createAC();
+
+    g_insertImgInfosCalled = false;
+    g_insertIntoAlbumCalled = false;
+
+    stub.set_lamda(ADDR(DBManager, insertImgInfos),
+        [](DBManager *, const DBImgInfoList &) -> void {
+            g_insertImgInfosCalled = true;
+        });
+    stub.set_lamda(ADDR(DBManager, insertIntoAlbum),
+        [](DBManager *, int, const QStringList &, AlbumDBType) -> bool {
+            g_insertIntoAlbumCalled = true;
+            return true;
+        });
+
+    // Intercept QThread::start to capture the QThread pointer that
+    // importFromMountDevice creates, without actually starting it.
+    // This lets us synchronize deterministically after the call returns.
+    QThread *capturedThread = nullptr;
+    stub.set_lamda(ADDR(QThread, start),
+        [&capturedThread](QThread *self, QThread::Priority) {
+            capturedThread = self;
+        });
+
+    ac->importFromMountDevice({}, 0);
+
+    // Restore real QThread::start, then start the captured thread and
+    // block until it finishes so the test observes the async result.
+    stub.reset(ADDR(QThread, start));
+    ASSERT_NE(capturedThread, nullptr)
+        << "importFromMountDevice should have created a QThread";
+    capturedThread->start();
+    capturedThread->wait(5000);
+
+    EXPECT_FALSE(g_insertImgInfosCalled)
+        << "Empty paths should not trigger DBManager::insertImgInfos";
+    EXPECT_FALSE(g_insertIntoAlbumCalled)
+        << "Empty paths should not trigger DBManager::insertIntoAlbum";
+}
+
+// ============ onMounted ============
+
+TEST_F(AlbumControlTest, OnMounted_SambaPath)
+{
+    auto ac = createAC();
+    stub.set_lamda(ADDR(DeviceHelper, isSamba),
+        [](const QUrl &) -> bool { return true; });
+    ac->onMounted("smb://server/share", "/mnt/smb", DeviceType::kBlockDevice);
+    auto &map = access_private_field::AlbumControlm_durlAndNameMap(*ac);
+    EXPECT_TRUE(map.isEmpty());
+}
+
+TEST_F(AlbumControlTest, OnMounted_EmptyDeviceInfo)
+{
+    auto ac = createAC();
+    stub.set_lamda(ADDR(DeviceHelper, isSamba),
+        [](const QUrl &) -> bool { return false; });
+    stub.set_lamda(ADDR(DeviceHelper, instance),
+        []() -> DeviceHelper * { return nullptr; });
+    g_deviceInfo.clear();
+    stub.set_lamda(ADDR(DeviceHelper, loadDeviceInfo),
+        [](DeviceHelper *, const QString &, bool) -> QVariantMap { return g_deviceInfo; });
+    ac->onMounted("file:///dev/sdb1", "/mnt/usb", DeviceType::kBlockDevice);
+    auto &map = access_private_field::AlbumControlm_durlAndNameMap(*ac);
+    EXPECT_TRUE(map.isEmpty());
+}
+
+TEST_F(AlbumControlTest, OnMounted_ValidBlockDevice)
+{
+    auto ac = createAC();
+    stub.set_lamda(ADDR(DeviceHelper, isSamba),
+        [](const QUrl &) -> bool { return false; });
+    stub.set_lamda(ADDR(DeviceHelper, instance),
+        []() -> DeviceHelper * { return nullptr; });
+    g_deviceInfo.clear();
+    g_deviceInfo["DeviceType"] = static_cast<int>(DeviceType::kBlockDevice);
+    g_deviceInfo["MountPoint"] = "/mnt/usb";
+    g_deviceInfo["IdLabel"] = "USBDrive";
+    stub.set_lamda(ADDR(DeviceHelper, loadDeviceInfo),
+        [](DeviceHelper *, const QString &, bool) -> QVariantMap { return g_deviceInfo; });
+    stub.set_lamda(ADDR(DeviceHelper, loadAllDeviceInfos),
+        [](DeviceHelper *) -> void {});
+    stub.set_lamda(ADDR(AlbumControl, findPicturePathByPhone),
+        [](AlbumControl *, QString &) -> bool { return true; });
+    ac->onMounted("file:///dev/sdb1", "/mnt/usb", DeviceType::kBlockDevice);
+    auto &map = access_private_field::AlbumControlm_durlAndNameMap(*ac);
+    EXPECT_FALSE(map.isEmpty());
+}
+
+TEST_F(AlbumControlTest, OnMounted_AlreadyMounted)
+{
+    auto ac = createAC();
+    stub.set_lamda(ADDR(DeviceHelper, isSamba),
+        [](const QUrl &) -> bool { return false; });
+    stub.set_lamda(ADDR(DeviceHelper, instance),
+        []() -> DeviceHelper * { return nullptr; });
+    g_deviceInfo.clear();
+    g_deviceInfo["DeviceType"] = static_cast<int>(DeviceType::kBlockDevice);
+    g_deviceInfo["MountPoint"] = "/mnt/usb";
+    g_deviceInfo["IdLabel"] = "USBDrive";
+    stub.set_lamda(ADDR(DeviceHelper, loadDeviceInfo),
+        [](DeviceHelper *, const QString &, bool) -> QVariantMap { return g_deviceInfo; });
+    auto &map = access_private_field::AlbumControlm_durlAndNameMap(*ac);
+    map.insert("/mnt/usb", "USBDrive");
+    ac->onMounted("file:///dev/sdb1", "/mnt/usb", DeviceType::kBlockDevice);
+    EXPECT_EQ(map.size(), 1);
+}
+
+// ============ updateBlockDeviceName ============
+
+TEST_F(AlbumControlTest, UpdateBlockDeviceName_EmptyDeviceInfo)
+{
+    auto ac = createAC();
+    stub.set_lamda(ADDR(DeviceHelper, instance),
+        []() -> DeviceHelper * { return nullptr; });
+    g_deviceInfo.clear();
+    stub.set_lamda(ADDR(DeviceHelper, loadDeviceInfo),
+        [](DeviceHelper *, const QString &, bool) -> QVariantMap { return g_deviceInfo; });
+    call_private_fun::AlbumControlupdateBlockDeviceName(*ac, QString("/dev/sdb1"));
+    auto &map = access_private_field::AlbumControlm_blkPath2DeviceNameMap(*ac);
+    EXPECT_TRUE(map.isEmpty());
+}
+
+TEST_F(AlbumControlTest, UpdateBlockDeviceName_WithLabel)
+{
+    auto ac = createAC();
+    stub.set_lamda(ADDR(DeviceHelper, instance),
+        []() -> DeviceHelper * { return nullptr; });
+    g_deviceInfo.clear();
+    g_deviceInfo["MountPoints"] = QStringList{"/mnt/usb"};
+    g_deviceInfo["SizeTotal"] = 1000000;
+    g_deviceInfo["IdLabel"] = "MyUSB";
+    g_deviceInfo["IdType"] = "ext4";
+    stub.set_lamda(ADDR(DeviceHelper, loadDeviceInfo),
+        [](DeviceHelper *, const QString &, bool) -> QVariantMap { return g_deviceInfo; });
+    call_private_fun::AlbumControlupdateBlockDeviceName(*ac, QString("/dev/sdb1"));
+    auto &map = access_private_field::AlbumControlm_blkPath2DeviceNameMap(*ac);
+    ASSERT_EQ(map.size(), 1);
+    EXPECT_EQ(map.value("/mnt/usb").toStdString(), "MyUSB");
+}
+
+TEST_F(AlbumControlTest, UpdateBlockDeviceName_I18nLabel)
+{
+    auto ac = createAC();
+    stub.set_lamda(ADDR(DeviceHelper, instance),
+        []() -> DeviceHelper * { return nullptr; });
+    g_deviceInfo.clear();
+    g_deviceInfo["MountPoints"] = QStringList{"/mnt/usb"};
+    g_deviceInfo["SizeTotal"] = 1000000;
+    g_deviceInfo["IdLabel"] = "_dde_test";
+    g_deviceInfo["IdType"] = "ext4";
+    stub.set_lamda(ADDR(DeviceHelper, loadDeviceInfo),
+        [](DeviceHelper *, const QString &, bool) -> QVariantMap { return g_deviceInfo; });
+    call_private_fun::AlbumControlupdateBlockDeviceName(*ac, QString("/dev/sdb1"));
+    auto &map = access_private_field::AlbumControlm_blkPath2DeviceNameMap(*ac);
+    ASSERT_EQ(map.size(), 1);
+    EXPECT_EQ(map.value("/mnt/usb").toStdString(), "test");
 }
