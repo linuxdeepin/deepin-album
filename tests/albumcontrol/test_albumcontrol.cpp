@@ -20,6 +20,9 @@
 #include "utils/classifyutils.h"
 #include "utils/devicehelper.h"
 #include "fileMonitor/fileinotifygroup.h"
+#include "imageengine/imagedataservice.h"
+#include <QStandardPaths>
+#include <QImage>
 
 #include <QFile>
 #include <QDir>
@@ -47,6 +50,10 @@ ACCESS_PRIVATE_FIELD(AlbumControl, StringStringMap, m_blkPath2DeviceNameMap)
 using FileInotifyGroupPtr = FileInotifyGroup*;
 ACCESS_PRIVATE_FIELD(AlbumControl, FileInotifyGroupPtr, m_fileInotifygroup)
 ACCESS_PRIVATE_FUN(AlbumControl, void(const QString &), updateBlockDeviceName)
+using VideoStableSizeMap = QMap<QString, qint64>;
+ACCESS_PRIVATE_FIELD(AlbumControl, VideoStableSizeMap, m_videoStableSize)
+using VideoStableCountMap = QMap<QString, int>;
+ACCESS_PRIVATE_FIELD(AlbumControl, VideoStableCountMap, m_videoStableCount)
 // ---- Shared stub data ----
 
 static DBImgInfoList g_allPicInfos;
@@ -1026,4 +1033,432 @@ TEST_F(AlbumControlTest, UpdateBlockDeviceName_I18nLabel)
     auto &map = access_private_field::AlbumControlm_blkPath2DeviceNameMap(*ac);
     ASSERT_EQ(map.size(), 1);
     EXPECT_EQ(map.value("/mnt/usb").toStdString(), "test");
+}
+
+// ============ addCustomAlbumInfos ============
+
+
+TEST_F(AlbumControlTest, AddCustomAlbumInfos_EmptyUrls)
+{
+    auto ac = createAC();
+    stub.set_lamda(ADDR(AlbumControl, getAllUrlPaths),
+        [](AlbumControl *, const int &) -> QStringList { return {}; });
+    g_insertIntoAlbumCalled = false;
+    stub.set_lamda(ADDR(DBManager, insertIntoAlbum),
+        [](DBManager *, int, const QStringList &, AlbumDBType) -> bool {
+            g_insertIntoAlbumCalled = true;
+            return false;
+        });
+    bool result = ac->addCustomAlbumInfos(5, {});
+    EXPECT_TRUE(g_insertIntoAlbumCalled)
+        << "insertIntoAlbum called even with empty urls";
+    EXPECT_FALSE(result);
+}
+
+TEST_F(AlbumControlTest, AddCustomAlbumInfos_ValidDirectory)
+{
+    auto ac = createAC();
+    stub.set_lamda(ADDR(AlbumControl, getAllUrlPaths),
+        [](AlbumControl *, const int &) -> QStringList { return {}; });
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, unionImageSupportFormat),
+        []() -> QStringList { return {"jpg"}; });
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, videoFiletypes),
+        []() -> QStringList { return {}; });
+
+    g_insertIntoAlbumCalled = false;
+    stub.set_lamda(ADDR(DBManager, insertIntoAlbum),
+        [](DBManager *, int, const QStringList &, AlbumDBType) -> bool {
+            g_insertIntoAlbumCalled = true;
+            return true;
+        });
+
+    QString tempDir = QDir::tempPath() + "/ut_addcustom_" + QString::number(QDateTime::currentMSecsSinceEpoch());
+    QDir().mkpath(tempDir);
+    QString imgPath = tempDir + "/test.jpg";
+    QFile f(imgPath);
+    f.open(QIODevice::WriteOnly);
+    f.write("dummy");
+    f.close();
+
+    bool sigEmitted = false;
+    QObject::connect(ac.get(), &AlbumControl::sigRefreshCustomAlbum,
+        [&sigEmitted](int) { sigEmitted = true; });
+
+    bool result = ac->addCustomAlbumInfos(5, {QUrl::fromLocalFile(tempDir)});
+    EXPECT_TRUE(g_insertIntoAlbumCalled);
+    EXPECT_TRUE(sigEmitted);
+    EXPECT_TRUE(result);
+
+    QDir(tempDir).removeRecursively();
+}
+
+TEST_F(AlbumControlTest, AddCustomAlbumInfos_NonexistentPath)
+{
+    auto ac = createAC();
+    stub.set_lamda(ADDR(AlbumControl, getAllUrlPaths),
+        [](AlbumControl *, const int &) -> QStringList { return {}; });
+    g_insertIntoAlbumCalled = false;
+    stub.set_lamda(ADDR(DBManager, insertIntoAlbum),
+        [](DBManager *, int, const QStringList &, AlbumDBType) -> bool {
+            g_insertIntoAlbumCalled = true;
+            return false;
+        });
+
+    bool result = ac->addCustomAlbumInfos(3, {QUrl::fromLocalFile("/nonexistent/path/ut_9999")});
+    EXPECT_TRUE(g_insertIntoAlbumCalled);
+    EXPECT_FALSE(result);
+}
+
+// ============ checkRepeatUrls ============
+
+TEST_F(AlbumControlTest, CheckRepeatUrls_NoRepeats)
+{
+    auto ac = createAC();
+    QString tempFile = QDir::tempPath() + "/ut_checkrepeat_" + QString::number(QDateTime::currentMSecsSinceEpoch());
+    QFile f(tempFile);
+    f.open(QIODevice::WriteOnly);
+    f.write("x");
+    f.close();
+
+    QString url = "file://" + tempFile;
+    bool result = ac->checkRepeatUrls({"file:///other/path.jpg"}, {url}, true);
+    EXPECT_FALSE(result);
+
+    QFile::remove(tempFile);
+}
+
+TEST_F(AlbumControlTest, CheckRepeatUrls_HasRepeats_Notify)
+{
+    auto ac = createAC();
+    QString tempFile = QDir::tempPath() + "/ut_checkrepeat2_" + QString::number(QDateTime::currentMSecsSinceEpoch());
+    QFile f(tempFile);
+    f.open(QIODevice::WriteOnly);
+    f.write("x");
+    f.close();
+
+    QString url = "file://" + tempFile;
+    bool sigEmitted = false;
+    QStringList emittedUrls;
+    QObject::connect(ac.get(), &AlbumControl::sigRepeatUrls,
+        [&sigEmitted, &emittedUrls](const QStringList &urls) {
+            sigEmitted = true;
+            emittedUrls = urls;
+        });
+
+    bool result = ac->checkRepeatUrls({url}, {url}, true);
+    EXPECT_TRUE(result);
+    EXPECT_TRUE(sigEmitted);
+    EXPECT_EQ(emittedUrls.size(), 1);
+
+    QFile::remove(tempFile);
+}
+
+TEST_F(AlbumControlTest, CheckRepeatUrls_HasRepeats_NoNotify)
+{
+    auto ac = createAC();
+    QString tempFile = QDir::tempPath() + "/ut_checkrepeat3_" + QString::number(QDateTime::currentMSecsSinceEpoch());
+    QFile f(tempFile);
+    f.open(QIODevice::WriteOnly);
+    f.write("x");
+    f.close();
+
+    QString url = "file://" + tempFile;
+    bool sigEmitted = false;
+    QObject::connect(ac.get(), &AlbumControl::sigRepeatUrls,
+        [&sigEmitted](const QStringList &) { sigEmitted = true; });
+
+    bool result = ac->checkRepeatUrls({url}, {url}, false);
+    EXPECT_TRUE(result);
+    EXPECT_FALSE(sigEmitted);
+
+    QFile::remove(tempFile);
+}
+
+// ============ getMovieInfo ============
+
+TEST_F(AlbumControlTest, GetMovieInfo_EmptyPath)
+{
+    auto ac = createAC();
+    QString result = ac->getMovieInfo("Video CodecID", "");
+    EXPECT_TRUE(result.isEmpty());
+}
+
+TEST_F(AlbumControlTest, GetMovieInfo_VideoCodecID)
+{
+    auto ac = createAC();
+    g_movieInfo.vCodecID = "H264";
+    QString result = ac->getMovieInfo("Video CodecID", "/tmp/test.mp4");
+    EXPECT_EQ(result.toStdString(), "H264");
+}
+
+TEST_F(AlbumControlTest, GetMovieInfo_FPS_Zero)
+{
+    auto ac = createAC();
+    g_movieInfo.fps = 0;
+    QString result = ac->getMovieInfo("FPS", "/tmp/test.mp4");
+    EXPECT_EQ(result.toStdString(), "-");
+}
+
+TEST_F(AlbumControlTest, GetMovieInfo_FPS_NonZero)
+{
+    auto ac = createAC();
+    g_movieInfo.fps = 30;
+    QString result = ac->getMovieInfo("FPS", "/tmp/test.mp4");
+    EXPECT_EQ(result.toStdString(), "30 fps");
+}
+
+TEST_F(AlbumControlTest, GetMovieInfo_VideoCodeRate_Zero)
+{
+    auto ac = createAC();
+    g_movieInfo.vCodeRate = 0;
+    QString result = ac->getMovieInfo("Video CodeRate", "/tmp/test.mp4");
+    EXPECT_EQ(result.toStdString(), "-");
+}
+
+TEST_F(AlbumControlTest, GetMovieInfo_VideoCodeRate_UnderThousand)
+{
+    auto ac = createAC();
+    g_movieInfo.vCodeRate = 500;
+    QString result = ac->getMovieInfo("Video CodeRate", "/tmp/test.mp4");
+    EXPECT_EQ(result.toStdString(), "500 bps");
+}
+
+TEST_F(AlbumControlTest, GetMovieInfo_VideoCodeRate_OverThousand)
+{
+    auto ac = createAC();
+    g_movieInfo.vCodeRate = 2000;
+    QString result = ac->getMovieInfo("Video CodeRate", "/tmp/test.mp4");
+    EXPECT_EQ(result.toStdString(), "2 kbps");
+}
+
+// ============ insertTrash ============
+
+TEST_F(AlbumControlTest, InsertTrash_EmptyPaths)
+{
+    auto ac = createAC();
+    stub.set_lamda(ADDR(DBManager, insertTrashImgInfos),
+        [](DBManager *, const DBImgInfoList &, bool) -> void {});
+    stub.set_lamda(ADDR(DBManager, removeImgInfos),
+        [](DBManager *, const QStringList &) -> void {});
+
+    bool progressEmitted = false;
+    QObject::connect(ac.get(), &AlbumControl::sigDeleteProgress,
+        [&progressEmitted](int, int) { progressEmitted = true; });
+
+    ac->insertTrash({});
+    EXPECT_TRUE(progressEmitted);
+}
+
+TEST_F(AlbumControlTest, InsertTrash_ValidPath)
+{
+    auto ac = createAC();
+    QString tempFile = QDir::tempPath() + "/ut_inserttrash_" + QString::number(QDateTime::currentMSecsSinceEpoch());
+    QFile f(tempFile);
+    f.open(QIODevice::WriteOnly);
+    f.write("x");
+    f.close();
+
+    DBImgInfoList fakeInfos;
+    fakeInfos << makeInfo(tempFile, ItemTypePic);
+    stub.set_lamda(ADDR(DBManager, getInfosByPath),
+        [&fakeInfos](DBManager *, const QString &) -> const DBImgInfoList { return fakeInfos; });
+    stub.set_lamda(ADDR(DBManager, insertTrashImgInfos),
+        [](DBManager *, const DBImgInfoList &, bool) -> void {});
+    stub.set_lamda(ADDR(DBManager, removeImgInfos),
+        [](DBManager *, const QStringList &) -> void {});
+
+    bool refreshEmitted = false;
+    QObject::connect(ac.get(), &AlbumControl::sigRefreshAllCollection,
+        [&refreshEmitted]() { refreshEmitted = true; });
+
+    ac->insertTrash({QUrl::fromLocalFile(tempFile)});
+    EXPECT_TRUE(refreshEmitted);
+
+    QFile::remove(tempFile);
+}
+
+// ============ saveAsImage ============
+
+TEST_F(AlbumControlTest, SaveAsImage_PicturesLocation_StandardFormat)
+{
+    auto ac = createAC();
+    QString srcFile = QDir::tempPath() + "/ut_saveas_src_" + QString::number(QDateTime::currentMSecsSinceEpoch()) + ".jpg";
+    QFile f(srcFile);
+    f.open(QIODevice::WriteOnly);
+    f.write("dummy");
+    f.close();
+
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, loadStaticImageFromFile),
+        [](const QString &, QImage &res, QString &, const QString &) -> bool {
+            res = QImage(10, 10, QImage::Format_RGB32);
+            res.fill(Qt::red);
+            return true;
+        });
+
+    QString saveDir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    QString expectedPath = saveDir + "/ut_saveas_test.jpg";
+
+    bool result = ac->saveAsImage("file://" + srcFile, "ut_saveas_test", 0, "jpg", 0, "");
+    EXPECT_TRUE(result);
+    EXPECT_TRUE(QFile::exists(expectedPath));
+
+    QFile::remove(expectedPath);
+    QFile::remove(srcFile);
+}
+
+TEST_F(AlbumControlTest, SaveAsImage_CustomFolder_NonStandardFormat)
+{
+    auto ac = createAC();
+    QString tempDir = QDir::tempPath() + "/ut_saveas_dir_" + QString::number(QDateTime::currentMSecsSinceEpoch());
+    QDir().mkpath(tempDir);
+    QString srcFile = tempDir + "/source.tiff";
+    QFile f(srcFile);
+    f.open(QIODevice::WriteOnly);
+    f.write("dummy");
+    f.close();
+
+    QString expectedPath = tempDir + "/test_copy.tiff";
+
+    bool result = ac->saveAsImage("file://" + srcFile, "test_copy", 6, "tiff", 0, tempDir);
+    EXPECT_TRUE(result);
+    EXPECT_TRUE(QFile::exists(expectedPath));
+
+    QDir(tempDir).removeRecursively();
+}
+
+// ============ searchPicFromAlbum2 ============
+
+static DBImgInfoList g_searchResults;
+
+TEST_F(AlbumControlTest, SearchPicFromAlbum2_AllAlbums)
+{
+    auto ac = createAC();
+    g_searchResults.clear();
+    g_searchResults << makeInfo("/tmp/pic1.jpg", ItemTypePic)
+                    << makeInfo("/tmp/pic2.jpg", ItemTypePic);
+
+    stub.set_lamda(
+        static_cast<const DBImgInfoList (DBManager::*)(const QString &) const>(&DBManager::getInfosForKeyword),
+        [](DBManager *, const QString &) -> const DBImgInfoList { return g_searchResults; });
+
+    DBImgInfoList result = ac->searchPicFromAlbum2(-1, "test", false);
+    EXPECT_EQ(result.size(), 2);
+}
+
+TEST_F(AlbumControlTest, SearchPicFromAlbum2_Trash)
+{
+    auto ac = createAC();
+    g_searchResults.clear();
+    g_searchResults << makeInfo("/tmp/trash1.jpg", ItemTypePic);
+
+    stub.set_lamda(ADDR(DBManager, getTrashInfosForKeyword),
+        [](DBManager *, const QString &) -> const DBImgInfoList { return g_searchResults; });
+
+    DBImgInfoList result = ac->searchPicFromAlbum2(-2, "trash", false);
+    EXPECT_EQ(result.size(), 1);
+}
+
+TEST_F(AlbumControlTest, SearchPicFromAlbum2_NoMatches)
+{
+    auto ac = createAC();
+    g_searchResults.clear();
+
+    stub.set_lamda(
+        static_cast<const DBImgInfoList (DBManager::*)(const QString &) const>(&DBManager::getInfosForKeyword),
+        [](DBManager *, const QString &) -> const DBImgInfoList { return g_searchResults; });
+
+    DBImgInfoList result = ac->searchPicFromAlbum2(-1, "nonexistent_keyword", false);
+    EXPECT_TRUE(result.isEmpty());
+}
+
+TEST_F(AlbumControlTest, SearchPicFromAlbum2_UseAI_Empty)
+{
+    auto ac = createAC();
+    DBImgInfoList result = ac->searchPicFromAlbum2(-1, "test", true);
+    EXPECT_TRUE(result.isEmpty());
+}
+
+// ============ slotVideoFileStable ============
+
+TEST_F(AlbumControlTest, SlotVideoFileStable_NonexistentFile)
+{
+    auto ac = createAC();
+    stub.set_lamda(ADDR(ImageDataService, instance),
+        [](QObject *) -> ImageDataService * { return nullptr; });
+    stub.set_lamda(ADDR(ImageDataService, getThumnailImageByPathRealTime),
+        [](ImageDataService *, const QString &, bool, bool) -> QImage { return QImage(); });
+
+    auto &sizeMap = access_private_field::AlbumControlm_videoStableSize(*ac);
+    auto &countMap = access_private_field::AlbumControlm_videoStableCount(*ac);
+    sizeMap["/nonexistent/video.mp4"] = 100;
+    countMap["/nonexistent/video.mp4"] = 1;
+
+    bool refreshEmitted = false;
+    QObject::connect(ac.get(), &AlbumControl::sigRefreshAllCollection,
+        [&refreshEmitted]() { refreshEmitted = true; });
+
+    ac->slotVideoFileStable({"/nonexistent/video.mp4"});
+    EXPECT_TRUE(refreshEmitted);
+    EXPECT_FALSE(sizeMap.contains("/nonexistent/video.mp4"));
+    EXPECT_FALSE(countMap.contains("/nonexistent/video.mp4"));
+}
+
+TEST_F(AlbumControlTest, SlotVideoFileStable_ExistingNonVideoFile)
+{
+    auto ac = createAC();
+    QString tempFile = QDir::tempPath() + "/ut_slotvideo_" + QString::number(QDateTime::currentMSecsSinceEpoch()) + ".jpg";
+    QFile f(tempFile);
+    f.open(QIODevice::WriteOnly);
+    f.write("x");
+    f.close();
+
+    stub.set_lamda(ADDR(ImageDataService, instance),
+        [](QObject *) -> ImageDataService * { return nullptr; });
+    stub.set_lamda(ADDR(ImageDataService, getThumnailImageByPathRealTime),
+        [](ImageDataService *, const QString &, bool, bool) -> QImage { return QImage(); });
+
+    bool refreshEmitted = false;
+    QObject::connect(ac.get(), &AlbumControl::sigRefreshCustomAlbum,
+        [&refreshEmitted](int) { refreshEmitted = true; });
+
+    ac->slotVideoFileStable({tempFile});
+    EXPECT_TRUE(refreshEmitted);
+
+    QFile::remove(tempFile);
+}
+
+TEST_F(AlbumControlTest, SlotVideoFileStable_VideoInvalid_RetryPath)
+{
+    auto ac = createAC();
+    QString tempFile = QDir::tempPath() + "/ut_slotvideo_retry_" + QString::number(QDateTime::currentMSecsSinceEpoch()) + ".mp4";
+    QFile f(tempFile);
+    f.open(QIODevice::WriteOnly);
+    f.write("video_content");
+    f.close();
+
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, isVideo),
+        [](QString) -> bool { return true; });
+    g_movieInfo.valid = false;
+    stub.set_lamda(ADDR(MovieService, clearMovieInfoCache),
+        [](MovieService *, const QUrl &) -> void {});
+    stub.set_lamda(ADDR(ImageDataService, instance),
+        [](QObject *) -> ImageDataService * { return nullptr; });
+    stub.set_lamda(ADDR(ImageDataService, getThumnailImageByPathRealTime),
+        [](ImageDataService *, const QString &, bool, bool) -> QImage { return QImage(); });
+
+    auto &sizeMap = access_private_field::AlbumControlm_videoStableSize(*ac);
+    auto &countMap = access_private_field::AlbumControlm_videoStableCount(*ac);
+    qint64 fileSize = QFileInfo(tempFile).size();
+    sizeMap[tempFile] = fileSize;
+    countMap[tempFile] = 2;
+
+    ac->slotVideoFileStable({tempFile});
+
+    // shouldRetryVideo returns false when retry limit is reached
+    // (count reaches kVideoStableRetryLimit=3), so no QTimer::singleShot
+    // is scheduled and the entry is cleaned up from both maps.
+    EXPECT_FALSE(sizeMap.contains(tempFile));
+    EXPECT_FALSE(countMap.contains(tempFile));
+
+    QFile::remove(tempFile);
 }
