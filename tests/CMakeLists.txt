@@ -10,5 +10,8 @@ add_subdirectory(albumcontrol)
 # ThumbnailListView 单元测试
 add_subdirectory(thumbnaillistview)
 
+# ThumbnailModel / Positioner 单元测试
+add_subdirectory(thumbnailview)
+
 # DBManager 单元测试
 add_subdirectory(dbmanager)
