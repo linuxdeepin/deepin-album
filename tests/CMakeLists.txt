@@ -15,3 +15,6 @@ add_subdirectory(thumbnailview)
 
 # DBManager 单元测试
 add_subdirectory(dbmanager)
+
+# UnionImage 单元测试
+add_subdirectory(unionimage)
