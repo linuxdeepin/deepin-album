@@ -18,3 +18,18 @@ add_subdirectory(dbmanager)
 
 # UnionImage 单元测试
 add_subdirectory(unionimage)
+
+# ImageSourceModel / PathViewProxyModel 单元测试
+add_subdirectory(imagedata)
+
+# ImageDataModel 单元测试
+add_subdirectory(imagedatamodel)
+
+# GlobalStatus 单元测试
+add_subdirectory(globalstatus)
+
+# MouseEventListener 单元测试
+add_subdirectory(mouseevent)
+
+# ReadThumbnailManager 单元测试
+add_subdirectory(readthumbnail)
