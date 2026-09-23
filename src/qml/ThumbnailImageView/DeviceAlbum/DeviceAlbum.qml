@@ -28,24 +28,34 @@ BaseView {
 
     onVisibleChanged: {
         if (visible)
-            flushDeviceAlbumView()
+            flushDeviceAlbumView(true)
     }
 
     // 筛选类型改变处理事件
     onFilterTypeChanged: {
-        flushDeviceAlbumView()
+        flushDeviceAlbumView(false)
     }
 
     // 设备之间切换，需要重载数据
     onDevicePathChanged: {
-        flushDeviceAlbumView()
+        flushDeviceAlbumView(true)
+    }
+
+    Connections {
+        target: Qt.application
+        function onStateChanged(state) {
+            if (state === Qt.ApplicationActive && visible)
+                flushDeviceAlbumView(true)
+        }
     }
 
     // 刷新设备视图内容
-    function flushDeviceAlbumView() {
+    function flushDeviceAlbumView(refreshDeviceData) {
         if (!visible)
             return
 
+        if (refreshDeviceData)
+            albumControl.refreshDeviceAlbumInfo(devicePath)
         dataModel.devicePath = devicePath
         theView.proxyModel.refresh(filterType)
         GStatus.selectedPaths = theView.selectedUrls
@@ -228,7 +238,6 @@ BaseView {
                     }else{
                         albumControl.importFromMountDevice(theView.allUrls(),albumControl.getAllCustomAlbumId(GStatus.albumChangeList)[currentImportIndex])
                     }
-                    DTK.sendMessage(thumbnailImage, qsTr("Import successful"), "notify_checked")
                 }
                 width: 114
                 height: 36
