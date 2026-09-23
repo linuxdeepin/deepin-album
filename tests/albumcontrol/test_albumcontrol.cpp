@@ -871,49 +871,19 @@ TEST_F(AlbumControlTest, StartMonitor_NonExistentCustomPath)
 
 // ============ importFromMountDevice ============
 
-static bool g_insertImgInfosCalled = false;
 static bool g_insertIntoAlbumCalled = false;
 
 TEST_F(AlbumControlTest, ImportFromMountDevice_EmptyPaths)
 {
     auto ac = createAC();
-
-    g_insertImgInfosCalled = false;
-    g_insertIntoAlbumCalled = false;
-
-    stub.set_lamda(ADDR(DBManager, insertImgInfos),
-        [](DBManager *, const DBImgInfoList &) -> void {
-            g_insertImgInfosCalled = true;
-        });
-    stub.set_lamda(ADDR(DBManager, insertIntoAlbum),
-        [](DBManager *, int, const QStringList &, AlbumDBType) -> bool {
-            g_insertIntoAlbumCalled = true;
-            return true;
-        });
-
-    // Intercept QThread::start to capture the QThread pointer that
-    // importFromMountDevice creates, without actually starting it.
-    // This lets us synchronize deterministically after the call returns.
-    QThread *capturedThread = nullptr;
+    int threadStartCount = 0;
     stub.set_lamda(ADDR(QThread, start),
-        [&capturedThread](QThread *self, QThread::Priority) {
-            capturedThread = self;
-        });
+        [&threadStartCount](QThread *, QThread::Priority) { ++threadStartCount; });
 
     ac->importFromMountDevice({}, 0);
 
-    // Restore real QThread::start, then start the captured thread and
-    // block until it finishes so the test observes the async result.
-    stub.reset(ADDR(QThread, start));
-    ASSERT_NE(capturedThread, nullptr)
-        << "importFromMountDevice should have created a QThread";
-    capturedThread->start();
-    capturedThread->wait(5000);
-
-    EXPECT_FALSE(g_insertImgInfosCalled)
-        << "Empty paths should not trigger DBManager::insertImgInfos";
-    EXPECT_FALSE(g_insertIntoAlbumCalled)
-        << "Empty paths should not trigger DBManager::insertIntoAlbum";
+    EXPECT_EQ(threadStartCount, 0)
+        << "Empty paths should not start an import";
 }
 
 // ============ onMounted ============

@@ -24,6 +24,7 @@
 #include <QFileDialog>
 #include <QProcess>
 #include <QRegularExpression>
+#include <QCryptographicHash>
 #include <QDirIterator>
 #include <QCoreApplication>
 #include <QFuture>
@@ -76,6 +77,52 @@ QString trashOperationPath(const QString &path)
 
     const QUrl url(path);
     return url.isLocalFile() ? url.toLocalFile() : path;
+}
+
+bool isLegacyMountImport(const QString &sourcePath, const QStringList &databasePaths)
+{
+    const QFileInfo sourceInfo(sourcePath);
+    const QStringList sourceName = sourceInfo.fileName().split(QLatin1Char('.'), Qt::SkipEmptyParts);
+    if (sourceName.isEmpty())
+        return false;
+
+    // Previous versions stored copies as Pictures/Pictures/yyyy-MM-dd/<name><timestamp>.<suffix>.
+    const QString picturesPath = QDir::cleanPath(QDir::homePath() + QStringLiteral("/Pictures"));
+    const QRegularExpression datePattern(QStringLiteral("^\\d{4}-\\d{2}-\\d{2}$"));
+    const QString suffix = sourceInfo.suffix();
+    const QRegularExpression namePattern(QStringLiteral("^") + QRegularExpression::escape(sourceName.first())
+                                         + QStringLiteral("\\d+\\.") + QRegularExpression::escape(suffix) + QStringLiteral("$"));
+    QStringList candidates;
+    for (const QString &databasePath : databasePaths) {
+        const QFileInfo legacyInfo(databasePath);
+        const QString relativeDirectory = QDir(picturesPath).relativeFilePath(legacyInfo.path());
+        const QStringList directoryParts = relativeDirectory.split(QDir::separator(), Qt::SkipEmptyParts);
+        if (directoryParts.size() == 2 && datePattern.match(directoryParts.last()).hasMatch()
+            && namePattern.match(legacyInfo.fileName()).hasMatch() && legacyInfo.size() == sourceInfo.size())
+            candidates << databasePath;
+    }
+    if (candidates.isEmpty())
+        return false;
+
+    QFile sourceFile(sourcePath);
+    if (!sourceFile.open(QIODevice::ReadOnly))
+        return false;
+    QCryptographicHash sourceHasher(QCryptographicHash::Sha256);
+    while (!sourceFile.atEnd())
+        sourceHasher.addData(sourceFile.read(1024 * 1024));
+    const QByteArray sourceHash = sourceHasher.result();
+
+    for (const QString &candidate : candidates) {
+        QFile legacyFile(candidate);
+        if (!legacyFile.open(QIODevice::ReadOnly))
+            continue;
+        QCryptographicHash legacyHasher(QCryptographicHash::Sha256);
+        while (!legacyFile.atEnd())
+            legacyHasher.addData(legacyFile.read(1024 * 1024));
+        if (legacyHasher.result() == sourceHash)
+            return true;
+    }
+    return false;
 }
 
 } //namespace
@@ -196,7 +243,10 @@ DBImgInfo AlbumControl::getDBInfo(const QString &srcpath, bool isVideo)
             return dbi;
         }
         //对视频信息缓存
-        m_movieInfos[srcpath] = movieInfo;
+        {
+            QMutexLocker locker(&m_movieInfoMutex);
+            m_movieInfos[srcpath] = movieInfo;
+        }
 
         dbi.itemType = ItemTypeVideo;
         dbi.changeTime = srcfi.lastModified();
@@ -1015,7 +1065,12 @@ void AlbumControl::slotVideoFileStable(const QStringList &files)
                 needRetry << path;
                 continue;
             }
-            ImageDataService::instance()->addMovieDurationStr(path, m_movieInfos.value(path).duration);
+            QString duration;
+            {
+                QMutexLocker locker(&m_movieInfoMutex);
+                duration = m_movieInfos.value(path).duration;
+            }
+            ImageDataService::instance()->addMovieDurationStr(path, duration);
             DBImgInfo oldInfo = DBManager::instance()->getInfoByPath(path);
             if (!oldInfo.filePath.isEmpty()) {
                 info.albumUID = oldInfo.albumUID;
@@ -2776,12 +2831,19 @@ QString AlbumControl::getMovieInfo(const QString key, const QString &path)
     QString value = "";
     if (!path.isEmpty()) {
         QString localPath = url2localPath(path);
-        if (!m_movieInfos.keys().contains(localPath)) {
-            MovieInfo movieInfo = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(localPath));
-            //对视频信息缓存
+        MovieInfo movieInfo;
+        bool hasCachedInfo = false;
+        {
+            QMutexLocker locker(&m_movieInfoMutex);
+            hasCachedInfo = m_movieInfos.contains(localPath);
+            if (hasCachedInfo)
+                movieInfo = m_movieInfos.value(localPath);
+        }
+        if (!hasCachedInfo) {
+            movieInfo = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(localPath));
+            QMutexLocker locker(&m_movieInfoMutex);
             m_movieInfos[localPath] = movieInfo;
         }
-        MovieInfo movieInfo = m_movieInfos.value(localPath);
         if (QString("Video CodecID").contains(key)) {
             value = movieInfo.vCodecID;
         } else if (QString("Video CodeRate").contains(key)) {
@@ -2927,6 +2989,7 @@ void AlbumControl::loadDeviceAlbumInfoAsync(const QString &devicePath)
     }
 
     m_PhonePicFileMap.insert(devicePath, nullptr);
+    const quint64 generation = ++m_deviceAlbumLoadGeneration[devicePath];
     QThreadPool::globalInstance()->start([=](){
         // Notify QML through the GUI thread before updating the loading dialog.
         QMetaObject::invokeMethod(qApp, [=](){
@@ -2969,8 +3032,10 @@ void AlbumControl::loadDeviceAlbumInfoAsync(const QString &devicePath)
 
         // GUI thread, notify update data
         QMetaObject::invokeMethod(qApp, [=](){
-                m_PhonePicFileMap.insert(devicePath, devicePtr);
+                if (m_deviceAlbumLoadGeneration.value(devicePath) != generation)
+                    return;
 
+                m_PhonePicFileMap.insert(devicePath, devicePtr);
                 Q_EMIT deviceAlbumInfoLoadFinished(devicePath);
                 Q_EMIT deviceAlbumInfoCountChanged(devicePath, devicePtr->picCount, devicePtr->videoCount);
             }, Qt::QueuedConnection);
@@ -3001,6 +3066,15 @@ DBImgInfoList AlbumControl::getDeviceAlbumInfoList(const QString &devicePath, co
     }
     qDebug() << "AlbumControl::getDeviceAlbumInfoList - Function exit, returning empty list";
     return {};
+}
+
+void AlbumControl::refreshDeviceAlbumInfo(const QString &devicePath)
+{
+    if (devicePath.isEmpty())
+        return;
+
+    m_PhonePicFileMap.remove(devicePath);
+    loadDeviceAlbumInfoAsync(devicePath);
 }
 
 void AlbumControl::getDeviceAlbumInfoCountAsync(const QString &devicePath)
@@ -3066,74 +3140,157 @@ QList<int> AlbumControl::getPicVideoCountFromPaths(const QStringList &paths, con
 void AlbumControl::importFromMountDevice(const QStringList &paths, const int &index)
 {
     qDebug() << "AlbumControl::importFromMountDevice - Function entry, paths count:" << paths.size() << "index:" << index;
-    //采用线程执行导入
-    QThread *thread = QThread::create([ = ] {
-        qDebug() << "AlbumControl::importFromMountDevice - Branch: starting import thread";
-        QStringList localPaths;
-        for (QString path : paths)
-        {
-            localPaths << url2localPath(path);
-        }
-        QStringList newPathList;
+    if (paths.isEmpty() || m_mountDeviceImportRunning.exchange(true))
+        return;
+
+    m_bneedstop.store(false);
+    emit sigImportStart();
+    QThread *thread = QThread::create([this, paths, index] {
+        struct ImportGuard {
+            std::atomic_bool &running;
+            std::atomic_bool &cancelled;
+            ~ImportGuard()
+            {
+                cancelled.store(false);
+                running.store(false);
+            }
+        } guard {m_mountDeviceImportRunning, m_bneedstop};
+
+        QStringList repeatedPaths;
         DBImgInfoList dbInfos;
-        QString strHomePath = QDir::homePath();
-        //获取系统现在的时间
-        QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
-        QString basePath = QString("%1%2%3/%4").arg(strHomePath, "/Pictures/", tr("Pictures"), strDate);
-        QDir dir;
-        if (!dir.exists(basePath))
-        {
-            dir.mkpath(basePath);
+        QSet<QString> stagedPaths;
+        int failedCount = 0;
+        const QString basePath = QDir::homePath() + "/Pictures/" + tr("Pictures");
+        QStringList databasePaths;
+        QMetaObject::invokeMethod(this, [&] {
+            databasePaths = DBManager::instance()->getAllPaths(ItemTypeNull);
+        }, Qt::BlockingQueuedConnection);
+        const bool targetDirectoryReady = QDir().mkpath(basePath);
+        QStringList sourcePaths;
+        QStringList targetPaths;
+        sourcePaths.reserve(paths.size());
+        targetPaths.reserve(paths.size());
+        for (const QString &path : paths) {
+            const QString sourcePath = url2localPath(path);
+            const QFileInfo sourceInfo(sourcePath);
+            const QString canonicalSource = sourceInfo.canonicalFilePath().isEmpty()
+                                                ? sourceInfo.absoluteFilePath()
+                                                : sourceInfo.canonicalFilePath();
+            const QString suffix = sourceInfo.completeSuffix();
+            const QString fileName = LibUnionImage_NameSpace::hashByString(canonicalSource);
+            sourcePaths << sourcePath;
+            targetPaths << QDir(basePath).filePath(suffix.isEmpty() ? fileName : fileName + "." + suffix);
         }
-        for (QString strPath : localPaths)
-        {
-            //取出文件名称
-            QStringList pathList = strPath.split("/", Qt::SkipEmptyParts);
-            QStringList nameList = pathList.last().split(".", Qt::SkipEmptyParts);
-            QString strNewPath = QString("%1%2%3%4%5%6").arg(basePath, "/", nameList.first(),
-                                                             QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()), ".", nameList.last());
-            //判断新路径下是否存在目标文件，若不存在，继续循环
-            if (!dir.exists(strPath)) {
+        QSet<QString> existingTargetPaths;
+        QMetaObject::invokeMethod(this, [&] {
+            existingTargetPaths = DBManager::instance()->getExistingPaths(targetPaths);
+        }, Qt::BlockingQueuedConnection);
+        int processed = 0;
+
+        for (int pathIndex = 0; pathIndex < paths.size(); ++pathIndex) {
+            if (m_bneedstop.load())
+                break;
+            const QString &path = paths.at(pathIndex);
+            const auto reportProgress = [this, &processed, &paths] {
+                emit sigImportProgress(++processed, paths.size());
+            };
+            const QString &sourcePath = sourcePaths.at(pathIndex);
+            QFileInfo sourceInfo(sourcePath);
+            if (!sourceInfo.isFile() || !sourceInfo.isReadable()) {
+                qWarning() << "Skipping unreadable device media:" << sourcePath;
+                ++failedCount;
+                reportProgress();
                 continue;
             }
-            //判断新路径下是否存在目标文件，若存在，先删除掉
-            if (dir.exists(strNewPath)) {
-                dir.remove(strNewPath);
-            }
-            newPathList << strNewPath;
-            QFileInfo fi(strNewPath);
-            //复制失败的图片不算在成功导入
-            if (QFile::copy(strPath, strNewPath)) {
-                dbInfos << getDBInfo(strNewPath, LibUnionImage_NameSpace::isVideo(strNewPath));
-            } else {
-                newPathList.removeOne(strNewPath);
+
+            if (isLegacyMountImport(sourcePath, databasePaths)) {
+                repeatedPaths << path;
+                reportProgress();
+                continue;
             }
 
+            const QString &targetPath = targetPaths.at(pathIndex);
+            if (stagedPaths.contains(targetPath)) {
+                repeatedPaths << path;
+                reportProgress();
+                continue;
+            }
+
+            const bool targetExists = QFileInfo::exists(targetPath);
+            if (!targetExists && (!targetDirectoryReady || !QFile::copy(sourcePath, targetPath))) {
+                qWarning() << "Failed to copy device media:" << sourcePath << "to" << targetPath;
+                ++failedCount;
+                reportProgress();
+                continue;
+            }
+
+            if (existingTargetPaths.contains(targetPath)) {
+                if (!targetExists)
+                    QFile::remove(targetPath);
+                repeatedPaths << path;
+                reportProgress();
+                continue;
+            }
+
+            const bool isVideo = LibUnionImage_NameSpace::isVideo(targetPath);
+            DBImgInfo info = getDBInfo(targetPath, isVideo);
+            if (info.itemType == ItemTypeNull) {
+                if (!targetExists)
+                    QFile::remove(targetPath);
+                ++failedCount;
+                reportProgress();
+                continue;
+            }
+            dbInfos << info;
+            stagedPaths.insert(targetPath);
+            reportProgress();
         }
-        if (!dbInfos.isEmpty())
-        {
-            QStringList pathslist;
-            int idblen = dbInfos.length();
-            for (int i = 0; i < idblen; i++) {
-                if (m_bneedstop) {
-                    return;
+
+        QStringList savedPaths;
+        if (!dbInfos.isEmpty()) {
+            QMetaObject::invokeMethod(this, [&] {
+                DBManager *db = DBManager::instance();
+                db->insertImgInfos(dbInfos);
+                for (const DBImgInfo &info : dbInfos) {
+                    if (!db->getInfoByPath(info.filePath).filePath.isEmpty())
+                        savedPaths << info.filePath;
                 }
-                pathslist << dbInfos[i].filePath;
-            }
+                if (index > 0 && !savedPaths.isEmpty())
+                    db->insertIntoAlbum(index, savedPaths);
+            }, Qt::BlockingQueuedConnection);
+        }
 
-
-            DBManager::instance()->insertImgInfos(dbInfos);
-            if (index > 0) {
-                DBManager::instance()->insertIntoAlbum(index, pathslist);
+        if (!savedPaths.isEmpty()) {
+            if (index > 0)
                 emit sigRefreshCustomAlbum(index);
-            }
             emit sigRefreshImportAlbum();
             emit sigRefreshAllCollection();
+            if (failedCount > 0)
+                emit sigImportFailed(failedCount);
+            else
+                emit sigImportFinished();
+        } else if (repeatedPaths.size() != paths.size()) {
+            emit sigImportFailed(failedCount > 0 ? failedCount : paths.size());
         }
+
+        if (!repeatedPaths.isEmpty())
+            emit sigRepeatUrls(repeatedPaths);
     });
+    if (!thread) {
+        m_bneedstop.store(false);
+        m_mountDeviceImportRunning.store(false);
+        emit sigImportFailed(paths.size());
+        return;
+    }
+    connect(thread, &QThread::finished, thread, &QObject::deleteLater);
     thread->start();
-    connect(thread, &QThread::destroyed, thread, &QObject::deleteLater);
     qDebug() << "AlbumControl::importFromMountDevice - Function exit";
+}
+
+void AlbumControl::cancelMountDeviceImport()
+{
+    if (m_mountDeviceImportRunning.load())
+        m_bneedstop.store(true);
 }
 
 QString AlbumControl::getYearCoverPath(const QString &year)

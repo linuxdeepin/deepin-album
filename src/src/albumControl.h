@@ -6,6 +6,7 @@
 #define AlbumControl_H
 
 #include <QObject>
+#include <atomic>
 #include <QUrl>
 #include "unionimage/unionimage.h"
 #include "dbmanager/dbmanager.h"
@@ -254,6 +255,7 @@ public:
     // Asynchronously load multimedia device data
     void loadDeviceAlbumInfoAsync(const QString &devicePath);
     DBImgInfoList getDeviceAlbumInfoList(const QString &devicePath, const int &filterType = 0, bool *loading = nullptr);
+    Q_INVOKABLE void refreshDeviceAlbumInfo(const QString &devicePath);
     Q_SIGNAL void deviceAlbumInfoLoadStart(const QString &devicePath);
     Q_SIGNAL void deviceAlbumInfoLoadFinished(const QString &devicePath);
 
@@ -262,6 +264,7 @@ public:
 
     //手机照片导入 0为已导入，1-n为自定义相册
     Q_INVOKABLE void importFromMountDevice(const QStringList &paths, const int &index = 0);
+    Q_INVOKABLE void cancelMountDeviceImport();
 
     //获取年封面图片路径
     Q_INVOKABLE QString getYearCoverPath(const QString &year);
@@ -470,6 +473,7 @@ private :
     QMap < QString, DBImgInfoList > m_dayDateMap; //日数据集
     QMap < int, QString > m_customAlbum; //自定义相册
     QMap < QString, MovieInfo> m_movieInfos; //movieInfo的合集
+    QMutex m_movieInfoMutex;
     QMap<QString, qint64> m_videoStableSize; //视频重试时记录的文件大小
     QMap<QString, int> m_videoStableCount; //视频文件大小连续不变的次数
 
@@ -487,9 +491,11 @@ private :
     };
     using DeviceInfoPtr = QSharedPointer<DeviceInfo>;
     QMap<QString, DeviceInfoPtr> m_PhonePicFileMap;   // 外部设备及其全部图片路径
+    QMap<QString, quint64> m_deviceAlbumLoadGeneration;
     std::atomic_bool m_couldRun;
-    bool m_bneedstop = false;
+    std::atomic_bool m_bneedstop {false};
     bool m_unmountingDevice = false; // unmount-in-progress flag, prevents re-entry from repeated clicks during nested event loops
+    std::atomic_bool m_mountDeviceImportRunning {false};
     QMutex m_mutex;
 };
 
