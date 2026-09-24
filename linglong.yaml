@@ -19,62 +19,54 @@ base: org.deepin.base/25.2.2
 runtime: org.deepin.runtime.webengine/6.7.0
 
 build: |
-  # 下载和安装依赖
-  apt -y install --download-only libdtk6gui-dev libdtk6widget-dev qt6-svg-dev qt6-tools-dev qt6-tools-dev-tools qt6-base-dev qt6-base-dev-tools qt6-base-private-dev qt6-l10n-tools libexif-dev libstartup-notification0-dev libudev-dev libfontconfig1-dev libglib2.0-dev libxrender-dev libdfm6-mount-dev libdfm-mount-dev libavcodec-dev libavformat-dev libavutil-dev libffmpegthumbnailer-dev kimageformat6-plugins
-  bash ./install_dep /var/cache/apt/archives "$PREFIX"
-
-  # 查找并移动目录下的所有文件（包括符号链接）到它的上一层目录
-  find ${PREFIX}/lib/${TRIPLET}/blas -mindepth 1 -maxdepth 1 -exec mv {} ${PREFIX}/lib/${TRIPLET} \;
-  find ${PREFIX}/lib/${TRIPLET}/lapack -mindepth 1 -maxdepth 1 -exec mv {} ${PREFIX}/lib/${TRIPLET} \;
-
-  # 准备插件
-  mkdir -p $PREFIX/bin/imageformats
-  cp ${PREFIX}/lib/${TRIPLET}/qt6/plugins/imageformats/*.so $PREFIX/bin/imageformats
-
-  # 更新ld.so.cache
-  if [ -n "$LINGLONG_LD_SO_CACHE" ]; then
-      ldconfig -C "$LINGLONG_LD_SO_CACHE"
-  fi
-
   VERSION=$(head -1 debian/changelog | awk -F'[()]' '{print $2}')
+  # Qt6/Dtk6 development files (headers + CMake configs) live in the
+  # runtime layer, which ll-builder mounts at /runtime in the build
+  # container; point CMake at it so find_package resolves deterministically.
   cmake -B build \
         -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_PREFIX_PATH=/runtime \
         -DCMAKE_INSTALL_PREFIX=${PREFIX} \
         -DCMAKE_INSTALL_LIBDIR=${PREFIX}/lib/${TRIPLET} \
         -DVERSION=${VERSION}
   cmake --build build -j`nproc`
-  cmake --build build --target install >install.log 2>&1
+  cmake --build build --target install
+  # libblas3/liblapack3 ship top-level soname symlinks pointing to
+  # /etc/alternatives, which is absent in the container, so
+  # libffmpegthumbnailer -> libsphinxbase -> libblas/liblapack fails to load.
+  # The real libs live in the blas/ and lapack/ subdirs; add them to the
+  # loader path via files/etc/ld.so.conf, which the linyaps-generated
+  # zz_deepin-linglong-app.conf includes for this app.
+  mkdir -p ${PREFIX}/etc
+  printf '%s\n' \
+    "${PREFIX}/lib/${TRIPLET}/blas" \
+    "${PREFIX}/lib/${TRIPLET}/lapack" \
+    > ${PREFIX}/etc/ld.so.conf
+  # MovieService resolves libavformat/libavutil/libffmpegthumbnailer through
+  # unversioned "*.so" names. Only versioned sonames exist in the container,
+  # and ldconfig only indexes unversioned names when they are symlinks, so
+  # copy the versioned libs in and add unversioned symlinks next to them.
+  mkdir -p ${PREFIX}/lib/${TRIPLET}
+  for LIB in libffmpegthumbnailer libavformat libavutil; do
+    for VERSIONED in /usr/lib/${TRIPLET}/${LIB}.so.*; do
+      if [ -f "${VERSIONED}" ]; then
+        SONAME=${VERSIONED##*/}
+        cp -L ${VERSIONED} ${PREFIX}/lib/${TRIPLET}/${SONAME}
+        ln -sf ${SONAME} ${PREFIX}/lib/${TRIPLET}/${LIB}.so
+        break
+      fi
+    done
+  done
 
-  # 项目生成应用名和动态隐式加载的依赖库，ldd无法找到的其他库
-  LDD_FILES=(
-    deepin-album
-    libavcodec.so
-    libavutil.so
-    libavformat.so
-    libffmpegthumbnailer.so
-    libblas.so
-    liblapack.so
-    ../../bin/imageformats/kimg_avif.so
-    ../../bin/imageformats/kimg_heif.so
-    # plugins for libheif.so.1
-    libheif/plugins/libheif-aomenc.so
-    libheif/plugins/libheif-dav1d.so
-    libheif/plugins/libheif-j2kdec.so
-    libheif/plugins/libheif-libde265.so
-    libheif/plugins/libheif-x265.so
-  )
-
-  # 生成.install 文件
-  bash ./deploy_dep "${LDD_FILES[@]}"
-
-  ID_VALUE=$(awk -F ': ' '/^  id: / {print $2}' linglong.yaml)
-  # set LIBHEIF_PLUGIN_PATH for libheif.so.1 to load plugins
-  mkdir -p $PREFIX/etc
-  echo export LIBHEIF_PLUGIN_PATH=$PREFIX/lib/${TRIPLET}/libheif/plugins > $PREFIX/etc/profile
-  echo $PREFIX/etc/profile >> "${ID_VALUE}.install"
-
-# allow apt download in build and do apt update
 buildext:
   apt:
     build_depends:
-      - libc6
+      - cmake
+      - pkg-config
+      - libavformat-dev
+      - libdfm6-mount-dev
+      - libffmpegthumbnailer-dev
+    depends:
+      - libdfm6-mount
+      - libffmpegthumbnailer4v5
+      - kimageformat6-plugins
