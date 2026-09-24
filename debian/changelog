@@ -1,3 +1,23 @@
+deepin-album (6.0.68) unstable; urgency=medium
+
+  * chore(linglong): replace install_dep/deploy_dep with buildext.apt deps
+  * test: add unit tests for 8 high-level methods across 5 classes
+  * fix: prevent duplicate imports from mount device and improve thread safety
+  * test: add GTest unit tests for 6 classes
+  * test: add GTest unit tests for 9 unionimage/baseutils/imageutils functions
+  * test(thumbnailview): add GTest unit tests for ThumbnailModel and Positioner
+  * test: add GTest unit tests for DBManager addCustomAlbumIdByPaths etc.
+  * test: add GTest unit tests for AlbumControl addCustomAlbumInfos etc.
+  * test: add GTest unit tests for AlbumControl importFromMountDevice etc.
+  * test: add GTest unit tests for AlbumControl getAllCustomAlbumName/getTrashInfos/getNewAlbumName
+  * test: add GTest unit tests for ThumbnailListView eventFilter/keyPressEvent/mousePressEvent
+  * test: add GTest unit tests for ThumbnailListView and one-click test script
+  * test: add GTest unit tests for ThumbnailListView
+  * test: add GTest unit tests for AlbumControl
+  * test: add Mode 1 function importance inventory for deepin-album
+
+ -- Wang Yu <wangyu@uniontech.com>  Thu, 24 Sep 2026 16:05:18 +0800
+
 deepin-album (6.0.67) unstable; urgency=medium
 
   * fix: update Arabic (ar) translations
