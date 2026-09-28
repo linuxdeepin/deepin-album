@@ -112,3 +112,18 @@ add_subdirectory(fileinotify)
 
 # MovieService 单元测试
 add_subdirectory(movieservice)
+
+# QmlWidget 单元测试
+add_subdirectory(qmlwidget)
+
+# ThumbnailLoad 单元测试 (LoadImage, ImagePublisher, AsyncImageResponseAlbum)
+add_subdirectory(thumbnailload)
+
+# ThumbnailDelegate 单元测试
+add_subdirectory(thumbnaildelegate)
+
+# PathViewRangeHandler 单元测试
+add_subdirectory(pathviewrange)
+
+# ImportImagesThread 单元测试
+add_subdirectory(importimages)
