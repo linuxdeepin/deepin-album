@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -20,6 +20,7 @@
 
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
+#include "controller/setwallpaperconfig.h"
 #include "widgets/dialogs/imgdeletedialog.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
@@ -859,7 +860,10 @@ void ThumbnailListView::updateMenuContents()
 
     if ((1 == paths.length() || QFileInfo(paths[0]).suffix().contains("gif"))) {
         DBImgInfo data = selectedIndexes().at(0).data(Qt::DisplayRole).value<DBImgInfo>();
-        if (data.itemType == ItemTypePic && QFileInfo(paths[0]).isReadable() && utils::base::isSupportWallpaper(paths[0])) {
+        // DConfig 配置控制整体显示/隐藏，默认显示
+        if (SetWallpaperConfig::instance()->visible()
+                && data.itemType == ItemTypePic && QFileInfo(paths[0]).isReadable()
+                && utils::base::isSupportWallpaper(paths[0])) {
             m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(true);
         } else {
             m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(false);
