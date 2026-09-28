@@ -180,6 +180,8 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(3rd_lib REQUIRED
         dtkwidget dtkcore dtkgui gio-qt udisks2-qt5 libimageviewer
         )
+# DtkCore 会引入 DtkDConfig，提供 dconfig_meta_files 宏与 DSG_DATA_DIR
+find_package(DtkCore REQUIRED)
 target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS} ${TIFF_INCLUDE_DIRS})
 if(DOTEST)
     target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${3rd_lib_INCLUDE_DIRS} ${TIFF_INCLUDE_DIRS})
@@ -216,6 +218,14 @@ install(FILES deepin-album.desktop DESTINATION ${DesktopDir})
 install(FILES album/resources/images/other/deepin-album.svg DESTINATION ${ManIconDir})
 install(FILES album/resources/images/other/deepin-album.svg DESTINATION ${AppIconDir})
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/../assets/deepin-album DESTINATION /usr/share/deepin-manual/manual-assets/application/)
+
+#DConfig 配置元数据（安装到 /usr/share/dsg/configs/org.deepin.album/）
+set(APPID org.deepin.album)
+set(configFile ${PROJECT_SOURCE_DIR}/../assets/org.deepin.album.json)
+if (DEFINED DSG_DATA_DIR)
+    message("-- DConfig is supported by DTK")
+    dconfig_meta_files(APPID ${APPID} FILES ${configFile})
+endif()
 
 #set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
 #set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")

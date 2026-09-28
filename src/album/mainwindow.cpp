@@ -9,6 +9,7 @@
 #include "imageengine/imageengineapi.h"
 #include "accessibledefine.h"
 #include "viewerthememanager.h"
+#include "controller/setwallpaperconfig.h"
 #include "ac-desktop-define.h"
 
 #include <QGraphicsDropShadowEffect>
@@ -542,6 +543,10 @@ void MainWindow::initCentralWidget()
 //    m_commandLine = CommandLine::instance();
     m_imageViewer = new ImageViewer(imageViewerSpace::ImgViewerType::ImgViewerTypeAlbum, albumGlobal::CACHE_PATH, nullptr, m_pCenterWidget);
     m_imageViewer->setDropEnabled(false);
+    //根据 DConfig 配置初始化大图预览右键菜单“设置为壁纸”项的显示/隐藏
+    if (!SetWallpaperConfig::instance()->visible()) {
+        m_imageViewer->setViewPanelContextMenuItemVisible(imageViewerSpace::IdSetAsWallpaper, false);
+    }
     connect(dApp->signalM, &SignalManager::sigViewImage, this, &MainWindow::onSigViewImage);
     m_back = m_imageViewer->getBottomtoolbarButton(imageViewerSpace::ButtonType::ButtonTypeBack);
     connect(m_back, &DIconButton::clicked, this, &MainWindow::onHideImageView);
