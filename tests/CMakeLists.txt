@@ -127,3 +127,15 @@ add_subdirectory(pathviewrange)
 
 # ImportImagesThread 单元测试
 add_subdirectory(importimages)
+
+# ThumbnailCache 单元测试
+add_subdirectory(thumbnailcache)
+
+# LibConfigSetter 单元测试
+add_subdirectory(configsetter)
+
+# ImportTimeLineView 单元测试
+add_subdirectory(importtimelineview)
+
+# TimeLineView 单元测试
+add_subdirectory(timelineview)
