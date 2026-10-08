@@ -140,6 +140,7 @@ BaseImageDelegate {
             id: rotateItem
 
             property real previousRealWidth: 0
+            property bool snapshotReady: false
 
             function calcAnimation() {
                 rotationAnimation.to = GControl.currentRotation;
@@ -150,8 +151,8 @@ BaseImageDelegate {
                 // 记录之前的绘制宽度，用于计算缩放比例
                 previousRealWidth = image.paintedWidth;
 
-                // 触发动画
-                aniamtion.start();
+                // Request the snapshot first; start the animation and image-reload timer after capture completes.
+                imageProxy.scheduleUpdate();
             }
 
             anchors.fill: parent
@@ -163,6 +164,7 @@ BaseImageDelegate {
                     imageProxy.scale = (image.paintedHeight * image.scale) / rotateItem.previousRealWidth;
                 }
 
+                enabled: rotateItem.snapshotReady
                 target: image
             }
 
@@ -172,6 +174,8 @@ BaseImageDelegate {
                 anchors.centerIn: parent
                 height: image.height
                 live: false
+                // Hide the source image while still allowing snapshot capture, so visible=false does not affect rendering too early.
+                hideSource: true
                 sourceItem: image
                 width: image.width
 
@@ -188,10 +192,13 @@ BaseImageDelegate {
                     }
                 }
 
-                Component.onCompleted: {
-                    scheduleUpdate();
-                    // 计算动画参数并触发动画
-                    calcAnimation();
+                Component.onCompleted: rotateItem.calcAnimation()
+
+                onScheduledUpdateCompleted: {
+                    if (!rotateItem.snapshotReady) {
+                        rotateItem.snapshotReady = true;
+                        aniamtion.start();
+                    }
                 }
             }
 
@@ -212,15 +219,13 @@ BaseImageDelegate {
                 alwaysRunToEnd: true
 
                 onRunningChanged: {
+                    rotationRunning = running;
                     if (running) {
-                        image.visible = false;
                         delayUpdate.start();
                     }
                     if (!running && Image.Ready === image.status) {
-                        image.visible = true;
                         rotateAnimationLoader.active = false;
                     }
-                    rotationRunning = running;
                 }
 
                 RotationAnimation {
@@ -258,7 +263,8 @@ BaseImageDelegate {
             // Note: 确保缓存中的数据已刷新后更新界面
             // 0 为复位，缓存中的数据已转换，无需再次加载
             if (0 !== GControl.currentRotation) {
-                // 激活旋转动画加载器
+                // Keep the loader active while waiting for the snapshot, so the Ready signal does not destroy it too early.
+                rotationRunning = true;
                 rotateAnimationLoader.active = true;
             }
         }

@@ -3,6 +3,7 @@
 
 add_album_gtest(test_imagedata
     test_ImageSourceModel.cpp
+    test_ImageProvider.cpp
     test_PathViewProxyModel.cpp
     test_ImageInfo.cpp
 )

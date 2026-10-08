@@ -36,6 +36,20 @@ static void parseProviderID(const QString &id, QString &filePath, int &frameInde
     }
 }
 
+// requestedSize is the item bounding box, not the image's native aspect ratio.
+// A rotated portrait cache can therefore be narrower than requestedSize.width()
+// while still containing enough pixels for the final aspect-fit image.
+static bool imageMeetsRequestedSize(const QImage &image, const QSize &requestedSize)
+{
+    if (image.isNull() || !requestedSize.isValid()) {
+        return true;
+    }
+
+    QSize requiredSize = image.size();
+    requiredSize.scale(requestedSize, Qt::KeepAspectRatio);
+    return image.width() >= requiredSize.width() && image.height() >= requiredSize.height();
+}
+
 /**
    @return 读取 \a imagePath 的图像数据并返回（受 unionimage 4096 限制）
  */
@@ -218,8 +232,7 @@ void AsyncImageResponse::run()
         }
     } else {
         // 缓存比请求小，需要重新加载更大尺寸
-        if (requestedSize.isValid()
-            && (image.width() < requestedSize.width() || image.height() < requestedSize.height())) {
+        if (!imageMeetsRequestedSize(image, requestedSize)) {
             provider->imageCache.remove(tempPath, frameIndex);
             if (frameIndex) {
                 image = readMultiImage(tempPath, frameIndex);
@@ -435,8 +448,7 @@ QImage ImageProvider::requestImage(const QString &id, QSize *size, const QSize &
         }
     } else {
         // 缓存比请求小，重新加载
-        if (requestedSize.isValid()
-            && (image.width() < requestedSize.width() || image.height() < requestedSize.height())) {
+        if (!imageMeetsRequestedSize(image, requestedSize)) {
             imageCache.remove(tempPath, frameIndex);
             if (frameIndex) {
                 image = readMultiImage(tempPath, frameIndex);
