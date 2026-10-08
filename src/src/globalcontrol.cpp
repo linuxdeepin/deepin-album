@@ -532,7 +532,7 @@ void GlobalControl::checkSwitchEnable()
 void GlobalControl::setIndexAndFrameIndex(int index, int frameIndex)
 {
     qDebug() << "GlobalControl::setIndexAndFrameIndex - Function entry, index:" << index << "frameIndex:" << frameIndex;
-    int validIndex = qBound(0, index, imageCount() - 1);
+    int validIndex = qBound(0, index, qMax(0, imageCount() - 1));
     if (this->curIndex != validIndex) {
         qDebug() << "Setting index from" << this->curIndex << "to" << validIndex;
         submitImageChangeImmediately();
@@ -542,7 +542,7 @@ void GlobalControl::setIndexAndFrameIndex(int index, int frameIndex)
         currentImage.setSource(image);
         Q_EMIT currentSourceChanged();
 
-        this->curIndex = index;
+        this->curIndex = validIndex;
         Q_EMIT currentIndexChanged();
     }
 
