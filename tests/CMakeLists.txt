@@ -92,6 +92,9 @@ add_subdirectory(imagedatamodel)
 # GlobalStatus 单元测试
 add_subdirectory(globalstatus)
 
+# GlobalControl 单元测试
+add_subdirectory(globalcontrol)
+
 # MouseEventListener 单元测试
 add_subdirectory(mouseevent)
 
