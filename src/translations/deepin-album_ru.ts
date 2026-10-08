@@ -14,7 +14,7 @@
     <message>
         <location filename="../src/albumControl.cpp" line="307"/>
         <source>OK</source>
-        <translation>ОК</translation>
+        <translation>Хорошо</translation>
     </message>
     <message>
         <location filename="../src/albumControl.cpp" line="928"/>
@@ -590,7 +590,7 @@
     <message>
         <location filename="../qml/Control/EmptyWarningDialog.qml" line="36"/>
         <source>OK</source>
-        <translation>ОК</translation>
+        <translation>Хорошо</translation>
     </message>
 </context>
 <context>
