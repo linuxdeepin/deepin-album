@@ -28,6 +28,7 @@ add_executable(test_thumbnailview
     ${STUB_SHADOW}
     test_ThumbnailModel.cpp
     test_Positioner.cpp
+    test_QImageItem.cpp
 )
 
 target_compile_definitions(test_thumbnailview PRIVATE BUILD_TESTING)
