@@ -1,3 +1,11 @@
+deepin-album (6.0.69) unstable; urgency=medium
+
+  * test(thumbnailview): add unit tests for Positioner and ThumbnailModel methods
+  * fix(preview): fix incomplete image display after rotation
+  * test: add unit tests
+
+ -- Wang Yu <wangyu@uniontech.com>  Sat, 10 Oct 2026 10:49:08 +0800
+
 deepin-album (6.0.68) unstable; urgency=medium
 
   * chore(linglong): replace install_dep/deploy_dep with buildext.apt deps
