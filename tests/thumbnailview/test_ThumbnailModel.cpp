@@ -288,3 +288,223 @@ TEST_F(ThumbnailModelTest, SelectedIndexesAfterClearSelection)
     m_model->clearSelection();
     EXPECT_TRUE(m_model->selectedIndexes().isEmpty());
 }
+
+// ─────────────────────────── setSelected ───────────────────────────
+
+// setSelected() with a valid index selects that single row.
+TEST_F(ThumbnailModelTest, SetSelectedValidIndex)
+{
+    fillPics(4);
+    m_model->setSelected(2);
+    EXPECT_EQ(m_model->selectedIndexes(), (QList<int>{2}));
+}
+
+// setSelected() with a negative index is an early return (no selection).
+TEST_F(ThumbnailModelTest, SetSelectedNegativeIndex)
+{
+    fillPics(3);
+    m_model->setSelected(-1);
+    EXPECT_TRUE(m_model->selectedIndexes().isEmpty());
+}
+
+// setSelected() accumulates (uses Select flag, not ClearAndSelect).
+TEST_F(ThumbnailModelTest, SetSelectedAccumulates)
+{
+    fillPics(4);
+    m_model->setSelected(0);
+    m_model->setSelected(2);
+    EXPECT_EQ(m_model->selectedIndexes(), (QList<int>{0, 2}));
+}
+
+// ─────────────────────────── setRangeSelected ───────────────────────────
+
+// setRangeSelected() selects a contiguous range.
+TEST_F(ThumbnailModelTest, SetRangeSelectedForward)
+{
+    fillPics(5);
+    m_model->setRangeSelected(1, 3);
+    EXPECT_EQ(m_model->selectedIndexes(), (QList<int>{1, 2, 3}));
+}
+
+// setRangeSelected() with reversed anchor/to still selects the range.
+TEST_F(ThumbnailModelTest, SetRangeSelectedReversed)
+{
+    fillPics(5);
+    m_model->setRangeSelected(3, 1);
+    EXPECT_EQ(m_model->selectedIndexes(), (QList<int>{1, 2, 3}));
+}
+
+// setRangeSelected() with negative values → early return, no selection.
+TEST_F(ThumbnailModelTest, SetRangeSelectedNegativeAnchor)
+{
+    fillPics(3);
+    m_model->setRangeSelected(-1, 2);
+    EXPECT_TRUE(m_model->selectedIndexes().isEmpty());
+}
+
+TEST_F(ThumbnailModelTest, SetRangeSelectedNegativeTo)
+{
+    fillPics(3);
+    m_model->setRangeSelected(0, -1);
+    EXPECT_TRUE(m_model->selectedIndexes().isEmpty());
+}
+
+// setRangeSelected() replaces previous selection (ClearAndSelect).
+TEST_F(ThumbnailModelTest, SetRangeSelectedReplacesPrevious)
+{
+    fillPics(5);
+    m_model->setSelected(0);
+    m_model->setRangeSelected(2, 3);
+    EXPECT_EQ(m_model->selectedIndexes(), (QList<int>{2, 3}));
+}
+
+// ─────────────────────────── selectUrls ───────────────────────────
+
+// selectUrls() selects rows matching the given URLs.
+TEST_F(ThumbnailModelTest, SelectUrlsSelectsMatching)
+{
+    fillPics(6);
+    m_model->selectUrls({utFakeUrl(1), utFakeUrl(3)});
+    EXPECT_EQ(m_model->selectedIndexes(), (QList<int>{1, 3}));
+}
+
+// selectUrls() with no matching URLs → empty selection.
+TEST_F(ThumbnailModelTest, SelectUrlsNoMatch)
+{
+    fillPics(3);
+    m_model->selectUrls({QStringLiteral("file:///nonexistent.jpg")});
+    EXPECT_TRUE(m_model->selectedIndexes().isEmpty());
+}
+
+// selectUrls() replaces previous selection.
+TEST_F(ThumbnailModelTest, SelectUrlsReplacesPrevious)
+{
+    fillPics(4);
+    m_model->setSelected(0);
+    m_model->selectUrls({utFakeUrl(2)});
+    EXPECT_EQ(m_model->selectedIndexes(), (QList<int>{2}));
+}
+
+// selectUrls() with empty list → empty selection.
+TEST_F(ThumbnailModelTest, SelectUrlsEmpty)
+{
+    fillPics(3);
+    m_model->setSelected(1);
+    m_model->selectUrls({});
+    EXPECT_TRUE(m_model->selectedIndexes().isEmpty());
+}
+
+// ─────────────────────────── selectedUrls ───────────────────────────
+
+// selectedUrls() returns URLs of selected indexes.
+TEST_F(ThumbnailModelTest, SelectedUrlsReturnsUrls)
+{
+    fillPics(4);
+    m_model->selectUrls({utFakeUrl(0), utFakeUrl(2)});
+    QJsonArray urls = m_model->selectedUrls();
+    ASSERT_EQ(urls.size(), 2);
+    // QItemSelectionModel::selectedIndexes() returns sorted by row.
+    QStringList urlStrings;
+    for (const auto &v : urls)
+        urlStrings.append(v.toString());
+    EXPECT_TRUE(urlStrings.contains(utFakeUrl(0)));
+    EXPECT_TRUE(urlStrings.contains(utFakeUrl(2)));
+}
+
+// selectedUrls() empty when no selection.
+TEST_F(ThumbnailModelTest, SelectedUrlsEmptyWhenNoSelection)
+{
+    fillPics(3);
+    EXPECT_TRUE(m_model->selectedUrls().isEmpty());
+}
+
+// ─────────────────────────── indexForUrl ───────────────────────────
+
+// indexForUrl() returns the row matching the URL.
+TEST_F(ThumbnailModelTest, IndexForUrlFound)
+{
+    fillPics(4);
+    EXPECT_EQ(m_model->indexForUrl(utFakeUrl(2)), 2);
+}
+
+// indexForUrl() returns -1 when URL not found.
+TEST_F(ThumbnailModelTest, IndexForUrlNotFound)
+{
+    fillPics(3);
+    EXPECT_EQ(m_model->indexForUrl(QStringLiteral("file:///nope.jpg")), -1);
+}
+
+// indexForUrl() on empty model returns -1.
+TEST_F(ThumbnailModelTest, IndexForUrlEmptyModel)
+{
+    EXPECT_EQ(m_model->indexForUrl(utFakeUrl(0)), -1);
+}
+
+// ─────────────────────────── indexesForUrls ───────────────────────────
+
+// indexesForUrls() returns rows for all matching URLs in row order.
+TEST_F(ThumbnailModelTest, IndexesForUrlsMultipleMatches)
+{
+    fillPics(6);
+    QList<int> result = m_model->indexesForUrls({utFakeUrl(1), utFakeUrl(3), utFakeUrl(5)});
+    EXPECT_EQ(result, (QList<int>{1, 3, 5}));
+}
+
+// indexesForUrls() with no matches returns empty list.
+TEST_F(ThumbnailModelTest, IndexesForUrlsNoMatches)
+{
+    fillPics(3);
+    EXPECT_TRUE(m_model->indexesForUrls({QStringLiteral("file:///x.jpg")}).isEmpty());
+}
+
+// indexesForUrls() with partial matches returns only matching rows.
+TEST_F(ThumbnailModelTest, IndexesForUrlsPartialMatch)
+{
+    fillPics(4);
+    QList<int> result = m_model->indexesForUrls({utFakeUrl(0), QStringLiteral("file:///missing.jpg"), utFakeUrl(2)});
+    EXPECT_EQ(result, (QList<int>{0, 2}));
+}
+
+// indexesForUrls() with empty input returns empty list.
+TEST_F(ThumbnailModelTest, IndexesForUrlsEmpty)
+{
+    fillPics(3);
+    EXPECT_TRUE(m_model->indexesForUrls({}).isEmpty());
+}
+
+// ─────────────────────────── proxyIndex ───────────────────────────
+
+// proxyIndex() maps source row to proxy row. With our FakeSourceModel
+// (empty DisplayRole → stable sort), proxy == source.
+TEST_F(ThumbnailModelTest, ProxyIndexIdentityMapping)
+{
+    fillPics(4);
+    EXPECT_EQ(m_model->proxyIndex(0), 0);
+    EXPECT_EQ(m_model->proxyIndex(2), 2);
+    EXPECT_EQ(m_model->proxyIndex(3), 3);
+}
+
+// proxyIndex() with no source model → -1.
+TEST_F(ThumbnailModelTest, ProxyIndexNoSourceReturnsMinusOne)
+{
+    m_model->setSourceModel(nullptr);
+    EXPECT_EQ(m_model->proxyIndex(0), -1);
+}
+
+// ─────────────────────────── sourceIndex ───────────────────────────
+
+// sourceIndex() maps proxy row back to source row. Identity with stable sort.
+TEST_F(ThumbnailModelTest, SourceIndexIdentityMapping)
+{
+    fillPics(4);
+    EXPECT_EQ(m_model->sourceIndex(0), 0);
+    EXPECT_EQ(m_model->sourceIndex(1), 1);
+    EXPECT_EQ(m_model->sourceIndex(3), 3);
+}
+
+// sourceIndex() on out-of-range row returns -1 (mapToSource returns invalid).
+TEST_F(ThumbnailModelTest, SourceIndexOutOfRangeReturnsMinusOne)
+{
+    fillPics(2);
+    EXPECT_EQ(m_model->sourceIndex(99), -1);
+}
