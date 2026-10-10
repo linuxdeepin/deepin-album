@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pl">
 <context>
     <name>AlbumControl</name>
     <message>
@@ -466,7 +464,7 @@
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="52"/>
         <source>You can restore them in the trash</source>
-        <translation>Zdjęcia możesz przywrócić z kosza</translation>
+        <translation>Zdjęcia możesz jeszcze przywrócić z kosza</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeleteDialog.qml" line="56"/>
@@ -671,12 +669,12 @@
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="280"/>
         <source>Export successful</source>
-        <translation>Eksport zakończony pomyślnie</translation>
+        <translation>Wyeksportowano pomyślnie</translation>
     </message>
     <message>
         <location filename="../qml/Control/ExportDialog.qml" line="282"/>
         <source>Export failed</source>
-        <translation>Eksport zakończony niepowodzeniem</translation>
+        <translation>Nie udało się wyeksportować</translation>
     </message>
 </context>
 <context>
@@ -927,29 +925,17 @@
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="345"/>
         <source>%n photos</source>
-        <translation>
-            <numerusform>%n zdjęcie</numerusform>
-            <numerusform>%n zdjęcia</numerusform>
-            <numerusform>%n zdjęć</numerusform>
-        </translation>
+        <translation><numerusform>%n zdjęcie</numerusform><numerusform>%n zdjęcia</numerusform><numerusform>%n zdjęć</numerusform><numerusform>%n zdjęć</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="347"/>
         <source>%n videos</source>
-        <translation>
-            <numerusform>%n film</numerusform>
-            <numerusform>%n filmy</numerusform>
-            <numerusform>%n filmów</numerusform>
-        </translation>
+        <translation><numerusform>%n film</numerusform><numerusform>%n filmy</numerusform><numerusform>%n filmów</numerusform><numerusform>%n filmów</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
-        <translation>
-            <numerusform>%n przedmiot</numerusform>
-            <numerusform>%n przedmioty</numerusform>
-            <numerusform>%n przedmiotów</numerusform>
-        </translation>
+        <translation><numerusform>%n przedmiot</numerusform><numerusform>%n przedmioty</numerusform><numerusform>%n przedmiotów</numerusform><numerusform>%n przedmiotów</numerusform></translation>
     </message>
 </context>
 <context>
@@ -1140,12 +1126,12 @@
     <message>
         <location filename="../qml/MenuItemStates.qml" line="120"/>
         <source>Export successful</source>
-        <translation>Eksport zakończony pomyślnie</translation>
+        <translation>Wyeksportowano pomyślnie</translation>
     </message>
     <message>
         <location filename="../qml/MenuItemStates.qml" line="122"/>
         <source>Export failed</source>
-        <translation>Eksport zakończony niepowodzeniem</translation>
+        <translation>Nie udało się wyeksportować</translation>
     </message>
 </context>
 <context>
@@ -1978,29 +1964,17 @@
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="308"/>
         <source>%n photos</source>
-        <translation>
-            <numerusform>%n zdjęcie</numerusform>
-            <numerusform>%n zdjęcia</numerusform>
-            <numerusform>%n zdjęć</numerusform>
-        </translation>
+        <translation><numerusform>%n zdjęcie</numerusform><numerusform>%n zdjęcia</numerusform><numerusform>%n zdjęć</numerusform><numerusform>%n zdjęć</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="310"/>
         <source>%n videos</source>
-        <translation>
-            <numerusform>%n film</numerusform>
-            <numerusform>%n filmy</numerusform>
-            <numerusform>%n filmów</numerusform>
-        </translation>
+        <translation><numerusform>%n film</numerusform><numerusform>%n filmy</numerusform><numerusform>%n filmów</numerusform><numerusform>%n filmów</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/widgets/timelineview/timelineview.cpp" line="312"/>
         <source>%n items</source>
-        <translation>
-            <numerusform>%n przedmiot</numerusform>
-            <numerusform>%n przedmioty</numerusform>
-            <numerusform>%n przedmiotów</numerusform>
-        </translation>
+        <translation><numerusform>%n przedmiot</numerusform><numerusform>%n przedmioty</numerusform><numerusform>%n przedmiotów</numerusform><numerusform>%n przedmiotów</numerusform></translation>
     </message>
 </context>
 <context>
@@ -2220,12 +2194,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="297"/>
         <source>Show navigation window</source>
-        <translation>Wyświetl okno nawigacji</translation>
+        <translation>Wyświetl okno nawigacyjne</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="297"/>
         <source>Hide navigation window</source>
-        <translation>Ukryj okno nawigacji</translation>
+        <translation>Ukryj okno nawigacyjne</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewRightMenu.qml" line="309"/>
