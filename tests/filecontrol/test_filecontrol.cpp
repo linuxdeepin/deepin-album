@@ -28,6 +28,7 @@
 #include <QTest>
 #include <QTemporaryFile>
 #include <QTemporaryDir>
+#include <QFile>
 #include <QElapsedTimer>
 #include <QFileInfo>
 #include <QUrl>
@@ -211,4 +212,475 @@ TEST_F(FileControlTest, SetWallpaper_IsNonBlocking_ReturnsImmediately)
 
     // Cleanup — let the async thread finish before fc goes out of scope
     QTest::qWait(500);
+}
+
+// ============ isImage ============
+
+// Test: isImage delegates to LibUnionImage_NameSpace::isImage, returns true
+TEST_F(FileControlTest, IsImage_StubbedTrue_ReturnsTrue)
+{
+    FileControl fc;
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, isImage),
+        [](const QString &) -> bool { return true; });
+
+    EXPECT_TRUE(fc.isImage("file:///tmp/test.jpg"));
+}
+
+// Test: isImage returns false when underlying function returns false
+TEST_F(FileControlTest, IsImage_StubbedFalse_ReturnsFalse)
+{
+    FileControl fc;
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, isImage),
+        [](const QString &) -> bool { return false; });
+
+    EXPECT_FALSE(fc.isImage("file:///tmp/test.txt"));
+}
+
+// ============ isVideo ============
+
+// Test: isVideo delegates to LibUnionImage_NameSpace::isVideo, returns true
+TEST_F(FileControlTest, IsVideo_StubbedTrue_ReturnsTrue)
+{
+    FileControl fc;
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, isVideo),
+        [](QString) -> bool { return true; });
+
+    EXPECT_TRUE(fc.isVideo("file:///tmp/test.mp4"));
+}
+
+// Test: isVideo returns false when underlying function returns false
+TEST_F(FileControlTest, IsVideo_StubbedFalse_ReturnsFalse)
+{
+    FileControl fc;
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, isVideo),
+        [](QString) -> bool { return false; });
+
+    EXPECT_FALSE(fc.isVideo("file:///tmp/test.txt"));
+}
+
+// ============ isFile ============
+
+// Test: isFile returns true for an existing real file
+TEST_F(FileControlTest, IsFile_RealFile_ReturnsTrue)
+{
+    FileControl fc;
+    QTemporaryFile tmpFile;
+    ASSERT_TRUE(tmpFile.open());
+    tmpFile.write("data");
+    tmpFile.close();
+
+    EXPECT_TRUE(fc.isFile(QUrl::fromLocalFile(tmpFile.fileName()).toString()));
+}
+
+// Test: isFile returns false for a non-existent path
+TEST_F(FileControlTest, IsFile_NonExistent_ReturnsFalse)
+{
+    FileControl fc;
+    EXPECT_FALSE(fc.isFile(QUrl::fromLocalFile("/nonexistent_99999.txt").toString()));
+}
+
+// ============ pathExists ============
+
+// Test: pathExists returns true for existing file
+TEST_F(FileControlTest, PathExists_ExistingFile_ReturnsTrue)
+{
+    FileControl fc;
+    QTemporaryFile tmpFile;
+    ASSERT_TRUE(tmpFile.open());
+    tmpFile.close();
+
+    EXPECT_TRUE(fc.pathExists(QUrl::fromLocalFile(tmpFile.fileName()).toString()));
+}
+
+// Test: pathExists returns false for non-existent path
+TEST_F(FileControlTest, PathExists_NonExistent_ReturnsFalse)
+{
+    FileControl fc;
+    EXPECT_FALSE(fc.pathExists(QUrl::fromLocalFile("/nonexistent_99999.txt").toString()));
+}
+
+// ============ haveImage ============
+
+// Test: haveImage returns true when list contains a valid image (isImage stubbed true)
+TEST_F(FileControlTest, HaveImage_WithImageUrl_ReturnsTrue)
+{
+    FileControl fc;
+    stub.set_lamda(ADDR(FileControl, isImage),
+        [](FileControl *, const QString &) -> bool { return true; });
+
+    QVariantList urls;
+    urls << QVariant(QUrl::fromLocalFile("/tmp/test.jpg").toString());
+
+    EXPECT_TRUE(fc.haveImage(urls));
+}
+
+// Test: haveImage returns false for empty list
+TEST_F(FileControlTest, HaveImage_EmptyList_ReturnsFalse)
+{
+    FileControl fc;
+    QVariantList urls;
+    EXPECT_FALSE(fc.haveImage(urls));
+}
+
+// Test: haveImage returns false when all entries are null
+TEST_F(FileControlTest, HaveImage_NullEntries_ReturnsFalse)
+{
+    FileControl fc;
+    stub.set_lamda(ADDR(FileControl, isImage),
+        [](FileControl *, const QString &) -> bool { return true; });
+
+    QVariantList urls;
+    urls << QVariant();
+
+    EXPECT_FALSE(fc.haveImage(urls));
+}
+
+// ============ haveVideo ============
+
+// Test: haveVideo returns true when list contains a valid video (isVideo stubbed true)
+TEST_F(FileControlTest, HaveVideo_WithVideoUrl_ReturnsTrue)
+{
+    FileControl fc;
+    stub.set_lamda(ADDR(FileControl, isVideo),
+        [](FileControl *, const QString &) -> bool { return true; });
+
+    QVariantList urls;
+    urls << QVariant(QString("/tmp/test.mp4"));
+
+    EXPECT_TRUE(fc.haveVideo(urls));
+}
+
+// Test: haveVideo returns false for empty list
+TEST_F(FileControlTest, HaveVideo_EmptyList_ReturnsFalse)
+{
+    FileControl fc;
+    QVariantList urls;
+    EXPECT_FALSE(fc.haveVideo(urls));
+}
+
+// Test: haveVideo returns false when all entries are null
+TEST_F(FileControlTest, HaveVideo_NullEntries_ReturnsFalse)
+{
+    FileControl fc;
+    stub.set_lamda(ADDR(FileControl, isVideo),
+        [](FileControl *, const QString &) -> bool { return true; });
+
+    QVariantList urls;
+    urls << QVariant();
+
+    EXPECT_FALSE(fc.haveVideo(urls));
+}
+
+// ============ isTrashPath ============
+
+// Test: isTrashPath returns true for a path under the trash directory
+TEST_F(FileControlTest, IsTrashPath_UnderTrashDir_ReturnsTrue)
+{
+    FileControl fc;
+    QString trashDir = QDir::cleanPath(
+        QDir::homePath() + "/.local/share/deepin/deepin-album-delete");
+    QString pathUnderTrash = trashDir + "/somefile.jpg";
+
+    EXPECT_TRUE(fc.isTrashPath(QUrl::fromLocalFile(pathUnderTrash).toString()));
+}
+
+// Test: isTrashPath returns false for a normal path
+TEST_F(FileControlTest, IsTrashPath_NormalPath_ReturnsFalse)
+{
+    FileControl fc;
+    EXPECT_FALSE(fc.isTrashPath(QUrl::fromLocalFile("/tmp/test.jpg").toString()));
+}
+
+// ============ isCanWrite ============
+
+// Test: isCanWrite returns true for a file in a writable temp directory
+TEST_F(FileControlTest, IsCanWrite_WritableFile_ReturnsTrue)
+{
+    FileControl fc;
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+    QString filePath = tmpDir.filePath("writable.txt");
+    QFile f(filePath);
+    ASSERT_TRUE(f.open(QIODevice::WriteOnly));
+    f.write("data");
+    f.close();
+
+    EXPECT_TRUE(fc.isCanWrite(QUrl::fromLocalFile(filePath).toString()));
+}
+
+// Test: isCanWrite returns false for a non-existent path
+TEST_F(FileControlTest, IsCanWrite_NonExistent_ReturnsFalse)
+{
+    FileControl fc;
+    EXPECT_FALSE(fc.isCanWrite(QUrl::fromLocalFile("/nonexistent_99999.txt").toString()));
+}
+
+// ============ isCanDelete ============
+
+// Test: isCanDelete returns true for a writable, readable, local file
+TEST_F(FileControlTest, IsCanDelete_LocalWritableReadable_ReturnsTrue)
+{
+    FileControl fc;
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+    QString filePath = tmpDir.filePath("deletable.txt");
+    QFile f(filePath);
+    ASSERT_TRUE(f.open(QIODevice::WriteOnly));
+    f.write("data");
+    f.close();
+
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, getPathType),
+        [](const QString &) -> imageViewerSpace::PathType {
+            return imageViewerSpace::PathTypeLOCAL;
+        });
+
+    EXPECT_TRUE(fc.isCanDelete(QUrl::fromLocalFile(filePath).toString()));
+}
+
+// Test: isCanDelete returns false when pathType is PathTypeAPPLE
+TEST_F(FileControlTest, IsCanDelete_ApplePath_ReturnsFalse)
+{
+    FileControl fc;
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+    QString filePath = tmpDir.filePath("apple_file.txt");
+    QFile f(filePath);
+    ASSERT_TRUE(f.open(QIODevice::WriteOnly));
+    f.write("data");
+    f.close();
+
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, getPathType),
+        [](const QString &) -> imageViewerSpace::PathType {
+            return imageViewerSpace::PathTypeAPPLE;
+        });
+
+    EXPECT_FALSE(fc.isCanDelete(QUrl::fromLocalFile(filePath).toString()));
+}
+
+// ============ isCanPrint ============
+
+// Test: isCanPrint returns true when isImage is true and file is readable
+TEST_F(FileControlTest, IsCanPrint_ImageAndReadable_ReturnsTrue)
+{
+    FileControl fc;
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+    QString filePath = tmpDir.filePath("printable.jpg");
+    QFile f(filePath);
+    ASSERT_TRUE(f.open(QIODevice::WriteOnly));
+    f.write("data");
+    f.close();
+
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, isImage),
+        [](const QString &) -> bool { return true; });
+
+    EXPECT_TRUE(fc.isCanPrint(QUrl::fromLocalFile(filePath).toString()));
+}
+
+// Test: isCanPrint returns false when isImage is false
+TEST_F(FileControlTest, IsCanPrint_NotImage_ReturnsFalse)
+{
+    FileControl fc;
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+    QString filePath = tmpDir.filePath("not_image.txt");
+    QFile f(filePath);
+    ASSERT_TRUE(f.open(QIODevice::WriteOnly));
+    f.write("data");
+    f.close();
+
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, isImage),
+        [](const QString &) -> bool { return false; });
+
+    EXPECT_FALSE(fc.isCanPrint(QUrl::fromLocalFile(filePath).toString()));
+}
+
+// ============ isCanSupportOcr ============
+
+// Test: isCanSupportOcr returns true for readable, non-dynamic image
+TEST_F(FileControlTest, IsCanSupportOcr_StaticReadable_ReturnsTrue)
+{
+    FileControl fc;
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+    QString filePath = tmpDir.filePath("ocr.jpg");
+    QFile f(filePath);
+    ASSERT_TRUE(f.open(QIODevice::WriteOnly));
+    f.write("data");
+    f.close();
+
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, getImageType),
+        [](const QString &) -> imageViewerSpace::ImageType {
+            return imageViewerSpace::ImageTypeStatic;
+        });
+
+    EXPECT_TRUE(fc.isCanSupportOcr(QUrl::fromLocalFile(filePath).toString()));
+}
+
+// Test: isCanSupportOcr returns false for dynamic image type
+TEST_F(FileControlTest, IsCanSupportOcr_DynamicType_ReturnsFalse)
+{
+    FileControl fc;
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+    QString filePath = tmpDir.filePath("dynamic.gif");
+    QFile f(filePath);
+    ASSERT_TRUE(f.open(QIODevice::WriteOnly));
+    f.write("data");
+    f.close();
+
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, getImageType),
+        [](const QString &) -> imageViewerSpace::ImageType {
+            return imageViewerSpace::ImageTypeDynamic;
+        });
+
+    EXPECT_FALSE(fc.isCanSupportOcr(QUrl::fromLocalFile(filePath).toString()));
+}
+
+// ============ isRotatable (QStringList overload) ============
+
+// Test: Empty list returns true
+TEST_F(FileControlTest, IsRotatable_EmptyList_ReturnsTrue)
+{
+    FileControl fc;
+    QStringList paths;
+    EXPECT_TRUE(fc.isRotatable(paths));
+}
+
+// Test: List with empty strings returns true
+TEST_F(FileControlTest, IsRotatable_EmptyStrings_ReturnsTrue)
+{
+    FileControl fc;
+    QStringList paths;
+    paths << "" << "";
+    EXPECT_TRUE(fc.isRotatable(paths));
+}
+
+// Test: All elements rotatable (QString overload stubbed true) → true
+TEST_F(FileControlTest, IsRotatable_AllRotatable_ReturnsTrue)
+{
+    FileControl fc;
+    stub.set_lamda(static_cast<bool(FileControl::*)(const QString &)>(&FileControl::isRotatable),
+        [](FileControl *, const QString &) -> bool { return true; });
+
+    QStringList paths;
+    paths << "/tmp/a.jpg" << "/tmp/b.jpg";
+    EXPECT_TRUE(fc.isRotatable(paths));
+}
+
+// Test: One element not rotatable → false
+TEST_F(FileControlTest, IsRotatable_OneNotRotatable_ReturnsFalse)
+{
+    FileControl fc;
+    stub.set_lamda(static_cast<bool(FileControl::*)(const QString &)>(&FileControl::isRotatable),
+        [](FileControl *, const QString &path) -> bool {
+            return path != "/tmp/bad.jpg";
+        });
+
+    QStringList paths;
+    paths << "/tmp/good.jpg" << "/tmp/bad.jpg";
+    EXPECT_FALSE(fc.isRotatable(paths));
+}
+
+// ============ isSupportSetWallpaper ============
+
+// Test: Supported format (jpg) and readable → true
+TEST_F(FileControlTest, IsSupportSetWallpaper_JpgReadable_ReturnsTrue)
+{
+    FileControl fc;
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+    QString filePath = tmpDir.filePath("wallpaper.jpg");
+    QFile f(filePath);
+    ASSERT_TRUE(f.open(QIODevice::WriteOnly));
+    f.write("data");
+    f.close();
+
+    EXPECT_TRUE(fc.isSupportSetWallpaper(QUrl::fromLocalFile(filePath).toString()));
+}
+
+// Test: Unsupported format (txt) → false
+TEST_F(FileControlTest, IsSupportSetWallpaper_TxtFormat_ReturnsFalse)
+{
+    FileControl fc;
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+    QString filePath = tmpDir.filePath("wallpaper.txt");
+    QFile f(filePath);
+    ASSERT_TRUE(f.open(QIODevice::WriteOnly));
+    f.write("data");
+    f.close();
+
+    EXPECT_FALSE(fc.isSupportSetWallpaper(QUrl::fromLocalFile(filePath).toString()));
+}
+
+// Test: Non-existent file → false (not readable)
+TEST_F(FileControlTest, IsSupportSetWallpaper_NonExistent_ReturnsFalse)
+{
+    FileControl fc;
+    EXPECT_FALSE(fc.isSupportSetWallpaper(
+        QUrl::fromLocalFile("/nonexistent_99999.jpg").toString()));
+}
+
+// ============ getDirImagePath ============
+
+// Test: Empty path returns empty list
+TEST_F(FileControlTest, GetDirImagePath_EmptyPath_ReturnsEmpty)
+{
+    FileControl fc;
+    QStringList result = fc.getDirImagePath(QString());
+    EXPECT_TRUE(result.isEmpty());
+}
+
+// Test: Directory with image files (isImage stubbed true) returns URLs
+TEST_F(FileControlTest, GetDirImagePath_WithImages_ReturnsUrls)
+{
+    FileControl fc;
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, isImage),
+        [](const QString &) -> bool { return true; });
+
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+    // Create two image files in the temp dir
+    QString f1 = tmpDir.filePath("img1.jpg");
+    QString f2 = tmpDir.filePath("img2.png");
+    for (const auto &p : {f1, f2}) {
+        QFile f(p);
+        ASSERT_TRUE(f.open(QIODevice::WriteOnly));
+        f.write("data");
+        f.close();
+    }
+
+    // Use one of the files as the path argument; getDirImagePath finds sibling files
+    QStringList result = fc.getDirImagePath(QUrl::fromLocalFile(f1).toString());
+    EXPECT_EQ(result.size(), 2);
+    for (const auto &url : result) {
+        EXPECT_TRUE(url.startsWith("file://"));
+    }
+}
+
+// Test: Mix of image and non-image (isImage returns false for .txt) filters correctly
+TEST_F(FileControlTest, GetDirImagePath_MixedFiles_ReturnsOnlyImages)
+{
+    FileControl fc;
+    // Stub FileControl::isImage to return true only for .jpg files
+    stub.set_lamda(static_cast<bool(FileControl::*)(const QString &)>(&FileControl::isImage),
+        [](FileControl *, const QString &path) -> bool {
+            return path.endsWith(".jpg", Qt::CaseInsensitive);
+        });
+
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+    QString imgFile = tmpDir.filePath("photo.jpg");
+    QString txtFile = tmpDir.filePath("notes.txt");
+    for (const auto &p : {imgFile, txtFile}) {
+        QFile f(p);
+        ASSERT_TRUE(f.open(QIODevice::WriteOnly));
+        f.write("data");
+        f.close();
+    }
+
+    QStringList result = fc.getDirImagePath(QUrl::fromLocalFile(imgFile).toString());
+    EXPECT_EQ(result.size(), 1);
+    EXPECT_TRUE(result[0].contains("photo.jpg"));
 }
