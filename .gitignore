@@ -118,3 +118,5 @@ build
 AGENTS.md
 .codegraph/
 reuse_lint_report.md
+.ut-inventory.json
+.ut-inventory-summary.md
