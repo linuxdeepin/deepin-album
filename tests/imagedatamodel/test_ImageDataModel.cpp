@@ -7,6 +7,19 @@
 // |--------|-------|---------|-----|--------|
 // | data | high | complexity:13 | 3 | 10 |
 // | loadData | high | complexity:12 | 3 | 4 |
+// | roleNames | medium | complexity:0 | 1 | 1 |
+// | rowCount | medium | complexity:1 | 1 | 3 |
+// | modelType/setModelType | high | complexity:0 | 1 | 2 |
+// | albumId/setAlbumId | high | complexity:1 | 1 | 2 |
+// | keyWord/setKeyWord | high | complexity:1 | 1 | 2 |
+// | devicePath/setDevicePath | high | complexity:1 | 1 | 2 |
+// | dayToken/setDayToken | high | complexity:1 | 1 | 2 |
+// | importTitle/setImportTitle | high | complexity:1 | 1 | 2 |
+// | className/setClassName | high | complexity:1 | 1 | 2 |
+// | dataForIndex | medium | complexity:1 | 1 | 2 |
+// | itemCount | low | complexity:0 | 1 | 2 |
+// | urlAt | medium | complexity:1 | 1 | 2 |
+// | onDeviceDataLoaded | high | complexity:1 | 1 | 2 |
 // ─── 生成后填入 actual 列，低于 min 即违规 ───
 
 // 最小清单完成情况（test-code-gen §最小清单）：
@@ -54,6 +67,7 @@
 #include <gtest/gtest.h>
 #include <QGuiApplication>
 #include <QList>
+#include <QSignalSpy>
 #include <QUrl>
 #include <QVariant>
 #include <QString>
@@ -364,4 +378,351 @@ TEST_F(ImageDataModelTest, LoadData_SearchResult_LoadsFromAlbumControl)
 
     EXPECT_EQ(infoList().size(), 1);
     EXPECT_EQ(infoList()[0].filePath, QString("/tmp/search_result.jpg"));
+}
+
+// ===== roleNames() tests =====
+
+TEST_F(ImageDataModelTest, RoleNames_ContainsCustomRoles)
+{
+    QHash<int, QByteArray> names = m_model->roleNames();
+
+    EXPECT_TRUE(names.contains(Roles::ItemTypeRole));
+    EXPECT_EQ(names.value(Roles::ItemTypeRole), QByteArray("itemType"));
+
+    EXPECT_TRUE(names.contains(Roles::FileNameRole));
+    EXPECT_EQ(names.value(Roles::FileNameRole), QByteArray("fileName"));
+
+    EXPECT_TRUE(names.contains(Roles::UrlRole));
+    EXPECT_EQ(names.value(Roles::UrlRole), QByteArray("url"));
+
+    EXPECT_TRUE(names.contains(Roles::FilePathRole));
+    EXPECT_EQ(names.value(Roles::FilePathRole), QByteArray("filePath"));
+
+    EXPECT_TRUE(names.contains(Roles::PathHashRole));
+    EXPECT_EQ(names.value(Roles::PathHashRole), QByteArray("pathHash"));
+
+    EXPECT_TRUE(names.contains(Roles::RemainDaysRole));
+    EXPECT_EQ(names.value(Roles::RemainDaysRole), QByteArray("remainDays"));
+}
+
+// ===== rowCount() tests =====
+
+TEST_F(ImageDataModelTest, RowCount_EmptyModel_ReturnsZero)
+{
+    EXPECT_EQ(m_model->rowCount(), 0);
+}
+
+TEST_F(ImageDataModelTest, RowCount_AfterFill_ReturnsCorrectCount)
+{
+    DBImgInfoList list;
+    list << makeImgInfo("/tmp/a.jpg") << makeImgInfo("/tmp/b.jpg") << makeImgInfo("/tmp/c.jpg");
+    setInfoList(list);
+
+    EXPECT_EQ(m_model->rowCount(), 3);
+}
+
+TEST_F(ImageDataModelTest, RowCount_WithValidParentIndex_ReturnsZero)
+{
+    DBImgInfoList list;
+    list << makeImgInfo("/tmp/a.jpg");
+    setInfoList(list);
+
+    QModelIndex parentIdx = m_model->index(0, 0);
+    EXPECT_EQ(m_model->rowCount(parentIdx), 0);
+}
+
+// ===== modelType() / setModelType() tests =====
+
+TEST_F(ImageDataModelTest, ModelType_SetAndGet_Consistent)
+{
+    m_model->setModelType(Types::Device);
+    EXPECT_EQ(m_model->modelType(), Types::Device);
+
+    m_model->setModelType(Types::RecentlyDeleted);
+    EXPECT_EQ(m_model->modelType(), Types::RecentlyDeleted);
+}
+
+TEST_F(ImageDataModelTest, SetModelType_EmitsModelTypeChanged)
+{
+    QSignalSpy spy(m_model.get(), &ImageDataModel::modelTypeChanged);
+    ASSERT_TRUE(spy.isValid());
+
+    m_model->setModelType(Types::Device);
+    EXPECT_EQ(spy.count(), 1);
+
+    m_model->setModelType(Types::AllCollection);
+    EXPECT_EQ(spy.count(), 2);
+
+    // No guard clause: same value still emits
+    m_model->setModelType(Types::AllCollection);
+    EXPECT_EQ(spy.count(), 3);
+}
+
+// ===== albumId() / setAlbumId() tests =====
+
+TEST_F(ImageDataModelTest, AlbumId_SetAndGet_Consistent)
+{
+    m_model->setAlbumId(42);
+    EXPECT_EQ(m_model->albumId(), 42);
+
+    m_model->setAlbumId(0);
+    EXPECT_EQ(m_model->albumId(), 0);
+}
+
+TEST_F(ImageDataModelTest, SetAlbumId_EmitsSignalOnlyWhenChanged)
+{
+    m_model->setAlbumId(10);
+
+    QSignalSpy spy(m_model.get(), &ImageDataModel::albumIdChanged);
+    ASSERT_TRUE(spy.isValid());
+
+    // Same value — no signal
+    m_model->setAlbumId(10);
+    EXPECT_EQ(spy.count(), 0);
+
+    // Different value — signal emitted
+    m_model->setAlbumId(20);
+    EXPECT_EQ(spy.count(), 1);
+}
+
+// ===== keyWord() / setKeyWord() tests =====
+
+TEST_F(ImageDataModelTest, KeyWord_SetAndGet_Consistent)
+{
+    m_model->setKeyWord(QString("vacation"));
+    EXPECT_EQ(m_model->keyWord(), QString("vacation"));
+
+    m_model->setKeyWord(QString(""));
+    EXPECT_EQ(m_model->keyWord(), QString(""));
+}
+
+TEST_F(ImageDataModelTest, SetKeyWord_EmitsSignalOnlyWhenChanged)
+{
+    m_model->setKeyWord(QString("test"));
+
+    QSignalSpy spy(m_model.get(), &ImageDataModel::keyWordChanged);
+    ASSERT_TRUE(spy.isValid());
+
+    m_model->setKeyWord(QString("test"));
+    EXPECT_EQ(spy.count(), 0);
+
+    m_model->setKeyWord(QString("new"));
+    EXPECT_EQ(spy.count(), 1);
+}
+
+// ===== devicePath() / setDevicePath() tests =====
+
+TEST_F(ImageDataModelTest, DevicePath_SetAndGet_Consistent)
+{
+    m_model->setDevicePath(QString("/media/usb"));
+    EXPECT_EQ(m_model->devicePath(), QString("/media/usb"));
+
+    m_model->setDevicePath(QString(""));
+    EXPECT_EQ(m_model->devicePath(), QString(""));
+}
+
+TEST_F(ImageDataModelTest, SetDevicePath_EmitsSignalOnlyWhenChanged)
+{
+    m_model->setDevicePath(QString("/media/sdcard"));
+
+    QSignalSpy spy(m_model.get(), &ImageDataModel::devicePathChanged);
+    ASSERT_TRUE(spy.isValid());
+
+    m_model->setDevicePath(QString("/media/sdcard"));
+    EXPECT_EQ(spy.count(), 0);
+
+    m_model->setDevicePath(QString("/media/usb"));
+    EXPECT_EQ(spy.count(), 1);
+}
+
+// ===== dayToken() / setDayToken() tests =====
+
+TEST_F(ImageDataModelTest, DayToken_SetAndGet_Consistent)
+{
+    m_model->setDayToken(QString("20260101"));
+    EXPECT_EQ(m_model->dayToken(), QString("20260101"));
+
+    m_model->setDayToken(QString(""));
+    EXPECT_EQ(m_model->dayToken(), QString(""));
+}
+
+TEST_F(ImageDataModelTest, SetDayToken_EmitsSignalOnlyWhenChanged)
+{
+    m_model->setDayToken(QString("day1"));
+
+    QSignalSpy spy(m_model.get(), &ImageDataModel::dayTokenChanged);
+    ASSERT_TRUE(spy.isValid());
+
+    m_model->setDayToken(QString("day1"));
+    EXPECT_EQ(spy.count(), 0);
+
+    m_model->setDayToken(QString("day2"));
+    EXPECT_EQ(spy.count(), 1);
+}
+
+// ===== importTitle() / setImportTitle() tests =====
+
+TEST_F(ImageDataModelTest, ImportTitle_SetAndGet_Consistent)
+{
+    m_model->setImportTitle(QString("My Import"));
+    EXPECT_EQ(m_model->importTitle(), QString("My Import"));
+
+    m_model->setImportTitle(QString(""));
+    EXPECT_EQ(m_model->importTitle(), QString(""));
+}
+
+TEST_F(ImageDataModelTest, SetImportTitle_EmitsSignalOnlyWhenChanged)
+{
+    m_model->setImportTitle(QString("title1"));
+
+    QSignalSpy spy(m_model.get(), &ImageDataModel::importTitleChanged);
+    ASSERT_TRUE(spy.isValid());
+
+    m_model->setImportTitle(QString("title1"));
+    EXPECT_EQ(spy.count(), 0);
+
+    m_model->setImportTitle(QString("title2"));
+    EXPECT_EQ(spy.count(), 1);
+}
+
+// ===== className() / setClassName() tests =====
+
+TEST_F(ImageDataModelTest, ClassName_SetAndGet_Consistent)
+{
+    m_model->setClassName(QString("Nature"));
+    EXPECT_EQ(m_model->className(), QString("Nature"));
+
+    m_model->setClassName(QString(""));
+    EXPECT_EQ(m_model->className(), QString(""));
+}
+
+TEST_F(ImageDataModelTest, SetClassName_EmitsSignalOnlyWhenChanged)
+{
+    m_model->setClassName(QString("class1"));
+
+    QSignalSpy spy(m_model.get(), &ImageDataModel::classNameChanged);
+    ASSERT_TRUE(spy.isValid());
+
+    m_model->setClassName(QString("class1"));
+    EXPECT_EQ(spy.count(), 0);
+
+    m_model->setClassName(QString("class2"));
+    EXPECT_EQ(spy.count(), 1);
+}
+
+// ===== dataForIndex() tests =====
+
+TEST_F(ImageDataModelTest, DataForIndex_ValidIndex_ReturnsCorrectInfo)
+{
+    DBImgInfoList list;
+    list << makeImgInfo("/tmp/first.jpg", ItemTypePic, "hash1", 10)
+         << makeImgInfo("/tmp/second.mp4", ItemTypeVideo, "hash2", 20);
+    setInfoList(list);
+
+    QModelIndex idx = m_model->index(1, 0);
+    DBImgInfo info = m_model->dataForIndex(idx);
+    EXPECT_EQ(info.filePath, QString("/tmp/second.mp4"));
+    EXPECT_EQ(info.pathHash, QString("hash2"));
+    EXPECT_EQ(info.remainDays, 20);
+}
+
+TEST_F(ImageDataModelTest, DataForIndex_InvalidIndex_ReturnsDefault)
+{
+    DBImgInfoList list;
+    list << makeImgInfo("/tmp/test.jpg");
+    setInfoList(list);
+
+    DBImgInfo info = m_model->dataForIndex(QModelIndex());
+    EXPECT_EQ(info.filePath, QString());
+}
+
+// ===== itemCount() tests =====
+
+TEST_F(ImageDataModelTest, ItemCount_EmptyModel_ReturnsZero)
+{
+    EXPECT_EQ(m_model->itemCount(), 0);
+}
+
+TEST_F(ImageDataModelTest, ItemCount_FilledModel_ReturnsCorrectCount)
+{
+    DBImgInfoList list;
+    list << makeImgInfo("/tmp/a.jpg") << makeImgInfo("/tmp/b.jpg") << makeImgInfo("/tmp/c.jpg");
+    setInfoList(list);
+
+    EXPECT_EQ(m_model->itemCount(), 3);
+}
+
+// ===== urlAt() tests =====
+
+TEST_F(ImageDataModelTest, UrlAt_ValidRow_ReturnsUrl)
+{
+    DBImgInfoList list;
+    list << makeImgInfo("/tmp/photo.jpg") << makeImgInfo("/tmp/video.mp4");
+    setInfoList(list);
+
+    EXPECT_EQ(m_model->urlAt(0), QUrl::fromLocalFile("/tmp/photo.jpg").toString());
+    EXPECT_EQ(m_model->urlAt(1), QUrl::fromLocalFile("/tmp/video.mp4").toString());
+}
+
+TEST_F(ImageDataModelTest, UrlAt_OutOfBounds_ReturnsEmpty)
+{
+    DBImgInfoList list;
+    list << makeImgInfo("/tmp/only.jpg");
+    setInfoList(list);
+
+    EXPECT_EQ(m_model->urlAt(-1), QString());
+    EXPECT_EQ(m_model->urlAt(1), QString());
+    EXPECT_EQ(m_model->urlAt(100), QString());
+}
+
+// ===== onDeviceDataLoaded() tests =====
+
+TEST_F(ImageDataModelTest, OnDeviceDataLoaded_MatchingPath_RefreshesModel)
+{
+    g_testInfoList.clear();
+    g_testInfoList << makeImgInfo("/media/usb/img1.jpg") << makeImgInfo("/media/usb/img2.jpg");
+
+    // Stub AlbumControl::instance() to return non-null
+    static char dummyAC[sizeof(AlbumControl)];
+    stub.set_lamda(ADDR(AlbumControl, instance),
+                   []() -> AlbumControl * { return reinterpret_cast<AlbumControl *>(dummyAC); });
+
+    // Stub getDeviceAlbumInfoList to return test data
+    stub.set_lamda(ADDR(AlbumControl, getDeviceAlbumInfoList),
+                   [](void *, const QString &, const int &, bool *) -> DBImgInfoList {
+                       return g_testInfoList;
+                   });
+
+    // Set model to Device type and set device path
+    setModelType(Types::Device);
+    m_model->setDevicePath(QString("/media/usb"));
+    ASSERT_TRUE(infoList().isEmpty());
+
+    // Invoke the private slot with matching path
+    QMetaObject::invokeMethod(m_model.get(), "onDeviceDataLoaded",
+                              Qt::DirectConnection,
+                              Q_ARG(QString, QString("/media/usb")));
+
+    EXPECT_EQ(infoList().size(), 2);
+    EXPECT_EQ(infoList()[0].filePath, QString("/media/usb/img1.jpg"));
+    EXPECT_EQ(infoList()[1].filePath, QString("/media/usb/img2.jpg"));
+}
+
+TEST_F(ImageDataModelTest, OnDeviceDataLoaded_NonMatchingPath_Ignored)
+{
+    DBImgInfoList preList;
+    preList << makeImgInfo("/tmp/existing.jpg");
+    setInfoList(preList);
+
+    m_model->setModelType(Types::Device);
+    m_model->setDevicePath(QString("/media/usb"));
+
+    // Invoke with a non-matching path
+    QMetaObject::invokeMethod(m_model.get(), "onDeviceDataLoaded",
+                              Qt::DirectConnection,
+                              Q_ARG(QString, QString("/media/sdcard")));
+
+    // Model data should be unchanged
+    EXPECT_EQ(infoList().size(), 1);
+    EXPECT_EQ(infoList()[0].filePath, QString("/tmp/existing.jpg"));
 }
