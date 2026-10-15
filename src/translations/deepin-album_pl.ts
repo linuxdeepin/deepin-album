@@ -2247,7 +2247,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="193"/>
         <source>%1 is released under %2.</source>
-        <translation>%1 został wydany na licencji %2. {1 ?}</translation>
+        <translation>%1 został wydany na licencji %2.</translation>
     </message>
 </context>
 <context>
