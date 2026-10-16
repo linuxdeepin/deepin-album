@@ -275,11 +275,26 @@ BaseView {
         // }
     }
 
+    // 筛选无内容时，显示无结果
+    Label {
+        anchors {
+            top: recentDelTitleRect.bottom
+            left: parent.left
+            bottom: theView.bottom
+            right: parent.right
+            centerIn: parent
+        }
+        visible: numLabelText === "" && filterType > 0
+        font: DTK.fontManager.t4
+        color: Qt.rgba(85/255, 85/255, 85/255, 0.4)
+        text: qsTr("No results")
+    }
+
     // 若没有数据，显示无图片视图
     NoPictureView {
         Accessible.name: "RecentlyDeletedView_NoPictureView"
         Accessible.role: Accessible.Pane
-        visible: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted && numLabelText === ""/* && filterType === 0*/
+        visible: GStatus.currentViewType === Album.Types.ViewRecentlyDeleted && numLabelText === "" && filterType === 0
     }
 
     NumberAnimation {
