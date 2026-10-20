@@ -362,9 +362,9 @@ bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
         return false;
     }
     //跟随收藏按钮变化位置
-    QMouseEvent *pMouseEvent = static_cast<QMouseEvent *>(event);
-    {
-        if (event->type() == QEvent::MouseButtonPress) {
+    if (event->type() == QEvent::MouseButtonPress) {
+        QMouseEvent *pMouseEvent = static_cast<QMouseEvent *>(event);
+        {
             const DBImgInfo data = itemData(index);
             QPoint pos = pMouseEvent->pos();
             QRect backgroundRect = option.rect;
