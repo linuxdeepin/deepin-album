@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "toolbutton.h"
+#include "ddlog.h"
 #include <QPainter>
 #include <QStylePainter>
 #include <QSvgRenderer>
@@ -12,53 +13,53 @@
 
 ToolButton::ToolButton(QWidget *parent) : DPushButton(parent)
 {
-    // qDebug() << "ToolButton::ToolButton - Entry";
+    // qCDebug(albumLog) << "ToolButton::ToolButton - Entry";
     this->setObjectName("ToolButton");
     this->setAccessibleName("ToolButton");
     setMinimumSize(200, 11);
-    // qDebug() << "ToolButton::ToolButton - Exit";
+    // qCDebug(albumLog) << "ToolButton::ToolButton - Exit";
 }
 
 void ToolButton::setText(const QString &text)
 {
-    // qDebug() << "ToolButton::setText - Entry";
+    // qCDebug(albumLog) << "ToolButton::setText - Entry";
     //控件设置需要绘制的文字
     m_text = text;
     update();
-    // qDebug() << "ToolButton::setText - Exit";
+    // qCDebug(albumLog) << "ToolButton::setText - Exit";
 }
 
 void ToolButton::setLIcon(const QIcon &icon_light, const QIcon &icon_dark)
 {
-    // qDebug() << "ToolButton::setLIcon - Entry";
+    // qCDebug(albumLog) << "ToolButton::setLIcon - Entry";
     //控件设置需要绘制的图片
     m_Licon_light = icon_light;
     m_Licon_dark = icon_dark;
     update();
-    // qDebug() << "ToolButton::setLIcon - Exit";
+    // qCDebug(albumLog) << "ToolButton::setLIcon - Exit";
 }
 
 void ToolButton::setRIcon(const QIcon &icon_light, const QIcon &icon_dark)
 {
-    // qDebug() << "ToolButton::setRIcon - Entry";
+    // qCDebug(albumLog) << "ToolButton::setRIcon - Entry";
     //控件设置需要绘制的图片
     m_Ricon_light = icon_light;
     m_Ricon_dark = icon_dark;
     update();
-    // qDebug() << "ToolButton::setRIcon - Exit";
+    // qCDebug(albumLog) << "ToolButton::setRIcon - Exit";
 }
 
 void ToolButton::setRWIcon(const QString &path)
 {
-    // qDebug() << "ToolButton::setRWIcon - Entry";
+    // qCDebug(albumLog) << "ToolButton::setRWIcon - Entry";
     m_RiconWhite = QIcon::fromTheme(path);
     update();
-    // qDebug() << "ToolButton::setRWIcon - Exit";
+    // qCDebug(albumLog) << "ToolButton::setRWIcon - Exit";
 }
 
 void ToolButton::paintEvent(QPaintEvent *e)
 {
-    // qDebug() << "ToolButton::paintEvent - Entry";
+    // qCDebug(albumLog) << "ToolButton::paintEvent - Entry";
     Q_UNUSED(e)
 
     QStylePainter p(this);
@@ -140,45 +141,45 @@ void ToolButton::paintEvent(QPaintEvent *e)
             painter.drawPixmap(QRect(130, 10, 16, 16), m_Ricon_dark.pixmap(QSize(16, 16)));
         }
     }
-    // qDebug() << "ToolButton::paintEvent - Exit";
+    // qCDebug(albumLog) << "ToolButton::paintEvent - Exit";
 }
 
 void ToolButton::focusInEvent(QFocusEvent *e)
 {
-    // qDebug() << "ToolButton::focusInEvent - Entry";
+    // qCDebug(albumLog) << "ToolButton::focusInEvent - Entry";
     emit focusStatusChanged(true);
     DPushButton::focusInEvent(e);
-    // qDebug() << "ToolButton::focusInEvent - Exit";
+    // qCDebug(albumLog) << "ToolButton::focusInEvent - Exit";
 }
 
 void ToolButton::focusOutEvent(QFocusEvent *e)
 {
-    // qDebug() << "ToolButton::focusOutEvent - Entry";
+    // qCDebug(albumLog) << "ToolButton::focusOutEvent - Entry";
     emit focusStatusChanged(false);
     DPushButton::focusOutEvent(e);
-    // qDebug() << "ToolButton::focusOutEvent - Exit";
+    // qCDebug(albumLog) << "ToolButton::focusOutEvent - Exit";
 }
 
 void ToolButton::enterEvent(QEnterEvent *event)
 {
-    // qDebug() << "ToolButton::enterEvent - Entry";
+    // qCDebug(albumLog) << "ToolButton::enterEvent - Entry";
     currentStatus = btnHover;
     DPushButton::enterEvent(event);
-    // qDebug() << "ToolButton::enterEvent - Exit";
+    // qCDebug(albumLog) << "ToolButton::enterEvent - Exit";
 }
 
 void ToolButton::leaveEvent(QEvent *event)
 {
-    // qDebug() << "ToolButton::leaveEvent - Entry";
+    // qCDebug(albumLog) << "ToolButton::leaveEvent - Entry";
     currentStatus = btnNormal;
     DPushButton::leaveEvent(event);
-    // qDebug() << "ToolButton::leaveEvent - Exit";
+    // qCDebug(albumLog) << "ToolButton::leaveEvent - Exit";
 }
 
 void ToolButton::hideEvent(QHideEvent *event)
 {
-    // qDebug() << "ToolButton::hideEvent - Entry";
+    // qCDebug(albumLog) << "ToolButton::hideEvent - Entry";
     currentStatus = btnNormal;
     DPushButton::hideEvent(event);
-    // qDebug() << "ToolButton::hideEvent - Exit";
+    // qCDebug(albumLog) << "ToolButton::hideEvent - Exit";
 }

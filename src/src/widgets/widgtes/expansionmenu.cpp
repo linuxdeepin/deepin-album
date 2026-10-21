@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "expansionmenu.h"
+#include "ddlog.h"
 #include "expansionpanel.h"
 #include "widgets/thumbnail/timelinedatewidget.h"
 #include <QHBoxLayout>
@@ -20,7 +21,7 @@
 
 FilterWidget::FilterWidget(QWidget *parent): QWidget(parent)
 {
-    qDebug() << "Creating FilterWidget";
+    qCDebug(albumLog) << "Creating FilterWidget";
     this->setObjectName("FilterWidget");
     this->setAccessibleName("FilterWidget");
     QHBoxLayout *hb = new QHBoxLayout(this);
@@ -49,29 +50,29 @@ FilterWidget::FilterWidget(QWidget *parent): QWidget(parent)
 
     m_btn->installEventFilter(this);
     m_rightLabel->installEventFilter(this);
-    qDebug() << "FilterWidget initialization completed";
+    qCDebug(albumLog) << "FilterWidget initialization completed";
 }
 
 FilterWidget::~FilterWidget()
 {
-    // qDebug() << "Destroying FilterWidget";
+    // qCDebug(albumLog) << "Destroying FilterWidget";
 }
 
 void FilterWidget::setIcon(QIcon icon)
 {
-    // qDebug() << "FilterWidget::setIcon - Entry";
+    // qCDebug(albumLog) << "FilterWidget::setIcon - Entry";
     m_leftLabel->setPixmap(icon.pixmap(QSize(14, 14)));
 }
 
 void FilterWidget::setText(QString text)
 {
-    // qDebug() << "FilterWidget::setText - Entry";
+    // qCDebug(albumLog) << "FilterWidget::setText - Entry";
     m_btn->setText(text);
 }
 
 void FilterWidget::setFilteData(ExpansionPanel::FilteData &data)
 {
-    // qDebug() << "FilterWidget::setFilteData - Entry";
+    // qCDebug(albumLog) << "FilterWidget::setFilteData - Entry";
     m_data = data;
     themeTypeChanged(DGuiApplicationHelper::instance()->themeType());
     m_btn->setText(data.text);
@@ -79,28 +80,28 @@ void FilterWidget::setFilteData(ExpansionPanel::FilteData &data)
 
 ExpansionPanel::FilteData FilterWidget::getFilterData()
 {
-    // qDebug() << "FilterWidget::getFilterData - Entry";
+    // qCDebug(albumLog) << "FilterWidget::getFilterData - Entry";
     return m_data;
 }
 
 ItemType FilterWidget::getFilteType()
 {
-    // qDebug() << "FilterWidget::getFilteType - Entry";
+    // qCDebug(albumLog) << "FilterWidget::getFilteType - Entry";
     return m_data.type;
 }
 
 void FilterWidget::onClicked()
 {
-    // qDebug() << "FilterWidget::onClicked - Entry";
+    // qCDebug(albumLog) << "FilterWidget::onClicked - Entry";
     emit clicked();
 }
 
 void FilterWidget::themeTypeChanged(int type)
 {
-    // qDebug() << "FilterWidget::themeTypeChanged - Entry";
+    // qCDebug(albumLog) << "FilterWidget::themeTypeChanged - Entry";
     DPalette pal = DPaletteHelper::instance()->palette(m_btn);
     if (type == 1) {
-        // qDebug() << "FilterWidget::themeTypeChanged - Entry, type is 1";
+        // qCDebug(albumLog) << "FilterWidget::themeTypeChanged - Entry, type is 1";
         QString path = ":/icons/deepin/builtin/icons/light/";
         path += m_data.icon_r_path;
         path += "_16px.svg";
@@ -112,7 +113,7 @@ void FilterWidget::themeTypeChanged(int type)
         m_btn->setText(m_data.text);
         pal.setBrush(DPalette::Text, lightTextColor);
     } else {
-        // qDebug() << "FilterWidget::themeTypeChanged - Entry, type is 2";
+        // qCDebug(albumLog) << "FilterWidget::themeTypeChanged - Entry, type is 2";
         QString path = ":/icons/deepin/builtin/icons/dark";
         path += m_data.icon_r_path;
         path += "_16px.svg";
@@ -126,30 +127,30 @@ void FilterWidget::themeTypeChanged(int type)
     }
     m_btn->setForegroundRole(DPalette::Text);
     m_btn->setPalette(pal);
-    // qDebug() << "FilterWidget::themeTypeChanged - Exit";
+    // qCDebug(albumLog) << "FilterWidget::themeTypeChanged - Exit";
 }
 
 bool FilterWidget::eventFilter(QObject *obj, QEvent *event)
 {
-    // qDebug() << "FilterWidget::eventFilter - Entry";
+    // qCDebug(albumLog) << "FilterWidget::eventFilter - Entry";
     if (obj == m_btn || obj == m_rightLabel) {
         QMouseEvent *e = dynamic_cast<QMouseEvent *>(event);
         if (e && (e->type() == QEvent::MouseMove)) {
             //解决触屏上点击后移动整个应用问题
             return true;
         } else if (e && e->type() == QEvent::MouseButtonPress) {
-            qDebug() << "Mouse press event on" << (obj == m_btn ? "button" : "right label");
+            qCDebug(albumLog) << "Mouse press event on" << (obj == m_btn ? "button" : "right label");
             onClicked();
             return true;
         }
     }
-    // qDebug() << "FilterWidget::eventFilter - Exit";
+    // qCDebug(albumLog) << "FilterWidget::eventFilter - Exit";
     return QWidget::eventFilter(obj, event);
 }
 
 void FilterWidget::resizeEvent(QResizeEvent *e)
 {
-    // qDebug() << "Filter widget resized to width:" << this->width();
+    // qCDebug(albumLog) << "Filter widget resized to width:" << this->width();
     sigWidthChanged(this->width());
     QWidget::resizeEvent(e);
 }
@@ -157,31 +158,31 @@ void FilterWidget::resizeEvent(QResizeEvent *e)
 ExpansionMenu::ExpansionMenu(QWidget *parent)
     : QObject(parent)
 {
-    qDebug() << "Creating ExpansionMenu";
+    qCDebug(albumLog) << "Creating ExpansionMenu";
     panel = new ExpansionPanel();
     panel->setVisible(false);
     mainButton = new FilterWidget(parent);
     connect(panel, &ExpansionPanel::currentItemChanged, this, &ExpansionMenu::onCurrentItemChanged);
     connect(mainButton, &FilterWidget::clicked, this, &ExpansionMenu::onMainButtonClicked);
-    qDebug() << "ExpansionMenu initialization completed";
+    qCDebug(albumLog) << "ExpansionMenu initialization completed";
 }
 
 FilterWidget *ExpansionMenu::mainWidget()
 {
-    // qDebug() << "ExpansionMenu::mainWidget - Entry";
+    // qCDebug(albumLog) << "ExpansionMenu::mainWidget - Entry";
     return mainButton;
 }
 
 void ExpansionMenu::onCurrentItemChanged(ExpansionPanel::FilteData &data)
 {
-    qDebug() << "Current item changed - type:" << data.type << "text:" << data.text;
+    qCDebug(albumLog) << "Current item changed - type:" << data.type << "text:" << data.text;
     mainButton->setFilteData(data);
     emit mainButton->currentItemChanged(data);
 }
 
 void ExpansionMenu::onMainButtonClicked()
 {
-    qDebug() << "Main button clicked - panel visibility:" << panel->isHidden();
+    qCDebug(albumLog) << "Main button clicked - panel visibility:" << panel->isHidden();
     panel->isHidden() ? panel->show() : panel->hide();
     //不允许弹窗被右侧屏幕遮挡部分
     QList<QScreen *> screens = QGuiApplication::screens();
@@ -190,7 +191,7 @@ void ExpansionMenu::onMainButtonClicked()
         width += screens.at(i)->availableGeometry().width();
     }
     if (width - QCursor().pos().x() < 190) {
-        qDebug() << "Adjusting panel position to prevent right screen overlap";
+        qCDebug(albumLog) << "Adjusting panel position to prevent right screen overlap";
         panel->setGeometry(width - 191, QCursor().pos().y() + 15, 0, 0);
     } else {
         panel->setGeometry(QCursor().pos().x(), QCursor().pos().y() + 15, 0, 0);
@@ -199,32 +200,32 @@ void ExpansionMenu::onMainButtonClicked()
 
 void ExpansionMenu::addNewButton(ExpansionPanel::FilteData &data)
 {
-    // qDebug() << "ExpansionMenu::addNewButton - Entry";
+    // qCDebug(albumLog) << "ExpansionMenu::addNewButton - Entry";
     panel->addNewButton(data);
 }
 
 void ExpansionMenu::setDefaultFilteData(ExpansionPanel::FilteData &data)
 {
-    // qDebug() << "ExpansionMenu::setDefaultFilteData - Entry";
+    // qCDebug(albumLog) << "ExpansionMenu::setDefaultFilteData - Entry";
     mainButton->setFilteData(data);
 }
 
 FilterLabel::FilterLabel(QWidget *parent)
 {
-    // qDebug() << "Creating FilterLabel";
+    // qCDebug(albumLog) << "Creating FilterLabel";
     this->setObjectName("FilterLabel");
     this->setAccessibleName("FilterLabel");
 }
 
 FilterLabel::~FilterLabel()
 {
-    // qDebug() << "Destroying FilterLabel";
+    // qCDebug(albumLog) << "Destroying FilterLabel";
 }
 
 void FilterLabel::mouseReleaseEvent(QMouseEvent *ev)
 {
-    // qDebug() << "FilterLabel::mouseReleaseEvent - Entry";
+    // qCDebug(albumLog) << "FilterLabel::mouseReleaseEvent - Entry";
     emit clicked();
     QLabel::mouseReleaseEvent(ev);
-    // qDebug() << "FilterLabel::mouseReleaseEvent - Exit";
+    // qCDebug(albumLog) << "FilterLabel::mouseReleaseEvent - Exit";
 }
