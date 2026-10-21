@@ -117,3 +117,14 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/translations
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/assets/deepin-album
     DESTINATION ${CMAKE_INSTALL_PREFIX}/share/deepin-manual/manual-assets/application/
     FILES_MATCHING PATTERN "*")
+
+# DConfig meta 安装（调试模式动态日志规则，默认 warning 级别）
+set(DCONFIG_APPID org.deepin.album)
+file(GLOB DCONFIG_FILES "${CMAKE_SOURCE_DIR}/assets/configs/*.json")
+find_package(Dtk${DTK_VERSION_MAJOR}DConfig QUIET)
+if(Dtk${DTK_VERSION_MAJOR}DConfig_FOUND)
+    dtk_add_config_meta_files(APPID ${DCONFIG_APPID} FILES ${DCONFIG_FILES})
+else()
+    install(FILES ${DCONFIG_FILES}
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/share/dsg/configs/${DCONFIG_APPID})
+endif()

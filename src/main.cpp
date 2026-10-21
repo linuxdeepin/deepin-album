@@ -34,6 +34,9 @@
 #include <DApplication>
 #include <DLog>
 
+#include "ddlog.h"
+#include "logger.h"
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QScopedPointer>
@@ -50,10 +53,14 @@ DGUI_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
+    // 调试模式：注册动态日志规则监听（DConfig org.deepin.album 的 log_rules），
+    // 必须在任何日志打印之前创建
+    MLogger logger;
+
 #ifdef Q_OS_LINUX
     constexpr int imageBufferMmapThreshold = 128 * 1024;
     if (!mallopt(M_MMAP_THRESHOLD, imageBufferMmapThreshold)) {
-        qWarning() << "Failed to set image buffer mmap threshold";
+        qCWarning(albumLog) << "Failed to set image buffer mmap threshold";
     }
 #endif
 
@@ -82,23 +89,23 @@ int main(int argc, char *argv[])
     // LOG
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
-    qInfo() << QString("%1 start, PID: %2, Version: %3")
+    qCInfo(albumLog) << QString("%1 start, PID: %2, Version: %3")
                    .arg(app.applicationName())
                    .arg(app.applicationPid())
                    .arg(app.applicationVersion());
-    qDebug() << "LogFile:" << DLogManager::getlogFilePath();
+    qCDebug(albumLog) << "LogFile:" << DLogManager::getlogFilePath();
 
     // Reject duplicate instances before constructing the QML engine
     if (!DGuiApplicationHelper::instance()->setSingleInstance(app.applicationName(), DGuiApplicationHelper::UserScope)) {
-        qWarning() << "Application instance already running, exiting";
+        qCWarning(albumLog) << "Application instance already running, exiting";
         exit(0);
     }
 
     QQmlApplicationEngine engine;
-    qDebug() << "Initializing QML engine";
+    qCDebug(albumLog) << "Initializing QML engine";
 
     // 配置文件加载
-    qDebug() << "Loading application configuration";
+    qCDebug(albumLog) << "Loading application configuration";
     LibConfigSetter::instance()->loadConfig(imageViewerSpace::ImgViewerTypeAlbum);
 
     // 请在此处注册需要导入到QML中的C++类型
@@ -131,20 +138,20 @@ int main(int argc, char *argv[])
     // 部分平台支持线程数较低时，使用同步加载
     ProviderCache *providerCache = nullptr;
     if (!GlobalControl::enableMultiThread()) {
-        qInfo() << "Using synchronous image loading due to low thread support";
+        qCInfo(albumLog) << "Using synchronous image loading due to low thread support";
         ImageProvider *imageProvider = new ImageProvider;
         engine.addImageProvider(QLatin1String("ImageLoad"), imageProvider);
 
         providerCache = static_cast<ProviderCache *>(imageProvider);
     } else {
-        qInfo() << "Using asynchronous image loading";
+        qCInfo(albumLog) << "Using asynchronous image loading";
         AsyncImageProvider *asyncImageProvider = new AsyncImageProvider;
         engine.addImageProvider(QLatin1String("ImageLoad"), asyncImageProvider);
 
         providerCache = static_cast<ProviderCache *>(asyncImageProvider);
 
         if (!cliParam.isEmpty()) {
-            qDebug() << "Preloading image from command line parameter";
+            qCDebug(albumLog) << "Preloading image from command line parameter";
             asyncImageProvider->preloadImage(cliParam);
         }
     }
@@ -171,24 +178,24 @@ int main(int argc, char *argv[])
     if (!cliParam.isEmpty()) {
         QStringList filePaths = fileControl.getDirImagePath(cliParam);
         if (!filePaths.isEmpty()) {
-            qInfo() << "Loading" << filePaths.size() << "images from command line parameter";
+            qCInfo(albumLog) << "Loading" << filePaths.size() << "images from command line parameter";
             control.setImageFiles(filePaths, cliParam);
             fileControl.resetImageFiles(filePaths);
 
             GlobalStatus::instance()->setStackPage(Types::ImageViewPage);
         } else {
-            qWarning() << "No valid images found in command line parameter path:" << cliParam;
+            qCWarning(albumLog) << "No valid images found in command line parameter path:" << cliParam;
         }
     }
 
     QImageItem::initDamage();
     //设置为相册模式
-    qDebug() << "Setting viewer type to album mode";
+    qCDebug(albumLog) << "Setting viewer type to album mode";
     fileControl.setViewerType(imageViewerSpace::ImgViewerTypeAlbum);
 
     //禁止多开
     if (!fileControl.isCheckOnly()) {
-        qWarning() << "Application instance check failed, exiting";
+        qCWarning(albumLog) << "Application instance check failed, exiting";
         return 0;
     }
 
@@ -222,17 +229,17 @@ int main(int argc, char *argv[])
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine.rootObjects().isEmpty()) {
-        qCritical() << "Failed to load main QML file";
+        qCCritical(albumLog) << "Failed to load main QML file";
         return -1;
     }
-    qInfo() << "Main QML file loaded successfully";
+    qCInfo(albumLog) << "Main QML file loaded successfully";
 
     // 设置DBus接口
-    qDebug() << "Registering DBus service and object";
+    qCDebug(albumLog) << "Registering DBus service and object";
     ApplicationAdaptor adaptor(&fileControl);
     QDBusConnection::sessionBus().registerService("com.deepin.album");
     QDBusConnection::sessionBus().registerObject("/", &fileControl);
 
-    qInfo() << "Application initialization completed";
+    qCInfo(albumLog) << "Application initialization completed";
     return app.exec();
 }
