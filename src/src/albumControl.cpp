@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "albumControl.h"
+#include "ddlog.h"
 #include "dbmanager/dbmanager.h"
 #include "fileMonitor/fileinotifygroup.h"
 #include "imageengine/imageenginethread.h"
@@ -131,11 +132,11 @@ AlbumControl *AlbumControl::m_instance = nullptr;
 
 QString sizeString(const QString &str)
 {
-    // qDebug() << "sizeString - Function entry, str:" << str;
+    // qCDebug(albumLog) << "sizeString - Function entry, str:" << str;
     int begin_pos = str.indexOf('.');
 
     if (begin_pos < 0) {
-        // qDebug() << "sizeString - Branch: no decimal point found";
+        // qCDebug(albumLog) << "sizeString - Branch: no decimal point found";
         return str;
     }
 
@@ -148,15 +149,15 @@ QString sizeString(const QString &str)
         size = size.left(size.count() - 1);
     }
 
-    // qDebug() << "sizeString - Function exit, removed trailing zeros";
+    // qCDebug(albumLog) << "sizeString - Function exit, removed trailing zeros";
     return size.left(size.count() - 1);
 }
 
 QString formatSize(qint64 num, bool withUnitVisible = true, int precision = 1, int forceUnit = -1, QStringList unitList = QStringList())
 {
-    // qDebug() << "formatSize - Function entry, num:" << num << "withUnitVisible:" << withUnitVisible;
+    // qCDebug(albumLog) << "formatSize - Function entry, num:" << num << "withUnitVisible:" << withUnitVisible;
     if (num < 0) {
-        // qWarning() << "Negative number passed to formatSize():" << num;
+        // qCWarning(albumLog) << "Negative number passed to formatSize():" << num;
         num = 0;
     }
 
@@ -165,10 +166,10 @@ QString formatSize(qint64 num, bool withUnitVisible = true, int precision = 1, i
     qreal fileSize(num);
 
     if (unitList.size() == 0) {
-        // qDebug() << "formatSize - Branch: using default unit list";
+        // qCDebug(albumLog) << "formatSize - Branch: using default unit list";
         list << " B" << " KB" << " MB" << " GB" << " TB"; // should we use KiB since we use 1024 here?
     } else {
-        // qDebug() << "formatSize - Branch: using custom unit list";
+        // qCDebug(albumLog) << "formatSize - Branch: using custom unit list";
         list = unitList;
     }
 
@@ -178,12 +179,12 @@ QString formatSize(qint64 num, bool withUnitVisible = true, int precision = 1, i
     int index = 0;
     while (i.hasNext()) {
         if (fileSize < 1024 && !isForceUnit) {
-            // qDebug() << "formatSize - Branch: file size under 1024 and not forced unit";
+            // qCDebug(albumLog) << "formatSize - Branch: file size under 1024 and not forced unit";
             break;
         }
 
         if (isForceUnit && index == forceUnit) {
-            // qDebug() << "formatSize - Branch: reached forced unit index";
+            // qCDebug(albumLog) << "formatSize - Branch: reached forced unit index";
             break;
         }
 
@@ -192,42 +193,42 @@ QString formatSize(qint64 num, bool withUnitVisible = true, int precision = 1, i
         index++;
     }
     QString unitString = withUnitVisible ? unit : QString();
-    // qDebug() << "formatSize - Function exit, final size:" << fileSize << "unit:" << unitString;
+    // qCDebug(albumLog) << "formatSize - Function exit, final size:" << fileSize << "unit:" << unitString;
     return QString("%1%2").arg(sizeString(QString::number(fileSize, 'f', precision)), unitString);
 }
 
 AlbumControl::AlbumControl(QObject *parent)
     : QObject(parent)
 {
-    qDebug() << "Creating AlbumControl instance";
+    qCDebug(albumLog) << "Creating AlbumControl instance";
     initMonitor();
     initDeviceMonitor();
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::newProcessInstance, this, &AlbumControl::onNewAPPOpen);
-    qDebug() << "AlbumControl initialization completed";
+    qCDebug(albumLog) << "AlbumControl initialization completed";
 }
 
 AlbumControl::~AlbumControl()
 {
-    // qDebug() << "Destroying AlbumControl instance";
+    // qCDebug(albumLog) << "Destroying AlbumControl instance";
 }
 
 AlbumControl *AlbumControl::instance()
 {
-    // qDebug() << "AlbumControl::instance - Function entry";
+    // qCDebug(albumLog) << "AlbumControl::instance - Function entry";
     if (!m_instance) {
-        // qDebug() << "AlbumControl::instance - Branch: creating new AlbumControl singleton instance";
+        // qCDebug(albumLog) << "AlbumControl::instance - Branch: creating new AlbumControl singleton instance";
         m_instance = new AlbumControl();
         // Defer to the event loop: startMonitor's DB/FS scans must not block first paint
         QTimer::singleShot(0, m_instance, &AlbumControl::startMonitor);
     }
-    // qDebug() << "AlbumControl::instance - Function exit";
+    // qCDebug(albumLog) << "AlbumControl::instance - Function exit";
     return m_instance;
 }
 
 DBImgInfo AlbumControl::getDBInfo(const QString &srcpath, bool isVideo)
 {
-    qDebug() << "Getting DB info for path:" << srcpath << "isVideo:" << isVideo;
+    qCDebug(albumLog) << "Getting DB info for path:" << srcpath << "isVideo:" << isVideo;
     using namespace LibUnionImage_NameSpace;
     QFileInfo srcfi(srcpath);
     DBImgInfo dbi;
@@ -235,10 +236,10 @@ DBImgInfo AlbumControl::getDBInfo(const QString &srcpath, bool isVideo)
     dbi.importTime = QDateTime::currentDateTime();
     if (isVideo) {
         //获取视频信息
-        qDebug() << "Processing video file";
+        qCDebug(albumLog) << "Processing video file";
         MovieInfo movieInfo = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(srcpath));
         if (!movieInfo.valid) {
-            qWarning() << "Invalid video file:" << srcpath;
+            qCWarning(albumLog) << "Invalid video file:" << srcpath;
             dbi.itemType = ItemTypeNull;
             return dbi;
         }
@@ -252,52 +253,52 @@ DBImgInfo AlbumControl::getDBInfo(const QString &srcpath, bool isVideo)
         dbi.changeTime = srcfi.lastModified();
 
         if (movieInfo.creation.isValid()) {
-            qDebug() << "getDBInfo - Branch: using movie creation time";
+            qCDebug(albumLog) << "getDBInfo - Branch: using movie creation time";
             dbi.time = movieInfo.creation;
         } else if (srcfi.birthTime().isValid()) {
-            qDebug() << "getDBInfo - Branch: using file birth time";
+            qCDebug(albumLog) << "getDBInfo - Branch: using file birth time";
             dbi.time = srcfi.birthTime();
         } else if (srcfi.metadataChangeTime().isValid()) {
-            qDebug() << "getDBInfo - Branch: using metadata change time";
+            qCDebug(albumLog) << "getDBInfo - Branch: using metadata change time";
             dbi.time = srcfi.metadataChangeTime();
         } else {
-            qDebug() << "getDBInfo - Branch: using default change time";
+            qCDebug(albumLog) << "getDBInfo - Branch: using default change time";
             dbi.time = dbi.changeTime;
         }
     } else {
-        qDebug() << "Processing image file";
+        qCDebug(albumLog) << "Processing image file";
         auto mds = getAllMetaData(srcpath);
         QString value = mds.value("DateTimeOriginal");
         dbi.itemType = ItemTypePic;
         dbi.changeTime = QDateTime::fromString(mds.value("DateTimeDigitized"), "yyyy/MM/dd hh:mm");
         if (!value.isEmpty()) {
-            qDebug() << "getDBInfo - Branch: using DateTimeOriginal from metadata";
+            qCDebug(albumLog) << "getDBInfo - Branch: using DateTimeOriginal from metadata";
             dbi.time = QDateTime::fromString(value, "yyyy/MM/dd hh:mm");
         } else if (srcfi.birthTime().isValid()) {
-            qDebug() << "getDBInfo - Branch: using file birth time";
+            qCDebug(albumLog) << "getDBInfo - Branch: using file birth time";
             dbi.time = srcfi.birthTime();
         } else if (srcfi.metadataChangeTime().isValid()) {
-            qDebug() << "getDBInfo - Branch: using metadata change time";
+            qCDebug(albumLog) << "getDBInfo - Branch: using metadata change time";
             dbi.time = srcfi.metadataChangeTime();
         } else {
-            qDebug() << "getDBInfo - Branch: using default change time";
+            qCDebug(albumLog) << "getDBInfo - Branch: using default change time";
             dbi.time = dbi.changeTime;
         }
     }
-    qDebug() << "DB info retrieved successfully for:" << srcpath;
+    qCDebug(albumLog) << "DB info retrieved successfully for:" << srcpath;
     return dbi;
 }
 
 void AlbumControl::initDeviceMonitor()
 {
-    qDebug() << "Initializing device monitor";
+    qCDebug(albumLog) << "Initializing device monitor";
     m_deviceManager = DDeviceManager::instance();
     m_deviceManager->startMonitorWatch();
 
     DeviceHelper::instance()->loadAllDeviceInfos();
     getAllBlockDeviceName();
     QStringList deviceIds = DeviceHelper::instance()->getAllDeviceIds();
-    qDebug() << "Found" << deviceIds.size() << "devices";
+    qCDebug(albumLog) << "Found" << deviceIds.size() << "devices";
 
     for (auto id : deviceIds) {
         QVariantMap deveiceInfo = DeviceHelper::instance()->loadDeviceInfo(id);
@@ -307,15 +308,15 @@ void AlbumControl::initDeviceMonitor()
     connect(m_deviceManager, &DDeviceManager::deviceRemoved, this, &AlbumControl::onDeviceRemoved);
     connect(m_deviceManager, &DDeviceManager::mounted, this, &AlbumControl::onMounted);
     connect(m_deviceManager, &DDeviceManager::unmounted, this, &AlbumControl::onUnMounted);
-    qDebug() << "Device monitor initialization completed";
+    qCDebug(albumLog) << "Device monitor initialization completed";
 }
 
 bool AlbumControl::findPicturePathByPhone(QString &path)
 {
-    qDebug() << "Searching for picture path in phone directory:" << path;
+    qCDebug(albumLog) << "Searching for picture path in phone directory:" << path;
     QDir dir(path);
     if (!dir.exists()) {
-        qWarning() << "Directory does not exist:" << path;
+        qCWarning(albumLog) << "Directory does not exist:" << path;
         return false;
     }
 
@@ -325,7 +326,7 @@ bool AlbumControl::findPicturePathByPhone(QString &path)
         //针对ptp模式
         if (tempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0) {
             path = tempFileInfo.absoluteFilePath();
-            qDebug() << "Found picture path:" << path;
+            qCDebug(albumLog) << "Found picture path:" << path;
             return true;
         } else {        //针对MTP模式
             QDir subDir;
@@ -334,32 +335,32 @@ bool AlbumControl::findPicturePathByPhone(QString &path)
             for (QFileInfo subTempFileInfo : subFileInfoList) {
                 if (subTempFileInfo.fileName().compare(ALBUM_PATHNAME_BY_PHONE) == 0) {
                     path = subTempFileInfo.absoluteFilePath();
-                    qDebug() << "Found picture path in subdirectory:" << path;
+                    qCDebug(albumLog) << "Found picture path in subdirectory:" << path;
                     return true;
                 }
             }
         }
     }
-    qDebug() << "No picture path found in:" << path;
+    qCDebug(albumLog) << "No picture path found in:" << path;
     return false;
 }
 
 void AlbumControl::getAllInfos()
 {
-    qDebug() << "Getting all image infos";
+    qCDebug(albumLog) << "Getting all image infos";
     m_infoList = DBManager::instance()->getAllInfos();
-    qDebug() << "Retrieved" << m_infoList.size() << "image infos";
+    qCDebug(albumLog) << "Retrieved" << m_infoList.size() << "image infos";
 }
 
 DBImgInfoList AlbumControl::getAllInfosByUID(QString uid)
 {
-    qDebug() << "AlbumControl::getAllInfosByUID - Function entry, uid:" << uid;
+    qCDebug(albumLog) << "AlbumControl::getAllInfosByUID - Function entry, uid:" << uid;
     return DBManager::instance()->getAllInfosByUID(uid);
 }
 
 QString AlbumControl::getAllFilters()
 {
-    qDebug() << "AlbumControl::getAllFilters - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getAllFilters - Function entry";
     QStringList sList;
     for (const QString &i : LibUnionImage_NameSpace::unionImageSupportFormat())
         sList << ("*." + i);
@@ -370,13 +371,13 @@ QString AlbumControl::getAllFilters()
     filter.append('(');
     filter.append(sList.join(" "));
     filter.append(')');
-    qDebug() << "AlbumControl::getAllFilters - Function exit, filter:" << filter;
+    qCDebug(albumLog) << "AlbumControl::getAllFilters - Function exit, filter:" << filter;
     return filter;
 }
 
 void AlbumControl::unMountDevice(const QString &devicePath)
 {
-    qDebug() << "AlbumControl::unMountDevice - Function entry, devicePath:" << devicePath;
+    qCDebug(albumLog) << "AlbumControl::unMountDevice - Function entry, devicePath:" << devicePath;
     // The unmount flow runs nested event loops; repeated clicks during it would re-enter this flow, so ignore them
     if (m_unmountingDevice)
         return;
@@ -397,7 +398,7 @@ void AlbumControl::doUnmountDevice(const QString &devicePath)
         // interrupt device file parsing mid-way and corrupt the parser library's heap
         DeviceHelper::markUnmounting(devicePath, true);
         if (!DeviceHelper::waitForReadsDone(devicePath, 1000)) {
-            qWarning() << "AlbumControl::doUnmountDevice - Active reads did not finish";
+            qCWarning(albumLog) << "AlbumControl::doUnmountDevice - Active reads did not finish";
             // Reads not drained in time, give up this unmount; the filesystem is untouched,
             // so unblock reads and inform the user
             DeviceHelper::markUnmounting(devicePath, false);
@@ -413,7 +414,7 @@ void AlbumControl::doUnmountDevice(const QString &devicePath)
         }
     }
     if (!deviceId.isEmpty() && DeviceHelper::instance()->detachDevice(deviceId)) {
-        qDebug() << "AlbumControl::unMountDevice - Branch: device detach initiated, waiting for completion";
+        qCDebug(albumLog) << "AlbumControl::unMountDevice - Branch: device detach initiated, waiting for completion";
         // 等待最多200ms超时
         QEventLoop loop;
         static const int overTime = 200;
@@ -424,11 +425,11 @@ void AlbumControl::doUnmountDevice(const QString &devicePath)
 
         // 设备不存在，则卸载成功，否则提示卸载失败
         if (!DeviceHelper::instance()->isExist(deviceId)) {
-            qDebug() << "AlbumControl::unMountDevice - Branch: device unmounted successfully";
+            qCDebug(albumLog) << "AlbumControl::unMountDevice - Branch: device unmounted successfully";
             m_durlAndNameMap.remove(devicePath);
             m_PhonePicFileMap.remove(devicePath);
         } else {
-            qDebug() << "AlbumControl::unMountDevice - Branch: device still exists, showing error dialog";
+            qCDebug(albumLog) << "AlbumControl::unMountDevice - Branch: device still exists, showing error dialog";
             // Unmount failed and the filesystem is still there: unblock reads early so reads
             // from this device are not rejected while the dialog is up
             DeviceHelper::markUnmounting(devicePath, false);
@@ -445,25 +446,25 @@ void AlbumControl::doUnmountDevice(const QString &devicePath)
 
     DeviceHelper::markUnmounting(devicePath, false);
     emit sigMountsChange();
-    qDebug() << "AlbumControl::doUnmountDevice - Function exit";
+    qCDebug(albumLog) << "AlbumControl::doUnmountDevice - Function exit";
 }
 
 QStringList AlbumControl::getAllUrlPaths(const int &filterType)
 {
-    qDebug() << "AlbumControl::getAllUrlPaths - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getAllUrlPaths - Function entry, filterType:" << filterType;
     QStringList pathList;
     ItemType type = ItemType::ItemTypePic;
     switch (filterType) {
     case 0:
-        qDebug() << "AlbumControl::getAllUrlPaths - Branch: filter type null";
+        qCDebug(albumLog) << "AlbumControl::getAllUrlPaths - Branch: filter type null";
         type = ItemType::ItemTypeNull;
         break;
     case 1:
-        qDebug() << "AlbumControl::getAllUrlPaths - Branch: filter type picture";
+        qCDebug(albumLog) << "AlbumControl::getAllUrlPaths - Branch: filter type picture";
         type = ItemType::ItemTypePic;
         break;
     case 2:
-        qDebug() << "AlbumControl::getAllUrlPaths - Branch: filter type video";
+        qCDebug(albumLog) << "AlbumControl::getAllUrlPaths - Branch: filter type video";
         type = ItemType::ItemTypeVideo;
         break;
     }
@@ -471,52 +472,52 @@ QStringList AlbumControl::getAllUrlPaths(const int &filterType)
     for (QString path : list) {
         pathList << "file://" + path;
     }
-    qDebug() << "AlbumControl::getAllUrlPaths - Function exit, returning" << pathList.size() << "paths";
+    qCDebug(albumLog) << "AlbumControl::getAllUrlPaths - Function exit, returning" << pathList.size() << "paths";
     return pathList;
 }
 
 QStringList AlbumControl::getAllPaths(const int &filterType)
 {
-    qDebug() << "AlbumControl::getAllPaths - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getAllPaths - Function entry, filterType:" << filterType;
     QStringList pathList;
     ItemType type = ItemType::ItemTypePic;
     switch (filterType) {
     case 0:
-        qDebug() << "AlbumControl::getAllPaths - Branch: filter type null";
+        qCDebug(albumLog) << "AlbumControl::getAllPaths - Branch: filter type null";
         type = ItemType::ItemTypeNull;
         break;
     case 1:
-        qDebug() << "AlbumControl::getAllPaths - Branch: filter type picture";
+        qCDebug(albumLog) << "AlbumControl::getAllPaths - Branch: filter type picture";
         type = ItemType::ItemTypePic;
         break;
     case 2:
-        qDebug() << "AlbumControl::getAllPaths - Branch: filter type video";
+        qCDebug(albumLog) << "AlbumControl::getAllPaths - Branch: filter type video";
         type = ItemType::ItemTypeVideo;
         break;
     }
 
     QStringList list = DBManager::instance()->getAllPaths(type);
-    qDebug() << "AlbumControl::getAllPaths - Function exit, returning" << list.size() << "paths";
+    qCDebug(albumLog) << "AlbumControl::getAllPaths - Function exit, returning" << list.size() << "paths";
 
     return list;
 }
 
 QVariantList AlbumControl::getAlbumAllInfos(const int &filterType)
 {
-    qDebug() << "AlbumControl::getAlbumAllInfos - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getAlbumAllInfos - Function entry, filterType:" << filterType;
     QVariantList reinfoList;
     ItemType type = ItemType::ItemTypePic;
     switch (filterType) {
     case 0:
-        qDebug() << "AlbumControl::getAlbumAllInfos - Branch: filter type null";
+        qCDebug(albumLog) << "AlbumControl::getAlbumAllInfos - Branch: filter type null";
         type = ItemType::ItemTypeNull;
         break;
     case 1:
-        qDebug() << "AlbumControl::getAlbumAllInfos - Branch: filter type picture";
+        qCDebug(albumLog) << "AlbumControl::getAlbumAllInfos - Branch: filter type picture";
         type = ItemType::ItemTypePic;
         break;
     case 2:
-        qDebug() << "AlbumControl::getAlbumAllInfos - Branch: filter type video";
+        qCDebug(albumLog) << "AlbumControl::getAlbumAllInfos - Branch: filter type video";
         type = ItemType::ItemTypeVideo;
         break;
     }
@@ -529,28 +530,28 @@ QVariantList AlbumControl::getAlbumAllInfos(const int &filterType)
         reMap.insert("remainDays", info.remainDays);
 
         if (info.itemType == ItemTypePic) {
-            // qDebug() << "AlbumControl::getAlbumAllInfos - Branch: processing picture item";
+            // qCDebug(albumLog) << "AlbumControl::getAlbumAllInfos - Branch: processing picture item";
             reMap.insert("itemType", "pciture");
         } else if (info.itemType == ItemTypeVideo) {
-            // qDebug() << "AlbumControl::getAlbumAllInfos - Branch: processing video item";
+            // qCDebug(albumLog) << "AlbumControl::getAlbumAllInfos - Branch: processing video item";
             reMap.insert("itemType", "video");
         } else {
-            // qDebug() << "AlbumControl::getAlbumAllInfos - Branch: processing other item type";
+            // qCDebug(albumLog) << "AlbumControl::getAlbumAllInfos - Branch: processing other item type";
             reMap.insert("itemType", "other");
         }
         reinfoList << reMap;
         //}
     }
-    qDebug() << "AlbumControl::getAlbumAllInfos - Function exit, returning" << reinfoList.size() << "items";
+    qCDebug(albumLog) << "AlbumControl::getAlbumAllInfos - Function exit, returning" << reinfoList.size() << "items";
     return reinfoList;
 }
 
 bool AlbumControl::importAllImagesAndVideos(const QStringList &paths, const int UID, const bool notifyUI)
 {
-    qDebug() << "AlbumControl::importAllImagesAndVideos - Function entry, paths count:" << paths.size() << "UID:" << UID << "notifyUI:" << notifyUI;
+    qCDebug(albumLog) << "AlbumControl::importAllImagesAndVideos - Function entry, paths count:" << paths.size() << "UID:" << UID << "notifyUI:" << notifyUI;
     //发送导入开始信号
     if (notifyUI) {
-        qDebug() << "AlbumControl::importAllImagesAndVideos - Branch: emitting import start signal";
+        qCDebug(albumLog) << "AlbumControl::importAllImagesAndVideos - Branch: emitting import start signal";
         emit sigImportStart();
     }
 
@@ -559,13 +560,13 @@ bool AlbumControl::importAllImagesAndVideos(const QStringList &paths, const int 
     imagesthread->setNotifyUI(notifyUI);
     QThreadPool::globalInstance()->start(imagesthread);
 
-    qDebug() << "AlbumControl::importAllImagesAndVideos - Function exit, returning true";
+    qCDebug(albumLog) << "AlbumControl::importAllImagesAndVideos - Function exit, returning true";
     return true;
 }
 
 bool AlbumControl::importAllImagesAndVideosUrl(const QList<QUrl> &paths, const int UID, bool checkRepeat/* = true*/)
 {
-    qDebug() << "AlbumControl::importAllImagesAndVideosUrl - Function entry, paths count:" << paths.size() << "UID:" << UID << "checkRepeat:" << checkRepeat;
+    qCDebug(albumLog) << "AlbumControl::importAllImagesAndVideosUrl - Function entry, paths count:" << paths.size() << "UID:" << UID << "checkRepeat:" << checkRepeat;
     //发送导入开始信号
     emit sigImportStart();
 
@@ -573,7 +574,7 @@ bool AlbumControl::importAllImagesAndVideosUrl(const QList<QUrl> &paths, const i
     imagesthread->setData(paths, UID, checkRepeat);
     QThreadPool::globalInstance()->start(imagesthread);
 
-    qDebug() << "AlbumControl::importAllImagesAndVideosUrl - Function exit, returning true";
+    qCDebug(albumLog) << "AlbumControl::importAllImagesAndVideosUrl - Function exit, returning true";
     return true;
 }
 
@@ -593,51 +594,51 @@ bool AlbumControl::classifyOldDBInfo(const DBImgInfoList &infos)
 
 QStringList AlbumControl::getAllTimelinesTitle(const int &filterType)
 {
-    qDebug() << "AlbumControl::getAllTimelinesTitle - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getAllTimelinesTitle - Function entry, filterType:" << filterType;
     return getTimelinesTitle(TimeLineEnum::All, filterType);
 }
 
 QStringList AlbumControl::getTimelinesTitlePaths(const QString &titleName, const int &filterType)
 {
-    qDebug() << "AlbumControl::getTimelinesTitlePaths - Function entry, titleName:" << titleName << "filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getTimelinesTitlePaths - Function entry, titleName:" << titleName << "filterType:" << filterType;
     QStringList pathsList;
     DBImgInfoList dblist;
     if (m_yearDateMap.keys().contains(titleName)) {
-        qDebug() << "AlbumControl::getTimelinesTitlePaths - Branch: found in year date map";
+        qCDebug(albumLog) << "AlbumControl::getTimelinesTitlePaths - Branch: found in year date map";
         dblist = m_yearDateMap.value(titleName);
     } else if (m_monthDateMap.keys().contains(titleName)) {
-        qDebug() << "AlbumControl::getTimelinesTitlePaths - Branch: found in month date map";
+        qCDebug(albumLog) << "AlbumControl::getTimelinesTitlePaths - Branch: found in month date map";
         dblist = m_monthDateMap.value(titleName);
     } else if (m_dayDateMap.keys().contains(titleName)) {
-        qDebug() << "AlbumControl::getTimelinesTitlePaths - Branch: found in day date map";
+        qCDebug(albumLog) << "AlbumControl::getTimelinesTitlePaths - Branch: found in day date map";
         dblist = m_dayDateMap.value(titleName);
     } else {
-        qDebug() << "AlbumControl::getTimelinesTitlePaths - Branch: found in import timeline paths map";
+        qCDebug(albumLog) << "AlbumControl::getTimelinesTitlePaths - Branch: found in import timeline paths map";
         dblist = m_importTimeLinePathsMap.value(titleName);
     }
     for (DBImgInfo info : dblist) {
         if (filterType == 2 && info.itemType == ItemTypePic) {
-            // qDebug() << "AlbumControl::getTimelinesTitlePaths - Branch: skipping picture due to video filter";
+            // qCDebug(albumLog) << "AlbumControl::getTimelinesTitlePaths - Branch: skipping picture due to video filter";
             continue ;
         } else if (filterType == 1 && info.itemType == ItemTypeVideo) {
-            // qDebug() << "AlbumControl::getTimelinesTitlePaths - Branch: skipping video due to picture filter";
+            // qCDebug(albumLog) << "AlbumControl::getTimelinesTitlePaths - Branch: skipping video due to picture filter";
             continue ;
         }
         pathsList << "file://" + info.filePath;
     }
-    qDebug() << "AlbumControl::getTimelinesTitlePaths - Function exit, returning" << pathsList.size() << "paths";
+    qCDebug(albumLog) << "AlbumControl::getTimelinesTitlePaths - Function exit, returning" << pathsList.size() << "paths";
     return pathsList;
 }
 
 QStringList AlbumControl::getAllImportTimelinesTitle(const int &filterType)
 {
-    qDebug() << "AlbumControl::getAllImportTimelinesTitle - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getAllImportTimelinesTitle - Function entry, filterType:" << filterType;
     return getTimelinesTitle(TimeLineEnum::Import, filterType);
 }
 
 QVariantMap AlbumControl::getTimelinesTitleInfos(const int &filterType)
 {
-    qDebug() << "AlbumControl::getTimelinesTitleInfos - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getTimelinesTitleInfos - Function entry, filterType:" << filterType;
     QVariantMap reMap;
     QStringList alltitles =  getTimelinesTitle(TimeLineEnum::All, filterType);
     for (QString titleName : alltitles) {
@@ -647,13 +648,13 @@ QVariantMap AlbumControl::getTimelinesTitleInfos(const int &filterType)
             QVariantMap tmpMap;
             if (info.itemType == ItemTypePic) {
                 if (filterType == 2) {
-                    // qDebug() << "AlbumControl::getTimelinesTitleInfos - Branch: skipping picture due to video filter";
+                    // qCDebug(albumLog) << "AlbumControl::getTimelinesTitleInfos - Branch: skipping picture due to video filter";
                     continue ;
                 }
                 tmpMap.insert("itemType", "pciture");
             } else if (info.itemType == ItemTypeVideo) {
                 if (filterType == 1) {
-                    // qDebug() << "AlbumControl::getTimelinesTitleInfos - Branch: skipping video due to picture filter";
+                    // qCDebug(albumLog) << "AlbumControl::getTimelinesTitleInfos - Branch: skipping video due to picture filter";
                     continue ;
                 }
                 tmpMap.insert("itemType", "video");
@@ -667,24 +668,24 @@ QVariantMap AlbumControl::getTimelinesTitleInfos(const int &filterType)
             list << tmpMap;
         }
         if (list.count() > 0) {
-            // qDebug() << "AlbumControl::getTimelinesTitleInfos - Branch: adding title" << titleName << "with" << list.count() << "items";
+            // qCDebug(albumLog) << "AlbumControl::getTimelinesTitleInfos - Branch: adding title" << titleName << "with" << list.count() << "items";
             reMap.insert(titleName, list);
         }
     }
-    qDebug() << "AlbumControl::getTimelinesTitleInfos - Function exit, returning" << reMap.size() << "title groups";
+    qCDebug(albumLog) << "AlbumControl::getTimelinesTitleInfos - Function exit, returning" << reMap.size() << "title groups";
     return reMap;
 }
 
 
 QStringList AlbumControl::getYearTimelinesTitle(const int &filterType)
 {
-    qDebug() << "AlbumControl::getYearTimelinesTitle - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getYearTimelinesTitle - Function entry, filterType:" << filterType;
     return getTimelinesTitle(TimeLineEnum::Year, filterType);
 }
 
 QVariantMap AlbumControl::getYearTimelinesInfos(const int &filterType)
 {
-    qDebug() << "AlbumControl::getYearTimelinesInfos - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getYearTimelinesInfos - Function entry, filterType:" << filterType;
     QVariantMap reMap;
     QStringList alltitles =  getTimelinesTitle(TimeLineEnum::Year, filterType);
     for (QString titleName : alltitles) {
@@ -715,19 +716,19 @@ QVariantMap AlbumControl::getYearTimelinesInfos(const int &filterType)
             reMap.insert(titleName, list);
         }
     }
-    qDebug() << "AlbumControl::getYearTimelinesInfos - Function exit, returning" << reMap.size() << "title groups";
+    qCDebug(albumLog) << "AlbumControl::getYearTimelinesInfos - Function exit, returning" << reMap.size() << "title groups";
     return reMap;
 }
 
 QStringList AlbumControl::getMonthTimelinesTitle(const int &filterType)
 {
-    qDebug() << "AlbumControl::getMonthTimelinesTitle - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getMonthTimelinesTitle - Function entry, filterType:" << filterType;
     return getTimelinesTitle(TimeLineEnum::Month, filterType);
 }
 
 QVariantMap AlbumControl::getMonthTimelinesInfos(const int &filterType)
 {
-    qDebug() << "AlbumControl::getMonthTimelinesInfos - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getMonthTimelinesInfos - Function entry, filterType:" << filterType;
     QVariantMap reMap;
     QStringList alltitles =  getTimelinesTitle(TimeLineEnum::Month, filterType);
     for (QString titleName : alltitles) {
@@ -758,19 +759,19 @@ QVariantMap AlbumControl::getMonthTimelinesInfos(const int &filterType)
             reMap.insert(titleName, list);
         }
     }
-    qDebug() << "AlbumControl::getMonthTimelinesInfos - Function exit, returning" << reMap.size() << "title groups";
+    qCDebug(albumLog) << "AlbumControl::getMonthTimelinesInfos - Function exit, returning" << reMap.size() << "title groups";
     return reMap;
 }
 
 QStringList AlbumControl::getDayTimelinesTitle(const int &filterType)
 {
-    qDebug() << "AlbumControl::getDayTimelinesTitle - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getDayTimelinesTitle - Function entry, filterType:" << filterType;
     return getTimelinesTitle(TimeLineEnum::Day, filterType);
 }
 
 QVariantMap AlbumControl::getDayTimelinesInfos(const int &filterType)
 {
-    qDebug() << "AlbumControl::getDayTimelinesInfos - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getDayTimelinesInfos - Function entry, filterType:" << filterType;
     QVariantMap reMap;
     QStringList alltitles =  getTimelinesTitle(TimeLineEnum::Day, filterType);
     for (QString titleName : alltitles) {
@@ -801,25 +802,25 @@ QVariantMap AlbumControl::getDayTimelinesInfos(const int &filterType)
             reMap.insert(titleName, list);
         }
     }
-    qDebug() << "AlbumControl::getDayTimelinesInfos - Function exit, returning" << reMap.size() << "title groups";
+    qCDebug(albumLog) << "AlbumControl::getDayTimelinesInfos - Function exit, returning" << reMap.size() << "title groups";
     return reMap;
 }
 
 QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum, const int &filterType)
 {
-    qDebug() << "AlbumControl::getTimelinesTitle - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getTimelinesTitle - Function entry, filterType:" << filterType;
     //设置需要查询的图片视频或者是全部
     ItemType typeItem = ItemType::ItemTypeNull;
     if (filterType == 1) {
-        qDebug() << "AlbumControl::getTimelinesTitle - Branch: setting typeItem to ItemTypePic";
+        qCDebug(albumLog) << "AlbumControl::getTimelinesTitle - Branch: setting typeItem to ItemTypePic";
         typeItem = ItemType::ItemTypePic;
     } else if (filterType == 2) {
-        qDebug() << "AlbumControl::getTimelinesTitle - Branch: setting typeItem to ItemTypeVideo";
+        qCDebug(albumLog) << "AlbumControl::getTimelinesTitle - Branch: setting typeItem to ItemTypeVideo";
         typeItem = ItemType::ItemTypeVideo;
     }
     //已导入
     if (timeEnum == Import) {
-        qDebug() << "AlbumControl::getTimelinesTitle - Branch: setting timeEnum to Import";
+        qCDebug(albumLog) << "AlbumControl::getTimelinesTitle - Branch: setting timeEnum to Import";
         QStringList list;
         m_importTimelines = DBManager::instance()->getImportTimelines();
         m_importTimeLinePathsMap.clear();
@@ -844,7 +845,7 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum, const int &fi
             relist << m_importTimeLinePathsMap.keys().at(i);
         }
 
-        qDebug() << "AlbumControl::getTimelinesTitle - Function exit, returning" << relist.size() << "import timeline titles";
+        qCDebug(albumLog) << "AlbumControl::getTimelinesTitle - Function exit, returning" << relist.size() << "import timeline titles";
         return relist;
     }
 
@@ -860,33 +861,33 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum, const int &fi
         //加时间线标题
         //QString date;
         if (datelist.count() > 4) {
-            qDebug() << "AlbumControl::getTimelinesTitle - Branch: processing timeline" << time;
+            qCDebug(albumLog) << "AlbumControl::getTimelinesTitle - Branch: processing timeline" << time;
             //date = QString(QObject::tr("%1-%2-%3-%4:%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]);
 
             switch (timeEnum) {
             case TimeLineEnum::Year :
-                qDebug() << "AlbumControl::getTimelinesTitle - Branch: processing year timeline" << time;
+                qCDebug(albumLog) << "AlbumControl::getTimelinesTitle - Branch: processing year timeline" << time;
                 if (ImgInfoList.size() > 0) {
                     tmpInfoMap.insert(QString(QObject::tr("%1").arg(datelist[0])), ImgInfoList);
                 }
                 m_yearDateMap = tmpInfoMap;
                 break;
             case TimeLineEnum::Month :
-                qDebug() << "AlbumControl::getTimelinesTitle - Branch: processing month timeline" << time;
+                qCDebug(albumLog) << "AlbumControl::getTimelinesTitle - Branch: processing month timeline" << time;
                 if (ImgInfoList.size() > 0) {
                     tmpInfoMap.insert(QString(QObject::tr("%1/%2").arg(datelist[0]).arg(datelist[1])), ImgInfoList);
                 }
                 m_monthDateMap = tmpInfoMap;
                 break;
             case TimeLineEnum::Day :
-                qDebug() << "AlbumControl::getTimelinesTitle - Branch: processing day timeline" << time;
+                qCDebug(albumLog) << "AlbumControl::getTimelinesTitle - Branch: processing day timeline" << time;
                 if (ImgInfoList.size() > 0) {
                     tmpInfoMap.insert(QString(QObject::tr("%1/%2/%3").arg(datelist[0]).arg(datelist[1]).arg(datelist[2])), ImgInfoList);
                 }
                 m_dayDateMap = tmpInfoMap;
                 break;
             case TimeLineEnum::All :
-                qDebug() << "AlbumControl::getTimelinesTitle - Branch: processing all timeline" << time;
+                qCDebug(albumLog) << "AlbumControl::getTimelinesTitle - Branch: processing all timeline" << time;
                 if (ImgInfoList.size() > 0) {
                     tmpInfoMap.insert(QString(QObject::tr("%1/%2/%3 %4:%5")).arg(datelist[0]).arg(datelist[1]).arg(datelist[2]).arg(datelist[3]).arg(datelist[4]), ImgInfoList);
                 }
@@ -903,29 +904,29 @@ QStringList AlbumControl::getTimelinesTitle(TimeLineEnum timeEnum, const int &fi
         relist << tmpInfoMap.keys().at(i);
     }
 
-    qDebug() << "AlbumControl::getTimelinesTitle - Function exit, returning" << relist.size() << "timeline titles";
+    qCDebug(albumLog) << "AlbumControl::getTimelinesTitle - Function exit, returning" << relist.size() << "timeline titles";
     return relist;
 }
 
 void AlbumControl::initMonitor()
 {
-    qDebug() << "AlbumControl::initMonitor - Function entry";
+    qCDebug(albumLog) << "AlbumControl::initMonitor - Function entry";
     m_fileInotifygroup = new FileInotifyGroup(this) ;
     connect(m_fileInotifygroup, &FileInotifyGroup::sigMonitorChanged, this, &AlbumControl::slotMonitorChanged);
     connect(m_fileInotifygroup, &FileInotifyGroup::sigMonitorDestroyed, this, &AlbumControl::slotMonitorDestroyed);
     connect(m_fileInotifygroup, &FileInotifyGroup::sigVideoFileStable, this, &AlbumControl::slotVideoFileStable);
-    qDebug() << "AlbumControl::initMonitor - Function exit";
+    qCDebug(albumLog) << "AlbumControl::initMonitor - Function exit";
 }
 
 void AlbumControl::startMonitor()
 {
-    qDebug() << "AlbumControl::startMonitor - Function entry";
+    qCDebug(albumLog) << "AlbumControl::startMonitor - Function entry";
     //启动路径监控
     auto monitorPathsTuple = DBManager::getDefaultNotifyPaths_group();
     const QList<QStringList> &paths = std::get<0>(monitorPathsTuple);
     const QStringList &albumNames = std::get<1>(monitorPathsTuple);
     const QList<int> &UIDs = std::get<2>(monitorPathsTuple);
-    qDebug() << "AlbumControl::startMonitor - Branch: starting watch for" << UIDs.size() << "albums";
+    qCDebug(albumLog) << "AlbumControl::startMonitor - Branch: starting watch for" << UIDs.size() << "albums";
     for (int i = 0; i != UIDs.size(); ++i) {
         m_fileInotifygroup->startWatch(paths.at(i), albumNames.at(i), UIDs.at(i));
     }
@@ -936,7 +937,7 @@ void AlbumControl::startMonitor()
         QFileInfo info(eachItem);
         int uid = customAutoImportUIDAndPaths.key(eachItem);
         if (!info.exists() || !info.isDir()) {
-            // qDebug() << "AlbumControl::startMonitor - Branch: removing non-existent path" << eachItem;
+            // qCDebug(albumLog) << "AlbumControl::startMonitor - Branch: removing non-existent path" << eachItem;
             DBManager::instance()->removeCustomAutoImportPath(customAutoImportUIDAndPaths.key(eachItem));
             continue;
         }
@@ -989,18 +990,18 @@ void AlbumControl::startMonitor()
         }
     }
     DBManager::instance()->removeImgInfos(needDeletes);
-    qDebug() << "AlbumControl::startMonitor - Function exit";
+    qCDebug(albumLog) << "AlbumControl::startMonitor - Function exit";
 }
 
 bool AlbumControl::checkIfNotified(const QString &dirPath)
 {
-    qDebug() << "AlbumControl::checkIfNotified - Function entry, dirPath:" << dirPath;
+    qCDebug(albumLog) << "AlbumControl::checkIfNotified - Function entry, dirPath:" << dirPath;
     return DBManager::instance()->checkCustomAutoImportPathIsNotified(dirPath);
 }
 
 void AlbumControl::slotMonitorChanged(QStringList fileAdd, QStringList fileDelete, QString album, int UID)
 {
-    qDebug() << "AlbumControl::slotMonitorChanged - Function entry, fileAdd count:" << fileAdd.size() << "fileDelete count:" << fileDelete.size() << "album:" << album << "UID:" << UID;
+    qCDebug(albumLog) << "AlbumControl::slotMonitorChanged - Function entry, fileAdd count:" << fileAdd.size() << "fileDelete count:" << fileDelete.size() << "album:" << album << "UID:" << UID;
     //直接删除图片
     DBManager::instance()->removeImgInfos(fileDelete);
     AlbumDBType atype = AlbumDBType::AutoImport;
@@ -1021,7 +1022,7 @@ void AlbumControl::slotMonitorChanged(QStringList fileAdd, QStringList fileDelet
     emit sigRefreshImportAlbum();
     emit sigRefreshAllCollection();
 
-    qDebug() << "AlbumControl::slotMonitorChanged - Function exit";
+    qCDebug(albumLog) << "AlbumControl::slotMonitorChanged - Function exit";
 }
 
 static const int kVideoRetryIntervalMs = 2000;
@@ -1040,7 +1041,7 @@ bool AlbumControl::shouldRetryVideo(const QString &path)
         m_videoStableCount[path] = count;
         return true;
     }
-    qWarning() << "Video file size unchanged after" << kVideoStableRetryLimit
+    qCWarning(albumLog) << "Video file size unchanged after" << kVideoStableRetryLimit
                 << "retries, giving up:" << path;
     m_videoStableSize.remove(path);
     m_videoStableCount.remove(path);
@@ -1052,7 +1053,7 @@ void AlbumControl::slotVideoFileStable(const QStringList &files)
     QStringList needRetry;
     for (const QString &path : files) {
         if (!QFile::exists(path)) {
-            qWarning() << "Video file no longer exists, stop retrying:" << path;
+            qCWarning(albumLog) << "Video file no longer exists, stop retrying:" << path;
             m_videoStableSize.remove(path);
             m_videoStableCount.remove(path);
             continue;
@@ -1061,7 +1062,7 @@ void AlbumControl::slotVideoFileStable(const QStringList &files)
             MovieService::instance()->clearMovieInfoCache(QUrl::fromLocalFile(path));
             DBImgInfo info = getDBInfo(path, true);
             if (info.itemType == ItemTypeNull) {
-                qWarning() << "Video file still invalid, will retry:" << path;
+                qCWarning(albumLog) << "Video file still invalid, will retry:" << path;
                 needRetry << path;
                 continue;
             }
@@ -1101,27 +1102,27 @@ void AlbumControl::slotVideoFileStable(const QStringList &files)
 
 void AlbumControl::slotMonitorDestroyed(int UID)
 {
-    qDebug() << "AlbumControl::slotMonitorDestroyed - Function entry, UID:" << UID;
+    qCDebug(albumLog) << "AlbumControl::slotMonitorDestroyed - Function entry, UID:" << UID;
     //文件夹删除
     emit sigDeleteCustomAlbum(UID);
-    qDebug() << "AlbumControl::slotMonitorDestroyed - Function exit";
+    qCDebug(albumLog) << "AlbumControl::slotMonitorDestroyed - Function exit";
 }
 
 void AlbumControl::onDeviceRemoved(const QString &deviceKey, DeviceType type)
 {
-    qDebug() << "Device removed - Key:" << deviceKey << "Type:" << static_cast<int>(type);
+    qCDebug(albumLog) << "Device removed - Key:" << deviceKey << "Type:" << static_cast<int>(type);
     onUnMountedExecute(deviceKey, type);
 }
 
 void AlbumControl::onMounted(const QString &deviceKey, const QString &mountPoint, DeviceType type)
 {
-    qDebug() << "Device mounted - Key:" << deviceKey << "MountPoint:" << mountPoint << "Type:" << static_cast<int>(type);
+    qCDebug(albumLog) << "Device mounted - Key:" << deviceKey << "MountPoint:" << mountPoint << "Type:" << static_cast<int>(type);
 
     QString uri = deviceKey;
     QString scheme = QUrl(uri).scheme();
 
     if (DeviceHelper::isSamba(uri)) {
-        qWarning() << "Skipping SMB path:" << uri;
+        qCWarning(albumLog) << "Skipping SMB path:" << uri;
         return;
     }
 
@@ -1130,11 +1131,11 @@ void AlbumControl::onMounted(const QString &deviceKey, const QString &mountPoint
         //(scheme == "afc") ||                  //iPhone document
         (scheme == "mtp") ||                    //android file
         deviceKey.startsWith("/org")) {         //deviceId为/org前缀的外接设备路径
-        qDebug() << "Device mounted scheme is file or gphoto2 or mtp or deviceId starts with /org";
+        qCDebug(albumLog) << "Device mounted scheme is file or gphoto2 or mtp or deviceId starts with /org";
 
         const QVariantMap deviceInfo = DeviceHelper::instance()->loadDeviceInfo(uri, true);
         if (deviceInfo.isEmpty() || deviceInfo.value("MountPoint").toString().isEmpty()) {
-            qWarning() << "Empty device info for:" << uri;
+            qCWarning(albumLog) << "Empty device info for:" << uri;
             return;
         }
 
@@ -1144,16 +1145,16 @@ void AlbumControl::onMounted(const QString &deviceKey, const QString &mountPoint
         else if (static_cast<DeviceType>(deviceInfo.value("DeviceType").toInt()) == DeviceType::kProtocolDevice)
             label = deviceInfo.value("DisplayName").toString();
 
-        qDebug() << "Device name:" << label << "Scheme type:" << scheme;
+        qCDebug(albumLog) << "Device name:" << label << "Scheme type:" << scheme;
 
         if (m_durlAndNameMap.find(mountPoint) != m_durlAndNameMap.end()) {
-            qDebug() << "Device already in list:" << mountPoint;
+            qCDebug(albumLog) << "Device already in list:" << mountPoint;
             return;
         }
 
         QString strPath = mountPoint;
         if (strPath.isEmpty()) {
-            qWarning() << "Empty mount point path";
+            qCWarning(albumLog) << "Empty mount point path";
             return;
         }
 
@@ -1165,72 +1166,72 @@ void AlbumControl::onMounted(const QString &deviceKey, const QString &mountPoint
         bool bFind = false;
         QDir dir(strPath);
         if (!dir.exists()) {
-            qWarning() << "Mount point directory does not exist:" << strPath;
+            qCWarning(albumLog) << "Mount point directory does not exist:" << strPath;
             bFind = false;
         } else {
-            qDebug() << "Mount point directory exists:" << strPath;
+            qCDebug(albumLog) << "Mount point directory exists:" << strPath;
             bFind = true;
         }
         //U盘和硬盘挂载都是/media下的，此处判断若path不包含/media/,再调用findPicturePathByPhone函数搜索DCIM文件目录
         if (!strPath.contains("/media/")) {
-            qDebug() << "Mount point path does not contain /media/";
+            qCDebug(albumLog) << "Mount point path does not contain /media/";
             bFind = findPicturePathByPhone(strPath);
         }
 
         DeviceHelper::instance()->loadAllDeviceInfos();
         //路径存在
         if (bFind) {
-            qDebug() << "Adding device to map - Path:" << strPath << "Name:" << rename;
+            qCDebug(albumLog) << "Adding device to map - Path:" << strPath << "Name:" << rename;
             m_durlAndNameMap[mountPoint] = rename;
             emit sigMountsChange();
             //发送新增
             emit sigAddDevice(strPath);
         }
     }
-    qDebug() << "AlbumControl::onMounted - Function exit";
+    qCDebug(albumLog) << "AlbumControl::onMounted - Function exit";
 }
 
 void AlbumControl::onUnMounted(const QString &deviceKey, DeviceType type)
 {
-    qDebug() << QString("deviceKey:%1 DeviceType:%2").arg(deviceKey).arg(static_cast<int>(type));
+    qCDebug(albumLog) << QString("deviceKey:%1 DeviceType:%2").arg(deviceKey).arg(static_cast<int>(type));
     onUnMountedExecute(deviceKey, type);
-    qDebug() << "AlbumControl::onUnMounted - Function exit";
+    qCDebug(albumLog) << "AlbumControl::onUnMounted - Function exit";
 }
 
 void AlbumControl::onUnMountedExecute(const QString &deviceKey, DeviceType type)
 {
-    qDebug() << "AlbumControl::onUnMountedExecute - Function entry, deviceKey:" << deviceKey << "type:" << static_cast<int>(type);
+    qCDebug(albumLog) << "AlbumControl::onUnMountedExecute - Function entry, deviceKey:" << deviceKey << "type:" << static_cast<int>(type);
     QVariantMap deviceInfo = DeviceHelper::instance()->loadDeviceInfo(deviceKey);
     if (deviceInfo.isEmpty()) {
-        qDebug() << "Device info is empty, returning";
+        qCDebug(albumLog) << "Device info is empty, returning";
         return;
     }
 
     QString mountPoint = DeviceHelper::instance()->getMountPointByDeviceId(deviceKey);;
     QString strPath = mountPoint;
     if (!strPath.contains("/media/")) {
-        qDebug() << "Not media path, finding phone picture path";
+        qCDebug(albumLog) << "Not media path, finding phone picture path";
         findPicturePathByPhone(strPath);
     }
     if (m_durlAndNameMap.find(strPath) != m_durlAndNameMap.end()) {
-        qDebug() << "Removing device from map:" << strPath;
+        qCDebug(albumLog) << "Removing device from map:" << strPath;
         m_durlAndNameMap.erase(m_durlAndNameMap.find(strPath));
     }
 
     DeviceHelper::instance()->loadAllDeviceInfos();
 
     if (m_PhonePicFileMap.contains(strPath)) {
-        qDebug() << "Removing phone file map for:" << strPath;
+        qCDebug(albumLog) << "Removing phone file map for:" << strPath;
         m_PhonePicFileMap.remove(strPath);
     }
 
     emit sigMountsChange();
-    qDebug() << "AlbumControl::onUnMountedExecute - Function exit";
+    qCDebug(albumLog) << "AlbumControl::onUnMountedExecute - Function exit";
 }
 
 QJsonObject AlbumControl::createShorcutJson()
 {
-    qDebug() << "AlbumControl::createShorcutJson - Function entry";
+    qCDebug(albumLog) << "AlbumControl::createShorcutJson - Function entry";
     //Translations
     QJsonObject shortcut1;
     shortcut1.insert("name", "Window sizing");
@@ -1376,27 +1377,27 @@ QJsonObject AlbumControl::createShorcutJson()
     QJsonObject main_shortcut;
     main_shortcut.insert("shortcut", shortcutArrayall);
 
-    qDebug() << "AlbumControl::createShorcutJson - Function exit, returning shortcuts JSON";
+    qCDebug(albumLog) << "AlbumControl::createShorcutJson - Function exit, returning shortcuts JSON";
     return main_shortcut;
 }
 
 void AlbumControl::getAllBlockDeviceName()
 {
-    qDebug() << "AlbumControl::getAllBlockDeviceName - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getAllBlockDeviceName - Function entry";
     m_blkPath2DeviceNameMap.clear();
     QStringList blDevList = DeviceHelper::instance()->getBlockDeviceIds();
     for (const QString &blks : blDevList) {
         updateBlockDeviceName(blks);
     }
-    qDebug() << "AlbumControl::getAllBlockDeviceName - Function exit, processed" << blDevList.size() << "devices";
+    qCDebug(albumLog) << "AlbumControl::getAllBlockDeviceName - Function exit, processed" << blDevList.size() << "devices";
 }
 
 void AlbumControl::updateBlockDeviceName(const QString &blks)
 {
-    qDebug() << "AlbumControl::updateBlockDeviceName - Function entry, blks:" << blks;
+    qCDebug(albumLog) << "AlbumControl::updateBlockDeviceName - Function entry, blks:" << blks;
     const QVariantMap deviceInfo = DeviceHelper::instance()->loadDeviceInfo(blks);
     if (deviceInfo.isEmpty()) {
-        qDebug() << "AlbumControl::updateBlockDeviceName - Branch: device info is empty, returning";
+        qCDebug(albumLog) << "AlbumControl::updateBlockDeviceName - Branch: device info is empty, returning";
         return;
     }
 
@@ -1406,19 +1407,19 @@ void AlbumControl::updateBlockDeviceName(const QString &blks)
     QString fs = deviceInfo.value("IdType").toString();
     QString udispname = "";
     if (label.startsWith(ddeI18nSym)) {
-        qDebug() << "Label starts with ddeI18nSym";
+        qCDebug(albumLog) << "Label starts with ddeI18nSym";
         QString i18nKey = label.mid(ddeI18nSym.size(), label.size() - ddeI18nSym.size());
         udispname = qApp->translate("DeepinStorage", i18nMap.value(i18nKey, i18nKey.toUtf8().constData()));
         goto runend;
     }
 
     if (mps.contains(QByteArray("/\0", 2))) {
-        qDebug() << "Mount points contain /\\0";
+        qCDebug(albumLog) << "Mount points contain /\\0";
         udispname = QCoreApplication::translate("PathManager", "System Disk");
         goto runend;
     }
     if (label.length() == 0) {
-        qDebug() << "Label length is 0";
+        qCDebug(albumLog) << "Label length is 0";
         bool bMediaAvailable = deviceInfo.value("MediaAvailable").toBool();
         bool bOpticalDrive = deviceInfo.value("OpticalDrive").toBool();
         bool bOpticalBlank = deviceInfo.value("OpticalBlank").toBool();
@@ -1426,7 +1427,7 @@ void AlbumControl::updateBlockDeviceName(const QString &blks)
         QString media = deviceInfo.value("Media").toString();
         QStringList mediaCompatibility = deviceInfo.value("MediaCompatibility").toStringList();
         if (!bMediaAvailable && bOpticalDrive) {
-            qDebug() << "Media available is false and optical drive is true";
+            qCDebug(albumLog) << "Media available is false and optical drive is true";
             QString maxmediacompat;
             for (auto i = opticalmediakv.rbegin(); i != opticalmediakv.rend(); ++i) {
                 if (mediaCompatibility.contains(i->first)) {
@@ -1438,12 +1439,12 @@ void AlbumControl::updateBlockDeviceName(const QString &blks)
             goto runend;
         }
         if (bOpticalBlank) {
-            qDebug() << "Optical blank is true";
+            qCDebug(albumLog) << "Optical blank is true";
             udispname = QCoreApplication::translate("DeepinStorage", "Blank %1 Disc").arg(opticalmediamap[media]);
             goto runend;
         }
         if (bIsEncrypted) {
-            qDebug() << "Encrypted is true";
+            qCDebug(albumLog) << "Encrypted is true";
             udispname = QCoreApplication::translate("DeepinStorage", "%1 Encrypted").arg(formatSize(qint64(size)));
             goto runend;
         }
@@ -1464,47 +1465,47 @@ runend:
     }
     if (!mountPoint.isEmpty()) {
         m_blkPath2DeviceNameMap[mountPoint] = udispname;
-        qDebug() << QString("blks:%1 mountPoint:%2 udispname:%3").arg(blks).arg(mountPoint).arg(udispname);
+        qCDebug(albumLog) << QString("blks:%1 mountPoint:%2 udispname:%3").arg(blks).arg(mountPoint).arg(udispname);
     }
-    qDebug() << "AlbumControl::updateBlockDeviceName - Function exit";
+    qCDebug(albumLog) << "AlbumControl::updateBlockDeviceName - Function exit";
     return;
 }
 
 bool AlbumControl::isSystemAutoImportAlbum(int uid)
 {
-    qDebug() << "AlbumControl::isSystemAutoImportAlbum - Function entry, uid:" << uid;
+    qCDebug(albumLog) << "AlbumControl::isSystemAutoImportAlbum - Function entry, uid:" << uid;
     return getAllSystemAutoImportAlbumId().contains(uid);
 }
 
 bool AlbumControl::isNormalAutoImportAlbum(int uid)
 {
-    qDebug() << "AlbumControl::isNormalAutoImportAlbum - Function entry, uid:" << uid;
+    qCDebug(albumLog) << "AlbumControl::isNormalAutoImportAlbum - Function entry, uid:" << uid;
     return getAllNormlAutoImportAlbumId().contains(uid);
 }
 
 bool AlbumControl::isAutoImportAlbum(int uid)
 {
-    qDebug() << "AlbumControl::isAutoImportAlbum - Function entry, uid:" << uid;
+    qCDebug(albumLog) << "AlbumControl::isAutoImportAlbum - Function entry, uid:" << uid;
     return getAllAutoImportAlbumId().contains(uid);
 }
 
 bool AlbumControl::isCustomAlbum(int uid)
 {
-    qDebug() << "AlbumControl::isCustomAlbum - Function entry, uid:" << uid;
+    qCDebug(albumLog) << "AlbumControl::isCustomAlbum - Function entry, uid:" << uid;
     bool bCustom = getAllCustomAlbumId().contains(uid);
-    qDebug() << "AlbumControl::isCustomAlbum - Function exit, returning:" << bCustom;
+    qCDebug(albumLog) << "AlbumControl::isCustomAlbum - Function exit, returning:" << bCustom;
     return bCustom;
 }
 
 bool AlbumControl::isDefaultPathExists(int uid)
 {
-    qDebug() << "AlbumControl::isDefaultPathExists - Function entry, uid:" << uid;
+    qCDebug(albumLog) << "AlbumControl::isDefaultPathExists - Function entry, uid:" << uid;
     return DBManager::defaultNotifyPathExists(uid);
 }
 
 void AlbumControl::ctrlShiftSlashShortcut(int x, int y, int w, int h)
 {
-    qDebug() << "AlbumControl::ctrlShiftSlashShortcut - Function entry, x:" << x << "y:" << y << "w:" << w << "h:" << h;
+    qCDebug(albumLog) << "AlbumControl::ctrlShiftSlashShortcut - Function entry, x:" << x << "y:" << y << "w:" << w << "h:" << h;
     QRect rect = QRect(x, y, w, h);
     QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
     QStringList shortcutString;
@@ -1518,100 +1519,100 @@ void AlbumControl::ctrlShiftSlashShortcut(int x, int y, int w, int h)
     shortcutViewProcess->startDetached("deepin-shortcut-viewer", shortcutString);
 
     connect(shortcutViewProcess, SIGNAL(finished(int)), shortcutViewProcess, SLOT(deleteLater()));
-    qDebug() << "AlbumControl::ctrlShiftSlashShortcut - Function exit";
+    qCDebug(albumLog) << "AlbumControl::ctrlShiftSlashShortcut - Function exit";
 }
 
 QRect AlbumControl::rect(QPoint p1, QPoint p2)
 {
-    qDebug() << "AlbumControl::rect - Function entry, p1:" << p1 << "p2:" << p2;
+    qCDebug(albumLog) << "AlbumControl::rect - Function entry, p1:" << p1 << "p2:" << p2;
     QRect rt = QRect(p1, p2);
-    qDebug() << "AlbumControl::rect - Function exit, returning rect:" << rt;
+    qCDebug(albumLog) << "AlbumControl::rect - Function exit, returning rect:" << rt;
     return rt;
 }
 
 QRect AlbumControl::intersected(QRect r1, QRect r2)
 {
-    qDebug() << "AlbumControl::intersected - Function entry, r1:" << r1 << "r2:" << r2;
+    qCDebug(albumLog) << "AlbumControl::intersected - Function entry, r1:" << r1 << "r2:" << r2;
     return r1.intersected(r2);
 }
 
 int AlbumControl::manhattanLength(QPoint p1, QPoint p2)
 {
-    qDebug() << "AlbumControl::manhattanLength - Function entry, p1:" << p1 << "p2:" << p2;
+    qCDebug(albumLog) << "AlbumControl::manhattanLength - Function entry, p1:" << p1 << "p2:" << p2;
     QPoint point(p1 - p2);
     return point.manhattanLength();
 }
 
 QString AlbumControl::url2localPath(QUrl url)
 {
-    qDebug() << "AlbumControl::url2localPath - Function entry, url:" << url;
+    qCDebug(albumLog) << "AlbumControl::url2localPath - Function entry, url:" << url;
     return LibUnionImage_NameSpace::localPath(url);
 }
 
 QStringList AlbumControl::urls2localPaths(QStringList urls)
 {
-    qDebug() << "AlbumControl::urls2localPaths - Function entry, urls count:" << urls.size();
+    qCDebug(albumLog) << "AlbumControl::urls2localPaths - Function entry, urls count:" << urls.size();
     QStringList paths;
     for (auto url : urls) {
         paths << LibUnionImage_NameSpace::localPath(url);
     }
 
-    qDebug() << "AlbumControl::urls2localPaths - Function exit, returning" << paths.size() << "paths";
+    qCDebug(albumLog) << "AlbumControl::urls2localPaths - Function exit, returning" << paths.size() << "paths";
     return paths;
 }
 
 bool AlbumControl::checkRepeatUrls(QStringList imported, QStringList urls, bool bNotify)
 {
-    qDebug() << "AlbumControl::checkRepeatUrls - Function entry, imported count:" << imported.size() << "urls count:" << urls.size() << "bNotify:" << bNotify;
+    qCDebug(albumLog) << "AlbumControl::checkRepeatUrls - Function entry, imported count:" << imported.size() << "urls count:" << urls.size() << "bNotify:" << bNotify;
     bool bRet = false;
     int noReadCount = 0; //记录已存在于相册中的数量，若全部存在，则不进行导入操作
     for (QString url : urls) {
         QFileInfo srcfi(url2localPath(url));
         if (!srcfi.exists()) {  //当前文件不存在
-            // qDebug() << "AlbumControl::checkRepeatUrls - Branch: file does not exist:" << url;
+            // qCDebug(albumLog) << "AlbumControl::checkRepeatUrls - Branch: file does not exist:" << url;
             noReadCount++;
             continue;
         }
         if (imported.contains(url)) {
-            // qDebug() << "AlbumControl::checkRepeatUrls - Branch: file already imported:" << url;
+            // qCDebug(albumLog) << "AlbumControl::checkRepeatUrls - Branch: file already imported:" << url;
             noReadCount++;
         }
     }
 
     // 已全部存在
     if (noReadCount == urls.size()) {
-        qDebug() << "AlbumControl::checkRepeatUrls - Branch: all files already exist or imported";
+        qCDebug(albumLog) << "AlbumControl::checkRepeatUrls - Branch: all files already exist or imported";
         if (bNotify)
             emit sigRepeatUrls(urls);
         bRet = true;
     }
 
-    qDebug() << "AlbumControl::checkRepeatUrls - Function exit, returning:" << bRet;
+    qCDebug(albumLog) << "AlbumControl::checkRepeatUrls - Function exit, returning:" << bRet;
     return bRet;
 }
 
 QStringList AlbumControl::getImportTimelinesTitlePaths(const QString &titleName, const int &filterType)
 {
-    qDebug() << "AlbumControl::getImportTimelinesTitlePaths - Function entry, titleName:" << titleName << "filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getImportTimelinesTitlePaths - Function entry, titleName:" << titleName << "filterType:" << filterType;
     QStringList pathsList;
     DBImgInfoList dbInfoList = m_importTimeLinePathsMap.value(titleName);
     for (DBImgInfo info : dbInfoList) {
         if (filterType == 2 && info.itemType == ItemTypePic) {
-            // qDebug() << "AlbumControl::getImportTimelinesTitlePaths - Branch: skipping picture due to video filter";
+            // qCDebug(albumLog) << "AlbumControl::getImportTimelinesTitlePaths - Branch: skipping picture due to video filter";
             continue ;
         } else if (filterType == 1 && info.itemType == ItemTypeVideo) {
-            // qDebug() << "AlbumControl::getImportTimelinesTitlePaths - Branch: skipping video due to picture filter";
+            // qCDebug(albumLog) << "AlbumControl::getImportTimelinesTitlePaths - Branch: skipping video due to picture filter";
             continue ;
         }
         pathsList << "file://" + info.filePath;
     }
-    qDebug() << "AlbumControl::getImportTimelinesTitlePaths - Function exit, returning" << pathsList.size() << "paths";
+    qCDebug(albumLog) << "AlbumControl::getImportTimelinesTitlePaths - Function exit, returning" << pathsList.size() << "paths";
     return pathsList;
 }
 
 QVariantMap AlbumControl::getImportTimelinesTitleInfos(const int &filterType)
 {
-    qDebug() << "AlbumControl::getImportTimelinesTitleInfos - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getImportTimelinesTitleInfos - Function entry, filterType:" << filterType;
     QVariantMap reMap;
     QStringList alltitles = getAllImportTimelinesTitle(filterType);
     for (QString titleName : alltitles) {
@@ -1621,13 +1622,13 @@ QVariantMap AlbumControl::getImportTimelinesTitleInfos(const int &filterType)
             QVariantMap tmpMap;
             if (info.itemType == ItemTypePic) {
                 if (filterType == 2) {
-                    // qDebug() << "AlbumControl::getImportTimelinesTitleInfos - Branch: skipping picture due to video filter";
+                    // qCDebug(albumLog) << "AlbumControl::getImportTimelinesTitleInfos - Branch: skipping picture due to video filter";
                     continue ;
                 }
                 tmpMap.insert("itemType", "pciture");
             } else if (info.itemType == ItemTypeVideo) {
                 if (filterType == 1) {
-                    // qDebug() << "AlbumControl::getImportTimelinesTitleInfos - Branch: skipping video due to picture filter";
+                    // qCDebug(albumLog) << "AlbumControl::getImportTimelinesTitleInfos - Branch: skipping video due to picture filter";
                     continue ;
                 }
                 tmpMap.insert("itemType", "video");
@@ -1641,23 +1642,23 @@ QVariantMap AlbumControl::getImportTimelinesTitleInfos(const int &filterType)
             list << tmpMap;
         }
         if (list.count() > 0) {
-            qDebug() << "AlbumControl::getImportTimelinesTitleInfos - Branch: adding title" << titleName << "with" << list.count() << "items";
+            qCDebug(albumLog) << "AlbumControl::getImportTimelinesTitleInfos - Branch: adding title" << titleName << "with" << list.count() << "items";
             reMap.insert(titleName, list);
         }
     }
 
-    qDebug() << "AlbumControl::getImportTimelinesTitleInfos - Function exit, returning" << reMap.size() << "title groups";
+    qCDebug(albumLog) << "AlbumControl::getImportTimelinesTitleInfos - Function exit, returning" << reMap.size() << "title groups";
     return reMap;
 }
 
 QVariantList AlbumControl::getImportTimelinesTitleInfosReverse(const int &filterType)
 {
-    qDebug() << "AlbumControl::getImportTimelinesTitleInfosReverse - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getImportTimelinesTitleInfosReverse - Function entry, filterType:" << filterType;
     QVariantMap reMap = getImportTimelinesTitleInfos(filterType);
 
     QVariantList reList;
     if (reMap.size()) {
-        qDebug() << "AlbumControl::getImportTimelinesTitleInfosReverse - Branch: reversing" << reMap.size() << "title groups";
+        qCDebug(albumLog) << "AlbumControl::getImportTimelinesTitleInfosReverse - Branch: reversing" << reMap.size() << "title groups";
         for (auto it = --reMap.end(); it != --reMap.begin(); it--) {
             QVariantMap tmpMap;
             tmpMap.insert(it.key(), it.value());
@@ -1665,13 +1666,13 @@ QVariantList AlbumControl::getImportTimelinesTitleInfosReverse(const int &filter
         }
     }
 
-    qDebug() << "AlbumControl::getImportTimelinesTitleInfosReverse - Function exit, returning" << reList.size() << "items";
+    qCDebug(albumLog) << "AlbumControl::getImportTimelinesTitleInfosReverse - Function exit, returning" << reList.size() << "items";
     return reList;
 }
 
 QVariantMap AlbumControl::getAlbumInfos(const int &albumId, const int &filterType)
 {
-    qDebug() << "AlbumControl::getImportTimelinesTitleInfosReverse - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getImportTimelinesTitleInfosReverse - Function entry, filterType:" << filterType;
     QVariantMap reMap;
 
     QVariantList list;
@@ -1699,16 +1700,16 @@ QVariantMap AlbumControl::getAlbumInfos(const int &albumId, const int &filterTyp
         list << tmpMap;
     }
     if (list.count() > 0) {
-        qDebug() << "AlbumControl::getImportTimelinesTitleInfosReverse - Branch: adding title" << title << "with" << list.count() << "items";
+        qCDebug(albumLog) << "AlbumControl::getImportTimelinesTitleInfosReverse - Branch: adding title" << title << "with" << list.count() << "items";
         reMap.insert(title, list);
     }
-    qDebug() << "AlbumControl::getImportTimelinesTitleInfosReverse - Function exit, returning" << reMap.size() << "title groups";
+    qCDebug(albumLog) << "AlbumControl::getImportTimelinesTitleInfosReverse - Function exit, returning" << reMap.size() << "title groups";
     return reMap;
 }
 
 QVariantMap AlbumControl::getTrashAlbumInfos(const int &filterType)
 {
-    qDebug() << "AlbumControl::getTrashAlbumInfos - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getTrashAlbumInfos - Function entry, filterType:" << filterType;
     QVariantMap reMap;
 
     QVariantList list;
@@ -1739,16 +1740,16 @@ QVariantMap AlbumControl::getTrashAlbumInfos(const int &filterType)
         list << tmpMap;
     }
     if (list.count() > 0) {
-        qDebug() << "AlbumControl::getTrashAlbumInfos - Branch: adding title" << title << "with" << list.count() << "items";
+        qCDebug(albumLog) << "AlbumControl::getTrashAlbumInfos - Branch: adding title" << title << "with" << list.count() << "items";
         reMap.insert(title, list);
     }
-    qDebug() << "AlbumControl::getTrashAlbumInfos - Function exit, returning" << reMap.size() << "title groups";
+    qCDebug(albumLog) << "AlbumControl::getTrashAlbumInfos - Function exit, returning" << reMap.size() << "title groups";
     return reMap;
 }
 
 bool AlbumControl::addCustomAlbumInfos(int albumId, const QList<QUrl> &urls)
 {
-    qDebug() << "AlbumControl::addCustomAlbumInfos - Function entry, albumId:" << albumId << "urls count:" << urls.size();
+    qCDebug(albumLog) << "AlbumControl::addCustomAlbumInfos - Function entry, albumId:" << albumId << "urls count:" << urls.size();
     QStringList localpaths;
     for (QUrl path : urls) {
         localpaths << url2localPath(path);
@@ -1756,7 +1757,7 @@ bool AlbumControl::addCustomAlbumInfos(int albumId, const QList<QUrl> &urls)
     QStringList curAlbumImgPathList = getAllUrlPaths();
     for (QString imagePath : localpaths) {
         if (QDir(imagePath).exists()) {
-            // qDebug() << "AlbumControl::addCustomAlbumInfos - Branch: directory exists:" << imagePath;
+            // qCDebug(albumLog) << "AlbumControl::addCustomAlbumInfos - Branch: directory exists:" << imagePath;
             //获取所选文件类型过滤器
             QStringList filters;
             for (QString i : LibUnionImage_NameSpace::unionImageSupportFormat()) {
@@ -1797,29 +1798,29 @@ bool AlbumControl::addCustomAlbumInfos(int albumId, const QList<QUrl> &urls)
     }
     bRet = DBManager::instance()->insertIntoAlbum(albumId, paths, atype);
     emit sigRefreshCustomAlbum(albumId);
-    qDebug() << "AlbumControl::addCustomAlbumInfos - Function exit, returning" << bRet;
+    qCDebug(albumLog) << "AlbumControl::addCustomAlbumInfos - Function exit, returning" << bRet;
     return bRet;
 }
 
 int AlbumControl::getAllCount(const int &filterType)
 {
-    qDebug() << "AlbumControl::getAllCount - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getAllCount - Function entry, filterType:" << filterType;
     ItemType typeItem = ItemType::ItemTypeNull;
     if (filterType == 1) {
-        qDebug() << "AlbumControl::getAllCount - Branch: filter type picture";
+        qCDebug(albumLog) << "AlbumControl::getAllCount - Branch: filter type picture";
         typeItem = ItemType::ItemTypePic;
     } else if (filterType == 2) {
-        qDebug() << "AlbumControl::getAllCount - Branch: filter type video";
+        qCDebug(albumLog) << "AlbumControl::getAllCount - Branch: filter type video";
         typeItem = ItemType::ItemTypeVideo;
     }
     int nCount = DBManager::instance()->getImgsCount(typeItem);
-    qDebug() << "AlbumControl::getAllCount - Function exit, returning count:" << nCount;
+    qCDebug(albumLog) << "AlbumControl::getAllCount - Function exit, returning count:" << nCount;
     return nCount;
 }
 
 void AlbumControl::insertTrash(const QList<QUrl> &paths)
 {
-    qDebug() << "AlbumControl::insertTrash - Function entry, paths count:" << paths.size();
+    qCDebug(albumLog) << "AlbumControl::insertTrash - Function entry, paths count:" << paths.size();
     // notify show progress start
     emit sigDeleteProgress(0, paths.size());
     // 先处理一下UI事件,否则进度条不显示
@@ -1832,7 +1833,7 @@ void AlbumControl::insertTrash(const QList<QUrl> &paths)
 
         // 跳过不可写文件
         if (!info.isWritable()) {
-            // qDebug() << "AlbumControl::insertTrash - Branch: skipping non-writable file:" << imagePath;
+            // qCDebug(albumLog) << "AlbumControl::insertTrash - Branch: skipping non-writable file:" << imagePath;
             continue;
         }
 
@@ -1840,7 +1841,7 @@ void AlbumControl::insertTrash(const QList<QUrl> &paths)
 
         DBImgInfoList tempInfos = DBManager::instance()->getInfosByPath(imagePath);
         if (tempInfos.size()) {
-            // qDebug() << "AlbumControl::insertTrash - Branch: found" << tempInfos.size() << "database entries for:" << imagePath;
+            // qCDebug(albumLog) << "AlbumControl::insertTrash - Branch: found" << tempInfos.size() << "database entries for:" << imagePath;
             DBImgInfo insertInfo = tempInfos.first();
             QStringList uids;
             for (const DBImgInfo &dbInfo : tempInfos) {
@@ -1865,45 +1866,45 @@ void AlbumControl::insertTrash(const QList<QUrl> &paths)
     sigRefreshAllCollection();
     sigRefreshImportAlbum();
     sigRefreshSearchView();
-    qDebug() << "AlbumControl::insertTrash - Function exit";
+    qCDebug(albumLog) << "AlbumControl::insertTrash - Function exit";
 }
 
 void AlbumControl::removeTrashImgInfos(const QList< QUrl > &paths)
 {
-    qDebug() << "AlbumControl::removeTrashImgInfos - Function entry, paths count:" << paths.size();
+    qCDebug(albumLog) << "AlbumControl::removeTrashImgInfos - Function entry, paths count:" << paths.size();
     QStringList localPaths ;
     for (QUrl path : paths) {
         localPaths << url2localPath(path);
     }
     DBManager::instance()->removeTrashImgInfos(localPaths);
-    qDebug() << "AlbumControl::removeTrashImgInfos - Function exit";
+    qCDebug(albumLog) << "AlbumControl::removeTrashImgInfos - Function exit";
 }
 
 QStringList AlbumControl::recoveryImgFromTrash(const QStringList &paths)
 {
-    qDebug() << "AlbumControl::recoveryImgFromTrash - Function entry, paths count:" << paths.size();
+    qCDebug(albumLog) << "AlbumControl::recoveryImgFromTrash - Function entry, paths count:" << paths.size();
     QStringList localPaths;
     for (const QString &path : paths) {
         localPaths << trashOperationPath(path);
     }
-    qDebug() << "AlbumControl::recoveryImgFromTrash - Function exit, returning" << localPaths.size() << "paths";
+    qCDebug(albumLog) << "AlbumControl::recoveryImgFromTrash - Function exit, returning" << localPaths.size() << "paths";
     return DBManager::instance()->recoveryImgFromTrash(localPaths);
 }
 
 void AlbumControl::deleteImgFromTrash(const QStringList &paths)
 {
-    qDebug() << "AlbumControl::deleteImgFromTrash - Function entry, paths count:" << paths.size();
+    qCDebug(albumLog) << "AlbumControl::deleteImgFromTrash - Function entry, paths count:" << paths.size();
     QStringList localPaths;
     for (const QString &path : paths) {
         localPaths << trashOperationPath(path);
     }
     DBManager::instance()->removeTrashImgInfos(localPaths);
-    qDebug() << "AlbumControl::deleteImgFromTrash - Function exit";
+    qCDebug(albumLog) << "AlbumControl::deleteImgFromTrash - Function exit";
 }
 
 void AlbumControl::insertCollection(const QList< QUrl > &paths)
 {
-    qDebug() << "AlbumControl::insertCollection - Function entry, paths count:" << paths.size();
+    qCDebug(albumLog) << "AlbumControl::insertCollection - Function entry, paths count:" << paths.size();
     QStringList tmpList;
     for (QUrl url : paths) {
         tmpList << url2localPath(url);
@@ -1912,67 +1913,67 @@ void AlbumControl::insertCollection(const QList< QUrl > &paths)
     for (QString path : tmpList) {
         infos << DBManager::instance()->getInfoByPath(path);
     }
-    qDebug() << "AlbumControl::insertCollection - Function exit, processed" << infos.size() << "items";
+    qCDebug(albumLog) << "AlbumControl::insertCollection - Function exit, processed" << infos.size() << "items";
 }
 
 int AlbumControl::createAlbum(const QString &newName)
 {
-    qDebug() << "AlbumControl::createAlbum - Function entry";
+    qCDebug(albumLog) << "AlbumControl::createAlbum - Function entry";
     QString createAlbumName = getNewAlbumName(newName);
     int createUID = DBManager::instance()->createAlbum(createAlbumName, QStringList(" "));
     DBManager::instance()->insertIntoAlbum(createUID, QStringList(" "));
-    qDebug() << "AlbumControl::createAlbum - Function exit, created album with UID:" << createUID;
+    qCDebug(albumLog) << "AlbumControl::createAlbum - Function exit, created album with UID:" << createUID;
     return createUID;
 }
 
 QList<int> AlbumControl::getAllNormlAutoImportAlbumId()
 {
-    qDebug() << "AlbumControl::getAllNormlAutoImportAlbumId - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getAllNormlAutoImportAlbumId - Function entry";
     QMap < int, QString > autoImportAlbum;
     QList<std::pair<int, QString>>  tmpList = DBManager::instance()->getAllAlbumNames(AutoImport);
     for (std::pair<int, QString> tmpPair : tmpList) {
         if (tmpPair.first > 3) {
-            // qDebug() << "AlbumControl::getAllNormlAutoImportAlbumId - Branch: adding normal auto import album ID:" << tmpPair.first;
+            // qCDebug(albumLog) << "AlbumControl::getAllNormlAutoImportAlbumId - Branch: adding normal auto import album ID:" << tmpPair.first;
             autoImportAlbum.insert(tmpPair.first, tmpPair.second);
         }
     }
     QList<int> result = autoImportAlbum.keys();
-    qDebug() << "AlbumControl::getAllNormlAutoImportAlbumId - Function exit, returning" << result.size() << "album IDs";
+    qCDebug(albumLog) << "AlbumControl::getAllNormlAutoImportAlbumId - Function exit, returning" << result.size() << "album IDs";
     return result;
 }
 
 QList<int> AlbumControl::getAllSystemAutoImportAlbumId()
 {
-    qDebug() << "AlbumControl::getAllSystemAutoImportAlbumId - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getAllSystemAutoImportAlbumId - Function entry";
     QMap < int, QString > systemAlbum;
     QList<std::pair<int, QString>>  tmpList = DBManager::instance()->getAllAlbumNames(AutoImport);
     for (std::pair<int, QString> tmpPair : tmpList) {
         if (tmpPair.first > 0 && tmpPair.first <= 3) {
-            // qDebug() << "AlbumControl::getAllSystemAutoImportAlbumId - Branch: adding system album ID:" << tmpPair.first;
+            // qCDebug(albumLog) << "AlbumControl::getAllSystemAutoImportAlbumId - Branch: adding system album ID:" << tmpPair.first;
             systemAlbum.insert(tmpPair.first, tmpPair.second);
         }
     }
     QList<int> result = systemAlbum.keys();
-    qDebug() << "AlbumControl::getAllSystemAutoImportAlbumId - Function exit, returning" << result.size() << "album IDs";
+    qCDebug(albumLog) << "AlbumControl::getAllSystemAutoImportAlbumId - Function exit, returning" << result.size() << "album IDs";
     return result;
 }
 
 QList <int> AlbumControl::getAllAutoImportAlbumId()
 {
-    qDebug() << "AlbumControl::getAllAutoImportAlbumId - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getAllAutoImportAlbumId - Function entry";
     QMap < int, QString > systemAlbum;
     QList<std::pair<int, QString>>  tmpList = DBManager::instance()->getAllAlbumNames(AutoImport);
     for (std::pair<int, QString> tmpPair : tmpList) {
         systemAlbum.insert(tmpPair.first, tmpPair.second);
     }
     QList<int> result = systemAlbum.keys();
-    qDebug() << "AlbumControl::getAllAutoImportAlbumId - Function exit, returning" << result.size() << "album IDs";
+    qCDebug(albumLog) << "AlbumControl::getAllAutoImportAlbumId - Function exit, returning" << result.size() << "album IDs";
     return result;
 }
 
 QList < int > AlbumControl::getAllCustomAlbumId()
 {
-    qDebug() << "AlbumControl::getAllCustomAlbumId - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getAllCustomAlbumId - Function entry";
     QMap < int, QString > customAlbum;
     QList<std::pair<int, QString>>  tmpList = DBManager::instance()->getAllAlbumNames(Custom);
     for (std::pair<int, QString> tmpPair : tmpList) {
@@ -1980,26 +1981,26 @@ QList < int > AlbumControl::getAllCustomAlbumId()
     }
     m_customAlbum = customAlbum;
     QList<int> result = customAlbum.keys();
-    qDebug() << "AlbumControl::getAllCustomAlbumId - Function exit, returning" << result.size() << "custom album IDs";
+    qCDebug(albumLog) << "AlbumControl::getAllCustomAlbumId - Function exit, returning" << result.size() << "custom album IDs";
     return result;
 }
 
 QList < QString > AlbumControl::getAllCustomAlbumName()
 {
-    qDebug() << "AlbumControl::getAllCustomAlbumName - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getAllCustomAlbumName - Function entry";
     QMap < int, QString > customAlbum;
     QList<std::pair<int, QString>>  tmpList = DBManager::instance()->getAllAlbumNames(Custom);
     for (std::pair<int, QString> tmpPair : tmpList) {
         customAlbum.insert(tmpPair.first, tmpPair.second);
     }
     m_customAlbum = customAlbum;
-    qDebug() << "AlbumControl::getAllCustomAlbumName - Function exit";
+    qCDebug(albumLog) << "AlbumControl::getAllCustomAlbumName - Function exit";
     return customAlbum.values();
 }
 
 QStringList AlbumControl::getAlbumPaths(const int &albumId, const int &filterType)
 {
-    qDebug() << "1085" << albumId;
+    qCDebug(albumLog) << "1085" << albumId;
     QStringList relist;
     DBImgInfoList dbInfoList = DBManager::instance()->getInfosByAlbum(albumId, false);
     QString title = DBManager::instance()->getAlbumNameFromUID(albumId);
@@ -2016,13 +2017,13 @@ QStringList AlbumControl::getAlbumPaths(const int &albumId, const int &filterTyp
         }
         relist << "file://" + info.filePath;
     }
-    qDebug() << "AlbumControl::getAlbumPaths - Function exit, returning" << relist.size() << "paths";
+    qCDebug(albumLog) << "AlbumControl::getAlbumPaths - Function exit, returning" << relist.size() << "paths";
     return relist;
 }
 
 QString AlbumControl::getCustomAlbumByUid(const int &index)
 {
-    qDebug() << "AlbumControl::getCustomAlbumByUid - Function entry, index:" << index;
+    qCDebug(albumLog) << "AlbumControl::getCustomAlbumByUid - Function entry, index:" << index;
     // 我的收藏和系统相册名称为固定名称，可直接根据索引获取，以便做翻译处理
     if (0 == index)
         return tr("Favorites");
@@ -2034,13 +2035,13 @@ QString AlbumControl::getCustomAlbumByUid(const int &index)
         return tr("Draw");
 
     QString result = DBManager::instance()->getAlbumNameFromUID(index);
-    qDebug() << "AlbumControl::getCustomAlbumByUid - Function exit, returning" << result;
+    qCDebug(albumLog) << "AlbumControl::getCustomAlbumByUid - Function exit, returning" << result;
     return result;
 }
 
 DBImgInfoList AlbumControl::getTrashInfos(const int &filterType)
 {
-    qDebug() << "AlbumControl::getTrashInfos - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getTrashInfos - Function entry, filterType:" << filterType;
     DBImgInfoList allTrashInfos = DBManager::instance()->getAllTrashInfos_getRemainDays();
     QDateTime currentTime = QDateTime::currentDateTime();
     DBImgInfoList list;
@@ -2064,20 +2065,20 @@ DBImgInfoList AlbumControl::getTrashInfos(const int &filterType)
     }
     //清理删除时间过长图片
     if (!list.isEmpty()) {
-        qDebug() << "AlbumControl::getTrashInfos - Branch: removing" << list.size() << "items from trash database";
+        qCDebug(albumLog) << "AlbumControl::getTrashInfos - Branch: removing" << list.size() << "items from trash database";
         QStringList image_list;
         for (DBImgInfo info : list) {
             image_list << info.filePath;
         }
         DBManager::instance()->removeTrashImgInfosNoSignal(image_list);
     }
-    qDebug() << "AlbumControl::getTrashInfos - Function exit, returning" << allTrashInfos.size() << "items";
+    qCDebug(albumLog) << "AlbumControl::getTrashInfos - Function exit, returning" << allTrashInfos.size() << "items";
     return allTrashInfos;
 }
 
 DBImgInfoList AlbumControl::getTrashInfos2(const int &filterType)
 {
-    qDebug() << "AlbumControl::getTrashInfos2 - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getTrashInfos2 - Function entry, filterType:" << filterType;
     DBImgInfoList allTrashInfos = DBManager::instance()->getAllTrashInfos_getRemainDays();
     QDateTime currentTime = QDateTime::currentDateTime();
     DBImgInfoList list;
@@ -2095,7 +2096,7 @@ DBImgInfoList AlbumControl::getTrashInfos2(const int &filterType)
     }
     //清理删除时间过长图片
     if (!list.isEmpty()) {
-        qDebug() << "AlbumControl::getTrashInfos2 - Branch: removing" << list.size() << "items from trash database";
+        qCDebug(albumLog) << "AlbumControl::getTrashInfos2 - Branch: removing" << list.size() << "items from trash database";
         QStringList image_list;
         for (DBImgInfo info : list) {
             image_list << info.filePath;
@@ -2107,46 +2108,46 @@ DBImgInfoList AlbumControl::getTrashInfos2(const int &filterType)
 
 DBImgInfoList AlbumControl::getCollectionInfos()
 {
-    qDebug() << "AlbumControl::getCollectionInfos - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getCollectionInfos - Function entry";
     DBImgInfoList result = DBManager::instance()->getInfosByAlbum(DBManager::SpUID::u_Favorite, false);
-    qDebug() << "AlbumControl::getCollectionInfos - Function exit, returning" << result.size() << "items";
+    qCDebug(albumLog) << "AlbumControl::getCollectionInfos - Function exit, returning" << result.size() << "items";
     return result;
 }
 
 DBImgInfoList AlbumControl::getScreenCaptureInfos()
 {
-    qDebug() << "AlbumControl::getScreenCaptureInfos - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getScreenCaptureInfos - Function entry";
     DBImgInfoList result = DBManager::instance()->getInfosByAlbum(DBManager::SpUID::u_ScreenCapture, false);
-    qDebug() << "AlbumControl::getScreenCaptureInfos - Function exit, returning" << result.size() << "items";
+    qCDebug(albumLog) << "AlbumControl::getScreenCaptureInfos - Function exit, returning" << result.size() << "items";
     return result;
 }
 
 DBImgInfoList AlbumControl::getCameraInfos()
 {
-    qDebug() << "AlbumControl::getCameraInfos - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getCameraInfos - Function entry";
     DBImgInfoList result = DBManager::instance()->getInfosByAlbum(DBManager::SpUID::u_Camera, false);
-    qDebug() << "AlbumControl::getCameraInfos - Function exit, returning" << result.size() << "items";
+    qCDebug(albumLog) << "AlbumControl::getCameraInfos - Function exit, returning" << result.size() << "items";
     return result;
 }
 
 QString AlbumControl::getDeleteFullPath(const QString &hash, const QString &fileName)
 {
-    qDebug() << "AlbumControl::getDeleteFullPath - Function entry, hash:" << hash << "fileName:" << fileName;
+    qCDebug(albumLog) << "AlbumControl::getDeleteFullPath - Function entry, hash:" << hash << "fileName:" << fileName;
     //防止文件过长,采用只用hash的名称;
     QString result = albumGlobal::DELETE_PATH + "/" + hash + "." + QFileInfo(fileName).suffix();
-    qDebug() << "AlbumControl::getDeleteFullPath - Function exit, returning:" << result;
+    qCDebug(albumLog) << "AlbumControl::getDeleteFullPath - Function exit, returning:" << result;
     return result;
 }
 
 const QString AlbumControl::getNewAlbumName(const QString &baseName)
 {
-    qDebug() << "AlbumControl::getNewAlbumName - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getNewAlbumName - Function entry";
     QString albumName;
     if (baseName.isEmpty()) {
-        qDebug() << "AlbumControl::getNewAlbumName - Branch: baseName is empty, using 'Unnamed'";
+        qCDebug(albumLog) << "AlbumControl::getNewAlbumName - Branch: baseName is empty, using 'Unnamed'";
         albumName = tr("Unnamed");
     } else {
-        qDebug() << "AlbumControl::getNewAlbumName - Branch: using provided baseName";
+        qCDebug(albumLog) << "AlbumControl::getNewAlbumName - Branch: using provided baseName";
         albumName = baseName;
     }
 
@@ -2158,7 +2159,7 @@ const QString AlbumControl::getNewAlbumName(const QString &baseName)
     }
 
     if (!existingNames.contains(albumName)) {
-        qDebug() << "AlbumControl::getNewAlbumName - Function exit, name available";
+        qCDebug(albumLog) << "AlbumControl::getNewAlbumName - Function exit, name available";
         return albumName;
     }
 
@@ -2203,141 +2204,141 @@ const QString AlbumControl::getNewAlbumName(const QString &baseName)
         num++;
     }
     if (num > maxSuffix) {
-        qDebug() << "AlbumControl::getNewAlbumName - max suffix reached, using timestamp";
+        qCDebug(albumLog) << "AlbumControl::getNewAlbumName - max suffix reached, using timestamp";
         return nameBase + QString::number(QDateTime::currentMSecsSinceEpoch());
     }
 
     albumName = nameBase + QString::number(num);
-    qDebug() << "AlbumControl::getNewAlbumName - Function exit, generated name with suffix";
+    qCDebug(albumLog) << "AlbumControl::getNewAlbumName - Function exit, generated name with suffix";
     return albumName;
 }
 
 bool AlbumControl::canFavorite(const QStringList &pathList)
 {
-    qDebug() << "AlbumControl::canFavorite - Function entry, pathList count:" << pathList.size();
+    qCDebug(albumLog) << "AlbumControl::canFavorite - Function entry, pathList count:" << pathList.size();
     bool bCanFavorite = false;
     for (int i = 0; i < pathList.size(); i++) {
         if (!pathList[i].isEmpty() && !photoHaveFavorited(pathList[i])) {
-            // qDebug() << "AlbumControl::canFavorite - Branch: found non-favorited item:" << pathList[i];
+            // qCDebug(albumLog) << "AlbumControl::canFavorite - Branch: found non-favorited item:" << pathList[i];
             bCanFavorite = true;
             break;
         }
     }
 
-    qDebug() << "AlbumControl::canFavorite - Function exit, returning:" << bCanFavorite;
+    qCDebug(albumLog) << "AlbumControl::canFavorite - Function exit, returning:" << bCanFavorite;
     return bCanFavorite;
 }
 
 bool AlbumControl::canAddToCustomAlbum(const int &albumId, const QStringList &pathList)
 {
-    qDebug() << "AlbumControl::canAddToCustomAlbum - Function entry, albumId:" << albumId << "pathList count:" << pathList.size();
+    qCDebug(albumLog) << "AlbumControl::canAddToCustomAlbum - Function entry, albumId:" << albumId << "pathList count:" << pathList.size();
     bool bCanAddToCustom = false;
     for (int i = 0; i < pathList.size(); i++) {
         if (!pathList[i].isEmpty() && !photoHaveAddedToCustomAlbum(albumId, pathList[i])) {
-            // qDebug() << "AlbumControl::canAddToCustomAlbum - Branch: found item not in custom album:" << pathList[i];
+            // qCDebug(albumLog) << "AlbumControl::canAddToCustomAlbum - Branch: found item not in custom album:" << pathList[i];
             bCanAddToCustom = true;
             break;
         }
     }
 
-    qDebug() << "AlbumControl::canAddToCustomAlbum - Function exit, returning:" << bCanAddToCustom;
+    qCDebug(albumLog) << "AlbumControl::canAddToCustomAlbum - Function exit, returning:" << bCanAddToCustom;
     return bCanAddToCustom;
 }
 
 bool AlbumControl::photoHaveFavorited(const QString &path)
 {
-    qDebug() << "AlbumControl::photoHaveFavorited - Function entry, path:" << path;
+    qCDebug(albumLog) << "AlbumControl::photoHaveFavorited - Function entry, path:" << path;
     bool bRet = DBManager::instance()->isImgExistInAlbum(DBManager::SpUID::u_Favorite, url2localPath(path));
-    qDebug() << "AlbumControl::photoHaveFavorited - Function exit, returning:" << bRet;
+    qCDebug(albumLog) << "AlbumControl::photoHaveFavorited - Function exit, returning:" << bRet;
     return bRet;
 }
 
 bool AlbumControl::photoHaveAddedToCustomAlbum(int albumId, const QString &path)
 {
-    qDebug() << "AlbumControl::photoHaveAddedToCustomAlbum - Function entry, albumId:" << albumId << "path:" << path;
+    qCDebug(albumLog) << "AlbumControl::photoHaveAddedToCustomAlbum - Function entry, albumId:" << albumId << "path:" << path;
     bool result = DBManager::instance()->isImgExistInAlbum(albumId, url2localPath(path));
-    qDebug() << "AlbumControl::photoHaveAddedToCustomAlbum - Function exit, returning:" << result;
+    qCDebug(albumLog) << "AlbumControl::photoHaveAddedToCustomAlbum - Function exit, returning:" << result;
     return result;
 }
 
 int AlbumControl::getCustomAlbumInfoConut(const int &albumId, const int &filterType)
 {
-    qDebug() << "AlbumControl::getCustomAlbumInfoConut - Function entry, albumId:" << albumId << "filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getCustomAlbumInfoConut - Function entry, albumId:" << albumId << "filterType:" << filterType;
     int rePicVideoConut = 0;
     DBImgInfoList dbInfoList = DBManager::instance()->getInfosByAlbum(albumId, false);
     for (DBImgInfo info : dbInfoList) {
         QVariantMap tmpMap;
         if (info.itemType == ItemTypePic) {
             if (filterType == 2) {
-                qDebug() << "AlbumControl::getCustomAlbumInfoConut - Branch: skipping picture due to video filter";
+                qCDebug(albumLog) << "AlbumControl::getCustomAlbumInfoConut - Branch: skipping picture due to video filter";
                 continue ;
             }
         } else if (info.itemType == ItemTypeVideo) {
             if (filterType == 1) {
-                qDebug() << "AlbumControl::getCustomAlbumInfoConut - Branch: skipping video due to picture filter";
+                qCDebug(albumLog) << "AlbumControl::getCustomAlbumInfoConut - Branch: skipping video due to picture filter";
                 continue ;
             }
         }
         rePicVideoConut++;
     }
-    qDebug() << "AlbumControl::getCustomAlbumInfoConut - Function exit, returning count:" << rePicVideoConut;
+    qCDebug(albumLog) << "AlbumControl::getCustomAlbumInfoConut - Function exit, returning count:" << rePicVideoConut;
     return rePicVideoConut;
 }
 
 int AlbumControl::getAllInfoConut(const int &filterType)
 {
-    qDebug() << "AlbumControl::getAllInfoConut - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getAllInfoConut - Function entry, filterType:" << filterType;
     ItemType type = ItemTypeNull;
     if (filterType == 2) {
-        qDebug() << "AlbumControl::getAllInfoConut - Branch: filtering for videos only";
+        qCDebug(albumLog) << "AlbumControl::getAllInfoConut - Branch: filtering for videos only";
         type = ItemTypeVideo ;
     }
     if (filterType == 1) {
-        qDebug() << "AlbumControl::getAllInfoConut - Branch: filtering for pictures only";
+        qCDebug(albumLog) << "AlbumControl::getAllInfoConut - Branch: filtering for pictures only";
         type = ItemTypePic ;
     }
     int count = DBManager::instance()->getImgsCount(type);
-    qDebug() << "AlbumControl::getAllInfoConut - Function exit, returning count:" << count;
+    qCDebug(albumLog) << "AlbumControl::getAllInfoConut - Function exit, returning count:" << count;
     return count;
 }
 
 int AlbumControl::getTrashInfoConut(const int &filterType)
 {
-    qDebug() << "AlbumControl::getTrashInfoConut - Function entry, filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getTrashInfoConut - Function entry, filterType:" << filterType;
     DBImgInfoList allTrashInfos;
     if (filterType == 0) {
-        qDebug() << "AlbumControl::getTrashInfoConut - Branch: getting all trash items";
+        qCDebug(albumLog) << "AlbumControl::getTrashInfoConut - Branch: getting all trash items";
         allTrashInfos = getTrashInfos2(ItemTypeNull);
     } else if (filterType == 1) {
-        qDebug() << "AlbumControl::getTrashInfoConut - Branch: getting picture trash items";
+        qCDebug(albumLog) << "AlbumControl::getTrashInfoConut - Branch: getting picture trash items";
         allTrashInfos = getTrashInfos2(ItemTypePic);
     } else if (filterType == 2) {
-        qDebug() << "AlbumControl::getTrashInfoConut - Branch: getting video trash items";
+        qCDebug(albumLog) << "AlbumControl::getTrashInfoConut - Branch: getting video trash items";
         allTrashInfos = getTrashInfos2(ItemTypeVideo);
     }
 
     int count = allTrashInfos.size();
-    qDebug() << "AlbumControl::getTrashInfoConut - Function exit, returning count:" << count;
+    qCDebug(albumLog) << "AlbumControl::getTrashInfoConut - Function exit, returning count:" << count;
     return count;
 }
 
 void AlbumControl::removeAlbum(int UID)
 {
-    qDebug() << "AlbumControl::removeAlbum - Function entry, UID:" << UID;
+    qCDebug(albumLog) << "AlbumControl::removeAlbum - Function entry, UID:" << UID;
     DBManager::instance()->removeAlbum(UID);
-    qDebug() << "AlbumControl::removeAlbum - Function exit";
+    qCDebug(albumLog) << "AlbumControl::removeAlbum - Function exit";
 }
 
 void AlbumControl::removeFromAlbum(int UID, const QStringList &paths)
 {
-    qDebug() << "AlbumControl::removeFromAlbum - Function entry, UID:" << UID << "paths count:" << paths.size();
+    qCDebug(albumLog) << "AlbumControl::removeFromAlbum - Function entry, UID:" << UID << "paths count:" << paths.size();
     AlbumDBType atype = AlbumDBType::Custom;
     if (UID == 0) {
         atype = AlbumDBType::Favourite;
     }
     //判断是否是自动导入
     if (isAutoImportAlbum(UID)) {
-        qDebug() << "AlbumControl::removeFromAlbum - Branch: album is auto import type";
+        qCDebug(albumLog) << "AlbumControl::removeFromAlbum - Branch: album is auto import type";
         atype = AlbumDBType::AutoImport;
     }
 
@@ -2349,15 +2350,15 @@ void AlbumControl::removeFromAlbum(int UID, const QStringList &paths)
     DBManager::instance()->removeCustomAlbumIdByPaths(UID, localPaths);
 
     DBManager::instance()->removeFromAlbum(UID, localPaths, atype);
-    qDebug() << "AlbumControl::removeFromAlbum - Function exit";
+    qCDebug(albumLog) << "AlbumControl::removeFromAlbum - Function exit";
 }
 
 bool AlbumControl::insertIntoAlbum(int UID, const QStringList &paths)
 {
-    qDebug() << "AlbumControl::insertIntoAlbum - Function entry, UID:" << UID << "paths count:" << paths.size();
+    qCDebug(albumLog) << "AlbumControl::insertIntoAlbum - Function entry, UID:" << UID << "paths count:" << paths.size();
     AlbumDBType atype = AlbumDBType::Custom;
     if (UID == 0) {
-        qDebug() << "AlbumControl::insertIntoAlbum - Branch: inserting into favorites";
+        qCDebug(albumLog) << "AlbumControl::insertIntoAlbum - Branch: inserting into favorites";
         atype = AlbumDBType::Favourite;
     }
     QStringList localPaths ;
@@ -2368,16 +2369,16 @@ bool AlbumControl::insertIntoAlbum(int UID, const QStringList &paths)
     DBManager::instance()->addCustomAlbumIdByPaths(UID, localPaths);
 
     bool result = DBManager::instance()->insertIntoAlbum(UID, localPaths, atype);
-    qDebug() << "AlbumControl::insertIntoAlbum - Function exit, returning:" << result;
+    qCDebug(albumLog) << "AlbumControl::insertIntoAlbum - Function exit, returning:" << result;
     return result;
 }
 
 bool AlbumControl::insertImportIntoAlbum(int UID, const QStringList &paths)
 {
-    qDebug() << "AlbumControl::insertImportIntoAlbum - Function entry, UID:" << UID << "paths count:" << paths.size();
+    qCDebug(albumLog) << "AlbumControl::insertImportIntoAlbum - Function entry, UID:" << UID << "paths count:" << paths.size();
     AlbumDBType atype = AlbumDBType::AutoImport;
     if (UID == 0) {
-        qDebug() << "AlbumControl::insertImportIntoAlbum - Branch: inserting into favorites";
+        qCDebug(albumLog) << "AlbumControl::insertImportIntoAlbum - Branch: inserting into favorites";
         atype = AlbumDBType::Favourite;
     }
     QStringList localPaths ;
@@ -2385,33 +2386,33 @@ bool AlbumControl::insertImportIntoAlbum(int UID, const QStringList &paths)
         localPaths << url2localPath(path);
     }
     bool result = DBManager::instance()->insertIntoAlbum(UID, localPaths, atype);
-    qDebug() << "AlbumControl::insertImportIntoAlbum - Function exit, returning:" << result;
+    qCDebug(albumLog) << "AlbumControl::insertImportIntoAlbum - Function exit, returning:" << result;
     return result;
 }
 
 void AlbumControl::updateInfoPath(const QString &oldPath, const QString &newPath)
 {
-    qDebug() << "AlbumControl::updateInfoPath - Function entry, oldPath:" << oldPath << "newPath:" << newPath;
+    qCDebug(albumLog) << "AlbumControl::updateInfoPath - Function entry, oldPath:" << oldPath << "newPath:" << newPath;
     auto oldLocalPath = url2localPath(oldPath);
     auto newLocalPath = url2localPath(newPath);
     bool ok = DBManager::instance()->updateImgPath(oldLocalPath, newLocalPath);
 
     if (ok) {
-        qDebug() << "AlbumControl::updateInfoPath - Branch: path update successful, refreshing UI";
+        qCDebug(albumLog) << "AlbumControl::updateInfoPath - Branch: path update successful, refreshing UI";
         // 通知前端刷新相关界面，包括自定义相册/我的收藏/合集-所有项目/已导入
         sigRefreshCustomAlbum(-1);
         sigRefreshAllCollection();
         sigRefreshImportAlbum();
         sigRefreshSearchView();
     }
-    qDebug() << "AlbumControl::updateInfoPath - Function exit";
+    qCDebug(albumLog) << "AlbumControl::updateInfoPath - Function exit";
 }
 
 bool AlbumControl::renameAlbum(int UID, const QString &newName)
 {
-    qDebug() << "AlbumControl::renameAlbum - Function entry, UID:" << UID;
+    qCDebug(albumLog) << "AlbumControl::renameAlbum - Function entry, UID:" << UID;
     if (newName.isEmpty()) {
-        qDebug() << "AlbumControl::renameAlbum - empty name, keeping original";
+        qCDebug(albumLog) << "AlbumControl::renameAlbum - empty name, keeping original";
         return false;
     }
 
@@ -2421,37 +2422,37 @@ bool AlbumControl::renameAlbum(int UID, const QString &newName)
         if (pair.first == UID) {
             // Name unchanged, no need to update
             if (pair.second == newName) {
-                qDebug() << "AlbumControl::renameAlbum - name unchanged, skipping";
+                qCDebug(albumLog) << "AlbumControl::renameAlbum - name unchanged, skipping";
                 return true;
             }
         } else if (pair.second == newName) {
-            qDebug() << "AlbumControl::renameAlbum - name already exists, keeping original";
+            qCDebug(albumLog) << "AlbumControl::renameAlbum - name already exists, keeping original";
             return false;
         }
     }
 
     bool ok = DBManager::instance()->renameAlbum(UID, newName);
-    qDebug() << "AlbumControl::renameAlbum - Function exit, success:" << ok;
+    qCDebug(albumLog) << "AlbumControl::renameAlbum - Function exit, success:" << ok;
     return ok;
 }
 
 QVariant AlbumControl::searchPicFromAlbum(int UID, const QString &keywords, bool useAI)
 {
-    qDebug() << "AlbumControl::searchPicFromAlbum - Function entry, UID:" << UID << "keywords:" << keywords << "useAI:" << useAI;
+    qCDebug(albumLog) << "AlbumControl::searchPicFromAlbum - Function entry, UID:" << UID << "keywords:" << keywords << "useAI:" << useAI;
     DBImgInfoList dbInfos;
     if (useAI) { //使用AI进行分析
-        qDebug() << "AlbumControl::searchPicFromAlbum - Branch: AI search not implemented";
+        qCDebug(albumLog) << "AlbumControl::searchPicFromAlbum - Branch: AI search not implemented";
         ;
     } else { //不使用AI分析，直接按文件路径搜索
-        qDebug() << "AlbumControl::searchPicFromAlbum - Branch: using keyword search";
+        qCDebug(albumLog) << "AlbumControl::searchPicFromAlbum - Branch: using keyword search";
         if (UID == -1) {
-            qDebug() << "AlbumControl::searchPicFromAlbum - Branch: searching all albums";
+            qCDebug(albumLog) << "AlbumControl::searchPicFromAlbum - Branch: searching all albums";
             dbInfos = DBManager::instance()->getInfosForKeyword(keywords);
         } else if (UID == -2) {
-            qDebug() << "AlbumControl::searchPicFromAlbum - Branch: searching trash";
+            qCDebug(albumLog) << "AlbumControl::searchPicFromAlbum - Branch: searching trash";
             dbInfos = DBManager::instance()->getTrashInfosForKeyword(keywords);
         } else {
-            qDebug() << "AlbumControl::searchPicFromAlbum - Branch: searching specific album";
+            qCDebug(albumLog) << "AlbumControl::searchPicFromAlbum - Branch: searching specific album";
             dbInfos = DBManager::instance()->getInfosForKeyword(UID, keywords);
         }
     }
@@ -2461,32 +2462,32 @@ QVariant AlbumControl::searchPicFromAlbum(int UID, const QString &keywords, bool
         return "file://" + info.filePath;
     });
 
-    qDebug() << "AlbumControl::searchPicFromAlbum - Function exit, returning" << paths.size() << "paths";
+    qCDebug(albumLog) << "AlbumControl::searchPicFromAlbum - Function exit, returning" << paths.size() << "paths";
     return paths;
 }
 
 DBImgInfoList AlbumControl::searchPicFromAlbum2(int UID, const QString &keywords, bool useAI)
 {
-    qDebug() << "AlbumControl::searchPicFromAlbum2 - Function entry, UID:" << UID << "keywords:" << keywords << "useAI:" << useAI;
+    qCDebug(albumLog) << "AlbumControl::searchPicFromAlbum2 - Function entry, UID:" << UID << "keywords:" << keywords << "useAI:" << useAI;
     DBImgInfoList dbInfos;
     if (useAI) { //使用AI进行分析
-        qDebug() << "AlbumControl::searchPicFromAlbum2 - Branch: AI search not implemented";
+        qCDebug(albumLog) << "AlbumControl::searchPicFromAlbum2 - Branch: AI search not implemented";
         ;
     } else { //不使用AI分析，直接按文件路径搜索
-        qDebug() << "AlbumControl::searchPicFromAlbum2 - Branch: using keyword search";
+        qCDebug(albumLog) << "AlbumControl::searchPicFromAlbum2 - Branch: using keyword search";
         if (UID == -1) {
-            qDebug() << "AlbumControl::searchPicFromAlbum2 - Branch: searching all albums";
+            qCDebug(albumLog) << "AlbumControl::searchPicFromAlbum2 - Branch: searching all albums";
             dbInfos = DBManager::instance()->getInfosForKeyword(keywords);
         } else if (UID == -2) {
-            qDebug() << "AlbumControl::searchPicFromAlbum2 - Branch: searching trash";
+            qCDebug(albumLog) << "AlbumControl::searchPicFromAlbum2 - Branch: searching trash";
             dbInfos = DBManager::instance()->getTrashInfosForKeyword(keywords);
         } else {
-            qDebug() << "AlbumControl::searchPicFromAlbum2 - Branch: searching specific album";
+            qCDebug(albumLog) << "AlbumControl::searchPicFromAlbum2 - Branch: searching specific album";
             dbInfos = DBManager::instance()->getInfosForKeyword(UID, keywords);
         }
     }
 
-    qDebug() << "AlbumControl::searchPicFromAlbum2 - Function exit, returning" << dbInfos.size() << "items";
+    qCDebug(albumLog) << "AlbumControl::searchPicFromAlbum2 - Function exit, returning" << dbInfos.size() << "items";
     return dbInfos;
 }
 
@@ -2513,7 +2514,7 @@ QVariantList AlbumControl::getClassificationData()
 
     // 如果存在未分类图片，触发重新分类
     if (hasUnclassified) {
-        qDebug() << "Found unclassified images, starting classification...";
+        qCDebug(albumLog) << "Found unclassified images, starting classification...";
         classifyOldDBInfo(allInfos);
         return result;
     }
@@ -2540,7 +2541,7 @@ QVariantList AlbumControl::getClassificationData()
 
 QStringList AlbumControl::imageCanExportFormat(const QString &path)
 {
-    qDebug() << "AlbumControl::imageCanExportFormat - Function entry, path:" << path;
+    qCDebug(albumLog) << "AlbumControl::imageCanExportFormat - Function entry, path:" << path;
     QString localPath = url2localPath(path);
     QStringList formats;
     formats << "jpg";
@@ -2554,17 +2555,17 @@ QStringList AlbumControl::imageCanExportFormat(const QString &path)
     info.suffix();
     if (!formats.contains(info.suffix())) {
         if (!info.suffix().isEmpty()) {
-            qDebug() << "AlbumControl::imageCanExportFormat - Branch: adding original suffix:" << info.suffix();
+            qCDebug(albumLog) << "AlbumControl::imageCanExportFormat - Branch: adding original suffix:" << info.suffix();
             formats << info.suffix();
         }
     }
-    qDebug() << "AlbumControl::imageCanExportFormat - Function exit, returning" << formats.size() << "formats";
+    qCDebug(albumLog) << "AlbumControl::imageCanExportFormat - Function exit, returning" << formats.size() << "formats";
     return formats;
 }
 
 bool AlbumControl::saveAsImage(const QString &path, const QString &saveName, int index, const QString &fileFormat, int pictureQuality, const QString &saveFolder)
 {
-    qDebug() << "AlbumControl::saveAsImage - Function entry, path:" << path << "saveName:" << saveName << "index:" << index
+    qCDebug(albumLog) << "AlbumControl::saveAsImage - Function entry, path:" << path << "saveName:" << saveName << "index:" << index
              << "fileFormat:" << fileFormat << "pictureQuality:" << pictureQuality << "saveFolder:" << saveFolder;
     bool bRet = false;
     QString localPath = url2localPath(path);
@@ -2572,31 +2573,31 @@ bool AlbumControl::saveAsImage(const QString &path, const QString &saveName, int
     QString finalSaveFolder;
     switch (index) {
     case 0:
-        qDebug() << "AlbumControl::saveAsImage - Branch: saving to Pictures location";
+        qCDebug(albumLog) << "AlbumControl::saveAsImage - Branch: saving to Pictures location";
         finalSaveFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
         break;
     case 1:
-        qDebug() << "AlbumControl::saveAsImage - Branch: saving to Documents location";
+        qCDebug(albumLog) << "AlbumControl::saveAsImage - Branch: saving to Documents location";
         finalSaveFolder = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
         break;
     case 2:
-        qDebug() << "AlbumControl::saveAsImage - Branch: saving to Download location";
+        qCDebug(albumLog) << "AlbumControl::saveAsImage - Branch: saving to Download location";
         finalSaveFolder = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
         break;
     case 3:
-        qDebug() << "AlbumControl::saveAsImage - Branch: saving to Desktop location";
+        qCDebug(albumLog) << "AlbumControl::saveAsImage - Branch: saving to Desktop location";
         finalSaveFolder = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
         break;
     case 4:
-        qDebug() << "AlbumControl::saveAsImage - Branch: saving to Movies location";
+        qCDebug(albumLog) << "AlbumControl::saveAsImage - Branch: saving to Movies location";
         finalSaveFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
         break;
     case 5:
-        qDebug() << "AlbumControl::saveAsImage - Branch: saving to Music location";
+        qCDebug(albumLog) << "AlbumControl::saveAsImage - Branch: saving to Music location";
         finalSaveFolder = QStandardPaths::writableLocation(QStandardPaths::MusicLocation);
         break;
     default :
-        qDebug() << "AlbumControl::saveAsImage - Branch: saving to custom folder";
+        qCDebug(albumLog) << "AlbumControl::saveAsImage - Branch: saving to custom folder";
         finalSaveFolder = saveFolder;
         break;
     }
@@ -2612,39 +2613,39 @@ bool AlbumControl::saveAsImage(const QString &path, const QString &saveName, int
     QFileInfo info(localPath);
     if (!formats.contains(info.suffix())) {
 
-        qDebug() << "AlbumControl::saveAsImage - Branch: non-standard format, using direct file copy";
+        qCDebug(albumLog) << "AlbumControl::saveAsImage - Branch: non-standard format, using direct file copy";
         QFileInfo fileinfo(savePath);
         if (fileinfo.exists() && !fileinfo.isDir()) {
             //目标位置与原图位置相同则直接返回
             if (localPath == savePath) {
-                qDebug() << "AlbumControl::saveAsImage - Branch: target path is same as source, returning true";
+                qCDebug(albumLog) << "AlbumControl::saveAsImage - Branch: target path is same as source, returning true";
                 return true;
             }
             //目标位置与原图位置不同则先删除再复制
-            qDebug() << "AlbumControl::saveAsImage - Branch: target file exists, removing it first";
+            qCDebug(albumLog) << "AlbumControl::saveAsImage - Branch: target file exists, removing it first";
             if (QFile::remove(savePath)) {
                 bRet = QFile::copy(localPath, savePath);
             }
         } else {
             bRet = QFile::copy(localPath, savePath);
-            qDebug() << "AlbumControl::saveAsImage - Branch: direct file copy, result:" << bRet;
+            qCDebug(albumLog) << "AlbumControl::saveAsImage - Branch: direct file copy, result:" << bRet;
         }
     } else {
-        qDebug() << "AlbumControl::saveAsImage - Branch: standard format, using QImage save";
+        qCDebug(albumLog) << "AlbumControl::saveAsImage - Branch: standard format, using QImage save";
         QImage m_saveImage;
         QString errMsg;
         LibUnionImage_NameSpace::loadStaticImageFromFile(localPath, m_saveImage, errMsg);
         bRet = m_saveImage.save(savePath, fileFormat.toUpper().toLocal8Bit().data(), pictureQuality);
-        qDebug() << "AlbumControl::saveAsImage - Branch: image save result:" << bRet;
+        qCDebug(albumLog) << "AlbumControl::saveAsImage - Branch: image save result:" << bRet;
     }
 
-    qDebug() << "AlbumControl::saveAsImage - Function exit, returning:" << bRet;
+    qCDebug(albumLog) << "AlbumControl::saveAsImage - Function exit, returning:" << bRet;
     return bRet;
 }
 
 QString AlbumControl::getFolder()
 {
-    qDebug() << "AlbumControl::getFolder - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getFolder - Function entry";
     QFileDialog dialog;
     QString fileDir("");
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
@@ -2654,13 +2655,13 @@ QString AlbumControl::getFolder()
     if (dialog.exec()) {
         fileDir = dialog.selectedFiles().first();
     }
-    qDebug() << "AlbumControl::getFolder - Function exit, returning:" << fileDir;
+    qCDebug(albumLog) << "AlbumControl::getFolder - Function exit, returning:" << fileDir;
     return fileDir;
 }
 
 bool AlbumControl::getFolders(const QStringList &paths)
 {
-    qDebug() << "AlbumControl::getFolders - Function entry, paths count:" << paths.size();
+    qCDebug(albumLog) << "AlbumControl::getFolders - Function entry, paths count:" << paths.size();
     bool bRet = true;
     QFileDialog dialog;
     QString fileDir;
@@ -2676,35 +2677,35 @@ bool AlbumControl::getFolders(const QStringList &paths)
         localPaths << url2localPath(path);
     }
     if (!fileDir.isEmpty()) {
-        qDebug() << "AlbumControl::getFolders - Branch: processing" << localPaths.size() << "files to copy";
+        qCDebug(albumLog) << "AlbumControl::getFolders - Branch: processing" << localPaths.size() << "files to copy";
         for (QString path : localPaths) {
             QString savePath = fileDir + "/" + QFileInfo(path).completeBaseName() + "." + QFileInfo(path).completeSuffix();
             QFileInfo fileinfo(savePath);
             if (fileinfo.exists() && !fileinfo.isDir()) {
                 //目标位置与原图位置相同则直接返回
                 if (path == savePath) {
-                    qDebug() << "AlbumControl::getFolders - Branch: target path is same as source, returning true";
+                    qCDebug(albumLog) << "AlbumControl::getFolders - Branch: target path is same as source, returning true";
                     return true;
                 }
                 //目标位置与原图位置不同则先删除再复制
-                qDebug() << "AlbumControl::getFolders - Branch: target file exists, removing it first:" << savePath;
+                qCDebug(albumLog) << "AlbumControl::getFolders - Branch: target file exists, removing it first:" << savePath;
                 if (QFile::remove(savePath)) {
                     bRet = QFile::copy(path, savePath);
                 }
             } else {
                 bRet = QFile::copy(path, savePath);
-                qDebug() << "AlbumControl::getFolders - Branch: direct file copy, result:" << bRet;
+                qCDebug(albumLog) << "AlbumControl::getFolders - Branch: direct file copy, result:" << bRet;
             }
         }
 
     }
-    qDebug() << "AlbumControl::getFolders - Function exit, returning:" << bRet;
+    qCDebug(albumLog) << "AlbumControl::getFolders - Function exit, returning:" << bRet;
     return bRet;
 }
 
 bool AlbumControl::exportFolders(const QStringList &paths, const QString &dir)
 {
-    qDebug() << "AlbumControl::exportFolders - Function entry, paths count:" << paths.size() << "dir:" << dir;
+    qCDebug(albumLog) << "AlbumControl::exportFolders - Function entry, paths count:" << paths.size() << "dir:" << dir;
     bool bRet = true;
     QFileDialog dialog;
     QString fileDir;
@@ -2732,7 +2733,7 @@ bool AlbumControl::exportFolders(const QStringList &paths, const QString &dir)
             if (fileinfo.exists() && !fileinfo.isDir()) {
                 //目标位置与原图位置相同则直接返回
                 if (path == savePath) {
-                    qDebug() << "AlbumControl::exportFolders - Branch: target path is same as source, returning true";
+                    qCDebug(albumLog) << "AlbumControl::exportFolders - Branch: target path is same as source, returning true";
                     return true;
                 }
                 //目标位置与原图位置不同则先删除再复制
@@ -2744,16 +2745,16 @@ bool AlbumControl::exportFolders(const QStringList &paths, const QString &dir)
             }
         }
     }
-    qDebug() << "AlbumControl::exportFolders - Function exit, returning:" << bRet;
+    qCDebug(albumLog) << "AlbumControl::exportFolders - Function exit, returning:" << bRet;
     return bRet;
 }
 
 void AlbumControl::openDeepinMovie(const QString &path)
 {
-    qDebug() << "AlbumControl::openDeepinMovie - Function entry, path:" << path;
+    qCDebug(albumLog) << "AlbumControl::openDeepinMovie - Function entry, path:" << path;
     QString localPath = url2localPath(path);
     if (LibUnionImage_NameSpace::isVideo(localPath)) {
-        qDebug() << "AlbumControl::openDeepinMovie - Branch: path is a video file";
+        qCDebug(albumLog) << "AlbumControl::openDeepinMovie - Branch: path is a video file";
         QProcess *process = new QProcess(this);
         QStringList arguments;
 
@@ -2764,21 +2765,21 @@ void AlbumControl::openDeepinMovie(const QString &path)
         static const int kMinimalOsVersion = 23;
         const int osMajor = DSysInfo::majorVersion().toInt();
         if (osMajor >= kMinimalOsVersion) {
-            qInfo() << "trying to start deepin-movie via Dbus: com.deepin.movie->openFile";
+            qCInfo(albumLog) << "trying to start deepin-movie via Dbus: com.deepin.movie->openFile";
             QDBusMessage message = QDBusMessage::createMethodCall("com.deepin.movie", "/", "com.deepin.movie", "openFile");
             message << path;
             QDBusMessage retMessage = QDBusConnection::sessionBus().call(message);
 
             if (retMessage.type() != QDBusMessage::ErrorMessage) {
                 trylinglongSucc = true;
-                qDebug() << "[dbus] Open it with deepin-movie";
+                qCDebug(albumLog) << "[dbus] Open it with deepin-movie";
             } else {
-                qWarning() << retMessage.errorMessage();
+                qCWarning(albumLog) << retMessage.errorMessage();
             }
         }
 
         if (!trylinglongSucc) {
-            qInfo() << "trying start detached deepin-movie";
+            qCInfo(albumLog) << "trying start detached deepin-movie";
 
             arguments << path;
             bool isopen = process->startDetached("deepin-movie", arguments);
@@ -2791,12 +2792,12 @@ void AlbumControl::openDeepinMovie(const QString &path)
 
         connect(process, SIGNAL(finished(int)), process, SLOT(deleteLater()));
     }
-    qDebug() << "AlbumControl::openDeepinMovie - Function exit";
+    qCDebug(albumLog) << "AlbumControl::openDeepinMovie - Function exit";
 }
 
 QString AlbumControl::getFileTime(const QString &path1, const QString &path2)
 {
-    qDebug() << "AlbumControl::getFileTime - Function entry, path1:" << path1 << "path2:" << path2;
+    qCDebug(albumLog) << "AlbumControl::getFileTime - Function entry, path1:" << path1 << "path2:" << path2;
     auto time1 = DBManager::instance()->getFileImportTime(url2localPath(path1));
     auto time2 = DBManager::instance()->getFileImportTime(url2localPath(path2));
 
@@ -2816,18 +2817,18 @@ QString AlbumControl::getFileTime(const QString &path1, const QString &path2)
     }
     if (time1 < time2) {
         QString result = str1 + "-" + str2;
-        qDebug() << "AlbumControl::getFileTime - Branch: time1 < time2, returning:" << result;
+        qCDebug(albumLog) << "AlbumControl::getFileTime - Branch: time1 < time2, returning:" << result;
         return result;
     } else {
         QString result = str2 + "-" + str1;
-        qDebug() << "AlbumControl::getFileTime - Branch: time1 >= time2, returning:" << result;
+        qCDebug(albumLog) << "AlbumControl::getFileTime - Branch: time1 >= time2, returning:" << result;
         return result;
     }
 }
 
 QString AlbumControl::getMovieInfo(const QString key, const QString &path)
 {
-    qDebug() << "AlbumControl::getMovieInfo - Function entry, key:" << key << "path:" << path;
+    qCDebug(albumLog) << "AlbumControl::getMovieInfo - Function entry, key:" << key << "path:" << path;
     QString value = "";
     if (!path.isEmpty()) {
         QString localPath = url2localPath(path);
@@ -2891,77 +2892,77 @@ QString AlbumControl::getMovieInfo(const QString key, const QString &path)
             value = movieInfo.filePath;
         }
     }
-    qDebug() << "AlbumControl::getMovieInfo - Function exit, returning value:" << value;
+    qCDebug(albumLog) << "AlbumControl::getMovieInfo - Function exit, returning value:" << value;
     return value;
 }
 
 int AlbumControl::getYearCount(const QString &year)
 {
-    qDebug() << "AlbumControl::getYearCount - Function entry, year:" << year;
+    qCDebug(albumLog) << "AlbumControl::getYearCount - Function entry, year:" << year;
     int result = DBManager::instance()->getYearCount(year);
-    qDebug() << "AlbumControl::getYearCount - Function exit, returning count:" << result;
+    qCDebug(albumLog) << "AlbumControl::getYearCount - Function exit, returning count:" << result;
     return result;
 }
 
 QStringList AlbumControl::getYears()
 {
-    qDebug() << "AlbumControl::getYears - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getYears - Function entry";
     QStringList result = DBManager::instance()->getYears();
-    qDebug() << "AlbumControl::getYears - Function exit, returning" << result.size() << "years";
+    qCDebug(albumLog) << "AlbumControl::getYears - Function exit, returning" << result.size() << "years";
     return result;
 }
 
 int AlbumControl::getMonthCount(const QString &year, const QString &month)
 {
-    qDebug() << "AlbumControl::getMonthCount - Function entry, year:" << year << "month:" << month;
+    qCDebug(albumLog) << "AlbumControl::getMonthCount - Function entry, year:" << year << "month:" << month;
     int result = DBManager::instance()->getMonthCount(year, month);
-    qDebug() << "AlbumControl::getMonthCount - Function exit, returning count:" << result;
+    qCDebug(albumLog) << "AlbumControl::getMonthCount - Function exit, returning count:" << result;
     return result;
 }
 
 QStringList AlbumControl::getMonthPaths(const QString &year, const QString &month)
 {
-    qDebug() << "AlbumControl::getMonthPaths - Function entry, year:" << year << "month:" << month;
+    qCDebug(albumLog) << "AlbumControl::getMonthPaths - Function entry, year:" << year << "month:" << month;
     QStringList result = DBManager::instance()->getMonthPaths(year, month, 6);
-    qDebug() << "AlbumControl::getMonthPaths - Function exit, returning" << result.size() << "paths";
+    qCDebug(albumLog) << "AlbumControl::getMonthPaths - Function exit, returning" << result.size() << "paths";
     return result;
 }
 
 QStringList AlbumControl::getMonths()
 {
-    qDebug() << "AlbumControl::getMonths - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getMonths - Function entry";
     QStringList result = DBManager::instance()->getMonths();
-    qDebug() << "AlbumControl::getMonths - Function exit, returning" << result.size() << "months";
+    qCDebug(albumLog) << "AlbumControl::getMonths - Function exit, returning" << result.size() << "months";
     return result;
 }
 
 QStringList AlbumControl::getDeviceNames()
 {
-    qDebug() << "AlbumControl::getDeviceNames - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getDeviceNames - Function entry";
     QStringList result = m_durlAndNameMap.values();
-    qDebug() << "AlbumControl::getDeviceNames - Function exit, returning" << result.size() << "device names";
+    qCDebug(albumLog) << "AlbumControl::getDeviceNames - Function exit, returning" << result.size() << "device names";
     return result;
 }
 
 QStringList AlbumControl::getDevicePaths()
 {
-    qDebug() << "AlbumControl::getDevicePaths - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getDevicePaths - Function entry";
     QStringList result = m_durlAndNameMap.keys();
-    qDebug() << "AlbumControl::getDevicePaths - Function exit, returning" << result.size() << "device paths";
+    qCDebug(albumLog) << "AlbumControl::getDevicePaths - Function exit, returning" << result.size() << "device paths";
     return result;
 }
 
 QString AlbumControl::getDeviceName(const QString &devicePath)
 {
-    qDebug() << "AlbumControl::getDeviceName - Function entry, devicePath:" << devicePath;
+    qCDebug(albumLog) << "AlbumControl::getDeviceName - Function entry, devicePath:" << devicePath;
     QString result = m_durlAndNameMap.value(devicePath);
-    qDebug() << "AlbumControl::getDeviceName - Function exit, returning:" << result;
+    qCDebug(albumLog) << "AlbumControl::getDeviceName - Function exit, returning:" << result;
     return result;
 }
 
 DBImgInfoList fromDeviceAlbumInfoList(const QMap<QString, ItemType> &filePairList, const int &filterType)
 {
-    qDebug() << "fromDeviceAlbumInfoList - Function entry, filePairList count:" << filePairList.size() << "filterType:" << filterType;
+    qCDebug(albumLog) << "fromDeviceAlbumInfoList - Function entry, filePairList count:" << filePairList.size() << "filterType:" << filterType;
     DBImgInfoList infoList;
     for (auto fileItr = filePairList.begin(); fileItr != filePairList.end(); ++fileItr) {
         if (ItemTypeNull != filterType && filterType != fileItr.value()) {
@@ -2976,15 +2977,15 @@ DBImgInfoList fromDeviceAlbumInfoList(const QMap<QString, ItemType> &filePairLis
 
         infoList << info;
     }
-    qDebug() << "fromDeviceAlbumInfoList - Function exit, returning" << infoList.size() << "items";
+    qCDebug(albumLog) << "fromDeviceAlbumInfoList - Function exit, returning" << infoList.size() << "items";
     return infoList;
 }
 
 void AlbumControl::loadDeviceAlbumInfoAsync(const QString &devicePath)
 {
-    qDebug() << "AlbumControl::loadDeviceAlbumInfoAsync - Function entry, devicePath:" << devicePath;
+    qCDebug(albumLog) << "AlbumControl::loadDeviceAlbumInfoAsync - Function entry, devicePath:" << devicePath;
     if (m_PhonePicFileMap.contains(devicePath)) {
-        qDebug() << "AlbumControl::loadDeviceAlbumInfoAsync - Branch: device already in cache, returning";
+        qCDebug(albumLog) << "AlbumControl::loadDeviceAlbumInfoAsync - Branch: device already in cache, returning";
         return;
     }
 
@@ -3040,31 +3041,31 @@ void AlbumControl::loadDeviceAlbumInfoAsync(const QString &devicePath)
                 Q_EMIT deviceAlbumInfoCountChanged(devicePath, devicePtr->picCount, devicePtr->videoCount);
             }, Qt::QueuedConnection);
     });
-    qDebug() << "AlbumControl::loadDeviceAlbumInfoAsync - Function exit";
+    qCDebug(albumLog) << "AlbumControl::loadDeviceAlbumInfoAsync - Function exit";
 }
 
 DBImgInfoList AlbumControl::getDeviceAlbumInfoList(const QString &devicePath, const int &filterType, bool *loading)
 {
-    qDebug() << "AlbumControl::getDeviceAlbumInfoList - Function entry, devicePath:" << devicePath << "filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getDeviceAlbumInfoList - Function entry, devicePath:" << devicePath << "filterType:" << filterType;
     auto itr = m_PhonePicFileMap.find(devicePath);
     if (itr != m_PhonePicFileMap.end()) {
-        qDebug() << "AlbumControl::getDeviceAlbumInfoList - Branch: device found in cache";
+        qCDebug(albumLog) << "AlbumControl::getDeviceAlbumInfoList - Branch: device found in cache";
         DeviceInfoPtr devicePtr = *(itr);
         if (!devicePtr.isNull()) {
-            qDebug() << "AlbumControl::getDeviceAlbumInfoList - Branch: device info valid, returning album list";
+            qCDebug(albumLog) << "AlbumControl::getDeviceAlbumInfoList - Branch: device info valid, returning album list";
             return fromDeviceAlbumInfoList(devicePtr->fileTypeMap, filterType);
         }
     }
 
-    qDebug() << "AlbumControl::getDeviceAlbumInfoList - Branch: device not found or null, starting async load";
+    qCDebug(albumLog) << "AlbumControl::getDeviceAlbumInfoList - Branch: device not found or null, starting async load";
     // Not load before, mark current device loading.
     loadDeviceAlbumInfoAsync(devicePath);
 
     if (loading) {
-        qDebug() << "AlbumControl::getDeviceAlbumInfoList - Branch: setting loading flag to true";
+        qCDebug(albumLog) << "AlbumControl::getDeviceAlbumInfoList - Branch: setting loading flag to true";
         *loading = true;
     }
-    qDebug() << "AlbumControl::getDeviceAlbumInfoList - Function exit, returning empty list";
+    qCDebug(albumLog) << "AlbumControl::getDeviceAlbumInfoList - Function exit, returning empty list";
     return {};
 }
 
@@ -3079,27 +3080,27 @@ void AlbumControl::refreshDeviceAlbumInfo(const QString &devicePath)
 
 void AlbumControl::getDeviceAlbumInfoCountAsync(const QString &devicePath)
 {
-    qDebug() << "AlbumControl::getDeviceAlbumInfoCountAsync - Function entry, devicePath:" << devicePath;
+    qCDebug(albumLog) << "AlbumControl::getDeviceAlbumInfoCountAsync - Function entry, devicePath:" << devicePath;
     auto itr = m_PhonePicFileMap.find(devicePath);
     if (itr != m_PhonePicFileMap.end()) {
-        qDebug() << "AlbumControl::getDeviceAlbumInfoCountAsync - Branch: device found in cache";
+        qCDebug(albumLog) << "AlbumControl::getDeviceAlbumInfoCountAsync - Branch: device found in cache";
         DeviceInfoPtr devicePtr = *(itr);
         if (!devicePtr.isNull()) {
-            qDebug() << "AlbumControl::getDeviceAlbumInfoCountAsync - Branch: emitting count info, pics:" << devicePtr->picCount << "videos:" << devicePtr->videoCount;
+            qCDebug(albumLog) << "AlbumControl::getDeviceAlbumInfoCountAsync - Branch: emitting count info, pics:" << devicePtr->picCount << "videos:" << devicePtr->videoCount;
             Q_EMIT deviceAlbumInfoCountChanged(devicePath, devicePtr->picCount, devicePtr->videoCount);
         }
     }
 
     // Not load before, mark current device loading.
     loadDeviceAlbumInfoAsync(devicePath);
-    qDebug() << "AlbumControl::getDeviceAlbumInfoCountAsync - Function exit";
+    qCDebug(albumLog) << "AlbumControl::getDeviceAlbumInfoCountAsync - Function exit";
 }
 
 QList<int> AlbumControl::getPicVideoCountFromPaths(const QStringList &paths, const QString &devicePath)
 {
-    qDebug() << "AlbumControl::getPicVideoCountFromPaths - Function entry, paths count:" << paths.size() << "devicePath:" << devicePath;
+    qCDebug(albumLog) << "AlbumControl::getPicVideoCountFromPaths - Function entry, paths count:" << paths.size() << "devicePath:" << devicePath;
     if (paths.isEmpty()) {
-        qDebug() << "AlbumControl::getPicVideoCountFromPaths - Branch: paths is empty, returning {0, 0}";
+        qCDebug(albumLog) << "AlbumControl::getPicVideoCountFromPaths - Branch: paths is empty, returning {0, 0}";
         return {0, 0};
     }
 
@@ -3107,7 +3108,7 @@ QList<int> AlbumControl::getPicVideoCountFromPaths(const QStringList &paths, con
     int countVideo = 0;
 
     if (auto devicePtr = m_PhonePicFileMap.value(devicePath)) {
-        qDebug() << "AlbumControl::getPicVideoCountFromPaths - Branch: using device cache for counting";
+        qCDebug(albumLog) << "AlbumControl::getPicVideoCountFromPaths - Branch: using device cache for counting";
         for (const QString &path : paths) {
             auto type = devicePtr->fileTypeMap.value(path, ItemTypeNull);
             switch (type) {
@@ -3123,7 +3124,7 @@ QList<int> AlbumControl::getPicVideoCountFromPaths(const QStringList &paths, con
         }
 
     } else {
-        qDebug() << "AlbumControl::getPicVideoCountFromPaths - Branch: using file system detection for counting";
+        qCDebug(albumLog) << "AlbumControl::getPicVideoCountFromPaths - Branch: using file system detection for counting";
         for (QString path : paths) {
             if (LibUnionImage_NameSpace::isImage(url2localPath(path))) {
                 countPic++;
@@ -3133,13 +3134,13 @@ QList<int> AlbumControl::getPicVideoCountFromPaths(const QStringList &paths, con
         }
     }
 
-    qDebug() << "AlbumControl::getPicVideoCountFromPaths - Function exit, returning pics:" << countPic << "videos:" << countVideo;
+    qCDebug(albumLog) << "AlbumControl::getPicVideoCountFromPaths - Function exit, returning pics:" << countPic << "videos:" << countVideo;
     return {countPic, countVideo};
 }
 
 void AlbumControl::importFromMountDevice(const QStringList &paths, const int &index)
 {
-    qDebug() << "AlbumControl::importFromMountDevice - Function entry, paths count:" << paths.size() << "index:" << index;
+    qCDebug(albumLog) << "AlbumControl::importFromMountDevice - Function entry, paths count:" << paths.size() << "index:" << index;
     if (paths.isEmpty() || m_mountDeviceImportRunning.exchange(true))
         return;
 
@@ -3197,7 +3198,7 @@ void AlbumControl::importFromMountDevice(const QStringList &paths, const int &in
             const QString &sourcePath = sourcePaths.at(pathIndex);
             QFileInfo sourceInfo(sourcePath);
             if (!sourceInfo.isFile() || !sourceInfo.isReadable()) {
-                qWarning() << "Skipping unreadable device media:" << sourcePath;
+                qCWarning(albumLog) << "Skipping unreadable device media:" << sourcePath;
                 ++failedCount;
                 reportProgress();
                 continue;
@@ -3218,7 +3219,7 @@ void AlbumControl::importFromMountDevice(const QStringList &paths, const int &in
 
             const bool targetExists = QFileInfo::exists(targetPath);
             if (!targetExists && (!targetDirectoryReady || !QFile::copy(sourcePath, targetPath))) {
-                qWarning() << "Failed to copy device media:" << sourcePath << "to" << targetPath;
+                qCWarning(albumLog) << "Failed to copy device media:" << sourcePath << "to" << targetPath;
                 ++failedCount;
                 reportProgress();
                 continue;
@@ -3284,7 +3285,7 @@ void AlbumControl::importFromMountDevice(const QStringList &paths, const int &in
     }
     connect(thread, &QThread::finished, thread, &QObject::deleteLater);
     thread->start();
-    qDebug() << "AlbumControl::importFromMountDevice - Function exit";
+    qCDebug(albumLog) << "AlbumControl::importFromMountDevice - Function exit";
 }
 
 void AlbumControl::cancelMountDeviceImport()
@@ -3295,93 +3296,93 @@ void AlbumControl::cancelMountDeviceImport()
 
 QString AlbumControl::getYearCoverPath(const QString &year)
 {
-    qDebug() << "AlbumControl::getYearCoverPath - Function entry, year:" << year;
+    qCDebug(albumLog) << "AlbumControl::getYearCoverPath - Function entry, year:" << year;
     auto paths = DBManager::instance()->getYearPaths(year, 1);
     if (paths.isEmpty()) {
-        qDebug() << "AlbumControl::getYearCoverPath - Branch: no paths found, returning empty string";
+        qCDebug(albumLog) << "AlbumControl::getYearCoverPath - Branch: no paths found, returning empty string";
         return "";
     }
-    qDebug() << "AlbumControl::getYearCoverPath - Function exit, returning path:" << paths[0];
+    qCDebug(albumLog) << "AlbumControl::getYearCoverPath - Function exit, returning path:" << paths[0];
     return paths[0];
 }
 
 //获取指定日期的照片路径
 QStringList AlbumControl::getDayPaths(const QString &day)
 {
-    qDebug() << "AlbumControl::getDayPaths - Function entry, day:" << day;
+    qCDebug(albumLog) << "AlbumControl::getDayPaths - Function entry, day:" << day;
     QStringList result = DBManager::instance()->getDayPaths(day);
-    qDebug() << "AlbumControl::getDayPaths - Function exit, returning" << result.size() << "paths";
+    qCDebug(albumLog) << "AlbumControl::getDayPaths - Function exit, returning" << result.size() << "paths";
     return result;
 }
 
 int AlbumControl::getDayInfoCount(const QString &day, const int &filterType)
 {
-    qDebug() << "AlbumControl::getDayInfoCount - Function entry, day:" << day << "filterType:" << filterType;
+    qCDebug(albumLog) << "AlbumControl::getDayInfoCount - Function entry, day:" << day << "filterType:" << filterType;
     int rePicVideoConut = 0;
     QStringList list = getDayPaths(day);
     for (QString path : list) {
         QVariantMap tmpMap;
         if (LibUnionImage_NameSpace::isImage(url2localPath(path))) {
             if (filterType == ItemTypePic) {
-                qDebug() << "AlbumControl::getDayInfoCount - Branch: counting image for picture filter";
+                qCDebug(albumLog) << "AlbumControl::getDayInfoCount - Branch: counting image for picture filter";
                 rePicVideoConut++;
             }
         } else if (LibUnionImage_NameSpace::isVideo(url2localPath(path))) {
             if (filterType == ItemTypeVideo) {
-                qDebug() << "AlbumControl::getDayInfoCount - Branch: counting video for video filter";
+                qCDebug(albumLog) << "AlbumControl::getDayInfoCount - Branch: counting video for video filter";
                 rePicVideoConut++;
             }
         }
     }
-    qDebug() << "AlbumControl::getDayInfoCount - Function exit, returning count:" << rePicVideoConut;
+    qCDebug(albumLog) << "AlbumControl::getDayInfoCount - Function exit, returning count:" << rePicVideoConut;
     return rePicVideoConut;
 }
 
 //获取日期
 QStringList AlbumControl::getDays()
 {
-    qDebug() << "AlbumControl::getDays - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getDays - Function entry";
     QStringList result = DBManager::instance()->getDays();
-    qDebug() << "AlbumControl::getDays - Function exit, returning" << result.size() << "days";
+    qCDebug(albumLog) << "AlbumControl::getDays - Function exit, returning" << result.size() << "days";
     return result;
 }
 
 int AlbumControl::getImportAlubumCount()
 {
-    qDebug() << "AlbumControl::getImportAlubumCount - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getImportAlubumCount - Function entry";
     QMap <int, QString> customAutoImportUIDAndPaths = DBManager::instance()->getAllCustomAutoImportUIDAndPath();
     return customAutoImportUIDAndPaths.count();
 }
 
 QList<int> AlbumControl::getImportAlubumAllId()
 {
-    qDebug() << "AlbumControl::getImportAlubumAllId - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getImportAlubumAllId - Function entry";
     QMap <int, QString> customAutoImportUIDAndPaths = DBManager::instance()->getAllCustomAutoImportUIDAndPath();
     return customAutoImportUIDAndPaths.keys();
 }
 
 QStringList AlbumControl::getImportAlubumAllPaths()
 {
-    qDebug() << "AlbumControl::getImportAlubumAllPaths - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getImportAlubumAllPaths - Function entry";
     QMap <int, QString> customAutoImportUIDAndPaths = DBManager::instance()->getAllCustomAutoImportUIDAndPath();
     return customAutoImportUIDAndPaths.values();
 }
 
 QStringList AlbumControl::getImportAlubumAllNames()
 {
-    qDebug() << "AlbumControl::getImportAlubumAllNames - Function entry";
+    qCDebug(albumLog) << "AlbumControl::getImportAlubumAllNames - Function entry";
     return DBManager::instance()->getAllCustomAutoImportNames();
 }
 
 void AlbumControl::removeCustomAutoImportPath(int uid)
 {
-    qDebug() << "AlbumControl::removeCustomAutoImportPath - Function entry, uid:" << uid;
+    qCDebug(albumLog) << "AlbumControl::removeCustomAutoImportPath - Function entry, uid:" << uid;
     return DBManager::instance()->removeCustomAutoImportPath(uid);
 }
 
 void AlbumControl::createNewCustomAutoImportAlbum(const QString &path)
 {
-    qDebug() << "AlbumControl::createNewCustomAutoImportAlbum - Function entry, path:" << path;
+    qCDebug(albumLog) << "AlbumControl::createNewCustomAutoImportAlbum - Function entry, path:" << path;
     QString folder = path;
     if (!QFileInfo(folder).isDir()) {
         folder = getFolder();
@@ -3398,12 +3399,12 @@ void AlbumControl::createNewCustomAutoImportAlbum(const QString &path)
     QStringList urls;
     urls << QUrl::fromLocalFile(folder).toString();
     importAllImagesAndVideos(urls, UID);
-    qDebug() << "AlbumControl::createNewCustomAutoImportAlbum - Function exit";
+    qCDebug(albumLog) << "AlbumControl::createNewCustomAutoImportAlbum - Function exit";
 }
 
 QString AlbumControl::getVideoTime(const QString &path)
 {
-    qDebug() << "AlbumControl::getVideoTime - Function entry, path:" << path;
+    qCDebug(albumLog) << "AlbumControl::getVideoTime - Function entry, path:" << path;
     if (!LibUnionImage_NameSpace::isVideo(url2localPath(path)))
         return "00:00";
 
@@ -3427,22 +3428,22 @@ QString AlbumControl::getVideoTime(const QString &path)
     });
     thread->start();
     connect(thread, &QThread::destroyed, thread, &QObject::deleteLater);
-    qDebug() << "AlbumControl::getVideoTime - Function exit";
+    qCDebug(albumLog) << "AlbumControl::getVideoTime - Function exit";
     return "00:00";
 }
 
 //外部使用相册打开图片
 void AlbumControl::onNewAPPOpen(qint64 pid, const QStringList &arguments)
 {
-    qDebug() << "New application instance opened - PID:" << pid;
+    qCDebug(albumLog) << "New application instance opened - PID:" << pid;
     Q_UNUSED(pid);
     QStringList paths;
     QStringList validPaths;
 
     if (arguments.length() > 1) {
-        qDebug() << "AlbumControl::onNewAPPOpen - Branch: processing" << arguments.length() - 1 << "arguments";
+        qCDebug(albumLog) << "AlbumControl::onNewAPPOpen - Branch: processing" << arguments.length() - 1 << "arguments";
         //arguments第1个参数是进程名，图片paths参数需要从下标1开始
-        qDebug() << "Processing" << arguments.length() - 1 << "arguments";
+        qCDebug(albumLog) << "Processing" << arguments.length() - 1 << "arguments";
         for (int i = 1; i < arguments.size(); ++i) {
             QString qpath = arguments.at(i);
             //BUG#79815，添加文件URL解析（BUG是平板上的，为防止UOS的其它个别版本也改成传URL，干脆直接全部支持）
@@ -3458,22 +3459,22 @@ void AlbumControl::onNewAPPOpen(qint64 pid, const QStringList &arguments)
             if (LibUnionImage_NameSpace::isImage(url2localPath(qpath)) ||
                 LibUnionImage_NameSpace::isVideo(url2localPath(qpath))) {
                 validPaths.append(qpath);
-                qDebug() << "Valid path found:" << qpath;
+                qCDebug(albumLog) << "Valid path found:" << qpath;
             }
             paths.append(qpath);
         }
 
         if (!paths.isEmpty()) {
             if (validPaths.count() > 0) {
-                qDebug() << "Emitting signal to open" << validPaths.count() << "valid files";
+                qCDebug(albumLog) << "Emitting signal to open" << validPaths.count() << "valid files";
                 emit sigOpenImageFromFiles(validPaths);
             } else {
-                qWarning() << "No valid files found in arguments";
+                qCWarning(albumLog) << "No valid files found in arguments";
                 emit sigInvalidFormat();
             }
         }
     }
 
     emit sigActiveApplicationWindow();
-    qDebug() << "AlbumControl::onNewAPPOpen - Function exit";
+    qCDebug(albumLog) << "AlbumControl::onNewAPPOpen - Function exit";
 }

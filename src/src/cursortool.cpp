@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2022 - 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2022-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "cursortool.h"
+#include "ddlog.h"
 
 #include <QTimer>
 #include <QCursor>
@@ -13,7 +14,7 @@ static const int sc_ESampleInterval = 50;  // 采样间隔 50ms
 CursorTool::CursorTool(QObject *parent)
     : QObject(parent)
 {
-    qDebug() << "CursorTool::CursorTool - Function entry";
+    qCDebug(albumLog) << "CursorTool::CursorTool - Function entry";
     m_CaptureTimer = new QTimer(this);
     m_CaptureTimer->setInterval(sc_ESampleInterval);
 
@@ -30,7 +31,7 @@ CursorTool::CursorTool(QObject *parent)
         auto newColor = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
         emit activeColorChanged(newColor);
     });
-    qDebug() << "CursorTool::CursorTool - Function exit";
+    qCDebug(albumLog) << "CursorTool::CursorTool - Function exit";
 }
 
 /**
@@ -38,7 +39,7 @@ CursorTool::CursorTool(QObject *parent)
  */
 QPoint CursorTool::currentCursorPos() const
 {
-    // qDebug() << "CursorTool::currentCursorPos - Function entry";
+    // qCDebug(albumLog) << "CursorTool::currentCursorPos - Function entry";
     return QCursor::pos();
 }
 
@@ -48,21 +49,21 @@ QPoint CursorTool::currentCursorPos() const
  */
 void CursorTool::setCaptureCursor(bool b)
 {
-    qDebug() << "CursorTool::setCaptureCursor - Function entry, b:" << b;
+    qCDebug(albumLog) << "CursorTool::setCaptureCursor - Function entry, b:" << b;
     if (b) {
-        qDebug() << "CursorTool::setCaptureCursor - Branch: starting timer";
+        qCDebug(albumLog) << "CursorTool::setCaptureCursor - Branch: starting timer";
         m_CaptureTimer->start();
     } else {
-        qDebug() << "CursorTool::setCaptureCursor - Branch: stopping timer";
+        qCDebug(albumLog) << "CursorTool::setCaptureCursor - Branch: stopping timer";
         m_CaptureTimer->stop();
     }
-    qDebug() << "CursorTool::setCaptureCursor - Function exit";
+    qCDebug(albumLog) << "CursorTool::setCaptureCursor - Function exit";
 }
 
 QColor CursorTool::activeColor()
 {
-    // qDebug() << "CursorTool::activeColor - Function entry";
+    // qCDebug(albumLog) << "CursorTool::activeColor - Function entry";
     QColor color = Dtk::Gui::DGuiApplicationHelper::instance()->applicationPalette().highlight().color();
-    // qDebug() << "CursorTool::activeColor - Function exit, returning color:" << color;
+    // qCDebug(albumLog) << "CursorTool::activeColor - Function exit, returning color:" << color;
     return color;
 }
