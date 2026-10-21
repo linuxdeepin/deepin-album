@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2025 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2025-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "classifyutils.h"
+#include "ddlog.h"
 #include "unionimage/unionimage_global.h"
 
 #include <QLibrary>
@@ -40,11 +41,11 @@ Classifyutils::Classifyutils()
 {
     m_dbus = new DaemonImageClassifyInterface(this);
     if (!m_dbus->isValid() && !m_dbus->lastError().message().isEmpty()) {
-        qCritical() << "dbus com.deepin.logviewer isValid false error:" << m_dbus->lastError() << m_dbus->lastError().message();
+        qCCritical(albumLog) << "dbus com.deepin.logviewer isValid false error:" << m_dbus->lastError() << m_dbus->lastError().message();
     }
 
     QFileInfo fi(ImageClassifyDBusServicePath);
     m_bDBusExist = fi.exists();
 
-    qDebug() << "dbus com.deepin.logviewer isValid true";
+    qCDebug(albumLog) << "dbus com.deepin.logviewer isValid true";
 }

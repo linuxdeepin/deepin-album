@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "fileinotifygroup.h"
+#include "ddlog.h"
 #include "fileinotify.h"
 
 #include <QDir>
@@ -12,12 +13,12 @@
 
 FileInotifyGroup::FileInotifyGroup(QObject *parent) : QObject(parent)
 {
-    qDebug() << "Initializing FileInotifyGroup";
+    qCDebug(albumLog) << "Initializing FileInotifyGroup";
 }
 
 void FileInotifyGroup::startWatch(const QStringList &paths, const QString &album, int UID)
 {
-    qDebug() << "Starting watch for album:" << album << "UID:" << UID << "with paths:" << paths;
+    qCDebug(albumLog) << "Starting watch for album:" << album << "UID:" << UID << "with paths:" << paths;
     //启动监控
     auto watcher = new FileInotify;
     watcher->addWather(paths, album, UID);
@@ -29,12 +30,12 @@ void FileInotifyGroup::startWatch(const QStringList &paths, const QString &album
 
     //加进监控list，后面方便销毁
     watchers.push_back(watcher);
-    qDebug() << "Added new watcher for album:" << album << "UID:" << UID << "Total watchers:" << watchers.size();
+    qCDebug(albumLog) << "Added new watcher for album:" << album << "UID:" << UID << "Total watchers:" << watchers.size();
 }
 
 FileInotifyGroup::~FileInotifyGroup()
 {
-    qDebug() << "Cleaning up FileInotifyGroup with" << watchers.size() << "watchers";
+    qCDebug(albumLog) << "Cleaning up FileInotifyGroup with" << watchers.size() << "watchers";
     for (auto &watcher : watchers) {
         watcher->deleteLater();
     }
