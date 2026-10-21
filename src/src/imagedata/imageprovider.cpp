@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "imageprovider.h"
+#include "ddlog.h"
 #include "unionimage/unionimage.h"
 #include "imagedata/thumbnailcache.h"
 #include "utils/devicehelper.h"
@@ -21,18 +22,18 @@ static const QString s_tagFrame = "#frame_";
  */
 static void parseProviderID(const QString &id, QString &filePath, int &frameIndex)
 {
-    // qDebug() << "Parsing provider ID:" << id;
+    // qCDebug(albumLog) << "Parsing provider ID:" << id;
     // 从后向前查询索引标识
     int index = id.lastIndexOf(QRegularExpression(QString("%1\\d+$").arg(s_tagFrame)));
     if (-1 == index) {
         filePath = QUrl(id).toLocalFile();
         frameIndex = 0;
-        qDebug() << "Parsing provider ID:" << id << "as single image";
+        qCDebug(albumLog) << "Parsing provider ID:" << id << "as single image";
     } else {
         // 移除 "#frame_" 字段
         filePath = QUrl(id.left(index)).toLocalFile();
         frameIndex = id.right(id.size() - index - s_tagFrame.size()).toInt();
-        qDebug() << "Parsing provider ID:" << id << "as multi-page image, frame:" << frameIndex;
+        qCDebug(albumLog) << "Parsing provider ID:" << id << "as multi-page image, frame:" << frameIndex;
     }
 }
 
@@ -55,13 +56,13 @@ static bool imageMeetsRequestedSize(const QImage &image, const QSize &requestedS
  */
 static QImage readNormalImage(const QString &imagePath)
 {
-    qDebug() << "Reading normal image:" << imagePath;
+    qCDebug(albumLog) << "Reading normal image:" << imagePath;
     QImage image;
     QString error;
     if (!LibUnionImage_NameSpace::loadStaticImageFromFile(imagePath, image, error)) {
-        qWarning() << "Failed to load image:" << imagePath << "error:" << error;
+        qCWarning(albumLog) << "Failed to load image:" << imagePath << "error:" << error;
     } else {
-        qDebug() << "Successfully loaded image:" << imagePath << "size:" << image.size();
+        qCDebug(albumLog) << "Successfully loaded image:" << imagePath << "size:" << image.size();
     }
     return image;
 }
@@ -112,7 +113,7 @@ static QImage readNormalImageScaled(const QString &imagePath, const QSize &targe
         if (image.isNull()) {
             // Some RAW files expose only an embedded TIFF preview to Qt/libraw.
             // Keep the main image consistent with the preview placeholder in that case.
-            qWarning() << "RAW decoder failed, using embedded preview:" << imagePath;
+            qCWarning(albumLog) << "RAW decoder failed, using embedded preview:" << imagePath;
             return aspectProbe;
         }
         return image;
@@ -140,22 +141,22 @@ static QImage readNormalImageScaled(const QString &imagePath, const QSize &targe
  */
 static QImage readMultiImage(const QString &imagePath, int frameIndex)
 {
-    qDebug() << "Reading multi-page image:" << imagePath << "frame:" << frameIndex;
+    qCDebug(albumLog) << "Reading multi-page image:" << imagePath << "frame:" << frameIndex;
     // 重新设置图像读取类
     QImageReader reader(imagePath);
 
     if (reader.jumpToImage(frameIndex)) {
-        // qDebug() << "Jumping to frame:" << frameIndex << "in image:" << imagePath;
+        // qCDebug(albumLog) << "Jumping to frame:" << frameIndex << "in image:" << imagePath;
         // 读取图像数据
         QImage image = reader.read();
         if (!image.isNull()) {
-            qDebug() << "Successfully loaded multi-page image frame:" << imagePath << "frame:" << frameIndex << "size:" << image.size();
+            qCDebug(albumLog) << "Successfully loaded multi-page image frame:" << imagePath << "frame:" << frameIndex << "size:" << image.size();
         } else {
-            qWarning() << "Failed to read multi-page image frame:" << imagePath << "frame:" << frameIndex;
+            qCWarning(albumLog) << "Failed to read multi-page image frame:" << imagePath << "frame:" << frameIndex;
         }
         return image;
     }
-    qWarning() << "Failed to jump to frame:" << frameIndex << "in image:" << imagePath;
+    qCWarning(albumLog) << "Failed to jump to frame:" << frameIndex << "in image:" << imagePath;
     return QImage();
 }
 
@@ -183,18 +184,18 @@ AsyncImageResponse::AsyncImageResponse(AsyncImageProvider *p, const QString &i, 
     , providerId(i)
     , requestedSize(r)
 {
-    qDebug() << "AsyncImageResponse:" << i << "size:" << r;
+    qCDebug(albumLog) << "AsyncImageResponse:" << i << "size:" << r;
     setAutoDelete(false);
 }
 
 AsyncImageResponse::~AsyncImageResponse() 
 {
-    // qDebug() << "Cleaning up async image response for:" << providerId;
+    // qCDebug(albumLog) << "Cleaning up async image response for:" << providerId;
 }
 
 QQuickTextureFactory *AsyncImageResponse::textureFactory() const
 {
-    // qDebug() << "Getting texture factory for image:" << image;
+    // qCDebug(albumLog) << "Getting texture factory for image:" << image;
     return QQuickTextureFactory::textureFactoryForImage(image);
 }
 
@@ -213,7 +214,7 @@ void AsyncImageResponse::run()
 
     DeviceReadGuard readGuard(tempPath);
     if (!readGuard.isActive()) {
-        qDebug() << "Device is unmounting, skip async image:" << tempPath;
+        qCDebug(albumLog) << "Device is unmounting, skip async image:" << tempPath;
         emit finished();
         return;
     }
@@ -248,7 +249,7 @@ void AsyncImageResponse::run()
         }
     }
 
-    qDebug() << "Async load done:" << providerId << "size:" << image.size();
+    qCDebug(albumLog) << "Async load done:" << providerId << "size:" << image.size();
     emit finished();
 }
 
@@ -258,12 +259,12 @@ void AsyncImageResponse::run()
  */
 ProviderCache::ProviderCache() 
 {
-    // qDebug() << "Initializing provider cache";
+    // qCDebug(albumLog) << "Initializing provider cache";
 }
 
 ProviderCache::~ProviderCache() 
 {
-    // qDebug() << "Cleaning up provider cache";
+    // qCDebug(albumLog) << "Cleaning up provider cache";
 }
 
 /**
@@ -272,7 +273,7 @@ ProviderCache::~ProviderCache()
  */
 void ProviderCache::rotateImageCached(int angle, const QString &imagePath, int frameIndex)
 {
-    qDebug() << "rotateImageCached:" << imagePath << "frame:" << frameIndex << "angle:" << angle;
+    qCDebug(albumLog) << "rotateImageCached:" << imagePath << "frame:" << frameIndex << "angle:" << angle;
     // 旋转角度为0时，清除旋转状态缓存，防止外部文件变更后仍使用上一次的旋转状态。
     QMutexLocker _locker(&mutex);
     if (0 == angle) {
@@ -306,7 +307,7 @@ void ProviderCache::rotateImageCached(int angle, const QString &imagePath, int f
         QImage tmpImage = image.scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         ThumbnailCache::instance()->add(imagePath, frameIndex, tmpImage);
     } else {
-        qWarning() << "Failed to rotate image - image is null:" << imagePath;
+        qCWarning(albumLog) << "Failed to rotate image - image is null:" << imagePath;
     }
 }
 
@@ -315,7 +316,7 @@ void ProviderCache::rotateImageCached(int angle, const QString &imagePath, int f
  */
 void ProviderCache::removeImageCache(const QString &imagePath)
 {
-    qDebug() << "Removing image from cache:" << imagePath;
+    qCDebug(albumLog) << "Removing image from cache:" << imagePath;
     // 直接缓存的图像信息较少，遍历查询是否包含对应的图片
     QList<ThumbnailCache::Key> keys;
     QMutexLocker _locker(&mutex);
@@ -336,7 +337,7 @@ void ProviderCache::removeImageCache(const QString &imagePath)
  */
 void ProviderCache::clearCache()
 {
-    qDebug() << "Clearing provider cache";
+    qCDebug(albumLog) << "Clearing provider cache";
     QMutexLocker _locker(&mutex);
     imageCache.clear();
     lastRotatePath.clear();
@@ -348,7 +349,7 @@ void ProviderCache::clearCache()
  */
 void ProviderCache::preloadImage(const QString &)
 {
-    // qDebug() << "Preloading image:" << filePath;
+    // qCDebug(albumLog) << "Preloading image:" << filePath;
     // Nothing
 }
 
@@ -365,7 +366,7 @@ AsyncImageProvider::AsyncImageProvider()
 
 AsyncImageProvider::~AsyncImageProvider() 
 {
-    qDebug() << "Cleaning up async image provider";
+    qCDebug(albumLog) << "Cleaning up async image provider";
 }
 
 /**
@@ -376,7 +377,7 @@ AsyncImageProvider::~AsyncImageProvider()
  */
 QQuickImageResponse *AsyncImageProvider::requestImageResponse(const QString &id, const QSize &requestedSize)
 {
-    qDebug() << "Requesting image response for:" << id << "size:" << requestedSize;
+    qCDebug(albumLog) << "Requesting image response for:" << id << "size:" << requestedSize;
     AsyncImageResponse *response = new AsyncImageResponse(this, id, requestedSize);
     QThreadPool::globalInstance()->start(response, QThread::HighPriority);
     return response;
@@ -387,7 +388,7 @@ QQuickImageResponse *AsyncImageProvider::requestImageResponse(const QString &id,
  */
 void AsyncImageProvider::preloadImage(const QString &filePath)
 {
-    qDebug() << "Preloading image:" << filePath;
+    qCDebug(albumLog) << "Preloading image:" << filePath;
     AsyncImageResponse *response = new AsyncImageResponse(this, filePath, QSize());
     response->setAutoDelete(true);
     QThreadPool::globalInstance()->start(response, QThread::TimeCriticalPriority);
@@ -405,7 +406,7 @@ ImageProvider::ImageProvider()
 
 ImageProvider::~ImageProvider()
 {
-    // qDebug() << "Cleaning up image provider";
+    // qCDebug(albumLog) << "Cleaning up image provider";
 }
 
 /**
@@ -426,7 +427,7 @@ QImage ImageProvider::requestImage(const QString &id, QSize *size, const QSize &
 
     DeviceReadGuard readGuard(tempPath);
     if (!readGuard.isActive()) {
-        qDebug() << "Device is unmounting, skip image:" << tempPath;
+        qCDebug(albumLog) << "Device is unmounting, skip image:" << tempPath;
         return QImage();
     }
 
@@ -482,12 +483,12 @@ QImage ImageProvider::requestImage(const QString &id, QSize *size, const QSize &
 ThumbnailProvider::ThumbnailProvider()
     : QQuickImageProvider(QQmlImageProviderBase::Image)
 {
-    qDebug() << "Initializing thumbnail provider";
+    qCDebug(albumLog) << "Initializing thumbnail provider";
 }
 
 ThumbnailProvider::~ThumbnailProvider() 
 {
-    // qDebug() << "Cleaning up thumbnail provider";
+    // qCDebug(albumLog) << "Cleaning up thumbnail provider";
 }
 
 /**
@@ -504,7 +505,7 @@ ThumbnailProvider::~ThumbnailProvider()
  */
 QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
-    qDebug() << "Requesting thumbnail:" << id << "requested size:" << requestedSize;
+    qCDebug(albumLog) << "Requesting thumbnail:" << id << "requested size:" << requestedSize;
     // 解析id，获取当前读取的文件和图片索引
     QString tempPath;
     int frameIndex;
@@ -512,17 +513,17 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
 
     DeviceReadGuard readGuard(tempPath);
     if (!readGuard.isActive()) {
-        qDebug() << "Device is unmounting, skip thumbnail:" << tempPath;
+        qCDebug(albumLog) << "Device is unmounting, skip thumbnail:" << tempPath;
         return QImage();
     }
 
     // 判断缓存中是否存在缩略图
     if (ThumbnailCache::instance()->contains(tempPath, frameIndex)) {
-        qDebug() << "Using cached thumbnail for:" << tempPath << "frame:" << frameIndex;
+        qCDebug(albumLog) << "Using cached thumbnail for:" << tempPath << "frame:" << frameIndex;
         return ThumbnailCache::instance()->get(tempPath, frameIndex);
     }
 
-    qDebug() << "Thumbnail not found in cache, loading from file:" << tempPath;
+    qCDebug(albumLog) << "Thumbnail not found in cache, loading from file:" << tempPath;
     QImage image;
     if (frameIndex) {
         image = readMultiImage(tempPath, frameIndex);
@@ -538,7 +539,7 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
     }
     // 调整图像大小
     if (!image.isNull() && image.size() != requestedSize && requestedSize.isValid()) {
-        qDebug() << "Resizing thumbnail from" << image.size() << "to" << requestedSize;
+        qCDebug(albumLog) << "Resizing thumbnail from" << image.size() << "to" << requestedSize;
         image = image.scaled(requestedSize);
     }
     return image;
@@ -549,6 +550,6 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
  */
 QPixmap ThumbnailProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
-    qDebug() << "Requesting thumbnail pixmap for:" << id;
+    qCDebug(albumLog) << "Requesting thumbnail pixmap for:" << id;
     return QPixmap::fromImage(requestImage(id, size, requestedSize));
 }

@@ -6,6 +6,7 @@
 */
 
 #include "qimageitem.h"
+#include "ddlog.h"
 #include "../imageengine/imagedataservice.h"
 #include <QDebug>
 
@@ -24,7 +25,7 @@ QImageItem::QImageItem(QQuickItem *parent)
     , m_smooth(false)
     , m_fillMode(QImageItem::Stretch)
 {
-    qDebug() << "Initializing QImageItem";
+    qCDebug(albumLog) << "Initializing QImageItem";
     setFlag(ItemHasContents, true);
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
@@ -58,7 +59,7 @@ void QImageItem::updateDamageImage()
 
 void QImageItem::setImage(const QImage &image)
 {
-    qDebug() << "QImageItem::setImage - Function entry";
+    qCDebug(albumLog) << "QImageItem::setImage - Function entry";
     bool oldImageNull = m_image.isNull();
     m_image = image;
 
@@ -68,7 +69,7 @@ void QImageItem::setImage(const QImage &image)
 #if 1
     if (ImageDataService::instance()->getLoadMode() == 1) {
         if (m_paintedRect.width() < oldPaintedRect.width() || m_paintedRect.height() < oldPaintedRect.height()) {
-            qDebug() << "Scheduling delayed update for image size change from" << oldPaintedRect.size() << "to" << m_paintedRect.size();
+            qCDebug(albumLog) << "Scheduling delayed update for image size change from" << oldPaintedRect.size() << "to" << m_paintedRect.size();
             QTimer::singleShot(100, this, [=] {
                 update();
             });
@@ -92,68 +93,68 @@ void QImageItem::setImage(const QImage &image)
     Q_EMIT nativeHeightChanged();
     Q_EMIT imageChanged();
     if (oldImageNull != m_image.isNull()) {
-        qDebug() << "Image null state changed from" << oldImageNull << "to" << m_image.isNull();
+        qCDebug(albumLog) << "Image null state changed from" << oldImageNull << "to" << m_image.isNull();
         Q_EMIT nullChanged();
     }
-    qDebug() << "QImageItem::setImage - Function exit";
+    qCDebug(albumLog) << "QImageItem::setImage - Function exit";
 }
 
 QImage QImageItem::image() const
 {
-    // qDebug() << "QImageItem::image - Function entry, returning image";
+    // qCDebug(albumLog) << "QImageItem::image - Function entry, returning image";
     return m_image;
 }
 
 void QImageItem::resetImage()
 {
-    qDebug() << "Resetting image";
+    qCDebug(albumLog) << "Resetting image";
     setImage(QImage());
 }
 
 void QImageItem::setSmooth(const bool smooth)
 {
-    qDebug() << "QImageItem::setSmooth - Function entry, smooth:" << smooth;
+    qCDebug(albumLog) << "QImageItem::setSmooth - Function entry, smooth:" << smooth;
     if (smooth == m_smooth) {
         return;
     }
-    qDebug() << "Setting smooth from" << m_smooth << "to" << smooth;
+    qCDebug(albumLog) << "Setting smooth from" << m_smooth << "to" << smooth;
     m_smooth = smooth;
     update();
-    qDebug() << "QImageItem::setSmooth - Function exit";
+    qCDebug(albumLog) << "QImageItem::setSmooth - Function exit";
 }
 
 bool QImageItem::smooth() const
 {
-    // qDebug() << "QImageItem::smooth - Function entry, returning:" << m_smooth;
+    // qCDebug(albumLog) << "QImageItem::smooth - Function entry, returning:" << m_smooth;
     return m_smooth;
 }
 
 int QImageItem::nativeWidth() const
 {
-    qDebug() << "QImageItem::nativeWidth - Function entry";
+    qCDebug(albumLog) << "QImageItem::nativeWidth - Function entry";
     return m_image.size().width() / m_image.devicePixelRatio();
 }
 
 int QImageItem::nativeHeight() const
 {
-    qDebug() << "QImageItem::nativeHeight - Function entry";
+    qCDebug(albumLog) << "QImageItem::nativeHeight - Function entry";
     return m_image.size().height() / m_image.devicePixelRatio();
 }
 
 QImageItem::FillMode QImageItem::fillMode() const
 {
-    // qDebug() << "QImageItem::fillMode - Function entry, returning:" << static_cast<int>(m_fillMode);
+    // qCDebug(albumLog) << "QImageItem::fillMode - Function entry, returning:" << static_cast<int>(m_fillMode);
     return m_fillMode;
 }
 
 void QImageItem::setFillMode(QImageItem::FillMode mode)
 {
-    qDebug() << "QImageItem::setFillMode - Function entry, mode:" << mode;
+    qCDebug(albumLog) << "QImageItem::setFillMode - Function entry, mode:" << mode;
     if (mode == m_fillMode) {
         return;
     }
 
-    qDebug() << "Setting fill mode from" << m_fillMode << "to" << mode;
+    qCDebug(albumLog) << "Setting fill mode from" << m_fillMode << "to" << mode;
     m_fillMode = mode;
     updatePaintedRect();
     update();
@@ -197,25 +198,25 @@ void QImageItem::paint(QPainter *painter)
 
 bool QImageItem::isNull() const
 {
-    // qDebug() << "QImageItem::isNull - Function entry, returning:" << m_image.isNull();
+    // qCDebug(albumLog) << "QImageItem::isNull - Function entry, returning:" << m_image.isNull();
     return m_image.isNull();
 }
 
 int QImageItem::paintedWidth() const
 {
-    // qDebug() << "QImageItem::paintedWidth - Function entry";
+    // qCDebug(albumLog) << "QImageItem::paintedWidth - Function entry";
     return m_paintedRect.width();
 }
 
 int QImageItem::paintedHeight() const
 {
-    // qDebug() << "QImageItem::paintedHeight - Function entry";
+    // qCDebug(albumLog) << "QImageItem::paintedHeight - Function entry";
     return m_paintedRect.height();
 }
 
 void QImageItem::updatePaintedRect()
 {
-    // qDebug() << "QImageItem::updatePaintedRect - Function entry";
+    // qCDebug(albumLog) << "QImageItem::updatePaintedRect - Function entry";
     QImage *pImage = nullptr;
 
     if (m_image.isNull()) {
@@ -229,45 +230,45 @@ void QImageItem::updatePaintedRect()
 
     switch (m_fillMode) {
     case PreserveAspectFit: {
-        // qDebug() << "PreserveAspectFit - Function entry";
+        // qCDebug(albumLog) << "PreserveAspectFit - Function entry";
         QSizeF scaled = pImage->size();
         QSizeF size = boundingRect().size();
         scaled.scale(boundingRect().size(), Qt::KeepAspectRatio);
         destRect = QRectF(QPoint(0, 0), scaled);
         destRect.moveCenter(boundingRect().center().toPoint());
-        qDebug() << "PreserveAspectFit: scaled size" << scaled << "from" << pImage->size();
+        qCDebug(albumLog) << "PreserveAspectFit: scaled size" << scaled << "from" << pImage->size();
         break;
     }
     case PreserveAspectCrop: {
-        // qDebug() << "PreserveAspectCrop - Function entry";
+        // qCDebug(albumLog) << "PreserveAspectCrop - Function entry";
         QSizeF scaled = pImage->size();
         scaled.scale(boundingRect().size(), Qt::KeepAspectRatioByExpanding);
         destRect = QRectF(QPoint(0, 0), scaled);
         destRect.moveCenter(boundingRect().center().toPoint());
-        qDebug() << "PreserveAspectCrop: scaled size" << scaled << "from" << pImage->size();
+        qCDebug(albumLog) << "PreserveAspectCrop: scaled size" << scaled << "from" << pImage->size();
         break;
     }
     case TileVertically: {
-        // qDebug() << "TileVertically - Function entry";
+        // qCDebug(albumLog) << "TileVertically - Function entry";
         destRect = boundingRect().toRect();
         destRect.setWidth(destRect.width() / (width() / (qreal)pImage->width()));
-        qDebug() << "TileVertically: dest rect" << destRect;
+        qCDebug(albumLog) << "TileVertically: dest rect" << destRect;
         break;
     }
     case TileHorizontally: {
-        // qDebug() << "TileHorizontally - Function entry";
+        // qCDebug(albumLog) << "TileHorizontally - Function entry";
         destRect = boundingRect().toRect();
         destRect.setHeight(destRect.height() / (height() / (qreal)pImage->height()));
-        qDebug() << "TileHorizontally: dest rect" << destRect;
+        qCDebug(albumLog) << "TileHorizontally: dest rect" << destRect;
         break;
     }
     case Stretch:
     case Tile:
     case Pad:
     default:
-        // qDebug() << "Default fill mode - Function entry";
+        // qCDebug(albumLog) << "Default fill mode - Function entry";
         destRect = boundingRect().toRect();
-        qDebug() << "Default fill mode: dest rect" << destRect;
+        qCDebug(albumLog) << "Default fill mode: dest rect" << destRect;
     }
 
     if (destRect != sourceRect) {
@@ -275,7 +276,7 @@ void QImageItem::updatePaintedRect()
         Q_EMIT paintedHeightChanged();
         Q_EMIT paintedWidthChanged();
     }
-    // qDebug() << "QImageItem::updatePaintedRect - Function exit";
+    // qCDebug(albumLog) << "QImageItem::updatePaintedRect - Function exit";
 }
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -289,6 +290,6 @@ void QImageItem::geometryChange(const QRectF &newGeometry, const QRectF &oldGeom
 #else
     QQuickPaintedItem::geometryChange(newGeometry, oldGeometry);
 #endif
-    qDebug() << "Geometry changed from" << oldGeometry << "to" << newGeometry;
+    qCDebug(albumLog) << "Geometry changed from" << oldGeometry << "to" << newGeometry;
     updatePaintedRect();
 }
