@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "imagedataservice.h"
+#include "ddlog.h"
 #include "unionimage/unionimage.h"
 #include "unionimage/baseutils.h"
 #include "unionimage/unionimage_global.h"
@@ -43,58 +44,58 @@ ImageDataService *ImageDataService::s_ImageDataService = nullptr;
 
 ImageDataService *ImageDataService::instance(QObject *parent)
 {
-    // qDebug() << "ImageDataService::instance - Entry";
+    // qCDebug(albumLog) << "ImageDataService::instance - Entry";
     Q_UNUSED(parent);
     if (!s_ImageDataService) {
         s_ImageDataService = new ImageDataService();
-        // qDebug() << "Created new ImageDataService instance";
+        // qCDebug(albumLog) << "Created new ImageDataService instance";
     }
-    // qDebug() << "ImageDataService::instance - Exit, return s_ImageDataService";
+    // qCDebug(albumLog) << "ImageDataService::instance - Exit, return s_ImageDataService";
     return s_ImageDataService;
 }
 
 bool ImageDataService::pathInMap(const QString &path)
 {
-    // qDebug() << "ImageDataService::pathInMap - Entry";
+    // qCDebug(albumLog) << "ImageDataService::pathInMap - Entry";
     QString loadModePath = getLoadModePath(path);
     auto iter = std::find_if(m_AllImageMap.begin(), m_AllImageMap.end(), [loadModePath](const std::pair<QString, QImage> &pr) {
         return pr.first == loadModePath;
     });
     bool found = iter != m_AllImageMap.end();
-    // qDebug() << "ImageDataService::pathInMap - Exit, return found";
+    // qCDebug(albumLog) << "ImageDataService::pathInMap - Exit, return found";
     return found;
 }
 
 std::pair<QImage, bool> ImageDataService::getImageFromMap(const QString &path)
 {
-    // qDebug() << "ImageDataService::getImageFromMap - Entry";
+    // qCDebug(albumLog) << "ImageDataService::getImageFromMap - Entry";
     QMutexLocker locker(&m_imgDataMutex);
 
     QString loadModePath = getLoadModePath(path);
 
     auto iter = std::find_if(m_AllImageMap.begin(), m_AllImageMap.end(), [loadModePath](const std::pair<QString, QImage> &pr) {
-        // qDebug() << "ImageDataService::getImageFromMap - Entry, pr.first:" << pr.first << "loadModePath:" << loadModePath;
+        // qCDebug(albumLog) << "ImageDataService::getImageFromMap - Entry, pr.first:" << pr.first << "loadModePath:" << loadModePath;
         return pr.first == loadModePath;
     });
     if (iter != m_AllImageMap.end()) {
-        // qDebug() << "ImageDataService::getImageFromMap - Exit, return iter->second";
+        // qCDebug(albumLog) << "ImageDataService::getImageFromMap - Exit, return iter->second";
         return std::make_pair(iter->second, true);
     } else {
-        qDebug() << "Image not found in map for path:" << path;
+        qCDebug(albumLog) << "Image not found in map for path:" << path;
         return std::make_pair(QImage(), false);
     }
 }
 
 void ImageDataService::removePathFromMap(const QString &path)
 {
-    // qDebug() << "ImageDataService::removePathFromMap - Entry";
+    // qCDebug(albumLog) << "ImageDataService::removePathFromMap - Entry";
     QMutexLocker locker(&m_imgDataMutex);
 
     auto iter = std::find_if(m_AllImageMap.begin(), m_AllImageMap.end(), [path](const std::pair<QString, QImage> &pr) {
         return pr.first == path;
     });
     if (iter != m_AllImageMap.end()) {
-        qDebug() << "Removing path from map:" << path;
+        qCDebug(albumLog) << "Removing path from map:" << path;
         m_AllImageMap.erase(iter);
     }
 
@@ -103,17 +104,17 @@ void ImageDataService::removePathFromMap(const QString &path)
         return pr.first == scalPath;
     });
     if (iter != m_AllImageMap.end()) {
-        qDebug() << "Removing scaled path from map:" << scalPath;
+        qCDebug(albumLog) << "Removing scaled path from map:" << scalPath;
         m_AllImageMap.erase(iter);
     }
-    // qDebug() << "ImageDataService::removePathFromMap - Exit";
+    // qCDebug(albumLog) << "ImageDataService::removePathFromMap - Exit";
 }
 
 void ImageDataService::removeThumbnailFile(const QString &path)
 {
-    // qDebug() << "ImageDataService::removeThumbnailFile - Entry";
+    // qCDebug(albumLog) << "ImageDataService::removeThumbnailFile - Entry";
     if (path.isEmpty()) {
-        qWarning() << "Attempted to remove thumbnail for empty path";
+        qCWarning(albumLog) << "Attempted to remove thumbnail for empty path";
         return;
     }
 
@@ -121,18 +122,18 @@ void ImageDataService::removeThumbnailFile(const QString &path)
     QString thumbnailScalePath = ImageDataService::instance()->getLoadModePath(thumbnailPath);
     if (QFile::exists(thumbnailPath)) {
         QFile::remove(thumbnailPath);
-        qDebug() << "Removed thumbnail file:" << thumbnailPath;
+        qCDebug(albumLog) << "Removed thumbnail file:" << thumbnailPath;
     }
     if (QFile::exists(thumbnailScalePath)) {
         QFile::remove(thumbnailScalePath);
-        qDebug() << "Removed scaled thumbnail file:" << thumbnailScalePath;
+        qCDebug(albumLog) << "Removed scaled thumbnail file:" << thumbnailScalePath;
     }
-    // qDebug() << "ImageDataService::removeThumbnailFile - Exit";
+    // qCDebug(albumLog) << "ImageDataService::removeThumbnailFile - Exit";
 }
 
 QString ImageDataService::getLoadModePath(const QString &path)
 {
-    // qDebug() << "ImageDataService::getLoadModePath - Entry";
+    // qCDebug(albumLog) << "ImageDataService::getLoadModePath - Entry";
     if (m_loadMode == 0)
         return path;
 
@@ -141,7 +142,7 @@ QString ImageDataService::getLoadModePath(const QString &path)
 
 QString ImageDataService::getScaledPath(const QString &path)
 {
-    // qDebug() << "ImageDataService::getScaledPath - Entry";
+    // qCDebug(albumLog) << "ImageDataService::getScaledPath - Entry";
     QFileInfo fi(path);
     QString tmpPath = fi.absolutePath() + "/" + fi.fileName().left(fi.fileName().lastIndexOf('.')) + "_scale" + fi.fileName().mid(fi.fileName().lastIndexOf('.'));
     return tmpPath;
@@ -149,7 +150,7 @@ QString ImageDataService::getScaledPath(const QString &path)
 
 void ImageDataService::addImage(const QString &path, const QImage &image)
 {
-    // qDebug() << "ImageDataService::addImage - Entry";
+    // qCDebug(albumLog) << "ImageDataService::addImage - Entry";
     QMutexLocker locker(&m_imgDataMutex);
 
     QString loadModePath = getLoadModePath(path);
@@ -162,30 +163,30 @@ void ImageDataService::addImage(const QString &path, const QImage &image)
     });
 
     if (iter != m_AllImageMap.end()) {
-        qDebug() << "Updating existing image in map for path:" << path;
+        qCDebug(albumLog) << "Updating existing image in map for path:" << path;
         iter->second = image;
     } else {
-        qDebug() << "Adding new image to map for path:" << path;
+        qCDebug(albumLog) << "Adding new image to map for path:" << path;
         m_AllImageMap.push_back(std::make_pair(loadModePath, image));
         if (m_AllImageMap.size() > 500) {
-            qDebug() << "Image map size exceeded 500, removing oldest entry";
+            qCDebug(albumLog) << "Image map size exceeded 500, removing oldest entry";
             m_AllImageMap.pop_front();
         }
     }
-    // qDebug() << "ImageDataService::addImage - Exit";
+    // qCDebug(albumLog) << "ImageDataService::addImage - Exit";
 }
 
 void ImageDataService::addMovieDurationStr(const QString &path, const QString &durationStr)
 {
-    // qDebug() << "ImageDataService::addMovieDurationStr - Entry";
+    // qCDebug(albumLog) << "ImageDataService::addMovieDurationStr - Entry";
     QMutexLocker locker(&m_imgDataMutex);
     m_movieDurationStrMap[path] = durationStr;
-    qDebug() << "Added movie duration for path:" << path << "duration:" << durationStr;
+    qCDebug(albumLog) << "Added movie duration for path:" << path << "duration:" << durationStr;
 }
 
 QString ImageDataService::getMovieDurationStrByPath(const QString &path)
 {
-    // qDebug() << "ImageDataService::getMovieDurationStrByPath - Entry";
+    // qCDebug(albumLog) << "ImageDataService::getMovieDurationStrByPath - Entry";
     QMutexLocker locker(&m_imgDataMutex);
     bool hasDuration = m_movieDurationStrMap.contains(path);
     return hasDuration ? m_movieDurationStrMap[path] : QString();
@@ -193,25 +194,25 @@ QString ImageDataService::getMovieDurationStrByPath(const QString &path)
 
 bool ImageDataService::imageIsLoaded(const QString &path, bool isTrashFile)
 {
-    qDebug() << "ImageDataService::imageIsLoaded - Entry";
+    qCDebug(albumLog) << "ImageDataService::imageIsLoaded - Entry";
     QMutexLocker locker(&m_imgDataMutex);
 
     bool loaded = false;
     if (isTrashFile) {
-        qDebug() << "ImageDataService::imageIsLoaded - Entry, isTrashFile is true";
+        qCDebug(albumLog) << "ImageDataService::imageIsLoaded - Entry, isTrashFile is true";
         QString realPath = Libutils::base::getDeleteFullPath(Libutils::base::hashByString(path), DBImgInfo::getFileNameFromFilePath(path));
         loaded = pathInMap(realPath) || pathInMap(path);
     } else {
-        qDebug() << "ImageDataService::imageIsLoaded - Entry, isTrashFile is false";
+        qCDebug(albumLog) << "ImageDataService::imageIsLoaded - Entry, isTrashFile is false";
         loaded = pathInMap(path);
     }
-    qDebug() << "ImageDataService::imageIsLoaded - Exit, return:" << loaded;
+    qCDebug(albumLog) << "ImageDataService::imageIsLoaded - Exit, return:" << loaded;
     return loaded;
 }
 
 ImageDataService::ImageDataService(QObject *parent) : QObject(parent)
 {
-    qDebug() << "Initializing ImageDataService";
+    qCDebug(albumLog) << "Initializing ImageDataService";
     m_loadMode = 1;
     readThumbnailManager = new ReadThumbnailManager;
     readThread = new QThread;
@@ -221,32 +222,32 @@ ImageDataService::ImageDataService(QObject *parent) : QObject(parent)
 
     //初始化的时候读取上次退出时的状态
     m_loadMode = LibConfigSetter::instance()->value(SETTINGS_GROUP, SETTINGS_DISPLAY_MODE, 0).toInt();
-    qDebug() << "Initial load mode set to:" << m_loadMode;
+    qCDebug(albumLog) << "Initial load mode set to:" << m_loadMode;
 }
 
 void ImageDataService::stopFlushThumbnail()
 {
-    qDebug() << "Stopping thumbnail flush";
+    qCDebug(albumLog) << "Stopping thumbnail flush";
     readThumbnailManager->stopRead();
 }
 
 void ImageDataService::waitFlushThumbnailFinish()
 {
-    qDebug() << "Waiting for thumbnail flush to finish";
+    qCDebug(albumLog) << "Waiting for thumbnail flush to finish";
     while (ImageDataService::instance()->readThumbnailManager->isRunning());
-    qDebug() << "Thumbnail flush finished";
+    qCDebug(albumLog) << "Thumbnail flush finished";
 }
 
 bool ImageDataService::readerIsRunning()
 {
     bool running = readThumbnailManager->isRunning();
-    qDebug() << "Thumbnail reader running status:" << running;
+    qCDebug(albumLog) << "Thumbnail reader running status:" << running;
     return running;
 }
 
 void ImageDataService::switchLoadMode()
 {
-    qDebug() << "ImageDataService::switchLoadMode - Entry";
+    qCDebug(albumLog) << "ImageDataService::switchLoadMode - Entry";
     int oldMode = m_loadMode;
     switch (m_loadMode) {
     case 0:
@@ -262,31 +263,31 @@ void ImageDataService::switchLoadMode()
 
     //切完以后保存状态
     LibConfigSetter::instance()->setValue(SETTINGS_GROUP, SETTINGS_DISPLAY_MODE, m_loadMode.load());
-    qDebug() << "Switched load mode from" << oldMode << "to" << m_loadMode;
+    qCDebug(albumLog) << "Switched load mode from" << oldMode << "to" << m_loadMode;
 }
 
 int ImageDataService::getLoadMode()
 {
-    qDebug() << "ImageDataService::getLoadMode - Entry, return:" << m_loadMode;
+    qCDebug(albumLog) << "ImageDataService::getLoadMode - Entry, return:" << m_loadMode;
     return m_loadMode;
 }
 
 QImage ImageDataService::getThumnailImageByPathRealTime(const QString &path, bool isTrashFile, bool bReload/* = false*/)
 {
-    qDebug() << "ImageDataService::getThumnailImageByPathRealTime - Entry";
+    qCDebug(albumLog) << "ImageDataService::getThumnailImageByPathRealTime - Entry";
     QString realPath;
 
     if (!isTrashFile) {
         realPath = path;
         if (!QFile::exists(realPath)) {
-            qWarning() << "File does not exist:" << realPath;
+            qCWarning(albumLog) << "File does not exist:" << realPath;
             return QImage();
         }
     } else {
         realPath = Libutils::base::getDeleteFullPath(Libutils::base::hashByString(path), DBImgInfo::getFileNameFromFilePath(path));
         if (!QFile::exists(realPath)) {
             if (!QFile::exists(path)) {
-                qWarning() << "Trash file does not exist:" << path;
+                qCWarning(albumLog) << "Trash file does not exist:" << path;
                 return QImage();
             } else {
                 realPath = path;
@@ -296,7 +297,7 @@ QImage ImageDataService::getThumnailImageByPathRealTime(const QString &path, boo
 
     // 重新加载缩略图，清楚缓存对应缩略图
     if (bReload) {
-        qDebug() << "Reloading thumbnail for path:" << realPath;
+        qCDebug(albumLog) << "Reloading thumbnail for path:" << realPath;
         removePathFromMap(realPath);
         removeThumbnailFile(realPath);
     }
@@ -304,21 +305,21 @@ QImage ImageDataService::getThumnailImageByPathRealTime(const QString &path, boo
     //尝试在缓存里面找图
     auto bufferImage = getImageFromMap(realPath);
     if (bufferImage.second) {
-        qDebug() << "ImageDataService::getThumnailImageByPathRealTime - Exit, return bufferImage.first";
+        qCDebug(albumLog) << "ImageDataService::getThumnailImageByPathRealTime - Exit, return bufferImage.first";
         return bufferImage.first;
     }
 
     //缓存没找到则加入图片到加载队列
-    qDebug() << "Adding path to thumbnail load queue:" << realPath;
+    qCDebug(albumLog) << "Adding path to thumbnail load queue:" << realPath;
     readThumbnailManager->addLoadPath(realPath);
 
     //如果加载队列正在休眠，则发信号唤醒，反之不去反复发信号激活队列
     if (!readThumbnailManager->isRunning()) {
-        qDebug() << "Waking up thumbnail reader thread";
+        qCDebug(albumLog) << "Waking up thumbnail reader thread";
         emit startImageLoad();
     }
 
-    qDebug() << "ImageDataService::getThumnailImageByPathRealTime - Exit, return QImage()";
+    qCDebug(albumLog) << "ImageDataService::getThumnailImageByPathRealTime - Exit, return QImage()";
     return QImage();
 }
 
@@ -327,25 +328,25 @@ ReadThumbnailManager::ReadThumbnailManager(QObject *parent)
     , runningFlag(false)
     , stopFlag(false)
 {
-    qDebug() << "ReadThumbnailManager initialized";
+    qCDebug(albumLog) << "ReadThumbnailManager initialized";
 }
 
 void ReadThumbnailManager::addLoadPath(const QString &path)
 {
-    qDebug() << "ReadThumbnailManager::addLoadPath - Entry";
+    qCDebug(albumLog) << "ReadThumbnailManager::addLoadPath - Entry";
     mutex.lock();
     needLoadPath.push_back(path);
     if (needLoadPath.size() > 100) {
-        qDebug() << "Load path queue exceeded 100 items, removing oldest";
+        qCDebug(albumLog) << "Load path queue exceeded 100 items, removing oldest";
         needLoadPath.pop_front();
     }
     mutex.unlock();
-    qDebug() << "ReadThumbnailManager::addLoadPath - Exit";
+    qCDebug(albumLog) << "ReadThumbnailManager::addLoadPath - Exit";
 }
 
 void ReadThumbnailManager::readThumbnail()
 {
-    qDebug() << "Starting thumbnail read process";
+    qCDebug(albumLog) << "Starting thumbnail read process";
     int sendCounter = 0; //刷新上层界面指示
     int loadedCount = 0; // Total processed images for first-screen prioritized refresh
     // Refresh every image on first screen for quick appearance; batch every 5 after to reduce overhead
@@ -377,7 +378,7 @@ void ReadThumbnailManager::readThumbnail()
         }
 
         if (!QFileInfo(path).exists()) {
-            qWarning() << "File no longer exists:" << path;
+            qCWarning(albumLog) << "File no longer exists:" << path;
             DBManager::m_fileMutex.unlock();
             continue;
         }
@@ -387,7 +388,7 @@ void ReadThumbnailManager::readThumbnail()
         // the unmount flow must not call waitForReadsDone while holding m_fileMutex, or a circular wait results
         DeviceReadGuard readGuard(path);
         if (!readGuard.isActive()) {
-            qDebug() << "Device is unmounting, skip loading:" << path;
+            qCDebug(albumLog) << "Device is unmounting, skip loading:" << path;
             DBManager::m_fileMutex.unlock();
             continue;
         }
@@ -401,23 +402,23 @@ void ReadThumbnailManager::readThumbnail()
         QFileInfo thumbnailFile(thumbnailPath);
         QString errMsg;
         if (thumbnailFile.exists()) {
-            qDebug() << "Loading existing thumbnail:" << thumbnailPath;
+            qCDebug(albumLog) << "Loading existing thumbnail:" << thumbnailPath;
             if (!loadStaticImageFromFile(thumbnailPath, tImg, errMsg, "PNG")) {
-                qWarning() << "Failed to load thumbnail:" << errMsg;
+                qCWarning(albumLog) << "Failed to load thumbnail:" << errMsg;
                 //不正常退出导致的缩略图损坏，删除原文件后重新尝试制作
                 QFile::remove(thumbnailPath);
                 if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
-                    qWarning() << "Failed to load source image:" << errMsg;
+                    qCWarning(albumLog) << "Failed to load source image:" << errMsg;
                 }
             }
 
             if (isVideo(srcPath)) {
-                qDebug() << "Getting video info for:" << srcPath;
+                qCDebug(albumLog) << "Getting video info for:" << srcPath;
                 MovieInfo mi = MovieService::instance()->getMovieInfo(QUrl::fromLocalFile(srcPath));
                 ImageDataService::instance()->addMovieDurationStr(srcPath, mi.duration);
             }
         } else {
-            qDebug() << "Generating new thumbnail for:" << srcPath;
+            qCDebug(albumLog) << "Generating new thumbnail for:" << srcPath;
             //读图
             if (isVideo(srcPath)) {
                 tImg = MovieService::instance()->getMovieCover(QUrl::fromLocalFile(srcPath));
@@ -427,7 +428,7 @@ void ReadThumbnailManager::readThumbnail()
                 ImageDataService::instance()->addMovieDurationStr(path, mi.duration);
             } else {
                 if (!loadStaticImageFromFile(srcPath, tImg, errMsg)) {
-                    qWarning() << "Failed to load image:" << errMsg;
+                    qCWarning(albumLog) << "Failed to load image:" << errMsg;
                     ImageDataService::instance()->addImage(srcPath, tImg);
                     DBManager::m_fileMutex.unlock();
                     continue;
@@ -436,10 +437,10 @@ void ReadThumbnailManager::readThumbnail()
 
             //裁切
             if (ImageDataService::instance()->getLoadMode() == 0) {
-                qDebug() << "Clipping image to rect";
+                qCDebug(albumLog) << "Clipping image to rect";
                 tImg = clipToRect(tImg);
             } else if (ImageDataService::instance()->getLoadMode() == 1) {
-                qDebug() << "Adding pad and scaling image";
+                qCDebug(albumLog) << "Adding pad and scaling image";
                 tImg = addPadAndScaled(tImg);
             }
 
@@ -447,7 +448,7 @@ void ReadThumbnailManager::readThumbnail()
         }
 
         if (!tImg.isNull() && !thumbnailFile.exists()) {
-            qDebug() << "Saving new thumbnail to:" << thumbnailPath;
+            qCDebug(albumLog) << "Saving new thumbnail to:" << thumbnailPath;
             tImg.save(thumbnailPath, "PNG"); //保存裁好的缩略图，下次读的时候直接刷进去
         }
 
@@ -464,12 +465,12 @@ void ReadThumbnailManager::readThumbnail()
     }
 
     runningFlag = false; //告诉外面加载队列处于休眠状态
-    qDebug() << "Thumbnail read process finished";
+    qCDebug(albumLog) << "Thumbnail read process finished";
 }
 
 QImage ReadThumbnailManager::clipToRect(const QImage &src)
 {
-    qDebug() << "ReadThumbnailManager::clipToRect - Entry";
+    qCDebug(albumLog) << "ReadThumbnailManager::clipToRect - Entry";
     auto tImg = src;
 
     if (!tImg.isNull() && 0 != tImg.height() && 0 != tImg.width() && (tImg.height() / tImg.width()) < 10 && (tImg.width() / tImg.height()) < 10) {
@@ -493,7 +494,7 @@ QImage ReadThumbnailManager::clipToRect(const QImage &src)
     }
 
     if (!tImg.isNull()) {
-        qDebug() << "ReadThumbnailManager::clipToRect - Entry, tImg is not null";
+        qCDebug(albumLog) << "ReadThumbnailManager::clipToRect - Entry, tImg is not null";
         int width = tImg.width();
         int height = tImg.height();
         if (abs((width - height) * 10 / width) >= 1) {
@@ -512,13 +513,13 @@ QImage ReadThumbnailManager::clipToRect(const QImage &src)
         }
     }
 
-    qDebug() << "ReadThumbnailManager::clipToRect - Exit, return tImg";
+    qCDebug(albumLog) << "ReadThumbnailManager::clipToRect - Exit, return tImg";
     return tImg;
 }
 
 QImage ReadThumbnailManager::addPadAndScaled(const QImage &src)
 {
-    qDebug() << "ReadThumbnailManager::addPadAndScaled - Entry";
+    qCDebug(albumLog) << "ReadThumbnailManager::addPadAndScaled - Entry";
     auto result = src.convertToFormat(QImage::Format_RGBA8888);
 
     if (result.height() > result.width()) {
@@ -527,6 +528,6 @@ QImage ReadThumbnailManager::addPadAndScaled(const QImage &src)
         result = result.scaledToWidth(THUMBNAIL_MAX_SIZE, Qt::SmoothTransformation);
     }
 
-    qDebug() << "ReadThumbnailManager::addPadAndScaled - Exit, return result";
+    qCDebug(albumLog) << "ReadThumbnailManager::addPadAndScaled - Exit, return result";
     return result;
 }

@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2024-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "pathviewrangehandler.h"
+#include "ddlog.h"
 #include <QDebug>
 
 #include <QEvent>
@@ -16,7 +17,7 @@
 PathViewRangeHandler::PathViewRangeHandler(QObject *parent)
     : QObject(parent)
 {
-    qDebug() << "PathViewRangeHandler initialized";
+    qCDebug(albumLog) << "PathViewRangeHandler initialized";
 }
 
 QQuickItem *PathViewRangeHandler::target() const
@@ -29,14 +30,14 @@ void PathViewRangeHandler::setTarget(QQuickItem *view)
     if (view != targetView) {
         if (targetView) {
             targetView->removeEventFilter(this);
-            qDebug() << "Removed event filter from previous target view";
+            qCDebug(albumLog) << "Removed event filter from previous target view";
         }
 
         targetView = view;
 
         if (targetView) {
             targetView->installEventFilter(this);
-            qDebug() << "Installed event filter on new target view";
+            qCDebug(albumLog) << "Installed event filter on new target view";
         }
         Q_EMIT targetChanged();
     }
@@ -51,7 +52,7 @@ void PathViewRangeHandler::setEnableForward(bool b)
 {
     if (b != enableForwardFlag) {
         enableForwardFlag = b;
-        qDebug() << "Forward movement" << (b ? "enabled" : "disabled");
+        qCDebug(albumLog) << "Forward movement" << (b ? "enabled" : "disabled");
         Q_EMIT enableForwardChanged();
     }
 }
@@ -65,7 +66,7 @@ void PathViewRangeHandler::setEnableBackward(bool b)
 {
     if (b != enableBackwardFlag) {
         enableBackwardFlag = b;
-        qDebug() << "Backward movement" << (b ? "enabled" : "disabled");
+        qCDebug(albumLog) << "Backward movement" << (b ? "enabled" : "disabled");
         Q_EMIT enableBackwardChanged();
     }
 }
@@ -79,7 +80,7 @@ bool PathViewRangeHandler::eventFilter(QObject *obj, QEvent *event)
     switch (event->type()) {
         case QEvent::MouseButtonRelease: {
             basePoint = QPointF();
-            qDebug() << "Mouse button released, reset base point";
+            qCDebug(albumLog) << "Mouse button released, reset base point";
             break;
         }
         case QEvent::MouseMove: {
@@ -88,17 +89,17 @@ bool PathViewRangeHandler::eventFilter(QObject *obj, QEvent *event)
             if (basePoint.isNull()) {
                 // currentIndex 会在拖动时动态变更，因此在切换到受限图片时更新触发限制状态
                 basePoint = mouseEvent->position();
-                qDebug() << "Set new base point at:" << basePoint;
+                qCDebug(albumLog) << "Set new base point at:" << basePoint;
             } else {
                 bool filter = false;
                 auto newPoint = mouseEvent->position();
                 if (!enableForwardFlag && newPoint.x() > (basePoint.x())) {
                     filter = true;
-                    qDebug() << "Filtered forward movement from" << basePoint << "to" << newPoint;
+                    qCDebug(albumLog) << "Filtered forward movement from" << basePoint << "to" << newPoint;
                 }
                 if (!enableBackwardFlag && newPoint.x() < (basePoint.x())) {
                     filter = true;
-                    qDebug() << "Filtered backward movement from" << basePoint << "to" << newPoint;
+                    qCDebug(albumLog) << "Filtered backward movement from" << basePoint << "to" << newPoint;
                 }
 
                 if (filter) {

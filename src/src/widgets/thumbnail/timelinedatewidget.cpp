@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "timelinedatewidget.h"
+#include "ddlog.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -21,7 +22,7 @@ static const int TIMELINE_TITLEHEIGHT = 36;
 TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time, const QString &num)
     :  m_chooseBtn(nullptr), m_pDate(nullptr), m_pNumCheckBox(nullptr), m_currentItem(item)
 {
-    qDebug() << "Creating TimeLineDateWidget - time:" << time << "num:" << num;
+    qCDebug(albumLog) << "Creating TimeLineDateWidget - time:" << time << "num:" << num;
     this->setObjectName("TimeLineDateWidget");
     this->setAccessibleName("TimeLineDateWidget");
     this->setContentsMargins(0, 0, 0, 0);
@@ -73,7 +74,7 @@ TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time,
     m_chooseBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
     m_chooseBtn->setFocusPolicy(Qt::NoFocus);
     m_chooseBtn->setVisible(false);
-    qDebug() << "Created select button";
+    qCDebug(albumLog) << "Created select button";
     //占位btn，防止显影选择按钮时，ui变化
     m_pbtn = new DCommandLinkButton(" ");
     m_pbtn->setObjectName("Pbtn");
@@ -98,25 +99,25 @@ TimeLineDateWidget::TimeLineDateWidget(QStandardItem *item, const QString &time,
     this->setLayout(TitleViewLayout);
 
     onThemeChanged(DGuiApplicationHelper::instance()->themeType());
-    qDebug() << "TimeLineDateWidget initialization completed";
+    qCDebug(albumLog) << "TimeLineDateWidget initialization completed";
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &TimeLineDateWidget::onThemeChanged);
 }
 
 void TimeLineDateWidget::onThemeChanged(DGuiApplicationHelper::ColorType themeType)
 {
-    qDebug() << "Theme changed to:" << (themeType == DGuiApplicationHelper::LightType ? "Light" : "Dark");
+    qCDebug(albumLog) << "Theme changed to:" << (themeType == DGuiApplicationHelper::LightType ? "Light" : "Dark");
     DPalette pal = DPaletteHelper::instance()->palette(m_pNumCheckBox);
     QColor color_BT = pal.color(DPalette::BrightText);
     if (themeType == DGuiApplicationHelper::LightType) {
-        qDebug() << "Theme changed to Light";
+        qCDebug(albumLog) << "Theme changed to Light";
         pal.setBrush(DPalette::Text, lightTextColor);
         m_pNumCheckBox->setForegroundRole(DPalette::Text);
         m_pNumCheckBox->setPalette(pal);
         m_pNum->setForegroundRole(DPalette::Text);
         m_pNum->setPalette(pal);
     } else if (themeType == DGuiApplicationHelper::DarkType) {
-        qDebug() << "Theme changed to Dark";
+        qCDebug(albumLog) << "Theme changed to Dark";
         color_BT.setAlphaF(0.75);
         pal.setBrush(DPalette::Text, darkTextColor);
         m_pNumCheckBox->setForegroundRole(DPalette::Text);
@@ -128,48 +129,48 @@ void TimeLineDateWidget::onThemeChanged(DGuiApplicationHelper::ColorType themeTy
     DPalette color = DPaletteHelper::instance()->palette(m_pDate);
     color.setBrush(DPalette::Text, themeType == DGuiApplicationHelper::LightType ? lightTextColor : darkTextColor);
     m_pDate->setPalette(color);
-    qDebug() << "Theme changed to:" << (themeType == DGuiApplicationHelper::LightType ? "Light" : "Dark");
+    qCDebug(albumLog) << "Theme changed to:" << (themeType == DGuiApplicationHelper::LightType ? "Light" : "Dark");
 }
 
 void TimeLineDateWidget::onShowCheckBox(bool bShow)
 {
-    qDebug() << "Setting checkbox visibility to:" << bShow;
+    qCDebug(albumLog) << "Setting checkbox visibility to:" << bShow;
     m_pNumCheckBox->setVisible(bShow);
     m_pNum->setVisible(!bShow);
 }
 
 void TimeLineDateWidget::onCheckBoxCliked()
 {
-    qDebug() << "Checkbox clicked - Entry";
+    qCDebug(albumLog) << "Checkbox clicked - Entry";
     bool isChecked = m_pNumCheckBox->isChecked();
-    qDebug() << "Checkbox clicked - checked:" << isChecked;
+    qCDebug(albumLog) << "Checkbox clicked - checked:" << isChecked;
     emit sigIsSelectCurrentDatePic(isChecked, m_currentItem);
 }
 
 void TimeLineDateWidget::onChangeChooseBtnVisible(bool visible)
 {
-    qDebug() << "Setting choose button visibility to:" << visible;
+    qCDebug(albumLog) << "Setting choose button visibility to:" << visible;
     m_chooseBtn->setVisible(visible);
 }
 
 void TimeLineDateWidget::onTimeLinePicSelectAll(bool selectall)
 {
-    qDebug() << "Setting checkbox checked state to:" << selectall;
+    qCDebug(albumLog) << "Setting checkbox checked state to:" << selectall;
     m_pNumCheckBox->setChecked(selectall);
 }
 
 QString TimeLineDateWidget::onGetBtnStatus()
 {
-    qDebug() << "Getting button status - Entry";
+    qCDebug(albumLog) << "Getting button status - Entry";
     QString status = m_chooseBtn->text();
-    qDebug() << "Getting button status:" << status;
+    qCDebug(albumLog) << "Getting button status:" << status;
     return status;
 }
 
 importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QString &time, const QString &num)
     : m_chooseBtn(nullptr), m_pDateandNumCheckBox(nullptr), m_currentItem(item)
 {
-    qDebug() << "Creating importTimeLineDateWidget - time:" << time << "num:" << num;
+    qCDebug(albumLog) << "Creating importTimeLineDateWidget - time:" << time << "num:" << num;
     this->setObjectName("ImportTimeLineDateWidget");
     this->setAccessibleName("ImportTimeLineDateWidget");
     this->setContentsMargins(6, 0, 0, 0);
@@ -202,7 +203,7 @@ importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QS
     m_chooseBtn->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T5));
     m_chooseBtn->setFocusPolicy(Qt::NoFocus);
     m_chooseBtn->setVisible(false);
-    qDebug() << "Created select button";
+    qCDebug(albumLog) << "Created select button";
 
     //占位btn，防止显影选择按钮时，ui变化
     m_pbtn = new DCommandLinkButton(" ");
@@ -221,64 +222,64 @@ importTimeLineDateWidget::importTimeLineDateWidget(QStandardItem *item, const QS
     this->setLayout(TitleViewLayout);
 
     onThemeChanged(DGuiApplicationHelper::instance()->themeType());
-    qDebug() << "importTimeLineDateWidget initialization completed";
+    qCDebug(albumLog) << "importTimeLineDateWidget initialization completed";
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &importTimeLineDateWidget::onThemeChanged);
 }
 
 void importTimeLineDateWidget::onCheckBoxCliked()
 {
-    qDebug() << "Checkbox clicked - Entry";
+    qCDebug(albumLog) << "Checkbox clicked - Entry";
     bool isChecked = m_pDateandNumCheckBox->isChecked();
-    qDebug() << "Checkbox clicked - checked:" << isChecked;
+    qCDebug(albumLog) << "Checkbox clicked - checked:" << isChecked;
     emit sigIsSelectCurrentDatePic(isChecked, m_currentItem);
 }
 
 void importTimeLineDateWidget::onChangeChooseBtnVisible(bool visible)
 {
-    qDebug() << "Setting choose button visibility to:" << visible;
+    qCDebug(albumLog) << "Setting choose button visibility to:" << visible;
     m_chooseBtn->setVisible(visible);
 }
 
 void importTimeLineDateWidget::onTimeLinePicSelectAll(bool selectall)
 {
-    qDebug() << "Setting checkbox checked state to:" << selectall;
+    qCDebug(albumLog) << "Setting checkbox checked state to:" << selectall;
     m_pDateandNumCheckBox->setChecked(selectall);
 }
 
 QString importTimeLineDateWidget::onGetBtnStatus()
 {
-    qDebug() << "Getting button status - Entry";
+    qCDebug(albumLog) << "Getting button status - Entry";
     QString status = m_chooseBtn->text();
-    qDebug() << "Getting button status:" << status;
+    qCDebug(albumLog) << "Getting button status:" << status;
     return status;
 }
 
 void importTimeLineDateWidget::onThemeChanged(DGuiApplicationHelper::ColorType themeType)
 {
-    qDebug() << "Theme changed to:" << (themeType == DGuiApplicationHelper::LightType ? "Light" : "Dark");
+    qCDebug(albumLog) << "Theme changed to:" << (themeType == DGuiApplicationHelper::LightType ? "Light" : "Dark");
     DPalette pal = DPaletteHelper::instance()->palette(m_pDateandNumCheckBox);
     if (themeType == DGuiApplicationHelper::LightType) {
-        qDebug() << "Theme changed to Light";
+        qCDebug(albumLog) << "Theme changed to Light";
         pal.setBrush(DPalette::Text, lightTextColor);
         m_pDateandNumCheckBox->setForegroundRole(DPalette::Text);
         m_pDateandNumCheckBox->setPalette(pal);
         m_pDateandNum->setForegroundRole(DPalette::Text);
         m_pDateandNum->setPalette(pal);
     } else if (themeType == DGuiApplicationHelper::DarkType) {
-        qDebug() << "Theme changed to Dark";
+        qCDebug(albumLog) << "Theme changed to Dark";
         pal.setBrush(DPalette::Text, darkTextColor);
         m_pDateandNumCheckBox->setForegroundRole(DPalette::Text);
         m_pDateandNumCheckBox->setPalette(pal);
         m_pDateandNum->setForegroundRole(DPalette::Text);
         m_pDateandNum->setPalette(pal);
     }
-    qDebug() << "Theme changed to:" << (themeType == DGuiApplicationHelper::LightType ? "Light" : "Dark");
+    qCDebug(albumLog) << "Theme changed to:" << (themeType == DGuiApplicationHelper::LightType ? "Light" : "Dark");
 }
 
 void importTimeLineDateWidget::onShowCheckBox(bool bShow)
 {
-    qDebug() << "Setting checkbox visibility to:" << bShow;
+    qCDebug(albumLog) << "Setting checkbox visibility to:" << bShow;
     m_pDateandNumCheckBox->setVisible(bShow);
     m_pDateandNum->setVisible(!bShow);
 }

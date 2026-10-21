@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "expansionpanel.h"
+#include "ddlog.h"
 
 #include <QGraphicsDropShadowEffect>
 #include <QVBoxLayout>
@@ -15,7 +16,7 @@ DGUI_USE_NAMESPACE
 ExpansionPanel::ExpansionPanel(QWidget *parent)
     : DBlurEffectWidget(parent)
 {
-    qDebug() << "ExpansionPanel::ExpansionPanel - Entry";
+    qCDebug(albumLog) << "ExpansionPanel::ExpansionPanel - Entry";
     this->setObjectName("ExpansionPanel");
     this->setAccessibleName("ExpansionPanel");
     //wayland背景透明问题
@@ -35,40 +36,40 @@ ExpansionPanel::ExpansionPanel(QWidget *parent)
     layout->setContentsMargins(0, 12, 0, 12);
 
     setLayout(layout);
-    qDebug() << "ExpansionPanel::ExpansionPanel - Exit";
+    qCDebug(albumLog) << "ExpansionPanel::ExpansionPanel - Exit";
 }
 
 void ExpansionPanel::changeTheme(Dtk::Gui::DGuiApplicationHelper::ColorType themeType)
 {
-    // qDebug() << "ExpansionPanel::changeTheme - Entry";
+    // qCDebug(albumLog) << "ExpansionPanel::changeTheme - Entry";
     if (themeType == 1) {
-        // qDebug() << "ExpansionPanel::changeTheme - Entry, themeType is 1";
+        // qCDebug(albumLog) << "ExpansionPanel::changeTheme - Entry, themeType is 1";
         //背景颜色及透明度
         auto effect = QColor("#EBEBEB");
         effect.setAlpha(80);
         setMaskColor(effect);
         shadow_effect->setColor(QColor(150, 150, 150));
     } else {
-        // qDebug() << "ExpansionPanel::changeTheme - Entry, themeType is not 1";
+        // qCDebug(albumLog) << "ExpansionPanel::changeTheme - Entry, themeType is not 1";
         //背景颜色及透明度
         auto effect = QColor("#404040");
         setMaskColor(effect);
         shadow_effect->setColor(QColor("#404040"));
     }
-    // qDebug() << "ExpansionPanel::changeTheme - Exit: theme change completed";
+    // qCDebug(albumLog) << "ExpansionPanel::changeTheme - Exit: theme change completed";
 }
 
 void ExpansionPanel::onButtonClicked(FilteData data)
 {
-    qDebug() << "ExpansionPanel::onButtonClicked - Entry";
+    qCDebug(albumLog) << "ExpansionPanel::onButtonClicked - Entry";
     this->hide();
     emit currentItemChanged(data);
-    qDebug() << "ExpansionPanel::onButtonClicked - Exit";
+    qCDebug(albumLog) << "ExpansionPanel::onButtonClicked - Exit";
 }
 
 void ExpansionPanel::addNewButton(FilteData &data)
 {
-    qDebug() << "ExpansionPanel::addNewButton - Entry";
+    qCDebug(albumLog) << "ExpansionPanel::addNewButton - Entry";
     auto button = new ToolButton(this);
     buttons[buttonCount++] = button;
     button->setText(data.text);
@@ -80,13 +81,13 @@ void ExpansionPanel::addNewButton(FilteData &data)
     connect(button, &ToolButton::clicked, [data, this]() {
         onButtonClicked(data);
     });
-    qDebug() << "ExpansionPanel::addNewButton - Exit";
+    qCDebug(albumLog) << "ExpansionPanel::addNewButton - Exit";
 }
 
 void ExpansionPanel::focusOutEvent(QFocusEvent *e)
 {
-    // qDebug() << "ExpansionPanel::focusOutEvent - Entry";
+    // qCDebug(albumLog) << "ExpansionPanel::focusOutEvent - Entry";
     hide();
     DBlurEffectWidget::focusOutEvent(e);
-    // qDebug() << "ExpansionPanel::focusOutEvent - Exit";
+    // qCDebug(albumLog) << "ExpansionPanel::focusOutEvent - Exit";
 }

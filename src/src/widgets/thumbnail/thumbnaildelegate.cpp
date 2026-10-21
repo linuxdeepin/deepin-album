@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "thumbnaildelegate.h"
+#include "ddlog.h"
 #include "thumbnaillistview.h"
 #include "unionimage/baseutils.h"
 #include "dbmanager/dbmanager.h"
@@ -50,7 +51,7 @@ ThumbnailDelegate::ThumbnailDelegate(DelegateType type, QObject *parent)
     , m_imageTypeStr(IMAGE_DEFAULTTYPE)
     , m_delegatetype(type)
 {
-    // qDebug() << "ThumbnailDelegate::ThumbnailDelegate - Constructor entry, type:" << static_cast<int>(type);
+    // qCDebug(albumLog) << "ThumbnailDelegate::ThumbnailDelegate - Constructor entry, type:" << static_cast<int>(type);
     onThemeTypeChanged(DGuiApplicationHelper::instance()->themeType());
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
             this, [this](DGuiApplicationHelper::ColorType type) { onThemeTypeChanged(type); });
@@ -58,39 +59,39 @@ ThumbnailDelegate::ThumbnailDelegate(DelegateType type, QObject *parent)
 
 void ThumbnailDelegate::setItemSize(QSize size)
 {
-    // qDebug() << "ThumbnailDelegate::setItemSize - Function entry, size:" << size;
+    // qCDebug(albumLog) << "ThumbnailDelegate::setItemSize - Function entry, size:" << size;
     m_size = size;
 }
 
 void ThumbnailDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     if (!bneedpaint) {
-        // qDebug() << "not need paint, returning";
+        // qCDebug(albumLog) << "not need paint, returning";
         return;
     }
     const DBImgInfo data = itemData(index);
     switch (data.itemType) {
     case ItemType::ItemTypeBlank: {
-        // qDebug() << "blank item, returning";
+        // qCDebug(albumLog) << "blank item, returning";
         //空白项，什么都不绘制
         break;
     }
     case ItemType::ItemTypeTimeLineTitle: {
-        // qDebug() << "time line title item, returning";
+        // qCDebug(albumLog) << "time line title item, returning";
         break;
     }
     case ItemType::ItemTypeImportTimeLineTitle: {
-        // qDebug() << "import time line title item, returning";
+        // qCDebug(albumLog) << "import time line title item, returning";
         break;
     }
     case ItemType::ItemTypePic:
     case ItemType::ItemTypeVideo: {
-        // qDebug() << "draw img and video";
+        // qCDebug(albumLog) << "draw img and video";
         drawImgAndVideo(painter, option, index);
         break;
     }
     default:
-        // qDebug() << "draw img and video";
+        // qCDebug(albumLog) << "draw img and video";
         drawImgAndVideo(painter, option, index);
         break;
     }
@@ -293,7 +294,7 @@ void ThumbnailDelegate::drawImgAndVideo(QPainter *painter, const QStyleOptionVie
     }
 
     painter->restore();
-    // qDebug() << "ThumbnailDelegate::drawImgAndVideo - Function exit";
+    // qCDebug(albumLog) << "ThumbnailDelegate::drawImgAndVideo - Function exit";
 }
 
 void ThumbnailDelegate::onThemeTypeChanged(DGuiApplicationHelper::ColorType themeType)
@@ -313,33 +314,33 @@ void ThumbnailDelegate::onThemeTypeChanged(DGuiApplicationHelper::ColorType them
 QSize ThumbnailDelegate::sizeHint(const QStyleOptionViewItem &option,
                                   const QModelIndex &index) const
 {
-    // qDebug() << "ThumbnailDelegate::sizeHint - Function entry, option:" << option << "index:" << index;
+    // qCDebug(albumLog) << "ThumbnailDelegate::sizeHint - Function entry, option:" << option << "index:" << index;
     Q_UNUSED(option)
     DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
     if (data.itemType == ItemType::ItemTypeBlank
             || data.itemType == ItemType::ItemTypeTimeLineTitle
             || data.itemType == ItemType::ItemTypeImportTimeLineTitle) {
         QSize size(data.imgWidth, data.imgHeight);
-        // qDebug() << "ThumbnailDelegate::sizeHint - Function exit, returning size:" << size;
+        // qCDebug(albumLog) << "ThumbnailDelegate::sizeHint - Function exit, returning size:" << size;
         return size;
     } else {
-        // qDebug() << "ThumbnailDelegate::sizeHint - Function exit, returning m_size:" << m_size;
+        // qCDebug(albumLog) << "ThumbnailDelegate::sizeHint - Function exit, returning m_size:" << m_size;
         return m_size;
     }
 }
 
 DBImgInfo ThumbnailDelegate::itemData(const QModelIndex &index) const
 {
-    // qDebug() << "ThumbnailDelegate::itemData - Function entry, index:" << index;
+    // qCDebug(albumLog) << "ThumbnailDelegate::itemData - Function entry, index:" << index;
     DBImgInfo data = index.data(Qt::DisplayRole).value<DBImgInfo>();
     data.isSelected = index.data(Qt::UserRole).toBool();
-    // qDebug() << "ThumbnailDelegate::itemData - Function exit, returning data for path:" << data.filePath;
+    // qCDebug(albumLog) << "ThumbnailDelegate::itemData - Function exit, returning data for path:" << data.filePath;
     return data;
 }
 
 QRect ThumbnailDelegate::updatePaintedRect(const QRectF &boundingRect, const QImage& image) const
 {
-    // qDebug() << "ThumbnailDelegate::updatePaintedRect - Function entry, boundingRect:" << boundingRect << "image size:" << image.size();
+    // qCDebug(albumLog) << "ThumbnailDelegate::updatePaintedRect - Function entry, boundingRect:" << boundingRect << "image size:" << image.size();
     QRectF destRect;
 
     QSizeF scaled = image.size();
@@ -349,16 +350,16 @@ QRect ThumbnailDelegate::updatePaintedRect(const QRectF &boundingRect, const QIm
     destRect = QRectF(QPoint(0, 0), scaled);
     destRect.moveCenter(boundingRect.center().toPoint());
 
-    // qDebug() << "ThumbnailDelegate::updatePaintedRect - Function exit, returning:" << destRect.toRect();
+    // qCDebug(albumLog) << "ThumbnailDelegate::updatePaintedRect - Function exit, returning:" << destRect.toRect();
     return destRect.toRect();
 }
 
 bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
-    // qDebug() << "ThumbnailDelegate::editorEvent - Function entry, event type:" << event->type() << "index:" << index;
+    // qCDebug(albumLog) << "ThumbnailDelegate::editorEvent - Function entry, event type:" << event->type() << "index:" << index;
     Q_UNUSED(model);
     if (!index.isValid()) {
-        // qDebug() << "invalid index, returning false";
+        // qCDebug(albumLog) << "invalid index, returning false";
         return false;
     }
     //跟随收藏按钮变化位置
@@ -387,6 +388,6 @@ bool ThumbnailDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
             }
         }
     }
-    // qDebug() << "ThumbnailDelegate::editorEvent - Function exit, returning false";
+    // qCDebug(albumLog) << "ThumbnailDelegate::editorEvent - Function exit, returning false";
     return false;
 }
