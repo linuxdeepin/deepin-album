@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "dbmanager.h"
+#include "ddlog.h"
 //#include "application.h"
 //#include "controller/signalmanager.h"
 #include "unionimage/baseutils.h"
@@ -30,33 +31,33 @@ QReadWriteLock DBManager::m_fileMutex;
 
 DBManager *DBManager::instance()
 {
-    // qDebug() << "DBManager::instance - Entry";
+    // qCDebug(albumLog) << "DBManager::instance - Entry";
     //线程安全单例
     std::call_once(instanceFlag, []() {
         m_dbManager = new DBManager;
     });
-    // qDebug() << "DBManager::instance - Exit";
+    // qCDebug(albumLog) << "DBManager::instance - Exit";
     return m_dbManager;
 }
 
 DBManager::DBManager(QObject *parent)
     : QObject(parent)
 {
-    // qDebug() << "DBManager::DBManager - Entry";
+    // qCDebug(albumLog) << "DBManager::DBManager - Entry";
 
     //指定路径
     DATABASE_PATH = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator();
-    qInfo() << "Database path:" << DATABASE_PATH;
+    qCInfo(albumLog) << "Database path:" << DATABASE_PATH;
     DATABASE_NAME = "deepinalbum.db";
 
     EMPTY_HASH_STR = LibUnionImage_NameSpace::hashByString(QString(" "));
     checkDatabase();
-    // qDebug() << "DBManager::DBManager - Exit";
+    // qCDebug(albumLog) << "DBManager::DBManager - Exit";
 }
 
 const QStringList DBManager::getAllPaths(const ItemType &filterType) const
 {
-    qDebug() << "DBManager::getAllPaths - Entry";
+    qCDebug(albumLog) << "DBManager::getAllPaths - Entry";
     QMutexLocker mutex(&m_dbMutex);
     QStringList paths;
 
@@ -83,7 +84,7 @@ const QStringList DBManager::getAllPaths(const ItemType &filterType) const
     }
 
 
-    qDebug() << "DBManager::getAllPaths - Exit, paths:" << paths;
+    qCDebug(albumLog) << "DBManager::getAllPaths - Exit, paths:" << paths;
     return paths;
 }
 
@@ -124,7 +125,7 @@ QSet<QString> DBManager::getExistingPaths(const QStringList &paths) const
 
 const DBImgInfoList DBManager::getAllInfos(int loadCount)const
 {
-    qDebug() << "DBManager::getAllInfos - Entry";
+    qCDebug(albumLog) << "DBManager::getAllInfos - Entry";
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
@@ -149,13 +150,13 @@ const DBImgInfoList DBManager::getAllInfos(int loadCount)const
             infos << info;
         }
     }
-    qDebug() << "DBManager::getAllInfos - Exit";
+    qCDebug(albumLog) << "DBManager::getAllInfos - Exit";
     return infos;
 }
 
 const DBImgInfoList DBManager::getAllInfosSort(const ItemType &filterType) const
 {
-    qDebug() << "DBManager::getAllInfosSort - Entry";
+    qCDebug(albumLog) << "DBManager::getAllInfosSort - Entry";
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
@@ -181,13 +182,13 @@ const DBImgInfoList DBManager::getAllInfosSort(const ItemType &filterType) const
             infos << info;
         }
     }
-    qDebug() << "DBManager::getAllInfosSort - Exit";
+    qCDebug(albumLog) << "DBManager::getAllInfosSort - Exit";
     return infos;
 }
 
 const DBImgInfoList DBManager::getAllInfosByUID(QString UID) const
 {
-    qDebug() << "DBManager::getAllInfosByUID - Entry";
+    qCDebug(albumLog) << "DBManager::getAllInfosByUID - Entry";
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
@@ -195,7 +196,7 @@ const DBImgInfoList DBManager::getAllInfosByUID(QString UID) const
     m_query->bindValue(":UID", UID);
 
     if (!b || ! m_query->exec()) {
-        qDebug() << "DBManager::getAllInfosByUID - Exit, exec failed";
+        qCDebug(albumLog) << "DBManager::getAllInfosByUID - Exit, exec failed";
         return infos;
     } else {
         while (m_query->next()) {
@@ -211,31 +212,31 @@ const DBImgInfoList DBManager::getAllInfosByUID(QString UID) const
             infos << info;
         }
     }
-    qDebug() << "DBManager::getAllInfosByUID - Exit";
+    qCDebug(albumLog) << "DBManager::getAllInfosByUID - Exit";
     return infos;
 }
 
 const QList<QDateTime> DBManager::getAllTimelines() const
 {
-    qDebug() << "DBManager::getAllTimelines - Entry";
+    qCDebug(albumLog) << "DBManager::getAllTimelines - Entry";
     QMutexLocker mutex(&m_dbMutex);
     QList<QDateTime> times;
     m_query->setForwardOnly(true);
     if (!m_query->exec("SELECT DISTINCT Time FROM ImageTable3 ORDER BY Time DESC")) {
-        qDebug() << "DBManager::getAllTimelines - Exit, exec failed";
+        qCDebug(albumLog) << "DBManager::getAllTimelines - Exit, exec failed";
         return times;
     } else {
         while (m_query->next()) {
             times << m_query->value(0).toDateTime();
         }
     }
-    qDebug() << "DBManager::getAllTimelines - Exit";
+    qCDebug(albumLog) << "DBManager::getAllTimelines - Exit";
     return times;
 }
 
 const DBImgInfoList DBManager::getInfosByTimeline(const QDateTime &timeline, const ItemType &filterType) const
 {
-    qDebug() << "DBManager::getInfosByTimeline - Entry";
+    qCDebug(albumLog) << "DBManager::getInfosByTimeline - Entry";
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
@@ -250,7 +251,7 @@ const DBImgInfoList DBManager::getInfosByTimeline(const QDateTime &timeline, con
                                      "WHERE Time = :Date ORDER BY Time DESC"));
     }
     if (!b || !m_query->exec()) {
-        qDebug() << "DBManager::getInfosByTimeline - Exit, exec failed";
+        qCDebug(albumLog) << "DBManager::getInfosByTimeline - Exit, exec failed";
     } else {
         while (m_query->next()) {
             DBImgInfo info;
@@ -261,13 +262,13 @@ const DBImgInfoList DBManager::getInfosByTimeline(const QDateTime &timeline, con
         }
     }
 
-    qDebug() << "DBManager::getInfosByTimeline - Exit";
+    qCDebug(albumLog) << "DBManager::getInfosByTimeline - Exit";
     return infos;
 }
 
 const QList<QDateTime> DBManager::getImportTimelines() const
 {
-    qDebug() << "DBManager::getImportTimelines - Entry";
+    qCDebug(albumLog) << "DBManager::getImportTimelines - Entry";
     QMutexLocker mutex(&m_dbMutex);
     QList<QDateTime> importtimes;
 
@@ -278,13 +279,13 @@ const QList<QDateTime> DBManager::getImportTimelines() const
             importtimes << m_query->value(0).toDateTime();
         }
     }
-    qDebug() << "DBManager::getImportTimelines - Exit";
+    qCDebug(albumLog) << "DBManager::getImportTimelines - Exit";
     return importtimes;
 }
 
 const DBImgInfoList DBManager::getInfosByImportTimeline(const QDateTime &timeline, const ItemType &filterType) const
 {
-    qDebug() << "DBManager::getInfosByImportTimeline - Entry";
+    qCDebug(albumLog) << "DBManager::getInfosByImportTimeline - Entry";
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
@@ -301,7 +302,7 @@ const DBImgInfoList DBManager::getInfosByImportTimeline(const QDateTime &timelin
     }
 
     if (!b || !m_query->exec()) {
-        qDebug() << "DBManager::getInfosByImportTimeline - Exit, exec failed";
+        qCDebug(albumLog) << "DBManager::getInfosByImportTimeline - Exit, exec failed";
     } else {
         while (m_query->next()) {
             DBImgInfo info;
@@ -312,31 +313,31 @@ const DBImgInfoList DBManager::getInfosByImportTimeline(const QDateTime &timelin
         }
     }
 
-    qDebug() << "DBManager::getInfosByImportTimeline - Exit";
+    qCDebug(albumLog) << "DBManager::getInfosByImportTimeline - Exit";
     return infos;
 }
 
 const DBImgInfo DBManager::getInfoByPath(const QString &path) const
 {
-    qDebug() << "DBManager::getInfoByPath - Entry";
+    qCDebug(albumLog) << "DBManager::getInfoByPath - Entry";
     DBImgInfoList list = getImgInfos("FilePath", path, true);
     if (list.count() < 1) {
         return DBImgInfo();
     } else {
         return list.first();
     }
-    qDebug() << "DBManager::getInfoByPath - Exit";
+    qCDebug(albumLog) << "DBManager::getInfoByPath - Exit";
 }
 
 const DBImgInfoList DBManager::getInfosByPath(const QString &path) const
 {
-    qDebug() << "DBManager::getInfosByPath - Entry";
+    qCDebug(albumLog) << "DBManager::getInfosByPath - Entry";
     return getImgInfos("FilePath", path, true);
 }
 
 int DBManager::getImgsCount(const ItemType &filterType) const
 {
-    qDebug() << "DBManager::getImgsCount - Entry";
+    qCDebug(albumLog) << "DBManager::getImgsCount - Entry";
     QMutexLocker mutex(&m_dbMutex);
 
     m_query->setForwardOnly(true);
@@ -346,7 +347,7 @@ int DBManager::getImgsCount(const ItemType &filterType) const
                                      "WHERE FileType = :Type"));
         m_query->bindValue(":Type", filterType);
         if (!b || !m_query->exec()) {
-            qDebug() << "DBManager::getImgsCount - Exit, exec failed";
+            qCDebug(albumLog) << "DBManager::getImgsCount - Exit, exec failed";
         } else {
             int count = 0;
             while (m_query->next()) {
@@ -359,22 +360,22 @@ int DBManager::getImgsCount(const ItemType &filterType) const
         if (m_query->exec("SELECT COUNT(*) FROM ImageTable3")) {
             m_query->first();
             int count = m_query->value(0).toInt();
-            qDebug() << "DBManager::getImgsCount - Exit";
+            qCDebug(albumLog) << "DBManager::getImgsCount - Exit";
             return count;
         }
     }
 
-    qDebug() << "DBManager::getImgsCount - Exit, count: 0";
+    qCDebug(albumLog) << "DBManager::getImgsCount - Exit, count: 0";
     return 0;
 }
 
 void DBManager::insertImgInfos(const DBImgInfoList &infos)
 {
-    qDebug() << "DBManager::insertImgInfos - Entry";
+    qCDebug(albumLog) << "DBManager::insertImgInfos - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-        qWarning() << "Failed to begin transaction:" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to begin transaction:" << m_query->lastError().text();
         return;
     }
 
@@ -382,7 +383,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
                "ChangeTime, ImportTime, FileType, UID, ClassName) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     if (!m_query->prepare(qs)) {
-        qWarning() << "Failed to prepare insert statement:" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to prepare insert statement:" << m_query->lastError().text();
         return;
     }
 
@@ -397,27 +398,27 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
         m_query->addBindValue(info.albumUID);
         m_query->addBindValue(info.className);
         if (!m_query->exec()) {
-            qWarning() << "Failed to insert image:" << info.filePath << m_query->lastError().text();
+            qCWarning(albumLog) << "Failed to insert image:" << info.filePath << m_query->lastError().text();
         }
     }
 
     if (!m_query->exec("COMMIT")) {
-        qWarning() << "Failed to commit transaction:" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to commit transaction:" << m_query->lastError().text();
     } else {
-        qInfo() << "Successfully inserted" << infos.size() << "images";
+        qCInfo(albumLog) << "Successfully inserted" << infos.size() << "images";
     }
-    qDebug() << "DBManager::insertImgInfos - Exit";
+    qCDebug(albumLog) << "DBManager::insertImgInfos - Exit";
 }
 
 void DBManager::removeImgInfos(const QStringList &paths)
 {
-    qDebug() << "DBManager::removeImgInfos - Entry";
+    qCDebug(albumLog) << "DBManager::removeImgInfos - Entry";
     if (paths.isEmpty()) {
-        qDebug() << "No images to remove";
+        qCDebug(albumLog) << "No images to remove";
         return;
     }
 
-    qInfo() << "Removing" << paths.size() << "images from database";
+    qCInfo(albumLog) << "Removing" << paths.size() << "images from database";
 
     // Collect info before removing data
     QStringList pathHashs;
@@ -430,57 +431,57 @@ void DBManager::removeImgInfos(const QStringList &paths)
     // Remove from albums table
     m_query->setForwardOnly(true);
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-        qWarning() << "Failed to begin transaction:" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to begin transaction:" << m_query->lastError().text();
         return;
     }
 
     QString qs("DELETE FROM AlbumTable3 WHERE PathHash=:hash");
     if (!m_query->prepare(qs)) {
-        qWarning() << "Failed to prepare delete statement:" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to prepare delete statement:" << m_query->lastError().text();
         return;
     }
 
     for (auto &eachHash : pathHashs) {
         m_query->bindValue(":hash", eachHash);
         if (!m_query->exec()) {
-            qWarning() << "Failed to remove from AlbumTable3:" << m_query->lastError().text();
+            qCWarning(albumLog) << "Failed to remove from AlbumTable3:" << m_query->lastError().text();
         }
     }
 
     if (!m_query->exec("COMMIT")) {
-        qWarning() << "Failed to commit transaction:" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to commit transaction:" << m_query->lastError().text();
     }
 
     // Remove from image table
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-        qWarning() << "Failed to begin transaction:" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to begin transaction:" << m_query->lastError().text();
         return;
     }
 
     qs = "DELETE FROM ImageTable3 WHERE PathHash=:hash";
     if (!m_query->prepare(qs)) {
-        qWarning() << "Failed to prepare delete statement:" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to prepare delete statement:" << m_query->lastError().text();
         return;
     }
 
     for (auto &eachHash : pathHashs) {
         m_query->bindValue(":hash", eachHash);
         if (!m_query->exec()) {
-            qWarning() << "Failed to remove from ImageTable3:" << m_query->lastError().text();
+            qCWarning(albumLog) << "Failed to remove from ImageTable3:" << m_query->lastError().text();
         }
     }
 
     if (!m_query->exec("COMMIT")) {
-        qWarning() << "Failed to commit transaction:" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to commit transaction:" << m_query->lastError().text();
     } else {
-        qInfo() << "Successfully removed" << paths.size() << "images";
+        qCInfo(albumLog) << "Successfully removed" << paths.size() << "images";
     }
-    qDebug() << "DBManager::removeImgInfos - Exit";
+    qCDebug(albumLog) << "DBManager::removeImgInfos - Exit";
 }
 
 void DBManager::removeImgInfosNoSignal(const QStringList &paths)
 {
-    qDebug() << "DBManager::removeImgInfosNoSignal - Entry";
+    qCDebug(albumLog) << "DBManager::removeImgInfosNoSignal - Entry";
     QMutexLocker mutex(&m_dbMutex);
     if (paths.isEmpty()) {
         return;
@@ -495,7 +496,7 @@ void DBManager::removeImgInfosNoSignal(const QStringList &paths)
     // Remove from albums table
     m_query->setForwardOnly(true);
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-//        qDebug() << "begin transaction failed.";
+//        qCDebug(albumLog) << "begin transaction failed.";
     }
     QString qs("DELETE FROM AlbumTable3 WHERE PathHash=\"%1\"");
     for (auto &eachHash : pathHashs) {
@@ -505,7 +506,7 @@ void DBManager::removeImgInfosNoSignal(const QStringList &paths)
     }
 
     if (!m_query->exec("COMMIT")) {
-        //        qDebug() << "COMMIT failed.";
+        //        qCDebug(albumLog) << "COMMIT failed.";
     }
 
     // Remove from image table
@@ -518,9 +519,9 @@ void DBManager::removeImgInfosNoSignal(const QStringList &paths)
     }
 
     if (!m_query->exec("COMMIT")) {
-        qDebug() << "DBManager::removeImgInfosNoSignal - Exit, exec failed";
+        qCDebug(albumLog) << "DBManager::removeImgInfosNoSignal - Exit, exec failed";
     }
-    qDebug() << "DBManager::removeImgInfosNoSignal - Exit";
+    qCDebug(albumLog) << "DBManager::removeImgInfosNoSignal - Exit";
 }
 
 const DBImgInfoList DBManager::getInfosForClass(const QString &className) const
@@ -583,7 +584,7 @@ const DBImgInfoList DBManager::getInfosForClassAndKeyword(const QString &classNa
 
 const QList<std::pair<int, QString>> DBManager::getAllAlbumNames(AlbumDBType atype) const
 {
-    qDebug() << "DBManager::getAllAlbumNames - Entry";
+    qCDebug(albumLog) << "DBManager::getAllAlbumNames - Entry";
     QMutexLocker mutex(&m_dbMutex);
     QList<std::pair<int, QString>> list;
     m_query->setForwardOnly(true);
@@ -594,13 +595,13 @@ const QList<std::pair<int, QString>> DBManager::getAllAlbumNames(AlbumDBType aty
         }
     }
 
-    qDebug() << "DBManager::getAllAlbumNames - Exit";
+    qCDebug(albumLog) << "DBManager::getAllAlbumNames - Exit";
     return list;
 }
 
 bool DBManager::isDefaultAutoImportDB(int UID)
 {
-    qDebug() << "DBManager::isDefaultAutoImportDB - Entry";
+    qCDebug(albumLog) << "DBManager::isDefaultAutoImportDB - Entry";
     if (UID > u_Favorite && UID < u_CustomStart) {
         return true;
     } else {
@@ -610,14 +611,14 @@ bool DBManager::isDefaultAutoImportDB(int UID)
 
 std::tuple<QStringList, QStringList, QList<int>> DBManager::getDefaultNotifyPaths()
 {
-    qDebug() << "DBManager::getDefaultNotifyPaths - Entry";
+    qCDebug(albumLog) << "DBManager::getDefaultNotifyPaths - Entry";
     //图片路径
     QStringList monitorPaths;
     QStringList monitorAlbumNames;
     QList<int>  monitorAlbumUIDs;
     auto stdPicPaths = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
     if (!stdPicPaths.isEmpty()) {
-        qDebug() << "DBManager::getDefaultNotifyPaths - stdPicPaths is not empty";
+        qCDebug(albumLog) << "DBManager::getDefaultNotifyPaths - stdPicPaths is not empty";
         auto stdPicPath = stdPicPaths[0];
 
         monitorPaths.push_back(stdPicPath + "/Screenshots");
@@ -636,7 +637,7 @@ std::tuple<QStringList, QStringList, QList<int>> DBManager::getDefaultNotifyPath
     //视频路径
     auto stdMoviePaths = QStandardPaths::standardLocations(QStandardPaths::MoviesLocation);
     if (!stdMoviePaths.isEmpty()) {
-        qDebug() << "DBManager::getDefaultNotifyPaths - stdMoviePaths is not empty";
+        qCDebug(albumLog) << "DBManager::getDefaultNotifyPaths - stdMoviePaths is not empty";
         auto stdMoviePath = stdMoviePaths[0];
 
         monitorPaths.push_back(stdMoviePath + "/Screen Recordings");
@@ -650,13 +651,13 @@ std::tuple<QStringList, QStringList, QList<int>> DBManager::getDefaultNotifyPath
     }
 
     //返回tuple数据
-    qDebug() << "DBManager::getDefaultNotifyPaths - Exit";
+    qCDebug(albumLog) << "DBManager::getDefaultNotifyPaths - Exit";
     return std::make_tuple(monitorPaths, monitorAlbumNames, monitorAlbumUIDs);
 }
 
 std::tuple<QList<QStringList>, QStringList, QList<int>> DBManager::getDefaultNotifyPaths_group()
 {
-    qDebug() << "DBManager::getDefaultNotifyPaths_group - Entry";
+    qCDebug(albumLog) << "DBManager::getDefaultNotifyPaths_group - Entry";
     QList<QStringList> monitorPaths;
     QStringList monitorAlbumNames;
     QList<int>  monitorAlbumUIDs;
@@ -683,13 +684,13 @@ std::tuple<QList<QStringList>, QStringList, QList<int>> DBManager::getDefaultNot
     monitorAlbumUIDs.push_back(DBManager::SpUID::u_Draw);
 
     //返回tuple数据
-    qDebug() << "DBManager::getDefaultNotifyPaths_group - Exit";
+    qCDebug(albumLog) << "DBManager::getDefaultNotifyPaths_group - Exit";
     return std::make_tuple(monitorPaths, monitorAlbumNames, monitorAlbumUIDs);
 }
 
 bool DBManager::defaultNotifyPathExists(int UID)
 {
-    qDebug() << "DBManager::defaultNotifyPathExists - Entry";
+    qCDebug(albumLog) << "DBManager::defaultNotifyPathExists - Entry";
     if (!isDefaultAutoImportDB(UID)) { //如果连默认导入UID都不是，直接返回
         return false;
     }
@@ -708,13 +709,13 @@ bool DBManager::defaultNotifyPathExists(int UID)
             }
         }
     }
-    qDebug() << "DBManager::defaultNotifyPathExists - Exit";
+    qCDebug(albumLog) << "DBManager::defaultNotifyPathExists - Exit";
     return isExists;
 }
 
 const QStringList DBManager::getPathsByAlbum(int UID) const
 {
-    qDebug() << "DBManager::getPathsByAlbum - Entry";
+    qCDebug(albumLog) << "DBManager::getPathsByAlbum - Entry";
     QMutexLocker mutex(&m_dbMutex);
     QStringList list;
     m_query->setForwardOnly(true);
@@ -730,13 +731,13 @@ const QStringList DBManager::getPathsByAlbum(int UID) const
         }
     }
 
-    qDebug() << "DBManager::getPathsByAlbum - Exit";
+    qCDebug(albumLog) << "DBManager::getPathsByAlbum - Exit";
     return list;
 }
 
 const DBImgInfoList DBManager::getInfosByAlbum(int UID, bool needTimeData, ItemType itemType) const
 {
-    qDebug() << "DBManager::getInfosByAlbum - Entry";
+    qCDebug(albumLog) << "DBManager::getInfosByAlbum - Entry";
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
@@ -785,13 +786,13 @@ const DBImgInfoList DBManager::getInfosByAlbum(int UID, bool needTimeData, ItemT
         }
     }
 
-    qDebug() << "DBManager::getInfosByAlbum - Exit";
+    qCDebug(albumLog) << "DBManager::getInfosByAlbum - Exit";
     return infos;
 }
 
 int DBManager::getItemsCountByAlbum(int UID, const ItemType &type) const
 {
-    qDebug() << "DBManager::getItemsCountByAlbum - Entry";
+    qCDebug(albumLog) << "DBManager::getItemsCountByAlbum - Entry";
     int count = 0;
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
@@ -801,7 +802,7 @@ int DBManager::getItemsCountByAlbum(int UID, const ItemType &type) const
                               "AND a.UID=:UID ");
     m_query->bindValue(":UID", UID);
     if (!b || ! m_query->exec()) {
-        //    qWarning() << "Get ImgInfo by album failed: " << query.lastError();
+        //    qCWarning(albumLog) << "Get ImgInfo by album failed: " << query.lastError();
     } else {
         while (m_query->next()) {
             ItemType itemType = static_cast<ItemType>(m_query->value(0).toInt());
@@ -810,14 +811,14 @@ int DBManager::getItemsCountByAlbum(int UID, const ItemType &type) const
             }
         }
     }
-    qDebug() << __FUNCTION__ << "---count = " << count;
+    qCDebug(albumLog) << __FUNCTION__ << "---count = " << count;
     return count;
 }
 
 //判断是否所有要查询的数据都在要查询的相册中
 bool DBManager::isAllImgExistInAlbum(int UID, const QStringList &paths, AlbumDBType atype) const
 {
-    qDebug() << "DBManager::isAllImgExistInAlbum - Entry";
+    qCDebug(albumLog) << "DBManager::isAllImgExistInAlbum - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     QString sql("SELECT COUNT(*) FROM AlbumTable3 WHERE PathHash In ( %1 ) AND UID = :UID AND AlbumDBType =:atype ");
@@ -851,12 +852,12 @@ bool DBManager::isAllImgExistInAlbum(int UID, const QStringList &paths, AlbumDBT
     } else {
         return false;
     }
-    qDebug() << "DBManager::isAllImgExistInAlbum - Exit";
+    qCDebug(albumLog) << "DBManager::isAllImgExistInAlbum - Exit";
 }
 
 bool DBManager::isImgExistInAlbum(int UID, const QString &path) const
 {
-    qDebug() << "DBManager::isImgExistInAlbum - Entry";
+    qCDebug(albumLog) << "DBManager::isImgExistInAlbum - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     bool b = m_query->prepare("SELECT COUNT(*) FROM AlbumTable3 WHERE PathHash = :hash "
@@ -876,7 +877,7 @@ bool DBManager::isImgExistInAlbum(int UID, const QString &path) const
 
 void DBManager::addCustomAlbumIdByPaths(int UID, const QStringList &paths)
 {
-    qDebug() << "DBManager::addCustomAlbumIdByPaths - Entry";
+    qCDebug(albumLog) << "DBManager::addCustomAlbumIdByPaths - Entry";
     //记录每个图片下关联的相册ID
     QMap<QString, QStringList> path2UidList;
     for (const auto &path : paths) {
@@ -890,7 +891,7 @@ void DBManager::addCustomAlbumIdByPaths(int UID, const QStringList &paths)
     m_query->setForwardOnly(true);
 
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-//        qDebug() << query.lastError();
+//        qCDebug(albumLog) << query.lastError();
     }
     QString qs("UPDATE ImageTable3 SET UID = :uid WHERE PathHash = :ph");
 
@@ -908,21 +909,21 @@ void DBManager::addCustomAlbumIdByPaths(int UID, const QStringList &paths)
             m_query->bindValue(":uid", uidList.join(","));
             m_query->bindValue(":ph", LibUnionImage_NameSpace::hashByString(path));
             if (!m_query->exec()) {
-                //qDebug() << "update uid failed";
+                //qCDebug(albumLog) << "update uid failed";
             }
         }
     }
 
     if (!m_query->exec("COMMIT")) {
-        //qDebug() << m_query->lastError();
+        //qCDebug(albumLog) << m_query->lastError();
     }
     mutex.unlock();
-    qDebug() << "DBManager::addCustomAlbumIdByPaths - Exit";
+    qCDebug(albumLog) << "DBManager::addCustomAlbumIdByPaths - Exit";
 }
 
 void DBManager::removeCustomAlbumIdByPaths(int UID, const QStringList &paths)
 {
-    qDebug() << "DBManager::removeCustomAlbumIdByPaths - Entry";
+    qCDebug(albumLog) << "DBManager::removeCustomAlbumIdByPaths - Entry";
     //记录每个图片下关联的相册ID
     QMap<QString, QStringList> path2UidList;
     for (const auto &path : paths) {
@@ -936,7 +937,7 @@ void DBManager::removeCustomAlbumIdByPaths(int UID, const QStringList &paths)
     m_query->setForwardOnly(true);
 
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-//        qDebug() << query.lastError();
+//        qCDebug(albumLog) << query.lastError();
     }
     QString qs("UPDATE ImageTable3 SET UID = :uid WHERE PathHash = :ph");
 
@@ -953,56 +954,56 @@ void DBManager::removeCustomAlbumIdByPaths(int UID, const QStringList &paths)
         m_query->bindValue(":uid", uidList.size() == 0 ? "-1" : uidList.join(","));
         m_query->bindValue(":ph", LibUnionImage_NameSpace::hashByString(path));
         if (!m_query->exec()) {
-            //qDebug() << "remove uid failed";
+            //qCDebug(albumLog) << "remove uid failed";
         }
 
     }
 
     if (!m_query->exec("COMMIT")) {
-        //qDebug() << m_query->lastError();
+        //qCDebug(albumLog) << m_query->lastError();
     }
     mutex.unlock();
-    qDebug() << "DBManager::removeCustomAlbumIdByPaths - Exit";
+    qCDebug(albumLog) << "DBManager::removeCustomAlbumIdByPaths - Exit";
 }
 
 QString DBManager::getAlbumNameFromUID(int UID) const
 {
-    qDebug() << "DBManager::getAlbumNameFromUID - Entry";
+    qCDebug(albumLog) << "DBManager::getAlbumNameFromUID - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     bool b = m_query->exec(QString("SELECT DISTINCT AlbumName FROM AlbumTable3 WHERE UID=%1").arg(UID));
     if (!b || !m_query->next()) {
-        qDebug() << "DBManager::getAlbumNameFromUID - Exit, exec failed";
+        qCDebug(albumLog) << "DBManager::getAlbumNameFromUID - Exit, exec failed";
         return QString();
     }
 
-    qDebug() << "DBManager::getAlbumNameFromUID - Exit";
+    qCDebug(albumLog) << "DBManager::getAlbumNameFromUID - Exit";
     return m_query->value(0).toString();
 }
 
 AlbumDBType DBManager::getAlbumDBTypeFromUID(int UID) const
 {
-    qDebug() << "DBManager::getAlbumDBTypeFromUID - Entry";
+    qCDebug(albumLog) << "DBManager::getAlbumDBTypeFromUID - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     bool b = m_query->exec(QString("SELECT DISTINCT AlbumDBType FROM AlbumTable3 WHERE UID=%1").arg(UID));
     if (!b || !m_query->next()) {
-        qDebug() << "DBManager::getAlbumDBTypeFromUID - Exit, exec failed";
+        qCDebug(albumLog) << "DBManager::getAlbumDBTypeFromUID - Exit, exec failed";
         return TypeCount;
     }
 
-    qDebug() << "DBManager::getAlbumDBTypeFromUID - Exit";
+    qCDebug(albumLog) << "DBManager::getAlbumDBTypeFromUID - Exit";
     return static_cast<AlbumDBType>(m_query->value(0).toInt());
 }
 
 bool DBManager::isAlbumExistInDB(int UID, AlbumDBType atype) const
 {
-    qDebug() << "DBManager::isAlbumExistInDB - Entry";
+    qCDebug(albumLog) << "DBManager::isAlbumExistInDB - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     bool b = m_query->prepare("SELECT COUNT(*) FROM AlbumTable3 WHERE UID = :UID AND AlbumDBType =:atype");
     if (!b) {
-        qDebug() << "DBManager::isAlbumExistInDB - Exit, exec failed";
+        qCDebug(albumLog) << "DBManager::isAlbumExistInDB - Exit, exec failed";
         return false;
     }
     m_query->bindValue(":UID", UID);
@@ -1011,14 +1012,14 @@ bool DBManager::isAlbumExistInDB(int UID, AlbumDBType atype) const
         m_query->first();
         return (m_query->value(0).toInt() >= 1);
     } else {
-        qDebug() << "DBManager::isAlbumExistInDB - Exit, exec failed";
+        qCDebug(albumLog) << "DBManager::isAlbumExistInDB - Exit, exec failed";
         return false;
     }
 }
 
 int DBManager::createAlbum(const QString &album, const QStringList &paths, AlbumDBType atype)
 {
-    qDebug() << "DBManager::createAlbum - Entry";
+    qCDebug(albumLog) << "DBManager::createAlbum - Entry";
     QMutexLocker mutex(&m_dbMutex);
     int currentUID = albumMaxUID++;
     QStringList pathHashs;
@@ -1031,7 +1032,7 @@ int DBManager::createAlbum(const QString &album, const QStringList &paths, Album
     auto qs = QString("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, \"%1\", ?, %2, %3)").arg(album).arg(atype).arg(currentUID);
     bool b = m_query->prepare(qs);
     if (!b) {
-        qDebug() << "DBManager::createAlbum - Exit, exec failed";
+        qCDebug(albumLog) << "DBManager::createAlbum - Exit, exec failed";
         return -1;
     }
 
@@ -1042,7 +1043,7 @@ int DBManager::createAlbum(const QString &album, const QStringList &paths, Album
     }
 
     if (!m_query->exec("COMMIT")) {
-        qDebug() << "DBManager::createAlbum - Exit, exec failed";
+        qCDebug(albumLog) << "DBManager::createAlbum - Exit, exec failed";
     }
 
     //FIXME: Don't insert the repeated filepath into the same album
@@ -1052,22 +1053,22 @@ int DBManager::createAlbum(const QString &album, const QStringList &paths, Album
                  " UID, PathHash, AlbumDBType) AND PathHash != \"%1\""
                  " AND AlbumDBType =%2 ";
     if (!m_query->exec(ps.arg(EMPTY_HASH_STR).arg(atype))) {
-        //   qDebug() << "delete same date failed!";
+        //   qCDebug(albumLog) << "delete same date failed!";
     }
 
     //把当前UID传出去
-    qDebug() << "DBManager::createAlbum - Exit";
+    qCDebug(albumLog) << "DBManager::createAlbum - Exit";
     return currentUID;
 }
 
 bool DBManager::insertIntoAlbum(int UID, const QStringList &paths, AlbumDBType atype)
 {
-    qDebug() << "DBManager::insertIntoAlbum - Entry";
+    qCDebug(albumLog) << "DBManager::insertIntoAlbum - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
 
     if (!m_query->exec(QString("SELECT DISTINCT AlbumName FROM AlbumTable3 WHERE UID=%1").arg(UID)) || !m_query->next()) {
-        qWarning() << m_query->lastError().text();
+        qCWarning(albumLog) << m_query->lastError().text();
         return false; //没找到这个UID，需要先执行创建
     }
 
@@ -1100,7 +1101,7 @@ bool DBManager::insertIntoAlbum(int UID, const QStringList &paths, AlbumDBType a
                  " UID, PathHash, AlbumDBType) AND PathHash != \"%1\""
                  " AND AlbumDBType = %2 ";
     if (!m_query->exec(ps.arg(EMPTY_HASH_STR).arg(atype))) {
-        //   qDebug() << "delete same date failed!";
+        //   qCDebug(albumLog) << "delete same date failed!";
     }
 
     mutex.unlock();
@@ -1108,22 +1109,22 @@ bool DBManager::insertIntoAlbum(int UID, const QStringList &paths, AlbumDBType a
     //发信号通知上层
 //    emit dApp->signalM->insertedIntoAlbum(UID, paths);
 
-    qDebug() << "DBManager::insertIntoAlbum - Exit";
+    qCDebug(albumLog) << "DBManager::insertIntoAlbum - Exit";
     return true;
 }
 
 void DBManager::removeAlbum(int UID)
 {
-    qDebug() << "DBManager::removeAlbum - Entry";
+    qCDebug(albumLog) << "DBManager::removeAlbum - Entry";
     QMutexLocker mutex(&m_dbMutex);
     if (!m_query->exec(QString("DELETE FROM AlbumTable3 WHERE UID=") + QString::number(UID))) {
     }
-    qDebug() << "DBManager::removeAlbum - Exit";
+    qCDebug(albumLog) << "DBManager::removeAlbum - Exit";
 }
 
 void DBManager::removeFromAlbum(int UID, const QStringList &paths, AlbumDBType atype)
 {
-    qDebug() << "DBManager::removeFromAlbum - Entry";
+    qCDebug(albumLog) << "DBManager::removeFromAlbum - Entry";
     QMutexLocker mutex(&m_dbMutex);
 
     QStringList pathHashs;
@@ -1147,7 +1148,7 @@ void DBManager::removeFromAlbum(int UID, const QStringList &paths, AlbumDBType a
         ;
     }
     mutex.unlock();
-    qDebug() << "DBManager::removeFromAlbum - Exit";
+    qCDebug(albumLog) << "DBManager::removeFromAlbum - Exit";
 //    if (success) {
 //        emit dApp->signalM->removedFromAlbum(UID, paths);
 //    }
@@ -1155,13 +1156,13 @@ void DBManager::removeFromAlbum(int UID, const QStringList &paths, AlbumDBType a
 
 bool DBManager::renameAlbum(int UID, const QString &newAlbum, AlbumDBType atype)
 {
-    qDebug() << "DBManager::renameAlbum - Entry";
+    qCDebug(albumLog) << "DBManager::renameAlbum - Entry";
     QMutexLocker mutex(&m_dbMutex);
     if (!m_query->exec(QString("UPDATE AlbumTable3 SET AlbumName=\"%1\" WHERE UID=%2 AND AlbumDBType=%3").arg(newAlbum).arg(UID).arg(atype))) {
         return false;
     }
 
-    qDebug() << "DBManager::renameAlbum - Exit, return true";
+    qCDebug(albumLog) << "DBManager::renameAlbum - Exit, return true";
     return true;
 }
 
@@ -1171,31 +1172,31 @@ void DBManager::updateClassName2DB(const DBImgInfoList &infos)
 
     m_query->setForwardOnly(true);
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-        //        qDebug() << m_query->lastError();
+        //        qCDebug(albumLog) << m_query->lastError();
     }
 
     QString qs = QString("UPDATE ImageTable3 SET ClassName=:classname WHERE PathHash=:pathhash");
     if (!m_query->prepare(qs)) {
-        //        qDebug() << m_query->lastError();
+        //        qCDebug(albumLog) << m_query->lastError();
     }
 
     for (auto info : infos) {
         m_query->bindValue(":classname", info.className);
         m_query->bindValue(":pathhash", info.pathHash);
         if (!m_query->exec()) {
-            //qDebug() << "update classname failed";
+            //qCDebug(albumLog) << "update classname failed";
         }
     }
 
     if (!m_query->exec("COMMIT")) {
-        //qDebug() << m_query->lastError();
+        //qCDebug(albumLog) << m_query->lastError();
     }
     mutex.unlock();
 }
 
 const DBImgInfoList DBManager::getInfosByNameTimeline(const QString &value) const
 {
-    qDebug() << "DBManager::getInfosByNameTimeline - Entry";
+    qCDebug(albumLog) << "DBManager::getInfosByNameTimeline - Entry";
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
@@ -1218,25 +1219,25 @@ const DBImgInfoList DBManager::getInfosByNameTimeline(const QString &value) cons
             infos << info;
         }
     }
-    qDebug() << "DBManager::getInfosByNameTimeline - Exit";
+    qCDebug(albumLog) << "DBManager::getInfosByNameTimeline - Exit";
     return infos;
 }
 
 const DBImgInfoList DBManager::getInfosForKeyword(const QString &keywords) const
 {
-    qDebug() << "DBManager::getInfosForKeyword - Entry";
+    qCDebug(albumLog) << "DBManager::getInfosForKeyword - Entry";
     const DBImgInfoList list = getInfosByNameTimeline(keywords);
     if (list.count() < 1) {
         return DBImgInfoList();
     } else {
-        qDebug() << "DBManager::getInfosForKeyword - Exit";
+        qCDebug(albumLog) << "DBManager::getInfosForKeyword - Exit";
         return list;
     }
 }
 
 const DBImgInfoList DBManager::getTrashInfosForKeyword(const QString &keywords) const
 {
-    qDebug() << "DBManager::getTrashInfosForKeyword - Entry";
+    qCDebug(albumLog) << "DBManager::getTrashInfosForKeyword - Entry";
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
@@ -1260,13 +1261,13 @@ const DBImgInfoList DBManager::getTrashInfosForKeyword(const QString &keywords) 
             infos << info;
         }
     }
-    qDebug() << "DBManager::getTrashInfosForKeyword - Exit";
+    qCDebug(albumLog) << "DBManager::getTrashInfosForKeyword - Exit";
     return infos;
 }
 
 const DBImgInfoList DBManager::getInfosForKeyword(int UID, const QString &keywords) const
 {
-    qDebug() << "DBManager::getInfosForKeyword - Entry";
+    qCDebug(albumLog) << "DBManager::getInfosForKeyword - Entry";
     QMutexLocker mutex(&m_dbMutex);
 
     DBImgInfoList infos;
@@ -1281,7 +1282,7 @@ const DBImgInfoList DBManager::getInfosForKeyword(int UID, const QString &keywor
     m_query->bindValue(":UID", UID);
 
     if (!b || ! m_query->exec()) {
-        qDebug() << "DBManager::getInfosForKeyword - Exit, exec failed";
+        qCDebug(albumLog) << "DBManager::getInfosForKeyword - Exit, exec failed";
     } else {
         while (m_query->next()) {
             DBImgInfo info;
@@ -1293,13 +1294,13 @@ const DBImgInfoList DBManager::getInfosForKeyword(int UID, const QString &keywor
             infos << info;
         }
     }
-    qDebug() << "DBManager::getInfosForKeyword - Exit";
+    qCDebug(albumLog) << "DBManager::getInfosForKeyword - Exit";
     return infos;
 }
 
 bool DBManager::updateImgPath(const QString &oldPath, const QString &newPath)
 {
-    qDebug() << "DBManager::updateImgPath - Entry";
+    qCDebug(albumLog) << "DBManager::updateImgPath - Entry";
     QString oldHash = LibUnionImage_NameSpace::hashByString(oldPath);
     QString newHash = LibUnionImage_NameSpace::hashByString(newPath);
 
@@ -1307,7 +1308,7 @@ bool DBManager::updateImgPath(const QString &oldPath, const QString &newPath)
 
     // 更新 AlbumTable3 表的 PathHash
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-        qDebug() << m_query->lastError();
+        qCDebug(albumLog) << m_query->lastError();
         return false;
     }
     QString updateAlbumQs = "UPDATE AlbumTable3 SET PathHash=:newHash WHERE PathHash=:oldHash";
@@ -1320,13 +1321,13 @@ bool DBManager::updateImgPath(const QString &oldPath, const QString &newPath)
         return false;
     }
     if (!m_query->exec("COMMIT")) {
-        qDebug() << m_query->lastError();
+        qCDebug(albumLog) << m_query->lastError();
         return false;
     }
 
     // 更新 ImageTable3 表的 PathHash 和 filePath
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-        qDebug() << m_query->lastError();
+        qCDebug(albumLog) << m_query->lastError();
         return false;
     }
     QString updateImageQs = "UPDATE ImageTable3 SET PathHash=:newHash, filePath=:newPath WHERE PathHash=:oldHash";
@@ -1341,16 +1342,16 @@ bool DBManager::updateImgPath(const QString &oldPath, const QString &newPath)
         return false;
     }
     if (!m_query->exec("COMMIT")) {
-    //    qDebug() << m_query->lastError();
+    //    qCDebug(albumLog) << m_query->lastError();
         return false;
     }
-    qDebug() << "DBManager::updateImgPath - Exit, return true";
+    qCDebug(albumLog) << "DBManager::updateImgPath - Exit, return true";
     return true;
 }
 
 const QMultiMap<QString, QString> DBManager::getAllPathAlbumNames() const
 {
-    qDebug() << "DBManager::getAllPathAlbumNames - Entry";
+    qCDebug(albumLog) << "DBManager::getAllPathAlbumNames - Entry";
     QMutexLocker mutex(&m_dbMutex);
 
     QMultiMap<QString, QString> infos;
@@ -1363,19 +1364,19 @@ const QMultiMap<QString, QString> DBManager::getAllPathAlbumNames() const
     m_query->setForwardOnly(true);
     bool b = m_query->prepare(queryStr);
     if (!b || ! m_query->exec()) {
-//        qWarning() << "getAllPathAlbumNames failed: " << query.lastError();
+//        qCWarning(albumLog) << "getAllPathAlbumNames failed: " << query.lastError();
     } else {
         while (m_query->next()) {
             infos.insert(m_query->value(0).toString(), m_query->value(1).toString());
         }
     }
-    qDebug() << "DBManager::getAllPathAlbumNames - Exit";
+    qCDebug(albumLog) << "DBManager::getAllPathAlbumNames - Exit";
     return infos;
 }
 
 const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &value, bool needTimeData) const
 {
-    qDebug() << "DBManager::getImgInfos - Entry";
+    qCDebug(albumLog) << "DBManager::getImgInfos - Entry";
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
@@ -1412,13 +1413,13 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
             }
         }
     }
-    qDebug() << "DBManager::getImgInfos - Exit";
+    qCDebug(albumLog) << "DBManager::getImgInfos - Exit";
     return infos;
 }
 
 bool DBManager::checkCustomAutoImportPathIsNotified(const QString &path)
 {
-    qDebug() << "DBManager::checkCustomAutoImportPathIsNotified - Entry";
+    qCDebug(albumLog) << "DBManager::checkCustomAutoImportPathIsNotified - Entry";
     //检查是否是默认路径，这一段不涉及数据库操作，不需要加锁
     auto defaultPath = getDefaultNotifyPaths();
     auto pathsList = std::get<0>(defaultPath);
@@ -1454,13 +1455,13 @@ bool DBManager::checkCustomAutoImportPathIsNotified(const QString &path)
         }
     }
 
-    qDebug() << "DBManager::checkCustomAutoImportPathIsNotified - Exit, return false";
+    qCDebug(albumLog) << "DBManager::checkCustomAutoImportPathIsNotified - Exit, return false";
     return false;
 }
 
 int DBManager::createNewCustomAutoImportPath(const QString &path, const QString &albumName)
 {
-    qDebug() << "DBManager::createNewCustomAutoImportPath - Entry";
+    qCDebug(albumLog) << "DBManager::createNewCustomAutoImportPath - Entry";
     QMutexLocker mutex(&m_dbMutex);
 
     //1.新建相册
@@ -1478,13 +1479,13 @@ int DBManager::createNewCustomAutoImportPath(const QString &path, const QString 
         return -1;
     }
 
-    qDebug() << "DBManager::createNewCustomAutoImportPath - Exit, return UID";
+    qCDebug(albumLog) << "DBManager::createNewCustomAutoImportPath - Exit, return UID";
     return UID;
 }
 
 void DBManager::removeCustomAutoImportPath(int UID)
 {
-    qDebug() << "DBManager::removeCustomAutoImportPath - Entry";
+    qCDebug(albumLog) << "DBManager::removeCustomAutoImportPath - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
 
@@ -1549,14 +1550,14 @@ void DBManager::removeCustomAutoImportPath(int UID)
 
     //发送信号通知上层
     mutex.unlock();
-    qDebug() << "DBManager::removeCustomAutoImportPath - Exit";
+    qCDebug(albumLog) << "DBManager::removeCustomAutoImportPath - Exit";
 //    emit dApp->signalM->imagesRemoved();
 //    emit dApp->signalM->imagesRemovedPar(paths);
 }
 
 QMap <int, QString> DBManager::getAllCustomAutoImportUIDAndPath()
 {
-    qDebug() << "DBManager::getAllCustomAutoImportUIDAndPath - Entry";
+    qCDebug(albumLog) << "DBManager::getAllCustomAutoImportUIDAndPath - Entry";
     QMap <int, QString> result;
 
     QMutexLocker mutex(&m_dbMutex);
@@ -1570,13 +1571,13 @@ QMap <int, QString> DBManager::getAllCustomAutoImportUIDAndPath()
         result.insert(m_query->value(0).toInt(), m_query->value(1).toString());
     }
 
-    qDebug() << "DBManager::getAllCustomAutoImportUIDAndPath - Exit";
+    qCDebug(albumLog) << "DBManager::getAllCustomAutoImportUIDAndPath - Exit";
     return result;
 }
 
 QStringList DBManager::getAllCustomAutoImportNames()
 {
-    qDebug() << "DBManager::getAllCustomAutoImportNames - Entry";
+    qCDebug(albumLog) << "DBManager::getAllCustomAutoImportNames - Entry";
     QStringList result;
 
     QMutexLocker mutex(&m_dbMutex);
@@ -1590,26 +1591,26 @@ QStringList DBManager::getAllCustomAutoImportNames()
         result.push_back(m_query->value(0).toString());
     }
 
-    qDebug() << "DBManager::getAllCustomAutoImportNames - Exit";
+    qCDebug(albumLog) << "DBManager::getAllCustomAutoImportNames - Exit";
     return result;
 }
 
 void DBManager::checkDatabase()
 {
-    qDebug() << "DBManager::checkDatabase - Entry";
+    qCDebug(albumLog) << "DBManager::checkDatabase - Entry";
     //先建文件夹，再建数据库
     QDir dd(DATABASE_PATH);
     if (! dd.exists()) {
         dd.mkpath(DATABASE_PATH);
-        qDebug() << "Created database directory:" << DATABASE_PATH;
+        qCDebug(albumLog) << "Created database directory:" << DATABASE_PATH;
     }
 
     auto db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
     if (!db.open()) {
-        qCritical() << "Failed to open database:" << db.lastError().text();
+        qCCritical(albumLog) << "Failed to open database:" << db.lastError().text();
     } else {
-        qInfo() << "Database opened successfully";
+        qCInfo(albumLog) << "Database opened successfully";
     }
     m_query = new QSqlQuery(db);
 
@@ -1635,7 +1636,7 @@ void DBManager::checkDatabase()
                                    "ClassName TEXT, "
                                    "primary key(PathHash, UID))"));
     if (!b) {
-        qWarning() << "Failed to create ImageTable3:" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to create ImageTable3:" << m_query->lastError().text();
     }
 
     // AlbumTable3
@@ -1650,7 +1651,7 @@ void DBManager::checkDatabase()
                                    "AlbumDBType INTEGER,"
                                    "UID INTEGER)"));
     if (!c) {
-        qWarning() << "Failed to create AlbumTable3:" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to create AlbumTable3:" << m_query->lastError().text();
     }
     // TrashTable3
     /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1669,7 +1670,7 @@ void DBManager::checkDatabase()
                                    "UID TEXT, "
                                    "ClassName TEXT)"));
     if (!d) {
-        qWarning() << "Failed to create TrashTable3:" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to create TrashTable3:" << m_query->lastError().text();
     }
 
     // 自定义导入路径表
@@ -1683,7 +1684,7 @@ void DBManager::checkDatabase()
                                    "FullPath TEXT, "
                                    "AlbumName TEXT)"));
     if (!e) {
-        qWarning() << "Failed to create CustomAutoImportPathTable3:" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to create CustomAutoImportPathTable3:" << m_query->lastError().text();
     }
 
     // 判断ImageTable3中是否有ChangeTime字段
@@ -1693,32 +1694,32 @@ void DBManager::checkDatabase()
         // 无ChangeTime字段,则增加ChangeTime字段,赋值当前时间
         QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
         if (m_query->exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ChangeTime\" TEXT"))) {
-            qDebug() << "add ChangeTime success";
+            qCDebug(albumLog) << "add ChangeTime success";
         }
     }
 
     // 判断ImageTable3中是否有ImportTime字段
     QString strSqlImportTime = "select sql from sqlite_master where name = 'ImageTable3' and sql like '%ImportTime%'";
     if (!m_query->exec(strSqlImportTime)) {
-        qDebug() << m_query->lastError();
+        qCDebug(albumLog) << m_query->lastError();
     }
     if (!m_query->next()) {
         // 无ImportTime字段,则增加ImportTime字段
         QString strDate = QDateTime::currentDateTime().toString(DATETIME_FORMAT_DATABASE);
         if (m_query->exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"ImportTime\" TEXT"))) {
-            qDebug() << "add ImportTime success";
+            qCDebug(albumLog) << "add ImportTime success";
         }
     }
 
     // 判断ImageTable3中是否有FileType字段，区分是图片还是视频
     if (!m_query->exec("select * from sqlite_master where name = 'ImageTable3' and sql like '%FileType%'")) {
-        qDebug() << "add FileType failed";
+        qCDebug(albumLog) << "add FileType failed";
     }
     if (!m_query->next()) {
         // 无FileType字段,则增加FileType字段,赋值1,默认是图片
         if (m_query->exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"FileType\" INTEGER default \"%1\"")
                           .arg(QString::number(ItemTypePic)))) {
-            qDebug() << "add FileType success";
+            qCDebug(albumLog) << "add FileType success";
         }
     }
 
@@ -1730,7 +1731,7 @@ void DBManager::checkDatabase()
             // DataHash,则增加DataHash字段
             if (m_query->exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"DataHash\" TEXT default \"%1\"")
                               .arg(""))) {
-                qDebug() << "add FileType success";
+                qCDebug(albumLog) << "add FileType success";
             }
         }
     }
@@ -1743,7 +1744,7 @@ void DBManager::checkDatabase()
             // 无UID,则增加UID字段
             if (m_query->exec(QString("ALTER TABLE \"ImageTable3\" ADD COLUMN \"UID\" TEXT default \"%1\"")
                               .arg(""))) {
-                qDebug() << "add UID success";
+                qCDebug(albumLog) << "add UID success";
             }
         }
     }
@@ -1754,7 +1755,7 @@ void DBManager::checkDatabase()
         // 无AlbumDBType字段,则增加AlbumDBType字段, 全部赋值为个人相册
         if (m_query->exec(QString("ALTER TABLE \"AlbumTable3\" ADD COLUMN \"AlbumDBType\" INTEGER default %1")
                           .arg("1"))) {
-            qDebug() << "add AlbumDBType success";
+            qCDebug(albumLog) << "add AlbumDBType success";
         }
         if (m_query->exec(QString("update AlbumTable3 SET AlbumDBType = 0 Where AlbumName = \"%1\" ")
                           .arg(COMMON_STR_FAVORITES))) {
@@ -1770,13 +1771,13 @@ void DBManager::checkDatabase()
         // 无UID字段，则需要主动添加
         if (m_query->exec(QString("ALTER TABLE \"AlbumTable3\" ADD COLUMN \"UID\" INTEGER default %1")
                           .arg("0"))) {
-            qDebug() << "add UID success";
+            qCDebug(albumLog) << "add UID success";
         }
 
         // UID字段添加完成后，还需要主动为其进行赋值
         //1.获取当前已存在的album name，但要确保不能影响到收藏相册
         if (m_query->exec(QString("SELECT DISTINCT \"AlbumName\" FROM \"AlbumTable3\" WHERE AlbumDBType <> %1 ").arg(Favourite))) {
-            qDebug() << "search album name success";
+            qCDebug(albumLog) << "search album name success";
         }
 
         //2.在内存中为其进行编号
@@ -1792,7 +1793,7 @@ void DBManager::checkDatabase()
         //4.写入数据库
         for (auto &currentName : nameList) {
             if (!m_query->exec(QString("UPDATE AlbumTable3 SET UID = %1 WHERE AlbumName = \"%2\"").arg(albumMaxUID++).arg(currentName))) {
-                qDebug() << "update AlbumTable3 UID failed";
+                qCDebug(albumLog) << "update AlbumTable3 UID failed";
             }
         }
 
@@ -1822,7 +1823,7 @@ void DBManager::checkDatabase()
     QString strSqlTrashTable = QString::fromLocal8Bit("select * from sqlite_master where name = \"TrashTable3\"");
     bool build = m_query->exec(strSqlTrashTable);
     if (!build) {
-        qDebug() << m_query->lastError();
+        qCDebug(albumLog) << m_query->lastError();
     }
     if (!m_query->next()) {
         //无新版TrashTable，则创建新表，导入旧表数据
@@ -1837,30 +1838,30 @@ void DBManager::checkDatabase()
                                    "FileType INTEGER, "
                                    "UID TEXT, "
                                    "ClassName TEXT)"))) {
-            qDebug() << m_query->lastError();
+            qCDebug(albumLog) << m_query->lastError();
         }
     } else {
         //判断TrashTable3是否包含FileType
         if (!m_query->exec("select * from sqlite_master where name = \"TrashTable3\" and sql like \"%FileType%\"")) {
-            qDebug() << m_query->lastError();
+            qCDebug(albumLog) << m_query->lastError();
         }
         if (!m_query->next()) {
             // 无FileType字段,则增加FileType字段, 全部赋值为图片
             if (m_query->exec(QString("ALTER TABLE \"TrashTable3\" ADD COLUMN \"FileType\" INTEGER default %1")
                               .arg(QString::number(ItemType::ItemTypePic)))) {
-                qDebug() << "add AlbumDBType success";
+                qCDebug(albumLog) << "add AlbumDBType success";
             }
         }
 
         //判断TrashTable3是否包含UID
         if (!m_query->exec("select * from sqlite_master where name = \"TrashTable3\" and sql like \"%UID%\"")) {
-            qDebug() << m_query->lastError();
+            qCDebug(albumLog) << m_query->lastError();
         }
         if (!m_query->next()) {
             // 无UID字段,则增加UID字段
             if (m_query->exec(QString("ALTER TABLE \"TrashTable3\" ADD COLUMN \"UID\" INTEGER default %1")
                               .arg("-1"))) {
-                qDebug() << "add AlbumDBType success";
+                qCDebug(albumLog) << "add AlbumDBType success";
             }
         }
     }
@@ -1868,37 +1869,37 @@ void DBManager::checkDatabase()
     QString strSqlTrashTableUpdate = QString::fromLocal8Bit("select * from sqlite_master where name = \"TrashTable\"");
     bool update = m_query->exec(strSqlTrashTableUpdate);
     if (!update) {
-        qDebug() << m_query->lastError();
+        qCDebug(albumLog) << m_query->lastError();
     }
     if (m_query->next()) {
         if (!m_query->exec("REPLACE INTO TrashTable3 (PathHash, FilePath, FileName, Dir, Time, ChangeTime)"
                            " SELECT PathHash, FilePath, FileName, Dir, Time, ChangeTime From TrashTable ")) {
-            qDebug() << m_query->lastError();
+            qCDebug(albumLog) << m_query->lastError();
         }
         if (!m_query->exec(QString("DROP TABLE TrashTable"))) {
-            qDebug() << m_query->lastError();
+            qCDebug(albumLog) << m_query->lastError();
         }
     }
 
     //创建索引以加速
     if (!m_query->exec("CREATE INDEX IF NOT EXISTS album_hash_index ON AlbumTable3 (PathHash)")) {
-        qWarning() << "Failed to create album_hash_index:" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to create album_hash_index:" << m_query->lastError().text();
     }
 
     if (!m_query->exec("CREATE INDEX IF NOT EXISTS image_hash_index ON ImageTable3 (PathHash)")) {
-        qWarning() << "Failed to create image_hash_index:" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to create image_hash_index:" << m_query->lastError().text();
     }
 
     if (!m_query->exec("CREATE INDEX IF NOT EXISTS album_hash_uid_index ON AlbumTable3 (PathHash, UID)")) {
-        qWarning() << "Failed to create album_hash_uid_index:" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to create album_hash_uid_index:" << m_query->lastError().text();
     }
 
     if (!m_query->exec("CREATE INDEX IF NOT EXISTS image_hash_uid_index ON ImageTable3 (PathHash, UID)")) {
-        qWarning() << "Failed to create image_hash_uid_index:" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to create image_hash_uid_index:" << m_query->lastError().text();
     }
 
     if (!m_query->exec("CREATE INDEX IF NOT EXISTS trash_hash_index ON TrashTable3 (PathHash)")) {
-        qWarning() << "Failed to create trash_hash_index:" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to create trash_hash_index:" << m_query->lastError().text();
     }
 
     //新版删除需求的数据表策略
@@ -1926,11 +1927,11 @@ void DBManager::checkDatabase()
         // 检查版本并升级（已存在的数据库）
         if (m_query->next()) {
             QString currentVersion = m_query->value(0).toString();
-            qDebug() << "Current database version:" << currentVersion;
+            qCDebug(albumLog) << "Current database version:" << currentVersion;
             
             // 如果是5.9或更早版本，升级到6.0
             if (currentVersion == "5.9" || currentVersion < "6.0") {
-                qDebug() << "Upgrading database from" << currentVersion << "to 6.0";
+                qCDebug(albumLog) << "Upgrading database from" << currentVersion << "to 6.0";
                 
                 // 添加 ClassName 字段
                 checkClassNameColumn("ImageTable3");
@@ -1938,9 +1939,9 @@ void DBManager::checkDatabase()
                 
                 // 更新版本号
                 if (!m_query->exec("UPDATE AlbumVersion SET version = \"6.0\"")) {
-                    qWarning() << "Failed to update version:" << m_query->lastError().text();
+                    qCWarning(albumLog) << "Failed to update version:" << m_query->lastError().text();
                 } else {
-                    qDebug() << "Database upgraded to version 6.0 successfully";
+                    qCDebug(albumLog) << "Database upgraded to version 6.0 successfully";
                 }
             }
         }
@@ -1968,12 +1969,12 @@ void DBManager::checkDatabase()
         });
         watcher.waitForFinished();
     }
-    qDebug() << "DBManager::checkDatabase - Exit";
+    qCDebug(albumLog) << "DBManager::checkDatabase - Exit";
 }
 
 void DBManager::checkTimeColumn(const QString &tableName)
 {
-    qDebug() << "DBManager::checkTimeColumn - Entry";
+    qCDebug(albumLog) << "DBManager::checkTimeColumn - Entry";
     //检查并切换所有时间数据
     if (m_query->exec(QString("SELECT Time, ChangeTime, ImportTime, PathHash FROM %1").arg(tableName))) {
         std::vector<std::tuple<QString, QDateTime, QDateTime, QDateTime>> needUpdate;
@@ -2004,37 +2005,37 @@ void DBManager::checkTimeColumn(const QString &tableName)
             }
         }
     }
-    qDebug() << "DBManager::checkTimeColumn - Exit";
+    qCDebug(albumLog) << "DBManager::checkTimeColumn - Exit";
 }
 
 void DBManager::checkClassNameColumn(const QString &tableName)
 {
-    qDebug() << "DBManager::checkClassNameColumn - Entry";
+    qCDebug(albumLog) << "DBManager::checkClassNameColumn - Entry";
     // 检查表中是否已存在 ClassName 字段
     QString checkSql = QString("SELECT sql FROM sqlite_master WHERE type='table' AND name='%1'").arg(tableName);
     if (m_query->exec(checkSql) && m_query->next()) {
         QString tableSql = m_query->value(0).toString();
         // 如果表定义中不包含 ClassName，则添加该字段
         if (!tableSql.contains("ClassName", Qt::CaseInsensitive)) {
-            qDebug() << "Adding ClassName column to" << tableName;
+            qCDebug(albumLog) << "Adding ClassName column to" << tableName;
             QString alterSql = QString("ALTER TABLE %1 ADD COLUMN ClassName TEXT").arg(tableName);
             if (!m_query->exec(alterSql)) {
-                qWarning() << "Failed to add ClassName column to" << tableName << ":" << m_query->lastError().text();
+                qCWarning(albumLog) << "Failed to add ClassName column to" << tableName << ":" << m_query->lastError().text();
             } else {
-                qDebug() << "Successfully added ClassName column to" << tableName;
+                qCDebug(albumLog) << "Successfully added ClassName column to" << tableName;
             }
         } else {
-            qDebug() << tableName << "already has ClassName column";
+            qCDebug(albumLog) << tableName << "already has ClassName column";
         }
     } else {
-        qWarning() << "Failed to check table" << tableName << ":" << m_query->lastError().text();
+        qCWarning(albumLog) << "Failed to check table" << tableName << ":" << m_query->lastError().text();
     }
-    qDebug() << "DBManager::checkClassNameColumn - Exit";
+    qCDebug(albumLog) << "DBManager::checkClassNameColumn - Exit";
 }
 
 void DBManager::insertSpUID(const QString &albumName, AlbumDBType astype, SpUID UID)
 {
-    qDebug() << "DBManager::insertSpUID - Entry";
+    qCDebug(albumLog) << "DBManager::insertSpUID - Entry";
     //0.路径不存在，BUG#111917，只检查默认路径，不要把收藏也搞进来了，否则会导致后续收藏失败
     if (UID != u_Favorite && !defaultNotifyPathExists(UID)) {
         //路径不存在则删除已有的相册
@@ -2050,21 +2051,21 @@ void DBManager::insertSpUID(const QString &albumName, AlbumDBType astype, SpUID 
     //2.不存在则插入数据
     if (!m_query->exec(QString("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, \"%1\", \"%2\", %3, %4)")
                        .arg(albumName).arg("7215ee9c7d9dc229d2921a40e899ec5f").arg(astype).arg(UID))) {
-        qWarning() << "insertSpUID failed" << m_query->lastError().text();
+        qCWarning(albumLog) << "insertSpUID failed" << m_query->lastError().text();
     }
 
     //2.1.如果是收藏的话，需要对历史收藏的图片进行迁移
     if (UID == u_Favorite) {
         if (!m_query->exec(QString("UPDATE AlbumTable3 SET UID = %1 WHERE AlbumDBType = %2").arg(UID).arg(Favourite))) {
-            qDebug() << "update Favorite failed";
+            qCDebug(albumLog) << "update Favorite failed";
         }
     }
-    qDebug() << "DBManager::insertSpUID - Exit";
+    qCDebug(albumLog) << "DBManager::insertSpUID - Exit";
 }
 
 const DBImgInfoList DBManager::getAllTrashInfos(bool needTimeData) const
 {
-    qDebug() << "DBManager::getAllTrashInfos - Entry";
+    qCDebug(albumLog) << "DBManager::getAllTrashInfos - Entry";
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
@@ -2107,13 +2108,13 @@ const DBImgInfoList DBManager::getAllTrashInfos(bool needTimeData) const
             }
         }
     }
-    qDebug() << "DBManager::getAllTrashInfos - Exit";
+    qCDebug(albumLog) << "DBManager::getAllTrashInfos - Exit";
     return infos;
 }
 
 const DBImgInfoList DBManager::getAllTrashInfos_getRemainDays() const
 {
-    qDebug() << "DBManager::getAllTrashInfos_getRemainDays - Entry";
+    qCDebug(albumLog) << "DBManager::getAllTrashInfos_getRemainDays - Entry";
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
@@ -2135,15 +2136,15 @@ const DBImgInfoList DBManager::getAllTrashInfos_getRemainDays() const
             infos << info;
         }
     }
-    qDebug() << "DBManager::getAllTrashInfos_getRemainDays - Exit";
+    qCDebug(albumLog) << "DBManager::getAllTrashInfos_getRemainDays - Exit";
     return infos;
 }
 
 void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDialog)
 {
-    qDebug() << "DBManager::insertTrashImgInfos - Entry";
+    qCDebug(albumLog) << "DBManager::insertTrashImgInfos - Entry";
     if (infos.isEmpty()) {
-        qDebug() << "DBManager::insertTrashImgInfos - Exit, infos is empty";
+        qCDebug(albumLog) << "DBManager::insertTrashImgInfos - Exit, infos is empty";
         return;
     }
 
@@ -2201,7 +2202,7 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
     //2.向数据库插入数据
     m_query->setForwardOnly(true);
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-        qDebug() << "begin transaction failed.";
+        qCDebug(albumLog) << "begin transaction failed.";
     }
 
     QString qs("REPLACE INTO TrashTable3 "
@@ -2234,21 +2235,21 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
     }
 
     if (!m_query->exec("COMMIT")) {
-        qDebug() << "COMMIT failed.";
+        qCDebug(albumLog) << "COMMIT failed.";
     }
 
     mutex.unlock();
 
-    qDebug() << "DBManager::insertTrashImgInfos - Exit";
+    qCDebug(albumLog) << "DBManager::insertTrashImgInfos - Exit";
 //    //3.通知UI模块有图片删除
 //    emit dApp->signalM->imagesTrashInserted();
 }
 
 void DBManager::removeTrashImgInfos(const QStringList &paths)
 {
-    qDebug() << "DBManager::removeTrashImgInfos - Entry";
+    qCDebug(albumLog) << "DBManager::removeTrashImgInfos - Entry";
     if (paths.isEmpty()) {
-        qDebug() << "DBManager::removeTrashImgInfos - Exit, paths is empty";
+        qCDebug(albumLog) << "DBManager::removeTrashImgInfos - Exit, paths is empty";
         return;
     }
 
@@ -2263,7 +2264,7 @@ void DBManager::removeTrashImgInfos(const QStringList &paths)
 
     // Remove from image table
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-//        qDebug() << "begin transaction failed.";
+//        qCDebug(albumLog) << "begin transaction failed.";
     }
     QString qs("DELETE FROM TrashTable3 WHERE PathHash=:hash");
     if (!m_query->prepare(qs)) {
@@ -2275,7 +2276,7 @@ void DBManager::removeTrashImgInfos(const QStringList &paths)
     }
 
     if (!m_query->exec("COMMIT")) {
-//            qDebug() << "COMMIT failed.";
+//            qCDebug(albumLog) << "COMMIT failed.";
     }
 
     //删除deepin-album-delete下的缓存文件
@@ -2286,18 +2287,18 @@ void DBManager::removeTrashImgInfos(const QStringList &paths)
 
     mutex.unlock();
 //    emit dApp->signalM->imagesTrashRemoved();
-    qDebug() << "DBManager::removeTrashImgInfos - Exit";
+    qCDebug(albumLog) << "DBManager::removeTrashImgInfos - Exit";
 }
 
 QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
 {
-    qDebug() << "DBManager::recoveryImgFromTrash - Entry";
+    qCDebug(albumLog) << "DBManager::recoveryImgFromTrash - Entry";
     if (paths.isEmpty()) {
-        qDebug() << "No images to recover from trash";
+        qCDebug(albumLog) << "No images to recover from trash";
         return QStringList();
     }
 
-    qInfo() << "Attempting to recover" << paths.size() << "images from trash";
+    qCInfo(albumLog) << "Attempting to recover" << paths.size() << "images from trash";
 
     //1.计算路径hash
     QStringList pathHashs;
@@ -2500,7 +2501,7 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
 
             m_query->setForwardOnly(true);
             if (!m_query->exec(QString("SELECT DISTINCT AlbumName, AlbumDBType FROM AlbumTable3 WHERE UID=%1").arg(UID)) || !m_query->next()) {
-                qWarning() << m_query->lastError().text();
+                qCWarning(albumLog) << m_query->lastError().text();
                 //没找到这个UID，执行下一条
                 continue;
             }
@@ -2511,13 +2512,13 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
             //插入数据
             qs = QString("REPLACE INTO AlbumTable3 (AlbumId, AlbumName, PathHash, AlbumDBType, UID) VALUES (null, \"%1\", \"%2\", %3, %4)").arg(album).arg(info.pathHash).arg(atype).arg(UID);
             if (!m_query->exec(qs)) {
-                qWarning() << "insert AlbumTable3 failed" << m_query->lastError().text();
+                qCWarning(albumLog) << "insert AlbumTable3 failed" << m_query->lastError().text();
                 continue;
             }
         }
 
         if (!m_query->exec("COMMIT")) {
-            //        qDebug() << "COMMIT failed.";
+            //        qCDebug(albumLog) << "COMMIT failed.";
         }
 
         mutex.unlock();
@@ -2527,16 +2528,16 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
 //        emit dApp->signalM->imagesInserted();
     }
 
-    qDebug() << "DBManager::recoveryImgFromTrash - Exit, return failedFiles";
+    qCDebug(albumLog) << "DBManager::recoveryImgFromTrash - Exit, return failedFiles";
     //5.返回失败的文件
     return failedFiles;
 }
 
 void DBManager::removeTrashImgInfosNoSignal(const QStringList &paths)
 {
-    qDebug() << "DBManager::removeTrashImgInfosNoSignal - Entry";
+    qCDebug(albumLog) << "DBManager::removeTrashImgInfosNoSignal - Entry";
     if (paths.isEmpty()) {
-        qDebug() << "DBManager::removeTrashImgInfosNoSignal - Exit, paths is empty";
+        qCDebug(albumLog) << "DBManager::removeTrashImgInfosNoSignal - Exit, paths is empty";
         return;
     }
 
@@ -2551,11 +2552,11 @@ void DBManager::removeTrashImgInfosNoSignal(const QStringList &paths)
     //从AlbumTable3删除
     m_query->setForwardOnly(true);
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-//        qDebug() << "begin transaction failed.";
+//        qCDebug(albumLog) << "begin transaction failed.";
     }
     QString qs("DELETE FROM AlbumTable3 WHERE PathHash=:hash");
     if (!m_query->prepare(qs)) {
-        qDebug() << "DBManager::removeTrashImgInfosNoSignal - Exit, prepare failed";
+        qCDebug(albumLog) << "DBManager::removeTrashImgInfosNoSignal - Exit, prepare failed";
     }
     for (const auto &hash : pathHashs) {
         m_query->bindValue(":hash", hash);
@@ -2563,12 +2564,12 @@ void DBManager::removeTrashImgInfosNoSignal(const QStringList &paths)
         }
     }
     if (!m_query->exec("COMMIT")) {
-//        qDebug() << "COMMIT failed.";
+//        qCDebug(albumLog) << "COMMIT failed.";
     }
 
     //从TrashTable3删除
     if (!m_query->exec("BEGIN IMMEDIATE TRANSACTION")) {
-//        qDebug() << "begin transaction failed.";
+//        qCDebug(albumLog) << "begin transaction failed.";
     }
     qs = "DELETE FROM TrashTable3 WHERE PathHash=:hash";
     if (!m_query->prepare(qs)) {
@@ -2579,7 +2580,7 @@ void DBManager::removeTrashImgInfosNoSignal(const QStringList &paths)
         }
     }
     if (!m_query->exec("COMMIT")) {
-//        qDebug() << "COMMIT failed.";
+//        qCDebug(albumLog) << "COMMIT failed.";
     }
 
     //删除deepin-album-delete下的缓存文件
@@ -2587,12 +2588,12 @@ void DBManager::removeTrashImgInfosNoSignal(const QStringList &paths)
         auto deletePath = LibUnionImage_NameSpace::getDeleteFullPath(pathHashs[i], DBImgInfo::getFileNameFromFilePath(paths[i]));
         QFile::remove(deletePath);
     }
-    qDebug() << "DBManager::removeTrashImgInfosNoSignal - Exit";
+    qCDebug(albumLog) << "DBManager::removeTrashImgInfosNoSignal - Exit";
 }
 
 const DBImgInfo DBManager::getTrashInfoByPath(const QString &path) const
 {
-    qDebug() << "DBManager::getTrashInfoByPath - Entry";
+    qCDebug(albumLog) << "DBManager::getTrashInfoByPath - Entry";
     DBImgInfoList list = getTrashImgInfos("FilePath", path);
     if (list.count() != 1) {
         return DBImgInfo();
@@ -2603,7 +2604,7 @@ const DBImgInfo DBManager::getTrashInfoByPath(const QString &path) const
 
 const DBImgInfoList DBManager::getTrashImgInfos(const QString &key, const QString &value) const
 {
-    qDebug() << "DBManager::getTrashImgInfos - Entry";
+    qCDebug(albumLog) << "DBManager::getTrashImgInfos - Entry";
     QMutexLocker mutex(&m_dbMutex);
     DBImgInfoList infos;
     m_query->setForwardOnly(true);
@@ -2613,7 +2614,7 @@ const DBImgInfoList DBManager::getTrashImgInfos(const QString &key, const QStrin
     m_query->bindValue(":value", value);
 
     if (!b || !m_query->exec()) {
-        //  qWarning() << "Get Image from database failed: " << query.lastError();
+        //  qCWarning(albumLog) << "Get Image from database failed: " << query.lastError();
     } else {
         while (m_query->next()) {
             DBImgInfo info;
@@ -2629,13 +2630,13 @@ const DBImgInfoList DBManager::getTrashImgInfos(const QString &key, const QStrin
             infos << info;
         }
     }
-    qDebug() << "DBManager::getTrashImgInfos - Exit";
+    qCDebug(albumLog) << "DBManager::getTrashImgInfos - Exit";
     return infos;
 }
 
 int DBManager::getTrashImgsCount() const
 {
-    qDebug() << "DBManager::getTrashImgsCount - Entry";
+    qCDebug(albumLog) << "DBManager::getTrashImgsCount - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     if (m_query->exec("SELECT COUNT(*) FROM TrashTable3")) {
@@ -2643,13 +2644,13 @@ int DBManager::getTrashImgsCount() const
         int count = m_query->value(0).toInt();
         return count;
     }
-    qDebug() << "DBManager::getTrashImgsCount - Exit, return 0";
+    qCDebug(albumLog) << "DBManager::getTrashImgsCount - Exit, return 0";
     return 0;
 }
 
 int DBManager::getAlbumImgsCount(int UID) const
 {
-    qDebug() << "DBManager::getAlbumImgsCount - Entry";
+    qCDebug(albumLog) << "DBManager::getAlbumImgsCount - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     if (m_query->exec(QString("SELECT COUNT(*) FROM AlbumTable3 WHERE UID=%1 AND PathHash<>\"%2\"")
@@ -2658,13 +2659,13 @@ int DBManager::getAlbumImgsCount(int UID) const
         int count = m_query->value(0).toInt();
         return count;
     }
-    qDebug() << "DBManager::getAlbumImgsCount - Exit, return 0";
+    qCDebug(albumLog) << "DBManager::getAlbumImgsCount - Exit, return 0";
     return 0;
 }
 
 QDateTime DBManager::getFileImportTime(const QString &path)
 {
-    qDebug() << "DBManager::getFileImportTime - Entry";
+    qCDebug(albumLog) << "DBManager::getFileImportTime - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     QDateTime result;
@@ -2672,13 +2673,13 @@ QDateTime DBManager::getFileImportTime(const QString &path)
         m_query->first();
         result = m_query->value(0).toDateTime();
     }
-    qDebug() << "DBManager::getFileImportTime - Exit, return result";
+    qCDebug(albumLog) << "DBManager::getFileImportTime - Exit, return result";
     return result;
 }
 
 QStringList DBManager::getYearPaths(const QString &year, int maxCount)
 {
-    qDebug() << "DBManager::getYearPaths - Entry";
+    qCDebug(albumLog) << "DBManager::getYearPaths - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     QStringList result;
@@ -2688,13 +2689,13 @@ QStringList DBManager::getYearPaths(const QString &year, int maxCount)
             result.push_back(m_query->value(0).toString());
         }
     }
-    qDebug() << "DBManager::getYearPaths - Exit, return result";
+    qCDebug(albumLog) << "DBManager::getYearPaths - Exit, return result";
     return result;
 }
 
 QStringList DBManager::getYears()
 {
-    qDebug() << "DBManager::getYears - Entry";
+    qCDebug(albumLog) << "DBManager::getYears - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     QStringList result;
@@ -2704,13 +2705,13 @@ QStringList DBManager::getYears()
             result.push_back(m_query->value(0).toString());
         }
     }
-    qDebug() << "DBManager::getYears - Exit, return result";
+    qCDebug(albumLog) << "DBManager::getYears - Exit, return result";
     return result;
 }
 
 int DBManager::getYearCount(const QString &year)
 {
-    qDebug() << "DBManager::getYearCount - Entry";
+    qCDebug(albumLog) << "DBManager::getYearCount - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     int result = 0;
@@ -2719,13 +2720,13 @@ int DBManager::getYearCount(const QString &year)
         m_query->first();
         result = m_query->value(0).toInt();
     }
-    qDebug() << "DBManager::getYearCount - Exit, return result";
+    qCDebug(albumLog) << "DBManager::getYearCount - Exit, return result";
     return result;
 }
 
 QStringList DBManager::getMonthPaths(const QString &year, const QString &month, int maxCount)
 {
-    qDebug() << "DBManager::getMonthPaths - Entry";
+    qCDebug(albumLog) << "DBManager::getMonthPaths - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     QStringList result;
@@ -2735,13 +2736,13 @@ QStringList DBManager::getMonthPaths(const QString &year, const QString &month, 
             result.push_back(m_query->value(0).toString());
         }
     }
-    qDebug() << "DBManager::getMonthPaths - Exit, return result";
+    qCDebug(albumLog) << "DBManager::getMonthPaths - Exit, return result";
     return result;
 }
 
 QStringList DBManager::getMonths()
 {
-    qDebug() << "DBManager::getMonths - Entry";
+    qCDebug(albumLog) << "DBManager::getMonths - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     QStringList result;
@@ -2751,13 +2752,13 @@ QStringList DBManager::getMonths()
             result.push_back(m_query->value(0).toString());
         }
     }
-    qDebug() << "DBManager::getMonths - Exit, return result";
+    qCDebug(albumLog) << "DBManager::getMonths - Exit, return result";
     return result;
 }
 
 int DBManager::getMonthCount(const QString &year, const QString &month)
 {
-    qDebug() << "DBManager::getMonthCount - Entry";
+    qCDebug(albumLog) << "DBManager::getMonthCount - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     int result = 0;
@@ -2766,13 +2767,13 @@ int DBManager::getMonthCount(const QString &year, const QString &month)
         m_query->first();
         result = m_query->value(0).toInt();
     }
-    qDebug() << "DBManager::getMonthCount - Exit, return result";
+    qCDebug(albumLog) << "DBManager::getMonthCount - Exit, return result";
     return result;
 }
 
 DBImgInfoList DBManager::getInfosByDay(const QString &day)
 {
-    qDebug() << "DBManager::getInfosByDay - Entry";
+    qCDebug(albumLog) << "DBManager::getInfosByDay - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     DBImgInfoList infos;
@@ -2789,13 +2790,13 @@ DBImgInfoList DBManager::getInfosByDay(const QString &day)
         }
     }
 
-    qDebug() << "DBManager::getInfosByDay - Exit, return infos";
+    qCDebug(albumLog) << "DBManager::getInfosByDay - Exit, return infos";
     return infos;
 }
 
 QStringList DBManager::getDayPaths(const QString &day)
 {
-    qDebug() << "DBManager::getDayPaths - Entry";
+    qCDebug(albumLog) << "DBManager::getDayPaths - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     QStringList result;
@@ -2805,13 +2806,13 @@ QStringList DBManager::getDayPaths(const QString &day)
             result.push_back("file://" + m_query->value(0).toString());
         }
     }
-    qDebug() << "DBManager::getDayPaths - Exit, return result";
+    qCDebug(albumLog) << "DBManager::getDayPaths - Exit, return result";
     return result;
 }
 
 QStringList DBManager::getDays()
 {
-    qDebug() << "DBManager::getDays - Entry";
+    qCDebug(albumLog) << "DBManager::getDays - Entry";
     QMutexLocker mutex(&m_dbMutex);
     m_query->setForwardOnly(true);
     QStringList result;
@@ -2821,6 +2822,6 @@ QStringList DBManager::getDays()
             result.push_back(m_query->value(0).toString());
         }
     }
-    qDebug() << "DBManager::getDays - Exit, return result";
+    qCDebug(albumLog) << "DBManager::getDays - Exit, return result";
     return result;
 }

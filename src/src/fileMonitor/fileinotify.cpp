@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "fileinotify.h"
+#include "ddlog.h"
 #include "unionimage/unionimage.h"
 #include "dbmanager/dbmanager.h"
 
@@ -27,7 +28,7 @@ FileInotify::FileInotify(QObject *parent)
     : QObject(parent)
     , m_Supported(LibUnionImage_NameSpace::unionImageSupportFormat() + LibUnionImage_NameSpace::videoFiletypes()) //图片+视频
 {
-    qDebug() << "Initializing FileInotify with supported formats:" << m_Supported;
+    qCDebug(albumLog) << "Initializing FileInotify with supported formats:" << m_Supported;
 
     for (auto &eachData : m_Supported) {
         eachData = eachData.toUpper();
@@ -37,7 +38,7 @@ FileInotify::FileInotify(QObject *parent)
     connect(m_timer, &QTimer::timeout, this, &FileInotify::onNeedSendPictures);
 
     connect(&m_watcher, &QFileSystemWatcher::directoryChanged, this, [this](const QString & path) {
-        qDebug() << "Directory change detected in:" << path;
+        qCDebug(albumLog) << "Directory change detected in:" << path;
 
         // 检查是否有待创建的目录已经被创建
         checkPendingDirectories(path);
@@ -49,13 +50,13 @@ FileInotify::FileInotify(QObject *parent)
 
 FileInotify::~FileInotify()
 {
-    qDebug() << "Cleaning up FileInotify resources";
+    qCDebug(albumLog) << "Cleaning up FileInotify resources";
     clear();
 }
 
 void FileInotify::checkNewPath()
 {
-    qDebug() << "Checking for new paths in monitored directories";
+    qCDebug(albumLog) << "Checking for new paths in monitored directories";
 
     // 检查现有监控目录的子目录
     for (const auto &currentDir : m_currentDirs) {
@@ -69,7 +70,7 @@ void FileInotify::checkNewPath()
         });
 
         if (!dirs.isEmpty()) {
-            qDebug() << "Adding new subdirectories to watch:" << dirs;
+            qCDebug(albumLog) << "Adding new subdirectories to watch:" << dirs;
             m_watcher.addPaths(dirs);
         }
     }
@@ -80,7 +81,7 @@ void FileInotify::checkNewPath()
         QFileInfo pendingInfo(pendingDir);
         if (pendingInfo.exists() && pendingInfo.isDir()) {
             newlyCreatedDirs.append(pendingDir);
-            qInfo() << "Pending directory now exists:" << pendingDir;
+            qCInfo(albumLog) << "Pending directory now exists:" << pendingDir;
         }
     }
 
@@ -92,7 +93,7 @@ void FileInotify::checkNewPath()
 
 void FileInotify::addWather(const QStringList &paths, const QString &album, int UID)
 {
-    qDebug() << "Adding watch for paths:" << paths << "Album:" << album << "UID:" << UID;
+    qCDebug(albumLog) << "Adding watch for paths:" << paths << "Album:" << album << "UID:" << UID;
 
     m_currentAlbum = album;
     m_currentUID = UID;
@@ -107,7 +108,7 @@ void FileInotify::addWather(const QStringList &paths, const QString &album, int 
             existingPaths.append(path);
         } else {
             nonExistingPaths.append(path);
-            qDebug() << "Path does not exist, will try parent monitoring:" << path;
+            qCDebug(albumLog) << "Path does not exist, will try parent monitoring:" << path;
         }
     }
 
@@ -117,7 +118,7 @@ void FileInotify::addWather(const QStringList &paths, const QString &album, int 
     // 为存在的路径添加直接监听
     if (!existingPaths.isEmpty()) {
         m_watcher.addPaths(existingPaths);
-        qDebug() << "Added direct monitoring for existing paths:" << existingPaths;
+        qCDebug(albumLog) << "Added direct monitoring for existing paths:" << existingPaths;
     }
 
     // 为不存在的路径设置父级监听
@@ -129,9 +130,9 @@ void FileInotify::addWather(const QStringList &paths, const QString &album, int 
         if (parentInfo.exists() && parentInfo.isDir()) {
             addParentWatcher(parentPath, path);
             m_pendingDirs.append(path);
-            qDebug() << "Added parent monitoring for non-existing path:" << path << "parent:" << parentPath;
+            qCDebug(albumLog) << "Added parent monitoring for non-existing path:" << path << "parent:" << parentPath;
         } else {
-            qWarning() << "Cannot monitor path, parent directory does not exist:" << path << "parent:" << parentPath;
+            qCWarning(albumLog) << "Cannot monitor path, parent directory does not exist:" << path << "parent:" << parentPath;
         }
     }
 
@@ -152,7 +153,7 @@ void FileInotify::addWather(const QStringList &paths, const QString &album, int 
 
 void FileInotify::clear()
 {
-    qDebug() << "Clearing FileInotify state";
+    qCDebug(albumLog) << "Clearing FileInotify state";
     m_Supported.clear();
     m_newFile.clear();
     m_deleteFile.clear();
@@ -172,12 +173,12 @@ void FileInotify::clear()
 
 void FileInotify::getAllPicture(bool isFirst)
 {
-    qDebug() << "Getting all pictures, isFirst:" << isFirst;
+    qCDebug(albumLog) << "Getting all pictures, isFirst:" << isFirst;
     QFileInfoList list;
     for (int i = 0; i != m_currentDirs.size(); ++i) {
         QDir dir(m_currentDirs[i]);
         if (!dir.exists()) {
-            qWarning() << "Directory no longer exists, removing from watch:" << m_currentDirs[i];
+            qCWarning(albumLog) << "Directory no longer exists, removing from watch:" << m_currentDirs[i];
             m_currentDirs.removeAt(i);
             --i;
             continue;
@@ -188,7 +189,7 @@ void FileInotify::getAllPicture(bool isFirst)
     }
 
     if (m_currentDirs.isEmpty()) { //文件夹被删除，清理数据库
-        qWarning() << "All monitored directories were removed, cleaning up database for UID:" << m_currentUID;
+        qCWarning(albumLog) << "All monitored directories were removed, cleaning up database for UID:" << m_currentUID;
         DBManager::instance()->removeCustomAutoImportPath(m_currentUID);
         m_deleteFile = DBManager::instance()->getPathsByAlbum(m_currentUID);
         m_newFile.clear();
@@ -215,7 +216,7 @@ void FileInotify::getAllPicture(bool isFirst)
     //筛选出新增图片文件
     for (auto path : filePaths) {
         if (!allPaths.contains(path) && !m_newFile.contains(path)) {
-            qDebug() << "New file detected:" << path;
+            qCDebug(albumLog) << "New file detected:" << path;
             m_newFile << path;
             //对视频文件标记为待监控（不记录大小，在onNeedSendPictures末尾记录）
             if (LibUnionImage_NameSpace::isVideo(path)) {
@@ -228,7 +229,7 @@ void FileInotify::getAllPicture(bool isFirst)
     if (!isFirst) {
         for (auto path : allPaths) {
             if (!filePaths.contains(path)) {
-                qDebug() << "File removed:" << path;
+                qCDebug(albumLog) << "File removed:" << path;
                 m_deleteFile << path;
             }
         }
@@ -253,7 +254,7 @@ void FileInotify::getAllPicture(bool isFirst)
 //            QString filename = fileinfo.fileName();
 //            filename += m_currentDir;
 //            if (!m_allPic.contains(filename)) {
-//                qDebug() << "filename add: " << filename;
+//                qCDebug(albumLog) << "filename add: " << filename;
 //                m_allPic << filename;
 //            }
 //        }
@@ -262,25 +263,25 @@ void FileInotify::getAllPicture(bool isFirst)
 
 void FileInotify::onNeedSendPictures()
 {
-    qDebug() << "Processing file changes";
+    qCDebug(albumLog) << "Processing file changes";
     checkNewPath();
     getAllPicture(false);
 
     //发送导入
     if (!m_newFile.isEmpty() || !m_deleteFile.isEmpty()) {
-        qInfo() << "Emitting monitor changed signal - New files:" << m_newFile.size()
+        qCInfo(albumLog) << "Emitting monitor changed signal - New files:" << m_newFile.size()
                 << "Deleted files:" << m_deleteFile.size();
         emit sigMonitorChanged(m_newFile, m_deleteFile, m_currentAlbum, m_currentUID);
 
         if (m_newFile.size() > 100) {
-            qDebug() << "Clearing large new file list";
+            qCDebug(albumLog) << "Clearing large new file list";
             QStringList().swap(m_newFile); //强制清理内存
         } else {
             m_newFile.clear();
         }
 
         if (m_deleteFile.size() > 100) {
-            qDebug() << "Clearing large delete file list";
+            qCDebug(albumLog) << "Clearing large delete file list";
             QStringList().swap(m_deleteFile); //强制清理内存
         } else {
             m_deleteFile.clear();
@@ -330,13 +331,13 @@ void FileInotify::onNeedSendPictures()
 
 void FileInotify::addParentWatcher(const QString &parentPath, const QString &targetChild)
 {
-    qDebug() << "Adding parent watcher for:" << parentPath << "target child:" << targetChild;
+    qCDebug(albumLog) << "Adding parent watcher for:" << parentPath << "target child:" << targetChild;
 
     // 检查是否已经监听了这个父级目录
     if (!m_parentDirs.contains(parentPath)) {
         m_parentDirs.append(parentPath);
         m_watcher.addPath(parentPath);
-        qDebug() << "Started monitoring parent directory:" << parentPath;
+        qCDebug(albumLog) << "Started monitoring parent directory:" << parentPath;
     }
 
     // 建立父级目录到子目录的映射
@@ -346,13 +347,13 @@ void FileInotify::addParentWatcher(const QString &parentPath, const QString &tar
 
     if (!m_parentToChildren[parentPath].contains(targetChild)) {
         m_parentToChildren[parentPath].append(targetChild);
-        qDebug() << "Added target child mapping:" << parentPath << "->" << targetChild;
+        qCDebug(albumLog) << "Added target child mapping:" << parentPath << "->" << targetChild;
     }
 }
 
 void FileInotify::checkPendingDirectories(const QString &changedPath)
 {
-    qDebug() << "Checking pending directories for changed path:" << changedPath;
+    qCDebug(albumLog) << "Checking pending directories for changed path:" << changedPath;
 
     // 检查是否有待创建的目录位于变化的路径下
     QStringList foundDirs;
@@ -362,7 +363,7 @@ void FileInotify::checkPendingDirectories(const QString &changedPath)
         // 如果待创建目录的父级路径就是变化的路径，并且现在已经存在
         if (pendingInfo.absolutePath() == changedPath && pendingInfo.exists() && pendingInfo.isDir()) {
             foundDirs.append(pendingDir);
-            qInfo() << "Found newly created target directory:" << pendingDir;
+            qCInfo(albumLog) << "Found newly created target directory:" << pendingDir;
         }
     }
 
@@ -376,7 +377,7 @@ void FileInotify::checkPendingDirectories(const QString &changedPath)
 
         // 添加直接监听
         m_watcher.addPath(foundDir);
-        qInfo() << "Added direct monitoring for newly created directory:" << foundDir;
+        qCInfo(albumLog) << "Added direct monitoring for newly created directory:" << foundDir;
 
         // 检查是否可以移除父级监听
         QString parentPath = QFileInfo(foundDir).absolutePath();
@@ -388,7 +389,7 @@ void FileInotify::checkPendingDirectories(const QString &changedPath)
                 m_parentToChildren.remove(parentPath);
                 m_parentDirs.removeAll(parentPath);
                 m_watcher.removePath(parentPath);
-                qDebug() << "Removed parent monitoring for:" << parentPath;
+                qCDebug(albumLog) << "Removed parent monitoring for:" << parentPath;
             }
         }
 
