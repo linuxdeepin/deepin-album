@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2023 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2023-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "rubberband.h"
+#include "ddlog.h"
 
 #include <QApplication>
 #include <QStyleOptionRubberBand>
@@ -11,19 +12,19 @@
 RubberBand::RubberBand(QQuickItem *parent)
     : QQuickPaintedItem(parent)
 {
-    qDebug() << "RubberBand::RubberBand - Constructor entry";
+    qCDebug(albumLog) << "RubberBand::RubberBand - Constructor entry";
 }
 
 RubberBand::~RubberBand()
 {
-    // qDebug() << "RubberBand::~RubberBand - Destructor entry";
+    // qCDebug(albumLog) << "RubberBand::~RubberBand - Destructor entry";
 }
 
 void RubberBand::paint(QPainter *painter)
 {
-    // qDebug() << "RubberBand::paint - Function entry";
+    // qCDebug(albumLog) << "RubberBand::paint - Function entry";
     if (!qApp || !qApp->style()) {
-        // qDebug() << "RubberBand::paint - Branch: no app or style, returning";
+        // qCDebug(albumLog) << "RubberBand::paint - Branch: no app or style, returning";
         return;
     }
 
@@ -36,12 +37,12 @@ void RubberBand::paint(QPainter *painter)
     opt.opaque = false;
     opt.rect = contentsBoundingRect().toRect();
     qApp->style()->drawControl(QStyle::CE_RubberBand, &opt, painter);
-    // qDebug() << "RubberBand::paint - Function exit";
+    // qCDebug(albumLog) << "RubberBand::paint - Function exit";
 }
 
 bool RubberBand::intersects(const QRectF &rect) const
 {
-    // qDebug() << "RubberBand::intersects - Function entry, rect:" << rect;
+    // qCDebug(albumLog) << "RubberBand::intersects - Function entry, rect:" << rect;
     return m_geometry.intersects(rect);
 }
 
@@ -51,7 +52,7 @@ void RubberBand::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeo
 void RubberBand::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
 #endif
 {
-    // qDebug() << "RubberBand::geometryChanged/Change - Function entry, newGeometry:" << newGeometry << "oldGeometry:" << oldGeometry;
+    // qCDebug(albumLog) << "RubberBand::geometryChanged/Change - Function entry, newGeometry:" << newGeometry << "oldGeometry:" << oldGeometry;
     Q_UNUSED(oldGeometry);
 
     m_geometry = newGeometry;
@@ -60,5 +61,5 @@ void RubberBand::geometryChange(const QRectF &newGeometry, const QRectF &oldGeom
 #else
     QQuickItem::geometryChange(newGeometry, oldGeometry);
 #endif
-    // qDebug() << "RubberBand::geometryChanged/Change - Function exit";
+    // qCDebug(albumLog) << "RubberBand::geometryChanged/Change - Function exit";
 }

@@ -10,6 +10,7 @@
 */
 
 #include "mouseeventlistener.h"
+#include "ddlog.h"
 
 #include <QDebug>
 #include <QEvent>
@@ -29,7 +30,7 @@ MouseEventListener::MouseEventListener(QQuickItem *parent)
     , m_enableMouse(true)
     , m_acceptedButtons(Qt::LeftButton)
 {
-    qDebug() << "Initializing MouseEventListener";
+    qCDebug(albumLog) << "Initializing MouseEventListener";
     m_pressAndHoldTimer = new QTimer(this);
     m_pressAndHoldTimer->setSingleShot(true);
     connect(m_pressAndHoldTimer, &QTimer::timeout, this, &MouseEventListener::handlePressAndHold);
@@ -39,29 +40,29 @@ MouseEventListener::MouseEventListener(QQuickItem *parent)
 
 MouseEventListener::~MouseEventListener()
 {
-    qDebug() << "Destroying MouseEventListener";
+    qCDebug(albumLog) << "Destroying MouseEventListener";
 }
 
 Qt::MouseButtons MouseEventListener::acceptedButtons() const
 {
-    // qDebug() << "MouseEventListener::acceptedButtons - Function entry, returning:" << m_acceptedButtons;
+    // qCDebug(albumLog) << "MouseEventListener::acceptedButtons - Function entry, returning:" << m_acceptedButtons;
     return m_acceptedButtons;
 }
 
 Qt::CursorShape MouseEventListener::cursorShape() const
 {
-    // qDebug() << "MouseEventListener::cursorShape - Function entry, returning:" << cursor().shape();
+    // qCDebug(albumLog) << "MouseEventListener::cursorShape - Function entry, returning:" << cursor().shape();
     return cursor().shape();
 }
 
 void MouseEventListener::setCursorShape(Qt::CursorShape shape)
 {
-    // qDebug() << "MouseEventListener::setCursorShape - Function entry, shape:" << shape;
+    // qCDebug(albumLog) << "MouseEventListener::setCursorShape - Function entry, shape:" << shape;
     if (cursor().shape() == shape || !m_enableMouse) {
         return;
     }
 
-    qDebug() << "Setting cursor shape from" << cursor().shape() << "to" << shape;
+    qCDebug(albumLog) << "Setting cursor shape from" << cursor().shape() << "to" << shape;
     setCursor(shape);
 
     Q_EMIT cursorShapeChanged();
@@ -69,70 +70,70 @@ void MouseEventListener::setCursorShape(Qt::CursorShape shape)
 
 bool MouseEventListener::enableMouse()
 {
-    // qDebug() << "MouseEventListener::enableMouse - Function entry, returning:" << m_enableMouse;
+    // qCDebug(albumLog) << "MouseEventListener::enableMouse - Function entry, returning:" << m_enableMouse;
     return m_enableMouse;
 }
 
 void MouseEventListener::setEnableMouse(bool enable)
 {
-    // qDebug() << "MouseEventListener::setEnableMouse - Function entry, enable:" << enable;
+    // qCDebug(albumLog) << "MouseEventListener::setEnableMouse - Function entry, enable:" << enable;
     m_enableMouse = enable;
 }
 
 void MouseEventListener::setAcceptedButtons(Qt::MouseButtons buttons)
 {
-    // qDebug() << "MouseEventListener::setAcceptedButtons - Function entry, buttons:" << buttons;
+    // qCDebug(albumLog) << "MouseEventListener::setAcceptedButtons - Function entry, buttons:" << buttons;
     if (buttons == m_acceptedButtons) {
-        // qDebug() << "MouseEventListener::setAcceptedButtons - Branch: buttons unchanged";
+        // qCDebug(albumLog) << "MouseEventListener::setAcceptedButtons - Branch: buttons unchanged";
         return;
     }
 
-    qDebug() << "Setting accepted buttons from" << m_acceptedButtons << "to" << buttons;
+    qCDebug(albumLog) << "Setting accepted buttons from" << m_acceptedButtons << "to" << buttons;
     m_acceptedButtons = buttons;
     Q_EMIT acceptedButtonsChanged();
 }
 
 void MouseEventListener::setHoverEnabled(bool enable)
 {
-    // qDebug() << "MouseEventListener::setHoverEnabled - Function entry, enable:" << enable;
+    // qCDebug(albumLog) << "MouseEventListener::setHoverEnabled - Function entry, enable:" << enable;
     if (enable == acceptHoverEvents()) {
-        // qDebug() << "MouseEventListener::setHoverEnabled - Branch: enable unchanged";
+        // qCDebug(albumLog) << "MouseEventListener::setHoverEnabled - Branch: enable unchanged";
         return;
     }
 
-    qDebug() << "Setting hover enabled from" << acceptHoverEvents() << "to" << enable;
+    qCDebug(albumLog) << "Setting hover enabled from" << acceptHoverEvents() << "to" << enable;
     setAcceptHoverEvents(enable);
     Q_EMIT hoverEnabledChanged(enable);
 }
 
 bool MouseEventListener::hoverEnabled() const
 {
-    // qDebug() << "MouseEventListener::hoverEnabled - Function entry, returning:" << acceptHoverEvents();
+    // qCDebug(albumLog) << "MouseEventListener::hoverEnabled - Function entry, returning:" << acceptHoverEvents();
     return acceptHoverEvents();
 }
 
 bool MouseEventListener::isPressed() const
 {
-    // qDebug() << "MouseEventListener::isPressed - Function entry, returning:" << m_pressed;
+    // qCDebug(albumLog) << "MouseEventListener::isPressed - Function entry, returning:" << m_pressed;
     return m_pressed;
 }
 
 void MouseEventListener::hoverEnterEvent(QHoverEvent *event)
 {
-    // qDebug() << "MouseEventListener::hoverEnterEvent - Function entry, event:" << event;
+    // qCDebug(albumLog) << "MouseEventListener::hoverEnterEvent - Function entry, event:" << event;
     Q_UNUSED(event);
 
     if (!m_enableMouse)
         return;
 
-    qDebug() << "Mouse entered at position:" << event->pos();
+    qCDebug(albumLog) << "Mouse entered at position:" << event->pos();
     m_containsMouse = true;
     Q_EMIT containsMouseChanged(true);
 }
 
 void MouseEventListener::hoverLeaveEvent(QHoverEvent *event)
 {
-    // qDebug() << "MouseEventListener::hoverLeaveEvent - Function entry, event:" << event;
+    // qCDebug(albumLog) << "MouseEventListener::hoverLeaveEvent - Function entry, event:" << event;
     Q_UNUSED(event);
 
     if (!m_enableMouse)
@@ -144,9 +145,9 @@ void MouseEventListener::hoverLeaveEvent(QHoverEvent *event)
 
 void MouseEventListener::hoverMoveEvent(QHoverEvent *event)
 {
-    // qDebug() << "MouseEventListener::hoverMoveEvent - Function entry, event:" << event;
+    // qCDebug(albumLog) << "MouseEventListener::hoverMoveEvent - Function entry, event:" << event;
     if (m_lastEvent == event || !m_enableMouse) {
-        // qDebug() << "MouseEventListener::hoverMoveEvent - Branch: event or enableMouse is false";
+        // qCDebug(albumLog) << "MouseEventListener::hoverMoveEvent - Branch: event or enableMouse is false";
         return;
     }
 
@@ -166,20 +167,20 @@ void MouseEventListener::hoverMoveEvent(QHoverEvent *event)
                                nullptr,
                                Qt::MouseEventNotSynthesized);
     Q_EMIT positionChanged(&dme);
-    // qDebug() << "MouseEventListener::hoverMoveEvent - Function exit";
+    // qCDebug(albumLog) << "MouseEventListener::hoverMoveEvent - Function exit";
 }
 
 bool MouseEventListener::containsMouse() const
 {
-    // qDebug() << "MouseEventListener::containsMouse - Function entry, returning:" << m_containsMouse;
+    // qCDebug(albumLog) << "MouseEventListener::containsMouse - Function entry, returning:" << m_containsMouse;
     return m_containsMouse;
 }
 
 void MouseEventListener::mousePressEvent(QMouseEvent *me)
 {
-    // qDebug() << "MouseEventListener::mousePressEvent - Function entry, me:" << me;
+    // qCDebug(albumLog) << "MouseEventListener::mousePressEvent - Function entry, me:" << me;
     if (m_lastEvent == me || !(me->buttons() & m_acceptedButtons) || !m_enableMouse) {
-        // qDebug() << "MouseEventListener::mousePressEvent - Branch: event or acceptedButtons or enableMouse is false";
+        // qCDebug(albumLog) << "MouseEventListener::mousePressEvent - Branch: event or acceptedButtons or enableMouse is false";
         me->setAccepted(false);
         return;
     }
@@ -193,7 +194,7 @@ void MouseEventListener::mousePressEvent(QMouseEvent *me)
     }
 
     if (!QRectF(mapToScene(QPoint(0, 0)) + viewPosition, QSizeF(width(), height())).contains(me->screenPos())) {
-        qDebug() << "Mouse press ignored - outside bounds at position:" << me->screenPos();
+        qCDebug(albumLog) << "Mouse press ignored - outside bounds at position:" << me->screenPos();
         me->ignore();
         return;
     }
@@ -230,20 +231,20 @@ void MouseEventListener::mousePressEvent(QMouseEvent *me)
     }
 
     m_pressAndHoldTimer->start(QGuiApplication::styleHints()->mousePressAndHoldInterval());
-    // qDebug() << "MouseEventListener::mousePressEvent - Function exit";
+    // qCDebug(albumLog) << "MouseEventListener::mousePressEvent - Function exit";
 }
 
 void MouseEventListener::mouseMoveEvent(QMouseEvent *me)
 {
-    // qDebug() << "MouseEventListener::mouseMoveEvent - Function entry, me:" << me;
+    // qCDebug(albumLog) << "MouseEventListener::mouseMoveEvent - Function entry, me:" << me;
     if (m_lastEvent == me || !(me->buttons() & m_acceptedButtons) || !m_enableMouse) {
-        // qDebug() << "MouseEventListener::mouseMoveEvent - Branch: event or acceptedButtons or enableMouse is false";
+        // qCDebug(albumLog) << "MouseEventListener::mouseMoveEvent - Branch: event or acceptedButtons or enableMouse is false";
         me->setAccepted(false);
         return;
     }
 
     if (QPointF(me->screenPos() - m_buttonDownPos).manhattanLength() > QGuiApplication::styleHints()->startDragDistance() && m_pressAndHoldTimer->isActive()) {
-        qDebug() << "Cancelling press and hold - mouse moved beyond drag distance";
+        qCDebug(albumLog) << "Cancelling press and hold - mouse moved beyond drag distance";
         m_pressAndHoldTimer->stop();
     }
 
@@ -259,17 +260,17 @@ void MouseEventListener::mouseMoveEvent(QMouseEvent *me)
     Q_EMIT positionChanged(&dme);
 
     if (dme.isAccepted()) {
-        // qDebug() << "MouseEventListener::mouseMoveEvent - Branch: dme is accepted";
+        // qCDebug(albumLog) << "MouseEventListener::mouseMoveEvent - Branch: dme is accepted";
         me->setAccepted(true);
     }
-    // qDebug() << "MouseEventListener::mouseMoveEvent - Function exit";
+    // qCDebug(albumLog) << "MouseEventListener::mouseMoveEvent - Function exit";
 }
 
 void MouseEventListener::mouseReleaseEvent(QMouseEvent *me)
 {
-    // qDebug() << "MouseEventListener::mouseReleaseEvent - Function entry, me:" << me;
+    // qCDebug(albumLog) << "MouseEventListener::mouseReleaseEvent - Function entry, me:" << me;
     if (m_lastEvent == me || !m_enableMouse) {
-        // qDebug() << "MouseEventListener::mouseReleaseEvent - Branch: event or enableMouse is false";
+        // qCDebug(albumLog) << "MouseEventListener::mouseReleaseEvent - Branch: event or enableMouse is false";
         me->setAccepted(false);
         return;
     }
@@ -288,7 +289,7 @@ void MouseEventListener::mouseReleaseEvent(QMouseEvent *me)
     Q_EMIT pressedChanged();
 
     if (boundingRect().contains(me->pos()) && m_pressAndHoldTimer->isActive()) {
-        qDebug() << "Mouse clicked at position:" << me->pos();
+        qCDebug(albumLog) << "Mouse clicked at position:" << me->pos();
         Q_EMIT clicked(&dme);
         m_pressAndHoldTimer->stop();
     }
@@ -296,14 +297,14 @@ void MouseEventListener::mouseReleaseEvent(QMouseEvent *me)
     if (dme.isAccepted()) {
         me->setAccepted(true);
     }
-    // qDebug() << "MouseEventListener::mouseReleaseEvent - Function exit";
+    // qCDebug(albumLog) << "MouseEventListener::mouseReleaseEvent - Function exit";
 }
 
 void MouseEventListener::wheelEvent(QWheelEvent *we)
 {
-    // qDebug() << "MouseEventListener::wheelEvent - Function entry, we:" << we;
+    // qCDebug(albumLog) << "MouseEventListener::wheelEvent - Function entry, we:" << we;
     if (m_lastEvent == we || !m_enableMouse) {
-        // qDebug() << "MouseEventListener::wheelEvent - Branch: event or enableMouse is false";
+        // qCDebug(albumLog) << "MouseEventListener::wheelEvent - Branch: event or enableMouse is false";
         we->setAccepted(false);
         return;
     }
@@ -324,12 +325,12 @@ void MouseEventListener::wheelEvent(QWheelEvent *we)
                                Qt::Vertical /* HACK, deprecated, remove */);
 #endif
     Q_EMIT wheelMoved(&dwe);
-    // qDebug() << "MouseEventListener::wheelEvent - Function exit";
+    // qCDebug(albumLog) << "MouseEventListener::wheelEvent - Function exit";
 }
 
 void MouseEventListener::handlePressAndHold()
 {
-    // qDebug() << "MouseEventListener::handlePressAndHold - Function entry";
+    // qCDebug(albumLog) << "MouseEventListener::handlePressAndHold - Function entry";
     if (!m_enableMouse)
         return;
 
@@ -343,26 +344,26 @@ void MouseEventListener::handlePressAndHold()
 
 bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
 {
-    // qDebug() << "MouseEventListener::childMouseEventFilter - Function entry, item:" << item << "event:" << event;
+    // qCDebug(albumLog) << "MouseEventListener::childMouseEventFilter - Function entry, item:" << item << "event:" << event;
     if (!isEnabled() || !m_enableMouse) {
-        // qDebug() << "MouseEventListener::childMouseEventFilter - Branch: isEnabled or enableMouse is false";
+        // qCDebug(albumLog) << "MouseEventListener::childMouseEventFilter - Branch: isEnabled or enableMouse is false";
         return false;
     }
 
     // don't filter other mouseeventlisteners
     if (qobject_cast<MouseEventListener *>(item)) {
-        // qDebug() << "MouseEventListener::childMouseEventFilter - Branch: item is a MouseEventListener";
+        // qCDebug(albumLog) << "MouseEventListener::childMouseEventFilter - Branch: item is a MouseEventListener";
         return false;
     }
 
     switch (event->type()) {
     case QEvent::MouseButtonPress: {
-        // qDebug() << "MouseEventListener::childMouseEventFilter - Branch: MouseButtonPress";
+        // qCDebug(albumLog) << "MouseEventListener::childMouseEventFilter - Branch: MouseButtonPress";
         m_lastEvent = event;
         QMouseEvent *me = static_cast<QMouseEvent *>(event);
 
         if (!(me->buttons() & m_acceptedButtons)) {
-            // qDebug() << "MouseEventListener::childMouseEventFilter - Branch: buttons not accepted";
+            // qCDebug(albumLog) << "MouseEventListener::childMouseEventFilter - Branch: buttons not accepted";
             break;
         }
 
@@ -403,7 +404,7 @@ bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
         break;
     }
     case QEvent::HoverMove: {
-        // qDebug() << "MouseEventListener::childMouseEventFilter - Branch: HoverMove";
+        // qCDebug(albumLog) << "MouseEventListener::childMouseEventFilter - Branch: HoverMove";
         if (!acceptHoverEvents()) {
             break;
         }
@@ -419,7 +420,7 @@ bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
 
         KDeclarativeMouseEvent
         dme(myPos.x(), myPos.y(), screenPos.x(), screenPos.y(), Qt::NoButton, Qt::NoButton, he->modifiers(), nullptr, Qt::MouseEventNotSynthesized);
-        // qDebug() << "positionChanged..." << dme.x() << dme.y();
+        // qCDebug(albumLog) << "positionChanged..." << dme.x() << dme.y();
         Q_EMIT positionChanged(&dme);
 
         if (dme.isAccepted()) {
@@ -428,7 +429,7 @@ bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
         break;
     }
     case QEvent::MouseMove: {
-        // qDebug() << "MouseEventListener::childMouseEventFilter - Branch: MouseMove";
+        // qCDebug(albumLog) << "MouseEventListener::childMouseEventFilter - Branch: MouseMove";
         m_lastEvent = event;
         QMouseEvent *me = static_cast<QMouseEvent *>(event);
         if (!(me->buttons() & m_acceptedButtons)) {
@@ -449,7 +450,7 @@ bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
         // stop the pressandhold if mouse moved enough
         if (QPointF(me->screenPos() - m_buttonDownPos).manhattanLength() > QGuiApplication::styleHints()->startDragDistance()
                 && m_pressAndHoldTimer->isActive()) {
-            qDebug() << "Cancelling press and hold - mouse moved beyond drag distance";
+            qCDebug(albumLog) << "Cancelling press and hold - mouse moved beyond drag distance";
             m_pressAndHoldTimer->stop();
 
             // if the mouse moves and we are waiting to emit a press and hold event, update the coordinates
@@ -474,7 +475,7 @@ bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
         break;
     }
     case QEvent::MouseButtonRelease: {
-        // qDebug() << "MouseEventListener::childMouseEventFilter - Branch: MouseButtonRelease";
+        // qCDebug(albumLog) << "MouseEventListener::childMouseEventFilter - Branch: MouseButtonRelease";
         m_lastEvent = event;
         QMouseEvent *me = static_cast<QMouseEvent *>(event);
 
@@ -495,7 +496,7 @@ bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
 
         if (QPointF(me->screenPos() - m_buttonDownPos).manhattanLength() <= QGuiApplication::styleHints()->startDragDistance()
                 && m_pressAndHoldTimer->isActive()) {
-            qDebug() << "Child mouse clicked at position:" << myPos;
+            qCDebug(albumLog) << "Child mouse clicked at position:" << myPos;
             Q_EMIT clicked(&dme);
             m_pressAndHoldTimer->stop();
         }
@@ -506,14 +507,14 @@ bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
         break;
     }
     case QEvent::UngrabMouse: {
-        // qDebug() << "MouseEventListener::childMouseEventFilter - Branch: UngrabMouse";
+        // qCDebug(albumLog) << "MouseEventListener::childMouseEventFilter - Branch: UngrabMouse";
         m_lastEvent = event;
-        qDebug() << "Mouse ungrab event received";
+        qCDebug(albumLog) << "Mouse ungrab event received";
         handleUngrab();
         break;
     }
     case QEvent::Wheel: {
-        // qDebug() << "MouseEventListener::childMouseEventFilter - Branch: Wheel";
+        // qCDebug(albumLog) << "MouseEventListener::childMouseEventFilter - Branch: Wheel";
         m_lastEvent = event;
         QWheelEvent *we = static_cast<QWheelEvent *>(event);
 #if (QT_VERSION >= QT_VERSION_CHECK(5,15,2))
@@ -538,27 +539,27 @@ bool MouseEventListener::childMouseEventFilter(QQuickItem *item, QEvent *event)
         break;
     }
 
-    // qDebug() << "MouseEventListener::childMouseEventFilter - Function exit";
+    // qCDebug(albumLog) << "MouseEventListener::childMouseEventFilter - Function exit";
     return QQuickItem::childMouseEventFilter(item, event);
 }
 
 QScreen *MouseEventListener::screenForGlobalPos(const QPoint &globalPos)
 {
-    // qDebug() << "MouseEventListener::screenForGlobalPos - Function entry, globalPos:" << globalPos;
+    // qCDebug(albumLog) << "MouseEventListener::screenForGlobalPos - Function entry, globalPos:" << globalPos;
     const auto screens = QGuiApplication::screens();
     for (QScreen *screen : screens) {
         if (screen->geometry().contains(globalPos)) {
-            // qDebug() << "MouseEventListener::screenForGlobalPos - Branch: found screen for position";
+            // qCDebug(albumLog) << "MouseEventListener::screenForGlobalPos - Branch: found screen for position";
             return screen;
         }
     }
-    // qDebug() << "MouseEventListener::screenForGlobalPos - Function exit, returning nullptr";
+    // qCDebug(albumLog) << "MouseEventListener::screenForGlobalPos - Function exit, returning nullptr";
     return nullptr;
 }
 
 void MouseEventListener::mouseUngrabEvent()
 {
-    qDebug() << "Mouse ungrab event received";
+    qCDebug(albumLog) << "Mouse ungrab event received";
     handleUngrab();
 
     QQuickItem::mouseUngrabEvent();
@@ -566,7 +567,7 @@ void MouseEventListener::mouseUngrabEvent()
 
 void MouseEventListener::touchUngrabEvent()
 {
-    qDebug() << "Touch ungrab event received";
+    qCDebug(albumLog) << "Touch ungrab event received";
     handleUngrab();
 
     QQuickItem::touchUngrabEvent();
@@ -574,12 +575,12 @@ void MouseEventListener::touchUngrabEvent()
 
 void MouseEventListener::handleUngrab()
 {
-    qDebug() << "MouseEventListener::handleUngrab - Function entry";
+    qCDebug(albumLog) << "MouseEventListener::handleUngrab - Function entry";
     if (!m_enableMouse)
         return;
 
     if (m_pressed) {
-        qDebug() << "Handling ungrab while pressed";
+        qCDebug(albumLog) << "Handling ungrab while pressed";
         m_pressAndHoldTimer->stop();
 
         m_pressed = false;
@@ -587,5 +588,5 @@ void MouseEventListener::handleUngrab()
 
         Q_EMIT canceled();
     }
-    qDebug() << "MouseEventListener::handleUngrab - Function exit";
+    qCDebug(albumLog) << "MouseEventListener::handleUngrab - Function exit";
 }
