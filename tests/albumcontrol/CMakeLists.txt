@@ -30,6 +30,7 @@ add_executable(test_albumcontrol
 )
 
 target_include_directories(test_albumcontrol PRIVATE
+    "${CMAKE_SOURCE_DIR}/src"
     "${CMAKE_SOURCE_DIR}/src/src"
     "${CMAKE_SOURCE_DIR}/tests/3rdparty/stub"
     ${3rd_lib_INCLUDE_DIRS}
