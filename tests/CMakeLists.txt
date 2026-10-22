@@ -32,6 +32,7 @@ function(add_album_gtest target)
     target_compile_definitions(${target} PRIVATE BUILD_TESTING)
 
     target_include_directories(${target} PRIVATE
+        "${CMAKE_SOURCE_DIR}/src"
         "${CMAKE_SOURCE_DIR}/src/src"
         "${CMAKE_SOURCE_DIR}/tests/3rdparty/stub"
         "${CMAKE_CURRENT_SOURCE_DIR}"
@@ -142,3 +143,6 @@ add_subdirectory(importtimelineview)
 
 # TimeLineView 单元测试
 add_subdirectory(timelineview)
+
+# RotateImageHelper 单元测试
+add_subdirectory(rotateimagehelper)

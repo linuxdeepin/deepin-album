@@ -34,6 +34,7 @@ add_executable(test_thumbnailview
 target_compile_definitions(test_thumbnailview PRIVATE BUILD_TESTING)
 
 target_include_directories(test_thumbnailview PRIVATE
+    "${CMAKE_SOURCE_DIR}/src"
     "${CMAKE_SOURCE_DIR}/src/src"
     "${CMAKE_SOURCE_DIR}/tests/3rdparty/stub"
     "${CMAKE_CURRENT_SOURCE_DIR}"
