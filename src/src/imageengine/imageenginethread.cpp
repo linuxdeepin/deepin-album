@@ -13,6 +13,7 @@
 #include <QSet>
 
 #include <QDirIterator>
+#include <QFile>
 
 ImageEngineThreadObject::ImageEngineThreadObject()
 {
@@ -166,6 +167,16 @@ void ImportImagesThread::runDetail()
         //当前文件存在和可读
         QFileInfo info(imagePath);
         if (info.exists() && info.isReadable()) {
+            // Verify actual readability via open() — isReadable() only checks DAC
+            // permission bits and does not detect MAC/LSM policy blocks (e.g.
+            // filearmor) that intercept open() while leaving access() untouched.
+            QFile file(imagePath);
+            if (!file.open(QIODevice::ReadOnly)) {
+                qCWarning(albumLog) << "Skipping file blocked by access control:" << imagePath;
+                continue;
+            }
+            file.close();
+
             //去掉不支持的图片和视频
             bool bIsVideo = LibUnionImage_NameSpace::isVideo(imagePath);
             if (!bIsVideo && !LibUnionImage_NameSpace::imageSupportRead(imagePath)) {
