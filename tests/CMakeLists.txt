@@ -146,3 +146,15 @@ add_subdirectory(timelineview)
 
 # RotateImageHelper 单元测试
 add_subdirectory(rotateimagehelper)
+
+# Types 单元测试
+add_subdirectory(types)
+
+# CursorTool 单元测试
+add_subdirectory(cursortool)
+
+# Classifyutils 单元测试
+add_subdirectory(classifyutils)
+
+# Eventlogutils 单元测试
+add_subdirectory(eventlogutils)
