@@ -158,3 +158,9 @@ add_subdirectory(classifyutils)
 
 # Eventlogutils 单元测试
 add_subdirectory(eventlogutils)
+
+# MouseTrackItem 单元测试
+add_subdirectory(declarative)
+
+# ToolButton 单元测试
+add_subdirectory(widgets)
