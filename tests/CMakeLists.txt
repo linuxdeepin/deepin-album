@@ -62,7 +62,7 @@ function(add_album_gtest target)
 
     include(GoogleTest)
     gtest_discover_tests(${target}
-        PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen"
+        PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen;DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus"
     )
 endfunction()
 
@@ -164,3 +164,9 @@ add_subdirectory(declarative)
 
 # ToolButton 单元测试
 add_subdirectory(widgets)
+
+# OcrInterface 单元测试
+add_subdirectory(ocr)
+
+# PrintHelper 单元测试
+add_subdirectory(printdialog)
