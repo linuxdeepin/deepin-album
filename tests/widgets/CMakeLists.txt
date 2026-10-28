@@ -4,3 +4,7 @@
 add_album_gtest(test_toolbutton
     test_toolbutton.cpp
 )
+
+add_album_gtest(test_noresultwidget
+    test_noresultwidget.cpp
+)
