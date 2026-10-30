@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.13)
 # ---- 确保依赖包在测试作用域可见 ----
 find_package(GTest REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} CONFIG REQUIRED COMPONENTS
-    Core Gui DBus Concurrent Sql Svg PrintSupport Test
+    Core Gui Quick DBus Concurrent Sql Svg PrintSupport Test
 )
 find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS Widget Gui Declarative)
 find_package(PkgConfig REQUIRED)
@@ -29,6 +29,9 @@ add_executable(test_thumbnailview
     test_ThumbnailModel.cpp
     test_Positioner.cpp
     test_QImageItem.cpp
+    test_EventGenerator.cpp
+    test_ItemViewAdapter.cpp
+    test_RubberBand.cpp
 )
 
 target_compile_definitions(test_thumbnailview PRIVATE BUILD_TESTING)
@@ -47,6 +50,7 @@ target_link_libraries(test_thumbnailview PRIVATE
     GTest::gtest_main
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Gui
+    Qt${QT_VERSION_MAJOR}::Quick
     Qt${QT_VERSION_MAJOR}::DBus
     Qt${QT_VERSION_MAJOR}::Concurrent
     Qt${QT_VERSION_MAJOR}::Sql

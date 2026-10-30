@@ -12,3 +12,7 @@ add_album_gtest(test_noresultwidget
 add_album_gtest(test_expansionmenu
     test_expansionmenu.cpp
 )
+
+add_album_gtest(test_timelinedatewidget
+    test_TimeLineDateWidget.cpp
+)
