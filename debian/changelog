@@ -1,3 +1,15 @@
+deepin-album (6.0.70) unstable; urgency=medium
+
+  * docs(album): add Portuguese help manual
+  * test: add unit tests for multiple modules
+  * fix(log): categorize logs for multiple modules
+  * fix(log): add log category and DConfig dynamic log filtering
+  * fix(filter-combobox): unify icon size and width
+  * fix(sidebar): align camera/screenshot icon style
+  * fix: correct empty state text in recently deleted filter
+
+ -- re2zero <yangwu@uniontech.com>  Fri, 30 Oct 2026 13:48:49 +0800
+
 deepin-album (6.0.69) unstable; urgency=medium
 
   * test(thumbnailview): add unit tests for Positioner and ThumbnailModel methods
