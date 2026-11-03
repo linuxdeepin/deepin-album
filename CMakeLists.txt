@@ -43,6 +43,7 @@ add_subdirectory(src)
 
 # Unit Tests
 if(BUILD_TESTS)
+    enable_testing()
     add_subdirectory(tests)
 endif()
 TARGET_COMPILE_DEFINITIONS(deepin-album
