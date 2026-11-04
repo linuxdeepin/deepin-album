@@ -109,6 +109,9 @@ add_subdirectory(devicehelper)
 add_subdirectory(filetrashhelper)
 
 # FileControl 单元测试
+
+# ApplicationAdaptor 单元测试
+add_subdirectory(applicationadaptor)
 add_subdirectory(filecontrol)
 
 # FileInotify 单元测试
