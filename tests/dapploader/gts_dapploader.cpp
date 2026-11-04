@@ -6,6 +6,7 @@
 #include <gtest/gtest.h>
 
 #include <QDebug>
+#include <QGuiApplication>
 #include <DAppLoader>
 
 DQUICK_USE_NAMESPACE
@@ -36,17 +37,18 @@ void tst_DAppLoader::TearDown()
     qDebug() << "*****************" << __FUNCTION__;
 }
 
-TEST_F(tst_DAppLoader, DAppLoader_createApplication)
+TEST_F(tst_DAppLoader, DAppLoader_pluginPaths)
 {
     qDebug() << "Lib Name: " << LIB_NAME
-             << endl << "Lib Path: " << LIB_PATH;
+             << "Lib Path: " << LIB_PATH;
 
-    // 通过 libdtkdeclarative-dev 开发包中提供的 DAppLoader 类，解析本项目生成的 lib 文件。
-    // 由于开发调试时，本项目生成的 lib 是被 exe 直接链接的，所以需要测试实际场景下(使用 DAppLoader 加载库)的使用方式是否正常。
+    // Qt6 版 DtkDeclarative 的 DAppLoader 不再提供 createApplication，
+    // 此处验证 DAppLoader 基本接口（插件路径管理）可用。
     DAppLoader appLoader(LIB_NAME, LIB_PATH);
-    QGuiApplication *app = appLoader.createApplication(qArgc , qArgv);
+    appLoader.addPluginPath(LIB_PATH);
 
-    ASSERT_TRUE(app);
+    EXPECT_TRUE(appLoader.pluginPaths().contains(LIB_PATH));
+    EXPECT_NE(DAppLoader::instance(), nullptr);
 }
 
 int main(int argc, char *argv[])
@@ -54,6 +56,12 @@ int main(int argc, char *argv[])
     qArgc = argc;
     qArgv = argv;
 
+    // 无显示环境（如 CI）时回退到 offscreen 平台
+    if (qEnvironmentVariableIsEmpty("QT_QPA_PLATFORM")) {
+        qputenv("QT_QPA_PLATFORM", "offscreen");
+    }
+
+    QGuiApplication app(qArgc, qArgv);
     testing::InitGoogleTest(&argc, argv);
 
     return RUN_ALL_TESTS();
