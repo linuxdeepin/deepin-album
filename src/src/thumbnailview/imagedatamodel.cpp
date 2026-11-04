@@ -9,6 +9,7 @@
 #include "albumControl.h"
 #include <QDebug>
 
+#include <QElapsedTimer>
 #include <QUrl>
 
 ImageDataModel::ImageDataModel(QObject *parent)
