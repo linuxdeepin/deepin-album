@@ -6,13 +6,14 @@ set(TEST_DAPPLOADER gts_dapploader)
 add_definitions(-DLIB_NAME="${CMAKE_PROJECT_NAME}")
 add_definitions(-DLIB_PATH="${CMAKE_BINARY_DIR}/src")
 
-find_package(Qt5Test REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Test)
+find_package(Dtk${DTK_VERSION_MAJOR}Declarative REQUIRED)
 
 add_executable(${TEST_DAPPLOADER} gts_dapploader.cpp)
 
 target_link_libraries(${TEST_DAPPLOADER}
-    Qt5::Test
-    ${DtkDeclarative_LIBRARIES}
+    Qt${QT_VERSION_MAJOR}::Test
+    Dtk${DTK_VERSION_MAJOR}::Declarative
     -lgtest
     -lpthread
     )
