@@ -24,7 +24,7 @@ Menu {
     readonly property bool navigationMenuVisible: !isNullImage && naviLoader.imageNeedNavi
     property bool rotatable: !isNullImage && FileControl.isRotatable(imageSource.toString())
     property bool supportOcr: !isNullImage && FileControl.isCanSupportOcr(imageSource)
-    property bool supportWallpaper: !isNullImage && FileControl.isSupportSetWallpaper(imageSource)
+    property bool supportWallpaper: SetWallpaperConfig.visible && !isNullImage && FileControl.isSupportSetWallpaper(imageSource)
     property bool canExport: FileControl.pathExists(imageSource) && FileControl.isImage(imageSource) && !FileControl.isVideo(imageSource)
 
     maxVisibleItems: 20

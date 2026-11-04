@@ -54,7 +54,7 @@ Item {
         canDelete = FileControl.isCanDelete(GStatus.selectedPaths)
         canViewPhotoInfo = GStatus.selectedPaths.length === 1 && FileControl.isImage(GStatus.selectedPaths[0])
         canViewVideoInfo = GStatus.selectedPaths.length === 1 && !FileControl.isImage(GStatus.selectedPaths[0])
-        canWallpaper = GStatus.selectedPaths.length === 1 && FileControl.isSupportSetWallpaper(GStatus.selectedPaths[0]) && !isInTrash
+        canWallpaper = SetWallpaperConfig.visible && GStatus.selectedPaths.length === 1 && FileControl.isSupportSetWallpaper(GStatus.selectedPaths[0]) && !isInTrash
         canRotate = FileControl.isRotatable(GStatus.selectedPaths) && !isInTrash
         canDisplayInFolder = GStatus.selectedPaths.length === 1 && FileControl.pathExists(GStatus.selectedPaths[0]) && !isInTrash
         canPrint = FileControl.isCanPrint(GStatus.selectedPaths) && GStatus.selectedPaths.length >= 1 && !isInTrash
@@ -178,7 +178,8 @@ Item {
 
     // 执行设置壁纸操作
     function executeSetWallpaper() {
-        if (GStatus.selectedPaths.length > 0)
+        // DConfig 配置为 false 时不执行（覆盖来自 C++ 时间线控件的快捷键调用）
+        if (SetWallpaperConfig.visible && GStatus.selectedPaths.length > 0)
             FileControl.setWallpaper(GStatus.selectedPaths[0])
     }
 

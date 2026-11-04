@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020-2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -27,6 +27,7 @@
 #include "unionimage/imageutils.h"
 #include "unionimage/unionimage.h"
 #include "globalstatus.h"
+#include "setwallpaperconfig.h"
 #include "albumControl.h"
 //#include "imageengine/imageengineapi.h"
 //#include "imageengine/imageenginethread.h"
@@ -787,6 +788,12 @@ void ThumbnailListView::updateMenuContents()
         action->setVisible(true);
         action->setEnabled(true);
     }
+    // DConfig 配置为 false 时整体隐藏“设置为壁纸”（覆盖源文件不存在等提前返回的分支）
+    if (!SetWallpaperConfig::instance()->visible()) {
+        if (QAction *wallpaperAction = m_MenuActionMap.value(tr("Set as wallpaper"))) {
+            wallpaperAction->setVisible(false);
+        }
+    }
     //源文件不存在时的菜单
     if (1 == paths.length()) {
         QFileInfo info(paths[0]);
@@ -960,7 +967,10 @@ void ThumbnailListView::updateMenuContents()
 
     if ((1 == paths.length() || QFileInfo(paths[0]).suffix().contains("gif"))) {
         DBImgInfo data = selectedIndexes().at(0).data(Qt::DisplayRole).value<DBImgInfo>();
-        if (data.itemType == ItemTypePic && QFileInfo(paths[0]).isReadable() && Libutils::base::isSupportWallpaper(paths[0])) {
+        // DConfig 配置控制整体显示/隐藏，默认显示
+        if (SetWallpaperConfig::instance()->visible()
+                && data.itemType == ItemTypePic && QFileInfo(paths[0]).isReadable()
+                && Libutils::base::isSupportWallpaper(paths[0])) {
             m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(true);
         } else {
             m_MenuActionMap.value(tr("Set as wallpaper"))->setVisible(false);

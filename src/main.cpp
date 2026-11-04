@@ -10,6 +10,7 @@
 #include "src/declarative/pathviewrangehandler.h"
 #include "src/globalcontrol.h"
 #include "src/globalstatus.h"
+#include "src/setwallpaperconfig.h"
 #include "src/types.h"
 #include "src/imagedata/imageinfo.h"
 #include "src/imagedata/imagesourcemodel.h"
@@ -109,6 +110,8 @@ int main(int argc, char *argv[])
     FileControl fileControl;
     engine.rootContext()->setContextProperty("FileControl", &fileControl);
     GlobalStatus::instance()->setFileControl(&fileControl);
+    // DConfig：控制“设置为壁纸”项的显示/隐藏（默认显示）
+    engine.rootContext()->setContextProperty("SetWallpaperConfig", SetWallpaperConfig::instance());
     // 光标位置查询工具
     CursorTool cursorTool;
     engine.rootContext()->setContextProperty("CursorTool", &cursorTool);

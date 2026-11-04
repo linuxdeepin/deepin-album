@@ -28,6 +28,7 @@ find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS
     Widget
     Gui
     Declarative
+    Core
 )
 
 # 三方库
@@ -88,6 +89,7 @@ target_link_libraries(${BIN_NAME}
     Dtk${DTK_VERSION_MAJOR}::Widget
     Dtk${DTK_VERSION_MAJOR}::Gui
     Dtk${DTK_VERSION_MAJOR}::Declarative
+    Dtk${DTK_VERSION_MAJOR}::Core
     GL
     pthread
     ${3rd_lib_LIBRARIES}
@@ -117,3 +119,13 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/translations
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/src/assets/deepin-album
     DESTINATION ${CMAKE_INSTALL_PREFIX}/share/deepin-manual/manual-assets/application/
     FILES_MATCHING PATTERN "*")
+
+#DConfig 配置元数据（安装到 share/dsg/configs/org.deepin.album/）
+set(ALBUM_APPID org.deepin.album)
+set(ALBUM_DCONFIG_FILE ${PROJECT_SOURCE_DIR}/assets/org.deepin.album.json)
+if(COMMAND dconfig_meta_files)
+    dconfig_meta_files(APPID ${ALBUM_APPID} FILES ${ALBUM_DCONFIG_FILE})
+else()
+    message(STATUS "dconfig_meta_files not available, install meta file directly")
+    install(FILES ${ALBUM_DCONFIG_FILE} DESTINATION share/dsg/configs/${ALBUM_APPID})
+endif()
