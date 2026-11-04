@@ -59,13 +59,13 @@ cmake -S "${SOURCE_DIR}" -B "${BUILD_DIR}" "${cmake_args[@]}"
 
 # ---- 编译 ----
 echo "[3/4] 编译测试目标..."
-cmake --build "${BUILD_DIR}" --parallel "$(nproc)" --target test_thumbnaillistview test_albumcontrol
+cmake --build "${BUILD_DIR}" --parallel "$(nproc)" --target test_thumbnaillistview test_albumcontrol test_setwallpaperconfig
 
 # ---- 运行测试 ----
 echo "[4/4] 运行测试..."
 export QT_QPA_PLATFORM=offscreen
 
-test_targets=("test_thumbnaillistview" "test_albumcontrol")
+test_targets=("test_thumbnaillistview" "test_albumcontrol" "test_setwallpaperconfig")
 overall_failed=0
 
 for target in "${test_targets[@]}"; do

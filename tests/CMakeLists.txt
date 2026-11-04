@@ -9,7 +9,7 @@ function(add_album_gtest target)
     find_package(Qt${QT_VERSION_MAJOR} CONFIG REQUIRED COMPONENTS
         Core Gui DBus Concurrent Sql Svg PrintSupport Test
     )
-    find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS Widget Gui Declarative)
+    find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS Widget Gui Declarative Core)
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(3rd_lib REQUIRED libavformat)
     pkg_check_modules(dfmmount REQUIRED dfm${DTK_VERSION_MAJOR}-mount)
@@ -54,6 +54,7 @@ function(add_album_gtest target)
         Dtk${DTK_VERSION_MAJOR}::Widget
         Dtk${DTK_VERSION_MAJOR}::Gui
         Dtk${DTK_VERSION_MAJOR}::Declarative
+        Dtk${DTK_VERSION_MAJOR}::Core
         ${3rd_lib_LIBRARIES}
         ${dfmmount_LIBRARIES}
         GL
@@ -92,6 +93,9 @@ add_subdirectory(imagedatamodel)
 
 # GlobalStatus 单元测试
 add_subdirectory(globalstatus)
+
+# SetWallpaperConfig 单元测试
+add_subdirectory(setwallpaperconfig)
 
 # GlobalControl 单元测试
 add_subdirectory(globalcontrol)

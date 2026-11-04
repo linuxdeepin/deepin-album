@@ -8,7 +8,7 @@ find_package(GTest REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} CONFIG REQUIRED COMPONENTS
     Core Gui DBus Concurrent Sql Svg PrintSupport Test
 )
-find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS Widget Gui Declarative)
+find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS Widget Gui Declarative Core)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(3rd_lib REQUIRED libavformat)
 pkg_check_modules(dfmmount REQUIRED dfm${DTK_VERSION_MAJOR}-mount)
@@ -51,6 +51,7 @@ target_link_libraries(test_thumbnaillistview PRIVATE
     Dtk${DTK_VERSION_MAJOR}::Widget
     Dtk${DTK_VERSION_MAJOR}::Gui
     Dtk${DTK_VERSION_MAJOR}::Declarative
+    Dtk${DTK_VERSION_MAJOR}::Core
     ${3rd_lib_LIBRARIES}
     ${dfmmount_LIBRARIES}
     GL

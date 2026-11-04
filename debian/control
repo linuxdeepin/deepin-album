@@ -13,6 +13,7 @@ Build-Depends:
  qt6-svg-dev,
  qt6-declarative-dev,
 # Dtk
+ libdtk6core-dev,
  libdtk6gui-dev,
  libdtk6widget-dev,
  libdtk6declarative-dev,

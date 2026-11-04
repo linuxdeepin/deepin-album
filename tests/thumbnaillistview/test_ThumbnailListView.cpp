@@ -95,6 +95,7 @@
 #include <memory>
 #include <QSignalSpy>
 #include <QAction>
+#include <QTemporaryFile>
 
 #include "widgets/thumbnail/thumbnaillistview.h"
 #include "widgets/thumbnail/thumbnaildelegate.h"
@@ -107,6 +108,8 @@
 #include <QScroller>
 #include <QScrollBar>
 #include "albumControl.h"
+#include "setwallpaperconfig.h"
+#include "unionimage/baseutils.h"
 
 #include "stubext.h"
 #include "addr_pri.h"
@@ -1497,4 +1500,140 @@ TEST_F(ThumbnailListViewTest, MousePressEvent_LeftButtonDoubleClick_EmitsDoubleC
 
     // Assert - second press within 200ms → emit doubleClicked
     EXPECT_EQ(spy.count(), 1);
+}
+
+// ============ DConfig gate: Set as wallpaper visibility ============
+
+TEST_F(ThumbnailListViewTest, UpdateMenuContents_DConfigHidden_WallpaperActionNotVisible)
+{
+    // Arrange
+    auto view = createView(ThumbnailDelegate::AllPicViewType);
+    auto *model = getModel(view.get());
+    appendRow(model, makeInfo("nonexistent.jpg", ItemTypePic));
+    view->selectionModel()->select(model->index(0, 0), QItemSelectionModel::Select);
+
+    // Populate full menu action map
+    auto &map = access_private_field::ThumbnailListViewm_MenuActionMap(*view);
+    map.insert(QStringLiteral("View"), new QAction(view.get()));
+    auto *fullscreenAction = new QAction(view.get());
+    auto *slideShowAction = new QAction(view.get());
+    auto *exportAction = new QAction(view.get());
+    auto *copyAction = new QAction(view.get());
+    auto *deleteAction = new QAction(view.get());
+    auto *removeAction = new QAction(view.get());
+    auto *favoriteAction = new QAction(view.get());
+    auto *unfavoriteAction = new QAction(view.get());
+    auto *rotateCwAction = new QAction(view.get());
+    auto *rotateCcwAction = new QAction(view.get());
+    auto *wallpaperAction = new QAction(view.get());
+    auto *displayAction = new QAction(view.get());
+    auto *printAction = new QAction(view.get());
+    auto *photoInfoAction = new QAction(view.get());
+    auto *videoInfoAction = new QAction(view.get());
+    map.insert(QStringLiteral("Fullscreen"), fullscreenAction);
+    map.insert(QStringLiteral("Slide show"), slideShowAction);
+    map.insert(QStringLiteral("Export"), exportAction);
+    map.insert(QStringLiteral("Copy"), copyAction);
+    map.insert(QStringLiteral("Delete"), deleteAction);
+    map.insert(QStringLiteral("Remove from album"), removeAction);
+    map.insert(QStringLiteral("Favorite"), favoriteAction);
+    map.insert(QStringLiteral("Unfavorite"), unfavoriteAction);
+    map.insert(QStringLiteral("Rotate clockwise"), rotateCwAction);
+    map.insert(QStringLiteral("Rotate counterclockwise"), rotateCcwAction);
+    map.insert(QStringLiteral("Set as wallpaper"), wallpaperAction);
+    map.insert(QStringLiteral("Display in file manager"), displayAction);
+    map.insert(QStringLiteral("Print"), printAction);
+    map.insert(QStringLiteral("Photo info"), photoInfoAction);
+    map.insert(QStringLiteral("Video info"), videoInfoAction);
+
+    // Stub SetWallpaperConfig::visible() to return false (DConfig hidden)
+    stub.set_lamda(ADDR(SetWallpaperConfig, visible),
+        [](SetWallpaperConfig *) -> bool { return false; });
+
+    // Stub createAlbumMenu to return nullptr
+    stub.set_lamda(get_private_fun::ThumbnailListViewcreateAlbumMenu(),
+        [](ThumbnailListView *) -> DMenu * { return nullptr; });
+    // Stub DBManager::instance and isImgExistInAlbum
+    stub.set_lamda(ADDR(DBManager, instance),
+        []() -> DBManager * { return reinterpret_cast<DBManager *>(0x1); });
+    stub.set_lamda(ADDR(DBManager, isImgExistInAlbum),
+        [](DBManager *, int, const QString &) -> bool { return false; });
+
+    // Act - selectedPaths() is not stubbed; it reads from the model selection
+    call_private_fun::ThumbnailListViewupdateMenuContents(*view);
+
+    // Assert - DConfig hidden should hide "Set as wallpaper"
+    EXPECT_FALSE(wallpaperAction->isVisible());
+}
+
+TEST_F(ThumbnailListViewTest, UpdateMenuContents_DConfigVisible_WallpaperActionShown)
+{
+    // Arrange - use a real temp file so QFileInfo::isReadable() passes
+    QTemporaryFile tmpFile;
+    tmpFile.open();
+    QString tmpPath = tmpFile.fileName();
+
+    auto view = createView(ThumbnailDelegate::AllPicViewType);
+    auto *model = getModel(view.get());
+    appendRow(model, makeInfo(tmpPath, ItemTypePic));
+    view->selectionModel()->select(model->index(0, 0), QItemSelectionModel::Select);
+
+    // Populate full menu action map
+    auto &map = access_private_field::ThumbnailListViewm_MenuActionMap(*view);
+    map.insert(QStringLiteral("View"), new QAction(view.get()));
+    auto *fullscreenAction = new QAction(view.get());
+    auto *slideShowAction = new QAction(view.get());
+    auto *exportAction = new QAction(view.get());
+    auto *copyAction = new QAction(view.get());
+    auto *deleteAction = new QAction(view.get());
+    auto *removeAction = new QAction(view.get());
+    auto *favoriteAction = new QAction(view.get());
+    auto *unfavoriteAction = new QAction(view.get());
+    auto *rotateCwAction = new QAction(view.get());
+    auto *rotateCcwAction = new QAction(view.get());
+    auto *wallpaperAction = new QAction(view.get());
+    auto *displayAction = new QAction(view.get());
+    auto *printAction = new QAction(view.get());
+    auto *photoInfoAction = new QAction(view.get());
+    auto *videoInfoAction = new QAction(view.get());
+    map.insert(QStringLiteral("Fullscreen"), fullscreenAction);
+    map.insert(QStringLiteral("Slide show"), slideShowAction);
+    map.insert(QStringLiteral("Export"), exportAction);
+    map.insert(QStringLiteral("Copy"), copyAction);
+    map.insert(QStringLiteral("Delete"), deleteAction);
+    map.insert(QStringLiteral("Remove from album"), removeAction);
+    map.insert(QStringLiteral("Favorite"), favoriteAction);
+    map.insert(QStringLiteral("Unfavorite"), unfavoriteAction);
+    map.insert(QStringLiteral("Rotate clockwise"), rotateCwAction);
+    map.insert(QStringLiteral("Rotate counterclockwise"), rotateCcwAction);
+    map.insert(QStringLiteral("Set as wallpaper"), wallpaperAction);
+    map.insert(QStringLiteral("Display in file manager"), displayAction);
+    map.insert(QStringLiteral("Print"), printAction);
+    map.insert(QStringLiteral("Photo info"), photoInfoAction);
+    map.insert(QStringLiteral("Video info"), videoInfoAction);
+
+    // Stub SetWallpaperConfig::visible() to return true (DConfig visible)
+    stub.set_lamda(ADDR(SetWallpaperConfig, visible),
+        [](SetWallpaperConfig *) -> bool { return true; });
+
+    // Stub createAlbumMenu to return nullptr
+    stub.set_lamda(get_private_fun::ThumbnailListViewcreateAlbumMenu(),
+        [](ThumbnailListView *) -> DMenu * { return nullptr; });
+    // Stub DBManager::instance and isImgExistInAlbum
+    stub.set_lamda(ADDR(DBManager, instance),
+        []() -> DBManager * { return reinterpret_cast<DBManager *>(0x1); });
+    stub.set_lamda(ADDR(DBManager, isImgExistInAlbum),
+        [](DBManager *, int, const QString &) -> bool { return false; });
+    // Stub isImageSupportRotate to return true (enables rotate actions)
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, isImageSupportRotate),
+        [](const QString &) -> bool { return true; });
+    // Stub isSupportWallpaper to return true (enables wallpaper action)
+    stub.set_lamda(ADDR(Libutils::base, isSupportWallpaper),
+        [](const QString &) -> bool { return true; });
+
+    // Act - selectedPaths() is not stubbed; it reads tmpPath from the model selection
+    call_private_fun::ThumbnailListViewupdateMenuContents(*view);
+
+    // Assert - DConfig visible with readable pic file should show "Set as wallpaper"
+    EXPECT_TRUE(wallpaperAction->isVisible());
 }
