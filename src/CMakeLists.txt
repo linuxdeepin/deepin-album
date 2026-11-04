@@ -28,6 +28,7 @@ find_package(Dtk${DTK_VERSION_MAJOR} REQUIRED COMPONENTS
     Widget
     Gui
     Declarative
+    Core
 )
 
 # 三方库
@@ -88,6 +89,7 @@ target_link_libraries(${BIN_NAME}
     Dtk${DTK_VERSION_MAJOR}::Widget
     Dtk${DTK_VERSION_MAJOR}::Gui
     Dtk${DTK_VERSION_MAJOR}::Declarative
+    Dtk${DTK_VERSION_MAJOR}::Core
     GL
     pthread
     ${3rd_lib_LIBRARIES}
