@@ -117,6 +117,9 @@ add_subdirectory(filecontrol)
 # FileInotify 单元测试
 add_subdirectory(fileinotify)
 
+# FileInotifyGroup 单元测试
+add_subdirectory(fileinotifygroup)
+
 # MovieService 单元测试
 add_subdirectory(movieservice)
 
