@@ -166,3 +166,144 @@ TEST_F(ReadThumbnailManagerTest, ClipToRect_ExtremeAspectRatio_DoesNotCrash)
     // Should not crash; result may be a cropped version
     EXPECT_FALSE(result.isNull());
 }
+
+// ==================== Additional Method Tests ====================
+// Cover: addLoadPath, isRunning, stopRead, addPadAndScaled
+
+// Access private fields for testing
+ACCESS_PRIVATE_FIELD(ReadThumbnailManager, std::deque<QString>, needLoadPath)
+ACCESS_PRIVATE_FIELD(ReadThumbnailManager, std::atomic_bool, stopFlag)
+
+// Access private method addPadAndScaled
+ACCESS_PRIVATE_FUN(ReadThumbnailManager, QImage(const QImage &), addPadAndScaled)
+
+// --- isRunning() ---
+
+TEST_F(ReadThumbnailManagerTest, IsRunning_InitiallyFalse)
+{
+    EXPECT_FALSE(m_mgr->isRunning());
+}
+
+// --- stopRead() ---
+
+TEST_F(ReadThumbnailManagerTest, StopRead_SetsStopFlag)
+{
+    // stopFlag is initially false
+    EXPECT_FALSE(access_private_field::ReadThumbnailManagerstopFlag(*m_mgr));
+
+    m_mgr->stopRead();
+
+    // After stopRead, stopFlag should be true
+    EXPECT_TRUE(access_private_field::ReadThumbnailManagerstopFlag(*m_mgr));
+}
+
+// --- addLoadPath() ---
+
+TEST_F(ReadThumbnailManagerTest, AddLoadPath_AddsPathToQueue)
+{
+    QString path = "/tmp/test_addloadpath.jpg";
+    m_mgr->addLoadPath(path);
+
+    auto &queue = access_private_field::ReadThumbnailManagerneedLoadPath(*m_mgr);
+    ASSERT_EQ(queue.size(), 1u);
+    EXPECT_EQ(queue.front(), path);
+}
+
+TEST_F(ReadThumbnailManagerTest, AddLoadPath_MultiplePaths_AllAdded)
+{
+    m_mgr->addLoadPath("/tmp/path1.jpg");
+    m_mgr->addLoadPath("/tmp/path2.jpg");
+    m_mgr->addLoadPath("/tmp/path3.jpg");
+
+    auto &queue = access_private_field::ReadThumbnailManagerneedLoadPath(*m_mgr);
+    ASSERT_EQ(queue.size(), 3u);
+    EXPECT_EQ(queue[0], "/tmp/path1.jpg");
+    EXPECT_EQ(queue[1], "/tmp/path2.jpg");
+    EXPECT_EQ(queue[2], "/tmp/path3.jpg");
+}
+
+TEST_F(ReadThumbnailManagerTest, AddLoadPath_Over100Items_RemovesOldest)
+{
+    // Add 101 items - should keep only 100 (oldest removed)
+    for (int i = 0; i < 101; ++i) {
+        m_mgr->addLoadPath("/tmp/path_" + QString::number(i) + ".jpg");
+    }
+
+    auto &queue = access_private_field::ReadThumbnailManagerneedLoadPath(*m_mgr);
+    EXPECT_EQ(queue.size(), 100u);
+    // Oldest (path_0) should be removed, path_1 should be first
+    EXPECT_EQ(queue.front(), "/tmp/path_1.jpg");
+    // Newest should still be there
+    EXPECT_EQ(queue.back(), "/tmp/path_100.jpg");
+}
+
+TEST_F(ReadThumbnailManagerTest, AddLoadPath_EmptyPath_NoCrash)
+{
+    m_mgr->addLoadPath("");
+    auto &queue = access_private_field::ReadThumbnailManagerneedLoadPath(*m_mgr);
+    ASSERT_EQ(queue.size(), 1u);
+    EXPECT_TRUE(queue.front().isEmpty());
+}
+
+// --- addPadAndScaled() (private) ---
+
+TEST_F(ReadThumbnailManagerTest, AddPadAndScaled_TallImage_ScaledToHeight)
+{
+    // Tall image: height(200) > width(100) → scaledToHeight(180)
+    QImage img(100, 200, QImage::Format_RGB32);
+    img.fill(Qt::red);
+
+    QImage result = call_private_fun::ReadThumbnailManageraddPadAndScaled(*m_mgr, img);
+    EXPECT_FALSE(result.isNull());
+    // scaledToHeight(180): aspect ratio preserved → 90x180
+    EXPECT_EQ(result.height(), kThumbnailMaxSize);
+    EXPECT_EQ(result.width(), kThumbnailMaxSize / 2);
+    EXPECT_EQ(result.format(), QImage::Format_RGBA8888);
+}
+
+TEST_F(ReadThumbnailManagerTest, AddPadAndScaled_WideImage_ScaledToWidth)
+{
+    // Wide image: width(200) >= height(100) → scaledToWidth(180)
+    QImage img(200, 100, QImage::Format_RGB32);
+    img.fill(Qt::blue);
+
+    QImage result = call_private_fun::ReadThumbnailManageraddPadAndScaled(*m_mgr, img);
+    EXPECT_FALSE(result.isNull());
+    // scaledToWidth(180): aspect ratio preserved → 180x90
+    EXPECT_EQ(result.width(), kThumbnailMaxSize);
+    EXPECT_EQ(result.height(), kThumbnailMaxSize / 2);
+    EXPECT_EQ(result.format(), QImage::Format_RGBA8888);
+}
+
+TEST_F(ReadThumbnailManagerTest, AddPadAndScaled_SquareImage_ScaledToWidth)
+{
+    // Square image: width == height → scaledToWidth(180) (else branch)
+    QImage img(200, 200, QImage::Format_RGB32);
+    img.fill(Qt::green);
+
+    QImage result = call_private_fun::ReadThumbnailManageraddPadAndScaled(*m_mgr, img);
+    EXPECT_FALSE(result.isNull());
+    EXPECT_EQ(result.width(), kThumbnailMaxSize);
+    EXPECT_EQ(result.height(), kThumbnailMaxSize);
+    EXPECT_EQ(result.format(), QImage::Format_RGBA8888);
+}
+
+TEST_F(ReadThumbnailManagerTest, AddPadAndScaled_AlreadyThumbnailSize_StillScaled)
+{
+    // Image already at THUMBNAIL_MAX_SIZE - still goes through scaling
+    QImage img(kThumbnailMaxSize, kThumbnailMaxSize, QImage::Format_RGB32);
+    img.fill(Qt::yellow);
+
+    QImage result = call_private_fun::ReadThumbnailManageraddPadAndScaled(*m_mgr, img);
+    EXPECT_FALSE(result.isNull());
+    EXPECT_EQ(result.width(), kThumbnailMaxSize);
+    EXPECT_EQ(result.height(), kThumbnailMaxSize);
+}
+
+TEST_F(ReadThumbnailManagerTest, AddPadAndScaled_NullImage_ReturnsNullImage)
+{
+    QImage nullImg;
+    QImage result = call_private_fun::ReadThumbnailManageraddPadAndScaled(*m_mgr, nullImg);
+    // convertToFormat on null image returns null
+    EXPECT_TRUE(result.isNull());
+}
