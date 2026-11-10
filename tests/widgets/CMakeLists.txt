@@ -16,3 +16,7 @@ add_album_gtest(test_expansionmenu
 add_album_gtest(test_timelinedatewidget
     test_TimeLineDateWidget.cpp
 )
+
+add_album_gtest(test_expansionpanel
+    test_expansionpanel.cpp
+)
