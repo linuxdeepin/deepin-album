@@ -176,3 +176,6 @@ add_subdirectory(ocr)
 
 # PrintHelper 单元测试
 add_subdirectory(printdialog)
+
+# MLogger 单元测试
+add_subdirectory(logger)
