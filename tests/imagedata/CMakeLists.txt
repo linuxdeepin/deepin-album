@@ -7,5 +7,6 @@ add_album_gtest(test_imagedata
     test_PathViewProxyModel.cpp
     test_ImageInfo.cpp
     test_imagefilewatcher.cpp
+    test_AsyncImageProvider.cpp
     test_ProviderCache.cpp
 )
