@@ -935,7 +935,7 @@
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
-        <translation><numerusform>%n элемент</numerusform><numerusform>%n элементов</numerusform><numerusform>%n элементов</numerusform><numerusform>%n элементов</numerusform></translation>
+        <translation><numerusform>%n элемент</numerusform><numerusform>%n объекта</numerusform><numerusform>%n объектов</numerusform><numerusform>%n объектов</numerusform></translation>
     </message>
 </context>
 <context>
@@ -950,13 +950,13 @@
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>1 item</source>
-        <translation>1 элемент</translation>
+        <translation>1 объект</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>%1 items</source>
-        <translation>Элементов: %1</translation>
+        <translation>Объектов: %1</translation>
     </message>
 </context>
 <context>
@@ -1126,7 +1126,7 @@
     <message>
         <location filename="../qml/MenuItemStates.qml" line="120"/>
         <source>Export successful</source>
-        <translation>Экспорт успешно завершен</translation>
+        <translation>Экспорт успешно завершён</translation>
     </message>
     <message>
         <location filename="../qml/MenuItemStates.qml" line="122"/>
@@ -2055,7 +2055,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="100"/>
         <source>Duration</source>
-        <translation>Продолжительность</translation>
+        <translation>Длительность</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="105"/>
