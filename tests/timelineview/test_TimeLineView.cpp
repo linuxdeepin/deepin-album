@@ -92,7 +92,8 @@ protected:
         stub.clear();
         delete view;
         view = nullptr;
-        // listView is a child of view, deleted by Qt
+        delete listView;
+        listView = nullptr;
     }
 
     void setupConstructorStubs()
