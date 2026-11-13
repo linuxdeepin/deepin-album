@@ -46,9 +46,21 @@ static bool imageMeetsRequestedSize(const QImage &image, const QSize &requestedS
         return true;
     }
 
+    // Check current orientation
     QSize requiredSize = image.size();
     requiredSize.scale(requestedSize, Qt::KeepAspectRatio);
-    return image.width() >= requiredSize.width() && image.height() >= requiredSize.height();
+    if (image.width() >= requiredSize.width() && image.height() >= requiredSize.height()) {
+        return true;
+    }
+
+    // The cached image may have been rotated 90/270 degrees since it was
+    // originally scaled to fit requestedSize. After rotation width and height
+    // swap, so also check the transposed dimensions.
+    QSize transposedSize = image.size().transposed();
+    QSize transposedRequired = transposedSize;
+    transposedRequired.scale(requestedSize, Qt::KeepAspectRatio);
+    return transposedSize.width() >= transposedRequired.width()
+        && transposedSize.height() >= transposedRequired.height();
 }
 
 /**
