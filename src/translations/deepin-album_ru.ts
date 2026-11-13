@@ -1217,7 +1217,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation>Открытое изображение</translation>
+        <translation>Открыть изображение</translation>
     </message>
 </context>
 <context>
@@ -2222,12 +2222,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation>Открытое изображение</translation>
+        <translation>Открыть изображение</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Image Viewer - это инструмент для просмотра изображений с модным интерфейсом и плавной работой.</translation>
+        <translation>Просмотр изображений — это инструмент для просмотра изображений с модным интерфейсом и плавной работой.</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="185"/>
@@ -2237,7 +2237,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
         <source>Image Viewer</source>
-        <translation>Просмотрщик изображений</translation>
+        <translation>Просмотр изображений</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="189"/>
@@ -2260,12 +2260,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="139"/>
         <source>%1 items</source>
-        <translation>Элементов: %1</translation>
+        <translation>Объектов: %1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="139"/>
         <source>1 item</source>
-        <translation>1 элемент</translation>
+        <translation>1 объект</translation>
     </message>
 </context>
 <context>
