@@ -554,7 +554,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="225"/>
         <source>Import successful</source>
-        <translation>Импорт успешно завершен</translation>
+        <translation>Импорт успешно завершён</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="276"/>
@@ -567,7 +567,7 @@
     <message>
         <location filename="../qml/Control/DeviceLoadDialog.qml" line="61"/>
         <source>Loading...</source>
-        <translation>Загрузка...</translation>
+        <translation>Загрузка…</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeviceLoadDialog.qml" line="70"/>
@@ -935,7 +935,7 @@
     <message numerus="yes">
         <location filename="../src/widgets/importtimelineview/importtimelineview.cpp" line="349"/>
         <source>%n items</source>
-        <translation><numerusform>%n элемент</numerusform><numerusform>%n элементов</numerusform><numerusform>%n элементов</numerusform><numerusform>%n элементов</numerusform></translation>
+        <translation><numerusform>%n элемент</numerusform><numerusform>%n объекта</numerusform><numerusform>%n объектов</numerusform><numerusform>%n объектов</numerusform></translation>
     </message>
 </context>
 <context>
@@ -950,13 +950,13 @@
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>1 item</source>
-        <translation>1 элемент</translation>
+        <translation>1 объект</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="150"/>
         <location filename="../qml/ThumbnailImageView/HaveImportedView/ImportedlListView.qml" line="423"/>
         <source>%1 items</source>
-        <translation>Элементов: %1</translation>
+        <translation>Объектов: %1</translation>
     </message>
 </context>
 <context>
@@ -1126,7 +1126,7 @@
     <message>
         <location filename="../qml/MenuItemStates.qml" line="120"/>
         <source>Export successful</source>
-        <translation>Экспорт успешно завершен</translation>
+        <translation>Экспорт успешно завершён</translation>
     </message>
     <message>
         <location filename="../qml/MenuItemStates.qml" line="122"/>
@@ -1217,7 +1217,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/OpenImageWidget.qml" line="35"/>
         <source>Open Image</source>
-        <translation>Открытое изображение</translation>
+        <translation>Открыть изображение</translation>
     </message>
 </context>
 <context>
@@ -2055,7 +2055,7 @@
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="100"/>
         <source>Duration</source>
-        <translation>Продолжительность</translation>
+        <translation>Длительность</translation>
     </message>
     <message>
         <location filename="../qml/Control/VideoInfoDialog.qml" line="105"/>
@@ -2222,12 +2222,12 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="162"/>
         <source>Open image</source>
-        <translation>Открытое изображение</translation>
+        <translation>Открыть изображение</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="184"/>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Image Viewer - это инструмент для просмотра изображений с модным интерфейсом и плавной работой.</translation>
+        <translation>Просмотр изображений — это инструмент для просмотра изображений с модным интерфейсом и плавной работой.</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="185"/>
@@ -2237,7 +2237,7 @@
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="188"/>
         <source>Image Viewer</source>
-        <translation>Просмотрщик изображений</translation>
+        <translation>Просмотр изображений</translation>
     </message>
     <message>
         <location filename="../qml/PreviewImageViewer/ViewTopTitle.qml" line="189"/>
@@ -2260,12 +2260,12 @@
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="139"/>
         <source>%1 items</source>
-        <translation>Элементов: %1</translation>
+        <translation>Объектов: %1</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/CollecttionView/YearCollection.qml" line="139"/>
         <source>1 item</source>
-        <translation>1 элемент</translation>
+        <translation>1 объект</translation>
     </message>
 </context>
 <context>
