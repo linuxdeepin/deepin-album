@@ -554,7 +554,7 @@
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="225"/>
         <source>Import successful</source>
-        <translation>Импорт успешно завершен</translation>
+        <translation>Импорт успешно завершён</translation>
     </message>
     <message>
         <location filename="../qml/ThumbnailImageView/DeviceAlbum/DeviceAlbum.qml" line="276"/>
@@ -567,7 +567,7 @@
     <message>
         <location filename="../qml/Control/DeviceLoadDialog.qml" line="61"/>
         <source>Loading...</source>
-        <translation>Загрузка...</translation>
+        <translation>Загрузка…</translation>
     </message>
     <message>
         <location filename="../qml/Control/DeviceLoadDialog.qml" line="70"/>
