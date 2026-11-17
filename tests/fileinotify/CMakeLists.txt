@@ -2,3 +2,4 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 add_album_gtest(test_fileinotify test_fileinotify.cpp)
+add_album_gtest(test_fileinotify_extra test_fileinotify_extra.cpp)
