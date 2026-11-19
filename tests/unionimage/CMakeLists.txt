@@ -27,6 +27,7 @@ add_executable(test_unionimage
     ${ALBUM_SRCS}
     ${STUB_SHADOW}
     test_unionimage.cpp
+    test_unionimage_extra.cpp
 )
 
 target_include_directories(test_unionimage PRIVATE
