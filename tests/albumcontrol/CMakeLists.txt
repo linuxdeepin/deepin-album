@@ -27,6 +27,7 @@ add_executable(test_albumcontrol
     ${ALBUM_SRCS}
     ${STUB_SHADOW}
     test_albumcontrol.cpp
+    test_albumcontrol_extra.cpp
 )
 
 target_include_directories(test_albumcontrol PRIVATE
