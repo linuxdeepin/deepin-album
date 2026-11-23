@@ -194,7 +194,12 @@ void ImportImagesThread::runDetail()
         } else if (!curAlbumImportedPathList.isEmpty()) {
             // 视为导入的图片全部为重复图片
             // ImportImageLoader() 中，底部状态栏将显示导入状态，之后，核对是否存在重复图片，发送信号准备提示
-            emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_UID);
+            // 注意：自动导入(AutoImport)是后台目录同步，不应向用户弹出"照片已存在"提示。
+            // 回收站恢复时文件被 rename 回监控目录会触发自动导入，此时图片其实已经由恢复逻辑
+            // 写回 ImageTable3，属于"已存在"，若不屏蔽就会误弹提示（BUG#383857）。
+            if (m_dbType != AutoImport) {
+                emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_UID);
+            }
             // 导入重复照片提示
 //            emit dApp->signalM->sigAddDuplicatePhotos();
             m_obj->imageImported(true);

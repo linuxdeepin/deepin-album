@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -17,6 +17,7 @@
 #include <QSqlQuery>
 #include <QStandardPaths>
 #include <QtConcurrent/QtConcurrent>
+#include <QTimer>
 
 #include "imageengineapi.h"
 
@@ -805,6 +806,36 @@ bool DBManager::insertIntoAlbum(int UID, const QStringList &paths, AlbumDBType a
     emit dApp->signalM->insertedIntoAlbum(UID, paths);
 
     return true;
+}
+
+int DBManager::getAutoImportUidForPath(const QString &path)
+{
+    if (path.isEmpty()) {
+        return -1;
+    }
+
+    //1.默认监控目录：~/Pictures/Screenshots 等
+    auto notifyPaths = getDefaultNotifyPaths_group();
+    const QList<QStringList> &groups = std::get<0>(notifyPaths);
+    const QList<int> &uids = std::get<2>(notifyPaths);
+    for (int i = 0; i < groups.size() && i < uids.size(); ++i) {
+        for (const QString &dir : groups.at(i)) {
+            if (!dir.isEmpty() && path.startsWith(dir + QLatin1Char('/'))) {
+                return uids.at(i);
+            }
+        }
+    }
+
+    //2.自定义自动导入目录
+    const auto customUIDAndPath = getAllCustomAutoImportUIDAndPath();
+    for (const auto &item : customUIDAndPath) {
+        const QString &dir = item.second;
+        if (!dir.isEmpty() && path.startsWith(dir + QLatin1Char('/'))) {
+            return item.first;
+        }
+    }
+
+    return -1;
 }
 
 void DBManager::removeAlbum(int UID)
@@ -1824,6 +1855,8 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
 
     QMutexLocker mutex(&m_dbMutex);
 
+    SignalManager::s_monitorPaused.store(true);
+
     //获取内部恢复路径
     auto stdPicPaths = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
     QString internalRecoveryPath;
@@ -2003,7 +2036,30 @@ QStringList DBManager::recoveryImgFromTrash(const QStringList &paths)
         emit dApp->signalM->imagesInserted();
     }
 
-    //5.返回失败的文件
+    //4.1 恢复相册归属：把恢复成功的文件重新加入其监控目录对应的自动导入相册，
+    //    使 ImageTable3 与 AlbumTable3 保持一致。否则文件会处于"在 ImageTable3、
+    //    不在 AlbumTable3"的中间态，被 FileInotify 文件监控当成新文件再次自动导入，
+    //    触发 RepeatImportingTheSamePhotos，误弹"照片/视频已存在"（BUG#383857）。
+    if (!succesedPaths.isEmpty()) {
+        QMap<int, QStringList> uidToRestoredPaths;
+        for (auto it = succesedPaths.constBegin(); it != succesedPaths.constEnd(); ++it) {
+            const int uid = getAutoImportUidForPath(it.value());
+            if (uid >= 0) {
+                uidToRestoredPaths[uid].append(it.value());
+            }
+        }
+        for (auto it = uidToRestoredPaths.constBegin(); it != uidToRestoredPaths.constEnd(); ++it) {
+            insertIntoAlbum(it.key(), it.value(), AlbumDBType::AutoImport);
+        }
+    }
+
+    //5.恢复监听：延迟在主线程清除标志，确保期间所有 directoryChanged 事件被忽略
+    //1000ms 覆盖 QFileSystemWatcher 事件传播与 DB 更新完成的时间窗口
+    QTimer::singleShot(1000, dApp, []() {
+        SignalManager::s_monitorPaused.store(false);
+    });
+
+    //6.返回失败的文件
     return failedFiles;
 }
 

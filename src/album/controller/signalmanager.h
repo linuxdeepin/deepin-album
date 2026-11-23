@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -35,6 +35,7 @@ public:
     void showInfoDlg(const QString &path, ItemType type, bool isTrash);
 
     static std::atomic_bool inAutoImport;
+    static std::atomic_bool s_monitorPaused;
 
 signals:
     void hideImageView();

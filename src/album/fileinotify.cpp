@@ -39,6 +39,10 @@ FileInotify::FileInotify(QObject *parent)
     connect(&m_watcher, &QFileSystemWatcher::directoryChanged, this, [this](const QString & path) {
         qDebug() << "Directory change detected in:" << path;
 
+        if (SignalManager::s_monitorPaused.load()) {
+            return;
+        }
+
         // 检查是否有待创建的目录已经被创建
         checkPendingDirectories(path);
 
@@ -268,6 +272,13 @@ void FileInotify::getAllPicture(bool isFirst)
 
 void FileInotify::onNeedSendPictures()
 {
+    if (SignalManager::s_monitorPaused.load()) {
+        if (m_timer) {
+            m_timer->stop();
+        }
+        return;
+    }
+
     checkNewPath();
     getAllPicture(false);
 
