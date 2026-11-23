@@ -2177,7 +2177,8 @@ void DBManager::insertTrashImgInfos(const DBImgInfoList &infos, bool showWaitDia
                     path.contains("mtp:host=") || //mtp路径
                     path.contains(QDir::homePath() + "/.local/share/Trash") || //垃圾箱
                     LibUnionImage_NameSpace::isVaultFile(path)) { //保险箱
-                hash.clear();
+                // 这些路径不能直接移入系统回收站，但上面已经创建了相册删除缓存。
+                // 保留 hash，才能把删除记录写入 TrashTable3 并在“最近删除”中展示。
             } else {
                 LibUnionImage_NameSpace::trashFile(info.filePath);
             }
