@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 - 2022 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2020 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -121,6 +121,8 @@ public:
     bool                    isAllImgExistInAlbum(int UID, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom) const;
     bool                    isImgExistInAlbum(int UID, const QString &path) const;
     bool                    insertIntoAlbum(int UID, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
+    //返回给定路径所属的自动导入相册UID（默认监控目录：截图录屏/相机/画板，或自定义自动导入目录），找不到返回 -1
+    int                     getAutoImportUidForPath(const QString &path);
     int                     createAlbum(const QString &album, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
     void                    removeAlbum(int UID);
     void                    removeFromAlbum(int UID, const QStringList &paths, AlbumDBType atype = AlbumDBType::Custom);
