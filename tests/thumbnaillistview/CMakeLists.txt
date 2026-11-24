@@ -27,6 +27,7 @@ add_executable(test_thumbnaillistview
     ${ALBUM_SRCS}
     ${STUB_SHADOW}
     test_ThumbnailListView.cpp
+    test_ThumbnailListViewExtended.cpp
 )
 
 target_include_directories(test_thumbnaillistview PRIVATE
