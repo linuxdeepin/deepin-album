@@ -27,6 +27,7 @@ add_executable(test_dbmanager
     ${ALBUM_SRCS}
     ${STUB_SHADOW}
     test_dbmanager.cpp
+    test_dbmanager_extra.cpp
 )
 
 target_include_directories(test_dbmanager PRIVATE
