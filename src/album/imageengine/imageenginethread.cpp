@@ -4,6 +4,7 @@
 
 #include "imageenginethread.h"
 #include "imageengineapi.h"
+#include "importfilehelper.h"
 #include "classifyutils.h"
 #include <dgiovolumemanager.h>
 #include <dgiofile.h>
@@ -207,65 +208,51 @@ void ImportImagesThread::runDetail()
             static QString cfgGroupName = QStringLiteral("General"), cfgLastOpenPath = QStringLiteral("LastOpenPath");
             dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
         }
-        // 判断当前导入路径是否为外接设备
-        bool isMountFlag = false;
-        auto mounts = utils::base::getMounts_safe();
-        for (auto mount : mounts) {
+        QStringList mountPaths;
+        const auto mounts = utils::base::getMounts_safe();
+        for (const auto &mount : mounts) {
+            const auto location = mount->getDefaultLocationFile();
+            if (location)
+                mountPaths << location->path();
+        }
+
+        const QString destinationDir = QDir::homePath() + "/Pictures/照片/"
+                + QDate::currentDate().toString("yyyy-MM-dd");
+        QStringList knownPaths = DBManager::instance()->getAllPaths();
+        QStringList importedPaths;
+        const int importCount = image_list.size();
+        int duplicateCount = 0;
+        for (const QString &sourcePath : image_list) {
             if (bneedstop || ImageEngineApi::instance()->closeFg()) {
                 m_obj->imageImported(false);
                 m_obj->removeThread(this);
                 return;
             }
-            QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
-            QString strPath = LocationFile->path();
-            if (0 == image_list.first().compare(strPath)) {
-                isMountFlag = true;
-                break;
+            const QString imagePath = ImportFileHelper::prepareFile(
+                        sourcePath, mountPaths, destinationDir, knownPaths);
+            if (imagePath.isEmpty()) {
+                qWarning() << "Failed to copy imported file:" << sourcePath;
+                continue;
             }
+            if (curAlbumImgPathList.contains(imagePath) || importedPaths.contains(imagePath)) {
+                ++duplicateCount;
+                if (!curAlbumImportedPathList.contains(imagePath))
+                    curAlbumImportedPathList << imagePath;
+                continue;
+            }
+            importedPaths << imagePath;
+            knownPaths << imagePath;
         }
-
-        // 当前导入路径
-        if (isMountFlag) {
-            QString strHomePath = QDir::homePath();
-            //获取系统现在的时间
-            QString strDate = QDateTime::currentDateTime().toString("yyyy-MM-dd");
-            QString basePath = QString("%1%2%3").arg(strHomePath, "/Pictures/照片/", strDate);
-            QDir dir;
-            if (!dir.exists(basePath)) {
-                dir.mkpath(basePath);
-            }
-            QStringList newImagePaths;
-            foreach (QString strPath, image_list) {
-                if (bneedstop || ImageEngineApi::instance()->closeFg()) {
-                    m_obj->imageImported(false);
-                    m_obj->removeThread(this);
-                    return;
-                }
-                //取出文件名称
-                QStringList pathList = strPath.split("/", QString::SkipEmptyParts);
-                QStringList nameList = pathList.last().split(".", QString::SkipEmptyParts);
-                QString strNewPath = QString("%1%2%3%4%5%6").arg(basePath, "/", nameList.first(), QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()), ".", nameList.last());
-
-                newImagePaths << strNewPath;
-                //判断新路径下是否存在目标文件，若存在，下一次张
-                if (dir.exists(strNewPath)) {
-                    continue;
-                }
-
-                // 外接设备图片拷贝到系统
-                if (QFile::copy(strPath, strNewPath)) {
-
-                }
-            }
-
-            image_list.clear();
-            image_list = newImagePaths;
+        image_list = importedPaths;
+        if (image_list.isEmpty() && duplicateCount == importCount) {
+            emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_UID);
+            m_obj->imageImported(true);
+            m_obj->removeThread(this);
+            return;
         }
 
         DBImgInfoList dbInfos;
         using namespace utils::image;
-        int noReadCount = 0; //记录已存在于相册中的数量，若全部存在，则不进行导入操作
-        QStringList allPath = DBManager::instance()->getAllPaths();
         for (auto imagePath : image_list) {
             bool bIsVideo = utils::base::isVideo(imagePath);
             if (!bIsVideo && !imageSupportRead(imagePath)) {
@@ -273,11 +260,7 @@ void ImportImagesThread::runDetail()
             }
             QFileInfo srcfi(imagePath);
             if (!srcfi.exists()) {  //当前文件不存在
-                noReadCount++;
                 continue;
-            }
-            if (allPath.contains(imagePath)) {
-                noReadCount++;
             }
             DBImgInfo info =  getDBInfo(imagePath, bIsVideo);
             dbInfos << info;
@@ -313,13 +296,6 @@ void ImportImagesThread::runDetail()
             if (!pathlistImport.isEmpty()) {
                 DBManager::instance()->insertIntoAlbum(m_UID, pathlistImport, m_dbType);
             }
-
-            //已全部存在，无需导入
-            if (noReadCount == image_list.size()) {
-                m_obj->imageImported(false);
-                m_obj->removeThread(this);
-                return;
-            }
         }
 
         //bug112005只有在确认有需要导入的文件时才显示导入进度
@@ -352,25 +328,26 @@ void ImportImagesThread::runDetail()
         }
 
         if (m_dbType != AutoImport || m_isFirst) {
-            if (image_list.length() == pathlist.length() && !pathlist.isEmpty()) {
+            const int succeededCount = pathlist.size() + duplicateCount;
+            if (!curAlbumImportedPathList.isEmpty()) {
+                emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_UID);
+            }
+            if (importCount == succeededCount && !pathlist.isEmpty()) {
                 emit dApp->signalM->updateStatusBarImportLabel(pathlist, 1, m_albumname);
                 emit dApp->signalM->ImportSuccess(); //导入成功
                 m_obj->imageImported(true);
-                if (!curAlbumImportedPathList.isEmpty()) {
-                    emit dApp->signalM->RepeatImportingTheSamePhotos(image_list, curAlbumImportedPathList, m_UID); //相同图片
-                }
             } else {
                 if (m_dbType == AutoImport) { //发送导入中断信号
                     emit dApp->signalM->ImportInterrupted(); //导入中断
-                    if (!pathlist.isEmpty()) {
-                        emit dApp->signalM->ImportSomeFailed(image_list.length(), image_list.length() - pathlist.length()); //部分失败提示
+                    if (succeededCount > 0) {
+                        emit dApp->signalM->ImportSomeFailed(importCount, importCount - succeededCount); //部分失败提示
                     }
                 } else {
                     //BUG#92844 额外提示未发现照片或文件
-                    if (pathlist.isEmpty()) {
+                    if (succeededCount == 0) {
                         emit dApp->signalM->ImportDonotFindPicOrVideo();
                     } else {
-                        emit dApp->signalM->ImportSomeFailed(image_list.length(), image_list.length() - pathlist.length());
+                        emit dApp->signalM->ImportSomeFailed(importCount, importCount - succeededCount);
                     }
                     emit dApp->signalM->ImportFailed();
                 }
