@@ -6,6 +6,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import org.deepin.dtk 1.0
+import org.deepin.dtk.style 1.0 as DS
 import org.deepin.image.viewer 1.0 as IV
 
 DialogWindow {
@@ -37,6 +38,7 @@ DialogWindow {
         property string title: fileName
 
         enableInWindowBlendBlur: false
+        implicitHeight: DS.Style.dialogWindow.titleBarHeight
 
         content: Loader {
             sourceComponent: Label {
