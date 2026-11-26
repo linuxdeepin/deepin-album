@@ -24,6 +24,11 @@
 #include <QDebug>
 #include <QByteArray>
 #include <QPixmap>
+#include <tiffio.h>
+#include <QBuffer>
+#include <QtEndian>
+
+#include <zlib.h>
 
 #include "unionimage/unionimage.h"
 #include "unionimage/unionimage_global.h"
@@ -82,6 +87,70 @@ protected:
         f.write(content);
         f.close();
         return path;
+    }
+
+    QByteArray standardExifApp1() const
+    {
+        return QByteArray::fromHex(
+            "ffe100bb45786966000049492a0008000000"
+            "020010010200110000006800000069870400010000002600000000000000"
+            "05009a82050001000000ab000000278803000100000090010000039002001400000083000000"
+            "04900200140000009700000034a402000a0000007900000000000000"
+            "4558494620546573742043616d65726100546573742035306d6d00"
+            "323031383a30313a30322031363a30343a303500323031393a30323a30332031373a30353a303600"
+            "010000007d000000");
+    }
+
+    QByteArray canonFlashApp1() const
+    {
+        return QByteArray::fromHex(
+            "ffe1007845786966000049492a000800000002000f010200060000002600000069870400010000002c00"
+            "00000000000043616e6f6e0001007c920700320000003e00000000000000010004000300100000005000"
+            "000000000000200000000000000000000000000000000000000000000000000000000000ecff");
+    }
+
+    QByteArray makeJpegWithExif(const QByteArray &exif = {}) const
+    {
+        QByteArray jpeg;
+        QBuffer buffer(&jpeg);
+        if (!buffer.open(QIODevice::WriteOnly))
+            return {};
+        QImage image(16, 8, QImage::Format_RGB32);
+        image.fill(Qt::red);
+        if (!image.save(&buffer, "JPEG"))
+            return {};
+        buffer.close();
+
+        if (jpeg.size() < 6 || jpeg.mid(2, 2) != QByteArray::fromHex("ffe0"))
+            return {};
+        const int app0End = 4 + qFromBigEndian<quint16>(jpeg.constData() + 4);
+        jpeg.insert(app0End, exif.isEmpty() ? standardExifApp1() : exif);
+        return jpeg;
+    }
+
+    QByteArray makePngWithExif(const QByteArray &tiff = {}) const
+    {
+        QByteArray png;
+        QBuffer buffer(&png);
+        if (!buffer.open(QIODevice::WriteOnly))
+            return {};
+        QImage image(16, 8, QImage::Format_RGB32);
+        image.fill(Qt::red);
+        if (!image.save(&buffer, "PNG"))
+            return {};
+        buffer.close();
+
+        const QByteArray exifTiff = tiff.isEmpty() ? standardExifApp1().mid(10) : tiff;
+        const QByteArray chunkData = "eXIf" + exifTiff;
+        QByteArray chunk(4, Qt::Uninitialized);
+        qToBigEndian<quint32>(exifTiff.size(), chunk.data());
+        chunk.append(chunkData);
+        char checksum[4];
+        const auto crc = crc32(0, reinterpret_cast<const Bytef *>(chunkData.constData()), chunkData.size());
+        qToBigEndian<quint32>(crc, checksum);
+        chunk.append(checksum, sizeof(checksum));
+        png.insert(33, chunk);
+        return png;
     }
 };
 
@@ -714,8 +783,240 @@ TEST_F(UnionImageExtraTest, getOrientation_ValidPng)
 {
     QString path = createPngImage("orient_test.png");
     int orientation = Libutils::image::getOrientation(path);
-    // Default orientation for a simple PNG should be 0 or 1
-    EXPECT_GE(orientation, 0);
+    EXPECT_EQ(orientation, 1);
+}
+
+TEST_F(UnionImageExtraTest, getOrientation_PngExifReadsOrientation)
+{
+    const QByteArray tiff = QByteArray::fromHex("49492a0008000000010012010300010000000600000000000000");
+    const QString path = createRawFile("oriented.png", makePngWithExif(tiff));
+    EXPECT_EQ(LibUnionImage_NameSpace::getOrientation(path), 6);
+}
+
+TEST_F(UnionImageExtraTest, getAllMetaData_JpegExif_ReturnsModelAndOrientation)
+{
+    const QString path = tempDir.filePath("camera.jpg");
+    QImage image(8, 6, QImage::Format_RGB32);
+    image.fill(Qt::red);
+    ASSERT_TRUE(image.save(path, "JPEG"));
+
+    // Little-endian EXIF IFD0 with Model="Test Camera" and Orientation=6.
+    const QByteArray app1 = QByteArray::fromHex(
+        "ffe1003a45786966000049492a00080000000200100102000c00000026000000"
+        "12010300010000000600000000000000546573742043616d65726100");
+    QFile file(path);
+    ASSERT_TRUE(file.open(QIODevice::ReadOnly));
+    QByteArray jpeg = file.readAll();
+    file.close();
+    ASSERT_TRUE(jpeg.startsWith(QByteArray::fromHex("ffd8")));
+    jpeg.insert(2, app1);
+    ASSERT_TRUE(file.open(QIODevice::WriteOnly | QIODevice::Truncate));
+    ASSERT_EQ(file.write(jpeg), jpeg.size());
+    file.close();
+
+    const auto metadata = LibUnionImage_NameSpace::getAllMetaData(path);
+    EXPECT_EQ(metadata.value("Model"), QStringLiteral("Test Camera"));
+    EXPECT_EQ(LibUnionImage_NameSpace::getOrientation(path), 6);
+}
+
+TEST_F(UnionImageExtraTest, getAllMetaData_JpegExif_ReturnsShootingFields)
+{
+    const QString path = createRawFile("camera-exif.jpg", makeJpegWithExif());
+    const auto metadata = LibUnionImage_NameSpace::getAllMetaData(path);
+    EXPECT_EQ(metadata.value("Model"), QStringLiteral("EXIF Test Camera"));
+    EXPECT_EQ(metadata.value("LensType"), QStringLiteral("Test 50mm"));
+    EXPECT_EQ(metadata.value("ISOSpeedRatings"), QStringLiteral("400"));
+    EXPECT_TRUE(metadata.value("ExposureTime").contains(QStringLiteral("1/125")));
+    EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2018/01/02 16:04"));
+}
+
+TEST_F(UnionImageExtraTest, getAllMetaData_CanonMakerNote_ReturnsFlashCompensation)
+{
+    const QString path = createRawFile("canon-flash.jpg", makeJpegWithExif(canonFlashApp1()));
+    const auto metadata = LibUnionImage_NameSpace::getAllMetaData(path);
+    EXPECT_EQ(metadata.value("FlashExposureComp"), QStringLiteral("-0.67 EV"));
+}
+
+TEST_F(UnionImageExtraTest, getAllMetaData_PngExif_ReturnsCameraAndCaptureTime)
+{
+    const QString path = createRawFile("camera-exif.png", makePngWithExif());
+    ASSERT_FALSE(QImage(path).isNull());
+
+    const auto metadata = LibUnionImage_NameSpace::getAllMetaData(path);
+    EXPECT_EQ(metadata.value("Model"), QStringLiteral("EXIF Test Camera"));
+    EXPECT_EQ(metadata.value("LensType"), QStringLiteral("Test 50mm"));
+    EXPECT_EQ(metadata.value("ISOSpeedRatings"), QStringLiteral("400"));
+    EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2018/01/02 16:04"));
+}
+
+TEST_F(UnionImageExtraTest, getAllMetaData_PngExifWithBadChecksum_IgnoresExif)
+{
+    QByteArray png = makePngWithExif();
+    ASSERT_FALSE(png.isEmpty());
+    const qsizetype checksumEnd = 33 + 8 + standardExifApp1().size() - 10 + 4;
+    png[checksumEnd - 1] = png.at(checksumEnd - 1) ^ 1;
+    const QString path = createRawFile("bad-exif-crc.png", png);
+
+    const auto metadata = LibUnionImage_NameSpace::getAllMetaData(path);
+    EXPECT_FALSE(metadata.contains("Model"));
+    EXPECT_FALSE(metadata.contains("ISOSpeedRatings"));
+}
+
+TEST_F(UnionImageExtraTest, getAllMetaData_WebpExif_ReadsExifChunk)
+{
+    if (!QImageReader::supportedImageFormats().contains("webp"))
+        GTEST_SKIP() << "WebP image format plugin is unavailable";
+
+    const QByteArray image = QByteArray::fromHex(
+        "524946460000000057454250565038580a000000080000000f0000070000"
+        "5650384c110000002f0fc0010007508a5294a2ff8188e87f0000");
+    const QByteArray tiff = standardExifApp1().mid(10);
+    QByteArray webp = image + "EXIF" + QByteArray(4, '\0') + tiff;
+    if (tiff.size() % 2)
+        webp.append('\0');
+    qToLittleEndian<quint32>(webp.size() - 8, webp.data() + 4);
+    qToLittleEndian<quint32>(tiff.size(), webp.data() + image.size() + 4);
+    const QString path = createRawFile("camera-exif.webp", webp);
+    ASSERT_FALSE(QImage(path).isNull());
+
+    const auto metadata = LibUnionImage_NameSpace::getAllMetaData(path);
+    EXPECT_EQ(metadata.value("Model"), QStringLiteral("EXIF Test Camera"));
+    EXPECT_EQ(metadata.value("ISOSpeedRatings"), QStringLiteral("400"));
+    EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2018/01/02 16:04"));
+}
+
+TEST_F(UnionImageExtraTest, getAllMetaData_TiffExif_ReturnsShootingFields)
+{
+    QByteArray tiff = QByteArray::fromBase64(
+        "SUkqAIQQAAAGAJqCBQABAAAAcgAAAJ2CBQABAAAAagAAACeIAwABAAAAkAEAAAOQAgAUAAAA"
+        "VgAAAAmSAwABAAAAAAAAADSkAgAKAAAAegAAAAAAAAAyMDE4OjAxOjAyIDE2OjA0OjA1AAQA"
+        "AAABAAAAbxKDAAAAAEBUZXN0IDUwbW0=");
+    tiff.append(QByteArray(64 * 64, '\0'));
+    tiff.append(QByteArray::fromBase64(
+        "AAwAAAEDAAEAAABAAAAAAQEDAAEAAABAAAAAAgEDAAEAAAAIAAAAAwEDAAEAAAABAAAABgED"
+        "AAEAAAABAAAAEAECABEAAAAaEQAAEQEEAAEAAACEAAAAFQEDAAEAAAABAAAAFgEDAAEAAABA"
+        "AAAAFwEEAAEAAAAAEAAAHAEDAAEAAAABAAAAaYcEAAEAAAAIAAAAAAAAAEVYSUYgVGVzdCBD"
+        "YW1lcmEA"));
+    const QString path = createRawFile("camera-exif.tiff", tiff);
+
+    const auto metadata = LibUnionImage_NameSpace::getAllMetaData(path);
+    EXPECT_EQ(metadata.value("Model"), QStringLiteral("EXIF Test Camera"));
+    EXPECT_EQ(metadata.value("LensType"), QStringLiteral("Test 50mm"));
+    EXPECT_EQ(metadata.value("ISOSpeedRatings"), QStringLiteral("400"));
+    EXPECT_EQ(metadata.value("ApertureValue"), QStringLiteral("f/4"));
+    EXPECT_TRUE(metadata.value("ExposureTime").contains(QStringLiteral("1/125")));
+    EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2018/01/02 16:04"));
+}
+
+TEST_F(UnionImageExtraTest, getAllMetaData_SvgXmp_ReturnsCameraFields)
+{
+    const QByteArray svg = QByteArrayLiteral(
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"8\"><metadata>"
+        "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" "
+        "xmlns:tiff=\"http://ns.adobe.com/tiff/1.0/\" xmlns:exif=\"http://ns.adobe.com/exif/1.0/\">"
+        "<rdf:Description rdf:about=\"\" tiff:Model=\"XMP Test Camera\" exif:ExposureTime=\"1/125\" "
+        "exif:FNumber=\"4/1\" exif:DateTimeOriginal=\"2018-01-02T16:04:05+08:00\"/>"
+        "</rdf:RDF></metadata><rect width=\"16\" height=\"8\"/></svg>");
+    const QString path = createRawFile("camera-xmp.svg", svg);
+
+    const auto metadata = LibUnionImage_NameSpace::getAllMetaData(path);
+    EXPECT_EQ(metadata.value("Model"), QStringLiteral("XMP Test Camera"));
+    EXPECT_EQ(metadata.value("ApertureValue"), QStringLiteral("f/4"));
+    EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2018/01/02 16:04"));
+}
+
+TEST_F(UnionImageExtraTest, getAllMetaData_DngExif_ReturnsRawShootingFields)
+{
+    QByteArray dng = QByteArray::fromHex(
+        "49492a0008000000140000010400010000004000000001010400010000004000"
+        "0000020103000100000010000000030103000100000001000000060103000100"
+        "0000238000000f010200050000004c0100001001020010000000520100001101"
+        "040001000000a801000012010300010000000100000015010300010000000100"
+        "00001601040001000000400000001701040001000000002000001c0103000100"
+        "0000010000008d82030002000000020002008e82010004000000000101026987"
+        "040001000000fe00000012c60100040000000104000013c60100040000000101"
+        "000014c6020010000000620100001dc6040001000000ff0f0000000000000600"
+        "9a82050001000000720100009d820500010000007a0100002788030001000000"
+        "900100000390020014000000820100000a920500010000009601000034a40200"
+        "0a0000009e0100000000000054657374000052415720546573742043616d6572"
+        "610052415720546573742043616d65726100010000007d000000040000000100"
+        "0000323031383a30313a30322031363a30343a30350032000000010000005465"
+        "73742035306d6d00");
+    dng.replace("2018:01:02 16:04:05", "2024:03:10 02:30:00");
+    dng.append(QByteArray(64 * 64 * 2, '\0'));
+    const QString path = createRawFile("camera.dng", dng);
+    const QByteArray nativePath = QFile::encodeName(path);
+    TIFF *rawTiff = TIFFOpen(nativePath.constData(), "r+");
+    ASSERT_NE(rawTiff, nullptr);
+    ASSERT_TRUE(TIFFSetField(rawTiff, TIFFTAG_ORIENTATION, ORIENTATION_RIGHTTOP));
+    ASSERT_TRUE(TIFFRewriteDirectory(rawTiff));
+    TIFFClose(rawTiff);
+
+    const auto metadata = LibUnionImage_NameSpace::getAllMetaData(path);
+    EXPECT_EQ(metadata.value("Model"), QStringLiteral("RAW Test Camera"));
+    EXPECT_EQ(metadata.value("LensType"), QStringLiteral("Test 50mm"));
+    EXPECT_EQ(metadata.value("ISOSpeedRatings"), QStringLiteral("400"));
+    EXPECT_EQ(metadata.value("ApertureValue"), QStringLiteral("f/4"));
+    EXPECT_TRUE(metadata.value("ExposureTime").contains(QStringLiteral("1/125")));
+    EXPECT_EQ(metadata.value("FocalLength"), QStringLiteral("50 mm"));
+    EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2024/03/10 02:30"));
+    EXPECT_EQ(LibUnionImage_NameSpace::getOrientation(path), 6);
+}
+
+TEST_F(UnionImageExtraTest, getAllMetaData_HeifAndAvifExif_ReadsPrimaryImageMetadata)
+{
+    const QByteArray heic = QByteArray::fromBase64(
+        "AAAAHGZ0eXBoZWljAAAAAG1pZjFoZWljbWlhZgAAAadtZXRhAAAAAAAAACFoZGxyAAAAAAAA"
+        "AABwaWN0AAAAAAAAAAAAAAAAAAAAAA5waXRtAAAAAAABAAAANGlsb2MAAAAAREAAAgABAAAA"
+        "AAHLAAEAAAAAAAAANgACAAAAAAIBAAEAAAAAAAAAvQAAADhpaW5mAAAAAAACAAAAFWluZmUC"
+        "AAAAAAEAAGh2YzEAAAAAFWluZmUCAAABAAIAAEV4aWYAAAAA5mlwcnAAAADHaXBjbwAAAHNo"
+        "dmNDAQNwAAAAAAAAAAAAHvAA/P34+AAADwMgAAEAGEABDAH//wNwAAADAJAAAAMAAAMAHroC"
+        "QCEAAQAnQgEBA3AAAAMAkAAAAwAAAwAeoCCBBZbqrprmwIAAAAMAgAAAAwCEIgABAAZEAcFz"
+        "wYkAAAAUaXNwZQAAAAAAAABAAAAAQAAAAChjbGFwAAAAEAAAAAEAAAAIAAAAAf///9AAAAAC"
+        "////yAAAAAIAAAAQcGl4aQAAAAADCAgIAAAAF2lwbWEAAAAAAAAAAQABBIECgwQAAAAaaXJl"
+        "ZgAAAAAAAAAOY2RzYwACAAEAAQAAAPttZGF0AAAAMigBrxMhXsNA9rQ5i2ppI/049gjmjksY"
+        "DcyGh2GEVn0iYbn6kNCsfWCQg6pApoCrXxycAAAABkV4aWYAAElJKgAIAAAAAgAQAQIAEQAA"
+        "AGgAAABphwQAAQAAACYAAAAAAAAABQCaggUAAQAAAKsAAAAniAMAAQAAAJABAAADkAIAFAAA"
+        "AIMAAAAEkAIAFAAAAJcAAAA0pAIACgAAAHkAAAAAAAAARVhJRiBUZXN0IENhbWVyYQBUZXN0"
+        "IDUwbW0AMjAxODowMTowMiAxNjowNDowNQAyMDE5OjAyOjAzIDE3OjA1OjA2AAEAAAB9AAAA");
+    const QByteArray avif = QByteArray::fromBase64(
+        "AAAAHGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZgAAASttZXRhAAAAAAAAACFoZGxyAAAAAAAA"
+        "AABwaWN0AAAAAAAAAAAAAAAAAAAAAA5waXRtAAAAAAABAAAANGlsb2MAAAAAREAAAgABAAAA"
+        "AAFPAAEAAAAAAAAAGgACAAAAAAFpAAEAAAAAAAAAtwAAADhpaW5mAAAAAAACAAAAFWluZmUC"
+        "AAAAAAEAAGF2MDEAAAAAFWluZmUCAAABAAIAAEV4aWYAAAAAamlwcnAAAABLaXBjbwAAABNj"
+        "b2xybmNseAABAA0ABoAAAAAMYXYxQ4EADAAAAAAUaXNwZQAAAAAAAAAQAAAACAAAABBwaXhp"
+        "AAAAAAMICAgAAAAXaXBtYQAAAAAAAAABAAEEAYIDBAAAABppcmVmAAAAAAAAAA5jZHNjAAIA"
+        "AQABAAAA2W1kYXQSAAoFGAy/sCEyDxgACiiihAACOK3SEQiEgAAAAABJSSoACAAAAAIAEAEC"
+        "ABEAAABoAAAAaYcEAAEAAAAmAAAAAAAAAAUAmoIFAAEAAACrAAAAJ4gDAAEAAACQAQAAA5AC"
+        "ABQAAACDAAAABJACABQAAACXAAAANKQCAAoAAAB5AAAAAAAAAEVYSUYgVGVzdCBDYW1lcmEA"
+        "VGVzdCA1MG1tADIwMTg6MDE6MDIgMTY6MDQ6MDUAMjAxOTowMjowMyAxNzowNTowNgABAAAA"
+        "fQAAAA==");
+    const QMap<QString, QByteArray> files = {
+        {QStringLiteral("camera.heic"), heic},
+        {QStringLiteral("camera.avif"), avif},
+    };
+    for (auto it = files.cbegin(); it != files.cend(); ++it) {
+        SCOPED_TRACE(it.key().toStdString());
+        const QString path = createRawFile(it.key(), it.value());
+        const auto metadata = LibUnionImage_NameSpace::getAllMetaData(path);
+        EXPECT_EQ(metadata.value("Model"), QStringLiteral("EXIF Test Camera"));
+        EXPECT_EQ(metadata.value("LensType"), QStringLiteral("Test 50mm"));
+        EXPECT_EQ(metadata.value("ISOSpeedRatings"), QStringLiteral("400"));
+        EXPECT_EQ(metadata.value("DateTimeOriginal"), QStringLiteral("2018/01/02 16:04"));
+        EXPECT_EQ(LibUnionImage_NameSpace::getOrientation(path), 1);
+
+        QByteArray oriented = it.value();
+        const qsizetype tiffOffset = oriented.indexOf(QByteArray::fromHex("49492a0008000000"));
+        ASSERT_GE(tiffOffset, 0);
+        const qsizetype modelEntry = tiffOffset + 8 + 2;
+        ASSERT_EQ(oriented.mid(modelEntry, 2), QByteArray::fromHex("1001"));
+        oriented.replace(modelEntry, 12, QByteArray::fromHex("120103000100000006000000"));
+        QString orientedName = it.key();
+        orientedName.replace(QStringLiteral(".heic"), QStringLiteral("-orientation.heic"));
+        orientedName.replace(QStringLiteral(".avif"), QStringLiteral("-orientation.avif"));
+        const QString orientedPath = createRawFile(orientedName, oriented);
+        EXPECT_EQ(LibUnionImage_NameSpace::getOrientation(orientedPath), 6);
+    }
 }
 
 // =========================================================================
@@ -733,4 +1034,132 @@ TEST_F(UnionImageExtraTest, getDamagePixmap_Dark)
 {
     QPixmap pix = Libutils::image::getDamagePixmap(false);
     EXPECT_NO_FATAL_FAILURE(pix);
+}
+TEST_F(UnionImageExtraTest, getOrientation_TiffReadsExifOrientation)
+{
+    const QString path = tempDir.filePath("oriented.tiff");
+    QImage image(8, 6, QImage::Format_RGB32);
+    image.fill(Qt::red);
+    ASSERT_TRUE(image.save(path, "TIFF"));
+
+    const QByteArray nativePath = QFile::encodeName(path);
+    TIFF *tiff = TIFFOpen(nativePath.constData(), "r+");
+    ASSERT_NE(tiff, nullptr);
+    ASSERT_TRUE(TIFFSetField(tiff, TIFFTAG_ORIENTATION, ORIENTATION_RIGHTTOP));
+    ASSERT_TRUE(TIFFRewriteDirectory(tiff));
+    TIFFClose(tiff);
+
+    EXPECT_EQ(LibUnionImage_NameSpace::getOrientation(path), 6);
+}
+
+TEST_F(UnionImageExtraTest, getOrientation_SvgXmpReadsOrientation)
+{
+    const QByteArray svg = QByteArrayLiteral(
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"8\" height=\"6\"><metadata>"
+        "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" "
+        "xmlns:tiff=\"http://ns.adobe.com/tiff/1.0/\"><rdf:Description rdf:about=\"\" "
+        "tiff:Orientation=\"8\"/></rdf:RDF></metadata><rect width=\"8\" height=\"6\"/></svg>");
+    const QString path = createRawFile("oriented.svg", svg);
+    EXPECT_EQ(LibUnionImage_NameSpace::getOrientation(path), 8);
+}
+TEST_F(UnionImageExtraTest, getOrientation_WebpExifReadsOrientation)
+{
+    if (!QImageReader::supportedImageFormats().contains("webp"))
+        GTEST_SKIP() << "WebP image format plugin is unavailable";
+
+    const QByteArray image = QByteArray::fromHex(
+        "524946460000000057454250565038580a000000080000000f0000070000"
+        "5650384c110000002f0fc0010007508a5294a2ff8188e87f0000");
+    QByteArray tiff = QByteArray::fromHex("49492a0008000000010012010300010000000600000000000000");
+    QByteArray webp = image + "EXIF" + QByteArray(4, '\0') + tiff;
+    qToLittleEndian<quint32>(webp.size() - 8, webp.data() + 4);
+    qToLittleEndian<quint32>(tiff.size(), webp.data() + image.size() + 4);
+    const QString path = createRawFile("oriented.webp", webp);
+    ASSERT_FALSE(QImage(path).isNull());
+    EXPECT_EQ(LibUnionImage_NameSpace::getOrientation(path), 6);
+}
+
+TEST_F(UnionImageExtraTest, getOrientation_PsdExifReadsOrientation)
+{
+    const QByteArray tiff = QByteArray::fromHex("49492a0008000000010012010300010000000800000000000000");
+    QByteArray resource = QByteArrayLiteral("8BIM") + QByteArray(2, '\0');
+    qToBigEndian<quint16>(1058, resource.data() + 4);
+    resource.append('\0');
+    resource.append('\0');
+    char dataSize[4];
+    qToBigEndian<quint32>(tiff.size(), dataSize);
+    resource.append(dataSize, sizeof(dataSize));
+    resource.append(tiff);
+    if (tiff.size() % 2)
+        resource.append('\0');
+
+    QByteArray psd(26, '\0');
+    psd.replace(0, 4, "8BPS");
+    qToBigEndian<quint16>(1, psd.data() + 4);
+    qToBigEndian<quint16>(3, psd.data() + 12);
+    qToBigEndian<quint32>(8, psd.data() + 14);
+    qToBigEndian<quint32>(16, psd.data() + 18);
+    qToBigEndian<quint16>(8, psd.data() + 22);
+    qToBigEndian<quint16>(3, psd.data() + 24);
+    psd.append(QByteArray(4, '\0'));
+    char resourceSize[4];
+    qToBigEndian<quint32>(resource.size(), resourceSize);
+    psd.append(resourceSize, sizeof(resourceSize));
+    psd.append(resource);
+    psd.append(QByteArray(4, '\0'));
+    psd.append(QByteArray(9, '\0'));
+
+    const QString path = createRawFile("oriented.psd", psd);
+    EXPECT_EQ(LibUnionImage_NameSpace::getOrientation(path), 8);
+}
+
+TEST_F(UnionImageExtraTest, getOrientation_GifXmpReadsOrientation)
+{
+    QByteArray gif = QByteArray::fromHex("47494638396101000100800000000000ffffff2c00000000010001000002024401003b");
+    QByteArray xmp = QByteArrayLiteral(R"xml(<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:exif="http://ns.adobe.com/exif/1.0/">
+    <rdf:Description rdf:about="" tiff:Model="XMP Test Camera" tiff:Orientation="3" exif:ExposureTime="1/125"
+                     exif:FNumber="4/1" exif:DateTimeOriginal="2018-01-02T16:04:05+08:00">
+      <exif:ISOSpeedRatings><rdf:Seq><rdf:li>400</rdf:li><rdf:li>800</rdf:li></rdf:Seq></exif:ISOSpeedRatings>
+      <exif:FocalLength>50/1</exif:FocalLength>
+    </rdf:Description>
+    </rdf:RDF>)xml");
+    QByteArray packet = xmp + QByteArray(1, '\x01');
+    for (int byte = 255; byte > 0; --byte)
+        packet.append(static_cast<char>(byte));
+
+    QByteArray extension = QByteArray::fromHex("21ff0b") + "XMP DataXMP";
+    while (packet.size() > 255) {
+        extension.append(static_cast<char>(255));
+        extension.append(packet.first(255));
+        packet.remove(0, 255);
+    }
+    extension.append(static_cast<char>(packet.size()));
+    extension.append(packet);
+    extension.append('\0');
+    gif.insert(gif.size() - 1, extension);
+
+    const QString path = createRawFile("oriented.gif", gif);
+    const auto metadata = LibUnionImage_NameSpace::getAllMetaData(path);
+    EXPECT_EQ(metadata.value("Model"), QStringLiteral("XMP Test Camera"));
+    EXPECT_EQ(LibUnionImage_NameSpace::getOrientation(path), 3);
+}
+
+TEST_F(UnionImageExtraTest, getOrientation_IcoPngEntryReadsExifOrientation)
+{
+    const QByteArray png = makePngWithExif(QByteArray::fromHex("49492a0008000000010012010300010000000600000000000000"));
+    ASSERT_FALSE(png.isEmpty());
+
+    QByteArray ico = QByteArray::fromHex("000001000100");
+    ico.append(QByteArray(16, '\0'));
+    ico[6] = 16;
+    ico[7] = 8;
+    qToLittleEndian<quint16>(1, ico.data() + 10);
+    qToLittleEndian<quint16>(32, ico.data() + 12);
+    qToLittleEndian<quint32>(png.size(), ico.data() + 14);
+    qToLittleEndian<quint32>(22, ico.data() + 18);
+    ico.append(png);
+
+    const QString path = createRawFile("oriented.ico", ico);
+    EXPECT_EQ(LibUnionImage_NameSpace::getOrientation(path), 6);
 }

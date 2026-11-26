@@ -85,6 +85,11 @@ target_link_libraries(${BIN_NAME}
     Qt${QT_VERSION_MAJOR}::Concurrent
     Qt${QT_VERSION_MAJOR}::Svg
     Qt${QT_VERSION_MAJOR}::Sql
+    PkgConfig::EXIF
+    PkgConfig::LIBRAW
+    PkgConfig::TIFF
+    PkgConfig::HEIF
+    ZLIB::ZLIB
 
     Dtk${DTK_VERSION_MAJOR}::Widget
     Dtk${DTK_VERSION_MAJOR}::Gui

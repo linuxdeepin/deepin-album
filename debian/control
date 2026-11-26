@@ -21,6 +21,10 @@ Build-Depends:
 # null
 # 3rd party
  libexif-dev,
+ libraw-dev,
+ libtiff-dev (>= 4.5),
+ libheif-dev,
+ zlib1g-dev,
  libstartup-notification0-dev,
  libudev-dev,
  libfontconfig1-dev,

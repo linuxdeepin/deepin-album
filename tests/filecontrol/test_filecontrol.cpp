@@ -34,6 +34,10 @@
 #include <QUrl>
 #include <QStringList>
 #include <memory>
+#include <cstdio>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <time.h>
 
 #include "filecontrol.h"
 #include "unionimage/unionimage.h"
@@ -683,4 +687,110 @@ TEST_F(FileControlTest, GetDirImagePath_MixedFiles_ReturnsOnlyImages)
     QStringList result = fc.getDirImagePath(QUrl::fromLocalFile(imgFile).toString());
     EXPECT_EQ(result.size(), 1);
     EXPECT_TRUE(result[0].contains("photo.jpg"));
+}
+
+TEST_F(FileControlTest, SlotGetInfo_SamePathFileChangeReloadsMetadata)
+{
+    FileControl fc;
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+    const QString path = tmpDir.filePath("changed.jpg");
+    QFile file(path);
+    ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+    ASSERT_EQ(file.write("a"), 1);
+    file.close();
+
+    QMap<QString, QString> metadata {{QStringLiteral("Model"), QStringLiteral("Camera")}};
+    int reads = 0;
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, getAllMetaData),
+                   [&metadata, &reads](const QString &) -> QMap<QString, QString> {
+                       ++reads;
+                       return metadata;
+                   });
+    const QString url = QUrl::fromLocalFile(path).toString();
+    EXPECT_EQ(fc.slotGetInfo(QStringLiteral("Model"), url), QStringLiteral("Camera"));
+    EXPECT_EQ(reads, 1);
+
+    ASSERT_TRUE(file.open(QIODevice::Append));
+    ASSERT_EQ(file.write("b"), 1);
+    file.close();
+    metadata.clear();
+    EXPECT_EQ(fc.slotGetInfo(QStringLiteral("Model"), url), QStringLiteral("-"));
+    EXPECT_EQ(reads, 2);
+}
+
+TEST_F(FileControlTest, SlotGetInfo_WatcherChangeInvalidatesCacheAndNotifiesQml)
+{
+    FileControl fc;
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+    const QString path = tmpDir.filePath("watched.jpg");
+    QFile file(path);
+    ASSERT_TRUE(file.open(QIODevice::WriteOnly));
+    ASSERT_EQ(file.write("image"), 5);
+    file.close();
+
+    QMap<QString, QString> metadata {{QStringLiteral("Model"), QStringLiteral("Before")}};
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, getAllMetaData),
+                   [&metadata](const QString &) -> QMap<QString, QString> { return metadata; });
+    const QString url = QUrl::fromLocalFile(path).toString();
+    ASSERT_EQ(fc.slotGetInfo(QStringLiteral("Model"), url), QStringLiteral("Before"));
+
+    QSignalSpy revisionChanged(&fc, &FileControl::metadataRevisionChanged);
+    const uint revision = fc.metadataRevision();
+    metadata.insert(QStringLiteral("Model"), QStringLiteral("After"));
+    Q_EMIT ImageFileWatcher::instance()->imageFileChanged(tmpDir.filePath("unrelated.jpg"));
+    EXPECT_EQ(revisionChanged.count(), 0);
+    EXPECT_EQ(fc.metadataRevision(), revision);
+
+    Q_EMIT ImageFileWatcher::instance()->imageFileChanged(path);
+    EXPECT_EQ(revisionChanged.count(), 1);
+    EXPECT_EQ(fc.metadataRevision(), revision + 1);
+    EXPECT_EQ(fc.slotGetInfo(QStringLiteral("Model"), url), QStringLiteral("After"));
+}
+TEST_F(FileControlTest, SlotGetInfo_AtomicReplacementPreservingSizeAndMtimeReloadsMetadata)
+{
+    FileControl fc;
+    QTemporaryDir tmpDir;
+    ASSERT_TRUE(tmpDir.isValid());
+    const QString path = tmpDir.filePath("replaced.jpg");
+    QFile original(path);
+    ASSERT_TRUE(original.open(QIODevice::WriteOnly));
+    ASSERT_EQ(original.write("first"), 5);
+    original.close();
+
+    struct stat oldStat {};
+    const QByteArray nativePath = QFile::encodeName(path);
+    ASSERT_EQ(::stat(nativePath.constData(), &oldStat), 0);
+
+    QMap<QString, QString> metadata {{QStringLiteral("Model"), QStringLiteral("Before")}};
+    int reads = 0;
+    stub.set_lamda(ADDR(LibUnionImage_NameSpace, getAllMetaData),
+                   [&metadata, &reads](const QString &) -> QMap<QString, QString> {
+                       ++reads;
+                       return metadata;
+                   });
+    const QString url = QUrl::fromLocalFile(path).toString();
+    ASSERT_EQ(fc.slotGetInfo(QStringLiteral("Model"), url), QStringLiteral("Before"));
+
+    const QString replacementPath = tmpDir.filePath("replacement.tmp");
+    QFile replacement(replacementPath);
+    ASSERT_TRUE(replacement.open(QIODevice::WriteOnly));
+    ASSERT_EQ(replacement.write("other"), 5);
+    replacement.close();
+    const QByteArray nativeReplacement = QFile::encodeName(replacementPath);
+    const timespec times[] = {oldStat.st_atim, oldStat.st_mtim};
+    ASSERT_EQ(::utimensat(AT_FDCWD, nativeReplacement.constData(), times, 0), 0);
+    ASSERT_EQ(::rename(nativeReplacement.constData(), nativePath.constData()), 0);
+
+    struct stat newStat {};
+    ASSERT_EQ(::stat(nativePath.constData(), &newStat), 0);
+    ASSERT_EQ(newStat.st_size, oldStat.st_size);
+    ASSERT_EQ(newStat.st_mtim.tv_sec, oldStat.st_mtim.tv_sec);
+    ASSERT_EQ(newStat.st_mtim.tv_nsec, oldStat.st_mtim.tv_nsec);
+    ASSERT_NE(newStat.st_ino, oldStat.st_ino);
+
+    metadata.insert(QStringLiteral("Model"), QStringLiteral("After"));
+    EXPECT_EQ(fc.slotGetInfo(QStringLiteral("Model"), url), QStringLiteral("After"));
+    EXPECT_EQ(reads, 2);
 }

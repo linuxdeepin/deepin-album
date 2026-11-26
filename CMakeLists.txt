@@ -27,6 +27,12 @@ configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_BINARY_DIR}/config.h 
 # Find the Qt library
 find_package(QT NAMES Qt6  REQUIRED COMPONENTS Core)
 message("Using Qt version: ${QT_VERSION_MAJOR}")
+find_package(PkgConfig REQUIRED)
+find_package(ZLIB REQUIRED)
+pkg_check_modules(EXIF REQUIRED IMPORTED_TARGET libexif)
+pkg_check_modules(LIBRAW REQUIRED IMPORTED_TARGET libraw_r)
+pkg_check_modules(TIFF REQUIRED IMPORTED_TARGET libtiff-4>=4.5)
+pkg_check_modules(HEIF REQUIRED IMPORTED_TARGET libheif)
 
 # Select major DTK version.
 if(QT_VERSION_MAJOR EQUAL "6")
