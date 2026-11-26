@@ -28,6 +28,7 @@ add_executable(test_unionimage
     ${STUB_SHADOW}
     test_unionimage.cpp
     test_unionimage_extra.cpp
+    test_exifreader.cpp
 )
 
 target_include_directories(test_unionimage PRIVATE
