@@ -62,6 +62,11 @@ target_link_libraries(test_thumbnailview PRIVATE
     Dtk${DTK_VERSION_MAJOR}::Declarative
     ${3rd_lib_LIBRARIES}
     ${dfmmount_LIBRARIES}
+    PkgConfig::EXIF
+    PkgConfig::LIBRAW
+    PkgConfig::TIFF
+    PkgConfig::HEIF
+    ZLIB::ZLIB
     GL
     pthread
 )
