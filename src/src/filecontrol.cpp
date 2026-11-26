@@ -11,6 +11,7 @@
 #include "ocr/ocrinterface.h"
 #include "imagedata/imageinfo.h"
 #include "dbmanager/dbmanager.h"
+#include "utils/rotateimagehelper.h"
 
 #include <DSysInfo>
 
@@ -37,6 +38,36 @@
 #include <unistd.h>
 
 DCORE_USE_NAMESPACE
+
+namespace {
+
+struct FileVersion {
+    quint64 device = 0;
+    quint64 inode = 0;
+    qint64 modifiedNs = -1;
+    qint64 changedNs = -1;
+    qint64 size = -1;
+    bool valid = false;
+};
+
+FileVersion fileVersion(const QString &path)
+{
+    struct stat status {};
+    const QByteArray nativePath = QFile::encodeName(path);
+    if (::stat(nativePath.constData(), &status) != 0)
+        return {};
+
+    FileVersion version;
+    version.device = static_cast<quint64>(status.st_dev);
+    version.inode = static_cast<quint64>(status.st_ino);
+    version.modifiedNs = static_cast<qint64>(status.st_mtim.tv_sec) * 1000000000LL + status.st_mtim.tv_nsec;
+    version.changedNs = static_cast<qint64>(status.st_ctim.tv_sec) * 1000000000LL + status.st_ctim.tv_nsec;
+    version.size = static_cast<qint64>(status.st_size);
+    version.valid = true;
+    return version;
+}
+
+} // namespace
 
 static const QString TRASH_DIR = QDir::cleanPath(albumGlobal::DELETE_PATH);
 
@@ -102,7 +133,15 @@ FileControl::FileControl(QObject *parent)
     m_config = LibConfigSetter::instance();
     imageFileWatcher = ImageFileWatcher::instance();
 
+    connect(imageFileWatcher, &ImageFileWatcher::imageFileChanged,
+            this, &FileControl::invalidateImageMetadata);
     QObject::connect(imageFileWatcher, &ImageFileWatcher::imageFileChanged, this, &FileControl::imageFileChanged);
+    if (qApp)
+        connect(RotateImageHelper::instance(), &RotateImageHelper::rotateImageFinished, this,
+            [this](const QString &path, bool saved) {
+                if (saved)
+                    invalidateImageMetadata(path);
+            }, Qt::QueuedConnection);
 
     // 在1000ms以内只保存一次配置信息
     if (!m_tSaveSetting) {
@@ -229,6 +268,8 @@ bool FileControl::isVideo(const QString &path)
 void FileControl::setWallpaper(const QString &imgPath)
 {
     qCDebug(albumLog) << "FileControl::setWallpaper - Function entry, imgPath:" << imgPath;
+    const QScreen *primaryScreen = QGuiApplication::primaryScreen();
+    const QString primaryScreenName = primaryScreen ? primaryScreen->name() : QString();
     QThread *th1 = QThread::create([=]() {
         if (!imgPath.isNull()) {
             qCInfo(albumLog) << "Setting wallpaper:" << imgPath;
@@ -275,7 +316,7 @@ void FileControl::setWallpaper(const QString &imgPath)
                                 qCDebug(albumLog) << "Using v20 wayland interface for wallpaper setting";
                             }
                         } else {
-                            screenname = QGuiApplication::primaryScreen()->name();
+                            screenname = primaryScreenName;
                         }
 
                         bool settingSucc = false;
@@ -592,9 +633,24 @@ QString FileControl::slotGetFileNameSuffix(const QString &path)
 QString FileControl::slotGetInfo(const QString &key, const QString &path)
 {
     qCDebug(albumLog) << "FileControl::slotGetInfo - Function entry, key:" << key << "path:" << path;
-    QString localPath = LibUnionImage_NameSpace::localPath(path);
-    if (localPath != m_currentPath) {
-        m_currentPath = localPath;
+    const QString localPath = LibUnionImage_NameSpace::localPath(path);
+    if (localPath.isEmpty()) {
+        return QStringLiteral("-");
+    }
+
+    const FileVersion version = fileVersion(localPath);
+    const bool versionChanged = version.valid != m_metadataVersionValid
+        || version.device != m_metadataDevice || version.inode != m_metadataInode
+        || version.modifiedNs != m_metadataModifiedNs || version.changedNs != m_metadataChangedNs
+        || version.size != m_metadataSize;
+    if (localPath != m_metadataPath || versionChanged) {
+        m_metadataPath = localPath;
+        m_metadataDevice = version.device;
+        m_metadataInode = version.inode;
+        m_metadataModifiedNs = version.modifiedNs;
+        m_metadataChangedNs = version.changedNs;
+        m_metadataSize = version.size;
+        m_metadataVersionValid = version.valid;
         m_currentAllInfo = LibUnionImage_NameSpace::getAllMetaData(localPath);
     }
 
@@ -606,6 +662,24 @@ QString FileControl::slotGetInfo(const QString &key, const QString &path)
 
     qCDebug(albumLog) << "FileControl::slotGetInfo - Function exit, returning:" << returnString;
     return returnString;
+}
+
+void FileControl::invalidateImageMetadata(const QString &path)
+{
+    if (path.isEmpty() || path != m_metadataPath) {
+        return;
+    }
+
+    m_metadataPath.clear();
+    m_currentAllInfo.clear();
+    m_metadataDevice = 0;
+    m_metadataInode = 0;
+    m_metadataModifiedNs = -1;
+    m_metadataChangedNs = -1;
+    m_metadataSize = -1;
+    m_metadataVersionValid = false;
+    ++m_metadataRevision;
+    Q_EMIT metadataRevisionChanged();
 }
 
 bool FileControl::slotFileReName(const QString &name, const QString &filepath, bool isSuffix)
@@ -1267,7 +1341,9 @@ void FileControl::slotRotatePixCurrent(bool bNotifyExternal/* = false*/)
                 pathType != imageViewerSpace::PathTypeRECYCLEBIN) { //回收站
 
             QString erroMsg;
-            LibUnionImage_NameSpace::rotateImageFIle(m_rotateAngel, m_currentPath, erroMsg);
+            const bool saved = LibUnionImage_NameSpace::rotateImageFIle(m_rotateAngel, m_currentPath, erroMsg);
+            if (saved)
+                invalidateImageMetadata(m_currentPath);
 
             // 保存文件后向外部(比如相册缩略图列表)发送图片更新信号，通知外部刷新图片内容
             if (bNotifyExternal)

@@ -20,6 +20,11 @@ DialogWindow {
     property int propMidWidth: 106
     property int propRightWidth: 86
     property int topY: 70
+
+    function imageInfoValue(key) {
+        FileControl.metadataRevision;
+        return FileControl.slotGetInfo(key, filePath);
+    }
     property bool dismiss: false
 
     flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint | Qt.WindowStaysOnTopHint
@@ -109,7 +114,7 @@ DialogWindow {
                         Accessible.role: Accessible.ListItem
                         contrlImplicitWidth: propLeftWidth
                         corners: RoundRectangle.BottomLeftCorner
-                        description: FileControl.slotGetInfo("FileSize", filePath)
+                        description: dialog.imageInfoValue("FileSize")
                         title: qsTr("Size")
                     }
 
@@ -119,7 +124,7 @@ DialogWindow {
                         Layout.fillWidth: true
                         contrlImplicitWidth: propMidWidth
                         description: {
-                            var originalDim = FileControl.slotGetInfo("OriginalDimension", filePath);
+                            var originalDim = dialog.imageInfoValue("OriginalDimension");
                             if (originalDim && originalDim !== "-") {
                                 return originalDim;
                             } else {
@@ -148,7 +153,7 @@ DialogWindow {
                     Accessible.role: Accessible.ListItem
                     Layout.fillWidth: true
                     corners: RoundRectangle.TopCorner
-                    description: FileControl.slotGetInfo("DateTimeOriginal", filePath)
+                    description: dialog.imageInfoValue("DateTimeOriginal")
                     title: qsTr("Date captured")
                 }
 
@@ -157,7 +162,7 @@ DialogWindow {
                     Accessible.role: Accessible.ListItem
                     Layout.fillWidth: true
                     corners: RoundRectangle.BottomCorner
-                    description: FileControl.slotGetInfo("DateTimeDigitized", filePath)
+                    description: dialog.imageInfoValue("DateTimeDigitized")
                     title: qsTr("Date modified")
                 }
             }
@@ -184,7 +189,7 @@ DialogWindow {
                     Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propLeftWidth
                     corners: RoundRectangle.TopLeftCorner
-                    description: FileControl.slotGetInfo("ApertureValue", filePath)
+                    description: dialog.imageInfoValue("ApertureValue")
                     title: qsTr("Aperture")
                 }
 
@@ -194,7 +199,7 @@ DialogWindow {
                     Layout.fillWidth: true
                     Layout.minimumWidth: propMidWidth
                     contrlImplicitWidth: propMidWidth
-                    description: FileControl.slotGetInfo("ExposureProgram", filePath)
+                    description: dialog.imageInfoValue("ExposureProgram")
                     title: qsTr("Exposure program")
                 }
 
@@ -203,7 +208,7 @@ DialogWindow {
                     Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propRightWidth
                     corners: RoundRectangle.TopRightCorner
-                    description: FileControl.slotGetInfo("FocalLength", filePath)
+                    description: dialog.imageInfoValue("FocalLength")
                     title: qsTr("Focal length")
                 }
 
@@ -211,7 +216,7 @@ DialogWindow {
                     Accessible.name: "Iso"
                     Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propLeftWidth
-                    description: FileControl.slotGetInfo("ISOSpeedRatings", filePath)
+                    description: dialog.imageInfoValue("ISOSpeedRatings")
                     title: qsTr("ISO")
                 }
 
@@ -220,7 +225,7 @@ DialogWindow {
                     Accessible.role: Accessible.ListItem
                     Layout.fillWidth: true
                     contrlImplicitWidth: propMidWidth
-                    description: FileControl.slotGetInfo("ExposureMode", filePath)
+                    description: dialog.imageInfoValue("ExposureMode")
                     title: qsTr("Exposure mode")
                 }
 
@@ -228,7 +233,7 @@ DialogWindow {
                     Accessible.name: "ExposureTime"
                     Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propRightWidth
-                    description: FileControl.slotGetInfo("ExposureTime", filePath)
+                    description: dialog.imageInfoValue("ExposureTime")
                     title: qsTr("Exposure time")
                 }
 
@@ -236,7 +241,7 @@ DialogWindow {
                     Accessible.name: "Flash"
                     Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propLeftWidth
-                    description: FileControl.slotGetInfo("Flash", filePath)
+                    description: dialog.imageInfoValue("Flash")
                     title: qsTr("Flash")
                 }
 
@@ -245,7 +250,7 @@ DialogWindow {
                     Accessible.role: Accessible.ListItem
                     Layout.fillWidth: true
                     contrlImplicitWidth: propMidWidth
-                    description: FileControl.slotGetInfo("FlashExposureComp", filePath)
+                    description: dialog.imageInfoValue("FlashExposureComp")
                     title: qsTr("Flash compensation")
                 }
 
@@ -253,7 +258,7 @@ DialogWindow {
                     Accessible.name: "MaxAperture"
                     Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propRightWidth
-                    description: FileControl.slotGetInfo("MaxApertureValue", filePath)
+                    description: dialog.imageInfoValue("MaxApertureValue")
                     title: qsTr("Max aperture")
                 }
 
@@ -262,7 +267,7 @@ DialogWindow {
                     Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propLeftWidth
                     corners: RoundRectangle.BottomLeftCorner
-                    description: FileControl.slotGetInfo("ColorSpace", filePath)
+                    description: dialog.imageInfoValue("ColorSpace")
                     title: qsTr("Colorspace")
                 }
 
@@ -271,7 +276,7 @@ DialogWindow {
                     Accessible.role: Accessible.ListItem
                     Layout.fillWidth: true
                     contrlImplicitWidth: propMidWidth
-                    description: FileControl.slotGetInfo("MeteringMode", filePath)
+                    description: dialog.imageInfoValue("MeteringMode")
                     title: qsTr("Metering mode")
                 }
 
@@ -280,7 +285,7 @@ DialogWindow {
                     Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propRightWidth
                     corners: RoundRectangle.BottomRightCorner
-                    description: FileControl.slotGetInfo("WhiteBalance", filePath)
+                    description: dialog.imageInfoValue("WhiteBalance")
                     title: qsTr("White balance")
                 }
             }
@@ -293,7 +298,7 @@ DialogWindow {
                     Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propFullWidth
                     corners: RoundRectangle.AllCorner
-                    description: FileControl.slotGetInfo("Model", filePath)
+                    description: dialog.imageInfoValue("Model")
                     title: qsTr("Device model")
                 }
 
@@ -302,7 +307,7 @@ DialogWindow {
                     Accessible.role: Accessible.ListItem
                     contrlImplicitWidth: propFullWidth
                     corners: RoundRectangle.AllCorner
-                    description: FileControl.slotGetInfo("LensType", filePath)
+                    description: dialog.imageInfoValue("LensType")
                     title: qsTr("Lens model")
                 }
             }

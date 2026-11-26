@@ -24,6 +24,7 @@ class QProcess;
 class FileControl : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(uint metadataRevision READ metadataRevision NOTIFY metadataRevisionChanged)
 public:
     explicit FileControl(QObject *parent = nullptr);
     ~FileControl();
@@ -33,6 +34,7 @@ public:
     Q_INVOKABLE void resetImageFiles(const QStringList &filePaths = {});       // 重设当前展示图片列表
     Q_INVOKABLE QStringList getDirImagePath(const QString &path);              // 获得路径下的所有图片路径
     Q_INVOKABLE bool isCurrentWatcherDir(const QUrl &path);                    // 判断是否为当前正在监控的文件路径
+    uint metadataRevision() const { return m_metadataRevision; }
     Q_INVOKABLE QString slotGetInfo(const QString &key, const QString &path);  // 获取某项info
     Q_INVOKABLE QString slotGetFileName(const QString &path);                  // 获取文件名
     Q_INVOKABLE QString slotGetFileNameSuffix(const QString &path);            // 获取文件名及其后缀
@@ -104,6 +106,7 @@ public:
     Q_SIGNAL void imageRenamed(const QUrl &oldName, const QUrl &newName);
     // 文件变更通知信号，文件被移动、删除、覆盖等操作时触发
     Q_SIGNAL void imageFileChanged(const QString &fileName);
+    Q_SIGNAL void metadataRevisionChanged();
 
 signals:
     // 通知相册刷新缩略图内容
@@ -114,6 +117,7 @@ signals:
 private:
     // 生成用于快捷键面板的字符串
     QString createShortcutString();
+    void invalidateImageMetadata(const QString &path);
 
 private:
     OcrInterface *m_ocrInterface;
@@ -124,7 +128,15 @@ private:
     ImageFileWatcher *imageFileWatcher = nullptr;  // 图片文件变更监控
 
     QString m_currentPath;                    // 当前操作的旋转图片路径
+    QString m_metadataPath;                   // 当前元数据缓存对应的路径
     QMap<QString, QString> m_currentAllInfo;  // 当前图片详细信息
+    quint64 m_metadataDevice = 0;
+    quint64 m_metadataInode = 0;
+    qint64 m_metadataModifiedNs = -1;
+    qint64 m_metadataChangedNs = -1;
+    qint64 m_metadataSize = -1;
+    bool m_metadataVersionValid = false;
+    uint m_metadataRevision = 0;
 
     LibConfigSetter *m_config;
     int m_windowWidth = 0;
