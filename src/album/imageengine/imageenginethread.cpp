@@ -223,7 +223,7 @@ void ImportImagesThread::runDetail()
             }
             QExplicitlySharedDataPointer<DGioFile> LocationFile = mount->getDefaultLocationFile();
             QString strPath = LocationFile->path();
-            if (0 == image_list.first().compare(strPath)) {
+            if (image_list.first().startsWith(strPath + '/') || 0 == image_list.first().compare(strPath)) {
                 isMountFlag = true;
                 break;
             }
