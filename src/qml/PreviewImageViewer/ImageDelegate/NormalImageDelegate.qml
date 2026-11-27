@@ -152,7 +152,13 @@ BaseImageDelegate {
                 previousRealWidth = image.paintedWidth;
 
                 // Request the snapshot first; start the animation and image-reload timer after capture completes.
+                // Capture the snapshot, then start the animation directly.
+                // onScheduledUpdateCompleted does not fire with live:false +
+                // hideSource:true, so the animation never started.
+                // Keep snapshotReady gate to protect BUG-376239 fix.
                 imageProxy.scheduleUpdate();
+                rotateItem.snapshotReady = true;
+                aniamtion.start();
             }
 
             anchors.fill: parent
